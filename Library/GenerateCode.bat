@@ -1,1 +1,1 @@
-..\Tools\Fpmacro Function.h.fpm Event.h.fpm Tuple.h.fpm ObjectModel\ObjectTypeFunction.h.fpm ObjectModel\ObjectTypeClassTemplate.h.fpm
+..\Tools\Fpmacro Function.h.fpm Event.h.fpm Tuple.h.fpm ObjectModel\ObjectTypeFunction.h.fpm ObjectModel\ObjectTypeClass.h.fpm ObjectModel\ObjectTypeClassTemplate.h.fpm

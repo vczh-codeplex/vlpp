@@ -224,6 +224,7 @@ namespace mynamespace
 }
 
 BEGIN_CLASS_TYPE(mynamespace::MyBase)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(field1)
 	CLASS_FIELD(field2)
 	CLASS_METHOD(Method1)
@@ -232,6 +233,7 @@ END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::MyDerived)
 	CLASS_BASE(mynamespace::MyBase)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(field3)
 	CLASS_FIELD(field4)
 	CLASS_METHOD_OVERLOAD(Method3, void(mynamespace::MyDerived::*)(int)const)
@@ -239,6 +241,7 @@ BEGIN_CLASS_TYPE(mynamespace::MyDerived)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TEMPLATE_2(mynamespace::MyTemplate)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(field1)
 	CLASS_FIELD(field2)
 END_CLASS_TYPE
@@ -343,6 +346,7 @@ namespace mynamespace
 };
 
 BEGIN_CLASS_TYPE(mynamespace::Foo)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(value);
 END_CLASS_TYPE
 
@@ -506,6 +510,11 @@ namespace mynamespace
 			abcd=7;
 		}
 
+		ClassABCD(int _abcd)
+		{
+			abcd=_abcd;
+		}
+
 		int Add(int x, int y)
 		{
 			return x + y + a + b + c + d + ab + cd + abcd;
@@ -514,36 +523,44 @@ namespace mynamespace
 }
 
 BEGIN_CLASS_TYPE(mynamespace::ClassA)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(a)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassB)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(b)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassC)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(c)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassD)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(d)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassAB)
 	CLASS_BASE(mynamespace::ClassA)
 	CLASS_BASE(mynamespace::ClassB)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(ab)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassCD)
 	CLASS_BASE(mynamespace::ClassC)
 	CLASS_BASE(mynamespace::ClassD)
+	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(cd)
 END_CLASS_TYPE
 
 BEGIN_CLASS_TYPE(mynamespace::ClassABCD)
 	CLASS_BASE(mynamespace::ClassAB)
 	CLASS_BASE(mynamespace::ClassCD)
+	CLASS_CONSTRUCTOR_0
+	CLASS_CONSTRUCTOR_1(int)
 	CLASS_FIELD(abcd)
 	CLASS_METHOD(Add)
 END_CLASS_TYPE
@@ -660,6 +677,16 @@ TEST_CASE(TestMethodInvokingNative)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.GetType()==TypeOf<int>());
 		TEST_ASSERT(*((int*)result.GetValue())==328);
+	}
+	{
+		ObjectValue result;
+		Array<ObjectValue> arguments;
+		arguments.Resize(1);
+		arguments[0]=New<int>();
+		*((int*)arguments[0].GetValue())=100;
+		TEST_ASSERT(InvokeMethod(TypeOf<ClassABCD>()->Constructors(), 0, arguments.Wrap(), result, TypeOf<ClassABCD>()));
+		TEST_ASSERT(result);
+		TestClassFieldValue(result, L"abcd", 100);
 	}
 }
 
