@@ -94,6 +94,7 @@ namespace vl\
 				$loop($count,0,$ADD_TYPENAME_ITEM)\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
 $( )
 $( )
 $$end

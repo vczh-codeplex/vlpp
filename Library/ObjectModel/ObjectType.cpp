@@ -80,7 +80,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 			return const_cast<ObjectType*>(type);
 		}
 
-		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)
+		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType)
 		{
 			for(int i=0;i<methods.Count();i++)
 			{
@@ -130,7 +130,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 					}
 					else
 					{
-						result=ObjectValue(type->ReturnType(), invokingResult, true);
+						result=ObjectValue(resultType?resultType:type->ReturnType(), invokingResult, true);
 					}
 					return true;
 				}

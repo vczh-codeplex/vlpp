@@ -231,6 +231,10 @@
 		<Filter
 			Name="Library3"
 			>
+			<File
+				RelativePath="..\..\Library\GenerateCode.bat"
+				>
+			</File>
 			<Filter
 				Name="Collections"
 				>
@@ -646,6 +650,10 @@
 			<Filter
 				Name="ObjectModel"
 				>
+				<File
+					RelativePath="..\..\Library\ObjectModel\ObjectTypeClass.h.fpm"
+					>
+				</File>
 				<File
 					RelativePath="..\..\Library\ObjectModel\ObjectTypeClassTemplate.h.fpm"
 					>

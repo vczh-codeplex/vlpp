@@ -73,7 +73,7 @@ namespace vl
 		extern bool									FindBaseClass(const ObjectType* sub, const ObjectType* base, collections::List<int>& baseToSubPositions, collections::List<const ObjectType*>& baseToSubTypes);
 		extern ObjectMember*						FindClassField(const ObjectType* type, const WString& fieldName);
 		extern ObjectType*							ObjectTypeRemoveCVR(const ObjectType* type);
-		extern bool									InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result);
+		extern bool									InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType=0);
 
 /***********************************************************************
 类型对象

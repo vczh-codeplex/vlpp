@@ -76,6 +76,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T0>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_2(NAME)\
@@ -112,6 +113,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T1>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_3(NAME)\
@@ -149,6 +151,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T2>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_4(NAME)\
@@ -187,6 +190,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T3>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_5(NAME)\
@@ -226,6 +230,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T4>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_6(NAME)\
@@ -266,6 +271,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T5>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_7(NAME)\
@@ -307,6 +313,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T6>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_8(NAME)\
@@ -349,6 +356,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T7>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_9(NAME)\
@@ -392,6 +400,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T8>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
   
 #define BEGIN_CLASS_TEMPLATE_10(NAME)\
@@ -436,6 +445,7 @@ namespace vl\
 				__object_type_class__->typenames.Add(TypeOf<T9>());\
 				ObjectMember* field=0;\
 				ObjectMember* method=0;\
+				ObjectMember* constructor=0;\
  
  
 #endif

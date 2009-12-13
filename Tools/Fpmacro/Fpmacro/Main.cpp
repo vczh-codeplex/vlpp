@@ -1143,6 +1143,13 @@ int wmain(int argc, wchar_t* argv[])
 			Console::WriteLine(L"fpm>Log path : "+logPath);
 
 			FileStream outputFileStream(outputPath, FileStream::WriteOnly);
+			if(!outputFileStream.IsAvailable())
+			{
+				Console::SetColor(true, false, false, true);
+				Console::WriteLine(L"error> \""+outputPath+L"\" can not be opened for writing.");
+				Console::SetColor(false, true, false, true);
+				continue;
+			}
 			BomEncoder outputEncoder(BomEncoder::Mbcs);
 			EncoderStream outputStream(outputFileStream, outputEncoder);
 			StreamWriter outputWriter(outputStream);
