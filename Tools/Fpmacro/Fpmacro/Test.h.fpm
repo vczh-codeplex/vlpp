@@ -1,0 +1,368 @@
+$$include:Global.fpm
+
+$$define $FUNCTION_TYPE($count,$function) $if($function,R,void)($TYPE_LIST($count))
+$$define $FUNCTION_DECL($count,$function,$name) $if($function,R,void)($name)($TYPE_LIST($count))
+
+$$define $FUNCTION_DECLARATION($count, $function) $$begin
+$(/)***********************************************************************
+vl::Func<$FUNCTION_TYPE($count,$function)>
+***********************************************************************$(/)
+	template<$TYPENAME_LIST($count,$function)>
+	class Func<$FUNCTION_TYPE($count,$function)> : public Object
+	{
+	protected:
+		class Invoker : public Object
+		{
+		public:
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))=0;
+		};
+
+		class StaticInvoker : public Invoker
+		{
+		protected:
+			$FUNCTION_DECL($count,$function,*function);
+		public:
+			StaticInvoker($FUNCTION_DECL($count,$function,*_function))
+				:function(_function)
+			{
+			}
+
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))
+			{
+				$if($function,return, ) function($ARGUMENT_LIST($count));
+			}
+		};
+
+		template<typename C>
+		class MemberInvoker : public Invoker
+		{
+		protected:
+			C*			sender;
+			$FUNCTION_DECL($count,$function,C::*function);
+		public:
+			MemberInvoker(C* _sender, $FUNCTION_DECL($count,$function,C::*_function))
+				:sender(_sender)
+				,function(_function)
+			{
+			}
+
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))
+			{
+				$if($function,return, ) (sender->*function)($ARGUMENT_LIST($count));
+			}
+		};
+
+		template<typename C>
+		class PointerInvoker : public Invoker
+		{
+		protected:
+			C*			function;
+		public:
+			PointerInvoker(C* _function)
+				:function(_function)
+			{
+			}
+
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))
+			{
+				$if($function,return, ) function->operator()($ARGUMENT_LIST($count));
+			}
+		};
+
+		template<typename C>
+		class SmartPointerInvoker : public Invoker
+		{
+		protected:
+			Ptr<C>		function;
+		public:
+			SmartPointerInvoker(const Ptr<C>& _function)
+				:function(_function)
+			{
+			}
+
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))
+			{
+				$if($function,return, ) function->operator()($ARGUMENT_LIST($count));
+			}
+		};
+
+		template<typename C>
+		class ObjectInvoker : public Invoker
+		{
+		protected:
+			C			function;
+		public:
+			ObjectInvoker(const C& _function)
+				:function(_function)
+			{
+			}
+
+			virtual $if($function,R,void) Invoke($PARAMETER_LIST($count))
+			{
+				$if($function,return, ) function($ARGUMENT_LIST($count));
+			}
+		};
+	protected:
+		Ptr<Invoker>			invoker;
+	public:
+		typedef $if($function,R,void) FunctionType($TYPE_LIST($count));
+		typedef $if($function,R,void) ResultType;
+
+		Func()
+		{
+		}
+
+		Func($FUNCTION_DECL($count,$function,*function))
+		{
+			invoker=new StaticInvoker(function);
+		}
+
+		template<typename C>
+		Func(C* sender, $FUNCTION_DECL($count,$function,C::*function))
+		{
+			invoker=new MemberInvoker<C>(sender, function);
+		}
+
+		template<typename C>
+		Func(C* function)
+		{
+			invoker=new PointerInvoker<C>(function);
+		}
+
+		template<typename C>
+		Func(const Ptr<C>& function)
+		{
+			invoker=new SmartPointerInvoker<C>(function);
+		}
+
+		template<typename C>
+		Func(const C& function)
+		{
+			invoker=new ObjectInvoker<C>(function);
+		}
+
+		$if($function,R,void) operator()($PARAMETER_LIST($count))const
+		{
+			$if($function,return, ) invoker->Invoke($ARGUMENT_LIST($count));
+		}
+
+		bool operator==(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker==function.invoker;
+		}
+
+		bool operator!=(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker!=function.invoker;
+		}
+
+		bool operator<(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker<function.invoker;
+		}
+
+		bool operator<=(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker<=function.invoker;
+		}
+
+		bool operator>(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker>function.invoker;
+		}
+
+		bool operator>=(const Func<$FUNCTION_TYPE($count,$function)>& function)const
+		{
+			return invoker>=function.invoker;
+		}
+
+		operator bool()const
+		{
+			return invoker;
+		}
+	};
+$$end
+
+$$define $BINDING_DECLARATION($count,$function) $$begin
+$(/)***********************************************************************
+vl::function_binding::Binding<$FUNCTION_TYPE($count,$function)>
+***********************************************************************$(/)
+		template<$TYPENAME_LIST($count,$function)>
+		struct Binding<$FUNCTION_TYPE($count,$function)>
+		{
+			typedef $if($function,R,void) FunctionType($TYPE_LIST($count));
+			typedef $if($function,R,void) CurriedType($CURRIED_TYPE_LIST($count));
+			typedef T0 ParameterType;
+
+			class Binder : public Object
+			{
+			protected:
+				Func<FunctionType>		target;
+				T0						p0;
+			public:
+				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
+					:target(_target)
+					,p0(_p0)
+				{
+				}
+
+				$if($function,R,void) operator()($CURRIED_PARAMETER_LIST($count))const
+				{
+					$if($function,return, ) target($ARGUMENT_LIST($count));
+				}
+			};
+
+			class Currier : public Object
+			{
+			protected:
+				Func<FunctionType>		target;
+			public:
+				Currier(const Func<FunctionType>& _target)
+					:target(_target)
+				{
+				}
+
+				Func<CurriedType> operator()(typename CR<T0>::Type argument)const
+				{
+					return Ptr<Binder>(new Binder(target, argument));
+				}
+			};
+		};
+$$end
+
+$$define $COMBINDING_DECLARATION($count) $$begin
+$(/)***********************************************************************
+vl::function_combining::Combining<R1($TYPE_LIST($count)), R2($TYPE_LIST($count)), R(R1,R2)>
+***********************************************************************$(/)
+		template<typename R1, typename R2, $TYPENAME_LIST($count,1)>
+		class Combining<R1($TYPE_LIST($count)), R2($TYPE_LIST($count)), R(R1,R2)> : public Object
+		{
+		protected:
+			Func<R1($TYPE_LIST($count))>			function1;
+			Func<R2($TYPE_LIST($count))>			function2;
+			Func<R(R1,R2)>							converter;
+		public:
+			typedef R1 FirstFunctionType($TYPE_LIST($count));
+			typedef R2 SecondFunctionType($TYPE_LIST($count));
+			typedef R ConverterFunctionType(R1,R2);
+			typedef R FinalFunctionType($TYPE_LIST($count));
+
+			Combining(const Func<R1($TYPE_LIST($count))>& _function1, const Func<R2($TYPE_LIST($count))>& _function2, const Func<R(R1,R2)>& _converter)
+				:function1(_function1)
+				,function2(_function2)
+				,converter(_converter)
+			{
+			}
+
+			R operator()($PARAMETER_LIST($count))const
+			{
+				return converter(function1($ARGUMENT_LIST($count)), function2($ARGUMENT_LIST($count)));
+			}
+		};
+$$end
+
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+Framework::Function
+
+Classes:
+	Func<function-type>									：函数对象
+
+Functions:
+	Curry :: (A->B) -> A -> B							：参数拆分
+	Combine :: (A->B) -> (A->C) -> (B->C->D) -> (A->D)	：函数组合
+	
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+
+#ifndef VCZH_FUNCTION
+#define VCZH_FUNCTION
+
+#include "Basic.h"
+#include "Pointer.h"
+
+namespace vl
+{
+	template<typename T>
+	class Func
+	{
+	};
+
+$$define $FUNCTION_APPLY($index) $$begin
+$( )
+$FUNCTION_DECLARATION($index,1)
+$( )
+$FUNCTION_DECLARATION($index,0)
+$( )
+$$end
+$loop(11,0,$FUNCTION_APPLY)
+
+	namespace function_binding
+	{
+		template<typename T>
+		struct Binding
+		{
+		};
+
+		template<typename T>
+		struct CR{typedef const T& Type;};
+		template<typename T>
+		struct CR<T&>{typedef T& Type;};
+		template<typename T>
+		struct CR<const T>{typedef const T& Type;};
+		template<typename T>
+		struct CR<const T&>{typedef const T& Type;};
+		
+$$define $BINDING_APPLY($index) $$begin
+$( )
+$BINDING_DECLARATION($index,1)
+$( )
+$BINDING_DECLARATION($index,0)
+$( )
+$$end
+$loop(10,1,$BINDING_APPLY)
+	}
+
+	template<typename T>
+	Func<Func<typename function_binding::Binding<T>::CurriedType>(typename function_binding::Binding<T>::ParameterType)>
+	Curry(T* function)
+	{
+		return Ptr<typename function_binding::Binding<T>::Currier>(new typename function_binding::Binding<T>::Currier(function));
+	}
+
+	template<typename T>
+	Func<Func<typename function_binding::Binding<T>::CurriedType>(typename function_binding::Binding<T>::ParameterType)>
+	Curry(const Func<T>& function)
+	{
+		return Ptr<typename function_binding::Binding<T>::Currier>(new typename function_binding::Binding<T>::Currier(function));
+	}
+	namespace function_combining
+	{
+		template<typename A, typename B, typename C>
+		class Combining
+		{
+		};
+		
+$$define $COMBINDING_APPLY($index) $$begin
+$( )
+$COMBINDING_DECLARATION($index)
+$$end
+$loop(11,0,$COMBINDING_APPLY)
+	}
+
+	template<typename F1, typename F2, typename C>
+	Func<typename function_combining::Combining<F1, F2, C>::FinalFunctionType>
+	Combine(Func<C> converter, Func<F1> function1, Func<F2> function2)
+	{
+		return Ptr<function_combining::Combining<F1, F2, C>>(new function_combining::Combining<F1, F2, C>(function1, function2, converter));
+	}
+
+	template<typename T>
+	Func<Func<T>(Func<T>,Func<T>)> Combiner(const Func<typename Func<T>::ResultType(typename Func<T>::ResultType,typename Func<T>::ResultType)>& converter)
+	{
+		typedef typename Func<T>::ResultType R;
+		return Curry<Func<T>(Func<R(R,R)>,Func<T>,Func<T>)>(Combine)(converter);
+	}
+}
+#endif
