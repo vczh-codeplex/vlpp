@@ -43,6 +43,8 @@ namespace vl
 			Ptr<InternalValue>						internalValue;
 			const ObjectType*						objectType;
 			void*									objectValue;
+
+			bool									InvokeMethod(const ObjectType* type, void* object, const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const;
 		public:
 			ObjectValue();
 			ObjectValue(const ObjectValue& value);
@@ -65,12 +67,13 @@ namespace vl
 			ObjectValue								CastToClass(const ObjectType* type)const;
 			ObjectValue								ImplicitlyConvertTo(const ObjectType* type)const;
 			ObjectValue								GetField(const WString& name)const;
+			bool									InvokeMethod(const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const;
 		};
 
 		extern bool									FindBaseClass(const ObjectType* sub, const ObjectType* base, collections::List<int>& baseToSubPositions, collections::List<const ObjectType*>& baseToSubTypes);
 		extern ObjectMember*						FindClassField(const ObjectType* type, const WString& fieldName);
 		extern ObjectType*							ObjectTypeRemoveCVR(const ObjectType* type);
-		extern bool									InvokeMethods(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result);
+		extern bool									InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result);
 
 /***********************************************************************
 类型对象
