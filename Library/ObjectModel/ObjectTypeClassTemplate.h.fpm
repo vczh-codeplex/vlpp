@@ -1,0 +1,103 @@
+$$include:..\Common.fpm
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+ObjectModel::ObjectType for class template
+
+Classes:
+
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+
+#ifndef VCZH_OBJECTMODEL_OBJECTTYPECLASSTEMPLATE
+#define VCZH_OBJECTMODEL_OBJECTTYPECLASSTEMPLATE
+
+#include "ObjectTypeClass.h"
+
+namespace vl
+{
+	namespace objectmodel
+	{
+		template<typename T>
+		class ObjectTypeClassTemplate : public ObjectTypeClass<T>
+		{
+			friend class ObjectTypeRegister<T>;
+		protected:
+			collections::List<ObjectType*>			typenames;
+
+		public:
+			ObjectTypeClassTemplate()
+			{
+			}
+
+			~ObjectTypeClassTemplate()
+			{
+			}
+
+			bool IsTemplateClass()const
+			{
+				return true;
+			}
+
+			WString TemplateName()const
+			{
+				return ObjectTypeInformation<T>::GetTemplateName();
+			}
+
+			const TypeList& Typenames()const
+			{
+				return typenames.Wrap();
+			}
+		};
+	}
+}
+
+$$define $TEMPLATE_MACRO_DECLARATION($count) $$begin
+$$define $TYPENAME_LIST() $loopsep($count,0,$TYPENAME_ITEM,$(,))
+$$define $TYPENAME_APPLY() NAME<$loopsep($count,0,$TYPE_ITEM,$(,))>
+$$define $TYPE_NAME($type) ObjectTypeInformation<$type>::GetName()
+$$define $TYPE_NAME_BY_INDEX($index) $TYPE_NAME($TYPE_ITEM($index))
+$$define $ADD_TYPENAME_ITEM($index) $$begin
+\
+				__object_type_class__->typenames.Add(TypeOf<$TYPE_ITEM($index)>());
+$$end
+$( )
+#define BEGIN_CLASS_TEMPLATE_$count$(()NAME$())\
+namespace vl\
+{\
+	namespace objectmodel\
+	{\
+		template<$TYPENAME_LIST()>\
+		class ObjectTypeInformation<$TYPENAME_APPLY()>\
+		{\
+		public:\
+			static WString GetTemplateName()\
+			{\
+				return L#NAME;\
+			}\
+			static WString GetName()\
+			{\
+				return GetTemplateName()+L"<"+$loopsep($count,0,$TYPE_NAME_BY_INDEX,+L","+)+L">";\
+			}\
+			typedef ObjectTypeClassTemplate<$TYPENAME_APPLY()> ObjectTypeImplementation;\
+		};\
+		template<$TYPENAME_LIST()>\
+		class ObjectTypeRegister<$TYPENAME_APPLY()>\
+		{\
+		private:\
+			typedef $TYPENAME_APPLY() __class_type__;\
+		public:\
+			static void Register()\
+			{\
+				ObjectTypeClassTemplate<__class_type__>* __object_type_class__ = new ObjectTypeClassTemplate<__class_type__>;\
+				RegisterObjectType(ObjectTypeInformation<__class_type__>::GetName(), __object_type_class__);\
+				$loop($count,0,$ADD_TYPENAME_ITEM)\
+				ObjectMember* field=0;\
+				ObjectMember* method=0;\
+$( )
+$( )
+$$end
+
+$loop($sub($MAX_FUNCTION_NUMBER(),1),1,$TEMPLATE_MACRO_DECLARATION)
+
+#endif

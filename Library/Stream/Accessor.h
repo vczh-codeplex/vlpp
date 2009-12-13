@@ -1,0 +1,135 @@
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: ³Âè÷å«(vczh)
+Stream::Accessor
+
+Classes:
+	TextReader						£º×Ö·û´®ÔÄ¶ÁÆ÷
+	TextWriter						£º×Ö·û´®ÊéÐ´Æ÷
+	StreamReader					£ºÁ÷ÔÄ¶ÁÆ÷
+	StreamWriter					£ºÁ÷ÊéÐ´Æ÷
+	EncoderStream					£º±àÂëÁ÷
+	DecoderStream					£º½âÂëÁ÷
+***********************************************************************/
+
+#ifndef VCZH_STREAM_ACCESSOR
+#define VCZH_STREAM_ACCESSOR
+
+#include "Interfaces.h"
+#include "..\String.h"
+
+namespace vl
+{
+	namespace stream
+	{
+
+/***********************************************************************
+Á÷¿ØÖÆÆ÷
+***********************************************************************/
+
+		class TextReader : public Object, private NotCopyable
+		{
+		public:
+			virtual bool				IsEnd()=0;
+			virtual wchar_t				ReadChar()=0;
+			virtual WString				ReadString(int length);
+			virtual WString				ReadLine();
+			virtual WString				ReadToEnd();
+		};
+
+		class TextWriter : public Object, private NotCopyable
+		{
+		public:
+			virtual void				WriteChar(wchar_t c)=0;
+			virtual void				WriteString(const wchar_t* string);
+			virtual void				WriteString(const WString& string);
+			virtual void				WriteLine(const wchar_t* string);
+			virtual void				WriteLine(const WString& string);
+		};
+
+		class StreamReader : public TextReader
+		{
+		protected:
+			IStream*					stream;
+		public:
+			StreamReader(IStream& _stream);
+
+			bool						IsEnd();
+			wchar_t						ReadChar();
+		};
+
+		class StreamWriter : public TextWriter
+		{
+		protected:
+			IStream*					stream;
+		public:
+			StreamWriter(IStream& _stream);
+
+			void						WriteChar(wchar_t c);
+			void						WriteString(const wchar_t* string);
+			void						WriteString(const WString& string);
+		};
+
+/***********************************************************************
+±àÂë½âÂë
+***********************************************************************/
+
+		class EncoderStream : public virtual IStream
+		{
+		protected:
+			IStream*					stream;
+			IEncoder*					encoder;
+			pos_t						position;
+
+		public:
+			EncoderStream(IStream& _stream, IEncoder& _encoder);
+			~EncoderStream();
+
+			bool						CanRead()const;
+			bool						CanWrite()const;
+			bool						CanSeek()const;
+			bool						CanPeek()const;
+			bool						IsLimited()const;
+			bool						IsAvailable()const;
+			void						Close();
+			pos_t						Position()const;
+			pos_t						Size()const;
+			void						Seek(pos_t _size);
+			void						SeekFromBegin(pos_t _size);
+			void						SeekFromEnd(pos_t _size);
+			int							Read(void* _buffer, int _size);
+			int							Write(void* _buffer, int _size);
+			int							Peek(void* _buffer, int _size);
+		};
+
+		class DecoderStream : public virtual IStream
+		{
+		protected:
+			IStream*					stream;
+			IDecoder*					decoder;
+			pos_t						position;
+
+		public:
+			DecoderStream(IStream& _stream, IDecoder& _decoder);
+			~DecoderStream();
+
+			bool						CanRead()const;
+			bool						CanWrite()const;
+			bool						CanSeek()const;
+			bool						CanPeek()const;
+			bool						IsLimited()const;
+			bool						IsAvailable()const;
+			void						Close();
+			pos_t						Position()const;
+			pos_t						Size()const;
+			void						Seek(pos_t _size);
+			void						SeekFromBegin(pos_t _size);
+			void						SeekFromEnd(pos_t _size);
+			int							Read(void* _buffer, int _size);
+			int							Write(void* _buffer, int _size);
+			int							Peek(void* _buffer, int _size);
+		};
+	}
+}
+
+#endif
