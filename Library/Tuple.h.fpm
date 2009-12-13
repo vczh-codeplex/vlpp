@@ -1,0 +1,47 @@
+$$include:Common.fpm
+
+$$define $TYPENAME_NULL($index) typename T$index = TupleNullItem
+$$define $TUPLE_ITEM($index) T$index f$index;
+
+$$define $TUPLE_DECLARATION($count) $$begin
+$(/)***********************************************************************
+vl::Tuple<$TYPE_LIST($count)>
+***********************************************************************$(/)
+	template<$loopsep($count,0,$TYPENAME_ITEM,$(,))>
+	class Tuple<$TYPE_LIST($count)> : public Object
+	{
+	public:
+		$loop($count,0,$TUPLE_ITEM)
+	};
+$$end
+
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+Framework::Tuple
+	
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+
+#ifndef VCZH_EVENT
+#define VCZH_EVENT
+
+namespace vl
+{
+	class TupleNullItem
+	{
+	};
+
+	template<$loopsep(11,0,$TYPENAME_NULL,$(,))>
+	class Tuple
+	{
+	};
+$$define $TUPLE_APPLY($count) $$begin
+$( )
+$TUPLE_DECLARATION($count)
+$( )
+$$end
+$loop($sub($MAX_FUNCTION_NUMBER(),1),1,$TUPLE_APPLY)
+}
+
+#endif

@@ -1,0 +1,64 @@
+$$include:Common.fpm
+
+$$define $EVENT_DECLARATION($count) $$begin
+$(/)***********************************************************************
+vl::Event<$FUNCTION_TYPE($count,0)>
+***********************************************************************$(/)
+	template<$TYPENAME_LIST($count,0)>
+	class Event<$FUNCTION_TYPE($count,0)> : public Object, private NotCopyable
+	{
+	protected:
+		collections::SortedList<Func<$FUNCTION_TYPE($count,0)>>	functions;
+	public:
+		void Add(const Func<$FUNCTION_TYPE($count,0)>& handler)
+		{
+			functions.Add(handler);
+		}
+		
+		void Remove(const Func<$FUNCTION_TYPE($count,0)>& handler)
+		{
+			functions.Remove(handler);
+		}
+
+		void operator()($PARAMETER_LIST($count))const
+		{
+			for(int i=0;i<functions.Count();i++)
+			{
+				functions.Get(i)($ARGUMENT_LIST($count));
+			}
+		}
+	};
+$$end
+
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+Framework::Event
+
+Classes:
+	Event<function-type>									：事件对象
+	
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+
+#ifndef VCZH_EVENT
+#define VCZH_EVENT
+
+#include "Function.h"
+#include "Collections\List.h"
+
+namespace vl
+{
+	template<typename T>
+	class Event
+	{
+	};
+$$define $EVENT_APPLY($count) $$begin
+$( )
+$EVENT_DECLARATION($count)
+$( )
+$$end
+$loop($MAX_FUNCTION_NUMBER(),0,$EVENT_APPLY)
+}
+
+#endif

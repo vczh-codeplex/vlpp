@@ -1,0 +1,202 @@
+$$include:..\Common.fpm
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+ObjectModel::ObjectType for function
+
+Classes:
+
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+
+#ifndef VCZH_OBJECTMODEL_OBJECTTYPEFUNCTION
+#define VCZH_OBJECTMODEL_OBJECTTYPEFUNCTION
+
+#include "ObjectType.h"
+
+namespace vl
+{
+	namespace objectmodel
+	{
+		template<typename T>
+		class ObjectTypeFunction
+		{
+		public:
+		};
+
+		template<typename T>
+		struct RemoveCVR
+		{
+			typedef T Type;
+		};
+
+		template<typename T>
+		struct RemoveCVR<T&>
+		{
+			typedef typename RemoveCVR<T>::Type Type;
+		};
+
+		template<typename T>
+		struct RemoveCVR<const T>
+		{
+			typedef typename RemoveCVR<T>::Type Type;
+		};
+
+		template<typename T>
+		struct RemoveCVR<volatile T>
+		{
+			typedef typename RemoveCVR<T>::Type Type;
+		};
+
+		template<typename T>
+		struct RemoveCVR<const volatile T>
+		{
+			typedef typename RemoveCVR<T>::Type Type;
+		};
+$$define $OBJECT_TYPE_FUNCTION_DECLARATION($count,$function,$class,$const) $$begin
+$$define $FUNCTION_TYPENAME_LIST() $if($class,$METHOD_TYPENAME_LIST($count,$function,C),$TYPENAME_LIST($count,$function))
+$$define $FUNCTION_POINTER_TYPE() $FUNCTION_DECL($count,$function,$if($class,C::*,*))$if($const,const, )
+$$define $TYPE_NAME($type) ObjectTypeInformation<$type>::GetName()
+$$define $TYPE_NAME_BY_INDEX($index) $TYPE_NAME($TYPE_ITEM($index))
+$(/)***********************************************************************
+vl::objectmodel::ObjectTypeFunction<$FUNCTION_POINTER_TYPE()>
+***********************************************************************$(/)
+		template<$FUNCTION_TYPENAME_LIST()>
+		class ObjectTypeFunction<$FUNCTION_POINTER_TYPE()> : public SpecifiedObjectType<$FUNCTION_POINTER_TYPE()>
+		{
+			friend class ObjectTypeRegister<$FUNCTION_POINTER_TYPE()>;
+			typedef $FUNCTION_DECL($count,$function,$if($class,C::*,*)FunctionPointer)$if($const,const, );
+		protected:
+			static void* ctor()
+			{
+				return new FunctionPointer(0);
+			}
+
+			collections::List<ObjectType*>		parameterTypes;
+			ObjectType*							returnType;
+			ObjectType*							thisType;
+			collections::List<ObjectMember*>	constructors;
+		public:
+			ObjectTypeFunction()
+			{
+				returnType=0;
+				thisType=0;
+			}
+
+			~ObjectTypeFunction()
+			{
+				for(int i=0;i<constructors.Count();i++)
+				{
+					delete constructors[i];
+				}
+			}
+
+			ObjectCategory Category()const
+			{
+				return ObjectType::Function;
+			}
+
+			const ObjectType* ReturnType()const
+			{
+				return returnType;
+			}
+
+			const TypeList& ParameterTypes()const
+			{
+				return parameterTypes.Wrap();
+			}
+
+			const ObjectType* ThisType()const
+			{
+				return thisType;
+			}
+
+			bool IsConstFunction()const
+			{
+				return $if($const,true,false);
+			}
+
+			void* Invoke(void* object, void* funcPtrPtr, void** arguments)const
+			{
+$$define $BUILD_ARGUMENT($index) $$begin
+				typename RemoveCVR<$TYPE_ITEM($index)>::Type* argument$index = (typename RemoveCVR<$TYPE_ITEM($index)>::Type*)arguments[$index];
+$( )
+$$end
+$loop($count,0,$BUILD_ARGUMENT)
+$$define $GET_ARGUMENT($index) *argument$index
+$$define $METHOD_CALL() (((C*)object)->*(*((FunctionPointer*)funcPtrPtr)))
+$$define $FUNCTION_CALL() (*((FunctionPointer*)funcPtrPtr))
+				$if($function,R result=, )$if($class,$METHOD_CALL(),$FUNCTION_CALL())($loopsep($count,0,$GET_ARGUMENT,$(,)));
+				$if($function,return new R(result),return 0);
+			}
+
+			const ConstructorList& Constructors()const
+			{
+				return constructors.Wrap();
+			}
+
+			bool CanCreateInstance()const
+			{
+				return true;
+			}
+
+			void* CreateInstance()const
+			{
+				return ctor();
+			}
+
+			void DestroyInstance(void* instance)const
+			{
+				delete (FunctionPointer*)instance;
+			}
+		};
+		template<$FUNCTION_TYPENAME_LIST()>
+		class ObjectTypeInformation<$FUNCTION_POINTER_TYPE()>
+		{
+		public:
+			static WString GetName()
+			{
+				return $TYPE_NAME($if($function,R,void))+$if($class,L"("+$TYPE_NAME(C)+L"::*)",L"(*)")+$if($eq($count,0),L"()",L"("+$loopsep($count,0,$TYPE_NAME_BY_INDEX,+L","+)+L")")$if($const,+L"const", );
+			}
+			typedef ObjectTypeFunction<$FUNCTION_POINTER_TYPE()> ObjectTypeImplementation;
+		};
+		template<$FUNCTION_TYPENAME_LIST()>
+		class ObjectTypeRegister<$FUNCTION_POINTER_TYPE()>
+		{
+		public:
+			static void Register()
+			{
+				ObjectTypeFunction<$FUNCTION_POINTER_TYPE()>* type=new ObjectTypeFunction<$FUNCTION_POINTER_TYPE()>;
+				RegisterObjectType(ObjectTypeInformation<$FUNCTION_POINTER_TYPE()>::GetName(), type);
+$$define $ADD_PARAMETER_TYPE($index) $$begin
+				type->parameterTypes.Add(TypeOf<$TYPE_ITEM($index)>());
+$( )
+$$end
+$loop($count,0,$ADD_PARAMETER_TYPE)
+				type->returnType=TypeOf<$if($function,R,void)>();
+				type->thisType=$if($class,TypeOf<C>(),0);
+				type->constructors.Add(new ObjectTypeFunction<$FUNCTION_POINTER_TYPE()>::Constructor<void*(*)()>(&ObjectTypeFunction<$FUNCTION_POINTER_TYPE()>::ctor));
+			}
+		};
+$$end
+
+$$define $OBJECT_TYPE_FUNCTION_APPLY($index) $$begin
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,1,0,0)
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,0,0,0)
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,1,1,0)
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,0,1,0)
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,1,1,1)
+$( )
+$OBJECT_TYPE_FUNCTION_DECLARATION($index,0,1,1)
+$( )
+$$end
+$loop($MAX_FUNCTION_NUMBER(),0,$OBJECT_TYPE_FUNCTION_APPLY)
+	}
+}
+
+#endif
