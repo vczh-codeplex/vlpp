@@ -80,7 +80,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 			return const_cast<ObjectType*>(type);
 		}
 
-		bool InvokeMethods(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)
+		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)
 		{
 			for(int i=0;i<methods.Count();i++)
 			{
@@ -113,7 +113,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 					{
 						Array<void*> pointers;
 						pointers.Resize(arguments.Count());
-						for(int j=0;j<arguments.Count();i++)
+						for(int j=0;j<arguments.Count();j++)
 						{
 							pointers[j]=convertedArguments[j].GetValue();
 						}
@@ -142,6 +142,26 @@ FINISH_CURRENT_METHOD:;
 /***********************************************************************
 ObjectValue
 ***********************************************************************/
+
+		bool ObjectValue::InvokeMethod(const ObjectType* type, void* object, const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const
+		{
+			int index=type->Methods().Keys().IndexOf(name);
+			if(index==-1)return false;
+			const IReadonlyList<ObjectMember*>& methods=type->Methods().GetByIndex(index);
+			if(vl::objectmodel::InvokeMethod(methods, object, arguments, result))
+			{
+				return true;
+			}
+			for(int i=0;i<type->BaseClasses().Count();i++)
+			{
+				ObjectValue base=CastToBaseClass(type->BaseClasses()[i]);
+				if(base.InvokeMethod(base.GetType(), base.GetValue(), name, arguments, result))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 
 		ObjectValue::InternalValue::InternalValue(const ObjectType* _objectType)
 			:objectType(_objectType)
@@ -367,6 +387,13 @@ ObjectValue
 			{
 				return ObjectValue();
 			}
+		}
+
+		bool ObjectValue::InvokeMethod(const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const
+		{
+			if(!objectValue)return false;
+			if(objectType->Category()!=ObjectType::Class)false;
+			return InvokeMethod(objectType, objectValue, name, arguments, result);
 		}
 
 /***********************************************************************

@@ -631,21 +631,36 @@ TEST_CASE(TestMethodInvokingNative)
 {
 	using namespace mynamespace;
 	ObjectValue abcd=New<ClassABCD>();
-	ObjectMember* method=abcd.GetType()->Methods()[L"Add"][0];
+	{
+		ObjectMember* method=abcd.GetType()->Methods()[L"Add"][0];
 
-	int x=100;
-	int y=200;
-	void* arguments[]={&x, &y};
-	int* result=(int*)method->Invoke(abcd.GetValue(), arguments);
-	TEST_ASSERT(result);
-	TEST_ASSERT(*result==328);
-	delete result;
+		int x=100;
+		int y=200;
+		void* arguments[]={&x, &y};
+		int* result=(int*)method->Invoke(abcd.GetValue(), arguments);
+		TEST_ASSERT(result);
+		TEST_ASSERT(*result==328);
+		delete result;
 
-	ObjectMember* constructor=TypeOf<int>()->Constructors()[1];
-	result=(int*)constructor->Invoke(0, arguments);
-	TEST_ASSERT(result);
-	TEST_ASSERT(*result==100);
-	delete result;
+		ObjectMember* constructor=TypeOf<int>()->Constructors()[1];
+		result=(int*)constructor->Invoke(0, arguments);
+		TEST_ASSERT(result);
+		TEST_ASSERT(*result==100);
+		delete result;
+	}
+	{
+		ObjectValue result;
+		Array<ObjectValue> arguments;
+		arguments.Resize(2);
+		arguments[0]=New<int>();
+		*((int*)arguments[0].GetValue())=100;
+		arguments[1]=New<int>();
+		*((int*)arguments[1].GetValue())=200;
+		TEST_ASSERT(abcd.InvokeMethod(L"Add", arguments.Wrap(), result)==true);
+		TEST_ASSERT(result);
+		TEST_ASSERT(result.GetType()==TypeOf<int>());
+		TEST_ASSERT(*((int*)result.GetValue())==328);
+	}
 }
 
 TEST_CASE(TestImplicitlyConversion)
