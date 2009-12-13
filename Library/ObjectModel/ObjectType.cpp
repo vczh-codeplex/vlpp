@@ -80,6 +80,65 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 			return const_cast<ObjectType*>(type);
 		}
 
+		bool InvokeMethods(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)
+		{
+			for(int i=0;i<methods.Count();i++)
+			{
+				ObjectMember* member=methods[i];
+				const ObjectType* type=member->Type();
+				if(type->Category()==ObjectType::Function && type->ParameterTypes().Count()==arguments.Count())
+				{
+					Array<ObjectValue> convertedArguments;
+					convertedArguments.Resize(arguments.Count());
+					for(int j=0;j<arguments.Count();j++)
+					{
+						const ObjectType* dstType=type->ParameterTypes()[j];
+						if(dstType->Category()==ObjectType::Reference)
+						{
+							dstType=dstType->ElementType();
+						}
+						ObjectValue argument=arguments.Get(j).ImplicitlyConvertTo(dstType);
+						if(argument)
+						{
+							convertedArguments[j]=argument;
+						}
+						else
+						{
+							goto FINISH_CURRENT_METHOD;
+						}
+					}
+
+					void* invokingResult=0;
+					if(arguments.Count())
+					{
+						Array<void*> pointers;
+						pointers.Resize(arguments.Count());
+						for(int j=0;j<arguments.Count();i++)
+						{
+							pointers[j]=convertedArguments[j].GetValue();
+						}
+						invokingResult=member->Invoke(object, &pointers[0]);
+					}
+					else
+					{
+						invokingResult=member->Invoke(object, 0);
+					}
+
+					if(type->ReturnType()==TypeOf<void>())
+					{
+						result=ObjectValue();
+					}
+					else
+					{
+						result=ObjectValue(type->ReturnType(), invokingResult, true);
+					}
+					return true;
+				}
+FINISH_CURRENT_METHOD:;
+			}
+			return false;
+		}
+
 /***********************************************************************
 ObjectValue
 ***********************************************************************/
