@@ -1,0 +1,3034 @@
+==============================================================================================
+Syntax Tree
+==============================================================================================
+MACRO {
+    REFERENCE {
+        $TYPENAME_ITEM : $index
+        CONCAT {
+            TEXT : typename
+            TEXT :  
+            TEXT : T
+            NAME : $index
+        }
+    }
+    REFERENCE {
+        $TYPE_ITEM : $index
+        CONCAT {
+            TEXT : T
+            NAME : $index
+        }
+    }
+    REFERENCE {
+        $PARAMETER_ITEM : $index
+        CONCAT {
+            TEXT : T
+            NAME : $index
+            TEXT :  
+            TEXT : p
+            NAME : $index
+        }
+    }
+    REFERENCE {
+        $ARGUMENT_ITEM : $index
+        CONCAT {
+            TEXT : p
+            NAME : $index
+        }
+    }
+    REFERENCE {
+        $TYPENAME_LIST : $count , $function
+        CONCAT {
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    CONCAT {
+                        TEXT : typename
+                        TEXT :  
+                        TEXT : R
+                        INVOKE {
+                            NAME : $if
+                            ARGUMENTS {
+                                INVOKE {
+                                    NAME : $eq
+                                    ARGUMENTS {
+                                        NAME : $count
+                                        TEXT : 0
+                                    }
+                                }
+                                TEXT :  
+                                TEXT : ,
+                            }
+                        }
+                    }
+                    TEXT :  
+                }
+            }
+            INVOKE {
+                NAME : $loopsep
+                ARGUMENTS {
+                    NAME : $count
+                    TEXT : 0
+                    NAME : $TYPENAME_ITEM
+                    TEXT : ,
+                }
+            }
+        }
+    }
+    REFERENCE {
+        $TYPE_LIST : $count
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                NAME : $count
+                TEXT : 0
+                NAME : $TYPE_ITEM
+                TEXT : ,
+            }
+        }
+    }
+    REFERENCE {
+        $PARAMETER_LIST : $count
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                NAME : $count
+                TEXT : 0
+                NAME : $PARAMETER_ITEM
+                TEXT : ,
+            }
+        }
+    }
+    REFERENCE {
+        $ARGUMENT_LIST : $count
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                NAME : $count
+                TEXT : 0
+                NAME : $ARGUMENT_ITEM
+                TEXT : ,
+            }
+        }
+    }
+    REFERENCE {
+        $CURRIED_TYPE_LIST : $count
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                INVOKE {
+                    NAME : $sub
+                    ARGUMENTS {
+                        NAME : $count
+                        TEXT : 1
+                    }
+                }
+                TEXT : 1
+                NAME : $TYPE_ITEM
+                TEXT : ,
+            }
+        }
+    }
+    REFERENCE {
+        $CURRIED_PARAMETER_LIST : $count
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                INVOKE {
+                    NAME : $sub
+                    ARGUMENTS {
+                        NAME : $count
+                        TEXT : 1
+                    }
+                }
+                TEXT : 1
+                NAME : $PARAMETER_ITEM
+                TEXT : ,
+            }
+        }
+    }
+    REFERENCE {
+        $FUNCTION_TYPE : $count , $function
+        CONCAT {
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+    }
+    REFERENCE {
+        $FUNCTION_DECL : $count , $function , $name
+        CONCAT {
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            CONCAT {
+                TEXT : (
+                NAME : $name
+                TEXT : )
+            }
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+    }
+    REFERENCE {
+        $FUNCTION_DECLARATION : $count , $function
+        CONCAT {
+            TEXT : /
+            TEXT : ***********************************************************************
+        }
+        CONCAT {
+            TEXT : vl::Func<
+            INVOKE {
+                NAME : $FUNCTION_TYPE
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : ***********************************************************************
+            TEXT : /
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : template<
+            INVOKE {
+                NAME : $TYPENAME_LIST
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : class
+            TEXT :  
+            TEXT : Func<
+            INVOKE {
+                NAME : $FUNCTION_TYPE
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Object
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : Invoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Object
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : =0;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : StaticInvoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Invoker
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            INVOKE {
+                NAME : $FUNCTION_DECL
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                    TEXT : *function
+                }
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : StaticInvoker
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $FUNCTION_DECL
+                    ARGUMENTS {
+                        NAME : $count
+                        NAME : $function
+                        TEXT : *_function
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :function
+            CONCAT {
+                TEXT : (
+                TEXT : _function
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : function
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : MemberInvoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Invoker
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : C*
+            TEXT : 			
+            TEXT : sender;
+        }
+        CONCAT {
+            TEXT : 			
+            INVOKE {
+                NAME : $FUNCTION_DECL
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                    TEXT : C::*function
+                }
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : MemberInvoker
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : C*
+                    TEXT :  
+                    TEXT : _sender
+                    TEXT : ,
+                    TEXT :  
+                    INVOKE {
+                        NAME : $FUNCTION_DECL
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                            TEXT : C::*_function
+                        }
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :sender
+            CONCAT {
+                TEXT : (
+                TEXT : _sender
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : ,
+            TEXT : function
+            CONCAT {
+                TEXT : (
+                TEXT : _function
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            CONCAT {
+                TEXT : (
+                TEXT : sender->*function
+                TEXT : )
+            }
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : PointerInvoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Invoker
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : C*
+            TEXT : 			
+            TEXT : function;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : PointerInvoker
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : C*
+                    TEXT :  
+                    TEXT : _function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :function
+            CONCAT {
+                TEXT : (
+                TEXT : _function
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : function->operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : SmartPointerInvoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Invoker
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : Ptr<C>
+            TEXT : 		
+            TEXT : function;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : SmartPointerInvoker
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Ptr<C>&
+                    TEXT :  
+                    TEXT : _function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :function
+            CONCAT {
+                TEXT : (
+                TEXT : _function
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : function->operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : ObjectInvoker
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Invoker
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : C
+            TEXT : 			
+            TEXT : function;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : ObjectInvoker
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : C&
+                    TEXT :  
+                    TEXT : _function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :function
+            CONCAT {
+                TEXT : (
+                TEXT : _function
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : virtual
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : function
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Ptr<Invoker>
+            TEXT : 			
+            TEXT : invoker;
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : typedef
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : FunctionType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : typedef
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : ResultType;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            TEXT : ()
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $FUNCTION_DECL
+                    ARGUMENTS {
+                        NAME : $count
+                        NAME : $function
+                        TEXT : *function
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : invoker=new
+            TEXT :  
+            TEXT : StaticInvoker
+            CONCAT {
+                TEXT : (
+                TEXT : function
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : C*
+                    TEXT :  
+                    TEXT : sender
+                    TEXT : ,
+                    TEXT :  
+                    INVOKE {
+                        NAME : $FUNCTION_DECL
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                            TEXT : C::*function
+                        }
+                    }
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : invoker=new
+            TEXT :  
+            TEXT : MemberInvoker<C>
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : sender
+                    TEXT : ,
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : C*
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : invoker=new
+            TEXT :  
+            TEXT : PointerInvoker<C>
+            CONCAT {
+                TEXT : (
+                TEXT : function
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Ptr<C>&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : invoker=new
+            TEXT :  
+            TEXT : SmartPointerInvoker<C>
+            CONCAT {
+                TEXT : (
+                TEXT : function
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : C>
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : Func
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : C&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : invoker=new
+            TEXT :  
+            TEXT : ObjectInvoker<C>
+            CONCAT {
+                TEXT : (
+                TEXT : function
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : invoker->Invoke
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator==
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker==function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator!=
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker!=function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator<
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker<function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator<=
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker<=function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator>
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker>function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : bool
+            TEXT :  
+            TEXT : operator>=
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<
+                    INVOKE {
+                        NAME : $FUNCTION_TYPE
+                        ARGUMENTS {
+                            NAME : $count
+                            NAME : $function
+                        }
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : function
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker>=function.invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : operator
+            TEXT :  
+            TEXT : bool
+            TEXT : ()
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : return
+            TEXT :  
+            TEXT : invoker;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 	
+            TEXT : };
+        }
+    }
+    REFERENCE {
+        $BINDING_DECLARATION : $count , $function
+        CONCAT {
+            TEXT : /
+            TEXT : ***********************************************************************
+        }
+        CONCAT {
+            TEXT : vl::function_binding::Binding<
+            INVOKE {
+                NAME : $FUNCTION_TYPE
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : ***********************************************************************
+            TEXT : /
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<
+            INVOKE {
+                NAME : $TYPENAME_LIST
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : struct
+            TEXT :  
+            TEXT : Binding<
+            INVOKE {
+                NAME : $FUNCTION_TYPE
+                ARGUMENTS {
+                    NAME : $count
+                    NAME : $function
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : FunctionType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : CurriedType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $CURRIED_TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            TEXT : T0
+            TEXT :  
+            TEXT : ParameterType;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : class
+            TEXT :  
+            TEXT : Binder
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Object
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : Func<FunctionType>
+            TEXT : 		
+            TEXT : target;
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : T0
+            TEXT : 						
+            TEXT : p0;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : Binder
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<FunctionType>&
+                    TEXT :  
+                    TEXT : _target
+                    TEXT : ,
+                    TEXT :  
+                    TEXT : typename
+                    TEXT :  
+                    TEXT : CR<T0>::Type
+                    TEXT :  
+                    TEXT : _p0
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 					
+            TEXT : :target
+            CONCAT {
+                TEXT : (
+                TEXT : _target
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 					
+            TEXT : ,
+            TEXT : p0
+            CONCAT {
+                TEXT : (
+                TEXT : _p0
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 				
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : R
+                    TEXT : void
+                }
+            }
+            TEXT :  
+            TEXT : operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $CURRIED_PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 					
+            INVOKE {
+                NAME : $if
+                ARGUMENTS {
+                    NAME : $function
+                    TEXT : return
+                    TEXT :  
+                }
+            }
+            TEXT :  
+            TEXT : target
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $ARGUMENT_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : class
+            TEXT :  
+            TEXT : Currier
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Object
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : Func<FunctionType>
+            TEXT : 		
+            TEXT : target;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : Currier
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<FunctionType>&
+                    TEXT :  
+                    TEXT : _target
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 					
+            TEXT : :target
+            CONCAT {
+                TEXT : (
+                TEXT : _target
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : Func<CurriedType>
+            TEXT :  
+            TEXT : operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : typename
+                    TEXT :  
+                    TEXT : CR<T0>::Type
+                    TEXT :  
+                    TEXT : argument
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 					
+            TEXT : return
+            TEXT :  
+            TEXT : Ptr<Binder>
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : new
+                    TEXT :  
+                    TEXT : Binder
+                    CONCAT {
+                        TEXT : (
+                        CONCAT {
+                            TEXT : target
+                            TEXT : ,
+                            TEXT :  
+                            TEXT : argument
+                        }
+                        TEXT : )
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : };
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+    }
+    REFERENCE {
+        $COMBINDING_DECLARATION : $count
+        CONCAT {
+            TEXT : /
+            TEXT : ***********************************************************************
+        }
+        CONCAT {
+            TEXT : vl::function_combining::Combining<R1
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ,
+            TEXT :  
+            TEXT : R2
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ,
+            TEXT :  
+            TEXT : R
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : R1
+                    TEXT : ,
+                    TEXT : R2
+                }
+                TEXT : )
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : ***********************************************************************
+            TEXT : /
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : template<typename
+            TEXT :  
+            TEXT : R1
+            TEXT : ,
+            TEXT :  
+            TEXT : typename
+            TEXT :  
+            TEXT : R2
+            TEXT : ,
+            TEXT :  
+            INVOKE {
+                NAME : $TYPENAME_LIST
+                ARGUMENTS {
+                    NAME : $count
+                    TEXT : 1
+                }
+            }
+            TEXT : >
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : class
+            TEXT :  
+            TEXT : Combining<R1
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ,
+            TEXT :  
+            TEXT : R2
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ,
+            TEXT :  
+            TEXT : R
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : R1
+                    TEXT : ,
+                    TEXT : R2
+                }
+                TEXT : )
+            }
+            TEXT : >
+            TEXT :  
+            TEXT : :
+            TEXT :  
+            TEXT : public
+            TEXT :  
+            TEXT : Object
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : protected:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : Func<R1
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : >
+            TEXT : 			
+            TEXT : function1;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : Func<R2
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : >
+            TEXT : 			
+            TEXT : function2;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : Func<R
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : R1
+                    TEXT : ,
+                    TEXT : R2
+                }
+                TEXT : )
+            }
+            TEXT : >
+            TEXT : 							
+            TEXT : converter;
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : public:
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            TEXT : R1
+            TEXT :  
+            TEXT : FirstFunctionType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            TEXT : R2
+            TEXT :  
+            TEXT : SecondFunctionType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            TEXT : R
+            TEXT :  
+            TEXT : ConverterFunctionType
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : R1
+                    TEXT : ,
+                    TEXT : R2
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : typedef
+            TEXT :  
+            TEXT : R
+            TEXT :  
+            TEXT : FinalFunctionType
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $TYPE_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : Combining
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<R1
+                    CONCAT {
+                        TEXT : (
+                        INVOKE {
+                            NAME : $TYPE_LIST
+                            ARGUMENTS {
+                                NAME : $count
+                            }
+                        }
+                        TEXT : )
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : _function1
+                    TEXT : ,
+                    TEXT :  
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<R2
+                    CONCAT {
+                        TEXT : (
+                        INVOKE {
+                            NAME : $TYPE_LIST
+                            ARGUMENTS {
+                                NAME : $count
+                            }
+                        }
+                        TEXT : )
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : _function2
+                    TEXT : ,
+                    TEXT :  
+                    TEXT : const
+                    TEXT :  
+                    TEXT : Func<R
+                    CONCAT {
+                        TEXT : (
+                        CONCAT {
+                            TEXT : R1
+                            TEXT : ,
+                            TEXT : R2
+                        }
+                        TEXT : )
+                    }
+                    TEXT : >&
+                    TEXT :  
+                    TEXT : _converter
+                }
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : :function1
+            CONCAT {
+                TEXT : (
+                TEXT : _function1
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : ,
+            TEXT : function2
+            CONCAT {
+                TEXT : (
+                TEXT : _function2
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : ,
+            TEXT : converter
+            CONCAT {
+                TEXT : (
+                TEXT : _converter
+                TEXT : )
+            }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : R
+            TEXT :  
+            TEXT : operator
+            TEXT : ()
+            CONCAT {
+                TEXT : (
+                INVOKE {
+                    NAME : $PARAMETER_LIST
+                    ARGUMENTS {
+                        NAME : $count
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : const
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : {
+        }
+        CONCAT {
+            TEXT : 				
+            TEXT : return
+            TEXT :  
+            TEXT : converter
+            CONCAT {
+                TEXT : (
+                CONCAT {
+                    TEXT : function1
+                    CONCAT {
+                        TEXT : (
+                        INVOKE {
+                            NAME : $ARGUMENT_LIST
+                            ARGUMENTS {
+                                NAME : $count
+                            }
+                        }
+                        TEXT : )
+                    }
+                    TEXT : ,
+                    TEXT :  
+                    TEXT : function2
+                    CONCAT {
+                        TEXT : (
+                        INVOKE {
+                            NAME : $ARGUMENT_LIST
+                            ARGUMENTS {
+                                NAME : $count
+                            }
+                        }
+                        TEXT : )
+                    }
+                }
+                TEXT : )
+            }
+            TEXT : ;
+        }
+        CONCAT {
+            TEXT : 			
+            TEXT : }
+        }
+        CONCAT {
+            TEXT : 		
+            TEXT : };
+        }
+    }
+    TEXT : /***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+Framework::Function
+
+Classes:
+	Func<function-type>									：函数对象
+
+Functions:
+	Curry :: (A->B) -> A -> B							：参数拆分
+	Combine :: (A->B) -> (A->C) -> (B->C->D) -> (A->D)	：函数组合
+	
+本文件使用Vczh Functional Macro工具自动生成
+***********************************************************************/
+    CONCAT {
+        TEXT : #ifndef
+        TEXT :  
+        TEXT : VCZH_FUNCTION
+    }
+    CONCAT {
+        TEXT : #define
+        TEXT :  
+        TEXT : VCZH_FUNCTION
+    }
+    CONCAT {
+        TEXT : #include
+        TEXT :  
+        TEXT : "Basic.h"
+    }
+    CONCAT {
+        TEXT : #include
+        TEXT :  
+        TEXT : "Pointer.h"
+    }
+    CONCAT {
+        TEXT : namespace
+        TEXT :  
+        TEXT : vl
+    }
+    TEXT : {
+    CONCAT {
+        TEXT : 	
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : class
+        TEXT :  
+        TEXT : Func
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : };
+    }
+    REFERENCE {
+        $FUNCTION_APPLY : $index
+        TEXT :  
+        INVOKE {
+            NAME : $FUNCTION_DECLARATION
+            ARGUMENTS {
+                NAME : $index
+                TEXT : 1
+            }
+        }
+        TEXT :  
+        INVOKE {
+            NAME : $FUNCTION_DECLARATION
+            ARGUMENTS {
+                NAME : $index
+                TEXT : 0
+            }
+        }
+        TEXT :  
+    }
+    INVOKE {
+        NAME : $loop
+        ARGUMENTS {
+            TEXT : 11
+            TEXT : 0
+            NAME : $FUNCTION_APPLY
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : namespace
+        TEXT :  
+        TEXT : function_binding
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : struct
+        TEXT :  
+        TEXT : Binding
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : };
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : struct
+        TEXT :  
+        TEXT : CR{typedef
+        TEXT :  
+        TEXT : const
+        TEXT :  
+        TEXT : T&
+        TEXT :  
+        TEXT : Type;};
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : struct
+        TEXT :  
+        TEXT : CR<T&>{typedef
+        TEXT :  
+        TEXT : T&
+        TEXT :  
+        TEXT : Type;};
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : struct
+        TEXT :  
+        TEXT : CR<const
+        TEXT :  
+        TEXT : T>{typedef
+        TEXT :  
+        TEXT : const
+        TEXT :  
+        TEXT : T&
+        TEXT :  
+        TEXT : Type;};
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : struct
+        TEXT :  
+        TEXT : CR<const
+        TEXT :  
+        TEXT : T&>{typedef
+        TEXT :  
+        TEXT : const
+        TEXT :  
+        TEXT : T&
+        TEXT :  
+        TEXT : Type;};
+    }
+    TEXT : 		
+    REFERENCE {
+        $BINDING_APPLY : $index
+        TEXT :  
+        INVOKE {
+            NAME : $BINDING_DECLARATION
+            ARGUMENTS {
+                NAME : $index
+                TEXT : 1
+            }
+        }
+        TEXT :  
+        INVOKE {
+            NAME : $BINDING_DECLARATION
+            ARGUMENTS {
+                NAME : $index
+                TEXT : 0
+            }
+        }
+        TEXT :  
+    }
+    INVOKE {
+        NAME : $loop
+        ARGUMENTS {
+            TEXT : 10
+            TEXT : 1
+            NAME : $BINDING_APPLY
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Func<Func<typename
+        TEXT :  
+        TEXT : function_binding::Binding<T>::CurriedType>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : typename
+                TEXT :  
+                TEXT : function_binding::Binding<T>::ParameterType
+            }
+            TEXT : )
+        }
+        TEXT : >
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Curry
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : T*
+                TEXT :  
+                TEXT : function
+            }
+            TEXT : )
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : return
+        TEXT :  
+        TEXT : Ptr<typename
+        TEXT :  
+        TEXT : function_binding::Binding<T>::Currier>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : new
+                TEXT :  
+                TEXT : typename
+                TEXT :  
+                TEXT : function_binding::Binding<T>::Currier
+                CONCAT {
+                    TEXT : (
+                    TEXT : function
+                    TEXT : )
+                }
+            }
+            TEXT : )
+        }
+        TEXT : ;
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Func<Func<typename
+        TEXT :  
+        TEXT : function_binding::Binding<T>::CurriedType>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : typename
+                TEXT :  
+                TEXT : function_binding::Binding<T>::ParameterType
+            }
+            TEXT : )
+        }
+        TEXT : >
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Curry
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : const
+                TEXT :  
+                TEXT : Func<T>&
+                TEXT :  
+                TEXT : function
+            }
+            TEXT : )
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : return
+        TEXT :  
+        TEXT : Ptr<typename
+        TEXT :  
+        TEXT : function_binding::Binding<T>::Currier>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : new
+                TEXT :  
+                TEXT : typename
+                TEXT :  
+                TEXT : function_binding::Binding<T>::Currier
+                CONCAT {
+                    TEXT : (
+                    TEXT : function
+                    TEXT : )
+                }
+            }
+            TEXT : )
+        }
+        TEXT : ;
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : namespace
+        TEXT :  
+        TEXT : function_combining
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : template<typename
+        TEXT :  
+        TEXT : A
+        TEXT : ,
+        TEXT :  
+        TEXT : typename
+        TEXT :  
+        TEXT : B
+        TEXT : ,
+        TEXT :  
+        TEXT : typename
+        TEXT :  
+        TEXT : C>
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : class
+        TEXT :  
+        TEXT : Combining
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : };
+    }
+    TEXT : 		
+    REFERENCE {
+        $COMBINDING_APPLY : $index
+        TEXT :  
+        INVOKE {
+            NAME : $COMBINDING_DECLARATION
+            ARGUMENTS {
+                NAME : $index
+            }
+        }
+    }
+    INVOKE {
+        NAME : $loop
+        ARGUMENTS {
+            TEXT : 11
+            TEXT : 0
+            NAME : $COMBINDING_APPLY
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : template<typename
+        TEXT :  
+        TEXT : F1
+        TEXT : ,
+        TEXT :  
+        TEXT : typename
+        TEXT :  
+        TEXT : F2
+        TEXT : ,
+        TEXT :  
+        TEXT : typename
+        TEXT :  
+        TEXT : C>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Func<typename
+        TEXT :  
+        TEXT : function_combining::Combining<F1
+        TEXT : ,
+        TEXT :  
+        TEXT : F2
+        TEXT : ,
+        TEXT :  
+        TEXT : C>::FinalFunctionType>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Combine
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : Func<C>
+                TEXT :  
+                TEXT : converter
+                TEXT : ,
+                TEXT :  
+                TEXT : Func<F1>
+                TEXT :  
+                TEXT : function1
+                TEXT : ,
+                TEXT :  
+                TEXT : Func<F2>
+                TEXT :  
+                TEXT : function2
+            }
+            TEXT : )
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : return
+        TEXT :  
+        TEXT : Ptr<function_combining::Combining<F1
+        TEXT : ,
+        TEXT :  
+        TEXT : F2
+        TEXT : ,
+        TEXT :  
+        TEXT : C>>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : new
+                TEXT :  
+                TEXT : function_combining::Combining<F1
+                TEXT : ,
+                TEXT :  
+                TEXT : F2
+                TEXT : ,
+                TEXT :  
+                TEXT : C>
+                CONCAT {
+                    TEXT : (
+                    CONCAT {
+                        TEXT : function1
+                        TEXT : ,
+                        TEXT :  
+                        TEXT : function2
+                        TEXT : ,
+                        TEXT :  
+                        TEXT : converter
+                    }
+                    TEXT : )
+                }
+            }
+            TEXT : )
+        }
+        TEXT : ;
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : template<typename
+        TEXT :  
+        TEXT : T>
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : Func<Func<T>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : Func<T>
+                TEXT : ,
+                TEXT : Func<T>
+            }
+            TEXT : )
+        }
+        TEXT : >
+        TEXT :  
+        TEXT : Combiner
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : const
+                TEXT :  
+                TEXT : Func<typename
+                TEXT :  
+                TEXT : Func<T>::ResultType
+                CONCAT {
+                    TEXT : (
+                    CONCAT {
+                        TEXT : typename
+                        TEXT :  
+                        TEXT : Func<T>::ResultType
+                        TEXT : ,
+                        TEXT : typename
+                        TEXT :  
+                        TEXT : Func<T>::ResultType
+                    }
+                    TEXT : )
+                }
+                TEXT : >&
+                TEXT :  
+                TEXT : converter
+            }
+            TEXT : )
+        }
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : {
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : typedef
+        TEXT :  
+        TEXT : typename
+        TEXT :  
+        TEXT : Func<T>::ResultType
+        TEXT :  
+        TEXT : R;
+    }
+    CONCAT {
+        TEXT : 		
+        TEXT : return
+        TEXT :  
+        TEXT : Curry<Func<T>
+        CONCAT {
+            TEXT : (
+            CONCAT {
+                TEXT : Func<R
+                CONCAT {
+                    TEXT : (
+                    CONCAT {
+                        TEXT : R
+                        TEXT : ,
+                        TEXT : R
+                    }
+                    TEXT : )
+                }
+                TEXT : >
+                TEXT : ,
+                TEXT : Func<T>
+                TEXT : ,
+                TEXT : Func<T>
+            }
+            TEXT : )
+        }
+        TEXT : >
+        CONCAT {
+            TEXT : (
+            TEXT : Combine
+            TEXT : )
+        }
+        CONCAT {
+            TEXT : (
+            TEXT : converter
+            TEXT : )
+        }
+        TEXT : ;
+    }
+    CONCAT {
+        TEXT : 	
+        TEXT : }
+    }
+    TEXT : }
+    TEXT : #endif
+}
+==============================================================================================
+Running Result
+==============================================================================================

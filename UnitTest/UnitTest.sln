@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcproj", "{C5B7B948-A36F-418C-815D-2FFA8B81A2A9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fpmacro", "..\Tools\Fpmacro\Fpmacro\Fpmacro.vcproj", "{846BFD98-2DF2-46BF-93D6-7BECC5D0D1AD}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs02.codeplex.com/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = UnitTest\\UnitTest.vcproj
 		SccProjectName1 = UnitTest
 		SccLocalPath1 = UnitTest
+		SccProjectUniqueName2 = ..\\Tools\\Fpmacro\\Fpmacro\\Fpmacro.vcproj
+		SccProjectName2 = ../Tools/Fpmacro/Fpmacro
+		SccLocalPath2 = ..\\Tools\\Fpmacro\\Fpmacro
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +27,10 @@ Global
 		{C5B7B948-A36F-418C-815D-2FFA8B81A2A9}.Debug|Win32.Build.0 = Debug|Win32
 		{C5B7B948-A36F-418C-815D-2FFA8B81A2A9}.Release|Win32.ActiveCfg = Release|Win32
 		{C5B7B948-A36F-418C-815D-2FFA8B81A2A9}.Release|Win32.Build.0 = Release|Win32
+		{846BFD98-2DF2-46BF-93D6-7BECC5D0D1AD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{846BFD98-2DF2-46BF-93D6-7BECC5D0D1AD}.Debug|Win32.Build.0 = Debug|Win32
+		{846BFD98-2DF2-46BF-93D6-7BECC5D0D1AD}.Release|Win32.ActiveCfg = Release|Win32
+		{846BFD98-2DF2-46BF-93D6-7BECC5D0D1AD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
