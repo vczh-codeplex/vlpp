@@ -1,6 +1,37 @@
 <html>
 <head><title>Vczh Library++ Documentation</title></head>
 <body>
-The documentation is under construction
+<font face="Segoe UI">
+<h1>Goal</h1>
+<p>Vczh Library++ 3.0 for C++ contains script engines, libraries and tools for building C++ programs who needs to process data and string in an environment without extreme requirements of performance, or needs a fast script engine for doing complex tasks.<br />
+In this project we are planning to have <br />
+<li>A basic library for C++. It has some basic constructions, collections, a stream system, a regular expression library, a flexible syntax analyzer and a easy-to-setup reflection system for C++. Other C++ projects is built on the basic library. <br /></li>
+<li>A script engine. Coded in C++, but it is designed to have both native and managed interfaces. <br /></li>
+<li>An IDE for debugging your script. It is designed to be extensible. The IDE project results in some .NET assemblies. You can customize it, build a separate program or integrate it into your project. <br /></li>
+</p>
+<h1>Solution Structure</h1>
+<p>We have several solutions in the project<br/>
+<br/>
+<font color="blue"><b>&lt;Documentation&gt;</b></font><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;Chinese&gt;</b></font>&nbsp;Here are documents in Chinese.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;English&gt;</b></font>&nbsp;Here are documents in English. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>Documentation.sln</b></font>&nbsp;This is the documentation solution which is only used to track the files conveniently in Visual Studio.<br/>
+<font color="blue"><b>&lt;Library&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;Tools&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;AutoShell&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>AutoShell.sln</b></font>&nbsp;IDE framework for the planning script language. It is under development.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;FpMacro&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>FpMacro.sln</b></font>&nbsp;The functional macro that is used to generate complex code files(which are very difficult to generate directly in C macro) for Vczh Library++ 3.0. A release build is placed at &lt;Tools&gt;\FpMacro.exe.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;OfficeIcon&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>OfficeIcon.sln</b></font>&nbsp;A simple tool for viewing icons under a hard-coded folder. For development only.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;UnitTest&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>UnitTest.sln</b></font>&nbsp;All unit test cases for the project<br/>
+</p>
+<h1>The project is separated into the following parts:</h1>
+<ol><li><h2><a href="Vczh Library++\index.htm">Vczh Library++ Core</a></h2></li>
+<li><h2>Functional Macro System</h2></li>
+<li><h2>Auto Shell</h2></li>
+<li><h2>Script</h2></li></ol>
+</font>
 </body>
 </html>
