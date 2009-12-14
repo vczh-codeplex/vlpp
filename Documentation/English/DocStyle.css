@@ -1,0 +1,26 @@
+﻿body
+{
+	font-family: Segoe UI;
+}
+table
+{
+	background-color: #000099;
+}
+thead
+{
+	background-color: #FFFF99;
+}
+tbody
+{
+	background-color: #FFFFFF;
+}
+#code table
+{
+	color: #000099;
+	border: solid 1px #000099;
+	background-color: #FFFF99;
+}
+#code td
+{
+	background-color: #FFFF99;
+}

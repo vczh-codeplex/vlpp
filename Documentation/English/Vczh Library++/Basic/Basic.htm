@@ -1,0 +1,19 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Basic</title>
+</head>
+<body>
+<h1>namespace vl;</h1>
+<h2><a name="NotCopyable">NotCopyable</a></h2>
+<p>NotCopyable class is a empty class. The only way to use NotCopyable is inheriting it. Any class that inherits NotCopyable can not be copied unless the class defines a copy constructor or an operator= overloading.</p>
+<p>NotCopyable is a concept, but it is not a type for abstraction. Using a private inheriting is expected to create a uncopyable sub class.</p>
+<table id="code"><tr><td><pre>
+class MyUncopyableClass : public Object, private NotCopyable
+{
+public:
+    // no copy constructor and operator= overloading
+};
+</pre></td></tr></table>
+</body>
+</html>
