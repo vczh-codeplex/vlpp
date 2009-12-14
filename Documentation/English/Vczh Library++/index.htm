@@ -1,6 +1,148 @@
 <html>
 <head><title>Vczh Library++ Core</title></head>
 <body>
-The documentation is under construction
+<font face="Segoe UI">
+<h1>Vczh Library++ 3.0 Core Library</h1>
+<h2>Goal</h2>
+<p>Vczh Library++ 3.0 Core Library provides a set of basic constructions for building C++ data processing programs. Some of the library may conflict with the Standard Template Library which we does not use in this project. All projects under Vczh Library++ 3.0 are based on the core library.</p>
+<h2>Structure</h2>
+<p>Components in the core library are designed to be strongly related to each other. There are several categories of data which are supported by the core library:</p>
+<li>Strings</li>
+<li>Collections</li>
+<li>Streams</li>
+<li>XML and Custom Data Structure</li>
+<p>We provide a set of abstractions which directly supports these four categories of data. And we provide a set of tools for doing conversions:</p>
+<table border="1" cellspacing="2">
+<tr>
+<td>Src\Dst</td>
+<td>String</td>
+<td>Collections</td>
+<td>Streams</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>String</td>
+<td>LinQ</td>
+<td>Regular Expression</td>
+<td>Writer</td>
+<td>Combinator</td>
+</tr>
+<tr>
+<td>Collections</td>
+<td>Serialization</td>
+<td>LinQ</td>
+<td>Serialization</td>
+<td>Combiantor</td>
+</tr>
+<tr>
+<td>Streams</td>
+<td>Reader</td>
+<td>Deserialization</td>
+<td>Stream</td>
+<td>Deserialization</td>
+</tr>
+<tr>
+<td>Custom</td>
+<td>Serialization</td>
+<td>&nbsp;</td>
+<td>Serialization</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+<h2>Class Library Reference</h2>
+<p>To provide all the abstractions and tools for the table, we split the core library into the following sub items:</p>
+<table border="1" cellspacing="2">
+<tr><td>Group</td><td>Item</td><td>Description</td></tr>
+<tr><td rowspan="13">Foundation</td><td>vl::NotCopyable</td><td>&nbsp;</td></tr>
+<tr><td>vl::Error</td><td>&nbsp;</td></tr>
+<tr><td>vl::Object</td><td>&nbsp;</td></tr>
+<tr><td>vl::ObjectBox</td><td>&nbsp;</td></tr>
+<tr><td>vl::KeyType</td><td>&nbsp;</td></tr>
+<tr><td>vl::POD</td><td>&nbsp;</td></tr>
+<tr><td>vl::Interface</td><td>&nbsp;</td></tr>
+<tr><td>vl::Func</td><td>&nbsp;</td></tr>
+<tr><td>vl::Event</td><td>&nbsp;</td></tr>
+<tr><td>vl::Ptr</td><td>&nbsp;</td></tr>
+<tr><td>vl::String</td><td>&nbsp;</td></tr>
+<tr><td>vl::Lazy</td><td>&nbsp;</td></tr>
+<tr><td>vl::GlobalStorage</td><td>&nbsp;</td></tr>
+<tr><td rowspan="25">Collections</td><td>vl::collections::IEnumerator</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IEnumerable</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IArray</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ICollection</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyDictionary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IDictonary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyGroup</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IGroup</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Array</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::List</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::SortedList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Dictionary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Group</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyListWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ArrayWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::CollectionWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ListWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyDictionaryWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::DictonaryWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyGroupWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::GroupWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::CopyFrom function</td><td>&nbsp;</td></tr>
+<tr><td>LinQ to Object</td><td>&nbsp;</td></tr>
+<tr><td rowspan="6">Regular Expression</td><td>vl::regex::RegexString</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexMatch</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::Regex</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexToken</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexTokens</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexLexer</td><td>&nbsp;</td></tr>
+<tr><td rowspan="27">Stream System</td><td>vl::stream::IStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::IEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::IDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::FileStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MemoryStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MemoryWrapperStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CacheStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BroadcastStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::RecorderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::TextReader</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::TextWriter</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::StringReader</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::StringWriter</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::EncoderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::DecoderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CharEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CharDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MbcsEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MbcsDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16Encoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16Decoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16BEEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16BEDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf8Encoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf8Decoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BomEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BomDecoder</td><td>&nbsp;</td></tr>
+<tr><td rowspan="18">ObjectModel</td><td>vl::objectmodel::ObjectType</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectValue</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectMember</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectTypeInformation</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectTypeRegister</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::TypeOf&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::New&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::NewReference&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::NewValue&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>Numeric Type</td><td>&nbsp;</td></tr>
+<tr><td>Pointer Type</td><td>&nbsp;</td></tr>
+<tr><td>Reference Type</td><td>&nbsp;</td></tr>
+<tr><td>Array Type</td><td>&nbsp;</td></tr>
+<tr><td>Decorator Type</td><td>&nbsp;</td></tr>
+<tr><td>Function Type</td><td>&nbsp;</td></tr>
+<tr><td>Enumeration Type</td><td>&nbsp;</td></tr>
+<tr><td>Class Type</td><td>&nbsp;</td></tr>
+<tr><td>Class Type Template</td><td>&nbsp;</td></tr>
+</table>
+</font>
 </body>
 </html>

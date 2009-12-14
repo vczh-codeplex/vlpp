@@ -1,6 +1,148 @@
 <html>
 <head><title>Vczh Library++ 核心库</title></head>
 <body>
-文档正在建设中
+<font face="Segoe UI">
+<h1>Vczh Library++ 3.0 核心库</h1>
+<h2>目标</h2>
+<p>Vczh Library++ 3.0 核心库提供了一系列用于开发C++数据处理程序的基础设施。核心库当众的一些功能可能与STL重复，不过我们并没有使用STL。Vczh Library++ 3.0下的所有C++工程将基于核心库进行开发。</p>
+<h2>结构</h2>
+<p>核心库的每一个组件都被设计成可以跟其他组件紧密联系。我们将数据类型进行以下分类：</p>
+<li>字符串</li>
+<li>容器</li>
+<li>流</li>
+<li>XML和自定义数据结构</li>
+<p>我们提供了直接反映以上四种数据类型的抽象，并且提供了将数据在它们之间互相转换的工具：</p>
+<table border="1" cellspacing="2">
+<tr>
+<td>源\目标</td>
+<td>字符串</td>
+<td>容器</td>
+<td>流</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>LinQ</td>
+<td>正则表达式</td>
+<td>流书写器</td>
+<td>可配置语法分析器</td>
+</tr>
+<tr>
+<td>容器</td>
+<td>序列化</td>
+<td>LinQ</td>
+<td>序列化</td>
+<td>可配置语法分析器</td>
+</tr>
+<tr>
+<td>流</td>
+<td>流读取器</td>
+<td>反序列化</td>
+<td>组合流</td>
+<td>反序列化</td>
+</tr>
+<tr>
+<td>自定义</td>
+<td>序列化</td>
+<td>&nbsp;</td>
+<td>序列化</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+<h2>类库说明</h2>
+<p>为了提供上述的所有操作，我们将类库分割为以下几个部分：</p>
+<table border="1" cellspacing="2">
+<tr><td>组件</td><td>类和函数</td><td>描述</td></tr>
+<tr><td rowspan="13">基础设施</td><td>vl::NotCopyable</td><td>&nbsp;</td></tr>
+<tr><td>vl::Error</td><td>&nbsp;</td></tr>
+<tr><td>vl::Object</td><td>&nbsp;</td></tr>
+<tr><td>vl::ObjectBox</td><td>&nbsp;</td></tr>
+<tr><td>vl::KeyType</td><td>&nbsp;</td></tr>
+<tr><td>vl::POD</td><td>&nbsp;</td></tr>
+<tr><td>vl::Interface</td><td>&nbsp;</td></tr>
+<tr><td>vl::Func</td><td>&nbsp;</td></tr>
+<tr><td>vl::Event</td><td>&nbsp;</td></tr>
+<tr><td>vl::Ptr</td><td>&nbsp;</td></tr>
+<tr><td>vl::String</td><td>&nbsp;</td></tr>
+<tr><td>vl::Lazy</td><td>&nbsp;</td></tr>
+<tr><td>vl::GlobalStorage</td><td>&nbsp;</td></tr>
+<tr><td rowspan="25">容器</td><td>vl::collections::IEnumerator</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IEnumerable</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IArray</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ICollection</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyDictionary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IDictonary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IReadonlyGroup</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::IGroup</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Array</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::List</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::SortedList</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Dictionary</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::Group</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyListWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ArrayWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::CollectionWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ListWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyDictionaryWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::DictonaryWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::ReadonlyGroupWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::GroupWrapper</td><td>&nbsp;</td></tr>
+<tr><td>vl::collections::CopyFrom function</td><td>&nbsp;</td></tr>
+<tr><td>LinQ to Object</td><td>&nbsp;</td></tr>
+<tr><td rowspan="6">正则表达式</td><td>vl::regex::RegexString</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexMatch</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::Regex</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexToken</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexTokens</td><td>&nbsp;</td></tr>
+<tr><td>vl::regex::RegexLexer</td><td>&nbsp;</td></tr>
+<tr><td rowspan="27">流系统</td><td>vl::stream::IStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::IEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::IDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::FileStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MemoryStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MemoryWrapperStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CacheStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BroadcastStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::RecorderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::TextReader</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::TextWriter</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::StringReader</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::StringWriter</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::EncoderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::DecoderStream</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CharEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::CharDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MbcsEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::MbcsDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16Encoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16Decoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16BEEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf16BEDecoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf8Encoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::Utf8Decoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BomEncoder</td><td>&nbsp;</td></tr>
+<tr><td>vl::stream::BomDecoder</td><td>&nbsp;</td></tr>
+<tr><td rowspan="18">数据模型和反射</td><td>vl::objectmodel::ObjectType</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectValue</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectMember</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectTypeInformation</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::ObjectTypeRegister</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::TypeOf&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::New&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::NewReference&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>vl::objectmodel::NewValue&lt;T&gt; function</td><td>&nbsp;</td></tr>
+<tr><td>Numeric Type</td><td>&nbsp;</td></tr>
+<tr><td>Pointer Type</td><td>&nbsp;</td></tr>
+<tr><td>Reference Type</td><td>&nbsp;</td></tr>
+<tr><td>Array Type</td><td>&nbsp;</td></tr>
+<tr><td>Decorator Type</td><td>&nbsp;</td></tr>
+<tr><td>Function Type</td><td>&nbsp;</td></tr>
+<tr><td>Enumeration Type</td><td>&nbsp;</td></tr>
+<tr><td>Class Type</td><td>&nbsp;</td></tr>
+<tr><td>Class Type Template</td><td>&nbsp;</td></tr>
+</table>
+</font>
 </body>
 </html>
