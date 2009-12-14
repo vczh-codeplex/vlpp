@@ -1,0 +1,19 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ 基础设施</title>
+</head>
+<body>
+<h1>namespace vl;</h1>
+<h2><a name="NotCopyable">NotCopyable</a></h2>
+<p>NotCopyable是一个空类，唯一使用它的办法就是继承。任何继承自NotCopyable的类，只要没有定义复制构造函数和=操作符重载，则不可被复制。</p>
+<p>NotCopyable仅仅是一个概念而不是对一种类型的抽象，因此建议使用私有继承。</p>
+<table id="code"><tr><td><pre>
+class MyUncopyableClass : public Object, private NotCopyable
+{
+public:
+    // 没有复制构造函数和=操作符重载
+};
+</pre></td></tr></table>
+</body>
+</html>

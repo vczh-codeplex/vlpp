@@ -1,7 +1,9 @@
 <html>
-<head><title>Vczh Library++ 核心库</title></head>
+<head>
+<link rel="Stylesheet" type="text/css" href="../DocStyle.css" />
+<title>Vczh Library++ 核心库</title>
+</head>
 <body>
-<font face="Segoe UI">
 <h1>Vczh Library++ 3.0 核心库</h1>
 <h2>目标</h2>
 <p>Vczh Library++ 3.0 核心库提供了一系列用于开发C++数据处理程序的基础设施。核心库当众的一些功能可能与STL重复，不过我们并没有使用STL。Vczh Library++ 3.0下的所有C++工程将基于核心库进行开发。</p>
@@ -12,15 +14,15 @@
 <li>流</li>
 <li>XML和自定义数据结构</li>
 <p>我们提供了直接反映以上四种数据类型的抽象，并且提供了将数据在它们之间互相转换的工具：</p>
-<table border="1" cellspacing="2">
-<tr>
+<table>
+<thead><tr>
 <td>源\目标</td>
 <td>字符串</td>
 <td>容器</td>
 <td>流</td>
 <td>自定义</td>
-</tr>
-<tr>
+</tr></thead>
+<tbody><tr>
 <td>字符串</td>
 <td>LinQ</td>
 <td>正则表达式</td>
@@ -47,14 +49,15 @@
 <td>&nbsp;</td>
 <td>序列化</td>
 <td>&nbsp;</td>
-</tr>
+</tr></tbody>
 </table>
 <h2>类库说明</h2>
 <p>为了提供上述的所有操作，我们将类库分割为以下几个部分：</p>
-<table border="1" cellspacing="2">
-<tr><td>组件</td><td>类和函数</td><td>描述</td></tr>
-<tr><td rowspan="13">基础设施</td><td>vl::NotCopyable</td><td>&nbsp;</td></tr>
+<table>
+<thead><tr><td>组件</td><td>类和函数</td><td>描述</td></tr></thead>
+<tbody><tr><td rowspan="14">基础设施</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>使子类不可复制。</td></tr>
 <tr><td>vl::Error</td><td>&nbsp;</td></tr>
+<tr><td>vl::Exception</td><td>&nbsp;</td></tr>
 <tr><td>vl::Object</td><td>&nbsp;</td></tr>
 <tr><td>vl::ObjectBox</td><td>&nbsp;</td></tr>
 <tr><td>vl::KeyType</td><td>&nbsp;</td></tr>
@@ -141,8 +144,7 @@
 <tr><td>Function Type</td><td>&nbsp;</td></tr>
 <tr><td>Enumeration Type</td><td>&nbsp;</td></tr>
 <tr><td>Class Type</td><td>&nbsp;</td></tr>
-<tr><td>Class Type Template</td><td>&nbsp;</td></tr>
+<tr><td>Class Type Template</td><td>&nbsp;</td></tr></tbody>
 </table>
-</font>
 </body>
 </html>
