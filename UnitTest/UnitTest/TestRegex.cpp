@@ -321,14 +321,14 @@ void PrintRegex(WString name, WString code, bool compareToBaseline=true)
 
 TEST_CASE(TestEpsilonNfa)
 {
-	PrintRegex(L"Regex纯数字",			L"/d");
-	PrintRegex(L"Regex整数",			L"(/+|-)?/d+");
-	PrintRegex(L"Regex小数",			L"(/+|-)?/d+(./d+)?");
-	PrintRegex(L"Regex字符串",			L"\"([^\\\\\"]|\\\\\\.)*\"");
-	PrintRegex(L"Regex注释",			L"///*([^*]|/*+[^*//])*/*+//");
-	PrintRegex(L"Regex简化IP地址",		L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
-	PrintRegex(L"Regex重复字符串",		L"^(<sec>/.+)(<$sec>)+$");
-	PrintRegex(L"Regex预查",			L"/d+(=/w+)(!vczh)");
+	PrintRegex(L"RegexInteger",			L"/d");
+	PrintRegex(L"RegexFullint",			L"(/+|-)?/d+");
+	PrintRegex(L"RegexFloat",			L"(/+|-)?/d+(./d+)?");
+	PrintRegex(L"RegexString",			L"\"([^\\\\\"]|\\\\\\.)*\"");
+	PrintRegex(L"RegexComment",			L"///*([^*]|/*+[^*//])*/*+//");
+	PrintRegex(L"RegexIP",				L"(<#sec>(<sec>/d+))((<&sec>).){3}(<&sec>)");
+	PrintRegex(L"RegexDuplicate",		L"^(<sec>/.+)(<$sec>)+$");
+	PrintRegex(L"RegexPrescan",			L"/d+(=/w+)(!vczh)");
 }
 
 /***********************************************************************
