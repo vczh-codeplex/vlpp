@@ -15,5 +15,92 @@ public:
     // 没有复制构造函数和=操作符重载
 };
 </pre></td></tr></table>
+<h2><a name="Error">Error</a></h2>
+<p>Error被用来当做代表编码错误的异常，跟Exception类有所区别。</p>
+<p>代码中最好用宏CHECK_ERROR(condition, description)而不是直接抛出Error来触发一个异常。CHECK_ERROR会在condition为false的情况下抛出一个Error。同时，description必须是unicode字符串常量，譬如说L"我是Error。"。在这种情况下，CHECK_ERROR跟ASSERT应该是类似的。</p>
+<table id="code"><tr><td><pre>
+bool itob(int boolean)
+{
+    CHECK_ERROR(boolean==0 || boolean==1, L"boolean参数必须是0或1。");
+    return boolean==1;
+}
+</pre></td></tr></table>
+<h2><a name="Object">Object</a></h2>
+<p>Object是内核库中几乎所有类的基类。继承Object的好处是Object有一个虚基类，并且你可以将很多对象放进List&lt;Ptr&lt;Object&gt;&gt;或者类似的地方。</p>
+<p>如果你定义了一个没有直接或间接继承自Object的类，那么将这个类的一个实例的指针转换到某个基类类可能是不安全的，除非这个基类也有虚析构函数。</p>
+<table id="code"><tr><td><pre>
+class MyClass : public Object
+{
+};
+</pre></td></tr></table>
+<h2><a name="Exception">Exception</a></h2>
+<p>Exception是那种被用来控制代码逻辑的异常。Exception应该被限制在如果不是用它就会带来很多麻烦的地方，譬如说从一个递归下降的语法分析器中跳出来。</p>
+<p>Exception只有一个成员函数：WString Exception::Message(); (<i>我曾经将它命名为GetMessage，但是当我在另一个工程引用Exception和可恶的windows.h的时候，奇迹出现了</i>). 一个已经被创建出来的Exception的message成员是不可变的，提供消息的唯一办法就是把它写在构造函数里面，如果不写的话，会用WString::Empty来代替消息。</p>
+<p>ArgumentException和ParsingException各自为了不同的用途跟Exception一起定义在Library\Exception.h 里面。不过核心库几乎不会在公共接口处使用异常。</p>
+<table id="code"><tr><td><pre>
+class LoginException : public Exception
+{
+public:
+    LoginException(const WString& message)
+        :Exception(message)
+    {
+    }
+};
+
+void Login(const WString& name, const WString& password)
+{
+    if(IsWrong(name, password))
+    {
+        throw LoginException(L"用户名或密码出错。");
+    }
+}
+
+int main()
+{
+    try
+    {
+        Login(L"vczh", L"genius");
+    }
+    catch(const LoginException& e)
+    {
+        Console::WriteLine(L"发生错误："+e.Message());
+    }
+}
+</pre></td></tr></table>
+<h2><a name="KeyType"><h2>KeyType&lt;T&gt;</h2></a></h2>
+<p>KeyType&lt;T&gt;用来告诉一个存放T类型元素的容器应该在它的查询函数上使用什么类型的参数。举个例子，List&lt;Ptr&lt;T&gt&gt;::Contains函数的参数类型是T*。因为如果它是Ptr&lt;T&gt;的话，在这里不小心将一个指针转换成智能指针的错误将不能被编译器检查出来。</p>
+<p>KeyType的缺省定义是：</p>
+<table id = "code"><tr><td><pre>
+template&lt;typename T&gt;
+struct KeyType
+{
+public:
+    typedef T Type;
+};
+</pre></td></tr></table>
+<p>为了解决上述问题，智能指针的KeyType被定义为：</p>
+<table id = "code"><tr><td><pre>
+template&lt;typename T&gt;
+struct KeyType&lt;Ptr&lt;T&gt;&gt;
+{
+    typedef T* Type;
+};
+</pre></td></tr></table>
+<p>如果必要的话（譬如说跟智能指针一样），你可以为你自己的类定义KeyType。</p>
+<table id = "code"><tr><td><pre>
+List&lt;Ptr&lt;A&gt;&gt; as;
+A* a = new A;
+as.Add(a);//将A*转换成Ptr&lt;A&gt;，对象会在列表释放的时候被一起释放。
+as.Contains(a);//如果Contains函数的参数是Ptr&lt;A&gt;，那么a会再次变为一个智能指针并在Contains执行完的时候析构掉，这个时候as的析构函数就会因为将a析构了两次而出错。
+</pre></td></tr></table>
+<h2><a name="POD">POD&lt;T&gt;</a></h2>
+<p>POD是用来判断一个类型的势力在复制的时候能不能按位复制。如果你确信你自己的类型可以按位复制，譬如<b>plain old data</b>，那么你可以为你的类定义一个POD并将结果设置为true。</p>
+<table id="code"><tr><td><pre>
+template&lt;/*这里可以放额外的类型参数*/&gt;
+struct POD&lt;YourClass&gt;
+{
+    static const bool Result = true/*或者false*/;
+};
+</pre></td></tr></table>
 </body>
 </html>

@@ -55,14 +55,13 @@
 <p>To provide all the abstractions and tools for the table, we split the core library into the following sub items:</p>
 <table>
 <thead><tr><td>Group</td><td>Item</td><td>Description</td></tr></thead>
-<tbody><tr><td rowspan="14">Foundation</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>To prevent copying sub classes.</td></tr>
-<tr><td>vl::Error</td><td>&nbsp;</td></tr>
-<tr><td>vl::Exception</td><td>&nbsp;</td></tr>
-<tr><td>vl::Object</td><td>&nbsp;</td></tr>
-<tr><td>vl::ObjectBox</td><td>&nbsp;</td></tr>
-<tr><td>vl::KeyType</td><td>&nbsp;</td></tr>
-<tr><td>vl::POD</td><td>&nbsp;</td></tr>
-<tr><td>vl::Interface</td><td>&nbsp;</td></tr>
+<tbody><tr><td rowspan="13">Foundation</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>To prevent copying sub classes.</td></tr>
+<tr><td><a href="Basic/Basic.htm#Error">vl::Error</a></td><td>An exception who stands for a programming mistake.</td></tr>
+<tr><td><a href="Basic/Basic.htm#Exception">vl::Exception</a></td><td>Base class of exceptions to control the flow of the code.</td></tr>
+<tr><td><a href="Basic/Basic.htm#Object">vl::Object</a></td><td>Base class of almost every class in the core library.</td></tr>
+<tr><td><a href="Basic/Basic.htm#KeyType">vl::KeyType</a></td><td>&nbsp;</td>Key type evaluator for collections.</tr>
+<tr><td><a href="Basic/Basic.htm#POD">vl::POD</a></td><td>Type evaluator for telling whether a instance of a type can be copied by memcpy.</td></tr>
+<tr><td>vl::Interface</td><td>Base class of all interface classes in the core library.</td></tr>
 <tr><td>vl::Func</td><td>&nbsp;</td></tr>
 <tr><td>vl::Event</td><td>&nbsp;</td></tr>
 <tr><td>vl::Ptr</td><td>&nbsp;</td></tr>

@@ -55,13 +55,12 @@
 <p>为了提供上述的所有操作，我们将类库分割为以下几个部分：</p>
 <table>
 <thead><tr><td>组件</td><td>类和函数</td><td>描述</td></tr></thead>
-<tbody><tr><td rowspan="14">基础设施</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>使子类不可复制。</td></tr>
-<tr><td>vl::Error</td><td>&nbsp;</td></tr>
-<tr><td>vl::Exception</td><td>&nbsp;</td></tr>
-<tr><td>vl::Object</td><td>&nbsp;</td></tr>
-<tr><td>vl::ObjectBox</td><td>&nbsp;</td></tr>
-<tr><td>vl::KeyType</td><td>&nbsp;</td></tr>
-<tr><td>vl::POD</td><td>&nbsp;</td></tr>
+<tbody><tr><td rowspan="13">基础设施</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>使子类不可复制。</td></tr>
+<tr><td><a href="Basic/Basic.htm#Error">vl::Error</a></td><td>代表编码错误的异常</td></tr>
+<tr><td><a href="Basic/Basic.htm#Exception">vl::Exception</a></td><td>用来控制代码逻辑的异常的基类</td></tr>
+<tr><td><a href="Basic/Basic.htm#Object">vl::Object</a></td><td>核心库中几乎所有类的父类</td></tr>
+<tr><td><a href="Basic/Basic.htm#KeyType">vl::KeyType</a></td><td>用来求出一个容器的查询函数的参数类型</td></tr>
+<tr><td><a href="Basic/Basic.htm#POD">vl::POD</a></td><td>用来判断一个类的实例是否可以按位复制</td></tr>
 <tr><td>vl::Interface</td><td>&nbsp;</td></tr>
 <tr><td>vl::Func</td><td>&nbsp;</td></tr>
 <tr><td>vl::Event</td><td>&nbsp;</td></tr>
