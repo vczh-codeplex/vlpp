@@ -15,5 +15,92 @@ public:
     // no copy constructor and operator= overloading
 };
 </pre></td></tr></table>
+<h2><a name="Error">Error</a></h2>
+<p>Error class is a kind of exceptions which is used to point out some programming mistakes. It is different from Exception. </p>
+<p>To use error, you should use the macro CHECK_ERROR(condition, description) instead of directly throwing an instance. CHECK_ERROR will throw an instance of Error when the condition is evaluated to false. Description should be a unicode string constant like L"Hey!, I am an Error.". CHECK_ERROR is something like ASSERT.</p>
+<table id="code"><tr><td><pre>
+bool itob(int boolean)
+{
+    CHECK_ERROR(boolean==0 || boolean==1, L"The value of boolean should be 0 or 1.");
+    return boolean==1;
+}
+</pre></td></tr></table>
+<h2><a name="Object">Object</a></h2>
+<p>Object class is the base class of almost every class in the core library. The benefit to inherit from Object is that Object has a virtual destructor. And inheriting from Object make it possible to store classes in List&lt;Ptr&lt;Object&gt;&gt; or some similar ways.</p>
+<p>If you define a class without directly or indirectly inherits Object, you may not safe to cast it to one of the base class if the base class does not contains a virtual destructor.</p>
+<table id="code"><tr><td><pre>
+class MyClass : public Object
+{
+};
+</pre></td></tr></table>
+<h2><a name="Exception">Exception</a></h2>
+<p>Exception class is a kind of exceptions which is used to control the flow of the code. Exception should only be used when it is difficult to do the same job without it such as jumping out of a recursive-descent parser.</p>
+<p>Exception class has only one method: WString Exception::Message(); (<i>It was called GetMessage and I was hurt because I include the windows.h in another project</i>). After an instance of Exception is created, the message included in it can not be changed. The only way to provide a message is to put it into the constructor. If you do not provide a message when you are constructing an Exception, the WString::Empty is used for it.</p>
+<p>ArgumentException and ParsingException are provided with Exception in Library\Exception.h for different use. Most parts of the core library do not use Exception and its sub classes as part of the public interface.</p>
+<table id="code"><tr><td><pre>
+class LoginException : public Exception
+{
+public:
+    LoginException(const WString& message)
+        :Exception(message)
+    {
+    }
+};
+
+void Login(const WString& name, const WString& password)
+{
+    if(IsWrong(name, password))
+    {
+        throw LoginException(L"Wrong name or password.");
+    }
+}
+
+int main()
+{
+    try
+    {
+        Login(L"vczh", L"genius");
+    }
+    catch(const LoginException& e)
+    {
+        Console::WriteLine(L"Error occured: "+e.Message());
+    }
+}
+</pre></td></tr></table>
+<h2><a name="KeyType"><h2>KeyType&lt;T&gt;</h2></a></h2>
+<p>KeyType&lt;T&gt; is a class to tell the collections if the collection contains elements of type T, what type is proper for the parameter of query functions. For example, List&lt;Ptr&lt;T&gt&gt;::Contains function take a parameter of type T* because if the function take a parameter of type Ptr&lt;T&gt;, the mistake of casting a pointer to a smart point twice is disappeared from the syntax error list. </p>
+<p>The default evaluator of KeyType is</p>
+<table id = "code"><tr><td><pre>
+template&lt;typename T&gt;
+struct KeyType
+{
+public:
+    typedef T Type;
+};
+</pre></td></tr></table>
+<p>For the reason that is mentioned above, the KeyType evaluator of a smart pointer is</p>
+<table id = "code"><tr><td><pre>
+template&lt;typename T&gt;
+struct KeyType&lt;Ptr&lt;T&gt;&gt;
+{
+    typedef T* Type;
+};
+</pre></td></tr></table>
+<p>You can defined your own KeyType evaluator overloading if your class has a similar problem with the smart pointer.</p>
+<table id = "code"><tr><td><pre>
+List&lt;Ptr&lt;A&gt;&gt; as;
+A* a = new A;
+as.Add(a);//convert from A* to Ptr&lt;A&gt; and the object will be deleted when the as is being destroyed.
+as.Contains(a);//if the function Contains take a parameter of type of Ptr&lt;A&gt;, when the function finished, the object a is deleted and it will crashes when the as is trying to delete it again.
+</pre></td></tr></table>
+<h2><a name="POD">POD&lt;T&gt;</a></h2>
+<p>POD is a type evaluator for telling whether a instance of a type can be copied by memcpy. You can define your POD overloading if your class is something like the <b>plain old data</b></p>
+<table id="code"><tr><td><pre>
+template&lt;/*you can put your type parameter here*/&gt;
+struct POD&lt;YourClass&gt;
+{
+    static const bool Result = true/*or false*/;
+};
+</pre></td></tr></table>
 </body>
 </html>
