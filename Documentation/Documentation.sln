@@ -21,6 +21,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{3D5A6DB4-C8EA-426E-A25A-87779769ED6A}"
 	ProjectSection(SolutionItems) = preProject
 		Chinese\Vczh Library++\Basic\Basic.htm = Chinese\Vczh Library++\Basic\Basic.htm
+		Chinese\Vczh Library++\Basic\Func.htm = Chinese\Vczh Library++\Basic\Func.htm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vczh Library++", "Vczh Library++", "{AE35D8E9-D52D-4CAB-90CF-FB76D734F382}"
@@ -31,6 +32,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{7ABBA136-E3DE-4958-98A7-D3EC821AEFD2}"
 	ProjectSection(SolutionItems) = preProject
 		English\Vczh Library++\Basic\Basic.htm = English\Vczh Library++\Basic\Basic.htm
+		English\Vczh Library++\Basic\Func.htm = English\Vczh Library++\Basic\Func.htm
 	EndProjectSection
 EndProject
 Global
