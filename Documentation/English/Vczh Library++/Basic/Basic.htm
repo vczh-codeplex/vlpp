@@ -102,5 +102,30 @@ struct POD&lt;YourClass&gt;
     static const bool Result = true/*or false*/;
 };
 </pre></td></tr></table>
+<h2><a name="Interface">Interface</a></h2>
+<p>Interface class is the base class of all interface class in the core library. Although interface is not a concept in C++, but the core library still defines many interfaces.</p>
+<p>Interface class inherits NotCopyable, so any interface instance can not be copied by default. An interface class in the core library should satisfy the following constrains:</p>
+<li>All base classes should be interface classes.</li>
+<li>If the interface inherits from Interface, Interface should be the only base class.</li>
+<li>Contains only publie abstract functions.</li>
+<li>Should have a prefix "I" of the class name.</li>
+<p>Interface class has a virtual destructor. So any interface class does not necessary to inherits Object.</p>
+<table id="code"><tr><td><pre>
+class IInterfaceA : public Interface
+{
+public:
+    virtual void MethodA()=0;
+};
+
+class IInterfaceB : public Interface
+{
+public:
+    virtual void MethodB()=0;
+};
+
+class IInterfaceX : public IInterfaceA, public IInterfaceB
+{
+};
+</pre></td></tr></table>
 </body>
 </html>

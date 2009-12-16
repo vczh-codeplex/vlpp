@@ -102,5 +102,30 @@ struct POD&lt;YourClass&gt;
     static const bool Result = true/*或者false*/;
 };
 </pre></td></tr></table>
+<h2><a name="Interface">Interface</a></h2>
+<p>Interface是核心库中所有接口类的基类。虽然接口并不是一个C++的概念，不过核心库还是广泛地使用接口。</p>
+<p>Interface继承了NotCopyable，因此缺省情况下接口的实例是不能被赋值的。核心库中所有接口必须满足以下约束：</p>
+<li>所有的父类都必须是接口。</li>
+<li>如果接口直接继承自Interface，那么Interface必须是唯一的父类。</li>
+<li>接口只能包含公共的纯虚函数声明。</li>
+<li>接口的名字必须以I开头，而且I属于前缀。</li>
+<p>Interface有一个虚析构函数，因此接口类并不需要继承自Object</p>
+<table id="code"><tr><td><pre>
+class IInterfaceA : public Interface
+{
+public:
+    virtual void MethodA()=0;
+};
+
+class IInterfaceB : public Interface
+{
+public:
+    virtual void MethodB()=0;
+};
+
+class IInterfaceX : public IInterfaceA, public IInterfaceB
+{
+};
+</pre></td></tr></table>
 </body>
 </html>
