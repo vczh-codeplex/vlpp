@@ -283,6 +283,36 @@ namespace vl
 			return Compare(*this, string)<=0;
 		}
 
+		bool operator==(const T* buffer)const
+		{
+			return Compare(buffer, *this)==0;
+		}
+
+		bool operator!=(const T* buffer)const
+		{
+			return Compare(buffer, *this)!=0;
+		}
+
+		bool operator>(const T* buffer)const
+		{
+			return Compare(buffer, *this)<0;
+		}
+
+		bool operator>=(const T* buffer)const
+		{
+			return Compare(buffer, *this)<=0;
+		}
+
+		bool operator<(const T* buffer)const
+		{
+			return Compare(buffer, *this)>0;
+		}
+
+		bool operator<=(const T* buffer)const
+		{
+			return Compare(buffer, *this)>=0;
+		}
+
 		T operator[](int index)const
 		{
 			CHECK_ERROR(index>=0 && index<length, L"ObjectString:<T>:operator[](int)#参数index越界。");
