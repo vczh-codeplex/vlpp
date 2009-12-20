@@ -1,0 +1,159 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Core Library: Functor</title>
+</head>
+<body>
+<h1>namespace vl;</h1>
+<h2>WString和AString</h2>
+<p>WString和AString被用来保存char或wchar_t类型的字符串，他们都继承自ObjectString&lt;T&gt;。</p>
+<table id="code"><tr><td><pre>
+int main()
+{
+    AString as="vczh";
+    WString ws=L"vczh";
+    AString as2=wtoa(ws);
+    WString ws2=atow(as);
+    Console::WriteLine(ws);
+    return 0;
+}
+</pre></td></tr></table>
+<p>Because WString and AString is very similar, the following description is based on WString.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">WString()</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t& _char)</td></tr>
+<tr><td>_char</td><td>构造字符串的字符</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t* _buffer, int _length)</td></tr>
+<tr><td>_buffer</td><td>构造字符串的字符指针</td></tr>
+<tr><td>_length</td><td>有效字符数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t* _buffer, bool copy=true)</td></tr>
+<tr><td>_buffer</td><td>构造字符串的字符指针</td></tr>
+<tr><td>copy</td><td>代表字符串是否拥有一份私有的字符拷贝</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const WString& string)</td></tr>
+<tr><td>string</td><td>被复制的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">const wchar_t* Buffer()const</td></tr>
+<tr><td>[返回值]</td><td>代表字符串的0结尾的字符指针</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString& operator=(const WString& string)</td></tr>
+<tr><td>[返回值]</td><td>*this</td></tr>
+<tr><td>string</td><td>被复制的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString& operator+=(const WString& string)</td></tr>
+<tr><td>[返回值]</td><td>连接字符串并修改自己</td></tr>
+<tr><td>string</td><td>被连接的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString operator+(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>连接字符串</td></tr>
+<tr><td>string</td><td>被连接的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator==(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator!=(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator>(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator>=(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator<(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator<=(const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较字符串</td></tr>
+<tr><td>string</td><td>被比较的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">int Length()const</td></tr>
+<tr><td>[返回值]</td><td>字符串的字符数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">wchar_t operator[](int index)const</td></tr>
+<tr><td>[返回值]</td><td>指定位置的字符</td></tr>
+<tr><td>index</td><td>字符的位置</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Left(int count)const</td></tr>
+<tr><td>[返回值]</td><td>左边count个字符组成的字符串</td></tr>
+<tr><td>count</td><td>字符串数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Right(int count)const</td></tr>
+<tr><td>[返回值]</td><td>右边count个字符组成的字符串</td></tr>
+<tr><td>count</td><td>字符串数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Sub(int index, int count)const</td></tr>
+<tr><td>[返回值]</td><td>字符串的子串</td></tr>
+<tr><td>index</td><td>开始位置</td></tr>
+<tr><td>count</td><td>子串的字符数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Remove(int index, int count)const</td></tr>
+<tr><td>[返回值]</td><td>等价于被删除了子串的结果</td></tr>
+<tr><td>index</td><td>开始位置</td></tr>
+<tr><td>count</td><td>子串的字符数量</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Insert(int index, const WString& string)const</td></tr>
+<tr><td>[返回值]</td><td>等价于被插入了子串的结果</td></tr>
+<tr><td>index</td><td>插入位置</td></tr>
+<tr><td>string</td><td>子串的字符数量</td></tr>
+</tbody>
+</table>
+<br />
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">辅助函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int atoi(const AString& string)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成数字</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">int wtoi(const WString& string)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成数字</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">double atof(const AString& string)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成浮点</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">double wtof(const WString& string)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成浮点</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString itoa(int number)</td></tr>
+<tr><td>[返回值]</td><td>把数字转换成字符串</td></tr>
+<tr><td>number</td><td>被转换的数字</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString itow(int number)</td></tr>
+<tr><td>[返回值]</td><td>把数字转换成字符串</td></tr>
+<tr><td>number</td><td>被转换的数字</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString ftoa(double number)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成浮点</td></tr>
+<tr><td>number</td><td>被转换的浮点</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString ftow(double number)</td></tr>
+<tr><td>[返回值]</td><td>把字符串转换成浮点</td></tr>
+<tr><td>number</td><td>把字符串转换成浮点</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString atow(const AString& string)</td></tr>
+<tr><td>[返回值]</td><td>把Ascii字符串转换成Unicode字符串</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString wtoa(const WString& string)</td></tr>
+<tr><td>[返回值]</td><td>把Unicode字符串转换成Ascii字符串</td></tr>
+<tr><td>string</td><td>被转换的字符串</td></tr>
+</tbody>
+</table>
+</body>
+</html>

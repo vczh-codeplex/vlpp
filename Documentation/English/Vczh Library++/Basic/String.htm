@@ -1,0 +1,159 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Core Library: Functor</title>
+</head>
+<body>
+<h1>namespace vl;</h1>
+<h2>WString and AString</h2>
+<p>WString and AString is a class to store string of wchar_t or char. They both inherits from ObjectString&lt;T&gt;.</p>
+<table id="code"><tr><td><pre>
+int main()
+{
+    AString as="vczh";
+    WString ws=L"vczh";
+    AString as2=wtoa(ws);
+    WString ws2=atow(as);
+    Console::WriteLine(ws);
+    return 0;
+}
+</pre></td></tr></table>
+<p>Because WString and AString is very similar, the following description is based on WString.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">WString()</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t& _char)</td></tr>
+<tr><td>_char</td><td>A character to build a string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t* _buffer, int _length)</td></tr>
+<tr><td>_buffer</td><td>The character buffer to build a string</td></tr>
+<tr><td>_length</td><td>The available character count</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const wchar_t* _buffer, bool copy=true)</td></tr>
+<tr><td>_buffer</td><td>The character buffer to build a string</td></tr>
+<tr><td>copy</td><td>Indicates WString needs to have a private copy or not</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString(const WString& string)</td></tr>
+<tr><td>string</td><td>A string to copy</td></tr>
+
+<tr><td colspan="2" class="method_sign">const wchar_t* Buffer()const</td></tr>
+<tr><td>[result]</td><td>Get a zero-terminated character buffer.</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString& operator=(const WString& string)</td></tr>
+<tr><td>[result]</td><td>*this</td></tr>
+<tr><td>string</td><td>A string to copy</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString& operator+=(const WString& string)</td></tr>
+<tr><td>[result]</td><td>The concatination of two string</td></tr>
+<tr><td>string</td><td>A string to append</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString operator+(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The concatination of two string</td></tr>
+<tr><td>string</td><td>A string to append</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator==(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator!=(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator>(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator>=(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator<(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator<=(const WString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparasion result</td></tr>
+<tr><td>string</td><td>The string to compare</td></tr>
+
+<tr><td colspan="2" class="method_sign">int Length()const</td></tr>
+<tr><td>[result]</td><td>Character count of the string</td></tr>
+
+<tr><td colspan="2" class="method_sign">wchar_t operator[](int index)const</td></tr>
+<tr><td>[result]</td><td>The character of the specified position</td></tr>
+<tr><td>index</td><td>Position of a character</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Left(int count)const</td></tr>
+<tr><td>[result]</td><td>A string that contains characters in the left</td></tr>
+<tr><td>count</td><td>Character count</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Right(int count)const</td></tr>
+<tr><td>[result]</td><td>A string that contains characters in the right</td></tr>
+<tr><td>count</td><td>Character count</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Sub(int index, int count)const</td></tr>
+<tr><td>[result]</td><td>A string that contains a sub string of a string</td></tr>
+<tr><td>index</td><td>The begin position</td></tr>
+<tr><td>count</td><td>The character count</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Remove(int index, int count)const</td></tr>
+<tr><td>[result]</td><td>A string to represent another string that has a sub string of itself removed</td></tr>
+<tr><td>index</td><td>The begin position</td></tr>
+<tr><td>count</td><td>The character count</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString Insert(int index, const WString& string)const</td></tr>
+<tr><td>[result]</td><td>A string to represent another string that has a string inserted into</td></tr>
+<tr><td>index</td><td>The begin position</td></tr>
+<tr><td>string</td><td>The string to insert</td></tr>
+</tbody>
+</table>
+<br />
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">helper functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int atoi(const AString& string)</td></tr>
+<tr><td>[result]</td><td>Convert an AString to an int</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">int wtoi(const WString& string)</td></tr>
+<tr><td>[result]</td><td>Convert a WString to an int</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">double atof(const AString& string)</td></tr>
+<tr><td>[result]</td><td>Convert an AString to a double</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">double wtof(const WString& string)</td></tr>
+<tr><td>[result]</td><td>Convert a WString to a double</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString itoa(int number)</td></tr>
+<tr><td>[result]</td><td>Convert an int to an AString</td></tr>
+<tr><td>number</td><td>An int to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString itow(int number)</td></tr>
+<tr><td>[result]</td><td>Convert an int to a WString</td></tr>
+<tr><td>number</td><td>An int to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString ftoa(double number)</td></tr>
+<tr><td>[result]</td><td>Convert a double to an AString</td></tr>
+<tr><td>number</td><td>A double to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString ftow(double number)</td></tr>
+<tr><td>[result]</td><td>Convert a double to a WString</td></tr>
+<tr><td>number</td><td>A double to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">WString atow(const AString& string)</td></tr>
+<tr><td>[result]</td><td>Convert an AString to a WString</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+
+<tr><td colspan="2" class="method_sign">AString wtoa(const WString& string)</td></tr>
+<tr><td>[result]</td><td>Convert a WString to an AString</td></tr>
+<tr><td>string</td><td>A string to be converted</td></tr>
+</tbody>
+</table>
+</body>
+</html>
