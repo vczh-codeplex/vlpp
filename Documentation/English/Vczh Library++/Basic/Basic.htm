@@ -127,5 +127,36 @@ class IInterfaceX : public IInterfaceA, public IInterfaceB
 {
 };
 </pre></td></tr></table>
+<h2><a name="Event">Event</a></h2>
+<p>Event class is a Func collection. Usually, Event is an implementation of Observer Pattern. When you need to expose an event, you can use Event and enable users to observe your object by binding their Func into your Event.</p>
+<p>Event has three members: Add, Remove and operator(). Add is for binding Func into Event. Remove is for unbinding Func into Event. operator() is for invokeing every Func in a Event.</p>
+<p>Event does not allow to bind a function which does not return void.</p>
+<table id="code"><tr><td><pre>
+void PrintMe1(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+void PrintMe2(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+void PrintMe3(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+
+int main()
+{
+    Event&lt;void(const WString&)&gt; event;
+    event.Add(PrintMe1);
+    event.Add(PrintMe2);
+    event.Add(PrintMe3);
+    event(L"vczh");
+    event.Remove(PrintMe1);
+    event.Remove(PrintMe2);
+    event(L"vczh");
+    return 0;
+}
+</pre></td></tr></table>
 </body>
 </html>

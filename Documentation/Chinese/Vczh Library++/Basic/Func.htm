@@ -7,59 +7,72 @@
 <h1>namespace vl;</h1>
 <h2>Func&lt;R(T1, T2, ...)&gt;</h2>
 <p>Func用来抽象普通函数、类成员函数和其他可执行对象的函数对象。由于C++的限制，Func只支持0到10个参数。</p>
+<table id="code"><tr><td><pre>
+int MyAdd(int a, int b)
+{
+    return a+b;
+}
+
+int main()
+{
+    Func&lt;int(int,int)&gt; add=MyAdd;
+    Console::WriteLine(itow(add(1,2)));
+    return 0;
+}
+</pre></td></tr></table>
 <p>不同参数个数的Func对象其成员也有一点变化。不失一般性，下面的描述都以Func&lt;R(T0, T1, T2)&gt;为标准。</p>
 <table>
 <thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
 <tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func()</td></tr>
+<tr><td colspan="2" class="method_sign">Func()</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func(R(*function)(T0, T1, T2))</td></tr>
+<tr><td colspan="2" class="method_sign">Func(R(*function)(T0, T1, T2))</td></tr>
 <tr><td>function</td><td>需要包装的不同函数</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* sender, R(C::*function)(T0, T1, T2))</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* sender, R(C::*function)(T0, T1, T2))</td></tr>
 <tr><td>sender</td><td>需要包装的成员函数的this指针</td></tr>
 <tr><td>function</td><td>需要包装的成员函数指针</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td>function</td><td>一个定义了R operator=(T1, T2)const重载的对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td>function</td><td>一个定义了R operator=(T1, T2)const重载的对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td>function</td><td>一个定义了R operator=(T1, T2)const重载的对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">R operator()(T0 p0,T1 p1,T2 p2)const</td></tr>
+<tr><td colspan="2" class="method_sign">R operator()(T0 p0,T1 p1,T2 p2)const</td></tr>
 <tr><td>[返回值]</td><td>被包装的函数返回的结果</td></tr>
 <tr><td>p0</td><td>第一个参数</td></tr>
 <tr><td>p1</td><td>第二个参数</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator==(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator==(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator!=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator!=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>被比较的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator>(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator>(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>被比较的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator>=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator>=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>被比较的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator<(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator<(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>被比较的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator<=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator<=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[返回值]</td><td>比较结果</td></tr>
 <tr><td>function</td><td>被比较的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">operator bool()const</td></tr>
+<tr><td colspan="2" class="method_sign">operator bool()const</td></tr>
 <tr><td>[返回值]</td><td>true表达函数对象内部已经包装了一个函数或可执行的对象，否则为false</td></tr>
 </tbody>
 </table>
@@ -68,11 +81,11 @@
 <thead><tr><td colspan="2" style="text-align:center; font-weight:bold">辅助函数</td></tr>
 <tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func&lt;Func&lt;R(T1, T2)&gt;(T0)&gt; Bind(const Func&lt;R(T0,T1,T2)&gt;& function)</td></tr>
+<tr><td colspan="2" class="method_sign">Func&lt;Func&lt;R(T1, T2)&gt;(T0)&gt; Bind(const Func&lt;R(T0,T1,T2)&gt;& function)</td></tr>
 <tr><td>[返回值]</td><td>将函数的第一个参数分离返回的复合函数</td></tr>
 <tr><td>function</td><td>需要分离的函数对象</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func&lt;R0(T0,T1,T2)&gt; Combine(const Func&lt;R0(R1,R2)&gt;& converter, const Func&lt;R1(T0,T1,T2)&gt;& function1, const Func&lt;R2(T0,T1,T2)&gt;& function2)</td></tr>
+<tr><td colspan="2" class="method_sign">Func&lt;R0(T0,T1,T2)&gt; Combine(const Func&lt;R0(R1,R2)&gt;& converter, const Func&lt;R1(T0,T1,T2)&gt;& function1, const Func&lt;R2(T0,T1,T2)&gt;& function2)</td></tr>
 <tr><td>[返回值]</td><td>将两个函数分别执行之后，用converter转换的结果：<br/>(converter(function1(p0, p1, p2), function2(p0, p1, p2)).</td></tr>
 <tr><td>converter</td><td>两个函数结果的转换函数</td></tr>
 <tr><td>function1</td><td>提供第一个结果的函数</td></tr>
