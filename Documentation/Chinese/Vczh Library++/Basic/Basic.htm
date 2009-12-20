@@ -127,5 +127,36 @@ class IInterfaceX : public IInterfaceA, public IInterfaceB
 {
 };
 </pre></td></tr></table>
+<h2><a name="Event">Event</a></h2>
+<p>Event是Func的容器。一般来说，Event是observer模式的一个实现。当你需要公开一个事件的时候，你可以使用Event并让其他人将自己的Func绑定到你的Event上。</p>
+<p>Event有三个成员：Add、Remove和operator()。Add用来将Func绑定到Event上，而Remove用来解除绑定。operator()用来调用所有被绑定的Func。</p>
+<p>Event不能有返回值，因此绑定的Func必须返回void类型。</p>
+<table id="code"><tr><td><pre>
+void PrintMe1(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+void PrintMe2(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+void PrintMe3(const WString& name)
+{
+    Console::WriteLine(L"PrintMe1("+name+")");
+}
+
+int main()
+{
+    Event&lt;void(const WString&)&gt; event;
+    event.Add(PrintMe1);
+    event.Add(PrintMe2);
+    event.Add(PrintMe3);
+    event(L"vczh");
+    event.Remove(PrintMe1);
+    event.Remove(PrintMe2);
+    event(L"vczh");
+    return 0;
+}
+</pre></td></tr></table>
 </body>
 </html>

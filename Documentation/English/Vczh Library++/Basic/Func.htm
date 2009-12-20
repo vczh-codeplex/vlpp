@@ -7,59 +7,72 @@
 <h1>namespace vl;</h1>
 <h2>Func&lt;R(T1, T2, ...)&gt;</h2>
 <p>Func is a set of classes to provide abstraction for static functions, member functions and other executable objects. Func in the core library supports many kind of function type but the parameter numbers should not greater than 10. This is due to the limitation of C++.</p>
+<table id="code"><tr><td><pre>
+int MyAdd(int a, int b)
+{
+    return a+b;
+}
+
+int main()
+{
+    Func&lt;int(int,int)&gt; add=MyAdd;
+    Console::WriteLine(itow(add(1,2)));
+    return 0;
+}
+</pre></td></tr></table>
 <p>Because function with different parameter number has a different definition, the following description is based on Func&lt;R(T0, T1, T2)&gt; which does not miss any information.</p>
 <table>
 <thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
 <tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func()</td></tr>
+<tr><td colspan="2" class="method_sign">Func()</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func(R(*function)(T0, T1, T2))</td></tr>
+<tr><td colspan="2" class="method_sign">Func(R(*function)(T0, T1, T2))</td></tr>
 <tr><td>function</td><td>The static function pointer to store in Func.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* sender, R(C::*function)(T0, T1, T2))</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* sender, R(C::*function)(T0, T1, T2))</td></tr>
 <tr><td>sender</td><td>The this pointer of a member function.</td></tr>
 <tr><td>function</td><td>The member function pointer to store in Func.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td>function</td><td>An object with a R operator=(T1, T2)const overloading.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td class="style1">function</td><td>An object with a R operator=(T1, T2)const overloading.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">template&lt;typename C&gt;Func(C* function)</td></tr>
+<tr><td colspan="2" class="method_sign">template&lt;typename C&gt;Func(C* function)</td></tr>
 <tr><td>function</td><td>An object with a R operator=(T1, T2)const overloading.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">R operator()(T0 p0,T1 p1,T2 p2)const</td></tr>
+<tr><td colspan="2" class="method_sign">R operator()(T0 p0,T1 p1,T2 p2)const</td></tr>
 <tr><td>[result]</td><td>Result from the stored executable object.</td></tr>
 <tr><td>p0</td><td>The first parameter.</td></tr>
 <tr><td>p1</td><td>The second parameter.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator==(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator==(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator!=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator!=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator>(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator>(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator>=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator>=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator<(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator<(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td>function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">bool operator<=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
+<tr><td colspan="2" class="method_sign">bool operator<=(const Func&lt;R(T0,T1,T2)&gt;& function)const</td></tr>
 <tr><td>[result]</td><td>Result of the comparation.</td></tr>
 <tr><td class="style1">function</td><td>A function object that to be compared.</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">operator bool()const</td></tr>
+<tr><td colspan="2" class="method_sign">operator bool()const</td></tr>
 <tr><td>[result]</td><td>true stands for the function object has an executable object stored in it. Otherwise, false.</td></tr>
 </tbody>
 </table>
@@ -68,11 +81,11 @@
 <thead><tr><td colspan="2" style="text-align:center; font-weight:bold">helper functions</td></tr>
 <tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
 <tbody>
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func&lt;Func&lt;R(T1, T2)&gt;(T0)&gt; Bind(const Func&lt;R(T0,T1,T2)&gt;& function)</td></tr>
+<tr><td colspan="2" class="method_sign">Func&lt;Func&lt;R(T1, T2)&gt;(T0)&gt; Bind(const Func&lt;R(T0,T1,T2)&gt;& function)</td></tr>
 <tr><td>[result]</td><td>The result of a function object that has currying applied.</td></tr>
 <tr><td>function</td><td>A function object that need to do currying</td></tr>
 
-<tr><td colspan="2" style="background-color:#D0D0D0; font-weight:bold">Func&lt;R0(T0,T1,T2)&gt; Combine(const Func&lt;R0(R1,R2)&gt;& converter, const Func&lt;R1(T0,T1,T2)&gt;& function1, const Func&lt;R2(T0,T1,T2)&gt;& function2)</td></tr>
+<tr><td colspan="2" class="method_sign">Func&lt;R0(T0,T1,T2)&gt; Combine(const Func&lt;R0(R1,R2)&gt;& converter, const Func&lt;R1(T0,T1,T2)&gt;& function1, const Func&lt;R2(T0,T1,T2)&gt;& function2)</td></tr>
 <tr><td>[result]</td><td>The result returned from the conversion of 2 results from 2 functions:<br/>(converter(function1(p0, p1, p2), function2(p0, p1, p2)).</td></tr>
 <tr><td>converter</td><td>A function object to convert to results into a new one.</td></tr>
 <tr><td>function1</td><td>A function object to provide the first result.</td></tr>
