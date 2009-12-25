@@ -641,6 +641,22 @@ TEST_CASE(TestClassFieldRetriving)
 		TestClassFieldValue(abcd, L"ab", 5);
 		TestClassFieldValue(abcd, L"cd", 6);
 		TestClassFieldValue(abcd, L"abcd", 7);
+
+		abcd.SetField(L"a", NewValue<int>(100));
+		abcd.SetField(L"b", NewValue<int>(200));
+		abcd.SetField(L"c", NewValue<int>(300));
+		abcd.SetField(L"d", NewValue<int>(400));
+		abcd.SetField(L"ab", NewValue<int>(500));
+		abcd.SetField(L"cd", NewValue<int>(600));
+		abcd.SetField(L"abcd", NewValue<int>(700));
+
+		TestClassFieldValue(abcd, L"a", 100);
+		TestClassFieldValue(abcd, L"b", 200);
+		TestClassFieldValue(abcd, L"c", 300);
+		TestClassFieldValue(abcd, L"d", 400);
+		TestClassFieldValue(abcd, L"ab", 500);
+		TestClassFieldValue(abcd, L"cd", 600);
+		TestClassFieldValue(abcd, L"abcd", 700);
 	}
 }
 
@@ -669,10 +685,8 @@ TEST_CASE(TestMethodInvokingNative)
 		ObjectValue result;
 		Array<ObjectValue> arguments;
 		arguments.Resize(2);
-		arguments[0]=New<int>();
-		*((int*)arguments[0].GetValue())=100;
-		arguments[1]=New<int>();
-		*((int*)arguments[1].GetValue())=200;
+		arguments[0]=NewValue<int>(100);
+		arguments[1]=NewValue<int>(200);
 		TEST_ASSERT(abcd.InvokeMethod(L"Add", arguments.Wrap(), result)==true);
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.GetType()==TypeOf<int>());
@@ -682,8 +696,7 @@ TEST_CASE(TestMethodInvokingNative)
 		ObjectValue result;
 		Array<ObjectValue> arguments;
 		arguments.Resize(1);
-		arguments[0]=New<int>();
-		*((int*)arguments[0].GetValue())=100;
+		arguments[0]=NewValue<int>(100);
 		TEST_ASSERT(InvokeMethod(TypeOf<ClassABCD>()->Constructors(), 0, arguments.Wrap(), result, TypeOf<ClassABCD>()));
 		TEST_ASSERT(result);
 		TestClassFieldValue(result, L"abcd", 100);

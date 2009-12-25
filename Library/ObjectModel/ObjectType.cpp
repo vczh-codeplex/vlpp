@@ -389,6 +389,20 @@ ObjectValue
 			}
 		}
 
+		bool ObjectValue::SetField(const WString& name, const ObjectValue& value)const
+		{
+			if(!objectValue)return false;
+			if(objectType->Category()!=ObjectType::Class)return false;
+			ObjectMember* field=FindClassField(objectType, name);
+			if(!field)return false;
+
+			ObjectValue destValue=value.ImplicitlyConvertTo(field->Type());
+			if(!destValue)return false;
+			ObjectValue ownerValue=CastToBaseClass(field->OwnerType());
+			field->SetValue(ownerValue.GetValue(), destValue.GetValue());
+			return true;
+		}
+
 		bool ObjectValue::InvokeMethod(const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const
 		{
 			if(!objectValue)return false;

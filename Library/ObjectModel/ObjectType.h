@@ -67,6 +67,7 @@ namespace vl
 			ObjectValue								CastToClass(const ObjectType* type)const;
 			ObjectValue								ImplicitlyConvertTo(const ObjectType* type)const;
 			ObjectValue								GetField(const WString& name)const;
+			bool									SetField(const WString& name, const ObjectValue& value)const;
 			bool									InvokeMethod(const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const;
 		};
 
@@ -141,6 +142,7 @@ namespace vl
 			virtual WString							Name()const=0;
 			virtual int								EnumValue()const=0;
 			virtual void*							GetValue(void* instance)const=0;
+			virtual void							SetValue(void* instance, void* value)const=0;
 			virtual void*							Invoke(void* object, void** arguments)const=0;
 		};
 
@@ -253,6 +255,10 @@ namespace vl
 				void* GetValue(void* instance)const
 				{
 					return 0;
+				}
+
+				void SetValue(void* instance, void* value)const
+				{
 				}
 
 				void* Invoke(void* object, void** arguments)const
