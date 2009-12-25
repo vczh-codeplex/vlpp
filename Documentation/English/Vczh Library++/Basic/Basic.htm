@@ -159,8 +159,8 @@ int main()
 }
 </pre></td></tr></table>
 <h2><a name="Ptr">Ptr&lt;T&gt;</a></h2>
-<p>Ptr&lt;T&gt; can store a T* object and decide where to delete that object. Ptr&lt;T&gt; uses a reference counter to know how many Ptr&lt;T&gt; links to the same T* object.</p>
-<p>Comparing Ptr&lt;T&gt; is the same to comparing the T* object inside it. Ptr&lt;T&gt; has a member T* Obj()const to get the real object inside the Ptr&lt;&gt;.</p>
+<p>Smart pointer Ptr&lt;T&gt; can store a T* object and decide where to delete that object. Ptr&lt;T&gt; uses a reference counter to know how many Ptr&lt;T&gt; links to the same T* object.</p>
+<p>Comparing Ptr&lt;T&gt; is the same to comparing the T* object inside it. Ptr&lt;T&gt; has a member T* Obj()const to get the real object inside the Ptr&lt;T&gt;.</p>
 <table id="code"><tr><td><pre>
 Ptr&lt;MyClass&gt; pa = new MyClass;
 Ptr&lt;MyClass&gt; pb = pa;//CORRECT!!! Here pa and pb knows each other.

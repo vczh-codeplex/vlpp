@@ -55,7 +55,7 @@
 <p>为了提供上述的所有操作，我们将类库分割为以下几个部分：</p>
 <table>
 <thead><tr><td>组件</td><td>类和函数</td><td>描述</td></tr></thead>
-<tbody><tr><td rowspan="13">基础设施</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>使子类不可复制。</td></tr>
+<tbody><tr><td rowspan="11">基础设施</td><td><a href="Basic/Basic.htm#NotCopyable">vl::NotCopyable</a></td><td>使子类不可复制。</td></tr>
 <tr><td><a href="Basic/Basic.htm#Error">vl::Error</a></td><td>代表编码错误的异常</td></tr>
 <tr><td><a href="Basic/Basic.htm#Exception">vl::Exception</a></td><td>用来控制代码逻辑的异常的基类</td></tr>
 <tr><td><a href="Basic/Basic.htm#Object">vl::Object</a></td><td>核心库中几乎所有类的父类</td></tr>
@@ -64,10 +64,8 @@
 <tr><td><a href="Basic/Basic.htm#Interface">vl::Interface</a></td><td>核心库中所有接口类的基类</td></tr>
 <tr><td><a href="Basic/Func.htm">vl::Func</a></td><td>用来抽象普通函数、类成员函数和其他可执行对象的函数对象</td></tr>
 <tr><td><a href="Basic/Basic.htm#Event">vl::Event</a></td><td>使用Func的容器的Observer模式的实现</td></tr>
-<tr><td>vl::Ptr</td><td>&nbsp;</td></tr>
+<tr><td><a href="Basic/Basic.htm#Ptr">vl::Ptr</a></td><td>智能指针</td></tr>
 <tr><td><a href="Basic/String.htm">vl::WString, vl::AString</a></td><td>存储char或wchar_t类型的字符串</td></tr>
-<tr><td>vl::Lazy</td><td>&nbsp;</td></tr>
-<tr><td>vl::GlobalStorage</td><td>&nbsp;</td></tr>
 <tr><td rowspan="25">容器</td><td>vl::collections::IEnumerator</td><td>&nbsp;</td></tr>
 <tr><td>vl::collections::IEnumerable</td><td>&nbsp;</td></tr>
 <tr><td>vl::collections::IReadonlyList</td><td>&nbsp;</td></tr>

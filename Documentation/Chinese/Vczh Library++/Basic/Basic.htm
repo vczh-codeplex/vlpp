@@ -158,5 +158,13 @@ int main()
     return 0;
 }
 </pre></td></tr></table>
+<h2><a name="Ptr">Ptr&lt;T&gt;</a></h2>
+<p>智能指针Ptr&lt;T&gt;被用来保存T*对象并在没有任何Ptr&lt;T&gt;共享该对象的时候将其删除。Ptr&lt;T&gt;使用引用计数来计算现在有多少个Ptr&lt;T&gt;引用了同一个T*对象。</p>
+<p>Ptr&lt;T&gt;的比较结果与直接比较其内部的T*指针相等。Ptr&lt;T&gt;使用成员函数T* Obj()const来获取内部保存的指针。</p>
+<table id="code"><tr><td><pre>
+Ptr&lt;MyClass&gt; pa = new MyClass;
+Ptr&lt;MyClass&gt; pb = pa;//正确。这里pa和pb相互之间有联系。
+Ptr&lt;MyClass&gt; pc = pb.Obj();//错误！pc和pa、pb之间没有联系，因此当pa和pb释放掉之后，pc指向的指针已经是野指针。
+</pre></td></tr></table>
 </body>
 </html>
