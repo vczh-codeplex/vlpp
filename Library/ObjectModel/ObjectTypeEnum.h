@@ -61,6 +61,10 @@ namespace vl
 					return 0;
 				}
 
+				void SetValue(void* instance, void* value)const
+				{
+				}
+
 				void* Invoke(void* object, void** arguments)const
 				{
 					return 0;

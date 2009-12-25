@@ -67,6 +67,10 @@ namespace vl
 				{
 					return &(((T*)instance)->*offset);
 				}
+				void SetValue(void* instance, void* value)const
+				{
+					(((T*)instance)->*offset)=*(F*)value;
+				}
 				void* Invoke(void* object, void** arguments)const
 				{
 					return 0;
@@ -107,6 +111,9 @@ namespace vl
 				void* GetValue(void* instance)const
 				{
 					return 0;
+				}
+				void SetValue(void* instance, void* value)const
+				{
 				}
 				void* Invoke(void* object, void** arguments)const
 				{
