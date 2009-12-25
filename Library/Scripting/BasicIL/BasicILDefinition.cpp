@@ -15,19 +15,97 @@ BasicIns
 				opcode=(OpCode)0;
 				type1=(ValueType)0;
 				type2=(ValueType)0;
-				argint=0;
-				argf32=0;
-				argf64=0;
+				argument.s64=0;
 			}
 
 			bool BasicIns::operator==(const BasicIns& ins)const
 			{
-				return opcode==ins.opcode && type1==ins.type1 && type2==ins.type2 && argint==ins.argint && argf32==ins.argf32 && argf64==ins.argf64;
+				return opcode==ins.opcode && type1==ins.type1 && type2==ins.type2 && argument.s64==ins.argument.s64;
 			}
 
 			bool BasicIns::operator!=(const BasicIns& ins)const
 			{
-				return opcode!=ins.opcode || type1!=ins.type1 || type2!=ins.type2 || argint!=ins.argint || argf32!=ins.argf32 || argf64!=ins.argf64;
+				return opcode!=ins.opcode || type1!=ins.type1 || type2!=ins.type2 || argument.s64!=ins.argument.s64;
+			}
+
+			BasicIns::Argument BasicIns::Makes8(signed __int8 s8)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.s8=s8;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makes16(signed __int16 s16)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.s16=s16;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makes32(signed __int32 s32)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.s32=s32;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makes64(signed __int64 s64)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.s64=s64;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makeu8(unsigned __int8 u8)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.u8=u8;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makeu16(unsigned __int16 u16)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.u16=u16;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makeu32(unsigned __int32 u32)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.u32=u32;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makeu64(unsigned __int64 u64)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.u64=u64;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makef32(float f32)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.f32=f32;
+				return argument;
+			}
+
+			BasicIns::Argument BasicIns::Makef64(double f64)
+			{
+				Argument argument;
+				argument.s64=0;
+				argument.f64=f64;
+				return argument;
 			}
 
 /***********************************************************************
@@ -42,47 +120,11 @@ BasicIL
 				return *this;
 			}
 
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, unsigned __int64 argument)
+			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::Argument argument)
 			{
 				BasicIns ins;
 				ins.opcode=opcode;
-				ins.argint=argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, int argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.argint=(unsigned __int64)argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, bool argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.argint=(unsigned __int64)argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, float argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.argf32=argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, double argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.argf64=argument;
+				ins.argument=argument;
 				instructions.Add(ins);
 				return *this;
 			}
@@ -96,52 +138,12 @@ BasicIL
 				return *this;
 			}
 
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, unsigned __int64 argument)
+			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument)
 			{
 				BasicIns ins;
 				ins.opcode=opcode;
 				ins.type1=type1;
-				ins.argint=argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, int argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.type1=type1;
-				ins.argint=(unsigned __int64)argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, bool argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.type1=type1;
-				ins.argint=(unsigned __int64)argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, float argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.type1=type1;
-				ins.argf32=argument;
-				instructions.Add(ins);
-				return *this;
-			}
-
-			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, double argument)
-			{
-				BasicIns ins;
-				ins.opcode=opcode;
-				ins.type1=type1;
-				ins.argf64=argument;
+				ins.argument=argument;
 				instructions.Add(ins);
 				return *this;
 			}
