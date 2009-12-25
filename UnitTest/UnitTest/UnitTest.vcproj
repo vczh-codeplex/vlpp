@@ -208,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestScripting_BasicIL.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestStream.cpp"
 				>
 			</File>
@@ -717,6 +721,30 @@
 						RelativePath="..\..\Library\ObjectModel\ObjectType.cpp"
 						>
 					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Scripting"
+				>
+				<Filter
+					Name="BasicIL"
+					>
+					<Filter
+						Name="Header Files"
+						>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILDefinition.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Source Files"
+						>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILDefinition.cpp"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 		</Filter>
