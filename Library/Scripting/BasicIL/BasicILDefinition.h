@@ -6,24 +6,35 @@ Scripting::BasicIL
 Classes:
 
 OpCode:
-  push				TYPE			CONSTANT	:*stack_top*				-> TYPE
-  pop				BYTES(int)					:*stack_top* bytes			->
-  add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE		-> TYPE
-  eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE		-> bool
-  mod				INTEGER_TYPE				:*stack_top* TYPE TYPE		-> TYPE
-  shl|shr			INTEGER_TYPE	CONSTANT	:*stack_top* TYPE			-> TYPE
-  read				TYPE						:*stack_top* TYPE*			->
-  write				TYPE						:*stack_top* TYPE* TYPE		->
+  <binary opcode>	:*stack_top* left_operand right_operand
+
+  push				TYPE			CONSTANT	:*stack_top*						-> TYPE
+  add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
+  eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
+  mod				INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
+  shl|shr			INTEGER_TYPE	CONSTANT	:*stack_top* TYPE					-> TYPE
+  read				TYPE						:*stack_top* TYPE*					->
+  write				TYPE						:*stack_top* TYPE* TYPE				->
   jump				INSTRUCTION_INDEX(int)
-  jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool			->
-  jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool			->
-  call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR			-> *stack_offset_zero* RETINS RETPTR
-  call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR			->
-  convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE	-> DEST_TYPE
-  stack_offset		BYTES(int)					:*stack_top*				-> pointer
+  jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
+  jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
+  call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETINS RETPTR
+  call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					->
+  convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
+  stack_offset		BYTES(int)					:*stack_top*						-> pointer
   stack_reserve		BYTES(int)
-  resptr										:*stack_top*				-> pointer
-  ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETINS RETPTR	->
+  resptr										:*stack_top*						-> pointer
+  ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETINS RETPTR			->
+
+  memcpy										:*stack_top* DSTPTR SRCPTR BYTES	->
+  memzero										:*stack_top* DSTPTR BYTES			->
+  memcmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
+  strcpy										:*stack_top* DSTPTR SRCPTR			->
+  wcscpy										:*stack_top* DSTPTR SRCPTR			->
+  strcmp										:*stack_top* DSTPTR SRCPTR			-> int
+  wcscmp										:*stack_top* DSTPTR SRCPTR			-> int
+  strncmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
+  wcsncmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
@@ -61,7 +72,7 @@ namespace vl
 
 				enum OpCode
 				{
-					push,pop,
+					push,
 					add,sub,mul,div,mod,shl,shr,
 					eq,ne,lt,le,gt,ge,
 					read,write,
@@ -71,6 +82,10 @@ namespace vl
 					stack_reserve,
 					resptr,
 					ret,
+
+					memcpy,memzero,memcmp,strcpy,wcscpy,strcmp,wcscmp,strncmp,wcsncmp,
+
+					instruction_count
 				};
 
 				OpCode							opcode;
