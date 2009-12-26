@@ -12,8 +12,7 @@ BasicILEnv
 ***********************************************************************/
 
 			BasicILEnv::BasicILEnv(int _stackSize)
-				:instruction(0)
-				,stackBase(_stackSize)
+				:stackBase(_stackSize)
 				,stackTop(_stackSize)
 				,stackSize(_stackSize)
 			{
@@ -23,11 +22,6 @@ BasicILEnv
 			BasicILEnv::~BasicILEnv()
 			{
 				delete[] stack;
-			}
-
-			int BasicILEnv::Instruction()const
-			{
-				return instruction;
 			}
 
 			int BasicILEnv::StackBase()const
@@ -47,13 +41,52 @@ BasicILEnv
 
 			void* BasicILEnv::DereferenceStack(int stackPosition)const
 			{
-				return &stack[stackPosition];
+				if(stackPosition<0 || stackPosition>=stackSize)
+				{
+					return 0;
+				}
+				else
+				{
+					return &stack[stackPosition];
+				}
 			}
 
 			void* BasicILEnv::Reserve(int size)
 			{
 				stackTop-=size;
-				return &stack[stackTop];
+				if(stackTop<0 || stackTop>=stackSize)
+				{
+					return 0;
+				}
+				else
+				{
+					return &stack[stackTop];
+				}
+			}
+
+			void BasicILEnv::Reset()
+			{
+				stackBase=stackSize;
+				stackTop=stackSize;
+			}
+
+			void BasicILEnv::SetBase(int stackPosition)
+			{
+				stackBase=stackPosition;
+			}
+
+/***********************************************************************
+BasicILInterpretor
+***********************************************************************/
+
+			BasicILInterpretor::BasicILInterpretor(int stackSize)
+			{
+				env=new BasicILEnv(stackSize);
+			}
+
+			BasicILInterpretor::~BasicILInterpretor()
+			{
+				delete env;
 			}
 		}
 	}

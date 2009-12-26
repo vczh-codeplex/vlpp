@@ -19,9 +19,7 @@ namespace vl
 		{
 			class BasicILEnv : public Object
 			{
-				friend class BasicILInterpretor;
 			protected:
-				int						instruction;
 				int						stackBase;
 				int						stackSize;
 				int						stackTop;
@@ -30,17 +28,36 @@ namespace vl
 				BasicILEnv(int _stackSize);
 				~BasicILEnv();
 
-				int						Instruction()const;
 				int						StackBase()const;
 				int						StackSize()const;
 				int						StackTop()const;
 				void*					DereferenceStack(int stackPosition)const;
 				void*					Reserve(int size);
+				void					Reset();
+				void					SetBase(int stackPosition);
+
+				template<typename T>
+				void Push(const T& value)
+				{
+					(*(T*)Reserve(sizeof(T)))=value;
+				}
+
+				template<typename T>
+				T Pop()
+				{
+					T result=*(T*)DereferenceStack(stackTop);
+					Reserve(-sizeof(T));
+					return result;
+				}
 			};
 
 			class BasicILInterpretor : public Object
 			{
+			protected:
+				BasicILEnv*				env;
 			public:
+				BasicILInterpretor(int stackSize);
+				~BasicILInterpretor();
 			};
 		}
 	}
