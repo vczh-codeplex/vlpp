@@ -9,6 +9,7 @@ OpCode:
   <binary opcode>	:*stack_top* left_operand right_operand
 
   push				TYPE			CONSTANT	:*stack_top*						-> TYPE
+  pushins			CONSTANT					:*stack_top*						-> int
   add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
   eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
   mod				INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
@@ -19,6 +20,7 @@ OpCode:
   jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
   jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
   call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETSTACK RETINS RETPTR
+  call_indirect									:*stack_top* PUSHINS RETPTR			-> *stack_offset_zero* RETSTACK RETINS RETPTR
   call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					->
   convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
   stack_offset		BYTES(int)					:*stack_top*						-> pointer
@@ -72,11 +74,11 @@ namespace vl
 
 				enum OpCode
 				{
-					push,
+					push,pushins,
 					add,sub,mul,div,mod,shl,shr,
 					eq,ne,lt,le,gt,ge,
 					read,write,
-					jump,jumptrue,jumpfalse,call,call_foreign,
+					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,
 					convert,
 					stack_offset,
 					stack_reserve,
