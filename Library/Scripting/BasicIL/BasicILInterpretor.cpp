@@ -79,14 +79,40 @@ BasicILEnv
 BasicILInterpretor
 ***********************************************************************/
 
-			BasicILInterpretor::BasicILInterpretor(int stackSize)
+			BasicILInterpretor::BasicILInterpretor(int _stackSize, BasicIL* _instructions)
 			{
-				env=new BasicILEnv(stackSize);
+				env=new BasicILEnv(_stackSize);
+				instructions=_instructions;
+				instruction=-1;
+				foreignFunctionIndex=-1;
 			}
 
 			BasicILInterpretor::~BasicILInterpretor()
 			{
 				delete env;
+			}
+
+			void BasicILInterpretor::Reset(int entryInstruction, int returnSize)
+			{
+				// reserve returnSize
+				// push returnPointer
+				// push returnInstruction
+				// push returnStackBase
+				void* returnPointer=env->Reserve(returnSize);
+				env->Push<void*>(returnPointer);
+				env->Push<int>(-1);
+				env->Push<int>(0);
+				instruction=entryInstruction;
+			}
+
+			int BasicILInterpretor::GetForeignFunctionIndex()
+			{
+				return foreignFunctionIndex;
+			}
+
+			BasicILInterpretor::RunningResult BasicILInterpretor::Run()
+			{
+				return InstructionIndexOutOfRange;
 			}
 		}
 	}

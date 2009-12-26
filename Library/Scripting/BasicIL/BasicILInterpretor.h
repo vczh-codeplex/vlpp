@@ -55,9 +55,27 @@ namespace vl
 			{
 			protected:
 				BasicILEnv*				env;
+				BasicIL*				instructions;
+				int						instruction;
+				int						foreignFunctionIndex;
 			public:
-				BasicILInterpretor(int stackSize);
+				enum RunningResult
+				{
+					Finished,
+					ForeignFunctionCall,
+					StackOverflow,
+					DividByZero,
+					AccessViolation,
+					InstructionIndexOutOfRange,
+					UnknownInstruction,
+				};
+
+				BasicILInterpretor(int _stackSize, BasicIL* _instructions);
 				~BasicILInterpretor();
+
+				void					Reset(int entryInstruction, int returnSize);
+				int						GetForeignFunctionIndex();
+				RunningResult			Run();
 			};
 		}
 	}
