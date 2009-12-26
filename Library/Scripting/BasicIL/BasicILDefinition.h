@@ -18,7 +18,7 @@ OpCode:
   jump				INSTRUCTION_INDEX(int)
   jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
   jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
-  call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETINS RETPTR
+  call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETSTACK RETINS RETPTR
   call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					->
   convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
   stack_offset		BYTES(int)					:*stack_top*						-> pointer
