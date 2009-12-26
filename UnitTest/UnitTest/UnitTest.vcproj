@@ -736,12 +736,20 @@
 							RelativePath="..\..\Library\Scripting\BasicIL\BasicILDefinition.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="Source Files"
 						>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicIL\BasicILDefinition.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILInterpretor.cpp"
 							>
 						</File>
 					</Filter>
