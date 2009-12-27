@@ -96,3 +96,251 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv)
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
 }
+
+TEST_CASE(TestBasicILInstruction_AddSubMulDiv_Double)
+{
+	BasicIL il;
+	il
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(40))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(30))
+		.Ins(BasicIns::add, BasicIns::f64)
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(20))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(10))
+		.Ins(BasicIns::add, BasicIns::f64)
+		.Ins(BasicIns::mul, BasicIns::f64)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::f64)
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
+
+	BasicILInterpretor interpretor(1024, &il);
+	interpretor.Reset(0, sizeof(double));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	double result=interpretor.GetEnv()->Pop<double>();
+	TEST_ASSERT(result==(10+20)*(30+40));
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+}
+
+TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
+{
+	BasicIL il;
+	il
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(17))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::lt, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(16))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::le, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(15))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::gt, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(14))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::ge, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(13))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::eq, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(12))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::ne, BasicIns::int_type)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		//////////////////////////////////////////////////////////////
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(11))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::lt, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::le, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(9))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::gt, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(8))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::ge, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(7))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::eq, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(6))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::ne, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		//////////////////////////////////////////////////////////////
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(5))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(1))
+		.Ins(BasicIns::push, BasicIns::f64, BasicIns::Makef64(2))
+		.Ins(BasicIns::lt, BasicIns::f64)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(4))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::le, BasicIns::u8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(3))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::gt, BasicIns::u8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::ge, BasicIns::u8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::eq, BasicIns::u8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(0))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::push, BasicIns::u8, BasicIns::Makeu8(1))
+		.Ins(BasicIns::ne, BasicIns::u8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::bool_type)
+		.Ins(BasicIns::shl, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+
+		//////////////////////////////////////////////////////////////
+
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
+
+	BasicILInterpretor interpretor(1024, &il);
+	interpretor.Reset(0, sizeof(int));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	int result=interpretor.GetEnv()->Pop<int>();
+	int baseline=0;
+	baseline+=1<<17;
+	baseline+=1<<16;
+	baseline+=1<<12;
+	baseline+=1<<9;
+	baseline+=1<<8;
+	baseline+=1<<6;
+	baseline+=1<<4;
+	baseline+=1<<2;
+	baseline+=1<<1;
+	TEST_ASSERT(result==baseline);
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+}
+
+TEST_CASE(TestBasicILInstruction_Jump_Variable)
+{
+	BasicIL il;
+	il
+		// int i=0
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(sizeof(int)))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(0))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::write, BasicIns::int_type)
+		// result=0
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(0))
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		// BEGIN_LOOP:
+		// if(i==100)jump END_LOOP
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::eq, BasicIns::int_type)
+		.Ins(BasicIns::jumptrue, BasicIns::MakeInt(26))
+		// i+=1
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::write, BasicIns::int_type)
+		// result+=i
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		// jump BEGIN_LOOP
+		.Ins(BasicIns::jump, BasicIns::MakeInt(7))
+		// END_LOOP:
+		// exit
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
+
+	BasicILInterpretor interpretor(1024, &il);
+	interpretor.Reset(0, sizeof(int));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	int result=interpretor.GetEnv()->Pop<int>();
+	TEST_ASSERT(result==55);
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+}
