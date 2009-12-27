@@ -376,19 +376,19 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(3*sizeof(int)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::sub, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-4))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
 		.Ins(BasicIns::call, BasicIns::MakeInt(4))
 		
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
 		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(3*sizeof(int)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::sub, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-8))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
 		.Ins(BasicIns::call, BasicIns::MakeInt(4))
 		
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-4))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-8))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
 		
@@ -403,5 +403,51 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
 	int result=interpretor.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==55);
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+}
+
+TEST_CASE(TestBasicILInstruction_FunctionPointer)
+{
+	BasicIL il;
+	il
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(int)))
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::pushins, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::call_indirect)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::pushins, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::call_indirect)
+		
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::mul, BasicIns::int_type)
+
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0))
+
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(3*sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)));
+
+	BasicILInterpretor interpretor(1024, &il);
+	interpretor.Reset(0, sizeof(int));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	int result=interpretor.GetEnv()->Pop<int>();
+	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
 }

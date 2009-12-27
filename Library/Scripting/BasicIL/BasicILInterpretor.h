@@ -58,6 +58,7 @@ namespace vl
 				BasicIL*				instructions;
 				int						instruction;
 				int						foreignFunctionIndex;
+				void*					foreignFunctionResult;
 			public:
 				enum RunningResult
 				{
@@ -76,6 +77,7 @@ namespace vl
 
 				void					Reset(int entryInstruction, int returnSize);
 				int						GetForeignFunctionIndex();
+				void*					GetForeignFunctionResult();
 				BasicILEnv*				GetEnv();
 				int						GetInstruction();
 				RunningResult			Run();
