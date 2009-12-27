@@ -91,7 +91,7 @@ Instructions
 ***********************************************************************/
 
 			template<typename T>
-			void Add_(BasicIns& ins, BasicILEnv* env)
+			void Add_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -99,7 +99,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Sub_(BasicIns& ins, BasicILEnv* env)
+			void Sub_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -107,7 +107,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Mul_(BasicIns& ins, BasicILEnv* env)
+			void Mul_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -115,7 +115,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Div_(BasicIns& ins, BasicILEnv* env)
+			void Div_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -130,7 +130,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Mod_(BasicIns& ins, BasicILEnv* env)
+			void Mod_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -138,7 +138,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Shl_(BasicIns& ins, BasicILEnv* env)
+			void Shl_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -146,7 +146,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Shr_(BasicIns& ins, BasicILEnv* env)
+			void Shr_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -154,7 +154,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Eq_(BasicIns& ins, BasicILEnv* env)
+			void Eq_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -162,7 +162,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Ne_(BasicIns& ins, BasicILEnv* env)
+			void Ne_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -170,7 +170,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Lt_(BasicIns& ins, BasicILEnv* env)
+			void Lt_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -178,7 +178,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Le_(BasicIns& ins, BasicILEnv* env)
+			void Le_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -186,7 +186,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Gt_(BasicIns& ins, BasicILEnv* env)
+			void Gt_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -194,7 +194,7 @@ Instructions
 			}
 
 			template<typename T>
-			void Ge_(BasicIns& ins, BasicILEnv* env)
+			void Ge_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
@@ -202,14 +202,14 @@ Instructions
 			}
 
 			template<typename T>
-			void Read_(BasicIns& ins, BasicILEnv* env)
+			void Read_(BasicILEnv* env)
 			{
 				T* pointer=env->Pop<T*>();
 				env->Push<T>(*pointer);
 			}
 
 			template<typename T>
-			void Write_(BasicIns& ins, BasicILEnv* env)
+			void Write_(BasicILEnv* env)
 			{
 				T* pointer=env->Pop<T*>();
 				T value=env->Pop<T>();
@@ -217,7 +217,7 @@ Instructions
 			}
 
 			template<typename D, typename S>
-			void Convert_(BasicIns& ins, BasicILEnv* env)
+			void Convert_(BasicILEnv* env)
 			{
 				S value=env->Pop<S>();
 				env->Push<D>((D)value);
@@ -259,6 +259,11 @@ BasicILInterpretor
 				return foreignFunctionIndex;
 			}
 
+			void* BasicILInterpretor::GetForeignFunctionResult()
+			{
+				return foreignFunctionResult;
+			}
+
 			BasicILEnv* BasicILInterpretor::GetEnv()
 			{
 				return env;
@@ -273,34 +278,34 @@ BasicILInterpretor
 			switch(ins.type1)\
 			{\
 			case BasicIns::s8:\
-				METHOD<signed __int8>(ins, env);\
+				METHOD<signed __int8>(env);\
 				break;\
 			case BasicIns::s16:\
-				METHOD<signed __int16>(ins, env);\
+				METHOD<signed __int16>(env);\
 				break;\
 			case BasicIns::s32:\
-				METHOD<signed __int32>(ins, env);\
+				METHOD<signed __int32>(env);\
 				break;\
 			case BasicIns::s64:\
-				METHOD<signed __int64>(ins, env);\
+				METHOD<signed __int64>(env);\
 				break;\
 			case BasicIns::u8:\
-				METHOD<unsigned __int8>(ins, env);\
+				METHOD<unsigned __int8>(env);\
 				break;\
 			case BasicIns::u16:\
-				METHOD<unsigned __int16>(ins, env);\
+				METHOD<unsigned __int16>(env);\
 				break;\
 			case BasicIns::u32:\
-				METHOD<unsigned __int32>(ins, env);\
+				METHOD<unsigned __int32>(env);\
 				break;\
 			case BasicIns::u64:\
-				METHOD<unsigned __int64>(ins, env);\
+				METHOD<unsigned __int64>(env);\
 				break;\
 			case BasicIns::f32:\
-				METHOD<float>(ins, env);\
+				METHOD<float>(env);\
 				break;\
 			case BasicIns::f64:\
-				METHOD<double>(ins, env);\
+				METHOD<double>(env);\
 				break;\
 			default:\
 				return BasicILInterpretor::BadInstructionArgument;\
@@ -310,28 +315,28 @@ BasicILInterpretor
 			switch(ins.type1)\
 			{\
 			case BasicIns::s8:\
-				METHOD<signed __int8>(ins, env);\
+				METHOD<signed __int8>(env);\
 				break;\
 			case BasicIns::s16:\
-				METHOD<signed __int16>(ins, env);\
+				METHOD<signed __int16>(env);\
 				break;\
 			case BasicIns::s32:\
-				METHOD<signed __int32>(ins, env);\
+				METHOD<signed __int32>(env);\
 				break;\
 			case BasicIns::s64:\
-				METHOD<signed __int64>(ins, env);\
+				METHOD<signed __int64>(env);\
 				break;\
 			case BasicIns::u8:\
-				METHOD<unsigned __int8>(ins, env);\
+				METHOD<unsigned __int8>(env);\
 				break;\
 			case BasicIns::u16:\
-				METHOD<unsigned __int16>(ins, env);\
+				METHOD<unsigned __int16>(env);\
 				break;\
 			case BasicIns::u32:\
-				METHOD<unsigned __int32>(ins, env);\
+				METHOD<unsigned __int32>(env);\
 				break;\
 			case BasicIns::u64:\
-				METHOD<unsigned __int64>(ins, env);\
+				METHOD<unsigned __int64>(env);\
 				break;\
 			default:\
 				return BasicILInterpretor::BadInstructionArgument;\
@@ -341,34 +346,34 @@ BasicILInterpretor
 			switch(ins.type2)\
 			{\
 			case BasicIns::s8:\
-				Convert_<DSTTYPE, signed __int8>(ins, env);\
+				Convert_<DSTTYPE, signed __int8>(env);\
 				break;\
 			case BasicIns::s16:\
-				Convert_<DSTTYPE, signed __int16>(ins, env);\
+				Convert_<DSTTYPE, signed __int16>(env);\
 				break;\
 			case BasicIns::s32:\
-				Convert_<DSTTYPE, signed __int32>(ins, env);\
+				Convert_<DSTTYPE, signed __int32>(env);\
 				break;\
 			case BasicIns::s64:\
-				Convert_<DSTTYPE, signed __int64>(ins, env);\
+				Convert_<DSTTYPE, signed __int64>(env);\
 				break;\
 			case BasicIns::u8:\
-				Convert_<DSTTYPE, unsigned __int8>(ins, env);\
+				Convert_<DSTTYPE, unsigned __int8>(env);\
 				break;\
 			case BasicIns::u16:\
-				Convert_<DSTTYPE, unsigned __int16>(ins, env);\
+				Convert_<DSTTYPE, unsigned __int16>(env);\
 				break;\
 			case BasicIns::u32:\
-				Convert_<DSTTYPE, unsigned __int32>(ins, env);\
+				Convert_<DSTTYPE, unsigned __int32>(env);\
 				break;\
 			case BasicIns::u64:\
-				Convert_<DSTTYPE, unsigned __int64>(ins, env);\
+				Convert_<DSTTYPE, unsigned __int64>(env);\
 				break;\
 			case BasicIns::f32:\
-				Convert_<DSTTYPE, float>(ins, env);\
+				Convert_<DSTTYPE, float>(env);\
 				break;\
 			case BasicIns::f64:\
-				Convert_<DSTTYPE, double>(ins, env);\
+				Convert_<DSTTYPE, double>(env);\
 				break;\
 			default:\
 				return BasicILInterpretor::BadInstructionArgument;\
@@ -542,6 +547,7 @@ BasicILInterpretor
 							break;
 						case BasicIns::call_foreign:
 							foreignFunctionIndex=ins.argument.int_value;
+							foreignFunctionResult=env->Pop<void*>();
 							return BasicILInterpretor::ForeignFunctionCall;
 						case BasicIns::convert:
 							CONVERT_INSTRUCTION

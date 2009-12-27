@@ -10,7 +10,7 @@ OpCode:
   <binary opcode>	:*stack_top* left_operand right_operand
 
   push				TYPE			CONSTANT	:*stack_top*						-> TYPE
-  pushins			CONSTANT					:*stack_top*						-> int
+  pushins			CONSTANT					:*stack_top*						-> instruction_pointer
   add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
   eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
   mod|shl|shr		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
