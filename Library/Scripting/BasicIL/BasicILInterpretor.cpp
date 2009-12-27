@@ -198,7 +198,7 @@ Instructions
 			{
 				T left=env->Pop<T>();
 				T right=env->Pop<T>();
-				env->Push<bool>(left<=right);
+				env->Push<bool>(left>=right);
 			}
 
 			template<typename T>
@@ -548,8 +548,8 @@ BasicILInterpretor
 							break;
 						case BasicIns::stack_offset:
 							{
-								int stackTop=env->StackTop();
-								env->Push<int>(stackTop+ins.argument.int_value);
+								int stackBase=env->StackBase();
+								env->Push<void*>(env->DereferenceStack(stackBase+ins.argument.int_value));
 							}
 							break;
 						case BasicIns::stack_reserve:
