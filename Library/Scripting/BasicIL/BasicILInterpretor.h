@@ -46,7 +46,7 @@ namespace vl
 				T Pop()
 				{
 					T result=*(T*)DereferenceStack(stackTop);
-					Reserve(-sizeof(T));
+					Reserve(-(int)sizeof(T));
 					return result;
 				}
 			};
@@ -68,6 +68,7 @@ namespace vl
 					AccessViolation,
 					InstructionIndexOutOfRange,
 					UnknownInstruction,
+					BadInstructionArgument,
 				};
 
 				BasicILInterpretor(int _stackSize, BasicIL* _instructions);
@@ -75,6 +76,8 @@ namespace vl
 
 				void					Reset(int entryInstruction, int returnSize);
 				int						GetForeignFunctionIndex();
+				BasicILEnv*				GetEnv();
+				int						GetInstruction();
 				RunningResult			Run();
 			};
 		}

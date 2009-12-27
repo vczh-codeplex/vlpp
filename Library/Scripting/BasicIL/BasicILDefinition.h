@@ -6,27 +6,27 @@ Scripting::BasicIL
 Classes:
 
 OpCode:
+  stack				:low(0) push<--data-->pop high(size)
   <binary opcode>	:*stack_top* left_operand right_operand
 
   push				TYPE			CONSTANT	:*stack_top*						-> TYPE
   pushins			CONSTANT					:*stack_top*						-> int
   add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
   eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
-  mod				INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
-  shl|shr			INTEGER_TYPE	CONSTANT	:*stack_top* TYPE					-> TYPE
-  read				TYPE						:*stack_top* TYPE*					->
+  mod|shl|shr		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
+  read				TYPE						:*stack_top* TYPE*					-> TYPE
   write				TYPE						:*stack_top* TYPE* TYPE				->
   jump				INSTRUCTION_INDEX(int)
   jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
   jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
   call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETSTACK RETINS RETPTR
   call_indirect									:*stack_top* PUSHINS RETPTR			-> *stack_offset_zero* RETSTACK RETINS RETPTR
-  call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					->
+  call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					-> RETPTR
   convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
   stack_offset		BYTES(int)					:*stack_top*						-> pointer
-  stack_reserve		BYTES(int)
+  stack_reserve		BYTES(int)(+=push, -=pop)
   resptr										:*stack_top*						-> pointer
-  ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETINS RETPTR			->
+  ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETSTACK RETINS RETPTR	->
 
   memcpy										:*stack_top* DSTPTR SRCPTR BYTES	->
   memzero										:*stack_top* DSTPTR BYTES			->
