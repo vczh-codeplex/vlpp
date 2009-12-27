@@ -65,7 +65,14 @@ BasicILEnv
 			void* BasicILEnv::Reserve(int size)
 			{
 				stackTop-=size;
-				return DereferenceStack(stackTop);
+				if(stackTop<0 || stackTop>stackSize)
+				{
+					throw ILException(BasicILInterpretor::StackOverflow);
+				}
+				else
+				{
+					return &stack[stackTop];
+				}
 			}
 
 			void BasicILEnv::Reset()
@@ -242,7 +249,8 @@ BasicILInterpretor
 				void* returnPointer=env->Reserve(returnSize);
 				env->Push<void*>(returnPointer);
 				env->Push<int>(-1);
-				env->Push<int>(0);
+				env->Push<int>(env->StackSize());
+				env->SetBase(env->StackTop());
 				instruction=entryInstruction;
 			}
 
@@ -407,7 +415,7 @@ BasicILInterpretor
 			{
 				try
 				{
-					while(true)
+					while(instruction!=-1)
 					{
 						if(instruction<0||instruction>=instructions->instructions.Count())
 						{
@@ -559,6 +567,7 @@ BasicILInterpretor
 								int returnInstruction=env->Pop<int>();
 								env->Pop<void*>();
 								env->SetBase(stackBase);
+								env->Reserve(-ins.argument.int_value);
 								nextInstruction=returnInstruction;
 							}
 							break;
@@ -629,9 +638,12 @@ BasicILInterpretor
 								env->Push<int>(wcsncmp((wchar_t*)dstptr, (const wchar_t*)srcptr, size));
 							}
 							break;
+						default:
+							return BasicILInterpretor::UnknownInstruction;
 						}
 						instruction=nextInstruction;
 					}
+					return BasicILInterpretor::Finished;
 				}
 				catch(const ILException& e)
 				{

@@ -110,11 +110,11 @@ namespace vl
 					char						char_value;
 					wchar_t						wchar_value;
 #ifdef _WIN64
-					unsigned __int64			int_value;
-					signed __int64				pointer_value;
+					signed __int64				int_value;
+					unsigned __int64			pointer_value;
 #else
-					unsigned __int32			int_value;
-					signed __int32				pointer_value;
+					signed __int32				int_value;
+					unsigned __int32			pointer_value;
 #endif
 				}								argument;
 
@@ -133,6 +133,8 @@ namespace vl
 				static Argument					Makeu64(unsigned __int64 u64);
 				static Argument					Makef32(float f32);
 				static Argument					Makef64(double f64);
+				static Argument					MakeInt(int value);
+				static Argument					MakePointer(void* value);
 			};
 		}
 	}
