@@ -1,5 +1,6 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\BasicIL\BasicILDefinition.h"
+#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
 
 using namespace vl;
 using namespace vl::scripting::basicil;
@@ -71,4 +72,27 @@ TEST_CASE(TestBasicILInstructionAppending)
 	TEST_ASSERT(il.instructions[il.instructions.Count()-1].type1==BasicIns::s32);
 	TEST_ASSERT(il.instructions[il.instructions.Count()-1].type2==BasicIns::s64);
 	TEST_ASSERT(il.instructions[il.instructions.Count()-1].argument.s64==0);
+}
+
+TEST_CASE(TestBasicILInstruction_AddSubMulDiv)
+{
+	BasicIL il;
+	il
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::mul, BasicIns::int_type)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
+
+	BasicILInterpretor interpretor(1024, &il);
+	interpretor.Reset(0, sizeof(int));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	int result=interpretor.GetEnv()->Pop<int>();
+	TEST_ASSERT(result==(10+20)*(30+40));
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
 }

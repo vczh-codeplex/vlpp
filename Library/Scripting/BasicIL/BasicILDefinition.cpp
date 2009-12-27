@@ -107,6 +107,24 @@ BasicIns
 				argument.f64=f64;
 				return argument;
 			}
+			
+			BasicIns::Argument BasicIns::MakeInt(int value)
+			{
+#ifdef _WIN64
+				return Makes64(value);
+#else
+				return Makes32(value);
+#endif
+			}
+
+			BasicIns::Argument BasicIns::MakePointer(void* value)
+			{
+#ifdef _WIN64
+				return Makeu64((unsigned __int64)value);
+#else
+				return Makeu32((unsigned __int32)value);
+#endif
+			}
 
 /***********************************************************************
 BasicIL
