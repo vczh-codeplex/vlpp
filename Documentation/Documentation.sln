@@ -37,6 +37,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{7ABBA136
 		English\Vczh Library++\Basic\String.htm = English\Vczh Library++\Basic\String.htm
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections", "{4FC04CA9-2CDE-40FF-8C9B-E85C4BF02AE2}"
+	ProjectSection(SolutionItems) = preProject
+		English\Vczh Library++\Collections\Interfaces.htm = English\Vczh Library++\Collections\Interfaces.htm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections", "{798AEB82-557A-43F8-99D2-B2F6499F0FCB}"
+	ProjectSection(SolutionItems) = preProject
+		Chinese\Vczh Library++\Collections\Interfaces.htm = Chinese\Vczh Library++\Collections\Interfaces.htm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 1
@@ -51,6 +61,8 @@ Global
 		{393510F5-8B03-4697-8054-D20C85DBF23C} = {DBAD06A6-FCCF-4DD7-BD6C-FE0A9C544082}
 		{AE35D8E9-D52D-4CAB-90CF-FB76D734F382} = {C496AD71-B7AA-4870-AA4E-524DE824D112}
 		{3D5A6DB4-C8EA-426E-A25A-87779769ED6A} = {393510F5-8B03-4697-8054-D20C85DBF23C}
+		{798AEB82-557A-43F8-99D2-B2F6499F0FCB} = {393510F5-8B03-4697-8054-D20C85DBF23C}
 		{7ABBA136-E3DE-4958-98A7-D3EC821AEFD2} = {AE35D8E9-D52D-4CAB-90CF-FB76D734F382}
+		{4FC04CA9-2CDE-40FF-8C9B-E85C4BF02AE2} = {AE35D8E9-D52D-4CAB-90CF-FB76D734F382}
 	EndGlobalSection
 EndGlobal
