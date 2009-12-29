@@ -7,149 +7,149 @@
 <h1>namespace vl::collections;</h1>
 <h2><a name="IEnumerator">IEnumerator&lt;T&gt;</a></h2>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">IEnumerator&lt;T&gt;* Clone()const</td></tr>
-<tr><td>[result]</td><td>A copy of the enumerator with the same state.</td></tr>
+<tr><td>[返回值]</td><td>复制一个具有同样状态的迭代器</td></tr>
 
 <tr><td colspan="2" class="method_sign">const T& Current()const</td></tr>
-<tr><td>[result]</td><td>The current object pointed by the enumerator.</td></tr>
+<tr><td>[返回值]</td><td>迭代器的当前对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">int Index()const</td></tr>
-<tr><td>[result]</td><td>The position of the current object pointed by the enumerator.</td></tr>
+<tr><td>[返回值]</td><td>迭代器的当前位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Next()</td></tr>
-<tr><td>[result]</td><td>Move to the next position and return true for success, false for fail.</td></tr>
+<tr><td>[返回值]</td><td>把迭代器移动到下一个对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Available()const</td></tr>
-<tr><td>[result]</td><td>True if the enumerator points to a available position, otherwise false.</td></tr>
+<tr><td>[返回值]</td><td>判断当前迭代器是否指向了一个有效位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">void Reset()</td></tr>
-<tr><td>[result]</td><td>Reset the position of the enumerator to the first object.</td></tr>
+<tr><td>[返回值]</td><td>重置到初始状态</td></tr>
 </tbody>
 </table>
 <h2><a name="IEnumerable">IEnumerable&lt;T&gt;</a></h2>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">IEnumerator&lt;T&gt;* CreateEnumerator()const</td></tr>
-<tr><td>[result]</td><td>Create an enumerator for the enumerable object.</td></tr>
+<tr><td>[返回值]</td><td>创建一个可以迭代自己的迭代器</td></tr>
 </tbody>
 </table>
 <h2><a name="IReadonlyList">IReadonlyList&lt;T, K&gt; : public IEnumerable&lt;T&gt;</a></h2>
 <p>Default K == typename KeyType&lt;T&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">bool Contains(const K& item)const</td></tr>
-<tr><td>[result]</td><td>True if the collection contains the item, otherwise false.</td></tr>
-<tr><td>item</td><td>An object to test if the collection contains the item.</td></tr>
+<tr><td>[返回值]</td><td>判断列表是否包含某个对象</td></tr>
+<tr><td>item</td><td>查找的对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">int Count()const</td></tr>
-<tr><td>[result]</td><td>Total object count of the collection.</td></tr>
+<tr><td>[返回值]</td><td>返回列表对象数量</td></tr>
 
 <tr><td colspan="2" class="method_sign">const T& Get(int index)const</td></tr>
-<tr><td>[result]</td><td>The object at the specified position in the collection.</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
+<tr><td>[返回值]</td><td>获得列表中某个位置的对象</td></tr>
+<tr><td>index</td><td>查找的位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">const T& operator[](int index)const</td></tr>
-<tr><td>[result]</td><td>The object at the specified position in the collection.</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
+<tr><td>[返回值]</td><td>获得列表中某个位置的对象</td></tr>
+<tr><td>index</td><td>查找的位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">int IndexOf(const K& item)const</td></tr>
-<tr><td>[result]</td><td>The position of the specified item in the collection. -1 if not exisits.</td></tr>
-<tr><td>item</td><td>An object to find in the collection.</td></tr>
+<tr><td>[返回值]</td><td>获得对象在列表中的位置，不存在则返回-1</td></tr>
+<tr><td>item</td><td>查找的对象</td></tr>
 </tbody>
 </table>
 <h2><a name="IArray">IArray&lt;T, K&gt; : public IReadonlyList&lt;T, K&gt;</a></h2>
 <p>Default K == typename KeyType&lt;T&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">void Set(int index, const K& item)</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
-<tr><td>item</td><td>The object to replace the old one in the collection.</td></tr>
+<tr><td>index</td><td>替换对象的位置</td></tr>
+<tr><td>item</td><td>替换的对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">T& operator[](int index)</td></tr>
-<tr><td>[result]</td><td>The object at the specified position in the collection.</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
+<tr><td>[返回值]</td><td>获得列表总某个位置的对象</td></tr>
+<tr><td>index</td><td>查找的位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">void Resize(int size)</td></tr>
-<tr><td>item</td><td>New size of the collection</td></tr>
+<tr><td>item</td><td>重置数组的大小</td></tr>
 </tbody>
 </table>
 <h2><a name="ICollection">ICollection&lt;T, K&gt; : public IReadonlyList&lt;T, K&gt;</a></h2>
 <p>Default K == typename KeyType&lt;T&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">int Add(const T& item)</td></tr>
-<tr><td>item</td><td>New object to add to the collection.</td></tr>
+<tr><td>item</td><td>添加进集合的新对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Remove(const K& item)</td></tr>
-<tr><td>[result]</td><td>True for the object is removed successfully, otherwise false.</td></tr>
-<tr><td>item</td><td>The object to remove from the collection.</td></tr>
+<tr><td>[返回值]</td><td>删除一个对象，返回true代表删除了一个存在的对象</td></tr>
+<tr><td>item</td><td>删除的对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool RemoveAt(int index)</td></tr>
-<tr><td>[result]</td><td>True for the object is removed successfully, otherwise false.</td></tr>
-<tr><td>index</td><td>The position of an object to remove from the collection.</td></tr>
+<tr><td>[返回值]</td><td>删除某个位置的对象，返回true代表删除了一个存在的对象</td></tr>
+<tr><td>index</td><td>删除的对象的位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool RemoveRange(int index, int count)</td></tr>
-<tr><td>[result]</td><td>True for objects are removed successfully, otherwise false.</td></tr>
-<tr><td>index</td><td>The begin position of an object to remove from the collection.</td></tr>
-<tr><td>count</td><td>The total count of objects to remove.</td></tr>
+<tr><td>[返回值]</td><td>删除某个位置返回的对象，返回true代表删除了指定范围的对象</td></tr>
+<tr><td>index</td><td>指定范围的开始位置</td></tr>
+<tr><td>count</td><td>指定范围的对象数量</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Clear()</td></tr>
-<tr><td>[result]</td><td>True for objects are cleared successfully, otherwise false.</td></tr>
+<tr><td>[返回值]</td><td>True for objects are cleared successfully, otherwise false.</td></tr>
 </tbody>
 </table>
 <h2><a name="IList">IList&lt;T, K&gt; : public ICollection&lt;T, K&gt;</a></h2>
 <p>Default K == typename KeyType&lt;T&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">int Insert(int index, const T& item)</td></tr>
-<tr><td>[result]</td><td>The real position that the item is inserted</td></tr>
-<tr><td>index</td><td>The position of the new object.</td></tr>
-<tr><td>item</td><td>The object to insert.</td></tr>
+<tr><td>[返回值]</td><td>返回真正插入的位置</td></tr>
+<tr><td>index</td><td>插入的位置</td></tr>
+<tr><td>item</td><td>插入的对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">void Set(int index, const K& item)</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
-<tr><td>item</td><td>The object to replace the old one in the collection.</td></tr>
+<tr><td>index</td><td>替换对象的位置</td></tr>
+<tr><td>item</td><td>替换的对象</td></tr>
 
 <tr><td colspan="2" class="method_sign">T& operator[](int index)</td></tr>
-<tr><td>[result]</td><td>The object at the specified position in the collection.</td></tr>
-<tr><td>index</td><td>The object position.</td></tr>
+<tr><td>[返回值]</td><td>获得列表某个位置的对象</td></tr>
+<tr><td>index</td><td>查找的位置</td></tr>
 </tbody>
 </table>
 <h2><a name="IReadonlyDictionary">IReadonlyDictionary&lt;KT, VT, KK, VK&gt; : public IEnumerable&lt;Pair&lt;T, K&gt;&gt;</a></h2>
 <p>Default KK == typename KeyType&lt;KT&gt;::Type</p>
 <p>Default VK == typename KeyType&lt;VT&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;KT, KK&gt;& Keys()const</td></tr>
-<tr><td>[result]</td><td>All keys in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>映射表中的所有键</td></tr>
 
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;VT, VK&gt;& Values()const</td></tr>
-<tr><td>[result]</td><td>All values in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>映射表中的所有值</td></tr>
 
 <tr><td colspan="2" class="method_sign">int Count()const</td></tr>
-<tr><td>[result]</td><td>Total count of key-value pair in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>映射表中所有键值对的数量</td></tr>
 
 <tr><td colspan="2" class="method_sign">const VT& Get(const KK& key)const</td></tr>
-<tr><td>[result]</td><td>Value associated with the key.</td></tr>
-<tr><td>key</td><td>The key to get the value.</td></tr>
+<tr><td>[返回值]</td><td>返回某个键对应的值</td></tr>
+<tr><td>key</td><td>查找的键</td></tr>
 
 <tr><td colspan="2" class="method_sign">const VT& operator[](const KK& key)const</td></tr>
-<tr><td>[result]</td><td>Value associated with the key.</td></tr>
+<tr><td>[返回值]</td><td>Value associated with the key.</td></tr>
 <tr><td>key</td><td>The key to get the value.</td></tr>
 </tbody>
 </table>
@@ -157,85 +157,85 @@
 <p>Default KK == typename KeyType&lt;KT&gt;::Type</p>
 <p>Default VK == typename KeyType&lt;VT&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">描述</td><td>参数</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">bool Set(const KK& key, const VT& value)</td></tr>
-<tr><td>[result]</td><td>Associate a value to a new or existing key</td></tr>
-<tr><td>key</td><td>The new or existing key</td></tr>
-<tr><td>value</td><td>The new value</td></tr>
+<tr><td>[返回值]</td><td>将一个值关联到一个键上</td></tr>
+<tr><td>key</td><td>被关联的键</td></tr>
+<tr><td>value</td><td>关联的值</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Add(const KT& key, const VT& value)</td></tr>
-<tr><td>[result]</td><td>Associate a value to a new key</td></tr>
-<tr><td>key</td><td>The new key</td></tr>
-<tr><td>value</td><td>The new value</td></tr>
+<tr><td>[返回值]</td><td>将一个值关联到一个新键上</td></tr>
+<tr><td>key</td><td>被关联的键</td></tr>
+<tr><td>value</td><td>关联的值</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Remove(const KK& key)</td></tr>
-<tr><td>[result]</td><td>True for the key-value pair is removed, otherwise false.</td></tr>
-<tr><td>key</td><td>The key to locate a key-value pair in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>删除某个键对应的键值对</td></tr>
+<tr><td>key</td><td>被删除的键</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Clear()</td></tr>
-<tr><td>[result]</td><td>True for all key-value pairs are cleared, otherwise false.</td></tr>
+<tr><td>[返回值]</td><td>返回true代表清除所有键值对成功</td></tr>
 </tbody>
 </table>
 <h2><a name="IReadonlyGroup">IReadonlyGroup&lt;KT, VT, KK, VK&gt; : public IEnumerable&lt;Pair&lt;T, K&gt;&gt;</a></h2>
 <p>Default KK == typename KeyType&lt;KT&gt;::Type</p>
 <p>Default VK == typename KeyType&lt;VT&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;KT, KK&gt;& Keys()const</td></tr>
-<tr><td>[result]</td><td>All keys in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>多映射表的所有键</td></tr>
 
 <tr><td colspan="2" class="method_sign">int Count()const</td></tr>
-<tr><td>[result]</td><td>Total count of key-value pair in the dictionary.</td></tr>
+<tr><td>[返回值]</td><td>多映射表中键的数量</td></tr>
 
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;VT, VK&gt;& Get(const KK& key)const</td></tr>
-<tr><td>[result]</td><td>All values that are associated to the key.</td></tr>
-<tr><td>key</td><td>The key to get values.</td></tr>
+<tr><td>[返回值]</td><td>返回键对应的所有值</td></tr>
+<tr><td>key</td><td>查找的键</td></tr>
 
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;VT, VK&gt;& GetByIndex(int index)const</td></tr>
-<tr><td>[result]</td><td>All values that are associated to the key of a specified position.</td></tr>
-<tr><td>index</td><td>The key position to get values.</td></tr>
+<tr><td>[返回值]</td><td>返回某个位置关联的键对应的所有值</td></tr>
+<tr><td>index</td><td>查找的键的位置</td></tr>
 
 <tr><td colspan="2" class="method_sign">const IReadonlyList&lt;VT, VK&gt;& operator[](const KK& key)const</td></tr>
-<tr><td>[result]</td><td>All values that are associated to the key.</td></tr>
-<tr><td>key</td><td>The key to get values.</td></tr>
+<tr><td>[返回值]</td><td>返回键对应的所有值</td></tr>
+<tr><td>key</td><td>查找的键的位置.</td></tr>
 
-<tr><td colspan="2" class="method_sign">bool Contains(const KK& key)cconst</td></tr>
-<tr><td>[result]</td><td>True if there is at least one value that is associated to the key, otherwise false.</td></tr>
-<tr><td>key</td><td>The key to test if there are associated values.</td></tr>
+<tr><td colspan="2" class="method_sign">bool Contains(const KK& key)const</td></tr>
+<tr><td>[返回值]</td><td>返回true代表至少有一个值被关联到这个键上</td></tr>
+<tr><td>key</td><td>查找的键</td></tr>
 
-<tr><td colspan="2" class="method_sign">bool Contains(const KK& key, const VK& value)cconst</td></tr>
-<tr><td>[result]</td><td>True if the value is associated to the key, otherwise false.</td></tr>
-<tr><td>key</td><td>The key to test.</td></tr>
-<tr><td>value</td><td>The value to test.</td></tr>
+<tr><td colspan="2" class="method_sign">bool Contains(const KK& key, const VK& value)const</td></tr>
+<tr><td>[返回值]</td><td>返回true代表某个值被关联到这个键上</td></tr>
+<tr><td>key</td><td>查找的键</td></tr>
+<tr><td>value</td><td>查找的值</td></tr>
 </tbody>
 </table>
 <h2><a name="IGroup">IGroup&lt;KT, VT, KK, VK&gt; : public IReadonlyGroup&lt;KT, VT, KK, VK&gt;</a></h2>
 <p>Default KK == typename KeyType&lt;KT&gt;::Type</p>
 <p>Default VK == typename KeyType&lt;VT&gt;::Type</p>
 <table>
-<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
-<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>描述</td></tr></thead>
 <tbody>
 <tr><td colspan="2" class="method_sign">bool Add(const KT& key, const VT& value)</td></tr>
-<tr><td>[result]</td><td>Associate a value to a key.</td></tr>
-<tr><td>key</td><td>The key to associate.</td></tr>
-<tr><td>value</td><td>The value to associate.</td></tr>
+<tr><td>[返回值]</td><td>将一个值关联到一个键上</td></tr>
+<tr><td>key</td><td>被关联的键</td></tr>
+<tr><td>value</td><td>关联的值</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Remove(const KK& key)</td></tr>
-<tr><td>[result]</td><td>Remove all values that are associated to the key.</td></tr>
-<tr><td>key</td><td>The key to remove.</td></tr>
+<tr><td>[返回值]</td><td>返回true代表成功删除了一个键对应的所有值</td></tr>
+<tr><td>key</td><td>删除的键</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Remove(const KK& key, const VK& value)</td></tr>
-<tr><td>[result]</td><td>Remove the values that are associated to the key.</td></tr>
-<tr><td>key</td><td>The key to remove.</td></tr>
-<tr><td>value</td><td>The value to remove.</td></tr>
+<tr><td>[返回值]</td><td>返回true代表成功删除了跟键关联的某个值</td></tr>
+<tr><td>key</td><td>删除的键</td></tr>
+<tr><td>value</td><td>删除的值</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool Clear()</td></tr>
-<tr><td>[result]</td><td>True for all key-value pairs are cleared, otherwise false.</td></tr>
+<tr><td>[返回值]</td><td>返回true代表成功清除了所有键值对</td></tr>
 </tbody>
 </table>
 </body>
