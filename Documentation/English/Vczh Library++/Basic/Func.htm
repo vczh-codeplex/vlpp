@@ -8,6 +8,12 @@
 <h2>Func&lt;R(T1, T2, ...)&gt;</h2>
 <p>Func is a set of classes to provide abstraction for static functions, member functions and other executable objects. Func in the core library supports many kind of function type but the parameter numbers should not greater than 10. This is due to the limitation of C++.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Console.h"
+#include "Library\Function.h"
+using namespace vl;
+using namespace vl::console;
+
 int MyAdd(int a, int b)
 {
     return a+b;
