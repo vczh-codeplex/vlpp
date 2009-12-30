@@ -8,6 +8,12 @@
 <h2>Func&lt;R(T1, T2, ...)&gt;</h2>
 <p>Func用来抽象普通函数、类成员函数和其他可执行对象的函数对象。由于C++的限制，Func只支持0到10个参数。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Console.h"
+#include "Library\Function.h"
+using namespace vl;
+using namespace vl::console;
+
 int MyAdd(int a, int b)
 {
     return a+b;

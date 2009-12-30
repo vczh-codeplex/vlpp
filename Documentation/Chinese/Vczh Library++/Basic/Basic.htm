@@ -9,6 +9,9 @@
 <p>NotCopyable是一个空类，唯一使用它的办法就是继承。任何继承自NotCopyable的类，只要没有定义复制构造函数和=操作符重载，则不可被复制。</p>
 <p>NotCopyable仅仅是一个概念而不是对一种类型的抽象，因此建议使用私有继承。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class MyUncopyableClass : public Object, private NotCopyable
 {
 public:
@@ -19,6 +22,9 @@ public:
 <p>Error被用来当做代表编码错误的异常，跟Exception类有所区别。</p>
 <p>代码中最好用宏CHECK_ERROR(condition, description)而不是直接抛出Error来触发一个异常。CHECK_ERROR会在condition为false的情况下抛出一个Error。同时，description必须是unicode字符串常量，譬如说L"我是Error。"。在这种情况下，CHECK_ERROR跟ASSERT应该是类似的。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 bool itob(int boolean)
 {
     CHECK_ERROR(boolean==0 || boolean==1, L"boolean参数必须是0或1。");
@@ -29,6 +35,9 @@ bool itob(int boolean)
 <p>Object是内核库中几乎所有类的基类。继承Object的好处是Object有一个虚基类，并且你可以将很多对象放进List&lt;Ptr&lt;Object&gt;&gt;或者类似的地方。</p>
 <p>如果你定义了一个没有直接或间接继承自Object的类，那么将这个类的一个实例的指针转换到某个基类类可能是不安全的，除非这个基类也有虚析构函数。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class MyClass : public Object
 {
 };
@@ -38,6 +47,10 @@ class MyClass : public Object
 <p>Exception只有一个成员函数：WString Exception::Message(); (<i>我曾经将它命名为GetMessage，但是当我在另一个工程引用Exception和可恶的windows.h的时候，奇迹出现了</i>). 一个已经被创建出来的Exception的message成员是不可变的，提供消息的唯一办法就是把它写在构造函数里面，如果不写的话，会用WString::Empty来代替消息。</p>
 <p>ArgumentException和ParsingException各自为了不同的用途跟Exception一起定义在Library\Exception.h 里面。不过核心库几乎不会在公共接口处使用异常。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Exception.h"
+using namespace vl;
+
 class LoginException : public Exception
 {
 public:
@@ -96,6 +109,9 @@ as.Contains(a);//如果Contains函数的参数是Ptr&lt;A&gt;，那么a会再次变为一个智能指
 <h2><a name="POD">POD&lt;T&gt;</a></h2>
 <p>POD是用来判断一个类型的势力在复制的时候能不能按位复制。如果你确信你自己的类型可以按位复制，譬如<b>plain old data</b>，那么你可以为你的类定义一个POD并将结果设置为true。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 template&lt;/*这里可以放额外的类型参数*/&gt;
 struct POD&lt;YourClass&gt;
 {
@@ -111,6 +127,9 @@ struct POD&lt;YourClass&gt;
 <li>接口的名字必须以I开头，而且I属于前缀。</li>
 <p>Interface有一个虚析构函数，因此接口类并不需要继承自Object</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class IInterfaceA : public Interface
 {
 public:
@@ -132,6 +151,10 @@ class IInterfaceX : public IInterfaceA, public IInterfaceB
 <p>Event有三个成员：Add、Remove和operator()。Add用来将Func绑定到Event上，而Remove用来解除绑定。operator()用来调用所有被绑定的Func。</p>
 <p>Event不能有返回值，因此绑定的Func必须返回void类型。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\String.h"
+using namespace vl;
+
 void PrintMe1(const WString& name)
 {
     Console::WriteLine(L"PrintMe1("+name+")");
@@ -162,6 +185,10 @@ int main()
 <p>智能指针Ptr&lt;T&gt;被用来保存T*对象并在没有任何Ptr&lt;T&gt;共享该对象的时候将其删除。Ptr&lt;T&gt;使用引用计数来计算现在有多少个Ptr&lt;T&gt;引用了同一个T*对象。</p>
 <p>Ptr&lt;T&gt;的比较结果与直接比较其内部的T*指针相等。Ptr&lt;T&gt;使用成员函数T* Obj()const来获取内部保存的指针。</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Pointer.h"
+using namespace vl;
+
 Ptr&lt;MyClass&gt; pa = new MyClass;
 Ptr&lt;MyClass&gt; pb = pa;//正确。这里pa和pb相互之间有联系。
 Ptr&lt;MyClass&gt; pc = pb.Obj();//错误！pc和pa、pb之间没有联系，因此当pa和pb释放掉之后，pc指向的指针已经是野指针。

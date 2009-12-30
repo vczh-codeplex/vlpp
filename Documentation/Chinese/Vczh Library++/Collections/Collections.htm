@@ -1,0 +1,189 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ 容器</title>
+</head>
+<body>
+<h1>namespace vl::collections;</h1>
+<h2><a name="Array">Array&lt;T&gt;</a></h2>
+<p>Array被用来保存固定数量的对象。虽然数量可以在运行时的时候改变，但是对象不能被动态插入或删除。</p>
+<p>Array的成员跟<a href="Interfaces.htm#IArray">IArray</a>类似，但因为一些性能上的原因Array并不直接继承自IArray，但是IArray可以通过Array::Wrap()获得。</p>
+<p>如果需要创建Array&lt;T&gt;，则operator==对T必须有效。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Add(int a, int b)
+{
+  return a+b;
+}
+
+int Square(int a)
+{
+  return a*a;
+}
+
+bool Even(int a)
+{
+  return a%2==0;
+}
+
+int main()
+{
+  Array&lt;int&gt; a(10);
+  for(int i=0;i&lt;10;i++)
+  {
+    a[i]=i+1;
+  }
+  
+  // 计算1+4+9+...+81+100
+  int sum=a.Wrap()&gt;&gt;Select(Square)&gt;&gt;Aggregate(Add);
+  
+  a.Reset(20);
+  //a[0] to a[9]在Reset之后不会被修改
+  for(int i=10;i&lt;20;i++)
+  {
+    a[i]=i+1;
+  }
+  
+  // get 2+4+...+18+20
+  int sum2=a.Wrap()&gt;&gt;Where(Even)&gt;&gt;Aggregate(Add);
+}
+</pre></td></tr></table>
+<h2><a name="List">List&lt;T&gt;</a></h2>
+<p>List被用来保存一系列的对象，对象可以在运行时被插入或删除。</p>
+<p>List的成员跟<a href="Interfaces.htm#IList">IList</a>类似，但因为一些性能上的原因List并不直接继承自IList，但是IList可以通过List::Wrap()获得。</p>
+<p>如果需要创建List&lt;T&gt;，则operator==对T必须有效。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+#include "Library\Collections\OperationCopyFrom.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Even(int a)
+{
+  return a%2==0;
+}
+
+int main()
+{
+  Array&lt;int&gt; a;
+  List&lt;int&gt; list;
+  
+  for(int i=0;i&lt;10;i++)
+  {
+    list.Add(i+1);
+  }
+  //将list的偶数复制到a
+  CopyFrom(a.Wrap(), list.Wrap()>>Where(Even));
+  
+  //删除偶数
+  for(int i=list.Count();i&gt;=0;i--)
+  {
+    if(Even(list[i]))
+    {
+      list.RemoveAt(i);
+    }
+  }
+  //将list中的数字插入到a的尾部
+  CopyFrom(a.Wrap(), list.Wrap(), true);
+}
+</pre></td></tr></table>
+<h2><a name="SortedList">SortedList&lt;T&gt;</a></h2>
+<p>SortedList被用来保存一系列的对象，并保证他们以一定的顺序排列。</p>
+<p>SortedList的成员跟<a href="Interfaces.htm#ICollection">ICollection</a>类似，但因为一些性能上的原因SortedList并不直接继承自ICollection，但是ICollection可以通过SortedList::Wrap()获得。</p>
+<p>如果需要创建SortedList&lt;T&gt;，则operator==和operator>对T必须有效。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\OperationString.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+  //定义一个字符串
+  WString str=L"I am to be sorted.";
+  
+  //定义一个有序列表
+  SortedList&lt;wchar_t&gt; list;
+  
+  //通过将字符串的内容复制到有序列表来排序
+  CopyFrom(list.Wrap(), str);
+  
+  //清空列表，并添加字母，保证他们从小到大排列
+  list.Clear();
+  for(int i=L'z';i&gt;=L'a';i--)
+  {
+    list.Add(i);
+  }
+}
+</pre></td></tr></table>
+<h2><a name="Dictionary">Dictionary&lt;K, V&gt;</a></h2>
+<p>Dictionary被用来存放键值对，并且键在Dictionary中是有序的。</p>
+<p>Dictionary的成员跟<a href="Interfaces.htm#IDictionary">IDictionary</a>类似，但因为一些性能上的原因Dictionary并不直接继承自IDictionary，但是IDictionary可以通过Dictionary::Wrap()获得。</p>
+<p>如果需要创建Dictionary&lt;K, V&gt;，则operator==和operator>对K必须有效，且operator==对V必须有效。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\OperationForEach.h"
+#include "Library\Console.h"
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::console;
+
+int main()
+{
+  Dictionary&lt;WString, int&gt; ids;
+  /将ID绑定到一个名字上
+  ids.Add("Oliver", 100);
+  ids.Add("Jim", 200);
+  ids.Add("Shirley", 300);
+  ids.Add("vczh", 400);
+  
+  //按名字排序输出person-id
+  FOREACH(WString, name, ids.Keys())
+  {
+    Console::WriteLine(name + "-" + itow(ids[name]));
+  }
+}
+</pre></td></tr></table>
+<h2><a name="Group">Group&lt;K, V&gt;</a></h2>
+<p>Group被用来存放键值对，一个键可以绑定多个值，并且键在Group中是有序的。</p>
+<p>Group的成员跟<a href="Interfaces.htm#IGroup">IGroup</a>类似，但因为一些性能上的原因Group并不直接继承自IGroup，但是IGroup可以通过Group::Wrap()获得。</p>
+<p>如果需要创建Group&lt;K, V&gt;，则operator==和operator>对K必须有效，且operator==对V必须有效。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\OperationForEach.h"
+#include "Library\Console.h"
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::console;
+
+int main()
+{
+  Group&lt;WString, WString&gt; tools
+  // 将产品绑定到公司名称上
+  tools.Add(L"Microsoft", L"Visual Studio");
+  tools.Add(L"Microsoft", L"Windows");
+  tools.Add(L"Microsoft", L"Internet Explorer");
+  tools.Add(L"Microsoft", L"Expression Studio");
+  tools.Add(L"Adobe", L"Photoshop");
+  tools.Add(L"Adobe", L"Flash");
+  tools.Add(L"Google", L"Gmail");
+  tools.Add(L"Google", L"Wave");
+  tools.Add(L"Google", L"Chrome");
+  
+  //按公司名称排序输出company-product
+  FOREACH(WString, company, tools.Keys())
+  {
+    FOREACH(WString, product, tools[company])
+    {
+      Console::WriteLine(company + L"-" + product);
+    }
+  }
+}
+</pre></td></tr></table>
+</body>
+</html>

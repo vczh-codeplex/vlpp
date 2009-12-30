@@ -1,0 +1,189 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Collections</title>
+</head>
+<body>
+<h1>namespace vl::collections;</h1>
+<h2><a name="Array">Array&lt;T&gt;</a></h2>
+<p>Array is a class for storing a fixed number of objects. The number of objects can be changed during runtime, but an object cannot be inserted or removed from an Array.</p>
+<p>The members of Array is similar to <a href="Interfaces.htm#IArray">IArray</a> but Array does not inherits from IArray because of performance concerns. But if you really need an IArray, you can use Array::Wrap() to get an IArray from Array.</p>
+<p>If you want to create a class Array&lt;T&gt;, operator== should be defined on T.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Add(int a, int b)
+{
+  return a+b;
+}
+
+int Square(int a)
+{
+  return a*a;
+}
+
+bool Even(int a)
+{
+  return a%2==0;
+}
+
+int main()
+{
+  Array&lt;int&gt; a(10);
+  for(int i=0;i&lt;10;i++)
+  {
+    a[i]=i+1;
+  }
+  
+  // get 1+4+9+...+81+100
+  int sum=a.Wrap()&gt;&gt;Select(Square)&gt;&gt;Aggregate(Add);
+  
+  a.Reset(20);
+  //a[0] to a[9] will not be lost after Array::Reset()
+  for(int i=10;i&lt;20;i++)
+  {
+    a[i]=i+1;
+  }
+  
+  // get 2+4+...+18+20
+  int sum2=a.Wrap()&gt;&gt;Where(Even)&gt;&gt;Aggregate(Add);
+}
+</pre></td></tr></table>
+<h2><a name="List">List&lt;T&gt;</a></h2>
+<p>List is a class for storing objects. Objects can be inserted into or removed from a List during runtime.</p>
+<p>The members of List is similar to <a href="Interfaces.htm#IList">IList</a> but List does not inherits from IList because of performance concerns. But if you really need an IList, you can use List::Wrap() to get an IList from List.</p>
+<p>If you want to create a class List&lt;T&gt;, operator== should be defined on T.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+#include "Library\Collections\OperationCopyFrom.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Even(int a)
+{
+  return a%2==0;
+}
+
+int main()
+{
+  Array&lt;int&gt; a;
+  List&lt;int&gt; list;
+  
+  for(int i=0;i&lt;10;i++)
+  {
+    list.Add(i+1);
+  }
+  // copy even numbers from the list to the array
+  CopyFrom(a.Wrap(), list.Wrap()>>Where(Even));
+  
+  // remove even numbers
+  for(int i=list.Count();i&gt;=0;i--)
+  {
+    if(Even(list[i]))
+    {
+      list.RemoveAt(i);
+    }
+  }
+  // append odd numbers from the list to the array
+  CopyFrom(a.Wrap(), list.Wrap(), true);
+}
+</pre></td></tr></table>
+<h2><a name="SortedList">SortedList&lt;T&gt;</a></h2>
+<p>SortedList is a class for storing objects and keeping the order of the objects. </p>
+<p>The members of SortedList is similar to <a href="Interfaces.htm#ICollection">ICollection</a> but SortedList does not inherits from ICollection because of performance concerns. But if you really need an ICollection, you can use SortedList::Wrap() to get an ICollection from SortedList.</p>
+<p>If you want to create a class SortedList&lt;T&gt;, operator== and operator> should be defined on T.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\OperationString.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+  // define a string
+  WString str=L"I am to be sorted.";
+  
+  // define a sorted list
+  SortedList&lt;wchar_t&gt; list;
+  
+  // sort the characters in the string by copying them into the sorted list
+  CopyFrom(list.Wrap(), str);
+  
+  // clear the list, add letters into the list and keep them sorted ascending.
+  list.Clear();
+  for(int i=L'z';i&gt;=L'a';i--)
+  {
+    list.Add(i);
+  }
+}
+</pre></td></tr></table>
+<h2><a name="Dictionary">Dictionary&lt;K, V&gt;</a></h2>
+<p>Dictionary is a class for storing key-value pair while there is only one value to associated to a key. Keys in a Dictionary is sorted.</p>
+<p>The members of Dictionary is similar to <a href="Interfaces.htm#IDictionary">IDictionary</a> but Dictionary does not inherits from IDictionary because of performance concerns. But if you really need an IDictionary, you can use Dictionary::Wrap() to get an IDictionary from Dictionary.</p>
+<p>If you want to create a class Dictionary&lt;K, V&gt;, operator== and operator> should be defined on K, operator== should be defined on V.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\OperationForEach.h"
+#include "Library\Console.h"
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::console;
+
+int main()
+{
+  Dictionary&lt;WString, int&gt; ids;
+  // associate an ID to a person
+  ids.Add("Oliver", 100);
+  ids.Add("Jim", 200);
+  ids.Add("Shirley", 300);
+  ids.Add("vczh", 400);
+  
+  // print "person-id" ordered by name
+  FOREACH(WString, name, ids.Keys())
+  {
+    Console::WriteLine(name + "-" + itow(ids[name]));
+  }
+}
+</pre></td></tr></table>
+<h2><a name="Group">Group&lt;K, V&gt;</a></h2>
+<p>Group is a class for storing key-value pair while multiple values can be associated to a key. Keys in a Group is sorted.</p>
+<p>The members of Group is similar to <a href="Interfaces.htm#IGroup">IGroup</a> but Group does not inherits from IGroup because of performance concerns. But if you really need an IGroup, you can use Group::Wrap() to get an IGroup from Group.</p>
+<p>If you want to create a class Group&lt;K, V&gt;, operator== and operator> should be defined on K, operator== should be defined on V.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\OperationForEach.h"
+#include "Library\Console.h"
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::console;
+
+int main()
+{
+  Group&lt;WString, WString&gt; tools
+  // associate products to companies
+  tools.Add(L"Microsoft", L"Visual Studio");
+  tools.Add(L"Microsoft", L"Windows");
+  tools.Add(L"Microsoft", L"Internet Explorer");
+  tools.Add(L"Microsoft", L"Expression Studio");
+  tools.Add(L"Adobe", L"Photoshop");
+  tools.Add(L"Adobe", L"Flash");
+  tools.Add(L"Google", L"Gmail");
+  tools.Add(L"Google", L"Wave");
+  tools.Add(L"Google", L"Chrome");
+  
+  // print "company-product" ordered by company
+  FOREACH(WString, company, tools.Keys())
+  {
+    FOREACH(WString, product, tools[company])
+    {
+      Console::WriteLine(company + L"-" + product);
+    }
+  }
+}
+</pre></td></tr></table>
+</body>
+</html>

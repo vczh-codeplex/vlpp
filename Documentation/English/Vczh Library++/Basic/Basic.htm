@@ -9,6 +9,9 @@
 <p>NotCopyable class is a empty class. The only way to use NotCopyable is inheriting it. Any class that inherits NotCopyable can not be copied unless the class defines a copy constructor or an operator= overloading.</p>
 <p>NotCopyable is a concept, but it is not a type for abstraction. Using a private inheriting is expected to create a uncopyable sub class.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class MyUncopyableClass : public Object, private NotCopyable
 {
 public:
@@ -19,6 +22,9 @@ public:
 <p>Error class is a kind of exceptions which is used to point out some programming mistakes. It is different from Exception. </p>
 <p>To use error, you should use the macro CHECK_ERROR(condition, description) instead of directly throwing an instance. CHECK_ERROR will throw an instance of Error when the condition is evaluated to false. Description should be a unicode string constant like L"Hey!, I am an Error.". CHECK_ERROR is something like ASSERT.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 bool itob(int boolean)
 {
     CHECK_ERROR(boolean==0 || boolean==1, L"The value of boolean should be 0 or 1.");
@@ -29,6 +35,9 @@ bool itob(int boolean)
 <p>Object class is the base class of almost every class in the core library. The benefit to inherit from Object is that Object has a virtual destructor. And inheriting from Object make it possible to store classes in List&lt;Ptr&lt;Object&gt;&gt; or some similar ways.</p>
 <p>If you define a class without directly or indirectly inherits Object, you may not safe to cast it to one of the base class if the base class does not contains a virtual destructor.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class MyClass : public Object
 {
 };
@@ -38,6 +47,10 @@ class MyClass : public Object
 <p>Exception class has only one method: WString Exception::Message(); (<i>It was called GetMessage and I was hurt because I include the windows.h in another project</i>). After an instance of Exception is created, the message included in it can not be changed. The only way to provide a message is to put it into the constructor. If you do not provide a message when you are constructing an Exception, the WString::Empty is used for it.</p>
 <p>ArgumentException and ParsingException are provided with Exception in Library\Exception.h for different use. Most parts of the core library do not use Exception and its sub classes as part of the public interface.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Exception.h"
+using namespace vl;
+
 class LoginException : public Exception
 {
 public:
@@ -96,6 +109,9 @@ as.Contains(a);//if the function Contains take a parameter of type of Ptr&lt;A&g
 <h2><a name="POD">POD&lt;T&gt;</a></h2>
 <p>POD is a type evaluator for telling whether a instance of a type can be copied by memcpy. You can define your POD overloading if your class is something like the <b>plain old data</b></p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 template&lt;/*you can put your type parameter here*/&gt;
 struct POD&lt;YourClass&gt;
 {
@@ -111,6 +127,9 @@ struct POD&lt;YourClass&gt;
 <li>Should have a prefix "I" of the class name.</li>
 <p>Interface class has a virtual destructor. So any interface class does not necessary to inherits Object.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+using namespace vl;
+
 class IInterfaceA : public Interface
 {
 public:
@@ -132,6 +151,10 @@ class IInterfaceX : public IInterfaceA, public IInterfaceB
 <p>Event has three members: Add, Remove and operator(). Add is for binding Func into Event. Remove is for unbinding Func into Event. operator() is for invokeing every Func in a Event.</p>
 <p>Event does not allow to bind a function which does not return void.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\String.h"
+using namespace vl;
+
 void PrintMe1(const WString& name)
 {
     Console::WriteLine(L"PrintMe1("+name+")");
@@ -162,6 +185,10 @@ int main()
 <p>Smart pointer Ptr&lt;T&gt; can store a T* object and decide where to delete that object. Ptr&lt;T&gt; uses a reference counter to know how many Ptr&lt;T&gt; links to the same T* object.</p>
 <p>Comparing Ptr&lt;T&gt; is the same to comparing the T* object inside it. Ptr&lt;T&gt; has a member T* Obj()const to get the real object inside the Ptr&lt;T&gt;.</p>
 <table id="code"><tr><td><pre>
+#include "Library\Basic.h"
+#include "Library\Pointer.h"
+using namespace vl;
+
 Ptr&lt;MyClass&gt; pa = new MyClass;
 Ptr&lt;MyClass&gt; pb = pa;//CORRECT!!! Here pa and pb knows each other.
 Ptr&lt;MyClass&gt; pc = pb.Obj();//WRONG!!! Here pc and {pa, pb} does not know each other. The MyClass* object will be delete twice.
