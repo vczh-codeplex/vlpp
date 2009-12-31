@@ -185,5 +185,20 @@ int main()
   }
 }
 </pre></td></tr></table>
+<h2><a name="XWrapper">XWrapper</a></h2>
+<p>X can be ReadonlyList, Array, Collection, List, ReadonlyDictionary, Dictionary, ReadonlyGroup and Group</p>
+<p>If the interface of your class is the same as IX but your class does not inherits from IX, you can use XWrapper to convert your class to a class that inherits from IX.</p>
+<p><b>XWrapper does not use CreateEnumerator in your class.</b></p>
+<table id="code"><tr><td><pre>
+int main()
+{
+  // there are two way to get an IList from List
+  List&lt;int&gt; list;
+  IList&lt;int&gt;& interfaceA = list.Wrap();
+  
+  ListWrapper&lt;List&lt;int&gt;, int&gt; wrapper(list);
+  IList&lt;int&gt;& interfaceA = wrapper;
+}
+</pre></td></tr></table>
 </body>
 </html>
