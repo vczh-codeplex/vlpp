@@ -200,5 +200,27 @@ int main()
   IList&lt;int&gt;& interfaceA = wrapper;
 }
 </pre></td></tr></table>
+<h2><a name="CopyFrom">CopyFrom function</a></h2>
+<p>CopyFrom是一个用来在容器和容器之间，或字符串和容器之间复制数据的函数。OperationCopyFrom.h和OperaionStrng.h里面定义了大量的的CopyFrom重载。</p>
+<p>下面的列表展示了CopyFrom可以用来复制什么东西：</p>
+<table>
+<thead><tr><td>源</td><td>目标</td></tr></thead>
+<tbody>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;Pair&lt;K, V&gt;&gt;</td><td>IDictionary&lt;K, V&gt;</td></tr>
+<tr><td>IReadonlyList&lt;Pair&lt;K, V&gt;&gt;</td><td>IGroup&lt;K, V&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;Pair&lt;K, V&gt;&gt;</td><td>IDictionary&lt;K, V&gt;</td></tr>
+<tr><td>IEnumerable&lt;Pair&lt;K, V&gt;&gt;</td><td>IGroup&lt;K, V&gt;</td></tr>
+<tr><td>ObjectString&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>ObjectString&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>ObjectString&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>ObjectString&lt;T&gt;</td></tr>
+</tbody>
+</table>
+<p>CopyForm的主要形式是void CopyFrom(destination&, source&, bool append=false)当你把append设置成true的时候，destination里面原有的东西不会丢掉，source会插入到destination的尾部。</p>
+<p>如果你想把Dictionary&lt;int, WString&gt;的内容复制到List&lt;Pair&lt;int, WString&gt;&gt;，这也可以，因为Dictionary&lt;int, WString&gt;::Wrap()会返回一个IDictionary&lt;int, WString&gt;，而它继承自IEnumerable&lt;Pair&lt;int, WString&gt;&gt;。</p>
 </body>
 </html>
