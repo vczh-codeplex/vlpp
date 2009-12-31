@@ -185,5 +185,20 @@ int main()
   }
 }
 </pre></td></tr></table>
+<h2><a name="XWrapper">XWrapper</a></h2>
+<p>X可以是ReadonlyList、Array、Collection、List、ReadonlyDictionary、Dictionary、ReadonlyGroup或Group</p>
+<p>如果你的类的接口跟IX一模一样，但是你的类并没有继承自IX，你就可以用XWrapper来将你的类转换成IX。</p>
+<p><b>XWrapper不会调用你的类的CreateEnumerator函数，他有自己的实现。</b></p>
+<table id="code"><tr><td><pre>
+int main()
+{
+  //有两种方法可以获得一个指向List的IList
+  List&lt;int&gt; list;
+  IList&lt;int&gt;& interfaceA = list.Wrap();
+  
+  ListWrapper&lt;List&lt;int&gt;, int&gt; wrapper(list);
+  IList&lt;int&gt;& interfaceA = wrapper;
+}
+</pre></td></tr></table>
 </body>
 </html>
