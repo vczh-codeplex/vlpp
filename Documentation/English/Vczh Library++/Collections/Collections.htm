@@ -200,5 +200,27 @@ int main()
   IList&lt;int&gt;& interfaceA = wrapper;
 }
 </pre></td></tr></table>
+<h2><a name="CopyFrom">CopyFrom function</a></h2>
+<p>CopyFrom is a function for copy data between collections, or between string and collections. In OperationCopyFrom.h and OperaionStrng.h we defined a lot of CopyFrom overlaoding for each collection interfaces. If you want to copy data from a collection class, you should use the Wrap() function in that collection class to obtain an instance to a relative collection interface.</p>
+<p>The following table shows what kind of interface is supported by the CopyFrom function.</p>
+<table>
+<thead><tr><td>Source</td><td>Destination</td></tr></thead>
+<tbody>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;Pair&lt;K, V&gt;&gt;</td><td>IDictionary&lt;K, V&gt;</td></tr>
+<tr><td>IReadonlyList&lt;Pair&lt;K, V&gt;&gt;</td><td>IGroup&lt;K, V&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;Pair&lt;K, V&gt;&gt;</td><td>IDictionary&lt;K, V&gt;</td></tr>
+<tr><td>IEnumerable&lt;Pair&lt;K, V&gt;&gt;</td><td>IGroup&lt;K, V&gt;</td></tr>
+<tr><td>ObjectString&lt;T&gt;</td><td>IArray&lt;T&gt;</td></tr>
+<tr><td>ObjectString&lt;T&gt;</td><td>ICollection&lt;T&gt;</td></tr>
+<tr><td>IReadonlyList&lt;T&gt;</td><td>ObjectString&lt;T&gt;</td></tr>
+<tr><td>IEnumerable&lt;T&gt;</td><td>ObjectString&lt;T&gt;</td></tr>
+</tbody>
+</table>
+<p>The general form of CopyFrom is void CopyFrom(destination&, source&, bool append=false). When you set append to true, the data in destination will not be cleared, the data in source will be append to the destination.</p>
+<p>If you want to copy Dictionary&lt;int, WString&gt; to List&lt;Pair&lt;int, WString&gt;&gt;, it's OK, because Dictionary&lt;int, WString&gt;::Wrap() will return an IDictionary&lt;int, WString&gt; which interits from IEnumerable&lt;Pair&lt;int, WString&gt;&gt;.</p>
 </body>
 </html>
