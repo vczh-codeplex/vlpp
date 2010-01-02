@@ -324,6 +324,105 @@ BasicExpressionNode
 				return result;
 			}
 
+			BasicExpressionNode BasicExpressionNode::operator+=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::AddAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator-=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::SubAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator*=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::MulAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator/=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::DivAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator%=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::ModAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator<<=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::ShlAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator>>=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::ShrAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator&=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::AndAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator|=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::OrAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator^=(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::XorAssign;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::Assign(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::Assign;
+				return result;
+			}
+
 			BasicExpressionNode BasicExpressionNode::operator<(const BasicExpressionNode& node)const
 			{
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
@@ -378,11 +477,21 @@ BasicExpressionNode
 				return result;
 			}
 
-			BasicExpressionNode BasicExpressionNode::operator[](const WString& member)const
+			BasicExpressionNode BasicExpressionNode::Member(const WString& member)const
 			{
 				Ptr<BasicMemberExpression> result=new BasicMemberExpression;
 				result->operand=expression;
 				result->member=member;
+				result->pointerMember=false;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::PMember(const WString& member)const
+			{
+				Ptr<BasicMemberExpression> result=new BasicMemberExpression;
+				result->operand=expression;
+				result->member=member;
+				result->pointerMember=true;
 				return result;
 			}
 
@@ -558,6 +667,121 @@ BasicExpressionNode
 				BasicExpressionNode::ListNode node;
 				node.expressions=new List<Ptr<BasicExpression>>;
 				return node;
+			}
+
+/***********************************************************************
+BasicStatementNode
+***********************************************************************/
+
+			BasicStatementNode::BasicStatementNode(Ptr<BasicStatement> _statement)
+				:statement(_statement)
+			{
+			}
+
+			Ptr<BasicStatement> BasicStatementNode::GetInternalValue()const
+			{
+				return statement;
+			}
+
+			BasicStatementNode BasicStatementNode::operator<<(const BasicStatementNode& nextStatement)const
+			{
+				Ptr<BasicCompositeStatement> result=statement;
+				if(!result)
+				{
+					result=new BasicCompositeStatement;
+					result->statements.Add(statement);
+				}
+				result->statements.Add(nextStatement.GetInternalValue());
+				return result;
+			}
+
+			BasicStatementNode s_expr(const BasicExpressionNode& expression)
+			{
+				Ptr<BasicExpressionStatement> result=new BasicExpressionStatement;
+				result->expression=expression.GetInternalValue();
+				return result;
+			}
+
+			BasicStatementNode s_var(const BasicTypeNode& type, const WString& name)
+			{
+				Ptr<BasicVariableStatement> result=new BasicVariableStatement;
+				result->type=type.GetInternalValue();
+				result->name=name;
+				return result;
+			}
+
+			BasicStatementNode s_var(const BasicTypeNode& type, const WString& name, const BasicExpressionNode& initializer)
+			{
+				Ptr<BasicVariableStatement> result=new BasicVariableStatement;
+				result->type=type.GetInternalValue();
+				result->name=name;
+				result->initializer=initializer.GetInternalValue();
+				return result;
+			}
+
+			BasicStatementNode s_if(const BasicExpressionNode& condition, const BasicStatementNode& trueStatement)
+			{
+				Ptr<BasicIfStatement> result=new BasicIfStatement;
+				result->condition=condition.GetInternalValue();
+				result->trueStatement=trueStatement.GetInternalValue();
+				return result;
+			}
+
+			BasicStatementNode s_if(const BasicExpressionNode& condition, const BasicStatementNode& trueStatement, const BasicStatementNode& falseStatement)
+			{
+				Ptr<BasicIfStatement> result=new BasicIfStatement;
+				result->condition=condition.GetInternalValue();
+				result->trueStatement=trueStatement.GetInternalValue();
+				result->falseStatement=falseStatement.GetInternalValue();
+				return result;
+			}
+
+			BasicStatementNode s_while(const BasicExpressionNode& condition, const BasicStatementNode& statement)
+			{
+				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
+				result->condition=condition.GetInternalValue();
+				result->statement=statement.GetInternalValue();
+				result->checkConditionAfterLooping=false;
+				return result;
+			}
+
+			BasicStatementNode s_do_while(const BasicExpressionNode& condition, const BasicStatementNode& statement)
+			{
+				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
+				result->condition=condition.GetInternalValue();
+				result->statement=statement.GetInternalValue();
+				result->checkConditionAfterLooping=true;
+				return result;
+			}
+
+			BasicStatementNode s_break()
+			{
+				return new BasicBreakStatement;
+			}
+
+			BasicStatementNode s_continue()
+			{
+				return new BasicContinueStatement;
+			}
+
+			BasicStatementNode s_return()
+			{
+				return new BasicReturnStatement;
+			}
+
+			BasicStatementNode s_empty()
+			{
+				return new BasicEmptyStatement;
+			}
+
+			BasicStatementNode s_for(const BasicStatementNode& initializer, const BasicExpressionNode& condition, const BasicStatementNode& sideEffect, const BasicStatementNode& statement)
+			{
+				Ptr<BasicForStatement> result=new BasicForStatement;
+				result->condition=condition.GetInternalValue();
+				result->initializer=initializer.GetInternalValue();
+				result->sideEffect=sideEffect.GetInternalValue();
+				result->statement=statement.GetInternalValue();
+				return result;
 			}
 		}
 	}

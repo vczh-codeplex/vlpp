@@ -145,6 +145,17 @@ Operator Expression
 					Add,Sub,Mul,Div,Mod,Shl,Shr,
 					And,Or,Xor,
 					Lt,Le,Gt,Ge,Eq,Ne,
+					AddAssign,
+					SubAssign,
+					MulAssign,
+					DivAssign,
+					ModAssign,
+					ShlAssign,
+					ShrAssign,
+					AndAssign,
+					OrAssign,
+					XorAssign,
+					Assign,
 				}											type;
 				Ptr<BasicExpression>						leftOperand;
 				Ptr<BasicExpression>						rightOperand;
@@ -166,6 +177,7 @@ Other Expression
 			public:
 				Ptr<BasicExpression>						operand;
 				WString										member;
+				bool										pointerMember;
 			};
 
 			class BasicInvokeExpression : public BasicExpression
@@ -234,17 +246,17 @@ Statement
 			{
 			public:
 				Ptr<BasicExpression>						condition;
-				Ptr<BasicStatement>							loopingBody;
+				Ptr<BasicStatement>							statement;
 				bool										checkConditionAfterLooping;
 			};
 
 			class BasicForStatement : public BasicStatement
 			{
 			public:
-				collections::List<Ptr<BasicStatement>>		initializer;
-				collections::List<Ptr<BasicStatement>>		sideEffect;
+				Ptr<BasicStatement>							initializer;
+				Ptr<BasicStatement>							sideEffect;
 				Ptr<BasicExpression>						condition;
-				Ptr<BasicStatement>							loopingBody;
+				Ptr<BasicStatement>							statement;
 			};
 
 			class BasicBreakStatement : public BasicStatement

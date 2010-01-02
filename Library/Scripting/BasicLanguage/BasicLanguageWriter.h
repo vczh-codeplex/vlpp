@@ -98,6 +98,18 @@ Expression
 				BasicExpressionNode						operator|(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator^(const BasicExpressionNode& node)const;
 
+				BasicExpressionNode						operator+=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator-=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator*=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator/=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator%=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator<<=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator>>=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator&=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator|=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator^=(const BasicExpressionNode& node)const;
+				BasicExpressionNode						Assign(const BasicExpressionNode& node)const;
+
 				BasicExpressionNode						operator<(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator<=(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator>(const BasicExpressionNode& node)const;
@@ -105,7 +117,8 @@ Expression
 				BasicExpressionNode						operator==(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator!=(const BasicExpressionNode& node)const;
 
-				BasicExpressionNode						operator[](const WString& member)const;
+				BasicExpressionNode						Member(const WString& member)const;
+				BasicExpressionNode						PMember(const WString& member)const;
 				BasicExpressionNode						operator[](const BasicExpressionNode& subscribe)const;
 				BasicExpressionNode						operator[](const BasicTypeNode& castType)const;
 				BasicExpressionNode						operator()(const ListNode& arguments)const;
@@ -129,6 +142,34 @@ Expression
 			extern BasicExpressionNode					e_name(const WString& name);
 			extern BasicExpressionNode					e_result();
 			extern BasicExpressionNode::ListNode		e_exps();
+
+/***********************************************************************
+Statement
+***********************************************************************/
+
+			class BasicStatementNode : public Object
+			{
+			protected:
+				Ptr<BasicStatement>						statement;
+			public:
+				BasicStatementNode(Ptr<BasicStatement> _statement);
+				Ptr<BasicStatement>						GetInternalValue()const;
+
+				BasicStatementNode						operator<<(const BasicStatementNode& nextStatement)const;
+			};
+
+			extern BasicStatementNode					s_expr(const BasicExpressionNode& expression);
+			extern BasicStatementNode					s_var(const BasicTypeNode& type, const WString& name);
+			extern BasicStatementNode					s_var(const BasicTypeNode& type, const WString& name, const BasicExpressionNode& initializer);
+			extern BasicStatementNode					s_if(const BasicExpressionNode& condition, const BasicStatementNode& trueStatement);
+			extern BasicStatementNode					s_if(const BasicExpressionNode& condition, const BasicStatementNode& trueStatement, const BasicStatementNode& falseStatement);
+			extern BasicStatementNode					s_while(const BasicExpressionNode& condition, const BasicStatementNode& statement);
+			extern BasicStatementNode					s_do_while(const BasicExpressionNode& condition, const BasicStatementNode& statement);
+			extern BasicStatementNode					s_break();
+			extern BasicStatementNode					s_continue();
+			extern BasicStatementNode					s_return();
+			extern BasicStatementNode					s_empty();
+			extern BasicStatementNode					s_for(const BasicStatementNode& initializer, const BasicExpressionNode& condition, const BasicStatementNode& sideEffect, const BasicStatementNode& statement);
 		}
 	}
 }
