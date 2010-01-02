@@ -36,6 +36,18 @@ namespace vl
 			public:
 			};
 
+			class BasicDeclaration : public Object, private NotCopyable
+			{
+			public:
+				WString										name;
+			};
+
+			class BasicProgram : public Object, private NotCopyable
+			{
+			public:
+				collections::List<Ptr<BasicDeclaration>>	declarations;
+			};
+
 /***********************************************************************
 Primitive Expression
 ***********************************************************************/
@@ -49,18 +61,6 @@ Primitive Expression
 			public:
 				basicil::BasicIns::ValueType				type;
 				basicil::BasicIns::Argument					argument;
-			};
-
-			class BasicMbcsCharExpression : public BasicPrimitiveExpression
-			{
-			public:
-				char										value;
-			};
-
-			class BasicUnicodeCharExpression : public BasicPrimitiveExpression
-			{
-			public:
-				wchar_t										value;
 			};
 
 			class BasicMbcsStringExpression : public BasicPrimitiveExpression
@@ -139,6 +139,13 @@ Other Expression
 			public:
 			};
 
+			class BasicCastingExpression : public BasicExpression
+			{
+			public:
+				Ptr<BasicExpression>						operand;
+				Ptr<BasicType>								type;
+			};
+
 /***********************************************************************
 Statement
 ***********************************************************************/
@@ -209,9 +216,70 @@ Statement
 Type
 ***********************************************************************/
 
+			class BasicPrimitiveType : public BasicType
+			{
+			public:
+				basicil::BasicIns::ValueType				type;
+			};
+
+			class BasicPointerType : public BasicType
+			{
+			public:
+				Ptr<BasicType>								elementType;
+			};
+
+			class BasicArrayType : public BasicType
+			{
+			public:
+				Ptr<BasicType>								elementType;
+				int											size;
+			};
+
+			class BasicReferenceType : public BasicType
+			{
+			public:
+				WString										name;
+			};
+
+			class BasicFunctionType : public BasicType
+			{
+			public:
+				Ptr<BasicType>								returnType;
+				collections::List<Ptr<BasicType>>			parameterTypes;
+			};
+
 /***********************************************************************
 Declaration
 ***********************************************************************/
+
+			class BasicFunctionDeclaration : public BasicDeclaration
+			{
+			public:
+				Ptr<BasicFunctionType>						signatureType;
+				collections::List<WString>					parameterNames;
+				Ptr<BasicStatement>							functionBody;
+				WString										externalKey;
+			};
+
+			class BasicStructureDeclaration : public BasicDeclaration
+			{
+			public:
+				collections::List<Ptr<BasicType>>			memberTypes;
+				collections::List<Ptr<BasicType>>			memberNames;
+			};
+
+			class BasicVariableDeclaration : public BasicDeclaration
+			{
+			public:
+				Ptr<BasicType>								type;
+				Ptr<BasicExpression>						initializer;
+			};
+
+			class BasicTypeRenameDeclaration : public BasicDeclaration
+			{
+			public:
+				Ptr<BasicType>								type;
+			};
 		}
 	}
 }
