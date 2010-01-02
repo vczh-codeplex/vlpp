@@ -21,6 +21,47 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+			enum BasicPrimitiveTypeEnum
+			{
+				s8,s16,s32,s64,
+				u8,u16,u32,u64,
+				f32,f64,
+				bool_type,
+				void_type,
+				char_type=s8,
+				wchar_type=u16,
+#ifdef _WIN64
+				int_type=s64,
+#else
+				int_type=s32,
+#endif
+			};
+
+			union BasicPrimitiveValueEnum
+			{
+				signed __int8				s8;
+				signed __int16				s16;
+				signed __int32				s32;
+				signed __int64				s64;
+				unsigned __int8				u8;
+				unsigned __int16			u16;
+				unsigned __int32			u32;
+				unsigned __int64			u64;
+				float						f32;
+				double						f64;
+
+				bool						bool_value;
+				char						char_value;
+				wchar_t						wchar_value;
+#ifdef _WIN64
+				signed __int64				int_value;
+				unsigned __int64			pointer_value;
+#else
+				signed __int32				int_value;
+				unsigned __int32			pointer_value;
+#endif
+			};
+
 			class BasicExpression : public Object, private NotCopyable
 			{
 			public:
@@ -59,8 +100,8 @@ Primitive Expression
 			class BasicNumericExpression : public BasicPrimitiveExpression
 			{
 			public:
-				basicil::BasicIns::ValueType				type;
-				basicil::BasicIns::Argument					argument;
+				BasicPrimitiveTypeEnum						type;
+				BasicPrimitiveValueEnum						argument;
 			};
 
 			class BasicMbcsStringExpression : public BasicPrimitiveExpression
@@ -72,7 +113,7 @@ Primitive Expression
 			class BasicUnicodeStringExpression : public BasicPrimitiveExpression
 			{
 			public:
-				AString										value;
+				WString										value;
 			};
 
 /***********************************************************************
@@ -87,7 +128,7 @@ Operator Expression
 					PrefixIncrease,
 					PostfixIncrease,
 					PrefixDecrease,
-					PostfixDecrase,
+					PostfixDecrease,
 					GetAddress,
 					DereferencePointer,
 					Negative,
@@ -112,8 +153,8 @@ Operator Expression
 			class BasicSubscribeExpression : public BasicExpression
 			{
 			public:
-				Ptr<BasicExpression>						leftOperand;
-				Ptr<BasicExpression>						rightOperand;
+				Ptr<BasicExpression>						operand;
+				Ptr<BasicExpression>						subscribe;
 			};
 
 /***********************************************************************
@@ -144,6 +185,12 @@ Other Expression
 			public:
 				Ptr<BasicExpression>						operand;
 				Ptr<BasicType>								type;
+			};
+
+			class BasicReferenceExpression : public BasicExpression
+			{
+			public:
+				WString										name;
 			};
 
 /***********************************************************************
@@ -219,7 +266,7 @@ Type
 			class BasicPrimitiveType : public BasicType
 			{
 			public:
-				basicil::BasicIns::ValueType				type;
+				BasicPrimitiveTypeEnum						type;
 			};
 
 			class BasicPointerType : public BasicType
