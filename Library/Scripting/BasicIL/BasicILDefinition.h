@@ -4,6 +4,8 @@ Developer: ³Âè÷å«(vczh)
 Scripting::BasicIL
 
 Classes:
+  BasicIns									£ºÖ¸Áî
+  BasicIL									£ºÖ¸Áî±í
 
 OpCode:
   stack				:low(0) push<--data-->pop high(size)
@@ -14,6 +16,9 @@ OpCode:
   add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
   eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
   mod|shl|shr		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
+  and|or|xor		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
+  not				INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
+  neg				INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
   read				TYPE						:*stack_top* TYPE*					-> TYPE
   write				TYPE						:*stack_top* TYPE* TYPE				->
   jump				INSTRUCTION_INDEX(int)
@@ -25,6 +30,7 @@ OpCode:
   convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
   stack_offset		BYTES(int)					:*stack_top*						-> pointer
   stack_reserve		BYTES(int)(+=push, -=pop)
+  data_offset		BYTES(int)					:*stack_top*						-> pointer
   resptr										:*stack_top*						-> pointer
   ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETSTACK RETINS RETPTR	->
 
@@ -44,6 +50,7 @@ OpCode:
 
 #include "..\..\String.h"
 #include "..\..\Collections\List.h"
+#include "..\..\Stream\MemoryStream.h"
 
 namespace vl
 {
@@ -75,13 +82,13 @@ namespace vl
 				enum OpCode
 				{
 					push,pushins,
-					add,sub,mul,div,mod,shl,shr,
+					add,sub,mul,div,mod,shl,shr,neg,
+					and,or,xor,not,
 					eq,ne,lt,le,gt,ge,
 					read,write,
 					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,
 					convert,
-					stack_offset,
-					stack_reserve,
+					stack_offset,stack_reserve,data_offset,
 					resptr,
 					ret,
 
@@ -153,6 +160,7 @@ namespace vl
 			{
 			public:
 				collections::List<BasicIns>		instructions;
+				stream::MemoryStream			data;
 
 				BasicIL&						Ins(BasicIns::OpCode opcode);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::Argument argument);

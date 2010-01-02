@@ -754,6 +754,26 @@
 						</File>
 					</Filter>
 				</Filter>
+				<Filter
+					Name="BasicLanguage"
+					>
+					<Filter
+						Name="Header Files"
+						>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Source Files"
+						>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>
