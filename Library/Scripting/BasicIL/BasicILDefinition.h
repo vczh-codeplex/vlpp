@@ -113,7 +113,7 @@ namespace vl
 					float						f32;
 					double						f64;
 
-					unsigned __int8				bool_value;
+					bool						bool_value;
 					char						char_value;
 					wchar_t						wchar_value;
 #ifdef _WIN64

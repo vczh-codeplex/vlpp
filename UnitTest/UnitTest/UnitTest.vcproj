@@ -764,12 +764,20 @@
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="Source Files"
 						>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.cpp"
 							>
 						</File>
 					</Filter>
