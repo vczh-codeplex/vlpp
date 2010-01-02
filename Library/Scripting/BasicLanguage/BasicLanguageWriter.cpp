@@ -234,6 +234,14 @@ BasicExpressionNode
 				return result;
 			}
 
+			BasicExpressionNode BasicExpressionNode::operator~()const
+			{
+				Ptr<BasicUnaryExpression> result=new BasicUnaryExpression;
+				result->operand=expression;
+				result->type=BasicUnaryExpression::BitNot;
+				return result;
+			}
+
 			BasicExpressionNode BasicExpressionNode::operator+(const BasicExpressionNode& node)const
 			{
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
@@ -321,6 +329,24 @@ BasicExpressionNode
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
 				result->type=BasicBinaryExpression::Xor;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator&&(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::BitAnd;
+				return result;
+			}
+
+			BasicExpressionNode BasicExpressionNode::operator||(const BasicExpressionNode& node)const
+			{
+				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
+				result->leftOperand=expression;
+				result->rightOperand=node.GetInternalValue();
+				result->type=BasicBinaryExpression::BitOr;
 				return result;
 			}
 
@@ -782,6 +808,127 @@ BasicStatementNode
 				result->sideEffect=sideEffect.GetInternalValue();
 				result->statement=statement.GetInternalValue();
 				return result;
+			}
+
+/***********************************************************************
+BasicFunctionDeclarationNode
+***********************************************************************/
+
+			BasicFunctionDeclarationNode::BasicFunctionDeclarationNode(Ptr<BasicFunctionDeclaration> _declaration)
+				:declaration(_declaration)
+			{
+			}
+
+			Ptr<BasicFunctionDeclaration> BasicFunctionDeclarationNode::GetInternalValue()
+			{
+				return declaration;
+			}
+
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::ReturnType(const BasicTypeNode& type)
+			{
+				declaration->signatureType->returnType=type.GetInternalValue();
+				return *this;
+			}
+
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Parameter(const BasicTypeNode& type, const WString& name)
+			{
+				declaration->signatureType->parameterTypes.Add(type.GetInternalValue());
+				declaration->parameterNames.Add(name);
+				return *this;
+			}
+
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::ExternalKey(const WString& key)
+			{
+				declaration->externalKey=key;
+				return *this;
+			}
+
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Statement(const BasicStatementNode& statement)
+			{
+				declaration->statement=statement.GetInternalValue();
+				return *this;
+			}
+
+/***********************************************************************
+BasicStructureDeclarationNode
+***********************************************************************/
+
+			BasicStructureDeclarationNode::BasicStructureDeclarationNode(Ptr<BasicFunctionDeclaration> _declaration)
+				:declaration(_declaration)
+			{
+			}
+
+			Ptr<BasicStructureDeclaration> BasicStructureDeclarationNode::GetInternalValue()
+			{
+				return declaration;
+			}
+				
+			BasicStructureDeclarationNode& BasicStructureDeclarationNode::Member(const BasicTypeNode& type, const WString& name)
+			{
+				declaration->memberTypes.Add(type.GetInternalValue());
+				declaration->memberNames.Add(name);
+				return *this;
+			}
+
+/***********************************************************************
+BasicProgramNode
+***********************************************************************/
+
+			BasicProgramNode::BasicProgramNode()
+			{
+				program=new BasicProgram;
+			}
+
+			Ptr<BasicProgram> BasicProgramNode::GetInternalValue()
+			{
+				return program;
+			}
+
+			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				declaration->initializer=initializer.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			void BasicProgramNode::DefineRename(const WString& name, const BasicTypeNode& type)
+			{
+				Ptr<BasicTypeRenameDeclaration> declaration=new BasicTypeRenameDeclaration;
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			BasicFunctionDeclarationNode BasicProgramNode::DefineFunction(const WString& name)
+			{
+				Ptr<BasicFunctionDeclaration> declaration=new BasicFunctionDeclaration;
+
+				declaration->signatureType=new BasicFunctionType;
+				Ptr<BasicPrimitiveType> voidType=new BasicPrimitiveType;
+				voidType->type=void_type;
+				declaration->signatureType->returnType=voidType;
+
+				declaration->name=name;
+				program->declarations.Add(declaration);
+				return declaration;
+			}
+
+			BasicStructureDeclarationNode BasicProgramNode::DefineStructure(const WString& name)
+			{
+				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
+				declaration->name=name;
+				program->declarations.Add(declaration);
+				return declaration;
 			}
 		}
 	}
