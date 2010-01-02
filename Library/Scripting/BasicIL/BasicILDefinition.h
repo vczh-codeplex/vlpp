@@ -11,38 +11,41 @@ OpCode:
   stack				:low(0) push<--data-->pop high(size)
   <binary opcode>	:*stack_top* left_operand right_operand
 
-  push				TYPE			CONSTANT	:*stack_top*						-> TYPE
-  pushins			CONSTANT					:*stack_top*						-> instruction_pointer
-  add|sub|mul|div	TYPE						:*stack_top* TYPE TYPE				-> TYPE
-  eq|ne|lt|le|gt|ge	TYPE						:*stack_top* TYPE TYPE				-> bool
-  mod|shl|shr		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
-  and|or|xor		INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
-  not				INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
-  neg				INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
-  read				TYPE						:*stack_top* TYPE*					-> TYPE
-  write				TYPE						:*stack_top* TYPE* TYPE				->
-  jump				INSTRUCTION_INDEX(int)
-  jumptrue			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
-  jumpfalse			INSTRUCTION_INDEX(int)		:*stack_top* bool					->
-  call				INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETSTACK RETINS RETPTR
-  call_indirect									:*stack_top* PUSHINS RETPTR			-> *stack_offset_zero* RETSTACK RETINS RETPTR
-  call_foreign		FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					-> RETPTR
-  convert			DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
-  stack_offset		BYTES(int)					:*stack_top*						-> pointer
-  stack_reserve		BYTES(int)(+=push, -=pop)
-  data_offset		BYTES(int)					:*stack_top*						-> pointer
-  resptr										:*stack_top*						-> pointer
-  ret				STACK_RESERVE_BYTES(int)	:*stack_top* RETSTACK RETINS RETPTR	->
-
-  memcpy										:*stack_top* DSTPTR SRCPTR BYTES	->
-  memzero										:*stack_top* DSTPTR BYTES			->
-  memcmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
-  strcpy										:*stack_top* DSTPTR SRCPTR			->
-  wcscpy										:*stack_top* DSTPTR SRCPTR			->
-  strcmp										:*stack_top* DSTPTR SRCPTR			-> int
-  wcscmp										:*stack_top* DSTPTR SRCPTR			-> int
-  strncmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
-  wcsncmp										:*stack_top* DSTPTR SRCPTR BYTES	-> int
+  push					TYPE			CONSTANT	:*stack_top*						-> TYPE
+  pushins				CONSTANT					:*stack_top*						-> instruction_pointer
+  add|sub|mul|div		TYPE						:*stack_top* TYPE TYPE				-> TYPE
+  eq|ne|lt|le|gt|ge		TYPE						:*stack_top* TYPE TYPE				-> bool
+  mod|shl|shr			INTEGER_TYPE				:*stack_top* TYPE TYPE				-> TYPE
+  and|or|xor										:*stack_top* bool bool				-> bool
+  bitand|bitor|bitxor	INTEGER_TYPE				:*stack_typ* TYPE TYPE				-> TYPE
+  not												:*stack_top* bool					-> bool
+  bitnot				INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
+  neg					INTEGER_TYPE				:*stack_top* TYPE					-> TYPE
+  read					TYPE						:*stack_top* TYPE*					-> TYPE
+  write					TYPE						:*stack_top* TYPE* TYPE				->
+  jump					INSTRUCTION_INDEX(int)
+  jumptrue				INSTRUCTION_INDEX(int)		:*stack_top* bool					->
+  jumpfalse				INSTRUCTION_INDEX(int)		:*stack_top* bool					->
+  call					INSTRUCTION_INDEX(int)		:*stack_top* RETPTR					-> *stack_offset_zero* RETSTACK RETINS RETPTR
+  call_indirect										:*stack_top* PUSHINS RETPTR			-> *stack_offset_zero* RETSTACK RETINS RETPTR
+  call_foreign			FOREIGN_FUNCTION_INDEX(int)	:*stack_top* RETPTR					-> RETPTR
+  convert				DEST_TYPE		SOURCE_TYPE	:*stack_top* SOURCE_TYPE			-> DEST_TYPE
+  stack_offset			BYTES(int)					:*stack_top*						-> pointer
+  stack_top				BYTES(int)					:*stack_top*						-> pointer(old stack top pointer)
+  stack_reserve			BYTES(int)(+=push, -=pop)
+  data_offset			BYTES(int)					:*stack_top*						-> pointer
+  resptr											:*stack_top*						-> pointer
+  ret					STACK_RESERVE_BYTES(int)	:*stack_top* RETSTACK RETINS RETPTR	->
+	
+  memcpy											:*stack_top* DSTPTR SRCPTR BYTES	->
+  memzero											:*stack_top* DSTPTR BYTES			->
+  memcmp											:*stack_top* DSTPTR SRCPTR BYTES	-> int
+  strcpy											:*stack_top* DSTPTR SRCPTR			->
+  wcscpy											:*stack_top* DSTPTR SRCPTR			->
+  strcmp											:*stack_top* DSTPTR SRCPTR			-> int
+  wcscmp											:*stack_top* DSTPTR SRCPTR			-> int
+  strncmp											:*stack_top* DSTPTR SRCPTR BYTES	-> int
+  wcsncmp											:*stack_top* DSTPTR SRCPTR BYTES	-> int
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
@@ -83,12 +86,12 @@ namespace vl
 				{
 					push,pushins,
 					add,sub,mul,div,mod,shl,shr,neg,
-					and,or,xor,not,
+					and,or,xor,not,bitand,bitor,bitxor,bitnot,
 					eq,ne,lt,le,gt,ge,
 					read,write,
 					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,
 					convert,
-					stack_offset,stack_reserve,data_offset,
+					stack_offset,stack_top,stack_reserve,data_offset,
 					resptr,
 					ret,
 

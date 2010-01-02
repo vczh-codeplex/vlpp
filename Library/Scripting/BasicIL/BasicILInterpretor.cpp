@@ -594,15 +594,27 @@ BasicILInterpretor
 							SIGNED_NUMERIC_INSTRUCTION(Neg_)
 							break;
 						case BasicIns::and:
-							INTEGER_INSTRUCTION(And_)
+							And_<bool>(env);
 							break;
 						case BasicIns::or:
-							INTEGER_INSTRUCTION(Or_)
+							Or_<bool>(env);
 							break;
 						case BasicIns::xor:
-							INTEGER_INSTRUCTION(Xor_)
+							Xor_<bool>(env);
 							break;
 						case BasicIns::not:
+							Not_<bool>(env);
+							break;
+						case BasicIns::bitand:
+							INTEGER_INSTRUCTION(And_)
+							break;
+						case BasicIns::bitor:
+							INTEGER_INSTRUCTION(Or_)
+							break;
+						case BasicIns::bitxor:
+							INTEGER_INSTRUCTION(Xor_)
+							break;
+						case BasicIns::bitnot:
 							INTEGER_INSTRUCTION(Not_)
 							break;
 						case BasicIns::eq:
@@ -670,6 +682,12 @@ BasicILInterpretor
 							{
 								int stackBase=env->StackBase();
 								env->Push<void*>(env->DereferenceStack(stackBase+ins.argument.int_value));
+							}
+							break;
+						case BasicIns::stack_top:
+							{
+								int stackTop=env->StackTop();
+								env->Push<void*>(env->DereferenceStack(stackTop+ins.argument.int_value));
 							}
 							break;
 						case BasicIns::stack_reserve:
