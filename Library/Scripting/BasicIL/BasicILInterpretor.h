@@ -4,6 +4,8 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicIL
 
 Classes:
+  BasicILEnv						：指令执行环境
+  BasicILInterpretor				：指令虚拟机
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
@@ -59,6 +61,8 @@ namespace vl
 				int						instruction;
 				int						foreignFunctionIndex;
 				void*					foreignFunctionResult;
+				unsigned char*			data;
+				int						dataSize;
 			public:
 				enum RunningResult
 				{

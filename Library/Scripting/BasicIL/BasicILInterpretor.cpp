@@ -154,6 +154,75 @@ Instructions
 			}
 
 			template<typename T>
+			void Neg_(BasicILEnv* env)
+			{
+				T value=env->Pop<T>();
+				env->Push<T>(-value);
+			}
+
+			template<typename T>
+			void And_(BasicILEnv* env)
+			{
+				T left=env->Pop<T>();
+				T right=env->Pop<T>();
+				env->Push<T>(left&right);
+			}
+
+			template<typename T>
+			void Or_(BasicILEnv* env)
+			{
+				T left=env->Pop<T>();
+				T right=env->Pop<T>();
+				env->Push<T>(left|right);
+			}
+
+			template<typename T>
+			void Xor_(BasicILEnv* env)
+			{
+				T left=env->Pop<T>();
+				T right=env->Pop<T>();
+				env->Push<T>(left^right);
+			}
+
+			template<typename T>
+			void Not_(BasicILEnv* env)
+			{
+				T value=env->Pop<T>();
+				env->Push<T>(~value);
+			}
+
+			template<>
+			void And_<bool>(BasicILEnv* env)
+			{
+				bool left=env->Pop<bool>();
+				bool right=env->Pop<bool>();
+				env->Push<bool>(left&&right);
+			}
+
+			template<>
+			void Or_<bool>(BasicILEnv* env)
+			{
+				bool left=env->Pop<bool>();
+				bool right=env->Pop<bool>();
+				env->Push<bool>(left||right);
+			}
+
+			template<>
+			void Xor_<bool>(BasicILEnv* env)
+			{
+				bool left=env->Pop<bool>();
+				bool right=env->Pop<bool>();
+				env->Push<bool>(left^right);
+			}
+
+			template<>
+			void Not_<bool>(BasicILEnv* env)
+			{
+				bool value=env->Pop<bool>();
+				env->Push<bool>(!value);
+			}
+
+			template<typename T>
 			void Eq_(BasicILEnv* env)
 			{
 				T left=env->Pop<T>();
@@ -233,10 +302,15 @@ BasicILInterpretor
 				instructions=_instructions;
 				instruction=-1;
 				foreignFunctionIndex=-1;
+				dataSize=(int)instructions->data.Size();
+				data=new unsigned char[dataSize];
+				instructions->data.SeekFromBegin(0);
+				instructions->data.Read(data, dataSize);
 			}
 
 			BasicILInterpretor::~BasicILInterpretor()
 			{
+				delete[] data;
 				delete env;
 			}
 
@@ -300,6 +374,31 @@ BasicILInterpretor
 				break;\
 			case BasicIns::u64:\
 				METHOD<unsigned __int64>(env);\
+				break;\
+			case BasicIns::f32:\
+				METHOD<float>(env);\
+				break;\
+			case BasicIns::f64:\
+				METHOD<double>(env);\
+				break;\
+			default:\
+				return BasicILInterpretor::BadInstructionArgument;\
+			}
+
+#define SIGNED_NUMERIC_INSTRUCTION(METHOD)\
+			switch(ins.type1)\
+			{\
+			case BasicIns::s8:case BasicIns::u8:\
+				METHOD<signed __int8>(env);\
+				break;\
+			case BasicIns::s16:case BasicIns::u16:\
+				METHOD<signed __int16>(env);\
+				break;\
+			case BasicIns::s32:case BasicIns::u32:\
+				METHOD<signed __int32>(env);\
+				break;\
+			case BasicIns::s64:case BasicIns::u64:\
+				METHOD<signed __int64>(env);\
 				break;\
 			case BasicIns::f32:\
 				METHOD<float>(env);\
@@ -491,6 +590,21 @@ BasicILInterpretor
 						case BasicIns::shr:
 							INTEGER_INSTRUCTION(Shr_)
 							break;
+						case BasicIns::neg:
+							SIGNED_NUMERIC_INSTRUCTION(Neg_)
+							break;
+						case BasicIns::and:
+							INTEGER_INSTRUCTION(And_)
+							break;
+						case BasicIns::or:
+							INTEGER_INSTRUCTION(Or_)
+							break;
+						case BasicIns::xor:
+							INTEGER_INSTRUCTION(Xor_)
+							break;
+						case BasicIns::not:
+							INTEGER_INSTRUCTION(Not_)
+							break;
 						case BasicIns::eq:
 							NUMERIC_INSTRUCTION(Eq_)
 							break;
@@ -560,6 +674,9 @@ BasicILInterpretor
 							break;
 						case BasicIns::stack_reserve:
 							env->Reserve(ins.argument.int_value);
+							break;
+						case BasicIns::data_offset:
+							env->Push<void*>(data+ins.argument.int_value);
 							break;
 						case BasicIns::resptr:
 							{
