@@ -86,6 +86,7 @@ Expression
 				BasicExpressionNode						operator*()const;
 				BasicExpressionNode						operator-()const;
 				BasicExpressionNode						operator!()const;
+				BasicExpressionNode						operator~()const;
 
 				BasicExpressionNode						operator+(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator-(const BasicExpressionNode& node)const;
@@ -97,6 +98,8 @@ Expression
 				BasicExpressionNode						operator&(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator|(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator^(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator&&(const BasicExpressionNode& node)const;
+				BasicExpressionNode						operator||(const BasicExpressionNode& node)const;
 
 				BasicExpressionNode						operator+=(const BasicExpressionNode& node)const;
 				BasicExpressionNode						operator-=(const BasicExpressionNode& node)const;
@@ -170,6 +173,50 @@ Statement
 			extern BasicStatementNode					s_return();
 			extern BasicStatementNode					s_empty();
 			extern BasicStatementNode					s_for(const BasicStatementNode& initializer, const BasicExpressionNode& condition, const BasicStatementNode& sideEffect, const BasicStatementNode& statement);
+
+/***********************************************************************
+Declaration
+***********************************************************************/
+
+			class BasicFunctionDeclarationNode : public Object
+			{
+			protected:
+				Ptr<BasicFunctionDeclaration>			declaration;
+			public:
+				BasicFunctionDeclarationNode(Ptr<BasicFunctionDeclaration> _declaration);
+				Ptr<BasicFunctionDeclaration>			GetInternalValue();
+
+				BasicFunctionDeclarationNode&			ReturnType(const BasicTypeNode& type);
+				BasicFunctionDeclarationNode&			Parameter(const BasicTypeNode& type, const WString& name);
+				BasicFunctionDeclarationNode&			ExternalKey(const WString& key);
+				BasicFunctionDeclarationNode&			Statement(const BasicStatementNode& statement);
+			};
+
+			class BasicStructureDeclarationNode : public Object
+			{
+			protected:
+				Ptr<BasicStructureDeclaration>			declaration;
+			public:
+				BasicStructureDeclarationNode(Ptr<BasicFunctionDeclaration> _declaration);
+				Ptr<BasicStructureDeclaration>			GetInternalValue();
+				
+				BasicStructureDeclarationNode&			Member(const BasicTypeNode& type, const WString& name);
+			};
+
+			class BasicProgramNode : public Object
+			{
+			protected:
+				Ptr<BasicProgram>						program;
+			public:
+				BasicProgramNode();
+				Ptr<BasicProgram>						GetInternalValue();
+
+				void									DefineVariable(const WString& name, const BasicTypeNode& type);
+				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
+				void									DefineRename(const WString& name, const BasicTypeNode& type);
+				BasicFunctionDeclarationNode			DefineFunction(const WString& name);
+				BasicStructureDeclarationNode			DefineStructure(const WString& name);
+			};
 		}
 	}
 }

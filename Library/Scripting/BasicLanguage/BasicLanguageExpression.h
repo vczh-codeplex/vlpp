@@ -133,6 +133,7 @@ Operator Expression
 					DereferencePointer,
 					Negative,
 					Not,
+					BitNot,
 				}											type;
 				Ptr<BasicExpression>						operand;
 			};
@@ -143,7 +144,7 @@ Operator Expression
 				enum OperatorType
 				{
 					Add,Sub,Mul,Div,Mod,Shl,Shr,
-					And,Or,Xor,
+					And,Or,Xor,BitAnd,BitOr,
 					Lt,Le,Gt,Ge,Eq,Ne,
 					AddAssign,
 					SubAssign,
@@ -316,7 +317,7 @@ Declaration
 			public:
 				Ptr<BasicFunctionType>						signatureType;
 				collections::List<WString>					parameterNames;
-				Ptr<BasicStatement>							functionBody;
+				Ptr<BasicStatement>							statement;
 				WString										externalKey;
 			};
 
@@ -324,7 +325,7 @@ Declaration
 			{
 			public:
 				collections::List<Ptr<BasicType>>			memberTypes;
-				collections::List<Ptr<BasicType>>			memberNames;
+				collections::List<WString>					memberNames;
 			};
 
 			class BasicVariableDeclaration : public BasicDeclaration
