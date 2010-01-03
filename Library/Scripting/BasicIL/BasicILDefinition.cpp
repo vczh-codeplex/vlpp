@@ -16,16 +16,17 @@ BasicIns
 				type1=(ValueType)0;
 				type2=(ValueType)0;
 				argument.s64=0;
+				insKey=-1;
 			}
 
 			bool BasicIns::operator==(const BasicIns& ins)const
 			{
-				return opcode==ins.opcode && type1==ins.type1 && type2==ins.type2 && argument.s64==ins.argument.s64;
+				return opcode==ins.opcode && type1==ins.type1 && type2==ins.type2 && argument.s64==ins.argument.s64 && insKey==ins.insKey;
 			}
 
 			bool BasicIns::operator!=(const BasicIns& ins)const
 			{
-				return opcode!=ins.opcode || type1!=ins.type1 || type2!=ins.type2 || argument.s64!=ins.argument.s64;
+				return opcode!=ins.opcode || type1!=ins.type1 || type2!=ins.type2 || argument.s64!=ins.argument.s64 || insKey!=ins.insKey;
 			}
 
 			BasicIns::Argument BasicIns::Makes8(signed __int8 s8)

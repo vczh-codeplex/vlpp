@@ -22,21 +22,21 @@ namespace vl
 			class BasicILEnv : public Object
 			{
 			protected:
-				int						stackBase;
-				int						stackSize;
-				int						stackTop;
-				unsigned char*			stack;
+				int								stackBase;
+				int								stackSize;
+				int								stackTop;
+				unsigned char*					stack;
 			public:
 				BasicILEnv(int _stackSize);
 				~BasicILEnv();
 
-				int						StackBase()const;
-				int						StackSize()const;
-				int						StackTop()const;
-				void*					DereferenceStack(int stackPosition)const;
-				void*					Reserve(int size);
-				void					Reset();
-				void					SetBase(int stackPosition);
+				int								StackBase()const;
+				int								StackSize()const;
+				int								StackTop()const;
+				void*							DereferenceStack(int stackPosition)const;
+				void*							Reserve(int size);
+				void							Reset();
+				void							SetBase(int stackPosition);
 
 				template<typename T>
 				void Push(const T& value)
@@ -56,13 +56,13 @@ namespace vl
 			class BasicILInterpretor : public Object
 			{
 			protected:
-				BasicILEnv*				env;
-				BasicIL*				instructions;
-				int						instruction;
-				int						foreignFunctionIndex;
-				void*					foreignFunctionResult;
-				unsigned char*			data;
-				int						dataSize;
+				BasicILEnv*						env;
+				BasicIL**						ils;
+				int								ilCount;
+				int								instruction;
+				int								insKey;
+				int								foreignFunctionIndex;
+				void*							foreignFunctionResult;
 			public:
 				enum RunningResult
 				{
@@ -76,15 +76,17 @@ namespace vl
 					BadInstructionArgument,
 				};
 
-				BasicILInterpretor(int _stackSize, BasicIL* _instructions);
+				BasicILInterpretor(int _stackSize);
 				~BasicILInterpretor();
 
-				void					Reset(int entryInstruction, int returnSize);
-				int						GetForeignFunctionIndex();
-				void*					GetForeignFunctionResult();
-				BasicILEnv*				GetEnv();
-				int						GetInstruction();
-				RunningResult			Run();
+				int								LoadIL(BasicIL* il);
+				void							UnloadIL(BasicIL* il);
+				void							Reset(int entryInstruction, int entryInsKey, int returnSize);
+				int								GetForeignFunctionIndex();
+				void*							GetForeignFunctionResult();
+				BasicILEnv*						GetEnv();
+				int								GetInstruction();
+				RunningResult					Run();
 			};
 		}
 	}
