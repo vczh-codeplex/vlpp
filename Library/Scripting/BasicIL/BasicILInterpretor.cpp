@@ -191,37 +191,6 @@ Instructions
 				env->Push<T>(~value);
 			}
 
-			template<>
-			void And_<bool>(BasicILEnv* env)
-			{
-				bool left=env->Pop<bool>();
-				bool right=env->Pop<bool>();
-				env->Push<bool>(left&&right);
-			}
-
-			template<>
-			void Or_<bool>(BasicILEnv* env)
-			{
-				bool left=env->Pop<bool>();
-				bool right=env->Pop<bool>();
-				env->Push<bool>(left||right);
-			}
-
-			template<>
-			void Xor_<bool>(BasicILEnv* env)
-			{
-				bool left=env->Pop<bool>();
-				bool right=env->Pop<bool>();
-				env->Push<bool>(left^right);
-			}
-
-			template<>
-			void Not_<bool>(BasicILEnv* env)
-			{
-				bool value=env->Pop<bool>();
-				env->Push<bool>(!value);
-			}
-
 			template<typename T>
 			void Eq_(BasicILEnv* env)
 			{
@@ -296,36 +265,64 @@ Instructions
 BasicILInterpretor
 ***********************************************************************/
 
-			BasicILInterpretor::BasicILInterpretor(int _stackSize, BasicIL* _instructions)
+			BasicILInterpretor::BasicILInterpretor(int _stackSize)
 			{
 				env=new BasicILEnv(_stackSize);
-				instructions=_instructions;
+				ils=0;
+				ilCount=0;
 				instruction=-1;
+				insKey=-1;
 				foreignFunctionIndex=-1;
-				dataSize=(int)instructions->data.Size();
-				data=new unsigned char[dataSize];
-				instructions->data.SeekFromBegin(0);
-				instructions->data.Read(data, dataSize);
 			}
 
 			BasicILInterpretor::~BasicILInterpretor()
 			{
-				delete[] data;
+				if(ils)
+				{
+					delete[] ils;
+				}
 				delete env;
 			}
 
-			void BasicILInterpretor::Reset(int entryInstruction, int returnSize)
+			int BasicILInterpretor::LoadIL(BasicIL* il)
+			{
+				BasicIL** newils=new BasicIL*[ilCount+1];
+				if(ils)
+				{
+					memcpy(newils, ils, ilCount*sizeof(BasicIL*));
+					delete[] ils;
+				}
+				ils=newils;
+				ils[ilCount]=il;
+				return ilCount++;
+			}
+
+			void BasicILInterpretor::UnloadIL(BasicIL* il)
+			{
+				for(int i=0;i<ilCount;i++)
+				{
+					if(ils[i]==il)
+					{
+						ils[i]=0;
+					}
+				}
+			}
+
+			void BasicILInterpretor::Reset(int entryInstruction, int entryInsKey, int returnSize)
 			{
 				// reserve returnSize
 				// push returnPointer
+				// push returnInsKey
 				// push returnInstruction
 				// push returnStackBase
 				void* returnPointer=env->Reserve(returnSize);
 				env->Push<void*>(returnPointer);
+				env->Push<int>(-2);
 				env->Push<int>(-1);
 				env->Push<int>(env->StackSize());
 				env->SetBase(env->StackTop());
 				instruction=entryInstruction;
+				insKey=entryInsKey;
 			}
 
 			int BasicILInterpretor::GetForeignFunctionIndex()
@@ -521,12 +518,17 @@ BasicILInterpretor
 				{
 					while(instruction!=-1)
 					{
-						if(instruction<0||instruction>=instructions->instructions.Count())
+						if(insKey<0 || insKey>=ilCount || ils[insKey]==0)
+						{
+							return BasicILInterpretor::InstructionIndexOutOfRange;
+						}
+						if(instruction<0||instruction>=ils[insKey]->instructions.Count())
 						{
 							return BasicILInterpretor::InstructionIndexOutOfRange;
 						}
 						int nextInstruction=instruction+1;
-						BasicIns& ins=instructions->instructions[instruction];
+						int nextInsKey=insKey;
+						BasicIns& ins=ils[insKey]->instructions[instruction];
 						switch(ins.opcode)
 						{
 						case BasicIns::push:
@@ -567,6 +569,7 @@ BasicILInterpretor
 							}
 							break;
 						case BasicIns::pushins:
+							env->Push<int>(ins.insKey);
 							env->Push<int>(ins.argument.int_value);
 							break;
 						case BasicIns::add:
@@ -594,27 +597,15 @@ BasicILInterpretor
 							SIGNED_NUMERIC_INSTRUCTION(Neg_)
 							break;
 						case BasicIns::and:
-							And_<bool>(env);
-							break;
-						case BasicIns::or:
-							Or_<bool>(env);
-							break;
-						case BasicIns::xor:
-							Xor_<bool>(env);
-							break;
-						case BasicIns::not:
-							Not_<bool>(env);
-							break;
-						case BasicIns::bitand:
 							INTEGER_INSTRUCTION(And_)
 							break;
-						case BasicIns::bitor:
+						case BasicIns::or:
 							INTEGER_INSTRUCTION(Or_)
 							break;
-						case BasicIns::bitxor:
+						case BasicIns::xor:
 							INTEGER_INSTRUCTION(Xor_)
 							break;
-						case BasicIns::bitnot:
+						case BasicIns::not:
 							INTEGER_INSTRUCTION(Not_)
 							break;
 						case BasicIns::eq:
@@ -643,32 +634,40 @@ BasicILInterpretor
 							break;
 						case BasicIns::jump:
 							nextInstruction=ins.argument.int_value;
+							nextInsKey=ins.insKey;
 							break;
 						case BasicIns::jumptrue:
 							if(env->Pop<bool>())
 							{
 								nextInstruction=ins.argument.int_value;
+								nextInsKey=ins.insKey;
 							}
 							break;
 						case BasicIns::jumpfalse:
 							if(!env->Pop<bool>())
 							{
 								nextInstruction=ins.argument.int_value;
+								nextInsKey=ins.insKey;
 							}
 							break;
 						case BasicIns::call:
+							env->Push<int>(insKey);
 							env->Push<int>(nextInstruction);
 							env->Push<int>(env->StackBase());
 							env->SetBase(env->StackTop());
 							nextInstruction=ins.argument.int_value;
+							nextInsKey=ins.insKey;
 							break;
 						case BasicIns::call_indirect:
 							{
 								int pushins=env->Pop<int>();
+								int pushkey=env->Pop<int>();
+								env->Push<int>(insKey);
 								env->Push<int>(nextInstruction);
 								env->Push<int>(env->StackBase());
 								env->SetBase(env->StackTop());
 								nextInstruction=pushins;
+								nextInsKey=pushkey;
 							}
 							break;
 						case BasicIns::call_foreign:
@@ -693,12 +692,9 @@ BasicILInterpretor
 						case BasicIns::stack_reserve:
 							env->Reserve(ins.argument.int_value);
 							break;
-						case BasicIns::data_offset:
-							env->Push<void*>(data+ins.argument.int_value);
-							break;
 						case BasicIns::resptr:
 							{
-								void* pointer=*(void**)(env->DereferenceStack(env->StackBase()+2*sizeof(void*)));
+								void* pointer=*(void**)(env->DereferenceStack(env->StackBase()+3*sizeof(void*)));
 								env->Push<void*>(pointer);
 							}
 							break;
@@ -706,10 +702,12 @@ BasicILInterpretor
 							{
 								int stackBase=env->Pop<int>();
 								int returnInstruction=env->Pop<int>();
+								int returnInsKey=env->Pop<int>();
 								env->Pop<void*>();
 								env->SetBase(stackBase);
 								env->Reserve(-ins.argument.int_value);
 								nextInstruction=returnInstruction;
+								nextInsKey=returnInsKey;
 							}
 							break;
 						case BasicIns::memcpy:
@@ -783,6 +781,10 @@ BasicILInterpretor
 							return BasicILInterpretor::UnknownInstruction;
 						}
 						instruction=nextInstruction;
+						if(nextInsKey!=-1)
+						{
+							insKey=nextInsKey;
+						}
 					}
 					return BasicILInterpretor::Finished;
 				}
