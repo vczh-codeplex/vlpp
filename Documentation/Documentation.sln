@@ -41,12 +41,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections"
 	ProjectSection(SolutionItems) = preProject
 		English\Vczh Library++\Collections\Collections.htm = English\Vczh Library++\Collections\Collections.htm
 		English\Vczh Library++\Collections\Interfaces.htm = English\Vczh Library++\Collections\Interfaces.htm
+		English\Vczh Library++\Collections\Linq.htm = English\Vczh Library++\Collections\Linq.htm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections", "{798AEB82-557A-43F8-99D2-B2F6499F0FCB}"
 	ProjectSection(SolutionItems) = preProject
 		Chinese\Vczh Library++\Collections\Collections.htm = Chinese\Vczh Library++\Collections\Collections.htm
 		Chinese\Vczh Library++\Collections\Interfaces.htm = Chinese\Vczh Library++\Collections\Interfaces.htm
+		Chinese\Vczh Library++\Collections\Linq.htm = Chinese\Vczh Library++\Collections\Linq.htm
 	EndProjectSection
 EndProject
 Global
