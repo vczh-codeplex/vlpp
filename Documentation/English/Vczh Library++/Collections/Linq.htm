@@ -1,0 +1,85 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Collections</title>
+</head>
+<body>
+<h1>namespace vl::collections;</h1>
+<h2>What is LinQ in Vczh Library++</h2>
+<p>The real LinQ is in .NET, what I do is just implementing a similar API in C++ based on Vczh Library++. Here I use collection>>operation(argument) instead of collection.operation(argument) which is in C# because C++ does not have extension methods but 
+    C++ provides a more powerful operator overloading than C#.</p>
+<p>The argument for each operation can be Func or function pointer. Operations can be connected together by >> like collection>>operation1(argument)>>operation2(argument).</p>
+<p>The result of each non aggregation is a enumerable object. You can use a reference to a constant IEnumerable, or use CopyFrom to access the result.</p>
+<p>Operations do not modify the input enumerable object, and operations do not really construct a new collection object if it is not necessary.</p>
+<h2>Select</h2>
+<p>Select is used to do conversion on a collection by performing transformation to each elements. The following code copy a list with each number increased by 1.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Inc(int i)
+{
+    return i+1;
+}
+
+int main()
+{
+    List&lt;int&gt; from, to;
+    for(int i=0;i<10;i++)
+    {
+        from.Add(i);
+    }
+    CopyFrom(to.Wrap(), from.Wrap()>>Select(Inc));
+    // now from == [0..9] and to == [1..10]
+    return 0;
+}
+</pre></td></tr></table>
+<h2>Where</h2>
+<p>Where is something like a filter. It takes a predicate function and give a collections containing elements that pass the predicate function. The following code find all even numbers and store their square into a list.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Even(int i)
+{
+    return i%2==0;
+}
+
+int Square(int i)
+{
+    return i*i;
+}
+
+int main()
+{
+    List&lt;int&gt; from, to;
+    for(int i=0;i<10;i++)
+    {
+        from.Add(i);
+    }
+    CopyFrom(to.Wrap(), from.Wrap()>>Where(Even)>>Select(Square));
+    // now from == [0..9] and to == [0, 4, 16, 36, 64]
+    return 0;
+}
+</pre></td></tr></table>
+<h2>Aggregate</h2>
+<h2>All</h2>
+<h2>Any</h2>
+<h2>Min</h2>
+<h2>Max</h2>
+<h2>Concat</h2>
+<h2>Repeat</h2>
+<h2>Take</h2>
+<h2>Skip</h2>
+<h2>Distinct</h2>
+<h2>Reverse</h2>
+<h2>Interset</h2>
+<h2>Union</h2>
+<h2>Except</h2>
+<h2>Pairwise</h2>
+</body>
+</html>
