@@ -66,20 +66,298 @@ int main()
     return 0;
 }
 </pre></td></tr></table>
-<h2>Aggregate</h2>
-<h2>All</h2>
-<h2>Any</h2>
-<h2>Min</h2>
-<h2>Max</h2>
+<h2>Aggregate, All, Any, Min, Max</h2>
+<p>Aggregate provide a tool to do aggregation on a collection like sum and product, but you should provide a function to calculate two value into one(like add and multiply). If you are not sure that the collection is not empty, you can provide a initial value(like 0 for add and 1 for multiply).</p>
+<p>All, Any, Min and Max is some convenient operations that are built by Aggregate(not forever). <b>Min and Max assume that the input collection is not empty, and can only be used on elements that have operator<(or operator> for max) defined on them.</b></p>
+<p>The following code calculates sum and product out of a list.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Add(int a, int b)
+{
+    return a+b;
+}
+
+int Mul(int a, int b)
+{
+    return a*b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    // assume that nums is not empty and do not provide an initial value
+    int sum=nums.Wrap()>>Aggregate(Add);
+    // do not assume that nums is not empty and provide an initial value
+    int product=nums.Wrap()>>Aggregate(Mul, 1);
+}
+</pre></td></tr></table>
+<p>The following code calculate the minimum and maximum number out of a list in two ways.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int MinInt(int a, int b)
+{
+    return a&lt;b?a:b;
+}
+
+int MaxInt(int a, int b)
+{
+    return a&gt;b?a:b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    // calculate the minimum number in two ways.
+    int min1=nums.Wrap()>>Min();
+    int min2=nums.Wrap()>>Aggregate(MinInt);
+    
+    // calculate the maximum number in two ways.
+    int max1=nums.Wrap()>>Max();
+    int max2=nums.Wrap()>>Aggregate(MaxInt);
+}
+</pre></td></tr></table>
+<p>The following code examine if all of the numbers in the list are odd in two ways.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Odd(int a)
+{
+    return a%2==1;
+}
+
+bool And(bool a, bool b)
+{
+    return a&&b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    // examine if all of the numbers are odd (should be false)
+    bool allOdd1=nums.Wrap()>>All(Odd);
+    bool allOdd2=nums.Wrap()>>Select(Odd)>>Aggregate(And);
+}
+</pre></td></tr></table>
+<p>The following code examine if there is at least one number in the list is odd in two ways.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Odd(int a)
+{
+    return a%2==1;
+}
+
+bool Or(bool a, bool b)
+{
+    return a||b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    // examine if there is at least one number is odd (should be true)
+    bool anyOdd1=nums.Wrap()>>Any(Odd);
+    bool anyOdd2=nums.Wrap()>>Select(Odd)>>Aggregate(Or);
+}
+</pre></td></tr></table>
 <h2>Concat</h2>
+<p>Concat provide a way to concatenate two collections.</p>
+<p>The following code concatenate [1..5] and [6..10] to product a list of [1..10].</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; numsA, numsB, numsC;
+    // set numsA = [1..5] and numsB = [6..10]
+    for(int i=1;i<=5;i++)
+    {
+        numsA.Add(i);
+        numsB.Add(i+5);
+    }
+    
+    // set numsC = [1..10] which is numsA with numsB
+    CopyFrom(numsC.Wrap(), numsA.Wrap()>>Concat(numsB.Wrap()));
+}
+</pre></td></tr></table>
 <h2>Repeat</h2>
-<h2>Take</h2>
-<h2>Skip</h2>
+<p>Repeat copy a collection N times and concatenate them together. You can specify whatever N (N>=0) you want to create a new collection.</p>
+<p>The following code copy a list 3 times.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    // create a new list with 3 copies of nums
+    List&lt;int&gt; manyNums;
+    CopyFrom(manyNums.Wrap(), nums.Wrap()>>Repeat(3));
+}
+</pre></td></tr></table>
+<h2>Take, Skip</h2>
+<p>Take copy the first N elements from a collection while Skip copy the remain. It doesn't matter if N is greater than the number of elements in the collection.</p>
+<p>The following code split a collection into two parts. The first part contains the first 5 numbers, and the second part contains the remain.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, first5, remain;
+    for(int i=10;i>=1;i--)
+    {
+        nums.Add(i);
+    }
+    
+    // after copying, first5 = [10..6] and remain = [5..1]
+    CopyFrom(first5.Wrap(), nums.Wrap()>>Take(5));
+    CopyFrom(remain.Wrap(), nums.Wrap()>>Skip(5));
+}
+</pre></td></tr></table>
 <h2>Distinct</h2>
+<p>Dictinct copy all distinct elements in a collection. That means if there are duplicate elements in a collection, Dictinct only keeps one of them.</p>
+<p>The following code get dictinct numbers [1, 2, 3, 4, 5] from [1, 2, 3, 4, 5, 5, 4, 3, 2, 1]</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, distinctNumbers;
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(i+1);
+    }
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(5-i);
+    }
+    
+    CopyFrom(distinctNumbers.Wrap(), nums.Wrap()>>Distinct());
+}
+</pre></td></tr></table>
 <h2>Reverse</h2>
-<h2>Interset</h2>
-<h2>Union</h2>
-<h2>Except</h2>
+<p>Reverse copy elements from a collection in a reverse order.</p>
+<p>The following code get [5..1] from [1..5].</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, reverse;
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(i+1);
+    }
+    
+    CopyFrom(reverse.Wrap(), nums.Wrap()>>Reverse());
+}
+</pre></td></tr></table>
+<h2>Interset, Union, Except</h2>
+<p>Interset, Union and Except provide set operations on two collections. Interset get elements that exist in both collection. Union get elements that exist in one or both collection. Except get elements that exist in the first collection but not in the second collection.</p>
+<p>The following code find the interset, union and substraction of two list.</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums1, nums2, interset, union, except;
+    // set nums1 = [1..5] and nums2 = [4..8]
+    for(int i=0;i<5;i++)
+    {
+        nums1.Add(i+1);
+        nums2.Add(i+4);
+    }
+    
+    // get interset [4, 5]
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Interset(nums2.Wrap()));
+    // get union [1..8]
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Union(nums2.Wrap()));
+    // get substraction [1..3] (elements that in nums1 but does not in nums2)
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Except(nums2.Wrap()));
+}
+</pre></td></tr></table>
 <h2>Pairwise</h2>
+<p>Pairwise pack two elements in two collections together one by one. For example, if we have [1..5] and [6..10], we get [(1,6), (2,7), (3,8), (4,9), (5,10)]. If numbers of elements in the two collections is not the same, Pairwise will stop if it reaches the end in one of the collections.</p>
+<p>We use Pair&lt;K, V&gt; to represent a package of two elements. Pair&lt;K, V&gt; have two fields (key and value) which represent the first and the second element in a package. Dictionary and Group use Pair&lt;K, V&gt; in their enumerator too.</p>
+<p>The following code copy a key collection and a value collection into a dictionary.</p>
+<table id="code"><tr><td><pre>
+#include &lt;math.h&gt;
+#include "Library\Collections\List.h"
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; keys;
+    List&lt;double&gt; values;
+    List&lt;int, double&gt; squareRoots;
+    
+    for(int i=1;i<=10;i++)
+    {
+        keys.Add(i);
+        values.Add(sqrt((double)i));
+    }
+    
+    CopyFrom(squareRoots.Wrap(), keys.Wrap()>>Pairwise(values.Wrap()));
+}
+</pre></td></tr></table>
 </body>
 </html>
