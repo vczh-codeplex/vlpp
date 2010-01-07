@@ -80,7 +80,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 			return const_cast<ObjectType*>(type);
 		}
 
-		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IArray<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType)
+		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType)
 		{
 			for(int i=0;i<methods.Count();i++)
 			{
@@ -143,7 +143,7 @@ FINISH_CURRENT_METHOD:;
 ObjectValue
 ***********************************************************************/
 
-		bool ObjectValue::InvokeMethod(const ObjectType* type, void* object, const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const
+		bool ObjectValue::InvokeMethod(const ObjectType* type, void* object, const WString& name, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result)const
 		{
 			int index=type->Methods().Keys().IndexOf(name);
 			if(index==-1)return false;
@@ -403,7 +403,7 @@ ObjectValue
 			return true;
 		}
 
-		bool ObjectValue::InvokeMethod(const WString& name, const collections::IArray<ObjectValue>& arguments, ObjectValue& result)const
+		bool ObjectValue::InvokeMethod(const WString& name, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result)const
 		{
 			if(!objectValue)return false;
 			if(objectType->Category()!=ObjectType::Class)false;
