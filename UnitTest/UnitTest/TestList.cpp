@@ -611,9 +611,9 @@ TEST_CASE(TestSetOperation)
 	{
 		second.Add(i);
 	}
-	CopyFrom(result.Wrap(), first.Wrap()>>Interset(second.Wrap()));
+	CopyFrom(result.Wrap(), first.Wrap()>>Intersect(second.Wrap()));
 	CHECK_LIST_ITEMS(result.Wrap(), {2 _ 3 _ 4 _ 5 _ 6 _ 7});
-	CompareEnumerable(result.Wrap(), first.Wrap()>>Interset(second.Wrap()));
+	CompareEnumerable(result.Wrap(), first.Wrap()>>Intersect(second.Wrap()));
 	CopyFrom(result.Wrap(), first.Wrap()>>Except(second.Wrap()));
 	CHECK_LIST_ITEMS(result.Wrap(), {0 _ 1});
 	CompareEnumerable(result.Wrap(), first.Wrap()>>Except(second.Wrap()));
