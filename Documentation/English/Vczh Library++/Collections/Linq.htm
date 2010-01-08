@@ -305,9 +305,9 @@ int main()
     CopyFrom(reverse.Wrap(), nums.Wrap()>>Reverse());
 }
 </pre></td></tr></table>
-<h2>Interset, Union, Except</h2>
-<p>Interset, Union and Except provide set operations on two collections. Interset get elements that exist in both collection. Union get elements that exist in one or both collection. Except get elements that exist in the first collection but not in the second collection.</p>
-<p>The following code find the interset, union and substraction of two list.</p>
+<h2>Intersect, Union, Except</h2>
+<p>Intersect, Union and Except provide set operations on two collections. Intersect get elements that exist in both collection. Union get elements that exist in one or both collection. Except get elements that exist in the first collection but not in the second collection.</p>
+<p>The following code find the Intersect, union and substraction of two list.</p>
 <table id="code"><tr><td><pre>
 #include "Library\Collections\List.h"
 #include "Library\Collections\Operation.h"
@@ -316,7 +316,7 @@ using namespace vl::collections;
 
 int main()
 {
-    List&lt;int&gt; nums1, nums2, interset, union, except;
+    List&lt;int&gt; nums1, nums2, Intersect, union, except;
     // set nums1 = [1..5] and nums2 = [4..8]
     for(int i=0;i<5;i++)
     {
@@ -324,12 +324,12 @@ int main()
         nums2.Add(i+4);
     }
     
-    // get interset [4, 5]
-    CopyFrom(interset.Wrap(), nums1.Wrap()>>Interset(nums2.Wrap()));
+    // get Intersect [4, 5]
+    CopyFrom(Intersect.Wrap(), nums1.Wrap()>>Intersect(nums2.Wrap()));
     // get union [1..8]
-    CopyFrom(interset.Wrap(), nums1.Wrap()>>Union(nums2.Wrap()));
+    CopyFrom(Intersect.Wrap(), nums1.Wrap()>>Union(nums2.Wrap()));
     // get substraction [1..3] (elements that in nums1 but does not in nums2)
-    CopyFrom(interset.Wrap(), nums1.Wrap()>>Except(nums2.Wrap()));
+    CopyFrom(Intersect.Wrap(), nums1.Wrap()>>Except(nums2.Wrap()));
 }
 </pre></td></tr></table>
 <h2>Pairwise</h2>

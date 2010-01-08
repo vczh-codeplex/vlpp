@@ -19,7 +19,7 @@ Functions:
 	[T] >> Skip(int) => [T]
 	[T] >> Distinct() => [T]
 	[T] >> Reverse() => [T]
-	[T] >> Interset([T]) => [T]
+	[T] >> Intersect([T]) => [T]
 	[T] >> Union([T]) => [T]
 	[T] >> Except([T]) => [T]
 	[T] >> Pairwise([K]) => [(T,K)]

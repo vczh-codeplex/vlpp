@@ -18,11 +18,11 @@ namespace vl
 	{
 
 /***********************************************************************
-Interset/Except
+Intersect/Except
 ***********************************************************************/
 
-		template<typename T, bool interset>
-		class IntersetExceptEnumerable : public EnumerableStore<T>, public virtual IEnumerable<T>
+		template<typename T, bool Intersect>
+		class IntersectExceptEnumerable : public EnumerableStore<T>, public virtual IEnumerable<T>
 		{
 		protected:
 			class Enumerator : public virtual IEnumerator<T>
@@ -36,7 +36,7 @@ Interset/Except
 				{
 					while(enumerator->Available())
 					{
-						if(reference.Contains(enumerator->Current())==interset)
+						if(reference.Contains(enumerator->Current())==Intersect)
 						{
 							break;
 						}
@@ -104,7 +104,7 @@ Interset/Except
 		protected:
 			const IEnumerable<T>&				reference;
 		public:
-			IntersetExceptEnumerable(const IEnumerable<T>& enumerable, const IEnumerable<T>& _reference)
+			IntersectExceptEnumerable(const IEnumerable<T>& enumerable, const IEnumerable<T>& _reference)
 				:EnumerableStore<T>(enumerable)
 				,reference(_reference)
 			{
@@ -116,33 +116,33 @@ Interset/Except
 			}
 		};
 
-		template<typename T, bool interset>
-		class IntersetExceptProcessor : public EnumerableProcessor<T, IntersetExceptEnumerable<T, interset>>
+		template<typename T, bool Intersect>
+		class IntersectExceptProcessor : public EnumerableProcessor<T, IntersectExceptEnumerable<T, Intersect>>
 		{
 		protected:
 			const IEnumerable<T>&				second;
 		public:
-			IntersetExceptProcessor(const IEnumerable<T>& _second)
+			IntersectExceptProcessor(const IEnumerable<T>& _second)
 				:second(_second)
 			{
 			}
 
-			IntersetExceptEnumerable<T, interset> operator()(const IEnumerable<T>& first)const
+			IntersectExceptEnumerable<T, Intersect> operator()(const IEnumerable<T>& first)const
 			{
-				return IntersetExceptEnumerable<T, interset>(first, second);
+				return IntersectExceptEnumerable<T, Intersect>(first, second);
 			}
 		};
 
 		template<typename T>
-		IntersetExceptProcessor<T, true> Interset(const IEnumerable<T>& second)
+		IntersectExceptProcessor<T, true> Intersect(const IEnumerable<T>& second)
 		{
-			return IntersetExceptProcessor<T, true>(second);
+			return IntersectExceptProcessor<T, true>(second);
 		}
 
 		template<typename T>
-		IntersetExceptProcessor<T, false> Except(const IEnumerable<T>& second)
+		IntersectExceptProcessor<T, false> Except(const IEnumerable<T>& second)
 		{
-			return IntersetExceptProcessor<T, false>(second);
+			return IntersectExceptProcessor<T, false>(second);
 		}
 
 /***********************************************************************
