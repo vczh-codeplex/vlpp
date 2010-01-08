@@ -5,5 +5,357 @@
 </head>
 <body>
 <h1>namespace vl::collections;</h1>
+<h2>简述Vczh Library++中的LinQ</h2>
+<p>LinQ原本是.NET里面的东西，我所做的仅仅是把它在C++上实现了一次。这里使用collection>>operation(argument)而不是C#所习惯的collection.operation(argument)，因为C++并没有扩展方法，不过却又比C#更加强大的操作符重载。</p>
+<p>LinQ操作的参数可以是函数指针也可以是Func。各种LinQ操作可以使用&gt;&gt;连接起来，形如collection&gt;&gt;operation1(argument)&gt;&gt;operation2(argument)。</p>
+<p>非Aggregate类的LinQ操作返回的是一个IEnumerable对象，你可以使用一个常数IEnumerable引用来暂时存下来，或者使用CopyFrom将其复制到另一个集合里面去。</p>
+<p>LinQ操作并不会修改输入集合的内容，而且他们也不会产生多余的中间集合对象。</p>
+<h2>Select</h2>
+<p>Select用来将集合的每一个元素进行转换，并产生一个新的集合。下面的代码复制一个列表并且给其中的每一个数字加一：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Inc(int i)
+{
+    return i+1;
+}
+
+int main()
+{
+    List&lt;int&gt; from, to;
+    for(int i=0;i<10;i++)
+    {
+        from.Add(i);
+    }
+    CopyFrom(to.Wrap(), from.Wrap()>>Select(Inc));
+    //现在from == [0..9]并且to == [1..10]
+    return 0;
+}
+</pre></td></tr></table>
+<h2>Where</h2>
+<p>Where是集合过滤器。给定一个返回bool的函数，Where则将一个集合里面让这个函数返回true的元素挑出来，组成一个新的集合。下面的代码找出一个集合里面的所有偶数并且将它们的平方保存到另一个集合里面。</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Even(int i)
+{
+    return i%2==0;
+}
+
+int Square(int i)
+{
+    return i*i;
+}
+
+int main()
+{
+    List&lt;int&gt; from, to;
+    for(int i=0;i<10;i++)
+    {
+        from.Add(i);
+    }
+    CopyFrom(to.Wrap(), from.Wrap()>>Where(Even)>>Select(Square));
+    //现在from == [0..9]并且to == [0, 4, 16, 36, 64]
+    return 0;
+}
+</pre></td></tr></table>
+<h2>Aggregate, All, Any, Min, Max</h2>
+<p>Aggregate提供了一种类似对一个集合的所有元素求和的操作，使用Aggregate的时候需要提供一个将两个元素计算成一个元素（譬如说加法和乘法）的函数。如果集合里面的元素可能为空，你需要提供一个初始值（譬如加法用0，乘法用1）。</p>
+<p>All、Any、Min和Max是使用Aggregate建立出来的一些便于操作的函数。<b>Min和Max假设输入的集合不为空，并且元素支持operator< 和 operator>操作符。</b></p>
+<p>下面的代码对一个列表中的数字求和和积：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int Add(int a, int b)
+{
+    return a+b;
+}
+
+int Mul(int a, int b)
+{
+    return a*b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    //假设列表不为空，不需要提供初始值
+    int sum=nums.Wrap()>>Aggregate(Add);
+    //假设列表可能为空，需要提供初始值
+    int product=nums.Wrap()>>Aggregate(Mul, 1);
+}
+</pre></td></tr></table>
+<p>下面的代码使用两种方法求出一个列表中的最大值和最小值：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int MinInt(int a, int b)
+{
+    return a&lt;b?a:b;
+}
+
+int MaxInt(int a, int b)
+{
+    return a&gt;b?a:b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    //使用Aggregate和Min分别计算最小值
+    int min1=nums.Wrap()>>Min();
+    int min2=nums.Wrap()>>Aggregate(MinInt);
+    
+    //使用Aggregate和Max分别计算最大值
+    int max1=nums.Wrap()>>Max();
+    int max2=nums.Wrap()>>Aggregate(MaxInt);
+}
+</pre></td></tr></table>
+<p>下面的代码用两种方法判断列表中的数字是否都是奇数：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Odd(int a)
+{
+    return a%2==1;
+}
+
+bool And(bool a, bool b)
+{
+    return a&&b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    //使用Aggregate和All分别进行判断（应该返回false）
+    bool allOdd1=nums.Wrap()>>All(Odd);
+    bool allOdd2=nums.Wrap()>>Select(Odd)>>Aggregate(And);
+}
+</pre></td></tr></table>
+<p>下面的代码用两种方法判断列表中是否至少有一个奇数：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+bool Odd(int a)
+{
+    return a%2==1;
+}
+
+bool Or(bool a, bool b)
+{
+    return a||b;
+}
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    //使用Aggregate和Any分别进行判断（应该返回true）
+    bool anyOdd1=nums.Wrap()>>Any(Odd);
+    bool anyOdd2=nums.Wrap()>>Select(Odd)>>Aggregate(Or);
+}
+</pre></td></tr></table>
+<h2>Concat</h2>
+<p>Concat将两个集合连在一起</p>
+<p>下面的代码将[1..5]和[6..10]连在一起并返回[1..10]：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; numsA, numsB, numsC;
+    // set numsA = [1..5] and numsB = [6..10]
+    for(int i=1;i<=5;i++)
+    {
+        numsA.Add(i);
+        numsB.Add(i+5);
+    }
+    
+    //现在numsC = [1..10]，为numsA和numsB相连的结果
+    CopyFrom(numsC.Wrap(), numsA.Wrap()>>Concat(numsB.Wrap()));
+}
+</pre></td></tr></table>
+<h2>Repeat</h2>
+<p>Repeat将一个列表复制制定次数次</p>
+<p>下面的代码将一个列表复制三次：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums;
+    for(int i=1;i<=10;i++)
+    {
+        nums.Add(i);
+    }
+    
+    //创建一个列表，复制nums三次
+    List&lt;int&gt; manyNums;
+    CopyFrom(manyNums.Wrap(), nums.Wrap()>>Repeat(3));
+}
+</pre></td></tr></table>
+<h2>Take, Skip</h2>
+<p>Take取列表的前N个元素，而Skip则想法，跳过前N个元素取剩下的部分。如果N超过了集合的大小，N会被重新设定为与集合的大小相同。</p>
+<p>下面的代码将一个列表分割为两部分，第一部分包含前五个数字，剩下的是第二部分：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, first5, remain;
+    for(int i=10;i>=1;i--)
+    {
+        nums.Add(i);
+    }
+    
+    //复制之后first5 = [10..6]并且remain = [5..1]
+    CopyFrom(first5.Wrap(), nums.Wrap()>>Take(5));
+    CopyFrom(remain.Wrap(), nums.Wrap()>>Skip(5));
+}
+</pre></td></tr></table>
+<h2>Distinct</h2>
+<p>Dictinct复制一个集合的元素，如果某一个元素出现了多次，则只会复制一次。</p>
+<p>下面的代码从[1, 2, 3, 4, 5, 5, 4, 3, 2, 1]求出[1, 2, 3, 4, 5]：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, distinctNumbers;
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(i+1);
+    }
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(5-i);
+    }
+    
+    CopyFrom(distinctNumbers.Wrap(), nums.Wrap()>>Distinct());
+}
+</pre></td></tr></table>
+<h2>Reverse</h2>
+<p>Reverse 反转一个集合。</p>
+<p>下面的代码把[1..5]变成[5..1]：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums, reverse;
+    for(int i=0;i<5;i++)
+    {
+        nums.Add(i+1);
+    }
+    
+    CopyFrom(reverse.Wrap(), nums.Wrap()>>Reverse());
+}
+</pre></td></tr></table>
+<h2>Interset, Union, Except</h2>
+<p>Interset、Union和Except分别求出两个集合的交集、并集和差集。</p>
+<p>下面的代码使用这三个函数计算两个集合的交集、并集和差集：</p>
+<table id="code"><tr><td><pre>
+#include "Library\Collections\List.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; nums1, nums2, interset, union, except;
+    // set nums1 = [1..5] and nums2 = [4..8]
+    for(int i=0;i<5;i++)
+    {
+        nums1.Add(i+1);
+        nums2.Add(i+4);
+    }
+    
+    //交集[4, 5]
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Interset(nums2.Wrap()));
+    //并集[1..8]
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Union(nums2.Wrap()));
+    //差集[1..3]
+    CopyFrom(interset.Wrap(), nums1.Wrap()>>Except(nums2.Wrap()));
+}
+</pre></td></tr></table>
+<h2>Pairwise</h2>
+<p>Pairwise将两个集合中的元素按顺序两两包在一起。举个例子，如果我们有集合[1..5]和[6..10]，我们将有结果[(1,6), (2,7), (3,8), (4,9), (5,10)]如果两个集合不一样大，那么只要其中一个遍历完了函数就结束工作。</p>
+<p>我们用Pair&lt;K, V&gt;来表示大包在一起的两个值。Pair&lt;K, V&gt;有成员变量key和value分别代表第一个和第二个值。Dictionary和Group把Pair&lt;K, V&gt;用在他们自己的迭代器里面。</p>
+<p>下面的代码将一个key列表和一个value列表组合成一个Dictionary：</p>
+<table id="code"><tr><td><pre>
+#include &lt;math.h&gt;
+#include "Library\Collections\List.h"
+#include "Library\Collections\Dictionary.h"
+#include "Library\Collections\Operation.h"
+using namespace vl;
+using namespace vl::collections;
+
+int main()
+{
+    List&lt;int&gt; keys;
+    List&lt;double&gt; values;
+    List&lt;int, double&gt; squareRoots;
+    
+    for(int i=1;i<=10;i++)
+    {
+        keys.Add(i);
+        values.Add(sqrt((double)i));
+    }
+    
+    CopyFrom(squareRoots.Wrap(), keys.Wrap()>>Pairwise(values.Wrap()));
+}
+</pre></td></tr></table>
 </body>
 </html>
