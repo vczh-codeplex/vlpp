@@ -765,6 +765,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
 							>
 						</File>
@@ -774,6 +778,10 @@
 						>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.cpp"
 							>
 						</File>
 						<File
