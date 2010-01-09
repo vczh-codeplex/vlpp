@@ -1123,12 +1123,13 @@ int wmain(int argc, wchar_t* argv[])
 	SyntaxAnalyzer analyzer;
 	for(int i=1;i<argc;i++)
 	{
+		Console::WriteLine(L"------------------------------------------------------------");
 		WString inputPath=argv[i];
 		if(inputPath.Length()<2 || inputPath[1]!=L':')
 		{
 			inputPath=baseDirectory+inputPath;
 		}
-		Console::WriteLine(L"pfm>Making : "+inputPath);
+		Console::WriteLine(L"fpm>Making : "+inputPath);
 		if(inputPath.Length()<4 || inputPath.Right(4)!=L".fpm")
 		{
 			Console::SetColor(true, false, false, true);
