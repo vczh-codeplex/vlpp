@@ -1164,6 +1164,5 @@ int wmain(int argc, wchar_t* argv[])
 		}
 	}
 	Console::WriteLine(L"Finished!");
-	Console::Read();
 	return 0;
 }
