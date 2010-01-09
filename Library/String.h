@@ -38,16 +38,17 @@ namespace vl
 		static int Compare(const T* bufA, const ObjectString<T>& strB)
 		{
 			const T* bufB=strB.buffer+strB.start;
+			const T* bufAOld=bufA;
 			int length=strB.length;
 			while(length-- && *bufA)
 			{
-				int diff=*bufA-*bufB;
+				int diff=*bufA++-*bufB++;
 				if(diff!=0)
 				{
 					return diff;
 				}
 			};
-			return CalculateLength(bufA)-strB.length;
+			return CalculateLength(bufAOld)-strB.length;
 		}
 
 		static int Compare(const ObjectString<T>& strA, const ObjectString<T>& strB)

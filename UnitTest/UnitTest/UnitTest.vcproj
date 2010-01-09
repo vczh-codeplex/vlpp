@@ -212,6 +212,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestScripting_BasicLanguage.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestStream.cpp"
 				>
 			</File>
@@ -789,6 +793,14 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="Common"
+					>
+					<File
+						RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
