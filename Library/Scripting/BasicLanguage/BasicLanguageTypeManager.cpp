@@ -180,12 +180,9 @@ BasicFunctionTypeRecord
 BasicStructureTypeRecord
 ***********************************************************************/
 
-			BasicStructureTypeRecord::BasicStructureTypeRecord(BasicTypeManager* _manager, const collections::IReadonlyList<WString>& _names, const collections::IReadonlyList<BasicTypeRecord*>& _types)
+			BasicStructureTypeRecord::BasicStructureTypeRecord(BasicTypeManager* _manager)
 			{
-				CHECK_ERROR(_names.Count()==_types.Count(), L"BasicStructureTypeRecord::BasicStructureTypeRecord()#名字类型数量必须一致。");
 				manager=_manager;
-				CopyFrom(names.Wrap(), _names);
-				CopyFrom(types.Wrap(), _types);
 			}
 
 			BasicTypeRecord::TypeRecordType BasicStructureTypeRecord::GetType()
@@ -263,7 +260,7 @@ BasicTypeManager
 				}
 				else
 				{
-					return elementType->arrayTypes.Values()[elementCount];
+					return elementType->arrayTypes.Values()[index];
 				}
 			}
 
@@ -295,11 +292,21 @@ BasicTypeManager
 				return type;
 			}
 
-			BasicTypeRecord* BasicTypeManager::CreateStructureType(const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types)
+			BasicTypeRecord* BasicTypeManager::CreateStructureType()
 			{
-				BasicStructureTypeRecord* type=new BasicStructureTypeRecord(this, names, types);
+				BasicStructureTypeRecord* type=new BasicStructureTypeRecord(this);
 				allocatedTypes.Add(type);
 				return type;
+			}
+
+			void BasicTypeManager::UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types)
+			{
+				BasicStructureTypeRecord* type=dynamic_cast<BasicStructureTypeRecord*>(structureType);
+				if(type)
+				{
+					CopyFrom(type->names.Wrap(), names);
+					CopyFrom(type->types.Wrap(), types);
+				}
 			}
 		}
 	}
