@@ -121,7 +121,7 @@ namespace vl
 				collections::List<WString>				names;
 				collections::List<BasicTypeRecord*>		types;
 
-				BasicStructureTypeRecord(BasicTypeManager* _manager, const collections::IReadonlyList<WString>& _names, const collections::IReadonlyList<BasicTypeRecord*>& _types);
+				BasicStructureTypeRecord(BasicTypeManager* _manager);
 			public:
 
 				TypeRecordType							GetType();
@@ -148,7 +148,8 @@ namespace vl
 				BasicTypeRecord*						GetPointerType(BasicTypeRecord* elementType);
 				BasicTypeRecord*						GetArrayType(BasicTypeRecord* elementType, int elementCount);
 				BasicTypeRecord*						GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes);
-				BasicTypeRecord*						CreateStructureType(const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
+				BasicTypeRecord*						CreateStructureType();
+				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
 			};
 		}
 	}
