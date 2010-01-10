@@ -36,7 +36,7 @@ BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, int, int)
 		return 4;
 	}
 
-END_ALGORITHM_FUNCTION
+END_ALGORITHM_FUNCTION(GetTypeID)
 
 /***********************************************************************
 TestTypeID algorithm procedure
@@ -69,7 +69,7 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, int*)
 		*argument=4;
 	}
 
-END_ALGORITHM_PROCEDURE
+END_ALGORITHM_PROCEDURE(TestTypeID)
 
 /***********************************************************************
 Algorithms
@@ -77,21 +77,21 @@ Algorithms
 
 TEST_CASE(TestAlgorithmDeclaration)
 {
-	TEST_ASSERT(GetTypeID().Execute(t_int8().GetInternalValue(), 0)==0);
-	TEST_ASSERT(GetTypeID().Execute((*t_int8()).GetInternalValue(), 0)==1);
-	TEST_ASSERT(GetTypeID().Execute(t_int8()[10].GetInternalValue(), 0)==2);
-	TEST_ASSERT(GetTypeID().Execute(t_type(L"vczh").GetInternalValue(), 0)==3);
-	TEST_ASSERT(GetTypeID().Execute(t_int8()(t_types()<<t_int16()<<t_int32()).GetInternalValue(), 0)==4);
+	TEST_ASSERT(GetTypeID(t_int8().GetInternalValue(), 0)==0);
+	TEST_ASSERT(GetTypeID((*t_int8()).GetInternalValue(), 0)==1);
+	TEST_ASSERT(GetTypeID(t_int8()[10].GetInternalValue(), 0)==2);
+	TEST_ASSERT(GetTypeID(t_type(L"vczh").GetInternalValue(), 0)==3);
+	TEST_ASSERT(GetTypeID(t_int8()(t_types()<<t_int16()<<t_int32()).GetInternalValue(), 0)==4);
 
 	int result=-1;
-	TestTypeID().Execute(t_int8().GetInternalValue(), &result);
+	TestTypeID(t_int8().GetInternalValue(), &result);
 	TEST_ASSERT(result==0);
-	TestTypeID().Execute((*t_int8()).GetInternalValue(), &result);
+	TestTypeID((*t_int8()).GetInternalValue(), &result);
 	TEST_ASSERT(result==1);
-	TestTypeID().Execute(t_int8()[10].GetInternalValue(), &result);
+	TestTypeID(t_int8()[10].GetInternalValue(), &result);
 	TEST_ASSERT(result==2);
-	TestTypeID().Execute(t_type(L"vczh").GetInternalValue(), &result);
+	TestTypeID(t_type(L"vczh").GetInternalValue(), &result);
 	TEST_ASSERT(result==3);
-	TestTypeID().Execute(t_int8()(t_types()<<t_int16()<<t_int32()).GetInternalValue(), &result);
+	TestTypeID(t_int8()(t_types()<<t_int16()<<t_int32()).GetInternalValue(), &result);
 	TEST_ASSERT(result==4);
 }

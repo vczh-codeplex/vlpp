@@ -32,21 +32,24 @@ Algorithm Function
 ***********************************************************************/
 
 #define BEGIN_ALGORITHM_FUNCTION(NAME, NODE, INPUT_TYPE, OUTPUT_TYPE)\
-	class NAME : public NODE##Algorithm\
+	class NAME##Algorithm : public NODE##Algorithm\
 	{\
 	private:\
 		typedef INPUT_TYPE					__algorithm_input_type__;\
 		typedef OUTPUT_TYPE					__algorithm_output_type__;\
+		typedef NODE						__algorithm_target_type__;\
+		friend __algorithm_output_type__	NAME(__algorithm_target_type__*, const __algorithm_input_type__&);\
+		friend __algorithm_output_type__	NAME(Ptr<__algorithm_target_type__>, const __algorithm_input_type__&);\
 		const __algorithm_input_type__*		input_value;\
 		__algorithm_output_type__			output_value;\
 	public:\
-		__algorithm_output_type__ Execute(NODE* node, const __algorithm_input_type__& _input_value)\
+		__algorithm_output_type__ Execute(__algorithm_target_type__* node, const __algorithm_input_type__& _input_value)\
 		{\
 			input_value=&_input_value;\
 			node->Accept(this);\
 			return output_value;\
 		}\
-		__algorithm_output_type__ Execute(Ptr<NODE> node, const __algorithm_input_type__& _input_value)\
+		__algorithm_output_type__ Execute(Ptr<__algorithm_target_type__> node, const __algorithm_input_type__& _input_value)\
 		{\
 			input_value=&_input_value;\
 			node->Accept(this);\
@@ -60,26 +63,41 @@ Algorithm Function
 		}\
 		__algorithm_output_type__ Match(NODE* node, const __algorithm_input_type__& argument)
 
-#define END_ALGORITHM_FUNCTION\
-		};
+#define END_ALGORITHM_FUNCTION(NAME)\
+		};\
+		NAME##Algorithm::__algorithm_output_type__ NAME(\
+			NAME##Algorithm::__algorithm_target_type__* node,\
+			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+		{\
+			return NAME##Algorithm().Execute(node, _input_value);\
+		}\
+		NAME##Algorithm::__algorithm_output_type__ NAME(\
+			Ptr<NAME##Algorithm::__algorithm_target_type__> node,\
+			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+		{\
+			return NAME##Algorithm().Execute(node, _input_value);\
+		}
 
 /***********************************************************************
 Algorithm Procedure
 ***********************************************************************/
 
 #define BEGIN_ALGORITHM_PROCEDURE(NAME, NODE, INPUT_TYPE)\
-	class NAME : public NODE##Algorithm\
+	class NAME##Algorithm : public NODE##Algorithm\
 	{\
 	private:\
 		typedef INPUT_TYPE					__algorithm_input_type__;\
+		typedef NODE						__algorithm_target_type__;\
+		friend void							NAME(__algorithm_target_type__*, const __algorithm_input_type__&);\
+		friend void							NAME(Ptr<__algorithm_target_type__>, const __algorithm_input_type__&);\
 		const __algorithm_input_type__*		input_value;\
 	public:\
-		void Execute(NODE* node, const __algorithm_input_type__& _input_value)\
+		void Execute(__algorithm_target_type__* node, const __algorithm_input_type__& _input_value)\
 		{\
 			input_value=&_input_value;\
 			node->Accept(this);\
 		}\
-		void Execute(Ptr<NODE> node, const __algorithm_input_type__& _input_value)\
+		void Execute(Ptr<__algorithm_target_type__> node, const __algorithm_input_type__& _input_value)\
 		{\
 			input_value=&_input_value;\
 			node->Accept(this);\
@@ -92,7 +110,19 @@ Algorithm Procedure
 		}\
 		void Match(NODE* node, const __algorithm_input_type__& argument)
 
-#define END_ALGORITHM_PROCEDURE\
-		};
+#define END_ALGORITHM_PROCEDURE(NAME)\
+		};\
+		void NAME(\
+			NAME##Algorithm::__algorithm_target_type__* node,\
+			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+		{\
+			NAME##Algorithm().Execute(node, _input_value);\
+		}\
+		void NAME(\
+			Ptr<NAME##Algorithm::__algorithm_target_type__> node,\
+			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+		{\
+			NAME##Algorithm().Execute(node, _input_value);\
+		}
 
 #endif
