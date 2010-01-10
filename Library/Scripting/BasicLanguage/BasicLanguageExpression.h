@@ -63,24 +63,34 @@ namespace vl
 #endif
 			};
 
+			class BasicExpressionAlgorithm;
+			class BasicStatementAlgorithm;
+			class BasicTypeAlgorithm;
+			class BasicDeclarationAlgorithm;
+
 			class BasicExpression : public Object, private NotCopyable
 			{
 			public:
+				ALGORITHM_TARGET_ROOT(BasicExpressionAlgorithm)
 			};
 
 			class BasicStatement : public Object, private NotCopyable
 			{
 			public:
+				ALGORITHM_TARGET_ROOT(BasicStatementAlgorithm)
 			};
 
 			class BasicType : public Object, private NotCopyable
 			{
 			public:
+				ALGORITHM_TARGET_ROOT(BasicTypeAlgorithm)
 			};
 
 			class BasicDeclaration : public Object, private NotCopyable
 			{
 			public:
+				ALGORITHM_TARGET_ROOT(BasicDeclarationAlgorithm)
+
 				WString										name;
 			};
 
@@ -101,6 +111,8 @@ Primitive Expression
 			class BasicNumericExpression : public BasicPrimitiveExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				BasicPrimitiveTypeEnum						type;
 				BasicPrimitiveValueEnum						argument;
 			};
@@ -108,12 +120,16 @@ Primitive Expression
 			class BasicMbcsStringExpression : public BasicPrimitiveExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				AString										value;
 			};
 
 			class BasicUnicodeStringExpression : public BasicPrimitiveExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				WString										value;
 			};
 
@@ -124,6 +140,8 @@ Operator Expression
 			class BasicUnaryExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				enum OperatorType
 				{
 					PrefixIncrease,
@@ -142,6 +160,8 @@ Operator Expression
 			class BasicBinaryExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				enum OperatorType
 				{
 					Add,Sub,Mul,Div,Mod,Shl,Shr,
@@ -166,6 +186,8 @@ Operator Expression
 			class BasicSubscribeExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						operand;
 				Ptr<BasicExpression>						subscribe;
 			};
@@ -177,6 +199,8 @@ Other Expression
 			class BasicMemberExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						operand;
 				WString										member;
 				bool										pointerMember;
@@ -185,6 +209,8 @@ Other Expression
 			class BasicInvokeExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						function;
 				collections::List<Ptr<BasicExpression>>		arguments;
 			};
@@ -192,11 +218,15 @@ Other Expression
 			class BasicFunctionResultExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 			};
 
 			class BasicCastingExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						operand;
 				Ptr<BasicType>								type;
 			};
@@ -204,6 +234,8 @@ Other Expression
 			class BasicReferenceExpression : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				WString										name;
 			};
 
@@ -214,23 +246,31 @@ Statement
 			class BasicEmptyStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 			};
 
 			class BasicCompositeStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				collections::List<Ptr<BasicStatement>>		statements;
 			};
 
 			class BasicExpressionStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						expression;
 			};
 
 			class BasicVariableStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								type;
 				WString										name;
 				Ptr<BasicExpression>						initializer;
@@ -239,6 +279,8 @@ Statement
 			class BasicIfStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						condition;
 				Ptr<BasicStatement>							trueStatement;
 				Ptr<BasicStatement>							falseStatement;
@@ -247,6 +289,8 @@ Statement
 			class BasicWhileStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicExpression>						condition;
 				Ptr<BasicStatement>							statement;
 				bool										checkConditionAfterLooping;
@@ -255,6 +299,8 @@ Statement
 			class BasicForStatement : public BasicStatement
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicStatement>							initializer;
 				Ptr<BasicStatement>							sideEffect;
 				Ptr<BasicExpression>						condition;
@@ -263,14 +309,20 @@ Statement
 
 			class BasicBreakStatement : public BasicStatement
 			{
+				ALGORITHM_ACCEPT_DECLARATION
+
 			};
 
 			class BasicContinueStatement : public BasicStatement
 			{
+				ALGORITHM_ACCEPT_DECLARATION
+
 			};
 
 			class BasicReturnStatement : public BasicStatement
 			{
+				ALGORITHM_ACCEPT_DECLARATION
+
 			};
 
 /***********************************************************************
@@ -280,18 +332,24 @@ Type
 			class BasicPrimitiveType : public BasicType
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				BasicPrimitiveTypeEnum						type;
 			};
 
 			class BasicPointerType : public BasicType
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								elementType;
 			};
 
 			class BasicArrayType : public BasicType
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								elementType;
 				int											size;
 			};
@@ -299,12 +357,16 @@ Type
 			class BasicReferenceType : public BasicType
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				WString										name;
 			};
 
 			class BasicFunctionType : public BasicType
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								returnType;
 				collections::List<Ptr<BasicType>>			parameterTypes;
 			};
@@ -316,6 +378,8 @@ Declaration
 			class BasicFunctionDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicFunctionType>						signatureType;
 				collections::List<WString>					parameterNames;
 				Ptr<BasicStatement>							statement;
@@ -325,6 +389,8 @@ Declaration
 			class BasicStructureDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				collections::List<Ptr<BasicType>>			memberTypes;
 				collections::List<WString>					memberNames;
 			};
@@ -332,6 +398,8 @@ Declaration
 			class BasicVariableDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								type;
 				Ptr<BasicExpression>						initializer;
 			};
@@ -339,8 +407,61 @@ Declaration
 			class BasicTypeRenameDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				Ptr<BasicType>								type;
 			};
+
+/***********************************************************************
+Algorithms
+***********************************************************************/
+
+#define BASIC_EXPRESSION_TARGETS(F)\
+			F(BasicNumericExpression)\
+			F(BasicMbcsStringExpression)\
+			F(BasicUnicodeStringExpression)\
+			F(BasicUnaryExpression)\
+			F(BasicBinaryExpression)\
+			F(BasicSubscribeExpression)\
+			F(BasicMemberExpression)\
+			F(BasicInvokeExpression)\
+			F(BasicFunctionResultExpression)\
+			F(BasicCastingExpression)\
+			F(BasicReferenceExpression)\
+
+			DEFINE_ALGORITHM_INTERFACE(BasicExpressionAlgorithm, BASIC_EXPRESSION_TARGETS)
+
+#define BASIC_STATEMENT_TARGETS(F)\
+			F(BasicEmptyStatement)\
+			F(BasicCompositeStatement)\
+			F(BasicExpressionStatement)\
+			F(BasicVariableStatement)\
+			F(BasicIfStatement)\
+			F(BasicWhileStatement)\
+			F(BasicForStatement)\
+			F(BasicBreakStatement)\
+			F(BasicContinueStatement)\
+			F(BasicReturnStatement)\
+
+			DEFINE_ALGORITHM_INTERFACE(BasicStatementAlgorithm, BASIC_STATEMENT_TARGETS)
+
+#define BASIC_TYPE_TARGETS(F)\
+			F(BasicPrimitiveType)\
+			F(BasicPointerType)\
+			F(BasicArrayType)\
+			F(BasicReferenceType)\
+			F(BasicFunctionType)\
+
+			DEFINE_ALGORITHM_INTERFACE(BasicTypeAlgorithm, BASIC_TYPE_TARGETS)
+
+#define BASIC_DECLARATION_TARGETS(F)\
+			F(BasicFunctionDeclaration)\
+			F(BasicStructureDeclaration)\
+			F(BasicVariableDeclaration)\
+			F(BasicTypeRenameDeclaration)\
+
+			DEFINE_ALGORITHM_INTERFACE(BasicDeclarationAlgorithm, BASIC_DECLARATION_TARGETS)
+
 		}
 	}
 }
