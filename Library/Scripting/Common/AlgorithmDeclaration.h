@@ -28,6 +28,18 @@ Algorithm Definition
 #define DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(ALGORITHM_TARGETS) ALGORITHM_TARGETS(ALGORITHM_ACCEPT_IMPLEMENTATION)
 
 /***********************************************************************
+Algorithm Extern
+***********************************************************************/
+
+#define EXTERN_ALGORITHM_FUNCTION(NAME, NODE, INPUT_TYPE, OUTPUT_TYPE)\
+	extern OUTPUT_TYPE NAME(NODE* node, const INPUT_TYPE& _input_value);\
+	extern OUTPUT_TYPE NAME(Ptr<NODE> node, const INPUT_TYPE& _input_value);
+
+#define EXTERN_ALGORITHM_PROCEDURE(NAME, NODE, INPUT_TYPE)\
+	extern void NAME(NODE* node, const INPUT_TYPE& _input_value);\
+	extern void NAME(Ptr<NODE> node, const INPUT_TYPE& _input_value);
+
+/***********************************************************************
 Algorithm Function
 ***********************************************************************/
 

@@ -1,6 +1,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.h"
 
 using namespace vl;
 using namespace vl::collections;
@@ -73,7 +74,7 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, int*)
 END_ALGORITHM_PROCEDURE(TestTypeID)
 
 /***********************************************************************
-Algorithms
+Algorithm Macros
 ***********************************************************************/
 
 TEST_CASE(TestAlgorithmDeclaration)
@@ -98,7 +99,7 @@ TEST_CASE(TestAlgorithmDeclaration)
 }
 
 /***********************************************************************
-Type Manager
+Code Generator Components
 ***********************************************************************/
 
 TEST_CASE(TestTypeManager)
@@ -166,4 +167,83 @@ TEST_CASE(TestTypeManager)
 	TEST_ASSERT(structure->MemberType(L"data")==primitiveInt);
 	TEST_ASSERT(structure->MemberType(1)==manager.GetPointerType(structure));
 	TEST_ASSERT(structure->MemberType(L"next")==manager.GetPointerType(structure));
+}
+
+TEST_CASE(TestBasicEnv)
+{
+	BasicEnv env;
+	BasicScope* global=env.GlobalScope();
+	TEST_ASSERT(global);
+	TEST_ASSERT(global->PreviousScope()==0);
+	TEST_ASSERT(global->TypeManager()==&env.TypeManager());
+	TEST_ASSERT(global->OwnerDeclaration()==0);
+	TEST_ASSERT(global->OwnerStatement()==0);
+	BasicTypeRecord* link=env.TypeManager().CreateStructureType();
+	{
+		List<WString> names;
+		names.Add(L"data");
+		names.Add(L"next");
+		List<BasicTypeRecord*> types;
+		types.Add(env.TypeManager().GetPrimitiveType(int_type));
+		types.Add(env.TypeManager().GetPointerType(link));
+		env.TypeManager().UpdateStructureType(link, names.Wrap(), types.Wrap());
+	}
+	global->Types().Add(L"Link", link);
+	BasicFunctionDeclaration append;
+	global->Functions().Add(L"append", &append);
+	TEST_ASSERT(global->GetType(L"Link")==link);
+	TEST_ASSERT(global->GetFunction(L"append")==&append);
+
+	BasicScope* appendScope=env.CreateFunctionScope(global, &append);
+	TEST_ASSERT(env.CreateFunctionScope(global, &append)==appendScope);
+	TEST_ASSERT(env.CreateFunctionScope(appendScope, &append)==0);
+	appendScope->Variables().Add(L"link", link);
+	appendScope->Variables().Add(L"data", env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(appendScope->PreviousScope()==global);
+	TEST_ASSERT(appendScope->TypeManager()==&env.TypeManager());
+	TEST_ASSERT(appendScope->OwnerDeclaration()==&append);
+	TEST_ASSERT(appendScope->OwnerStatement()==0);
+	TEST_ASSERT(appendScope->GetVariableType(L"link")==link);
+	TEST_ASSERT(appendScope->GetVariableType(L"data")==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(appendScope->GetType(L"Link")==link);
+	TEST_ASSERT(appendScope->GetFunction(L"append")==&append);
+	TEST_ASSERT(appendScope->GetType(L"unexists")==0);
+	TEST_ASSERT(appendScope->GetVariableType(L"unexists")==0);
+	TEST_ASSERT(appendScope->GetFunction(L"unexists")==0);
+
+	BasicCompositeStatement statement;
+	BasicScope* statementScope=env.CreateStatementScope(appendScope, &statement);
+	TEST_ASSERT(env.CreateStatementScope(appendScope, &statement)==statementScope);
+	TEST_ASSERT(env.CreateStatementScope(statementScope, &statement)==0);
+	statementScope->Variables().Add(L"temp", link);
+	TEST_ASSERT(statementScope->PreviousScope()==appendScope);
+	TEST_ASSERT(statementScope->TypeManager()==&env.TypeManager());
+	TEST_ASSERT(statementScope->OwnerDeclaration()==&append);
+	TEST_ASSERT(statementScope->OwnerStatement()==&statement);
+	TEST_ASSERT(statementScope->GetVariableType(L"link")==link);
+	TEST_ASSERT(statementScope->GetVariableType(L"data")==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(statementScope->GetVariableType(L"temp")==link);
+	TEST_ASSERT(statementScope->GetType(L"Link")==link);
+	TEST_ASSERT(statementScope->GetFunction(L"append")==&append);
+	TEST_ASSERT(statementScope->GetType(L"unexists")==0);
+	TEST_ASSERT(statementScope->GetVariableType(L"unexists")==0);
+	TEST_ASSERT(statementScope->GetFunction(L"unexists")==0);
+
+	BasicScope* scope=0;
+	TEST_ASSERT(statementScope->GetVariableType(L"link", scope)==link);
+	TEST_ASSERT(scope==appendScope);
+	TEST_ASSERT(statementScope->GetVariableType(L"data", scope)==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(scope==appendScope);
+	TEST_ASSERT(statementScope->GetVariableType(L"temp", scope)==link);
+	TEST_ASSERT(scope==statementScope);
+	TEST_ASSERT(statementScope->GetType(L"Link", scope)==link);
+	TEST_ASSERT(scope==global);
+	TEST_ASSERT(statementScope->GetFunction(L"append", scope)==&append);
+	TEST_ASSERT(scope==global);
+	TEST_ASSERT(statementScope->GetType(L"unexists", scope)==0);
+	TEST_ASSERT(scope==0);
+	TEST_ASSERT(statementScope->GetVariableType(L"unexists", scope)==0);
+	TEST_ASSERT(scope==0);
+	TEST_ASSERT(statementScope->GetFunction(L"unexists", scope)==0);
+	TEST_ASSERT(scope==0);
 }

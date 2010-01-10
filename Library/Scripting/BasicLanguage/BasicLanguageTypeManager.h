@@ -4,6 +4,8 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicLanguage
 
 Classes:
+	BasicTypeRecord								：类型对象
+	BasicTypeManager							：类型管理器
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGETYPEMANAGER
