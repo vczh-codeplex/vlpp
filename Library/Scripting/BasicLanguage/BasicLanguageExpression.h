@@ -63,33 +63,28 @@ namespace vl
 #endif
 			};
 
-			class BasicExpressionAlgorithm;
-			class BasicStatementAlgorithm;
-			class BasicTypeAlgorithm;
-			class BasicDeclarationAlgorithm;
-
 			class BasicExpression : public Object, private NotCopyable
 			{
 			public:
-				ALGORITHM_TARGET_ROOT(BasicExpressionAlgorithm)
+				ALGORITHM_TARGET_ROOT(BasicExpression)
 			};
 
 			class BasicStatement : public Object, private NotCopyable
 			{
 			public:
-				ALGORITHM_TARGET_ROOT(BasicStatementAlgorithm)
+				ALGORITHM_TARGET_ROOT(BasicStatement)
 			};
 
 			class BasicType : public Object, private NotCopyable
 			{
 			public:
-				ALGORITHM_TARGET_ROOT(BasicTypeAlgorithm)
+				ALGORITHM_TARGET_ROOT(BasicType)
 			};
 
 			class BasicDeclaration : public Object, private NotCopyable
 			{
 			public:
-				ALGORITHM_TARGET_ROOT(BasicDeclarationAlgorithm)
+				ALGORITHM_TARGET_ROOT(BasicDeclaration)
 
 				WString										name;
 			};
@@ -429,7 +424,7 @@ Algorithms
 			F(BasicCastingExpression)\
 			F(BasicReferenceExpression)\
 
-			DEFINE_ALGORITHM_INTERFACE(BasicExpressionAlgorithm, BASIC_EXPRESSION_TARGETS)
+			DEFINE_ALGORITHM_INTERFACE(BasicExpression, BASIC_EXPRESSION_TARGETS)
 
 #define BASIC_STATEMENT_TARGETS(F)\
 			F(BasicEmptyStatement)\
@@ -443,7 +438,7 @@ Algorithms
 			F(BasicContinueStatement)\
 			F(BasicReturnStatement)\
 
-			DEFINE_ALGORITHM_INTERFACE(BasicStatementAlgorithm, BASIC_STATEMENT_TARGETS)
+			DEFINE_ALGORITHM_INTERFACE(BasicStatement, BASIC_STATEMENT_TARGETS)
 
 #define BASIC_TYPE_TARGETS(F)\
 			F(BasicPrimitiveType)\
@@ -452,7 +447,7 @@ Algorithms
 			F(BasicReferenceType)\
 			F(BasicFunctionType)\
 
-			DEFINE_ALGORITHM_INTERFACE(BasicTypeAlgorithm, BASIC_TYPE_TARGETS)
+			DEFINE_ALGORITHM_INTERFACE(BasicType, BASIC_TYPE_TARGETS)
 
 #define BASIC_DECLARATION_TARGETS(F)\
 			F(BasicFunctionDeclaration)\
@@ -460,7 +455,7 @@ Algorithms
 			F(BasicVariableDeclaration)\
 			F(BasicTypeRenameDeclaration)\
 
-			DEFINE_ALGORITHM_INTERFACE(BasicDeclarationAlgorithm, BASIC_DECLARATION_TARGETS)
+			DEFINE_ALGORITHM_INTERFACE(BasicDeclaration, BASIC_DECLARATION_TARGETS)
 
 		}
 	}
