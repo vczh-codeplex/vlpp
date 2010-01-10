@@ -765,6 +765,10 @@
 						Name="Header Files"
 						>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.h"
 							>
 						</File>
@@ -780,6 +784,10 @@
 					<Filter
 						Name="Source Files"
 						>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.cpp"
+							>
+						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp"
 							>
