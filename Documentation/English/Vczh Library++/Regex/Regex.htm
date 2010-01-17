@@ -1,0 +1,100 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ Regular Expression</title>
+</head>
+<body>
+<h1>namespace regex;</h1>
+<h2><a name="RegexString">RegexString</a></h2>
+<p>RegexString represents a part of the input string.</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int Start()const</td></tr>
+<tr><td>[result]</td><td>The start position in the input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int Length()const</td></tr>
+<tr><td>[result]</td><td>Character count of the string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">const WString& Value()const</td></tr>
+<tr><td>[result]</td><td>Get a WString representing the string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator==(const RegexString& string)const</td></tr>
+<tr><td>[result]</td><td>The comparison result.</td></tr>
+<tr><td>string</td><td>The string to compare.</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexMatch">RegexMatch</a></h2>
+<p>RegexMatch represents a match of a regular expression.</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">bool Success()const</td></tr>
+<tr><td>[result]</td><td>True indicates this is a successful match, otherwise false.</td></tr>
+
+<tr><td colspan="2" class="method_sign">const RegexString& Result()const</td></tr>
+<tr><td>[result]</td><td>The whole string of the match.</td></tr>
+
+<tr><td colspan="2" class="method_sign">collections::IReadonlyList&lt;RegexString&gt; Captures()const</td></tr>
+<tr><td>[result]</td><td>Get a list for all anonymous captures.</td></tr>
+
+<tr><td colspan="2" class="method_sign">collections::IReadonlyGroup&lt;WString, RegexString&gt; Groups()const</td></tr>
+<tr><td>[result]</td><td>Get a group for all named captures. Regex allows multiple captures under a name.</td></tr>
+</tbody>
+</table>
+<h2><a name="Regex">Regex</a></h2>
+<p>Regular expression engine</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">Regex(const WString& code, bool preferPure=true)</td></tr>
+<tr><td>code</td><td>A string represents a regular expression.</td></tr>
+<tr><td>preferPure</td><td>If preferPure is set to true, Regex will analysis the regular expression and use a much faster algorithm if the expression has no capturing, lookahead assertions and non-eager loopings.</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool IsPureMatch()const</td></tr>
+<tr><td>[result]</td><td>True indicates Regex use the faster algorithm for calculating a match(with capture information).</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool IsPureTest()const</td></tr>
+<tr><td>[result]</td><td>True indicates Regex use the faster algorithm for searching a match only(without capture information).</td></tr>
+
+<tr><td colspan="2" class="method_sign">Ptr&lt;RegexMatch&gt; MatchHead(const WString& text)const</td></tr>
+<tr><td>[result]</td><td>A match which begins at the first character of the input string.</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">Ptr&lt;RegexMatch&gt; Match(const WString& text)const</td></tr>
+<tr><td>[result]</td><td>A match in the input string.</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool TestHead(const WString& text)const</td></tr>
+<tr><td>[result]</td><td>True indicates there is a match which begins at the first character of the input string, otherwise false.</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool TestBool(const WString& text)const</td></tr>
+<tr><td>[result]</td><td>True indicates there is a match in the input string, otherwise false.</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">void Search(const WString& text, RegexMatch::List& matches)const</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+<tr><td>matches</td><td>All matches in the input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">Split(const WString& text, bool keepEmptyMatch, RegexMatch::List& matches)const</td></tr>
+
+<tr><td>text</td><td>The input string.</td></tr>
+<tr><td>keepEmptyMatch</td><td>True for discarding all empty non-match parts.</td></tr>
+<tr><td>matches</td><td>All non-match parts in the input string which are separated by the matches.</td></tr>
+
+<tr><td colspan="2" class="method_sign">Cut(const WString& text, bool keepEmptyMatch, RegexMatch::List& matches)const</td></tr>
+<tr><td>text</td><td>The input string.</td></tr>
+<tr><td>keepEmptyMatch</td><td>True for discarding all empty non-match parts.</td></tr>
+<tr><td>matches</td><td>All match parts and non-match parts in the input string which are separated by the matches.</td></tr>
+</tbody>
+</table>
+<h2><a name="Grammar">Regular expression grammar reference</a></h2>
+</body>
+</html>

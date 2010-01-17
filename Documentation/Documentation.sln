@@ -51,6 +51,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections"
 		Chinese\Vczh Library++\Collections\Linq.htm = Chinese\Vczh Library++\Collections\Linq.htm
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regex", "Regex", "{B487C5B9-637F-4CD2-BEA5-51CC6058FC58}"
+	ProjectSection(SolutionItems) = preProject
+		English\Vczh Library++\Regex\Regex.htm = English\Vczh Library++\Regex\Regex.htm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 1
@@ -68,5 +73,6 @@ Global
 		{798AEB82-557A-43F8-99D2-B2F6499F0FCB} = {393510F5-8B03-4697-8054-D20C85DBF23C}
 		{7ABBA136-E3DE-4958-98A7-D3EC821AEFD2} = {AE35D8E9-D52D-4CAB-90CF-FB76D734F382}
 		{4FC04CA9-2CDE-40FF-8C9B-E85C4BF02AE2} = {AE35D8E9-D52D-4CAB-90CF-FB76D734F382}
+		{B487C5B9-637F-4CD2-BEA5-51CC6058FC58} = {AE35D8E9-D52D-4CAB-90CF-FB76D734F382}
 	EndGlobalSection
 EndGlobal
