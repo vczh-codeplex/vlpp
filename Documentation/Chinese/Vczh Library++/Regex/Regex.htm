@@ -1,0 +1,99 @@
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../DocStyle.css" />
+<title>Vczh Library++ 正则表达式</title>
+</head>
+<body>
+<h1>namespace regex;</h1>
+<h2><a name="RegexString">RegexString</a></h2>
+<p>RegexString记录输入字符串的一个部分</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int Start()const</td></tr>
+<tr><td>[返回值]</td><td>字符串部分的开始位置</td></tr>
+
+<tr><td colspan="2" class="method_sign">int Length()const</td></tr>
+<tr><td>[返回值]</td><td>字符串部分的长度</td></tr>
+
+<tr><td colspan="2" class="method_sign">const WString& Value()const</td></tr>
+<tr><td>[返回值]</td><td>获得一个WString表达字符串部分</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool operator==(const RegexString& string)const</td></tr>
+<tr><td>[返回值]</td><td>比较结果</td></tr>
+<tr><td>string</td><td>被比较的字符串部分</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexMatch">RegexMatch</a></h2>
+<p>RegexMatch用来存放正则表达式匹配信息</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">bool Success()const</td></tr>
+<tr><td>[返回值]</td><td>True代表这是一个成功匹配，否则为false</td></tr>
+
+<tr><td colspan="2" class="method_sign">const RegexString& Result()const</td></tr>
+<tr><td>[返回值]</td><td>匹配成功的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">collections::IReadonlyList&lt;RegexString&gt; Captures()const</td></tr>
+<tr><td>[返回值]</td><td>匿名捕获列表</td></tr>
+
+<tr><td colspan="2" class="method_sign">collections::IReadonlyGroup&lt;WString, RegexString&gt; Groups()const</td></tr>
+<tr><td>[返回值]</td><td>命名捕一对多重映射，Regex允许一个名字下有多个捕获</td></tr>
+</tbody>
+</table>
+<h2><a name="Regex">Regex</a></h2>
+<p>正则表达式引擎</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">Regex(const WString& code, bool preferPure=true)</td></tr>
+<tr><td>code</td><td>正则表达式的字符串</td></tr>
+<tr><td>preferPure</td><td>preferPure为true的话Regex会尽量使用一个大量优化的算法，不过这个优化要求正则表达式不含有捕获向前匹配、预查和非贪婪循环。</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool IsPureMatch()const</td></tr>
+<tr><td>[返回值]</td><td>True代表Regex使用优化算法匹配</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool IsPureTest()const</td></tr>
+<tr><td>[返回值]</td><td>True代表Regex使用优化算法寻找一个匹配</td></tr>
+
+<tr><td colspan="2" class="method_sign">Ptr&lt;RegexMatch&gt; MatchHead(const WString& text)const</td></tr>
+<tr><td>[返回值]</td><td>匹配字符串的前缀</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">Ptr&lt;RegexMatch&gt; Match(const WString& text)const</td></tr>
+<tr><td>[返回值]</td><td>在字符串中寻找一个匹配</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool TestHead(const WString& text)const</td></tr>
+<tr><td>[返回值]</td><td>True代表字符串的某个前缀是一个匹配</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">bool TestBool(const WString& text)const</td></tr>
+<tr><td>[返回值]</td><td>True代表字符串包含匹配</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+
+<tr><td colspan="2" class="method_sign">void Search(const WString& text, RegexMatch::List& matches)const</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+<tr><td>matches</td><td>所有的匹配</td></tr>
+
+<tr><td colspan="2" class="method_sign">Split(const WString& text, bool keepEmptyMatch, RegexMatch::List& matches)const</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+<tr><td>keepEmptyMatch</td><td>True代表所有空的非匹配部分会被丢弃</td></tr>
+<tr><td>matches</td><td>字符串除去匹配之后剩下的所有非匹配部分</td></tr>
+
+<tr><td colspan="2" class="method_sign">Cut(const WString& text, bool keepEmptyMatch, RegexMatch::List& matches)const</td></tr>
+<tr><td>text</td><td>输入的字符串</td></tr>
+<tr><td>keepEmptyMatch</td><td>True代表所有空的非匹配部分会被丢弃</td></tr>
+<tr><td>matches</td><td>所有匹配及非匹配部分</td></tr>
+</tbody>
+</table>
+<h2><a name="Grammar">正则表达式语法参考</a></h2>
+</body>
+</html>
