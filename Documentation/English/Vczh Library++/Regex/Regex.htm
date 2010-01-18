@@ -55,7 +55,7 @@
 <tbody>
 <tr><td colspan="2" class="method_sign">Regex(const WString& code, bool preferPure=true)</td></tr>
 <tr><td>code</td><td>A string represents a regular expression.</td></tr>
-<tr><td>preferPure</td><td>If preferPure is set to true, Regex will analysis the regular expression and use a much faster algorithm if the expression has no capture look backs, lookahead assertions and non-eager loopings.</td></tr>
+<tr><td>preferPure</td><td>If preferPure is set to true, Regex will analysis the regular expression and use a much faster algorithm if the expression has no capture back references, lookahead assertions and non-eager loopings.</td></tr>
 
 <tr><td colspan="2" class="method_sign">bool IsPureMatch()const</td></tr>
 <tr><td>[result]</td><td>True indicates Regex use the faster algorithm for calculating a match(with capture information).</td></tr>
@@ -95,5 +95,34 @@
 </tbody>
 </table>
 <h2><a name="Grammar">Regular expression grammar reference</a></h2>
+<p>Regular expression in Vczh Library++ Core Library has the following components:</p>
+<li><a href="#Char">Character and Escaping</a></li>
+<li><a href="#Loop">Looping</a></li>
+<li><a href="#Seq">Sequence and Choice</a></li>
+<li><a href="#Capture">Capturing</a></li>
+<li><a href="#Back">Back reference</a></li>
+<li><a href="#Lookahead">Positive/Negative lookahead assertion</a></li>
+<li><a href="#Rename">Sub expression renaming</a></li>
+<p>The constructor for Regex has a preferPure parameter. When preferPure is true, Regex will use a much faster algorithm if possible. The following table shows how Regex makes its decision for matching and testing.</p>
+<table>
+<thead><tr><td>Component</td><td>Fast matching</td><td>Fast testing</td></tr></thead>
+<tbody>
+<tr><td>character set</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>x{a}, x{a,}, x{a,b}, x+, x*, x?</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>ab, a|b</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>(&lt;name&gt;x), (?x)</td><td>No</td><td>Yes</td></tr>
+<tr><td>$, ^</td><td>No</td><td>No</td></tr>
+<tr><td>x{a}?, x{a,}?, x{a,b}?, x+?, x*?, x??</td><td>No</td><td>No</td></tr>
+<tr><td>(&lt;$name&gt;), (&lt;$name;i&gt;)(&lt;i&gt;)</td><td>No</td><td>No</td></tr>
+<tr><td>(=x), (!x)</td><td>No</td><td>No</td></tr>
+</tbody>
+</table>
+<a name="Char"><h3>Character and Escaping</h3></a>
+<a name="Loop"><h3>Looping</h3></a>
+<a name="Seq"><h3>Sequence and Choice</h3></a>
+<a name="Capture"><h3>Capturing</h3></a>
+<a name="Back"><h3>Back reference</h3></a>
+<a name="Lookahead"><h3>Positive/Negative lookahead assertion</h3></a>
+<a name="Rename"><h3>Sub expression renaming</h3></a>
 </body>
 </html>
