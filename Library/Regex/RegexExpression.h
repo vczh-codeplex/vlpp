@@ -15,7 +15,7 @@ Classes:
 	MatchExpression					：【非纯】匹配表达式		| (<$name>), (<$name;i>), (<$i>)
 	PositiveExpression				：【非纯】正向预查表达式	| (=expr)
 	NegativeExpression				：【非纯】反向预查表达式	| (!expr)
-	UsingExpression					：引用表达式
+	UsingExpression					：引用表达式				| (<#name1>expr)...(<&name1>)...
 
 	RegexExpression					：正则表达式
 
