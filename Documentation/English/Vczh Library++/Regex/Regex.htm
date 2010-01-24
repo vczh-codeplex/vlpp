@@ -117,12 +117,108 @@
 <tr><td>(=x), (!x)</td><td>No</td><td>No</td></tr>
 </tbody>
 </table>
-<a name="Char"><h3>Character and Escaping</h3></a>
-<a name="Loop"><h3>Looping</h3></a>
-<a name="Seq"><h3>Sequence and Choice</h3></a>
-<a name="Capture"><h3>Capturing</h3></a>
-<a name="Back"><h3>Back reference</h3></a>
-<a name="Lookahead"><h3>Positive/Negative lookahead assertion</h3></a>
-<a name="Rename"><h3>Sub expression renaming</h3></a>
+<p><b>In the following guide, we will use /x/ for a regular expression and "x" for a text.</b></p>
+<h3><a name="Char">Character and Escaping</a></h3>
+<p>There are two kinds of character declarations in regular expression: character and character range. Escaping in these two declaractions are different from each other.</p>
+<p>We can use /a/ for "a", /b/ for "b" and /\w/ for letters, digits and underscore. But /^/ and /$/ do not mean "^" and "$". The following table shows which characters should be escaped.</p>
+<table>
+<thead><tr><td>Character</td><td>Meaning</td><td>Escaping 1</td><td>Escaping 2</td><td>Meaning for escaping</td></tr></thead>
+<tbody>
+<tr><td>.</td><td>&quot;.&quot;</td><td>\.</td><td>/.</td><td>any character</td></tr>
+<tr><td>r</td><td>&quot;r&quot;</td><td>\r</td><td>/r&nbsp;</td><td>0x0D(ASCII)</td></tr>
+<tr><td>n</td><td>&quot;n&quot;</td><td>\n</td><td>/n</td><td>0x0A(ASCII)</td></tr>
+<tr><td>t</td><td>&quot;t&quot;</td><td>\t</td><td>/t</td><td>tab</td></tr>
+<tr><td>\</td><td>&nbsp;</td><td>\\</td><td>/\</td><td>&quot;\&quot;</td></tr>
+<tr><td>/</td><td>&nbsp;</td><td>\/</td><td>//</td><td>&quot;/&quot;</td></tr>
+<tr><td>(</td><td>&nbsp;</td><td>\(</td><td>/(</td><td>&quot;(&quot;</td></tr>
+<tr><td>)</td><td>&nbsp;</td><td>\)</td><td>/)</td><td>&quot;)&quot;</td></tr>
+<tr><td>+</td><td>&nbsp;</td><td>\+</td><td>/+</td><td>&quot;+&quot;</td></tr>
+<tr><td>*</td><td>&nbsp;</td><td>\*</td><td>/*</td><td>&quot;*&quot;</td></tr>
+<tr><td>?</td><td>&nbsp;</td><td>\?</td><td>/?</td><td>&quot;?&quot;</td></tr>
+<tr><td>{</td><td>&nbsp;</td><td>\{</td><td>/{</td><td>&quot;{&quot;</td></tr>
+<tr><td>}</td><td>&nbsp;</td><td>\}</td><td>/}</td><td>&quot;}&quot;</td></tr>
+<tr><td>[</td><td>&nbsp;</td><td>\[</td><td>/[</td><td>&quot;[&quot;</td></tr>
+<tr><td>]</td><td>&nbsp;</td><td>\]</td><td>/]</td><td>&quot;]&quot;</td></tr>
+<tr><td>&lt;</td><td>&nbsp;</td><td>\&lt;</td><td>/&lt;</td><td>&quot;&lt;&quot;</td></tr>
+<tr><td>&gt;</td><td>&nbsp;</td><td>\&gt;</td><td>/&gt;</td><td>&quot;&gt;&quot;</td></tr>
+<tr><td>^</td><td>Text beginning</td><td>\^</td><td>/^</td><td>&quot;^&quot;</td></tr>
+<tr><td>$</td><td>Text endding</td><td>\$</td><td>/$</td><td>&quot;$&quot;</td></tr>
+<tr><td>!</td><td>&nbsp;</td><td>\!</td><td>/!</td><td>&quot;!&quot;</td></tr>
+<tr><td>=</td><td>&nbsp;</td><td>\=</td><td>/=</td><td>&quot;=&quot;</td></tr>
+<tr><td>S</td><td>&quot;S&quot;</td><td>\S</td><td>/S</td><td>not /s</td></tr>
+<tr><td>s</td><td>&quot;s&quot;</td><td>\s</td><td>/s</td><td>space, 0x0D, 0x0A, tab</td></tr>
+<tr><td>D</td><td>&quot;D&quot;</td><td>\D</td><td>/D</td><td>not /d</td></tr>
+<tr><td>d</td><td>&quot;d&quot;</td><td>\d</td><td>/d</td><td>digit</td></tr>
+<tr><td>L</td><td>&quot;L&quot;</td><td>\L</td><td>/L</td><td>not /l</td></tr>
+<tr><td>l</td><td>&quot;l&quot;</td><td>\l</td><td>/l</td><td>letter, digit</td></tr>
+<tr><td>W</td><td>&quot;W&quot;</td><td>\W</td><td>/W</td><td>not /w</td></tr>
+<tr><td>w</td><td>&quot;w&quot;</td><td>\w</td><td>/w</td><td>letter, digit, underscore</td></tr>
+</tbody>
+</table>
+<p>We can also use character range for a range or a combination of multiple range of characters. For example, /[a-c]/ means "a", "b" or "c", /[a-zA-Z0-9_]/ means a letter, a digit or a underscore. If you use [^...] instead of [...], it means "any characters that except". For example, /[^a-zA-Z]/ means a character that is not a letter.</p>
+<p>Escaping in character range is different from escaping in character. The following table shows which character need to be escaped in a character range.</p>
+<table>
+<thead><tr><td>Character</td><td>Meaning</td><td>Escaping 1</td><td>Escaping 2</td><td>Meaning for escaping</td></tr></thead>
+<tbody>
+<tr><td>.</td><td>&quot;.&quot;</td><td>\.</td><td>/.</td><td>any character</td></tr>
+<tr><td>r</td><td>&quot;r&quot;</td><td>\r</td><td>/r&nbsp;</td><td>0x0D(ASCII)</td></tr>
+<tr><td>n</td><td>&quot;n&quot;</td><td>\n</td><td>/n</td><td>0x0A(ASCII)</td></tr>
+<tr><td>t</td><td>&quot;t&quot;</td><td>\t</td><td>/t</td><td>tab</td></tr>
+<tr><td>-</td><td>&nbsp;</td><td>\-</td><td>/-</td><td>&quot;-&quot;</td></tr>
+<tr><td>\</td><td>&nbsp;</td><td>\\</td><td>/\</td><td>&quot;\&quot;</td></tr>
+<tr><td>/</td><td>&nbsp;</td><td>\/</td><td>//</td><td>&quot;/&quot;</td></tr>
+<tr><td>[</td><td>&nbsp;</td><td>\[</td><td>/[</td><td>&quot;[&quot;</td></tr>
+<tr><td>]</td><td>&nbsp;</td><td>\]</td><td>/]</td><td>&quot;]&quot;</td></tr>
+<tr><td>^</td><td>Text beginning</td><td>\^</td><td>/^</td><td>&quot;^&quot;</td></tr>
+<tr><td>$</td><td>Text endding</td><td>\$</td><td>/$</td><td>&quot;$&quot;</td></tr>
+</tbody>
+</table>
+<h3><a name="Loop">Looping</a></h3>
+<p>Looping means repeating a pattern. There are several kinds of loopings.</p>
+<table>
+<thead>
+<tr><td>Pattern</td><td>Meaning</td></tr>
+</thead>
+<tbody>
+</tbody>
+<tr><td>X+</td><td>One or more X</td></tr>
+<tr><td>X?</td><td>Zero or one X</td></tr>
+<tr><td>X*</td><td>Zero or more X</td></tr>
+<tr><td>X{3}</td><td>Three Xs</td></tr>
+<tr><td>X{3,}</td><td>Three or more Xs</td></tr>
+<tr><td>X{3,5}</td><td>Three, four or five Xs</td></tr>
+</table>
+<p>If a looping pattern is followed by a "?", then the looping will terminated as early as possible.</p>
+<p>For example, /a+/ matches "aaa" in "aaa", but /a?/ matches "a" in "aaa". But both /a+b/ or /a+?b/ matches "aaab" in "aaab".</p>
+<h3><a name="Seq">Sequence and Choice</a></h3>
+<p>Sequence of two pattern means that the second pattern should appears right after the first pattern. Sequence is easy to understand. For example, we need to match an e-mail address like "vczh@163.com" or "vczh@hotmail.com", we need:</p>
+<p><b>\w+@\w+.\w+</b></p>
+<p>This is a sequence that combines /w+/, /@/, /\w+/, /./ and /w+/ together. These five patterns should appear one after another in the defined order. When /w+@w+.w+/ matches "vczh@163.com", it gets:<br />
+/w+/ = "vczh"<br />
+/@/ = "@"<br />
+/w+/ = "163"<br />
+/./ = "."<br />
+/w+/ = "com"</p>
+<p>Choice is something like a "or" operator. /a|b|c/ means [abc], /ab|ac|de/ means "ab", "ac" or "de". The priority of choices is lower than sequences.</p>
+<h3><a name="Capture">Capturing</a></h3>
+<h3><a name="Back">Back reference</a></h3>
+<h3><a name="Lookahead">Positive/Negative lookahead assertion</a></h3>
+<p>Positive/nagetive lookahead assertion is a tool for finding a pattern whose context satisfies a condition. For example:<br />
+We need to find a "windows" that followed by "2000", we use /windows(=2000)/<br />
+We need to find a "windows" that not followed by "2000", we use /windows(!2000)/</p>
+<p>The assertion part of a lookahead assertion can be any regular expression. For example:<br />
+We need to find a "email" that followed by some symbols and an email address, we use /email(=\W*\w+@\w+.\w+)/<br />
+</p>
+<h3><a name="Rename">Sub expression renaming</a></h3>
+<p>Sub expression renaming is a way to make your regular expression becomes shorter by renaming some patterns that appears everywhere and use a name instead of the pattern itself to form a larger pattern.</p>
+<p>For example, if we need to match an IPv4 address we need to tell if a text is a integer between 0 and 255.<br />
+1, we get /25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d/, and named it "BYTE".<br />
+2, we get /((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)/ for an IPv4 address.<br />
+3, put the renaming and the pattern in a single regular expression and get: /(&lt;#BYTE&gt;<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>)<font color="blue">((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)</font>/.</p>
+<p>We don't need to use /(<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>.){3}<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>/ in this case.</p>
+<p>A regular expression can have many renamings, but a sub expression reference to a renamed expression should appear after the renaming declaration</p>
+<p>For example, /(&lt;#A&gt;a)(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ (which means /a+.a+/) is correct,<br />
+but /(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;#A&gt;a)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ does not.</p>
+<p>Sub expression renaming is not part of a pattern, it is only a syntax suger. Every renamings should appears before the final pattern.</p>
 </body>
 </html>
