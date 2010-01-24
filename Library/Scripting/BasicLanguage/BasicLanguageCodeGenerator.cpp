@@ -1,4 +1,6 @@
 #include "BasicLanguageCodeGenerator.h"
+#include "..\..\Collections\Operation.h"
+#include "..\Common\AlgorithmDeclaration.h"
 
 namespace vl
 {
@@ -197,6 +199,124 @@ BasicEnv
 					return scope;
 				}
 			}
+
+/***********************************************************************
+GetTypeRecord
+***********************************************************************/
+
+			BasicLanguageCodeException::BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters)
+				:element(_element)
+				,exceptionCode(_exceptionCode)
+			{
+				CopyFrom(parameters.Wrap(), _parameters);
+			}
+
+			BasicLanguageCodeException::BasicLanguageCodeException(const BasicLanguageCodeException& exception)
+				:element(exception.element)
+				,exceptionCode(exception.exceptionCode)
+			{
+				CopyFrom(parameters.Wrap(), exception.parameters.Wrap());
+			}
+
+			BasicLanguageCodeException::~BasicLanguageCodeException()
+			{
+			}
+
+			BasicLanguageElement* BasicLanguageCodeException::GetBasicLanguageElement()
+			{
+				return element;
+			}
+
+			BasicLanguageCodeException::ExceptionCode BasicLanguageCodeException::GetExceptionCode()
+			{
+				return exceptionCode;
+			}
+
+			const collections::IReadonlyList<WString>& BasicLanguageCodeException::GetParameters()
+			{
+				return parameters.Wrap();
+			}
+
+			BasicLanguageCodeException BasicLanguageCodeException::GetTypeNameNotExists(BasicReferenceType* type)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=type->name;
+				return BasicLanguageCodeException(type, TypeNameNotExists, parameters.Wrap());
+			}
+
+/***********************************************************************
+GetTypeRecord
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
+
+				ALGORITHM_FUNCTION_MATCH(BasicPrimitiveType)
+				{
+					return argument->TypeManager()->GetPrimitiveType(node->type);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicPointerType)
+				{
+					return argument->TypeManager()->GetPointerType(BasicLanguage_GetTypeRecord(node->elementType, argument));
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicArrayType)
+				{
+					return argument->TypeManager()->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument), node->size);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicReferenceType)
+				{
+					BasicTypeRecord* type=argument->GetType(node->name);
+					if(type)
+					{
+						return type;
+					}
+					else
+					{
+						throw BasicLanguageCodeException::GetTypeNameNotExists(node);
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionType)
+				{
+					List<BasicTypeRecord*> parameterTypes;
+					for(int i=0;i<node->parameterTypes.Count();i++)
+					{
+						parameterTypes.Add(BasicLanguage_GetTypeRecord(node->parameterTypes[i], argument));
+					}
+					return argument->TypeManager()->GetFunctionType(
+						BasicLanguage_GetTypeRecord(node->returnType, argument),
+						parameterTypes.Wrap()
+						);
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord)
+
+/***********************************************************************
+BuildGlobalScope
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope, BasicDeclaration, BasicEnv*)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+				}
+			
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+				
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+				}
+				
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope)
+
 		}
 	}
 }
