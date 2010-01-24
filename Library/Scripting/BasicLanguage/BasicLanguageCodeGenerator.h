@@ -102,9 +102,9 @@ Exception
 				BasicLanguageCodeException(const BasicLanguageCodeException& exception);
 				~BasicLanguageCodeException();
 
-				BasicLanguageElement*											GetBasicLanguageElement();
-				ExceptionCode													GetExceptionCode();
-				const collections::IReadonlyList<WString>&						GetParameters();
+				BasicLanguageElement*											GetBasicLanguageElement()const;
+				ExceptionCode													GetExceptionCode()const;
+				const collections::IReadonlyList<WString>&						GetParameters()const;
 
 				static BasicLanguageCodeException								GetTypeNameNotExists(BasicReferenceType* type);
 			};

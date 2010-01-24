@@ -44,6 +44,7 @@ namespace vl
 		}															\
 		void TESTCASE_##NAME()
 #define TEST_PRINT(x) vl::unittest::UnitTest::PrintMessage(x)
+#define TEST_EXCEPTION(STATEMENT,EXCEPTION,ASSERT_FUNCTION) try{STATEMENT; TEST_ASSERT(false);}catch(const EXCEPTION& e){ASSERT_FUNCTION(e);}
 	}
 }
 
