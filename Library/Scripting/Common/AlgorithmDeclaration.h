@@ -32,12 +32,12 @@ Algorithm Extern
 ***********************************************************************/
 
 #define EXTERN_ALGORITHM_FUNCTION(NAME, NODE, INPUT_TYPE, OUTPUT_TYPE)\
-	extern OUTPUT_TYPE NAME(NODE* node, const INPUT_TYPE& _input_value);\
-	extern OUTPUT_TYPE NAME(Ptr<NODE> node, const INPUT_TYPE& _input_value);
+	extern OUTPUT_TYPE NAME(NODE* node, INPUT_TYPE _input_value);\
+	extern OUTPUT_TYPE NAME(Ptr<NODE> node, INPUT_TYPE _input_value);
 
 #define EXTERN_ALGORITHM_PROCEDURE(NAME, NODE, INPUT_TYPE)\
-	extern void NAME(NODE* node, const INPUT_TYPE& _input_value);\
-	extern void NAME(Ptr<NODE> node, const INPUT_TYPE& _input_value);
+	extern void NAME(NODE* node, INPUT_TYPE _input_value);\
+	extern void NAME(Ptr<NODE> node, INPUT_TYPE _input_value);
 
 /***********************************************************************
 Algorithm Function
@@ -50,8 +50,8 @@ Algorithm Function
 		typedef INPUT_TYPE					__algorithm_input_type__;\
 		typedef OUTPUT_TYPE					__algorithm_output_type__;\
 		typedef NODE						__algorithm_target_type__;\
-		friend __algorithm_output_type__	NAME(__algorithm_target_type__*, const __algorithm_input_type__&);\
-		friend __algorithm_output_type__	NAME(Ptr<__algorithm_target_type__>, const __algorithm_input_type__&);\
+		friend __algorithm_output_type__	NAME(__algorithm_target_type__*, __algorithm_input_type__);\
+		friend __algorithm_output_type__	NAME(Ptr<__algorithm_target_type__>, __algorithm_input_type__);\
 		const __algorithm_input_type__*		input_value;\
 		__algorithm_output_type__			output_value;\
 	public:\
@@ -79,13 +79,13 @@ Algorithm Function
 		};\
 		NAME##Algorithm::__algorithm_output_type__ NAME(\
 			NAME##Algorithm::__algorithm_target_type__* node,\
-			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+			NAME##Algorithm::__algorithm_input_type__ _input_value)\
 		{\
 			return NAME##Algorithm().Execute(node, _input_value);\
 		}\
 		NAME##Algorithm::__algorithm_output_type__ NAME(\
 			Ptr<NAME##Algorithm::__algorithm_target_type__> node,\
-			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+			NAME##Algorithm::__algorithm_input_type__ _input_value)\
 		{\
 			return NAME##Algorithm().Execute(node, _input_value);\
 		}
@@ -100,8 +100,8 @@ Algorithm Procedure
 	private:\
 		typedef INPUT_TYPE					__algorithm_input_type__;\
 		typedef NODE						__algorithm_target_type__;\
-		friend void							NAME(__algorithm_target_type__*, const __algorithm_input_type__&);\
-		friend void							NAME(Ptr<__algorithm_target_type__>, const __algorithm_input_type__&);\
+		friend void							NAME(__algorithm_target_type__*, __algorithm_input_type__);\
+		friend void							NAME(Ptr<__algorithm_target_type__>, __algorithm_input_type__);\
 		const __algorithm_input_type__*		input_value;\
 	public:\
 		void Execute(__algorithm_target_type__* node, const __algorithm_input_type__& _input_value)\
@@ -126,13 +126,13 @@ Algorithm Procedure
 		};\
 		void NAME(\
 			NAME##Algorithm::__algorithm_target_type__* node,\
-			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+			NAME##Algorithm::__algorithm_input_type__ _input_value)\
 		{\
 			NAME##Algorithm().Execute(node, _input_value);\
 		}\
 		void NAME(\
 			Ptr<NAME##Algorithm::__algorithm_target_type__> node,\
-			const NAME##Algorithm::__algorithm_input_type__& _input_value)\
+			NAME##Algorithm::__algorithm_input_type__ _input_value)\
 		{\
 			NAME##Algorithm().Execute(node, _input_value);\
 		}

@@ -71,9 +71,11 @@ namespace vl
 					wchar_type=u16,
 #ifdef _WIN64
 					int_type=s64,
+					uint_type=u64,
 					pointer_type=u64,
 #else
 					int_type=s32,
+					uint_type=u32,
 					pointer_type=u32,
 #endif
 				};

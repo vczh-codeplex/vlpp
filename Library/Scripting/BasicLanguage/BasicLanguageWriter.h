@@ -47,10 +47,12 @@ Type
 			extern BasicTypeNode						t_int16();
 			extern BasicTypeNode						t_int32();
 			extern BasicTypeNode						t_int64();
+			extern BasicTypeNode						t_int();
 			extern BasicTypeNode						t_uint8();
 			extern BasicTypeNode						t_uint16();
 			extern BasicTypeNode						t_uint32();
 			extern BasicTypeNode						t_uint64();
+			extern BasicTypeNode						t_uint();
 			extern BasicTypeNode						t_float();
 			extern BasicTypeNode						t_double();
 			extern BasicTypeNode						t_bool();

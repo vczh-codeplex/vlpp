@@ -1,5 +1,5 @@
 #include "BasicLanguageCodeGenerator.h"
-#include "..\..\Collections\Operation.h"
+#include "..\..\Collections\OperationCopyFrom.h"
 #include "..\Common\AlgorithmDeclaration.h"
 
 namespace vl
@@ -205,14 +205,16 @@ GetTypeRecord
 ***********************************************************************/
 
 			BasicLanguageCodeException::BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters)
-				:element(_element)
+				:Exception(L"发生BasicLanguage语义分析错误。")
+				,element(_element)
 				,exceptionCode(_exceptionCode)
 			{
 				CopyFrom(parameters.Wrap(), _parameters);
 			}
 
 			BasicLanguageCodeException::BasicLanguageCodeException(const BasicLanguageCodeException& exception)
-				:element(exception.element)
+				:Exception(exception.Message())
+				,element(exception.element)
 				,exceptionCode(exception.exceptionCode)
 			{
 				CopyFrom(parameters.Wrap(), exception.parameters.Wrap());
@@ -222,17 +224,17 @@ GetTypeRecord
 			{
 			}
 
-			BasicLanguageElement* BasicLanguageCodeException::GetBasicLanguageElement()
+			BasicLanguageElement* BasicLanguageCodeException::GetBasicLanguageElement()const
 			{
 				return element;
 			}
 
-			BasicLanguageCodeException::ExceptionCode BasicLanguageCodeException::GetExceptionCode()
+			BasicLanguageCodeException::ExceptionCode BasicLanguageCodeException::GetExceptionCode()const
 			{
 				return exceptionCode;
 			}
 
-			const collections::IReadonlyList<WString>& BasicLanguageCodeException::GetParameters()
+			const collections::IReadonlyList<WString>& BasicLanguageCodeException::GetParameters()const
 			{
 				return parameters.Wrap();
 			}

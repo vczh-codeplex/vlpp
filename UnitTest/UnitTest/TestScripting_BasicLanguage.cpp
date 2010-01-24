@@ -1,4 +1,5 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
+#include "..\..\Library\Function.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.h"
@@ -246,4 +247,46 @@ TEST_CASE(TestBasicEnv)
 	TEST_ASSERT(scope==0);
 	TEST_ASSERT(statementScope->GetFunction(L"unexists", scope)==0);
 	TEST_ASSERT(scope==0);
+}
+
+/***********************************************************************
+Exception Assertions
+***********************************************************************/
+
+void TestTypeNameNotExists(const WString& name, const BasicLanguageCodeException& e)
+{
+	TEST_ASSERT(e.GetExceptionCode()==BasicLanguageCodeException::TypeNameNotExists);
+	BasicReferenceType* type=dynamic_cast<BasicReferenceType*>(e.GetBasicLanguageElement());
+	TEST_ASSERT(type);
+	TEST_ASSERT(type->name==name);
+}
+
+/***********************************************************************
+BasicLanguage_GetTypeRecord
+***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_GetTypeRecord)
+{
+	BasicEnv env;
+	BasicTypeManager& tm=env.TypeManager();
+	BasicScope* global=env.GlobalScope();
+	BasicTypeRecord* link=tm.CreateStructureType();
+	global->Types().Add(L"Link", link);
+
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), global)==tm.GetPrimitiveType(void_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int().GetInternalValue(), global)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), global)==link);
+	TEST_ASSERT(BasicLanguage_GetTypeRecord((*t_type(L"Link")).GetInternalValue(), global)==tm.GetPointerType(link));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int()[10].GetInternalValue(), global)==tm.GetArrayType(tm.GetPrimitiveType(int_type), 10));
+
+	List<BasicTypeRecord*> functionParameterTypes;
+	functionParameterTypes.Add(tm.GetPointerType(link));
+	functionParameterTypes.Add(tm.GetPointerType(link));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(
+		t_void()(t_types()<<*t_type(L"Link")<<*t_type(L"Link")).GetInternalValue(), global)==
+		tm.GetFunctionType(tm.GetPrimitiveType(void_type), functionParameterTypes.Wrap())
+		);
+
+	Ptr<BasicType> wrongType=(*t_type(L"Link"))(t_types()<<(*t_type(L"Link"))[10]<<(*t_type(L"Wrong"))[10]).GetInternalValue();
+	TEST_EXCEPTION(BasicLanguage_GetTypeRecord(wrongType, global),BasicLanguageCodeException,Curry(TestTypeNameNotExists)(L"Wrong"));
 }

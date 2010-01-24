@@ -80,6 +80,13 @@ BasicTypeNode
 				return result;
 			}
 
+			BasicTypeNode t_int()
+			{
+				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
+				result->type=int_type;
+				return result;
+			}
+
 			BasicTypeNode t_uint8()
 			{
 				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
@@ -101,10 +108,10 @@ BasicTypeNode
 				return result;
 			}
 
-			BasicTypeNode t_uint64()
+			BasicTypeNode t_uint()
 			{
 				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
-				result->type=u64;
+				result->type=uint_type;
 				return result;
 			}
 
