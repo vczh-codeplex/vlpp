@@ -11,6 +11,7 @@ Classes:
 #ifndef VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGECODEGENERATOR
 #define VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGECODEGENERATOR
 
+#include "..\..\Exception.h"
 #include "BasicLanguageExpression.h"
 #include "BasicLanguageTypeManager.h"
 
@@ -20,6 +21,11 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+
+/***********************************************************************
+Scope Manager
+***********************************************************************/
+
 			class BasicScope : public Object, private NotCopyable
 			{
 				friend class BasicEnv;
@@ -75,6 +81,40 @@ namespace vl
 				BasicScope*														CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration);
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
 			};
+
+/***********************************************************************
+Exception
+***********************************************************************/
+
+			class BasicLanguageCodeException : public Exception
+			{
+			public:
+				enum ExceptionCode
+				{
+					TypeNameNotExists
+				};
+			protected:
+				BasicLanguageElement*											element;
+				ExceptionCode													exceptionCode;
+				collections::List<WString>										parameters;
+			public:
+				BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters);
+				BasicLanguageCodeException(const BasicLanguageCodeException& exception);
+				~BasicLanguageCodeException();
+
+				BasicLanguageElement*											GetBasicLanguageElement();
+				ExceptionCode													GetExceptionCode();
+				const collections::IReadonlyList<WString>&						GetParameters();
+
+				static BasicLanguageCodeException								GetTypeNameNotExists(BasicReferenceType* type);
+			};
+
+/***********************************************************************
+Algorithms
+***********************************************************************/
+
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope, BasicDeclaration, BasicEnv*)
 		}
 	}
 }

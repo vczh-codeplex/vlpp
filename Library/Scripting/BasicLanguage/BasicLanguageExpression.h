@@ -63,25 +63,29 @@ namespace vl
 #endif
 			};
 
-			class BasicExpression : public Object, private NotCopyable
+			class BasicLanguageElement : public Object, private NotCopyable
+			{
+			};
+
+			class BasicExpression : public BasicLanguageElement
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(BasicExpression)
 			};
 
-			class BasicStatement : public Object, private NotCopyable
+			class BasicStatement : public BasicLanguageElement
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(BasicStatement)
 			};
 
-			class BasicType : public Object, private NotCopyable
+			class BasicType : public BasicLanguageElement
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(BasicType)
 			};
 
-			class BasicDeclaration : public Object, private NotCopyable
+			class BasicDeclaration : public BasicLanguageElement
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(BasicDeclaration)
@@ -89,7 +93,7 @@ namespace vl
 				WString										name;
 			};
 
-			class BasicProgram : public Object, private NotCopyable
+			class BasicProgram : public BasicLanguageElement
 			{
 			public:
 				collections::List<Ptr<BasicDeclaration>>	declarations;
