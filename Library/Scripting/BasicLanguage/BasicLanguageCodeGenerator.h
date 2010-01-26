@@ -91,7 +91,11 @@ Exception
 			public:
 				enum ExceptionCode
 				{
-					TypeNameNotExists
+					TypeNameNotExists,
+					FunctionAlreadyExists,
+					VariableAlreadyExists,
+					TypeAlreadyExists,
+					StructureMemberAlreadyExists,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -106,15 +110,31 @@ Exception
 				ExceptionCode													GetExceptionCode()const;
 				const collections::IReadonlyList<WString>&						GetParameters()const;
 
-				static BasicLanguageCodeException								GetTypeNameNotExists(BasicReferenceType* type);
+				static Ptr<BasicLanguageCodeException>							GetTypeNameNotExists(BasicReferenceType* type);
+				static Ptr<BasicLanguageCodeException>							GetFunctionAlreadyExists(BasicFunctionDeclaration* function);
+				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicVariableDeclaration* variable);
+				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicStructureDeclaration* type);
+				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicTypeRenameDeclaration* type);
+				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex);
 			};
+
+			typedef class BasicAlgorithmParameter
+			{
+			public:
+				BasicEnv*												env;
+				BasicScope*												scope;
+				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
+
+				BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, collections::List<Ptr<BasicLanguageCodeException>>& _errors);
+			} BP;
 
 /***********************************************************************
 Algorithms
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
-			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope, BasicDeclaration, BasicEnv*)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 		}
 	}
 }

@@ -253,10 +253,10 @@ TEST_CASE(TestBasicEnv)
 Exception Assertions
 ***********************************************************************/
 
-void TestTypeNameNotExists(const WString& name, const BasicLanguageCodeException& e)
+void TestTypeNameNotExists(const WString& name, Ptr<BasicLanguageCodeException> e)
 {
-	TEST_ASSERT(e.GetExceptionCode()==BasicLanguageCodeException::TypeNameNotExists);
-	BasicReferenceType* type=dynamic_cast<BasicReferenceType*>(e.GetBasicLanguageElement());
+	TEST_ASSERT(e->GetExceptionCode()==BasicLanguageCodeException::TypeNameNotExists);
+	BasicReferenceType* type=dynamic_cast<BasicReferenceType*>(e->GetBasicLanguageElement());
 	TEST_ASSERT(type);
 	TEST_ASSERT(type->name==name);
 }
@@ -288,5 +288,9 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 		);
 
 	Ptr<BasicType> wrongType=(*t_type(L"Link"))(t_types()<<(*t_type(L"Link"))[10]<<(*t_type(L"Wrong"))[10]).GetInternalValue();
-	TEST_EXCEPTION(BasicLanguage_GetTypeRecord(wrongType, global),BasicLanguageCodeException,Curry(TestTypeNameNotExists)(L"Wrong"));
+	TEST_EXCEPTION(
+		BasicLanguage_GetTypeRecord(wrongType, global),
+		Ptr<BasicLanguageCodeException>,
+		Curry(TestTypeNameNotExists)(L"Wrong")
+		);
 }
