@@ -239,11 +239,57 @@ GetTypeRecord
 				return parameters.Wrap();
 			}
 
-			BasicLanguageCodeException BasicLanguageCodeException::GetTypeNameNotExists(BasicReferenceType* type)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeNameNotExists(BasicReferenceType* type)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=type->name;
-				return BasicLanguageCodeException(type, TypeNameNotExists, parameters.Wrap());
+				return new BasicLanguageCodeException(type, TypeNameNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetFunctionAlreadyExists(BasicFunctionDeclaration* function)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=function->name;
+				return new BasicLanguageCodeException(function, FunctionAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVariableAlreadyExists(BasicVariableDeclaration* variable)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=variable->name;
+				return new BasicLanguageCodeException(variable, VariableAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicStructureDeclaration* type)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=type->name;
+				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicTypeRenameDeclaration* type)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=type->name;
+				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=type->memberNames[memberIndex];
+				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
+			}
+
+/***********************************************************************
+GetTypeRecord
+***********************************************************************/
+
+			BasicAlgorithmParameter::BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, List<Ptr<BasicLanguageCodeException>>& _errors)
+				:env(_env)
+				,scope(_scope)
+				,errors(_errors)
+			{
 			}
 
 /***********************************************************************
@@ -296,10 +342,81 @@ GetTypeRecord
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord)
 
 /***********************************************************************
-BuildGlobalScope
+BasicLanguage_BuildGlobalScopePass1
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope, BasicDeclaration, BasicEnv*)
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+					if(argument.scope->Functions().Keys().Contains(node->name))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetFunctionAlreadyExists(node));
+					}
+					else
+					{
+						argument.scope->Functions().Add(node->name, node);
+					}
+				}
+			
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+					if(argument.scope->Types().Keys().Contains(node->name))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
+					}
+					else
+					{
+						BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
+						argument.scope->Types().Add(node->name, structure);
+					}
+				}
+				
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+					if(argument.scope->Variables().Keys().Contains(node->name))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetVariableAlreadyExists(node));
+					}
+					else
+					{
+						try
+						{
+							argument.scope->Variables().Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+						}
+						catch(Ptr<BasicLanguageCodeException> e)
+						{
+							argument.errors.Add(e);
+						}
+					}
+				}
+				
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+					if(argument.scope->Types().Keys().Contains(node->name))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
+					}
+					else
+					{
+						try
+						{
+							argument.scope->Types().Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+						}
+						catch(Ptr<BasicLanguageCodeException> e)
+						{
+							argument.errors.Add(e);
+						}
+					}
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1)
+
+/***********************************************************************
+BasicLanguage_BuildGlobalScopePass2
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
@@ -307,6 +424,29 @@ BuildGlobalScope
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
+					BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->Types()[node->name]);
+					List<WString> names;
+					List<BasicTypeRecord*> types;
+					for(int i=0;i<node->memberNames.Count();i++)
+					{
+						if(node->memberNames.IndexOf(node->memberNames[i])==i)
+						{
+							try
+							{
+								types.Add(BasicLanguage_GetTypeRecord(node->memberTypes[i], argument.scope));
+								names.Add(node->memberNames[i]);
+							}
+							catch(Ptr<BasicLanguageCodeException> e)
+							{
+								argument.errors.Add(e);
+							}
+						}
+						else
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
+						}
+					}
+					argument.env->TypeManager().UpdateStructureType(structure, names.Wrap(), types.Wrap());
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
@@ -317,7 +457,7 @@ BuildGlobalScope
 				{
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScope)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2)
 
 		}
 	}
