@@ -58,6 +58,7 @@ Type
 			extern BasicTypeNode						t_bool();
 			extern BasicTypeNode						t_void();
 			extern BasicTypeNode						t_type(const WString& type);
+			extern BasicTypeNode						t_arrayof(const BasicTypeNode& type);
 			extern BasicTypeNode::ListNode				t_types();
 
 /***********************************************************************
@@ -170,6 +171,8 @@ Statement
 			extern BasicStatementNode					s_if(const BasicExpressionNode& condition, const BasicStatementNode& trueStatement, const BasicStatementNode& falseStatement);
 			extern BasicStatementNode					s_while(const BasicExpressionNode& condition, const BasicStatementNode& statement);
 			extern BasicStatementNode					s_do_while(const BasicExpressionNode& condition, const BasicStatementNode& statement);
+			extern BasicStatementNode					s_loop(const BasicStatementNode& statement);
+			extern BasicStatementNode					s_conditional_loop(const BasicExpressionNode& beginCondition, const BasicExpressionNode& endCondition, const BasicStatementNode& statement);
 			extern BasicStatementNode					s_break();
 			extern BasicStatementNode					s_continue();
 			extern BasicStatementNode					s_return();

@@ -150,6 +150,14 @@ BasicTypeNode
 				return result;
 			}
 
+			BasicTypeNode t_arrayof(const BasicTypeNode& type)
+			{
+				Ptr<BasicArrayType> result=new BasicArrayType;
+				result->elementType=type.GetInternalValue();
+				result->size=-1;
+				return result;
+			}
+
 			BasicTypeNode::ListNode t_types()
 			{
 				BasicTypeNode::ListNode node;
@@ -772,18 +780,32 @@ BasicStatementNode
 			BasicStatementNode s_while(const BasicExpressionNode& condition, const BasicStatementNode& statement)
 			{
 				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
-				result->condition=condition.GetInternalValue();
+				result->beginCondition=condition.GetInternalValue();
 				result->statement=statement.GetInternalValue();
-				result->checkConditionAfterLooping=false;
 				return result;
 			}
 
 			BasicStatementNode s_do_while(const BasicExpressionNode& condition, const BasicStatementNode& statement)
 			{
 				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
-				result->condition=condition.GetInternalValue();
+				result->endCondition=condition.GetInternalValue();
 				result->statement=statement.GetInternalValue();
-				result->checkConditionAfterLooping=true;
+				return result;
+			}
+
+			BasicStatementNode s_loop(const BasicStatementNode& statement)
+			{
+				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
+				result->statement=statement.GetInternalValue();
+				return result;
+			}
+
+			BasicStatementNode s_conditional_loop(const BasicExpressionNode& beginCondition, const BasicExpressionNode& endCondition, const BasicStatementNode& statement)
+			{
+				Ptr<BasicWhileStatement> result=new BasicWhileStatement;
+				result->beginCondition=beginCondition.GetInternalValue();
+				result->endCondition=endCondition.GetInternalValue();
+				result->statement=statement.GetInternalValue();
 				return result;
 			}
 

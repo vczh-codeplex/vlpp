@@ -145,6 +145,11 @@ BasicArrayTypeRecord
 				return elementCount;
 			}
 
+			bool BasicArrayTypeRecord::IsFreeArray()
+			{
+				return elementCount==-1;
+			}
+
 /***********************************************************************
 BasicFunctionTypeRecord
 ***********************************************************************/

@@ -292,9 +292,9 @@ Statement
 			public:
 				ALGORITHM_ACCEPT_DECLARATION
 
-				Ptr<BasicExpression>						condition;
+				Ptr<BasicExpression>						beginCondition;
+				Ptr<BasicExpression>						endCondition;
 				Ptr<BasicStatement>							statement;
-				bool										checkConditionAfterLooping;
 			};
 
 			class BasicForStatement : public BasicStatement
