@@ -812,10 +812,18 @@
 							RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Common\CommonTypeManager.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="Source Files"
 						>
+						<File
+							RelativePath="..\..\Library\Scripting\Common\CommonTypeManager.cpp"
+							>
+						</File>
 					</Filter>
 				</Filter>
 			</Filter>
