@@ -85,6 +85,7 @@ namespace vl
 				BasicTypeRecord*						ElementType();
 			};
 
+			// element count == -1 => reference counted array (free array)
 			class BasicArrayTypeRecord : public BasicTypeRecord
 			{
 				friend class BasicTypeManager;
@@ -98,6 +99,7 @@ namespace vl
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
 				int										ElementCount();
+				bool									IsFreeArray();
 			};
 
 			class BasicFunctionTypeRecord : public BasicTypeRecord
