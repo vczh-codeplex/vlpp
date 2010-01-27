@@ -805,10 +805,18 @@
 				<Filter
 					Name="Common"
 					>
-					<File
-						RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
+					<Filter
+						Name="Header Files"
 						>
-					</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Source Files"
+						>
+					</Filter>
 				</Filter>
 			</Filter>
 		</Filter>
