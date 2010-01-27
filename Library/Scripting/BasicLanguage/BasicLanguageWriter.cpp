@@ -150,14 +150,6 @@ BasicTypeNode
 				return result;
 			}
 
-			BasicTypeNode t_arrayof(const BasicTypeNode& type)
-			{
-				Ptr<BasicArrayType> result=new BasicArrayType;
-				result->elementType=type.GetInternalValue();
-				result->size=-1;
-				return result;
-			}
-
 			BasicTypeNode::ListNode t_types()
 			{
 				BasicTypeNode::ListNode node;

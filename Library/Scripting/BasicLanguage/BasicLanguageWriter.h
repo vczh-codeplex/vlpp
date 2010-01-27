@@ -58,7 +58,6 @@ Type
 			extern BasicTypeNode						t_bool();
 			extern BasicTypeNode						t_void();
 			extern BasicTypeNode						t_type(const WString& type);
-			extern BasicTypeNode						t_arrayof(const BasicTypeNode& type);
 			extern BasicTypeNode::ListNode				t_types();
 
 /***********************************************************************
