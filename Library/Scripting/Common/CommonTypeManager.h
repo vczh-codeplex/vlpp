@@ -4,11 +4,11 @@ Developer: 陈梓瀚(vczh)
 Scripting::Common
 
 Classes:
-	CommonTypeRecord							：类型对象
-	CommonFlagTypeRecord<T>						：标号类型对象
-	CommonDecoratorTypeRecord<int>				：修饰类型对象
-	CommonParameterizedTypeRecord<T>			：带参数修饰类型对象
-	CommonTypeManager							：类型管理器
+	CommonTypeRecord<I>							：类型对象
+	CommonFlagTypeRecord<I, T>					：标号类型对象
+	CommonDecoratorTypeRecord<I, int>			：修饰类型对象
+	CommonParameterizedTypeRecord<I, T>			：带参数修饰类型对象
+	CommonTypeManager<I>						：类型管理器
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_COMMON_COMMONTYPEMANAGER
@@ -27,19 +27,25 @@ namespace vl
 类型对象
 ***********************************************************************/
 
-		class CommonTypeRecord : public Object, private NotCopyable
+		template<typename I>
+		class CommonTypeManager;
+
+		template<typename I>
+		class CommonTypeRecord : public I
 		{
-			friend class CommonTypeManager;
+			friend class CommonTypeManager<I>;
 		private:
 			collections::Dictionary<int, CommonTypeRecord*>	decoratorTypes;
+
+		protected:
 		};
 
 /***********************************************************************
 具体类型对象
 ***********************************************************************/
 
-		template<typename T>
-		class CommonFlagTypeRecord : public CommonTypeRecord
+		template<typename I, typename T>
+		class CommonFlagTypeRecord : public CommonTypeRecord<I>
 		{
 		private:
 			T												flag;
@@ -56,8 +62,8 @@ namespace vl
 			}
 		};
 
-		template<int flag>
-		class CommonDecoratorTypeRecord : public CommonTypeRecord
+		template<typename I, int flag>
+		class CommonDecoratorTypeRecord : public CommonTypeRecord<I>
 		{
 		private:
 			CommonTypeRecord*								elementType;
@@ -74,8 +80,8 @@ namespace vl
 			}
 		};
 
-		template<typename P>
-		class CommonParameterizedTypeRecord : public CommonTypeRecord
+		template<typename I, typename P>
+		class CommonParameterizedTypeRecord : public CommonTypeRecord<I>
 		{
 		private:
 			CommonTypeRecord*								elementType;
@@ -103,20 +109,28 @@ namespace vl
 类型管理器
 ***********************************************************************/
 
+		template<typename I>
 		class CommonTypeManager : public Object
 		{
 		private:
-			collections::List<Ptr<CommonTypeRecord>>		allocatedTypeRecords;
+			collections::List<Ptr<CommonTypeRecord<I>>>		allocatedTypeRecords;
 		protected:
-			void											RegisterTypeRecord(CommonTypeRecord* typeRecord);
+			void RegisterTypeRecord(CommonTypeRecord<I>* typeRecord)
+			{
+				allocatedTypeRecords.Add(typeRecord);
+			}
 
-			template<typename T, typename F>
-			CommonTypeRecord* GetFlagTypeRecord(F flag, collections::IDictionary<F, CommonTypeRecord>& typeMap)
+			template<typename F>
+			CommonTypeRecord<I>* GetFlagTypeRecord(
+				F flag,
+				collections::IDictionary<F, CommonTypeRecord<I>*>& typeMap,
+				CommonFlagTypeRecord<I, F>*(*allocator)(F)
+				)
 			{
 				int index=typeMap.Keys().IndexOf(flag);
 				if(index==-1)
 				{
-					CommonFlagTypeRecord<F>* type=new T(flag);
+					CommonFlagTypeRecord<I, F>* type=allocator(flag);
 					RegisterTypeRecord(type);
 					typeMap.Add(flag, type);
 					return type;
@@ -127,29 +141,38 @@ namespace vl
 				}
 			}
 
-			template<typename T, int flag>
-			CommonTypeRecord* GetDecoratorTypeRecord(CommonTypeRecord* elementType)
+			template<int flag>
+			CommonTypeRecord<I>* GetDecoratorTypeRecord(
+				CommonTypeRecord<I>* elementType,
+				CommonDecoratorTypeRecord<I, flag>*(*allocator)(CommonTypeRecord<I>*)
+				)
 			{
 				int index=elementType->decoratorTypes.Keys().IndexOf(flag);
 				if(index==-1)
 				{
-					CommonDecoratorTypeRecord<flag>* type=new T(flag);
+					CommonDecoratorTypeRecord<I, flag>* type=allocator(elementType);
 					RegisterTypeRecord(type);
 					elementType->decoratorTypes.Add(flag, type);
+					return type;
 				}
 				else
 				{
-					return elementType->declratorTypes.Values()[index];
+					return elementType->decoratorTypes.Values()[index];
 				}
 			}
 
-			template<typename T, typename P>
-			CommonTypeRecord* GetCommonParameterizedTypeRecord(CommonTypeRecord* elementType, P parameter, collections::IDictionary<P, CommonTypeRecord>& typeMap)
+			template<typename P>
+			CommonTypeRecord<I>* GetCommonParameterizedTypeRecord(
+				CommonTypeRecord<I>* elementType,
+				P parameter,
+				collections::IDictionary<P, CommonTypeRecord<I>*>& typeMap,
+				CommonParameterizedTypeRecord<I, P>*(*allocator)(CommonTypeRecord<I>*, P)
+				)
 			{
 				int index=typeMap.Keys().IndexOf(parameter);
 				if(index==-1)
 				{
-					CommonParameterizedTypeRecord<P>* type=new T(elementType, parameter);
+					CommonParameterizedTypeRecord<I, P>* type=allocator(elementType, parameter);
 					RegisterTypeRecord(type);
 					typeMap.Add(parameter, type);
 					return type;
@@ -160,17 +183,22 @@ namespace vl
 				}
 			}
 
-			template<typename T, typename P>
-			CommonTypeRecord* GetComplexTypeRecord(P& parameter, collections::IList<CommonTypeRecord*>& types, CommonTypeRecord*(*allocator)(P&), bool(*comparer)(P&, collections::IList<CommonTypeRecord*>&))
+			template<typename P>
+			CommonTypeRecord<I>* GetComplexTypeRecord(
+				P& parameter,
+				collections::IList<CommonTypeRecord<I>*>& types,
+				CommonTypeRecord<I>*(*allocator)(P&),
+				bool(*comparer)(P&, CommonTypeRecord<I>*))
 			{
 				for(int i=0;i<types.Count();i++)
 				{
-					if(comparer(parameter, types))
+					if(comparer(parameter, types.Get(i)))
 					{
-						return types[i];
+						return types.Get(i);
 					}
 				}
-				CommonTypeRecord* type=allocator(parameter);
+				CommonTypeRecord<I>* type=allocator(parameter);
+				types.Add(type);
 				RegisterTypeRecord(type);
 				return type;
 			}

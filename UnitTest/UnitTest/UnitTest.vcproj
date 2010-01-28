@@ -805,26 +805,14 @@
 				<Filter
 					Name="Common"
 					>
-					<Filter
-						Name="Header Files"
+					<File
+						RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
 						>
-						<File
-							RelativePath="..\..\Library\Scripting\Common\AlgorithmDeclaration.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\Library\Scripting\Common\CommonTypeManager.h"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="Source Files"
+					</File>
+					<File
+						RelativePath="..\..\Library\Scripting\Common\CommonTypeManager.h"
 						>
-						<File
-							RelativePath="..\..\Library\Scripting\Common\CommonTypeManager.cpp"
-							>
-						</File>
-					</Filter>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>

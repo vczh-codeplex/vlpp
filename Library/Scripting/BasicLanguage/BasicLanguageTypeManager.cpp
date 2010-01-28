@@ -14,14 +14,7 @@ BasicTypeRecord
 ***********************************************************************/
 
 			BasicTypeRecord::BasicTypeRecord()
-				:manager(0)
-				,pointerType(0)
 			{
-			}
-
-			BasicTypeManager* BasicTypeRecord::GetTypeManager()
-			{
-				return manager;
 			}
 
 			BasicTypeRecord::TypeRecordType BasicTypeRecord::GetType()
@@ -83,10 +76,9 @@ BasicTypeRecord
 BasicPrimitiveTypeRecord
 ***********************************************************************/
 
-			BasicPrimitiveTypeRecord::BasicPrimitiveTypeRecord(BasicTypeManager* _manager, BasicPrimitiveTypeEnum _primitiveType)
-				:primitiveType(_primitiveType)
+			BasicPrimitiveTypeRecord::BasicPrimitiveTypeRecord(BasicPrimitiveTypeEnum primitiveType)
+				:CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>(primitiveType)
 			{
-				manager=_manager;
 			}
 
 			BasicTypeRecord::TypeRecordType BasicPrimitiveTypeRecord::GetType()
@@ -96,17 +88,16 @@ BasicPrimitiveTypeRecord
 
 			BasicPrimitiveTypeEnum BasicPrimitiveTypeRecord::PrimitiveType()
 			{
-				return primitiveType;
+				return InternalGetFlag();
 			}
 
 /***********************************************************************
 BasicPointerTypeRecord
 ***********************************************************************/
 
-			BasicPointerTypeRecord::BasicPointerTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _elementType)
-				:elementType(_elementType)
+			BasicPointerTypeRecord::BasicPointerTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType)
+				:CommonDecoratorTypeRecord<BasicTypeRecord, 0>(elementType)
 			{
-				manager=_manager;
 			}
 
 			BasicTypeRecord::TypeRecordType BasicPointerTypeRecord::GetType()
@@ -116,18 +107,16 @@ BasicPointerTypeRecord
 
 			BasicTypeRecord* BasicPointerTypeRecord::ElementType()
 			{
-				return elementType;
+				return InternalGetElementType();
 			}
 
 /***********************************************************************
 BasicArrayTypeRecord
 ***********************************************************************/
 
-			BasicArrayTypeRecord::BasicArrayTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _elementType, int _elementCount)
-				:elementType(_elementType)
-				,elementCount(_elementCount)
+			BasicArrayTypeRecord::BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount)
+				:CommonParameterizedTypeRecord<BasicTypeRecord, int>(elementType, elementCount)
 			{
-				manager=_manager;
 			}
 
 			BasicTypeRecord::TypeRecordType BasicArrayTypeRecord::GetType()
@@ -137,23 +126,22 @@ BasicArrayTypeRecord
 
 			BasicTypeRecord* BasicArrayTypeRecord::ElementType()
 			{
-				return elementType;
+				return InternalGetElementType();
 			}
 
 			int BasicArrayTypeRecord::ElementCount()
 			{
-				return elementCount;
+				return InternalGetParameter();
 			}
 
 /***********************************************************************
 BasicFunctionTypeRecord
 ***********************************************************************/
 
-			BasicFunctionTypeRecord::BasicFunctionTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _returnType, const collections::IReadonlyList<BasicTypeRecord*>& _parameterTypes)
-				:returnType(_returnType)
+			BasicFunctionTypeRecord::BasicFunctionTypeRecord(P& argument)
+				:returnType(argument.returnType)
 			{
-				manager=_manager;
-				CopyFrom(parameterTypes.Wrap(), _parameterTypes);
+				CopyFrom(parameterTypes.Wrap(), argument.parameterTypes);
 			}
 
 			BasicTypeRecord::TypeRecordType BasicFunctionTypeRecord::GetType()
@@ -180,9 +168,8 @@ BasicFunctionTypeRecord
 BasicStructureTypeRecord
 ***********************************************************************/
 
-			BasicStructureTypeRecord::BasicStructureTypeRecord(BasicTypeManager* _manager)
+			BasicStructureTypeRecord::BasicStructureTypeRecord()
 			{
-				manager=_manager;
 			}
 
 			BasicTypeRecord::TypeRecordType BasicStructureTypeRecord::GetType()
@@ -211,6 +198,44 @@ BasicStructureTypeRecord
 			}
 
 /***********************************************************************
+BasicTypeManager¸¨Öúº¯Êý
+***********************************************************************/
+
+			CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>* BasicPrimitiveTypeRecordAllocator(BasicPrimitiveTypeEnum type)
+			{
+				return new BasicPrimitiveTypeRecord(type);
+			}
+
+			CommonDecoratorTypeRecord<BasicTypeRecord, 0>* BasicPointerTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType)
+			{
+				return new BasicPointerTypeRecord(elementType);
+			}
+
+			CommonParameterizedTypeRecord<BasicTypeRecord, int>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount)
+			{
+				return new BasicArrayTypeRecord(elementType, elementCount);
+			}
+
+			CommonTypeRecord<BasicTypeRecord>* BasicFunctionTypeRecordAllocator(BasicFunctionTypeRecord::P& argument)
+			{
+				return new BasicFunctionTypeRecord(argument);
+			}
+
+			bool BasicFunctionTypeRecordComparer(BasicFunctionTypeRecord::P& argument, CommonTypeRecord<BasicTypeRecord>* type)
+			{
+				if(type->ReturnType()!=argument.returnType)return false;
+				if(type->ParameterCount()!=argument.parameterTypes.Count())return false;
+				for(int j=0;j<type->ParameterCount();j++)
+				{
+					if(type->ParameterType(j)!=argument.parameterTypes[j])
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+
+/***********************************************************************
 BasicTypeManager
 ***********************************************************************/
 			
@@ -224,78 +249,46 @@ BasicTypeManager
 
 			BasicTypeRecord* BasicTypeManager::GetPrimitiveType(BasicPrimitiveTypeEnum primitiveType)
 			{
-				int index=primitiveTypes.Keys().IndexOf(primitiveType);
-				if(index==-1)
-				{
-					BasicPrimitiveTypeRecord* type=new BasicPrimitiveTypeRecord(this, primitiveType);
-					allocatedTypes.Add(type);
-					primitiveTypes.Add(primitiveType, type);
-					return type;
-				}
-				else
-				{
-					return primitiveTypes.Values()[index];
-				}
+				return CommonTypeManager<BasicTypeRecord>::GetFlagTypeRecord(
+					primitiveType,
+					primitiveTypes.Wrap(),
+					BasicPrimitiveTypeRecordAllocator
+					);
 			}
 
 			BasicTypeRecord* BasicTypeManager::GetPointerType(BasicTypeRecord* elementType)
 			{
-				if(!elementType->pointerType)
-				{
-					elementType->pointerType=new BasicPointerTypeRecord(this, elementType);
-					allocatedTypes.Add(elementType->pointerType);
-				}
-				return elementType->pointerType;
+				return CommonTypeManager<BasicTypeRecord>::GetDecoratorTypeRecord(
+					dynamic_cast<CommonTypeRecord<BasicTypeRecord>*>(elementType),
+					BasicPointerTypeRecordAllocator
+					);
 			}
 
 			BasicTypeRecord* BasicTypeManager::GetArrayType(BasicTypeRecord* elementType, int elementCount)
 			{
-				int index=elementType->arrayTypes.Keys().IndexOf(elementCount);
-				if(index==-1)
-				{
-					BasicArrayTypeRecord* type=new BasicArrayTypeRecord(this, elementType, elementCount);
-					allocatedTypes.Add(type);
-					elementType->arrayTypes.Add(elementCount, type);
-					return type;
-				}
-				else
-				{
-					return elementType->arrayTypes.Values()[index];
-				}
+				return CommonTypeManager<BasicTypeRecord>::GetCommonParameterizedTypeRecord(
+					dynamic_cast<CommonTypeRecord<BasicTypeRecord>*>(elementType),
+					elementCount,
+					elementType->arrayTypes.Wrap(),
+					BasicArrayTypeRecordAllocator
+					);
 			}
 
 			BasicTypeRecord* BasicTypeManager::GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes)
 			{
-				for(int i=0;i<functionTypes.Count();i++)
-				{
-					BasicTypeRecord* type=functionTypes[i];
-					if(type->ReturnType()==returnType && type->ParameterCount()==parameterTypes.Count())
-					{
-						bool found=true;
-						for(int j=0;j<type->ParameterCount();j++)
-						{
-							if(type->ParameterType(j)!=parameterTypes[j])
-							{
-								found=false;
-								break;
-							}
-						}
-						if(found)
-						{
-							return type;
-						}
-					}
-				}
-				BasicFunctionTypeRecord* type=new BasicFunctionTypeRecord(this, returnType, parameterTypes);
-				allocatedTypes.Add(type);
-				functionTypes.Add(type);
-				return type;
+				BasicFunctionTypeRecord::P parameter={returnType, parameterTypes};
+				return CommonTypeManager<BasicTypeRecord>::GetComplexTypeRecord(
+					parameter,
+					functionTypes.Wrap(),
+					BasicFunctionTypeRecordAllocator,
+					BasicFunctionTypeRecordComparer
+					);
 			}
 
 			BasicTypeRecord* BasicTypeManager::CreateStructureType()
 			{
-				BasicStructureTypeRecord* type=new BasicStructureTypeRecord(this);
-				allocatedTypes.Add(type);
+				BasicStructureTypeRecord* type=new BasicStructureTypeRecord;
+				CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
 				return type;
 			}
 
