@@ -15,6 +15,7 @@ Classes:
 #include "..\..\Pointer.h"
 #include "..\..\Collections\List.h"
 #include "..\..\Collections\Dictionary.h"
+#include "..\Common\CommonTypeManager.h"
 #include "BasicLanguageExpression.h"
 
 namespace vl
@@ -28,10 +29,8 @@ namespace vl
 			class BasicTypeRecord : public Object, private NotCopyable
 			{
 				friend class BasicTypeManager;
-				typedef collections::Dictionary<int, BasicTypeRecord*>		_ArrayTypeTable;
+				typedef collections::Dictionary<int, CommonTypeRecord<BasicTypeRecord>*>		_ArrayTypeTable;
 			protected:
-				BasicTypeManager*						manager;
-				BasicTypeRecord*						pointerType;
 				_ArrayTypeTable							arrayTypes;
 			public:
 				enum TypeRecordType
@@ -45,7 +44,6 @@ namespace vl
 
 				BasicTypeRecord();
 
-				BasicTypeManager*						GetTypeManager();
 				virtual TypeRecordType					GetType()=0;
 				virtual BasicPrimitiveTypeEnum			PrimitiveType();
 				virtual BasicTypeRecord*				ElementType();
@@ -59,40 +57,36 @@ namespace vl
 				virtual int								MemberCount();
 			};
 
-			class BasicPrimitiveTypeRecord : public BasicTypeRecord
+			class BasicPrimitiveTypeRecord : public CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>
 			{
-				friend class BasicTypeManager;
+				friend CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>* BasicPrimitiveTypeRecordAllocator(BasicPrimitiveTypeEnum type);
 			protected:
-				BasicPrimitiveTypeEnum					primitiveType;
 
-				BasicPrimitiveTypeRecord(BasicTypeManager* _manager, BasicPrimitiveTypeEnum _primitiveType);
+				BasicPrimitiveTypeRecord(BasicPrimitiveTypeEnum primitiveType);
 			public:
 
 				TypeRecordType							GetType();
 				BasicPrimitiveTypeEnum					PrimitiveType();
 			};
 
-			class BasicPointerTypeRecord : public BasicTypeRecord
+			class BasicPointerTypeRecord : public CommonDecoratorTypeRecord<BasicTypeRecord, 0>
 			{
-				friend class BasicTypeManager;
+				friend CommonDecoratorTypeRecord<BasicTypeRecord, 0>* BasicPointerTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType);
 			protected:
-				BasicTypeRecord*						elementType;
 
-				BasicPointerTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _elementType);
+				BasicPointerTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType);
 			public:
 
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
 			};
 
-			class BasicArrayTypeRecord : public BasicTypeRecord
+			class BasicArrayTypeRecord : public CommonParameterizedTypeRecord<BasicTypeRecord, int>
 			{
-				friend class BasicTypeManager;
+				friend CommonParameterizedTypeRecord<BasicTypeRecord, int>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount);
 			protected:
-				BasicTypeRecord*						elementType;
-				int										elementCount;
 
-				BasicArrayTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _elementType, int _elementCount);
+				BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount);
 			public:
 
 				TypeRecordType							GetType();
@@ -100,14 +94,25 @@ namespace vl
 				int										ElementCount();
 			};
 
-			class BasicFunctionTypeRecord : public BasicTypeRecord
+			class BasicFunctionTypeRecord : public CommonTypeRecord<BasicTypeRecord>
 			{
 				friend class BasicTypeManager;
+
+				typedef collections::IReadonlyList<BasicTypeRecord*>	ITypeList;
+
+				struct P
+				{
+					BasicTypeRecord*					returnType;
+					const ITypeList&					parameterTypes;
+				};
+
+				friend CommonTypeRecord<BasicTypeRecord>* BasicFunctionTypeRecordAllocator(P& argument);
+				friend bool BasicFunctionTypeRecordComparer(P& argument, CommonTypeRecord<BasicTypeRecord>* type);
 			protected:
 				BasicTypeRecord*						returnType;
 				collections::List<BasicTypeRecord*>		parameterTypes;
 
-				BasicFunctionTypeRecord(BasicTypeManager* _manager, BasicTypeRecord* _returnType, const collections::IReadonlyList<BasicTypeRecord*>& _parameterTypes);
+				BasicFunctionTypeRecord(P& argument);
 			public:
 
 				TypeRecordType							GetType();
@@ -116,14 +121,14 @@ namespace vl
 				int										ParameterCount();
 			};
 
-			class BasicStructureTypeRecord : public BasicTypeRecord
+			class BasicStructureTypeRecord : public CommonTypeRecord<BasicTypeRecord>
 			{
 				friend class BasicTypeManager;
 			protected:
 				collections::List<WString>				names;
 				collections::List<BasicTypeRecord*>		types;
 
-				BasicStructureTypeRecord(BasicTypeManager* _manager);
+				BasicStructureTypeRecord();
 			public:
 
 				TypeRecordType							GetType();
@@ -133,13 +138,11 @@ namespace vl
 				int										MemberCount();
 			};
 
-			class BasicTypeManager : public Object, private NotCopyable
+			class BasicTypeManager : public CommonTypeManager<BasicTypeRecord>
 			{
-				typedef collections::List<Ptr<BasicTypeRecord>>								_TypeList;
-				typedef collections::List<BasicTypeRecord*>									_FunctionTypeTable;
-				typedef collections::Dictionary<BasicPrimitiveTypeEnum, BasicTypeRecord*>	_PrimitiveTypeTable;
+				typedef collections::List<CommonTypeRecord<BasicTypeRecord>*>								_FunctionTypeTable;
+				typedef collections::Dictionary<BasicPrimitiveTypeEnum, CommonTypeRecord<BasicTypeRecord>*>	_PrimitiveTypeTable;
 			protected:
-				_TypeList								allocatedTypes;
 				_FunctionTypeTable						functionTypes;
 				_PrimitiveTypeTable						primitiveTypes;
 			public:
