@@ -57,6 +57,7 @@ Scope Manager
 			class BasicEnv : public Object, private NotCopyable
 			{
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicScope*>			_FunctionScopeTable;
+				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicTypeRecord*>	_FunctionTypeTable;
 				typedef collections::Dictionary<BasicStatement*, BasicScope*>					_StatementScopeTable;
 			protected:
 				BasicTypeManager												typeManager;
@@ -64,6 +65,7 @@ Scope Manager
 				BasicScope*														globalScope;
 				_FunctionScopeTable												functionScopes;
 				_StatementScopeTable											statementScopes;
+				_FunctionTypeTable												functionTypes;
 			public:
 				BasicEnv();
 				~BasicEnv();
@@ -73,6 +75,11 @@ Scope Manager
 				BasicScope*														CreateScope(BasicScope* previousScope);
 				BasicScope*														CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration);
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
+				void															RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type);
+
+				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
+				BasicScope*														GetStatementScope(BasicStatement* statement);
+				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function);
 			};
 
 /***********************************************************************
@@ -117,8 +124,9 @@ Exception
 				BasicEnv*												env;
 				BasicScope*												scope;
 				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
+				collections::SortedList<WString>&						forwardStructures;
 
-				BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, collections::List<Ptr<BasicLanguageCodeException>>& _errors);
+				BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, collections::List<Ptr<BasicLanguageCodeException>>& _errors, collections::SortedList<WString>& _forwardStructures);
 			} BP;
 
 /***********************************************************************
@@ -128,6 +136,7 @@ Algorithms
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
+			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
 		}
 	}
 }

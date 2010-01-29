@@ -394,6 +394,7 @@ Declaration
 
 				collections::List<Ptr<BasicType>>			memberTypes;
 				collections::List<WString>					memberNames;
+				bool										defined;
 			};
 
 			class BasicVariableDeclaration : public BasicDeclaration

@@ -140,6 +140,26 @@ BasicEnv
 				}
 			}
 
+			void BasicEnv::RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type)
+			{
+				functionTypes.Add(function, type);
+			}
+
+			BasicScope* BasicEnv::GetFunctionScope(BasicFunctionDeclaration* function)
+			{
+				return functionScopes[function];
+			}
+
+			BasicScope* BasicEnv::GetStatementScope(BasicStatement* statement)
+			{
+				return statementScopes[statement];
+			}
+
+			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function)
+			{
+				return functionTypes[function];
+			}
+
 /***********************************************************************
 GetTypeRecord
 ***********************************************************************/
@@ -225,10 +245,11 @@ GetTypeRecord
 GetTypeRecord
 ***********************************************************************/
 
-			BasicAlgorithmParameter::BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, List<Ptr<BasicLanguageCodeException>>& _errors)
+			BasicAlgorithmParameter::BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, List<Ptr<BasicLanguageCodeException>>& _errors, collections::SortedList<WString>& _forwardStructures)
 				:env(_env)
 				,scope(_scope)
 				,errors(_errors)
+				,forwardStructures(_forwardStructures)
 			{
 			}
 
@@ -296,19 +317,52 @@ BasicLanguage_BuildGlobalScopePass1
 					else
 					{
 						argument.scope->functions.Add(node->name, node);
+						BasicTypeRecord* type=0;
+						try
+						{
+							type=BasicLanguage_GetTypeRecord(node->signatureType, argument.scope);
+						}
+						catch(Ptr<BasicLanguageCodeException> e)
+						{
+							argument.errors.Add(e);
+						}
+						if(type)
+						{
+							argument.env->RegisterFunctionType(node, type);
+						}
 					}
 				}
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
-					if(argument.scope->types.Items().Keys().Contains(node->name))
+					if(node->defined)
 					{
-						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
+						if(argument.scope->types.Items().Keys().Contains(node->name))
+						{
+							int forward=argument.forwardStructures.IndexOf(node->name);
+							if(forward==-1)
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
+							}
+							else
+							{
+								argument.forwardStructures.RemoveAt(forward);
+							}
+						}
+						else
+						{
+							BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
+							argument.scope->types.Add(node->name, structure);
+						}
 					}
 					else
 					{
-						BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
-						argument.scope->types.Add(node->name, structure);
+						if(!argument.forwardStructures.Contains(node->name))
+						{
+							argument.forwardStructures.Add(node->name);
+							BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
+							argument.scope->types.Add(node->name, structure);
+						}
 					}
 				}
 				
@@ -398,6 +452,22 @@ BasicLanguage_BuildGlobalScopePass2
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2)
+
+/***********************************************************************
+BasicLanguage_BuildGlobalScope
+***********************************************************************/
+
+			void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument)
+			{
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_BuildGlobalScopePass1(program->declarations[i], argument);
+				}
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_BuildGlobalScopePass2(program->declarations[i], argument);
+				}
+			}
 
 		}
 	}
