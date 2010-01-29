@@ -294,3 +294,88 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 		Curry(TestTypeNameNotExists)(L"Wrong")
 		);
 }
+
+/***********************************************************************
+BasicLanguage_BuildGlobalScope
+***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
+{
+	BasicEnv env;
+	BasicTypeManager& tm=env.TypeManager();
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BP argument(&env, env.GlobalScope(), errors, forwardStructures);
+
+	BasicProgramNode program;
+	program.DefineStructureForward(L"Link");
+	program.DefineRename(L"PLink", *t_type(L"Link"));
+	program.DefineStructure(L"Link")
+		.Member(L"data", t_int())
+		.Member(L"prev", t_type(L"PLink"))
+		.Member(L"next", t_type(L"PLink"));
+	program.DefineVariable(L"head", t_type(L"PLink"));
+	program.DefineVariable(L"tail", t_type(L"PLink"));
+	program.DefineFunction(L"Create")
+		.ReturnType(t_type(L"PLink"));
+	program.DefineFunction(L"Destroy")
+		.ReturnType(t_void())
+		.Parameter(L"link", t_type(L"PLink"));
+	program.DefineFunction(L"Append")
+		.ReturnType(t_type(L"PLink"))
+		.Parameter(L"link", t_type(L"PLink"))
+		.Parameter(L"data", t_int());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(forwardStructures.Count()==0);
+
+	TEST_ASSERT(env.GlobalScope()->types.Items().Count()==2);
+	BasicTypeRecord* typeLink=env.GlobalScope()->types.Items()[L"Link"];
+	BasicTypeRecord* typePLink=env.GlobalScope()->types.Items()[L"PLink"];
+	TEST_ASSERT(typeLink);
+	TEST_ASSERT(typeLink->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(typeLink->MemberCount()==3);
+	TEST_ASSERT(typeLink->MemberName(0)==L"data");
+	TEST_ASSERT(typeLink->MemberType(0)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(typeLink->MemberName(1)==L"prev");
+	TEST_ASSERT(typeLink->MemberType(1)==typePLink);
+	TEST_ASSERT(typeLink->MemberName(2)==L"next");
+	TEST_ASSERT(typeLink->MemberType(2)==typePLink);
+	TEST_ASSERT(typePLink);
+	TEST_ASSERT(typePLink->GetType()==BasicTypeRecord::Pointer);
+	TEST_ASSERT(typePLink->ElementType()==typeLink);
+
+	TEST_ASSERT(env.GlobalScope()->variables.Items().Count()==2);
+	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"head"]==typePLink);
+	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"tail"]==typePLink);
+
+	TEST_ASSERT(env.GlobalScope()->functions.Items().Count()==3);
+	BasicFunctionDeclaration* functionCreate=env.GlobalScope()->functions.Items()[L"Create"];
+	BasicFunctionDeclaration* functionDestroy=env.GlobalScope()->functions.Items()[L"Destroy"];
+	BasicFunctionDeclaration* functionAppend=env.GlobalScope()->functions.Items()[L"Append"];
+	BasicTypeRecord* typeCreate=env.GetFunctionType(functionCreate);
+	BasicTypeRecord* typeDestroy=env.GetFunctionType(functionDestroy);
+	BasicTypeRecord* typeAppend=env.GetFunctionType(functionAppend);
+
+	TEST_ASSERT(functionCreate->parameterNames.Count()==0);
+	TEST_ASSERT(typeCreate->GetType()==BasicTypeRecord::Function);
+	TEST_ASSERT(typeCreate->ReturnType()==typePLink);
+	TEST_ASSERT(typeCreate->ParameterCount()==0);
+
+	TEST_ASSERT(functionDestroy->parameterNames.Count()==1);
+	TEST_ASSERT(functionDestroy->parameterNames[0]==L"link");
+	TEST_ASSERT(typeDestroy->GetType()==BasicTypeRecord::Function);
+	TEST_ASSERT(typeDestroy->ReturnType()==tm.GetPrimitiveType(void_type));
+	TEST_ASSERT(typeDestroy->ParameterCount()==1);
+	TEST_ASSERT(typeDestroy->ParameterType(0)==typePLink);
+
+	TEST_ASSERT(functionAppend->parameterNames.Count()==2);
+	TEST_ASSERT(functionAppend->parameterNames[0]==L"link");
+	TEST_ASSERT(functionAppend->parameterNames[1]==L"data");
+	TEST_ASSERT(typeAppend->GetType()==BasicTypeRecord::Function);
+	TEST_ASSERT(typeCreate->ReturnType()==typePLink);
+	TEST_ASSERT(typeAppend->ParameterCount()==2);
+	TEST_ASSERT(typeAppend->ParameterType(0)==typePLink);
+	TEST_ASSERT(typeAppend->ParameterType(1)==tm.GetPrimitiveType(int_type));
+}

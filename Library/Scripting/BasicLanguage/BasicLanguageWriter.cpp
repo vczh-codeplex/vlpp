@@ -851,7 +851,7 @@ BasicFunctionDeclarationNode
 				return *this;
 			}
 
-			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Parameter(const BasicTypeNode& type, const WString& name)
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Parameter(const WString& name, const BasicTypeNode& type)
 			{
 				declaration->signatureType->parameterTypes.Add(type.GetInternalValue());
 				declaration->parameterNames.Add(name);
@@ -874,7 +874,7 @@ BasicFunctionDeclarationNode
 BasicStructureDeclarationNode
 ***********************************************************************/
 
-			BasicStructureDeclarationNode::BasicStructureDeclarationNode(Ptr<BasicFunctionDeclaration> _declaration)
+			BasicStructureDeclarationNode::BasicStructureDeclarationNode(Ptr<BasicStructureDeclaration> _declaration)
 				:declaration(_declaration)
 			{
 			}
@@ -884,7 +884,7 @@ BasicStructureDeclarationNode
 				return declaration;
 			}
 				
-			BasicStructureDeclarationNode& BasicStructureDeclarationNode::Member(const BasicTypeNode& type, const WString& name)
+			BasicStructureDeclarationNode& BasicStructureDeclarationNode::Member(const WString& name, const BasicTypeNode& type)
 			{
 				declaration->memberTypes.Add(type.GetInternalValue());
 				declaration->memberNames.Add(name);
@@ -944,10 +944,19 @@ BasicProgramNode
 				return declaration;
 			}
 
+			void BasicProgramNode::DefineStructureForward(const WString& name)
+			{
+				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
+				declaration->name=name;
+				declaration->defined=false;
+				program->declarations.Add(declaration);
+			}
+
 			BasicStructureDeclarationNode BasicProgramNode::DefineStructure(const WString& name)
 			{
 				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
 				declaration->name=name;
+				declaration->defined=true;
 				program->declarations.Add(declaration);
 				return declaration;
 			}
