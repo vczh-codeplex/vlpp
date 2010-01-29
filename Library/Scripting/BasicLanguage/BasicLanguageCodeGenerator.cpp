@@ -14,47 +14,42 @@ namespace vl
 BasicScope
 ***********************************************************************/
 
-			template<typename T>
-			T* GetTypeInternal(const WString& name, collections::Dictionary<WString, T*> BasicScope::* container, BasicScope*& scope)
+			void BasicScope::Initialize()
 			{
-				while(scope)
-				{
-					int index=(scope->*container).Keys().IndexOf(name);
-					if(index!=-1)
-					{
-						return (scope->*container).Values()[index];
-					}
-					scope=scope->PreviousScope();
-				}
-				return 0;
+				types.Initialize(this, &BasicScope::types, 0);
+				variables.Initialize(this, &BasicScope::variables, 0);
+				functions.Initialize(this, &BasicScope::functions, 0);
 			}
 
 			BasicScope::BasicScope(BasicTypeManager* _typeManager, BasicFunctionDeclaration* _functionDeclaration, BasicStatement* _statement)
-				:previousScope(0)
+				:CommonScope<BasicScope>(0)
 				,typeManager(_typeManager)
 				,functionDeclaration(_functionDeclaration)
 				,statement(_statement)
 			{
+				Initialize();
 			}
 
 			BasicScope::BasicScope(BasicScope* _previousScope, BasicFunctionDeclaration* _functionDeclaration)
-				:previousScope(_previousScope)
+				:CommonScope<BasicScope>(_previousScope)
 				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_functionDeclaration)
 				,statement(0)
 			{
+				Initialize();
 			}
 
 			BasicScope::BasicScope(BasicScope* _previousScope, BasicStatement* _statement)
-				:previousScope(_previousScope)
+				:CommonScope<BasicScope>(_previousScope)
 				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_previousScope->functionDeclaration)
 				,statement(_statement)
 			{
+				Initialize();
 			}
 
 			BasicScope::BasicScope(BasicScope* _previousScope)
-				:previousScope(_previousScope)
+				:CommonScope<BasicScope>(_previousScope)
 				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_previousScope->functionDeclaration)
 				,statement(_previousScope->statement)
@@ -63,11 +58,7 @@ BasicScope
 
 			BasicScope::~BasicScope()
 			{
-			}
-
-			BasicScope* BasicScope::PreviousScope()
-			{
-				return previousScope;
+				Initialize();
 			}
 
 			BasicTypeManager* BasicScope::TypeManager()
@@ -83,57 +74,6 @@ BasicScope
 			BasicStatement* BasicScope::OwnerStatement()
 			{
 				return statement;
-			}
-
-			collections::IDictionary<WString, BasicTypeRecord*>& BasicScope::Types()
-			{
-				return types.Wrap();
-			}
-
-			collections::IDictionary<WString, BasicTypeRecord*>& BasicScope::Variables()
-			{
-				return variables.Wrap();
-			}
-
-			collections::IDictionary<WString, BasicFunctionDeclaration*>& BasicScope::Functions()
-			{
-				return functions.Wrap();
-			}
-
-			BasicTypeRecord* BasicScope::GetType(const WString& name)
-			{
-				BasicScope* scope=this;
-				return GetTypeInternal(name, &BasicScope::types, scope);
-			}
-
-			BasicTypeRecord* BasicScope::GetType(const WString& name, BasicScope*& scope)
-			{
-				scope=this;
-				return GetTypeInternal(name, &BasicScope::types, scope);
-			}
-
-			BasicTypeRecord* BasicScope::GetVariableType(const WString& name)
-			{
-				BasicScope* scope=this;
-				return GetTypeInternal(name, &BasicScope::variables, scope);
-			}
-
-			BasicTypeRecord* BasicScope::GetVariableType(const WString& name, BasicScope*& scope)
-			{
-				scope=this;
-				return GetTypeInternal(name, &BasicScope::variables, scope);
-			}
-			
-			BasicFunctionDeclaration* BasicScope::GetFunction(const WString& name)
-			{
-				BasicScope* scope=this;
-				return GetTypeInternal(name, &BasicScope::functions, scope);
-			}
-
-			BasicFunctionDeclaration* BasicScope::GetFunction(const WString& name, BasicScope*& scope)
-			{
-				scope=this;
-				return GetTypeInternal(name, &BasicScope::functions, scope);
 			}
 
 /***********************************************************************
@@ -315,7 +255,7 @@ GetTypeRecord
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceType)
 				{
-					BasicTypeRecord* type=argument->GetType(node->name);
+					BasicTypeRecord* type=argument->types.Find(node->name);
 					if(type)
 					{
 						return type;
@@ -349,32 +289,32 @@ BasicLanguage_BuildGlobalScopePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					if(argument.scope->Functions().Keys().Contains(node->name))
+					if(argument.scope->functions.Items().Keys().Contains(node->name))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetFunctionAlreadyExists(node));
 					}
 					else
 					{
-						argument.scope->Functions().Add(node->name, node);
+						argument.scope->functions.Add(node->name, node);
 					}
 				}
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
-					if(argument.scope->Types().Keys().Contains(node->name))
+					if(argument.scope->types.Items().Keys().Contains(node->name))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
 					}
 					else
 					{
 						BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
-						argument.scope->Types().Add(node->name, structure);
+						argument.scope->types.Add(node->name, structure);
 					}
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					if(argument.scope->Variables().Keys().Contains(node->name))
+					if(argument.scope->variables.Items().Keys().Contains(node->name))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetVariableAlreadyExists(node));
 					}
@@ -382,7 +322,7 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->Variables().Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+							argument.scope->variables.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -393,7 +333,7 @@ BasicLanguage_BuildGlobalScopePass1
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
-					if(argument.scope->Types().Keys().Contains(node->name))
+					if(argument.scope->types.Items().Keys().Contains(node->name))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
 					}
@@ -401,7 +341,7 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->Types().Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+							argument.scope->types.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -424,7 +364,7 @@ BasicLanguage_BuildGlobalScopePass2
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
-					BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->Types()[node->name]);
+					BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
 					List<WString> names;
 					List<BasicTypeRecord*> types;
 					for(int i=0;i<node->memberNames.Count();i++)

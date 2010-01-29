@@ -14,6 +14,7 @@ Classes:
 #include "..\..\Exception.h"
 #include "BasicLanguageExpression.h"
 #include "BasicLanguageTypeManager.h"
+#include "..\Common\CommonScopeManager.h"
 
 namespace vl
 {
@@ -26,18 +27,16 @@ namespace vl
 Scope Manager
 ***********************************************************************/
 
-			class BasicScope : public Object, private NotCopyable
+			class BasicScope : public CommonScope<BasicScope>
 			{
 				friend class BasicEnv;
 				friend class Ptr<BasicScope>;
 			protected:
-				BasicScope*														previousScope;
-				BasicTypeManager*												typeManager;
-				BasicFunctionDeclaration*										functionDeclaration;
-				BasicStatement*													statement;
-				collections::Dictionary<WString, BasicTypeRecord*>				types;
-				collections::Dictionary<WString, BasicTypeRecord*>				variables;
-				collections::Dictionary<WString, BasicFunctionDeclaration*>		functions;
+				BasicTypeManager*													typeManager;
+				BasicFunctionDeclaration*											functionDeclaration;
+				BasicStatement*														statement;
+
+				void																Initialize();
 
 				BasicScope(BasicTypeManager* _typeManager, BasicFunctionDeclaration* _functionDeclaration, BasicStatement* _statement);
 				BasicScope(BasicScope* _previousScope, BasicFunctionDeclaration* _functionDeclaration);
@@ -46,19 +45,13 @@ Scope Manager
 				~BasicScope();
 			public:
 
-				BasicScope*														PreviousScope();
-				BasicTypeManager*												TypeManager();
-				BasicFunctionDeclaration*										OwnerDeclaration();
-				BasicStatement*													OwnerStatement();
-				collections::IDictionary<WString, BasicTypeRecord*>&			Types();
-				collections::IDictionary<WString, BasicTypeRecord*>&			Variables();
-				collections::IDictionary<WString, BasicFunctionDeclaration*>&	Functions();
-				BasicTypeRecord*												GetType(const WString& name);
-				BasicTypeRecord*												GetType(const WString& name, BasicScope*& scope);
-				BasicTypeRecord*												GetVariableType(const WString& name);
-				BasicTypeRecord*												GetVariableType(const WString& name, BasicScope*& scope);
-				BasicFunctionDeclaration*										GetFunction(const WString& name);
-				BasicFunctionDeclaration*										GetFunction(const WString& name, BasicScope*& scope);
+				BasicTypeManager*													TypeManager();
+				BasicFunctionDeclaration*											OwnerDeclaration();
+				BasicStatement*														OwnerStatement();
+
+				CommonScopeItems<BasicScope, WString, BasicTypeRecord*>				types;
+				CommonScopeItems<BasicScope, WString, BasicTypeRecord*>				variables;
+				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 			};
 
 			class BasicEnv : public Object, private NotCopyable
