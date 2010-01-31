@@ -32,20 +32,18 @@ Scope Manager
 				friend class BasicEnv;
 				friend class Ptr<BasicScope>;
 			protected:
-				BasicTypeManager*													typeManager;
 				BasicFunctionDeclaration*											functionDeclaration;
 				BasicStatement*														statement;
 
 				void																Initialize();
 
-				BasicScope(BasicTypeManager* _typeManager, BasicFunctionDeclaration* _functionDeclaration, BasicStatement* _statement);
 				BasicScope(BasicScope* _previousScope, BasicFunctionDeclaration* _functionDeclaration);
 				BasicScope(BasicScope* _previousScope, BasicStatement* _statement);
 				BasicScope(BasicScope* _previousScope);
+				BasicScope();
 				~BasicScope();
 			public:
 
-				BasicTypeManager*													TypeManager();
 				BasicFunctionDeclaration*											OwnerDeclaration();
 				BasicStatement*														OwnerStatement();
 
@@ -60,7 +58,6 @@ Scope Manager
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicTypeRecord*>	_FunctionTypeTable;
 				typedef collections::Dictionary<BasicStatement*, BasicScope*>					_StatementScopeTable;
 			protected:
-				BasicTypeManager												typeManager;
 				collections::List<Ptr<BasicScope>>								allocatedScopes;
 				BasicScope*														globalScope;
 				_FunctionScopeTable												functionScopes;
@@ -70,7 +67,6 @@ Scope Manager
 				BasicEnv();
 				~BasicEnv();
 
-				BasicTypeManager&												TypeManager();
 				BasicScope*														GlobalScope();
 				BasicScope*														CreateScope(BasicScope* previousScope);
 				BasicScope*														CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration);
@@ -83,7 +79,7 @@ Scope Manager
 			};
 
 /***********************************************************************
-Exception
+Semantic Input/Output
 ***********************************************************************/
 
 			class BasicLanguageCodeException : public Exception
@@ -118,25 +114,48 @@ Exception
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex);
 			};
 
+			class BasicSemanticExtension;
+
 			typedef class BasicAlgorithmParameter
 			{
 			public:
 				BasicEnv*												env;
 				BasicScope*												scope;
+				BasicTypeManager*										typeManager;
 				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
 				collections::SortedList<WString>&						forwardStructures;
+				BasicSemanticExtension*									semanticExtension;
 
-				BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, collections::List<Ptr<BasicLanguageCodeException>>& _errors, collections::SortedList<WString>& _forwardStructures);
+				BasicAlgorithmParameter(
+					BasicEnv* _env,
+					BasicScope* _scope,
+					BasicTypeManager* _typeManager,
+					collections::List<Ptr<BasicLanguageCodeException>>& _errors,
+					collections::SortedList<WString>& _forwardStructures
+					);
+				BasicAlgorithmParameter(const BasicAlgorithmParameter& bp, BasicScope* _scope);
 			} BP;
+
+			class BasicSemanticExtension : public Object, private NotCopyable
+			{
+			public:
+				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)=0;
+				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)=0;
+				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument)=0;
+				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)=0;
+				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)=0;
+				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument)=0;
+			};
 
 /***********************************************************************
 Algorithms
 ***********************************************************************/
 
-			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BP, BasicTypeRecord*)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType, BasicExpression, BP, BasicTypeRecord*)
 		}
 	}
 }

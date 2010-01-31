@@ -39,6 +39,11 @@ BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, int, int)
 		return 4;
 	}
 
+	ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
+	{
+		return 5;
+	}
+
 END_ALGORITHM_FUNCTION(GetTypeID)
 
 /***********************************************************************
@@ -70,6 +75,11 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, int*)
 	ALGORITHM_PROCEDURE_MATCH(BasicFunctionType)
 	{
 		*argument=4;
+	}
+
+	ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
+	{
+		*argument=5;
 	}
 
 END_ALGORITHM_PROCEDURE(TestTypeID)
@@ -174,20 +184,21 @@ TEST_CASE(TestBasicEnv)
 {
 	BasicEnv env;
 	BasicScope* global=env.GlobalScope();
+	BasicTypeManager tm;
+
 	TEST_ASSERT(global);
 	TEST_ASSERT(global->PreviousScope()==0);
-	TEST_ASSERT(global->TypeManager()==&env.TypeManager());
 	TEST_ASSERT(global->OwnerDeclaration()==0);
 	TEST_ASSERT(global->OwnerStatement()==0);
-	BasicTypeRecord* link=env.TypeManager().CreateStructureType();
+	BasicTypeRecord* link=tm.CreateStructureType();
 	{
 		List<WString> names;
 		names.Add(L"data");
 		names.Add(L"next");
 		List<BasicTypeRecord*> types;
-		types.Add(env.TypeManager().GetPrimitiveType(int_type));
-		types.Add(env.TypeManager().GetPointerType(link));
-		env.TypeManager().UpdateStructureType(link, names.Wrap(), types.Wrap());
+		types.Add(tm.GetPrimitiveType(int_type));
+		types.Add(tm.GetPointerType(link));
+		tm.UpdateStructureType(link, names.Wrap(), types.Wrap());
 	}
 	global->types.Add(L"Link", link);
 	BasicFunctionDeclaration append;
@@ -199,13 +210,12 @@ TEST_CASE(TestBasicEnv)
 	TEST_ASSERT(env.CreateFunctionScope(global, &append)==appendScope);
 	TEST_ASSERT(env.CreateFunctionScope(appendScope, &append)==0);
 	appendScope->variables.Add(L"link", link);
-	appendScope->variables.Add(L"data", env.TypeManager().GetPrimitiveType(int_type));
+	appendScope->variables.Add(L"data", tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(appendScope->PreviousScope()==global);
-	TEST_ASSERT(appendScope->TypeManager()==&env.TypeManager());
 	TEST_ASSERT(appendScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(appendScope->OwnerStatement()==0);
 	TEST_ASSERT(appendScope->variables.Find(L"link")==link);
-	TEST_ASSERT(appendScope->variables.Find(L"data")==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(appendScope->variables.Find(L"data")==tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(appendScope->types.Find(L"Link")==link);
 	TEST_ASSERT(appendScope->functions.Find(L"append")==&append);
 	TEST_ASSERT(appendScope->types.Find(L"unexists")==0);
@@ -218,11 +228,10 @@ TEST_CASE(TestBasicEnv)
 	TEST_ASSERT(env.CreateStatementScope(statementScope, &statement)==0);
 	statementScope->variables.Add(L"temp", link);
 	TEST_ASSERT(statementScope->PreviousScope()==appendScope);
-	TEST_ASSERT(statementScope->TypeManager()==&env.TypeManager());
 	TEST_ASSERT(statementScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(statementScope->OwnerStatement()==&statement);
 	TEST_ASSERT(statementScope->variables.Find(L"link")==link);
-	TEST_ASSERT(statementScope->variables.Find(L"data")==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(statementScope->variables.Find(L"data")==tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(statementScope->variables.Find(L"temp")==link);
 	TEST_ASSERT(statementScope->types.Find(L"Link")==link);
 	TEST_ASSERT(statementScope->functions.Find(L"append")==&append);
@@ -233,7 +242,7 @@ TEST_CASE(TestBasicEnv)
 	BasicScope* scope=0;
 	TEST_ASSERT(statementScope->variables.Find(L"link", scope)==link);
 	TEST_ASSERT(scope==appendScope);
-	TEST_ASSERT(statementScope->variables.Find(L"data", scope)==env.TypeManager().GetPrimitiveType(int_type));
+	TEST_ASSERT(statementScope->variables.Find(L"data", scope)==tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(scope==appendScope);
 	TEST_ASSERT(statementScope->variables.Find(L"temp", scope)==link);
 	TEST_ASSERT(scope==statementScope);
@@ -268,28 +277,32 @@ BasicLanguage_GetTypeRecord
 TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 {
 	BasicEnv env;
-	BasicTypeManager& tm=env.TypeManager();
+	BasicTypeManager tm;
 	BasicScope* global=env.GlobalScope();
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BP argument(&env, global, &tm, errors, forwardStructures);
+	
 	BasicTypeRecord* link=tm.CreateStructureType();
 	global->types.Add(L"Link", link);
 
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), global)==tm.GetPrimitiveType(void_type));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int().GetInternalValue(), global)==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), global)==link);
-	TEST_ASSERT(BasicLanguage_GetTypeRecord((*t_type(L"Link")).GetInternalValue(), global)==tm.GetPointerType(link));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int()[10].GetInternalValue(), global)==tm.GetArrayType(tm.GetPrimitiveType(int_type), 10));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), argument)==tm.GetPrimitiveType(void_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int().GetInternalValue(), argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), argument)==link);
+	TEST_ASSERT(BasicLanguage_GetTypeRecord((*t_type(L"Link")).GetInternalValue(), argument)==tm.GetPointerType(link));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int()[10].GetInternalValue(), argument)==tm.GetArrayType(tm.GetPrimitiveType(int_type), 10));
 
 	List<BasicTypeRecord*> functionParameterTypes;
 	functionParameterTypes.Add(tm.GetPointerType(link));
 	functionParameterTypes.Add(tm.GetPointerType(link));
 	TEST_ASSERT(BasicLanguage_GetTypeRecord(
-		t_void()(t_types()<<*t_type(L"Link")<<*t_type(L"Link")).GetInternalValue(), global)==
+		t_void()(t_types()<<*t_type(L"Link")<<*t_type(L"Link")).GetInternalValue(), argument)==
 		tm.GetFunctionType(tm.GetPrimitiveType(void_type), functionParameterTypes.Wrap())
 		);
 
 	Ptr<BasicType> wrongType=(*t_type(L"Link"))(t_types()<<(*t_type(L"Link"))[10]<<(*t_type(L"Wrong"))[10]).GetInternalValue();
 	TEST_EXCEPTION(
-		BasicLanguage_GetTypeRecord(wrongType, global),
+		BasicLanguage_GetTypeRecord(wrongType, argument),
 		Ptr<BasicLanguageCodeException>,
 		Curry(TestTypeNameNotExists)(L"Wrong")
 		);
@@ -302,10 +315,10 @@ BasicLanguage_BuildGlobalScope
 TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
 {
 	BasicEnv env;
-	BasicTypeManager& tm=env.TypeManager();
+	BasicTypeManager tm;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(&env, env.GlobalScope(), errors, forwardStructures);
+	BP argument(&env, env.GlobalScope(), &tm, errors, forwardStructures);
 
 	BasicProgramNode program;
 	program.DefineStructureForward(L"Link");

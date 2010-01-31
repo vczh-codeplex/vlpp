@@ -24,52 +24,52 @@ BasicTypeRecord
 
 			BasicPrimitiveTypeEnum BasicTypeRecord::PrimitiveType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::PrimitiveType()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ElementType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::ElementType()#不支持此操作。");
 			}
 
 			int BasicTypeRecord::ElementCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::ElementCount()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ReturnType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::ReturnType()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ParameterType(int index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::ParameterType()#不支持此操作。");
 			}
 
 			int BasicTypeRecord::ParameterCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::ParameterCount()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::MemberType(int index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(int)#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::MemberType(const WString& name)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(const WString&)#不支持此操作。");
 			}
 
 			const WString& BasicTypeRecord::MemberName(int index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(int)#不支持此操作。");
 			}
 
 			int BasicTypeRecord::MemberCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberCount()#不支持此操作。");
 			}
 
 /***********************************************************************
