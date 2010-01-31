@@ -1,0 +1,17 @@
+export function declaration
+import function declaration
+foreign function declaration
+
+module linker:
+module binary format (unlink)
+linker solves:
+  addresses of import functions
+  addresses of global data for the module
+
+goal:
+  basic language:
+    [Native FreeScript], C, Pascal, BASIC
+  high level language:
+    [Object FreeScript], C#, Object Pascal, Object Basic
+  dynamic language:
+    [Dynamic FreeScript], Python, Ruby, PHP, Lua, Perl
