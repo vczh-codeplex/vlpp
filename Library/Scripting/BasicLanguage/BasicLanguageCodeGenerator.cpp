@@ -21,18 +21,8 @@ BasicScope
 				functions.Initialize(this, &BasicScope::functions, 0);
 			}
 
-			BasicScope::BasicScope(BasicTypeManager* _typeManager, BasicFunctionDeclaration* _functionDeclaration, BasicStatement* _statement)
-				:CommonScope<BasicScope>(0)
-				,typeManager(_typeManager)
-				,functionDeclaration(_functionDeclaration)
-				,statement(_statement)
-			{
-				Initialize();
-			}
-
 			BasicScope::BasicScope(BasicScope* _previousScope, BasicFunctionDeclaration* _functionDeclaration)
 				:CommonScope<BasicScope>(_previousScope)
-				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_functionDeclaration)
 				,statement(0)
 			{
@@ -41,7 +31,6 @@ BasicScope
 
 			BasicScope::BasicScope(BasicScope* _previousScope, BasicStatement* _statement)
 				:CommonScope<BasicScope>(_previousScope)
-				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_previousScope->functionDeclaration)
 				,statement(_statement)
 			{
@@ -50,20 +39,22 @@ BasicScope
 
 			BasicScope::BasicScope(BasicScope* _previousScope)
 				:CommonScope<BasicScope>(_previousScope)
-				,typeManager(_previousScope->typeManager)
 				,functionDeclaration(_previousScope->functionDeclaration)
 				,statement(_previousScope->statement)
-			{
-			}
-
-			BasicScope::~BasicScope()
 			{
 				Initialize();
 			}
 
-			BasicTypeManager* BasicScope::TypeManager()
+			BasicScope::BasicScope()
+				:CommonScope<BasicScope>(0)
+				,functionDeclaration(0)
+				,statement(0)
 			{
-				return typeManager;
+				Initialize();
+			}
+
+			BasicScope::~BasicScope()
+			{
 			}
 			
 			BasicFunctionDeclaration* BasicScope::OwnerDeclaration()
@@ -89,11 +80,6 @@ BasicEnv
 			{
 			}
 
-			BasicTypeManager& BasicEnv::TypeManager()
-			{
-				return typeManager;
-			}
-
 			BasicScope* BasicEnv::GlobalScope()
 			{
 				return globalScope;
@@ -101,7 +87,7 @@ BasicEnv
 
 			BasicScope* BasicEnv::CreateScope(BasicScope* previousScope)
 			{
-				BasicScope* scope=previousScope?new BasicScope(previousScope):new BasicScope(&typeManager, 0, 0);
+				BasicScope* scope=previousScope?new BasicScope(previousScope):new BasicScope();
 				allocatedScopes.Add(scope);
 				return scope;
 			}
@@ -242,14 +228,66 @@ GetTypeRecord
 			}
 
 /***********************************************************************
-GetTypeRecord
+BasicAlgorithmParameter
 ***********************************************************************/
 
-			BasicAlgorithmParameter::BasicAlgorithmParameter(BasicEnv* _env, BasicScope* _scope, List<Ptr<BasicLanguageCodeException>>& _errors, collections::SortedList<WString>& _forwardStructures)
+			class DefaultSemanticExtension : public BasicSemanticExtension
+			{
+			public:
+				Ptr<BasicExpression> ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)
+				{
+					return originalExpression;
+				}
+
+				Ptr<BasicStatement> StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)
+				{
+					return originalStatement;
+				}
+
+				BasicTypeRecord* GetTypeRecord(BasicExtendedType* type, const BP& argument)
+				{
+					CHECK_ERROR(false, L"DefaultSemanticExtension::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
+				}
+
+				void BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)
+				{
+					CHECK_ERROR(false, L"DefaultSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+				}
+
+				void BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)
+				{
+					CHECK_ERROR(false, L"DefaultSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+				}
+
+				BasicTypeRecord* GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
+				{
+					CHECK_ERROR(false, L"DefaultSemanticExtension::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
+				}
+			} defaultSemanticExtension;
+
+			BasicAlgorithmParameter::BasicAlgorithmParameter(
+				BasicEnv* _env,
+				BasicScope* _scope,
+				BasicTypeManager* _typeManager,
+				List<Ptr<BasicLanguageCodeException>>& _errors,
+				collections::SortedList<WString>& _forwardStructures
+				)
 				:env(_env)
 				,scope(_scope)
+				,typeManager(_typeManager)
 				,errors(_errors)
 				,forwardStructures(_forwardStructures)
+				,semanticExtension(&defaultSemanticExtension)
+			{
+			}
+
+			BasicAlgorithmParameter::BasicAlgorithmParameter(const BasicAlgorithmParameter& bp, BasicScope* _scope)
+				:env(bp.env)
+				,scope(_scope)
+				,typeManager(bp.typeManager)
+				,errors(bp.errors)
+				,forwardStructures(bp.forwardStructures)
+				,semanticExtension(bp.semanticExtension)
 			{
 			}
 
@@ -257,26 +295,26 @@ GetTypeRecord
 GetTypeRecord
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BasicScope*, BasicTypeRecord*)
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicPrimitiveType)
 				{
-					return argument->TypeManager()->GetPrimitiveType(node->type);
+					return argument.typeManager->GetPrimitiveType(node->type);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicPointerType)
 				{
-					return argument->TypeManager()->GetPointerType(BasicLanguage_GetTypeRecord(node->elementType, argument));
+					return argument.typeManager->GetPointerType(BasicLanguage_GetTypeRecord(node->elementType, argument));
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicArrayType)
 				{
-					return argument->TypeManager()->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument), node->size);
+					return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument), node->size);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceType)
 				{
-					BasicTypeRecord* type=argument->types.Find(node->name);
+					BasicTypeRecord* type=argument.scope->types.Find(node->name);
 					if(type)
 					{
 						return type;
@@ -294,10 +332,15 @@ GetTypeRecord
 					{
 						parameterTypes.Add(BasicLanguage_GetTypeRecord(node->parameterTypes[i], argument));
 					}
-					return argument->TypeManager()->GetFunctionType(
+					return argument.typeManager->GetFunctionType(
 						BasicLanguage_GetTypeRecord(node->returnType, argument),
 						parameterTypes.Wrap()
 						);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
+				{
+					return argument.semanticExtension->GetTypeRecord(node, argument);
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord)
@@ -320,7 +363,7 @@ BasicLanguage_BuildGlobalScopePass1
 						BasicTypeRecord* type=0;
 						try
 						{
-							type=BasicLanguage_GetTypeRecord(node->signatureType, argument.scope);
+							type=BasicLanguage_GetTypeRecord(node->signatureType, argument);
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -351,7 +394,7 @@ BasicLanguage_BuildGlobalScopePass1
 						}
 						else
 						{
-							BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
+							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
 							argument.scope->types.Add(node->name, structure);
 						}
 					}
@@ -360,7 +403,7 @@ BasicLanguage_BuildGlobalScopePass1
 						if(!argument.forwardStructures.Contains(node->name))
 						{
 							argument.forwardStructures.Add(node->name);
-							BasicTypeRecord* structure=argument.env->TypeManager().CreateStructureType();
+							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
 							argument.scope->types.Add(node->name, structure);
 						}
 					}
@@ -376,7 +419,7 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->variables.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+							argument.scope->variables.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -395,13 +438,18 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->types.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument.scope));
+							argument.scope->types.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
 							argument.errors.Add(e);
 						}
 					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.semanticExtension->BuildGlobalScopePass1(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1)
@@ -427,7 +475,7 @@ BasicLanguage_BuildGlobalScopePass2
 						{
 							try
 							{
-								types.Add(BasicLanguage_GetTypeRecord(node->memberTypes[i], argument.scope));
+								types.Add(BasicLanguage_GetTypeRecord(node->memberTypes[i], argument));
 								names.Add(node->memberNames[i]);
 							}
 							catch(Ptr<BasicLanguageCodeException> e)
@@ -440,7 +488,7 @@ BasicLanguage_BuildGlobalScopePass2
 							argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
 						}
 					}
-					argument.env->TypeManager().UpdateStructureType(structure, names.Wrap(), types.Wrap());
+					argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
@@ -449,6 +497,11 @@ BasicLanguage_BuildGlobalScopePass2
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.semanticExtension->BuildGlobalScopePass2(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2)
@@ -468,6 +521,74 @@ BasicLanguage_BuildGlobalScope
 					BasicLanguage_BuildGlobalScopePass2(program->declarations[i], argument);
 				}
 			}
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType, BasicExpression, BP, BasicTypeRecord*)
+
+				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicUnaryExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicBinaryExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
+				{
+					return 0;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
+				{
+					return argument.semanticExtension->GetExpressionType(node, argument);
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType)
+
+/***********************************************************************
+BasicLanguage_BuildGlobalScope
+***********************************************************************/
 
 		}
 	}

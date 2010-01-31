@@ -29,8 +29,8 @@ namespace vl
 				f32,f64,
 				bool_type,
 				void_type,
-				char_type=s8,
-				wchar_type=u16,
+				char_type,
+				wchar_type,
 #ifdef _WIN64
 				int_type=s64,
 				uint_type=u64,
@@ -415,6 +415,30 @@ Declaration
 			};
 
 /***********************************************************************
+Extension Nodes
+***********************************************************************/
+
+			class BasicExtendedExpression : public BasicExpression
+			{
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
+			class BasicExtendedStatement : public BasicStatement
+			{
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
+			class BasicExtendedType : public BasicType
+			{
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
+			class BasicExtendedDeclaration : public BasicDeclaration
+			{
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
+/***********************************************************************
 Algorithms
 ***********************************************************************/
 
@@ -430,6 +454,7 @@ Algorithms
 			F(BasicFunctionResultExpression)\
 			F(BasicCastingExpression)\
 			F(BasicReferenceExpression)\
+			F(BasicExtendedExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicExpression, BASIC_EXPRESSION_TARGETS)
 
@@ -444,6 +469,7 @@ Algorithms
 			F(BasicBreakStatement)\
 			F(BasicContinueStatement)\
 			F(BasicReturnStatement)\
+			F(BasicExtendedStatement)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicStatement, BASIC_STATEMENT_TARGETS)
 
@@ -453,6 +479,7 @@ Algorithms
 			F(BasicArrayType)\
 			F(BasicReferenceType)\
 			F(BasicFunctionType)\
+			F(BasicExtendedType)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicType, BASIC_TYPE_TARGETS)
 
@@ -461,6 +488,7 @@ Algorithms
 			F(BasicStructureDeclaration)\
 			F(BasicVariableDeclaration)\
 			F(BasicTypeRenameDeclaration)\
+			F(BasicExtendedDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicDeclaration, BASIC_DECLARATION_TARGETS)
 
