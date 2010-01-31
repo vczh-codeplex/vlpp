@@ -11,7 +11,11 @@ linker solves:
 goal:
   basic language:
     [Native FreeScript], C, Pascal, BASIC
-  high level language:
+  object language:
     [Object FreeScript], C#, Object Pascal, Object Basic
   dynamic language:
     [Dynamic FreeScript], Python, Ruby, PHP, Lua, Perl
+  functional language:
+    [Functional FreeScript]
+  logic language:
+    [Logic FreeScript]
