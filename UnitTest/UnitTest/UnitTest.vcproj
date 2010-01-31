@@ -820,6 +820,14 @@
 				</Filter>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Notes"
+			>
+			<File
+				RelativePath=".\DevelopmentNote.txt"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
