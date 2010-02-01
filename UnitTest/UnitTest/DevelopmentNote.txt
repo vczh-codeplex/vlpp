@@ -10,12 +10,12 @@ linker solves:
 
 goal:
   basic language:
-    [Native FreeScript], C, Pascal, BASIC
+    [Native Free], C, Pascal, BASIC
   object language:
-    [Object FreeScript], C#, Object Pascal, Object Basic
+    [Object Free], C#, Object Pascal, Object Basic
   dynamic language:
-    [Dynamic FreeScript], Python, Ruby, PHP, Lua, Perl
+    [Dynamic Free], Python, Ruby, PHP, Lua, Perl
   functional language:
-    [Functional FreeScript]
+    [Functional Free]
   logic language:
-    [Logic FreeScript]
+    [Logic Free]

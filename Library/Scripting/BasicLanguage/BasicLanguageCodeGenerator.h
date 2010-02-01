@@ -164,12 +164,12 @@ Semantic Input/Output
 			class BasicSemanticExtension : public Object, private NotCopyable
 			{
 			public:
-				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)=0;
-				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)=0;
-				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument)=0;
-				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)=0;
-				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)=0;
-				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument)=0;
+				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument);
+				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument);
+				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
+				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
+				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
+				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
 			};
 
 /***********************************************************************
