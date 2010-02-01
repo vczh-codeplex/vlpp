@@ -216,8 +216,8 @@ Anonymous captures: /(?expression)/</p>
 <p>(&lt;$NAME:i&gt;): a sub string that is the i-th string captured by the specified group.</p>
 <p>(&lt;$i&gt;): a sub string that is the i-th string captured by the anonymous group.</p>
 <p>Here i should be a non-negative integer. The index starts from 0. If the index is out of range, the comparison fails.</p>
-<p>Here is an example to tell if a string is a repeat by another string, like "aaaaa", "abCabCabC" or "1,1,1,1,1,": /<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/.<br />
-Here /(?\.+?)/ try to store one character first, and see if the remain of the string is a repeat of the first anonymous captured string. If fails, it clears the anonymous captures and tries by two characters, three characters and more until a shortest solution is found or no solution is found.</p>
+<p>Here is an example to tell if a string is a repeat of another string, like "aaaaa", "abCabCabC" or "1,1,1,1,1,": /<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/.<br />
+Here /(?\.+?)/ tries to store one character first, and see if the remain of the string is a repeat of the first anonymous captured string. If fails, it clears the anonymous captures and tries by two characters, three characters and more until a shortest solution is found or no solution is found.</p>
 <h3><a name="Lookahead">Positive/Negative lookahead assertion</a></h3>
 <p>Positive/nagetive lookahead assertion is a tool for finding a pattern whose context satisfies a condition. For example:<br />
 We need to find a "windows" that followed by "2000", we use /windows(=2000)/<br />
