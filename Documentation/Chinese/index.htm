@@ -5,12 +5,7 @@
 </head>
 <body>
 <h1>目标</h1>
-<p>Vczh Library++包含一系列的库和工具，用来更加容易地开发用于在对性能要求没有那么极端的数据处理程序，并且提供了一个快速的脚本引擎来辅助完成复杂的任务。<br />
-我们在工程中的计划包括：<br />
-<li>C++基础类库，包含基础设施、容器、流系统、正则表达式引擎、可配置语法分析器和一个易于建立和使用的C++反射系统（非全自动）。<br /></li>
-<li>一个拥有本地和托管两种接口的脚本引擎。<br /></li>
-<li>一个用于调试脚本的集成开发环境。这个集成开发环境使用.NET编写，可以被修改成独立程序，或者集成到其他工程里面去。<br /></li>
-</p>
+<p>Vczh Library++是一个可以同时支持各种等级的各种语言的通用脚本平台，并提供一系列的库让一门新的语言可以很容易地一直到这个平台上。不仅如此，该平台还包含一个强大的数据处理和字符串处理库。</p>
 <h1>工程结构</h1>
 <p>本工程由以下解决方案组成<br/>
 <br/>
@@ -18,16 +13,14 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;Chinese&gt;</b></font>&nbsp;中文文档资料。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;English&gt;</b></font>&nbsp;英文文档资料。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>Documentation.sln</b></font>&nbsp;为了在Visual Studio中更方便地管理文档文件而建立的解决方案。<br/>
-<font color="blue"><b>&lt;Library&gt;</b></font> <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;Tools&gt;</b></font> <br/>
+<font color="blue"><b>&lt;Library&gt;</b></font>&nbsp;目标库代码。<br/>
+<font color="blue"><b>&lt;Tools&gt;</b></font> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;AutoShell&gt;</b></font> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>AutoShell.sln</b></font>&nbsp;脚本引擎的集成开发环境，未完成。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;FpMacro&gt;</b></font> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>FpMacro.sln</b></font>&nbsp;Functional Macro被用来生成C语言的宏不能或很难生成的代码。该工程的Release版本必须被放在&lt;Tools&gt;\FpMacro.exe下。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;OfficeIcon&gt;</b></font> <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>OfficeIcon.sln</b></font>&nbsp;开发用的工具：浏览某指定文件夹下的图标文件。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>&lt;UnitTest&gt;</b></font> <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>UnitTest.sln</b></font>&nbsp;单元测试工程。<br/>
+<font color="blue"><b>&lt;UnitTest&gt;</b></font> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="blue"><b>UnitTest.sln</b></font>&nbsp;单元测试工程。<br/>
 </p>
 <h1>本工程由以下几部分组成</h1>
 <ol><li><h2><a href="Vczh Library++\index.htm">Vczh Library++ 核心库</a></h2></li>
