@@ -131,19 +131,33 @@ BasicEnv
 				functionTypes.Add(function, type);
 			}
 
+			void BasicEnv::RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type)
+			{
+				expressionTypes.Add(expression, type);
+			}
+
 			BasicScope* BasicEnv::GetFunctionScope(BasicFunctionDeclaration* function)
 			{
-				return functionScopes[function];
+				int index=functionScopes.Keys().IndexOf(function);
+				return index==-1?0:functionScopes.Values()[index];
 			}
 
 			BasicScope* BasicEnv::GetStatementScope(BasicStatement* statement)
 			{
-				return statementScopes[statement];
+				int index=statementScopes.Keys().IndexOf(statement);
+				return index==-1?0:statementScopes.Values()[index];
 			}
 
 			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function)
 			{
-				return functionTypes[function];
+				int index=functionTypes.Keys().IndexOf(function);
+				return index==-1?0:functionTypes.Values()[index];
+			}
+
+			BasicTypeRecord* BasicEnv::GetExpressionType(BasicExpression* expression)
+			{
+				int index=expressionTypes.Keys().IndexOf(expression);
+				return index==-1?0:expressionTypes.Values()[index];
 			}
 
 /***********************************************************************
@@ -230,6 +244,19 @@ GetTypeRecord
 /***********************************************************************
 BasicAlgorithmParameter
 ***********************************************************************/
+
+			BasicAlgorithmConfiguration::BasicAlgorithmConfiguration()
+			{
+				integerConversion=FreeConversion;
+				treatCharacterAsInteger=true;
+				treatCharAsSignedInteger=true;
+				treatWCharAsSignedInteger=false;
+				treatBooleanAsInteger=true;
+				enablePointerArithmetic=true;
+				enableImplicitIntegerToBooleanConversion=true;
+				enableImplicitPointerToBooleanConversion=true;
+				enableSubscribeOnPointer=true;
+			}
 
 			class DefaultSemanticExtension : public BasicSemanticExtension
 			{
@@ -522,7 +549,30 @@ BasicLanguage_BuildGlobalScope
 				}
 			}
 
-			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType, BasicExpression, BP, BasicTypeRecord*)
+/***********************************************************************
+BasicLanguage_GetExpressionType
+***********************************************************************/
+
+			BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, BP& argument)
+			{
+				BasicTypeRecord* type=argument.env->GetExpressionType(expression.Obj());
+				if(!type)
+				{
+					expression=argument.semanticExtension->ExpressionReplacer(expression, argument);
+					try
+					{
+						type=BasicLanguage_GetExpressionTypeInternal(expression, argument);
+						argument.env->RegisterExpressionType(expression.Obj(), type);
+					}
+					catch(Ptr<BasicLanguageCodeException> e)
+					{
+						argument.errors.Add(e);
+					}
+				}
+				return type;
+			}
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
@@ -584,7 +634,7 @@ BasicLanguage_BuildGlobalScope
 					return argument.semanticExtension->GetExpressionType(node, argument);
 				}
 
-			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType)
+			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal)
 
 /***********************************************************************
 BasicLanguage_BuildGlobalScope
