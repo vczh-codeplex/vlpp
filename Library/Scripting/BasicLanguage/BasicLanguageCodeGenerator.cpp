@@ -258,39 +258,37 @@ BasicAlgorithmParameter
 				enableSubscribeOnPointer=true;
 			}
 
-			class DefaultSemanticExtension : public BasicSemanticExtension
+			Ptr<BasicExpression> BasicSemanticExtension::ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)
 			{
-			public:
-				Ptr<BasicExpression> ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)
-				{
-					return originalExpression;
-				}
+				return originalExpression;
+			}
 
-				Ptr<BasicStatement> StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)
-				{
-					return originalStatement;
-				}
+			Ptr<BasicStatement> BasicSemanticExtension::StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)
+			{
+				return originalStatement;
+			}
 
-				BasicTypeRecord* GetTypeRecord(BasicExtendedType* type, const BP& argument)
-				{
-					CHECK_ERROR(false, L"DefaultSemanticExtension::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
-				}
+			BasicTypeRecord* BasicSemanticExtension::GetTypeRecord(BasicExtendedType* type, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
+			}
 
-				void BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)
-				{
-					CHECK_ERROR(false, L"DefaultSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
-				}
+			void BasicSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+			}
 
-				void BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)
-				{
-					CHECK_ERROR(false, L"DefaultSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
-				}
+			void BasicSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+			}
 
-				BasicTypeRecord* GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
-				{
-					CHECK_ERROR(false, L"DefaultSemanticExtension::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
-				}
-			} defaultSemanticExtension;
+			BasicTypeRecord* BasicSemanticExtension::GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
+			}
+
+			BasicSemanticExtension defaultSemanticExtension;
 
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
 				BasicEnv* _env,
