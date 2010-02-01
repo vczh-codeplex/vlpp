@@ -57,12 +57,14 @@ Scope Manager
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicScope*>			_FunctionScopeTable;
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicTypeRecord*>	_FunctionTypeTable;
 				typedef collections::Dictionary<BasicStatement*, BasicScope*>					_StatementScopeTable;
+				typedef collections::Dictionary<BasicExpression*, BasicTypeRecord*>				_ExpressionTypeTable;
 			protected:
 				collections::List<Ptr<BasicScope>>								allocatedScopes;
 				BasicScope*														globalScope;
 				_FunctionScopeTable												functionScopes;
 				_StatementScopeTable											statementScopes;
 				_FunctionTypeTable												functionTypes;
+				_ExpressionTypeTable											expressionTypes;
 			public:
 				BasicEnv();
 				~BasicEnv();
@@ -72,10 +74,12 @@ Scope Manager
 				BasicScope*														CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration);
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
 				void															RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type);
+				void															RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type);
 
 				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
 				BasicScope*														GetStatementScope(BasicStatement* statement);
 				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function);
+				BasicTypeRecord*												GetExpressionType(BasicExpression* expression);
 			};
 
 /***********************************************************************
@@ -116,6 +120,26 @@ Semantic Input/Output
 
 			class BasicSemanticExtension;
 
+			struct BasicAlgorithmConfiguration
+			{
+				enum IntegerConversion
+				{
+					SameTypeConversion,
+					SameSignConversion,
+					FreeConversion
+				}			integerConversion;
+				bool		treatCharacterAsInteger;
+				bool		treatCharAsSignedInteger;
+				bool		treatWCharAsSignedInteger;
+				bool		treatBooleanAsInteger;
+				bool		enablePointerArithmetic;
+				bool		enableImplicitIntegerToBooleanConversion;
+				bool		enableImplicitPointerToBooleanConversion;
+				bool		enableSubscribeOnPointer;
+
+				BasicAlgorithmConfiguration();
+			};
+
 			typedef class BasicAlgorithmParameter
 			{
 			public:
@@ -125,6 +149,7 @@ Semantic Input/Output
 				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
 				collections::SortedList<WString>&						forwardStructures;
 				BasicSemanticExtension*									semanticExtension;
+				BasicAlgorithmConfiguration								configuration;
 
 				BasicAlgorithmParameter(
 					BasicEnv* _env,
@@ -155,7 +180,8 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
-			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionType, BasicExpression, BP, BasicTypeRecord*)
+			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, BP& argument);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 		}
 	}
 }
