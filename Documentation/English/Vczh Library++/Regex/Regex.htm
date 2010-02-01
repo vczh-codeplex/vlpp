@@ -201,7 +201,23 @@
 /w+/ = "com"</p>
 <p>Choice is something like a "or" operator. /a|b|c/ means [abc], /ab|ac|de/ means "ab", "ac" or "de". The priority of choices is lower than sequences.</p>
 <h3><a name="Capture">Capturing</a></h3>
+<p>Capturing is a way to get a more particular parsing result. Capturing enables Regex to store many sub strings that matched by the selected sub patterns, and put them under a name-string map.</p>
+<p>For example. If you want to get the user name and the server name out of an email address, you can use /(&lt;NAME&gt;\w+)@(&lt;SERVER&gt;\w+.\w+)/. After you get a RegexMatch successfully, you can use match.Groups()[L"NAME"][0] and match.Groups()[L"SERVER"][0] to get the user name and the server name.</p>
+<p>You can capture several sub strings in one group.</p>
+<p>The first example is /(&lt;GROUP&gt;\d+).(&lt;GROUP&gt;\d+)/. It parses a real number and store two part of digits in the same group called "GROUP".</p>
+<p>The second example is ((&lt;GROUP&gt;\d+),)*(&lt;GROUP&gt;\d+). It parses a integer list(separated by a comma, like "12,345,6") and stores all integers of the list in the same group called "GROUP".</p>
+<p>There is another kind of captures called "Anonymous Capture". Anonymous captures are captures that with an empty name. You cannot use /(&lt;&gt;expression)/ to get an anonymous capture. The correct syntax is /(?expression)/</p>
+<p>So, we have two kinds of captures by now:<br />
+Named captures: /(&lt;NAME&gt;expression)/<br />
+Anonymous captures: /(?expression)/</p>
 <h3><a name="Back">Back reference</a></h3>
+<p>Back reference is a way to compare a sub string with a captured sub string. There are three kinds of back references:</p>
+<p>(&lt;$NAME&gt;): a sub string that appears in the specified group.</p>
+<p>(&lt;$NAME:i&gt;): a sub string that is the i-th string captured by the specified group.</p>
+<p>(&lt;$i&gt;): a sub string that is the i-th string captured by the anonymous group.</p>
+<p>Here i should be a non-negative integer. The index starts from 0. If the index is out of range, the comparison fails.</p>
+<p>Here is an example to tell if a string is a repeat by another string, like "aaaaa", "abCabCabC" or "1,1,1,1,1,": /<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/.<br />
+Here /(?\.+?)/ try to store one character first, and see if the remain of the string is a repeat of the first anonymous captured string. If fails, it clears the anonymous captures and tries by two characters, three characters and more until a shortest solution is found or no solution is found.</p>
 <h3><a name="Lookahead">Positive/Negative lookahead assertion</a></h3>
 <p>Positive/nagetive lookahead assertion is a tool for finding a pattern whose context satisfies a condition. For example:<br />
 We need to find a "windows" that followed by "2000", we use /windows(=2000)/<br />
