@@ -258,6 +258,128 @@ BasicAlgorithmParameter
 				enableSubscribeOnPointer=true;
 			}
 
+			bool BasicAlgorithmConfiguration::DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes)
+			{
+				switch(type)
+				{
+				case s8:
+					sign=true;
+					bytes=1;
+					return true;
+				case s16:
+					sign=true;
+					bytes=2;
+					return true;
+				case s32:
+					sign=true;
+					bytes=4;
+					return true;
+				case s64:
+					sign=true;
+					bytes=8;
+					return true;
+				case u8:
+					sign=false;
+					bytes=1;
+					return true;
+				case u16:
+					sign=false;
+					bytes=2;
+					return true;
+				case u32:
+					sign=false;
+					bytes=4;
+					return true;
+				case u64:
+					sign=false;
+					bytes=8;
+					return true;
+				case bool_type:
+					if(treatBooleanAsInteger)
+					{
+						sign=false;
+						bytes=1;
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				case char_type:
+					if(treatCharacterAsInteger)
+					{
+						sign=treatCharAsSignedInteger;
+						bytes=1;
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				case wchar_type:
+					if(treatCharacterAsInteger)
+					{
+						sign=treatWCharAsSignedInteger;
+						bytes=2;
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes)
+			{
+				switch(bytes)
+				{
+				case 1:
+					type=sign?s8:u8;
+					return true;
+				case 2:
+					type=sign?s16:u16;
+					return true;
+				case 4:
+					type=sign?s32:u32;
+					return true;
+				case 8:
+					type=sign?s64:u64;
+					return true;
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::CanConvertToBoolean(BasicPrimitiveTypeEnum type)
+			{
+				switch(type)
+				{
+				case s8:
+				case s16:
+				case s32:
+				case s64:
+				case u8:
+				case u16:
+				case u32:
+				case u64:
+					return enableImplicitIntegerToBooleanConversion;
+				case bool_type:
+					return true;
+				case char_type:
+				case wchar_type:
+					return enableImplicitIntegerToBooleanConversion && treatCharacterAsInteger;
+				default:
+					return false;
+				}
+			}
+
+/***********************************************************************
+BasicSemanticExtension
+***********************************************************************/
+
 			Ptr<BasicExpression> BasicSemanticExtension::ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)
 			{
 				return originalExpression;
@@ -317,7 +439,7 @@ BasicAlgorithmParameter
 			}
 
 /***********************************************************************
-GetTypeRecord
+BasicLanguage_GetTypeRecord
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BP, BasicTypeRecord*)

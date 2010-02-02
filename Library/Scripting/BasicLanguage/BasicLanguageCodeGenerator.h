@@ -138,6 +138,10 @@ Semantic Input/Output
 				bool		enableSubscribeOnPointer;
 
 				BasicAlgorithmConfiguration();
+
+				bool		DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes);
+				bool		EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes);
+				bool		CanConvertToBoolean(BasicPrimitiveTypeEnum type);
 			};
 
 			typedef class BasicAlgorithmParameter
