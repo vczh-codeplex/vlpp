@@ -150,6 +150,13 @@ Semantic Input/Output
 				bool		EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes);
 				bool		CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to);
 				bool		CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to);
+				bool		BooleanUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result);
+				bool		IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result);
+				bool		NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result);
+				bool		BooleanBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result);
+				bool		IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result);
+				bool		IntegerBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result);
+				bool		NumberBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result);
 			};
 
 			typedef class BasicAlgorithmParameter

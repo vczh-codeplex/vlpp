@@ -409,7 +409,7 @@ BasicAlgorithmParameter
 								int toBytes=0;
 								if(DecodeInteger(to, toSign, toBytes))
 								{
-									if(!enableImplicitSignedToUnsignedConversion && fromSign && !fromSign)
+									if(!enableImplicitSignedToUnsignedConversion && fromSign && !toSign)
 									{
 										return false;
 									}
@@ -571,6 +571,121 @@ BasicAlgorithmParameter
 				default:
 					return false;
 				}
+			}
+
+			bool BasicAlgorithmConfiguration::BooleanUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			{
+				result=bool_type;
+				return CanImplicitConvertTo(operand, bool_type);
+			}
+
+			bool BasicAlgorithmConfiguration::IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			{
+				bool sign=false;
+				int bytes=0;
+				if(DecodeInteger(operand, sign, bytes))
+				{
+					EncodeInteger(result, sign, bytes);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			{
+				bool sign=false;
+				int bytes=0;
+				if(DecodeFloat(operand, bytes))
+				{
+					EncodeFloat(result, bytes);
+					return true;
+				}
+				else if(DecodeInteger(operand, sign, bytes))
+				{
+					EncodeInteger(result, sign, bytes);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::BooleanBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			{
+				result=bool_type;
+				return CanImplicitConvertTo(left, bool_type) && CanImplicitConvertTo(right, bool_type);
+			}
+
+			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result)
+			{
+				switch(integerOperationConversion)
+				{
+				case SameTypeConversion:
+					EncodeInteger(result, leftSign, leftBytes);
+					return leftSign==rightSign && leftBytes==rightBytes;
+				case SameSignConversion:
+					EncodeInteger(result, (leftSign==rightSign?true:leftSign), leftBytes);
+					return leftBytes==rightBytes;
+				case FreeConversion:
+					EncodeInteger(result, (leftSign==rightSign?true:leftSign), (leftBytes>rightBytes?leftBytes:rightBytes));
+					return true;
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			{
+				bool leftSign=false;
+				bool rightSign=false;
+				int leftBytes=0;
+				int rightBytes=0;
+				if(DecodeInteger(left, leftSign, leftBytes) && DecodeInteger(right, rightSign, rightBytes))
+				{
+					return IntegerBinaryOperatorTypeConversion(leftSign, leftBytes, rightSign, rightBytes, result);
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::NumberBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			{
+				bool leftSign=false;
+				bool rightSign=false;
+				int leftBytes=0;
+				int rightBytes=0;
+				if(DecodeInteger(left, leftSign, leftBytes))
+				{
+					if(DecodeInteger(right, rightSign, rightBytes))
+					{
+						return IntegerBinaryOperatorTypeConversion(leftSign, leftBytes, rightSign, rightBytes, result);
+					}
+					else if(DecodeFloat(right, rightBytes))
+					{
+						result=f64;
+						return enableImplicitIntegerToFloatConversion;
+					}
+				}
+				else if(DecodeFloat(left, leftBytes))
+				{
+					if(DecodeInteger(right, rightSign, rightBytes))
+					{
+						result=f64;
+						return enableImplicitIntegerToFloatConversion;
+					}
+					else if(DecodeFloat(right, rightBytes))
+					{
+						EncodeFloat(result, (leftBytes>rightBytes?leftBytes:rightBytes));
+						return true;
+					}
+				}
+				return false;
 			}
 
 /***********************************************************************
