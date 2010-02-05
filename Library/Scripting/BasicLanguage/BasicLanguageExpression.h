@@ -109,6 +109,12 @@ Primitive Expression
 			{
 			};
 
+			class BasicNullExpression : public BasicPrimitiveExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
 			class BasicNumericExpression : public BasicPrimitiveExpression
 			{
 			public:
@@ -443,6 +449,7 @@ Algorithms
 ***********************************************************************/
 
 #define BASIC_EXPRESSION_TARGETS(F)\
+			F(BasicNullExpression)\
 			F(BasicNumericExpression)\
 			F(BasicMbcsStringExpression)\
 			F(BasicUnicodeStringExpression)\

@@ -247,14 +247,19 @@ BasicAlgorithmParameter
 
 			BasicAlgorithmConfiguration::BasicAlgorithmConfiguration()
 			{
-				integerConversion=FreeConversion;
-				treatCharacterAsInteger=true;
+				integerOperationConversion=FreeConversion;
+				treatCharacterAsInteger=false;
 				treatCharAsSignedInteger=true;
 				treatWCharAsSignedInteger=false;
-				treatBooleanAsInteger=true;
+				treatZeroAsNull=false;
 				enablePointerArithmetic=true;
-				enableImplicitIntegerToBooleanConversion=true;
-				enableImplicitPointerToBooleanConversion=true;
+				enableImplicitBooleanToIntegerConversion=false;
+				enableImplicitIntegerToBooleanConversion=false;
+				enableImplicitPointerToBooleanConversion=false;
+				enableImplicitFloatToIntegerConversion=false;
+				enableImplicitIntegerToFloatConversion=false;
+				enableImplicitHighToLowPrecisionConversion=false;
+				enableImplicitSignedToUnsignedConversion=false;
 				enableSubscribeOnPointer=true;
 			}
 
@@ -295,7 +300,7 @@ BasicAlgorithmParameter
 					bytes=8;
 					return true;
 				case bool_type:
-					if(treatBooleanAsInteger)
+					if(enableImplicitBooleanToIntegerConversion)
 					{
 						sign=false;
 						bytes=1;
@@ -353,24 +358,216 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::CanConvertToBoolean(BasicPrimitiveTypeEnum type)
+			bool BasicAlgorithmConfiguration::DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes)
 			{
 				switch(type)
 				{
-				case s8:
-				case s16:
-				case s32:
-				case s64:
-				case u8:
-				case u16:
-				case u32:
-				case u64:
-					return enableImplicitIntegerToBooleanConversion;
-				case bool_type:
+				case f32:
+					bytes=4;
 					return true;
-				case char_type:
-				case wchar_type:
-					return enableImplicitIntegerToBooleanConversion && treatCharacterAsInteger;
+				case f64:
+					bytes=8;
+					return true;
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes)
+			{
+				switch(bytes)
+				{
+				case 4:
+					type=f32;
+					return true;
+				case 8:
+					type=f64;
+					return true;
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)
+			{
+				if(from==to)return true;
+				switch(from)
+				{
+				case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
+					{
+						bool fromSign=false;
+						int fromBytes=0;
+						if(!DecodeInteger(from, fromSign, fromBytes))
+						{
+							return false;
+						}
+						else switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
+							{
+								bool toSign=false;
+								int toBytes=0;
+								if(DecodeInteger(to, toSign, toBytes))
+								{
+									if(!enableImplicitSignedToUnsignedConversion && fromSign && !fromSign)
+									{
+										return false;
+									}
+									else if(!enableImplicitHighToLowPrecisionConversion && fromBytes>toBytes)
+									{
+										return false;
+									}
+									else
+									{
+										return true;
+									}
+								}
+								else
+								{
+									return false;
+								}
+							}
+						case f32:case f64:
+							{
+								int toBytes=0;
+								DecodeFloat(to, toBytes);
+								return enableImplicitIntegerToFloatConversion && (fromBytes<toBytes || enableImplicitHighToLowPrecisionConversion);
+							}
+						case bool_type:
+							return enableImplicitIntegerToBooleanConversion;
+						default:
+							return false;
+						}
+					}
+				case f32:case f64:
+					{
+						int fromBytes=0;
+						DecodeFloat(from, fromBytes);
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
+							{
+								bool toSign=false;
+								int toBytes=0;
+								if(DecodeInteger(to, toSign, toBytes))
+								{
+									return enableImplicitFloatToIntegerConversion && (fromBytes<toBytes || enableImplicitHighToLowPrecisionConversion);
+								}
+								else
+								{
+									return false;
+								}
+							}
+						case f32:case f64:
+							{
+								int toBytes=0;
+								DecodeFloat(to, toBytes);
+								return fromBytes<=toBytes || enableImplicitHighToLowPrecisionConversion;
+							}
+						case bool_type:
+							return enableImplicitIntegerToBooleanConversion && enableImplicitFloatToIntegerConversion;
+						default:
+							return false;
+						}
+					}
+				case bool_type:
+					{
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
+							{
+								bool toSign=false;
+								int toBytes=0;
+								if(DecodeInteger(to, toSign, toBytes))
+								{
+									return enableImplicitBooleanToIntegerConversion;
+								}
+								else
+								{
+									return false;
+								}
+							}
+						case f32:case f64:
+							return enableImplicitBooleanToIntegerConversion && enableImplicitIntegerToFloatConversion;
+						case bool_type:
+							return true;
+						default:
+							return false;
+						}
+					}
+				default:
+					return false;
+				}
+			}
+
+			bool BasicAlgorithmConfiguration::CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)
+			{
+				switch(from)
+				{
+				case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:
+					{
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:
+							return true;
+						case f32:case f64:
+							return true;
+						case char_type:case wchar_type:
+							return true;
+						case bool_type:
+							return enableImplicitIntegerToBooleanConversion;
+						default:
+							return false;
+						}
+					}
+				case f32:case f64:
+					{
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:
+							return true;
+						case f32:case f64:
+							return true;
+						case char_type:case wchar_type:
+							return treatCharacterAsInteger || enableImplicitFloatToIntegerConversion;
+						case bool_type:
+							return enableImplicitIntegerToBooleanConversion || enableImplicitFloatToIntegerConversion;
+						default:
+							return false;
+						}
+					}
+				case char_type:case wchar_type:
+					{
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:
+							return true;
+						case f32:case f64:
+							return treatCharacterAsInteger || enableImplicitIntegerToFloatConversion;
+						case char_type:case wchar_type:
+							return treatCharacterAsInteger;
+						case bool_type:
+							return treatCharacterAsInteger || enableImplicitIntegerToBooleanConversion;
+						default:
+							return false;
+						}
+					}
+				case bool_type:
+					{
+						switch(to)
+						{
+						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:
+							return enableImplicitBooleanToIntegerConversion;
+						case f32:case f64:
+							return enableImplicitBooleanToIntegerConversion;
+						case char_type:case wchar_type:
+							return enableImplicitBooleanToIntegerConversion;
+						case bool_type:
+							return enableImplicitBooleanToIntegerConversion && treatCharacterAsInteger;
+						default:
+							return false;
+						}
+					}
 				default:
 					return false;
 				}
@@ -694,19 +891,24 @@ BasicLanguage_GetExpressionType
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
+				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
+				{
+					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(void_type));
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
-					return 0;
+					return argument.typeManager->GetPrimitiveType(node->type);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
 				{
-					return 0;
+					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(char_type));
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
 				{
-					return 0;
+					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(wchar_type));
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicUnaryExpression)

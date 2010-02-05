@@ -127,21 +127,29 @@ Semantic Input/Output
 					SameTypeConversion,
 					SameSignConversion,
 					FreeConversion
-				}			integerConversion;
+				}			integerOperationConversion;
 				bool		treatCharacterAsInteger;
 				bool		treatCharAsSignedInteger;
 				bool		treatWCharAsSignedInteger;
-				bool		treatBooleanAsInteger;
+				bool		treatZeroAsNull;
 				bool		enablePointerArithmetic;
+				bool		enableImplicitBooleanToIntegerConversion;
 				bool		enableImplicitIntegerToBooleanConversion;
 				bool		enableImplicitPointerToBooleanConversion;
+				bool		enableImplicitFloatToIntegerConversion;
+				bool		enableImplicitIntegerToFloatConversion;
+				bool		enableImplicitHighToLowPrecisionConversion;
+				bool		enableImplicitSignedToUnsignedConversion;
 				bool		enableSubscribeOnPointer;
 
 				BasicAlgorithmConfiguration();
 
 				bool		DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes);
 				bool		EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes);
-				bool		CanConvertToBoolean(BasicPrimitiveTypeEnum type);
+				bool		DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes);
+				bool		EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes);
+				bool		CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to);
+				bool		CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to);
 			};
 
 			typedef class BasicAlgorithmParameter
