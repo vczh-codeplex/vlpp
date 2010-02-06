@@ -48,8 +48,8 @@ namespace vl
 			class BasicSemanticExtension : public Object, private NotCopyable
 			{
 			public:
-				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument);
-				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument);
+				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument);
+				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument);
 				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
 				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
 				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
@@ -64,7 +64,7 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
-			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, BP& argument);
+			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 		}
 	}

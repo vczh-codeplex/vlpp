@@ -29,6 +29,9 @@ namespace vl
 					VariableAlreadyExists,
 					TypeAlreadyExists,
 					StructureMemberAlreadyExists,
+					VariableNotExists,
+					FailToCast,
+					VoidFunctionDoesNotHaveResult,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -49,6 +52,9 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicStructureDeclaration* type);
 				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicTypeRenameDeclaration* type);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex);
+				static Ptr<BasicLanguageCodeException>							GetVariableNotExists(BasicReferenceExpression* variable);
+				static Ptr<BasicLanguageCodeException>							GetFailToCast(BasicCastingExpression* casting);
+				static Ptr<BasicLanguageCodeException>							GetVoidFunctionDoesNotHaveResult(BasicFunctionResultExpression* result);
 			};
 		}
 	}
