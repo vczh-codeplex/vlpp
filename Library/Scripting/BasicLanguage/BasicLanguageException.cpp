@@ -89,6 +89,25 @@ BasicLanguageCodeException
 				parameters[0]=type->memberNames[memberIndex];
 				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVariableNotExists(BasicReferenceExpression* variable)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=variable->name;
+				return new BasicLanguageCodeException(variable, VariableNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetFailToCast(BasicCastingExpression* casting)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(casting, FailToCast, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVoidFunctionDoesNotHaveResult(BasicFunctionResultExpression* result)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(result, VoidFunctionDoesNotHaveResult, parameters.Wrap());
+			}
 		}
 	}
 }

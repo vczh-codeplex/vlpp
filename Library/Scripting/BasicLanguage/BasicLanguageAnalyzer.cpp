@@ -12,12 +12,12 @@ namespace vl
 BasicSemanticExtension
 ***********************************************************************/
 
-			Ptr<BasicExpression> BasicSemanticExtension::ExpressionReplacer(Ptr<BasicExpression> originalExpression, BP& argument)
+			Ptr<BasicExpression> BasicSemanticExtension::ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument)
 			{
 				return originalExpression;
 			}
 
-			Ptr<BasicStatement> BasicSemanticExtension::StatementReplacer(Ptr<BasicExpression> originalStatement, BP& argument)
+			Ptr<BasicStatement> BasicSemanticExtension::StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument)
 			{
 				return originalStatement;
 			}
@@ -305,7 +305,7 @@ BasicLanguage_BuildGlobalScope
 BasicLanguage_GetExpressionType
 ***********************************************************************/
 
-			BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, BP& argument)
+			BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument)
 			{
 				BasicTypeRecord* type=argument.env->GetExpressionType(expression.Obj());
 				if(!type)
@@ -373,17 +373,78 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
 				{
-					return 0;
+					BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration())->ReturnType();
+					if(returnType->GetType()==BasicTypeRecord::Primitive && returnType->PrimitiveType()==void_type)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionDoesNotHaveResult(node));
+						return 0;
+					}
+					else
+					{
+						return returnType;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
-					return 0;
+					try
+					{
+						BasicTypeRecord* dstType=BasicLanguage_GetTypeRecord(node->type, argument);
+						BasicTypeRecord* srcType=BasicLanguage_GetExpressionType(node->operand, argument);
+						if(dstType && srcType)
+						{
+							BasicPrimitiveTypeEnum dstPrimitive=dstType->GetType()==BasicTypeRecord::Primitive?dstType->PrimitiveType():void_type;
+							BasicPrimitiveTypeEnum srcPrimitive=srcType->GetType()==BasicTypeRecord::Primitive?srcType->PrimitiveType():void_type;
+							if(dstType->GetType()==BasicTypeRecord::Primitive)
+							{
+								if(srcType->GetType()==BasicTypeRecord::Primitive)
+								{
+									if(argument.configuration.CanExplicitConvertTo(srcPrimitive, dstPrimitive))
+									{
+										return dstType;
+									}
+								}
+								else if(srcType->GetType()==BasicTypeRecord::Pointer)
+								{
+									if(dstPrimitive==int_type || dstPrimitive==uint_type)
+									{
+										return dstType;
+									}
+								}
+							}
+							else if(dstType->GetType()==BasicTypeRecord::Pointer)
+							{
+								if(srcType->GetType()==BasicTypeRecord::Primitive)
+								{
+									if(srcPrimitive==int_type || srcPrimitive==uint_type)
+									{
+										return dstType;
+									}
+								}
+								else if(srcType->GetType()==BasicTypeRecord::Pointer)
+								{
+									return dstType;
+								}
+							}
+						}
+						argument.errors.Add(BasicLanguageCodeException::GetFailToCast(node));
+						return 0;
+					}
+					catch(Ptr<BasicLanguageCodeException> e)
+					{
+						argument.errors.Add(e);
+						return 0;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					return 0;
+					BasicTypeRecord* type=argument.scope->variables.Find(node->name);
+					if(!type)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetVariableNotExists(node));
+					}
+					return type;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

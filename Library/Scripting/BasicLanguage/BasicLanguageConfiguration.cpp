@@ -29,7 +29,7 @@ BasicAlgorithmParameter
 				enableSubscribeOnPointer=true;
 			}
 
-			bool BasicAlgorithmConfiguration::DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes)
+			bool BasicAlgorithmConfiguration::DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes)const
 			{
 				switch(type)
 				{
@@ -103,7 +103,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes)
+			bool BasicAlgorithmConfiguration::EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes)const
 			{
 				switch(bytes)
 				{
@@ -124,7 +124,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes)
+			bool BasicAlgorithmConfiguration::DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes)const
 			{
 				switch(type)
 				{
@@ -139,7 +139,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes)
+			bool BasicAlgorithmConfiguration::EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes)const
 			{
 				switch(bytes)
 				{
@@ -154,7 +154,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)
+			bool BasicAlgorithmConfiguration::CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)const
 			{
 				if(from==to)return true;
 				switch(from)
@@ -266,7 +266,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)
+			bool BasicAlgorithmConfiguration::CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)const
 			{
 				switch(from)
 				{
@@ -339,13 +339,13 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::BooleanUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::BooleanUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const
 			{
 				result=bool_type;
 				return CanImplicitConvertTo(operand, bool_type);
 			}
 
-			bool BasicAlgorithmConfiguration::IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const
 			{
 				bool sign=false;
 				int bytes=0;
@@ -360,7 +360,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const
 			{
 				bool sign=false;
 				int bytes=0;
@@ -380,13 +380,13 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::BooleanBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::BooleanBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const
 			{
 				result=bool_type;
 				return CanImplicitConvertTo(left, bool_type) && CanImplicitConvertTo(right, bool_type);
 			}
 
-			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result)const
 			{
 				switch(integerOperationConversion)
 				{
@@ -404,7 +404,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const
 			{
 				bool leftSign=false;
 				bool rightSign=false;
@@ -420,7 +420,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::NumberBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)
+			bool BasicAlgorithmConfiguration::NumberBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const
 			{
 				bool leftSign=false;
 				bool rightSign=false;
