@@ -765,11 +765,23 @@
 						Name="Header Files"
 						>
 						<File
-							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.h"
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageConfiguration.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageException.h"
 							>
 						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageScopeManager.h"
 							>
 						</File>
 						<File
@@ -785,11 +797,23 @@
 						Name="Source Files"
 						>
 						<File
-							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.cpp"
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageConfiguration.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageException.cpp"
 							>
 						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageScopeManager.cpp"
 							>
 						</File>
 						<File

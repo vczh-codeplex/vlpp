@@ -2,7 +2,7 @@
 #include "..\..\Library\Function.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGenerator.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
 
 using namespace vl;
 using namespace vl::collections;
