@@ -37,6 +37,7 @@ namespace vl
 				bool		enableImplicitIntegerToFloatConversion;
 				bool		enableImplicitHighToLowPrecisionConversion;
 				bool		enableImplicitSignedToUnsignedConversion;
+				bool		enableImplicitUnsignedToSignedConversion;
 				bool		enableSubscribeOnPointer;
 
 				BasicAlgorithmConfiguration();

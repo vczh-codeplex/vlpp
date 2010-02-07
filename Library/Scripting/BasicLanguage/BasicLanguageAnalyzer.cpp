@@ -915,10 +915,6 @@ BasicLanguage_GetExpressionType
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal)
 
-/***********************************************************************
-BasicLanguage_BuildGlobalScope
-***********************************************************************/
-
 		}
 	}
 }
