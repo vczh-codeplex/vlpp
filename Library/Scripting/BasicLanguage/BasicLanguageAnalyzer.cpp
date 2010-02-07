@@ -37,6 +37,11 @@ BasicSemanticExtension
 				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
 			}
 
+			bool BasicSemanticExtension::IsLeftValue(BasicExtendedExpression* expression, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::IsLeftValue(BasicExtendedExpression*, const BP&)#不支持此操作。");
+			}
+
 			BasicTypeRecord* BasicSemanticExtension::GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
 			{
 				CHECK_ERROR(false, L"BasicSemanticExtension::::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
@@ -300,6 +305,103 @@ BasicLanguage_BuildGlobalScope
 					BasicLanguage_BuildGlobalScopePass2(program->declarations[i], argument);
 				}
 			}
+
+/***********************************************************************
+BasicLanguage_IsLeftValue
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue, BasicExpression, BP, bool)
+
+				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicUnaryExpression)
+				{
+					switch(node->type)
+					{
+					case BasicUnaryExpression::PrefixIncrease:
+					case BasicUnaryExpression::PrefixDecrease:
+					case BasicUnaryExpression::DereferencePointer:
+						return true;
+					default:
+						return false;
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicBinaryExpression)
+				{
+					switch(node->type)
+					{
+					case BasicBinaryExpression::AddAssign:
+					case BasicBinaryExpression::SubAssign:
+					case BasicBinaryExpression::MulAssign:
+					case BasicBinaryExpression::DivAssign:
+					case BasicBinaryExpression::ModAssign:
+					case BasicBinaryExpression::ShlAssign:
+					case BasicBinaryExpression::ShrAssign:
+					case BasicBinaryExpression::AndAssign:
+					case BasicBinaryExpression::OrAssign:
+					case BasicBinaryExpression::XorAssign:
+					case BasicBinaryExpression::Assign:
+						return true;
+					default:
+						return false;
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
+				{
+					return true;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
+				{
+					return true;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
+				{
+					return true;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
+				{
+					return true;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
+				{
+					return argument.semanticExtension->IsLeftValue(node, argument);
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue)
 
 /***********************************************************************
 BasicLanguage_GetExpressionType

@@ -53,6 +53,7 @@ namespace vl
 				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
 				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
 				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
+				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
 				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
 			};
 
@@ -65,6 +66,7 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
 			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue, BasicExpression, BP, bool)
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 		}
 	}
