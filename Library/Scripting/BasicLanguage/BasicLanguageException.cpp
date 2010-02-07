@@ -103,10 +103,48 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(casting, FailToCast, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVoidFunctionDoesNotHaveResult(BasicFunctionResultExpression* result)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVoidFunctionNotHaveResult(BasicFunctionResultExpression* result)
 			{
 				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(result, VoidFunctionDoesNotHaveResult, parameters.Wrap());
+				return new BasicLanguageCodeException(result, VoidFunctionNotHaveResult, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotInvokeNonFunctionValue(BasicInvokeExpression* invoke)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(invoke, CannotInvokeNonFunctionValue, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArgumentNumberNotMatch(BasicInvokeExpression* invoke)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(invoke, ArgumentNumberNotMatch, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, int parameterIndex)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=itow(parameterIndex);
+				return new BasicLanguageCodeException(invoke, ArgumentTypeNotMatch, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberNotExists(BasicMemberExpression* member)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=member->member;
+				return new BasicLanguageCodeException(member, StructureMemberNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotConvertIndexToInt(BasicSubscribeExpression* subscribe)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(subscribe, CannotConvertIndexToInt, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotSubscribe(BasicSubscribeExpression* subscribe)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(subscribe, CannotSubscribe, parameters.Wrap());
 			}
 		}
 	}

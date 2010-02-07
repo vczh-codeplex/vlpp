@@ -24,14 +24,20 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					TypeNameNotExists,
-					FunctionAlreadyExists,
-					VariableAlreadyExists,
-					TypeAlreadyExists,
-					StructureMemberAlreadyExists,
-					VariableNotExists,
+					TypeNameNotExists,				//name
+					FunctionAlreadyExists,			//name
+					VariableAlreadyExists,			//name
+					TypeAlreadyExists,				//name
+					StructureMemberAlreadyExists,	//member name
+					VariableNotExists,				//name
 					FailToCast,
-					VoidFunctionDoesNotHaveResult,
+					VoidFunctionNotHaveResult,
+					CannotInvokeNonFunctionValue,
+					ArgumentNumberNotMatch,
+					ArgumentTypeNotMatch,			//parameter index
+					StructureMemberNotExists,		//member name
+					CannotConvertIndexToInt,
+					CannotSubscribe,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -54,7 +60,13 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex);
 				static Ptr<BasicLanguageCodeException>							GetVariableNotExists(BasicReferenceExpression* variable);
 				static Ptr<BasicLanguageCodeException>							GetFailToCast(BasicCastingExpression* casting);
-				static Ptr<BasicLanguageCodeException>							GetVoidFunctionDoesNotHaveResult(BasicFunctionResultExpression* result);
+				static Ptr<BasicLanguageCodeException>							GetVoidFunctionNotHaveResult(BasicFunctionResultExpression* result);
+				static Ptr<BasicLanguageCodeException>							GetCannotInvokeNonFunctionValue(BasicInvokeExpression* invoke);
+				static Ptr<BasicLanguageCodeException>							GetArgumentNumberNotMatch(BasicInvokeExpression* invoke);
+				static Ptr<BasicLanguageCodeException>							GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, int parameterIndex);
+				static Ptr<BasicLanguageCodeException>							GetStructureMemberNotExists(BasicMemberExpression* member);
+				static Ptr<BasicLanguageCodeException>							GetCannotConvertIndexToInt(BasicSubscribeExpression* subscribe);
+				static Ptr<BasicLanguageCodeException>							GetCannotSubscribe(BasicSubscribeExpression* subscribe);
 			};
 		}
 	}

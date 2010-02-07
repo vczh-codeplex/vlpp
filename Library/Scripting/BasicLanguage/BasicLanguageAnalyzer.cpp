@@ -324,6 +324,26 @@ BasicLanguage_GetExpressionType
 				return type;
 			}
 
+			bool CanImplicitConvertTo(BasicTypeRecord* from, BasicTypeRecord* to, const BP& argument)
+			{
+				if(from==to)
+				{
+					return true;
+				}
+				else if(from->GetType()==BasicTypeRecord::Primitive && to->GetType()==BasicTypeRecord::Primitive)
+				{
+					return argument.configuration.CanImplicitConvertTo(from->PrimitiveType(), to->PrimitiveType());
+				}
+				else if(from->GetType()==BasicTypeRecord::Pointer && to->GetType()==BasicTypeRecord::Pointer)
+				{
+					return from->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+				}
+				else
+				{
+					return false;
+				}
+			}
+
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
@@ -358,17 +378,82 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
 				{
+					BasicTypeRecord* operandType=BasicLanguage_GetExpressionType(node->operand, argument);
+					BasicTypeRecord* indexType=BasicLanguage_GetExpressionType(node->subscribe, argument);
+					if(operandType && indexType)
+					{
+						if(indexType->GetType()!=BasicTypeRecord::Primitive || !argument.configuration.CanImplicitConvertTo(indexType->PrimitiveType(), int_type))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetCannotConvertIndexToInt(node));
+						}
+						if(operandType->GetType()==BasicTypeRecord::Array)
+						{
+							return operandType->ElementType();
+						}
+						else if(operandType->GetType()==BasicTypeRecord::Pointer && argument.configuration.enableSubscribeOnPointer)
+						{
+							return operandType->ElementType();
+						}
+						argument.errors.Add(BasicLanguageCodeException::GetCannotSubscribe(node));
+					}
 					return 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
 				{
+					BasicTypeRecord* structure=BasicLanguage_GetExpressionType(node->operand, argument);
+					if(structure)
+					{
+						if(node->pointerMember)
+						{
+							if(structure->GetType()!=BasicTypeRecord::Pointer)
+							{
+								return 0;
+							}
+							structure=structure->ElementType();
+						}
+						if(structure->GetType()==BasicTypeRecord::Structure)
+						{
+							BasicTypeRecord* member=structure->MemberType(node->member);
+							if(!member)
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetStructureMemberNotExists(node));
+							}
+							return member;
+						}
+					}
 					return 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
 				{
-					return 0;
+					BasicTypeRecord* function=BasicLanguage_GetExpressionType(node->function, argument);
+					if(function==0)
+					{
+						return 0;
+					}
+					if(function->GetType()!=BasicTypeRecord::Function)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetCannotInvokeNonFunctionValue(node));
+						return 0;
+					}
+					if(function->ParameterCount()!=node->arguments.Count())
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetArgumentNumberNotMatch(node));
+						return function->ReturnType();
+					}
+					for(int i=0;i<node->arguments.Count();i++)
+					{
+						BasicTypeRecord* argumentType=BasicLanguage_GetExpressionType(node->arguments[i], argument);
+						if(argumentType!=0)
+						{
+							if(!CanImplicitConvertTo(argumentType, function->ParameterType(i), argument))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetArgumentTypeNotMatch(node, i));
+							}
+						}
+					}
+					return function->ReturnType();
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
@@ -376,7 +461,7 @@ BasicLanguage_GetExpressionType
 					BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration())->ReturnType();
 					if(returnType->GetType()==BasicTypeRecord::Primitive && returnType->PrimitiveType()==void_type)
 					{
-						argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionDoesNotHaveResult(node));
+						argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionNotHaveResult(node));
 						return 0;
 					}
 					else
