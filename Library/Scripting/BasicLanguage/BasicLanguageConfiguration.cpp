@@ -17,7 +17,6 @@ BasicAlgorithmParameter
 				treatCharacterAsInteger=false;
 				treatCharAsSignedInteger=true;
 				treatWCharAsSignedInteger=false;
-				treatZeroAsNull=false;
 				enablePointerArithmetic=true;
 				enableImplicitBooleanToIntegerConversion=false;
 				enableImplicitIntegerToBooleanConversion=false;

@@ -184,7 +184,8 @@ BasicStructureTypeRecord
 
 			BasicTypeRecord* BasicStructureTypeRecord::MemberType(const WString& name)
 			{
-				return types[names.IndexOf(name)];
+				int index=names.IndexOf(name);
+				return index==-1?0:types[index];
 			}
 
 			const WString& BasicStructureTypeRecord::MemberName(int index)

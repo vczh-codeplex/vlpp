@@ -29,7 +29,6 @@ namespace vl
 				bool		treatCharacterAsInteger;
 				bool		treatCharAsSignedInteger;
 				bool		treatWCharAsSignedInteger;
-				bool		treatZeroAsNull;
 				bool		enablePointerArithmetic;
 				bool		enableImplicitBooleanToIntegerConversion;
 				bool		enableImplicitIntegerToBooleanConversion;
