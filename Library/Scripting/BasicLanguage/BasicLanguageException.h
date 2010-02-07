@@ -38,6 +38,8 @@ namespace vl
 					StructureMemberNotExists,		//member name
 					CannotConvertIndexToInt,
 					CannotSubscribe,
+					UnaryOperandShouldBeLeftValue,
+					UnaryTypeNotMatch,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -67,6 +69,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberNotExists(BasicMemberExpression* member);
 				static Ptr<BasicLanguageCodeException>							GetCannotConvertIndexToInt(BasicSubscribeExpression* subscribe);
 				static Ptr<BasicLanguageCodeException>							GetCannotSubscribe(BasicSubscribeExpression* subscribe);
+				static Ptr<BasicLanguageCodeException>							GetUnaryOperandShouldBeLeftValue(BasicUnaryExpression* unary);
+				static Ptr<BasicLanguageCodeException>							GetUnaryTypeNotMatch(BasicUnaryExpression* unary);
 			};
 		}
 	}

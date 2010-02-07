@@ -470,6 +470,62 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicUnaryExpression)
 				{
+					BasicTypeRecord* operandType=BasicLanguage_GetExpressionType(node->operand, argument);
+					if(operandType) 
+					switch(node->type)
+					{
+					case BasicUnaryExpression::PrefixIncrease:
+					case BasicUnaryExpression::PrefixDecrease:
+					case BasicUnaryExpression::PostfixIncrease:
+					case BasicUnaryExpression::PostfixDecrease:
+						if(!BasicLanguage_IsLeftValue(node->operand, argument))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
+						}
+					case BasicUnaryExpression::BitNot:
+						if(operandType->GetType()==BasicTypeRecord::Primitive)
+						{
+							BasicPrimitiveTypeEnum result=void_type;
+							if(argument.configuration.IntegerUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+							{
+								return argument.typeManager->GetPrimitiveType(result);
+							}
+						}
+						break;
+					case BasicUnaryExpression::GetAddress:
+						if(!BasicLanguage_IsLeftValue(node->operand, argument))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
+						}
+						return argument.typeManager->GetPointerType(operandType);
+					case BasicUnaryExpression::DereferencePointer:
+						if(operandType->GetType()==BasicTypeRecord::Pointer)
+						{
+							return operandType->ElementType();
+						}
+						break;
+					case BasicUnaryExpression::Negative:
+						if(operandType->GetType()==BasicTypeRecord::Primitive)
+						{
+							BasicPrimitiveTypeEnum result=void_type;
+							if(argument.configuration.NumberUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+							{
+								return argument.typeManager->GetPrimitiveType(result);
+							}
+						}
+						break;
+					case BasicUnaryExpression::Not:
+						if(operandType->GetType()==BasicTypeRecord::Primitive)
+						{
+							BasicPrimitiveTypeEnum result=void_type;
+							if(argument.configuration.BooleanUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+							{
+								return argument.typeManager->GetPrimitiveType(result);
+							}
+						}
+						break;
+					}
+					argument.errors.Add(BasicLanguageCodeException::GetUnaryTypeNotMatch(node));
 					return 0;
 				}
 

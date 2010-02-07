@@ -146,6 +146,18 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(subscribe, CannotSubscribe, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(BasicUnaryExpression* unary)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(unary, UnaryOperandShouldBeLeftValue, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetUnaryTypeNotMatch(BasicUnaryExpression* unary)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(unary, UnaryTypeNotMatch, parameters.Wrap());
+			}
 		}
 	}
 }
