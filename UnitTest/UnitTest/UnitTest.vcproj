@@ -216,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestScripting_BasicLanguage_Configuration.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestStream.cpp"
 				>
 			</File>

@@ -25,6 +25,7 @@ BasicAlgorithmParameter
 				enableImplicitIntegerToFloatConversion=false;
 				enableImplicitHighToLowPrecisionConversion=false;
 				enableImplicitSignedToUnsignedConversion=false;
+				enableImplicitUnsignedToSignedConversion=false;
 				enableSubscribeOnPointer=true;
 			}
 
@@ -155,7 +156,7 @@ BasicAlgorithmParameter
 
 			bool BasicAlgorithmConfiguration::CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)const
 			{
-				if(from==to)return true;
+				if(from==to)return from!=void_type;
 				switch(from)
 				{
 				case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
@@ -175,6 +176,10 @@ BasicAlgorithmParameter
 								if(DecodeInteger(to, toSign, toBytes))
 								{
 									if(!enableImplicitSignedToUnsignedConversion && fromSign && !toSign)
+									{
+										return false;
+									}
+									else if(!enableImplicitUnsignedToSignedConversion && !fromSign && toSign)
 									{
 										return false;
 									}
@@ -310,7 +315,7 @@ BasicAlgorithmParameter
 						case f32:case f64:
 							return treatCharacterAsInteger || enableImplicitIntegerToFloatConversion;
 						case char_type:case wchar_type:
-							return treatCharacterAsInteger;
+							return treatCharacterAsInteger || from==to;
 						case bool_type:
 							return treatCharacterAsInteger || enableImplicitIntegerToBooleanConversion;
 						default:
@@ -326,9 +331,9 @@ BasicAlgorithmParameter
 						case f32:case f64:
 							return enableImplicitBooleanToIntegerConversion;
 						case char_type:case wchar_type:
-							return enableImplicitBooleanToIntegerConversion;
-						case bool_type:
 							return enableImplicitBooleanToIntegerConversion && treatCharacterAsInteger;
+						case bool_type:
+							return true;
 						default:
 							return false;
 						}
