@@ -398,10 +398,10 @@ BasicAlgorithmParameter
 					EncodeInteger(result, leftSign, leftBytes);
 					return leftSign==rightSign && leftBytes==rightBytes;
 				case SameSignConversion:
-					EncodeInteger(result, (leftSign==rightSign?true:leftSign), leftBytes);
+					EncodeInteger(result, (leftSign!=rightSign?true:leftSign), leftBytes);
 					return leftBytes==rightBytes;
 				case FreeConversion:
-					EncodeInteger(result, (leftSign==rightSign?true:leftSign), (leftBytes>rightBytes?leftBytes:rightBytes));
+					EncodeInteger(result, (leftSign!=rightSign?true:leftSign), (leftBytes>rightBytes?leftBytes:rightBytes));
 					return true;
 				default:
 					return false;
@@ -438,7 +438,7 @@ BasicAlgorithmParameter
 					}
 					else if(DecodeFloat(right, rightBytes))
 					{
-						result=f64;
+						EncodeFloat(result, (leftBytes>rightBytes?leftBytes:rightBytes));
 						return enableImplicitIntegerToFloatConversion;
 					}
 				}
@@ -446,7 +446,7 @@ BasicAlgorithmParameter
 				{
 					if(DecodeInteger(right, rightSign, rightBytes))
 					{
-						result=f64;
+						EncodeFloat(result, (leftBytes>rightBytes?leftBytes:rightBytes));
 						return enableImplicitIntegerToFloatConversion;
 					}
 					else if(DecodeFloat(right, rightBytes))
