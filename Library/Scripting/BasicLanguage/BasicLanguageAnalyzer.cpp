@@ -446,6 +446,22 @@ BasicLanguage_GetExpressionType
 				}
 			}
 
+			BasicTypeRecord* AdjustBinaryResult(bool isAssignment, BasicPrimitiveTypeEnum result, BasicPrimitiveTypeEnum leftPrimitive, BasicBinaryExpression* node, const BP& argument)
+			{
+				if(isAssignment)
+				{
+					if(!argument.configuration.CanImplicitConvertTo(result, leftPrimitive))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+					}
+					return argument.typeManager->GetPrimitiveType(leftPrimitive);
+				}
+				else
+				{
+					return argument.typeManager->GetPrimitiveType(result);
+				}
+			}
+
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
@@ -472,65 +488,267 @@ BasicLanguage_GetExpressionType
 				{
 					BasicTypeRecord* operandType=BasicLanguage_GetExpressionType(node->operand, argument);
 					if(operandType) 
-					switch(node->type)
 					{
-					case BasicUnaryExpression::PrefixIncrease:
-					case BasicUnaryExpression::PrefixDecrease:
-					case BasicUnaryExpression::PostfixIncrease:
-					case BasicUnaryExpression::PostfixDecrease:
-						if(!BasicLanguage_IsLeftValue(node->operand, argument))
+						switch(node->type)
 						{
-							argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
-						}
-					case BasicUnaryExpression::BitNot:
-						if(operandType->GetType()==BasicTypeRecord::Primitive)
-						{
-							BasicPrimitiveTypeEnum result=void_type;
-							if(argument.configuration.IntegerUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+						case BasicUnaryExpression::PrefixIncrease:
+						case BasicUnaryExpression::PrefixDecrease:
+						case BasicUnaryExpression::PostfixIncrease:
+						case BasicUnaryExpression::PostfixDecrease:
+							if(!BasicLanguage_IsLeftValue(node->operand, argument))
 							{
-								return argument.typeManager->GetPrimitiveType(result);
+								argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
 							}
-						}
-						break;
-					case BasicUnaryExpression::GetAddress:
-						if(!BasicLanguage_IsLeftValue(node->operand, argument))
-						{
-							argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
-						}
-						return argument.typeManager->GetPointerType(operandType);
-					case BasicUnaryExpression::DereferencePointer:
-						if(operandType->GetType()==BasicTypeRecord::Pointer)
-						{
-							return operandType->ElementType();
-						}
-						break;
-					case BasicUnaryExpression::Negative:
-						if(operandType->GetType()==BasicTypeRecord::Primitive)
-						{
-							BasicPrimitiveTypeEnum result=void_type;
-							if(argument.configuration.NumberUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+						case BasicUnaryExpression::BitNot:
+							if(operandType->GetType()==BasicTypeRecord::Primitive)
 							{
-								return argument.typeManager->GetPrimitiveType(result);
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.IntegerUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+								{
+									return argument.typeManager->GetPrimitiveType(result);
+								}
 							}
-						}
-						break;
-					case BasicUnaryExpression::Not:
-						if(operandType->GetType()==BasicTypeRecord::Primitive)
-						{
-							BasicPrimitiveTypeEnum result=void_type;
-							if(argument.configuration.BooleanUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+							break;
+						case BasicUnaryExpression::GetAddress:
+							if(!BasicLanguage_IsLeftValue(node->operand, argument))
 							{
-								return argument.typeManager->GetPrimitiveType(result);
+								argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
 							}
+							return argument.typeManager->GetPointerType(operandType);
+						case BasicUnaryExpression::DereferencePointer:
+							if(operandType->GetType()==BasicTypeRecord::Pointer)
+							{
+								return operandType->ElementType();
+							}
+							break;
+						case BasicUnaryExpression::Negative:
+							if(operandType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.NumberUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+								{
+									return argument.typeManager->GetPrimitiveType(result);
+								}
+							}
+							break;
+						case BasicUnaryExpression::Not:
+							if(operandType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.BooleanUnaryOperatorTypeConversion(operandType->PrimitiveType(), result))
+								{
+									return argument.typeManager->GetPrimitiveType(result);
+								}
+							}
+							break;
 						}
-						break;
+						argument.errors.Add(BasicLanguageCodeException::GetUnaryTypeNotMatch(node));
 					}
-					argument.errors.Add(BasicLanguageCodeException::GetUnaryTypeNotMatch(node));
 					return 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicBinaryExpression)
 				{
+					BasicTypeRecord* leftType=BasicLanguage_GetExpressionType(node->leftOperand, argument);
+					BasicTypeRecord* rightType=BasicLanguage_GetExpressionType(node->rightOperand, argument);
+					if(leftType && rightType)
+					{
+						bool isAssignment=false;
+						switch(node->type)
+						{
+						case BasicBinaryExpression::AddAssign:
+						case BasicBinaryExpression::SubAssign:
+						case BasicBinaryExpression::MulAssign:
+						case BasicBinaryExpression::DivAssign:
+						case BasicBinaryExpression::ModAssign:
+						case BasicBinaryExpression::ShlAssign:
+						case BasicBinaryExpression::ShrAssign:
+						case BasicBinaryExpression::AndAssign:
+						case BasicBinaryExpression::OrAssign:
+						case BasicBinaryExpression::XorAssign:
+						case BasicBinaryExpression::Assign:
+							isAssignment=true;
+							if(!BasicLanguage_IsLeftValue(node->leftOperand, argument))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetBinaryLeftOperandShouldBeLeftValue(node));
+							}
+						}
+						switch(node->type)
+						{
+						case BasicBinaryExpression::AddAssign:
+						case BasicBinaryExpression::Add:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.NumberBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							else if(leftType->GetType()==BasicTypeRecord::Pointer && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								if(leftType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+								{
+									if(argument.configuration.CanImplicitConvertTo(rightType->PrimitiveType(), int_type))
+									{
+										return leftType;
+									}
+								}
+							}
+							else if(!isAssignment && leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Pointer)
+							{
+								if(rightType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+								{
+									if(argument.configuration.CanImplicitConvertTo(leftType->PrimitiveType(), int_type))
+									{
+										return rightType;
+									}
+								}
+							}
+							break;
+						case BasicBinaryExpression::SubAssign:
+						case BasicBinaryExpression::Sub:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.NumberBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							else if(leftType->GetType()==BasicTypeRecord::Pointer && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								if(leftType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+								{
+									if(argument.configuration.CanImplicitConvertTo(rightType->PrimitiveType(), int_type))
+									{
+										return leftType;
+									}
+								}
+							}
+							else if(!isAssignment && leftType->GetType()==BasicTypeRecord::Pointer && rightType->GetType()==BasicTypeRecord::Pointer)
+							{
+								if(leftType->ElementType()==rightType->ElementType() && leftType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+								{
+									return argument.typeManager->GetPrimitiveType(int_type);
+								}
+							}
+							break;
+						case BasicBinaryExpression::MulAssign:
+						case BasicBinaryExpression::DivAssign:
+						case BasicBinaryExpression::Mul:
+						case BasicBinaryExpression::Div:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.NumberBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							break;
+						case BasicBinaryExpression::ModAssign:
+						case BasicBinaryExpression::ShlAssign:
+						case BasicBinaryExpression::ShrAssign:
+						case BasicBinaryExpression::Mod:
+						case BasicBinaryExpression::Shl:
+						case BasicBinaryExpression::Shr:
+						case BasicBinaryExpression::BitAnd:
+						case BasicBinaryExpression::BitOr:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.IntegerBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							break;
+						case BasicBinaryExpression::AndAssign:
+						case BasicBinaryExpression::OrAssign:
+						case BasicBinaryExpression::And:
+						case BasicBinaryExpression::Or:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								if(argument.configuration.BooleanBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							break;
+						case BasicBinaryExpression::XorAssign:
+						case BasicBinaryExpression::Xor:
+							if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+							{
+								BasicPrimitiveTypeEnum leftPrimitive=leftType->PrimitiveType();
+								BasicPrimitiveTypeEnum rightPrimitive=rightType->PrimitiveType();
+								BasicPrimitiveTypeEnum result=void_type;
+								bool failed=false;
+								if(leftPrimitive==bool_type && rightPrimitive==bool_type)
+								{
+									result=bool_type;
+								}
+								else if(!argument.configuration.IntegerBinaryOperatorTypeConversion(leftPrimitive, rightPrimitive, result))
+								{
+									failed=true;
+								}
+								if(!failed)
+								{
+									return AdjustBinaryResult(isAssignment, result, leftPrimitive, node, argument);
+								}
+							}
+							break;
+						case BasicBinaryExpression::Lt:
+						case BasicBinaryExpression::Le:
+						case BasicBinaryExpression::Gt:
+						case BasicBinaryExpression::Ge:
+						case BasicBinaryExpression::Eq:
+						case BasicBinaryExpression::Ne:
+							if(leftType->GetType()==rightType->GetType())
+							{
+								switch(leftType->GetType())
+								{
+								case BasicTypeRecord::Primitive:
+									{
+										BasicPrimitiveTypeEnum result=void_type;
+										if(!argument.configuration.NumberBinaryOperatorTypeConversion(leftType->PrimitiveType(), rightType->PrimitiveType(), result))
+										{
+											argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+										}
+									}
+									break;
+								case BasicTypeRecord::Pointer:
+									if(leftType->ElementType()!=rightType->ElementType() &&
+										leftType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type) &&
+										rightType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+									{
+										argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+									}
+									break;
+								}
+								return argument.typeManager->GetPrimitiveType(bool_type);
+							}
+							break;
+						case BasicBinaryExpression::Assign:
+							if(CanImplicitConvertTo(rightType, leftType, argument))
+							{
+								return leftType;
+							}
+							break;
+						}
+						argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+					}
 					return 0;
 				}
 

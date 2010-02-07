@@ -40,6 +40,8 @@ namespace vl
 					CannotSubscribe,
 					UnaryOperandShouldBeLeftValue,
 					UnaryTypeNotMatch,
+					BinaryLeftOperandShouldBeLeftValue,
+					BinaryTypeNotMatch,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -71,6 +73,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetCannotSubscribe(BasicSubscribeExpression* subscribe);
 				static Ptr<BasicLanguageCodeException>							GetUnaryOperandShouldBeLeftValue(BasicUnaryExpression* unary);
 				static Ptr<BasicLanguageCodeException>							GetUnaryTypeNotMatch(BasicUnaryExpression* unary);
+				static Ptr<BasicLanguageCodeException>							GetBinaryLeftOperandShouldBeLeftValue(BasicBinaryExpression* binary);
+				static Ptr<BasicLanguageCodeException>							GetBinaryTypeNotMatch(BasicBinaryExpression* binary);
 			};
 		}
 	}

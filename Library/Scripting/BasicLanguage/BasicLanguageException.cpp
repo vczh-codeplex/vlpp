@@ -158,6 +158,18 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(unary, UnaryTypeNotMatch, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetBinaryLeftOperandShouldBeLeftValue(BasicBinaryExpression* binary)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(binary, BinaryLeftOperandShouldBeLeftValue, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetBinaryTypeNotMatch(BasicBinaryExpression* binary)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(binary, BinaryTypeNotMatch, parameters.Wrap());
+			}
 		}
 	}
 }
