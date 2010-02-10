@@ -555,49 +555,13 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(unsigned __int8 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
-				result->type=s8;
-				result->argument.s64=0;
-				result->argument.s8=value;
-				return result;
-			}
-
-			BasicExpressionNode e_prim(unsigned __int16 value)
-			{
-				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
-				result->type=s16;
-				result->argument.s64=0;
-				result->argument.s16=value;
-				return result;
-			}
-
-			BasicExpressionNode e_prim(unsigned __int32 value)
-			{
-				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
-				result->type=s32;
-				result->argument.s64=0;
-				result->argument.s32=value;
-				return result;
-			}
-
-			BasicExpressionNode e_prim(unsigned __int64 value)
-			{
-				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
-				result->type=s64;
-				result->argument.s64=0;
-				result->argument.s64=value;
-				return result;
-			}
-
-			BasicExpressionNode e_prim(signed __int8 value)
-			{
-				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
 				result->type=u8;
 				result->argument.s64=0;
 				result->argument.u8=value;
 				return result;
 			}
 
-			BasicExpressionNode e_prim(signed __int16 value)
+			BasicExpressionNode e_prim(unsigned __int16 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
 				result->type=u16;
@@ -606,7 +570,7 @@ BasicExpressionNode
 				return result;
 			}
 
-			BasicExpressionNode e_prim(signed __int32 value)
+			BasicExpressionNode e_prim(unsigned __int32 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
 				result->type=u32;
@@ -615,12 +579,48 @@ BasicExpressionNode
 				return result;
 			}
 
-			BasicExpressionNode e_prim(signed __int64 value)
+			BasicExpressionNode e_prim(unsigned __int64 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
 				result->type=u64;
 				result->argument.s64=0;
 				result->argument.u64=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(signed __int8 value)
+			{
+				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->type=s8;
+				result->argument.s64=0;
+				result->argument.s8=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(signed __int16 value)
+			{
+				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->type=s16;
+				result->argument.s64=0;
+				result->argument.s16=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(signed __int32 value)
+			{
+				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->type=s32;
+				result->argument.s64=0;
+				result->argument.s32=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(signed __int64 value)
+			{
+				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->type=s64;
+				result->argument.s64=0;
+				result->argument.s64=value;
 				return result;
 			}
 
@@ -677,6 +677,20 @@ BasicExpressionNode
 			}
 
 			BasicExpressionNode e_prim(const AString& value)
+			{
+				Ptr<BasicMbcsStringExpression> result=new BasicMbcsStringExpression;
+				result->value=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(const wchar_t* value)
+			{
+				Ptr<BasicUnicodeStringExpression> result=new BasicUnicodeStringExpression;
+				result->value=value;
+				return result;
+			}
+
+			BasicExpressionNode e_prim(const char* value)
 			{
 				Ptr<BasicMbcsStringExpression> result=new BasicMbcsStringExpression;
 				result->value=value;

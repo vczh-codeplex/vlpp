@@ -424,3 +424,55 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(bExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_uint().GetInternalValue(), argumentExpression));
 	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression));
 }
+
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+
+	Ptr<BasicExpression> intExpr=e_prim((signed int)0).GetInternalValue();
+	Ptr<BasicExpression> uintExpr=e_prim((unsigned int)0).GetInternalValue();
+	Ptr<BasicExpression> s8Expr=e_prim((signed __int8)0).GetInternalValue();
+	Ptr<BasicExpression> u8Expr=e_prim((unsigned __int8)0).GetInternalValue();
+	Ptr<BasicExpression> s16Expr=e_prim((signed __int16)0).GetInternalValue();
+	Ptr<BasicExpression> u16Expr=e_prim((unsigned __int16)0).GetInternalValue();
+	Ptr<BasicExpression> s32Expr=e_prim((signed __int32)0).GetInternalValue();
+	Ptr<BasicExpression> u32Expr=e_prim((unsigned __int32)0).GetInternalValue();
+	Ptr<BasicExpression> s64Expr=e_prim((signed __int64)0).GetInternalValue();
+	Ptr<BasicExpression> u64Expr=e_prim((unsigned __int64)0).GetInternalValue();
+	Ptr<BasicExpression> f32Expr=e_prim((float)0).GetInternalValue();
+	Ptr<BasicExpression> f64Expr=e_prim((double)0).GetInternalValue();
+	Ptr<BasicExpression> charExpr=e_prim('a').GetInternalValue();
+	Ptr<BasicExpression> wcharExpr=e_prim(L'a').GetInternalValue();
+	Ptr<BasicExpression> boolExpr1=e_prim(true).GetInternalValue();
+	Ptr<BasicExpression> boolExpr2=e_prim(false).GetInternalValue();
+	Ptr<BasicExpression> astrExpr1=e_prim("vczh").GetInternalValue();
+	Ptr<BasicExpression> wstrExpr1=e_prim(L"vczh").GetInternalValue();
+	Ptr<BasicExpression> astrExpr2=e_prim(AString("vczh")).GetInternalValue();
+	Ptr<BasicExpression> wstrExpr2=e_prim(WString(L"vczh")).GetInternalValue();
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(intExpr, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(uintExpr, argument)==tm.GetPrimitiveType(uint_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s8Expr, argument)==tm.GetPrimitiveType(s8));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(u8Expr, argument)==tm.GetPrimitiveType(u8));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s16Expr, argument)==tm.GetPrimitiveType(s16));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(u16Expr, argument)==tm.GetPrimitiveType(u16));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s32Expr, argument)==tm.GetPrimitiveType(s32));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(u32Expr, argument)==tm.GetPrimitiveType(u32));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s64Expr, argument)==tm.GetPrimitiveType(s64));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(u64Expr, argument)==tm.GetPrimitiveType(u64));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(f32Expr, argument)==tm.GetPrimitiveType(f32));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(f64Expr, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(charExpr, argument)==tm.GetPrimitiveType(char_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wcharExpr, argument)==tm.GetPrimitiveType(wchar_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(boolExpr1, argument)==tm.GetPrimitiveType(bool_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(boolExpr2, argument)==tm.GetPrimitiveType(bool_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(astrExpr1, argument)==tm.GetPointerType(tm.GetPrimitiveType(char_type)));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr1, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(astrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(char_type)));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
+}
