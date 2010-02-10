@@ -32,6 +32,7 @@ namespace vl
 					VariableNotExists,				//name
 					FailToCast,
 					VoidFunctionNotHaveResult,
+					GlobalNotHaveResult,
 					CannotInvokeNonFunctionValue,
 					ArgumentNumberNotMatch,
 					ArgumentTypeNotMatch,			//parameter index
@@ -65,6 +66,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetVariableNotExists(BasicReferenceExpression* variable);
 				static Ptr<BasicLanguageCodeException>							GetFailToCast(BasicCastingExpression* casting);
 				static Ptr<BasicLanguageCodeException>							GetVoidFunctionNotHaveResult(BasicFunctionResultExpression* result);
+				static Ptr<BasicLanguageCodeException>							GetGlobalNotHaveResult(BasicFunctionResultExpression* result);
 				static Ptr<BasicLanguageCodeException>							GetCannotInvokeNonFunctionValue(BasicInvokeExpression* invoke);
 				static Ptr<BasicLanguageCodeException>							GetArgumentNumberNotMatch(BasicInvokeExpression* invoke);
 				static Ptr<BasicLanguageCodeException>							GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, int parameterIndex);
