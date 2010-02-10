@@ -136,6 +136,20 @@ BasicTypeNode
 				return result;
 			}
 
+			BasicTypeNode t_char()
+			{
+				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
+				result->type=char_type;
+				return result;
+			}
+
+			BasicTypeNode t_wchar()
+			{
+				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
+				result->type=wchar_type;
+				return result;
+			}
+
 			BasicTypeNode t_void()
 			{
 				Ptr<BasicPrimitiveType> result=new BasicPrimitiveType;
@@ -702,6 +716,11 @@ BasicExpressionNode
 				Ptr<BasicReferenceExpression> result=new BasicReferenceExpression;
 				result->name=name;
 				return result;
+			}
+
+			BasicExpressionNode e_null()
+			{
+				return new BasicNullExpression();
 			}
 
 			BasicExpressionNode e_result()

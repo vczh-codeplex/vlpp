@@ -56,6 +56,8 @@ Type
 			extern BasicTypeNode						t_float();
 			extern BasicTypeNode						t_double();
 			extern BasicTypeNode						t_bool();
+			extern BasicTypeNode						t_char();
+			extern BasicTypeNode						t_wchar();
 			extern BasicTypeNode						t_void();
 			extern BasicTypeNode						t_type(const WString& type);
 			extern BasicTypeNode::ListNode				t_types();
@@ -146,6 +148,7 @@ Expression
 			extern BasicExpressionNode					e_prim(const AString& value);
 			extern BasicExpressionNode					e_prim(const wchar_t* value);
 			extern BasicExpressionNode					e_prim(const char* value);
+			extern BasicExpressionNode					e_null();
 			extern BasicExpressionNode					e_name(const WString& name);
 			extern BasicExpressionNode					e_result();
 			extern BasicExpressionNode::ListNode		e_exps();
