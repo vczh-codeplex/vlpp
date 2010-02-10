@@ -47,8 +47,6 @@ BasicSemanticExtension
 				CHECK_ERROR(false, L"BasicSemanticExtension::::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
 			}
 
-			BasicSemanticExtension defaultSemanticExtension;
-
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
 				BasicEnv* _env,
 				BasicScope* _scope,
@@ -68,6 +66,16 @@ BasicSemanticExtension
 			BasicAlgorithmParameter::BasicAlgorithmParameter(const BasicAlgorithmParameter& bp, BasicScope* _scope)
 				:env(bp.env)
 				,scope(_scope)
+				,typeManager(bp.typeManager)
+				,errors(bp.errors)
+				,forwardStructures(bp.forwardStructures)
+				,semanticExtension(bp.semanticExtension)
+			{
+			}
+
+			BasicAlgorithmParameter::BasicAlgorithmParameter(const BasicAlgorithmParameter& bp)
+				:env(bp.env)
+				,scope(bp.scope)
 				,typeManager(bp.typeManager)
 				,errors(bp.errors)
 				,forwardStructures(bp.forwardStructures)
@@ -900,12 +908,27 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					BasicTypeRecord* type=argument.scope->variables.Find(node->name);
-					if(!type)
+					BasicScope* variableScope=0;
+					BasicScope* functionScope=0;
+					BasicTypeRecord* variableType=argument.scope->variables.Find(node->name, variableScope);
+					BasicTypeRecord* functionType=argument.env->GetFunctionType(argument.scope->functions.Find(node->name, functionScope));
+					if(variableType && functionType)
+					{
+						return variableScope->Level()>functionScope->Level()?variableType:functionType;
+					}
+					else if(variableType)
+					{
+						return variableType;
+					}
+					else if(functionType)
+					{
+						return functionType;
+					}
+					else
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetVariableNotExists(node));
+						return 0;
 					}
-					return type;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

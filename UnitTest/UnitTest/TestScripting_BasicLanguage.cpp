@@ -392,3 +392,35 @@ TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
 	TEST_ASSERT(typeAppend->ParameterType(0)==typePLink);
 	TEST_ASSERT(typeAppend->ParameterType(1)==tm.GetPrimitiveType(int_type));
 }
+
+/***********************************************************************
+BasicLanguage_GetExpressionType
+***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"a");
+	program.DefineFunction(L"b");
+	program.DefineVariable(L"c", t_int());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+	BasicScope* functionScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[0].Obj()));
+	functionScope->variables.Add(L"b", tm.GetPrimitiveType(uint_type));
+	functionScope->variables.Add(L"c", tm.GetPrimitiveType(bool_type));
+
+	Ptr<BasicExpression> aExpr=e_name(L"a").GetInternalValue();
+	Ptr<BasicExpression> bExpr=e_name(L"b").GetInternalValue();
+	Ptr<BasicExpression> cExpr=e_name(L"c").GetInternalValue();
+
+	BP argumentExpression(argument, functionScope);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(aExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_void()(t_types()).GetInternalValue(), argumentExpression));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(bExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_uint().GetInternalValue(), argumentExpression));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression));
+}
