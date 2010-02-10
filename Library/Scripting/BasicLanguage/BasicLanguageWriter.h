@@ -144,6 +144,8 @@ Expression
 			extern BasicExpressionNode					e_prim(wchar_t value);
 			extern BasicExpressionNode					e_prim(const WString& value);
 			extern BasicExpressionNode					e_prim(const AString& value);
+			extern BasicExpressionNode					e_prim(const wchar_t* value);
+			extern BasicExpressionNode					e_prim(const char* value);
 			extern BasicExpressionNode					e_name(const WString& name);
 			extern BasicExpressionNode					e_result();
 			extern BasicExpressionNode::ListNode		e_exps();
