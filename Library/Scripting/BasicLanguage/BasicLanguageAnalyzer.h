@@ -22,10 +22,25 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
-			class BasicSemanticExtension;
+			class BasicAlgorithmParameter;
+			typedef BasicAlgorithmParameter BP;
 
-			typedef class BasicAlgorithmParameter
+			class BasicSemanticExtension : public Object, private NotCopyable
 			{
+			public:
+				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument);
+				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument);
+				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
+				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
+				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
+				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
+				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
+			};
+
+			class BasicAlgorithmParameter
+			{
+			private:
+				BasicSemanticExtension									defaultSemanticExtension;
 			public:
 				BasicEnv*												env;
 				BasicScope*												scope;
@@ -43,18 +58,7 @@ namespace vl
 					collections::SortedList<WString>& _forwardStructures
 					);
 				BasicAlgorithmParameter(const BasicAlgorithmParameter& bp, BasicScope* _scope);
-			} BP;
-
-			class BasicSemanticExtension : public Object, private NotCopyable
-			{
-			public:
-				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument);
-				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument);
-				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
-				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
-				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
-				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
-				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
+				BasicAlgorithmParameter(const BasicAlgorithmParameter& bp);
 			};
 
 /***********************************************************************

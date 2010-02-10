@@ -38,6 +38,18 @@ namespace vl
 			{
 				return relatedScopes.Wrap();
 			}
+
+			int Level()
+			{
+				int level=0;
+				CommonScope<T>* scope=this;
+				while(scope->previousScope)
+				{
+					level++;
+					scope=scope->previousScope;
+				}
+				return level;
+			}
 		};
 
 		template<typename T, typename K, typename V>
