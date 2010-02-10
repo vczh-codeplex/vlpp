@@ -109,6 +109,12 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(result, VoidFunctionNotHaveResult, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGlobalNotHaveResult(BasicFunctionResultExpression* result)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(result, GlobalNotHaveResult, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotInvokeNonFunctionValue(BasicInvokeExpression* invoke)
 			{
 				Array<WString> parameters(0);

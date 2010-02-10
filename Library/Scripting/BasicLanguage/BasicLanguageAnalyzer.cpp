@@ -842,15 +842,23 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
 				{
-					BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration())->ReturnType();
-					if(returnType->GetType()==BasicTypeRecord::Primitive && returnType->PrimitiveType()==void_type)
+					if(argument.scope->OwnerDeclaration()==0)
 					{
-						argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionNotHaveResult(node));
+						argument.errors.Add(BasicLanguageCodeException::GetGlobalNotHaveResult(node));
 						return 0;
 					}
 					else
 					{
-						return returnType;
+						BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration())->ReturnType();
+						if(returnType->GetType()==BasicTypeRecord::Primitive && returnType->PrimitiveType()==void_type)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionNotHaveResult(node));
+							return 0;
+						}
+						else
+						{
+							return returnType;
+						}
 					}
 				}
 

@@ -461,6 +461,35 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicResultExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"a");
+	program.DefineFunction(L"b").Parameter(L"x", t_int()).ReturnType(t_int());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+	BasicScope* aScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[0].Obj()));
+	BasicScope* bScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[1].Obj()));
+
+	Ptr<BasicExpression> globalResult=e_result().GetInternalValue();
+	Ptr<BasicExpression> aResult=e_result().GetInternalValue();
+	Ptr<BasicExpression> bResult=e_result().GetInternalValue();
+
+	BP aArgument(argument, aScope);
+	BP bArgument(argument, bScope);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(globalResult, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(aResult, aArgument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(bResult, bArgument)==tm.GetPrimitiveType(int_type));
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicCastingExpression)
 {
 	BasicEnv env;
