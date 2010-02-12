@@ -461,6 +461,57 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicMemberExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineStructureForward(L"Link");
+	program.DefineRename(L"PLink", *t_type(L"Link"));
+	program.DefineStructure(L"Link")
+		.Member(L"data", t_int())
+		.Member(L"prev", t_type(L"PLink"))
+		.Member(L"next", t_type(L"PLink"));
+	program.DefineVariable(L"plink", t_type(L"PLink"));
+	program.DefineVariable(L"link", t_type(L"Link"));
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	Ptr<BasicExpression> m1=e_name(L"plink").Member(L"data").GetInternalValue();
+	Ptr<BasicExpression> m2=e_name(L"plink").Member(L"prev").GetInternalValue();
+	Ptr<BasicExpression> m3=e_name(L"plink").Member(L"wrong").GetInternalValue();
+	Ptr<BasicExpression> m4=e_name(L"link").Member(L"data").GetInternalValue();
+	Ptr<BasicExpression> m5=e_name(L"link").Member(L"prev").GetInternalValue();
+	Ptr<BasicExpression> m6=e_name(L"link").Member(L"wrong").GetInternalValue();
+	Ptr<BasicExpression> p1=e_name(L"plink").PMember(L"data").GetInternalValue();
+	Ptr<BasicExpression> p2=e_name(L"plink").PMember(L"prev").GetInternalValue();
+	Ptr<BasicExpression> p3=e_name(L"plink").PMember(L"wrong").GetInternalValue();
+	Ptr<BasicExpression> p4=e_name(L"link").PMember(L"data").GetInternalValue();
+	Ptr<BasicExpression> p5=e_name(L"link").PMember(L"prev").GetInternalValue();
+	Ptr<BasicExpression> p6=e_name(L"link").PMember(L"wrong").GetInternalValue();
+	Ptr<BasicExpression> w1=e_prim(0).Member(L"data").GetInternalValue();
+
+	BasicTypeRecord* PLink=BasicLanguage_GetTypeRecord(t_type(L"PLink").GetInternalValue(), argument);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m1, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m2, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m3, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m4, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m5, argument)==PLink);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(m6, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p1, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p2, argument)==PLink);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p3, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p4, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p5, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(p6, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(w1, argument)==0);
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
 {
 	BasicEnv env;
