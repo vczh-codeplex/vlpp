@@ -70,6 +70,7 @@ BasicSemanticExtension
 				,errors(bp.errors)
 				,forwardStructures(bp.forwardStructures)
 				,semanticExtension(bp.semanticExtension)
+				,configuration(bp.configuration)
 			{
 			}
 
@@ -80,6 +81,7 @@ BasicSemanticExtension
 				,errors(bp.errors)
 				,forwardStructures(bp.forwardStructures)
 				,semanticExtension(bp.semanticExtension)
+				,configuration(bp.configuration)
 			{
 			}
 

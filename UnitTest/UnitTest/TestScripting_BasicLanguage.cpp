@@ -461,6 +461,73 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"expd")
+		.Parameter(L"base", t_double())
+		.Parameter(L"exponent", t_double())
+		.ReturnType(t_double());
+	program.DefineFunction(L"expf")
+		.Parameter(L"base", t_float())
+		.Parameter(L"exponent", t_float())
+		.ReturnType(t_float());
+	program.DefineFunction(L"expi")
+		.Parameter(L"base", t_int())
+		.Parameter(L"exponent", t_int())
+		.ReturnType(t_int());
+	program.DefineFunction(L"sin")
+		.Parameter(L"x", t_double())
+		.ReturnType(t_double());
+
+	Ptr<BasicExpression> ddExpr=e_name(L"expd")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
+	Ptr<BasicExpression> dfExpr=e_name(L"expd")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
+	Ptr<BasicExpression> diExpr=e_name(L"expd")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> fdExpr=e_name(L"expf")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
+	Ptr<BasicExpression> ffExpr=e_name(L"expf")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
+	Ptr<BasicExpression> fiExpr=e_name(L"expf")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> idExpr=e_name(L"expi")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
+	Ptr<BasicExpression> ifExpr=e_name(L"expi")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
+	Ptr<BasicExpression> iiExpr=e_name(L"expi")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr1=e_name(L"expvczh")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr2=e_prim(0)(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr3=e_name(L"sin")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(ddExpr, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(dfExpr, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(diExpr, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(fdExpr, argument)==tm.GetPrimitiveType(f32));
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(ffExpr, argument)==tm.GetPrimitiveType(f32));
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(fiExpr, argument)==tm.GetPrimitiveType(f32));
+	TEST_ASSERT(errors.Count()==4);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(idExpr, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(errors.Count()==6);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(ifExpr, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(errors.Count()==8);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(iiExpr, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(errors.Count()==8);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr1, argument)==0);
+	TEST_ASSERT(errors.Count()==9);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr2, argument)==0);
+	TEST_ASSERT(errors.Count()==10);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr3, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==11);
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicResultExpression)
 {
 	BasicEnv env;
