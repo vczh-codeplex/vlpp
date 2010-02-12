@@ -461,6 +461,43 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicSubscribeExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+	
+	BasicProgramNode program;
+	program.DefineVariable(L"pointer", *t_int());
+	program.DefineVariable(L"array", t_double()[10]);
+	program.DefineVariable(L"integer", t_int());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	Ptr<BasicExpression> s1=e_name(L"pointer")[e_prim(0)].GetInternalValue();
+	Ptr<BasicExpression> s2=e_name(L"array")[e_prim(0)].GetInternalValue();
+	Ptr<BasicExpression> s3=e_name(L"integer")[e_prim(0)].GetInternalValue();
+	Ptr<BasicExpression> s4=e_name(L"pointer")[e_null()].GetInternalValue();
+	Ptr<BasicExpression> s5=e_name(L"array")[e_null()].GetInternalValue();
+	Ptr<BasicExpression> s6=e_name(L"integer")[e_null()].GetInternalValue();
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s1, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s2, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s3, argument)==0);
+	TEST_ASSERT(errors.Count()==1);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s4, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s5, argument)==tm.GetPrimitiveType(f64));
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(s6, argument)==0);
+	TEST_ASSERT(errors.Count()==5);
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicMemberExpression)
 {
 	BasicEnv env;
