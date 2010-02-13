@@ -509,6 +509,10 @@ BasicLanguage_GetExpressionType
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetUnaryOperandShouldBeLeftValue(node));
 							}
+							if(operandType->GetType()==BasicTypeRecord::Pointer)
+							{
+								return operandType;
+							}
 						case BasicUnaryExpression::BitNot:
 							if(operandType->GetType()==BasicTypeRecord::Primitive)
 							{
