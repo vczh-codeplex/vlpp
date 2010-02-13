@@ -69,6 +69,13 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(variable, VariableAlreadyExists, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVariableAlreadyExists(BasicVariableStatement* statement)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=statement->name;
+				return new BasicLanguageCodeException(statement, VariableAlreadyExists, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicStructureDeclaration* type)
 			{
 				Array<WString> parameters(1);
@@ -175,6 +182,30 @@ BasicLanguageCodeException
 			{
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(binary, BinaryTypeNotMatch, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConditionCannotConvertToBool(BasicExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, ConditionCannotConvertToBool, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetBreakShouldBeInLooping(BasicBreakStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(statement, BreakShouldBeInLooping, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetContinueShouldBeInLooping(BasicContinueStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(statement, ContinueShouldBeInLooping, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInitializerTypeNotMatch(BasicVariableStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(statement, InitializerTypeNotMatch, parameters.Wrap());
 			}
 		}
 	}

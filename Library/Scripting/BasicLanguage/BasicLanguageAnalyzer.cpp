@@ -12,12 +12,12 @@ namespace vl
 BasicSemanticExtension
 ***********************************************************************/
 
-			Ptr<BasicExpression> BasicSemanticExtension::ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument)
+			Ptr<BasicExpression> BasicSemanticExtension::ReplaceExpression(Ptr<BasicExpression> originalExpression, const BP& argument)
 			{
 				return originalExpression;
 			}
 
-			Ptr<BasicStatement> BasicSemanticExtension::StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument)
+			Ptr<BasicStatement> BasicSemanticExtension::ReplaceStatement(Ptr<BasicExpression> originalStatement, const BP& argument)
 			{
 				return originalStatement;
 			}
@@ -45,6 +45,11 @@ BasicSemanticExtension
 			BasicTypeRecord* BasicSemanticExtension::GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
 			{
 				CHECK_ERROR(false, L"BasicSemanticExtension::::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
+			}
+
+			void BasicSemanticExtension::CheckStatement(BasicExtendedStatement* statement, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::CheckStatement(BasicExtendedStatement*, const BP&)#不支持此操作。");
 			}
 
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
@@ -422,7 +427,7 @@ BasicLanguage_GetExpressionType
 				BasicTypeRecord* type=argument.env->GetExpressionType(expression.Obj());
 				if(!type)
 				{
-					expression=argument.semanticExtension->ExpressionReplacer(expression, argument);
+					expression=argument.semanticExtension->ReplaceExpression(expression, argument);
 					try
 					{
 						type=BasicLanguage_GetExpressionTypeInternal(expression, argument);
@@ -951,6 +956,168 @@ BasicLanguage_GetExpressionType
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal)
+
+/***********************************************************************
+BasicLanguage_GetExpressionType
+***********************************************************************/
+
+			void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument)
+			{
+				statement=argument.semanticExtension->ReplaceStatement(statement, argument);
+				try
+				{
+					BasicLanguage_CheckStatementInternal(statement, argument);
+				}
+				catch(Ptr<BasicLanguageCodeException> e)
+				{
+					argument.errors.Add(e);
+				}
+			}
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal, BasicStatement, BP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
+				{
+					BP newArgument(argument, argument.env->GetStatementScope(node));
+					for(int i=0;i<node->statements.Count();i++)
+					{
+						BasicLanguage_CheckStatement(node->statements[i], newArgument);
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExpressionStatement)
+				{
+					BasicLanguage_GetExpressionType(node->expression, argument);
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
+				{
+					bool wrong=false;
+					BasicTypeRecord* type=0;
+
+					if(argument.scope->variables.Items().Keys().Contains(node->name))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetVariableAlreadyExists(node));
+						wrong=true;
+					}
+
+					try
+					{
+						type=BasicLanguage_GetTypeRecord(node->type, argument);
+					}
+					catch(Ptr<BasicLanguageCodeException> e)
+					{
+						argument.errors.Add(e);
+						wrong=true;
+					}
+
+					if(node->initializer)
+					{
+						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
+						if(type && initializerType)
+						{
+							if(!CanImplicitConvertTo(initializerType, type, argument))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetInitializerTypeNotMatch(node));
+							}
+						}
+					}
+
+					if(!wrong)
+					{
+						argument.scope->variables.Add(node->name, type);
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
+				{
+					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, argument);
+					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
+					}
+					BasicLanguage_CheckStatement(node->trueStatement, argument);
+					if(node->falseStatement)
+					{
+						BasicLanguage_CheckStatement(node->falseStatement, argument);
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
+				{
+					BasicTypeRecord* beginConditionType=BasicLanguage_GetExpressionType(node->beginCondition, argument);
+					if(beginConditionType && !CanImplicitConvertTo(beginConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->beginCondition.Obj()));
+					}
+					
+					BasicTypeRecord* endConditionType=BasicLanguage_GetExpressionType(node->endCondition, argument);
+					if(endConditionType && !CanImplicitConvertTo(endConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->endCondition.Obj()));
+					}
+					
+					BP newArgument(argument, argument.env->GetStatementScope(node));
+					BasicLanguage_CheckStatement(node->statement, argument);
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
+				{
+					BP newArgument(argument, argument.env->GetStatementScope(node));
+
+					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, newArgument);
+					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
+					}
+
+					BasicLanguage_CheckStatement(node->initializer, newArgument);
+					BasicLanguage_CheckStatement(node->sideEffect, newArgument);
+					BasicLanguage_CheckStatement(node->statement, newArgument);
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
+				{
+					BasicScope* scope=argument.scope;
+					while(scope->OwnerStatement())
+					{
+						if(dynamic_cast<BasicWhileStatement*>(scope->OwnerStatement()) || dynamic_cast<BasicForStatement*>(scope->OwnerStatement()))
+						{
+							return;
+						}
+						scope=scope->PreviousScope();
+					}
+					argument.errors.Add(BasicLanguageCodeException::GetBreakShouldBeInLooping(node));
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
+				{
+					BasicScope* scope=argument.scope;
+					while(scope->OwnerStatement())
+					{
+						if(dynamic_cast<BasicWhileStatement*>(scope->OwnerStatement()) || dynamic_cast<BasicForStatement*>(scope->OwnerStatement()))
+						{
+							return;
+						}
+						scope=scope->PreviousScope();
+					}
+					argument.errors.Add(BasicLanguageCodeException::GetContinueShouldBeInLooping(node));
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
+				{
+					argument.semanticExtension->CheckStatement(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal)
 
 		}
 	}
