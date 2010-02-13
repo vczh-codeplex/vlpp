@@ -502,6 +502,114 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicUnaryExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(e9, argument)==tm.GetPointerType(tm.GetPrimitiveType(f32)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineVariable(L"pointer", *t_int());
+	program.DefineVariable(L"integer", t_int());
+	program.DefineVariable(L"float", t_float());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	Ptr<BasicExpression> a1=(e_name(L"pointer")+e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> a2=(e_name(L"pointer")+e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> a3=(e_name(L"pointer")+e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> a4=(e_name(L"integer")+e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> a5=(e_name(L"integer")+e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> a6=(e_name(L"integer")+e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> a7=(e_name(L"float")+e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> a8=(e_name(L"float")+e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> a9=(e_name(L"float")+e_name(L"float")).GetInternalValue();
+
+	Ptr<BasicExpression> b1=(e_name(L"pointer")-e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> b2=(e_name(L"pointer")-e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> b3=(e_name(L"pointer")-e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> b4=(e_name(L"integer")-e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> b5=(e_name(L"integer")-e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> b6=(e_name(L"integer")-e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> b7=(e_name(L"float")-e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> b8=(e_name(L"float")-e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> b9=(e_name(L"float")-e_name(L"float")).GetInternalValue();
+
+	Ptr<BasicExpression> c1=(e_name(L"pointer")+=e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> c2=(e_name(L"pointer")+=e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> c3=(e_name(L"pointer")+=e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> c4=(e_name(L"integer")+=e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> c5=(e_name(L"integer")+=e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> c6=(e_name(L"integer")+=e_name(L"float")).GetInternalValue();
+	Ptr<BasicExpression> c7=(e_name(L"float")+=e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> c8=(e_name(L"float")+=e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> c9=(e_name(L"float")+=e_name(L"float")).GetInternalValue();
+
+	BasicTypeRecord* pointerType=tm.GetPointerType(tm.GetPrimitiveType(int_type));
+	BasicTypeRecord* integerType=tm.GetPrimitiveType(int_type);
+	BasicTypeRecord* floatType=tm.GetPrimitiveType(f32);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a1, argument)==0);
+	TEST_ASSERT(errors.Count()==1);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a2, argument)==pointerType);
+	TEST_ASSERT(errors.Count()==1);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a3, argument)==0);
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a4, argument)==pointerType);
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a5, argument)==integerType);
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a6, argument)==floatType);
+	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a7, argument)==0);
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a8, argument)==floatType);
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a9, argument)==floatType);
+	TEST_ASSERT(errors.Count()==3);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b1, argument)==integerType);
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b2, argument)==pointerType);
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b3, argument)==0);
+	TEST_ASSERT(errors.Count()==4);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b4, argument)==0);
+	TEST_ASSERT(errors.Count()==5);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b5, argument)==integerType);
+	TEST_ASSERT(errors.Count()==5);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b6, argument)==floatType);
+	TEST_ASSERT(errors.Count()==5);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b7, argument)==0);
+	TEST_ASSERT(errors.Count()==6);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b8, argument)==floatType);
+	TEST_ASSERT(errors.Count()==6);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b9, argument)==floatType);
+	TEST_ASSERT(errors.Count()==6);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c1, argument)==0);
+	TEST_ASSERT(errors.Count()==7);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c2, argument)==pointerType);
+	TEST_ASSERT(errors.Count()==7);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c3, argument)==0);
+	TEST_ASSERT(errors.Count()==8);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c4, argument)==0);
+	TEST_ASSERT(errors.Count()==9);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c5, argument)==integerType);
+	TEST_ASSERT(errors.Count()==9);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c6, argument)==integerType);
+	TEST_ASSERT(errors.Count()==10);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c7, argument)==0);
+	TEST_ASSERT(errors.Count()==11);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c8, argument)==floatType);
+	TEST_ASSERT(errors.Count()==11);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(c9, argument)==floatType);
+	TEST_ASSERT(errors.Count()==11);
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicSubscribeExpression)
 {
 	BasicEnv env;
