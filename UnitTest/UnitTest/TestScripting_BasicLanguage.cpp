@@ -461,6 +461,47 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicUnaryExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineVariable(L"pointer", *t_int());
+	program.DefineVariable(L"integer", t_int());
+	program.DefineVariable(L"float", t_float());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	Ptr<BasicExpression> e1=e_name(L"pointer")++.GetInternalValue();
+	Ptr<BasicExpression> e2=e_name(L"integer")++.GetInternalValue();
+	Ptr<BasicExpression> e3=e_name(L"float")++.GetInternalValue();
+
+	Ptr<BasicExpression> e4=(*e_name(L"pointer")).GetInternalValue();
+	Ptr<BasicExpression> e5=(*e_name(L"integer")).GetInternalValue();
+	Ptr<BasicExpression> e6=(*e_name(L"float")).GetInternalValue();
+
+	Ptr<BasicExpression> e7=e_name(L"pointer").Ref().GetInternalValue();
+	Ptr<BasicExpression> e8=e_name(L"integer").Ref().GetInternalValue();
+	Ptr<BasicExpression> e9=e_name(L"float").Ref().GetInternalValue();
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e1, argument)==tm.GetPointerType(tm.GetPrimitiveType(int_type)));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e2, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e3, argument)==0);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e4, argument)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e5, argument)==0);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e6, argument)==0);
+
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e7, argument)==tm.GetPointerType(tm.GetPointerType(tm.GetPrimitiveType(int_type))));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e8, argument)==tm.GetPointerType(tm.GetPrimitiveType(int_type)));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(e9, argument)==tm.GetPointerType(tm.GetPrimitiveType(f32)));
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicSubscribeExpression)
 {
 	BasicEnv env;
