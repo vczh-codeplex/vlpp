@@ -43,6 +43,10 @@ namespace vl
 					UnaryTypeNotMatch,
 					BinaryLeftOperandShouldBeLeftValue,
 					BinaryTypeNotMatch,
+					ConditionCannotConvertToBool,
+					BreakShouldBeInLooping,
+					ContinueShouldBeInLooping,
+					InitializerTypeNotMatch,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -60,6 +64,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetTypeNameNotExists(BasicReferenceType* type);
 				static Ptr<BasicLanguageCodeException>							GetFunctionAlreadyExists(BasicFunctionDeclaration* function);
 				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicVariableDeclaration* variable);
+				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicVariableStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicStructureDeclaration* type);
 				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicTypeRenameDeclaration* type);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex);
@@ -77,6 +82,10 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetUnaryTypeNotMatch(BasicUnaryExpression* unary);
 				static Ptr<BasicLanguageCodeException>							GetBinaryLeftOperandShouldBeLeftValue(BasicBinaryExpression* binary);
 				static Ptr<BasicLanguageCodeException>							GetBinaryTypeNotMatch(BasicBinaryExpression* binary);
+				static Ptr<BasicLanguageCodeException>							GetConditionCannotConvertToBool(BasicExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetBreakShouldBeInLooping(BasicBreakStatement* statement);
+				static Ptr<BasicLanguageCodeException>							GetContinueShouldBeInLooping(BasicContinueStatement* statement);
+				static Ptr<BasicLanguageCodeException>							GetInitializerTypeNotMatch(BasicVariableStatement* statement);
 			};
 		}
 	}

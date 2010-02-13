@@ -28,13 +28,14 @@ namespace vl
 			class BasicSemanticExtension : public Object, private NotCopyable
 			{
 			public:
-				virtual Ptr<BasicExpression>							ExpressionReplacer(Ptr<BasicExpression> originalExpression, const BP& argument);
-				virtual Ptr<BasicStatement>								StatementReplacer(Ptr<BasicExpression> originalStatement, const BP& argument);
+				virtual Ptr<BasicExpression>							ReplaceExpression(Ptr<BasicExpression> originalExpression, const BP& argument);
+				virtual Ptr<BasicStatement>								ReplaceStatement(Ptr<BasicExpression> originalStatement, const BP& argument);
 				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
 				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
 				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
 				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
 				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
+				virtual void											CheckStatement(BasicExtendedStatement* statement, const BP& argument);
 			};
 
 			class BasicAlgorithmParameter
@@ -69,9 +70,13 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
+
 			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue, BasicExpression, BP, bool)
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
+
+			extern void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument);
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal, BasicStatement, BP);
 		}
 	}
 }
