@@ -1049,20 +1049,24 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
 				{
-					BasicTypeRecord* beginConditionType=BasicLanguage_GetExpressionType(node->beginCondition, argument);
-					if(beginConditionType && !CanImplicitConvertTo(beginConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					if(node->beginCondition)
 					{
-						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->beginCondition.Obj()));
+						BasicTypeRecord* beginConditionType=BasicLanguage_GetExpressionType(node->beginCondition, argument);
+						if(beginConditionType && !CanImplicitConvertTo(beginConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->beginCondition.Obj()));
+						}
 					}
-					
-					BasicTypeRecord* endConditionType=BasicLanguage_GetExpressionType(node->endCondition, argument);
-					if(endConditionType && !CanImplicitConvertTo(endConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					if(node->endCondition)
 					{
-						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->endCondition.Obj()));
+						BasicTypeRecord* endConditionType=BasicLanguage_GetExpressionType(node->endCondition, argument);
+						if(endConditionType && !CanImplicitConvertTo(endConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->endCondition.Obj()));
+						}
 					}
-					
 					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
-					BasicLanguage_CheckStatement(node->statement, argument);
+					BasicLanguage_CheckStatement(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
