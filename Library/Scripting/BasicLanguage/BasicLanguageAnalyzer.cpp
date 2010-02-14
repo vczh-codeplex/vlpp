@@ -17,7 +17,7 @@ BasicSemanticExtension
 				return originalExpression;
 			}
 
-			Ptr<BasicStatement> BasicSemanticExtension::ReplaceStatement(Ptr<BasicExpression> originalStatement, const BP& argument)
+			Ptr<BasicStatement> BasicSemanticExtension::ReplaceStatement(Ptr<BasicStatement> originalStatement, const BP& argument)
 			{
 				return originalStatement;
 			}
@@ -982,7 +982,7 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
-					BP newArgument(argument, argument.env->GetStatementScope(node));
+					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
 					for(int i=0;i<node->statements.Count();i++)
 					{
 						BasicLanguage_CheckStatement(node->statements[i], newArgument);
@@ -1061,13 +1061,13 @@ BasicLanguage_GetExpressionType
 						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->endCondition.Obj()));
 					}
 					
-					BP newArgument(argument, argument.env->GetStatementScope(node));
+					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
 					BasicLanguage_CheckStatement(node->statement, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
 				{
-					BP newArgument(argument, argument.env->GetStatementScope(node));
+					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
 
 					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, newArgument);
 					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))

@@ -29,7 +29,7 @@ namespace vl
 			{
 			public:
 				virtual Ptr<BasicExpression>							ReplaceExpression(Ptr<BasicExpression> originalExpression, const BP& argument);
-				virtual Ptr<BasicStatement>								ReplaceStatement(Ptr<BasicExpression> originalStatement, const BP& argument);
+				virtual Ptr<BasicStatement>								ReplaceStatement(Ptr<BasicStatement> originalStatement, const BP& argument);
 				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
 				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
 				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);

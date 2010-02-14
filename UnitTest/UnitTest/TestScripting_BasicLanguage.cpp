@@ -844,3 +844,90 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(bExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_uint().GetInternalValue(), argumentExpression));
 	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression));
 }
+
+/***********************************************************************
+BasicLanguage_CheckStatement
+***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicEmptyStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> statement=s_empty().GetInternalValue();
+	BasicLanguage_CheckStatement(statement, argument);
+	TEST_ASSERT(errors.Count()==0);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicExpressionStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> s1=s_expr(e_prim(0)).GetInternalValue();
+	Ptr<BasicStatement> s2=s_expr(e_prim(0).Assign(e_prim(0))).GetInternalValue();
+	BasicLanguage_CheckStatement(s1, argument);
+	TEST_ASSERT(errors.Count()==0);
+	BasicLanguage_CheckStatement(s2, argument);
+	TEST_ASSERT(errors.Count()==1);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicVariableStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"main");
+	BasicScope* functionScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[0].Obj()));
+
+	Ptr<BasicStatement> statement=
+		(s_var(t_int(), L"a")<<
+		s_var(t_int(), L"b", e_prim(1))<<
+		s_var(t_int(), L"c", e_prim(1.2))<<
+		s_var(t_int(), L"a", e_prim(1))<<
+		s_expr(e_name(L"a").Assign(e_name(L"b").Assign(e_name(L"c").Assign(e_prim(1.2))))))
+		.GetInternalValue();
+	BasicLanguage_CheckStatement(statement, argument);
+	TEST_ASSERT(errors.Count()==3);
+	TEST_ASSERT(errors[0]->GetExceptionCode()==BasicLanguageCodeException::InitializerTypeNotMatch);
+	TEST_ASSERT(errors[1]->GetExceptionCode()==BasicLanguageCodeException::VariableAlreadyExists);
+	TEST_ASSERT(errors[2]->GetExceptionCode()==BasicLanguageCodeException::BinaryTypeNotMatch);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicIfStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> s1=s_if(e_prim(1.1), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s2=s_if(e_prim(true), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> s3=s_if(e_prim(true), s_empty(), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+
+	BasicLanguage_CheckStatement(s1, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s2, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(s3, argument);
+	TEST_ASSERT(errors.Count()==3);
+}
