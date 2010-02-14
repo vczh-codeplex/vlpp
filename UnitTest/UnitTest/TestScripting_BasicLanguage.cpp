@@ -931,3 +931,142 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicIfStatement)
 	BasicLanguage_CheckStatement(s3, argument);
 	TEST_ASSERT(errors.Count()==3);
 }
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicWhileStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> a1=s_while(e_prim(1.1), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> a2=s_while(e_prim(true), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> a3=s_while(e_prim(1.1), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> a4=s_while(e_prim(true), s_empty()).GetInternalValue();
+
+	Ptr<BasicStatement> b1=s_do_while(e_prim(1.1), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> b2=s_do_while(e_prim(true), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> b3=s_do_while(e_prim(1.1), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> b4=s_do_while(e_prim(true), s_empty()).GetInternalValue();
+
+	Ptr<BasicStatement> c1=s_loop(s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> c2=s_loop(s_empty()).GetInternalValue();
+
+	Ptr<BasicStatement> d1=s_conditional_loop(e_prim(1.1), e_prim(1.1), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> d2=s_conditional_loop(e_prim(true), e_prim(1.1), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> d3=s_conditional_loop(e_prim(1.1), e_prim(true), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> d4=s_conditional_loop(e_prim(1.1), e_prim(1.1), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> d5=s_conditional_loop(e_prim(true), e_prim(true), s_empty()).GetInternalValue();
+
+	BasicLanguage_CheckStatement(a1, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(a2, argument);
+	TEST_ASSERT(errors.Count()==3);
+	BasicLanguage_CheckStatement(a3, argument);
+	TEST_ASSERT(errors.Count()==4);
+	BasicLanguage_CheckStatement(a4, argument);
+	TEST_ASSERT(errors.Count()==4);
+	BasicLanguage_CheckStatement(b1, argument);
+	TEST_ASSERT(errors.Count()==6);
+	BasicLanguage_CheckStatement(b2, argument);
+	TEST_ASSERT(errors.Count()==7);
+	BasicLanguage_CheckStatement(b3, argument);
+	TEST_ASSERT(errors.Count()==8);
+	BasicLanguage_CheckStatement(b4, argument);
+	TEST_ASSERT(errors.Count()==8);
+	BasicLanguage_CheckStatement(c1, argument);
+	TEST_ASSERT(errors.Count()==9);
+	BasicLanguage_CheckStatement(c2, argument);
+	TEST_ASSERT(errors.Count()==9);
+	BasicLanguage_CheckStatement(d1, argument);
+	TEST_ASSERT(errors.Count()==12);
+	BasicLanguage_CheckStatement(d2, argument);
+	TEST_ASSERT(errors.Count()==14);
+	BasicLanguage_CheckStatement(d3, argument);
+	TEST_ASSERT(errors.Count()==16);
+	BasicLanguage_CheckStatement(d4, argument);
+	TEST_ASSERT(errors.Count()==18);
+	BasicLanguage_CheckStatement(d5, argument);
+	TEST_ASSERT(errors.Count()==18);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicForStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> s1=s_for(s_empty(), e_prim(true), s_empty(), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s2=s_for(s_expr(e_prim(0).Assign(e_prim(0))), e_prim(true), s_empty(), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s3=s_for(s_empty(), e_prim(1.1), s_empty(), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s4=s_for(s_empty(), e_prim(true), s_expr(e_prim(0).Assign(e_prim(0))), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s5=s_for(s_empty(), e_prim(true), s_empty(), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+
+	BasicLanguage_CheckStatement(s1, argument);
+	TEST_ASSERT(errors.Count()==0);
+	BasicLanguage_CheckStatement(s2, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s3, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(s4, argument);
+	TEST_ASSERT(errors.Count()==3);
+	BasicLanguage_CheckStatement(s5, argument);
+	TEST_ASSERT(errors.Count()==4);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicBreakContinueStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> s1=s_break().GetInternalValue();
+	Ptr<BasicStatement> s2=s_loop(s_break()).GetInternalValue();
+	Ptr<BasicStatement> s3=s_for(s_empty(), e_prim(true), s_empty(), s_break()).GetInternalValue();
+	Ptr<BasicStatement> s4=s_continue().GetInternalValue();
+	Ptr<BasicStatement> s5=s_loop(s_continue()).GetInternalValue();
+	Ptr<BasicStatement> s6=s_for(s_empty(), e_prim(true), s_empty(), s_continue()).GetInternalValue();
+
+	BasicLanguage_CheckStatement(s1, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s2, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s3, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s4, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(s5, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(s6, argument);
+	TEST_ASSERT(errors.Count()==2);
+}
+
+TEST_CASE(Test_BasicLanguage_CheckStatement_BasicReturnStatement)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> statement=s_return().GetInternalValue();
+	BasicLanguage_CheckStatement(statement, argument);
+	TEST_ASSERT(errors.Count()==0);
+}
+
+/***********************************************************************
+BasicLanguage_CheckFunctionBody
+***********************************************************************/
