@@ -36,6 +36,7 @@ namespace vl
 				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
 				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
 				virtual void											CheckStatement(BasicExtendedStatement* statement, const BP& argument);
+				virtual void											BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument);
 			};
 
 			class BasicAlgorithmParameter
@@ -77,6 +78,7 @@ Algorithms
 
 			extern void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal, BasicStatement, BP);
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP);
 		}
 	}
 }

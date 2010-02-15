@@ -207,6 +207,19 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(statement, InitializerTypeNotMatch, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetParameterCountNotMatch(BasicFunctionDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, ParameterCountNotMatch, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=itow(parameterIndex);
+				return new BasicLanguageCodeException(declaration, ParameterAlreadyExists, parameters.Wrap());
+			}
 		}
 	}
 }

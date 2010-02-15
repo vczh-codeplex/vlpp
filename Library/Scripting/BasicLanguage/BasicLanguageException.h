@@ -47,6 +47,8 @@ namespace vl
 					BreakShouldBeInLooping,
 					ContinueShouldBeInLooping,
 					InitializerTypeNotMatch,
+					ParameterCountNotMatch,
+					ParameterAlreadyExists,			//parameter index
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -86,6 +88,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetBreakShouldBeInLooping(BasicBreakStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetContinueShouldBeInLooping(BasicContinueStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetInitializerTypeNotMatch(BasicVariableStatement* statement);
+				static Ptr<BasicLanguageCodeException>							GetParameterCountNotMatch(BasicFunctionDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex);
 			};
 		}
 	}
