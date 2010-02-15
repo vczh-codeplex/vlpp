@@ -1068,5 +1068,5 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicReturnStatement)
 }
 
 /***********************************************************************
-BasicLanguage_CheckFunctionBody
+BasicLanguage_BuildDeclarationBody
 ***********************************************************************/

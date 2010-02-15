@@ -52,6 +52,11 @@ BasicSemanticExtension
 				CHECK_ERROR(false, L"BasicSemanticExtension::::CheckStatement(BasicExtendedStatement*, const BP&)#不支持此操作。");
 			}
 
+			void BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument)
+			{
+				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildDeclarationBody(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+			}
+
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
 				BasicEnv* _env,
 				BasicScope* _scope,
@@ -453,7 +458,11 @@ BasicLanguage_GetExpressionType
 				}
 				else if(from->GetType()==BasicTypeRecord::Pointer && to->GetType()==BasicTypeRecord::Pointer)
 				{
-					return from->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+					return to->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+				}
+				else if(from->GetType()==BasicTypeRecord::Function && to->GetType()==BasicTypeRecord::Pointer)
+				{
+					return to->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
 				}
 				else
 				{
@@ -881,37 +890,44 @@ BasicLanguage_GetExpressionType
 						BasicTypeRecord* srcType=BasicLanguage_GetExpressionType(node->operand, argument);
 						if(dstType && srcType)
 						{
-							BasicPrimitiveTypeEnum dstPrimitive=dstType->GetType()==BasicTypeRecord::Primitive?dstType->PrimitiveType():void_type;
-							BasicPrimitiveTypeEnum srcPrimitive=srcType->GetType()==BasicTypeRecord::Primitive?srcType->PrimitiveType():void_type;
-							if(dstType->GetType()==BasicTypeRecord::Primitive)
+							if(dstType==srcType)
 							{
-								if(srcType->GetType()==BasicTypeRecord::Primitive)
-								{
-									if(argument.configuration.CanExplicitConvertTo(srcPrimitive, dstPrimitive))
-									{
-										return dstType;
-									}
-								}
-								else if(srcType->GetType()==BasicTypeRecord::Pointer)
-								{
-									if(dstPrimitive==int_type || dstPrimitive==uint_type)
-									{
-										return dstType;
-									}
-								}
+								return dstType;
 							}
-							else if(dstType->GetType()==BasicTypeRecord::Pointer)
+							else
 							{
-								if(srcType->GetType()==BasicTypeRecord::Primitive)
+								BasicPrimitiveTypeEnum dstPrimitive=dstType->GetType()==BasicTypeRecord::Primitive?dstType->PrimitiveType():void_type;
+								BasicPrimitiveTypeEnum srcPrimitive=srcType->GetType()==BasicTypeRecord::Primitive?srcType->PrimitiveType():void_type;
+								if(dstType->GetType()==BasicTypeRecord::Primitive)
 								{
-									if(srcPrimitive==int_type || srcPrimitive==uint_type)
+									if(srcType->GetType()==BasicTypeRecord::Primitive)
+									{
+										if(argument.configuration.CanExplicitConvertTo(srcPrimitive, dstPrimitive))
+										{
+											return dstType;
+										}
+									}
+									else if(srcType->GetType()==BasicTypeRecord::Pointer)
+									{
+										if(dstPrimitive==int_type || dstPrimitive==uint_type)
+										{
+											return dstType;
+										}
+									}
+								}
+								else if(dstType->GetType()==BasicTypeRecord::Pointer || dstType->GetType()==BasicTypeRecord::Function)
+								{
+									if(srcType->GetType()==BasicTypeRecord::Primitive)
+									{
+										if(srcPrimitive==int_type || srcPrimitive==uint_type)
+										{
+											return dstType;
+										}
+									}
+									else if(srcType->GetType()==BasicTypeRecord::Pointer || srcType->GetType()==BasicTypeRecord::Function)
 									{
 										return dstType;
 									}
-								}
-								else if(srcType->GetType()==BasicTypeRecord::Pointer)
-								{
-									return dstType;
 								}
 							}
 						}
@@ -1122,6 +1138,57 @@ BasicLanguage_GetExpressionType
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal)
+
+/***********************************************************************
+BasicLanguage_BuildDeclarationBody
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+					BasicTypeRecord* functionType=argument.env->GetFunctionType(node);
+					if(functionType->ParameterCount()==node->parameterNames.Count())
+					{
+						BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
+						for(int i=0;i<node->parameterNames.Count();i++)
+						{
+							if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetParameterAlreadyExists(node, i));
+							}
+							else
+							{
+								functionScope->variables.Add(node->parameterNames[i], functionType->ParameterType(i));
+							}
+						}
+						BP newArgument(argument, functionScope);
+						BasicLanguage_CheckStatement(node->statement, newArgument);
+					}
+					else
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetParameterCountNotMatch(node));
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.semanticExtension->BuildDeclarationBody(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody)
 
 		}
 	}
