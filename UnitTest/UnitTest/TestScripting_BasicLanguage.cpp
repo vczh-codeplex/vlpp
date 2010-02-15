@@ -1070,3 +1070,52 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicReturnStatement)
 /***********************************************************************
 BasicLanguage_BuildDeclarationBody
 ***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_BuildDeclarationBody)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"a").Parameter(L"b", t_int()).Parameter(L"b", t_int()).Statement(s_empty());
+	program.DefineFunction(L"b").Parameter(L"b", t_int()).Parameter(L"c", t_int()).Statement(s_empty());
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	BasicLanguage_BuildDeclarationBody(program.GetInternalValue()->declarations[0].Obj(), argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_BuildDeclarationBody(program.GetInternalValue()->declarations[1].Obj(), argument);
+	TEST_ASSERT(errors.Count()==1);
+}
+
+/***********************************************************************
+BasicAnalyzer
+***********************************************************************/
+
+TEST_CASE(Test_BasicAnalyzer)
+{
+	BasicAlgorithmConfiguration configuration;
+	SetConfiguration(configuration);
+
+	BasicProgramNode program;
+	program.DefineFunction(L"fab")
+		.Parameter(L"n", t_int())
+		.ReturnType(t_int())
+		.Statement(
+			s_if(e_name(L"n")<e_prim(2),
+				s_expr(e_result().Assign(e_prim(1)))<<s_return(),
+				s_expr(e_result().Assign(
+					e_name(L"fab")(e_exps()<<e_name(L"n")-e_prim(1))+
+					e_name(L"fab")(e_exps()<<e_name(L"n")-e_prim(2))
+					))<<s_return()
+				)
+		);
+
+	BasicAnalyzer analyzer(program.GetInternalValue(), 0, configuration);
+	analyzer.Analyze();
+	TEST_ASSERT(analyzer.GetErrors().Count()==0);
+}
