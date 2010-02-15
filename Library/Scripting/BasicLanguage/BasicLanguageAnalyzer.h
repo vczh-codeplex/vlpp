@@ -79,6 +79,32 @@ Algorithms
 			extern void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal, BasicStatement, BP);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP);
+			extern void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument);
+
+/***********************************************************************
+BasicAnalyzer
+***********************************************************************/
+
+			class BasicAnalyzer : public Object, private NotCopyable
+			{
+			protected:
+				BasicEnv												env;
+				BasicTypeManager										tm;
+				collections::List<Ptr<BasicLanguageCodeException>>		errors;
+				collections::SortedList<WString>						forwardStructures;
+				BasicSemanticExtension*									semanticExtension;
+				BasicAlgorithmConfiguration								configuration;
+				Ptr<BasicProgram>										program;
+				bool													analyzed;
+			public:
+				BasicAnalyzer(Ptr<BasicProgram> _program, BasicSemanticExtension* _semanticExtension, BasicAlgorithmConfiguration _configuration);
+				~BasicAnalyzer();
+
+				BasicEnv*															GetEnv();
+				BasicTypeManager*													GetTypeManager();
+				const collections::IReadonlyList<Ptr<BasicLanguageCodeException>>&	GetErrors();
+				void																Analyze();
+			};
 		}
 	}
 }

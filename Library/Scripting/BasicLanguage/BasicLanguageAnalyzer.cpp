@@ -1190,6 +1190,64 @@ BasicLanguage_BuildDeclarationBody
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody)
 
+			void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument)
+			{
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_BuildDeclarationBody(program->declarations[i], argument);
+				}
+			}
+
+/***********************************************************************
+BasicAnalyzer
+***********************************************************************/
+
+			BasicAnalyzer::BasicAnalyzer(Ptr<BasicProgram> _program, BasicSemanticExtension* _semanticExtension, BasicAlgorithmConfiguration _configuration)
+				:program(_program)
+				,semanticExtension(_semanticExtension)
+				,configuration(_configuration)
+				,analyzed(false)
+			{
+			}
+
+			BasicAnalyzer::~BasicAnalyzer()
+			{
+			}
+
+			BasicEnv* BasicAnalyzer::GetEnv()
+			{
+				return &env;
+			}
+
+			BasicTypeManager* BasicAnalyzer::GetTypeManager()
+			{
+				return &tm;
+			}
+
+			const collections::IReadonlyList<Ptr<BasicLanguageCodeException>>& BasicAnalyzer::GetErrors()
+			{
+				return errors.Wrap();
+			}
+
+			void BasicAnalyzer::Analyze()
+			{
+				if(!analyzed)
+				{
+					analyzed=true;
+					BP argument(&env, env.GlobalScope(), &tm, errors, forwardStructures);
+					argument.configuration=configuration;
+					if(semanticExtension)
+					{
+						argument.semanticExtension=semanticExtension;
+					}
+
+					BasicLanguage_BuildGlobalScope(program, argument);
+					if(errors.Count()==0)
+					{
+						BasicLanguage_BuildDeclarationBody(program, argument);
+					}
+				}
+			}
 		}
 	}
 }
