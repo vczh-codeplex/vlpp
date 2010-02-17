@@ -19,3 +19,9 @@ goal:
     [Functional Free]
   logic language:
     [Logic Free]
+    
+plan:
+  1. remove string/memory management instructions
+  2. add call_cpp_raw_function instruction
+  3. implement basic kernel utility functions
+  4. implement link-time only instructions
