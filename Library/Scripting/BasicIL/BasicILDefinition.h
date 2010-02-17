@@ -27,22 +27,17 @@ OpCode:
   call					INSTRUCTION_INDEX(int)	INSKEY	:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   call_indirect											:*stack_top* PUSHINS RETPTR						-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   call_foreign			FOREIGN_FUNCTION_INDEX(int)		:*stack_top* RETPTR								-> RETPTR
+  call_raw				RAW_FUNCTION_POINTER			:*stack_top* ARGUMENTS							->
   convert				DEST_TYPE		SOURCE_TYPE		:*stack_top* SOURCE_TYPE						-> DEST_TYPE
   stack_offset			BYTES(int)						:*stack_top*									-> pointer
   stack_top				BYTES(int)						:*stack_top*									-> pointer(old stack top pointer)
   stack_reserve			BYTES(int)(+=push, -=pop)
   resptr												:*stack_top*									-> pointer
   ret					STACK_RESERVE_BYTES(int)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
-	
-  memcpy												:*stack_top* DSTPTR SRCPTR BYTES				->
-  memzero												:*stack_top* DSTPTR BYTES						->
-  memcmp												:*stack_top* DSTPTR SRCPTR BYTES				-> int
-  strcpy												:*stack_top* DSTPTR SRCPTR						->
-  wcscpy												:*stack_top* DSTPTR SRCPTR						->
-  strcmp												:*stack_top* DSTPTR SRCPTR						-> int
-  wcscmp												:*stack_top* DSTPTR SRCPTR						-> int
-  strncmp												:*stack_top* DSTPTR SRCPTR BYTES				-> int
-  wcsncmp												:*stack_top* DSTPTR SRCPTR BYTES				-> int
+
+  link_push_data		OFFSET(int)						:*stack_top*									-> pointer
+  link_new												:*stack_top* RESPTR SIZE						-> pointer
+  link_delete											:*stack_top* NULL pointer						->
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
@@ -87,15 +82,15 @@ namespace vl
 					and,or,xor,not,
 					eq,ne,lt,le,gt,ge,
 					read,write,
-					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,
+					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,call_raw,
 					convert,
 					stack_offset,stack_top,stack_reserve,
 					resptr,
 					ret,
 
-					memcpy,memzero,memcmp,strcpy,wcscpy,strcmp,wcscmp,strncmp,wcsncmp,
-
-					instruction_count
+					link_push_data,
+					link_new,
+					link_delete,
 				};
 
 				OpCode							opcode;
@@ -117,6 +112,7 @@ namespace vl
 					bool						bool_value;
 					char						char_value;
 					wchar_t						wchar_value;
+					int							(*raw_function)(void* arguments, void* result);
 #ifdef _WIN64
 					signed __int64				int_value;
 					void*						pointer_value;

@@ -674,6 +674,14 @@ BasicILInterpretor
 							foreignFunctionIndex=ins.argument.int_value;
 							foreignFunctionResult=env->Pop<void*>();
 							return BasicILInterpretor::ForeignFunctionCall;
+						case BasicIns::call_raw:
+							{
+								void* result=env->Pop<void*>();
+								void* arguments=env->DereferenceStack(env->StackTop());
+								int size=ins.argument.raw_function(arguments, result);
+								env->Reserve(-size);
+							}
+							break;
 						case BasicIns::convert:
 							CONVERT_INSTRUCTION
 							break;
@@ -708,73 +716,6 @@ BasicILInterpretor
 								env->Reserve(-ins.argument.int_value);
 								nextInstruction=returnInstruction;
 								nextInsKey=returnInsKey;
-							}
-							break;
-						case BasicIns::memcpy:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								int size=env->Pop<int>();
-								memcpy(dstptr, srcptr, size);
-							}
-							break;
-						case BasicIns::memzero:
-							{
-								void* dstptr=env->Pop<void*>();
-								int size=env->Pop<int>();
-								memset(dstptr, 0, size);
-							}
-							break;
-						case BasicIns::memcmp:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								int size=env->Pop<int>();
-								env->Push<int>(memcmp(dstptr, srcptr, size));
-							}
-							break;
-						case BasicIns::strcpy:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								strcpy((char*)dstptr, (const char*)srcptr);
-							}
-							break;
-						case BasicIns::wcscpy:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								wcscpy((wchar_t*)dstptr, (const wchar_t*)srcptr);
-							}
-							break;
-						case BasicIns::strcmp:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								env->Push<int>(strcmp((char*)dstptr, (const char*)srcptr));
-							}
-							break;
-						case BasicIns::wcscmp:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								env->Push<int>(wcscmp((wchar_t*)dstptr, (const wchar_t*)srcptr));
-							}
-							break;
-						case BasicIns::strncmp:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								int size=env->Pop<int>();
-								env->Push<int>(strncmp((char*)dstptr, (const char*)srcptr, size));
-							}
-							break;
-						case BasicIns::wcsncmp:
-							{
-								void* dstptr=env->Pop<void*>();
-								void* srcptr=env->Pop<void*>();
-								int size=env->Pop<int>();
-								env->Push<int>(wcsncmp((wchar_t*)dstptr, (const wchar_t*)srcptr, size));
 							}
 							break;
 						default:
