@@ -773,6 +773,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageConfiguration.h"
 							>
 						</File>
@@ -802,6 +806,10 @@
 						>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.cpp"
 							>
 						</File>
 						<File
