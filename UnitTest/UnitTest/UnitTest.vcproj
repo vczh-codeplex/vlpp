@@ -212,7 +212,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TestScripting_BasicLanguage.cpp"
+				RelativePath=".\TestScripting_BasicLanguage_Analyzer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TestScripting_BasicLanguage_Codegen.cpp"
 				>
 			</File>
 			<File

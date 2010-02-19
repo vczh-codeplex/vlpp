@@ -18,6 +18,26 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+			class BasicTypeInfo : public Object
+			{
+			public:
+				int							size;
+				int							alignment;
+				collections::List<int>		offsets;
+			};
+
+			class BasicCodegenInfo : public Object
+			{
+				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>> _TypeInfoTable;
+			protected:
+				BasicAnalyzer*				analyzer;
+				_TypeInfoTable				typeInfos;
+
+			public:
+				BasicCodegenInfo(BasicAnalyzer* _analyzer);
+
+				BasicTypeInfo*				GetTypeInfo(BasicTypeRecord* type);
+			};
 		}
 	}
 }
