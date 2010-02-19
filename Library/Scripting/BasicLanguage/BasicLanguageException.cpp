@@ -220,6 +220,19 @@ BasicLanguageCodeException
 				parameters[0]=itow(parameterIndex);
 				return new BasicLanguageCodeException(declaration, ParameterAlreadyExists, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, int memberIndex)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->memberNames[memberIndex];
+				return new BasicLanguageCodeException(declaration, StructureMemberCannotBeUndefinedType, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, PredeclaredStructureShouldBeDefined, parameters.Wrap());
+			}
 		}
 	}
 }
