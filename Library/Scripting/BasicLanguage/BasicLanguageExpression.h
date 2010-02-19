@@ -188,6 +188,9 @@ Operator Expression
 				}											type;
 				Ptr<BasicExpression>						leftOperand;
 				Ptr<BasicExpression>						rightOperand;
+				bool										shortcut;
+
+				BasicBinaryExpression();
 			};
 
 			class BasicSubscribeExpression : public BasicExpression

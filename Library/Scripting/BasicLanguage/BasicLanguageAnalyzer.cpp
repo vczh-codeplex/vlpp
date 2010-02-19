@@ -949,14 +949,29 @@ BasicLanguage_GetExpressionType
 					BasicTypeRecord* functionType=argument.env->GetFunctionType(argument.scope->functions.Find(node->name, functionScope));
 					if(variableType && functionType)
 					{
-						return variableScope->Level()>functionScope->Level()?variableType:functionType;
+						if(variableScope->Level()>functionScope->Level())
+						{
+							BasicEnv::Reference reference={variableScope, true};
+							argument.env->RegisterReference(node, reference);
+							return variableType;
+						}
+						else
+						{
+							BasicEnv::Reference reference={functionScope, false};
+							argument.env->RegisterReference(node, reference);
+							return functionType;
+						}
 					}
 					else if(variableType)
 					{
+						BasicEnv::Reference reference={variableScope, true};
+						argument.env->RegisterReference(node, reference);
 						return variableType;
 					}
 					else if(functionType)
 					{
+						BasicEnv::Reference reference={functionScope, false};
+						argument.env->RegisterReference(node, reference);
 						return functionType;
 					}
 					else

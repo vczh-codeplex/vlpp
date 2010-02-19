@@ -68,6 +68,11 @@ BasicScope
 BasicEnv
 ***********************************************************************/
 
+			bool BasicEnv::Reference::operator==(const Reference& r)
+			{
+				return scope==r.scope && isVariable==r.isVariable;
+			}
+
 			BasicEnv::BasicEnv()
 				:globalScope(CreateScope(0))
 			{
@@ -133,6 +138,11 @@ BasicEnv
 				expressionTypes.Add(expression, type);
 			}
 
+			void BasicEnv::RegisterReference(BasicReferenceExpression* expression, Reference reference)
+			{
+				referenceTypes.Add(expression, reference);
+			}
+
 			BasicScope* BasicEnv::GetFunctionScope(BasicFunctionDeclaration* function)
 			{
 				int index=functionScopes.Keys().IndexOf(function);
@@ -155,6 +165,20 @@ BasicEnv
 			{
 				int index=expressionTypes.Keys().IndexOf(expression);
 				return index==-1?0:expressionTypes.Values()[index];
+			}
+
+			BasicEnv::Reference BasicEnv::GetReference(BasicReferenceExpression* expression)
+			{
+				int index=referenceTypes.Keys().IndexOf(expression);
+				if(index==-1)
+				{
+					Reference result={0,false};
+					return result;
+				}
+				else
+				{
+					return referenceTypes.Values()[index];
+				}
 			}
 		}
 	}
