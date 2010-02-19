@@ -24,19 +24,19 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					TypeNameNotExists,				//name
-					FunctionAlreadyExists,			//name
-					VariableAlreadyExists,			//name
-					TypeAlreadyExists,				//name
-					StructureMemberAlreadyExists,	//member name
-					VariableNotExists,				//name
+					TypeNameNotExists,						//name
+					FunctionAlreadyExists,					//name
+					VariableAlreadyExists,					//name
+					TypeAlreadyExists,						//name
+					StructureMemberAlreadyExists,			//member name
+					VariableNotExists,						//name
 					FailToCast,
 					VoidFunctionNotHaveResult,
 					GlobalNotHaveResult,
 					CannotInvokeNonFunctionValue,
 					ArgumentNumberNotMatch,
-					ArgumentTypeNotMatch,			//parameter index
-					StructureMemberNotExists,		//member name
+					ArgumentTypeNotMatch,					//parameter index
+					StructureMemberNotExists,				//member name
 					CannotConvertIndexToInt,
 					CannotSubscribe,
 					UnaryOperandShouldBeLeftValue,
@@ -48,7 +48,9 @@ namespace vl
 					ContinueShouldBeInLooping,
 					InitializerTypeNotMatch,
 					ParameterCountNotMatch,
-					ParameterAlreadyExists,			//parameter index
+					ParameterAlreadyExists,					//parameter index
+					StructureMemberCannotBeUndefinedType,	//member name
+					PredeclaredStructureShouldBeDefined,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -90,6 +92,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetInitializerTypeNotMatch(BasicVariableStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetParameterCountNotMatch(BasicFunctionDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex);
+				static Ptr<BasicLanguageCodeException>							GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, int memberIndex);
+				static Ptr<BasicLanguageCodeException>							GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 			};
 		}
 	}

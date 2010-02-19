@@ -184,6 +184,7 @@ BasicLanguage_BuildGlobalScopePass1
 				{
 					if(node->defined)
 					{
+						BasicTypeRecord* structure=0;
 						if(argument.scope->types.Items().Keys().Contains(node->name))
 						{
 							int forward=argument.forwardStructures.IndexOf(node->name);
@@ -194,12 +195,47 @@ BasicLanguage_BuildGlobalScopePass1
 							else
 							{
 								argument.forwardStructures.RemoveAt(forward);
+								structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
 							}
 						}
 						else
 						{
-							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
+							structure=argument.typeManager->CreateStructureType();
 							argument.scope->types.Add(node->name, structure);
+						}
+
+						if(structure)
+						{
+							List<WString> names;
+							List<BasicTypeRecord*> types;
+							for(int i=0;i<node->memberNames.Count();i++)
+							{
+								if(node->memberNames.IndexOf(node->memberNames[i])==i)
+								{
+									try
+									{
+										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], argument);
+										if(type->GetType()==BasicTypeRecord::Structure)
+										{
+											if(!type->Defined())
+											{
+												argument.errors.Add(BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(node, i));
+											}
+										}
+										types.Add(type);
+										names.Add(node->memberNames[i]);
+									}
+									catch(Ptr<BasicLanguageCodeException> e)
+									{
+										argument.errors.Add(e);
+									}
+								}
+								else
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
+								}
+							}
+							argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
 						}
 					}
 					else
@@ -270,29 +306,14 @@ BasicLanguage_BuildGlobalScopePass2
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
-					BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
-					List<WString> names;
-					List<BasicTypeRecord*> types;
-					for(int i=0;i<node->memberNames.Count();i++)
+					if(!node->defined)
 					{
-						if(node->memberNames.IndexOf(node->memberNames[i])==i)
+						BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
+						if(!structure->Defined())
 						{
-							try
-							{
-								types.Add(BasicLanguage_GetTypeRecord(node->memberTypes[i], argument));
-								names.Add(node->memberNames[i]);
-							}
-							catch(Ptr<BasicLanguageCodeException> e)
-							{
-								argument.errors.Add(e);
-							}
-						}
-						else
-						{
-							argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
+							argument.errors.Add(BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(node));
 						}
 					}
-					argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)

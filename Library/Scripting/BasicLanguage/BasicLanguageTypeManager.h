@@ -55,6 +55,7 @@ namespace vl
 				virtual BasicTypeRecord*				MemberType(const WString& name);
 				virtual const WString&					MemberName(int index);
 				virtual int								MemberCount();
+				virtual bool							Defined();
 			};
 
 			class BasicPrimitiveTypeRecord : public CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>
@@ -127,6 +128,7 @@ namespace vl
 			protected:
 				collections::List<WString>				names;
 				collections::List<BasicTypeRecord*>		types;
+				bool									defined;
 
 				BasicStructureTypeRecord();
 			public:
@@ -136,6 +138,7 @@ namespace vl
 				BasicTypeRecord*						MemberType(const WString& name);
 				const WString&							MemberName(int index);
 				int										MemberCount();
+				bool									Defined();
 			};
 
 			class BasicTypeManager : public CommonTypeManager<BasicTypeRecord>

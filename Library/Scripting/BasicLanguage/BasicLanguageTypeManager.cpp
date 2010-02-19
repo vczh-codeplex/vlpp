@@ -72,6 +72,11 @@ BasicTypeRecord
 				CHECK_ERROR(false, L"BasicTypeRecord::MemberCount()#不支持此操作。");
 			}
 
+			bool BasicTypeRecord::Defined()
+			{
+				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
+			}
+
 /***********************************************************************
 BasicPrimitiveTypeRecord
 ***********************************************************************/
@@ -198,6 +203,11 @@ BasicStructureTypeRecord
 				return types.Count();
 			}
 
+			bool BasicStructureTypeRecord::Defined()
+			{
+				return defined;
+			}
+
 /***********************************************************************
 BasicTypeManager辅助函数
 ***********************************************************************/
@@ -289,6 +299,7 @@ BasicTypeManager
 			BasicTypeRecord* BasicTypeManager::CreateStructureType()
 			{
 				BasicStructureTypeRecord* type=new BasicStructureTypeRecord;
+				type->defined=false;
 				CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
 				return type;
 			}
@@ -300,6 +311,7 @@ BasicTypeManager
 				{
 					CopyFrom(type->names.Wrap(), names);
 					CopyFrom(type->types.Wrap(), types);
+					type->defined=true;
 				}
 			}
 		}
