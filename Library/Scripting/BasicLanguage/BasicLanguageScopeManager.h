@@ -48,10 +48,19 @@ namespace vl
 
 			class BasicEnv : public Object, private NotCopyable
 			{
+			public:
+				struct Reference
+				{
+					BasicScope*		scope;
+					bool			isVariable;
+
+					bool			operator==(const Reference& r);
+				};
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicScope*>			_FunctionScopeTable;
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicTypeRecord*>	_FunctionTypeTable;
 				typedef collections::Dictionary<BasicStatement*, BasicScope*>					_StatementScopeTable;
 				typedef collections::Dictionary<BasicExpression*, BasicTypeRecord*>				_ExpressionTypeTable;
+				typedef collections::Dictionary<BasicReferenceExpression*, Reference>			_ReferenceTable;
 			protected:
 				collections::List<Ptr<BasicScope>>								allocatedScopes;
 				BasicScope*														globalScope;
@@ -59,6 +68,7 @@ namespace vl
 				_StatementScopeTable											statementScopes;
 				_FunctionTypeTable												functionTypes;
 				_ExpressionTypeTable											expressionTypes;
+				_ReferenceTable													referenceTypes;
 			public:
 				BasicEnv();
 				~BasicEnv();
@@ -69,11 +79,13 @@ namespace vl
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
 				void															RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type);
 				void															RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type);
+				void															RegisterReference(BasicReferenceExpression* expression, Reference reference);
 
 				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
 				BasicScope*														GetStatementScope(BasicStatement* statement);
 				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function);
 				BasicTypeRecord*												GetExpressionType(BasicExpression* expression);
+				Reference														GetReference(BasicReferenceExpression* expression);
 			};
 		}
 	}

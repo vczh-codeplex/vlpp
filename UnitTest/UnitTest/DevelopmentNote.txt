@@ -23,3 +23,7 @@ goal:
 plan:
   1. implement basic kernel utility functions
   2. implement link-time only instructions
+  
+  1. sizeof expression
+  2. structure construction expression
+  3. array construction expression
