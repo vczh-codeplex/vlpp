@@ -11,6 +11,7 @@ Classes:
 
 #include "BasicLanguageAnalyzer.h"
 #include "..\BasicIL\BasicILDefinition.h"
+#include "..\..\Stream\MemoryStream.h"
 
 namespace vl
 {
@@ -37,14 +38,44 @@ namespace vl
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
 				BasicTypeInfo*				GetTypeInfo(BasicTypeRecord* type);
+				BasicEnv*					GetEnv();
+				BasicTypeManager*			GetTypeManager();
 			};
 
 /***********************************************************************
 Algorithms
 ***********************************************************************/
 
-			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushValue, BasicExpression, BasicCodegenInfo)
-			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BasicCodegenInfo)
+			struct BasicCodegenParameter;
+			typedef BasicCodegenParameter BCP;
+
+			class BasicCodegenExtension : public Object, private NotCopyable
+			{
+			public:
+				virtual void				PushValue(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void				PushRef(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void				GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
+			};
+
+			struct BasicCodegenParameter
+			{
+			private:
+				BasicCodegenExtension		defaultCodegenExtension;
+			public:
+				BasicCodegenInfo*			info;
+				basicil::BasicIL*			il;
+				stream::MemoryStream*		globalData;
+				BasicCodegenExtension*		codegenExtension;
+				BasicTypeRecord*			expectedType;
+
+				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData);
+				BasicCodegenParameter(const BasicCodegenParameter& parameter, BasicTypeRecord* _expectedType);
+			};
+
+			extern void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument);
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal, BasicExpression, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 		}
 	}
 }

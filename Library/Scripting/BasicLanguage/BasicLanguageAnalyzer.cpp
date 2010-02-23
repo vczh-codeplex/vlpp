@@ -24,37 +24,37 @@ BasicSemanticExtension
 
 			BasicTypeRecord* BasicSemanticExtension::GetTypeRecord(BasicExtendedType* type, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
 			}
 
 			void BasicSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
 			}
 
 			void BasicSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
 			}
 
 			bool BasicSemanticExtension::IsLeftValue(BasicExtendedExpression* expression, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::IsLeftValue(BasicExtendedExpression*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::IsLeftValue(BasicExtendedExpression*, const BP&)#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicSemanticExtension::GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
 			}
 
 			void BasicSemanticExtension::CheckStatement(BasicExtendedStatement* statement, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::CheckStatement(BasicExtendedStatement*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::CheckStatement(BasicExtendedStatement*, const BP&)#不支持此操作。");
 			}
 
 			void BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument)
 			{
-				CHECK_ERROR(false, L"BasicSemanticExtension::::BuildDeclarationBody(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
 			}
 
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
@@ -434,7 +434,7 @@ BasicLanguage_IsLeftValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					return true;
+					return argument.env->GetReference(node).isVariable;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

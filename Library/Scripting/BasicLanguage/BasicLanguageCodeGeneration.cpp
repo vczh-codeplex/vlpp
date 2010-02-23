@@ -8,6 +8,8 @@ namespace vl
 
 		namespace basiclanguage
 		{
+			using namespace basicil;
+			using namespace stream;
 
 /***********************************************************************
 BasicCodegenInfo
@@ -112,12 +114,69 @@ BasicCodegenInfo
 					return typeInfos.Values()[index].Obj();
 				}
 			}
+			
+			BasicEnv* BasicCodegenInfo::GetEnv()
+			{
+				return analyzer->GetEnv();
+			}
+
+			BasicTypeManager* BasicCodegenInfo::GetTypeManager()
+			{
+				return analyzer->GetTypeManager();
+			}
 
 /***********************************************************************
-BasicLanguage_PushValue
+BasicCodegenExtension
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushValue, BasicExpression, BasicCodegenInfo)
+			void BasicCodegenExtension::PushValue(BasicExtendedExpression* expression, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::PushValue(BasicExtendedExpression*, const BCP&)#不支持此操作。");
+			}
+
+			void BasicCodegenExtension::PushRef(BasicExtendedExpression* expression, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::PushRef(BasicExtendedExpression*, const BCP&)#不支持此操作。");
+			}
+
+			void BasicCodegenExtension::GenerateCode(BasicExtendedStatement* statement, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCode(BasicExtendedStatement*, const BCP&)#不支持此操作。");
+			}
+
+/***********************************************************************
+BasicCodegenParameter
+***********************************************************************/
+			
+			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData)
+				:info(_info)
+				,il(_il)
+				,globalData(_globalData)
+				,codegenExtension(&defaultCodegenExtension)
+				,expectedType(0)
+			{
+			}
+
+			BasicCodegenParameter::BasicCodegenParameter(const BasicCodegenParameter& parameter, BasicTypeRecord* _expectedType)
+				:info(parameter.info)
+				,il(parameter.il)
+				,globalData(parameter.globalData)
+				,codegenExtension(parameter.codegenExtension)
+				,expectedType(_expectedType)
+			{
+			}
+
+/***********************************************************************
+BasicLanguage_PushValueInternal
+***********************************************************************/
+
+			void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
+			{
+				// TODO: call BasicLanguage_PushValueInternal
+				// TODO: do implicit casting
+			}
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal, BasicExpression, BCP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
@@ -169,15 +228,16 @@ BasicLanguage_PushValue
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
 				{
+					argument.codegenExtension->PushValue(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_PushValue)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal)
 
 /***********************************************************************
 BasicLanguage_PushRef
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BasicCodegenInfo)
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
@@ -255,9 +315,63 @@ BasicLanguage_PushRef
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
 				{
+					argument.codegenExtension->PushRef(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_PushRef)
+
+/***********************************************************************
+BasicLanguage_GenerateCode
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExpressionStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
+				{
+					argument.codegenExtension->GenerateCode(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode)
 		}
 	}
 }
