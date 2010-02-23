@@ -95,5 +95,146 @@
 </tbody>
 </table>
 <h2><a name="Grammar">正则表达式语法参考</a></h2>
+<p>Vczh Library++核心库中的正则表达式由以下几部分组成：</p>
+<li><a href="#Char">字符和转义字符</a></li>
+<li><a href="#Loop">重复</a></li>
+<li><a href="#Seq">序列和分支</a></li>
+<li><a href="#Capture">捕获</a></li>
+<li><a href="#Back">捕获引用</a></li>
+<li><a href="#Lookahead">正向预查和反向预查</a></li>
+<li><a href="#Rename">子表达式命名</a></li>
+<p>Regex的构造函数有一个叫preferPure的参数。如果preferPure是true的话，Regex会尽量使用一个快得多的算法来运行输入的正则表达式。下面的表格展示了正则表达式的哪一些功能支持这种快速算法。</p>
+<table>
+<thead><tr><td>功能</td><td>快速匹配</td><td>快速寻找匹配</td></tr></thead>
+<tbody>
+<tr><td>字符集</td><td>是</td><td>是</td></tr>
+<tr><td>x{a}, x{a,}, x{a,b}, x+, x*, x?</td><td>是</td><td>是</td></tr>
+<tr><td>ab, a|b</td><td>是</td><td>是</td></tr>
+<tr><td>(&lt;name&gt;x), (?x)</td><td>否</td><td>是</td></tr>
+<tr><td>$, ^</td><td>否</td><td>否</td></tr>
+<tr><td>x{a}?, x{a,}?, x{a,b}?, x+?, x*?, x??</td><td>否</td><td>否</td></tr>
+<tr><td>(&lt;$name&gt;), (&lt;$name;i&gt;)(&lt;i&gt;)</td><td>否</td><td>否</td></tr>
+<tr><td>(=x), (!x)</td><td>否</td><td>否</td></tr>
+</tbody>
+</table>
+<p><b>在接下来的部分我们用/x/表示正则表达式，用"x"表示文本。</b></p>
+<h3><a name="Char">字符和转义字符</a></h3>
+<p>正则表达式包含两种字符集合：普通字符和字符范围。这两种字符集合的表达方法使用不同的字符转义。</p>
+<p>/a/可以表达"a"，/b/可以表达"b"，/\w/可以表达一个字母、数字或下划线。但是/^/和/$/并不是"^"和"$"。下面的表格描述了字符转义的详细法则</p>
+<table>
+<thead><tr><td>字符</td><td>意义</td><td>转义1</td><td>转义2</td><td>转义后的意义</td></tr></thead>
+<tbody>
+<tr><td>.</td><td>&quot;.&quot;</td><td>\.</td><td>/.</td><td>任意字符</td></tr>
+<tr><td>r</td><td>&quot;r&quot;</td><td>\r</td><td>/r&nbsp;</td><td>0x0D(ASCII)</td></tr>
+<tr><td>n</td><td>&quot;n&quot;</td><td>\n</td><td>/n</td><td>0x0A(ASCII)</td></tr>
+<tr><td>t</td><td>&quot;t&quot;</td><td>\t</td><td>/t</td><td>制表符</td></tr>
+<tr><td>\</td><td>&nbsp;</td><td>\\</td><td>/\</td><td>&quot;\&quot;</td></tr>
+<tr><td>/</td><td>&nbsp;</td><td>\/</td><td>//</td><td>&quot;/&quot;</td></tr>
+<tr><td>(</td><td>&nbsp;</td><td>\(</td><td>/(</td><td>&quot;(&quot;</td></tr>
+<tr><td>)</td><td>&nbsp;</td><td>\)</td><td>/)</td><td>&quot;)&quot;</td></tr>
+<tr><td>+</td><td>&nbsp;</td><td>\+</td><td>/+</td><td>&quot;+&quot;</td></tr>
+<tr><td>*</td><td>&nbsp;</td><td>\*</td><td>/*</td><td>&quot;*&quot;</td></tr>
+<tr><td>?</td><td>&nbsp;</td><td>\?</td><td>/?</td><td>&quot;?&quot;</td></tr>
+<tr><td>{</td><td>&nbsp;</td><td>\{</td><td>/{</td><td>&quot;{&quot;</td></tr>
+<tr><td>}</td><td>&nbsp;</td><td>\}</td><td>/}</td><td>&quot;}&quot;</td></tr>
+<tr><td>[</td><td>&nbsp;</td><td>\[</td><td>/[</td><td>&quot;[&quot;</td></tr>
+<tr><td>]</td><td>&nbsp;</td><td>\]</td><td>/]</td><td>&quot;]&quot;</td></tr>
+<tr><td>&lt;</td><td>&nbsp;</td><td>\&lt;</td><td>/&lt;</td><td>&quot;&lt;&quot;</td></tr>
+<tr><td>&gt;</td><td>&nbsp;</td><td>\&gt;</td><td>/&gt;</td><td>&quot;&gt;&quot;</td></tr>
+<tr><td>^</td><td>字符串开始处</td><td>\^</td><td>/^</td><td>&quot;^&quot;</td></tr>
+<tr><td>$</td><td>字符串结尾处</td><td>\$</td><td>/$</td><td>&quot;$&quot;</td></tr>
+<tr><td>!</td><td>&nbsp;</td><td>\!</td><td>/!</td><td>&quot;!&quot;</td></tr>
+<tr><td>=</td><td>&nbsp;</td><td>\=</td><td>/=</td><td>&quot;=&quot;</td></tr>
+<tr><td>S</td><td>&quot;S&quot;</td><td>\S</td><td>/S</td><td>非/s</td></tr>
+<tr><td>s</td><td>&quot;s&quot;</td><td>\s</td><td>/s</td><td>空格、0x0D、0x0A或制表符</td></tr>
+<tr><td>D</td><td>&quot;D&quot;</td><td>\D</td><td>/D</td><td>非 /d</td></tr>
+<tr><td>d</td><td>&quot;d&quot;</td><td>\d</td><td>/d</td><td>数字字符</td></tr>
+<tr><td>L</td><td>&quot;L&quot;</td><td>\L</td><td>/L</td><td>非 /l</td></tr>
+<tr><td>l</td><td>&quot;l&quot;</td><td>\l</td><td>/l</td><td>字母或数字</td></tr>
+<tr><td>W</td><td>&quot;W&quot;</td><td>\W</td><td>/W</td><td>非/w</td></tr>
+<tr><td>w</td><td>&quot;w&quot;</td><td>\w</td><td>/w</td><td>字符、数字或下环线</td></tr>
+</tbody>
+</table>
+<p>我们可以用字符范围来表达字符集合的复杂规则。例如/[a-c]/代表"a"、"b"或"c"，/[a-zA-Z0-9_]/代表字母、数字或下划线。如果使用[^...]，则对规则取反。例如/[^a-zA-Z]/代表不是字母的字符。</p>
+<p>字符范围里面的转义规则跟上面的那张表有很大的不同：</p>
+<table>
+<thead><tr><td>字符</td><td>意义</td><td>转义1</td><td>转义2</td><td>转义后的意义</td></tr></thead>
+<tbody>
+<tr><td>.</td><td>&quot;.&quot;</td><td>\.</td><td>/.</td><td>任意字符</td></tr>
+<tr><td>r</td><td>&quot;r&quot;</td><td>\r</td><td>/r&nbsp;</td><td>0x0D(ASCII)</td></tr>
+<tr><td>n</td><td>&quot;n&quot;</td><td>\n</td><td>/n</td><td>0x0A(ASCII)</td></tr>
+<tr><td>t</td><td>&quot;t&quot;</td><td>\t</td><td>/t</td><td>制表符</td></tr>
+<tr><td>-</td><td>&nbsp;</td><td>\-</td><td>/-</td><td>&quot;-&quot;</td></tr>
+<tr><td>\</td><td>&nbsp;</td><td>\\</td><td>/\</td><td>&quot;\&quot;</td></tr>
+<tr><td>/</td><td>&nbsp;</td><td>\/</td><td>//</td><td>&quot;/&quot;</td></tr>
+<tr><td>[</td><td>&nbsp;</td><td>\[</td><td>/[</td><td>&quot;[&quot;</td></tr>
+<tr><td>]</td><td>&nbsp;</td><td>\]</td><td>/]</td><td>&quot;]&quot;</td></tr>
+<tr><td>^</td><td>字符串开始处</td><td>\^</td><td>/^</td><td>&quot;^&quot;</td></tr>
+<tr><td>$</td><td>字符串结尾处</td><td>\$</td><td>/$</td><td>&quot;$&quot;</td></tr>
+</tbody>
+</table>
+<h3><a name="Loop">重复</a></h3>
+<p>重复可以表达一些连续重复出现的模式，下面有正则表达式支持的所有重复种类：</p>
+<table>
+<thead>
+<tr><td>重复模式</td><td>意义</td></tr>
+</thead>
+<tbody>
+</tbody>
+<tr><td>X+</td><td>一或多个X</td></tr>
+<tr><td>X?</td><td>零、一或多个X</td></tr>
+<tr><td>X*</td><td>零或一个X</td></tr>
+<tr><td>X{3}</td><td>三个X</td></tr>
+<tr><td>X{3,}</td><td>三个或以上X</td></tr>
+<tr><td>X{3,5}</td><td>三、四或五个X</td></tr>
+</table>
+<p>如果一个问号紧接着一个重复模式，那么该重复被定义为尽可能早结束。</p>
+<p>举个例子，/a+/匹配"aaa"里面的"aaa"而/a+?/则匹配"aaa"里面的"a"。但是/a+b/和/a+?b/都匹配"aaab"里面的"aaab"。</p>
+<h3><a name="Seq">序列和分支</a></h3>
+<p>序列代表多个模式按顺序出现。如果我们需要匹配一个电子邮箱地址如"vczh@163.com"或"vczh@hotmail.com"，我们序号：</p>
+<p><b>\w+@\w+.\w+</b></p>
+<p>这是一个组合了/w+/、/@/、/\w+/、/./和/w+/的序列。这五个序列按照定义的顺序出现。在/w+@w+.w+/匹配"vczh@163.com"的时候，我们得到下面的结果：<br />
+/w+/ = "vczh"<br />
+/@/ = "@"<br />
+/w+/ = "163"<br />
+/./ = "."<br />
+/w+/ = "com"</p>
+<p>分支代表多个模式中的其中一个出现，例如/a|b|c/代表[abc]，而/ab|ac|de/代表"ab"、"ac"或"de"序列的优先级比分支高。</p>
+<h3><a name="Capture">捕获</a></h3>
+<p>Capturing is a way to get a more particular parsing result. Capturing enables Regex to store many sub strings that matched by the selected sub patterns, and put them under a name-string map.</p>
+<p>For example. If you want to get the user name and the server name out of an email address, you can use /(&lt;NAME&gt;\w+)@(&lt;SERVER&gt;\w+.\w+)/. After you get a RegexMatch successfully, you can use match.Groups()[L"NAME"][0] and match.Groups()[L"SERVER"][0] to get the user name and the server name.</p>
+<p>You can capture several sub strings in one group.</p>
+<p>The first example is /(&lt;GROUP&gt;\d+).(&lt;GROUP&gt;\d+)/. It parses a real number and store two part of digits in the same group called "GROUP".</p>
+<p>The second example is ((&lt;GROUP&gt;\d+),)*(&lt;GROUP&gt;\d+). It parses a integer list(separated by a comma, like "12,345,6") and stores all integers of the list in the same group called "GROUP".</p>
+<p>There is another kind of captures called "Anonymous Capture". Anonymous captures are captures that with an empty name. You cannot use /(&lt;&gt;expression)/ to get an anonymous capture. The correct syntax is /(?expression)/</p>
+<p>So, we have two kinds of captures by now:<br />
+Named captures: /(&lt;NAME&gt;expression)/<br />
+Anonymous captures: /(?expression)/</p>
+<h3><a name="Back">捕获引用</a></h3>
+<p>Back reference is a way to compare a sub string with a captured sub string. There are three kinds of back references:</p>
+<p>(&lt;$NAME&gt;): a sub string that appears in the specified group.</p>
+<p>(&lt;$NAME:i&gt;): a sub string that is the i-th string captured by the specified group.</p>
+<p>(&lt;$i&gt;): a sub string that is the i-th string captured by the anonymous group.</p>
+<p>Here i should be a non-negative integer. The index starts from 0. If the index is out of range, the comparison fails.</p>
+<p>Here is an example to tell if a string is a repeat of another string, like "aaaaa", "abCabCabC" or "1,1,1,1,1,": /<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/.<br />
+Here /(?\.+?)/ tries to store one character first, and see if the remain of the string is a repeat of the first anonymous captured string. If fails, it clears the anonymous captures and tries by two characters, three characters and more until a shortest solution is found or no solution is found.</p>
+<h3><a name="Lookahead">正向预查和反向预查</a></h3>
+<p>Positive/nagetive lookahead assertion is a tool for finding a pattern whose context satisfies a condition. For example:<br />
+We need to find a "windows" that followed by "2000", we use /windows(=2000)/<br />
+We need to find a "windows" that not followed by "2000", we use /windows(!2000)/</p>
+<p>The assertion part of a lookahead assertion can be any regular expression. For example:<br />
+We need to find a "email" that followed by some symbols and an email address, we use /email(=\W*\w+@\w+.\w+)/<br />
+</p>
+<h3><a name="Rename">子表达式命名</a></h3>
+<p>Sub expression renaming is a way to make your regular expression becomes shorter by renaming some patterns that appears everywhere and use a name instead of the pattern itself to form a larger pattern.</p>
+<p>For example, if we need to match an IPv4 address we need to tell if a text is a integer between 0 and 255.<br />
+1, we get /25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d/, and named it "BYTE".<br />
+2, we get /((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)/ for an IPv4 address.<br />
+3, put the renaming and the pattern in a single regular expression and get: /(&lt;#BYTE&gt;<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>)<font color="blue">((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)</font>/.</p>
+<p>We don't need to use /(<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>.){3}<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>/ in this case.</p>
+<p>A regular expression can have many renamings, but a sub expression reference to a renamed expression should appear after the renaming declaration</p>
+<p>For example, /(&lt;#A&gt;a)(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ (which means /a+.a+/) is correct,<br />
+but /(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;#A&gt;a)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ does not.</p>
+<p>Sub expression renaming is not part of a pattern, it is only a syntax suger. Every renamings should appears before the final pattern.</p>
 </body>
 </html>

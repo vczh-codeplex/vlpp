@@ -189,7 +189,7 @@
 <tr><td>X{3,5}</td><td>Three, four or five Xs</td></tr>
 </table>
 <p>If a looping pattern is followed by a "?", then the looping will terminated as early as possible.</p>
-<p>For example, /a+/ matches "aaa" in "aaa", but /a?/ matches "a" in "aaa". But both /a+b/ or /a+?b/ matches "aaab" in "aaab".</p>
+<p>For example, /a+/ matches "aaa" in "aaa", but /a+?/ matches "a" in "aaa". But both /a+b/ or /a+?b/ matches "aaab" in "aaab".</p>
 <h3><a name="Seq">Sequence and Choice</a></h3>
 <p>Sequence of two pattern means that the second pattern should appears right after the first pattern. Sequence is easy to understand. For example, we need to match an e-mail address like "vczh@163.com" or "vczh@hotmail.com", we need:</p>
 <p><b>\w+@\w+.\w+</b></p>
