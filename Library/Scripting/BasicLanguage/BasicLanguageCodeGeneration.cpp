@@ -112,6 +112,152 @@ BasicCodegenInfo
 					return typeInfos.Values()[index].Obj();
 				}
 			}
+
+/***********************************************************************
+BasicLanguage_PushValue
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushValue, BasicExpression, BasicCodegenInfo)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicSubscribeExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_PushValue)
+
+/***********************************************************************
+BasicLanguage_PushRef
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BasicCodegenInfo)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
+				{
+					switch(node->type)
+					{
+					case BasicUnaryExpression::PrefixIncrease:
+					case BasicUnaryExpression::PrefixDecrease:
+					case BasicUnaryExpression::DereferencePointer:
+						;
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
+				{
+					switch(node->type)
+					{
+					case BasicBinaryExpression::AddAssign:
+					case BasicBinaryExpression::SubAssign:
+					case BasicBinaryExpression::MulAssign:
+					case BasicBinaryExpression::DivAssign:
+					case BasicBinaryExpression::ModAssign:
+					case BasicBinaryExpression::ShlAssign:
+					case BasicBinaryExpression::ShrAssign:
+					case BasicBinaryExpression::AndAssign:
+					case BasicBinaryExpression::OrAssign:
+					case BasicBinaryExpression::XorAssign:
+					case BasicBinaryExpression::Assign:
+						;
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicSubscribeExpression)
+				{
+					// TODO: Add implementation
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
+				{
+					// TODO: Add implementation
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
+				{
+					// TODO: Add implementation
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
+				{
+					// TODO: Add implementation
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_PushRef)
 		}
 	}
 }

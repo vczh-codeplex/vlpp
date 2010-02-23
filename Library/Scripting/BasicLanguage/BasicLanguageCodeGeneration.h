@@ -38,6 +38,13 @@ namespace vl
 
 				BasicTypeInfo*				GetTypeInfo(BasicTypeRecord* type);
 			};
+
+/***********************************************************************
+Algorithms
+***********************************************************************/
+
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushValue, BasicExpression, BasicCodegenInfo)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BasicCodegenInfo)
 		}
 	}
 }
