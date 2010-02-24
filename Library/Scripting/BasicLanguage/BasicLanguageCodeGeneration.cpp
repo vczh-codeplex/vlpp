@@ -170,6 +170,48 @@ BasicCodegenParameter
 BasicLanguage_PushValueInternal
 ***********************************************************************/
 
+			BasicIns::ValueType Convert(BasicPrimitiveTypeEnum type)
+			{
+				switch(type)
+				{
+				case s8:
+					return BasicIns::s8;
+				case s16:
+					return BasicIns::s16;
+				case s32:
+					return BasicIns::s32;
+				case s64:
+					return BasicIns::s64;
+				case u8:
+					return BasicIns::u8;
+				case u16:
+					return BasicIns::u16;
+				case u32:
+					return BasicIns::u32;
+				case u64:
+					return BasicIns::u64;
+				case f32:
+					return BasicIns::f32;
+				case f64:
+					return BasicIns::f64;
+				case bool_type:
+					return BasicIns::bool_type;
+				case char_type:
+					return BasicIns::char_type;
+				case wchar_type:
+					return BasicIns::wchar_type;
+				default:
+					return BasicIns::int_type;
+				}
+			}
+
+			BasicIns::Argument Convert(BasicPrimitiveValueEnum value)
+			{
+				BasicIns::Argument argument;
+				argument.s64=value.s64;
+				return argument;
+			}
+
 			void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
 			{
 				// TODO: call BasicLanguage_PushValueInternal
@@ -180,10 +222,12 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
+					argument.il->Ins(BasicIns::push, BasicIns::pointer_type, BasicIns::MakePointer(0));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
+					argument.il->Ins(BasicIns::push, Convert(node->type), Convert(node->argument));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
@@ -241,18 +285,22 @@ BasicLanguage_PushRef
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicNullExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicNumericExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
 				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicMbcsStringExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
 				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicUnicodeStringExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
@@ -262,7 +310,9 @@ BasicLanguage_PushRef
 					case BasicUnaryExpression::PrefixIncrease:
 					case BasicUnaryExpression::PrefixDecrease:
 					case BasicUnaryExpression::DereferencePointer:
-						;
+						break;
+					default:
+						CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicUnaryExpression*, const BCP&)#不支持此操作。");
 					}
 				}
 
@@ -281,7 +331,9 @@ BasicLanguage_PushRef
 					case BasicBinaryExpression::OrAssign:
 					case BasicBinaryExpression::XorAssign:
 					case BasicBinaryExpression::Assign:
-						;
+						break;
+					default:
+						CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicUnaryExpression*, const BCP&)#不支持此操作。");
 					}
 				}
 
@@ -306,6 +358,7 @@ BasicLanguage_PushRef
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
 				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicCastingExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
