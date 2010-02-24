@@ -615,6 +615,8 @@ BasicLanguage_GetExpressionType
 						case BasicBinaryExpression::AndAssign:
 						case BasicBinaryExpression::OrAssign:
 						case BasicBinaryExpression::XorAssign:
+						case BasicBinaryExpression::BitAndAssign:
+						case BasicBinaryExpression::BitOrAssign:
 						case BasicBinaryExpression::Assign:
 							isAssignment=true;
 							if(!BasicLanguage_IsLeftValue(node->leftOperand, argument))
@@ -705,6 +707,8 @@ BasicLanguage_GetExpressionType
 						case BasicBinaryExpression::ModAssign:
 						case BasicBinaryExpression::ShlAssign:
 						case BasicBinaryExpression::ShrAssign:
+						case BasicBinaryExpression::BitAndAssign:
+						case BasicBinaryExpression::BitOrAssign:
 						case BasicBinaryExpression::Mod:
 						case BasicBinaryExpression::Shl:
 						case BasicBinaryExpression::Shr:

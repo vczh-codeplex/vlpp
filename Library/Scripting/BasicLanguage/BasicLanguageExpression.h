@@ -184,6 +184,8 @@ Operator Expression
 					AndAssign,
 					OrAssign,
 					XorAssign,
+					BitAndAssign,
+					BitOrAssign,
 					Assign,
 				}											type;
 				Ptr<BasicExpression>						leftOperand;
