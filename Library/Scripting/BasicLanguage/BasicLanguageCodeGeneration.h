@@ -22,25 +22,25 @@ namespace vl
 			class BasicTypeInfo : public Object
 			{
 			public:
-				int								size;
-				int								alignment;
-				collections::List<int>			offsets;
+				int												size;
+				int												alignment;
+				collections::List<int>							offsets;
 			};
 
 			class BasicCodegenInfo : public Object
 			{
 				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>> _TypeInfoTable;
 			protected:
-				BasicAnalyzer*					analyzer;
-				_TypeInfoTable					typeInfos;
+				BasicAnalyzer*									analyzer;
+				_TypeInfoTable									typeInfos;
 
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
-				BasicTypeInfo*					GetTypeInfo(BasicTypeRecord* type);
-				BasicEnv*						GetEnv();
-				BasicTypeManager*				GetTypeManager();
-				BasicAlgorithmConfiguration&	GetConfiguration();
+				BasicTypeInfo*									GetTypeInfo(BasicTypeRecord* type);
+				BasicEnv*										GetEnv();
+				BasicTypeManager*								GetTypeManager();
+				BasicAlgorithmConfiguration&					GetConfiguration();
 			};
 
 /***********************************************************************
@@ -53,22 +53,23 @@ Algorithms
 			class BasicCodegenExtension : public Object, private NotCopyable
 			{
 			public:
-				virtual BasicTypeRecord*		PushValue(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void					PushRef(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void					GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
+				virtual BasicTypeRecord*						PushValue(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void									PushRef(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void									GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 			};
 
 			struct BasicCodegenParameter
 			{
 			private:
-				BasicCodegenExtension			defaultCodegenExtension;
+				BasicCodegenExtension							defaultCodegenExtension;
 			public:
-				BasicCodegenInfo*				info;
-				basicil::BasicIL*				il;
-				stream::MemoryStream*			globalData;
-				BasicCodegenExtension*			codegenExtension;
+				BasicCodegenInfo*								info;
+				basicil::BasicIL*								il;
+				stream::MemoryStream*							globalData;
+				BasicCodegenExtension*							codegenExtension;
+				collections::List<BasicFunctionDeclaration*>&	usedFunctions;
 
-				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData);
+				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, collections::List<BasicFunctionDeclaration*>& _usedFunctions);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
 			};
 

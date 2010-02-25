@@ -10,7 +10,7 @@ Classes:
 OpCode:
   stack				:low(0) push<--data-->pop high(size)
   <binary opcode>	:*stack_top* left_operand right_operand
-
+  ------------------instructions------------------
   push					TYPE			CONSTANT		:*stack_top*									-> TYPE
   pushins				CONSTANT		INSKEY			:*stack_top*									-> instruction_pointer instruction_key
   add|sub|mul|div		TYPE							:*stack_top* TYPE TYPE							-> TYPE
@@ -34,10 +34,11 @@ OpCode:
   stack_reserve			BYTES(int)(+=push, -=pop)
   resptr												:*stack_top*									-> pointer
   ret					STACK_RESERVE_BYTES(int)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
-
+------------------link time only------------------
   link_push_data		OFFSET(int)						:*stack_top*									-> pointer
-  link_new												:*stack_top* RESPTR SIZE						-> pointer
-  link_delete											:*stack_top* NULL pointer						->
+------------------compile time only------------------
+  codegen_pushfunc		INDEX(int)						:*stack top*									-> instruction_pointer instruction_key
+  codegen_callfunc		INDEX(int)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
@@ -89,8 +90,9 @@ namespace vl
 					ret,
 
 					link_push_data,
-					link_new,
-					link_delete,
+
+					codegen_pushfunc,
+					codegen_callfunc,
 				};
 
 				OpCode							opcode;

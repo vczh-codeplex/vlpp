@@ -153,11 +153,12 @@ BasicCodegenExtension
 BasicCodegenParameter
 ***********************************************************************/
 			
-			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData)
+			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, collections::List<BasicFunctionDeclaration*>& _usedFunctions)
 				:info(_info)
 				,il(_il)
 				,globalData(_globalData)
 				,codegenExtension(&defaultCodegenExtension)
+				,usedFunctions(_usedFunctions)
 			{
 			}
 
@@ -166,6 +167,7 @@ BasicCodegenParameter
 				,il(parameter.il)
 				,globalData(parameter.globalData)
 				,codegenExtension(parameter.codegenExtension)
+				,usedFunctions(parameter.usedFunctions)
 			{
 			}
 
@@ -229,6 +231,26 @@ BasicCodegenParameter
 				BasicIns::Argument argument;
 				argument.s64=value.s64;
 				return argument;
+			}
+
+			int GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
+			{
+				int index=-1;
+				if(referenceExpression)
+				{
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(referenceExpression);
+					if(!reference.isVariable)
+					{
+						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
+						index=argument.usedFunctions.IndexOf(function);
+						if(index==-1)
+						{
+							index=argument.usedFunctions.Count();
+							argument.usedFunctions.Add(function);
+						}
+					}
+				}
+				return index;
 			}
 
 			void Code_ScaleAdder(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne)
@@ -654,7 +676,26 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
 				{
-					return 0;
+					BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
+					int index=GetFunctionIndex(referenceExpression, argument);
+
+					BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+					for(int i=node->arguments.Count()-1;i>=0;i--)
+					{
+						BasicLanguage_PushValue(node->arguments[i], argument, type->ParameterType(i));
+					}
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(0));
+					BasicLanguage_PushValue(node->function, argument);
+					if(index==-1)
+					{
+						argument.il->Ins(BasicIns::call_indirect);
+					}
+					else
+					{
+						argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
+					}
+					return type;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
@@ -685,7 +726,8 @@ BasicLanguage_PushValueInternal
 					}
 					else
 					{
-						// TODO: Add Implementation
+						int index=GetFunctionIndex(node, argument);
+						argument.il->Ins(BasicIns::codegen_pushfunc, BasicIns::MakeInt(index));
 					}
 					return nodeType;
 				}
