@@ -22,24 +22,25 @@ namespace vl
 			class BasicTypeInfo : public Object
 			{
 			public:
-				int							size;
-				int							alignment;
-				collections::List<int>		offsets;
+				int								size;
+				int								alignment;
+				collections::List<int>			offsets;
 			};
 
 			class BasicCodegenInfo : public Object
 			{
 				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>> _TypeInfoTable;
 			protected:
-				BasicAnalyzer*				analyzer;
-				_TypeInfoTable				typeInfos;
+				BasicAnalyzer*					analyzer;
+				_TypeInfoTable					typeInfos;
 
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
-				BasicTypeInfo*				GetTypeInfo(BasicTypeRecord* type);
-				BasicEnv*					GetEnv();
-				BasicTypeManager*			GetTypeManager();
+				BasicTypeInfo*					GetTypeInfo(BasicTypeRecord* type);
+				BasicEnv*						GetEnv();
+				BasicTypeManager*				GetTypeManager();
+				BasicAlgorithmConfiguration&	GetConfiguration();
 			};
 
 /***********************************************************************
@@ -52,30 +53,30 @@ Algorithms
 			class BasicCodegenExtension : public Object, private NotCopyable
 			{
 			public:
-				virtual void				PushValue(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void				PushRef(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void				GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
+				virtual BasicTypeRecord*		PushValue(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void					PushRef(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void					GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 			};
 
 			struct BasicCodegenParameter
 			{
 			private:
-				BasicCodegenExtension		defaultCodegenExtension;
+				BasicCodegenExtension			defaultCodegenExtension;
 			public:
-				BasicCodegenInfo*			info;
-				basicil::BasicIL*			il;
-				stream::MemoryStream*		globalData;
-				BasicCodegenExtension*		codegenExtension;
+				BasicCodegenInfo*				info;
+				basicil::BasicIL*				il;
+				stream::MemoryStream*			globalData;
+				BasicCodegenExtension*			codegenExtension;
 
 				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
 			};
 
-			extern void BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument);
-			extern void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument);
-			extern void BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType);
-			extern void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType);
-			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal, BasicExpression, BCP)
+			extern BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument);
+			extern BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument);
+			extern BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType);
+			extern BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal, BasicExpression, BCP, BasicTypeRecord*)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 		}
