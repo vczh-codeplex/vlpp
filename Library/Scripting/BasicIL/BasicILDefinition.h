@@ -78,6 +78,7 @@ namespace vl
 
 				enum OpCode
 				{
+					// TODO: Turn function pointer into sizeof(int), use a function pointer list and a function-to-pushins conversion instruction
 					push,pushins,
 					add,sub,mul,div,mod,shl,shr,neg,
 					and,or,xor,not,
