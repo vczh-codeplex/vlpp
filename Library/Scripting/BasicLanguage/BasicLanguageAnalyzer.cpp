@@ -1269,6 +1269,11 @@ BasicAnalyzer
 				return errors.Wrap();
 			}
 
+			BasicAlgorithmConfiguration& BasicAnalyzer::GetConfiguration()
+			{
+				return configuration;
+			}
+
 			void BasicAnalyzer::Analyze()
 			{
 				if(!analyzed)

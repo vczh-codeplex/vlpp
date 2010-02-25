@@ -103,6 +103,7 @@ BasicAnalyzer
 				BasicEnv*															GetEnv();
 				BasicTypeManager*													GetTypeManager();
 				const collections::IReadonlyList<Ptr<BasicLanguageCodeException>>&	GetErrors();
+				BasicAlgorithmConfiguration&										GetConfiguration();
 				void																Analyze();
 			};
 		}

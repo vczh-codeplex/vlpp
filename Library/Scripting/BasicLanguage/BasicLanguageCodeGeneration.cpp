@@ -125,11 +125,16 @@ BasicCodegenInfo
 				return analyzer->GetTypeManager();
 			}
 
+			BasicAlgorithmConfiguration& BasicCodegenInfo::GetConfiguration()
+			{
+				return analyzer->GetConfiguration();
+			}
+
 /***********************************************************************
 BasicCodegenExtension
 ***********************************************************************/
 
-			void BasicCodegenExtension::PushValue(BasicExtendedExpression* expression, const BCP& argument)
+			BasicTypeRecord* BasicCodegenExtension::PushValue(BasicExtendedExpression* expression, const BCP& argument)
 			{
 				CHECK_ERROR(false, L"BasicCodegenExtension::PushValue(BasicExtendedExpression*, const BCP&)#不支持此操作。");
 			}
@@ -231,7 +236,7 @@ BasicCodegenParameter
 				int size=1;
 				if(addedValueType->GetType()==BasicTypeRecord::Pointer)
 				{
-					size=argument.info->GetTypeInfo(addedValueType)->size;
+					size=argument.info->GetTypeInfo(addedValueType->ElementType())->size;
 				}
 				if(scaleOne)
 				{
@@ -251,16 +256,16 @@ BasicCodegenParameter
 				}
 			}
 
-			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument)
-			{
-				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(0));
-				argument.il->Ins(BasicIns::read, Convert(type));
-			}
-
 			void Code_DereferencePointer(BasicTypeRecord* type, const BCP& argument)
 			{
 				// TODO: consider non-primitive type
 				argument.il->Ins(BasicIns::read, Convert(type));
+			}
+
+			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset=0)
+			{
+				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
+				Code_DereferencePointer(type, argument);
 			}
 
 			void Code_Convert(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument)
@@ -281,107 +286,160 @@ BasicCodegenParameter
 				}
 			}
 
+			BasicTypeRecord* Code_Binary(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
+			{
+				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+				if(type->GetType()==BasicTypeRecord::Primitive)
+				{
+					bool sign=false;
+					int bytes=0;
+					if(argument.info->GetConfiguration().DecodeInteger(type->PrimitiveType(), sign, bytes))
+					{
+						if(bytes<4)
+						{
+							BasicPrimitiveTypeEnum primitiveType=void_type;
+							argument.info->GetConfiguration().EncodeInteger(primitiveType, sign, bytes);
+							type=argument.info->GetTypeManager()->GetPrimitiveType(primitiveType);
+						}
+					}
+				}
+				BasicLanguage_PushValue(node->rightOperand, argument, type);
+				BasicLanguage_PushValue(node->leftOperand, argument, type);
+				argument.il->Ins(opCode, Convert(type));
+				return type;
+			}
+
+			BasicTypeRecord* Code_Compare(BasicBinaryExpression* node, BasicTypeRecord* leftType, BasicTypeRecord* rightType, const BCP& argument, BasicIns::OpCode opCode)
+			{
+				BasicTypeRecord* type=leftType;
+				if(leftType->GetType()==BasicTypeRecord::Primitive && rightType->GetType()==BasicTypeRecord::Primitive)
+				{
+					BasicPrimitiveTypeEnum result=void_type;
+					argument.info->GetConfiguration().NumberBinaryOperatorTypeConversion(leftType->PrimitiveType(), rightType->PrimitiveType(), result);
+					type=argument.info->GetTypeManager()->GetPrimitiveType(result);
+				}
+				BasicLanguage_PushValue(node->rightOperand, argument, type);
+				BasicLanguage_PushValue(node->leftOperand, argument, type);
+				argument.il->Ins(opCode, Convert(type));
+				return argument.info->GetTypeManager()->GetPrimitiveType(bool_type);
+			}
+
+			BasicTypeRecord* Code_BinaryAssign(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
+			{
+				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+				BasicLanguage_PushValue(node->rightOperand, argument, type);
+				BasicLanguage_PushValue(node->leftOperand, argument, type);
+				argument.il->Ins(opCode, Convert(type));
+				Code_CopyStack(type, argument);
+				BasicLanguage_PushRef(node->leftOperand, argument);
+				argument.il->Ins(BasicIns::write, Convert(type));
+				return type;
+			}
+
 /***********************************************************************
 BasicLanguage_PushValueInternal
 ***********************************************************************/
 
-			void BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument)
+			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument)
 			{
-				BasicLanguage_PushValueInternal(expression, argument);
+				return BasicLanguage_PushValueInternal(expression, argument);
 			}
 
-			void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
+			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
 			{
-				BasicLanguage_PushValueInternal(expression, argument);
+				return BasicLanguage_PushValueInternal(expression, argument);
 			}
 
-			void BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType)
+			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType)
 			{
-				BasicLanguage_PushValue(expression.Obj(), argument, expectedType);
+				return BasicLanguage_PushValue(expression.Obj(), argument, expectedType);
 			}
 
-			void BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType)
+			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType)
 			{
-				BasicLanguage_PushValueInternal(expression, argument);
-				Code_Convert(argument.info->GetEnv()->GetExpressionType(expression), expectedType, argument);
+				BasicTypeRecord* type=BasicLanguage_PushValueInternal(expression, argument);
+				Code_Convert(type, expectedType, argument);
+				return expectedType;
 			}
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal, BasicExpression, BCP)
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal, BasicExpression, BCP, BasicTypeRecord*)
 
-				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
 				{
 					argument.il->Ins(BasicIns::push, BasicIns::pointer_type, BasicIns::MakePointer(0));
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					argument.il->Ins(BasicIns::push, Convert(node->type), Convert(node->argument));
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
 					int length=node->value.Length()*sizeof(char);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.il->Ins(BasicIns::link_push_data, BasicIns::MakeInt(offset));
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
 					int length=node->value.Length()*sizeof(wchar_t);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.il->Ins(BasicIns::link_push_data, BasicIns::MakeInt(offset));
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicUnaryExpression)
 				{
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_ScaleAdder(type, argument, true);
-							argument.il->Ins(BasicIns::add, Convert(type));
-							Code_CopyStack(type, argument);
+							argument.il->Ins(BasicIns::add, Convert(operandType));
+							Code_CopyStack(operandType, argument);
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(type));
+							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::PostfixIncrease:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_CopyStack(type, argument);
-							Code_ScaleAdder(type, argument, true);
-							argument.il->Ins(BasicIns::add, Convert(type));
+							Code_ScaleAdder(operandType, argument, true);
+							Code_CopyStack(operandType, argument, argument.info->GetTypeInfo(operandType)->size);
+							argument.il->Ins(BasicIns::add, Convert(operandType));
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(type));
+							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::PrefixDecrease:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_ScaleAdder(type, argument, true);
-							argument.il->Ins(BasicIns::sub, Convert(type));
-							Code_CopyStack(type, argument);
+							argument.il->Ins(BasicIns::sub, Convert(operandType));
+							Code_CopyStack(operandType, argument);
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(type));
+							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::PostfixDecrease:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_CopyStack(type, argument);
-							Code_ScaleAdder(type, argument, true);
-							argument.il->Ins(BasicIns::sub, Convert(type));
+							Code_ScaleAdder(operandType, argument, true);
+							Code_CopyStack(operandType, argument, argument.info->GetTypeInfo(operandType)->size);
+							argument.il->Ins(BasicIns::sub, Convert(operandType));
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(type));
+							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::GetAddress:
@@ -391,124 +449,217 @@ BasicLanguage_PushValueInternal
 						break;
 					case BasicUnaryExpression::DereferencePointer:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_DereferencePointer(type->ElementType(), argument);
+							Code_DereferencePointer(operandType->ElementType(), argument);
+							Code_Convert(operandType->ElementType(), nodeType, argument);
 						}
 						break;
 					case BasicUnaryExpression::Negative:
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-							BasicLanguage_PushValue(node->operand, argument, type);
-							argument.il->Ins(BasicIns::neg, Convert(type));
+							BasicLanguage_PushValue(node->operand, argument, nodeType);
+							argument.il->Ins(BasicIns::neg, Convert(nodeType));
 						}
 						break;
 					case BasicUnaryExpression::Not:
 					case BasicUnaryExpression::BitNot:
 						{
 							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-							BasicLanguage_PushValue(node->operand, argument, type);
-							argument.il->Ins(BasicIns::not, Convert(type));
+							BasicLanguage_PushValue(node->operand, argument, nodeType);
+							argument.il->Ins(BasicIns::not, Convert(nodeType));
 						}
 						break;
 					}
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicBinaryExpression)
 				{
+					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
+					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
+
 					switch(node->type)
 					{
 					case BasicBinaryExpression::Add:
-						break;
+						if(leftType->GetType()==BasicTypeRecord::Pointer)
+						{
+							BasicLanguage_PushValue(node->rightOperand, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
+							Code_ScaleAdder(leftType, argument, false);
+							BasicLanguage_PushValue(node->leftOperand, argument);
+							argument.il->Ins(BasicIns::add, BasicIns::pointer_type);
+							return leftType;
+						}
+						else if(rightType->GetType()==BasicTypeRecord::Pointer)
+						{
+							BasicLanguage_PushValue(node->rightOperand, argument);
+							BasicLanguage_PushValue(node->leftOperand, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
+							Code_ScaleAdder(leftType, argument, false);
+							argument.il->Ins(BasicIns::add, BasicIns::pointer_type);
+							return rightType;
+						}
+						else
+						{
+							return Code_Binary(node, argument, BasicIns::add);
+						}
 					case BasicBinaryExpression::Sub:
-						break;
+						if(leftType->GetType()==BasicTypeRecord::Pointer)
+						{
+							int size=argument.info->GetTypeInfo(leftType->ElementType())->size;
+							if(rightType->GetType()==BasicTypeRecord::Pointer)
+							{
+								if(size>1)
+								{
+									argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
+								}
+								BasicLanguage_PushValue(node->rightOperand, argument);
+								BasicLanguage_PushValue(node->leftOperand, argument);
+								argument.il->Ins(BasicIns::sub, BasicIns::pointer_type);
+								if(size>1)
+								{
+									argument.il->Ins(BasicIns::div, BasicIns::int_type);
+								}
+								return argument.info->GetTypeManager()->GetPrimitiveType(int_type);
+							}
+							else
+							{
+								BasicLanguage_PushValue(node->rightOperand, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
+								Code_ScaleAdder(leftType, argument, false);
+								BasicLanguage_PushValue(node->leftOperand, argument);
+								argument.il->Ins(BasicIns::sub, BasicIns::pointer_type);
+								return leftType;
+							}
+						}
+						else
+						{
+							return Code_Binary(node, argument, BasicIns::sub);
+						}
 					case BasicBinaryExpression::Mul:
-						break;
+						return Code_Binary(node, argument, BasicIns::mul);
 					case BasicBinaryExpression::Div:
-						break;
+						return Code_Binary(node, argument, BasicIns::div);
 					case BasicBinaryExpression::Mod:
-						break;
+						return Code_Binary(node, argument, BasicIns::mod);
 					case BasicBinaryExpression::Shl:
-						break;
+						return Code_Binary(node, argument, BasicIns::shl);
 					case BasicBinaryExpression::Shr:
-						break;
+						return Code_Binary(node, argument, BasicIns::shr);
 					case BasicBinaryExpression::And:
-						break;
-					case BasicBinaryExpression::Or:
-						break;
-					case BasicBinaryExpression::Xor:
-						break;
 					case BasicBinaryExpression::BitAnd:
-						break;
+						return Code_Binary(node, argument, BasicIns::and);
+					case BasicBinaryExpression::Or:
 					case BasicBinaryExpression::BitOr:
-						break;
+						return Code_Binary(node, argument, BasicIns::or);
+					case BasicBinaryExpression::Xor:
+						return Code_Binary(node, argument, BasicIns::xor);
 					case BasicBinaryExpression::Lt:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::lt);
 					case BasicBinaryExpression::Le:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::le);
 					case BasicBinaryExpression::Gt:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::gt);
 					case BasicBinaryExpression::Ge:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::ge);
 					case BasicBinaryExpression::Eq:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::eq);
 					case BasicBinaryExpression::Ne:
-						break;
+						return Code_Compare(node, leftType, rightType, argument, BasicIns::ne);
 					case BasicBinaryExpression::AddAssign:
-						break;
+						if(leftType->GetType()==BasicTypeRecord::Pointer)
+						{
+							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+							Code_ScaleAdder(leftType, argument, false);
+							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							argument.il->Ins(BasicIns::add, Convert(leftType));
+							Code_CopyStack(leftType, argument);
+							BasicLanguage_PushRef(node->leftOperand, argument);
+							argument.il->Ins(BasicIns::write, Convert(leftType));
+							return leftType;
+						}
+						else
+						{
+							return Code_BinaryAssign(node, argument, BasicIns::add);
+						}
 					case BasicBinaryExpression::SubAssign:
-						break;
+						if(leftType->GetType()==BasicTypeRecord::Pointer)
+						{
+							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+							Code_ScaleAdder(leftType, argument, false);
+							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							argument.il->Ins(BasicIns::sub, Convert(leftType));
+							Code_CopyStack(leftType, argument);
+							BasicLanguage_PushRef(node->leftOperand, argument);
+							argument.il->Ins(BasicIns::write, Convert(leftType));
+							return leftType;
+						}
+						else
+						{
+							return Code_BinaryAssign(node, argument, BasicIns::sub);
+						}
 					case BasicBinaryExpression::MulAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::mul);
 					case BasicBinaryExpression::DivAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::div);
 					case BasicBinaryExpression::ModAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::mod);
 					case BasicBinaryExpression::ShlAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::shl);
 					case BasicBinaryExpression::ShrAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::shr);
 					case BasicBinaryExpression::AndAssign:
-						break;
+					case BasicBinaryExpression::BitAndAssign:
+						return Code_BinaryAssign(node, argument, BasicIns::and);
 					case BasicBinaryExpression::OrAssign:
-						break;
+					case BasicBinaryExpression::BitOrAssign:
+						return Code_BinaryAssign(node, argument, BasicIns::or);
 					case BasicBinaryExpression::XorAssign:
-						break;
+						return Code_BinaryAssign(node, argument, BasicIns::xor);
 					case BasicBinaryExpression::Assign:
-						break;
+						{
+							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+							Code_CopyStack(leftType, argument);
+							BasicLanguage_PushRef(node->leftOperand, argument);
+							argument.il->Ins(BasicIns::write, Convert(leftType));
+							return leftType;
+						}
 					}
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicSubscribeExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
+					return 0;
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
-					argument.codegenExtension->PushValue(node, argument);
+					return argument.codegenExtension->PushValue(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_PushValueInternal)
+			END_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal)
 
 /***********************************************************************
 BasicLanguage_PushRef
