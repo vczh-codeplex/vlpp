@@ -626,12 +626,30 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
 				{
-					return 0;
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+					if(operandType->GetType()==BasicTypeRecord::Pointer)
+					{
+						BasicLanguage_PushValue(node->operand, argument);
+					}
+					else
+					{
+						BasicLanguage_PushRef(node->operand, argument);
+						operandType=argument.info->GetTypeManager()->GetPointerType(nodeType);
+					}
+					BasicLanguage_PushValue(node->subscribe, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
+					Code_ScaleAdder(operandType, argument, false);
+					argument.il->Ins(BasicIns::add, BasicIns::int_type);
+					Code_DereferencePointer(nodeType, argument);
+					return nodeType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
 				{
-					return 0;
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicLanguage_PushRef(node, argument);
+					Code_DereferencePointer(nodeType, argument);
+					return nodeType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
@@ -641,17 +659,35 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
 				{
-					return 0;
+					BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+					argument.il->Ins(BasicIns::resptr);
+					Code_DereferencePointer(type, argument);
+					return type;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
-					return 0;
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+					BasicLanguage_PushValue(node->operand, argument);
+					Code_Convert(operandType, nodeType, argument);
+					return nodeType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					return 0;
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node);
+					if(reference.isVariable)
+					{
+						BasicLanguage_PushRef(node, argument);
+						Code_DereferencePointer(nodeType, argument);
+					}
+					else
+					{
+						// TODO: Add Implementation
+					}
+					return nodeType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
