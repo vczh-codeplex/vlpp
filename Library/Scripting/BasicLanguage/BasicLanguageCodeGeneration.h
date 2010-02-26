@@ -37,6 +37,9 @@ namespace vl
 				collections::Dictionary<BasicVariableDeclaration*, int>		globalVariableOffsets;
 				collections::Dictionary<BasicVariableStatement*, int>		localVariableOffsets;
 
+				int															maxVariableSpace;
+				int															usedVariableSpace;
+				collections::List<int>										variableSpaceStack;
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -47,6 +50,11 @@ namespace vl
 				collections::IList<BasicFunctionDeclaration*>&				GetFunctions();
 				collections::IDictionary<BasicVariableDeclaration*, int>&	GetGlobalVariableOffsets();
 				collections::IDictionary<BasicVariableStatement*, int>&		GetLocalVariableOffsets();
+
+				void														BeginFunction();
+				void														EnterScope();
+				void														LeaveScope();
+				int															UseVariable(int size);
 			};
 
 /***********************************************************************

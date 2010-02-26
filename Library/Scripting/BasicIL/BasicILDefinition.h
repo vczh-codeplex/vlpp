@@ -170,6 +170,7 @@ namespace vl
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
+				BasicIns&						Last();
 			};
 		}
 	}

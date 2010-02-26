@@ -17,6 +17,8 @@ BasicCodegenInfo
 
 			BasicCodegenInfo::BasicCodegenInfo(BasicAnalyzer* _analyzer)
 				:analyzer(_analyzer)
+				,maxVariableSpace(0)
+				,usedVariableSpace(0)
 			{
 			}
 
@@ -143,6 +145,35 @@ BasicCodegenInfo
 			collections::IDictionary<BasicVariableStatement*, int>& BasicCodegenInfo::GetLocalVariableOffsets()
 			{
 				return localVariableOffsets.Wrap();
+			}
+
+			void BasicCodegenInfo::BeginFunction()
+			{
+				maxVariableSpace=0;
+				usedVariableSpace=0;
+				variableSpaceStack.Clear();
+				variableSpaceStack.Add(0);
+			}
+
+			void BasicCodegenInfo::EnterScope()
+			{
+				variableSpaceStack.Add(usedVariableSpace);
+			}
+
+			void BasicCodegenInfo::LeaveScope()
+			{
+				usedVariableSpace=variableSpaceStack[variableSpaceStack.Count()-1];
+				variableSpaceStack.RemoveAt(variableSpaceStack.Count());
+			}
+
+			int BasicCodegenInfo::UseVariable(int size)
+			{
+				usedVariableSpace+=size;
+				if(usedVariableSpace>maxVariableSpace)
+				{
+					maxVariableSpace=usedVariableSpace;
+				}
+				return -usedVariableSpace;
 			}
 
 /***********************************************************************
@@ -672,6 +703,7 @@ BasicLanguage_PushValueInternal
 						return Code_BinaryAssign(node, argument, BasicIns::xor);
 					case BasicBinaryExpression::Assign:
 						{
+							// TODO: Optimize for big type
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_CopyStack(leftType, argument);
 							BasicLanguage_PushRef(node->leftOperand, argument);
@@ -894,6 +926,7 @@ BasicLanguage_PushRef
 						break;
 					case BasicBinaryExpression::Assign:
 						{
+							// TODO: Optimize for big type
 							BasicLanguage_PushRef(node->leftOperand, argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_CopyStack(pointerType, argument, leftSize);
@@ -1011,18 +1044,55 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
+					argument.info->EnterScope();
+					for(int i=0;i<node->statements.Count();i++)
+					{
+						BasicLanguage_GenerateCode(node->statements[i], argument);
+					}
+					argument.info->LeaveScope();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExpressionStatement)
 				{
+					// TODO: optimize for laziness
+					BasicTypeRecord* type=BasicLanguage_PushValue(node->expression, argument);
+					int size=argument.info->GetTypeInfo(type)->size;
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-size));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
 				{
+					BasicScope* scope=argument.info->GetEnv()->GetStatementScope(node);
+					BasicTypeRecord* type=scope->variables.Items()[node->name].type;
+					int size=argument.info->GetTypeInfo(type)->size;
+					int offset=argument.info->UseVariable(size);
+					argument.info->GetLocalVariableOffsets().Add(node, offset);
+					if(node->initializer)
+					{
+						BasicLanguage_PushValue(node->initializer, argument, type);
+						argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
+						Code_Write(type, argument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
 				{
+					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
+					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+					BasicIns& jumpToFalse=argument.il->Last();
+					BasicLanguage_GenerateCode(node->trueStatement, argument);
+					if(node->falseStatement)
+					{
+						argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+						BasicIns& jumpToEnd=argument.il->Last();
+						jumpToFalse.argument.int_value=argument.il->instructions.Count();
+						BasicLanguage_GenerateCode(node->falseStatement, argument);
+						jumpToEnd.argument.int_value=argument.il->instructions.Count();
+					}
+					else
+					{
+						jumpToFalse.argument.int_value=argument.il->instructions.Count();
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
@@ -1102,7 +1172,10 @@ BasicLanguage_GenerateCodePass2
 				{
 					if(node->statement)
 					{
+						// TODO: initialization
+						argument.info->BeginFunction();
 						BasicLanguage_GenerateCode(node->statement, argument);
+						// TODO: finalization
 					}
 				}
 

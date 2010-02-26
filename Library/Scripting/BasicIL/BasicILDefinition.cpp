@@ -176,6 +176,11 @@ BasicIL
 				instructions.Add(ins);
 				return *this;
 			}
+
+			BasicIns& BasicIL::Last()
+			{
+				return instructions[instructions.Count()];
+			}
 		}
 	}
 }
