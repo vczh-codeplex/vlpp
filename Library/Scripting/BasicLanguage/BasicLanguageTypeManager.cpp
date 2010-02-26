@@ -67,6 +67,11 @@ BasicTypeRecord
 				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(int)#不支持此操作。");
 			}
 
+			int BasicTypeRecord::MemberNameIndex(const WString& name)
+			{
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(int)#不支持此操作。");
+			}
+
 			int BasicTypeRecord::MemberCount()
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::MemberCount()#不支持此操作。");
@@ -196,6 +201,11 @@ BasicStructureTypeRecord
 			const WString& BasicStructureTypeRecord::MemberName(int index)
 			{
 				return names[index];
+			}
+
+			int BasicStructureTypeRecord::MemberNameIndex(const WString& name)
+			{
+				return names.IndexOf(name);
 			}
 
 			int BasicStructureTypeRecord::MemberCount()

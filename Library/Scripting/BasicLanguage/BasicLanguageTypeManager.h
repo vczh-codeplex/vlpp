@@ -54,6 +54,7 @@ namespace vl
 				virtual BasicTypeRecord*				MemberType(int index);
 				virtual BasicTypeRecord*				MemberType(const WString& name);
 				virtual const WString&					MemberName(int index);
+				virtual int								MemberNameIndex(const WString& name);
 				virtual int								MemberCount();
 				virtual bool							Defined();
 			};
@@ -137,6 +138,7 @@ namespace vl
 				BasicTypeRecord*						MemberType(int index);
 				BasicTypeRecord*						MemberType(const WString& name);
 				const WString&							MemberName(int index);
+				int										MemberNameIndex(const WString& name);
 				int										MemberCount();
 				bool									Defined();
 			};

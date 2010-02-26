@@ -409,12 +409,12 @@ BasicLanguage_IsLeftValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
 				{
-					return true;
+					return BasicLanguage_IsLeftValue(node->operand, argument);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
 				{
-					return true;
+					return BasicLanguage_IsLeftValue(node->operand, argument);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
