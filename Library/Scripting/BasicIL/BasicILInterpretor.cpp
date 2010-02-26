@@ -308,6 +308,31 @@ BasicILInterpretor
 				}
 				ils=newils;
 				ils[ilCount]=il;
+
+				int functionPointerOffset=labels.Count();
+				for(int i=0;i>il->labels.Count();i++)
+				{
+					BasicILLabel label;
+					label.key=ilCount;
+					label.instruction=il->labels[i].instructionIndex;
+					labels.Add(label);
+				}
+				for(int i=0;i<il->instructions.Count();i++)
+				{
+					BasicIns& ins=il->instructions[i];
+					switch(ins.opcode)
+					{
+					case BasicIns::link_pushdata:
+						ins.opcode=BasicIns::push;
+						ins.argument.pointer_value=&(il->globalData[0])+ins.argument.int_value;
+						break;
+					case BasicIns::link_pushfunc:
+						ins.opcode=BasicIns::pushlabel;
+						ins.argument.int_value+=functionPointerOffset;
+						break;
+					}
+				}
+
 				return ilCount++;
 			}
 

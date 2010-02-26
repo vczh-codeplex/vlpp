@@ -42,7 +42,7 @@ OpCode:
   link_pushdata			OFFSET(int)						:*stack_top*									-> pointer
   link_pushfunc			INDEX(int)						:*stack_top*									-> instruction_label_index
 ------------------compile time only------------------
-  codegen_pushfunc		INDEX(int)						:*stack top*									-> instruction_pointer instruction_key
+  codegen_pushfunc		INDEX(int)						:*stack top*									-> instruction_label_index
   codegen_callfunc		INDEX(int)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
 
@@ -165,7 +165,16 @@ namespace vl
 			class BasicIL : public Object
 			{
 			public:
+				struct Label
+				{
+					int							instructionIndex;
+
+					bool						operator==(const Label& label);
+				};
+
 				collections::List<BasicIns>		instructions;
+				collections::List<Label>		labels;
+				collections::Array<char>		globalData;
 
 				BasicIL&						Ins(BasicIns::OpCode opcode);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::Argument argument);
