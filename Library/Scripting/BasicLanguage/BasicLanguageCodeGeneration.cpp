@@ -35,6 +35,10 @@ BasicCodegenInfo
 							BasicTypeInfo* element=GetTypeInfo(type->ElementType());
 							info->alignment=element->alignment;
 							info->size=element->size*type->ElementCount();
+							if(info->size==0)
+							{
+								info->size=info->alignment;
+							}
 						}
 						break;
 					case BasicTypeRecord::Function:
@@ -1264,7 +1268,12 @@ BasicLanguage_GenerateCodePass1
 					argument.info->GetGlobalVariableOffsets().Add(node, offset);
 					delete[] data;
 
-					// TODO: Generate code for initializer
+					if(node->initializer)
+					{
+						BasicLanguage_PushValue(node->initializer, argument, type);
+						argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+						Code_Write(type, argument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
@@ -1297,6 +1306,7 @@ BasicLanguage_GenerateCodePass2
 
 						argument.info->BeginFunction();
 						BasicLanguage_GenerateCode(node->statement, argument);
+						int functionStart=argument.il->instructions.Count();
 						argument.info->EndFunction(argument.il->instructions.Count());
 
 						reserveVariables.argument.int_value=argument.info->GetMaxVariableSpace();
@@ -1309,6 +1319,10 @@ BasicLanguage_GenerateCodePass2
 							parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 						}
 						argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
+
+						BasicIL::Label label;
+						label.instructionIndex=functionStart;
+						argument.il->labels.Add(label);
 					}
 				}
 
@@ -1337,13 +1351,39 @@ BasicLanguage_GenerateCode
 
 			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument)
 			{
+				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
+				BasicIns& reserveVariables=argument.il->Last();
+				argument.info->BeginFunction();
+
 				for(int i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
+
+				argument.info->EndFunction(argument.il->instructions.Count());
+				reserveVariables.argument.int_value=argument.info->GetMaxVariableSpace();
+				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+				argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(0));
+
 				for(int i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_GenerateCodePass2(program->declarations[i], argument);
+				}
+
+				for(int i=0;i<argument.il->instructions.Count();i++)
+				{
+					BasicIns& ins=argument.il->instructions[i];
+					switch(ins.opcode)
+					{
+					case BasicIns::codegen_callfunc:
+						ins.opcode=BasicIns::call;
+						ins.insKey=-1;
+						ins.argument.int_value=argument.il->labels[ins.argument.int_value].instructionIndex;
+						break;
+					case BasicIns::codegen_pushfunc:
+						ins.opcode=BasicIns::link_pushfunc;
+						break;
+					}
 				}
 			}
 		}
