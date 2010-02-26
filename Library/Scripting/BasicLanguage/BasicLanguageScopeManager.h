@@ -37,12 +37,27 @@ namespace vl
 				BasicScope();
 				~BasicScope();
 			public:
+				struct Variable
+				{
+					BasicVariableDeclaration*			globalVariable;
+					BasicVariableStatement*				localVariable;
+					int									parameterIndex;
+					BasicTypeRecord*					type;
+
+					Variable();
+					Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type);
+					Variable(BasicVariableStatement* variable, BasicTypeRecord* _type);
+					Variable(int variable, BasicTypeRecord* _type);
+
+					operator bool();
+					bool								operator==(const Variable& variable);
+				};
 
 				BasicFunctionDeclaration*											OwnerDeclaration();
 				BasicStatement*														OwnerStatement();
 
 				CommonScopeItems<BasicScope, WString, BasicTypeRecord*>				types;
-				CommonScopeItems<BasicScope, WString, BasicTypeRecord*>				variables;
+				CommonScopeItems<BasicScope, WString, Variable>						variables;
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 			};
 
@@ -51,8 +66,18 @@ namespace vl
 			public:
 				struct Reference
 				{
-					BasicScope*		scope;
-					bool			isVariable;
+					BasicScope*							scope;
+					BasicVariableDeclaration*			globalVariable;
+					BasicVariableStatement*				localVariable;
+					int									parameterIndex;
+					BasicFunctionDeclaration*			function;
+					bool								isVariable;
+
+					Reference();
+					Reference(BasicScope* _scope, BasicVariableDeclaration* variable);
+					Reference(BasicScope* _scope, BasicVariableStatement* variable);
+					Reference(BasicScope* _scope, int parameter);
+					Reference(BasicScope* _scope, BasicFunctionDeclaration* function);
 
 					bool			operator==(const Reference& r);
 				};

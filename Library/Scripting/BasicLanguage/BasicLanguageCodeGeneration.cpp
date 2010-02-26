@@ -130,6 +130,21 @@ BasicCodegenInfo
 				return analyzer->GetConfiguration();
 			}
 
+			collections::IList<BasicFunctionDeclaration*>& BasicCodegenInfo::GetFunctions()
+			{
+				return functions.Wrap();
+			}
+
+			collections::IDictionary<BasicVariableDeclaration*, int>& BasicCodegenInfo::GetGlobalVariableOffsets()
+			{
+				return globalVariableOffsets.Wrap();
+			}
+
+			collections::IDictionary<BasicVariableStatement*, int>& BasicCodegenInfo::GetLocalVariableOffsets()
+			{
+				return localVariableOffsets.Wrap();
+			}
+
 /***********************************************************************
 BasicCodegenExtension
 ***********************************************************************/
@@ -153,12 +168,11 @@ BasicCodegenExtension
 BasicCodegenParameter
 ***********************************************************************/
 			
-			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, collections::List<BasicFunctionDeclaration*>& _usedFunctions)
+			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData)
 				:info(_info)
 				,il(_il)
 				,globalData(_globalData)
 				,codegenExtension(&defaultCodegenExtension)
-				,usedFunctions(_usedFunctions)
 			{
 			}
 
@@ -167,7 +181,6 @@ BasicCodegenParameter
 				,il(parameter.il)
 				,globalData(parameter.globalData)
 				,codegenExtension(parameter.codegenExtension)
-				,usedFunctions(parameter.usedFunctions)
 			{
 			}
 
@@ -235,22 +248,16 @@ BasicCodegenParameter
 
 			int GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
 			{
-				int index=-1;
 				if(referenceExpression)
 				{
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(referenceExpression);
 					if(!reference.isVariable)
 					{
 						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
-						index=argument.usedFunctions.IndexOf(function);
-						if(index==-1)
-						{
-							index=argument.usedFunctions.Count();
-							argument.usedFunctions.Add(function);
-						}
+						return argument.info->GetFunctions().IndexOf(function);
 					}
 				}
-				return index;
+				return -1;
 			}
 
 			void Code_ScaleAdder(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne)
@@ -938,7 +945,35 @@ BasicLanguage_PushRef
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
 				{
-					// TODO: Add implementation
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node);
+					if(reference.isVariable)
+					{
+						if(reference.globalVariable)
+						{
+							int offset=argument.info->GetGlobalVariableOffsets()[reference.globalVariable];
+							argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+						}
+						else if(reference.localVariable)
+						{
+							int offset=argument.info->GetLocalVariableOffsets()[reference.localVariable];
+							argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
+						}
+						else
+						{
+							int offset=0;
+							BasicFunctionDeclaration* function=reference.scope->OwnerDeclaration();
+							BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(function);
+							for(int i=0;i<reference.parameterIndex;i++)
+							{
+								offset+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
+							}
+							argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset+sizeof(int)*4));
+						}
+					}
+					else
+					{
+						CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicCastingExpression*, const BCP&)#不支持此操作。");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)

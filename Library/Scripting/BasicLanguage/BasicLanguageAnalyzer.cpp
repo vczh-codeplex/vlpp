@@ -259,7 +259,7 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->variables.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument));
+							argument.scope->variables.Add(node->name, BasicScope::Variable(node, BasicLanguage_GetTypeRecord(node->type, argument)));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -970,32 +970,38 @@ BasicLanguage_GetExpressionType
 				{
 					BasicScope* variableScope=0;
 					BasicScope* functionScope=0;
-					BasicTypeRecord* variableType=argument.scope->variables.Find(node->name, variableScope);
+					BasicScope::Variable variableType=argument.scope->variables.Find(node->name, variableScope);
 					BasicTypeRecord* functionType=argument.env->GetFunctionType(argument.scope->functions.Find(node->name, functionScope));
 					if(variableType && functionType)
 					{
 						if(variableScope->Level()>functionScope->Level())
 						{
-							BasicEnv::Reference reference={variableScope, true};
-							argument.env->RegisterReference(node, reference);
-							return variableType;
+							functionType=0;
 						}
 						else
 						{
-							BasicEnv::Reference reference={functionScope, false};
-							argument.env->RegisterReference(node, reference);
-							return functionType;
+							variableType=BasicScope::Variable();
 						}
 					}
-					else if(variableType)
+					if(variableType)
 					{
-						BasicEnv::Reference reference={variableScope, true};
-						argument.env->RegisterReference(node, reference);
-						return variableType;
+						if(variableType.globalVariable)
+						{
+							argument.env->RegisterReference(node, BasicEnv::Reference(variableScope, variableType.globalVariable));
+						}
+						else if(variableType.localVariable)
+						{
+							argument.env->RegisterReference(node, BasicEnv::Reference(variableScope, variableType.localVariable));
+						}
+						else
+						{
+							argument.env->RegisterReference(node, BasicEnv::Reference(variableScope, variableType.parameterIndex));
+						}
+						return variableType.type;
 					}
 					else if(functionType)
 					{
-						BasicEnv::Reference reference={functionScope, false};
+						BasicEnv::Reference reference(functionScope, false);
 						argument.env->RegisterReference(node, reference);
 						return functionType;
 					}
@@ -1085,7 +1091,7 @@ BasicLanguage_GetExpressionType
 
 					if(!wrong)
 					{
-						argument.scope->variables.Add(node->name, type);
+						argument.scope->variables.Add(node->name, BasicScope::Variable(node, type));
 					}
 				}
 
@@ -1199,7 +1205,7 @@ BasicLanguage_BuildDeclarationBody
 							}
 							else
 							{
-								functionScope->variables.Add(node->parameterNames[i], functionType->ParameterType(i));
+								functionScope->variables.Add(node->parameterNames[i], BasicScope::Variable(i, functionType->ParameterType(i)));
 							}
 						}
 						BP newArgument(argument, functionScope);
