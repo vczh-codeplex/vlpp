@@ -23,6 +23,8 @@ OpCode:
   neg					INTEGER_TYPE					:*stack_top* TYPE								-> TYPE
   read					TYPE							:*stack_top* TYPE*								-> TYPE
   write					TYPE							:*stack_top* TYPE* TYPE							->
+  readmem				BYTES(int)						:*stack_top* TYPE*								-> data[BYTES]
+  writemem				BYTES(int)						:*stack_top* TYPE* data[BYTES]					->
   jump					INSTRUCTION_INDEX(int)	INSKEY
   jumptrue				INSTRUCTION_INDEX(int)	INSKEY	:*stack_top* bool								->
   jumpfalse				INSTRUCTION_INDEX(int)	INSKEY	:*stack_top* bool								->
@@ -85,7 +87,7 @@ namespace vl
 					add,sub,mul,div,mod,shl,shr,neg,
 					and,or,xor,not,
 					eq,ne,lt,le,gt,ge,
-					read,write,
+					read,write,readmem,writemem,
 					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,call_raw,
 					convert,
 					stack_offset,stack_top,stack_reserve,
@@ -118,7 +120,7 @@ namespace vl
 					bool						bool_value;
 					char						char_value;
 					wchar_t						wchar_value;
-					int							(*raw_function)(void* arguments, void* result);
+					int							(*raw_function)(void* arguments);
 #ifdef _WIN64
 					signed __int64				int_value;
 					void*						pointer_value;

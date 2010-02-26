@@ -157,6 +157,21 @@ BasicCodegenInfo
 				breakInstructions.Clear();
 				continueInsStack.Clear();
 				continueInstructions.Clear();
+				returnInstructions.Clear();
+			}
+
+			void BasicCodegenInfo::EndFunction(int returnIns)
+			{
+				for(int i=0;i<returnInstructions.Count();i++)
+				{
+					returnInstructions[i]->argument.int_value=returnIns;
+				}
+				returnInstructions.Clear();
+			}
+
+			void BasicCodegenInfo::AssociateReturn(basicil::BasicIns* instruction)
+			{
+				returnInstructions.Add(instruction);
 			}
 
 			void BasicCodegenInfo::EnterScope()
@@ -214,6 +229,11 @@ BasicCodegenInfo
 			void BasicCodegenInfo::AssociateContinue(basicil::BasicIns* instruction)
 			{
 				continueInstructions.Add(instruction);
+			}
+
+			int BasicCodegenInfo::GetMaxVariableSpace()
+			{
+				return maxVariableSpace;
 			}
 
 /***********************************************************************
@@ -315,6 +335,7 @@ BasicCodegenParameter
 					}
 					break;
 				case BasicTypeRecord::Pointer:
+				case BasicTypeRecord::Function:
 					return BasicIns::pointer_type;
 				}
 				CHECK_ERROR(false, L"Convert(BasicTypeRecord*)#不支持此操作。");
@@ -368,14 +389,28 @@ BasicCodegenParameter
 
 			void Code_Read(BasicTypeRecord* type, const BCP& argument)
 			{
-				// TODO: consider non-primitive type
-				argument.il->Ins(BasicIns::read, Convert(type));
+				switch(type->GetType())
+				{
+				case BasicTypeRecord::Array:
+				case BasicTypeRecord::Structure:
+					argument.il->Ins(BasicIns::readmem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+					break;
+				default:
+					argument.il->Ins(BasicIns::read, Convert(type));
+				}
 			}
 
 			void Code_Write(BasicTypeRecord* type, const BCP& argument)
 			{
-				// TODO: consider non-primitive type
-				argument.il->Ins(BasicIns::write, Convert(type));
+				switch(type->GetType())
+				{
+				case BasicTypeRecord::Array:
+				case BasicTypeRecord::Structure:
+					argument.il->Ins(BasicIns::writemem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+					break;
+				default:
+					argument.il->Ins(BasicIns::write, Convert(type));
+				}
 			}
 
 			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset=0)
@@ -1196,6 +1231,8 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
 				{
+					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.info->AssociateReturn(&argument.il->Last());
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
@@ -1255,10 +1292,23 @@ BasicLanguage_GenerateCodePass2
 				{
 					if(node->statement)
 					{
-						// TODO: initialization
+						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
+						BasicIns& reserveVariables=argument.il->Last();
+
 						argument.info->BeginFunction();
 						BasicLanguage_GenerateCode(node->statement, argument);
-						// TODO: finalization
+						argument.info->EndFunction(argument.il->instructions.Count());
+
+						reserveVariables.argument.int_value=argument.info->GetMaxVariableSpace();
+						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
+						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
+						int parameterSize=0;
+						for(int i=0;i<functionType->ParameterCount();i++)
+						{
+							parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
+						}
+						argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
 					}
 				}
 

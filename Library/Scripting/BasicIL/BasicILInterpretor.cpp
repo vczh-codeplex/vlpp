@@ -669,6 +669,24 @@ BasicILInterpretor
 						case BasicIns::write:
 							NUMERIC_INSTRUCTION(Write_)
 							break;
+						case BasicIns::readmem:
+							{
+								int size=ins.argument.int_value;
+								void* src=env->Pop<void*>();
+								env->Reserve(size);
+								void* dst=env->DereferenceStack(env->StackTop());
+								memcpy(dst, src, size);
+							}
+							break;
+						case BasicIns::writemem:
+							{
+								int size=ins.argument.int_value;
+								void* dst=env->Pop<void*>();
+								void* src=env->DereferenceStack(env->StackTop());
+								memcpy(dst, src, size);
+								env->Reserve(-size);
+							}
+							break;
 						case BasicIns::jump:
 							nextInstruction=ins.argument.int_value;
 							nextInsKey=ins.insKey;
@@ -713,9 +731,8 @@ BasicILInterpretor
 							return BasicILInterpretor::ForeignFunctionCall;
 						case BasicIns::call_raw:
 							{
-								void* result=env->Pop<void*>();
 								void* arguments=env->DereferenceStack(env->StackTop());
-								int size=ins.argument.raw_function(arguments, result);
+								int size=ins.argument.raw_function(arguments);
 								env->Reserve(-size);
 							}
 							break;
