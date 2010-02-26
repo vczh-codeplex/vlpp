@@ -8,13 +8,62 @@ namespace vl
 		{
 
 /***********************************************************************
+BasicScope::Variable
+***********************************************************************/
+
+			BasicScope::Variable::Variable()
+				:globalVariable(0)
+				,localVariable(0)
+				,parameterIndex(0)
+				,type(0)
+			{
+			}
+
+			BasicScope::Variable::Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type)
+				:globalVariable(variable)
+				,localVariable(0)
+				,parameterIndex(0)
+				,type(_type)
+			{
+			}
+
+			BasicScope::Variable::Variable(BasicVariableStatement* variable, BasicTypeRecord* _type)
+				:globalVariable(0)
+				,localVariable(variable)
+				,parameterIndex(0)
+				,type(_type)
+			{
+			}
+
+			BasicScope::Variable::Variable(int variable, BasicTypeRecord* _type)
+				:globalVariable(0)
+				,localVariable(0)
+				,parameterIndex(variable)
+				,type(_type)
+			{
+			}
+
+			BasicScope::Variable::operator bool()
+			{
+				return type!=0;
+			}
+
+			bool BasicScope::Variable::operator==(const Variable& variable)
+			{
+				return globalVariable==variable.globalVariable
+					&& localVariable==variable.localVariable
+					&& parameterIndex==variable.parameterIndex
+					&& type==variable.type;
+			}
+
+/***********************************************************************
 BasicScope
 ***********************************************************************/
 
 			void BasicScope::Initialize()
 			{
 				types.Initialize(this, &BasicScope::types, 0);
-				variables.Initialize(this, &BasicScope::variables, 0);
+				variables.Initialize(this, &BasicScope::variables, Variable());
 				functions.Initialize(this, &BasicScope::functions, 0);
 			}
 
@@ -65,13 +114,72 @@ BasicScope
 			}
 
 /***********************************************************************
-BasicEnv
+BasicEnv::Reference
 ***********************************************************************/
+
+			BasicEnv::Reference::Reference()
+				:scope(0)
+				,globalVariable(0)
+				,localVariable(0)
+				,parameterIndex(-1)
+				,function(0)
+				,isVariable(true)
+			{
+			}
+			
+			BasicEnv::Reference::Reference(BasicScope* _scope, BasicVariableDeclaration* variable)
+				:scope(_scope)
+				,globalVariable(variable)
+				,localVariable(0)
+				,parameterIndex(-1)
+				,function(0)
+				,isVariable(true)
+			{
+			}
+
+			BasicEnv::Reference::Reference(BasicScope* _scope, BasicVariableStatement* variable)
+				:scope(_scope)
+				,globalVariable(0)
+				,localVariable(variable)
+				,parameterIndex(-1)
+				,function(0)
+				,isVariable(true)
+			{
+			}
+
+			BasicEnv::Reference::Reference(BasicScope* _scope, int parameter)
+				:scope(_scope)
+				,globalVariable(0)
+				,localVariable(0)
+				,parameterIndex(parameter)
+				,function(0)
+				,isVariable(true)
+			{
+			}
+
+			BasicEnv::Reference::Reference(BasicScope* _scope, BasicFunctionDeclaration* function)
+				:scope(_scope)
+				,globalVariable(0)
+				,localVariable(0)
+				,parameterIndex(-1)
+				,function(function)
+				,isVariable(false)
+			{
+			}
 
 			bool BasicEnv::Reference::operator==(const Reference& r)
 			{
-				return scope==r.scope && isVariable==r.isVariable;
+				return scope==r.scope
+					&& isVariable==r.isVariable
+					&& globalVariable==r.globalVariable
+					&& localVariable==r.localVariable
+					&& parameterIndex==r.parameterIndex
+					&& function==r.function;
 			}
+
+/***********************************************************************
+BasicEnv
+***********************************************************************/
 
 			BasicEnv::BasicEnv()
 				:globalScope(CreateScope(0))
@@ -169,16 +277,7 @@ BasicEnv
 
 			BasicEnv::Reference BasicEnv::GetReference(BasicReferenceExpression* expression)
 			{
-				int index=referenceTypes.Keys().IndexOf(expression);
-				if(index==-1)
-				{
-					Reference result={0,false};
-					return result;
-				}
-				else
-				{
-					return referenceTypes.Values()[index];
-				}
+				return referenceTypes[expression];
 			}
 		}
 	}

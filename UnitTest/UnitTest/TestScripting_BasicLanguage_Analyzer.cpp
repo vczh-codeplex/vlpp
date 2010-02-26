@@ -209,42 +209,42 @@ TEST_CASE(TestBasicEnv)
 	BasicScope* appendScope=env.CreateFunctionScope(global, &append);
 	TEST_ASSERT(env.CreateFunctionScope(global, &append)==appendScope);
 	TEST_ASSERT(env.CreateFunctionScope(appendScope, &append)==0);
-	appendScope->variables.Add(L"link", link);
-	appendScope->variables.Add(L"data", tm.GetPrimitiveType(int_type));
+	appendScope->variables.Add(L"link", BasicScope::Variable(0, link));
+	appendScope->variables.Add(L"data", BasicScope::Variable(0, tm.GetPrimitiveType(int_type)));
 	TEST_ASSERT(appendScope->PreviousScope()==global);
 	TEST_ASSERT(appendScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(appendScope->OwnerStatement()==0);
-	TEST_ASSERT(appendScope->variables.Find(L"link")==link);
-	TEST_ASSERT(appendScope->variables.Find(L"data")==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(appendScope->variables.Find(L"link").type==link);
+	TEST_ASSERT(appendScope->variables.Find(L"data").type==tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(appendScope->types.Find(L"Link")==link);
 	TEST_ASSERT(appendScope->functions.Find(L"append")==&append);
 	TEST_ASSERT(appendScope->types.Find(L"unexists")==0);
-	TEST_ASSERT(appendScope->variables.Find(L"unexists")==0);
+	TEST_ASSERT(appendScope->variables.Find(L"unexists")==false);
 	TEST_ASSERT(appendScope->functions.Find(L"unexists")==0);
 
 	BasicCompositeStatement statement;
 	BasicScope* statementScope=env.CreateStatementScope(appendScope, &statement);
 	TEST_ASSERT(env.CreateStatementScope(appendScope, &statement)==statementScope);
 	TEST_ASSERT(env.CreateStatementScope(statementScope, &statement)==0);
-	statementScope->variables.Add(L"temp", link);
+	statementScope->variables.Add(L"temp", BasicScope::Variable(0, link));
 	TEST_ASSERT(statementScope->PreviousScope()==appendScope);
 	TEST_ASSERT(statementScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(statementScope->OwnerStatement()==&statement);
-	TEST_ASSERT(statementScope->variables.Find(L"link")==link);
-	TEST_ASSERT(statementScope->variables.Find(L"data")==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(statementScope->variables.Find(L"temp")==link);
+	TEST_ASSERT(statementScope->variables.Find(L"link").type==link);
+	TEST_ASSERT(statementScope->variables.Find(L"data").type==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(statementScope->variables.Find(L"temp").type==link);
 	TEST_ASSERT(statementScope->types.Find(L"Link")==link);
 	TEST_ASSERT(statementScope->functions.Find(L"append")==&append);
 	TEST_ASSERT(statementScope->types.Find(L"unexists")==0);
-	TEST_ASSERT(statementScope->variables.Find(L"unexists")==0);
+	TEST_ASSERT(statementScope->variables.Find(L"unexists")==false);
 	TEST_ASSERT(statementScope->functions.Find(L"unexists")==0);
 
 	BasicScope* scope=0;
-	TEST_ASSERT(statementScope->variables.Find(L"link", scope)==link);
+	TEST_ASSERT(statementScope->variables.Find(L"link", scope).type==link);
 	TEST_ASSERT(scope==appendScope);
-	TEST_ASSERT(statementScope->variables.Find(L"data", scope)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(statementScope->variables.Find(L"data", scope).type==tm.GetPrimitiveType(int_type));
 	TEST_ASSERT(scope==appendScope);
-	TEST_ASSERT(statementScope->variables.Find(L"temp", scope)==link);
+	TEST_ASSERT(statementScope->variables.Find(L"temp", scope).type==link);
 	TEST_ASSERT(scope==statementScope);
 	TEST_ASSERT(statementScope->types.Find(L"Link", scope)==link);
 	TEST_ASSERT(scope==global);
@@ -252,7 +252,7 @@ TEST_CASE(TestBasicEnv)
 	TEST_ASSERT(scope==global);
 	TEST_ASSERT(statementScope->types.Find(L"unexists", scope)==0);
 	TEST_ASSERT(scope==0);
-	TEST_ASSERT(statementScope->variables.Find(L"unexists", scope)==0);
+	TEST_ASSERT(statementScope->variables.Find(L"unexists", scope)==false);
 	TEST_ASSERT(scope==0);
 	TEST_ASSERT(statementScope->functions.Find(L"unexists", scope)==0);
 	TEST_ASSERT(scope==0);
@@ -360,8 +360,8 @@ TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
 	TEST_ASSERT(typePLink->ElementType()==typeLink);
 
 	TEST_ASSERT(env.GlobalScope()->variables.Items().Count()==2);
-	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"head"]==typePLink);
-	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"tail"]==typePLink);
+	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"head"].type==typePLink);
+	TEST_ASSERT(env.GlobalScope()->variables.Items()[L"tail"].type==typePLink);
 
 	TEST_ASSERT(env.GlobalScope()->functions.Items().Count()==3);
 	BasicFunctionDeclaration* functionCreate=env.GlobalScope()->functions.Items()[L"Create"];
@@ -832,8 +832,8 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	program.DefineVariable(L"c", t_int());
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 	BasicScope* functionScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[0].Obj()));
-	functionScope->variables.Add(L"b", tm.GetPrimitiveType(uint_type));
-	functionScope->variables.Add(L"c", tm.GetPrimitiveType(bool_type));
+	functionScope->variables.Add(L"b", BasicScope::Variable(0, tm.GetPrimitiveType(uint_type)));
+	functionScope->variables.Add(L"c", BasicScope::Variable(0, tm.GetPrimitiveType(bool_type)));
 
 	Ptr<BasicExpression> aExpr=e_name(L"a").GetInternalValue();
 	Ptr<BasicExpression> bExpr=e_name(L"b").GetInternalValue();
