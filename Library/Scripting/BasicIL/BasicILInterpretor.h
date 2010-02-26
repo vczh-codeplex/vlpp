@@ -22,21 +22,21 @@ namespace vl
 			class BasicILEnv : public Object
 			{
 			protected:
-				int								stackBase;
-				int								stackSize;
-				int								stackTop;
-				unsigned char*					stack;
+				int											stackBase;
+				int											stackSize;
+				int											stackTop;
+				unsigned char*								stack;
 			public:
 				BasicILEnv(int _stackSize);
 				~BasicILEnv();
 
-				int								StackBase()const;
-				int								StackSize()const;
-				int								StackTop()const;
-				void*							DereferenceStack(int stackPosition)const;
-				void*							Reserve(int size);
-				void							Reset();
-				void							SetBase(int stackPosition);
+				int											StackBase()const;
+				int											StackSize()const;
+				int											StackTop()const;
+				void*										DereferenceStack(int stackPosition)const;
+				void*										Reserve(int size);
+				void										Reset();
+				void										SetBase(int stackPosition);
 
 				template<typename T>
 				void Push(const T& value)
@@ -53,16 +53,26 @@ namespace vl
 				}
 			};
 
+			struct BasicILLabel
+			{
+				int											instruction;
+				int											key;
+
+				bool										operator==(const BasicILLabel& label)const;
+				bool										operator!=(const BasicILLabel& label)const;
+			};
+
 			class BasicILInterpretor : public Object
 			{
 			protected:
-				BasicILEnv*						env;
-				BasicIL**						ils;
-				int								ilCount;
-				int								instruction;
-				int								insKey;
-				int								foreignFunctionIndex;
-				void*							foreignFunctionResult;
+				BasicILEnv*									env;
+				BasicIL**									ils;
+				int											ilCount;
+				int											instruction;
+				int											insKey;
+				int											foreignFunctionIndex;
+				void*										foreignFunctionResult;
+				collections::List<BasicILLabel>				labels;
 			public:
 				enum RunningResult
 				{
@@ -79,14 +89,15 @@ namespace vl
 				BasicILInterpretor(int _stackSize);
 				~BasicILInterpretor();
 
-				int								LoadIL(BasicIL* il);
-				void							UnloadIL(BasicIL* il);
-				void							Reset(int entryInstruction, int entryInsKey, int returnSize);
-				int								GetForeignFunctionIndex();
-				void*							GetForeignFunctionResult();
-				BasicILEnv*						GetEnv();
-				int								GetInstruction();
-				RunningResult					Run();
+				int											LoadIL(BasicIL* il);
+				void										UnloadIL(BasicIL* il);
+				void										Reset(int entryInstruction, int entryInsKey, int returnSize);
+				int											GetForeignFunctionIndex();
+				void*										GetForeignFunctionResult();
+				BasicILEnv*									GetEnv();
+				int											GetInstruction();
+				collections::IList<BasicILLabel>&			GetLabels();
+				RunningResult								Run();
 			};
 		}
 	}

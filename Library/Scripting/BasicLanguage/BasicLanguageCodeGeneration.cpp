@@ -404,7 +404,7 @@ BasicLanguage_PushValueInternal
 					int length=node->value.Length()*sizeof(char);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
-					argument.il->Ins(BasicIns::link_push_data, BasicIns::MakeInt(offset));
+					argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
@@ -414,7 +414,7 @@ BasicLanguage_PushValueInternal
 					int length=node->value.Length()*sizeof(wchar_t);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
-					argument.il->Ins(BasicIns::link_push_data, BasicIns::MakeInt(offset));
+					argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
@@ -679,13 +679,15 @@ BasicLanguage_PushValueInternal
 					BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
 					int index=GetFunctionIndex(referenceExpression, argument);
 
-					BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+					BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(argument.info->GetTypeInfo(functionType->ReturnType())->size));
+					int parameterSize=0;
 					for(int i=node->arguments.Count()-1;i>=0;i--)
 					{
-						BasicLanguage_PushValue(node->arguments[i], argument, type->ParameterType(i));
+						BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
+						parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 					}
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
-					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(0));
+					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
 					BasicLanguage_PushValue(node->function, argument);
 					if(index==-1)
 					{
@@ -695,7 +697,7 @@ BasicLanguage_PushValueInternal
 					{
 						argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
 					}
-					return type;
+					return functionType->ReturnType();
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)

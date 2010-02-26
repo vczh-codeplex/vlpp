@@ -420,13 +420,13 @@ TEST_CASE(TestBasicILInstruction_FunctionPointer)
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
 		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
-		.Ins(BasicIns::pushins, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::pushins, BasicIns::MakeInt(20))
 		.Ins(BasicIns::call_indirect)
 
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
 		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
-		.Ins(BasicIns::pushins, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::pushins, BasicIns::MakeInt(20))
 		.Ins(BasicIns::call_indirect)
 		
 		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
@@ -451,6 +451,59 @@ TEST_CASE(TestBasicILInstruction_FunctionPointer)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
+	interpretor.Reset(0, key, sizeof(int));
+	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
+	int result=interpretor.GetEnv()->Pop<int>();
+	TEST_ASSERT(result==(10+20)*(30+40));
+	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+}
+
+TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
+{
+	BasicIL il;
+	il
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(int)))
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::pushlabel, BasicIns::MakeInt(0))
+		.Ins(BasicIns::label)
+		.Ins(BasicIns::call_indirect)
+
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::pushlabel, BasicIns::MakeInt(0))
+		.Ins(BasicIns::label)
+		.Ins(BasicIns::call_indirect)
+		
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::mul, BasicIns::int_type)
+
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::ret, BasicIns::MakeInt(0))
+
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(int)))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)));
+
+	BasicILInterpretor interpretor(1024);
+	int key=interpretor.LoadIL(&il);
+	BasicILLabel label;
+	label.key=-1;
+	label.instruction=22;
+	interpretor.GetLabels().Add(label);
 	interpretor.Reset(0, key, sizeof(int));
 	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
 	int result=interpretor.GetEnv()->Pop<int>();

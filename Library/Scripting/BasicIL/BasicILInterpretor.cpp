@@ -262,6 +262,20 @@ Instructions
 			}
 
 /***********************************************************************
+BasicILLabel
+***********************************************************************/
+
+			bool BasicILLabel::operator==(const BasicILLabel& label)const
+			{
+				return key==label.key && instruction==label.instruction;
+			}
+
+			bool BasicILLabel::operator!=(const BasicILLabel& label)const
+			{
+				return key!=label.key || instruction!=label.instruction;
+			}
+
+/***********************************************************************
 BasicILInterpretor
 ***********************************************************************/
 
@@ -343,6 +357,11 @@ BasicILInterpretor
 			int BasicILInterpretor::GetInstruction()
 			{
 				return instruction;
+			}
+
+			collections::IList<BasicILLabel>& BasicILInterpretor::GetLabels()
+			{
+				return labels.Wrap();
 			}
 
 #define NUMERIC_INSTRUCTION(METHOD)\
@@ -571,6 +590,24 @@ BasicILInterpretor
 						case BasicIns::pushins:
 							env->Push<int>(ins.insKey);
 							env->Push<int>(ins.argument.int_value);
+							break;
+						case BasicIns::pushlabel:
+							env->Push<int>(ins.argument.int_value);
+							break;
+						case BasicIns::label:
+							{
+								int index=env->Pop<int>();
+								if(index>=0 && index<labels.Count())
+								{
+									BasicILLabel label=labels[index];
+									env->Push<int>(label.key);
+									env->Push<int>(label.instruction);
+								}
+								else
+								{
+									return BasicILInterpretor::BadInstructionArgument;
+								}
+							}
 							break;
 						case BasicIns::add:
 							NUMERIC_INSTRUCTION(Add_)

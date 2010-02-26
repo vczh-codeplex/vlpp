@@ -13,6 +13,8 @@ OpCode:
   ------------------instructions------------------
   push					TYPE			CONSTANT		:*stack_top*									-> TYPE
   pushins				CONSTANT		INSKEY			:*stack_top*									-> instruction_pointer instruction_key
+  pushlabel				CONSTANT						:*stack_top*									-> instruction_label_index
+  label													:*stack_top* FUNCTION_INDEX						-> instruction_pointer instruction key
   add|sub|mul|div		TYPE							:*stack_top* TYPE TYPE							-> TYPE
   eq|ne|lt|le|gt|ge		TYPE							:*stack_top* TYPE TYPE							-> bool
   mod|shl|shr			INTEGER_TYPE					:*stack_top* TYPE TYPE							-> TYPE
@@ -35,7 +37,8 @@ OpCode:
   resptr												:*stack_top*									-> pointer
   ret					STACK_RESERVE_BYTES(int)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
 ------------------link time only------------------
-  link_push_data		OFFSET(int)						:*stack_top*									-> pointer
+  link_pushdata			OFFSET(int)						:*stack_top*									-> pointer
+  link_pushfunc			INDEX(int)						:*stack_top*									-> instruction_label_index
 ------------------compile time only------------------
   codegen_pushfunc		INDEX(int)						:*stack top*									-> instruction_pointer instruction_key
   codegen_callfunc		INDEX(int)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
@@ -78,8 +81,7 @@ namespace vl
 
 				enum OpCode
 				{
-					// TODO: Turn function pointer into sizeof(int), use a function pointer list and a function-to-pushins conversion instruction
-					push,pushins,
+					push,pushins,pushlabel,label,
 					add,sub,mul,div,mod,shl,shr,neg,
 					and,or,xor,not,
 					eq,ne,lt,le,gt,ge,
@@ -90,7 +92,8 @@ namespace vl
 					resptr,
 					ret,
 
-					link_push_data,
+					link_pushdata,
+					link_pushfunc,
 
 					codegen_pushfunc,
 					codegen_callfunc,
