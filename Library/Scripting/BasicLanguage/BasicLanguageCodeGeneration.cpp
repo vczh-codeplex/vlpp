@@ -547,7 +547,7 @@ BasicLanguage_PushValueInternal
 				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
-					int length=node->value.Length()*sizeof(char);
+					int length=(node->value.Length()+1)*sizeof(char);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
@@ -557,7 +557,7 @@ BasicLanguage_PushValueInternal
 				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
-					int length=node->value.Length()*sizeof(wchar_t);
+					int length=(node->value.Length()+1)*sizeof(wchar_t);
 					int offset=(int)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
@@ -1385,6 +1385,10 @@ BasicLanguage_GenerateCode
 						break;
 					}
 				}
+
+				argument.il->globalData.Resize((int)argument.globalData->Size());
+				argument.globalData->SeekFromBegin(0);
+				argument.globalData->Read(&(argument.il->globalData[0]), (int)argument.globalData->Size());
 			}
 		}
 	}
