@@ -153,6 +153,10 @@ BasicCodegenInfo
 				usedVariableSpace=0;
 				variableSpaceStack.Clear();
 				variableSpaceStack.Add(0);
+				breakInsStack.Clear();
+				breakInstructions.Clear();
+				continueInsStack.Clear();
+				continueInstructions.Clear();
 			}
 
 			void BasicCodegenInfo::EnterScope()
@@ -174,6 +178,42 @@ BasicCodegenInfo
 					maxVariableSpace=usedVariableSpace;
 				}
 				return -usedVariableSpace;
+			}
+
+			void BasicCodegenInfo::EnterLoop()
+			{
+				breakInsStack.Add(breakInstructions.Count());
+				continueInsStack.Add(continueInstructions.Count());
+			}
+
+			void BasicCodegenInfo::LeaveLoop(int breakIns, int continueIns)
+			{
+				int breakCount=breakInsStack[breakInsStack.Count()-1];
+				breakInsStack.RemoveAt(breakCount-1);
+				int continueCount=continueInsStack[continueInsStack.Count()-1];
+				continueInsStack.RemoveAt(continueCount-1);
+
+				for(int i=breakCount;i<breakInstructions.Count();i++)
+				{
+					breakInstructions[i]->argument.int_value=breakIns;
+				}
+				breakInstructions.RemoveRange(breakCount, breakInstructions.Count()-breakCount);
+
+				for(int i=continueCount;i<continueInstructions.Count();i++)
+				{
+					continueInstructions[i]->argument.int_value=continueIns;
+				}
+				continueInstructions.RemoveRange(continueCount, continueInstructions.Count()-continueCount);
+			}
+
+			void BasicCodegenInfo::AssociateBreak(basicil::BasicIns* instruction)
+			{
+				breakInstructions.Add(instruction);
+			}
+
+			void BasicCodegenInfo::AssociateContinue(basicil::BasicIns* instruction)
+			{
+				continueInstructions.Add(instruction);
 			}
 
 /***********************************************************************
@@ -1097,18 +1137,61 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
 				{
+					int continueBegin=argument.il->instructions.Count();
+					argument.info->EnterLoop();
+					if(node->beginCondition)
+					{
+						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
+						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+						argument.info->AssociateBreak(&argument.il->Last());
+					}
+					BasicLanguage_GenerateCode(node->statement, argument);
+					if(node->endCondition)
+					{
+						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
+						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+						argument.info->AssociateBreak(&argument.il->Last());
+					}
+					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.info->AssociateContinue(&argument.il->Last());
+					int breakBegin=argument.il->instructions.Count();
+					argument.info->LeaveLoop(breakBegin, continueBegin);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
 				{
+					argument.info->EnterScope();
+					if(node->initializer)
+					{
+						BasicLanguage_GenerateCode(node->initializer, argument);
+					}
+					int loopBegin=argument.il->instructions.Count();
+					argument.info->EnterLoop();
+					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
+					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+					argument.info->AssociateBreak(&argument.il->Last());
+					BasicLanguage_GenerateCode(node->statement, argument);
+					int continueBegin=argument.il->instructions.Count();
+					if(node->sideEffect)
+					{
+						BasicLanguage_GenerateCode(node->statement, argument);
+					}
+					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
+					int breakBegin=argument.il->instructions.Count();
+					argument.info->LeaveLoop(breakBegin, continueBegin);
+					argument.info->LeaveScope();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
 				{
+					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.info->AssociateBreak(&argument.il->Last());
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
 				{
+					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.info->AssociateContinue(&argument.il->Last());
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)

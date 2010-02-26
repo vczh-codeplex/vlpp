@@ -40,6 +40,11 @@ namespace vl
 				int															maxVariableSpace;
 				int															usedVariableSpace;
 				collections::List<int>										variableSpaceStack;
+
+				collections::List<int>										breakInsStack;
+				collections::List<int>										continueInsStack;
+				collections::List<basicil::BasicIns*>						breakInstructions;
+				collections::List<basicil::BasicIns*>						continueInstructions;
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -55,6 +60,10 @@ namespace vl
 				void														EnterScope();
 				void														LeaveScope();
 				int															UseVariable(int size);
+				void														EnterLoop();
+				void														LeaveLoop(int breakIns, int continueIns);
+				void														AssociateBreak(basicil::BasicIns* instruction);
+				void														AssociateContinue(basicil::BasicIns* instruction);
 			};
 
 /***********************************************************************

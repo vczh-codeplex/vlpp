@@ -1141,9 +1141,15 @@ BasicLanguage_GetExpressionType
 						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
 					}
 
-					BasicLanguage_CheckStatement(node->initializer, newArgument);
-					BasicLanguage_CheckStatement(node->sideEffect, newArgument);
+					if(node->initializer)
+					{
+						BasicLanguage_CheckStatement(node->initializer, newArgument);
+					}
 					BasicLanguage_CheckStatement(node->statement, newArgument);
+					if(node->sideEffect)
+					{
+						BasicLanguage_CheckStatement(node->sideEffect, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
