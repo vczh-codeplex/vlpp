@@ -164,6 +164,16 @@ BasicCodegenExtension
 				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCode(BasicExtendedStatement*, const BCP&)#不支持此操作。");
 			}
 
+			void BasicCodegenExtension::GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCodePass1(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
+			}
+
+			void BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
+			}
+
 /***********************************************************************
 BasicCodegenParameter
 ***********************************************************************/
@@ -285,16 +295,22 @@ BasicCodegenParameter
 				}
 			}
 
-			void Code_DereferencePointer(BasicTypeRecord* type, const BCP& argument)
+			void Code_Read(BasicTypeRecord* type, const BCP& argument)
 			{
 				// TODO: consider non-primitive type
 				argument.il->Ins(BasicIns::read, Convert(type));
 			}
 
+			void Code_Write(BasicTypeRecord* type, const BCP& argument)
+			{
+				// TODO: consider non-primitive type
+				argument.il->Ins(BasicIns::write, Convert(type));
+			}
+
 			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset=0)
 			{
 				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
-				Code_DereferencePointer(type, argument);
+				Code_Read(type, argument);
 			}
 
 			void Code_Convert(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument)
@@ -361,7 +377,7 @@ BasicCodegenParameter
 				argument.il->Ins(opCode, Convert(type));
 				Code_CopyStack(type, argument);
 				BasicLanguage_PushRef(node->leftOperand, argument);
-				argument.il->Ins(BasicIns::write, Convert(type));
+				Code_Write(type, argument);
 				return type;
 			}
 
@@ -375,7 +391,7 @@ BasicCodegenParameter
 				BasicLanguage_PushValue(node->leftOperand, argument, type);
 				argument.il->Ins(opCode, Convert(type));
 				Code_CopyStack(pointerType, argument, size);
-				argument.il->Ins(BasicIns::write, Convert(type));
+				Code_Write(type, argument);
 			}
 
 /***********************************************************************
@@ -492,7 +508,7 @@ BasicLanguage_PushValueInternal
 					case BasicUnaryExpression::DereferencePointer:
 						{
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_DereferencePointer(operandType->ElementType(), argument);
+							Code_Read(operandType->ElementType(), argument);
 							Code_Convert(operandType->ElementType(), nodeType, argument);
 						}
 						break;
@@ -613,7 +629,7 @@ BasicLanguage_PushValueInternal
 							argument.il->Ins(BasicIns::add, Convert(leftType));
 							Code_CopyStack(leftType, argument);
 							BasicLanguage_PushRef(node->leftOperand, argument);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 							return leftType;
 						}
 						else
@@ -629,7 +645,7 @@ BasicLanguage_PushValueInternal
 							argument.il->Ins(BasicIns::sub, Convert(leftType));
 							Code_CopyStack(leftType, argument);
 							BasicLanguage_PushRef(node->leftOperand, argument);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 							return leftType;
 						}
 						else
@@ -659,7 +675,7 @@ BasicLanguage_PushValueInternal
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_CopyStack(leftType, argument);
 							BasicLanguage_PushRef(node->leftOperand, argument);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 							return leftType;
 						}
 					}
@@ -670,7 +686,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicLanguage_PushRef(node, argument);
-					Code_DereferencePointer(nodeType, argument);
+					Code_Read(nodeType, argument);
 					return nodeType;
 				}
 
@@ -678,7 +694,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicLanguage_PushRef(node, argument);
-					Code_DereferencePointer(nodeType, argument);
+					Code_Read(nodeType, argument);
 					return nodeType;
 				}
 
@@ -713,7 +729,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
 					BasicLanguage_PushRef(node, argument);
-					Code_DereferencePointer(type, argument);
+					Code_Read(type, argument);
 					return type;
 				}
 
@@ -733,7 +749,7 @@ BasicLanguage_PushValueInternal
 					if(reference.isVariable)
 					{
 						BasicLanguage_PushRef(node, argument);
-						Code_DereferencePointer(nodeType, argument);
+						Code_Read(nodeType, argument);
 					}
 					else
 					{
@@ -827,7 +843,7 @@ BasicLanguage_PushRef
 							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
 							argument.il->Ins(BasicIns::add, Convert(leftType));
 							Code_CopyStack(pointerType, argument, leftSize);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 						}
 						else
 						{
@@ -843,7 +859,7 @@ BasicLanguage_PushRef
 							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
 							argument.il->Ins(BasicIns::sub, Convert(leftType));
 							Code_CopyStack(pointerType, argument, leftSize);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 						}
 						else
 						{
@@ -881,7 +897,7 @@ BasicLanguage_PushRef
 							BasicLanguage_PushRef(node->leftOperand, argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_CopyStack(pointerType, argument, leftSize);
-							argument.il->Ins(BasicIns::write, Convert(leftType));
+							Code_Write(leftType, argument);
 						}
 						break;
 					default:
@@ -1035,6 +1051,95 @@ BasicLanguage_GenerateCode
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode)
+
+/***********************************************************************
+BasicLanguage_GenerateCodePass1
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+					argument.info->GetFunctions().Add(node);
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
+					int size=argument.info->GetTypeInfo(type)->size;
+					char* data=new char[size];
+					memset(data, 0, size);
+					int offset=(int)argument.globalData->Size();
+					argument.globalData->Write(data, size);
+					argument.info->GetGlobalVariableOffsets().Add(node, offset);
+					delete[] data;
+
+					// TODO: Generate code for initializer
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.codegenExtension->GenerateCodePass1(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1)
+
+/***********************************************************************
+BasicLanguage_GenerateCodePass2
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+					if(node->statement)
+					{
+						BasicLanguage_GenerateCode(node->statement, argument);
+					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.codegenExtension->GenerateCodePass2(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2)
+
+/***********************************************************************
+BasicLanguage_GenerateCode
+***********************************************************************/
+
+			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument)
+			{
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
+				}
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_GenerateCodePass2(program->declarations[i], argument);
+				}
+			}
 		}
 	}
 }

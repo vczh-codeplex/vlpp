@@ -62,6 +62,8 @@ Algorithms
 				virtual BasicTypeRecord*									PushValue(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												PushRef(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
+				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
+				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);
 			};
 
 			struct BasicCodegenParameter
@@ -84,7 +86,11 @@ Algorithms
 			extern BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal, BasicExpression, BCP, BasicTypeRecord*)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
+
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
 		}
 	}
 }

@@ -1196,20 +1196,23 @@ BasicLanguage_BuildDeclarationBody
 					BasicTypeRecord* functionType=argument.env->GetFunctionType(node);
 					if(functionType->ParameterCount()==node->parameterNames.Count())
 					{
-						BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
-						for(int i=0;i<node->parameterNames.Count();i++)
+						if(node->statement)
 						{
-							if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))
+							BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
+							for(int i=0;i<node->parameterNames.Count();i++)
 							{
-								argument.errors.Add(BasicLanguageCodeException::GetParameterAlreadyExists(node, i));
+								if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetParameterAlreadyExists(node, i));
+								}
+								else
+								{
+									functionScope->variables.Add(node->parameterNames[i], BasicScope::Variable(i, functionType->ParameterType(i)));
+								}
 							}
-							else
-							{
-								functionScope->variables.Add(node->parameterNames[i], BasicScope::Variable(i, functionType->ParameterType(i)));
-							}
+							BP newArgument(argument, functionScope);
+							BasicLanguage_CheckStatement(node->statement, newArgument);
 						}
-						BP newArgument(argument, functionScope);
-						BasicLanguage_CheckStatement(node->statement, newArgument);
 					}
 					else
 					{
