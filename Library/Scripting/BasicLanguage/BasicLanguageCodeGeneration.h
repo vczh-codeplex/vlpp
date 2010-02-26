@@ -40,6 +40,7 @@ namespace vl
 				int															maxVariableSpace;
 				int															usedVariableSpace;
 				collections::List<int>										variableSpaceStack;
+				collections::List<basicil::BasicIns*>						returnInstructions;
 
 				collections::List<int>										breakInsStack;
 				collections::List<int>										continueInsStack;
@@ -57,6 +58,8 @@ namespace vl
 				collections::IDictionary<BasicVariableStatement*, int>&		GetLocalVariableOffsets();
 
 				void														BeginFunction();
+				void														EndFunction(int returnIns);
+				void														AssociateReturn(basicil::BasicIns* instruction);
 				void														EnterScope();
 				void														LeaveScope();
 				int															UseVariable(int size);
@@ -64,6 +67,7 @@ namespace vl
 				void														LeaveLoop(int breakIns, int continueIns);
 				void														AssociateBreak(basicil::BasicIns* instruction);
 				void														AssociateContinue(basicil::BasicIns* instruction);
+				int															GetMaxVariableSpace();
 			};
 
 /***********************************************************************
