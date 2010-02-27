@@ -1308,6 +1308,11 @@ BasicAnalyzer
 					}
 				}
 			}
+
+			Ptr<BasicProgram> BasicAnalyzer::GetProgram()
+			{
+				return program;
+			}
 		}
 	}
 }

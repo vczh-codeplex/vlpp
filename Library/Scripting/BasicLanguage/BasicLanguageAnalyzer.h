@@ -105,6 +105,7 @@ BasicAnalyzer
 				const collections::IReadonlyList<Ptr<BasicLanguageCodeException>>&	GetErrors();
 				BasicAlgorithmConfiguration&										GetConfiguration();
 				void																Analyze();
+				Ptr<BasicProgram>													GetProgram();
 			};
 		}
 	}

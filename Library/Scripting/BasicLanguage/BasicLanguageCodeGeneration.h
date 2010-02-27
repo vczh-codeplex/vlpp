@@ -40,12 +40,12 @@ namespace vl
 				int															maxVariableSpace;
 				int															usedVariableSpace;
 				collections::List<int>										variableSpaceStack;
-				collections::List<basicil::BasicIns*>						returnInstructions;
+				collections::List<int>										returnInstructions;
 
 				collections::List<int>										breakInsStack;
 				collections::List<int>										continueInsStack;
-				collections::List<basicil::BasicIns*>						breakInstructions;
-				collections::List<basicil::BasicIns*>						continueInstructions;
+				collections::List<int>										breakInstructions;
+				collections::List<int>										continueInstructions;
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -58,15 +58,15 @@ namespace vl
 				collections::IDictionary<BasicVariableStatement*, int>&		GetLocalVariableOffsets();
 
 				void														BeginFunction();
-				void														EndFunction(int returnIns);
-				void														AssociateReturn(basicil::BasicIns* instruction);
+				void														EndFunction(int returnIns, basicil::BasicIL* il);
+				void														AssociateReturn(int instruction);
 				void														EnterScope();
 				void														LeaveScope();
 				int															UseVariable(int size);
 				void														EnterLoop();
-				void														LeaveLoop(int breakIns, int continueIns);
-				void														AssociateBreak(basicil::BasicIns* instruction);
-				void														AssociateContinue(basicil::BasicIns* instruction);
+				void														LeaveLoop(int breakIns, int continueIns, basicil::BasicIL* il);
+				void														AssociateBreak(int instruction);
+				void														AssociateContinue(int instruction);
 				int															GetMaxVariableSpace();
 			};
 
@@ -112,6 +112,26 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
+
+/***********************************************************************
+BasicCodeGenerator
+***********************************************************************/
+
+			class BasicCodeGenerator
+			{
+			protected:
+				Ptr<basicil::BasicIL>										il;
+				Ptr<stream::MemoryStream>									globalData;
+				BasicCodegenExtension*										codegenExtension;
+				Ptr<BasicCodegenInfo>										codegenInfo;
+				Ptr<BasicProgram>											program;
+			public:
+				BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension);
+				~BasicCodeGenerator();
+
+				Ptr<basicil::BasicIL>										GetIL();
+				void														GenerateCode();
+			};
 		}
 	}
 }
