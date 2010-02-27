@@ -663,6 +663,20 @@ TEST_CASE(Test_BasicLanguage_PointerArithmetic)
 			<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
 			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
+			<<s_expr(e_result().Assign(*((++e_name(L"b"))+=e_prim(2))))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 4);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int()[5], L"a")
+			<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+			<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*(e_prim(2)+e_name(L"b"))))
 			);
 		RunBasicProgram<int>(program.GetInternalValue(), 3);
@@ -706,6 +720,20 @@ TEST_CASE(Test_BasicLanguage_PointerArithmetic)
 			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
 			<<s_expr(e_result().Assign(*((e_name(L"b")-=e_prim(2))-=e_prim(1))))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 2);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int()[5], L"a")
+			<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+			<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
+			<<s_expr(e_result().Assign(*((--e_name(L"b"))-=e_prim(2))))
 			);
 		RunBasicProgram<int>(program.GetInternalValue(), 2);
 	}
