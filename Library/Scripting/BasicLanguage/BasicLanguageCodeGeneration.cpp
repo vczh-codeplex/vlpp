@@ -660,7 +660,7 @@ BasicLanguage_PushValueInternal
 						{
 							BasicLanguage_PushValue(node->rightOperand, argument);
 							BasicLanguage_PushValue(node->leftOperand, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
-							Code_ScaleAdder(leftType, argument, false);
+							Code_ScaleAdder(rightType, argument, false);
 							argument.il->Ins(BasicIns::add, BasicIns::pointer_type);
 							return rightType;
 						}
