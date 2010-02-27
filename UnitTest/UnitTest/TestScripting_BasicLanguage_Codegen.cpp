@@ -1090,3 +1090,77 @@ TEST_CASE(TestScripting_BasicLanguage_GlobalVariable2)
 		);
 	RunBasicProgram<int>(program.GetInternalValue(), 3);
 }
+
+/***********************************************************************
+Test Others
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_TypeUpgrade)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_uint8(), L"a", e_prim((unsigned __int8)200))
+		<<s_var(t_uint8(), L"b", e_prim((unsigned __int8)200))
+		<<s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 400);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_DereferenceLeftValue)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_uint8(), L"a", e_prim((unsigned __int8)200))
+		<<s_var(t_uint8(), L"b", e_prim((unsigned __int8)200))
+		<<s_expr((*e_result().Ref()).Assign(e_name(L"a")+e_name(L"b")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 400);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_AnsiString)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(*t_char(), L"a", e_prim("ABCDE"))
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_while(*e_name(L"a"),
+			s_expr(e_result()+=*e_name(L"a"))
+			<<s_expr(e_name(L"a")++)
+			)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 335);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_WideString)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(*t_wchar(), L"a", e_prim(L"ABCDE"))
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_while(*e_name(L"a"),
+			s_expr(e_result()+=*e_name(L"a"))
+			<<s_expr(e_name(L"a")++)
+			)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 335);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_Null)
+{
+	// TODO: here are some type mistakes on NULL
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_bool()).Statement(
+			s_var(*t_int(), L"a", e_null()[*t_int()])
+			<<s_expr(e_result().Assign(e_name(L"a")==e_null()))
+			);
+		RunBasicProgram<bool>(program.GetInternalValue(), true);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_bool()).Statement(
+			s_expr(e_result().Assign(e_name(L"main")[*t_int()]==e_null()))
+			);
+		RunBasicProgram<bool>(program.GetInternalValue(), false);
+	}
+}

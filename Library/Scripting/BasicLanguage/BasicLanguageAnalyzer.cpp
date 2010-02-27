@@ -1035,7 +1035,7 @@ BasicLanguage_GetExpressionType
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal)
 
 /***********************************************************************
-BasicLanguage_GetExpressionType
+BasicLanguage_CheckStatement
 ***********************************************************************/
 
 			void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument)

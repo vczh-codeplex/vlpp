@@ -287,6 +287,11 @@ BasicILInterpretor
 				instruction=-1;
 				insKey=-1;
 				foreignFunctionIndex=-1;
+
+				BasicILLabel label;
+				label.key=-1;
+				label.instruction=-1;
+				labels.Add(label);
 			}
 
 			BasicILInterpretor::~BasicILInterpretor()
