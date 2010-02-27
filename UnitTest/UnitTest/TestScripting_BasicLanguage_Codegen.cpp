@@ -814,3 +814,110 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexNumber2)
 		);
 	RunBasicProgram<int>(program.GetInternalValue(), 406);
 }
+
+/***********************************************************************
+Test Statements
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_IfStatement)
+{
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"a", e_prim(0))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_if(e_name(L"a")
+				,s_expr(e_result().Assign(e_prim(100)))
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 0);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"a", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_if(e_name(L"a")
+				,s_expr(e_result().Assign(e_prim(100)))
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 100);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"a", e_prim(0))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_if(e_name(L"a")
+				,s_expr(e_result().Assign(e_prim(100)))
+				,s_expr(e_result().Assign(e_prim(200)))
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 200);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"a", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_if(e_name(L"a")
+				,s_expr(e_result().Assign(e_prim(100)))
+				,s_expr(e_result().Assign(e_prim(200)))
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 100);
+	}
+}
+
+TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
+{
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"i", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_while(e_name(L"i")<=e_prim(10),
+				s_expr(e_result()+=e_name(L"i"))
+				<<s_expr(e_name(L"i")++)
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 55);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"i", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_do_while(e_name(L"i")<=e_prim(10),
+				s_expr(e_result()+=e_name(L"i"))
+				<<s_expr(e_name(L"i")++)
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 55);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"i", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_conditional_loop(e_name(L"i")<=e_prim(10),e_name(L"i")<=e_prim(10),
+				s_expr(e_result()+=e_name(L"i"))
+				<<s_expr(e_name(L"i")++)
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 55);
+	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int(), L"i", e_prim(1))
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_loop(
+				s_expr(e_result()+=e_name(L"i"))
+				<<s_expr(e_name(L"i")++)
+				<<s_if(e_name(L"i")<=e_prim(10),s_continue(),s_break())
+				)
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 55);
+	}
+}

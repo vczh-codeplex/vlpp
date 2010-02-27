@@ -208,9 +208,9 @@ BasicCodegenInfo
 			void BasicCodegenInfo::LeaveLoop(int breakIns, int continueIns, basicil::BasicIL* il)
 			{
 				int breakCount=breakInsStack[breakInsStack.Count()-1];
-				breakInsStack.RemoveAt(breakCount-1);
+				breakInsStack.RemoveAt(breakInsStack.Count()-1);
 				int continueCount=continueInsStack[continueInsStack.Count()-1];
-				continueInsStack.RemoveAt(continueCount-1);
+				continueInsStack.RemoveAt(continueInsStack.Count()-1);
 
 				for(int i=breakCount;i<breakInstructions.Count();i++)
 				{
@@ -1187,7 +1187,7 @@ BasicLanguage_GenerateCode
 					BasicLanguage_GenerateCode(node->statement, argument);
 					if(node->endCondition)
 					{
-						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
+						BasicLanguage_PushValue(node->endCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 						argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					}
