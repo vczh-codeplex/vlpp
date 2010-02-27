@@ -823,9 +823,9 @@ BasicLanguage_PushValueInternal
 						parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 					}
 					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
-					BasicLanguage_PushValue(node->function, argument);
 					if(index==-1)
 					{
+						BasicLanguage_PushValue(node->function, argument);
 						argument.il->Ins(BasicIns::label);
 						argument.il->Ins(BasicIns::call_indirect);
 					}
