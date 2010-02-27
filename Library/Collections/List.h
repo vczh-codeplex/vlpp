@@ -164,7 +164,7 @@ namespace vl
 
 			bool RemoveRange(int index, int _count)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::RemoveRange(int, int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<=count, L"ListBase<T, K>::RemoveRange(int, int)#参数index越界。");
 				CHECK_ERROR(index+_count>=0 && index+_count<=count, L"ListBase<T,K>::RemoveRange(int, int)#参数_count越界。");
 				CopyObjects(buffer+index, buffer+index+_count, count-index-_count);
 				count-=_count;

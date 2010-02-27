@@ -921,3 +921,33 @@ TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
 		RunBasicProgram<int>(program.GetInternalValue(), 55);
 	}
 }
+
+TEST_CASE(TestScripting_BasicLanguage_ForStatement)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_expr(e_result().Assign(e_prim(0)))
+		<<s_for(
+			s_var(t_int(), L"i", e_prim(1)),
+			e_name(L"i")<=e_prim(10),
+			s_expr(e_name(L"i")++),
+			s_expr(e_result()+=e_name(L"i"))
+			)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 55);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_ReturnStatement)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int(), L"i", e_prim(1))
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_loop(
+			s_expr(e_result()+=e_name(L"i"))
+			<<s_expr(e_name(L"i")++)
+			<<s_if(e_name(L"i")>e_prim(10),s_return())
+			)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 55);
+}
