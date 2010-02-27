@@ -310,7 +310,7 @@ BasicILInterpretor
 				ils[ilCount]=il;
 
 				int functionPointerOffset=labels.Count();
-				for(int i=0;i>il->labels.Count();i++)
+				for(int i=0;i<il->labels.Count();i++)
 				{
 					BasicILLabel label;
 					label.key=ilCount;
