@@ -409,12 +409,13 @@ BasicLanguage_IsLeftValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicSubscribeExpression)
 				{
-					return BasicLanguage_IsLeftValue(node->operand, argument);
+					BasicTypeRecord* operandType=argument.env->GetExpressionType(node->operand.Obj());
+					return (operandType && operandType->GetType()==BasicTypeRecord::Pointer) || BasicLanguage_IsLeftValue(node->operand, argument);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicMemberExpression)
 				{
-					return BasicLanguage_IsLeftValue(node->operand, argument);
+					return node->pointerMember || BasicLanguage_IsLeftValue(node->operand, argument);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
