@@ -453,7 +453,7 @@ BasicCodegenParameter
 						if(bytes<4)
 						{
 							BasicPrimitiveTypeEnum primitiveType=void_type;
-							argument.info->GetConfiguration().EncodeInteger(primitiveType, sign, bytes);
+							argument.info->GetConfiguration().EncodeInteger(primitiveType, sign, 4);
 							type=argument.info->GetTypeManager()->GetPrimitiveType(primitiveType);
 						}
 					}
