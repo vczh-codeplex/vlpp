@@ -208,6 +208,12 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(statement, InitializerTypeNotMatch, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInitializerTypeNotMatch(BasicVariableDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, InitializerTypeNotMatch, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetParameterCountNotMatch(BasicFunctionDeclaration* declaration)
 			{
 				Array<WString> parameters(0);

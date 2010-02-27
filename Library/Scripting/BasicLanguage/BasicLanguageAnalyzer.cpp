@@ -1242,6 +1242,25 @@ BasicLanguage_BuildDeclarationBody
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					if(node->initializer)
+					{
+						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
+						try
+						{
+							BasicTypeRecord* variableType=BasicLanguage_GetTypeRecord(node->type, argument);
+							if(initializerType && variableType)
+							{
+								if(!CanImplicitConvertTo(initializerType, variableType, argument))
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetInitializerTypeNotMatch(node));
+								}
+							}
+						}
+						catch(Ptr<BasicLanguageCodeException> e)
+						{
+							argument.errors.Add(e);
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
