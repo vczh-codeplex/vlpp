@@ -840,6 +840,7 @@ BasicLanguage_GetExpressionType
 						{
 							if(structure->GetType()!=BasicTypeRecord::Pointer)
 							{
+								argument.errors.Add(BasicLanguageCodeException::GetLeftOperandShouldBePointerToStructure(node));
 								return 0;
 							}
 							structure=structure->ElementType();
@@ -851,8 +852,19 @@ BasicLanguage_GetExpressionType
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetStructureMemberNotExists(node));
 							}
-							return member;
+							else
+							{
+								return member;
+							}
 						}
+					}
+					if(node->pointerMember)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetLeftOperandShouldBePointerToStructure(node));
+					}
+					else
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetLeftOperandShouldBeStructure(node));
 					}
 					return 0;
 				}

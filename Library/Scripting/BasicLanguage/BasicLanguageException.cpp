@@ -228,10 +228,22 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, StructureMemberCannotBeUndefinedType, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBeStructure(BasicMemberExpression* declaration)
 			{
 				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(declaration, PredeclaredStructureShouldBeDefined, parameters.Wrap());
+				return new BasicLanguageCodeException(declaration, LeftOperandShouldBeStructure, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBePointerToStructure(BasicMemberExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, LeftOperandShouldBePointerToStructure, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, PredeclaredStructureShouldBeDefined, parameters.Wrap());
 			}
 		}
 	}
