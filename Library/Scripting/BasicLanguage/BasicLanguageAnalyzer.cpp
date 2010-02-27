@@ -398,7 +398,9 @@ BasicLanguage_IsLeftValue
 					case BasicBinaryExpression::ShlAssign:
 					case BasicBinaryExpression::ShrAssign:
 					case BasicBinaryExpression::AndAssign:
+					case BasicBinaryExpression::BitAndAssign:
 					case BasicBinaryExpression::OrAssign:
+					case BasicBinaryExpression::BitOrAssign:
 					case BasicBinaryExpression::XorAssign:
 					case BasicBinaryExpression::Assign:
 						return true;
