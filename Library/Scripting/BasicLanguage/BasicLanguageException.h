@@ -50,6 +50,8 @@ namespace vl
 					ParameterCountNotMatch,
 					ParameterAlreadyExists,					//parameter index
 					StructureMemberCannotBeUndefinedType,	//member name
+					LeftOperandShouldBeStructure,
+					LeftOperandShouldBePointerToStructure,
 					PredeclaredStructureShouldBeDefined,
 				};
 			protected:
@@ -93,6 +95,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetParameterCountNotMatch(BasicFunctionDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, int memberIndex);
+				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBeStructure(BasicMemberExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBePointerToStructure(BasicMemberExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 			};
 		}
