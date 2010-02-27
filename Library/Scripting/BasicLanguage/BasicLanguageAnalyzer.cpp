@@ -1150,16 +1150,14 @@ BasicLanguage_GetExpressionType
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
 				{
 					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
-
+					if(node->initializer)
+					{
+						BasicLanguage_CheckStatement(node->initializer, newArgument);
+					}
 					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, newArgument);
 					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
-					}
-
-					if(node->initializer)
-					{
-						BasicLanguage_CheckStatement(node->initializer, newArgument);
 					}
 					BasicLanguage_CheckStatement(node->statement, newArgument);
 					if(node->sideEffect)

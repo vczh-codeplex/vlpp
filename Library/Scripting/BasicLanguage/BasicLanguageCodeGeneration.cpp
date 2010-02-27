@@ -1213,7 +1213,7 @@ BasicLanguage_GenerateCode
 					int continueBegin=argument.il->instructions.Count();
 					if(node->sideEffect)
 					{
-						BasicLanguage_GenerateCode(node->statement, argument);
+						BasicLanguage_GenerateCode(node->sideEffect, argument);
 					}
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
 					int breakBegin=argument.il->instructions.Count();
