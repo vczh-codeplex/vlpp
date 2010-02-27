@@ -501,12 +501,110 @@ TEST_CASE(Test_BasicLanguage_XorAssignRef)
 }
 
 /***********************************************************************
-Test Conversions
+Test Pointers
 ***********************************************************************/
 
-TEST_CASE(Test_BasicLanguage_IntegralConversion)
+TEST_CASE(Test_BasicLanguage_Sum1)
 {
-	{
-		BasicProgramNode program;
-	}
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"a")
+		<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+		<<s_var(*t_int(), L"b", e_name(L"a").Ref()[*t_int()])
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_expr(e_result()+=e_name(L"b")[e_prim(0)])
+		<<s_expr(e_result()+=e_name(L"b")[e_prim(1)])
+		<<s_expr(e_result()+=e_name(L"b")[e_prim(2)])
+		<<s_expr(e_result()+=e_name(L"b")[e_prim(3)])
+		<<s_expr(e_result()+=e_name(L"b")[e_prim(4)])
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 15);
+}
+
+TEST_CASE(Test_BasicLanguage_Sum2)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"a")
+		<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+		<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_expr(e_result()+=*e_name(L"b")++)
+		<<s_expr(e_result()+=*e_name(L"b")++)
+		<<s_expr(e_result()+=*e_name(L"b")++)
+		<<s_expr(e_result()+=*e_name(L"b")++)
+		<<s_expr(e_result()+=*e_name(L"b")++)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 15);
+}
+
+TEST_CASE(Test_BasicLanguage_Sum3)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"a")
+		<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+		<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_expr(e_result()+=*e_name(L"b")--)
+		<<s_expr(e_result()+=*e_name(L"b")--)
+		<<s_expr(e_result()+=*e_name(L"b")--)
+		<<s_expr(e_result()+=*e_name(L"b")--)
+		<<s_expr(e_result()+=*e_name(L"b")--)
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 15);
+}
+
+TEST_CASE(Test_BasicLanguage_Sum4)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"a")
+		<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+		<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(-1)].Ref())
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_expr(e_result()+=*++e_name(L"b"))
+		<<s_expr(e_result()+=*++e_name(L"b"))
+		<<s_expr(e_result()+=*++e_name(L"b"))
+		<<s_expr(e_result()+=*++e_name(L"b"))
+		<<s_expr(e_result()+=*++e_name(L"b"))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 15);
+}
+
+TEST_CASE(Test_BasicLanguage_Sum5)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"a")
+		<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+		<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(5)].Ref())
+		<<s_expr(e_result().Assign(e_prim(0)))
+		<<s_expr(e_result()+=*--e_name(L"b"))
+		<<s_expr(e_result()+=*--e_name(L"b"))
+		<<s_expr(e_result()+=*--e_name(L"b"))
+		<<s_expr(e_result()+=*--e_name(L"b"))
+		<<s_expr(e_result()+=*--e_name(L"b"))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 15);
 }
