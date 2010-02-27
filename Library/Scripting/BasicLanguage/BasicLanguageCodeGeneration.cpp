@@ -915,8 +915,8 @@ BasicLanguage_PushRef
 							BasicLanguage_PushRef(node->operand, argument);
 							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_CopyStack(operandType, argument, operandSize);
 							argument.il->Ins(BasicIns::add, Convert(operandType));
+							Code_CopyStack(operandType, argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
@@ -925,8 +925,8 @@ BasicLanguage_PushRef
 							BasicLanguage_PushRef(node->operand, argument);
 							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
-							Code_CopyStack(operandType, argument, operandSize);
 							argument.il->Ins(BasicIns::sub, Convert(operandType));
+							Code_CopyStack(operandType, argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
