@@ -102,6 +102,7 @@ namespace vl
 				BasicScope*														CreateScope(BasicScope* previousScope);
 				BasicScope*														CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration);
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
+				void															RegisterStatementScope(BasicStatement* statement, BasicScope* scope);
 				void															RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type);
 				void															RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type);
 				void															RegisterReference(BasicReferenceExpression* expression, Reference reference);

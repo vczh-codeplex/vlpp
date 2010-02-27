@@ -331,7 +331,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::And;
+				result->type=BasicBinaryExpression::BitAnd;
 				return result;
 			}
 
@@ -340,7 +340,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::Or;
+				result->type=BasicBinaryExpression::BitOr;
 				return result;
 			}
 
@@ -358,7 +358,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::BitAnd;
+				result->type=BasicBinaryExpression::And;
 				return result;
 			}
 
@@ -367,7 +367,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::BitOr;
+				result->type=BasicBinaryExpression::Or;
 				return result;
 			}
 
@@ -439,7 +439,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::AndAssign;
+				result->type=BasicBinaryExpression::BitAndAssign;
 				return result;
 			}
 
@@ -448,7 +448,7 @@ BasicExpressionNode
 				Ptr<BasicBinaryExpression> result=new BasicBinaryExpression;
 				result->leftOperand=expression;
 				result->rightOperand=node.GetInternalValue();
-				result->type=BasicBinaryExpression::OrAssign;
+				result->type=BasicBinaryExpression::BitOrAssign;
 				return result;
 			}
 

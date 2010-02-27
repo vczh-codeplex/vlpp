@@ -1030,6 +1030,7 @@ BasicLanguage_GetExpressionType
 				try
 				{
 					BasicLanguage_CheckStatementInternal(statement, argument);
+					argument.env->RegisterStatementScope(statement.Obj(), argument.scope);
 				}
 				catch(Ptr<BasicLanguageCodeException> e)
 				{
