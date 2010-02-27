@@ -92,6 +92,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetBreakShouldBeInLooping(BasicBreakStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetContinueShouldBeInLooping(BasicContinueStatement* statement);
 				static Ptr<BasicLanguageCodeException>							GetInitializerTypeNotMatch(BasicVariableStatement* statement);
+				static Ptr<BasicLanguageCodeException>							GetInitializerTypeNotMatch(BasicVariableDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetParameterCountNotMatch(BasicFunctionDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, int memberIndex);

@@ -324,6 +324,7 @@ BasicILInterpretor
 					{
 					case BasicIns::link_pushdata:
 						ins.opcode=BasicIns::push;
+						ins.type1=BasicIns::pointer_type;
 						ins.argument.pointer_value=&(il->globalData[0])+ins.argument.int_value;
 						break;
 					case BasicIns::link_pushfunc:
