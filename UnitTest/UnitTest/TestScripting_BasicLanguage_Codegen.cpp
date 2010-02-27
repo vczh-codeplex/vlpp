@@ -289,6 +289,39 @@ TEST_CASE(TestScripting_BasicLanguage_PlusPlus3)
 	RunBasicProgram<int>(program.GetInternalValue(), 404);
 }
 
+TEST_CASE(TestScripting_BasicLanguage_Neg)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int(), L"a", e_prim(3))
+		<<s_var(t_int(), L"b", -e_name(L"a"))
+		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), -297);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_Not)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int(), L"a", e_prim(3))
+		<<s_var(t_int(), L"b", !e_name(L"a"))
+		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 3);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_BitNot)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int(), L"a", e_prim(3))
+		<<s_var(t_int(), L"b", ~e_name(L"a"))
+		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), (~3)*100+3);
+}
+
 TEST_CASE(TestScripting_BasicLanguage_MinusMinus3)
 {
 	BasicProgramNode program;
@@ -498,6 +531,16 @@ TEST_CASE(TestScripting_BasicLanguage_XorAssignRef)
 		<<s_expr(e_result().Assign((e_name(L"a")^=e_prim(3))+=e_prim(1)))
 		);
 	RunBasicProgram<int>(program.GetInternalValue(), 10);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_AssignRef)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int(), L"a", e_prim(10))
+		<<s_expr(e_result().Assign((e_name(L"a").Assign(e_prim(3)))+=e_prim(1)))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 4);
 }
 
 /***********************************************************************
@@ -961,6 +1004,22 @@ TEST_CASE(TestScripting_BasicLanguage_SimpleFunction)
 	BasicProgramNode program;
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_name(L"add")(e_exps()<<e_prim(1)<<e_prim(2))))
+		);
+	program.DefineFunction(L"add").ReturnType(t_int())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+		s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 3);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_FunctionPointer)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_var(t_int()(t_types()<<t_int()<<t_int()), L"padd", e_name(L"add"))
+		<<s_expr(e_result().Assign(e_name(L"padd")(e_exps()<<e_prim(1)<<e_prim(2))))
 		);
 	program.DefineFunction(L"add").ReturnType(t_int())
 		.Parameter(L"a", t_int())

@@ -629,6 +629,13 @@ BasicLanguage_PushValueInternal
 						}
 						break;
 					case BasicUnaryExpression::Not:
+						{
+							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
+							BasicLanguage_PushValue(node->operand, argument, nodeType);
+							argument.il->Ins(BasicIns::push, BasicIns::s8, BasicIns::Makes8(1));
+							argument.il->Ins(BasicIns::xor, Convert(nodeType));
+						}
+						break;
 					case BasicUnaryExpression::BitNot:
 						{
 							BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
