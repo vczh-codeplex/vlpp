@@ -236,6 +236,15 @@ BasicEnv
 				}
 			}
 
+			void BasicEnv::RegisterStatementScope(BasicStatement* statement, BasicScope* scope)
+			{
+				int index=statementScopes.Keys().IndexOf(statement);
+				if(index==-1)
+				{
+					statementScopes.Add(statement, scope);
+				}
+			}
+
 			void BasicEnv::RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type)
 			{
 				functionTypes.Add(function, type);
