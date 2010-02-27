@@ -164,16 +164,16 @@ BasicCodegenInfo
 				returnInstructions.Clear();
 			}
 
-			void BasicCodegenInfo::EndFunction(int returnIns)
+			void BasicCodegenInfo::EndFunction(int returnIns, basicil::BasicIL* il)
 			{
 				for(int i=0;i<returnInstructions.Count();i++)
 				{
-					returnInstructions[i]->argument.int_value=returnIns;
+					il->instructions[returnInstructions[i]].argument.int_value=returnIns;
 				}
 				returnInstructions.Clear();
 			}
 
-			void BasicCodegenInfo::AssociateReturn(basicil::BasicIns* instruction)
+			void BasicCodegenInfo::AssociateReturn(int instruction)
 			{
 				returnInstructions.Add(instruction);
 			}
@@ -186,7 +186,7 @@ BasicCodegenInfo
 			void BasicCodegenInfo::LeaveScope()
 			{
 				usedVariableSpace=variableSpaceStack[variableSpaceStack.Count()-1];
-				variableSpaceStack.RemoveAt(variableSpaceStack.Count());
+				variableSpaceStack.RemoveAt(variableSpaceStack.Count()-1);
 			}
 
 			int BasicCodegenInfo::UseVariable(int size)
@@ -205,7 +205,7 @@ BasicCodegenInfo
 				continueInsStack.Add(continueInstructions.Count());
 			}
 
-			void BasicCodegenInfo::LeaveLoop(int breakIns, int continueIns)
+			void BasicCodegenInfo::LeaveLoop(int breakIns, int continueIns, basicil::BasicIL* il)
 			{
 				int breakCount=breakInsStack[breakInsStack.Count()-1];
 				breakInsStack.RemoveAt(breakCount-1);
@@ -214,23 +214,23 @@ BasicCodegenInfo
 
 				for(int i=breakCount;i<breakInstructions.Count();i++)
 				{
-					breakInstructions[i]->argument.int_value=breakIns;
+					il->instructions[breakInstructions[i]].argument.int_value=breakIns;
 				}
 				breakInstructions.RemoveRange(breakCount, breakInstructions.Count()-breakCount);
 
 				for(int i=continueCount;i<continueInstructions.Count();i++)
 				{
-					continueInstructions[i]->argument.int_value=continueIns;
+					il->instructions[continueInstructions[i]].argument.int_value=continueIns;
 				}
 				continueInstructions.RemoveRange(continueCount, continueInstructions.Count()-continueCount);
 			}
 
-			void BasicCodegenInfo::AssociateBreak(basicil::BasicIns* instruction)
+			void BasicCodegenInfo::AssociateBreak(int instruction)
 			{
 				breakInstructions.Add(instruction);
 			}
 
-			void BasicCodegenInfo::AssociateContinue(basicil::BasicIns* instruction)
+			void BasicCodegenInfo::AssociateContinue(int instruction)
 			{
 				continueInstructions.Add(instruction);
 			}
@@ -1158,19 +1158,19 @@ BasicLanguage_GenerateCode
 				{
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
-					BasicIns& jumpToFalse=argument.il->Last();
+					int jumpToFalseIndex=argument.il->instructions.Count()-1;
 					BasicLanguage_GenerateCode(node->trueStatement, argument);
 					if(node->falseStatement)
 					{
 						argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
-						BasicIns& jumpToEnd=argument.il->Last();
-						jumpToFalse.argument.int_value=argument.il->instructions.Count();
+						int jumpToEndIndex=argument.il->instructions.Count()-1;
+						argument.il->instructions[jumpToFalseIndex].argument.int_value=argument.il->instructions.Count();
 						BasicLanguage_GenerateCode(node->falseStatement, argument);
-						jumpToEnd.argument.int_value=argument.il->instructions.Count();
+						argument.il->instructions[jumpToEndIndex].argument.int_value=argument.il->instructions.Count();
 					}
 					else
 					{
-						jumpToFalse.argument.int_value=argument.il->instructions.Count();
+						argument.il->instructions[jumpToFalseIndex].argument.int_value=argument.il->instructions.Count();
 					}
 				}
 
@@ -1182,19 +1182,19 @@ BasicLanguage_GenerateCode
 					{
 						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
-						argument.info->AssociateBreak(&argument.il->Last());
+						argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					}
 					BasicLanguage_GenerateCode(node->statement, argument);
 					if(node->endCondition)
 					{
 						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
-						argument.info->AssociateBreak(&argument.il->Last());
+						argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					}
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
-					argument.info->AssociateContinue(&argument.il->Last());
+					argument.info->AssociateContinue(argument.il->instructions.Count()-1);
 					int breakBegin=argument.il->instructions.Count();
-					argument.info->LeaveLoop(breakBegin, continueBegin);
+					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
@@ -1208,7 +1208,7 @@ BasicLanguage_GenerateCode
 					argument.info->EnterLoop();
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
-					argument.info->AssociateBreak(&argument.il->Last());
+					argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					BasicLanguage_GenerateCode(node->statement, argument);
 					int continueBegin=argument.il->instructions.Count();
 					if(node->sideEffect)
@@ -1217,26 +1217,26 @@ BasicLanguage_GenerateCode
 					}
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
 					int breakBegin=argument.il->instructions.Count();
-					argument.info->LeaveLoop(breakBegin, continueBegin);
+					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
 					argument.info->LeaveScope();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
 				{
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
-					argument.info->AssociateBreak(&argument.il->Last());
+					argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
 				{
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
-					argument.info->AssociateContinue(&argument.il->Last());
+					argument.info->AssociateContinue(argument.il->instructions.Count()-1);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
 				{
 					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
-					argument.info->AssociateReturn(&argument.il->Last());
+					argument.info->AssociateReturn(argument.il->instructions.Count()-1);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
@@ -1301,15 +1301,15 @@ BasicLanguage_GenerateCodePass2
 				{
 					if(node->statement)
 					{
+						int functionStart=argument.il->instructions.Count();
 						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
-						BasicIns& reserveVariables=argument.il->Last();
+						int reserveVariablesIndex=argument.il->instructions.Count()-1;
 
 						argument.info->BeginFunction();
 						BasicLanguage_GenerateCode(node->statement, argument);
-						int functionStart=argument.il->instructions.Count();
-						argument.info->EndFunction(argument.il->instructions.Count());
+						argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
 
-						reserveVariables.argument.int_value=argument.info->GetMaxVariableSpace();
+						argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
 						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
 						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
@@ -1352,7 +1352,7 @@ BasicLanguage_GenerateCode
 			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument)
 			{
 				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
-				BasicIns& reserveVariables=argument.il->Last();
+				int reserveVariablesIndex=argument.il->instructions.Count()-1;
 				argument.info->BeginFunction();
 
 				for(int i=0;i<program->declarations.Count();i++)
@@ -1360,8 +1360,8 @@ BasicLanguage_GenerateCode
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
 
-				argument.info->EndFunction(argument.il->instructions.Count());
-				reserveVariables.argument.int_value=argument.info->GetMaxVariableSpace();
+				argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
+				argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
 				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
 				argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
@@ -1388,7 +1388,42 @@ BasicLanguage_GenerateCode
 
 				argument.il->globalData.Resize((int)argument.globalData->Size());
 				argument.globalData->SeekFromBegin(0);
-				argument.globalData->Read(&(argument.il->globalData[0]), (int)argument.globalData->Size());
+				if(argument.globalData->Size()>0)
+				{
+					argument.globalData->Read(&(argument.il->globalData[0]), (int)argument.globalData->Size());
+				}
+			}
+
+/***********************************************************************
+BasicCodeGenerator
+***********************************************************************/
+
+			BasicCodeGenerator::BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension)
+				:il(new BasicIL)
+				,globalData(new MemoryStream)
+				,codegenExtension(extension)
+				,codegenInfo(new BasicCodegenInfo(analyzer))
+				,program(analyzer->GetProgram())
+			{
+			}
+
+			BasicCodeGenerator::~BasicCodeGenerator()
+			{
+			}
+
+			Ptr<basicil::BasicIL> BasicCodeGenerator::GetIL()
+			{
+				return il;
+			}
+
+			void BasicCodeGenerator::GenerateCode()
+			{
+				BCP argument(codegenInfo.Obj(), il.Obj(), globalData.Obj());
+				if(codegenExtension)
+				{
+					argument.codegenExtension=codegenExtension;
+				}
+				BasicLanguage_GenerateCode(program, argument);
 			}
 		}
 	}
