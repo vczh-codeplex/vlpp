@@ -951,3 +951,22 @@ TEST_CASE(TestScripting_BasicLanguage_ReturnStatement)
 		);
 	RunBasicProgram<int>(program.GetInternalValue(), 55);
 }
+
+/***********************************************************************
+Test Functions
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_SimpleFunction)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_expr(e_result().Assign(e_name(L"add")(e_exps()<<e_prim(1)<<e_prim(2))))
+		);
+	program.DefineFunction(L"add").ReturnType(t_int())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+		s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+		);
+	RunBasicProgram<int>(program.GetInternalValue(), 3);
+}
