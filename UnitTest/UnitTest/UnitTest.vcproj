@@ -858,6 +858,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Languages"
+					>
+					<Filter
+						Name="NativeX"
+						>
+					</Filter>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
