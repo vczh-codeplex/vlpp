@@ -201,40 +201,40 @@
 /w+/ = "com"</p>
 <p>分支代表多个模式中的其中一个出现，例如/a|b|c/代表[abc]，而/ab|ac|de/代表"ab"、"ac"或"de"序列的优先级比分支高。</p>
 <h3><a name="Capture">捕获</a></h3>
-<p>Capturing is a way to get a more particular parsing result. Capturing enables Regex to store many sub strings that matched by the selected sub patterns, and put them under a name-string map.</p>
-<p>For example. If you want to get the user name and the server name out of an email address, you can use /(&lt;NAME&gt;\w+)@(&lt;SERVER&gt;\w+.\w+)/. After you get a RegexMatch successfully, you can use match.Groups()[L"NAME"][0] and match.Groups()[L"SERVER"][0] to get the user name and the server name.</p>
-<p>You can capture several sub strings in one group.</p>
-<p>The first example is /(&lt;GROUP&gt;\d+).(&lt;GROUP&gt;\d+)/. It parses a real number and store two part of digits in the same group called "GROUP".</p>
-<p>The second example is ((&lt;GROUP&gt;\d+),)*(&lt;GROUP&gt;\d+). It parses a integer list(separated by a comma, like "12,345,6") and stores all integers of the list in the same group called "GROUP".</p>
-<p>There is another kind of captures called "Anonymous Capture". Anonymous captures are captures that with an empty name. You cannot use /(&lt;&gt;expression)/ to get an anonymous capture. The correct syntax is /(?expression)/</p>
-<p>So, we have two kinds of captures by now:<br />
-Named captures: /(&lt;NAME&gt;expression)/<br />
-Anonymous captures: /(?expression)/</p>
+<p>捕获可以用来获取正则表达式分析过程中更为细微的结果。捕获允许Regex将匹配过程中子模式匹配到的部分存下来，然后放到一个Group结构中去。</p>
+<p>举个例子，如果你想知道Email地址中的用户名和服务器名，你可以使用/(&lt;NAME&gt;\w+)@(&lt;SERVER&gt;\w+.\w+)/。当你获得一个匹配（RegexMatch）之后，你能用match.Groups()[L"NAME"][0]和match.Groups()[L"SERVER"][0]分别获得它们。</p>
+<p>一个名字下面可以同时存放几个子字符串。</p>
+<p>第一个例子是/(&lt;GROUP&gt;\d+).(&lt;GROUP&gt;\d+)/。它将一个实数分析成整数部分和小数部分，然后都存放到"GROUP"的组下面去。</p>
+<p>第二个例子是((&lt;GROUP&gt;\d+),)*(&lt;GROUP&gt;\d+)。他将一个用逗号隔开的整数列表（如"12,345,6"）的所有整数都拿出来放到"GROUP"的组下面去。</p>
+<p>捕获不仅可以命名，同时也可以匿名。匿名捕获跟命名捕获一样，仅仅是名字为空。你<b>不能</b>用/(&lt;&gt;expression)/去构造一个匿名捕获，正确的语法是/(?expression)/。</p>
+<p>到此为止，我们有两种捕获：<br />
+命名捕获：/(&lt;NAME&gt;expression)/<br />
+匿名捕获：/(?expression)/</p>
 <h3><a name="Back">捕获引用</a></h3>
-<p>Back reference is a way to compare a sub string with a captured sub string. There are three kinds of back references:</p>
-<p>(&lt;$NAME&gt;): a sub string that appears in the specified group.</p>
-<p>(&lt;$NAME:i&gt;): a sub string that is the i-th string captured by the specified group.</p>
-<p>(&lt;$i&gt;): a sub string that is the i-th string captured by the anonymous group.</p>
-<p>Here i should be a non-negative integer. The index starts from 0. If the index is out of range, the comparison fails.</p>
-<p>Here is an example to tell if a string is a repeat of another string, like "aaaaa", "abCabCabC" or "1,1,1,1,1,": /<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/.<br />
-Here /(?\.+?)/ tries to store one character first, and see if the remain of the string is a repeat of the first anonymous captured string. If fails, it clears the anonymous captures and tries by two characters, three characters and more until a shortest solution is found or no solution is found.</p>
+<p>捕获引用提供了一种把新的字符串跟已经捕获的字符串相比较的方法。Regex提供三种捕获引用：</p>
+<p>(&lt;$NAME&gt;)：匹配跟这个组下的其中一个捕获一样的字符串。</p>
+<p>(&lt;$NAME:i&gt;)匹配这个组下面第i个捕获一样的字符串。</p>
+<p>(&lt;$i&gt;)匹配第i个匿名捕获。</p>
+<p>这里i从0开始，不能是负的。提供一个超出范围的i仅仅导致匹配失败，而不会让Regex抛出异常。</p>
+<p>这里有一个例子匹配一个字符串是不是由一个小字符串重复拼接而成的，如"aaaaa"、"abCabCabC"和"1,1,1,1,1,"：/<font color="red">(?\.+?)(&lt;$0&gt;)+</font>/。<br />
+这里/(?\.+?)/尝试获取第一个字符，然后用捕获引用检查接下来的字符串是不是都由这个字符组成。如果失败了，那么就尝试两个、三个甚至更多的字符串，直到找到一个解或者没有任何解为之。</p>
 <h3><a name="Lookahead">正向预查和反向预查</a></h3>
-<p>Positive/nagetive lookahead assertion is a tool for finding a pattern whose context satisfies a condition. For example:<br />
-We need to find a "windows" that followed by "2000", we use /windows(=2000)/<br />
-We need to find a "windows" that not followed by "2000", we use /windows(!2000)/</p>
-<p>The assertion part of a lookahead assertion can be any regular expression. For example:<br />
-We need to find a "email" that followed by some symbols and an email address, we use /email(=\W*\w+@\w+.\w+)/<br />
+<p>正向预查和反向预查可以用来检查一个匹配是否满足额外的条件。譬如：<br />
+我们需要找到一个后面是"2000"的"windows"，可以使用/windows(=2000)/<br />
+我们需要找到一个后面不是"2000"的"windows"，则可以使用/windows(!2000)/</p>
+<p>条件部分可以是任何正则表达式，举个例子：<br />
+我们需要找到一个"email"，其后紧接着一些符号，还有一个真正的Email地址，我们可以使用/email(=\W*\w+@\w+.\w+)/<br />
 </p>
 <h3><a name="Rename">子表达式命名</a></h3>
-<p>Sub expression renaming is a way to make your regular expression becomes shorter by renaming some patterns that appears everywhere and use a name instead of the pattern itself to form a larger pattern.</p>
-<p>For example, if we need to match an IPv4 address we need to tell if a text is a integer between 0 and 255.<br />
-1, we get /25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d/, and named it "BYTE".<br />
-2, we get /((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)/ for an IPv4 address.<br />
-3, put the renaming and the pattern in a single regular expression and get: /(&lt;#BYTE&gt;<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>)<font color="blue">((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)</font>/.</p>
-<p>We don't need to use /(<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>.){3}<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>/ in this case.</p>
-<p>A regular expression can have many renamings, but a sub expression reference to a renamed expression should appear after the renaming declaration</p>
-<p>For example, /(&lt;#A&gt;a)(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ (which means /a+.a+/) is correct,<br />
-but /(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;#A&gt;a)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/ does not.</p>
-<p>Sub expression renaming is not part of a pattern, it is only a syntax suger. Every renamings should appears before the final pattern.</p>
+<p>子表达式是一种让正则表达式变得可读、紧凑并且可以消除重复子表达式地方法。</p>
+<p>如果我们需要一个匹配IPv4地址的正则表达式，并且检查每一个部分是否在0到255的范围内。<br />
+首先，我们用/25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d/来检查一个整数是否属于那个范围，命名为BYTE。<br />
+其次，我们用/((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)来拼成一个IPv4地址的正则表达式。<br />
+最后，将它们放在一起组成一条完整的正则表达式：/(&lt;#BYTE&gt;<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>)<font color="blue">((&lt;&BYTE&gt;).){3}(&lt;&BYTE&gt;)</font>/。</p>
+<p>我们不需要重复复制一些部分。在没有子表达式命名的时候我们只能写/(<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>.){3}<font color="red">25[0-5]|2[0-3]\d|1\d\d|[1-9]\d|\d</font>/。</p>
+<p>一个正则表达式可以为多个子表达式命名，但是每一个表达式或者命名只能使用在他之前定义好的子表达式。</p>
+<p>举个例子，/(&lt;#A&gt;a)(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/（等价于/a+.a+/）是正确的。<br />
+而/(&lt;#As&gt;(&lt;&amp;A&gt;)+)(&lt;#A&gt;a)(&lt;&amp;As&gt;).(&lt;&amp;As&gt;)/则是错误的。</p>
+<p>子表达式命名并不是模式的一部分，真正匹配的部分应当放在最后，一个正则表达式不能出了子表达式命名而没有真正匹配的模式。</p>
 </body>
 </html>
