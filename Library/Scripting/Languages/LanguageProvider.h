@@ -51,7 +51,8 @@ namespace vl
 
 			virtual WString						LanguageName()=0;
 			virtual LanguageTypeEnum			LanguageType()=0;
-			virtual Ptr<basicil::BasicIL>		Compile(
+			virtual Ptr<LanguageAssembly>		Compile(
+													collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
 													collections::IReadonlyList<WString>& codes, 
 													collections::IList<Ptr<LanguageException>>& errors
 													)=0;
