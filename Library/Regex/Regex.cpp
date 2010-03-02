@@ -357,7 +357,7 @@ RegexTokens
 
 		bool RegexToken::operator==(const RegexToken& _token)const
 		{
-			return start==_token.start && length==_token.length && token==_token.token && reading==_token.reading;
+			return length==_token.length && token==_token.token && reading==_token.reading;
 		}
 
 		class RegexTokenEnumerator : public Object, public IEnumerator<RegexToken>
@@ -370,6 +370,8 @@ RegexTokens
 			Array<int>&			stateTokens;
 			const wchar_t*		reading;
 			const wchar_t*		start;
+			int					lineIndex;
+			int					lineStart;
 			bool				cacheAvailable;
 			RegexToken			cacheToken;
 
@@ -389,6 +391,8 @@ RegexTokens
 						token.length=0;
 						token.token=-2;
 					}
+					token.lineIndex=lineIndex;
+					token.lineStart=lineStart;
 
 					PureResult result;
 					while(*reading)
@@ -409,7 +413,7 @@ RegexTokens
 							token.length=result.length;
 							token.token=id;
 						}
-						else if(token.token==id)
+						else if(token.token==id && id==-1)
 						{
 							token.length+=result.length;
 						}
@@ -430,6 +434,19 @@ RegexTokens
 
 					index++;
 					available=true;
+
+					for(int i=0;i<token.length;i++)
+					{
+						if(token.reading[i]==L'\n')
+						{
+							lineIndex++;
+							lineStart=0;
+						}
+						else
+						{
+							lineStart++;
+						}
+					}
 				}
 				else
 				{
@@ -445,6 +462,8 @@ RegexTokens
 				,stateTokens(enumerator.stateTokens)
 				,reading(enumerator.reading)
 				,start(enumerator.start)
+				,lineIndex(enumerator.lineIndex)
+				,lineStart(enumerator.lineStart)
 				,cacheAvailable(enumerator.cacheAvailable)
 				,cacheToken(enumerator.cacheToken)
 			{
@@ -457,6 +476,8 @@ RegexTokens
 				,stateTokens(_stateTokens)
 				,reading(_start)
 				,start(_start)
+				,lineIndex(0)
+				,lineStart(0)
 				,cacheAvailable(false)
 			{
 				Read();

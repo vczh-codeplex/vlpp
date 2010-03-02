@@ -118,6 +118,9 @@ namespace vl
 			int											token;
 			const wchar_t*								reading;
 
+			int											lineIndex;
+			int											lineStart;
+
 			bool										operator==(const RegexToken& _token)const;
 		};
 

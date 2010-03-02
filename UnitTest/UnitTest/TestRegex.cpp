@@ -905,7 +905,7 @@ TEST_CASE(TestRegexCapture)
 ´Ê·¨·ÖÎö
 ***********************************************************************/
 
-TEST_CASE(TestRegexLexer)
+TEST_CASE(TestRegexLexer1)
 {
 	List<WString> codes;
 	codes.Add(L"/d+");
@@ -917,31 +917,190 @@ TEST_CASE(TestRegexLexer)
 	CopyFrom(tokens.Wrap(), lexer.Parse(L"vczh is$$a&&genius  1234"));
 
 	TEST_ASSERT(tokens.Count()==9);
+	//[vczh]
 	TEST_ASSERT(tokens[0].start==0);
 	TEST_ASSERT(tokens[0].length==4);
 	TEST_ASSERT(tokens[0].token==2);
+	TEST_ASSERT(tokens[0].lineIndex==0);
+	TEST_ASSERT(tokens[0].lineStart==0);
+	//[ ]
 	TEST_ASSERT(tokens[1].start==4);
 	TEST_ASSERT(tokens[1].length==1);
 	TEST_ASSERT(tokens[1].token==1);
+	TEST_ASSERT(tokens[1].lineIndex==0);
+	TEST_ASSERT(tokens[1].lineStart==4);
+	//[is]
 	TEST_ASSERT(tokens[2].start==5);
 	TEST_ASSERT(tokens[2].length==2);
 	TEST_ASSERT(tokens[2].token==2);
+	TEST_ASSERT(tokens[2].lineIndex==0);
+	TEST_ASSERT(tokens[2].lineStart==5);
+	//[$$]
 	TEST_ASSERT(tokens[3].start==7);
 	TEST_ASSERT(tokens[3].length==2);
 	TEST_ASSERT(tokens[3].token==-1);
+	TEST_ASSERT(tokens[3].lineIndex==0);
+	TEST_ASSERT(tokens[3].lineStart==7);
+	//[a]
 	TEST_ASSERT(tokens[4].start==9);
 	TEST_ASSERT(tokens[4].length==1);
 	TEST_ASSERT(tokens[4].token==2);
+	TEST_ASSERT(tokens[4].lineIndex==0);
+	TEST_ASSERT(tokens[4].lineStart==9);
+	//[&&]
 	TEST_ASSERT(tokens[5].start==10);
 	TEST_ASSERT(tokens[5].length==2);
 	TEST_ASSERT(tokens[5].token==-1);
+	TEST_ASSERT(tokens[5].lineIndex==0);
+	TEST_ASSERT(tokens[5].lineStart==10);
+	//[genius]
 	TEST_ASSERT(tokens[6].start==12);
 	TEST_ASSERT(tokens[6].length==6);
 	TEST_ASSERT(tokens[6].token==2);
+	TEST_ASSERT(tokens[6].lineIndex==0);
+	TEST_ASSERT(tokens[6].lineStart==12);
+	//[  ]
 	TEST_ASSERT(tokens[7].start==18);
 	TEST_ASSERT(tokens[7].length==2);
 	TEST_ASSERT(tokens[7].token==1);
+	TEST_ASSERT(tokens[7].lineIndex==0);
+	TEST_ASSERT(tokens[7].lineStart==18);
+	//[1234]
 	TEST_ASSERT(tokens[8].start==20);
 	TEST_ASSERT(tokens[8].length==4);
 	TEST_ASSERT(tokens[8].token==0);
+	TEST_ASSERT(tokens[8].lineIndex==0);
+	TEST_ASSERT(tokens[8].lineStart==20);
+}
+
+TEST_CASE(TestRegexLexer2)
+{
+	List<WString> codes;
+	codes.Add(L"/d+");
+	codes.Add(L"[a-zA-Z_]/w*");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes.Wrap());
+
+	WString input=
+		L"12345vczh is a genius!"		L"\r\n"
+		L"67890\"vczh\"\"is\" \"a\"\"genius\"\"!\""		L"\r\n"
+		L"hey!";
+	List<RegexToken> tokens;
+	CopyFrom(tokens.Wrap(), lexer.Parse(input));
+
+	TEST_ASSERT(tokens.Count()==19);
+	//[12345]
+	TEST_ASSERT(tokens[0].start==0);
+	TEST_ASSERT(tokens[0].length==5);
+	TEST_ASSERT(tokens[0].token==0);
+	TEST_ASSERT(tokens[0].lineIndex==0);
+	TEST_ASSERT(tokens[0].lineStart==0);
+	//[vczh]
+	TEST_ASSERT(tokens[1].start==5);
+	TEST_ASSERT(tokens[1].length==4);
+	TEST_ASSERT(tokens[1].token==1);
+	TEST_ASSERT(tokens[1].lineIndex==0);
+	TEST_ASSERT(tokens[1].lineStart==5);
+	//[ ]
+	TEST_ASSERT(tokens[2].start==9);
+	TEST_ASSERT(tokens[2].length==1);
+	TEST_ASSERT(tokens[2].token==-1);
+	TEST_ASSERT(tokens[2].lineIndex==0);
+	TEST_ASSERT(tokens[2].lineStart==9);
+	//[is]
+	TEST_ASSERT(tokens[3].start==10);
+	TEST_ASSERT(tokens[3].length==2);
+	TEST_ASSERT(tokens[3].token==1);
+	TEST_ASSERT(tokens[3].lineIndex==0);
+	TEST_ASSERT(tokens[3].lineStart==10);
+	//[ ]
+	TEST_ASSERT(tokens[4].start==12);
+	TEST_ASSERT(tokens[4].length==1);
+	TEST_ASSERT(tokens[4].token==-1);
+	TEST_ASSERT(tokens[4].lineIndex==0);
+	TEST_ASSERT(tokens[4].lineStart==12);
+	//[a]
+	TEST_ASSERT(tokens[5].start==13);
+	TEST_ASSERT(tokens[5].length==1);
+	TEST_ASSERT(tokens[5].token==1);
+	TEST_ASSERT(tokens[5].lineIndex==0);
+	TEST_ASSERT(tokens[5].lineStart==13);
+	//[ ]
+	TEST_ASSERT(tokens[6].start==14);
+	TEST_ASSERT(tokens[6].length==1);
+	TEST_ASSERT(tokens[6].token==-1);
+	TEST_ASSERT(tokens[6].lineIndex==0);
+	TEST_ASSERT(tokens[6].lineStart==14);
+	//[genius]
+	TEST_ASSERT(tokens[7].start==15);
+	TEST_ASSERT(tokens[7].length==6);
+	TEST_ASSERT(tokens[7].token==1);
+	TEST_ASSERT(tokens[7].lineIndex==0);
+	TEST_ASSERT(tokens[7].lineStart==15);
+	//[!\r\n]
+	TEST_ASSERT(tokens[8].start==21);
+	TEST_ASSERT(tokens[8].length==3);
+	TEST_ASSERT(tokens[8].token==-1);
+	TEST_ASSERT(tokens[8].lineIndex==0);
+	TEST_ASSERT(tokens[8].lineStart==21);
+	//[67890]
+	TEST_ASSERT(tokens[9].start==24);
+	TEST_ASSERT(tokens[9].length==5);
+	TEST_ASSERT(tokens[9].token==0);
+	TEST_ASSERT(tokens[9].lineIndex==1);
+	TEST_ASSERT(tokens[9].lineStart==0);
+	//["vczh"]
+	TEST_ASSERT(tokens[10].start==29);
+	TEST_ASSERT(tokens[10].length==6);
+	TEST_ASSERT(tokens[10].token==2);
+	TEST_ASSERT(tokens[10].lineIndex==1);
+	TEST_ASSERT(tokens[10].lineStart==5);
+	//["is"]
+	TEST_ASSERT(tokens[11].start==35);
+	TEST_ASSERT(tokens[11].length==4);
+	TEST_ASSERT(tokens[11].token==2);
+	TEST_ASSERT(tokens[11].lineIndex==1);
+	TEST_ASSERT(tokens[11].lineStart==11);
+	//[ ]
+	TEST_ASSERT(tokens[12].start==39);
+	TEST_ASSERT(tokens[12].length==1);
+	TEST_ASSERT(tokens[12].token==-1);
+	TEST_ASSERT(tokens[12].lineIndex==1);
+	TEST_ASSERT(tokens[12].lineStart==15);
+	//["a"]
+	TEST_ASSERT(tokens[13].start==40);
+	TEST_ASSERT(tokens[13].length==3);
+	TEST_ASSERT(tokens[13].token==2);
+	TEST_ASSERT(tokens[13].lineIndex==1);
+	TEST_ASSERT(tokens[13].lineStart==16);
+	//["genius"]
+	TEST_ASSERT(tokens[14].start==43);
+	TEST_ASSERT(tokens[14].length==8);
+	TEST_ASSERT(tokens[14].token==2);
+	TEST_ASSERT(tokens[14].lineIndex==1);
+	TEST_ASSERT(tokens[14].lineStart==19);
+	//["!"]
+	TEST_ASSERT(tokens[15].start==51);
+	TEST_ASSERT(tokens[15].length==3);
+	TEST_ASSERT(tokens[15].token==2);
+	TEST_ASSERT(tokens[15].lineIndex==1);
+	TEST_ASSERT(tokens[15].lineStart==27);
+	//[\r\n]
+	TEST_ASSERT(tokens[16].start==54);
+	TEST_ASSERT(tokens[16].length==2);
+	TEST_ASSERT(tokens[16].token==-1);
+	TEST_ASSERT(tokens[16].lineIndex==1);
+	TEST_ASSERT(tokens[16].lineStart==30);
+	//[hey]
+	TEST_ASSERT(tokens[17].start==56);
+	TEST_ASSERT(tokens[17].length==3);
+	TEST_ASSERT(tokens[17].token==1);
+	TEST_ASSERT(tokens[17].lineIndex==2);
+	TEST_ASSERT(tokens[17].lineStart==0);
+	
+	TEST_ASSERT(tokens[18].start==59);
+	TEST_ASSERT(tokens[18].length==1);
+	TEST_ASSERT(tokens[18].token==-1);
+	TEST_ASSERT(tokens[18].lineIndex==2);
+	TEST_ASSERT(tokens[18].lineStart==3);
 }
