@@ -409,6 +409,10 @@ namespace vl
 	extern WString	ftow(double number);
 	extern AString	wtoa(const WString& string);
 	extern WString	atow(const AString& string);
+	extern AString	alower(const AString& string);
+	extern WString	wlower(const WString& string);
+	extern AString	aupper(const AString& string);
+	extern WString	wupper(const WString& string);
 }
 
 #endif
