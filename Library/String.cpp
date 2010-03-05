@@ -77,4 +77,32 @@ namespace vl
 		delete[] Temp;
 		return s;
 	}
+
+	AString alower(const AString& string)
+	{
+		AString result=string.Buffer();
+		_strlwr_s((char*)result.Buffer(), result.Length()+1);
+		return result;
+	}
+
+	WString wlower(const WString& string)
+	{
+		WString result=string.Buffer();
+		_wcslwr_s((wchar_t*)result.Buffer(), result.Length()+1);
+		return result;
+	}
+
+	AString aupper(const AString& string)
+	{
+		AString result=string.Buffer();
+		_strupr_s((char*)result.Buffer(), result.Length()+1);
+		return result;
+	}
+
+	WString wupper(const WString& string)
+	{
+		WString result=string.Buffer();
+		_wcsupr_s((wchar_t*)result.Buffer(), result.Length()+1);
+		return result;
+	}
 }

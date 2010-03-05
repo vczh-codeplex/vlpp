@@ -1,0 +1,4 @@
+resource vl.scripting.basiclanguage.ErrorMessages
+
+VariableAlreadyExists(variable)=Variable \"{variable}\" already exists.
+VoidFunctionDoesNotHaveResult=Cannot use \"result\" in a function that returns void.
