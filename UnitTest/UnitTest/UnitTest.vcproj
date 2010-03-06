@@ -251,6 +251,10 @@
 				RelativePath="..\..\Library\GenerateCode.bat"
 				>
 			</File>
+			<File
+				RelativePath="..\..\Library\GenerateResource_English.bat"
+				>
+			</File>
 			<Filter
 				Name="Collections"
 				>
