@@ -21,13 +21,40 @@ namespace vl
 ***********************************************************************/
 
 /***********************************************************************
+错误信息生成
+***********************************************************************/
+
+/***********************************************************************
 接口
 ***********************************************************************/
 
-			Ptr<ILanguageProvider> CreateNativeXLanguageProvider(NativeXMessageTranslator* messageTranslator)
+			class NativeXProvider : public Object, public ILanguageProvider
 			{
-				return 0;
-			}
+			public:
+				WString LanguageName()
+				{
+					return L"NativeX";
+				}
+
+				LanguageTypeEnum LanguageType()
+				{
+					return ILanguageProvider::Native;
+				}
+
+				Ptr<LanguageAssembly> Compile(
+					collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
+					collections::IReadonlyList<WString>& codes, 
+					collections::IList<Ptr<LanguageException>>& errors
+					)
+				{
+					return 0;
+				}
+			};
+		}
+
+		Ptr<ILanguageProvider> CreateNativeXLanguageProvider()
+		{
+			return new language_nativex::NativeXProvider;
 		}
 	}
 }

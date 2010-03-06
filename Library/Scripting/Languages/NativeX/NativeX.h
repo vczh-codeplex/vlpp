@@ -15,22 +15,7 @@ namespace vl
 {
 	namespace scripting
 	{
-		namespace language_nativex
-		{
-			class NativeXMessageTranslator : public Object
-			{
-			};
-
-			class NativeXChineseMessageTranslator : public NativeXMessageTranslator
-			{
-			};
-
-			class NativeXEnglishMessageTranslator : public NativeXMessageTranslator
-			{
-			};
-
-			extern Ptr<ILanguageProvider>		CreateNativeXLanguageProvider(NativeXMessageTranslator* messageTranslator);
-		}
+		extern Ptr<ILanguageProvider>		CreateNativeXLanguageProvider();
 	}
 }
 
