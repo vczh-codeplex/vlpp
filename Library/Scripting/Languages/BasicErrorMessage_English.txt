@@ -1,0 +1,31 @@
+resource:vl.scripting.basiclanguage.BasicErrorMessage
+
+TypeNameNotExists(type)=Type {type} does not exists.
+FunctionAlreadyExists(name)=Function {name} already exists.
+VariableAlreadyExists(name)=Variable {name} already exists.
+TypeAlreadyExists(name)=Type {name} already exists.
+StructureMemberAlreadyExists(name)=Member {name} already exists.
+VariableNotExists(name)=Variable {name} not exists.
+FailToCast(from,to)=Fail to cast from {from} to {to}.
+VoidFunctionNotHaveResult=Cannot access function result in a function without return value.
+GlobalNotHaveResult=Cannot access function result in global definitions.
+CannotInvokeNonFunctionValue(type)=Cannot invoke a value of {type}.
+ArgumentNumnerNotMatch=Argument number should not be greater or less than the function required.
+ArgumentTypeNotMatch(index,from,to)=Cannot implicitly cast argument {index} from {from} to {to}.
+StructureMemberNotExists(name)=Member {name} not exists.
+CannotConvertIndexToInt(from,to)=Cannot implicit cast the index from {from} to {to}.
+CannotSubscribe(type)=Cannot subscribe a value of {type}.
+UnaryOperandShouldBeLeftValue=Operand should be left value.
+UnaryTypeNotMatch(op,type)=Unary operator {op} cannot apply to a value of {type}.
+BinaryLeftOperandShouldBeLeftValue(op)=Left operand of binary operator {op} should be left value.
+BinaryTypeNotMatch=(op,left,right)=Binary operator {op} cannot apply to values of {left} and {right}.
+ConditionCannotConvertToBool(from,boolean)=Cannot convert the condition from {from} to {boolean}.
+BreakShouldBeInLooping(breakStatement)={breakStatement} should be used in a loop.
+ContinueShouldBeInLooping(continueStatement)={continueStatement} should be used in a loop.
+InitializerTypeNotMatch(from,to)=Cannot convert the variable initializer from {from} to {to}.
+ParameterCountNotMatch=Parameter number should not be greater or less than the function required.
+ParameterAlreadyExists(name)=Parameter (name) already exists.
+StructureMemberCannotBeUndefinedType(name)=Cannot refer to an undefined structure {name}.
+LeftOperandShouldBeStructure=Left operand should be a structure.
+LeftOperandShouldBePointerToStructure=Left operand should be a pointer to a structure.
+PredeclaredStructureShouldBeDefined(name)=Predeclared structure (name) should be defined.

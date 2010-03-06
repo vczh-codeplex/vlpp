@@ -34,6 +34,10 @@ WString GenerateIncludePath(const WString& includedFileName, const WString& curr
 	else while(lowerCurrent[index]==lowerIncluded[index])
 	{
 		index++;
+		if(index==lowerCurrent.Length() || index==lowerIncluded.Length())
+		{
+			break;
+		}
 	}
 
 	int count=0;
@@ -50,7 +54,10 @@ WString GenerateIncludePath(const WString& includedFileName, const WString& curr
 	{
 		result+=L"..\\";
 	}
-	result+=includedFileName.Sub(index, includedFileName.Length()-index);
+	if(index!=includedFileName.Length())
+	{
+		result+=includedFileName.Sub(index, includedFileName.Length()-index);
+	}
 	return result;
 }
 
@@ -168,7 +175,14 @@ void GenerateCode(TextReader& resource, TextWriter& header, TextWriter& code, co
 				{
 					if(values[i]->Success() && parameters.Contains(values[i]->Groups()[L"NAME"][0].Value()))
 					{
-						codeContent+=L"+"+values[i]->Groups()[L"NAME"][0].Value();
+						if(i)
+						{
+							codeContent+=L"+"+values[i]->Groups()[L"NAME"][0].Value();
+						}
+						else
+						{
+							codeContent+=values[i]->Groups()[L"NAME"][0].Value();
+						}
 						previousIsConst=false;
 					}
 					else if(previousIsConst)
@@ -232,6 +246,13 @@ int wmain(int argc, wchar_t* argv[])
 	WString resourceFileName=argv[2];
 	WString headerFileName=argv[3];
 	WString codeFileName=argv[4];
+	/*{
+		baseDirectory=L"E:\\Coding3\\Workspace\\Library\\";
+		libraryPath=L".\\";
+		resourceFileName=L".\\Scripting\\Languages\\BasicErrorMessage_English.txt";
+		headerFileName=L".\\Scripting\\Languages\\BasicErrorMessage.h";
+		codeFileName=L".\\Scripting\\Languages\\BasicErrorMessage.cpp";
+	}*/
 	if(libraryPath[libraryPath.Length()-1]!=L'\\')
 	{
 		libraryPath+=L'\\';
@@ -249,21 +270,21 @@ int wmain(int argc, wchar_t* argv[])
 	}
 	headerName=headerFileName.Right(headerFileName.Length()-headerDirectoryIndex);
 
-	FileStream headerFileStream(headerFileName, FileStream::WriteOnly);
+	FileStream headerFileStream(baseDirectory+headerFileName, FileStream::WriteOnly);
 	if(!headerFileStream.IsAvailable())
 	{
 		PrintError(L"error> \""+headerFileName+L"\" can not be opened for writing.");
 		return 0;
 	}
 
-	FileStream codeFileStream(codeFileName, FileStream::WriteOnly);
+	FileStream codeFileStream(baseDirectory+codeFileName, FileStream::WriteOnly);
 	if(!codeFileStream.IsAvailable())
 	{
 		PrintError(L"error> \""+codeFileName+L"\" can not be opened for writing.");
 		return 0;
 	}
 
-	FileStream resourceFileStream(resourceFileName, FileStream::ReadOnly);
+	FileStream resourceFileStream(baseDirectory+resourceFileName, FileStream::ReadOnly);
 	if(!resourceFileStream.IsAvailable())
 	{
 		PrintError(L"error> \""+resourceFileName+L"\" can not be opened for reading.");

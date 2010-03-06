@@ -12,7 +12,7 @@ Classes:
 #ifndef VCZH_STRING_RESOURCE_CODE_FILE_VL_SCRIPTING_BASICLANGUAGE_ERRORMESSAGES
 #define VCZH_STRING_RESOURCE_CODE_FILE_VL_SCRIPTING_BASICLANGUAGE_ERRORMESSAGES
 
-#include "..\..\..\Library\String.h"
+#include "..\.\..\..\Library\String.h"
 
 using namespace vl;
 
