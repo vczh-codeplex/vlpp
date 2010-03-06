@@ -397,12 +397,20 @@
 						RelativePath="..\..\Library\Combinator\StringCombinator.h"
 						>
 					</File>
+					<File
+						RelativePath="..\..\Library\Combinator\TokenCombinator.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Source Files"
 					>
 					<File
 						RelativePath="..\..\Library\Combinator\StringCombinator.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Library\Combinator\TokenCombinator.cpp"
 						>
 					</File>
 				</Filter>
