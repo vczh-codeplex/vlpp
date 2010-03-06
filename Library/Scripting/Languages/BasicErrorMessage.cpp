@@ -128,7 +128,7 @@ namespace vl
 
 			WString BasicErrorMessage::ParameterAlreadyExists(const WString& name)
 			{
-				return L"Parameter (name) already exists.";
+				return L"Parameter "+name+L" already exists.";
 			}
 
 			WString BasicErrorMessage::StructureMemberCannotBeUndefinedType(const WString& name)
@@ -148,7 +148,7 @@ namespace vl
 
 			WString BasicErrorMessage::PredeclaredStructureShouldBeDefined(const WString& name)
 			{
-				return L"Predeclared structure (name) should be defined.";
+				return L"Predeclared structure "+name+L" should be defined.";
 			}
 
 		}
