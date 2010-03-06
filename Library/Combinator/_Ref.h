@@ -9,6 +9,8 @@ Classes:
 #ifndef VCZH_COMBINATOR_REF
 #define VCZH_COMBINATOR_REF
 
+#include "Expression.h"
+
 namespace vl
 {
 	namespace combinator
