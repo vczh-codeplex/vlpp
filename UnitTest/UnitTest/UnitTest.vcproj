@@ -861,6 +861,10 @@
 				<Filter
 					Name="Languages"
 					>
+					<File
+						RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessage_English.txt"
+						>
+					</File>
 					<Filter
 						Name="NativeX"
 						>
@@ -877,6 +881,10 @@
 						Name="Source Files"
 						>
 						<File
+							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessage.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\Languages\LanguageProvider.cpp"
 							>
 						</File>
@@ -888,6 +896,10 @@
 					<Filter
 						Name="Header Files"
 						>
+						<File
+							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessage.h"
+							>
+						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\Languages\LanguageProvider.h"
 							>
