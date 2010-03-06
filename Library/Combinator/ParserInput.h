@@ -5,7 +5,8 @@ Combinator::Input
 
 Classes:
 	StringInput<T>							：字符串输入
-	EnumerableInput							：迭代器输入
+	EnumerableInput<T>						：迭代器输入
+	TokenInput<T>							：记号列表输入
 
 Parser Input Schema:
 	class Input<T>
@@ -239,6 +240,88 @@ namespace vl
 			bool operator!=(const EnumerableInput<T>& input)const
 			{
 				return Index()!=input.Index();
+			}
+		};
+		
+		template<typename T>
+		class TokenInput : public Object
+		{
+		protected:
+			T*				tokens;
+			int				current;
+			int				count;
+		public:
+			TokenInput(T* _tokens, int _count)
+				:tokens(_tokens)
+				,current(0)
+				,count(_count)
+			{
+			}
+
+			TokenInput(const TokenInput& input)
+				:tokens(input.tokens)
+				,current(input.current)
+				,count(input.count)
+			{
+			}
+
+			T Current()const
+			{
+				return tokens[current];
+			}
+
+			bool Available()const
+			{
+				return current<count;
+			}
+
+			bool Next()
+			{
+				current++;
+				return Available();
+			}
+
+			int Index()const
+			{
+				return current;
+			}
+
+			TokenInput& operator=(const TokenInput& input)
+			{
+				tokens=input.tokens;
+				current=input.current;
+				count=input.count;
+				return *this;
+			}
+
+			bool operator>(const TokenInput& input)const
+			{
+				return current>input.current;
+			}
+
+			bool operator>=(const TokenInput& input)const
+			{
+				return current>=input.current;
+			}
+
+			bool operator<(const TokenInput& input)const
+			{
+				return current<input.current;
+			}
+
+			bool operator<=(const TokenInput& input)const
+			{
+				return current<=input.current;
+			}
+
+			bool operator==(const TokenInput& input)const
+			{
+				return current==input.current;
+			}
+
+			bool operator!=(const TokenInput& input)const
+			{
+				return current!=input.current;
 			}
 		};
 	}

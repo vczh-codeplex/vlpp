@@ -7,105 +7,62 @@ namespace vl
 		using namespace regex;
 
 /***********************************************************************
-tchs
+tk(int)
 ***********************************************************************/
 
-		class _tchs : public Combinator<EnumerableInput<RegexToken>, wchar_t>
+		class _tk_i : public Combinator<TokenInput<RegexToken>, RegexToken>
 		{
 		protected:
-			WString				chars;
-			const wchar_t*		buffer;
+			int					token;
 		public:
-			_tchs(const WString& _chars)
-				:chars(_chars)
-				,buffer(_chars.Buffer())
+			_tk_i(int _token)
+				:token(_token)
 			{
 			}
 
-			ParsingResult<wchar_t> Parse(EnumerableInput<RegexToken>& input, Types<EnumerableInput<RegexToken>>::GlobalInfo& globalInfo)const
+			ParsingResult<RegexToken> Parse(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)const
 			{
-				const wchar_t* reading=buffer;
-				if(input.Available() && input.Current().length==1)
+				if(input.Available() && input.Current().token==token)
 				{
-					while(*reading)
-					{
-						if(*input.Current().reading==*reading)
-						{
-							input.Next();
-							return ParsingResult<wchar_t>(*reading);
-						}
-						else
-						{
-							reading++;
-						}
-					}
+					RegexToken result=input.Current();
+					input.Next();
+					return ParsingResult<RegexToken>(result);
 				}
-				//globalInfo.errors.Add(new CombinatorError<EnumerableInput<RegexToken>>(L"这里缺少字符\""+chars+L"\"。", input));
-				return ParsingResult<wchar_t>();
+				else
+				{
+					globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"这里缺少相应记号。", input));
+					return ParsingResult<RegexToken>();
+				}
 			}
 		};
 
 /***********************************************************************
-tstr
+tk(WString)
 ***********************************************************************/
 
-		class _tstr : public Combinator<EnumerableInput<RegexToken>, WString>
+		class _tk_s : public Combinator<TokenInput<RegexToken>, RegexToken>
 		{
 		protected:
-			WString				chars;
-			const wchar_t*		buffer;
+			WString				token;
 		public:
-			_tstr(const WString& _chars)
-				:chars(_chars)
-				,buffer(_chars.Buffer())
+			_tk_s(WString _token)
+				:token(_token)
 			{
 			}
 
-			ParsingResult<WString> Parse(EnumerableInput<RegexToken>& input, Types<EnumerableInput<RegexToken>>::GlobalInfo& globalInfo)const
+			ParsingResult<RegexToken> Parse(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)const
 			{
-				if(input.Available() && input.Current().length==chars.Length())
+				if(input.Available() && input.Current().length==token.Length() && wcsncmp(input.Current().reading, token.Buffer(), token.Length())==0)
 				{
-					if(wcsncmp(buffer, input.Current().reading, chars.Length())==0)
-					{
-						input.Next();
-						return ParsingResult<WString>(chars);
-					}
+					RegexToken result=input.Current();
+					input.Next();
+					return ParsingResult<RegexToken>(result);
 				}
-				//globalInfo.errors.Add(new CombinatorError<EnumerableInput<RegexToken>>(L"这里缺少字符串\""+chars+L"\"。", input));
-				return ParsingResult<WString>();
-			}
-		};
-
-/***********************************************************************
-trgx
-***********************************************************************/
-
-		class _trgx : public Combinator<EnumerableInput<RegexToken>, WString>
-		{
-		protected:
-			Regex				regex;
-			WString				code;
-		public:
-			_trgx(const WString& _regex)
-				:regex(_regex)
-				,code(_regex)
-			{
-			}
-
-			ParsingResult<WString> Parse(EnumerableInput<RegexToken>& input, Types<EnumerableInput<RegexToken>>::GlobalInfo& globalInfo)const
-			{
-				if(input.Available())
+				else
 				{
-					WString token(input.Current().reading, input.Current().length);
-					RegexMatch::Ref result=regex.MatchHead(token);
-					if(result && result->Result().Length()==token.Length())
-					{
-						input.Next();
-						return ParsingResult<WString>(result->Result().Value());
-					}
+					globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"这里缺少相应记号。", input));
+					return ParsingResult<RegexToken>();
 				}
-				//globalInfo.errors.Add(new CombinatorError<EnumerableInput<RegexToken>>(L"这里缺少字符串\""+code+L"\"。", input));
-				return ParsingResult<WString>();
 			}
 		};
 
@@ -113,24 +70,14 @@ trgx
 辅助函数
 ***********************************************************************/
 
-		Node<EnumerableInput<RegexToken>, wchar_t> tch(wchar_t c)
+		Node<TokenInput<RegexToken>, RegexToken> tk(int token)
 		{
-			return new _tchs(c);
+			return new _tk_i(token);
 		}
 
-		Node<EnumerableInput<RegexToken>, wchar_t> tchs(const WString& chars)
+		Node<TokenInput<RegexToken>, RegexToken> tk(const WString& token)
 		{
-			return new _tchs(chars);
-		}
-
-		Node<EnumerableInput<RegexToken>, WString> tstr(const WString& string)
-		{
-			return new _tstr(string);
-		}
-
-		Node<EnumerableInput<RegexToken>, WString> trgx(const WString& code)
-		{
-			return new _trgx(code);
+			return new _tk_s(token);
 		}
 	}
 }

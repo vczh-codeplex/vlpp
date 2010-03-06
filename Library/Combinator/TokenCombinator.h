@@ -20,10 +20,8 @@ namespace vl
 {
 	namespace combinator
 	{
-		extern Node<EnumerableInput<regex::RegexToken>, wchar_t>			tch(wchar_t c);
-		extern Node<EnumerableInput<regex::RegexToken>, wchar_t>			tchs(const WString& chars);
-		extern Node<EnumerableInput<regex::RegexToken>, WString>			tstr(const WString& string);
-		extern Node<EnumerableInput<regex::RegexToken>, WString>			trgx(const WString& code);
+		extern Node<TokenInput<regex::RegexToken>, regex::RegexToken>	tk(int token);
+		extern Node<TokenInput<regex::RegexToken>, regex::RegexToken>	tk(const WString& token);
 	}
 }
 
