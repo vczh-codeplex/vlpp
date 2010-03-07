@@ -16,13 +16,35 @@ namespace vl
 			using namespace combinator;
 			using namespace collections;
 
+			class NativeXUnit : public Object
+			{
+			public:
+				WString				name;
+				List<WString>		imports;
+				Ptr<BasicProgram>	program;
+			};
+
+/***********************************************************************
+语义函数
+***********************************************************************/
+
+/***********************************************************************
+错误恢复
+***********************************************************************/
+
 /***********************************************************************
 语法分析器
 ***********************************************************************/
 
-/***********************************************************************
-错误信息生成
-***********************************************************************/
+			class NativeXParser : public Object
+			{
+			protected:
+				Ptr<RegexLexer>						lexer;
+			public:
+				NativeXParser()
+				{
+				}
+			};
 
 /***********************************************************************
 接口
@@ -30,6 +52,8 @@ namespace vl
 
 			class NativeXProvider : public Object, public ILanguageProvider
 			{
+			protected:
+				NativeXParser			parser;
 			public:
 				WString LanguageName()
 				{
