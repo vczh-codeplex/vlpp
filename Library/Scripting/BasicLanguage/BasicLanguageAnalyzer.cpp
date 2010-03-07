@@ -1152,7 +1152,18 @@ BasicLanguage_CheckStatement
 					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
 					if(node->initializer)
 					{
-						BasicLanguage_CheckStatement(node->initializer, newArgument);
+						Ptr<BasicCompositeStatement> composite=node->initializer;
+						if(composite)
+						{
+							for(int i=0;i<composite->statements.Count();i++)
+							{
+								BasicLanguage_CheckStatement(composite->statements[i], newArgument);
+							}
+						}
+						else
+						{
+							BasicLanguage_CheckStatement(node->initializer, newArgument);
+						}
 					}
 					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, newArgument);
 					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))

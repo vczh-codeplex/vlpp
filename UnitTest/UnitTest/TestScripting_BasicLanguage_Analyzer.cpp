@@ -1008,6 +1008,12 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicForStatement)
 	Ptr<BasicStatement> s3=s_for(s_empty(), e_prim(1.1), s_empty(), s_empty()).GetInternalValue();
 	Ptr<BasicStatement> s4=s_for(s_empty(), e_prim(true), s_expr(e_prim(0).Assign(e_prim(0))), s_empty()).GetInternalValue();
 	Ptr<BasicStatement> s5=s_for(s_empty(), e_prim(true), s_empty(), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> s6=s_for(
+		s_var(t_int(), L"a", e_prim(0))<<s_var(t_int(), L"b", e_prim(0)),
+		e_name(L"a")<e_prim(10),
+		s_expr(e_name(L"a")++),
+		s_expr(e_name(L"b")+=e_name(L"a"))
+		).GetInternalValue();
 
 	BasicLanguage_CheckStatement(s1, argument);
 	TEST_ASSERT(errors.Count()==0);
@@ -1018,6 +1024,8 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicForStatement)
 	BasicLanguage_CheckStatement(s4, argument);
 	TEST_ASSERT(errors.Count()==3);
 	BasicLanguage_CheckStatement(s5, argument);
+	TEST_ASSERT(errors.Count()==4);
+	BasicLanguage_CheckStatement(s6, argument);
 	TEST_ASSERT(errors.Count()==4);
 }
 
