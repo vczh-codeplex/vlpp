@@ -3,10 +3,12 @@
 #include "..\..\Library\Combinator\Combinator.h"
 #include "..\..\Library\Combinator\StringCombinator.h"
 #include "..\..\Library\Collections\OperationString.h"
+#include "..\..\Library\Combinator\TokenCombinator.h"
 
 using namespace vl;
 using namespace vl::collections;
 using namespace vl::combinator;
+using namespace vl::regex;
 
 /***********************************************************************
 µü´úÆ÷
@@ -768,5 +770,81 @@ TEST_CASE(TestCombinator)
 	}
 	{
 		TEST_ASSERT(EXP.Parse(L"(10+20)*(30+40)", false)==2100);
+	}
+}
+
+/***********************************************************************
+TokenInput
+***********************************************************************/
+
+int tcal(const int& first, const ParsingPair<RegexToken, int>& second)
+{
+	int result=first;
+	int value=second.Second();
+	switch(*second.First().reading)
+	{
+		case L'+':
+			result+=value;
+			break;
+		case L'-':
+			result-=value;
+			break;
+		case L'*':
+			result*=value;
+			break;
+		case L'/':
+			result/=value;
+			break;
+	}
+	return result;
+}
+
+int tval(const RegexToken& input)
+{
+	return wtoi(WString(input.reading, input.length));
+}
+
+TEST_CASE(TestTokenInput)
+{
+	typedef Rule<TokenInput<RegexToken>, int> _Rule;
+	typedef Node<TokenInput<RegexToken>, RegexToken> _Node;
+
+	List<WString> tokens;
+	tokens.Add(L"/d+");
+	tokens.Add(L"/(");
+	tokens.Add(L"/)");
+	tokens.Add(L"/+|-");
+	tokens.Add(L"/*|//");
+
+	RegexLexer lexer(tokens.Wrap());
+
+	_Node NUM=tk(0);
+	_Node OPEN=tk(1);
+	_Node CLOSE=tk(2);
+	_Node ADD=tk(3);
+	_Node MUL=tk(4);
+
+	_Rule FACTOR, TERM, EXP;
+	FACTOR = NUM[tval] | (OPEN >> EXP << CLOSE);
+	TERM = lrec(FACTOR + *(MUL + FACTOR), tcal);
+	EXP = lrec(TERM + *(ADD + FACTOR), tcal);
+
+	{
+		WString code=L"(1+2)*(3+4)";
+		List<RegexToken> tokens;
+		CopyFrom(tokens.Wrap(), lexer.Parse(code));
+		Types<TokenInput<RegexToken>>::GlobalInfo info;
+		TokenInput<RegexToken> input(&tokens[0], tokens.Count());
+		ParsingResult<int> result=EXP.Parse(input, info);
+		TEST_ASSERT(result);
+		TEST_ASSERT(result.Value()==21);
+		TEST_ASSERT(info.errors.Count()==0);
+	}
+	{
+		WString code=L"(10+20)*(30+40)";
+		List<RegexToken> tokens;
+		CopyFrom(tokens.Wrap(), lexer.Parse(code));
+		TokenInput<RegexToken> input(&tokens[0], tokens.Count());
+		TEST_ASSERT(EXP.Parse(input, false)==2100);
 	}
 }
