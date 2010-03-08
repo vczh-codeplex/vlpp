@@ -65,8 +65,19 @@ namespace vl
 #endif
 			};
 
+			struct BasicPosition
+			{
+				int							start;
+				int							lineStart;
+				int							lineIndex;
+
+				BasicPosition();
+			};
+
 			class BasicLanguageElement : public Object, private NotCopyable
 			{
+			public:
+				BasicPosition				position;
 			};
 
 			class BasicExpression : public BasicLanguageElement
