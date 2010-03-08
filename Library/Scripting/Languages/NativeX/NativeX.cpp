@@ -3,6 +3,7 @@
 #include "..\..\..\Regex\Regex.h"
 #include "..\..\..\Combinator\Combinator.h"
 #include "..\..\..\Combinator\ParserInput.h"
+#include "..\..\..\Combinator\TokenCombinator.h"
 
 namespace vl
 {
@@ -23,6 +24,27 @@ namespace vl
 				List<WString>		imports;
 				Ptr<BasicProgram>	program;
 			};
+
+/***********************************************************************
+¸¨Öúº¯Êý
+***********************************************************************/
+
+			template<typename T>
+			Ptr<T> CreateNode(const RegexToken& position)
+			{
+				Ptr<T> node=new T;
+				node->position.start=position.start;
+				node->position.lineStart=position.lineStart;
+				node->position.lineIndex=position.lindIndex;
+				return node;
+			}
+
+			Node<TokenInput<RegexToken>, RegexToken> CreateToken(List<WString>& tokens, const WString& token)
+			{
+				Node<TokenInput<RegexToken>, RegexToken> node=tk(tokens.Count());
+				tokens.Add(token);
+				return node;
+			}
 
 /***********************************************************************
 ÓïÒåº¯Êý
