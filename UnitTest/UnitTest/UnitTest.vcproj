@@ -224,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestScripting_Languages_NativeX.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestStream.cpp"
 				>
 			</File>
