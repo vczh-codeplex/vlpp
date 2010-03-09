@@ -399,20 +399,32 @@ namespace vl
 	typedef ObjectString<char>		AString;
 	typedef ObjectString<wchar_t>	WString;
 
-	extern int		atoi(const AString& string);
-	extern int		wtoi(const WString& string);
-	extern double	atof(const AString& string);
-	extern double	wtof(const WString& string);
-	extern AString	itoa(int number);
-	extern WString	itow(int number);
-	extern AString	ftoa(double number);
-	extern WString	ftow(double number);
-	extern AString	wtoa(const WString& string);
-	extern WString	atow(const AString& string);
-	extern AString	alower(const AString& string);
-	extern WString	wlower(const WString& string);
-	extern AString	aupper(const AString& string);
-	extern WString	wupper(const WString& string);
+	extern int					atoi(const AString& string);
+	extern int					wtoi(const WString& string);
+	extern __int64				atoi64(const AString& string);
+	extern __int64				wtoi64(const WString& string);
+	extern unsigned int			atou(const AString& string);
+	extern unsigned int			wtou(const WString& string);
+	extern unsigned __int64		atou64(const AString& string);
+	extern unsigned __int64		wtou64(const WString& string);
+	extern double				atof(const AString& string);
+	extern double				wtof(const WString& string);
+	extern AString				itoa(int number);
+	extern WString				itow(int number);
+	extern AString				i64toa(__int64 number);
+	extern WString				i64tow(__int64 number);
+	extern AString				utoa(unsigned int number);
+	extern WString				utow(unsigned int number);
+	extern AString				u64toa(unsigned __int64 number);
+	extern WString				u64tow(unsigned __int64 number);
+	extern AString				ftoa(double number);
+	extern WString				ftow(double number);
+	extern AString				wtoa(const WString& string);
+	extern WString				atow(const AString& string);
+	extern AString				alower(const AString& string);
+	extern WString				wlower(const WString& string);
+	extern AString				aupper(const AString& string);
+	extern WString				wupper(const WString& string);
 }
 
 #endif
