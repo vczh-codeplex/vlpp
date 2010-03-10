@@ -185,7 +185,7 @@ namespace vl
 				case L't':
 					expression->ranges.Add(CharRange(L'\t', L'\t'));
 					break;
-				case L'\\':case L'/':case L'(':case L')':case L'+':case L'*':case L'?':
+				case L'\\':case L'/':case L'(':case L')':case L'+':case L'*':case L'?':case L'|':
 				case L'{':case L'}':case L'[':case L']':case L'<':case L'>':
 				case L'^':case L'$':case L'!':case L'=':
 					expression->ranges.Add(CharRange(*input, *input));
