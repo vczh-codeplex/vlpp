@@ -28,6 +28,7 @@ namespace vl
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicExpression>>		ExpressionRule;
+			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
 
 /***********************************************************************
 ¸¨Öúº¯Êý
@@ -521,6 +522,150 @@ namespace vl
 				return expression;
 			}
 
+			Ptr<BasicExpression> ToCastExpression(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicCastingExpression> expression=CreateNode<BasicCastingExpression>(input.First().First());
+				expression->operand=input.Second();
+				expression->type=input.First().Second();
+				return expression;
+			}
+
+/***********************************************************************
+ÓïÒåº¯Êý£ºÀàÐÍ
+***********************************************************************/
+
+			Ptr<BasicType> ToNamedType(const RegexToken& input)
+			{
+				WString name(input.reading, input.length);
+				if(name==L"int")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=int_type;
+					return type;
+				}
+				else if(name==L"int8")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=s8;
+					return type;
+				}
+				else if(name==L"int16")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=s16;
+					return type;
+				}
+				else if(name==L"int32")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=s32;
+					return type;
+				}
+				else if(name==L"int64")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=s64;
+					return type;
+				}
+				else if(name==L"uint")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=uint_type;
+					return type;
+				}
+				else if(name==L"uint8")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=u8;
+					return type;
+				}
+				else if(name==L"uint16")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=u16;
+					return type;
+				}
+				else if(name==L"uint32")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=u32;
+					return type;
+				}
+				else if(name==L"uint64")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=u64;
+					return type;
+				}
+				else if(name==L"f32")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=f32;
+					return type;
+				}
+				else if(name==L"f64")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=f64;
+					return type;
+				}
+				else if(name==L"char")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=char_type;
+					return type;
+				}
+				else if(name==L"wchar")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=wchar_type;
+					return type;
+				}
+				else if(name==L"bool")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=bool_type;
+					return type;
+				}
+				else if(name==L"void")
+				{
+					Ptr<BasicPrimitiveType> type=CreateNode<BasicPrimitiveType>(input);
+					type->type=void_type;
+					return type;
+				}
+				else
+				{
+					Ptr<BasicReferenceType> type=CreateNode<BasicReferenceType>(input);
+					type->name=name;
+					return type;
+				}
+			}
+
+			Ptr<BasicType> ToDecoratedType(const Ptr<BasicType>& operand, const RegexToken& decoration)
+			{
+				if(*decoration.reading==L'*')
+				{
+					Ptr<BasicPointerType> type=CreateNode<BasicPointerType>(decoration);
+					type->elementType=operand;
+					return type;
+				}
+				else
+				{
+					Ptr<BasicArrayType> type=CreateNode<BasicArrayType>(decoration);
+					type->size=wtoi(WString(decoration.reading, decoration.length));
+					type->elementType=operand;
+					return type;
+				}
+			}
+
+			Ptr<BasicType> ToFunctionType(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, Ptr<List<Ptr<BasicType>>>>& input)
+			{
+				Ptr<BasicFunctionType> type=CreateNode<BasicFunctionType>(input.First().First());
+				type->returnType=input.First().Second();
+				CopyFrom(type->parameterTypes.Wrap(), input.Second()->Wrap());
+				return type;
+			}
+
 /***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
@@ -534,8 +679,6 @@ namespace vl
 			protected:
 				Ptr<RegexLexer>						lexer;
 
-				TokenType							TRUE;
-				TokenType							FALSE;
 				TokenType							ACHAR;
 				TokenType							WCHAR;
 				TokenType							ASTRING;
@@ -543,9 +686,15 @@ namespace vl
 				TokenType							INTEGER;
 				TokenType							FLOAT;
 				TokenType							DOUBLE;
-				TokenType							NULL_VALUE;
 				TokenType							ID;
+				TokenType							PRIM_TYPE;
+
+				TokenType							TRUE;
+				TokenType							FALSE;
+				TokenType							NULL_VALUE;
 				TokenType							RESULT;
+				TokenType							FUNCTION;
+				TokenType							CAST;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -565,23 +714,28 @@ namespace vl
 				ExpressionRule						reference;
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
+				TypeRule							type;
 			public:
 				NativeXParser()
 				{
 					List<WString> tokens;
 
-					TRUE			= CreateToken(tokens, L"true");
-					FALSE			= CreateToken(tokens, L"false");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
 					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
 					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
 					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
-					INTEGER			= CreateToken(tokens, L"[+/-]?/d+");
-					FLOAT			= CreateToken(tokens, L"[+/-]?/d+(./d+)[fF]");
-					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
-					NULL_VALUE		= CreateToken(tokens, L"null");
+					INTEGER			= CreateToken(tokens, L"/d+");
+					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
+					DOUBLE			= CreateToken(tokens, L"/d+./d+");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
+					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
+
+					TRUE			= CreateToken(tokens, L"true");
+					FALSE			= CreateToken(tokens, L"false");
+					NULL_VALUE		= CreateToken(tokens, L"null");
 					RESULT			= CreateToken(tokens, L"result");
+					FUNCTION		= CreateToken(tokens, L"function");
+					CAST			= CreateToken(tokens, L"cast");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -627,7 +781,11 @@ namespace vl
 									;
 					reference		= ID[ToReference];
 
-					exp0			= primitive | reference | RESULT[ToResult];
+					exp0			= primitive
+									| reference
+									| RESULT[ToResult]
+									| (CAST + (LT >> type << GT) + (OPEN_BRACE >> exp << CLOSE_BRACE))[ToCastExpression]
+									;
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp0 << CLOSE_ARRAY)
 													| (OPEN_BRACE + list(exp + *(COMMA >> exp))[UpgradeArguments] << CLOSE_BRACE)
@@ -646,6 +804,11 @@ namespace vl
 					exp11			= lrec(exp10 + *(AND + exp10), ToBinary);
 					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
+
+					type			= (FUNCTION + type + (OPEN_BRACE >> list(type + *(COMMA >> type)) << CLOSE_BRACE))[ToFunctionType]
+									| (PRIM_TYPE | ID)[ToNamedType]
+									| lrec(type + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType)
+									;
 				}
 			};
 
