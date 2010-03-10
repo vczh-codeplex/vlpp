@@ -247,6 +247,11 @@ namespace vl
 				return expression;
 			}
 
+			Ptr<BasicExpression> ToResult(const RegexToken& input)
+			{
+				return CreateNode<BasicFunctionResultExpression>(input);
+			}
+
 /***********************************************************************
 语义函数：表达式
 ***********************************************************************/
@@ -379,6 +384,143 @@ namespace vl
 				}
 			}
 
+			Ptr<BasicExpression> ToBinary(const Ptr<BasicExpression>& left, const ParsingPair<RegexToken, Ptr<BasicExpression>>& binary)
+			{
+				WString op(binary.First().reading, binary.First().length);
+				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(binary.First());
+				expression->leftOperand=left;
+				expression->rightOperand=binary.Second();
+				if(op==L"+")
+				{
+					expression->type=BasicBinaryExpression::Add;
+				}
+				else if(op==L"-")
+				{
+					expression->type=BasicBinaryExpression::Sub;
+				}
+				else if(op==L"*")
+				{
+					expression->type=BasicBinaryExpression::Mul;
+				}
+				else if(op==L"/")
+				{
+					expression->type=BasicBinaryExpression::Div;
+				}
+				else if(op==L"%")
+				{
+					expression->type=BasicBinaryExpression::Mod;
+				}
+				else if(op==L"<<")
+				{
+					expression->type=BasicBinaryExpression::Shl;
+				}
+				else if(op==L">>")
+				{
+					expression->type=BasicBinaryExpression::Shr;
+				}
+				else if(op==L"<")
+				{
+					expression->type=BasicBinaryExpression::Lt;
+				}
+				else if(op==L">")
+				{
+					expression->type=BasicBinaryExpression::Gt;
+				}
+				else if(op==L"<=")
+				{
+					expression->type=BasicBinaryExpression::Le;
+				}
+				else if(op==L">=")
+				{
+					expression->type=BasicBinaryExpression::Ge;
+				}
+				else if(op==L"==")
+				{
+					expression->type=BasicBinaryExpression::Eq;
+				}
+				else if(op==L"!=")
+				{
+					expression->type=BasicBinaryExpression::Ne;
+				}
+				else if(op==L"&")
+				{
+					expression->type=BasicBinaryExpression::BitAnd;
+				}
+				else if(op==L"|")
+				{
+					expression->type=BasicBinaryExpression::BitOr;
+				}
+				else if(op==L"^")
+				{
+					expression->type=BasicBinaryExpression::Xor;
+				}
+				else if(op==L"&&")
+				{
+					expression->type=BasicBinaryExpression::And;
+				}
+				else if(op==L"||")
+				{
+					expression->type=BasicBinaryExpression::Or;
+				}
+				else if(op==L"+=")
+				{
+					expression->type=BasicBinaryExpression::AddAssign;
+				}
+				else if(op==L"-=")
+				{
+					expression->type=BasicBinaryExpression::SubAssign;
+				}
+				else if(op==L"*=")
+				{
+					expression->type=BasicBinaryExpression::MulAssign;
+				}
+				else if(op==L"/=")
+				{
+					expression->type=BasicBinaryExpression::DivAssign;
+				}
+				else if(op==L"%=")
+				{
+					expression->type=BasicBinaryExpression::ModAssign;
+				}
+				else if(op==L"<<=")
+				{
+					expression->type=BasicBinaryExpression::ShlAssign;
+				}
+				else if(op==L">>=")
+				{
+					expression->type=BasicBinaryExpression::ShrAssign;
+				}
+				else if(op==L"&=")
+				{
+					expression->type=BasicBinaryExpression::BitAndAssign;
+				}
+				else if(op==L"|=")
+				{
+					expression->type=BasicBinaryExpression::BitOrAssign;
+				}
+				else if(op==L"^=")
+				{
+					expression->type=BasicBinaryExpression::XorAssign;
+				}
+				else if(op==L"&&=")
+				{
+					expression->type=BasicBinaryExpression::AndAssign;
+				}
+				else if(op==L"||=")
+				{
+					expression->type=BasicBinaryExpression::OrAssign;
+				}
+				else if(op==L"=")
+				{
+					expression->type=BasicBinaryExpression::Assign;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"language_nativex::ToBinary()#错误的操作符。");
+				}
+				return expression;
+			}
+
 /***********************************************************************
 错误恢复
 ***********************************************************************/
@@ -403,6 +545,7 @@ namespace vl
 				TokenType							DOUBLE;
 				TokenType							NULL_VALUE;
 				TokenType							ID;
+				TokenType							RESULT;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -412,17 +555,15 @@ namespace vl
 				TokenType							POINTER;
 				TokenType							COMMA;
 
-				TokenType							INCREASE;
-				TokenType							DECREASE;
-				TokenType							BIT_AND;
-				TokenType							MUL;
-				TokenType							NEGATIVE;
-				TokenType							BIT_NOT;
-				TokenType							NOT;
+				TokenType							INCREASE, DECREASE, BIT_NOT, NOT;
+				TokenType							ADD, SUB, MUL, DIV, MOD, SHL, SHR;
+				TokenType							LT, GT, LE, GE, EQ, NE;
+				TokenType							BIT_AND, BIT_OR, AND, OR, XOR;
+				TokenType							OP_ASSIGN, ASSIGN;
 
 				ExpressionRule						primitive;
 				ExpressionRule						reference;
-				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13;
+				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
 			public:
 				NativeXParser()
@@ -440,6 +581,7 @@ namespace vl
 					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
 					NULL_VALUE		= CreateToken(tokens, L"null");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
+					RESULT			= CreateToken(tokens, L"result");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -449,13 +591,30 @@ namespace vl
 					POINTER			= CreateToken(tokens, L"->");
 					COMMA			= CreateToken(tokens, L",");
 
-					INCREASE		= CreateToken(tokens, L"++");
+					INCREASE		= CreateToken(tokens, L"/+/+");
 					DECREASE		= CreateToken(tokens, L"--");
-					BIT_AND			= CreateToken(tokens, L"&");
-					MUL				= CreateToken(tokens, L"*");
-					NEGATIVE		= CreateToken(tokens, L"-");
 					BIT_NOT			= CreateToken(tokens, L"~");
 					NOT				= CreateToken(tokens, L"!");
+					ADD				= CreateToken(tokens, L"/+");
+					SUB				= CreateToken(tokens, L"-");
+					MUL				= CreateToken(tokens, L"/*");
+					DIV				= CreateToken(tokens, L"//");
+					MOD				= CreateToken(tokens, L"%");
+					SHL				= CreateToken(tokens, L"<<");
+					SHR				= CreateToken(tokens, L">>");
+					LT				= CreateToken(tokens, L"<");
+					GT				= CreateToken(tokens, L">");
+					LE				= CreateToken(tokens, L"<=");
+					GE				= CreateToken(tokens, L">=");
+					EQ				= CreateToken(tokens, L"==");
+					NE				= CreateToken(tokens, L"!=");
+					BIT_AND			= CreateToken(tokens, L"&");
+					BIT_OR			= CreateToken(tokens, L"/|");
+					AND				= CreateToken(tokens, L"&&");
+					OR				= CreateToken(tokens, L"/|/|");
+					XOR				= CreateToken(tokens, L"/^");
+					OP_ASSIGN		= CreateToken(tokens, L"(/+|-|/*|//|%|<<|>>|&|/||/^|&&|/|/|)=");
+					ASSIGN			= CreateToken(tokens, L"=");
 
 					lexer=new RegexLexer(tokens.Wrap());
 
@@ -468,14 +627,25 @@ namespace vl
 									;
 					reference		= ID[ToReference];
 
-					exp0			= primitive | reference;
+					exp0			= primitive | reference | RESULT[ToResult];
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp0 << CLOSE_ARRAY)
 													| (OPEN_BRACE + list(exp + *(COMMA >> exp))[UpgradeArguments] << CLOSE_BRACE)
 													| ((DOT | POINTER) + reference)
 													| (INCREASE | DECREASE)[UpgradePostfix]
 													), ToPostUnary);
-					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | NEGATIVE | BIT_NOT | NOT) + exp1)[ToPreUnary];
+					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp1)[ToPreUnary];
+					exp3			= lrec(exp2 + *((MUL | DIV | MOD) + exp2), ToBinary);
+					exp4			= lrec(exp3 + *((ADD | SUB) + exp3), ToBinary);
+					exp5			= lrec(exp4 + *((SHL | SHR) + exp4), ToBinary);
+					exp6			= lrec(exp5 + *((LT | GT | LE | GE) + exp5), ToBinary);
+					exp7			= lrec(exp6 + *((EQ | NE) + exp6), ToBinary);
+					exp8			= lrec(exp7 + *(BIT_AND + exp7), ToBinary);
+					exp9			= lrec(exp8 + *(XOR + exp8), ToBinary);
+					exp10			= lrec(exp9 + *(BIT_OR + exp9), ToBinary);
+					exp11			= lrec(exp10 + *(AND + exp10), ToBinary);
+					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
+					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 				}
 			};
 
