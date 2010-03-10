@@ -4,6 +4,7 @@
 #include "..\..\..\Combinator\Combinator.h"
 #include "..\..\..\Combinator\ParserInput.h"
 #include "..\..\..\Combinator\TokenCombinator.h"
+#include "..\..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -112,7 +113,7 @@ namespace vl
 			}
 
 /***********************************************************************
-语义函数
+语义函数：常量
 ***********************************************************************/
 
 			Ptr<BasicExpression> ToTrue(const RegexToken& input)
@@ -247,6 +248,138 @@ namespace vl
 			}
 
 /***********************************************************************
+语义函数：表达式
+***********************************************************************/
+
+			class NativeXArguments : public BasicExtendedExpression
+			{
+			public:
+				Ptr<List<Ptr<BasicExpression>>>		arguments;
+			};
+
+			ParsingPair<RegexToken, Ptr<BasicExpression>> UpgradePostfix(const RegexToken& input)
+			{
+				return ParsingPair<RegexToken, Ptr<BasicExpression>>(input, 0);
+			}
+
+			Ptr<BasicExpression> UpgradeArguments(const Ptr<List<Ptr<BasicExpression>>>& arguments)
+			{
+				Ptr<NativeXArguments> expression=new NativeXArguments;
+				expression->arguments=arguments;
+				return expression;
+			}
+
+			Ptr<BasicExpression> ToPostUnary(
+				const Ptr<BasicExpression>& operand, 
+				const ParsingPair<RegexToken, Ptr<BasicExpression>>& unary
+				)
+			{
+				WString op(unary.First().reading, unary.First().length);
+				if(op==L"[")
+				{
+					Ptr<BasicSubscribeExpression> expression=CreateNode<BasicSubscribeExpression>(unary.First());
+					expression->operand=operand;
+					expression->subscribe=unary.Second();
+					return expression;
+				}
+				else if(op==L"(")
+				{
+					Ptr<NativeXArguments> arguments=unary.Second();
+					Ptr<BasicInvokeExpression> expression=CreateNode<BasicInvokeExpression>(unary.First());
+					expression->function=operand;
+					CopyFrom(expression->arguments.Wrap(), arguments->arguments->Wrap());
+					return expression;
+				}
+				else if(op==L".")
+				{
+					Ptr<BasicReferenceExpression> member=unary.Second();
+					Ptr<BasicMemberExpression> expression=CreateNode<BasicMemberExpression>(unary.First());
+					expression->operand=operand;
+					expression->member=member->name;
+					expression->pointerMember=false;
+					return expression;
+				}
+				else if(op==L"->")
+				{
+					Ptr<BasicReferenceExpression> member=unary.Second();
+					Ptr<BasicMemberExpression> expression=CreateNode<BasicMemberExpression>(unary.First());
+					expression->operand=operand;
+					expression->member=member->name;
+					expression->pointerMember=true;
+					return expression;
+				}
+				else if(op==L"++")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(unary.First());
+					expression->operand=operand;
+					expression->type=BasicUnaryExpression::PostfixIncrease;
+					return expression;
+				}
+				else if(op==L"--")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(unary.First());
+					expression->operand=operand;
+					expression->type=BasicUnaryExpression::PostfixDecrease;
+					return expression;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"language_nativex::ToPostUnary()#错误的操作符。");
+				}
+			}
+
+			Ptr<BasicExpression> ToPreUnary(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
+			{
+				WString op(input.First().reading, input.First().length);
+				if(op==L"++")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::PrefixIncrease;
+					return expression;
+				}
+				else if(op==L"--")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::PrefixDecrease;
+					return expression;
+				}
+				else if(op==L"&")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::GetAddress;
+					return expression;
+				}
+				else if(op==L"-")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::Negative;
+					return expression;
+				}
+				else if(op==L"~")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::BitNot;
+					return expression;
+				}
+				else if(op==L"!")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::Not;
+					return expression;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"language_nativex::ToPreUnary()#错误的操作符。");
+				}
+			}
+
+/***********************************************************************
 错误恢复
 ***********************************************************************/
 
@@ -268,15 +401,34 @@ namespace vl
 				TokenType							INTEGER;
 				TokenType							FLOAT;
 				TokenType							DOUBLE;
-				TokenType							NULLVALUE;
+				TokenType							NULL_VALUE;
 				TokenType							ID;
+
+				TokenType							OPEN_ARRAY;
+				TokenType							CLOSE_ARRAY;
+				TokenType							OPEN_BRACE;
+				TokenType							CLOSE_BRACE;
+				TokenType							DOT;
+				TokenType							POINTER;
+				TokenType							COMMA;
+
+				TokenType							INCREASE;
+				TokenType							DECREASE;
+				TokenType							BIT_AND;
+				TokenType							MUL;
+				TokenType							NEGATIVE;
+				TokenType							BIT_NOT;
+				TokenType							NOT;
 
 				ExpressionRule						primitive;
 				ExpressionRule						reference;
+				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13;
+				ExpressionRule						exp;
 			public:
 				NativeXParser()
 				{
 					List<WString> tokens;
+
 					TRUE			= CreateToken(tokens, L"true");
 					FALSE			= CreateToken(tokens, L"false");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -286,18 +438,44 @@ namespace vl
 					INTEGER			= CreateToken(tokens, L"[+/-]?/d+");
 					FLOAT			= CreateToken(tokens, L"[+/-]?/d+(./d+)[fF]");
 					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
-					NULLVALUE		= CreateToken(tokens, L"null");
+					NULL_VALUE		= CreateToken(tokens, L"null");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
+
+					OPEN_ARRAY		= CreateToken(tokens, L"/[");
+					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
+					OPEN_BRACE		= CreateToken(tokens, L"/(");
+					CLOSE_BRACE		= CreateToken(tokens, L"/)");
+					DOT				= CreateToken(tokens, L".");
+					POINTER			= CreateToken(tokens, L"->");
+					COMMA			= CreateToken(tokens, L",");
+
+					INCREASE		= CreateToken(tokens, L"++");
+					DECREASE		= CreateToken(tokens, L"--");
+					BIT_AND			= CreateToken(tokens, L"&");
+					MUL				= CreateToken(tokens, L"*");
+					NEGATIVE		= CreateToken(tokens, L"-");
+					BIT_NOT			= CreateToken(tokens, L"~");
+					NOT				= CreateToken(tokens, L"!");
+
 					lexer=new RegexLexer(tokens.Wrap());
 
 					primitive		= TRUE[ToTrue] | FALSE[ToFalse]
 									| ACHAR[ToAChar] | WCHAR[ToWChar]
 									| ASTRING[ToAString] | WSTRING[ToWString]
 									| FLOAT[ToFloat] | DOUBLE[ToDouble]
-									| NULLVALUE[ToNull]
+									| NULL_VALUE[ToNull]
 									| INTEGER[ToInteger]
 									;
 					reference		= ID[ToReference];
+
+					exp0			= primitive | reference;
+					exp1			= lrec(exp0 +  *(
+													(OPEN_ARRAY + exp0 << CLOSE_ARRAY)
+													| (OPEN_BRACE + list(exp + *(COMMA >> exp))[UpgradeArguments] << CLOSE_BRACE)
+													| ((DOT | POINTER) + reference)
+													| (INCREASE | DECREASE)[UpgradePostfix]
+													), ToPostUnary);
+					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | NEGATIVE | BIT_NOT | NOT) + exp1)[ToPreUnary];
 				}
 			};
 
