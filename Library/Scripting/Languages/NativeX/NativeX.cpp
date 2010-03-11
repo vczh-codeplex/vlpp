@@ -730,14 +730,6 @@ namespace vl
 				return statement;
 			}
 
-			Ptr<BasicStatement> ToWhileStat(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>& input)
-			{
-				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First());
-				statement->beginCondition=input.First().Second();
-				statement->statement=input.Second();
-				return statement;
-			}
-
 			Ptr<BasicStatement> ToDoWhileStat(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicStatement>>, Ptr<BasicExpression>>& input)
 			{
 				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First());
@@ -753,12 +745,15 @@ namespace vl
 				return statement;
 			}
 
-			Ptr<BasicStatement> ToWhileWhenStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>, Ptr<BasicExpression>>& input)
+			Ptr<BasicStatement> ToWhileStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>, ParsingList<Ptr<BasicExpression>>>& input)
 			{
 				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First().First());
 				statement->beginCondition=input.First().First().Second();
 				statement->statement=input.First().Second();
-				statement->endCondition=input.Second();
+				if(input.Second().Head())
+				{
+					statement->endCondition=input.Second().Head()->Value();
+				}
 				return statement;
 			}
 
@@ -864,7 +859,7 @@ namespace vl
 				ExpressionRule						reference;
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
-				TypeRule							type;
+				TypeRule							primType,type;
 
 				StatementRule						statement;
 				DeclarationRule						declaration;
@@ -974,10 +969,10 @@ namespace vl
 					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 
-					type			= (FUNCTION + type + (OPEN_BRACE >> list(type + *(COMMA >> type)) << CLOSE_BRACE))[ToFunctionType]
+					primType		= (FUNCTION + type + (OPEN_BRACE >> list(type + *(COMMA >> type)) << CLOSE_BRACE))[ToFunctionType]
 									| (PRIM_TYPE | ID)[ToNamedType]
-									| lrec(type + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType)
 									;
+					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
 
 					statement		= SEMICOLON[ToEmptyStat]
 									| (exp + SEMICOLON)[ToExprStat]
@@ -987,10 +982,9 @@ namespace vl
 									| (CONTINUE << SEMICOLON)[ToContinueStat]
 									| (EXIT << SEMICOLON)[ToReturnStat]
 									| (OPEN_STAT + list(*statement) << OPEN_STAT)[ToCompositeStat]
-									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement)[ToWhileStat]
 									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
-									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileWhenStat]
+									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileStat]
 									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + (DO >> statement))[ToForStat]
 									;
 					declaration		= (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarDecl]
