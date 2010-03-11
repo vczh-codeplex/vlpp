@@ -30,6 +30,7 @@ namespace vl
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicExpression>>		ExpressionRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
+			typedef Rule<TokenInput<RegexToken>, Ptr<BasicDeclaration>>		DeclarationRule;
 
 /***********************************************************************
 ¸¨Öúº¯Êý
@@ -792,6 +793,30 @@ namespace vl
 			}
 
 /***********************************************************************
+ÓïÒåº¯Êý£ºÉùÃ÷
+***********************************************************************/
+
+			Ptr<BasicDeclaration> ToVarDecl(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<Ptr<BasicExpression>>>& input)
+			{
+				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First());
+				declaration->name=ConvertID((input.First().Second().reading, input.First().Second().length));
+				declaration->type=input.First().First().Second();
+				if(input.Second().Head())
+				{
+					declaration->initializer=input.Second().Head()->Value();
+				}
+				return declaration;
+			}
+
+			Ptr<BasicDeclaration> ToTypedefDecl(const ParsingPair<ParsingPair<RegexToken, RegexToken>, Ptr<BasicType>>& input)
+			{
+				Ptr<BasicTypeRenameDeclaration> declaration=CreateNode<BasicTypeRenameDeclaration>(input.First().First());
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				declaration->type=input.Second();
+				return declaration;
+			}
+
+/***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
 
@@ -816,6 +841,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
+				TokenType							TYPE;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -841,6 +867,7 @@ namespace vl
 				TypeRule							type;
 
 				StatementRule						statement;
+				DeclarationRule						declaration;
 			public:
 				NativeXParser()
 				{
@@ -874,6 +901,7 @@ namespace vl
 					WHEN			= CreateToken(tokens, L"when");
 					FOR				= CreateToken(tokens, L"for");
 					WITH			= CreateToken(tokens, L"with");
+					TYPE			= CreateToken(tokens, L"type");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -963,7 +991,10 @@ namespace vl
 									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
 									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileWhenStat]
-									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + statement)[ToForStat]
+									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + (DO >> statement))[ToForStat]
+									;
+					declaration		= (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarDecl]
+									| (TYPE + ID + (ASSIGN >> type))[ToTypedefDecl]
 									;
 				}
 			};
