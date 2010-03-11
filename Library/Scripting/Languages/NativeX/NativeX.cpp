@@ -29,6 +29,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicExpression>>		ExpressionRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
+			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
 
 /***********************************************************************
 ¸¨Öúº¯Êý
@@ -667,6 +668,46 @@ namespace vl
 			}
 
 /***********************************************************************
+ÓïÒåº¯Êý£ºÓï¾ä
+***********************************************************************/
+
+			Ptr<BasicStatement> ToEmptyStat(const RegexToken& input)
+			{
+				return CreateNode<BasicEmptyStatement>(input);
+			}
+
+			Ptr<BasicStatement> ToExprStat(const ParsingPair<Ptr<BasicExpression>, RegexToken>& input)
+			{
+				Ptr<BasicExpressionStatement> statement=CreateNode<BasicExpressionStatement>(input.Second());
+				statement->expression=input.First();
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToVarStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<Ptr<BasicExpression>>>& input)
+			{
+				Ptr<BasicVariableStatement> statement=CreateNode<BasicVariableStatement>(input.First().First().First());
+				statement->name=ConvertID((input.First().Second().reading, input.First().Second().length));
+				statement->type=input.First().First().Second();
+				if(input.Second().Head())
+				{
+					statement->initializer=input.Second().Head()->Value();
+				}
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToIfStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>, ParsingList<Ptr<BasicStatement>>>& input)
+			{
+				Ptr<BasicIfStatement> statement=CreateNode<BasicIfStatement>(input.First().First().First());
+				statement->condition=input.First().First().Second();
+				statement->trueStatement=input.First().Second();
+				if(input.Second().Head())
+				{
+					statement->falseStatement=input.Second().Head()->Value();
+				}
+				return statement;
+			}
+
+/***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
 
@@ -695,6 +736,9 @@ namespace vl
 				TokenType							RESULT;
 				TokenType							FUNCTION;
 				TokenType							CAST;
+				TokenType							VARIABLE;
+				TokenType							IF;
+				TokenType							ELSE;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -703,6 +747,7 @@ namespace vl
 				TokenType							DOT;
 				TokenType							POINTER;
 				TokenType							COMMA;
+				TokenType							SEMICOLON;
 
 				TokenType							INCREASE, DECREASE, BIT_NOT, NOT;
 				TokenType							ADD, SUB, MUL, DIV, MOD, SHL, SHR;
@@ -715,6 +760,8 @@ namespace vl
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
 				TypeRule							type;
+
+				StatementRule						statement;
 			public:
 				NativeXParser()
 				{
@@ -736,6 +783,9 @@ namespace vl
 					RESULT			= CreateToken(tokens, L"result");
 					FUNCTION		= CreateToken(tokens, L"function");
 					CAST			= CreateToken(tokens, L"cast");
+					VARIABLE		= CreateToken(tokens, L"variable");
+					IF				= CreateToken(tokens, L"if");
+					ELSE			= CreateToken(tokens, L"else");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -744,6 +794,7 @@ namespace vl
 					DOT				= CreateToken(tokens, L".");
 					POINTER			= CreateToken(tokens, L"->");
 					COMMA			= CreateToken(tokens, L",");
+					SEMICOLON		= CreateToken(tokens, L";");
 
 					INCREASE		= CreateToken(tokens, L"/+/+");
 					DECREASE		= CreateToken(tokens, L"--");
@@ -808,6 +859,12 @@ namespace vl
 					type			= (FUNCTION + type + (OPEN_BRACE >> list(type + *(COMMA >> type)) << CLOSE_BRACE))[ToFunctionType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									| lrec(type + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType)
+									;
+
+					statement		= SEMICOLON[ToEmptyStat]
+									| (exp + SEMICOLON)[ToExprStat]
+									| (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarStat]
+									| (IF + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(ELSE >> statement))[ToIfStat]
 									;
 				}
 			};
