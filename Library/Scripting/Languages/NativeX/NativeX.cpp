@@ -707,6 +707,60 @@ namespace vl
 				return statement;
 			}
 
+			Ptr<BasicStatement> ToBreakStat(const RegexToken& input)
+			{
+				return CreateNode<BasicBreakStatement>(input);
+			}
+
+			Ptr<BasicStatement> ToContinueStat(const RegexToken& input)
+			{
+				return CreateNode<BasicContinueStatement>(input);
+			}
+
+			Ptr<BasicStatement> ToReturnStat(const RegexToken& input)
+			{
+				return CreateNode<BasicReturnStatement>(input);
+			}
+
+			Ptr<BasicStatement> ToCompositeStat(const ParsingPair<RegexToken, Ptr<List<Ptr<BasicStatement>>>>& input)
+			{
+				Ptr<BasicCompositeStatement> statement=CreateNode<BasicCompositeStatement>(input.First());
+				CopyFrom(statement->statements.Wrap(), input.Second()->Wrap());
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToWhileStat(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>& input)
+			{
+				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First());
+				statement->beginCondition=input.First().Second();
+				statement->statement=input.Second();
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToDoWhileStat(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicStatement>>, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First());
+				statement->statement=input.First().Second();
+				statement->endCondition=input.Second();
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToLoopStat(const ParsingPair<RegexToken, Ptr<BasicStatement>>& input)
+			{
+				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First());
+				statement->statement=input.Second();
+				return statement;
+			}
+
+			Ptr<BasicStatement> ToWhileWhenStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicExpression>>, Ptr<BasicStatement>>, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicWhileStatement> statement=CreateNode<BasicWhileStatement>(input.First().First().First());
+				statement->beginCondition=input.First().First().Second();
+				statement->statement=input.First().Second();
+				statement->endCondition=input.Second();
+				return statement;
+			}
+
 /***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
@@ -730,20 +784,15 @@ namespace vl
 				TokenType							ID;
 				TokenType							PRIM_TYPE;
 
-				TokenType							TRUE;
-				TokenType							FALSE;
-				TokenType							NULL_VALUE;
-				TokenType							RESULT;
-				TokenType							FUNCTION;
-				TokenType							CAST;
-				TokenType							VARIABLE;
-				TokenType							IF;
-				TokenType							ELSE;
+				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
+				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
 				TokenType							OPEN_BRACE;
 				TokenType							CLOSE_BRACE;
+				TokenType							OPEN_STAT;
+				TokenType							CLOSE_STAT;
 				TokenType							DOT;
 				TokenType							POINTER;
 				TokenType							COMMA;
@@ -786,11 +835,20 @@ namespace vl
 					VARIABLE		= CreateToken(tokens, L"variable");
 					IF				= CreateToken(tokens, L"if");
 					ELSE			= CreateToken(tokens, L"else");
+					BREAK			= CreateToken(tokens, L"break");
+					CONTINUE		= CreateToken(tokens, L"continue");
+					EXIT			= CreateToken(tokens, L"exit");
+					WHILE			= CreateToken(tokens, L"while");
+					DO				= CreateToken(tokens, L"do");
+					LOOP			= CreateToken(tokens, L"loop");
+					WHEN			= CreateToken(tokens, L"when");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
 					OPEN_BRACE		= CreateToken(tokens, L"/(");
 					CLOSE_BRACE		= CreateToken(tokens, L"/)");
+					OPEN_STAT		= CreateToken(tokens, L"/{");
+					CLOSE_STAT		= CreateToken(tokens, L"/}");
 					DOT				= CreateToken(tokens, L".");
 					POINTER			= CreateToken(tokens, L"->");
 					COMMA			= CreateToken(tokens, L",");
@@ -865,6 +923,14 @@ namespace vl
 									| (exp + SEMICOLON)[ToExprStat]
 									| (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarStat]
 									| (IF + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(ELSE >> statement))[ToIfStat]
+									| (BREAK << SEMICOLON)[ToBreakStat]
+									| (CONTINUE << SEMICOLON)[ToContinueStat]
+									| (EXIT << SEMICOLON)[ToReturnStat]
+									| (OPEN_STAT + list(statement + *(COMMA >> statement)) << OPEN_STAT)[ToCompositeStat]
+									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement)[ToWhileStat]
+									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
+									| (LOOP + statement)[ToLoopStat]
+									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileWhenStat]
 									;
 				}
 			};
