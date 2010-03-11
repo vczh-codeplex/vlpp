@@ -761,6 +761,36 @@ namespace vl
 				return statement;
 			}
 
+			Ptr<BasicStatement> ConvertStats(Ptr<List<Ptr<BasicStatement>>> statements, const RegexToken& token)
+			{
+				if(statements->Count()==1)
+				{
+					return statements->Get(0);
+				}
+				else
+				{
+					Ptr<BasicCompositeStatement> composite=CreateNode<BasicCompositeStatement>(token);
+					CopyFrom(composite->statements.Wrap(), statements->Wrap());
+					return composite;
+				}
+			}
+
+			Ptr<BasicStatement> ToForStat(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<List<Ptr<BasicStatement>>>>,
+				Ptr<BasicExpression>>,
+				Ptr<List<Ptr<BasicStatement>>>>,
+				Ptr<BasicStatement>>& input)
+			{
+				const RegexToken& token=input.First().First().First().First();
+				Ptr<BasicForStatement> statement=CreateNode<BasicForStatement>(token);
+				statement->initializer=ConvertStats(input.First().First().First().Second(), token);
+				statement->condition=input.First().First().Second();
+				statement->sideEffect=ConvertStats(input.First().Second(), token);
+				statement->statement=input.Second();
+				return statement;
+			}
+
 /***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
@@ -785,7 +815,7 @@ namespace vl
 				TokenType							PRIM_TYPE;
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
-				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN;
+				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -842,6 +872,8 @@ namespace vl
 					DO				= CreateToken(tokens, L"do");
 					LOOP			= CreateToken(tokens, L"loop");
 					WHEN			= CreateToken(tokens, L"when");
+					FOR				= CreateToken(tokens, L"for");
+					WITH			= CreateToken(tokens, L"with");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -926,11 +958,12 @@ namespace vl
 									| (BREAK << SEMICOLON)[ToBreakStat]
 									| (CONTINUE << SEMICOLON)[ToContinueStat]
 									| (EXIT << SEMICOLON)[ToReturnStat]
-									| (OPEN_STAT + list(statement + *(COMMA >> statement)) << OPEN_STAT)[ToCompositeStat]
+									| (OPEN_STAT + list(*statement) << OPEN_STAT)[ToCompositeStat]
 									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement)[ToWhileStat]
 									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
 									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileWhenStat]
+									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + statement)[ToForStat]
 									;
 				}
 			};
