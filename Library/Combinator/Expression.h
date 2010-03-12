@@ -188,6 +188,16 @@ namespace vl
 			{
 				return second;
 			}
+
+			bool operator==(const ParsingPair<T1, T2>& pair)const
+			{
+				return first==pair.first && second==pair.second;
+			}
+
+			bool operator!=(const ParsingPair<T1, T2>& pair)const
+			{
+				return first!=pair.first || second!=pair.second;
+			}
 		};
 
 		template<typename T>

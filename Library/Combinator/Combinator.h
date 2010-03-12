@@ -252,6 +252,30 @@ List Constructor (T,T*)?
 			return node[converter];
 		}
 
+		template<typename T>
+		static ParsingList<T> ToPList(const ParsingList<ParsingPair<T, ParsingList<T>>>& input)
+		{
+			ParsingList<T> result;
+			if(input.Head())
+			{
+				result.Append(input.Head()->Value().First());
+				ParsingList<T>::Node::Ref current=input.Head()->Value().Second().Head();
+				while(current)
+				{
+					result.Append(current->Value());
+					current=current->Next();
+				}
+			}
+			return result;
+		}
+
+		template<typename I, typename T>
+		static Node<I, ParsingList<T>> plist(const Node<I, ParsingList<ParsingPair<T, ParsingList<T>>>>& node)
+		{
+			ParsingList<T>(*converter)(const ParsingList<ParsingPair<T, ParsingList<T>>>& input)=&ToPList<T>;
+			return node[converter];
+		}
+
 /***********************************************************************
 List Constructor (T,T*)
 ***********************************************************************/
@@ -274,6 +298,27 @@ List Constructor (T,T*)
 		static Node<I, Ptr<collections::List<T>>> list(const Node<I, ParsingPair<T, ParsingList<T>>>& node)
 		{
 			Ptr<collections::List<T>>(*converter)(const ParsingPair<T, ParsingList<T>>& input)=&ToList<T>;
+			return node[converter];
+		}
+
+		template<typename T>
+		static ParsingList<T> ToPList(const ParsingPair<T, ParsingList<T>>& input)
+		{
+			ParsingList<T> result;
+			result.Append(input.First());
+			ParsingList<T>::Node::Ref current=input.Second().Head();
+			while(current)
+			{
+				result.Append(current->Value());
+				current=current->Next();
+			}
+			return result;
+		}
+
+		template<typename I, typename T>
+		static Node<I, ParsingList<T>> plist(const Node<I, ParsingPair<T, ParsingList<T>>>& node)
+		{
+			ParsingList<T>(*converter)(const ParsingPair<T, ParsingList<T>>& input)=&ToPList<T>;
 			return node[converter];
 		}
 
