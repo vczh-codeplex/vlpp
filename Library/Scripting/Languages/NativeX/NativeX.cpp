@@ -811,6 +811,55 @@ namespace vl
 				return declaration;
 			}
 
+			Ptr<BasicDeclaration> ToFuncDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				RegexToken, 
+				Ptr<BasicType>>, 
+				RegexToken>, 
+				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>>,
+				Ptr<BasicStatement>>& input)
+			{
+				Ptr<BasicFunctionDeclaration> declaration=CreateNode<BasicFunctionDeclaration>(input.First().First().First().First());
+				declaration->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				declaration->statement=input.Second();
+				declaration->signatureType=CreateNode<BasicFunctionType>(input.First().First().First().First());
+				declaration->signatureType->returnType=input.First().First().First().Second();
+				
+				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>::Node::Ref current=input.First().Second().Head();
+				while(current)
+				{
+					declaration->signatureType->parameterTypes.Add(current->Value().First());
+					declaration->parameterNames.Add(ConvertID(WString(current->Value().Second().reading, current->Value().Second().length)));
+					current=current->Next();
+				}
+				return declaration;
+			}
+
+			Ptr<BasicDeclaration> ToStructDecl(const ParsingPair<ParsingPair<
+				RegexToken,
+				RegexToken>,
+				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>>& input)
+			{
+				Ptr<BasicStructureDeclaration> declaration=CreateNode<BasicStructureDeclaration>(input.First().First());
+				declaration->defined=true;
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>::Node::Ref current=input.Second().Head();
+				while(current)
+				{
+					declaration->memberTypes.Add(current->Value().First());
+					declaration->memberNames.Add(ConvertID(WString(current->Value().Second().reading, current->Value().Second().length)));
+					current=current->Next();
+				}
+				return declaration;
+			}
+
+			Ptr<BasicDeclaration> ToStructPreDecl(const ParsingPair<RegexToken, RegexToken>& input)
+			{
+				Ptr<BasicStructureDeclaration> declaration=CreateNode<BasicStructureDeclaration>(input.First());
+				declaration->defined=false;
+				declaration->name=ConvertID(WString(input.Second().reading, input.Second().length));
+				return declaration;
+			}
+
 /***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
@@ -836,7 +885,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE;
+				TokenType							TYPE, STRUCTURE;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -897,6 +946,7 @@ namespace vl
 					FOR				= CreateToken(tokens, L"for");
 					WITH			= CreateToken(tokens, L"with");
 					TYPE			= CreateToken(tokens, L"type");
+					STRUCTURE		= CreateToken(tokens, L"structure");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -969,7 +1019,7 @@ namespace vl
 					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 
-					primType		= (FUNCTION + type + (OPEN_BRACE >> list(type + *(COMMA >> type)) << CLOSE_BRACE))[ToFunctionType]
+					primType		= (FUNCTION + type + (OPEN_BRACE >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE))[ToFunctionType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									;
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
@@ -988,7 +1038,10 @@ namespace vl
 									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + (DO >> statement))[ToForStat]
 									;
 					declaration		= (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarDecl]
-									| (TYPE + ID + (ASSIGN >> type))[ToTypedefDecl]
+									| (TYPE + ID + (ASSIGN >> type) << SEMICOLON)[ToTypedefDecl]
+									| (STRUCTURE + ID << SEMICOLON)[ToStructPreDecl]
+									| (STRUCTURE + ID + (OPEN_STAT >> *(type + ID << SEMICOLON) << CLOSE_STAT))[ToStructDecl]
+									| (FUNCTION + type + ID + (OPEN_BRACE >> plist(opt((type + ID) + *(COMMA >> (type + ID)))) << CLOSE_BRACE) + statement)[ToFuncDecl]
 									;
 				}
 			};
