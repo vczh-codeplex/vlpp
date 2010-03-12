@@ -31,6 +31,7 @@ namespace vl
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicDeclaration>>		DeclarationRule;
+			typedef Rule<TokenInput<RegexToken>, Ptr<NativeXUnit>>			UnitRule;
 
 /***********************************************************************
 ¸¨Öúº¯Êý
@@ -861,6 +862,27 @@ namespace vl
 			}
 
 /***********************************************************************
+ÓïÒåº¯Êý£ºÖ÷³ÌÐò
+***********************************************************************/
+
+			Ptr<NativeXUnit> ToUnit(const ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<List<RegexToken>>>,
+				Ptr<List<Ptr<BasicDeclaration>>>>& input)
+			{
+				Ptr<NativeXUnit> unit=new NativeXUnit;
+				unit->name=ConvertID(WString(input.First().First().reading, input.First().First().length));
+				unit->program=CreateNode<BasicProgram>(input.First().First());
+				for(int i=0;i<input.First().Second()->Count();i++)
+				{
+					const RegexToken& name=input.First().Second()->Get(i);
+					unit->imports.Add(ConvertID(WString(name.reading, name.length)));
+				}
+				CopyFrom(unit->program->declarations.Wrap(), input.Second()->Wrap());
+				return unit;
+			}
+
+/***********************************************************************
 ´íÎó»Ö¸´
 ***********************************************************************/
 
@@ -885,7 +907,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE, STRUCTURE;
+				TokenType							TYPE, STRUCTURE, UNIT, USES;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -909,9 +931,9 @@ namespace vl
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
 				TypeRule							primType,type;
-
 				StatementRule						statement;
 				DeclarationRule						declaration;
+				UnitRule							unit;
 			public:
 				NativeXParser()
 				{
@@ -947,6 +969,8 @@ namespace vl
 					WITH			= CreateToken(tokens, L"with");
 					TYPE			= CreateToken(tokens, L"type");
 					STRUCTURE		= CreateToken(tokens, L"structure");
+					UNIT			= CreateToken(tokens, L"unit");
+					USES			= CreateToken(tokens, L"uses");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -1002,7 +1026,7 @@ namespace vl
 									;
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp0 << CLOSE_ARRAY)
-													| (OPEN_BRACE + list(exp + *(COMMA >> exp))[UpgradeArguments] << CLOSE_BRACE)
+													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE)
 													| ((DOT | POINTER) + reference)
 													| (INCREASE | DECREASE)[UpgradePostfix]
 													), ToPostUnary);
@@ -1037,12 +1061,15 @@ namespace vl
 									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileStat]
 									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + (DO >> statement))[ToForStat]
 									;
+
 					declaration		= (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarDecl]
 									| (TYPE + ID + (ASSIGN >> type) << SEMICOLON)[ToTypedefDecl]
 									| (STRUCTURE + ID << SEMICOLON)[ToStructPreDecl]
 									| (STRUCTURE + ID + (OPEN_STAT >> *(type + ID << SEMICOLON) << CLOSE_STAT))[ToStructDecl]
 									| (FUNCTION + type + ID + (OPEN_BRACE >> plist(opt((type + ID) + *(COMMA >> (type + ID)))) << CLOSE_BRACE) + statement)[ToFuncDecl]
 									;
+
+					unit			= ((UNIT >> ID << SEMICOLON) + list(opt(USES >> (ID + *(COMMA >> ID)) << SEMICOLON)) + list(*declaration))[ToUnit];
 				}
 			};
 
