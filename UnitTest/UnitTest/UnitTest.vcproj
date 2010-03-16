@@ -881,6 +881,10 @@
 						RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessage_English.txt"
 						>
 					</File>
+					<File
+						RelativePath="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt"
+						>
+					</File>
 					<Filter
 						Name="NativeX"
 						>
@@ -890,6 +894,14 @@
 						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\Languages\NativeX\NativeX.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h"
 							>
 						</File>
 					</Filter>

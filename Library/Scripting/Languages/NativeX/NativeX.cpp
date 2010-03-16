@@ -1,10 +1,11 @@
 #include "NativeX.h"
+#include "NativeXErrorMessage.h"
 #include "..\..\BasicLanguage\BasicLanguageExpression.h"
 #include "..\..\..\Regex\Regex.h"
 #include "..\..\..\Combinator\Combinator.h"
 #include "..\..\..\Combinator\ParserInput.h"
 #include "..\..\..\Combinator\TokenCombinator.h"
-#include "..\..\..\Collections\OperationCopyFrom.h"
+#include "..\..\..\Collections\Operation.h"
 
 namespace vl
 {
@@ -894,6 +895,7 @@ namespace vl
 			{
 			protected:
 				Ptr<RegexLexer>						lexer;
+				int									blankID;
 
 				TokenType							ACHAR;
 				TokenType							WCHAR;
@@ -938,6 +940,7 @@ namespace vl
 				NativeXParser()
 				{
 					List<WString> tokens;
+					tokens.Add(L"/s+");
 
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
 					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
@@ -1070,6 +1073,42 @@ namespace vl
 									;
 
 					unit			= ((UNIT >> ID << SEMICOLON) + list(opt(USES >> (ID + *(COMMA >> ID)) << SEMICOLON)) + list(*declaration))[ToUnit];
+				}
+
+				static bool NotBlank(RegexToken token)
+				{
+					return token.token!=0;
+				}
+
+				Ptr<NativeXUnit> Parse(const WString& code, int codeIndex, IList<Ptr<LanguageException>>& errors)
+				{
+					List<RegexToken> tokens;
+					CopyFrom(tokens.Wrap(), lexer->Parse(code)>>Where(NotBlank));
+					for(int i=0;i<tokens.Count();i++)
+					{
+						if(tokens[i].token==-1)
+						{
+							WString message=NativeXErrorMessage::UnrecognizedToken(WString(tokens[i].reading, tokens[i].length));
+							errors.Add(new LanguageException(message, tokens[i].lineIndex, tokens[i].lineStart, tokens[i].start, codeIndex));
+							return 0;
+						}
+					}
+
+					TokenInput<RegexToken> input(&tokens[0], tokens.Count());
+					try
+					{
+						return unit.ParseFull(input, false);
+					}
+					catch(const CombinatorException<TokenInput<RegexToken>>& exception)
+					{
+						for(int i=0;i<exception.GetGlobalInfo().errors.Count();i++)
+						{
+							Ptr<CombinatorError<TokenInput<RegexToken>>> error=exception.GetGlobalInfo().errors.Get(i);
+							RegexToken position=error->GetPosition().Current();
+							errors.Add(new LanguageException(error->Message(), position.lineIndex, position.lineStart, position.start, codeIndex));
+						}
+						return 0;
+					}
 				}
 			};
 
