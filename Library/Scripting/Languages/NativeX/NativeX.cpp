@@ -1,6 +1,7 @@
 #include "NativeX.h"
 #include "NativeXErrorMessage.h"
-#include "..\..\BasicLanguage\BasicLanguageExpression.h"
+#include "..\..\BasicLanguage\BasicLanguageAnalyzer.h"
+#include "..\..\BasicLanguage\BasicLanguageCodeGeneration.h"
 #include "..\..\..\Regex\Regex.h"
 #include "..\..\..\Combinator\Combinator.h"
 #include "..\..\..\Combinator\ParserInput.h"
@@ -25,6 +26,7 @@ namespace vl
 				WString				name;
 				List<WString>		imports;
 				Ptr<BasicProgram>	program;
+				int					codeIndex;
 			};
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
@@ -1097,7 +1099,12 @@ namespace vl
 					TokenInput<RegexToken> input(&tokens[0], tokens.Count());
 					try
 					{
-						return unit.ParseFull(input, false);
+						Ptr<NativeXUnit> result=unit.ParseFull(input, false);
+						if(result)
+						{
+							result->codeIndex=codeIndex;
+						}
+						return result;
 					}
 					catch(const CombinatorException<TokenInput<RegexToken>>& exception)
 					{
@@ -1120,6 +1127,113 @@ namespace vl
 			{
 			protected:
 				NativeXParser			parser;
+
+				bool Parse(IReadonlyList<WString>& codes, IList<Ptr<LanguageException>>& errors, IDictionary<WString, Ptr<NativeXUnit>>& units)
+				{
+					errors.Clear();
+					for(int i=0;i<codes.Count();i++)
+					{
+						Ptr<NativeXUnit> unit=parser.Parse(codes[i], i, errors);
+						if(unit)
+						{
+							if(units.Keys().Contains(unit->name))
+							{
+								errors.Add(new LanguageException(NativeXErrorMessage::UnitAlreadyExists(unit->name), 0, 0, 0, unit->codeIndex));
+							}
+							else
+							{
+								units.Add(unit->name, unit);
+							}
+						}
+					}
+					for(int i=0;i<units.Count();i++)
+					{
+						Ptr<NativeXUnit> unit=units.Values()[i];
+						for(int j=0;j<unit->imports.Count();i++)
+						{
+							if(!units.Keys().Contains(unit->imports[j]))
+							{
+								errors.Add(new LanguageException(NativeXErrorMessage::UnitNotExists(unit->imports[j]), 0, 0, 0, unit->codeIndex));
+							}
+						}
+					}
+					return errors.Count()>0;
+				}
+
+				Ptr<NativeXUnit> SearchCircularImportsInternal(
+					IReadonlyDictionary<WString, Ptr<NativeXUnit>>& units,
+					ICollection<Ptr<NativeXUnit>>& searchedUnits,
+					ICollection<Ptr<NativeXUnit>>& safeUnits,
+					Ptr<NativeXUnit> current
+					)
+				{
+					if(safeUnits.Contains(current.Obj()))return 0;
+					if(searchedUnits.Contains(current.Obj()))return current;
+					searchedUnits.Add(current);
+					for(int i=0;i<current->imports.Count();i++)
+					{
+						Ptr<NativeXUnit> result=SearchCircularImportsInternal(units, searchedUnits, safeUnits, units[current->imports[i]]);
+						if(result)
+						{
+							return result;
+						}
+					}
+					safeUnits.Add(current);
+					return 0;
+				}
+
+				Ptr<NativeXUnit> SearchCircularImports(IReadonlyDictionary<WString, Ptr<NativeXUnit>>& units)
+				{
+					SortedList<Ptr<NativeXUnit>> searchedUnits;
+					SortedList<Ptr<NativeXUnit>> safeUnits;
+					for(int i=0;i<units.Count();i++)
+					{
+						searchedUnits.Clear();
+						Ptr<NativeXUnit> result=SearchCircularImportsInternal(units, searchedUnits.Wrap(), safeUnits.Wrap(), units.Values()[i]);
+						if(result)
+						{
+							return result;
+						}
+					}
+					return 0;
+				}
+
+				void SortUnits(IDictionary<WString, Ptr<NativeXUnit>>& units, IList<Ptr<NativeXUnit>>& sortedUnits)
+				{
+					while(units.Count())
+					{
+						for(int i=0;i<units.Count();i++)
+						{
+							WString name=units.Keys()[i];
+							int count=0;
+							for(int j=0;j<units.Count();j++)
+							{
+								if(units.Values()[j]->imports.Contains(name))
+								{
+									count++;
+								}
+							}
+							if(count==0)
+							{
+								sortedUnits.Add(units.Values()[i]);
+								units.Remove(name);
+								break;
+							}
+						}
+					}
+				}
+
+				void SetConfiguration(BasicAlgorithmConfiguration& config)
+				{
+					config.treatCharacterAsInteger=true;
+					config.enableImplicitBooleanToIntegerConversion=true;
+					config.enableImplicitIntegerToBooleanConversion=true;
+					config.enableImplicitIntegerToFloatConversion=true;
+					config.enableImplicitUnsignedToSignedConversion=true;
+					config.enableImplicitPointerToBooleanConversion=true;
+					config.enablePointerArithmetic=true;
+					config.enableSubscribeOnPointer=true;
+				}
 			public:
 				WString LanguageName()
 				{
@@ -1132,12 +1246,40 @@ namespace vl
 				}
 
 				Ptr<LanguageAssembly> Compile(
-					collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
-					collections::IReadonlyList<WString>& codes, 
-					collections::IList<Ptr<LanguageException>>& errors
+					IReadonlyList<Ptr<LanguageAssembly>>& references,
+					IReadonlyList<WString>& codes, 
+					IList<Ptr<LanguageException>>& errors
 					)
 				{
-					return 0;
+					Dictionary<WString, Ptr<NativeXUnit>> units;
+					Parse(codes, errors, units.Wrap());
+					if(Ptr<NativeXUnit> unit=SearchCircularImports(units.Wrap()))
+					{
+						errors.Add(new LanguageException(NativeXErrorMessage::UnitCircularReferenced(unit->name), 0, 0, 0, unit->codeIndex));
+						return 0;
+					}
+
+					List<Ptr<NativeXUnit>> sortedUnits;
+					SortUnits(units.Wrap(), sortedUnits.Wrap());
+					Ptr<BasicProgram> program=new BasicProgram;
+					for(int i=0;i<sortedUnits.Count();i++)
+					{
+						CopyFrom(program->declarations.Wrap(), sortedUnits[i]->program->declarations.Wrap());
+					}
+
+					BasicAlgorithmConfiguration configuration;
+					SetConfiguration(configuration);
+					BasicAnalyzer analyzer(program, 0, configuration);
+					analyzer.Analyze();
+					if(analyzer.GetErrors().Count()>0)
+					{
+						// TODO: Translate error messages
+						return 0;
+					}
+
+					BasicCodeGenerator codegen(&analyzer, 0);
+					codegen.GenerateCode();
+					return new LanguageAssembly(codegen.GetIL());
 				}
 			};
 		}

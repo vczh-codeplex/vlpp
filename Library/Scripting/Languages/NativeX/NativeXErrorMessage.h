@@ -26,6 +26,9 @@ namespace vl
 			{
 			public:
 				static WString UnrecognizedToken(const WString& token);
+				static WString UnitAlreadyExists(const WString& name);
+				static WString UnitNotExists(const WString& name);
+				static WString UnitCircularReferenced(const WString& name);
 			};
 		}
 	}

@@ -1,3 +1,6 @@
 resource:vl.scripting.language_nativex.NativeXErrorMessage
 
 UnrecognizedToken(token)=Unrecognized Token \"{token}.\"
+UnitAlreadyExists(name)=Unit {name} already exists.
+UnitNotExists(name)=Unit {name} not exists.
+UnitCircularReferenced(name)=Unit {name} has circular unit imports.
