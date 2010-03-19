@@ -96,9 +96,9 @@ namespace vl
 				return L"Left operand of binary operator "+op+L" should be left value.";
 			}
 
-			WString BasicErrorMessage::BinaryTypeNotMatch()
+			WString BasicErrorMessage::BinaryTypeNotMatch(const WString& op, const WString& left, const WString& right)
 			{
-				return L"(op,left,right)=Binary operator "L"{op}"L" cannot apply to values of "L"{left}"L" and "L"{right}"L".";
+				return L"Binary operator "+op+L" cannot apply to values of "+left+L" and "+right+L".";
 			}
 
 			WString BasicErrorMessage::ConditionCannotConvertToBool(const WString& from, const WString& boolean)

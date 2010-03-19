@@ -18,14 +18,14 @@ CannotSubscribe(type)=Cannot subscribe a value of {type}.
 UnaryOperandShouldBeLeftValue=Operand should be left value.
 UnaryTypeNotMatch(op,type)=Unary operator {op} cannot apply to a value of {type}.
 BinaryLeftOperandShouldBeLeftValue(op)=Left operand of binary operator {op} should be left value.
-BinaryTypeNotMatch=(op,left,right)=Binary operator {op} cannot apply to values of {left} and {right}.
+BinaryTypeNotMatch(op,left,right)=Binary operator {op} cannot apply to values of {left} and {right}.
 ConditionCannotConvertToBool(from,boolean)=Cannot convert the condition from {from} to {boolean}.
 BreakShouldBeInLooping(breakStatement)={breakStatement} should be used in a loop.
 ContinueShouldBeInLooping(continueStatement)={continueStatement} should be used in a loop.
 InitializerTypeNotMatch(from,to)=Cannot convert the variable initializer from {from} to {to}.
 ParameterCountNotMatch=Parameter number should not be greater or less than the function required.
 ParameterAlreadyExists(name)=Parameter {name} already exists.
-StructureMemberCannotBeUndefinedType(name)=Cannot refer to an undefined structure {name}.
+StructureMemberCannotBeUndefinedType(name)=Cannot refer to an undefined structure in member {name}.
 LeftOperandShouldBeStructure=Left operand should be a structure.
 LeftOperandShouldBePointerToStructure=Left operand should be a pointer to a structure.
 PredeclaredStructureShouldBeDefined(name)=Predeclared structure {name} should be defined.
