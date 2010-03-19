@@ -43,7 +43,7 @@ namespace vl
 				static WString UnaryOperandShouldBeLeftValue();
 				static WString UnaryTypeNotMatch(const WString& op, const WString& type);
 				static WString BinaryLeftOperandShouldBeLeftValue(const WString& op);
-				static WString BinaryTypeNotMatch();
+				static WString BinaryTypeNotMatch(const WString& op, const WString& left, const WString& right);
 				static WString ConditionCannotConvertToBool(const WString& from, const WString& boolean);
 				static WString BreakShouldBeInLooping(const WString& breakStatement);
 				static WString ContinueShouldBeInLooping(const WString& continueStatement);

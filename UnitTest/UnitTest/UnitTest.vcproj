@@ -913,6 +913,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\Languages\LanguageProvider.cpp"
 							>
 						</File>
@@ -926,6 +930,10 @@
 						>
 						<File
 							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessage.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.h"
 							>
 						</File>
 						<File
