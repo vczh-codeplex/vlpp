@@ -70,6 +70,7 @@ namespace vl
 				int							start;
 				int							lineStart;
 				int							lineIndex;
+				int							codeIndex;
 
 				BasicPosition();
 			};
