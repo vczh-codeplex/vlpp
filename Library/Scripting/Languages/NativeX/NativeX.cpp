@@ -1,5 +1,6 @@
 #include "NativeX.h"
 #include "NativeXErrorMessage.h"
+#include "..\BasicErrorMessageTranslator.h"
 #include "..\..\BasicLanguage\BasicLanguageAnalyzer.h"
 #include "..\..\BasicLanguage\BasicLanguageCodeGeneration.h"
 #include "..\..\..\Regex\Regex.h"
@@ -47,6 +48,7 @@ namespace vl
 				node->position.start=position.start;
 				node->position.lineStart=position.lineStart;
 				node->position.lineIndex=position.lineIndex;
+				node->position.codeIndex=position.codeIndex;
 				return node;
 			}
 
@@ -1085,7 +1087,7 @@ namespace vl
 				Ptr<NativeXUnit> Parse(const WString& code, int codeIndex, IList<Ptr<LanguageException>>& errors)
 				{
 					List<RegexToken> tokens;
-					CopyFrom(tokens.Wrap(), lexer->Parse(code)>>Where(NotBlank));
+					CopyFrom(tokens.Wrap(), lexer->Parse(code, codeIndex)>>Where(NotBlank));
 					for(int i=0;i<tokens.Count();i++)
 					{
 						if(tokens[i].token==-1)
@@ -1122,6 +1124,211 @@ namespace vl
 /***********************************************************************
 ½Ó¿Ú
 ***********************************************************************/
+
+			class NativeXMessageTranslator : public BasicErrorMessageTranslator
+			{
+			protected:
+				BasicAnalyzer*			analyzer;
+
+				BasicTypeRecord* GetExpressionType(BasicExpression* expression)
+				{
+					return analyzer->GetEnv()->GetExpressionType(expression);
+				}
+
+				WString ToString(BasicType* type)
+				{
+					BP argument(
+						analyzer->GetEnv(),
+						analyzer->GetEnv()->GlobalScope(),
+						analyzer->GetTypeManager(),
+						*(List<Ptr<BasicLanguageCodeException>>*)0,
+						*(SortedList<WString>*)0
+						);
+					return ToString(BasicLanguage_GetTypeRecord(type, argument));
+				}
+
+				WString ToString(BasicTypeRecord* type)
+				{
+					switch(type->GetType())
+					{
+					case BasicTypeRecord::Primitive:
+						switch(type->PrimitiveType())
+						{
+						case s8:
+							return L"int8";
+						case s16:
+							return L"int16";
+						case s32:
+							return L"int32";
+						case s64:
+							return L"int64";
+						case u8:
+							return L"uint8";
+						case u16:
+							return L"uint16";
+						case u32:
+							return L"uint32";
+						case u64:
+							return L"uint64";
+						case f32:
+							return L"f32";
+						case f64:
+							return L"f64";
+						case bool_type:
+							return L"bool";
+						case void_type:
+							return L"void";
+						case char_type:
+							return L"char";
+						case wchar_type:
+							return L"wchar";
+						default:
+							return L"<UNKNOWN PRIMITIVE TYPE>";
+						}
+					case BasicTypeRecord::Pointer:
+						return ToString(type->ElementType())+L"*";
+					case BasicTypeRecord::Array:
+						return ToString(type->ElementType())+L"["+itow(type->ElementCount())+L"]";
+					case BasicTypeRecord::Function:
+						{
+							WString result=L"function "+ToString(type->ReturnType())+L"(";
+							for(int i=0;i<type->ParameterCount();i++)
+							{
+								if(i)result+=L", ";
+								result+=ToString(type->ParameterType(i));
+							}
+							result+=L")";
+							return result;
+						}
+					default:
+						return L"structure";
+					}
+				}
+
+				WString OpToString(BasicUnaryExpression* expression)
+				{
+					switch(expression->type)
+					{
+					case BasicUnaryExpression::PrefixIncrease:
+						return L"++";
+					case BasicUnaryExpression::PostfixIncrease:
+						return L"++";
+					case BasicUnaryExpression::PrefixDecrease:
+						return L"--";
+					case BasicUnaryExpression::PostfixDecrease:
+						return L"--";
+					case BasicUnaryExpression::GetAddress:
+						return L"&";
+					case BasicUnaryExpression::DereferencePointer:
+						return L"*";
+					case BasicUnaryExpression::Negative:
+						return L"-";
+					case BasicUnaryExpression::Not:
+						return L"!";
+					case BasicUnaryExpression::BitNot:
+						return L"~";
+					default:
+						return L"<UNKNOWN UNARY OPERATOR>";
+					}
+				}
+
+				WString OpToString(BasicBinaryExpression* expression)
+				{
+					switch(expression->type)
+					{
+					case BasicBinaryExpression::Add:
+						return L"+";
+					case BasicBinaryExpression::Sub:
+						return L"-";
+					case BasicBinaryExpression::Mul:
+						return L"*";
+					case BasicBinaryExpression::Div:
+						return L"/";
+					case BasicBinaryExpression::Mod:
+						return L"%";
+					case BasicBinaryExpression::Shl:
+						return L"<<";
+					case BasicBinaryExpression::Shr:
+						return L">>";
+					case BasicBinaryExpression::And:
+						return L"&&";
+					case BasicBinaryExpression::Or:
+						return L"||";
+					case BasicBinaryExpression::Xor:
+						return L"^";
+					case BasicBinaryExpression::BitAnd:
+						return L"&";
+					case BasicBinaryExpression::BitOr:
+						return L"|";
+					case BasicBinaryExpression::Lt:
+						return L"<";
+					case BasicBinaryExpression::Le:
+						return L"<=";
+					case BasicBinaryExpression::Gt:
+						return L">";
+					case BasicBinaryExpression::Ge:
+						return L">=";
+					case BasicBinaryExpression::Eq:
+						return L"==";
+					case BasicBinaryExpression::Ne:
+						return L"!=";
+					case BasicBinaryExpression::AddAssign:
+						return L"+=";
+					case BasicBinaryExpression::SubAssign:
+						return L"-=";
+					case BasicBinaryExpression::MulAssign:
+						return L"*=";
+					case BasicBinaryExpression::DivAssign:
+						return L"/=";
+					case BasicBinaryExpression::ModAssign:
+						return L"%=";
+					case BasicBinaryExpression::ShlAssign:
+						return L"<<=";
+					case BasicBinaryExpression::ShrAssign:
+						return L">>=";
+					case BasicBinaryExpression::AndAssign:
+						return L"&&=";
+					case BasicBinaryExpression::OrAssign:
+						return L"||=";
+					case BasicBinaryExpression::XorAssign:
+						return L"^=";
+					case BasicBinaryExpression::BitAndAssign:
+						return L"&=";
+					case BasicBinaryExpression::BitOrAssign:
+						return L"|=";
+					case BasicBinaryExpression::Assign:
+						return L"=";
+					default:
+						return L"<UNKNOWN BINARY OPERATOR>";
+					}
+				}
+
+				WString BreakStatementToString()
+				{
+					return L"break";
+				}
+
+				WString ContinueStatementToString()
+				{
+					return L"continue";
+				}
+
+				BasicTypeRecord* GetIntegerType()
+				{
+					return analyzer->GetTypeManager()->GetPrimitiveType(int_type);
+				}
+
+				BasicTypeRecord* GetBooleanType()
+				{
+					return analyzer->GetTypeManager()->GetPrimitiveType(bool_type);
+				}
+
+			public:
+				NativeXMessageTranslator(BasicAnalyzer* _analyzer)
+					:analyzer(_analyzer)
+				{
+				}
+			};
 
 			class NativeXProvider : public Object, public ILanguageProvider
 			{
@@ -1273,7 +1480,11 @@ namespace vl
 					analyzer.Analyze();
 					if(analyzer.GetErrors().Count()>0)
 					{
-						// TODO: Translate error messages
+						NativeXMessageTranslator translator(&analyzer);
+						for(int i=0;i<analyzer.GetErrors().Count();i++)
+						{
+							errors.Add(translator.Translate(analyzer.GetErrors()[i], analyzer.GetErrors()[i]->GetBasicLanguageElement()->position.codeIndex));
+						}
 						return 0;
 					}
 

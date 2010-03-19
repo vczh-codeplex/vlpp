@@ -15,6 +15,7 @@ namespace vl
 				:start(0)
 				,lineStart(0)
 				,lineIndex(0)
+				,codeIndex(0)
 			{
 			}
 

@@ -120,6 +120,7 @@ namespace vl
 
 			int											lineIndex;
 			int											lineStart;
+			int											codeIndex;
 
 			bool										operator==(const RegexToken& _token)const;
 		};
@@ -131,8 +132,9 @@ namespace vl
 			regex_internal::PureInterpretor*			pure;
 			collections::Array<int>&					stateTokens;
 			WString										code;
+			int											codeIndex;
 			
-			RegexTokens(regex_internal::PureInterpretor* _pure, collections::Array<int>& _stateTokens, const WString& _code);
+			RegexTokens(regex_internal::PureInterpretor* _pure, collections::Array<int>& _stateTokens, const WString& _code, int _codeIndex);
 		public:
 
 			collections::IEnumerator<RegexToken>*		CreateEnumerator()const;
@@ -148,7 +150,7 @@ namespace vl
 			RegexLexer(const collections::IEnumerable<WString>& tokens);
 			~RegexLexer();
 
-			RegexTokens									Parse(const WString& code);
+			RegexTokens									Parse(const WString& code, int codeIndex=-1);
 		};
 	}
 }

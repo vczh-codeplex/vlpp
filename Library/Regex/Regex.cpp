@@ -372,6 +372,7 @@ RegexTokens
 			const wchar_t*		start;
 			int					lineIndex;
 			int					lineStart;
+			int					codeIndex;
 			bool				cacheAvailable;
 			RegexToken			cacheToken;
 
@@ -393,6 +394,7 @@ RegexTokens
 					}
 					token.lineIndex=lineIndex;
 					token.lineStart=lineStart;
+					token.codeIndex=codeIndex;
 
 					PureResult result;
 					while(*reading)
@@ -423,6 +425,7 @@ RegexTokens
 							cacheToken.reading=reading;
 							cacheToken.start=result.start;
 							cacheToken.length=result.length;
+							cacheToken.codeIndex=codeIndex;
 							cacheToken.token=id;
 						}
 						reading+=result.length;
@@ -464,12 +467,13 @@ RegexTokens
 				,start(enumerator.start)
 				,lineIndex(enumerator.lineIndex)
 				,lineStart(enumerator.lineStart)
+				,codeIndex(enumerator.codeIndex)
 				,cacheAvailable(enumerator.cacheAvailable)
 				,cacheToken(enumerator.cacheToken)
 			{
 			}
 
-			RegexTokenEnumerator(PureInterpretor* _pure, Array<int>& _stateTokens, const wchar_t* _start)
+			RegexTokenEnumerator(PureInterpretor* _pure, Array<int>& _stateTokens, const wchar_t* _start, int _codeIndex)
 				:available(true)
 				,index(-1)
 				,pure(_pure)
@@ -478,6 +482,7 @@ RegexTokens
 				,start(_start)
 				,lineIndex(0)
 				,lineStart(0)
+				,codeIndex(_codeIndex)
 				,cacheAvailable(false)
 			{
 				Read();
@@ -517,16 +522,17 @@ RegexTokens
 			}
 		};
 
-		RegexTokens::RegexTokens(PureInterpretor* _pure, Array<int>& _stateTokens, const WString& _code)
+		RegexTokens::RegexTokens(PureInterpretor* _pure, Array<int>& _stateTokens, const WString& _code, int _codeIndex)
 			:pure(_pure)
 			,stateTokens(_stateTokens)
 			,code(_code)
+			,codeIndex(_codeIndex)
 		{
 		}
 
 		IEnumerator<RegexToken>* RegexTokens::CreateEnumerator()const
 		{
-			return new RegexTokenEnumerator(pure, stateTokens, code.Buffer());
+			return new RegexTokenEnumerator(pure, stateTokens, code.Buffer(), codeIndex);
 		}
 
 /***********************************************************************
@@ -622,9 +628,9 @@ RegexLexer
 			if(pure)delete pure;
 		}
 
-		RegexTokens RegexLexer::Parse(const WString& code)
+		RegexTokens RegexLexer::Parse(const WString& code, int codeIndex)
 		{
-			return RegexTokens(pure, stateTokens, code);
+			return RegexTokens(pure, stateTokens, code, codeIndex);
 		}
 	}
 }
