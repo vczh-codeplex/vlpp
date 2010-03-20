@@ -945,17 +945,7 @@ namespace vl
 				{
 					List<WString> tokens;
 					tokens.Add(L"/s+");
-
-					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
-					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
-					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
-					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
-					INTEGER			= CreateToken(tokens, L"/d+");
-					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
-					DOUBLE			= CreateToken(tokens, L"/d+./d+");
-					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
-					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
-
+										
 					TRUE			= CreateToken(tokens, L"true");
 					FALSE			= CreateToken(tokens, L"false");
 					NULL_VALUE		= CreateToken(tokens, L"null");
@@ -978,6 +968,16 @@ namespace vl
 					STRUCTURE		= CreateToken(tokens, L"structure");
 					UNIT			= CreateToken(tokens, L"unit");
 					USES			= CreateToken(tokens, L"uses");
+
+					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
+					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
+					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
+					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
+					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
+					INTEGER			= CreateToken(tokens, L"/d+");
+					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
+					DOUBLE			= CreateToken(tokens, L"/d+./d+");
+					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
