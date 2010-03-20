@@ -570,17 +570,12 @@ RegexLexer
 			}
 
 			//为每一个DFA设置标记
-			ids.Resize(dfas.Count());
-			for(int i=0;i<ids.Count();i++)
-			{
-				ids[i]=i;
-			}
 			for(int i=0;i<dfas.Count();i++)
 			{
 				Automaton::Ref dfa=dfas[i];
 				for(int j=0;j<dfa->states.Count();j++)
 				{
-					dfa->states[j]->userData=&ids[i];
+					dfa->states[j]->userData=(void*)i;
 				}
 			}
 
@@ -610,6 +605,14 @@ RegexLexer
 			for(int i=0;i<dfaStateMap.Keys().Count();i++)
 			{
 				void* userData=dfaStateMap.GetByIndex(i)[0]->userData;
+				for(int j=1;j<dfaStateMap.GetByIndex(i).Count();j++)
+				{
+					void* newData=dfaStateMap.GetByIndex(i)[j]->userData;
+					if(userData>newData)
+					{
+						userData=newData;
+					}
+				}
 				dfaStateMap.Keys()[i]->userData=userData;
 			}
 
@@ -619,7 +622,7 @@ RegexLexer
 			for(int i=0;i<stateTokens.Count();i++)
 			{
 				void* userData=bigDfa->states[i]->userData;
-				stateTokens[i]=userData?(*(int*)userData):-1;
+				stateTokens[i]=(int)userData;
 			}
 		}
 
