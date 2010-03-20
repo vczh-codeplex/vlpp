@@ -19,11 +19,8 @@ TEST_CASE(TestCreateNativeXProvider)
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
 }
 
-TEST_CASE(Test_NativeX_EmptyProgram)
+void TestNativeXNoError(WString code)
 {
-	WString code=
-L"unit empty;";
-	
 	List<Ptr<LanguageAssembly>> references;
 	List<WString> codes;
 	List<Ptr<LanguageException>> errors;
@@ -33,4 +30,36 @@ L"unit empty;";
 	Ptr<LanguageAssembly> assembly=provider->Compile(references.Wrap(), codes.Wrap(), errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(assembly);
+}
+
+#define LINE_(X) L#X L"\r\n"
+
+TEST_CASE(Test_NativeX_EmptyProgram)
+{
+	TestNativeXNoError(
+		LINE_(	unit empty;	)
+		);
+}
+
+TEST_CASE(Test_NativeX_DefineStructure)
+{
+	TestNativeXNoError(
+		LINE_(	unit define_structure;	)
+		LINE_(	structure Point{		)
+		LINE_(		int x;				)
+		LINE_(		int y;				)
+		LINE_(	}						)
+		);
+	TestNativeXNoError(
+		LINE_(	unit define_structure;	)
+		LINE_(	structure A;			)
+		LINE_(	structure B{			)
+		LINE_(		int x;				)
+		LINE_(		int y;				)
+		LINE_(		A* a;				)
+		LINE_(	}						)
+		LINE_(	structure A{			)
+		LINE_(		int a;				)
+		LINE_(	}						)
+		);
 }
