@@ -1104,3 +1104,123 @@ TEST_CASE(TestRegexLexer2)
 	TEST_ASSERT(tokens[18].lineIndex==2);
 	TEST_ASSERT(tokens[18].lineStart==3);
 }
+
+TEST_CASE(TestRegexLexer3)
+{
+	{
+		List<WString> codes;
+		codes.Add(L"unit");
+		codes.Add(L"/w+");
+		RegexLexer lexer(codes.Wrap());
+		{
+			WString input=L"unit";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==4);
+			TEST_ASSERT(tokens[0].token==0);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+		{
+			WString input=L"vczh";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==4);
+			TEST_ASSERT(tokens[0].token==1);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+	}
+	{
+		List<WString> codes;
+		codes.Add(L"/w+");
+		codes.Add(L"unit");
+		RegexLexer lexer(codes.Wrap());
+		{
+			WString input=L"unit";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==4);
+			TEST_ASSERT(tokens[0].token==0);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+		{
+			WString input=L"vczh";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==4);
+			TEST_ASSERT(tokens[0].token==0);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+	}
+}
+
+TEST_CASE(TestRegexLexer4)
+{
+	{
+		List<WString> codes;
+		codes.Add(L"=");
+		codes.Add(L"==");
+		RegexLexer lexer(codes.Wrap());
+		{
+			WString input=L"=";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==1);
+			TEST_ASSERT(tokens[0].token==0);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+		{
+			WString input=L"==";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==2);
+			TEST_ASSERT(tokens[0].token==1);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+	}
+	{
+		List<WString> codes;
+		codes.Add(L"==");
+		codes.Add(L"=");
+		RegexLexer lexer(codes.Wrap());
+		{
+			WString input=L"=";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==1);
+			TEST_ASSERT(tokens[0].token==1);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+		{
+			WString input=L"==";
+			List<RegexToken> tokens;
+			CopyFrom(tokens.Wrap(), lexer.Parse(input));
+			TEST_ASSERT(tokens.Count()==1);
+			TEST_ASSERT(tokens[0].start==0);
+			TEST_ASSERT(tokens[0].length==2);
+			TEST_ASSERT(tokens[0].token==0);
+			TEST_ASSERT(tokens[0].lineIndex==0);
+			TEST_ASSERT(tokens[0].lineStart==0);
+		}
+	}
+}

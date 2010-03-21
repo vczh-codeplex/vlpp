@@ -575,7 +575,14 @@ RegexLexer
 				Automaton::Ref dfa=dfas[i];
 				for(int j=0;j<dfa->states.Count();j++)
 				{
-					dfa->states[j]->userData=(void*)i;
+					if(dfa->states[j]->finalState)
+					{
+						dfa->states[j]->userData=(void*)i;
+					}
+					else
+					{
+						dfa->states[j]->userData=(void*)dfas.Count();
+					}
 				}
 			}
 

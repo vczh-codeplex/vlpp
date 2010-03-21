@@ -63,3 +63,42 @@ TEST_CASE(Test_NativeX_DefineStructure)
 		LINE_(	}						)
 		);
 }
+
+TEST_CASE(Test_NativeX_TypeRename)
+{
+	TestNativeXNoError(
+		LINE_(	unit type_rename;		)
+		LINE_(	structure Link;			)
+		LINE_(	type PLink = Link*;		)
+		LINE_(	structure Link{			)
+		LINE_(		int data;			)
+		LINE_(		PLink next;			)
+		LINE_(	}						)
+		);
+	TestNativeXNoError(
+		LINE_(	unit type_rename;							)
+		LINE_(	structure Command;							)
+		LINE_(	type PCommand = Command*;					)
+		LINE_(	type PExecutor = function void(PCommand);	)
+		LINE_(	structure Command{							)
+		LINE_(		PExecutor executor;						)
+		LINE_(		PCommand previous;						)
+		LINE_(		PCommand next;							)
+		LINE_(	}											)
+		);
+}
+
+TEST_CASE(Test_NativeX_SimpleFunction)
+{
+	TestNativeXNoError(
+		LINE_(	unit simple_function;				)
+		LINE_(	function int Add(int a, int b){		)
+		LINE_(		result=a+b;						)
+		LINE_(		exit;							)
+		LINE_(	}									)
+		LINE_(	function int Sub(int a, int b){		)
+		LINE_(		result=a-b;						)
+		LINE_(		exit;							)
+		LINE_(	}									)
+		);
+}
