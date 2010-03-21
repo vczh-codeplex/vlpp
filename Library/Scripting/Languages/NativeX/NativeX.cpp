@@ -1062,7 +1062,7 @@ namespace vl
 									| (BREAK << SEMICOLON)[ToBreakStat]
 									| (CONTINUE << SEMICOLON)[ToContinueStat]
 									| (EXIT << SEMICOLON)[ToReturnStat]
-									| (OPEN_STAT + list(*statement) << OPEN_STAT)[ToCompositeStat]
+									| (OPEN_STAT + list(*statement) << CLOSE_STAT)[ToCompositeStat]
 									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
 									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileStat]
@@ -1460,6 +1460,10 @@ namespace vl
 				{
 					Dictionary<WString, Ptr<NativeXUnit>> units;
 					Parse(codes, errors, units.Wrap());
+					if(errors.Count()>0)
+					{
+						return 0;
+					}
 					if(Ptr<NativeXUnit> unit=SearchCircularImports(units.Wrap()))
 					{
 						errors.Add(new LanguageException(NativeXErrorMessage::UnitCircularReferenced(unit->name), 0, 0, 0, unit->codeIndex));

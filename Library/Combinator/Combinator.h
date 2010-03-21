@@ -145,6 +145,10 @@ Node
 				}
 				else
 				{
+					if(trackingInput.Available())
+					{
+						CopyFrom(globalInfo.errors.Wrap(), globalInfo.candidateErrors.Wrap());
+					}
 					throw CombinatorException<I>(trackingInput, globalInfo);
 				}
 			}
