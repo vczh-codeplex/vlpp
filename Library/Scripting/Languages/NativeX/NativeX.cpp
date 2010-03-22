@@ -693,7 +693,7 @@ namespace vl
 			Ptr<BasicStatement> ToVarStat(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<Ptr<BasicExpression>>>& input)
 			{
 				Ptr<BasicVariableStatement> statement=CreateNode<BasicVariableStatement>(input.First().First().First());
-				statement->name=ConvertID((input.First().Second().reading, input.First().Second().length));
+				statement->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
 				statement->type=input.First().First().Second();
 				if(input.Second().Head())
 				{
@@ -800,7 +800,7 @@ namespace vl
 			Ptr<BasicDeclaration> ToVarDecl(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<Ptr<BasicExpression>>>& input)
 			{
 				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First());
-				declaration->name=ConvertID((input.First().Second().reading, input.First().Second().length));
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
 				declaration->type=input.First().First().Second();
 				if(input.Second().Head())
 				{
@@ -1032,10 +1032,10 @@ namespace vl
 									| (CAST + (LT >> type << GT) + (OPEN_BRACE >> exp << CLOSE_BRACE))[ToCastExpression]
 									;
 					exp1			= lrec(exp0 +  *(
-													(OPEN_ARRAY + exp0 << CLOSE_ARRAY)
+													(OPEN_ARRAY + exp << CLOSE_ARRAY)
 													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE)
 													| ((DOT | POINTER) + reference)
-													| (INCREASE | DECREASE)[UpgradePostfix]
+													| ((INCREASE | DECREASE)[UpgradePostfix])
 													), ToPostUnary);
 					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp1)[ToPreUnary];
 					exp3			= lrec(exp2 + *((MUL | DIV | MOD) + exp2), ToBinary);

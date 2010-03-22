@@ -102,3 +102,21 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		LINE_(	}									)
 		);
 }
+
+TEST_CASE(Test_NativeX_BubbleSort)
+{
+	TestNativeXNoError(
+		LINE_(	unit bubble_sort;											)
+		LINE_(	function void Sort(int* nums, int count)					)
+		LINE_(	{															)
+		LINE_(		for variable int i=0; when(i<count-1) with i++; do		)
+		LINE_(			for variable int j=count-1; when(j>=i) with j--; do	)
+		LINE_(				if(nums[j]>nums[j+1])							)
+		LINE_(				{												)
+		LINE_(					variable int t=nums[j];						)
+		LINE_(					nums[j]=nums[j+1];							)
+		LINE_(					nums[j+1]=t;								)
+		LINE_(				}												)
+		LINE_(	}															)
+		);
+}
