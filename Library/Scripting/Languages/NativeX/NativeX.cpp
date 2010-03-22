@@ -139,7 +139,7 @@ namespace vl
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
 				expression->type=bool_type;
 				expression->argument.s64=0;
-				expression->argument.bool_value=true;
+				expression->argument.bool_value=false;
 				return expression;
 			}
 
@@ -1030,6 +1030,7 @@ namespace vl
 									| reference
 									| RESULT[ToResult]
 									| (CAST + (LT >> type << GT) + (OPEN_BRACE >> exp << CLOSE_BRACE))[ToCastExpression]
+									| (OPEN_BRACE >> exp << CLOSE_BRACE)
 									;
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp << CLOSE_ARRAY)
