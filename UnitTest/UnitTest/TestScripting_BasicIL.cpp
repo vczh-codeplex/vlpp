@@ -510,3 +510,52 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
 }
+
+namespace mynamespace
+{
+	struct Node
+	{
+		int							data;
+		ResourceString				empty;
+		ResourceString				name;
+		ResourceHandle<Node>		next;
+	};
+}
+
+using namespace mynamespace;
+
+TEST_CASE(TestBasicILResourceManager)
+{
+	ResourceStream resource;
+	{
+		ResourceRecord<Node> lastNode;
+		for(int i=0;i<10;i++)
+		{
+			ResourceRecord<Node> currentNode=resource.CreateRecord<Node>();
+			ResourceString name=resource.CreateString(L"ID:"+itow(i));
+			currentNode->data=i;
+			currentNode->empty=ResourceString::Null();
+			currentNode->name=name;
+			currentNode->next=ResourceHandle<Node>::Null();
+			if(lastNode)
+			{
+				lastNode->next=currentNode;
+				lastNode=currentNode;
+			}
+			lastNode=currentNode;
+		}
+	}
+	{
+		ResourceRecord<Node> currentNode=resource.ReadRootRecord<Node>();
+		int index=0;
+		while(currentNode)
+		{
+			TEST_ASSERT(index==currentNode->data);
+			TEST_ASSERT(resource.ReadString(currentNode->empty)==L"");
+			TEST_ASSERT(resource.ReadString(currentNode->name)==L"ID:"+itow(index));
+			index++;
+			currentNode=resource.ReadRecord(currentNode->next);
+		}
+		TEST_ASSERT(index==10);
+	}
+}

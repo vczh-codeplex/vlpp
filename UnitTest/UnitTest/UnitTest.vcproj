@@ -768,6 +768,10 @@
 							RelativePath="..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILResourceStream.h"
+							>
+						</File>
 					</Filter>
 					<Filter
 						Name="Source Files"
@@ -778,6 +782,10 @@
 						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\BasicIL\BasicILInterpretor.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicIL\BasicILResourceStream.cpp"
 							>
 						</File>
 					</Filter>
