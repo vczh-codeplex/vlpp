@@ -94,6 +94,62 @@
 <tr><td>matches</td><td>所有匹配及非匹配部分</td></tr>
 </tbody>
 </table>
+<h2><a name="RegexToken">RegexToken</a></h2>
+<p>RegexToken记录一个词法记号的信息</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员变量</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int start;</td></tr>
+<tr><td>[返回值]</td><td>记号在输入字符串中的位置。</td></tr>
+
+<tr><td colspan="2" class="method_sign">int length;</td></tr>
+<tr><td>[返回值]</td><td>记号的长度。</td></tr>
+
+<tr><td colspan="2" class="method_sign">int token;</td></tr>
+<tr><td>[返回值]</td><td>记号的类型序号。类型序号是该记号的正则表达式描述出现在RegexLexer构造函数中的正则表达式列表中的位置。</td></tr>
+
+<tr><td colspan="2" class="method_sign">const wchar_t* reading;</td></tr>
+<tr><td>[返回值]</td><td>记号第一个字符在字符串中的指针位置。</td></tr>
+
+<tr><td colspan="2" class="method_sign">int lineIndex;</td></tr>
+<tr><td>[返回值]</td><td>记号的行号。</td></tr>
+
+<tr><td colspan="2" class="method_sign">int lineStart;</td></tr>
+<tr><td>[返回值]</td><td>记号在当前行中的位置。</td></tr>
+
+<tr><td colspan="2" class="method_sign">int codeIndex;</td></tr>
+<tr><td>[返回值]</td><td>记号的代码标识符。该标识符为RegexLexer::Parse中的参数。</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexTokens">RegexTokens</a></h2>
+<p>RegexTokens记录一个词法记号列表</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">collections::IEnumerator&lt;RegexToken&gt;* CreateEnumerator()const;</td></tr>
+<tr><td>[返回值]</td><td>记号迭代器。当执行该迭代器的Next函数的时候，词法分析器将匹配并计算出一个记号。</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexLexer">RegexLexer</a></h2>
+<p>词法分析器</p>
+<p>关于正则表达式语法的信息请阅读<a href="#Grammar">正则表达式语法参考</a>。</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">成员函数</td></tr>
+<tr><td style="width:100">参数</td><td>说明</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">RegexLexer(const collections::IEnumerable&lt;WString&gt;& tokens);</td></tr>
+<tr><td>tokens</td><td>所有词法记号的正则表达式描述。正则表达式在该列表中的顺序将记录在RegexToken::token。</td></tr>
+
+<tr><td colspan="2" class="method_sign">RegexTokens Parse(const WString& code, int codeIndex=-1);</td></tr>
+<tr><td>code</td><td>待分析的字符串。</td></tr>
+<tr><td>codeIndex</td><td>用户参数，仅供记录额外信息。</td></tr>
+<tr><td>[返回值]</td><td>记号列表。</td></tr>
+</tbody>
+</table>
 <h2><a name="Grammar">正则表达式语法参考</a></h2>
 <p>Vczh Library++核心库中的正则表达式由以下几部分组成：</p>
 <li><a href="#Char">字符和转义字符</a></li>

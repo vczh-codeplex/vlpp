@@ -94,6 +94,62 @@
 <tr><td>matches</td><td>All match parts and non-match parts in the input string which are separated by the matches.</td></tr>
 </tbody>
 </table>
+<h2><a name="RegexToken">RegexToken</a></h2>
+<p>RegexToken records information of a token</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member Variables</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">int start;</td></tr>
+<tr><td>[result]</td><td>The positionof the token in the input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int length;</td></tr>
+<tr><td>[result]</td><td>The length of the token.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int token;</td></tr>
+<tr><td>[result]</td><td>The index of the token type. The index is the position of the regex description in the regex list which is passed into the constructor of RegexLexer.</td></tr>
+
+<tr><td colspan="2" class="method_sign">const wchar_t* reading;</td></tr>
+<tr><td>[result]</td><td>The pointer positionof the token in the input string.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int lineIndex;</td></tr>
+<tr><td>[result]</td><td>The line index of the token.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int lineStart;</td></tr>
+<tr><td>[result]</td><td>The position of the token in the current line.</td></tr>
+
+<tr><td colspan="2" class="method_sign">int codeIndex;</td></tr>
+<tr><td>[result]</td><td>The identifier of the input string. The identifier is the argument that passed into the RegexLexer::Parse function.</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexTokens">RegexTokens</a></h2>
+<p>RegexTokens contains all tokens of a string.</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">collections::IEnumerator&lt;RegexToken&gt;* CreateEnumerator()const;</td></tr>
+<tr><td>[result]</td><td>Token enumerator.The lexical analyzer begins to parse a token when the Next function of the enumerator is invoked.</td></tr>
+</tbody>
+</table>
+<h2><a name="RegexLexer">RegexLexer</a></h2>
+<p>Lexical Analyzer</p>
+<p>See <a href="#Grammar">Regular expression grammar reference</a> for more information.</p>
+<table>
+<thead><tr><td colspan="2" style="text-align:center; font-weight:bold">Member functions</td></tr>
+<tr><td style="width:100">Parameter</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td colspan="2" class="method_sign">RegexLexer(const collections::IEnumerable&lt;WString&gt;& tokens);</td></tr>
+<tr><td>tokens</td><td>Token type description list. A token type is described by using a regular expression. The token type of a token is stored in RegexToken::token.</td></tr>
+
+<tr><td colspan="2" class="method_sign">RegexTokens Parse(const WString& code, int codeIndex=-1);</td></tr>
+<tr><td>code</td><td>String that to be parsed.</td></tr>
+<tr><td>codeIndex</td><td>User data for external record.</td></tr>
+<tr><td>[result]</td><td>Token list</td></tr>
+</tbody>
+</table>
 <h2><a name="Grammar">Regular expression grammar reference</a></h2>
 <p>Regular expression in Vczh Library++ Core Library has the following components:</p>
 <li><a href="#Char">Character and Escaping</a></li>
