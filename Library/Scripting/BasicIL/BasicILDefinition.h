@@ -10,7 +10,7 @@ Classes:
 OpCode:
   stack				:low(0) push<--data-->pop high(size)
   <binary opcode>	:*stack_top* left_operand right_operand
-  ------------------instructions------------------
+  ------------------instructions---------------------
   push					TYPE			CONSTANT		:*stack_top*									-> TYPE
   pushins				CONSTANT		INSKEY			:*stack_top*									-> instruction_pointer instruction_key
   pushlabel				CONSTANT						:*stack_top*									-> instruction_label_index
@@ -38,7 +38,7 @@ OpCode:
   stack_reserve			BYTES(int)(+=push, -=pop)
   resptr												:*stack_top*									-> pointer
   ret					STACK_RESERVE_BYTES(int)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
-------------------link time only------------------
+------------------link time only---------------------
   link_pushdata			OFFSET(int)						:*stack_top*									-> pointer
   link_pushfunc			INDEX(int)						:*stack_top*									-> instruction_label_index
 ------------------compile time only------------------
@@ -51,6 +51,7 @@ OpCode:
 
 #include "..\..\String.h"
 #include "..\..\Collections\List.h"
+#include "BasicILResourceStream.h"
 
 namespace vl
 {
