@@ -172,12 +172,16 @@ int wmain(int argc, wchar_t* argv[])
 		{
 			List<RegexToken> tokens;
 			CopyFrom(tokens.Wrap(), lexer.Parse(line)>>Where(IsNotBlank));
-			FOREACH(RegexToken, token, tokens.Wrap())
+			for(int i=0;i<tokens.Count();i++)
 			{
-				if(token.token==-1)
+				if(tokens[i].token==-1)
 				{
-					throw Exception(L"Syntax error. Unknown token: \""+WString(token.reading, token.length)+L"\".");
+					throw Exception(L"Syntax error. Unknown token: \""+WString(tokens[i].reading, tokens[i].length)+L"\".");
 				}
+			}
+			if(tokens.Count()==0)
+			{
+				throw Exception(L"Syntax error. Expression cannot be empty.");
 			}
 			try
 			{
