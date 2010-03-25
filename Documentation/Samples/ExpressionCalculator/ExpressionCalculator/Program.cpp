@@ -9,6 +9,10 @@ using namespace vl::collections;
 using namespace vl::regex;
 using namespace vl::combinator;
 
+/***********************************************************************
+Semantic Rules
+***********************************************************************/
+
 double Convert(const RegexToken& input)
 {
 	return wtof(WString(input.reading, input.length));
@@ -96,6 +100,42 @@ bool IsNotBlank(RegexToken token)
 	return token.token>0;
 }
 
+/***********************************************************************
+Error recovery
+***********************************************************************/
+
+ParsingResult<RegexToken> NeedExpression(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)
+{
+	globalInfo.errors.Clear();
+	globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"Here needs an expression.", input));
+	return ParsingResult<RegexToken>();
+}
+
+ParsingResult<RegexToken> NeedOpenBrace(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)
+{
+	globalInfo.errors.Clear();
+	globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"Here needs a \"(\".", input));
+	return ParsingResult<RegexToken>();
+}
+
+ParsingResult<RegexToken> NeedCloseBrace(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)
+{
+	globalInfo.errors.Clear();
+	globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"Here needs an \")\".", input));
+	return ParsingResult<RegexToken>();
+}
+
+ParsingResult<RegexToken> NeedOperator(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& globalInfo)
+{
+	globalInfo.errors.Clear();
+	globalInfo.errors.Add(new CombinatorError<TokenInput<RegexToken>>(L"Here needs an operator.", input));
+	return ParsingResult<RegexToken>();
+}
+
+/***********************************************************************
+Main program
+***********************************************************************/
+
 int wmain(int argc, wchar_t* argv[])
 {
 	List<WString> patterns;
@@ -110,13 +150,13 @@ int wmain(int argc, wchar_t* argv[])
 
 	Rule<TokenInput<RegexToken>, double> factor, term, exp;
 
-	factor	= tk(NUMBER)[Convert]
+	factor	= tk(NUMBER)(NeedExpression)[Convert]
 			| (tk(L"-") >> factor)[Negative]
-			| (tk(OPEN) >> exp << tk(CLOSE))
-			| (tk(ID) + (tk(L"(") >> exp << tk(L")")))[Call]
+			| (tk(L"(") >> exp << tk(L")")(NeedCloseBrace))
+			| (tk(ID) + (tk(L"(")(NeedOpenBrace) >> exp << tk(L")")(NeedCloseBrace)))[Call]
 			;
-	term	= lrec(factor + *(tk(MUL) + factor), Operator);
-	exp		= lrec(term + *(tk(ADD) + term), Operator);
+	term	= lrec(factor + *(tk(MUL)(NeedOperator) + factor), Operator);
+	exp		= lrec(term + *(tk(ADD)(NeedOperator) + term), Operator);
 
 	Console::WriteLine(L"Input an expression like (1+2)*abs(-3-4)");
 	while(true)
@@ -147,9 +187,11 @@ int wmain(int argc, wchar_t* argv[])
 			}
 			catch(const CombinatorException<TokenInput<RegexToken>>& e)
 			{
-				if(e.GetInput().Available())
+				Ptr<CombinatorError<TokenInput<RegexToken>>> error=e.GetGlobalInfo().errors.Get(0);
+				const TokenInput<RegexToken>& position=error->GetPosition();
+				if(position.Available())
 				{
-					throw Exception(L"Syntax error. First occurs at \""+WString(e.GetInput().Current().reading)+L"\".");
+					throw Exception(L"Syntax error. "+error->Message()+L" First occurs at \""+WString(position.Current().reading)+L"\".");
 				}
 				else
 				{

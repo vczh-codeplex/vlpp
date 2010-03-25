@@ -213,6 +213,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\..\Library\Function.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\..\Library\Pointer.h"
 						>
 					</File>
@@ -234,10 +238,6 @@
 					</File>
 					<File
 						RelativePath="..\..\..\..\Library\Exception.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\..\..\Library\Function.h"
 						>
 					</File>
 					<File
