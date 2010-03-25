@@ -97,7 +97,7 @@ double Call(const ParsingPair<RegexToken, double>& input)
 
 bool IsNotBlank(RegexToken token)
 {
-	return token.token>0;
+	return token.token!=0;
 }
 
 /***********************************************************************
