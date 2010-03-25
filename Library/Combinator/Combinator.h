@@ -186,19 +186,24 @@ Node
 				return new _Left<I, O, O2>(GetCombinator(), second.GetCombinator());
 			}
 
+			Node<I, O> operator()(ParsingResult<O>(*recoverer)(I&, typename Types<I>::GlobalInfo&))const
+			{
+				return new _Error<I, O>(GetCombinator(), recoverer);
+			}
+
 			Node<I, O> operator()(const Func<ParsingResult<O>(I&, typename Types<I>::GlobalInfo&)>& recoverer)const
 			{
 				return new _Error<I, O>(GetCombinator(), recoverer);
 			}
 
 			template<typename O2>
-			Node<I, O2> operator[](const Func<O2(const O&)>& converter)const
+			Node<I, O2> operator[](O2(*converter)(const O&))const
 			{
 				return new _Using<I, O, O2>(GetCombinator(), converter);
 			}
 
 			template<typename O2>
-			Node<I, O2> operator[](O2(*converter)(const O&))const
+			Node<I, O2> operator[](const Func<O2(const O&)>& converter)const
 			{
 				return new _Using<I, O, O2>(GetCombinator(), converter);
 			}
