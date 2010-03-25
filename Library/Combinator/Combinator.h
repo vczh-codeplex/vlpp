@@ -145,7 +145,7 @@ Node
 				}
 				else
 				{
-					if(trackingInput.Available())
+					if(trackingInput.Available() && globalInfo.candidateErrors.Count())
 					{
 						CopyFrom(globalInfo.errors.Wrap(), globalInfo.candidateErrors.Wrap());
 					}
