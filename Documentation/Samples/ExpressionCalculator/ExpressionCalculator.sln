@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExpressionCalculator", "ExpressionCalculator\ExpressionCalculator.vcproj", "{15AFE02E-39DE-4161-8143-7C2F7A28EFC7}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs02.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ExpressionCalculator\\ExpressionCalculator.vcproj
+		SccProjectName1 = ExpressionCalculator
+		SccLocalPath1 = ExpressionCalculator
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15AFE02E-39DE-4161-8143-7C2F7A28EFC7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15AFE02E-39DE-4161-8143-7C2F7A28EFC7}.Debug|Win32.Build.0 = Debug|Win32
+		{15AFE02E-39DE-4161-8143-7C2F7A28EFC7}.Release|Win32.ActiveCfg = Release|Win32
+		{15AFE02E-39DE-4161-8143-7C2F7A28EFC7}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

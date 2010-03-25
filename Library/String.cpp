@@ -122,10 +122,13 @@ namespace vl
 
 	AString ftoa(double number)
 	{
-		char buffer[_CVTBUFSIZE];
-		int dec;
-		int sign;
-		_ecvt_s(buffer, _CVTBUFSIZE, number, 100, &dec, &sign);
+		char buffer[100];
+		_gcvt_s(buffer, 100, number, 30);
+		int len=(int)strlen(buffer);
+		if(buffer[len-1]=='.')
+		{
+			buffer[len-1]='\0';
+		}
 		return buffer;
 	}
 
