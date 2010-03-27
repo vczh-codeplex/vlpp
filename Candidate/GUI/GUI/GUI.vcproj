@@ -304,12 +304,20 @@
 						RelativePath="..\Presentation\WindowsCore\WinGDI.h"
 						>
 					</File>
+					<File
+						RelativePath="..\Presentation\WindowsCore\WinNativeWindow.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Source Files"
 					>
 					<File
 						RelativePath="..\Presentation\WindowsCore\WinGDI.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\WindowsCore\WinNativeWindow.cpp"
 						>
 					</File>
 				</Filter>
@@ -332,6 +340,10 @@
 				<Filter
 					Name="Source Files"
 					>
+					<File
+						RelativePath="..\Presentation\Core\GuiNativeWindow.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
