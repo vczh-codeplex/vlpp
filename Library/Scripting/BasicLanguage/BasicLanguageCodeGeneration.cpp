@@ -1518,6 +1518,7 @@ BasicLanguage_GenerateResource
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+					resource->address=argument.il->labels[argument.info->GetFunctions().IndexOf(node)].instructionIndex;
 
 					ResourceRecord<BasicParameterRes> currentParameter;
 					for(int i=0;i<node->parameterNames.Count();i++)
@@ -1551,6 +1552,7 @@ BasicLanguage_GenerateResource
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+					resource->address=argument.info->GetGlobalVariableOffsets()[node];
 					return resource;
 				}
 
@@ -1570,6 +1572,7 @@ BasicLanguage_GenerateResource
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+					resource->address=-1;
 					return resource;
 				}
 

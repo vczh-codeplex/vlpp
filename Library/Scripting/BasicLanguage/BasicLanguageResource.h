@@ -88,6 +88,7 @@ namespace vl
 			ResourceHandle<BasicTypeRes>			declarationType;	//Function, Variable, Structure
 			ResourceString							name;
 			ResourceHandle<BasicParameterRes>		parameterNames;		//Function(parameter)
+			int										address;			//Function(ins index), Variable(data offset)
 		};
 
 		struct BasicDeclarationLinkRes
