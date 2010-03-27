@@ -10,6 +10,7 @@ Classes:
 #define VCZH_PRESENTATION_CORE_GUITYPES
 
 #include "..\..\..\..\Library\Basic.h"
+#include "..\..\..\..\Library\String.h"
 
 namespace vl
 {
