@@ -3,6 +3,7 @@
 #include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
 
 using namespace vl;
+using namespace vl::scripting;
 using namespace vl::scripting::basicil;
 
 TEST_CASE(TestBasicILInstructionAppending)

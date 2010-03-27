@@ -10,6 +10,7 @@ namespace vl
 /***********************************************************************
 BasicIns
 ***********************************************************************/
+
 			BasicIns::BasicIns()
 			{
 				opcode=(OpCode)0;
@@ -126,6 +127,12 @@ BasicIns
 				return Makeu32((unsigned __int32)value);
 #endif
 			}
+
+/***********************************************************************
+BasicILResourceNames
+***********************************************************************/
+
+			const wchar_t* const BasicILResourceNames::BasicLanguageInterfaces = L"[BASIC-LANGUAGE-INTERFACES]";
 
 /***********************************************************************
 BasicIL::Label

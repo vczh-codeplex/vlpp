@@ -1,4 +1,5 @@
 #include "BasicLanguageCodeGeneration.h"
+#include "BasicLanguageResource.h"
 
 namespace vl
 {
@@ -240,6 +241,26 @@ BasicCodegenInfo
 				return maxVariableSpace;
 			}
 
+			ResourceHandle<BasicTypeRes> BasicCodegenInfo::GetTypeResource(BasicTypeRecord* type)
+			{
+				int index=typeResources.Keys().IndexOf(type);
+				return index==-1?ResourceHandle<BasicTypeRes>::Null():typeResources.Values()[index];
+			}
+
+			bool BasicCodegenInfo::SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource)
+			{
+				int index=typeResources.Keys().IndexOf(type);
+				if(index==-1)
+				{
+					typeResources.Add(type, resource);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
 /***********************************************************************
 BasicCodegenExtension
 ***********************************************************************/
@@ -269,15 +290,21 @@ BasicCodegenExtension
 				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
 			}
 
+			ResourceHandle<BasicDeclarationRes> BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument)
+			{
+				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
+			}
+
 /***********************************************************************
 BasicCodegenParameter
 ***********************************************************************/
 			
-			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData)
+			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource)
 				:info(_info)
 				,il(_il)
 				,globalData(_globalData)
 				,codegenExtension(&defaultCodegenExtension)
+				,resource(_resource)
 			{
 			}
 
@@ -286,6 +313,7 @@ BasicCodegenParameter
 				,il(parameter.il)
 				,globalData(parameter.globalData)
 				,codegenExtension(parameter.codegenExtension)
+				,resource(parameter.resource)
 			{
 			}
 
@@ -1354,6 +1382,39 @@ BasicLanguage_GenerateCodePass2
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2)
 
 /***********************************************************************
+BasicLanguage_GenerateResource
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>)
+			
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
+				{
+					return ResourceHandle<BasicDeclarationRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
+				{
+					return ResourceHandle<BasicDeclarationRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)
+				{
+					return ResourceHandle<BasicDeclarationRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
+				{
+					return ResourceHandle<BasicDeclarationRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
+				{
+					return argument.codegenExtension->GenerateResource(node, argument);
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource)
+
+/***********************************************************************
 BasicLanguage_GenerateCode
 ***********************************************************************/
 
@@ -1400,6 +1461,28 @@ BasicLanguage_GenerateCode
 				{
 					argument.globalData->Read(&(argument.il->globalData[0]), (int)argument.globalData->Size());
 				}
+
+				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
+				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[0], argument);
+					if(declaration)
+					{
+						ResourceRecord<BasicDeclarationLinkRes> declarationLink=argument.resource->CreateRecord<BasicDeclarationLinkRes>();
+						declarationLink->declaration=declaration;
+						declarationLink->next=ResourceHandle<BasicDeclarationLinkRes>::Null();
+						if(currentDeclaration)
+						{
+							currentDeclaration->next=declarationLink;
+						}
+						else
+						{
+							entry->declarations=declarationLink;
+						}
+						currentDeclaration=declarationLink;
+					}
+				}
 			}
 
 /***********************************************************************
@@ -1413,6 +1496,8 @@ BasicCodeGenerator
 				,codegenInfo(new BasicCodegenInfo(analyzer))
 				,program(analyzer->GetProgram())
 			{
+				Ptr<ResourceStream> resource=new ResourceStream;
+				il->resources.Add(BasicILResourceNames::BasicLanguageInterfaces, resource);
 			}
 
 			BasicCodeGenerator::~BasicCodeGenerator()
@@ -1426,7 +1511,7 @@ BasicCodeGenerator
 
 			void BasicCodeGenerator::GenerateCode()
 			{
-				BCP argument(codegenInfo.Obj(), il.Obj(), globalData.Obj());
+				BCP argument(codegenInfo.Obj(), il.Obj(), globalData.Obj(), il->resources[BasicILResourceNames::BasicLanguageInterfaces]);
 				if(codegenExtension)
 				{
 					argument.codegenExtension=codegenExtension;

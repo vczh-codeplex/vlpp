@@ -50,7 +50,9 @@ OpCode:
 #define VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
 
 #include "..\..\String.h"
+#include "..\..\Pointer.h"
 #include "..\..\Collections\List.h"
+#include "..\..\Collections\Dictionary.h"
 #include "BasicILResourceStream.h"
 
 namespace vl
@@ -163,8 +165,15 @@ namespace vl
 	{
 		namespace basicil
 		{
+			class BasicILResourceNames
+			{
+			public:
+				static const wchar_t*const		BasicLanguageInterfaces;
+			};
+
 			class BasicIL : public Object
 			{
+				typedef collections::Dictionary<WString, Ptr<ResourceStream>> _ResourceMap;
 			public:
 				struct Label
 				{
@@ -176,6 +185,7 @@ namespace vl
 				collections::List<BasicIns>		instructions;
 				collections::List<Label>		labels;
 				collections::Array<char>		globalData;
+				_ResourceMap					resources;
 
 				BasicIL&						Ins(BasicIns::OpCode opcode);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::Argument argument);
