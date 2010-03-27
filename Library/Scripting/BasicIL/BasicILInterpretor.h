@@ -64,15 +64,31 @@ namespace vl
 
 			class BasicILInterpretor : public Object
 			{
+				friend class BasicILStack;
 			protected:
-				BasicILEnv*									env;
+				int											stackSize;
 				BasicIL**									ils;
 				int											ilCount;
+				collections::List<BasicILLabel>				labels;
+			public:
+				BasicILInterpretor(int _stackSize);
+				~BasicILInterpretor();
+
+				int											LoadIL(BasicIL* il);
+				void										UnloadIL(BasicIL* il);
+				collections::IList<BasicILLabel>&			GetLabels();
+			};
+
+			class BasicILStack : public Object
+			{
+			protected:
+				BasicILEnv*									env;
+				BasicILInterpretor*							interpretor;
 				int											instruction;
 				int											insKey;
 				int											foreignFunctionIndex;
 				void*										foreignFunctionResult;
-				collections::List<BasicILLabel>				labels;
+
 			public:
 				enum RunningResult
 				{
@@ -86,17 +102,14 @@ namespace vl
 					BadInstructionArgument,
 				};
 
-				BasicILInterpretor(int _stackSize);
-				~BasicILInterpretor();
+				BasicILStack(BasicILInterpretor* _interpretor);
+				~BasicILStack();
 
-				int											LoadIL(BasicIL* il);
-				void										UnloadIL(BasicIL* il);
+				BasicILEnv*									GetEnv();
 				void										Reset(int entryInstruction, int entryInsKey, int returnSize);
+				int											GetInstruction();
 				int											GetForeignFunctionIndex();
 				void*										GetForeignFunctionResult();
-				BasicILEnv*									GetEnv();
-				int											GetInstruction();
-				collections::IList<BasicILLabel>&			GetLabels();
 				RunningResult								Run();
 			};
 		}

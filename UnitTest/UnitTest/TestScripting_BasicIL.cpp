@@ -92,11 +92,13 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==(10+20)*(30+40));
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_AddSubMulDiv_Double)
@@ -116,11 +118,13 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv_Double)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(double));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	double result=interpretor.GetEnv()->Pop<double>();
+	
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(double));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	double result=stack.GetEnv()->Pop<double>();
 	TEST_ASSERT(result==(10+20)*(30+40));
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
@@ -282,9 +286,11 @@ TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	int baseline=0;
 	baseline+=1<<17;
 	baseline+=1<<16;
@@ -296,7 +302,7 @@ TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
 	baseline+=1<<2;
 	baseline+=1<<1;
 	TEST_ASSERT(result==baseline);
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_Jump_Variable)
@@ -343,11 +349,13 @@ TEST_CASE(TestBasicILInstruction_Jump_Variable)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==55);
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_Recursion)
@@ -405,11 +413,13 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==55);
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_FunctionPointer)
@@ -452,11 +462,13 @@ TEST_CASE(TestBasicILInstruction_FunctionPointer)
 
 	BasicILInterpretor interpretor(1024);
 	int key=interpretor.LoadIL(&il);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==(10+20)*(30+40));
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
@@ -505,11 +517,13 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 	label.key=-1;
 	label.instruction=22;
 	interpretor.GetLabels().Add(label);
-	interpretor.Reset(0, key, sizeof(int));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	int result=interpretor.GetEnv()->Pop<int>();
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==(10+20)*(30+40));
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==interpretor.GetEnv()->StackSize());
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
 namespace mynamespace

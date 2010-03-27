@@ -10,9 +10,9 @@ namespace vl
 			class ILException
 			{
 			public:
-				BasicILInterpretor::RunningResult result;
+				BasicILStack::RunningResult result;
 
-				ILException(BasicILInterpretor::RunningResult _result)
+				ILException(BasicILStack::RunningResult _result)
 					:result(_result)
 				{
 				}
@@ -54,7 +54,7 @@ BasicILEnv
 			{
 				if(stackPosition<0 || stackPosition>=stackSize)
 				{
-					throw ILException(BasicILInterpretor::StackOverflow);
+					throw ILException(BasicILStack::StackOverflow);
 				}
 				else
 				{
@@ -67,7 +67,7 @@ BasicILEnv
 				stackTop-=size;
 				if(stackTop<0 || stackTop>stackSize)
 				{
-					throw ILException(BasicILInterpretor::StackOverflow);
+					throw ILException(BasicILStack::StackOverflow);
 				}
 				else
 				{
@@ -121,7 +121,7 @@ Instructions
 				T right=env->Pop<T>();
 				if(right==0)
 				{
-					throw ILException(BasicILInterpretor::DividByZero);
+					throw ILException(BasicILStack::DividByZero);
 				}
 				else
 				{
@@ -280,13 +280,10 @@ BasicILInterpretor
 ***********************************************************************/
 
 			BasicILInterpretor::BasicILInterpretor(int _stackSize)
+				:stackSize(_stackSize)
 			{
-				env=new BasicILEnv(_stackSize);
 				ils=0;
 				ilCount=0;
-				instruction=-1;
-				insKey=-1;
-				foreignFunctionIndex=-1;
 
 				BasicILLabel label;
 				label.key=-1;
@@ -300,7 +297,6 @@ BasicILInterpretor
 				{
 					delete[] ils;
 				}
-				delete env;
 			}
 
 			int BasicILInterpretor::LoadIL(BasicIL* il)
@@ -353,47 +349,14 @@ BasicILInterpretor
 				}
 			}
 
-			void BasicILInterpretor::Reset(int entryInstruction, int entryInsKey, int returnSize)
-			{
-				// reserve returnSize
-				// push returnPointer
-				// push returnInsKey
-				// push returnInstruction
-				// push returnStackBase
-				void* returnPointer=env->Reserve(returnSize);
-				env->Push<void*>(returnPointer);
-				env->Push<int>(-2);
-				env->Push<int>(-1);
-				env->Push<int>(env->StackSize());
-				env->SetBase(env->StackTop());
-				instruction=entryInstruction;
-				insKey=entryInsKey;
-			}
-
-			int BasicILInterpretor::GetForeignFunctionIndex()
-			{
-				return foreignFunctionIndex;
-			}
-
-			void* BasicILInterpretor::GetForeignFunctionResult()
-			{
-				return foreignFunctionResult;
-			}
-
-			BasicILEnv* BasicILInterpretor::GetEnv()
-			{
-				return env;
-			}
-
-			int BasicILInterpretor::GetInstruction()
-			{
-				return instruction;
-			}
-
 			collections::IList<BasicILLabel>& BasicILInterpretor::GetLabels()
 			{
 				return labels.Wrap();
 			}
+
+/***********************************************************************
+BasicILStack Helper Macros
+***********************************************************************/
 
 #define NUMERIC_INSTRUCTION(METHOD)\
 			switch(ins.type1)\
@@ -429,7 +392,7 @@ BasicILInterpretor
 				METHOD<double>(env);\
 				break;\
 			default:\
-				return BasicILInterpretor::BadInstructionArgument;\
+				return BasicILStack::BadInstructionArgument;\
 			}
 
 #define SIGNED_NUMERIC_INSTRUCTION(METHOD)\
@@ -454,7 +417,7 @@ BasicILInterpretor
 				METHOD<double>(env);\
 				break;\
 			default:\
-				return BasicILInterpretor::BadInstructionArgument;\
+				return BasicILStack::BadInstructionArgument;\
 			}
 
 #define INTEGER_INSTRUCTION(METHOD)\
@@ -485,7 +448,7 @@ BasicILInterpretor
 				METHOD<unsigned __int64>(env);\
 				break;\
 			default:\
-				return BasicILInterpretor::BadInstructionArgument;\
+				return BasicILStack::BadInstructionArgument;\
 			}
 
 #define CONVERT_2_INSTRUCTION(DSTTYPE)\
@@ -522,7 +485,7 @@ BasicILInterpretor
 				Convert_<DSTTYPE, double>(env);\
 				break;\
 			default:\
-				return BasicILInterpretor::BadInstructionArgument;\
+				return BasicILStack::BadInstructionArgument;\
 			}
 
 #define CONVERT_INSTRUCTION\
@@ -559,26 +522,84 @@ BasicILInterpretor
 				CONVERT_2_INSTRUCTION(double)\
 				break;\
 			default:\
-				return BasicILInterpretor::BadInstructionArgument;\
+				return BasicILStack::BadInstructionArgument;\
 			}
 
-			BasicILInterpretor::RunningResult BasicILInterpretor::Run()
+/***********************************************************************
+BasicILStack
+***********************************************************************/
+			
+			BasicILStack::BasicILStack(BasicILInterpretor* _interpretor)
+				:interpretor(_interpretor)
+			{
+				env=new BasicILEnv(interpretor->stackSize);
+				instruction=-1;
+				insKey=-1;
+				foreignFunctionIndex=-1;
+				foreignFunctionResult=0;
+			}
+
+			BasicILStack::~BasicILStack()
+			{
+				delete env;
+			}
+
+			BasicILEnv* BasicILStack::GetEnv()
+			{
+				return env;
+			}
+
+			void BasicILStack::Reset(int entryInstruction, int entryInsKey, int returnSize)
+			{
+				// reserve returnSize
+				// push returnPointer
+				// push returnInsKey
+				// push returnInstruction
+				// push returnStackBase
+				void* returnPointer=env->Reserve(returnSize);
+				env->Push<void*>(returnPointer);
+				env->Push<int>(-2);
+				env->Push<int>(-1);
+				env->Push<int>(env->StackSize());
+				env->SetBase(env->StackTop());
+				instruction=entryInstruction;
+				insKey=entryInsKey;
+				foreignFunctionIndex=-1;
+				foreignFunctionResult=0;
+			}
+
+			int BasicILStack::GetInstruction()
+			{
+				return instruction;
+			}
+
+			int BasicILStack::GetForeignFunctionIndex()
+			{
+				return foreignFunctionIndex;
+			}
+
+			void* BasicILStack::GetForeignFunctionResult()
+			{
+				return foreignFunctionResult;
+			}
+
+			BasicILStack::RunningResult BasicILStack::Run()
 			{
 				try
 				{
 					while(instruction!=-1)
 					{
-						if(insKey<0 || insKey>=ilCount || ils[insKey]==0)
+						if(insKey<0 || insKey>=interpretor->ilCount || interpretor->ils[insKey]==0)
 						{
-							return BasicILInterpretor::InstructionIndexOutOfRange;
+							return BasicILStack::InstructionIndexOutOfRange;
 						}
-						if(instruction<0||instruction>=ils[insKey]->instructions.Count())
+						if(instruction<0||instruction>=interpretor->ils[insKey]->instructions.Count())
 						{
-							return BasicILInterpretor::InstructionIndexOutOfRange;
+							return BasicILStack::InstructionIndexOutOfRange;
 						}
 						int nextInstruction=instruction+1;
 						int nextInsKey=insKey;
-						BasicIns& ins=ils[insKey]->instructions[instruction];
+						BasicIns& ins=interpretor->ils[insKey]->instructions[instruction];
 						switch(ins.opcode)
 						{
 						case BasicIns::push:
@@ -615,7 +636,7 @@ BasicILInterpretor
 								env->Push<double>(ins.argument.f64);
 								break;
 							default:
-								return BasicILInterpretor::BadInstructionArgument;
+								return BasicILStack::BadInstructionArgument;
 							}
 							break;
 						case BasicIns::pushins:
@@ -628,15 +649,15 @@ BasicILInterpretor
 						case BasicIns::label:
 							{
 								int index=env->Pop<int>();
-								if(index>=0 && index<labels.Count())
+								if(index>=0 && index<interpretor->labels.Count())
 								{
-									BasicILLabel label=labels[index];
+									BasicILLabel label=interpretor->labels[index];
 									env->Push<int>(label.key);
 									env->Push<int>(label.instruction);
 								}
 								else
 								{
-									return BasicILInterpretor::BadInstructionArgument;
+									return BasicILStack::BadInstructionArgument;
 								}
 							}
 							break;
@@ -759,7 +780,7 @@ BasicILInterpretor
 						case BasicIns::call_foreign:
 							foreignFunctionIndex=ins.argument.int_value;
 							foreignFunctionResult=env->Pop<void*>();
-							return BasicILInterpretor::ForeignFunctionCall;
+							return BasicILStack::ForeignFunctionCall;
 						case BasicIns::call_raw:
 							{
 								void* arguments=env->DereferenceStack(env->StackTop());
@@ -804,7 +825,7 @@ BasicILInterpretor
 							}
 							break;
 						default:
-							return BasicILInterpretor::UnknownInstruction;
+							return BasicILStack::UnknownInstruction;
 						}
 						instruction=nextInstruction;
 						if(nextInsKey!=-1)
@@ -812,7 +833,7 @@ BasicILInterpretor
 							insKey=nextInsKey;
 						}
 					}
-					return BasicILInterpretor::Finished;
+					return BasicILStack::Finished;
 				}
 				catch(const ILException& e)
 				{
