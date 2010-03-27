@@ -71,147 +71,154 @@ namespace vl
 {
 	namespace scripting
 	{
-		namespace basicil
+		class ResourceStream;
+
+		class ResourceReference
 		{
-			class ResourceStream;
+		protected:
+			int								pointer;
 
-			class ResourceReference
+			ResourceReference()
+				:pointer(-1)
 			{
-			protected:
-				int								pointer;
+			}
+		public:
+			operator bool()const
+			{
+				return pointer>=0;
+			}
 
-				ResourceReference()
-					:pointer(-1)
-				{
-				}
-			public:
-				operator bool()const
-				{
-					return pointer>=0;
-				}
-			};
+			int Pointer()const
+			{
+				return pointer;
+			}
+		};
+
+		template<typename T>
+		class ResourceHandle : public ResourceReference
+		{
+			friend class ResourceStream;
+			template<typename T>
+			friend class ResourceRecord;
+		public:
+			typedef T ResourceType;
+
+			static ResourceHandle<T> Null()
+			{
+				return ResourceHandle<T>();
+			}
+		};
+
+		class ResourceString : public ResourceReference
+		{
+			friend class ResourceStream;
+		public:
+
+			static ResourceString Null()
+			{
+				return ResourceString();
+			}
+		};
+
+		template<typename T>
+		class ResourceRecord
+		{
+		protected:
+			const ResourceStream*			resourceStream;
+			int								pointer;
+		public:
+			ResourceRecord()
+				:resourceStream(0)
+				,pointer(-1)
+			{
+			}
+
+			ResourceRecord(const ResourceRecord<T>& record)
+				:resourceStream(record.resourceStream)
+				,pointer(record.pointer)
+			{
+			}
+
+			ResourceRecord(const ResourceStream* _resourceStream, int _pointer)
+				:resourceStream(_pointer==-1?0:_resourceStream)
+				,pointer(_pointer)
+			{
+			}
+
+			ResourceRecord& operator=(const ResourceRecord<T>& record)
+			{
+				resourceStream=record.resourceStream;
+				pointer=record.pointer;
+				return *this;
+			}
+
+			T* operator->()const
+			{
+				return (T*)resourceStream->GetPointer(pointer);
+			}
+
+			operator ResourceHandle<T>()const
+			{
+				ResourceHandle<T> handle;
+				handle.pointer=pointer;
+				return handle;
+			}
+
+			operator bool()const
+			{
+				return pointer!=-1;
+			}
+
+			int Pointer()const
+			{
+				return pointer;
+			}
+		};
+
+		class ResourceStream : public Object
+		{
+			template<typename T>
+			friend class ResourceRecord;
+		protected:
+			collections::Array<char>		resource;
+
+			int								CreateRecord(int size);
+			const char*						GetPointer(int pointer)const;
+			WString							GetString(int pointer)const;
+			WString							GetEmptyString()const;
+
+		public:
+			ResourceStream();
+			~ResourceStream();
+
+			ResourceString					CreateString(const WString& string);
+			WString							ReadString(ResourceString string)const;
 
 			template<typename T>
-			class ResourceHandle : public ResourceReference
+			ResourceRecord<T> CreateRecord()
 			{
-				friend class ResourceStream;
-				template<typename T>
-				friend class ResourceRecord;
-			public:
-				typedef T ResourceType;
-
-				static ResourceHandle<T> Null()
-				{
-					return ResourceHandle<T>();
-				}
-			};
-
-			class ResourceString : public ResourceReference
-			{
-				friend class ResourceStream;
-			public:
-
-				static ResourceString Null()
-				{
-					return ResourceString();
-				}
-			};
+				return ResourceRecord<T>(this, CreateRecord(sizeof(T)));
+			}
 
 			template<typename T>
-			class ResourceRecord
+			ResourceRecord<T> ReadRecord(int pointer)const
 			{
-			protected:
-				const ResourceStream*			resourceStream;
-				int								pointer;
-			public:
-				ResourceRecord()
-					:resourceStream(0)
-					,pointer(-1)
-				{
-				}
+				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(int)sizeof(T))<=resource.Count()), L"ResourceStream::ReadRecord<T>(int)#参数pointer越界。");
+				return ResourceRecord<T>(this, pointer);
+			}
 
-				ResourceRecord(const ResourceRecord<T>& record)
-					:resourceStream(record.resourceStream)
-					,pointer(record.pointer)
-				{
-				}
-
-				ResourceRecord(const ResourceStream* _resourceStream, int _pointer)
-					:resourceStream(_pointer==-1?0:_resourceStream)
-					,pointer(_pointer)
-				{
-				}
-
-				ResourceRecord& operator=(const ResourceRecord<T>& record)
-				{
-					resourceStream=record.resourceStream;
-					pointer=record.pointer;
-					return *this;
-				}
-
-				T* operator->()const
-				{
-					return (T*)resourceStream->GetPointer(pointer);
-				}
-
-				operator ResourceHandle<T>()const
-				{
-					ResourceHandle<T> handle;
-					handle.pointer=pointer;
-					return handle;
-				}
-
-				operator bool()const
-				{
-					return pointer!=-1;
-				}
-			};
-
-			class ResourceStream : public Object
+			template<typename T>
+			ResourceRecord<T> ReadRecord(ResourceHandle<T> handler)const
 			{
-				template<typename T>
-				friend class ResourceRecord;
-			protected:
-				collections::Array<char>		resource;
+				return ReadRecord<T>(handler.pointer);
+			}
 
-				int								CreateRecord(int size);
-				const char*						GetPointer(int pointer)const;
-				WString							GetString(int pointer)const;
-				WString							GetEmptyString()const;
-
-			public:
-				ResourceStream();
-				~ResourceStream();
-
-				ResourceString					CreateString(const WString& string);
-				WString							ReadString(ResourceString string)const;
-
-				template<typename T>
-				ResourceRecord<T> CreateRecord()
-				{
-					return ResourceRecord<T>(this, CreateRecord(sizeof(T)));
-				}
-
-				template<typename T>
-				ResourceRecord<T> ReadRecord(int pointer)const
-				{
-					CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(int)sizeof(T))<=resource.Count()), L"ResourceStream::ReadRecord<T>(int)#参数pointer越界。");
-					return ResourceRecord<T>(this, pointer);
-				}
-
-				template<typename T>
-				ResourceRecord<T> ReadRecord(ResourceHandle<T> handler)const
-				{
-					return ReadRecord<T>(handler.pointer);
-				}
-
-				template<typename T>
-				ResourceRecord<T> ReadRootRecord()const
-				{
-					return ReadRecord<T>(0);
-				}
-			};
-		}
+			template<typename T>
+			ResourceRecord<T> ReadRootRecord()const
+			{
+				return ReadRecord<T>(0);
+			}
+		};
 	}
 }
 

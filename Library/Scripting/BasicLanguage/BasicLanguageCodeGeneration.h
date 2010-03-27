@@ -9,9 +9,10 @@ Classes:
 #ifndef VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGECODEGENERATION
 #define VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGECODEGENERATION
 
-#include "BasicLanguageAnalyzer.h"
-#include "..\BasicIL\BasicILDefinition.h"
 #include "..\..\Stream\MemoryStream.h"
+#include "BasicLanguageAnalyzer.h"
+#include "BasicLanguageResource.h"
+#include "..\BasicIL\BasicILDefinition.h"
 
 namespace vl
 {
@@ -29,7 +30,8 @@ namespace vl
 
 			class BasicCodegenInfo : public Object
 			{
-				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>> _TypeInfoTable;
+				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
+				typedef collections::Dictionary<BasicTypeRecord*, ResourceHandle<BasicTypeRes>>	_TypeResTable;
 			protected:
 				BasicAnalyzer*												analyzer;
 				_TypeInfoTable												typeInfos;
@@ -46,6 +48,8 @@ namespace vl
 				collections::List<int>										continueInsStack;
 				collections::List<int>										breakInstructions;
 				collections::List<int>										continueInstructions;
+
+				_TypeResTable												typeResources;
 			public:
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -68,6 +72,9 @@ namespace vl
 				void														AssociateBreak(int instruction);
 				void														AssociateContinue(int instruction);
 				int															GetMaxVariableSpace();
+
+				ResourceHandle<BasicTypeRes>								GetTypeResource(BasicTypeRecord* type);
+				bool														SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);
 			};
 
 /***********************************************************************
@@ -85,6 +92,7 @@ Algorithms
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
 				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);
+				virtual ResourceHandle<BasicDeclarationRes>					GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument);
 			};
 
 			struct BasicCodegenParameter
@@ -96,8 +104,9 @@ Algorithms
 				basicil::BasicIL*											il;
 				stream::MemoryStream*										globalData;
 				BasicCodegenExtension*										codegenExtension;
+				Ptr<ResourceStream>											resource;
 
-				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData);
+				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
 			};
 
@@ -111,6 +120,7 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
 
 /***********************************************************************

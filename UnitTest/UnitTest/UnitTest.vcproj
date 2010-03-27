@@ -817,6 +817,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageScopeManager.h"
 							>
 						</File>
