@@ -98,14 +98,16 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result)
 	codegen.GenerateCode();
 	BasicILInterpretor interpretor(65536);
 	int key=interpretor.LoadIL(codegen.GetIL().Obj());
-	interpretor.Reset(0, key, 0);
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==65536);
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==65536);
 	int ins=codegen.GetIL()->labels[0].instructionIndex;
-	interpretor.Reset(ins, key, sizeof(T));
-	TEST_ASSERT(interpretor.Run()==BasicILInterpretor::Finished);
-	TEST_ASSERT(interpretor.GetEnv()->StackTop()==65536-sizeof(T));
-	TEST_ASSERT(interpretor.GetEnv()->Pop<T>()==result);
+	stack.Reset(ins, key, sizeof(T));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
+	TEST_ASSERT(stack.GetEnv()->Pop<T>()==result);
 }
 
 /***********************************************************************
