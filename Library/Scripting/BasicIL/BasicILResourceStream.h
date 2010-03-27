@@ -181,6 +181,7 @@ namespace vl
 			friend class ResourceRecord;
 		protected:
 			collections::Array<char>		resource;
+			int								usedSize;
 
 			int								CreateRecord(int size);
 			const char*						GetPointer(int pointer)const;

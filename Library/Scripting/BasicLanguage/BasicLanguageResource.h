@@ -72,7 +72,7 @@ namespace vl
 		struct BasicParameterRes
 		{
 			ResourceString							name;
-			ResourceHandle<BasicTypeLinkRes>		next;
+			ResourceHandle<BasicParameterRes>		next;
 		};
 
 		struct BasicDeclarationRes

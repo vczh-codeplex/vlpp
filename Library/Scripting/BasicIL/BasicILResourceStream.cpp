@@ -11,8 +11,13 @@ ResourceStream
 
 		int ResourceStream::CreateRecord(int size)
 		{
-			int pointer=resource.Count();
-			resource.Resize(pointer+size);
+			int pointer=usedSize;
+			usedSize+=size;
+			int extendedSize=(usedSize/65536+1)*65536;
+			if(resource.Count()!=extendedSize)
+			{
+				resource.Resize(extendedSize);
+			}
 			return pointer;
 		}
 
@@ -32,6 +37,7 @@ ResourceStream
 		}
 
 		ResourceStream::ResourceStream()
+			:usedSize(0)
 		{
 		}
 
