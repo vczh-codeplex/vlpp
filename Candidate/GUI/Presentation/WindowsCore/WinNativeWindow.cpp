@@ -703,10 +703,12 @@ WindowsController
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 					mouseHook=SetWindowsHookEx(WH_MOUSE_LL, MouseProc, NULL, NULL);
+					SetTimer(godWindow, 1, 16, NULL);
 				}
 
 				~WindowsController()
 				{
+					KillTimer(godWindow, 1);
 					UnhookWindowsHookEx(mouseHook);
 					DestroyWindow(godWindow);
 				}
@@ -797,6 +799,14 @@ WindowsController
 					}
 				}
 
+				void InvokeGlobalTimer()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->GlobalTimer();
+					}
+				}
+
 				INativeWindow* CreateNativeWindow()
 				{
 					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
@@ -871,6 +881,16 @@ Windows Procedure
 
 			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
+				WindowsController* controller=dynamic_cast<WindowsController*>(GetCurrentController());
+				if(controller)
+				{
+					switch(uMsg)
+					{
+					case WM_TIMER:
+						controller->InvokeGlobalTimer();
+						break;
+					}
+				}
 				return DefWindowProc(hwnd, uMsg, wParam, lParam);
 			}
 

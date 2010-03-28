@@ -24,6 +24,8 @@ namespace vl
 		class INativeWindowListener;
 		class INativeController;
 		class INativeControllerListener;
+		class INativeBitmap;
+		class INativeCanvas;
 
 /***********************************************************************
 Native Window
@@ -146,6 +148,7 @@ Native Window Provider
 			virtual void				RightButtonDown(Point position)=0;
 			virtual void				RightButtonUp(Point position)=0;
 			virtual void				MouseMoving(Point position)=0;
+			virtual void				GlobalTimer()=0;
 		};
 
 		extern INativeController*		GetCurrentController();
