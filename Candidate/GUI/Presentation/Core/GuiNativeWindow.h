@@ -77,13 +77,15 @@ Native Window
 		{
 		public:
 			virtual bool				Moving(const Rect& bounds)=0;
-			virtual bool				Moved()=0;
+			virtual void				Moved()=0;
 			virtual void				Enabled()=0;
 			virtual void				Disabled()=0;
 			virtual void				GotFocus()=0;
 			virtual void				LostFocus()=0;
-			virtual void				Opening()=0;
+			virtual void				Activated()=0;
+			virtual void				Deactivated()=0;
 			virtual void				Opened()=0;
+			virtual bool				Closing()=0;
 			virtual void				Closed()=0;
 
 			virtual void				LeftButtonDown(Point position)=0;
@@ -110,6 +112,8 @@ Native Window Provider
 		public:
 			virtual INativeWindow*		CreateNativeWindow()=0;
 			virtual void				DestroyNativeWindow(INativeWindow* window)=0;
+			virtual INativeWindow*		GetMainWindow()=0;
+			virtual void				SetMainWindow(INativeWindow* window)=0;
 
 			virtual bool				InstallListener(INativeControllerListener* listener)=0;
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;

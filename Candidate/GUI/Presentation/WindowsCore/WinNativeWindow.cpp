@@ -62,8 +62,9 @@ WindowsForm
 			class WindowsForm : public Object, public INativeWindow
 			{
 			protected:
-				HWND			handle;
-				WString			title;
+				HWND							handle;
+				WString							title;
+				List<INativeWindowListener*>	listeners;
 				
 				DWORD InternalGetExStyle()
 				{
@@ -127,6 +128,11 @@ WindowsForm
 				~WindowsForm()
 				{
 					DestroyWindow(handle);
+				}
+
+				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+				{
+					return false;
 				}
 
 				HWND GetHandle()
@@ -320,12 +326,28 @@ WindowsForm
 
 				bool InstallListener(INativeWindowListener* listener)
 				{
-					return false;
+					if(listeners.Contains(listener))
+					{
+						return false;
+					}
+					else
+					{
+						listeners.Add(listener);
+						return true;
+					}
 				}
 
 				bool UninstallListener(INativeWindowListener* listener)
 				{
-					return false;
+					if(listeners.Contains(listener))
+					{
+						listeners.Remove(listener);
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				}
 
 			};
@@ -340,16 +362,20 @@ WindowsController
 			class WindowsController : public Object, public INativeController
 			{
 			protected:
-				WinClass						windowClass;
-				WinClass						godClass;
-				HINSTANCE						hInstance;
-				HWND							godWindow;
-				Dictionary<HWND, WindowsForm*>	windows;
+				WinClass							windowClass;
+				WinClass							godClass;
+				HINSTANCE							hInstance;
+				HWND								godWindow;
+				Dictionary<HWND, WindowsForm*>		windows;
+				List<INativeControllerListener*>	listeners;
+				INativeWindow*						mainWindow;
+
 			public:
 				WindowsController(HINSTANCE _hInstance)
 					:hInstance(_hInstance)
 					,windowClass(L"VczhWindow", false, false, WndProc, _hInstance)
 					,godClass(L"GodWindow", false, false, GodProc, _hInstance)
+					,mainWindow(0)
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 				}
@@ -361,16 +387,24 @@ WindowsController
 
 				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
-					switch(uMsg)
+					bool result=false;
+					int index=windows.Keys().IndexOf(hwnd);
+					if(index!=-1)
 					{
-					case WM_CLOSE:
-						DestroyNativeWindow(windows[hwnd]);
-						break;
-					case WM_DESTROY:
-						PostQuitMessage(0);
-						break;
+						WindowsForm* window=windows.Values()[index];
+						result=window->HandleMessage(hwnd, uMsg, wParam, lParam);
+						switch(uMsg)
+						{
+						case WM_DESTROY:
+							DestroyNativeWindow(window);
+							if(window==mainWindow)
+							{
+								PostQuitMessage(0);
+							}
+							break;
+						}
 					}
-					return false;
+					return result;
 				}
 
 				INativeWindow* CreateNativeWindow()
@@ -382,17 +416,48 @@ WindowsController
 
 				void DestroyNativeWindow(INativeWindow* window)
 				{
-					delete window;
+					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
+					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetHandle()))
+					{
+						windows.Remove(windowsForm->GetHandle());
+						delete windowsForm;
+					}
+				}
+
+				INativeWindow* GetMainWindow()
+				{
+					return mainWindow;
+				}
+
+				void SetMainWindow(INativeWindow* window)
+				{
+					mainWindow=window;
 				}
 
 				bool InstallListener(INativeControllerListener* listener)
 				{
-					return false;
+					if(listeners.Contains(listener))
+					{
+						return false;
+					}
+					else
+					{
+						listeners.Add(listener);
+						return true;
+					}
 				}
 
 				bool UninstallListener(INativeControllerListener* listener)
 				{
-					return false;
+					if(listeners.Contains(listener))
+					{
+						listeners.Remove(listener);
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				}
 			};
 
