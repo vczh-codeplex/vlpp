@@ -680,6 +680,7 @@ WindowsController
 
 			LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam);
 
 			class WindowsController : public Object, public INativeController
 			{
@@ -691,6 +692,7 @@ WindowsController
 				Dictionary<HWND, WindowsForm*>		windows;
 				List<INativeControllerListener*>	listeners;
 				INativeWindow*						mainWindow;
+				HHOOK								mouseHook;
 
 			public:
 				WindowsController(HINSTANCE _hInstance)
@@ -700,10 +702,12 @@ WindowsController
 					,mainWindow(0)
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+					mouseHook=SetWindowsHookEx(WH_MOUSE_LL, MouseProc, NULL, NULL);
 				}
 
 				~WindowsController()
 				{
+					UnhookWindowsHookEx(mouseHook);
 					DestroyWindow(godWindow);
 				}
 
@@ -744,6 +748,53 @@ WindowsController
 						}
 					}
 					return skipDefaultProcedure;
+				}
+
+				void InvokeMouseHook(WPARAM message, Point location)
+				{
+					switch(message)
+					{
+					case WM_LBUTTONDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonDown(location);
+							}
+						}
+						break;
+					case WM_LBUTTONUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonUp(location);
+							}
+						}
+						break;
+					case WM_RBUTTONDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonDown(location);
+							}
+						}
+						break;
+					case WM_RBUTTONUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonUp(location);
+							}
+						}
+						break;
+					case WM_MOUSEMOVE:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MouseMoving(location);
+							}
+						}
+						break;
+					}
 				}
 
 				INativeWindow* CreateNativeWindow()
@@ -821,6 +872,18 @@ Windows Procedure
 			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			{
 				return DefWindowProc(hwnd, uMsg, wParam, lParam);
+			}
+
+			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam)
+			{
+				WindowsController* controller=dynamic_cast<WindowsController*>(GetCurrentController());
+				if(controller)
+				{
+					MSLLHOOKSTRUCT* mouseHookStruct=(MSLLHOOKSTRUCT*)lParam;
+					Point location(mouseHookStruct->pt.x, mouseHookStruct->pt.y);
+					controller->InvokeMouseHook(wParam, location);
+				}
+				return CallNextHookEx(NULL,nCode,wParam,lParam);
 			}
 
 /***********************************************************************
