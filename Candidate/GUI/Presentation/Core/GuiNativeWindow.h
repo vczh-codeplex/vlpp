@@ -73,10 +73,22 @@ Native Window
 			virtual bool				UninstallListener(INativeWindowListener* listener)=0;
 		};
 
+		struct NativeWindowMouseInfo
+		{
+			bool						ctrl;
+			bool						shift;
+			bool						left;
+			bool						middle;
+			bool						right;
+			int							x;
+			int							y;
+			int							wheel;
+		};
+
 		class INativeWindowListener : private Interface
 		{
 		public:
-			virtual bool				Moving(const Rect& bounds)=0;
+			virtual void				Moving(Rect& bounds)=0;
 			virtual void				Moved()=0;
 			virtual void				Enabled()=0;
 			virtual void				Disabled()=0;
@@ -85,22 +97,29 @@ Native Window
 			virtual void				Activated()=0;
 			virtual void				Deactivated()=0;
 			virtual void				Opened()=0;
-			virtual bool				Closing()=0;
+			virtual void				Closing(bool& cancel)=0;
 			virtual void				Closed()=0;
 
-			virtual void				LeftButtonDown(Point position)=0;
-			virtual void				LeftButtonUp(Point position)=0;
-			virtual void				RightButtonDown(Point position)=0;
-			virtual void				RightButtonUp(Point position)=0;
-			virtual void				MiddleButtonDown(Point position)=0;
-			virtual void				MiddleButtonUp(Point position)=0;
-			virtual void				MouseMoving(Point position)=0;
+			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info)=0;
+			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info)=0;
+			virtual void				LeftButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
+			virtual void				RightButtonDown(const NativeWindowMouseInfo& info)=0;
+			virtual void				RightButtonUp(const NativeWindowMouseInfo& info)=0;
+			virtual void				RightButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
+			virtual void				MiddleButtonDown(const NativeWindowMouseInfo& info)=0;
+			virtual void				MiddleButtonUp(const NativeWindowMouseInfo& info)=0;
+			virtual void				MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
+			virtual void				HorizontalWheel(const NativeWindowMouseInfo& info)=0;
+			virtual void				VerticalWheel(const NativeWindowMouseInfo& info)=0;
+			virtual void				MouseMoving(const NativeWindowMouseInfo& info)=0;
 			virtual void				MouseEntered()=0;
 			virtual void				MouseLeaved()=0;
 
-			virtual void				KeyDown(int code)=0;
-			virtual void				KeyPress(wchar_t code)=0;
-			virtual void				KeyUp(int code)=0;
+			virtual void				KeyDown(int code, bool alt)=0;
+			virtual void				KeyUp(int code, bool alt)=0;
+			virtual void				SysKeyDown(int code, bool alt)=0;
+			virtual void				SysKeyUp(int code, bool alt)=0;
+			virtual void				Char(wchar_t keyChar)=0;
 		};
 
 /***********************************************************************
