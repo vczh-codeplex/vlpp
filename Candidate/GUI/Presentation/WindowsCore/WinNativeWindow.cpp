@@ -65,6 +65,9 @@ WindowsForm
 				HWND							handle;
 				WString							title;
 				List<INativeWindowListener*>	listeners;
+				int								mouseLastX;
+				int								mouseLastY;
+				int								mouseHoving;
 				
 				DWORD InternalGetExStyle()
 				{
@@ -117,8 +120,45 @@ WindowsForm
 					SetWindowLongPtr(handle,GWL_STYLE,Long);
 					SetWindowPos(handle,0,0,0,0,0,SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
 				}
+
+				NativeWindowMouseInfo ConvertMouse(WPARAM wParam, LPARAM lParam, bool wheelMessage)
+				{
+					NativeWindowMouseInfo info;
+					if(wheelMessage)
+					{
+						info.wheel=GET_WHEEL_DELTA_WPARAM(wParam);
+						wParam=GET_KEYSTATE_WPARAM(wParam);
+					}
+					else
+					{
+						info.wheel=0;
+					}
+					info.ctrl=(wParam & MK_CONTROL)!=0;
+					info.shift=(wParam & MK_SHIFT)!=0;
+					info.left=(wParam & MK_LBUTTON)!=0;
+					info.middle=(wParam & MK_MBUTTON)!=0;
+					info.right=(wParam & MK_RBUTTON)!=0;
+					POINTS Point=MAKEPOINTS(lParam);
+					info.x=Point.x;
+					info.y=Point.y;
+					return info;
+				}
+
+				void TrackMouse(bool enable)
+				{
+					TRACKMOUSEEVENT trackMouseEvent;
+					trackMouseEvent.cbSize=sizeof(trackMouseEvent);
+					trackMouseEvent.hwndTrack=handle;
+					trackMouseEvent.dwFlags=(enable?0:TME_CANCEL) | TME_HOVER | TME_LEAVE;
+					trackMouseEvent.dwHoverTime=HOVER_DEFAULT;
+					TrackMouseEvent(&trackMouseEvent);
+				}
+
 			public:
 				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
+					:mouseLastX(-1)
+					,mouseLastY(-1)
+					,mouseHoving(false)
 				{
 					DWORD exStyle=WS_EX_APPWINDOW | WS_EX_CONTROLPARENT;
 					DWORD style=WS_BORDER | WS_CAPTION | WS_SIZEBOX | WS_SYSMENU | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
@@ -130,8 +170,290 @@ WindowsForm
 					DestroyWindow(handle);
 				}
 
-				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
 				{
+					switch(uMsg)
+					{
+					case WM_MOVING:case WM_SIZING:
+						{
+							LPRECT rawBounds=(LPRECT)lParam;
+							Rect bounds(rawBounds->left, rawBounds->top, rawBounds->right, rawBounds->bottom);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->Moving(bounds);
+							}
+							if(		rawBounds->left!=bounds.Left()
+								||	rawBounds->top!=bounds.Top()
+								||	rawBounds->right!=bounds.Right()
+								||	rawBounds->bottom!=bounds.Bottom())
+							{
+								rawBounds->left=bounds.Left();
+								rawBounds->top=bounds.Top();
+								rawBounds->right=bounds.Right();
+								rawBounds->bottom=bounds.Bottom();
+								result=TRUE;
+							}
+						}
+						break;
+					case WM_MOVE:case WM_SIZE:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->Moved();
+							}
+						}
+						break;
+					case WM_ENABLE:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								if(wParam==TRUE)
+								{
+									listeners[i]->Enabled();
+								}
+								else
+								{
+									listeners[i]->Disabled();
+								}
+							}
+						}
+						break;
+					case WM_SETFOCUS:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->GotFocus();
+							}
+						}
+						break;
+					case WM_KILLFOCUS:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LostFocus();
+							}
+						}
+						break;
+					case WM_ACTIVATE:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								if(wParam==WA_ACTIVE || wParam==WA_CLICKACTIVE)
+								{
+									listeners[i]->Activated();
+								}
+								else
+								{
+									listeners[i]->Deactivated();
+								}
+							}
+						}
+						break;
+					case WM_SHOWWINDOW:
+						{
+							if(wParam==TRUE)
+							{
+								for(int i=0;i<listeners.Count();i++)
+								{
+									listeners[i]->Opened();
+								}
+							}
+							else
+							{
+								for(int i=0;i<listeners.Count();i++)
+								{
+									listeners[i]->Closed();
+								}
+							}
+						}
+						break;
+					case WM_CLOSE:
+						{
+							bool cancel=false;
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->Closing(cancel);
+							}
+							return cancel;
+						}
+						break;
+					case WM_LBUTTONDOWN:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonDown(info);
+							}
+						}
+						break;
+					case WM_LBUTTONUP:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonUp(info);
+							}
+						}
+						break;
+					case WM_LBUTTONDBLCLK:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonDoubleClick(info);
+							}
+						}
+						break;
+					case WM_RBUTTONDOWN:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonDown(info);
+							}
+						}
+						break;
+					case WM_RBUTTONUP:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonUp(info);
+							}
+						}
+						break;
+					case WM_RBUTTONDBLCLK:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonDoubleClick(info);
+							}
+						}
+						break;
+					case WM_MBUTTONDOWN:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MiddleButtonDown(info);
+							}
+						}
+						break;
+					case WM_MBUTTONUP:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MiddleButtonUp(info);
+							}
+						}
+						break;
+					case WM_MBUTTONDBLCLK:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MiddleButtonDoubleClick(info);
+							}
+						}
+						break;
+					case WM_MOUSEHWHEEL:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, true);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->HorizontalWheel(info);
+							}
+						}
+						break;
+					case WM_MOUSEWHEEL:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, true);
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->VerticalWheel(info);
+							}
+						}
+						break;
+					case WM_MOUSEMOVE:
+						{
+							NativeWindowMouseInfo info=ConvertMouse(wParam, lParam, false);
+							if(info.x!=mouseLastX || info.y!=mouseLastY)
+							{
+								if(!mouseHoving)
+								{
+									mouseHoving=true;
+									for(int i=0;i<listeners.Count();i++)
+									{
+										listeners[i]->MouseEntered();
+									}
+									TrackMouse(true);
+								}
+								for(int i=0;i<listeners.Count();i++)
+								{
+									listeners[i]->MouseMoving(info);
+								}
+							}
+						}
+						break;
+					case WM_MOUSELEAVE:
+						{
+							mouseLastX=-1;
+							mouseLastY=-1;
+							mouseHoving=false;
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MouseLeaved();
+							}
+						}
+						break;
+					case WM_MOUSEHOVER:
+						{
+							TrackMouse(true);
+						}
+						break;
+					case WM_KEYUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->KeyUp(wParam, (lParam>>29)%1==1);
+							}
+						}
+						break;
+					case WM_KEYDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->KeyDown(wParam, (lParam>>29)%1==1);
+							}
+						}
+						break;
+					case WM_SYSKEYUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->SysKeyUp(wParam, (lParam>>29)%1==1);
+							}
+						}
+						break;
+					case WM_SYSKEYDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->SysKeyDown(wParam, (lParam>>29)%1==1);
+							}
+						}
+						break;
+					case WM_CHAR:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->Char(wParam);
+							}
+						}
+						break;
+					}
 					return false;
 				}
 
@@ -385,26 +707,43 @@ WindowsController
 					DestroyWindow(godWindow);
 				}
 
-				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
 				{
-					bool result=false;
+					bool skipDefaultProcedure=false;
 					int index=windows.Keys().IndexOf(hwnd);
 					if(index!=-1)
 					{
 						WindowsForm* window=windows.Values()[index];
-						result=window->HandleMessage(hwnd, uMsg, wParam, lParam);
+						skipDefaultProcedure=window->HandleMessage(hwnd, uMsg, wParam, lParam, result);
 						switch(uMsg)
 						{
+						case WM_CLOSE:
+							if(!skipDefaultProcedure)
+							{
+								ShowWindow(window->GetHandle(), SW_HIDE);
+								if(window!=mainWindow)
+								{
+									skipDefaultProcedure=true;
+								}
+							}
+							break;
 						case WM_DESTROY:
 							DestroyNativeWindow(window);
 							if(window==mainWindow)
 							{
+								for(int i=0;i<windows.Count();i++)
+								{
+									if(windows.Values()[i]->IsVisible())
+									{
+										windows.Values()[i]->Hide();
+									}
+								}
 								PostQuitMessage(0);
 							}
 							break;
 						}
 					}
-					return result;
+					return skipDefaultProcedure;
 				}
 
 				INativeWindow* CreateNativeWindow()
@@ -470,9 +809,10 @@ Windows Procedure
 				WindowsController* controller=dynamic_cast<WindowsController*>(GetCurrentController());
 				if(controller)
 				{
-					if(controller->HandleMessage(hwnd, uMsg, wParam, lParam))
+					LRESULT result=0;
+					if(controller->HandleMessage(hwnd, uMsg, wParam, lParam, result))
 					{
-						return 0;
+						return result;
 					}
 				}
 				return DefWindowProc(hwnd, uMsg, wParam, lParam);
