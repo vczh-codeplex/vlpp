@@ -145,15 +145,7 @@ Native Window Provider
 			virtual void				LeftButtonUp(Point position)=0;
 			virtual void				RightButtonDown(Point position)=0;
 			virtual void				RightButtonUp(Point position)=0;
-			virtual void				MiddleButtonDown(Point position)=0;
-			virtual void				MiddleButtonUp(Point position)=0;
 			virtual void				MouseMoving(Point position)=0;
-			virtual void				MouseEntered()=0;
-			virtual void				MouseLeaved()=0;
-
-			virtual void				KeyDown(int code)=0;
-			virtual void				KeyPress(wchar_t code)=0;
-			virtual void				KeyUp(int code)=0;
 		};
 
 		extern INativeController*		GetCurrentController();
