@@ -13,6 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetCurrentController(controller);
 
 	INativeWindow* window=controller->CreateNativeWindow();
+	controller->SetMainWindow(window);
 	window->SetTitle(L"Vczh Window");
 	window->SetClientSize(Size(800, 600));
 	window->Show();
