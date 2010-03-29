@@ -16,14 +16,14 @@ LanguageAssembly
 		{
 		}
 
-		Ptr<basicil::BasicIL> LanguageAssembly::GetIL()
-		{
-			return il;
-		}
-
 		LanguageHost* LanguageAssembly::GetHost()
 		{
 			return host;
+		}
+
+		const LanguageAssembly::_ResourceMap& LanguageAssembly::GetResources()
+		{
+			return il->resources.Wrap();
 		}
 
 /***********************************************************************

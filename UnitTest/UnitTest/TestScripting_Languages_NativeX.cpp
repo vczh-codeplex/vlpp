@@ -1,10 +1,16 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\NativeX\NativeX.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
 #include "..\..\Library\GlobalStorage.h"
+#include "..\..\Library\Stream\FileStream.h"
 
 using namespace vl;
 using namespace vl::scripting;
 using namespace vl::collections;
+using namespace vl::scripting::basicil;
+using namespace vl::stream;
+
+extern WString GetPath();
 
 BEGIN_GLOBAL_STORAGE_CLASS(NativeXProvider)
 	Ptr<ILanguageProvider>	provider;
@@ -19,7 +25,7 @@ TEST_CASE(TestCreateNativeXProvider)
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
 }
 
-void TestNativeXNoError(WString code)
+Ptr<LanguageAssembly> TestNativeXNoError(WString code)
 {
 	List<Ptr<LanguageAssembly>> references;
 	List<WString> codes;
@@ -30,27 +36,37 @@ void TestNativeXNoError(WString code)
 	Ptr<LanguageAssembly> assembly=provider->Compile(references.Wrap(), codes.Wrap(), errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(assembly);
+	return assembly;
 }
 
 #define LINE_(X) L#X L"\r\n"
 
 TEST_CASE(Test_NativeX_EmptyProgram)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit empty;	)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+	TEST_ASSERT(!entry->declarations);
 }
 
-TEST_CASE(Test_NativeX_DefineStructure)
+TEST_CASE(Test_NativeX_DefineStructure1)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit define_structure;	)
 		LINE_(	structure Point{		)
 		LINE_(		int x;				)
 		LINE_(		int y;				)
 		LINE_(	}						)
 		);
-	TestNativeXNoError(
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+}
+
+TEST_CASE(Test_NativeX_DefineStructure2)
+{
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit define_structure;	)
 		LINE_(	structure A;			)
 		LINE_(	structure B{			)
@@ -62,11 +78,13 @@ TEST_CASE(Test_NativeX_DefineStructure)
 		LINE_(		int a;				)
 		LINE_(	}						)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
 }
 
-TEST_CASE(Test_NativeX_TypeRename)
+TEST_CASE(Test_NativeX_TypeRename1)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit type_rename;		)
 		LINE_(	structure Link;			)
 		LINE_(	type PLink = Link*;		)
@@ -75,7 +93,13 @@ TEST_CASE(Test_NativeX_TypeRename)
 		LINE_(		PLink next;			)
 		LINE_(	}						)
 		);
-	TestNativeXNoError(
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+}
+
+TEST_CASE(Test_NativeX_TypeName2)
+{
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit type_rename;							)
 		LINE_(	structure Command;							)
 		LINE_(	type PCommand = Command*;					)
@@ -86,11 +110,13 @@ TEST_CASE(Test_NativeX_TypeRename)
 		LINE_(		PCommand next;							)
 		LINE_(	}											)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
 }
 
 TEST_CASE(Test_NativeX_SimpleFunction)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit simple_function;				)
 		LINE_(	function int Add(int a, int b){		)
 		LINE_(		result=a+b;						)
@@ -101,11 +127,13 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		LINE_(		exit;							)
 		LINE_(	}									)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
 }
 
 TEST_CASE(Test_NativeX_BubbleSort)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit bubble_sort;											)
 		LINE_(	function void Sort(int* nums, int count)					)
 		LINE_(	{															)
@@ -126,11 +154,13 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		LINE_(		Sort(cast<int*>(&nums), 10);							)
 		LINE_(	}															)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
 }
 
 TEST_CASE(Test_NativeX_Sum)
 {
-	TestNativeXNoError(
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit sum_array;												)
 		LINE_(	function int Sum1(int* nums, int count)						)
 		LINE_(	{															)
@@ -196,4 +226,6 @@ TEST_CASE(Test_NativeX_Sum)
 		LINE_(		r+=Sum4(cast<int*>(&nums), 10);							)
 		LINE_(	}															)
 		);
+	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
+	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
 }
