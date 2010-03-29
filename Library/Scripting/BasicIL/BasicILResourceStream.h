@@ -85,7 +85,7 @@ namespace vl
 		public:
 			operator bool()const
 			{
-				return pointer>=0;
+				return pointer!=-1;
 			}
 
 			int Pointer()const

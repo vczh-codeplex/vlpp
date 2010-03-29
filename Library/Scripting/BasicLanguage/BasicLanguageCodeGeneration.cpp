@@ -1632,6 +1632,7 @@ BasicLanguage_GenerateCode
 				}
 
 				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
+				entry->declarations=ResourceHandle<BasicDeclarationLinkRes>::Null();
 				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
 				for(int i=0;i<program->declarations.Count();i++)
 				{

@@ -23,6 +23,7 @@ namespace vl
 		class LanguageAssembly : public Object
 		{
 			friend class LanguageHost;
+			typedef collections::IReadonlyDictionary<WString, Ptr<ResourceStream>>	_ResourceMap;
 		protected:
 			Ptr<basicil::BasicIL>						il;
 			LanguageHost*								host;
@@ -30,8 +31,8 @@ namespace vl
 		public:
 			LanguageAssembly(Ptr<basicil::BasicIL> _il);
 
-			Ptr<basicil::BasicIL>						GetIL();
 			LanguageHost*								GetHost();
+			const _ResourceMap&							GetResources();
 		};
 
 		class LanguageHost : public Object
