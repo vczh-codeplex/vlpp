@@ -171,16 +171,16 @@ GdiBitmapBase
 			};
 
 /***********************************************************************
-GdiCanvasBase
+GdiCanvas
 ***********************************************************************/
 
-			class GdiCanvasBase : public Object, public INativeCanvas
+			class GdiCanvas : public Object, public INativeCanvas, public IGdiCanvas
 			{
 			public:
 				WinDC*						dc;
 				Ptr<WinBrush>				emptyBrush;
 
-				GdiCanvasBase()
+				GdiCanvas()
 					:dc(0)
 				{
 					emptyBrush=new WinBrush();
@@ -189,6 +189,11 @@ GdiCanvasBase
 				void Initialize()
 				{
 					dc->SetBackTransparent(true);
+				}
+
+				HDC GetDeviceContext()
+				{
+					return dc->GetHandle();
 				}
 
 				void DrawLine(Point a, Point b, INativePen* pen)
@@ -345,7 +350,7 @@ GdiBitmap
 			class GdiBitmap : public GdiBitmapBase
 			{
 			public:
-				GdiCanvasBase				canvas;
+				GdiCanvas					canvas;
 
 				GdiBitmap(const WString& path)
 					:GdiBitmapBase(path)
@@ -441,6 +446,11 @@ Windows Platform GDI Graphics
 			INativeGraphics* CreateWindowsGdiGraphics()
 			{
 				return new GdiGraphics();
+			}
+
+			IGdiCanvas* GetGdiCanvas(INativeCanvas* canvas)
+			{
+				return dynamic_cast<GdiCanvas*>(canvas);
 			}
 
 			void DestroyWindowsGdiGraphics(INativeGraphics* graphics)

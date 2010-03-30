@@ -6,11 +6,10 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINDOWSCORE_WINNATIVEWINDOW
-#define VCZH_PRESENTATION_WINDOWSCORE_WINNATIVEWINDOW
+#ifndef VCZH_PRESENTATION_WINDOWSCORE_WINGDIAPPLICATION
+#define VCZH_PRESENTATION_WINDOWSCORE_WINGDIAPPLICATION
 
 #include "..\Core\GuiNativeWindow.h"
-#include <windows.h>
 
 namespace vl
 {
@@ -20,18 +19,11 @@ namespace vl
 		{
 
 /***********************************************************************
-Windows Platform Native Controller
+Windows GDI Application
 ***********************************************************************/
 
-			class IWindowsForm : private Interface
-			{
-			public:
-				virtual HWND				GetWindowHandle()=0;
-			};
-
-			extern INativeController*		CreateWindowsNativeController(HINSTANCE hInstance);
-			extern IWindowsForm*			GetWindowsForm(INativeWindow* window);
-			extern void						DestroyWindowsNativeController(INativeController* controller);
+			extern INativeApplication*			CreateGdiApplication();
+			extern void							DestroyGdiApplication(INativeApplication* application);
 		}
 	}
 }
