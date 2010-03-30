@@ -305,6 +305,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Presentation\WindowsCore\WinNativeCanvas.h"
+						>
+					</File>
+					<File
 						RelativePath="..\Presentation\WindowsCore\WinNativeWindow.h"
 						>
 					</File>
@@ -314,6 +318,10 @@
 					>
 					<File
 						RelativePath="..\Presentation\WindowsCore\WinGDI.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\WindowsCore\WinNativeCanvas.cpp"
 						>
 					</File>
 					<File

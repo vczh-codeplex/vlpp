@@ -453,6 +453,14 @@ WindowsForm
 							}
 						}
 						break;
+					case WM_PAINT:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->Paint();
+							}
+						}
+						break;
 					}
 					return false;
 				}
