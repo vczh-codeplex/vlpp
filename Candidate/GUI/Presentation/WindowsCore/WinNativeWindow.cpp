@@ -167,6 +167,10 @@ WindowsForm
 
 				~WindowsForm()
 				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->Destroying();
+					}
 					DestroyWindow(handle);
 				}
 
@@ -751,6 +755,10 @@ WindowsController
 									{
 										windows.Values()[i]->Hide();
 									}
+								}
+								while(windows.Count())
+								{
+									DestroyNativeWindow(windows.Values()[0]);
 								}
 								PostQuitMessage(0);
 							}

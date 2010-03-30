@@ -71,7 +71,7 @@ Native Painter
 			virtual int					GetWidth()=0;
 			virtual int					GetHeight()=0;
 			virtual INativeCanvas*		Lock()=0;
-			virtual void				Unlock()=0;
+			virtual void				Unlock(INativeCanvas* canvas)=0;
 		};
 
 		class INativeCanvas : private Interface
@@ -180,6 +180,7 @@ Native Window
 			virtual void				Closing(bool& cancel);
 			virtual void				Closed();
 			virtual void				Paint();
+			virtual void				Destroying();
 
 			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info);
 			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info);
@@ -246,9 +247,12 @@ Native Application
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
 			virtual INativeGraphics*	GetGraphics()=0;
 			virtual INativeCanvas*		LockWindow(INativeWindow* window)=0;
-			virtual void				UnlockWindow()=0;
+			virtual void				UnlockWindow(INativeWindow* window, INativeCanvas* canvas)=0;
 			virtual void				Run(INativeWindow* window)=0;
 		};
+
+		extern INativeApplication*		GetCurrentApplication();
+		extern void						SetCurrentApplication(INativeApplication* application);
 	}
 }
 
