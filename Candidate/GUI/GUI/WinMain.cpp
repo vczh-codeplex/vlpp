@@ -1,24 +1,21 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#include <windows.h>
-#include "..\Presentation\WindowsCore\WinNativeWindow.h"
+#include "..\Presentation\WindowsCore\WinGdiApplication.h"
 
 using namespace vl;
 using namespace vl::presentation;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+void NativeMain()
 {
-	INativeController* controller=windows::CreateWindowsNativeController(hInstance);
-	SetCurrentController(controller);
+	INativeApplication* application=windows::CreateGdiApplication();
 
-	INativeWindow* mainWindow=controller->CreateNativeWindow();
-	controller->SetMainWindow(mainWindow);
+	INativeWindow* mainWindow=application->CreateNativeWindow();
 	mainWindow->SetTitle(L"Vczh Window");
 	mainWindow->SetClientSize(Size(800, 600));
 	mainWindow->Show();
 
-	INativeWindow* sideWindow=controller->CreateNativeWindow();
+	INativeWindow* sideWindow=application->CreateNativeWindow();
 	sideWindow->SetTitle(L"Side Window");
 	sideWindow->SetMaximizedBox(false);
 	sideWindow->SetMinimizedBox(false);
@@ -29,14 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	sideWindow->Hide();
 	sideWindow->Show();
 
-	MSG message;
-	while(GetMessage(&message, NULL, 0, 0))
-	{
-		TranslateMessage(&message);
-		DispatchMessage(&message);
-	}
-
-	windows::DestroyWindowsNativeController(controller);
+	application->Run(mainWindow);
+	windows::DestroyGdiApplication(application);
 	_CrtDumpMemoryLeaks();
-	return 0;
 }

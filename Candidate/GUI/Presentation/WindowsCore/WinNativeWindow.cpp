@@ -59,7 +59,7 @@ WindowsClass
 WindowsForm
 ***********************************************************************/
 
-			class WindowsForm : public Object, public INativeWindow
+			class WindowsForm : public Object, public INativeWindow, public IWindowsForm
 			{
 			protected:
 				HWND							handle;
@@ -465,7 +465,7 @@ WindowsForm
 					return false;
 				}
 
-				HWND GetHandle()
+				HWND GetWindowHandle()
 				{
 					return handle;
 				}
@@ -734,7 +734,7 @@ WindowsController
 						case WM_CLOSE:
 							if(!skipDefaultProcedure)
 							{
-								ShowWindow(window->GetHandle(), SW_HIDE);
+								ShowWindow(window->GetWindowHandle(), SW_HIDE);
 								if(window!=mainWindow)
 								{
 									skipDefaultProcedure=true;
@@ -818,16 +818,16 @@ WindowsController
 				INativeWindow* CreateNativeWindow()
 				{
 					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
-					windows.Add(window->GetHandle(), window);
+					windows.Add(window->GetWindowHandle(), window);
 					return window;
 				}
 
 				void DestroyNativeWindow(INativeWindow* window)
 				{
 					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
-					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetHandle()))
+					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetWindowHandle()))
 					{
-						windows.Remove(windowsForm->GetHandle());
+						windows.Remove(windowsForm->GetWindowHandle());
 						delete windowsForm;
 					}
 				}
@@ -921,6 +921,11 @@ Windows Platform Native Controller
 			INativeController* CreateWindowsNativeController(HINSTANCE hInstance)
 			{
 				return new WindowsController(hInstance);
+			}
+
+			IWindowsForm* GetWindowsForm(INativeWindow* window)
+			{
+				return dynamic_cast<WindowsForm*>(window);
 			}
 
 			void DestroyWindowsNativeController(INativeController* controller)

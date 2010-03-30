@@ -232,7 +232,26 @@ Native Window Provider
 
 		extern INativeController*		GetCurrentController();
 		extern void						SetCurrentController(INativeController* controller);
+
+/***********************************************************************
+Native Application
+***********************************************************************/
+
+		class INativeApplication : private Interface
+		{
+		public:
+			virtual INativeWindow*		CreateNativeWindow()=0;
+			virtual void				DestroyNativeWindow(INativeWindow* window)=0;
+			virtual bool				InstallListener(INativeControllerListener* listener)=0;
+			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
+			virtual INativeGraphics*	GetGraphics()=0;
+			virtual INativeCanvas*		LockWindow(INativeWindow* window)=0;
+			virtual void				UnlockWindow()=0;
+			virtual void				Run(INativeWindow* window)=0;
+		};
 	}
 }
+
+extern void NativeMain();
 
 #endif
