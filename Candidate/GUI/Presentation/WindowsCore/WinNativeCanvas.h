@@ -26,7 +26,7 @@ Windows Platform GDI Graphics
 			class IGdiCanvas : private Interface
 			{
 			public:
-				HDC							GetDeviceContext();
+				virtual HDC					GetDeviceContext()=0;
 			};
 
 			extern INativeGraphics*			CreateWindowsGdiGraphics();

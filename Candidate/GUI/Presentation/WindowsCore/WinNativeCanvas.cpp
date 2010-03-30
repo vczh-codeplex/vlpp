@@ -369,7 +369,7 @@ GdiBitmap
 					return &canvas;
 				}
 
-				void Unlock()
+				void Unlock(INativeCanvas* canvas)
 				{
 				}
 			};

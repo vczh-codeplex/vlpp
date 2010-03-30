@@ -1,6 +1,7 @@
 #include "WinGdiApplication.h"
 #include "WinNativeCanvas.h"
 #include "WinNativeWindow.h"
+#include "WinGDI.h"
 #include "..\..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\..\Library\Pointer.h"
 
@@ -11,6 +12,7 @@ namespace vl
 		namespace windows
 		{
 			using namespace vl::collections;
+			using namespace vl::windows;
 
 			HINSTANCE hInstance=0;
 
@@ -54,6 +56,8 @@ GdiWindowPackage
 
 				void RebuildCanvas(Size size)
 				{
+					if(size.x<256)size.x=256;
+					if(size.y<256)size.y=256;
 					if(nativeBitmap)
 					{
 						if(nativeBitmap->GetWidth()!=size.x || nativeBitmap->GetHeight()!=size.y)
@@ -79,6 +83,11 @@ GdiWindowPackage
 
 				void Paint()
 				{
+					HDC controlDC=GetDC(windowsForm->GetWindowHandle());
+					HDC canvasDC=gdiCanvas->GetDeviceContext();
+					Size controlSize=nativeWindow->GetClientSize();
+					BitBlt(controlDC, 0, 0, controlSize.x, controlSize.y, canvasDC, 0, 0, SRCCOPY);
+					ReleaseDC(windowsForm->GetWindowHandle(), controlDC);
 				}
 			public:
 				GdiWindowPackage(INativeWindow* window, INativeGraphics* graphics)
@@ -133,6 +142,10 @@ GdiApplication
 
 				~GdiApplication()
 				{
+					if(GetCurrentController()==controller)
+					{
+						SetCurrentController(0);
+					}
 					windowPackages.Clear();
 					DestroyWindowsGdiGraphics(graphics);
 					DestroyWindowsNativeController(controller);
@@ -175,7 +188,7 @@ GdiApplication
 					return windowPackages[window]->GetCanvas();
 				}
 
-				void UnlockWindow()
+				void UnlockWindow(INativeWindow* window, INativeCanvas* canvas)
 				{
 				}
 
@@ -197,11 +210,17 @@ Windows GDI Application
 
 			INativeApplication* CreateGdiApplication()
 			{
-				return new GdiApplication();
+				INativeApplication* application=new GdiApplication();
+				SetCurrentApplication(application);
+				return application;
 			}
 
 			void DestroyGdiApplication(INativeApplication* application)
 			{
+				if(GetCurrentApplication()==application)
+				{
+					SetCurrentApplication(0);
+				}
 				delete application;
 			}
 		}

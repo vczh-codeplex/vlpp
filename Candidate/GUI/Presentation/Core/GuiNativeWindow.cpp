@@ -57,6 +57,10 @@ INativeWindowListener
 		{
 		}
 
+		void INativeWindowListener::Destroying()
+		{
+		}
+
 		void INativeWindowListener::LeftButtonDown(const NativeWindowMouseInfo& info)
 		{
 		}
@@ -175,6 +179,22 @@ Native Window Provider
 		void SetCurrentController(INativeController* controller)
 		{
 			currentController=controller;
+		}
+
+/***********************************************************************
+Native Application
+***********************************************************************/
+
+		INativeApplication* currentApplication=0;
+
+		INativeApplication* GetCurrentApplication()
+		{
+			return currentApplication;
+		}
+
+		void SetCurrentApplication(INativeApplication* application)
+		{
+			currentApplication=application;
 		}
 	}
 }
