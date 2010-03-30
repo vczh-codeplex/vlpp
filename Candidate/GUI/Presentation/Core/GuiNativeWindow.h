@@ -19,13 +19,91 @@ namespace vl
 {
 	namespace presentation
 	{
+		class INativePen;
+		class INativeBrush;
+		class INativeFont;
+		class INativeString;
+		class INativeBitmap;
+		class INativeCanvas;
 
 		class INativeWindow;
 		class INativeWindowListener;
 		class INativeController;
 		class INativeControllerListener;
-		class INativeBitmap;
-		class INativeCanvas;
+
+/***********************************************************************
+Native Painter
+***********************************************************************/
+
+		class INativePen : private Interface
+		{
+		public:
+			virtual Color				GetColor()=0;
+		};
+
+		class INativeBrush : private Interface
+		{
+		public:
+			virtual Color				GetColor()=0;
+		};
+
+		class INativeFont : private Interface
+		{
+		public:
+			virtual WString				GetName()=0;
+			virtual bool				GetBold()=0;
+			virtual bool				GetItalic()=0;
+			virtual bool				GetUnderline()=0;
+			virtual int					GetSize()=0;
+		};
+
+		class INativeString : private Interface
+		{
+		public:
+			virtual INativeFont*		GetFont()=0;
+			virtual INativeBrush*		GetBrush()=0;
+			virtual const WString&		GetString()=0;
+		};
+
+		class INativeBitmap : private Interface
+		{
+		public:
+			virtual int					GetWidth()=0;
+			virtual int					GetHeight()=0;
+			virtual INativeCanvas*		Lock()=0;
+			virtual void				Unlock()=0;
+		};
+
+		class INativeCanvas : private Interface
+		{
+		public:
+			virtual void				DrawLine(Point a, Point b, INativePen* pen)=0;
+			virtual void				DrawRectangle(Rect bounds, INativePen* pen, INativeBrush* brush)=0;
+			virtual void				DrawEllipse(Rect bounds, INativePen* pen, INativeBrush* brush)=0;
+			virtual void				DrawRoundRectangle(Rect bounds, Size ellipseSize, INativePen* pen, INativeBrush* brush)=0;
+			virtual void				DrawString(const WString& string, Point position, INativeFont* font, INativeBrush* brush)=0;
+			virtual void				DrawString(INativeString* string, Point position)=0;
+			virtual void				DrawBitmap(INativeBitmap* bitmap, Rect dstBounds, Rect srcBounds)=0;
+			virtual Size				MeasureString(const WString& string, INativeFont* font)=0;
+			virtual Size				MeasureString(INativeString* string)=0;
+		};
+
+		class INativeGraphics : private Interface
+		{
+		public:
+			virtual INativePen*			CreatePen(Color color)=0;
+			virtual INativeBrush*		CreateBrush(Color color)=0;
+			virtual INativeFont*		CreateFont(const WString& name, int size, bool bold, bool italic, bool underline)=0;
+			virtual INativeString*		CreateString(const WString& string, INativeFont* font, INativeBrush* brush)=0;
+			virtual INativeBitmap*		CreateBitmap(const WString& path)=0;
+			virtual INativeBitmap*		CreateBitmap(int width, int height)=0;
+			
+			virtual void				Destroy(INativePen* pen)=0;
+			virtual void				Destroy(INativeBrush* brush)=0;
+			virtual void				Destroy(INativeFont* font)=0;
+			virtual void				Destroy(INativeString* string)=0;
+			virtual void				Destroy(INativeBitmap* bitmap)=0;
+		};
 
 /***********************************************************************
 Native Window
@@ -101,6 +179,7 @@ Native Window
 			virtual void				Opened()=0;
 			virtual void				Closing(bool& cancel)=0;
 			virtual void				Closed()=0;
+			virtual void				Paint()=0;
 
 			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info)=0;
 			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info)=0;

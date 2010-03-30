@@ -35,17 +35,6 @@ Point
 				:x(_x) ,y(_y)
 			{
 			}
-
-			Point(const Point& point)
-				:x(point.x) ,y(point.y)
-			{
-			}
-
-			Point& operator=(Point point)
-			{
-				x=point.x;
-				y=point.y;
-			}
 		};
 
 /***********************************************************************
@@ -65,17 +54,6 @@ Size
 			Size(int _x, int _y)
 				:x(_x) ,y(_y)
 			{
-			}
-
-			Size(const Size& size)
-				:x(size.x) ,y(size.y)
-			{
-			}
-
-			Size& operator=(Size size)
-			{
-				x=size.x;
-				y=size.y;
 			}
 		};
 
@@ -100,19 +78,6 @@ Rectangle
 			Rect(Point p, Size s)
 				:x1(p.x), y1(p.y), x2(p.x+s.x), y2(p.y+s.y)
 			{
-			}
-
-			Rect(const Rect& rect)
-				:x1(rect.x1), y1(rect.y1), x2(rect.x2), y2(rect.y2)
-			{
-			}
-
-			Rect& operator=(const Rect& rect)
-			{
-				x1=rect.x1;
-				y1=rect.y1;
-				x2=rect.x2;
-				y2=rect.y2;
 			}
 
 			Point LeftTop()const
@@ -221,6 +186,23 @@ Rectangle
 		{
 			return Size(s1.x-s2.x, s1.y-s2.y);
 		}
+
+/***********************************************************************
+Color
+***********************************************************************/
+
+		struct Color
+		{
+			unsigned char r;
+			unsigned char g;
+			unsigned char b;
+			unsigned char a;
+
+			Color()
+				:r(0), g(0), b(0), a(255)
+			{
+			}
+		};
 	}
 }
 
