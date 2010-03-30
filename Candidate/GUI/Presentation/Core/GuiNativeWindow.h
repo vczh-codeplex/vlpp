@@ -168,39 +168,39 @@ Native Window
 		class INativeWindowListener : private Interface
 		{
 		public:
-			virtual void				Moving(Rect& bounds)=0;
-			virtual void				Moved()=0;
-			virtual void				Enabled()=0;
-			virtual void				Disabled()=0;
-			virtual void				GotFocus()=0;
-			virtual void				LostFocus()=0;
-			virtual void				Activated()=0;
-			virtual void				Deactivated()=0;
-			virtual void				Opened()=0;
-			virtual void				Closing(bool& cancel)=0;
-			virtual void				Closed()=0;
-			virtual void				Paint()=0;
+			virtual void				Moving(Rect& bounds);
+			virtual void				Moved();
+			virtual void				Enabled();
+			virtual void				Disabled();
+			virtual void				GotFocus();
+			virtual void				LostFocus();
+			virtual void				Activated();
+			virtual void				Deactivated();
+			virtual void				Opened();
+			virtual void				Closing(bool& cancel);
+			virtual void				Closed();
+			virtual void				Paint();
 
-			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info)=0;
-			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info)=0;
-			virtual void				LeftButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
-			virtual void				RightButtonDown(const NativeWindowMouseInfo& info)=0;
-			virtual void				RightButtonUp(const NativeWindowMouseInfo& info)=0;
-			virtual void				RightButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
-			virtual void				MiddleButtonDown(const NativeWindowMouseInfo& info)=0;
-			virtual void				MiddleButtonUp(const NativeWindowMouseInfo& info)=0;
-			virtual void				MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)=0;
-			virtual void				HorizontalWheel(const NativeWindowMouseInfo& info)=0;
-			virtual void				VerticalWheel(const NativeWindowMouseInfo& info)=0;
-			virtual void				MouseMoving(const NativeWindowMouseInfo& info)=0;
-			virtual void				MouseEntered()=0;
-			virtual void				MouseLeaved()=0;
+			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info);
+			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info);
+			virtual void				LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
+			virtual void				RightButtonDown(const NativeWindowMouseInfo& info);
+			virtual void				RightButtonUp(const NativeWindowMouseInfo& info);
+			virtual void				RightButtonDoubleClick(const NativeWindowMouseInfo& info);
+			virtual void				MiddleButtonDown(const NativeWindowMouseInfo& info);
+			virtual void				MiddleButtonUp(const NativeWindowMouseInfo& info);
+			virtual void				MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
+			virtual void				HorizontalWheel(const NativeWindowMouseInfo& info);
+			virtual void				VerticalWheel(const NativeWindowMouseInfo& info);
+			virtual void				MouseMoving(const NativeWindowMouseInfo& info);
+			virtual void				MouseEntered();
+			virtual void				MouseLeaved();
 
-			virtual void				KeyDown(int code, bool alt)=0;
-			virtual void				KeyUp(int code, bool alt)=0;
-			virtual void				SysKeyDown(int code, bool alt)=0;
-			virtual void				SysKeyUp(int code, bool alt)=0;
-			virtual void				Char(wchar_t keyChar)=0;
+			virtual void				KeyDown(int code, bool alt);
+			virtual void				KeyUp(int code, bool alt);
+			virtual void				SysKeyDown(int code, bool alt);
+			virtual void				SysKeyUp(int code, bool alt);
+			virtual void				Char(wchar_t keyChar);
 		};
 
 /***********************************************************************
@@ -222,12 +222,12 @@ Native Window Provider
 		class INativeControllerListener : private Interface
 		{
 		public:
-			virtual void				LeftButtonDown(Point position)=0;
-			virtual void				LeftButtonUp(Point position)=0;
-			virtual void				RightButtonDown(Point position)=0;
-			virtual void				RightButtonUp(Point position)=0;
-			virtual void				MouseMoving(Point position)=0;
-			virtual void				GlobalTimer()=0;
+			virtual void				LeftButtonDown(Point position);
+			virtual void				LeftButtonUp(Point position);
+			virtual void				RightButtonDown(Point position);
+			virtual void				RightButtonUp(Point position);
+			virtual void				MouseMoving(Point position);
+			virtual void				GlobalTimer();
 		};
 
 		extern INativeController*		GetCurrentController();
