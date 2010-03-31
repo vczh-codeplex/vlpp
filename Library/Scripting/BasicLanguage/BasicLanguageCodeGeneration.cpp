@@ -1401,7 +1401,7 @@ BasicLanguage_GenerateResource
 						{
 							resource->type=BasicTypeRes::Primitive;
 							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
-							resource->elementCount=0;
+							resource->elementCount=-1;
 							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							switch(type->PrimitiveType())
 							{
@@ -1427,7 +1427,7 @@ BasicLanguage_GenerateResource
 							ResourceHandle<BasicTypeRes> elementType=GenerateResource(type->ElementType(), argument);
 							resource->type=BasicTypeRes::Pointer;
 							resource->elementType=elementType;
-							resource->elementCount=0;
+							resource->elementCount=-1;
 							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 						}
@@ -1447,7 +1447,7 @@ BasicLanguage_GenerateResource
 							ResourceHandle<BasicTypeRes> elementType=GenerateResource(type->ReturnType(), argument);
 							resource->type=BasicTypeRes::Function;
 							resource->elementType=elementType;
-							resource->elementCount=0;
+							resource->elementCount=-1;
 							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 
@@ -1475,7 +1475,7 @@ BasicLanguage_GenerateResource
 						{
 							resource->type=BasicTypeRes::Structure;
 							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
-							resource->elementCount=0;
+							resource->elementCount=-1;
 							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 
@@ -1514,7 +1514,7 @@ BasicLanguage_GenerateResource
 					BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node);
 					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
 
-					resource->type=BasicDeclarationRes::Variable;
+					resource->type=BasicDeclarationRes::Function;
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
@@ -1563,17 +1563,24 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
 				{
-					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-					ResourceString name=argument.resource->CreateString(node->name);
-					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->types.Find(node->name);
-					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
+					if(node->defined)
+					{
+						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						ResourceString name=argument.resource->CreateString(node->name);
+						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->types.Find(node->name);
+						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
 
-					resource->type=BasicDeclarationRes::Variable;
-					resource->declarationType=declarationType;
-					resource->name=name;
-					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
-					resource->address=-1;
-					return resource;
+						resource->type=BasicDeclarationRes::Structure;
+						resource->declarationType=declarationType;
+						resource->name=name;
+						resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+						resource->address=-1;
+						return resource;
+					}
+					else
+					{
+						return ResourceHandle<BasicDeclarationRes>::Null();
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
@@ -1636,7 +1643,7 @@ BasicLanguage_GenerateCode
 				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
 				for(int i=0;i<program->declarations.Count();i++)
 				{
-					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[0], argument);
+					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
 					if(declaration)
 					{
 						ResourceRecord<BasicDeclarationLinkRes> declarationLink=argument.resource->CreateRecord<BasicDeclarationLinkRes>();

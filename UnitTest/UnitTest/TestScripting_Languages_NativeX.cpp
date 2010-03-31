@@ -41,6 +41,75 @@ Ptr<LanguageAssembly> TestNativeXNoError(WString code)
 
 #define LINE_(X) L#X L"\r\n"
 
+/***********************************************************************
+Assert Functions
+***********************************************************************/
+
+void AssertIsInt32(ResourceHandle<BasicTypeRes> type, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(type);
+	ResourceRecord<BasicTypeRes> record=stream->ReadRecord(type);
+	TEST_ASSERT(record->type==BasicTypeRes::Primitive);
+	TEST_ASSERT(record->primitiveType==BasicTypeRes::s32);
+	TEST_ASSERT(!record->elementType);
+	TEST_ASSERT(record->elementCount==-1);
+	TEST_ASSERT(!record->subTypes);
+}
+
+ResourceRecord<BasicTypeRes> AssertIsPointer(ResourceHandle<BasicTypeRes> type, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(type);
+	ResourceRecord<BasicTypeRes> record=stream->ReadRecord(type);
+	TEST_ASSERT(record->type==BasicTypeRes::Pointer);
+	TEST_ASSERT(record->elementType);
+	TEST_ASSERT(record->elementCount==-1);
+	TEST_ASSERT(!record->subTypes);
+	return stream->ReadRecord(record->elementType);
+}
+
+void AssertIsType(ResourceHandle<BasicTypeRes> type, ResourceHandle<BasicTypeRes> baseline)
+{
+	TEST_ASSERT(type);
+	TEST_ASSERT(baseline);
+	TEST_ASSERT(type.Pointer()==baseline.Pointer());
+}
+
+ResourceRecord<BasicDeclarationRes> AssertAvailableAndNext(ResourceHandle<BasicDeclarationLinkRes>& declaration, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(declaration);
+	ResourceRecord<BasicDeclarationLinkRes> record=stream->ReadRecord(declaration);
+	TEST_ASSERT(record->declaration);
+	declaration=record->next;
+	return stream->ReadRecord(record->declaration);
+}
+
+ResourceRecord<BasicTypeRes> AssertAvailableAndNext(ResourceHandle<BasicTypeLinkRes>& type, const WString& name, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(type);
+	ResourceRecord<BasicTypeLinkRes> record=stream->ReadRecord(type);
+	TEST_ASSERT(stream->ReadString(record->name)==name);
+	TEST_ASSERT(record->type);
+	type=record->next;
+	return stream->ReadRecord(record->type);
+}
+
+ResourceRecord<BasicTypeRes> AssertIsStructureDefinition(ResourceHandle<BasicDeclarationRes> declaration, const WString& name, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(declaration);
+	ResourceRecord<BasicDeclarationRes> record=stream->ReadRecord(declaration);
+	TEST_ASSERT(record->type==BasicDeclarationRes::Structure);
+	TEST_ASSERT(stream->ReadString(record->name)==name);
+	TEST_ASSERT(record->declarationType);
+	TEST_ASSERT(!record->parameterNames);
+	ResourceRecord<BasicTypeRes> result=stream->ReadRecord(record->declarationType);
+	TEST_ASSERT(result->type==BasicTypeRes::Structure);
+	return result;
+}
+
+/***********************************************************************
+Test Cases
+***********************************************************************/
+
 TEST_CASE(Test_NativeX_EmptyProgram)
 {
 	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
@@ -62,6 +131,18 @@ TEST_CASE(Test_NativeX_DefineStructure1)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclarationLink=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> pointDeclaration=AssertAvailableAndNext(currentDeclarationLink, stream);
+	TEST_ASSERT(!currentDeclarationLink);
+	{
+		ResourceRecord<BasicTypeRes> pointType=AssertIsStructureDefinition(pointDeclaration, L"Point", stream);
+
+		ResourceHandle<BasicTypeLinkRes> currentMember=pointType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"x", stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"y", stream), stream);
+		TEST_ASSERT(!currentMember);
+	}
 }
 
 TEST_CASE(Test_NativeX_DefineStructure2)
@@ -80,6 +161,27 @@ TEST_CASE(Test_NativeX_DefineStructure2)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclarationLink=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> bDeclaration=AssertAvailableAndNext(currentDeclarationLink, stream);
+	ResourceRecord<BasicDeclarationRes> aDeclaration=AssertAvailableAndNext(currentDeclarationLink, stream);
+	TEST_ASSERT(!currentDeclarationLink);
+	{
+		ResourceRecord<BasicTypeRes> bType=AssertIsStructureDefinition(bDeclaration, L"B", stream);
+
+		ResourceHandle<BasicTypeLinkRes> currentMember=bType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"x", stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"y", stream), stream);
+		AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"a", stream), stream), aDeclaration->declarationType);
+		TEST_ASSERT(!currentMember);
+	}
+	{
+		ResourceRecord<BasicTypeRes> aType=AssertIsStructureDefinition(aDeclaration, L"A", stream);
+
+		ResourceHandle<BasicTypeLinkRes> currentMember=aType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"a", stream), stream);
+		TEST_ASSERT(!currentMember);
+	}
 }
 
 TEST_CASE(Test_NativeX_TypeRename1)
