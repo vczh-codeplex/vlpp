@@ -56,6 +56,17 @@ void AssertIsInt32(ResourceHandle<BasicTypeRes> type, Ptr<ResourceStream> stream
 	TEST_ASSERT(!record->subTypes);
 }
 
+void AssertIsVoid(ResourceHandle<BasicTypeRes> type, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(type);
+	ResourceRecord<BasicTypeRes> record=stream->ReadRecord(type);
+	TEST_ASSERT(record->type==BasicTypeRes::Primitive);
+	TEST_ASSERT(record->primitiveType==BasicTypeRes::void_type);
+	TEST_ASSERT(!record->elementType);
+	TEST_ASSERT(record->elementCount==-1);
+	TEST_ASSERT(!record->subTypes);
+}
+
 ResourceRecord<BasicTypeRes> AssertIsPointer(ResourceHandle<BasicTypeRes> type, Ptr<ResourceStream> stream)
 {
 	TEST_ASSERT(type);
@@ -93,6 +104,13 @@ ResourceRecord<BasicTypeRes> AssertAvailableAndNext(ResourceHandle<BasicTypeLink
 	return stream->ReadRecord(record->type);
 }
 
+void AssertAvailableAndNext(ResourceHandle<BasicParameterRes>& parameter, const WString& name, Ptr<ResourceStream> stream)
+{
+	ResourceRecord<BasicParameterRes> record=stream->ReadRecord(parameter);
+	TEST_ASSERT(stream->ReadString(record->name)==name);
+	parameter=record->next;
+}
+
 ResourceRecord<BasicTypeRes> AssertIsStructureDefinition(ResourceHandle<BasicDeclarationRes> declaration, const WString& name, Ptr<ResourceStream> stream)
 {
 	TEST_ASSERT(declaration);
@@ -101,9 +119,43 @@ ResourceRecord<BasicTypeRes> AssertIsStructureDefinition(ResourceHandle<BasicDec
 	TEST_ASSERT(stream->ReadString(record->name)==name);
 	TEST_ASSERT(record->declarationType);
 	TEST_ASSERT(!record->parameterNames);
+	TEST_ASSERT(record->address==-1);
 	ResourceRecord<BasicTypeRes> result=stream->ReadRecord(record->declarationType);
 	TEST_ASSERT(result->type==BasicTypeRes::Structure);
 	return result;
+}
+
+ResourceRecord<BasicTypeRes> AssertIsFunctionDefinition(ResourceHandle<BasicDeclarationRes> declaration, const WString& name, Ptr<ResourceStream> stream, const wchar_t** parameterNames, int parameterCount)
+{
+	TEST_ASSERT(declaration);
+	ResourceRecord<BasicDeclarationRes> record=stream->ReadRecord(declaration);
+	TEST_ASSERT(record->type==BasicDeclarationRes::Function);
+	TEST_ASSERT(stream->ReadString(record->name)==name);
+	TEST_ASSERT(record->declarationType);
+	TEST_ASSERT(record->address!=-1);
+	ResourceRecord<BasicTypeRes> result=stream->ReadRecord(record->declarationType);
+	TEST_ASSERT(result->type==BasicTypeRes::Function);
+	TEST_ASSERT(result->elementCount==-1);
+
+	ResourceHandle<BasicParameterRes> parameter=record->parameterNames;
+	while(parameterCount--)
+	{
+		AssertAvailableAndNext(parameter, *parameterNames++, stream);
+	}
+	TEST_ASSERT(!parameter);
+	return result;
+}
+
+ResourceRecord<BasicTypeRes> AssertIsVariableDefinition(ResourceHandle<BasicDeclarationRes> declaration, const WString& name, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(declaration);
+	ResourceRecord<BasicDeclarationRes> record=stream->ReadRecord(declaration);
+	TEST_ASSERT(record->type==BasicDeclarationRes::Variable);
+	TEST_ASSERT(stream->ReadString(record->name)==name);
+	TEST_ASSERT(record->declarationType);
+	TEST_ASSERT(!record->parameterNames);
+	TEST_ASSERT(record->address!=-1);
+	return stream->ReadRecord(record->declarationType);
 }
 
 /***********************************************************************
@@ -197,6 +249,18 @@ TEST_CASE(Test_NativeX_TypeRename1)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclarationLink=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> linkDeclaration=AssertAvailableAndNext(currentDeclarationLink, stream);
+	TEST_ASSERT(!currentDeclarationLink);
+	{
+		ResourceRecord<BasicTypeRes> linkType=AssertIsStructureDefinition(linkDeclaration, L"Link", stream);
+
+		ResourceHandle<BasicTypeLinkRes> currentMember=linkType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentMember, L"data", stream), stream);
+		AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"next", stream), stream), linkType);
+		TEST_ASSERT(!currentMember);
+	}
 }
 
 TEST_CASE(Test_NativeX_TypeName2)
@@ -214,6 +278,27 @@ TEST_CASE(Test_NativeX_TypeName2)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclarationLink=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> commandDeclaration=AssertAvailableAndNext(currentDeclarationLink, stream);
+	TEST_ASSERT(!currentDeclarationLink);
+	{
+		ResourceRecord<BasicTypeRes> commandType=AssertIsStructureDefinition(commandDeclaration, L"Command", stream);
+
+		ResourceHandle<BasicTypeLinkRes> currentMember=commandType->subTypes;
+		ResourceRecord<BasicTypeRes> functionType=AssertAvailableAndNext(currentMember, L"executor", stream);
+		{
+			TEST_ASSERT(functionType->type==BasicTypeRes::Function);
+			AssertIsVoid(functionType->elementType, stream);
+			TEST_ASSERT(functionType->elementCount=-1);
+			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), commandType);
+			TEST_ASSERT(!currentParameter);
+		}
+		AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"previous", stream), stream), commandType);
+		AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"next", stream), stream), commandType);
+		TEST_ASSERT(!currentMember);
+	}
 }
 
 TEST_CASE(Test_NativeX_SimpleFunction)
@@ -231,6 +316,29 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> addFunction=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> subFunction=AssertAvailableAndNext(currentDeclaration, stream);
+	TEST_ASSERT(!currentDeclaration);
+	{
+		const wchar_t* parameters[]={L"a", L"b"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(addFunction, L"Add", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		const wchar_t* parameters[]={L"a", L"b"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(subFunction, L"Sub", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
 }
 
 TEST_CASE(Test_NativeX_BubbleSort)
@@ -258,6 +366,26 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> sortFunction=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> mainFunction=AssertAvailableAndNext(currentDeclaration, stream);
+	TEST_ASSERT(!currentDeclaration);
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sortFunction, L"Sort", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsVoid(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(mainFunction, L"Main", stream, 0, 0);
+		AssertIsVoid(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		TEST_ASSERT(!currentParameter);
+	}
 }
 
 TEST_CASE(Test_NativeX_Sum)
@@ -330,4 +458,68 @@ TEST_CASE(Test_NativeX_Sum)
 		);
 	Ptr<ResourceStream> stream=assembly->GetResources()[BasicILResourceNames::BasicLanguageInterfaces];
 	ResourceRecord<BasicEntryRes> entry=stream->ReadRootRecord<BasicEntryRes>();
+
+	ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
+	ResourceRecord<BasicDeclarationRes> sum1Function=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> sum2Function=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> sum3Function=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> sum4Function=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> sum5Variable=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> sum5Function=AssertAvailableAndNext(currentDeclaration, stream);
+	ResourceRecord<BasicDeclarationRes> mainFunction=AssertAvailableAndNext(currentDeclaration, stream);
+	TEST_ASSERT(!currentDeclaration);
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum1Function, L"Sum1", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum2Function, L"Sum2", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum3Function, L"Sum3", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum4Function, L"Sum4", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		AssertIsInt32(AssertIsVariableDefinition(sum5Variable, L"Sum5Result", stream), stream);
+	}
+	{
+		const wchar_t* parameters[]={L"nums", L"count"};
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum5Function, L"Sum5", stream, parameters, sizeof(parameters)/sizeof(*parameters));
+		AssertIsInt32(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		AssertIsInt32(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
+		AssertIsInt32(AssertAvailableAndNext(currentParameter, L"", stream), stream);
+		TEST_ASSERT(!currentParameter);
+	}
+	{
+		ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(mainFunction, L"Main", stream, 0, 0);
+		AssertIsVoid(functionType->elementType, stream);
+		ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
+		TEST_ASSERT(!currentParameter);
+	}
 }
