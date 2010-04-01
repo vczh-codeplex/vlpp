@@ -358,6 +358,26 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="Layout"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath="..\Presentation\Layout\LayoutHost.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath="..\Presentation\Layout\LayoutHost.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

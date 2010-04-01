@@ -4,6 +4,13 @@ Developer: ³Âè÷å«(vczh)
 GUI::Native Window
 
 Interfaces:
+  INativePen							£º»­±Ê
+  INativeBrush							£º»­Ë¢
+  INativeFont							£º×ÖÌå
+  INativeString							£º×Ö·û´®»º³å
+  INativeBitmap							£ºÎ»Í¼»º³å
+  INativeCanvas							£º»­°å
+
   INativeWindow							£º´°¿ÚÊÊÅäÆ÷
   INativeWindowListener					£º´°¿ÚÊÂ¼ş¼àÌıÆ÷
   INativeController						£ºÈ«¾Ö¿ØÖÆÆ÷

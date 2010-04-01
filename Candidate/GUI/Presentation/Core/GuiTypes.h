@@ -35,6 +35,16 @@ Point
 				:x(_x) ,y(_y)
 			{
 			}
+
+			bool operator==(Point point)const
+			{
+				return x==point.x && y==point.y;
+			}
+
+			bool operator!=(Point point)const
+			{
+				return x!=point.x || y!=point.y;
+			}
 		};
 
 /***********************************************************************
@@ -54,6 +64,16 @@ Size
 			Size(int _x, int _y)
 				:x(_x) ,y(_y)
 			{
+			}
+
+			bool operator==(Size size)const
+			{
+				return x==size.x && y==size.y;
+			}
+
+			bool operator!=(Size size)const
+			{
+				return x!=size.x || y!=size.y;
 			}
 		};
 
@@ -78,6 +98,16 @@ Rectangle
 			Rect(Point p, Size s)
 				:x1(p.x), y1(p.y), x2(p.x+s.x), y2(p.y+s.y)
 			{
+			}
+
+			bool operator==(Rect rect)const
+			{
+				return x1==rect.x1 && y1==rect.y1 && x2==rect.x2 && y2==rect.y2;
+			}
+
+			bool operator!=(Rect rect)const
+			{
+				return x1!=rect.x1 || y1!=rect.y1 || x2!=rect.x2 || y2!=rect.y2;
 			}
 
 			Point LeftTop()const
@@ -206,6 +236,45 @@ Color
 			Color(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a=255)
 				:r(_r), g(_g), b(_b), a(_a)
 			{
+			}
+
+			bool operator==(Color color)const
+			{
+				return r==color.r && g==color.g && b==color.b && a==color.a;
+			}
+
+			bool operator!=(Color color)const
+			{
+				return r!=color.r || g!=color.g || b!=color.b || a!=color.a;
+			}
+		};
+
+/***********************************************************************
+Margin
+***********************************************************************/
+
+		struct Margin
+		{
+			int		left, top, right, bottom;		//-1 == no limitation
+
+			Margin()
+				:left(0), top(0), right(0), bottom(0)
+			{
+			}
+
+			Margin(int _left, int _top, int _right, int _bottom)
+				:left(_left), top(_top), right(_right), bottom(_bottom)
+			{
+			}
+
+			bool operator==(Margin margin)const
+			{
+				return left==margin.left && top==margin.top && right==margin.right && bottom==margin.bottom;
+			}
+
+			bool operator!=(Margin margin)const
+			{
+				return left!=margin.left || top!=margin.top || right!=margin.right || bottom!=margin.bottom;
 			}
 		};
 	}
