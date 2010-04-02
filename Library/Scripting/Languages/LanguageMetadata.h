@@ -32,7 +32,8 @@ namespace vl
 			LanguageMetadata(IMetadataProvider* _metadataProvider, const WString& name);
 		public:
 			
-			IMetadataProvider*				GetMetadataProvider();
+			IMetadataProvider*				GetMetadataProvider()const;
+			Ptr<ResourceStream>				GetResourceStream()const;
 		};
 	}
 }
