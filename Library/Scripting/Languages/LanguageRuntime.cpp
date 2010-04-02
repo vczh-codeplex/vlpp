@@ -13,7 +13,9 @@ LanguageAssembly
 		LanguageAssembly::LanguageAssembly(Ptr<basicil::BasicIL> _il)
 			:il(_il)
 			,host(0)
+			,instructionKey(-1)
 		{
+			basicLanguageMetadata=new BasicLanguageMetadata(this);
 		}
 
 		LanguageHost* LanguageAssembly::GetHost()
@@ -24,6 +26,21 @@ LanguageAssembly
 		const LanguageAssembly::_ResourceMap& LanguageAssembly::GetResources()
 		{
 			return il->resources.Wrap();
+		}
+
+		Ptr<ResourceStream> LanguageAssembly::GetResource(const WString& name)
+		{
+			return il->resources[name];
+		}
+
+		int LanguageAssembly::GetInstructionKey()
+		{
+			return instructionKey;
+		}
+
+		BasicLanguageMetadata* LanguageAssembly::GetBasicLanguageMetadata()
+		{
+			return basicLanguageMetadata.Obj();
 		}
 
 /***********************************************************************
@@ -43,7 +60,7 @@ LanguageHost
 			}
 			if(!loadedAssemblies.Contains(assembly.Obj()))
 			{
-				interpretor->LoadIL(assembly->il.Obj());
+				assembly->instructionKey=interpretor->LoadIL(assembly->il.Obj());
 				loadedAssemblies.Add(assembly);
 				assembly->host=this;
 				return true;

@@ -152,6 +152,11 @@ namespace vl
 				return *this;
 			}
 
+			ResourceStream* GetResourceStream()
+			{
+				return resourceStream;
+			}
+
 			T* operator->()const
 			{
 				return (T*)resourceStream->GetPointer(pointer);
