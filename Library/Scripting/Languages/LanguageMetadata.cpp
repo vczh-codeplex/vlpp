@@ -15,9 +15,14 @@ LanguageException
 			resources=metadataProvider->GetResource(name);
 		}
 
-		IMetadataProvider* LanguageMetadata::GetMetadataProvider()
+		IMetadataProvider* LanguageMetadata::GetMetadataProvider()const
 		{
 			return metadataProvider;
+		}
+
+		Ptr<ResourceStream> LanguageMetadata::GetResourceStream()const
+		{
+			return resources;
 		}
 	}
 }
