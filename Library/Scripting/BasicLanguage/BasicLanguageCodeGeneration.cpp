@@ -1395,6 +1395,10 @@ BasicLanguage_GenerateResource
 				{
 					ResourceRecord<BasicTypeRes> resource=argument.resource->CreateRecord<BasicTypeRes>();
 					argument.info->SetTypeResource(type, resource);
+
+					BasicTypeInfo* typeInfo=argument.info->GetTypeInfo(type);
+					resource->size=typeInfo->size;
+					resource->alignment=typeInfo->alignment;
 					switch(type->GetType())
 					{
 					case BasicTypeRecord::Primitive:
@@ -1458,6 +1462,7 @@ BasicLanguage_GenerateResource
 								ResourceRecord<BasicTypeLinkRes> parameter=argument.resource->CreateRecord<BasicTypeLinkRes>();
 								parameter->name=ResourceString::Null();
 								parameter->type=parameterType;
+								parameter->offset=-1;
 								parameter->next=ResourceHandle<BasicTypeLinkRes>::Null();
 								if(currentSubType)
 								{
@@ -1487,6 +1492,7 @@ BasicLanguage_GenerateResource
 								ResourceRecord<BasicTypeLinkRes> member=argument.resource->CreateRecord<BasicTypeLinkRes>();
 								member->name=memberName;
 								member->type=memberType;
+								member->offset=typeInfo->offsets[i];
 								member->next=ResourceHandle<BasicTypeLinkRes>::Null();
 								if(currentSubType)
 								{
