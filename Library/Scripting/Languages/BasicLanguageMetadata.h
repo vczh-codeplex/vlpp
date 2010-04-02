@@ -31,6 +31,8 @@ namespace vl
 Metadata
 ***********************************************************************/
 
+		// TODO: precalculate subitem list in each info
+
 		class BasicTypeInfo : public BasicMetadataInfo
 		{
 			friend class BasicDeclarationInfo;
@@ -42,6 +44,7 @@ Metadata
 		public:
 			BasicTypeInfo();
 			operator bool()const;
+			bool									IsSameRecord(const BasicTypeInfo& typeInfo)const;
 
 			bool									IsPrimitive()const;
 			bool									IsPointer()const;
@@ -70,6 +73,7 @@ Metadata
 		public:
 			BasicDeclarationInfo();
 			operator bool()const;
+			bool									IsSameRecord(const BasicDeclarationInfo& declarationInfo)const;
 
 			bool									IsFunction()const;
 			bool									IsVariable()const;

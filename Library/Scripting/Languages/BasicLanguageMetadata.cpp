@@ -47,29 +47,34 @@ BasicTypeInfo
 			return type;
 		}
 
+		bool BasicTypeInfo::IsSameRecord(const BasicTypeInfo& typeInfo)const
+		{
+			return type.Pointer()==typeInfo.type.Pointer() && metadata==typeInfo.metadata;
+		}
+
 		bool BasicTypeInfo::IsPrimitive()const
 		{
-			return type->primitiveType==BasicTypeRes::Primitive;
+			return type->type==BasicTypeRes::Primitive;
 		}
 
 		bool BasicTypeInfo::IsPointer()const
 		{
-			return type->primitiveType==BasicTypeRes::Pointer;
+			return type->type==BasicTypeRes::Pointer;
 		}
 
 		bool BasicTypeInfo::IsArray()const
 		{
-			return type->primitiveType==BasicTypeRes::Array;
+			return type->type==BasicTypeRes::Array;
 		}
 
 		bool BasicTypeInfo::IsFunction()const
 		{
-			return type->primitiveType==BasicTypeRes::Function;
+			return type->type==BasicTypeRes::Function;
 		}
 
 		bool BasicTypeInfo::IsStructure()const
 		{
-			return type->primitiveType==BasicTypeRes::Structure;
+			return type->type==BasicTypeRes::Structure;
 		}
 
 		int BasicTypeInfo::GetSize()const
@@ -173,6 +178,11 @@ BasicDeclarationInfo
 		BasicDeclarationInfo::operator bool()const
 		{
 			return declaration;
+		}
+
+		bool BasicDeclarationInfo::IsSameRecord(const BasicDeclarationInfo& declarationInfo)const
+		{
+			return declaration.Pointer()==declarationInfo.declaration.Pointer() && metadata==declarationInfo.metadata;
 		}
 
 		bool BasicDeclarationInfo::IsFunction()const
