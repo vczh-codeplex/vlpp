@@ -56,12 +56,15 @@ namespace vl
 			ResourceHandle<BasicTypeRes>			elementType;		//Array, Pointer, Function(return type)
 			int										elementCount;
 			ResourceHandle<BasicTypeLinkRes>		subTypes;			//Function(parameter), Structure(member)
+			int										size;
+			int										alignment;
 		};
 
 		struct BasicTypeLinkRes
 		{
 			ResourceHandle<BasicTypeRes>			type;
 			ResourceString							name;				//Structure(member)
+			int										offset;				//Structure(member)
 			ResourceHandle<BasicTypeLinkRes>		next;
 		};
 
