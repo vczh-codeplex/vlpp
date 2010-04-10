@@ -409,6 +409,40 @@ TEST_CASE(Test_NativeX_TypeName2)
 			TEST_ASSERT(!currentMember);
 		}
 	}
+	{
+		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
+		TEST_ASSERT(metadata->GetDeclarationCount()==1);
+
+		BasicDeclarationInfo command=metadata->GetDeclaration(0);
+		TEST_ASSERT(command.IsFunction()==false);
+		TEST_ASSERT(command.IsVariable()==false);
+		TEST_ASSERT(command.IsStructure()==true);
+		TEST_ASSERT(command.GetName()==L"Command");
+
+		BasicTypeInfo commandType=command.GetType();
+		TEST_ASSERT(commandType.IsPrimitive()==false);
+		TEST_ASSERT(commandType.IsPointer()==false);
+		TEST_ASSERT(commandType.IsArray()==false);
+		TEST_ASSERT(commandType.IsFunction()==false);
+		TEST_ASSERT(commandType.IsStructure()==true);
+		TEST_ASSERT(commandType.GetSize()==sizeof(int)*3);
+		TEST_ASSERT(commandType.GetComponentCount()==3);
+
+		TEST_ASSERT(commandType.GetComponentName(0)==L"executor");
+		TEST_ASSERT(commandType.GetComponentOffset(0)==0);
+		BasicTypeInfo executorType=commandType.GetComponentType(0);
+		TEST_ASSERT(executorType.IsFunction());
+		TEST_ASSERT(executorType.GetComponentCount()==1);
+		TEST_ASSERT(executorType.GetComponentType(0).IsPointer() && executorType.GetComponentType(0).GetElementType().IsSameRecord(commandType));
+		TEST_ASSERT(executorType.GetElementType().IsPrimitive() && executorType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
+
+		TEST_ASSERT(commandType.GetComponentName(1)==L"previous");
+		TEST_ASSERT(commandType.GetComponentOffset(1)==sizeof(int));
+		TEST_ASSERT(commandType.GetComponentType(1).IsPointer() && commandType.GetComponentType(1).GetElementType().IsSameRecord(commandType));
+		TEST_ASSERT(commandType.GetComponentName(2)==L"next");
+		TEST_ASSERT(commandType.GetComponentOffset(2)==sizeof(int)*2);
+		TEST_ASSERT(commandType.GetComponentType(2).IsPointer() && commandType.GetComponentType(2).GetElementType().IsSameRecord(commandType));
+	}
 }
 
 TEST_CASE(Test_NativeX_SimpleFunction)
