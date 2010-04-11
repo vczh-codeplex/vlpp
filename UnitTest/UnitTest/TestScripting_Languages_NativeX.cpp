@@ -485,6 +485,46 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 			TEST_ASSERT(!currentParameter);
 		}
 	}
+	{
+		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
+		TEST_ASSERT(metadata->GetDeclarationCount()==2);
+
+		BasicDeclarationInfo add=metadata->GetDeclaration(0);
+		TEST_ASSERT(add.IsFunction());
+		TEST_ASSERT(!add.IsVariable());
+		TEST_ASSERT(!add.IsStructure());
+		TEST_ASSERT(add.GetName()==L"Add");
+		TEST_ASSERT(add.GetParameterCount()==2);
+		TEST_ASSERT(add.GetParameterName(0)==L"a");
+		TEST_ASSERT(add.GetParameterName(1)==L"b");
+		BasicTypeInfo addType=add.GetType();
+		TEST_ASSERT(!addType.IsArray());
+		TEST_ASSERT(addType.IsFunction());
+		TEST_ASSERT(!addType.IsPointer());
+		TEST_ASSERT(!addType.IsPrimitive());
+		TEST_ASSERT(!addType.IsStructure());
+		TEST_ASSERT(addType.GetElementType().IsPrimitive() && addType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+		TEST_ASSERT(addType.GetComponentType(0).IsPrimitive() && addType.GetComponentType(0).GetPrimitive()==BasicTypeRes::int_type);
+		TEST_ASSERT(addType.GetComponentType(1).IsPrimitive() && addType.GetComponentType(1).GetPrimitive()==BasicTypeRes::int_type);
+
+		BasicDeclarationInfo sub=metadata->GetDeclaration(1);
+		TEST_ASSERT(sub.IsFunction());
+		TEST_ASSERT(!sub.IsVariable());
+		TEST_ASSERT(!sub.IsStructure());
+		TEST_ASSERT(sub.GetName()==L"Sub");
+		TEST_ASSERT(sub.GetParameterCount()==2);
+		TEST_ASSERT(sub.GetParameterName(0)==L"a");
+		TEST_ASSERT(sub.GetParameterName(1)==L"b");
+		BasicTypeInfo subType=sub.GetType();
+		TEST_ASSERT(!subType.IsArray());
+		TEST_ASSERT(subType.IsFunction());
+		TEST_ASSERT(!subType.IsPointer());
+		TEST_ASSERT(!subType.IsPrimitive());
+		TEST_ASSERT(!subType.IsStructure());
+		TEST_ASSERT(subType.GetElementType().IsPrimitive() && subType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+		TEST_ASSERT(subType.GetComponentType(0).IsPrimitive() && subType.GetComponentType(0).GetPrimitive()==BasicTypeRes::int_type);
+		TEST_ASSERT(subType.GetComponentType(1).IsPrimitive() && subType.GetComponentType(1).GetPrimitive()==BasicTypeRes::int_type);
+	}
 }
 
 TEST_CASE(Test_NativeX_BubbleSort)
@@ -534,6 +574,62 @@ TEST_CASE(Test_NativeX_BubbleSort)
 			TEST_ASSERT(!currentParameter);
 		}
 	}
+	{
+		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
+		TEST_ASSERT(metadata->GetDeclarationCount()==2);
+
+		BasicDeclarationInfo sort=metadata->GetDeclaration(0);
+		TEST_ASSERT(sort.IsFunction());
+		TEST_ASSERT(!sort.IsVariable());
+		TEST_ASSERT(!sort.IsStructure());
+		TEST_ASSERT(sort.GetName()==L"Sort");
+		TEST_ASSERT(sort.GetParameterCount()==2);
+		TEST_ASSERT(sort.GetParameterName(0)==L"nums");
+		TEST_ASSERT(sort.GetParameterName(1)==L"count");
+		BasicTypeInfo sortType=sort.GetType();
+		TEST_ASSERT(!sortType.IsArray());
+		TEST_ASSERT(sortType.IsFunction());
+		TEST_ASSERT(!sortType.IsPointer());
+		TEST_ASSERT(!sortType.IsPrimitive());
+		TEST_ASSERT(!sortType.IsStructure());
+		TEST_ASSERT(sortType.GetElementType().IsPrimitive() && sortType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
+		TEST_ASSERT(sortType.GetComponentType(0).IsPointer() && sortType.GetComponentType(0).GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+		TEST_ASSERT(sortType.GetComponentType(1).IsPrimitive() && sortType.GetComponentType(1).GetPrimitive()==BasicTypeRes::int_type);
+
+		BasicDeclarationInfo main=metadata->GetDeclaration(1);
+		TEST_ASSERT(main.IsFunction());
+		TEST_ASSERT(!main.IsVariable());
+		TEST_ASSERT(!main.IsStructure());
+		TEST_ASSERT(main.GetName()==L"Main");
+		TEST_ASSERT(main.GetParameterCount()==0);
+		BasicTypeInfo mainType=main.GetType();
+		TEST_ASSERT(!mainType.IsArray());
+		TEST_ASSERT(mainType.IsFunction());
+		TEST_ASSERT(!mainType.IsPointer());
+		TEST_ASSERT(!mainType.IsPrimitive());
+		TEST_ASSERT(!mainType.IsStructure());
+		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
+	}
+}
+
+void TestSumFunction(BasicDeclarationInfo info, const WString& name)
+{
+	TEST_ASSERT(info.IsFunction());
+	TEST_ASSERT(!info.IsVariable());
+	TEST_ASSERT(!info.IsStructure());
+	TEST_ASSERT(info.GetName()==name);
+	TEST_ASSERT(info.GetParameterCount()==2);
+	TEST_ASSERT(info.GetParameterName(0)==L"nums");
+	TEST_ASSERT(info.GetParameterName(1)==L"count");
+	BasicTypeInfo infoType=info.GetType();
+	TEST_ASSERT(!infoType.IsArray());
+	TEST_ASSERT(infoType.IsFunction());
+	TEST_ASSERT(!infoType.IsPointer());
+	TEST_ASSERT(!infoType.IsPrimitive());
+	TEST_ASSERT(!infoType.IsStructure());
+	TEST_ASSERT(infoType.GetElementType().IsPrimitive() && infoType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+	TEST_ASSERT(infoType.GetComponentType(0).IsPointer() && infoType.GetComponentType(0).GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+	TEST_ASSERT(infoType.GetComponentType(1).IsPrimitive() && infoType.GetComponentType(1).GetPrimitive()==BasicTypeRes::int_type);
 }
 
 TEST_CASE(Test_NativeX_Sum)
@@ -671,5 +767,36 @@ TEST_CASE(Test_NativeX_Sum)
 			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
 			TEST_ASSERT(!currentParameter);
 		}
+	}
+	{
+		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
+		TEST_ASSERT(metadata->GetDeclarationCount()==7);
+
+		TestSumFunction(metadata->GetDeclaration(0), L"Sum1");
+		TestSumFunction(metadata->GetDeclaration(1), L"Sum2");
+		TestSumFunction(metadata->GetDeclaration(2), L"Sum3");
+		TestSumFunction(metadata->GetDeclaration(3), L"Sum4");
+		TestSumFunction(metadata->GetDeclaration(5), L"Sum5");
+
+		BasicDeclarationInfo sum5=metadata->GetDeclaration(4);
+		TEST_ASSERT(!sum5.IsFunction());
+		TEST_ASSERT(sum5.IsVariable());
+		TEST_ASSERT(!sum5.IsStructure());
+		TEST_ASSERT(sum5.GetName()==L"Sum5Result");
+		TEST_ASSERT(sum5.GetType().IsPrimitive() && sum5.GetType().GetPrimitive()==BasicTypeRes::int_type);
+
+		BasicDeclarationInfo main=metadata->GetDeclaration(6);
+		TEST_ASSERT(main.IsFunction());
+		TEST_ASSERT(!main.IsVariable());
+		TEST_ASSERT(!main.IsStructure());
+		TEST_ASSERT(main.GetName()==L"Main");
+		TEST_ASSERT(main.GetParameterCount()==0);
+		BasicTypeInfo mainType=main.GetType();
+		TEST_ASSERT(!mainType.IsArray());
+		TEST_ASSERT(mainType.IsFunction());
+		TEST_ASSERT(!mainType.IsPointer());
+		TEST_ASSERT(!mainType.IsPrimitive());
+		TEST_ASSERT(!mainType.IsStructure());
+		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
 	}
 }
