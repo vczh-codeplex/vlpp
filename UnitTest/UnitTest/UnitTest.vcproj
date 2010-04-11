@@ -894,6 +894,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\Library\Scripting\Languages\BasicFunctionExecutor.h.fpm"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt"
 						>
 					</File>
@@ -954,6 +958,10 @@
 						</File>
 						<File
 							RelativePath="..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
 							>
 						</File>
 						<File

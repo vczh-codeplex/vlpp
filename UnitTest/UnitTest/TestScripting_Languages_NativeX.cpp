@@ -1,5 +1,6 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\NativeX\NativeX.h"
+#include "..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
 #include "..\..\Library\GlobalStorage.h"
 #include "..\..\Library\Stream\FileStream.h"
@@ -524,6 +525,19 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		TEST_ASSERT(subType.GetElementType().IsPrimitive() && subType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
 		TEST_ASSERT(subType.GetComponentType(0).IsPrimitive() && subType.GetComponentType(0).GetPrimitive()==BasicTypeRes::int_type);
 		TEST_ASSERT(subType.GetComponentType(1).IsPrimitive() && subType.GetComponentType(1).GetPrimitive()==BasicTypeRes::int_type);
+
+		LanguageHost host(65536);
+		host.LoadAssembly(assembly);
+		Ptr<LanguageState> state=host.CreateState();
+		BasicFunctionExecutor<int(int,int)> addFunc(add, state);
+		BasicFunctionExecutor<int(int,int)> subFunc(sub, state);
+
+		TEST_ASSERT(addFunc==addFunc);
+		TEST_ASSERT(addFunc!=subFunc);
+		TEST_ASSERT(addFunc);
+		TEST_ASSERT(subFunc);
+		TEST_ASSERT(addFunc(1, 2)==3);
+		TEST_ASSERT(subFunc(1, 2)==-1);
 	}
 }
 

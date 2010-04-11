@@ -107,10 +107,22 @@ namespace vl
 
 				BasicILEnv*									GetEnv();
 				void										Reset(int entryInstruction, int entryInsKey, int returnSize);
+				void										ResetBuffer(int entryInstruction, int entryInsKey, void* returnPointer);
 				int											GetInstruction();
 				int											GetForeignFunctionIndex();
 				void*										GetForeignFunctionResult();
 				RunningResult								Run();
+			};
+
+			class ILException
+			{
+			public:
+				BasicILStack::RunningResult result;
+
+				ILException(BasicILStack::RunningResult _result)
+					:result(_result)
+				{
+				}
 			};
 		}
 	}
