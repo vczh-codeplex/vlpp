@@ -4,4 +4,5 @@
 ..\Tools\Fpmacro ObjectModel\ObjectTypeFunction.h.fpm
 ..\Tools\Fpmacro ObjectModel\ObjectTypeClass.h.fpm
 ..\Tools\Fpmacro ObjectModel\ObjectTypeClassTemplate.h.fpm
+..\Tools\Fpmacro Scripting\Languages\BasicFunctionExecutor.h.fpm
 pause

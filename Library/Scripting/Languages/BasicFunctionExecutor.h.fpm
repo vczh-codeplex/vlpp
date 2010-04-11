@@ -1,0 +1,89 @@
+$$include:..\..\Common.fpm
+$$define $FUNCTION_DECLARATION($count, $function) $$begin
+$(/)***********************************************************************
+vl::Func<$FUNCTION_TYPE($count,$function)>
+***********************************************************************$(/)
+		template<$TYPENAME_LIST($count,$function)>
+		class BasicFunctionExecutor<$FUNCTION_TYPE($count,$function)> : public Object
+		{
+		protected:
+			BasicDeclarationInfo				declaration;
+			Ptr<LanguageState>					state;
+		public:
+			typedef $if($function,R,void) FunctionType($TYPE_LIST($count));
+			typedef $if($function,R,void) ResultType;
+
+			BasicFunctionExecutor(const BasicDeclarationInfo& _declaration, Ptr<LanguageState> _state)
+				:declaration(_declaration)
+				,state(_state)
+			{
+			}
+
+			bool operator==(const BasicFunctionExecutor<$FUNCTION_TYPE($count,$function)>& function)const
+			{
+				return declaration.IsSameRecord(function.declaration) && state==function.state;
+			}
+
+			bool operator!=(const BasicFunctionExecutor<$FUNCTION_TYPE($count,$function)>& function)const
+			{
+				return !declaration.IsSameRecord(function.declaration) || state!=function.state;
+			}
+
+			$if($function,R,void) operator()($PARAMETER_LIST($count))const
+			{
+				$if($function,R resultValue;, )
+$$define $PUSH_ARGUMENT($index) $$begin
+				state->Push<$TYPE_ITEM($sub($sub($count,$index),1))>($ARGUMENT_ITEM($sub($sub($count,$index),1)));
+$( )
+$$end
+$loop($count,0,$PUSH_ARGUMENT)
+				state->PrepareToRun(declaration, $if($function,(void*)&resultValue,0));
+				basicil::BasicILStack::RunningResult result=state->Run();
+				if(result!=basicil::BasicILStack::Finished)
+				{
+					throw basicil::ILException(result);
+				}
+				$if($function,return resultValue;, )
+			}
+
+			operator bool()const
+			{
+				return state;
+			}
+		};
+$$end
+
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: ³Âè÷å«(vczh)
+Scripting::Language Provider
+
+Classes:
+  BasicFunctionExecotor						£ºBasic Script Languageº¯Êý¶ÔÏó
+***********************************************************************/
+
+#ifndef VCZH_SCRIPTING_LANGUAGES_BASICFUNCTIONEXECUTOR
+#define VCZH_SCRIPTING_LANGUAGES_BASICFUNCTIONEXECUTOR
+
+#include "LanguageRuntime.h"
+
+namespace vl
+{
+	namespace scripting
+	{
+		template<typename T>
+		class BasicFunctionExecutor
+		{
+		};
+
+$$define $FUNCTION_APPLY($index) $$begin
+$( )
+$FUNCTION_DECLARATION($index,1)
+$( )
+$FUNCTION_DECLARATION($index,0)
+$( )
+$$end
+$loop($MAX_FUNCTION_NUMBER(),0,$FUNCTION_APPLY)
+	}
+}
+#endif

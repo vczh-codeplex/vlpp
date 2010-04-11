@@ -5,6 +5,7 @@ Scripting::Language Provider
 
 Classes:
   LanguageAssembly						：程序集
+  LanguageState							：程序运行状态
   LanguageHost							：程序运行时
 ***********************************************************************/
 
@@ -53,18 +54,19 @@ namespace vl
 		public:
 
 			template<typename T>
-			void Push(const T& value)
+			void* Push(const T& value)
 			{
 				stack->GetEnv()->Push<T>(value);
+				return stack->GetEnv()->DereferenceStack(stack->GetEnv()->StackTop());
 			}
 
 			template<typename T>
 			T Pop()
 			{
-				return stack->GetEnv()->Push<T>();
+				return stack->GetEnv()->Pop<T>();
 			}
 
-			bool										PrepareToRun(const BasicDeclarationInfo& function);
+			bool										PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer);
 			basicil::BasicILStack::RunningResult		Run();
 			int											GetForeignFunctionIndex();
 			void*										GetForeignFunctionResultStore();

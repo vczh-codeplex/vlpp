@@ -7,16 +7,6 @@ namespace vl
 	{
 		namespace basicil
 		{
-			class ILException
-			{
-			public:
-				BasicILStack::RunningResult result;
-
-				ILException(BasicILStack::RunningResult _result)
-					:result(_result)
-				{
-				}
-			};
 
 /***********************************************************************
 BasicILEnv
@@ -557,6 +547,11 @@ BasicILStack
 				// push returnInstruction
 				// push returnStackBase
 				void* returnPointer=env->Reserve(returnSize);
+				ResetBuffer(entryInstruction, entryInsKey, returnPointer);
+			}
+
+			void BasicILStack::ResetBuffer(int entryInstruction, int entryInsKey, void* returnPointer)
+			{
 				env->Push<void*>(returnPointer);
 				env->Push<int>(-2);
 				env->Push<int>(-1);

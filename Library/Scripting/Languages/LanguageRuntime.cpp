@@ -52,14 +52,16 @@ LanguageHost
 		{
 		}
 
-		bool LanguageState::PrepareToRun(const BasicDeclarationInfo& function)
+		bool LanguageState::PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer)
 		{
 			if(function.IsFunction())
 			{
-				stack->Reset(
+				BasicTypeInfo returnType=function.GetType().GetElementType();
+				bool isVoid=returnType.IsPrimitive() && returnType.GetPrimitive()==BasicTypeRes::void_type;
+				stack->ResetBuffer(
 					function.GetAddress(),
 					function.GetMetadata()->GetMetadataProvider()->GetInstructionKey(),
-					function.GetType().GetElementType().GetSize()
+					(isVoid?0:returnPointer)
 					);
 				return true;
 			}
