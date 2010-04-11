@@ -43,6 +43,33 @@ namespace vl
 			BasicLanguageMetadata*						GetBasicLanguageMetadata();
 		};
 
+		class LanguageState : public Object
+		{
+			friend class LanguageHost;
+		protected:
+			Ptr<basicil::BasicILStack>					stack;
+
+			LanguageState(Ptr<basicil::BasicILStack> _stack);
+		public:
+
+			template<typename T>
+			void Push(const T& value)
+			{
+				stack->GetEnv()->Push<T>(value);
+			}
+
+			template<typename T>
+			T Pop()
+			{
+				return stack->GetEnv()->Push<T>();
+			}
+
+			bool										PrepareToRun(const BasicDeclarationInfo& function);
+			basicil::BasicILStack::RunningResult		Run();
+			int											GetForeignFunctionIndex();
+			void*										GetForeignFunctionResultStore();
+		};
+
 		class LanguageHost : public Object
 		{
 		protected:
@@ -52,6 +79,7 @@ namespace vl
 			LanguageHost(int stackSize);
 
 			bool										LoadAssembly(Ptr<LanguageAssembly> assembly);
+			Ptr<LanguageState>							CreateState();
 		};
 	}
 }
