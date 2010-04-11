@@ -548,7 +548,7 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		LINE_(	function void Sort(int* nums, int count)					)
 		LINE_(	{															)
 		LINE_(		for variable int i=0; when(i<count-1) with i++; do		)
-		LINE_(			for variable int j=count-1; when(j>=i) with j--; do	)
+		LINE_(			for variable int j=count-2; when(j>=i) with j--; do	)
 		LINE_(				if(nums[j]>nums[j+1])							)
 		LINE_(				{												)
 		LINE_(					variable int t=nums[j];						)
@@ -623,6 +623,27 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		TEST_ASSERT(!mainType.IsPrimitive());
 		TEST_ASSERT(!mainType.IsStructure());
 		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
+
+		LanguageHost host(65536);
+		host.LoadAssembly(assembly);
+		Ptr<LanguageState> state=host.CreateState();
+		BasicFunctionExecutor<void(int*,int)> sortFunc(sort, state);
+		{
+			sortFunc(0, 0);
+		}
+		{
+			int nums[]={0};
+			sortFunc(nums, sizeof(nums)/sizeof(*nums));
+			TEST_ASSERT(nums[0]==0);
+		}
+		{
+			int nums[]={3,5,1,4,2};
+			sortFunc(nums, sizeof(nums)/sizeof(*nums));
+			for(int i=0;i<sizeof(nums)/sizeof(*nums);i++)
+			{
+				TEST_ASSERT(nums[i]==i+1);
+			}
+		}
 	}
 }
 
@@ -663,10 +684,11 @@ TEST_CASE(Test_NativeX_Sum)
 		LINE_(	{															)
 		LINE_(		result = 0;												)
 		LINE_(		variable int i=0;										)
-		LINE_(		while(true)												)
-		LINE_(		{														)
-		LINE_(			result += nums[i];									)
-		LINE_(		}when(i++<count);										)
+		LINE_(		if(count>0)												)
+		LINE_(			while(true)											)
+		LINE_(			{													)
+		LINE_(				result += nums[i];								)
+		LINE_(			}when(++i<count);									)
 		LINE_(	}															)
 		LINE_(	function int Sum3(int* nums, int count)						)
 		LINE_(	{															)
@@ -812,5 +834,28 @@ TEST_CASE(Test_NativeX_Sum)
 		TEST_ASSERT(!mainType.IsPrimitive());
 		TEST_ASSERT(!mainType.IsStructure());
 		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::void_type);
+
+		LanguageHost host(65536);
+		host.LoadAssembly(assembly);
+		Ptr<LanguageState> state=host.CreateState();
+
+		List<BasicDeclarationInfo> sums;
+		sums.Add(metadata->GetDeclaration(0));
+		sums.Add(metadata->GetDeclaration(1));
+		sums.Add(metadata->GetDeclaration(2));
+		sums.Add(metadata->GetDeclaration(3));
+		sums.Add(metadata->GetDeclaration(5));
+
+		for(int i=0;i<sums.Count();i++)
+		{
+			BasicFunctionExecutor<int(int*,int)> sum(sums[i], state);
+			{
+				TEST_ASSERT(sum(0, 0)==0);
+			}
+			{
+				int nums[]={3,5,1,4,2};
+				TEST_ASSERT(sum(nums, sizeof(nums)/sizeof(*nums))==15);
+			}
+		}
 	}
 }
