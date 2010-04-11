@@ -47,6 +47,47 @@ LanguageAssembly
 LanguageHost
 ***********************************************************************/
 
+		LanguageState::LanguageState(Ptr<basicil::BasicILStack> _stack)
+			:stack(_stack)
+		{
+		}
+
+		bool LanguageState::PrepareToRun(const BasicDeclarationInfo& function)
+		{
+			if(function.IsFunction())
+			{
+				stack->Reset(
+					function.GetAddress(),
+					function.GetMetadata()->GetMetadataProvider()->GetInstructionKey(),
+					function.GetType().GetElementType().GetSize()
+					);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		basicil::BasicILStack::RunningResult LanguageState::Run()
+		{
+			return stack->Run();
+		}
+
+		int LanguageState::GetForeignFunctionIndex()
+		{
+			return stack->GetForeignFunctionIndex();
+		}
+
+		void* LanguageState::GetForeignFunctionResultStore()
+		{
+			return stack->GetForeignFunctionResult();
+		}
+
+/***********************************************************************
+LanguageHost
+***********************************************************************/
+
 		LanguageHost::LanguageHost(int stackSize)
 		{
 			interpretor=new BasicILInterpretor(stackSize);
@@ -69,6 +110,11 @@ LanguageHost
 			{
 				return false;
 			}
+		}
+
+		Ptr<LanguageState> LanguageHost::CreateState()
+		{
+			return new LanguageState(new BasicILStack(interpretor.Obj()));
 		}
 	}
 }

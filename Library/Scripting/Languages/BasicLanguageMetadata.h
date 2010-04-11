@@ -25,6 +25,8 @@ namespace vl
 
 			BasicMetadataInfo(const BasicLanguageMetadata* _metadata);
 		public:
+
+			const BasicLanguageMetadata*			GetMetadata()const;
 		};
 
 /***********************************************************************

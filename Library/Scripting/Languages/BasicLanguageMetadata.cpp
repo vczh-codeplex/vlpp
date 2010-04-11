@@ -15,6 +15,11 @@ BasicMetadataInfo
 		{
 		}
 
+		const BasicLanguageMetadata* BasicMetadataInfo::GetMetadata()const
+		{
+			return metadata;
+		}
+
 /***********************************************************************
 BasicTypeInfo
 ***********************************************************************/
