@@ -77,6 +77,7 @@ namespace vl
 			int						count;
 			int						capacity;
 			T*						buffer;
+			bool					lessMemoryMode;
 
 			int CalculateCapacity(int expected)
 			{
@@ -110,7 +111,7 @@ namespace vl
 
 			void ReleaseUnnecessaryBuffer()
 			{
-				if(count<=capacity/2)
+				if(lessMemoryMode && count<=capacity/2)
 				{
 					int newCapacity=capacity*5/8;
 					if(count<newCapacity)
@@ -129,11 +130,17 @@ namespace vl
 				count=0;
 				capacity=0;
 				buffer=0;
+				lessMemoryMode=true;
 			}
 
 			~ListBase()
 			{
 				delete[] buffer;
+			}
+
+			void SetLessMemoryMode(bool mode)
+			{
+				lessMemoryMode=mode;
 			}
 
 			int Count()const
@@ -175,9 +182,12 @@ namespace vl
 			bool Clear()
 			{
 				count=0;
-				capacity=0;
-				delete[] buffer;
-				buffer=0;
+				if(lessMemoryMode)
+				{
+					capacity=0;
+					delete[] buffer;
+					buffer=0;
+				}
 				return true;
 			}
 		};

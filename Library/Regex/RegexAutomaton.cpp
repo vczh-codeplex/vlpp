@@ -285,12 +285,16 @@ Automaton
 					}
 				}
 
+				SortedList<State*> transitionTargets;
+				SortedList<State*> relativeStates;
+				transitionTargets.SetLessMemoryMode(false);
+				relativeStates.SetLessMemoryMode(false);
 				//遍历所有种类的NFA转换
 				for(int j=0;j<transitionClasses.Count();j++)
 				{
 					const IReadonlyList<Transition*>& transitionSet=nfaTransitions[transitionClasses[j]];
 					//对所有转换的NFA目标状态集合进行排序
-					SortedList<State*> transitionTargets;
+					transitionTargets.Clear();
 					for(int l=0;l<transitionSet.Count();l++)
 					{
 						State* nfaState=transitionSet[l]->target;
@@ -304,7 +308,7 @@ Automaton
 					for(int k=0;k<dfaStateMap.Count();k++)
 					{
 						//将DFA的等价NFA状态集合进行排序
-						SortedList<State*> relativeStates;
+						relativeStates.Clear();
 						CopyFrom(relativeStates.Wrap(), dfaStateMap.GetByIndex(k));
 						//比较两者是否相等
 						if(relativeStates.Count()==transitionTargets.Count())
