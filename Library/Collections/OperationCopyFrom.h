@@ -32,7 +32,8 @@ namespace vl
 			{
 				dst.Resize(src.Count());
 			}
-			for(int i=0;i<src.Count();i++)
+			int srcCount=src.Count();
+			for(int i=0;i<srcCount;i++)
 			{
 				dst[start+i]=src[i];
 			}
@@ -45,7 +46,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			for(int i=0;i<src.Count();i++)
+			int srcCount=src.Count();
+			for(int i=0;i<srcCount;i++)
 			{
 				dst.Add(src[i]);
 			}
@@ -58,7 +60,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			for(int i=0;i<src.Count();i++)
+			int srcCount=src.Count();
+			for(int i=0;i<srcCount;i++)
 			{
 				const Pair<KT, VT>& pair=src[i];
 				dst.Set(pair.key, pair.value);
@@ -72,7 +75,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			for(int i=0;i<src.Count();i++)
+			int srcCount=src.Count();
+			for(int i=0;i<srcCount;i++)
 			{
 				const Pair<KT, VT>& pair=src[i];
 				dst.Add(pair.key, pair.value);
