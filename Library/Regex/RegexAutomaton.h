@@ -90,8 +90,8 @@ namespace vl
 		extern bool					PureEpsilonChecker(Transition* transition);
 		extern bool					RichEpsilonChecker(Transition* transition);
 		extern bool					AreEqual(Transition* transA, Transition* transB);
-		extern Automaton::Ref		EpsilonNfaToNfa(Automaton::Ref source, bool(*epsilonChecker)(Transition*), IDictionary<State*, State*>& nfaStateMap);
-		extern Automaton::Ref		NfaToDfa(Automaton::Ref source, IGroup<State*, State*>& dfaStateMap);
+		extern Automaton::Ref		EpsilonNfaToNfa(Automaton::Ref source, bool(*epsilonChecker)(Transition*), Dictionary<State*, State*>& nfaStateMap);
+		extern Automaton::Ref		NfaToDfa(Automaton::Ref source, Group<State*, State*>& dfaStateMap);
 	}
 }
 

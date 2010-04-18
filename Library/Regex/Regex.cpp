@@ -214,8 +214,8 @@ Regex
 					Dictionary<State*, State*> nfaStateMap;
 					Group<State*, State*> dfaStateMap;
 					Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-					Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap.Wrap());
-					Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+					Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap);
+					Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 					pure=new PureInterpretor(dfa, subsets);
 				}
 				if(richRequired)
@@ -223,8 +223,8 @@ Regex
 					Dictionary<State*, State*> nfaStateMap;
 					Group<State*, State*> dfaStateMap;
 					Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-					Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap.Wrap());
-					Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+					Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
+					Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 					rich=new RichInterpretor(dfa);
 				}
 			}
@@ -564,8 +564,8 @@ RegexLexer
 				Expression::Ref expression=expressions[i];
 				expression->ApplyCharSet(subsets);
 				Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-				Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap.Wrap());
-				Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+				Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap);
+				Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 				dfas.Add(dfa);
 			}
 
@@ -602,13 +602,13 @@ RegexLexer
 			//×ª»»³ÉDFA
 			Dictionary<State*, State*> nfaStateMap;
 			Group<State*, State*> dfaStateMap;
-			Automaton::Ref bigNfa=EpsilonNfaToNfa(bigEnfa, PureEpsilonChecker, nfaStateMap.Wrap());
+			Automaton::Ref bigNfa=EpsilonNfaToNfa(bigEnfa, PureEpsilonChecker, nfaStateMap);
 			for(int i=0;i<nfaStateMap.Keys().Count();i++)
 			{
 				void* userData=nfaStateMap.Values()[i]->userData;
 				nfaStateMap.Keys()[i]->userData=userData;
 			}
-			Automaton::Ref bigDfa=NfaToDfa(bigNfa, dfaStateMap.Wrap());
+			Automaton::Ref bigDfa=NfaToDfa(bigNfa, dfaStateMap);
 			for(int i=0;i<dfaStateMap.Keys().Count();i++)
 			{
 				void* userData=dfaStateMap.GetByIndex(i)[0]->userData;

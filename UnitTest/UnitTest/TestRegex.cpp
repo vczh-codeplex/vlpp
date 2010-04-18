@@ -304,8 +304,8 @@ void PrintRegex(WString name, WString code, bool compareToBaseline=true)
 	Dictionary<State*, State*> nfaStateMap;
 	Group<State*, State*> dfaStateMap;
 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap.Wrap());
-	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
+	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 
 	PrintAutomaton(name+L".eNfa.txt", eNfa);
 	PrintAutomaton(name+L".Nfa.txt", nfa);
@@ -346,8 +346,8 @@ void RunPureInterpretor(const wchar_t* code, const wchar_t* input, int start, in
 	Expression::Ref expression=regex->Merge();
 	expression->NormalizeCharSet(subsets);
 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap.Wrap());
-	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, PureEpsilonChecker, nfaStateMap);
+	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 
 	PureInterpretor interpretor(dfa, subsets);
 	bool expectedSuccessful=start!=-1;
@@ -416,8 +416,8 @@ Ptr<RichInterpretor> BuildRichInterpretor(const wchar_t* code)
 	Expression::Ref expression=regex->Merge();
 	expression->NormalizeCharSet(subsets);
 	Automaton::Ref eNfa=expression->GenerateEpsilonNfa();
-	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap.Wrap());
-	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap.Wrap());
+	Automaton::Ref nfa=EpsilonNfaToNfa(eNfa, RichEpsilonChecker, nfaStateMap);
+	Automaton::Ref dfa=NfaToDfa(nfa, dfaStateMap);
 
 	return new RichInterpretor(dfa);
 }
