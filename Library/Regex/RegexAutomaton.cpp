@@ -189,7 +189,7 @@ Automaton
 			}
 		}
 
-		Automaton::Ref EpsilonNfaToNfa(Automaton::Ref source, bool(*epsilonChecker)(Transition*), IDictionary<State*, State*>& nfaStateMap)
+		Automaton::Ref EpsilonNfaToNfa(Automaton::Ref source, bool(*epsilonChecker)(Transition*), Dictionary<State*, State*>& nfaStateMap)
 		{
 			Automaton::Ref target=new Automaton;
 			Dictionary<State*, State*> stateMap;	//source->target
@@ -237,7 +237,7 @@ Automaton
 			return target;
 		}
 
-		Automaton::Ref NfaToDfa(Automaton::Ref source, IGroup<State*, State*>& dfaStateMap)
+		Automaton::Ref NfaToDfa(Automaton::Ref source, Group<State*, State*>& dfaStateMap)
 		{
 			Automaton::Ref target=new Automaton;
 			Group<Transition*, Transition*> nfaTransitions;
@@ -247,6 +247,11 @@ Automaton
 			State* startState=target->NewState();
 			target->startState=startState;
 			dfaStateMap.Add(startState, source->startState);
+
+			SortedList<State*> transitionTargets;
+			SortedList<State*> relativeStates;
+			transitionTargets.SetLessMemoryMode(false);
+			relativeStates.SetLessMemoryMode(false);
 
 			for(int i=0;i<target->states.Count();i++)
 			{
@@ -285,10 +290,6 @@ Automaton
 					}
 				}
 
-				SortedList<State*> transitionTargets;
-				SortedList<State*> relativeStates;
-				transitionTargets.SetLessMemoryMode(false);
-				relativeStates.SetLessMemoryMode(false);
 				//遍历所有种类的NFA转换
 				for(int j=0;j<transitionClasses.Count();j++)
 				{
@@ -308,8 +309,7 @@ Automaton
 					for(int k=0;k<dfaStateMap.Count();k++)
 					{
 						//将DFA的等价NFA状态集合进行排序
-						relativeStates.Clear();
-						CopyFrom(relativeStates.Wrap(), dfaStateMap.GetByIndex(k));
+						dfaStateMap.CopyValuesToCollection(k, relativeStates);
 						//比较两者是否相等
 						if(relativeStates.Count()==transitionTargets.Count())
 						{

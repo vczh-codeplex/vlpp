@@ -485,6 +485,41 @@ SORTED_LIST_INSERT:
 				return wrapper;
 			}
 		};
+
+/***********************************************************************
+ÈÝÆ÷¸´ÖÆÄ£°å
+***********************************************************************/
+
+		template<typename A, typename B>
+		void CopyToCollection(A& dst, const B& src, bool append=false)
+		{
+			if(!append)dst.Clear();
+			int count=src.Count();
+			for(int i=0;i<count;i++)
+			{
+				dst.Add(src.Get(i));
+			}
+		}
+
+		template<typename A, typename B>
+		void CopyToArray(A& dst, const B& src, bool append=false)
+		{
+			int start=0;
+			int count=src.Count();
+			if(append)
+			{
+				start=dst.Count();
+				dst.Resize(start+count);
+			}
+			else
+			{
+				dst.Resize(count);
+			}
+			for(int i=0;i<count;i++)
+			{
+				dst[start+i]=src.Get(i);
+			}
+		}
 	}
 }
 

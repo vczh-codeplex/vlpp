@@ -31,6 +31,36 @@ namespace vl
 				wrapper.SetContainer(this);
 			}
 
+			void SetLessMemoryMode(bool mode)
+			{
+				keys.SetLessMemoryMode(mode);
+				values.SetLessMemoryMode(mode);
+			}
+
+			template<typename T>
+			void CopyKeysToCollection(T& dst, bool append=false)const
+			{
+				CopyToCollection(dst, keys, append);
+			}
+
+			template<typename T>
+			void CopyKeysToArray(T& dst, bool append=false)const
+			{
+				CopyToArray(dst, keys, append);
+			}
+
+			template<typename T>
+			void CopyValuesToCollection(T& dst, bool append=false)const
+			{
+				CopyToCollection(dst, values, append);
+			}
+
+			template<typename T>
+			void CopyValuesToArray(T& dst, bool append=false)const
+			{
+				CopyToArray(dst, values, append);
+			}
+
 			const IReadonlyList<KT, KK>& Keys()const
 			{
 				return keys.Wrap();
@@ -123,6 +153,30 @@ namespace vl
 			~Group()
 			{
 				Clear();
+			}
+
+			template<typename T>
+			void CopyKeysToCollection(T& dst, bool append=false)const
+			{
+				CopyToCollection(dst, keys, append);
+			}
+
+			template<typename T>
+			void CopyKeysToArray(T& dst, bool append=false)const
+			{
+				CopyToArray(dst, keys, append);
+			}
+
+			template<typename T>
+			void CopyValuesToCollection(int index, T& dst, bool append=false)const
+			{
+				CopyToCollection(dst, *(values.Get(index)), append);
+			}
+
+			template<typename T>
+			void CopyValuesToArray(int index, T& dst, bool append=false)const
+			{
+				CopyToArray(dst, *(values.Get(index)), append);
 			}
 
 			const IReadonlyList<KT, KK>& Keys()const
