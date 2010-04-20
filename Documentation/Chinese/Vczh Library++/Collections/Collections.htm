@@ -222,5 +222,13 @@ int main()
 </table>
 <p>CopyForm的主要形式是void CopyFrom(destination&, source&, bool append=false)当你把append设置成true的时候，destination里面原有的东西不会丢掉，source会插入到destination的尾部。</p>
 <p>如果你想把Dictionary&lt;int, WString&gt;的内容复制到List&lt;Pair&lt;int, WString&gt;&gt;，这也可以，因为Dictionary&lt;int, WString&gt;::Wrap()会返回一个IDictionary&lt;int, WString&gt;，而它继承自IEnumerable&lt;Pair&lt;int, WString&gt;&gt;。</p>
+<h2><a name="MemoryMode">SetLessMemoryMode函数</a></h2>
+<p>List&lt;T&gt;、SortedList&lt;T&gt;和Dictionary&lt;K, V&gt;都有一个函数SetLessMemoryMode(bool)用来控制内存模式。这个函数的缺省值是true。true代表容器将会在内存和性能中尝试获取一个平衡，譬如说列表添加了很多对象，然后删除大部分的时候内部的缓冲区可能被压缩。而false则不会做这件事情。</p>
+<h2><a name="OtherCopyFunctions">其他复制函数</a></h2>
+<p>CopyFrom通过访问接口来复制对象。当复制的东西不多的时候，使用CopyFrom是非常方便的，但是用CopyFrom来复制大量的数据会导致性能下降，因此这里提供了一些其他选择：</p>
+<p>CopyToCollection：把一个列表或数组复制到列表。</p>
+<p>CopyToArray：把一个列表或数组复制到数组。</p>
+<p>Dictionary还提供了另外四个函数用来复制键和值，他们分别是CopyKeysToCollection、CopyKeysToArray、CopyValuesToCollection。</p>
+<p>这些函数被用来提供比CopyFrom更快速度的复制非POD对象的功能。当你确信你将要复制的对象是POD的时候，可以自行使用memcpy，并且将容器的operator[]的结果提取指针使用。</p>
 </body>
 </html>
