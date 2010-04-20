@@ -222,5 +222,13 @@ int main()
 </table>
 <p>The general form of CopyFrom is void CopyFrom(destination&, source&, bool append=false). When you set append to true, the data in destination will not be cleared, the data in source will be append to the destination.</p>
 <p>If you want to copy Dictionary&lt;int, WString&gt; to List&lt;Pair&lt;int, WString&gt;&gt;, it's OK, because Dictionary&lt;int, WString&gt;::Wrap() will return an IDictionary&lt;int, WString&gt; which interits from IEnumerable&lt;Pair&lt;int, WString&gt;&gt;.</p>
+<h2><a name="MemoryMode">SetLessMemoryMode function</a></h2>
+<p>List&lt;T&gt;, SortedList&lt;T&gt; and Dictionary&lt;K, V&gt; have a SetLessMemoryMode(bool) function. The default value is true. When the less memory mode is on, the collection will try to control the balance between memory usage and performance when you are frequently add or remove items. If this mode is off, the controller will never compact the internal buffer when you remove many items from the collection.</p>
+<h2><a name="OtherCopyFunctions">Other copy functions</a></h2>
+<p>CopyFrom copy data by accessing interfaces. These functions is convenient when you are not copying large amount of data. If you want to copy data more faster, You can try to use the following functions:</p>
+<p>CopyToCollection: Copy or append a list or an array to a list.</p>
+<p>CopyToArray: Copy or append a list or an array to an array.</p>
+<p>Dictionary have 4 member functions to copy keys and values: CopyKeysToCollection, CopyKeysToArray, CopyValuesToCollection and CopyValuesToArray.</p>
+<p>Such functions works well in non-POD collections. If you are sure that bitwise copying don't break anything, you can use memcpy and pass the item address by calling operator[] on any collections.</p>
 </body>
 </html>
