@@ -215,18 +215,18 @@ GdiCanvas
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(gdiBrush->brush);
-						dc->Rectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->Rectangle(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 					else if(gdiPen)
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(emptyBrush);
-						dc->Rectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->Rectangle(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 					else if(gdiBrush)
 					{
 						dc->SetBrush(gdiBrush->brush);
-						dc->FillRect(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->FillRect(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 				}
 
