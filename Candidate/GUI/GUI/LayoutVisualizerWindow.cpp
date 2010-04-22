@@ -15,6 +15,30 @@ private:
 	INativePen*					hostPen;
 	INativeBrush*				hostBrush;
 
+	void LimitMovingBound(int olda, int oldb, int& newa, int& newb, int min, int max)
+	{
+		int newl=newb-newa;
+		int limited=newl;
+		if(newl<min)
+		{
+			limited=min;
+		}
+		else if(newl>max)
+		{
+			limited=max;
+		}
+		if(newl!=limited)
+		{
+			if(olda!=newa)
+			{
+				newa=newb-limited;
+			}
+			else
+			{
+				newb=newa+limited;
+			}
+		}
+	}
 public:
 	LayoutVisualizer(INativeApplication* _application, INativeWindow* _mainWindow)
 		:application(_application)
@@ -35,6 +59,17 @@ public:
 		application->GetGraphics()->Destroy(background);
 		application->GetGraphics()->Destroy(hostPen);
 		application->GetGraphics()->Destroy(hostBrush);
+	}
+
+	void Moving(Rect& bounds)
+	{
+		Rect oldBounds=mainWindow->GetBounds();
+		Size oldSize=oldBounds.GetSize();
+		Size clientSize=mainWindow->GetClientSize();
+		Size min=host.GetMinBounds()+(oldSize-clientSize);
+		Size max=host.GetMaxBounds()+(oldSize-clientSize);
+		LimitMovingBound(oldBounds.x1, oldBounds.x2, bounds.x1, bounds.x2, min.x, max.x);
+		LimitMovingBound(oldBounds.y1, oldBounds.y2, bounds.y1, bounds.y2, min.y, max.y);
 	}
 
 	void Moved()

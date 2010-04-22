@@ -36,6 +36,11 @@ LayoutHost
 			resultEnd=s+l;
 		}
 
+		void LayoutHost::GetBound(int marginStart, int marginEnd, int min, int& bound)
+		{
+			bound=min+(marginStart==-1?0:marginStart)+(marginEnd==-1?0:marginEnd);
+		}
+
 		void LayoutHost::UpdateRealBounds()
 		{
 			CalculateBound(minSize.x, maxSize.x, bounds.x1, bounds.x2, margin.left, margin.right, relativeBounds.x1, relativeBounds.x2, realBounds.x1, realBounds.x2);
@@ -94,6 +99,22 @@ LayoutHost
 		Rect LayoutHost::GetRealBounds()
 		{
 			return realBounds;
+		}
+
+		Size LayoutHost::GetMinBounds()
+		{
+			Size size;
+			GetBound(margin.left, margin.right, minSize.x, size.x);
+			GetBound(margin.top, margin.bottom, minSize.y, size.y);
+			return size;
+		}
+
+		Size LayoutHost::GetMaxBounds()
+		{
+			Size size;
+			GetBound(margin.left, margin.right, maxSize.x, size.x);
+			GetBound(margin.top, margin.bottom, maxSize.y, size.y);
+			return size;
 		}
 
 		void LayoutHost::SetMinSize(Size _size)
