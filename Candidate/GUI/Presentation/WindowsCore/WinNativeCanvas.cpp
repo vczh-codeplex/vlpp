@@ -238,19 +238,19 @@ GdiCanvas
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(gdiBrush->brush);
-						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 					else if(gdiPen)
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(emptyBrush);
-						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 					else if(gdiBrush)
 					{
 						dc->SetPen(gdiBrush->pen);
 						dc->SetBrush(gdiBrush->brush);
-						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+						dc->Ellipse(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1);
 					}
 				}
 
@@ -262,19 +262,19 @@ GdiCanvas
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(gdiBrush->brush);
-						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2, bounds.y2, ellipseSize.x, ellipseSize.y);
+						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1, ellipseSize.x, ellipseSize.y);
 					}
 					else if(gdiPen)
 					{
 						dc->SetPen(gdiPen->pen);
 						dc->SetBrush(emptyBrush);
-						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2, bounds.y2, ellipseSize.x, ellipseSize.y);
+						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1, ellipseSize.x, ellipseSize.y);
 					}
 					else if(gdiBrush)
 					{
 						dc->SetPen(gdiBrush->pen);
 						dc->SetBrush(gdiBrush->brush);
-						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2, bounds.y2, ellipseSize.x, ellipseSize.y);
+						dc->RoundRect(bounds.x1, bounds.y1, bounds.x2-1, bounds.y2-1, ellipseSize.x, ellipseSize.y);
 					}
 				}
 

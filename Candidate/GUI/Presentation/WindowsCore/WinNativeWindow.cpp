@@ -465,6 +465,8 @@ WindowsForm
 							}
 						}
 						break;
+					case WM_ERASEBKGND:
+						return true;
 					}
 					return false;
 				}

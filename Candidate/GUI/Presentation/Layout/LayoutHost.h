@@ -26,6 +26,7 @@ namespace vl
 			Rect					realBounds;
 
 			void					CalculateBound(int min, int max, int start, int length, int marginStart, int marginEnd, int relativeStart, int relativeEnd, int& resultStart, int& resultEnd);
+			void					GetBound(int marginStart, int marginEnd, int min, int& bound);
 			void					UpdateRealBounds();
 		public:
 			LayoutHost();
@@ -38,7 +39,10 @@ namespace vl
 			Size					GetSize();
 			Rect					GetBounds();
 			Rect					GetMarginRelativeBounds();
+
 			Rect					GetRealBounds();
+			Size					GetMinBounds();
+			Size					GetMaxBounds();
 
 			void					SetMinSize(Size _size);
 			void					SetMaxSize(Size _size);
