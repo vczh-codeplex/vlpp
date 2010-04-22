@@ -4,6 +4,14 @@ Developer: ≥¬Ë˜Â´(vczh)
 GUI::Layout
 
 Classes:
+  LayoutHost								£∫≈≈∞Ê∂‘œÛ
+  LayoutBase								£∫≈≈∞Êª˘¿‡
+
+  FreeLayout								£∫◊‘”…≈≈∞Ê
+  TableLayout								£∫±Ì∏Ò≈≈∞Ê
+  DockLayout								£∫Õ£øø≈≈∞Ê
+  StackLayout								£∫∂—’ª≈≈∞Ê
+  WrapLayout								£∫ªª––≈≈∞Ê
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_LAYOUT_LAYOUTHOST
@@ -51,6 +59,18 @@ namespace vl
 			void					SetSize(Size _size);
 			void					SetBounds(Rect _bounds);
 			void					SetMarginRelativeBounds(Rect _bounds);
+		};
+
+		class LayoutBase : public Object
+		{
+		public:
+			virtual Size			GetSize()=0;
+			virtual void			SetSize(Size size)=0;
+			virtual void			Adjust()=0;
+			virtual Size			GetMinSize()=0;
+			virtual Size			GetMaxSize()=0;
+			virtual int				GetHostCount()=0;
+			virtual LayoutHost*		GetHost(int index)=0;
 		};
 	}
 }
