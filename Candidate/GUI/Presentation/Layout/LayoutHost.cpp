@@ -4,6 +4,9 @@ namespace vl
 {
 	namespace presentation
 	{
+		using namespace collections;
+
+		const int LayoutMaxSize=65536;
 
 /***********************************************************************
 LayoutHost
@@ -17,10 +20,17 @@ LayoutHost
 			if(marginStart!=-1)
 			{
 				s=relativeStart+marginStart;
+				if(marginEnd!=-1)
+				{
+					l=relativeEnd-marginEnd-s;
+				}
 			}
-			if(marginEnd!=-1)
+			else
 			{
-				l=relativeEnd-marginEnd-s;
+				if(marginEnd!=-1)
+				{
+					s=relativeEnd-marginEnd-l;
+				}
 			}
 
 			if(l<min)
@@ -49,7 +59,7 @@ LayoutHost
 
 		LayoutHost::LayoutHost()
 			:minSize(0, 0)
-			,maxSize(65536, 65536)
+			,maxSize(LayoutMaxSize, LayoutMaxSize)
 			,margin(-1, -1, -1, -1)
 			,bounds(0, 0, 0, 0)
 			,relativeBounds(0, 0, 0, 0)
@@ -180,6 +190,93 @@ LayoutHost
 				relativeBounds=_bounds;
 				UpdateRealBounds();
 			}
+		}
+
+/***********************************************************************
+LayoutBase
+***********************************************************************/
+
+		LayoutBase::LayoutBase()
+		{
+			maxSize=Size(LayoutMaxSize, LayoutMaxSize);
+		}
+
+		LayoutBase::~LayoutBase()
+		{
+		}
+
+		Size LayoutBase::GetSize()
+		{
+			return size;
+		}
+
+		void LayoutBase::SetSize(Size _size)
+		{
+			size=_size;
+		}
+
+		Size LayoutBase::GetMinSize()
+		{
+			return minSize;
+		}
+
+		Size LayoutBase::GetMaxSize()
+		{
+			return maxSize;
+		}
+
+/***********************************************************************
+FreeLayout
+***********************************************************************/
+
+		FreeLayout::FreeLayout()
+		{
+		}
+
+		FreeLayout::~FreeLayout()
+		{
+		}
+
+		void FreeLayout::AdjustHosts()
+		{
+			Rect bounds(Point(), size);
+			for(int i=0;i<hosts.Count();i++)
+			{
+				hosts[i]->SetMarginRelativeBounds(bounds);
+			}
+		}
+
+		void FreeLayout::CalculateMinMax()
+		{
+			Size minResult(0, 0);
+			Size maxResult(LayoutMaxSize, LayoutMaxSize);
+			for(int i=0;i<hosts.Count();i++)
+			{
+				Size minHostSize=hosts[i]->GetMinBounds();
+				if(minResult.x<minHostSize.x)minResult.x=minHostSize.x;
+				if(minResult.y<minHostSize.y)minResult.y=minHostSize.y;
+
+				Size maxHostSize=hosts[i]->GetMaxBounds();
+				if(maxResult.x>maxHostSize.x)maxResult.x=maxHostSize.x;
+				if(maxResult.y>maxHostSize.y)maxResult.y=maxHostSize.y;
+			}
+			minSize=minResult;
+			maxSize=maxResult;
+		}
+
+		int FreeLayout::GetHostCount()
+		{
+			return hosts.Count();
+		}
+
+		LayoutHost* FreeLayout::GetHost(int index)
+		{
+			return hosts[index];
+		}
+
+		collections::IList<LayoutHost*>& FreeLayout::Hosts()
+		{
+			return hosts.Wrap();
 		}
 	}
 }
