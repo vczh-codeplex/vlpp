@@ -52,6 +52,7 @@ namespace vl
 			Rect										GetRealBounds();
 			Size										GetMinBounds();
 			Size										GetMaxBounds();
+			Size										GetSuggestedBounds();
 
 			void										SetMinSize(Size _size);
 			void										SetMaxSize(Size _size);
@@ -98,6 +99,46 @@ namespace vl
 			LayoutHost*									GetHost(int index);
 
 			collections::IList<LayoutHost*>&			Hosts();
+		};
+
+		class DockLayout : public LayoutBase
+		{
+		public:
+			enum DockType
+			{
+				Left,
+				Top,
+				Right,
+				Bottom,
+				None
+			};
+		protected:
+			struct DockedHost
+			{
+				DockType								dockType;
+				LayoutHost*								host;
+
+				bool									operator==(const DockedHost& dockedHost)const;
+				bool									operator!=(const DockedHost& dockedHost)const;
+			};
+			friend class collections::ReadonlyListEnumerator<DockedHost>;
+
+			collections::List<DockedHost>				dockedHosts;
+
+			int											FindHost(LayoutHost* host);
+		public:
+			DockLayout();
+			~DockLayout();
+
+			void										AdjustHosts();
+			void										CalculateMinMax();
+			int											GetHostCount();
+			LayoutHost*									GetHost(int index);
+
+			void										DockHost(DockType dockType, LayoutHost* host);
+			void										UndockHost(LayoutHost* host);
+			DockType									GetDockType(LayoutHost* host);
+			void										ClearHosts();
 		};
 	}
 }
