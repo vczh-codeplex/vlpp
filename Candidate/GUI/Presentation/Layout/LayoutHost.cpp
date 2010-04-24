@@ -389,21 +389,54 @@ DockLayout
 			for(int i=0;i<dockedHosts.Count();i++)
 			{
 				DockedHost dockedHost=dockedHosts[i];
-				Size minHostSize=dockedHost.host->GetMinBounds()+minOffset;
-				Size maxHostSize=dockedHost.host->GetMaxBounds()+minOffset;
-				
-				if(minResult.x<minHostSize.x)minResult.x=minHostSize.x;
-				if(minResult.y<minHostSize.y)minResult.y=minHostSize.y;
-				if(maxResult.x>maxHostSize.x)maxResult.x=maxHostSize.x;
-				if(maxResult.y>maxHostSize.y)maxResult.y=maxHostSize.y;
+				Size hostSize=dockedHost.host->GetBounds().GetSize();
+				Size minHostSize=hostSize;
+				Size maxHostSize=hostSize;
+				switch(dockedHost.dockType)
+				{
+				case Left:case Right:
+					minHostSize.y=dockedHost.host->GetMinBounds().y;
+					maxHostSize.y=dockedHost.host->GetMaxBounds().y;
+					break;
+				case Top:case Bottom:
+					minHostSize.x=dockedHost.host->GetMinBounds().x;
+					maxHostSize.x=dockedHost.host->GetMaxBounds().x;
+					break;
+				case None:
+					minHostSize=dockedHost.host->GetMinBounds();
+					maxHostSize=dockedHost.host->GetMaxBounds();
+					break;
+				}
+				minHostSize+=minOffset;
+				maxHostSize+=minOffset;
 
 				switch(dockedHost.dockType)
 				{
 				case Left:case Right:
-					minOffset.x+=dockedHost.host->GetBounds().Width();
+					{
+						if(minResult.y<minHostSize.y)minResult.y=minHostSize.y;
+						if(maxResult.y>maxHostSize.y)maxResult.y=maxHostSize.y;
+						int offset=dockedHost.host->GetSuggestedBounds().x;
+						minOffset.x+=offset;
+						minSize.x+=offset;
+					}
 					break;
 				case Top:case Bottom:
-					minOffset.x+=dockedHost.host->GetBounds().Height();
+					{
+						if(minResult.x<minHostSize.x)minResult.x=minHostSize.x;
+						if(maxResult.x>maxHostSize.x)maxResult.x=maxHostSize.x;
+						int offset=dockedHost.host->GetSuggestedBounds().y;
+						minOffset.y+=offset;
+						minSize.y+=offset;
+					}
+					break;
+				case None:
+					{
+						if(minResult.x<minHostSize.x)minResult.x=minHostSize.x;
+						if(minResult.y<minHostSize.y)minResult.y=minHostSize.y;
+						if(maxResult.x>maxHostSize.x)maxResult.x=maxHostSize.x;
+						if(maxResult.y>maxHostSize.y)maxResult.y=maxHostSize.y;
+					}
 					break;
 				}
 			}
