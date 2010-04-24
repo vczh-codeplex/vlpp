@@ -202,6 +202,11 @@ Rectangle
 			return Point(p.x+s.x, p.y+s.y);
 		}
 
+		inline Point operator-(Point p, Size s)
+		{
+			return Point(p.x-s.x, p.y-s.y);
+		}
+
 		inline Size operator-(Point p1, Point p2)
 		{
 			return Size(p1.x-p2.x, p1.y-p2.y);
@@ -215,6 +220,34 @@ Rectangle
 		inline Size operator-(Size s1, Size s2)
 		{
 			return Size(s1.x-s2.x, s1.y-s2.y);
+		}
+
+		inline Point operator+=(Point& s1, Size s2)
+		{
+			s1.x+=s2.x;
+			s1.y+=s2.y;
+			return s1;
+		}
+
+		inline Point operator-=(Point& s1, Size s2)
+		{
+			s1.x-=s2.x;
+			s1.y-=s2.y;
+			return s1;
+		}
+
+		inline Size operator+=(Size& s1, Size s2)
+		{
+			s1.x+=s2.x;
+			s1.y+=s2.y;
+			return s1;
+		}
+
+		inline Size operator-=(Size& s1, Size s2)
+		{
+			s1.x-=s2.x;
+			s1.y-=s2.y;
+			return s1;
 		}
 
 /***********************************************************************
