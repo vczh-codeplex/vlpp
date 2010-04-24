@@ -385,6 +385,10 @@
 						RelativePath="..\Presentation\Layout\LayoutHost.h"
 						>
 					</File>
+					<File
+						RelativePath="..\Presentation\Layout\TableLayout.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Source Files"
@@ -399,6 +403,10 @@
 					</File>
 					<File
 						RelativePath="..\Presentation\Layout\LayoutHost.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Layout\TableLayout.cpp"
 						>
 					</File>
 				</Filter>
