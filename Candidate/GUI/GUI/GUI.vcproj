@@ -374,6 +374,14 @@
 					Name="Header Files"
 					>
 					<File
+						RelativePath="..\Presentation\Layout\DockLayout.h"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Layout\FreeLayout.h"
+						>
+					</File>
+					<File
 						RelativePath="..\Presentation\Layout\LayoutHost.h"
 						>
 					</File>
@@ -381,6 +389,14 @@
 				<Filter
 					Name="Source Files"
 					>
+					<File
+						RelativePath="..\Presentation\Layout\DockLayout.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Layout\FreeLayout.cpp"
+						>
+					</File>
 					<File
 						RelativePath="..\Presentation\Layout\LayoutHost.cpp"
 						>

@@ -24,6 +24,8 @@ namespace vl
 {
 	namespace presentation
 	{
+		const int LayoutMaxSize=65536;
+
 		class LayoutHost : public Object
 		{
 		protected:
@@ -82,63 +84,6 @@ namespace vl
 			virtual void								CalculateMinMax()=0;
 			virtual int									GetHostCount()=0;
 			virtual LayoutHost*							GetHost(int index)=0;
-		};
-
-		class FreeLayout : public LayoutBase
-		{
-		protected:
-			collections::List<LayoutHost*>				hosts;
-
-		public:
-			FreeLayout();
-			~FreeLayout();
-
-			void										AdjustHosts();
-			void										CalculateMinMax();
-			int											GetHostCount();
-			LayoutHost*									GetHost(int index);
-
-			collections::IList<LayoutHost*>&			Hosts();
-		};
-
-		class DockLayout : public LayoutBase
-		{
-		public:
-			enum DockType
-			{
-				Left,
-				Top,
-				Right,
-				Bottom,
-				None
-			};
-		protected:
-			struct DockedHost
-			{
-				DockType								dockType;
-				LayoutHost*								host;
-
-				bool									operator==(const DockedHost& dockedHost)const;
-				bool									operator!=(const DockedHost& dockedHost)const;
-			};
-			friend class collections::ReadonlyListEnumerator<DockedHost>;
-
-			collections::List<DockedHost>				dockedHosts;
-
-			int											FindHost(LayoutHost* host);
-		public:
-			DockLayout();
-			~DockLayout();
-
-			void										AdjustHosts();
-			void										CalculateMinMax();
-			int											GetHostCount();
-			LayoutHost*									GetHost(int index);
-
-			void										DockHost(DockType dockType, LayoutHost* host);
-			void										UndockHost(LayoutHost* host);
-			DockType									GetDockType(LayoutHost* host);
-			void										ClearHosts();
 		};
 	}
 }

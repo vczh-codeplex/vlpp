@@ -1,5 +1,7 @@
 #include "..\Presentation\WindowsCore\WinGdiApplication.h"
 #include "..\Presentation\Layout\LayoutHost.h"
+#include "..\Presentation\Layout\FreeLayout.h"
+#include "..\Presentation\Layout\DockLayout.h"
 
 using namespace vl;
 using namespace vl::presentation;
