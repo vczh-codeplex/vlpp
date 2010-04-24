@@ -51,7 +51,7 @@ namespace vl
 
 			void										DockHost(DockType dockType, LayoutHost* host);
 			void										UndockHost(LayoutHost* host);
-			DockType									GetDockType(LayoutHost* host);
+			DockType									GetDock(LayoutHost* host);
 			void										ClearHosts();
 		};
 	}

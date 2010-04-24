@@ -4,14 +4,6 @@ Developer: 陈梓瀚(vczh)
 GUI::Layout
 
 Classes:
-  LayoutHost								：排版对象
-  LayoutBase								：排版基类
-
-  FreeLayout								：自由排版
-  TableLayout								：表格排版
-  DockLayout								：停靠排版
-  StackLayout								：堆栈排版
-  WrapLayout								：换行排版
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_LAYOUT_FREELAYOUT

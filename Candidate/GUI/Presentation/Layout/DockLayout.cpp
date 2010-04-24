@@ -191,7 +191,7 @@ DockLayout
 			}
 		}
 
-		DockLayout::DockType DockLayout::GetDockType(LayoutHost* host)
+		DockLayout::DockType DockLayout::GetDock(LayoutHost* host)
 		{
 			return dockedHosts[FindHost(host)].dockType;
 		}
