@@ -49,7 +49,7 @@ namespace vl
 			const T*		current;
 			int				length;
 		public:
-			StringInput(const wchar_t* _input)
+			StringInput(const T* _input)
 				:input(_input)
 			{
 				start=input.Buffer();
