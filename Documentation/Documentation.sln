@@ -64,6 +64,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guide", "Guide", "{6155EF09-15F7-4A05-BE88-C9CD122D4DF4}"
 	ProjectSection(SolutionItems) = preProject
 		Chinese\Guide\ParserCombinator.doc = Chinese\Guide\ParserCombinator.doc
+		Chinese\Guide\ParserCombinator.pdf = Chinese\Guide\ParserCombinator.pdf
 	EndProjectSection
 EndProject
 Global
