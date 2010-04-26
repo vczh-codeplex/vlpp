@@ -134,7 +134,7 @@ Node
 				}
 			}
 
-			O ParseFull(const I& input, bool allowError)
+			O ParseFull(const I& input, bool allowError)const
 			{
 				Types<I>::GlobalInfo globalInfo;
 				I trackingInput=input;
