@@ -891,6 +891,39 @@ namespace vl
 ´íÎó»Ö¸´
 ***********************************************************************/
 
+#define ERROR_HANDLER(NAME, TYPE)																						\
+			ParsingResult<TYPE> NAME(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& info)	\
+			{																											\
+				info.errors.Clear();																					\
+				info.errors.Add(new CombinatorError<TokenInput<RegexToken>>(NativeXErrorMessage::NAME(), input));		\
+				return ParsingResult<TYPE>();																			\
+			}
+
+			ERROR_HANDLER(NeedExpression,	Ptr<BasicExpression>)
+			ERROR_HANDLER(NeedType,			RegexToken)
+			ERROR_HANDLER(NeedStatement,	RegexToken)
+			ERROR_HANDLER(NeedID,			RegexToken)
+
+			ERROR_HANDLER(NeedLt,			RegexToken)
+			ERROR_HANDLER(NeedGt,			RegexToken)
+			ERROR_HANDLER(NeedOpenBrace,	RegexToken)
+			ERROR_HANDLER(NeedCloseBrace,	RegexToken)
+			ERROR_HANDLER(NeedCloseArray,	RegexToken)
+			ERROR_HANDLER(NeedComma,		RegexToken)
+			ERROR_HANDLER(NeedSemicolon,	RegexToken)
+			ERROR_HANDLER(NeedCloseStat,	RegexToken)
+			ERROR_HANDLER(NeedAssign,		RegexToken)
+			ERROR_HANDLER(NeedOpenStruct,	RegexToken)
+			ERROR_HANDLER(NeedCloseStruct,	RegexToken)
+
+			ERROR_HANDLER(NeedWhile,		RegexToken)
+			ERROR_HANDLER(NeedWhen,			RegexToken)
+			ERROR_HANDLER(NeedWith,			RegexToken)
+			ERROR_HANDLER(NeedDo,			RegexToken)
+			ERROR_HANDLER(NeedUnit,			RegexToken)
+
+#undef ERROR_HANDLER
+
 /***********************************************************************
 Óï·¨·ÖÎöÆ÷
 ***********************************************************************/
@@ -1026,15 +1059,15 @@ namespace vl
 									;
 					reference		= ID[ToReference];
 
-					exp0			= primitive
+					exp0			= primitive(NeedExpression)
 									| reference
 									| RESULT[ToResult]
-									| (CAST + (LT >> type << GT) + (OPEN_BRACE >> exp << CLOSE_BRACE))[ToCastExpression]
-									| (OPEN_BRACE >> exp << CLOSE_BRACE)
+									| (CAST + (LT(NeedLt) >> type << GT(NeedGt)) + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToCastExpression]
+									| (OPEN_BRACE >> exp << CLOSE_BRACE(NeedCloseBrace))
 									;
 					exp1			= lrec(exp0 +  *(
-													(OPEN_ARRAY + exp << CLOSE_ARRAY)
-													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE)
+													(OPEN_ARRAY + exp << CLOSE_ARRAY(NeedCloseArray))
+													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE(NeedCloseBrace))
 													| ((DOT | POINTER) + reference)
 													| ((INCREASE | DECREASE)[UpgradePostfix])
 													), ToPostUnary);
@@ -1051,33 +1084,33 @@ namespace vl
 					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 
-					primType		= (FUNCTION + type + (OPEN_BRACE >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE))[ToFunctionType]
+					primType		= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									;
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
 
-					statement		= SEMICOLON[ToEmptyStat]
-									| (exp + SEMICOLON)[ToExprStat]
-									| (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarStat]
-									| (IF + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(ELSE >> statement))[ToIfStat]
-									| (BREAK << SEMICOLON)[ToBreakStat]
-									| (CONTINUE << SEMICOLON)[ToContinueStat]
-									| (EXIT << SEMICOLON)[ToReturnStat]
-									| (OPEN_STAT + list(*statement) << CLOSE_STAT)[ToCompositeStat]
-									| (DO + statement + (WHILE >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToDoWhileStat]
+					statement		= SEMICOLON(NeedStatement)[ToEmptyStat]
+									| (exp + SEMICOLON(NeedSemicolon))[ToExprStat]
+									| (VARIABLE + type + ID(NeedID) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarStat]
+									| (IF + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + statement + opt(ELSE >> statement))[ToIfStat]
+									| (BREAK << SEMICOLON(NeedSemicolon))[ToBreakStat]
+									| (CONTINUE << SEMICOLON(NeedSemicolon))[ToContinueStat]
+									| (EXIT << SEMICOLON(NeedSemicolon))[ToReturnStat]
+									| (OPEN_STAT + list(*statement) << CLOSE_STAT(NeedCloseStat))[ToCompositeStat]
+									| (DO + statement + (WHILE(NeedWhile) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
-									| (WHILE + (OPEN_BRACE >> exp << CLOSE_BRACE) + statement + opt(WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE << SEMICOLON))[ToWhileStat]
-									| (FOR + list(*statement) + (WHEN >> OPEN_BRACE >> exp << CLOSE_BRACE) + (WITH >> list(*statement)) + (DO >> statement))[ToForStat]
+									| (WHILE + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + statement + opt(WHEN >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToWhileStat]
+									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
 									;
 
-					declaration		= (VARIABLE + type + ID + opt(ASSIGN >> exp) << SEMICOLON)[ToVarDecl]
-									| (TYPE + ID + (ASSIGN >> type) << SEMICOLON)[ToTypedefDecl]
-									| (STRUCTURE + ID << SEMICOLON)[ToStructPreDecl]
-									| (STRUCTURE + ID + (OPEN_STAT >> *(type + ID << SEMICOLON) << CLOSE_STAT))[ToStructDecl]
-									| (FUNCTION + type + ID + (OPEN_BRACE >> plist(opt((type + ID) + *(COMMA >> (type + ID)))) << CLOSE_BRACE) + statement)[ToFuncDecl]
+					declaration		= (VARIABLE + type + ID(NeedID) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
+									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
+									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
+									| (STRUCTURE + ID(NeedID) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
+									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + statement)[ToFuncDecl]
 									;
 
-					unit			= ((UNIT >> ID << SEMICOLON) + list(opt(USES >> (ID + *(COMMA >> ID)) << SEMICOLON)) + list(*declaration))[ToUnit];
+					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
 				}
 
 				static bool NotBlank(RegexToken token)

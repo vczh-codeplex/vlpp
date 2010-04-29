@@ -4,3 +4,26 @@ UnrecognizedToken(token)=Unrecognized Token \"{token}.\"
 UnitAlreadyExists(name)=Unit {name} already exists.
 UnitNotExists(name)=Unit {name} not exists.
 UnitCircularReferenced(name)=Unit {name} has circular unit imports.
+
+NeedExpression=Here needs an expression.
+NeedType=Here needs a type.
+NeedStatement=Here needs a statement.
+NeedID=Here needs a name.
+
+NeedLt=Here needs an open angle bracket \"<\".
+NeedGt=Here needs a close angle bracket \">\".
+NeedOpenBrace=Here needs an open brace \"(\".
+NeedCloseBrace=Here needs a close brace \")\".
+NeedCloseArray=Here needs a close square bracket \"]\".
+NeedComma=Here needs a comma \",\".
+NeedSemicolon=Here needs a semicolon \";\".
+NeedCloseStat=Here needs a close statement bracket \"}\".
+NeedAssign=Here needs an assignment operator \"=\".
+NeedOpenStruct=Here needs a open structure bracket \"{\".
+NeedCloseStruct=Here needs a close structure bracket \"}\".
+
+NeedWhile=Here needs \"while\".
+NeedWhen=Here needs \"when\".
+NeedWith=Here needs \"with\".
+NeedDo=Here needs \"do\".
+NeedUnit=Here needs \"unit\".
