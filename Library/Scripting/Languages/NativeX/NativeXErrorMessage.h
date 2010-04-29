@@ -29,6 +29,26 @@ namespace vl
 				static WString UnitAlreadyExists(const WString& name);
 				static WString UnitNotExists(const WString& name);
 				static WString UnitCircularReferenced(const WString& name);
+				static WString NeedExpression();
+				static WString NeedType();
+				static WString NeedStatement();
+				static WString NeedID();
+				static WString NeedLt();
+				static WString NeedGt();
+				static WString NeedOpenBrace();
+				static WString NeedCloseBrace();
+				static WString NeedCloseArray();
+				static WString NeedComma();
+				static WString NeedSemicolon();
+				static WString NeedCloseStat();
+				static WString NeedAssign();
+				static WString NeedOpenStruct();
+				static WString NeedCloseStruct();
+				static WString NeedWhile();
+				static WString NeedWhen();
+				static WString NeedWith();
+				static WString NeedDo();
+				static WString NeedUnit();
 			};
 		}
 	}
