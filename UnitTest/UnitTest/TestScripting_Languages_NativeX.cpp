@@ -4,6 +4,7 @@
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
 #include "..\..\Library\GlobalStorage.h"
 #include "..\..\Library\Stream\FileStream.h"
+#include "..\..\Library\Stream\MemoryStream.h"
 
 using namespace vl;
 using namespace vl::scripting;
@@ -37,7 +38,11 @@ Ptr<LanguageAssembly> TestNativeXNoError(WString code)
 	Ptr<LanguageAssembly> assembly=provider->Compile(references.Wrap(), codes.Wrap(), errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(assembly);
-	return assembly;
+	
+	MemoryStream stream;
+	assembly->SaveToStream(stream);
+	stream.SeekFromBegin(0);
+	return new LanguageAssembly(stream);
 }
 
 #define LINE_(X) L#X L"\r\n"

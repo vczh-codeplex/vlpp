@@ -59,7 +59,10 @@ ResourceStream
 		void ReadArray(stream::IStream& stream, Array<T>& collection)
 		{
 			collection.Resize(ReadInt(stream));
-			stream.Read(&collection[0], sizeof(T)*collection.Count());
+			if(collection.Count()>0)
+			{
+				stream.Read(&collection[0], sizeof(T)*collection.Count());
+			}
 		}
 
 		void ResourceStream::LoadFromStream(stream::IStream& stream)
