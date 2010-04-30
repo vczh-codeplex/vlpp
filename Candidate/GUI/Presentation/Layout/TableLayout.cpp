@@ -291,8 +291,25 @@ DockLayout
 						HostPlacement& host=hosts[j];
 						if(host.column+host.columnSpan-1==i)
 						{
-							int minx=host.host->GetMinBounds().x;
-							int maxx=columns[i].sizingType==TableLayout::AutoSize?minx:host.host->GetMaxBounds().x;
+							int minx=0;
+							int maxx=0;
+
+							if(columns[i].sizingType==TableLayout::AutoSize)
+							{
+								if(host.columnSpan==1)
+								{
+									minx=maxx=host.host->GetSuggestedBounds().x;
+								}
+								else
+								{
+									continue;
+								}
+							}
+							else
+							{
+								minx=host.host->GetMinBounds().x;
+								maxx=host.host->GetMaxBounds().x;
+							}
 
 							min=Max(min, minx-Sum(colMins, host.column, i-1));
 							max=Min(max, maxx-Sum(colMaxs, host.column, i-1)); 
@@ -319,8 +336,25 @@ DockLayout
 						HostPlacement& host=hosts[j];
 						if(host.row+host.rowSpan-1==i)
 						{
-							int miny=host.host->GetMinBounds().y;
-							int maxy=rows[i].sizingType==TableLayout::AutoSize?miny:host.host->GetMaxBounds().y;
+							int miny=0;
+							int maxy=0;
+
+							if(rows[i].sizingType==TableLayout::AutoSize)
+							{
+								if(host.rowSpan==1)
+								{
+									miny=maxy=host.host->GetSuggestedBounds().y;
+								}
+								else
+								{
+									continue;
+								}
+							}
+							else
+							{
+								miny=host.host->GetMinBounds().y;
+								maxy=host.host->GetMaxBounds().y;
+							}
 
 							min=Max(min, miny-Sum(rowMins, host.row, i-1));
 							max=Min(max, maxy-Sum(rowMaxs, host.row, i-1));
