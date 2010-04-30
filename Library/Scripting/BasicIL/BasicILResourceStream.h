@@ -197,6 +197,8 @@ namespace vl
 			ResourceStream();
 			~ResourceStream();
 
+			void*							GetInternalData()const;
+			int								GetInternalSize()const;
 			ResourceString					CreateString(const WString& string);
 			WString							ReadString(ResourceString string)const;
 

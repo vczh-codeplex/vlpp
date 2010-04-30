@@ -35,7 +35,9 @@ namespace vl
 
 		public:
 			LanguageAssembly(Ptr<basicil::BasicIL> _il);
+			LanguageAssembly(stream::IStream& stream);
 
+			void										SaveToStream(stream::IStream& stream);
 			LanguageHost*								GetHost();
 			const _ResourceMap&							GetResources();
 			Ptr<ResourceStream>							GetResource(const WString& name);

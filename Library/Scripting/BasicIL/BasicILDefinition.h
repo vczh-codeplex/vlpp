@@ -53,6 +53,7 @@ OpCode:
 #include "..\..\Pointer.h"
 #include "..\..\Collections\List.h"
 #include "..\..\Collections\Dictionary.h"
+#include "..\..\Stream\Interfaces.h"
 #include "BasicILResourceStream.h"
 
 namespace vl
@@ -192,6 +193,9 @@ namespace vl
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
 				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
+
+				void							LoadFromStream(stream::IStream& stream);
+				void							SaveToStream(stream::IStream& stream);
 			};
 		}
 	}
