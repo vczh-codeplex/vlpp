@@ -1,3 +1,4 @@
+#include <math.h>
 #include "TableLayout.h"
 
 namespace vl
@@ -91,17 +92,35 @@ DockLayout
 		{
 		}
 
-		void TableLayout::AdjustHosts()
-		{
-		}
+		// AutoHosts-CalculateMinMax Helper Functions Begin
 
-		// CalculateMinMax Helper Functions Begin
+		void Zero(Array<int>& nums)
+		{
+			for(int i=0;i<nums.Count();i++)
+			{
+				nums[i]=0;
+			}
+		}
 
 		int Sum(Array<int>& nums, int start, int end)
 		{
 			int result=0;
 			for(int i=start;i<=end;i++)
 			{
+				result+=nums[i];
+			}
+			return result;
+		}
+
+		int Sum(Array<int>& nums, Array<TableLayout::SizingSettings>& settings, int start, int end)
+		{
+			int result=0;
+			for(int i=start;i<=end;i++)
+			{
+				if(settings[i].sizingType==TableLayout::Percentage)
+				{
+					return -1;
+				}
 				result+=nums[i];
 			}
 			return result;
@@ -124,7 +143,130 @@ DockLayout
 			return Truncate(a>b?a:b);
 		}
 
-		// CalculateMinMax Helper Functions End
+		void UpdateSizes(Array<int>& sizes, Array<TableLayout::SizingSettings>& settings, int size)
+		{
+			int usedSize=Sum(sizes, 0, sizes.Count()-1);
+			int remainSize=size-usedSize;
+			double percentages=0;
+			int percentageCount=0;
+			int calculatedPercentageCount=0;
+
+			for(int i=0;i<settings.Count();i++)
+			{
+				if(settings[i].sizingType==TableLayout::Percentage)
+				{
+					percentages+=settings[i].percentage;
+					percentageCount++;
+				}
+			}
+
+			for(int i=0;i<settings.Count();i++)
+			{
+				if(settings[i].sizingType==TableLayout::Percentage)
+				{
+					if(calculatedPercentageCount==percentageCount-1)
+					{
+						sizes[i]=remainSize;
+					}
+					else
+					{
+						int percentageSize=0;
+						if(percentages==0)
+						{
+							percentageSize=remainSize/(percentageCount-calculatedPercentageCount);
+						}
+						else
+						{
+							percentageSize=(int)floor(remainSize*settings[i].percentage/percentages);
+						}
+						sizes[i]=percentageSize;
+						remainSize-=percentageSize;
+					}
+					calculatedPercentageCount++;
+				}
+			}
+		}
+
+		// AdjustHosts-CalculateMinMax Helper Functions End
+
+		void TableLayout::AdjustHosts()
+		{
+			Array<int> colSizes(columns.Count());
+			Array<int> rowSizes(rows.Count());
+			Zero(colSizes);
+			Zero(rowSizes);
+
+			for(int i=0;i<columns.Count();i++)
+			{
+				SizingSettings& settings=columns[i];
+				switch(settings.sizingType)
+				{
+				case TableLayout::Absolute:
+					colSizes[i]=settings.length;
+					break;
+				case TableLayout::AutoSize:
+					{
+						int minAutoSize=0;
+						for(int j=0;j<hosts.Count();j++)
+						{
+							HostPlacement& host=hosts[j];
+							if(host.column+host.columnSpan-1==i)
+							{
+								int usedSize=Sum(colSizes, columns, host.column, i-1);
+								if(usedSize!=-1)
+								{
+									minAutoSize=Max(minAutoSize, host.host->GetSuggestedBounds().x-usedSize);
+								}
+							}
+						}
+						colSizes[i]=minAutoSize;
+					}
+					break;
+				}
+			}
+
+			for(int i=0;i<rows.Count();i++)
+			{
+				SizingSettings& settings=rows[i];
+				switch(settings.sizingType)
+				{
+				case TableLayout::Absolute:
+					rowSizes[i]=settings.length;
+					break;
+				case TableLayout::AutoSize:
+					{
+						int minAutoSize=0;
+						for(int j=0;j<hosts.Count();j++)
+						{
+							HostPlacement& host=hosts[j];
+							if(host.row+host.rowSpan-1==i)
+							{
+								int usedSize=Sum(rowSizes, rows, host.row, i-1);
+								if(usedSize!=-1)
+								{
+									minAutoSize=Max(minAutoSize, host.host->GetSuggestedBounds().y-usedSize);
+								}
+							}
+						}
+						rowSizes[i]=minAutoSize;
+					}
+					break;
+				}
+			}
+
+			UpdateSizes(colSizes, columns, size.x);
+			UpdateSizes(rowSizes, rows, size.y);
+
+			for(int i=0;i<hosts.Count();i++)
+			{
+				HostPlacement& host=hosts[i];
+				int x=Sum(colSizes, 0, host.column-1);
+				int y=Sum(rowSizes, 0, host.row-1);
+				int w=Sum(colSizes, host.column, host.column+host.columnSpan-1);
+				int h=Sum(rowSizes, host.row, host.row+host.rowSpan-1);
+				host.host->SetMarginRelativeBounds(Rect(Point(x, y), Size(w, h)));
+			}
+		}
 
 		void TableLayout::CalculateMinMax()
 		{
@@ -137,16 +279,24 @@ DockLayout
 			{
 				int min=0;
 				int max=LayoutMaxSize;
-				for(int j=0;j<hosts.Count();j++)
+				if(columns[i].sizingType==TableLayout::Absolute)
 				{
-					HostPlacement& host=hosts[j];
-					if(host.column+host.columnSpan-1==i)
+					min=columns[i].length;
+					max=columns[i].length;
+				}
+				else
+				{
+					for(int j=0;j<hosts.Count();j++)
 					{
-						int minx=host.host->GetMinBounds().x;
-						int maxx=host.host->GetMaxBounds().x;
+						HostPlacement& host=hosts[j];
+						if(host.column+host.columnSpan-1==i)
+						{
+							int minx=host.host->GetMinBounds().x;
+							int maxx=columns[i].sizingType==TableLayout::AutoSize?minx:host.host->GetMaxBounds().x;
 
-						min=Max(min, minx-Sum(colMins, host.column, i-1));
-						max=Min(max, maxx-Sum(colMaxs, host.column, i-1));
+							min=Max(min, minx-Sum(colMins, host.column, i-1));
+							max=Min(max, maxx-Sum(colMaxs, host.column, i-1)); 
+						}
 					}
 				}
 				colMins[i]=min;
@@ -157,45 +307,34 @@ DockLayout
 			{
 				int min=0;
 				int max=LayoutMaxSize;
-				for(int j=0;j<hosts.Count();j++)
+				if(rows[i].sizingType==TableLayout::Absolute)
 				{
-					HostPlacement& host=hosts[j];
-					if(host.row+host.rowSpan-1==i)
+					min=rows[i].length;
+					max=rows[i].length;
+				}
+				else
+				{
+					for(int j=0;j<hosts.Count();j++)
 					{
-						int miny=host.host->GetMinBounds().y;
-						int maxy=host.host->GetMaxBounds().y;
+						HostPlacement& host=hosts[j];
+						if(host.row+host.rowSpan-1==i)
+						{
+							int miny=host.host->GetMinBounds().y;
+							int maxy=rows[i].sizingType==TableLayout::AutoSize?miny:host.host->GetMaxBounds().y;
 
-						min=Max(min, miny-Sum(rowMins, host.column, i-1));
-						max=Min(max, maxy-Sum(rowMaxs, host.column, i-1));
+							min=Max(min, miny-Sum(rowMins, host.row, i-1));
+							max=Min(max, maxy-Sum(rowMaxs, host.row, i-1));
+						}
 					}
 				}
 				rowMins[i]=min;
 				rowMaxs[i]=max;
 			}
 
-			int colMin=0;
-			int rowMin=0;
-
-			for(int i=0;i<columns.Count();i++)
-			{
-				if(columns[i].sizingType==TableLayout::Absolute)
-				{
-					colMin+=columns[i].length;
-				}
-			}
-
-			for(int i=0;i<rows.Count();i++)
-			{
-				if(rows[i].sizingType==TableLayout::Absolute)
-				{
-					rowMin+=rows[i].length;
-				}
-			}
-
-			minSize.x=Max(colMin, Sum(colMins, 0, columns.Count()-1));
-			minSize.y=Max(rowMin, Sum(rowMins, 0, rows.Count()-1));
-			maxSize.x=Max(colMin, Sum(colMaxs, 0, columns.Count()-1));
-			maxSize.y=Max(rowMin, Sum(rowMaxs, 0, rows.Count()-1));
+			minSize.x=Max(0, Sum(colMins, 0, columns.Count()-1));
+			minSize.y=Max(0, Sum(rowMins, 0, rows.Count()-1));
+			maxSize.x=Min(LayoutMaxSize, Sum(colMaxs, 0, columns.Count()-1));
+			maxSize.y=Min(LayoutMaxSize, Sum(rowMaxs, 0, rows.Count()-1));
 		}
 
 		int TableLayout::GetHostCount()
@@ -238,13 +377,13 @@ DockLayout
 			return columns[index];
 		}
 
-		void TableLayout::Dock(const HostPlacement& hostPlacement)
+		void TableLayout::DockHost(const HostPlacement& hostPlacement)
 		{
-			Undock(hostPlacement.host);
+			UndockHost(hostPlacement.host);
 			hosts.Add(hostPlacement);
 		}
 
-		void TableLayout::Undock(LayoutHost* host)
+		void TableLayout::UndockHost(LayoutHost* host)
 		{
 			int index=FindHost(host);
 			if(index!=-1)

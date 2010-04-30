@@ -2,6 +2,7 @@
 #include "..\Presentation\Layout\LayoutHost.h"
 #include "..\Presentation\Layout\FreeLayout.h"
 #include "..\Presentation\Layout\DockLayout.h"
+#include "..\Presentation\Layout\TableLayout.h"
 
 using namespace vl;
 using namespace vl::presentation;
@@ -175,6 +176,53 @@ public:
 	}
 };
 
+class TableLayoutVisualizer : public LayoutVisualizerBase
+{
+protected:
+	LayoutHost					hosts[5];
+	TableLayout					tableLayout;
+public:
+	TableLayoutVisualizer(INativeApplication* _application, INativeWindow* _mainWindow)
+		:LayoutVisualizerBase(_application, _mainWindow, L"TableLayout")
+	{
+		layout=&tableLayout;
+
+		hosts[0].SetBounds(Rect(Point(), Size(0, 50)));
+		hosts[0].SetMargin(Margin(3, 3, 3, -1));
+
+		hosts[1].SetBounds(Rect(Point(), Size(0, 50)));
+		hosts[1].SetMargin(Margin(3, -1, 3, 3));
+
+		hosts[2].SetBounds(Rect(Point(), Size(50, 0)));
+		hosts[2].SetMargin(Margin(3, 3, -1, 3));
+
+		hosts[3].SetBounds(Rect(Point(), Size(50, 0)));
+		hosts[3].SetMargin(Margin(-1, 3, 3, 3));
+
+		hosts[4].SetMargin(Margin(3, 3, 3, 3));
+		hosts[4].SetMinSize(Size(200, 100));
+		hosts[4].SetMaxSize(Size(640, 480));
+
+		tableLayout.SetColumnCount(3);
+		tableLayout.Columm(0).sizingType=TableLayout::AutoSize;
+		tableLayout.Columm(1).sizingType=TableLayout::Percentage;
+		tableLayout.Columm(2).sizingType=TableLayout::AutoSize;
+
+		tableLayout.SetRowCount(3);
+		tableLayout.Row(0).sizingType=TableLayout::AutoSize;
+		tableLayout.Row(1).sizingType=TableLayout::Percentage;
+		tableLayout.Row(2).sizingType=TableLayout::AutoSize;
+
+		tableLayout.DockHost(TableLayout::HostPlacement(&hosts[0], 0, 0, 3, 1));
+		tableLayout.DockHost(TableLayout::HostPlacement(&hosts[1], 0, 2, 3, 1));
+		tableLayout.DockHost(TableLayout::HostPlacement(&hosts[2], 0, 1, 1, 1));
+		tableLayout.DockHost(TableLayout::HostPlacement(&hosts[3], 2, 1, 1, 1));
+		tableLayout.DockHost(TableLayout::HostPlacement(&hosts[4], 1, 1));
+
+		Initialize();
+	}
+};
+
 extern Rect GuiGetWorkArea();
 
 void LayoutVisualizerMain()
@@ -182,7 +230,7 @@ void LayoutVisualizerMain()
 	INativeApplication* application=windows::CreateGdiApplication();
 	{
 		INativeWindow* mainWindow=application->CreateNativeWindow();
-		DockLayoutVisualizer listener(application, mainWindow);
+		TableLayoutVisualizer listener(application, mainWindow);
 		Rect area=GuiGetWorkArea();
 
 		mainWindow->SetMaximizedBox(false);
