@@ -132,6 +132,10 @@
 <tbody>
 <tr><td colspan="2" class="method_sign">collections::IEnumerator&lt;RegexToken&gt;* CreateEnumerator()const;</td></tr>
 <tr><td>[result]</td><td>Token enumerator.The lexical analyzer begins to parse a token when the Next function of the enumerator is invoked.</td></tr>
+
+<tr><td colspan="2" class="method_sign">void ReadToEnd(collections::List&lt;RegexToken&gt;& tokens, bool(*discard)(int)=0)const;</td></tr>
+<tr><td>tokens</td><td>A list to receive all tokens.</td></tr>
+<tr><td>discard</td><td>A filter function receiving a token type index(RegexToken::token). Return true if the token should be filtered out, Return false to keep the token.</td></tr>
 </tbody>
 </table>
 <h2><a name="RegexLexer">RegexLexer</a></h2>

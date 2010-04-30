@@ -132,6 +132,10 @@
 <tbody>
 <tr><td colspan="2" class="method_sign">collections::IEnumerator&lt;RegexToken&gt;* CreateEnumerator()const;</td></tr>
 <tr><td>[返回值]</td><td>记号迭代器。当执行该迭代器的Next函数的时候，词法分析器将匹配并计算出一个记号。</td></tr>
+
+<tr><td colspan="2" class="method_sign">void ReadToEnd(collections::List&lt;RegexToken&gt;& tokens, bool(*discard)(int)=0)const;</td></tr>
+<tr><td>tokens</td><td>保存所有记号的列表。</td></tr>
+<tr><td>discard</td><td>一个接受记号类型序号（RegexToken::token）的过滤函数。如果函数返回true，那么该记号将会被过滤。如果函数返回false，那么记号将会被保存到列表里。</td></tr>
 </tbody>
 </table>
 <h2><a name="RegexLexer">RegexLexer</a></h2>
