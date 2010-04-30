@@ -45,6 +45,16 @@ ResourceStream
 		{
 		}
 
+		void* ResourceStream::GetInternalData()const
+		{
+			return usedSize==0?0:(void*)&resource[0];
+		}
+
+		int ResourceStream::GetInternalSize()const
+		{
+			return usedSize;
+		}
+
 		ResourceString ResourceStream::CreateString(const WString& string)
 		{
 			int size=sizeof(wchar_t)*(string.Length()+1);

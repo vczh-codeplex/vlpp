@@ -192,6 +192,64 @@ BasicIL
 				instructions.Add(ins);
 				return *this;
 			}
+
+			// Deserialization Begin
+
+			void BasicIL::LoadFromStream(stream::IStream& stream)
+			{
+			}
+
+			// Deserialization End
+
+			// Serialization Begin
+
+			void WriteInt(stream::IStream& stream, int i)
+			{
+				stream.Write(&i, sizeof(i));
+			}
+
+			void WriteString(stream::IStream& stream, const WString& string)
+			{
+				WriteInt(stream, string.Length());
+				if(string.Length()>0)
+				{
+					stream.Write((void*)string.Buffer(), string.Length());
+				}
+			}
+
+			template<typename T>
+			void WriteCollection(stream::IStream& stream, T& collection)
+			{
+				WriteInt(stream, collection.Count());
+				if(collection.Count()>0)
+				{
+					stream.Write(&collection[0], sizeof(collection[0])*collection.Count());
+				}
+			}
+
+			void WriteResource(stream::IStream& stream, Ptr<ResourceStream> resource)
+			{
+				WriteInt(stream, resource->GetInternalSize());
+				if(resource->GetInternalSize()>0)
+				{
+					stream.Write(resource->GetInternalData(), resource->GetInternalSize());
+				}
+			}
+
+			void BasicIL::SaveToStream(stream::IStream& stream)
+			{
+				WriteCollection(stream, instructions);
+				WriteCollection(stream, labels);
+				WriteCollection(stream, globalData);
+				WriteInt(stream, resources.Count());
+				for(int i=0;i<resources.Count();i++)
+				{
+					WriteString(stream, resources.Keys()[0]);
+					WriteResource(stream, resources.Values()[0]);
+				}
+			}
+
+			// Serialization End
 		}
 	}
 }

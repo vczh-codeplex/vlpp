@@ -18,6 +18,20 @@ LanguageAssembly
 			basicLanguageMetadata=new BasicLanguageMetadata(this);
 		}
 
+		LanguageAssembly::LanguageAssembly(stream::IStream& stream)
+			:host(0)
+			,instructionKey(-1)
+		{
+			il=new BasicIL;
+			il->LoadFromStream(stream);
+			basicLanguageMetadata=new BasicLanguageMetadata(this);
+		}
+
+		void LanguageAssembly::SaveToStream(stream::IStream& stream)
+		{
+			il->SaveToStream(stream);
+		}
+
 		LanguageHost* LanguageAssembly::GetHost()
 		{
 			return host;
