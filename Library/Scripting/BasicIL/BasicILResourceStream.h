@@ -66,6 +66,7 @@ WString name=resourceStream.ReadString(node->name);
 
 #include "..\..\String.h"
 #include "..\..\Collections\List.h"
+#include "..\..\Stream\Interfaces.h"
 
 namespace vl
 {
@@ -197,8 +198,9 @@ namespace vl
 			ResourceStream();
 			~ResourceStream();
 
-			void*							GetInternalData()const;
-			int								GetInternalSize()const;
+			void							LoadFromStream(stream::IStream& stream);
+			void							SaveToStream(stream::IStream& stream);
+
 			ResourceString					CreateString(const WString& string);
 			WString							ReadString(ResourceString string)const;
 

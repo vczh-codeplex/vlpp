@@ -6,6 +6,7 @@ namespace vl
 	{
 		namespace basicil
 		{
+			using namespace collections;
 
 /***********************************************************************
 BasicIns
@@ -195,8 +196,56 @@ BasicIL
 
 			// Deserialization Begin
 
+			int ReadInt(stream::IStream& stream)
+			{
+				int result=0;
+				stream.Read(&result, sizeof(result));
+				return result;
+			}
+
+			WString ReadString(stream::IStream& stream)
+			{
+				Array<wchar_t> buffer(ReadInt(stream)+1);
+				stream.Read(&buffer[0], sizeof(wchar_t)*(buffer.Count()-1));
+				buffer[buffer.Count()-1]=0;
+				return &buffer[0];
+			}
+
+			template<typename T>
+			void ReadList(stream::IStream& stream, List<T>& collection)
+			{
+				int count=ReadInt(stream);
+				collection.Clear();
+				T buffer;
+				for(int i=0;i<count;i++)
+				{
+					stream.Read(&buffer, sizeof(buffer));
+					collection.Add(buffer);
+				}
+			}
+
+			template<typename T>
+			void ReadArray(stream::IStream& stream, Array<T>& collection)
+			{
+				collection.Resize(ReadInt(stream));
+				stream.Read(&collection[0], sizeof(T)*collection.Count());
+			}
+
 			void BasicIL::LoadFromStream(stream::IStream& stream)
 			{
+				ReadList(stream, instructions);
+				ReadList(stream, labels);
+				ReadArray(stream, globalData);
+
+				resources.Clear();
+				int count=ReadInt(stream);
+				for(int i=0;i<count;i++)
+				{
+					WString name=ReadString(stream);
+					Ptr<ResourceStream> resource=new ResourceStream;
+					resource->LoadFromStream(stream);
+					resources.Add(name, resource);
+				}
 			}
 
 			// Deserialization End
@@ -229,11 +278,7 @@ BasicIL
 
 			void WriteResource(stream::IStream& stream, Ptr<ResourceStream> resource)
 			{
-				WriteInt(stream, resource->GetInternalSize());
-				if(resource->GetInternalSize()>0)
-				{
-					stream.Write(resource->GetInternalData(), resource->GetInternalSize());
-				}
+				resource->SaveToStream(stream);
 			}
 
 			void BasicIL::SaveToStream(stream::IStream& stream)
@@ -241,11 +286,12 @@ BasicIL
 				WriteCollection(stream, instructions);
 				WriteCollection(stream, labels);
 				WriteCollection(stream, globalData);
+
 				WriteInt(stream, resources.Count());
 				for(int i=0;i<resources.Count();i++)
 				{
-					WriteString(stream, resources.Keys()[0]);
-					WriteResource(stream, resources.Values()[0]);
+					WriteString(stream, resources.Keys()[i]);
+					WriteResource(stream, resources.Values()[i]);
 				}
 			}
 

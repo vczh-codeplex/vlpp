@@ -4,6 +4,7 @@ namespace vl
 {
 	namespace scripting
 	{
+		using namespace collections;
 
 /***********************************************************************
 ResourceStream
@@ -45,15 +46,53 @@ ResourceStream
 		{
 		}
 
-		void* ResourceStream::GetInternalData()const
+		// Deserialization Begin
+
+		int ReadInt(stream::IStream& stream)
 		{
-			return usedSize==0?0:(void*)&resource[0];
+			int result=0;
+			stream.Read(&result, sizeof(result));
+			return result;
 		}
 
-		int ResourceStream::GetInternalSize()const
+		template<typename T>
+		void ReadArray(stream::IStream& stream, Array<T>& collection)
 		{
-			return usedSize;
+			collection.Resize(ReadInt(stream));
+			stream.Read(&collection[0], sizeof(T)*collection.Count());
 		}
+
+		void ResourceStream::LoadFromStream(stream::IStream& stream)
+		{
+			ReadArray(stream, resource);
+			usedSize=resource.Count();
+		}
+
+		// Deserialization End
+
+		// Serialization Begin
+
+		void WriteInt(stream::IStream& stream, int i)
+		{
+			stream.Write(&i, sizeof(i));
+		}
+
+		template<typename T>
+		void WriteArray(stream::IStream& stream, T& collection, int count)
+		{
+			WriteInt(stream, count);
+			if(count>0)
+			{
+				stream.Write(&collection[0], sizeof(collection[0])*count);
+			}
+		}
+
+		void ResourceStream::SaveToStream(stream::IStream& stream)
+		{
+			WriteArray(stream, resource, usedSize);
+		}
+
+		// Serialization End
 
 		ResourceString ResourceStream::CreateString(const WString& string)
 		{
