@@ -228,7 +228,10 @@ BasicIL
 			void ReadArray(stream::IStream& stream, Array<T>& collection)
 			{
 				collection.Resize(ReadInt(stream));
-				stream.Read(&collection[0], sizeof(T)*collection.Count());
+				if(collection.Count()>0)
+				{
+					stream.Read(&collection[0], sizeof(T)*collection.Count());
+				}
 			}
 
 			void BasicIL::LoadFromStream(stream::IStream& stream)
@@ -262,7 +265,7 @@ BasicIL
 				WriteInt(stream, string.Length());
 				if(string.Length()>0)
 				{
-					stream.Write((void*)string.Buffer(), string.Length());
+					stream.Write((void*)string.Buffer(), sizeof(wchar_t)*string.Length());
 				}
 			}
 
