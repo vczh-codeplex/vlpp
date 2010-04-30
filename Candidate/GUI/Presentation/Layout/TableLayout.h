@@ -27,6 +27,7 @@ namespace vl
 				int										row;
 
 				HostPlacement();
+				HostPlacement(LayoutHost* _host, int _column, int _row, int _columnSpan=1, int _rowSpan=1);
 
 				bool									operator==(const HostPlacement& hostPlacement)const;
 				bool									operator!=(const HostPlacement& hostPlacement)const;

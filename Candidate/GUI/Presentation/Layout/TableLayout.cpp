@@ -4,6 +4,7 @@ namespace vl
 {
 	namespace presentation
 	{
+		using namespace collections;
 
 /***********************************************************************
 DockLayout
@@ -15,6 +16,15 @@ DockLayout
 			,row(0)
 			,columnSpan(1)
 			,rowSpan(1)
+		{
+		}
+
+		TableLayout::HostPlacement::HostPlacement(LayoutHost* _host, int _column, int _row, int _columnSpan, int _rowSpan)
+			:host(_host)
+			,column(_column)
+			,row(_row)
+			,columnSpan(_columnSpan)
+			,rowSpan(_rowSpan)
 		{
 		}
 
@@ -85,8 +95,107 @@ DockLayout
 		{
 		}
 
+		// CalculateMinMax Helper Functions Begin
+
+		int Sum(Array<int>& nums, int start, int end)
+		{
+			int result=0;
+			for(int i=start;i<=end;i++)
+			{
+				result+=nums[i];
+			}
+			return result;
+		}
+
+		int Truncate(int i)
+		{
+			if(i<0)return 0;
+			else if(i>LayoutMaxSize)return LayoutMaxSize;
+			else return i;
+		}
+
+		int Min(int a, int b)
+		{
+			return Truncate(a<b?a:b);
+		}
+
+		int Max(int a, int b)
+		{
+			return Truncate(a>b?a:b);
+		}
+
+		// CalculateMinMax Helper Functions End
+
 		void TableLayout::CalculateMinMax()
 		{
+			Array<int> colMins(columns.Count());
+			Array<int> colMaxs(columns.Count());
+			Array<int> rowMins(rows.Count());
+			Array<int> rowMaxs(rows.Count());
+
+			for(int i=0;i<columns.Count();i++)
+			{
+				int min=0;
+				int max=LayoutMaxSize;
+				for(int j=0;j<hosts.Count();j++)
+				{
+					HostPlacement& host=hosts[j];
+					if(host.column+host.columnSpan-1==i)
+					{
+						int minx=host.host->GetMinBounds().x;
+						int maxx=host.host->GetMaxBounds().x;
+
+						min=Max(min, minx-Sum(colMins, host.column, i-1));
+						max=Min(max, maxx-Sum(colMaxs, host.column, i-1));
+					}
+				}
+				colMins[i]=min;
+				colMaxs[i]=max;
+			}
+
+			for(int i=0;i<rows.Count();i++)
+			{
+				int min=0;
+				int max=LayoutMaxSize;
+				for(int j=0;j<hosts.Count();j++)
+				{
+					HostPlacement& host=hosts[j];
+					if(host.row+host.rowSpan-1==i)
+					{
+						int miny=host.host->GetMinBounds().y;
+						int maxy=host.host->GetMaxBounds().y;
+
+						min=Max(min, miny-Sum(rowMins, host.column, i-1));
+						max=Min(max, maxy-Sum(rowMaxs, host.column, i-1));
+					}
+				}
+				rowMins[i]=min;
+				rowMaxs[i]=max;
+			}
+
+			int colMin=0;
+			int rowMin=0;
+
+			for(int i=0;i<columns.Count();i++)
+			{
+				if(columns[i].sizingType==TableLayout::Absolute)
+				{
+					colMin+=columns[i].length;
+				}
+			}
+
+			for(int i=0;i<rows.Count();i++)
+			{
+				if(rows[i].sizingType==TableLayout::Absolute)
+				{
+					rowMin+=rows[i].length;
+				}
+			}
+
+			minSize.x=Max(colMin, Sum(colMins, 0, columns.Count()-1));
+			minSize.y=Max(rowMin, Sum(rowMins, 0, rows.Count()-1));
+			maxSize.x=Max(colMin, Sum(colMaxs, 0, columns.Count()-1));
+			maxSize.y=Max(rowMin, Sum(rowMaxs, 0, rows.Count()-1));
 		}
 
 		int TableLayout::GetHostCount()
