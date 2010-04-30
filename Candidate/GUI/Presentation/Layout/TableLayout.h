@@ -73,8 +73,8 @@ namespace vl
 			SizingSettings&								Row(int index);
 			SizingSettings&								Columm(int index);
 
-			void										Dock(const HostPlacement& hostPlacement);
-			void										Undock(LayoutHost* host);
+			void										DockHost(const HostPlacement& hostPlacement);
+			void										UndockHost(LayoutHost* host);
 			HostPlacement								GetDock(LayoutHost* host);
 			void										ClearHosts();
 		};
