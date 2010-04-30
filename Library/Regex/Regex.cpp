@@ -518,7 +518,20 @@ RegexTokens
 			{
 				index=-1;
 				reading=start;
+				cacheAvailable=false;
 				Read();
+			}
+
+			void ReadToEnd(List<RegexToken>& tokens, bool(*discard)(int))
+			{
+				while(available)
+				{
+					if(!discard(token.token))
+					{
+						tokens.Add(token);
+					}
+					Read();
+				}
 			}
 		};
 
@@ -533,6 +546,20 @@ RegexTokens
 		IEnumerator<RegexToken>* RegexTokens::CreateEnumerator()const
 		{
 			return new RegexTokenEnumerator(pure, stateTokens, code.Buffer(), codeIndex);
+		}
+
+		bool DefaultDiscard(int token)
+		{
+			return false;
+		}
+
+		void RegexTokens::ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(int))const
+		{
+			if(discard==0)
+			{
+				discard=&DefaultDiscard;
+			}
+			RegexTokenEnumerator(pure, stateTokens, code.Buffer(), codeIndex).ReadToEnd(tokens, discard);
 		}
 
 /***********************************************************************

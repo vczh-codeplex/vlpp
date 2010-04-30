@@ -138,6 +138,7 @@ namespace vl
 		public:
 
 			collections::IEnumerator<RegexToken>*		CreateEnumerator()const;
+			void										ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(int)=0)const;
 		};
 
 		class RegexLexer : public Object, private NotCopyable

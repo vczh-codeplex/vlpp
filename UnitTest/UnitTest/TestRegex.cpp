@@ -905,17 +905,8 @@ TEST_CASE(TestRegexCapture)
 ´Ê·¨·ÖÎö
 ***********************************************************************/
 
-TEST_CASE(TestRegexLexer1)
+void TestRegexLexer1Validation(List<RegexToken>& tokens)
 {
-	List<WString> codes;
-	codes.Add(L"/d+");
-	codes.Add(L"/s+");
-	codes.Add(L"[a-zA-Z_]/w*");
-	RegexLexer lexer(codes.Wrap());
-
-	List<RegexToken> tokens;
-	CopyFrom(tokens.Wrap(), lexer.Parse(L"vczh is$$a&&genius  1234"));
-
 	TEST_ASSERT(tokens.Count()==9);
 	//[vczh]
 	TEST_ASSERT(tokens[0].start==0);
@@ -973,21 +964,28 @@ TEST_CASE(TestRegexLexer1)
 	TEST_ASSERT(tokens[8].lineStart==20);
 }
 
-TEST_CASE(TestRegexLexer2)
+TEST_CASE(TestRegexLexer1)
 {
 	List<WString> codes;
 	codes.Add(L"/d+");
+	codes.Add(L"/s+");
 	codes.Add(L"[a-zA-Z_]/w*");
-	codes.Add(L"\"[^\"]*\"");
 	RegexLexer lexer(codes.Wrap());
 
-	WString input=
-		L"12345vczh is a genius!"		L"\r\n"
-		L"67890\"vczh\"\"is\" \"a\"\"genius\"\"!\""		L"\r\n"
-		L"hey!";
-	List<RegexToken> tokens;
-	CopyFrom(tokens.Wrap(), lexer.Parse(input));
+	{
+		List<RegexToken> tokens;
+		CopyFrom(tokens.Wrap(), lexer.Parse(L"vczh is$$a&&genius  1234"));
+		TestRegexLexer1Validation(tokens);
+	}
+	{
+		List<RegexToken> tokens;
+		lexer.Parse(L"vczh is$$a&&genius  1234").ReadToEnd(tokens);
+		TestRegexLexer1Validation(tokens);
+	}
+}
 
+void TestRegexLexer2Validation(List<RegexToken>& tokens)
+{
 	TEST_ASSERT(tokens.Count()==19);
 	//[12345]
 	TEST_ASSERT(tokens[0].start==0);
@@ -1103,6 +1101,30 @@ TEST_CASE(TestRegexLexer2)
 	TEST_ASSERT(tokens[18].token==-1);
 	TEST_ASSERT(tokens[18].lineIndex==2);
 	TEST_ASSERT(tokens[18].lineStart==3);
+}
+
+TEST_CASE(TestRegexLexer2)
+{
+	List<WString> codes;
+	codes.Add(L"/d+");
+	codes.Add(L"[a-zA-Z_]/w*");
+	codes.Add(L"\"[^\"]*\"");
+	RegexLexer lexer(codes.Wrap());
+
+	WString input=
+		L"12345vczh is a genius!"		L"\r\n"
+		L"67890\"vczh\"\"is\" \"a\"\"genius\"\"!\""		L"\r\n"
+		L"hey!";
+	{
+		List<RegexToken> tokens;
+		CopyFrom(tokens.Wrap(), lexer.Parse(input));
+		TestRegexLexer2Validation(tokens);
+	}
+	{
+		List<RegexToken> tokens;
+		lexer.Parse(input).ReadToEnd(tokens);
+		TestRegexLexer2Validation(tokens);
+	}
 }
 
 TEST_CASE(TestRegexLexer3)

@@ -1113,15 +1113,15 @@ namespace vl
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
 				}
 
-				static bool NotBlank(RegexToken token)
+				static bool Blank(int token)
 				{
-					return token.token!=0;
+					return token==0;
 				}
 
 				Ptr<NativeXUnit> Parse(const WString& code, int codeIndex, IList<Ptr<LanguageException>>& errors)
 				{
 					List<RegexToken> tokens;
-					CopyFrom(tokens.Wrap(), lexer->Parse(code, codeIndex)>>Where(NotBlank));
+					lexer->Parse(code, codeIndex).ReadToEnd(tokens, Blank);
 					for(int i=0;i<tokens.Count();i++)
 					{
 						if(tokens[i].token==-1)
