@@ -224,6 +224,35 @@ public:
 	}
 };
 
+class StackLayoutVisualizer : public LayoutVisualizerBase
+{
+protected:
+	LayoutHost					hosts[5];
+	StackLayout					stackLayout;
+public:
+	StackLayoutVisualizer(INativeApplication* _application, INativeWindow* _mainWindow)
+		:LayoutVisualizerBase(_application, _mainWindow, L"StackLayout")
+	{
+		layout=&stackLayout;
+		stackLayout.SetDirection(StackLayout::BottomToTop);
+
+		for(int i=0;i<sizeof(hosts)/sizeof(*hosts);i++)
+		{
+			hosts[i].SetMinSize(Size(150, 150));
+			hosts[i].SetMaxSize(Size(300, 300));
+			hosts[i].SetBounds(Rect(Point(), Size(200, 200)));
+			hosts[i].SetMargin(Margin(3, 3, 3, 3));
+		}
+
+		for(int i=0;i<sizeof(hosts)/sizeof(*hosts);i++)
+		{
+			stackLayout.Hosts().Add(&hosts[i]);
+		}
+
+		Initialize();
+	}
+};
+
 extern Rect GuiGetWorkArea();
 
 void LayoutVisualizerMain()
