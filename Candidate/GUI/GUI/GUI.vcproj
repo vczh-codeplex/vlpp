@@ -386,6 +386,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\Presentation\Layout\StackLayout.h"
+						>
+					</File>
+					<File
 						RelativePath="..\Presentation\Layout\TableLayout.h"
 						>
 					</File>
@@ -403,6 +407,10 @@
 					</File>
 					<File
 						RelativePath="..\Presentation\Layout\LayoutHost.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Layout\StackLayout.cpp"
 						>
 					</File>
 					<File
