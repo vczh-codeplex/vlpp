@@ -214,6 +214,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\Library\Event.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\Library\Function.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\Library\Pointer.h"
 						>
 					</File>
@@ -415,6 +423,34 @@
 					</File>
 					<File
 						RelativePath="..\Presentation\Layout\TableLayout.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Framework"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath="..\Presentation\Framework\Control.h"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Framework\Window.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath="..\Presentation\Framework\Control.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\Presentation\Framework\Window.cpp"
 						>
 					</File>
 				</Filter>
