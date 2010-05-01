@@ -3,6 +3,7 @@
 #include "..\Presentation\Layout\FreeLayout.h"
 #include "..\Presentation\Layout\DockLayout.h"
 #include "..\Presentation\Layout\TableLayout.h"
+#include "..\Presentation\Layout\StackLayout.h"
 
 using namespace vl;
 using namespace vl::presentation;

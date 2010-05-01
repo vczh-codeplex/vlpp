@@ -11,7 +11,6 @@ Classes:
   TableLayout								£∫±Ì∏Ò≈≈∞Ê
   DockLayout								£∫Õ£øø≈≈∞Ê
   StackLayout								£∫∂—’ª≈≈∞Ê
-  WrapLayout								£∫ªª––≈≈∞Ê
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_LAYOUT_LAYOUTHOST
