@@ -17,9 +17,42 @@ namespace vl
 {
 	namespace presentation
 	{
+		class Window;
+		class WindowManager;
+
+/***********************************************************************
+Window
+***********************************************************************/
+
 		class Window : public Control
 		{
+			friend class WindowManager;
+		protected:
+			INativeWindow*						nativeWindow;
+		public:
+			Window();
+			~Window();
 		};
+
+/***********************************************************************
+WindowManager
+***********************************************************************/
+
+		class WindowManager : public Object
+		{
+			friend class Window;
+		protected:
+			List<Window*>						windows;
+
+			void								RegisterWindow(Window* window);
+			void								UnregisterWindow(Window* window);
+		public:
+			WindowManager();
+			~WindowManager();
+		};
+
+		extern WindowManager*					GetCurrentWindowManager();
+		extern void								SetCurrentWindowManager(WindowManager* manager);
 	}
 }
 

@@ -15,14 +15,14 @@ Control
 
 		void Control::UpdateGrid()
 		{
-			if(grid && !updatingGrid)
+			if(grid && !updatingGrid && !suspendLayout)
 			{
 				updatingGrid=true;
 				grid->UpdateMinMax();
 				if(autoSizeMode)
 				{
-					SetMinSize(grid->GetMinSize());
-					SetMaxSize(grid->GetMaxSize());
+					SetClientMinSize(grid->GetMinSize());
+					SetClientMaxSize(grid->GetMaxSize());
 					SetExpectedSize(GetMinSize());
 				}
 				grid->SetSize(GetSize());
@@ -65,6 +65,16 @@ Control
 		{
 			return IsVisuallyVisible() && IsVisuallyEnabled();
 		}
+
+		Size Control::ClientSizeFromSize(Size value)
+		{
+			return value-(GetExpectedSize()-GetExpectedClientSize());
+		}
+
+		Size Control::SizeFromClientSize(Size value)
+		{
+			return value+(GetExpectedSize()-GetExpectedClientSize());
+		}
 		
 		Control::Control()
 			:parent(0)
@@ -77,6 +87,7 @@ Control
 			,isConsumeTab(false)
 			,altShortcutKey(-1)
 			,updatingGrid(false)
+			,suspendLayout(false)
 		{
 		}
 
@@ -90,6 +101,20 @@ Control
 
 		void Control::ProcessMessage(int message, void* arguments)
 		{
+		}
+
+		void Control::SuspendLayout()
+		{
+			suspendLayout=true;
+		}
+
+		void Control::ResumeLayout()
+		{
+			if(suspendLayout)
+			{
+				suspendLayout=false;
+				UpdateGrid();
+			}
 		}
 
 		Control* Control::GetParent()
@@ -185,6 +210,26 @@ Control
 			MaxSizeChanged(this, NotifyEventArgs());
 		}
 
+		Size Control::GetClientMinSize()
+		{
+			return ClientSizeFromSize(GetMinSize());
+		}
+
+		void Control::SetClientMinSize(Size value)
+		{
+			SetMinSize(SizeFromClientSize(value));
+		}
+
+		Size Control::GetClientMaxSize()
+		{
+			return ClientSizeFromSize(GetMaxSize());
+		}
+
+		void Control::SetClientMaxSize(Size value)
+		{
+			SetMaxSize(SizeFromClientSize(value));
+		}
+
 		Point Control::GetExpectedLocation()
 		{
 			return layoutHost.GetBounds().LeftTop();
@@ -213,7 +258,7 @@ Control
 
 		Point Control::GetExpectedClientLocation()
 		{
-			return GetLocation();
+			return Point(0, 0);
 		}
 
 		Size Control::GetExpectedClientSize()
@@ -224,7 +269,7 @@ Control
 		void Control::SetExpectedClientSize(Size value)
 		{
 			if(GetExpectedClientSize()==value)return;
-			SetExpectedSize(value);
+			SetExpectedSize(SizeFromClientSize(value));
 		}
 
 		Margin Control::GetMargin()
@@ -264,7 +309,7 @@ Control
 
 		Size Control::GetClientSize()
 		{
-			return GetSize();
+			return ClientSizeFromSize(GetSize());
 		}
 
 		bool Control::GetVisible()
