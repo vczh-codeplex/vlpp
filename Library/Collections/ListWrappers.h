@@ -4,6 +4,8 @@ Developer: ³Âè÷å«(vczh)
 Data Structure::List Wrappers
 
 Classes:
+	ReadonlyListEnumerator<T>
+	ReadonlyListConverter<T>
 	ReadonlyListWrapper<T>
 	ArrayWrapper<T>
 	CollectionWrapper<T>
@@ -66,6 +68,39 @@ namespace vl
 			void Reset()
 			{
 				index=0;
+			}
+		};
+
+		template<typename T, typename K=typename KeyType<T>::Type>
+		class ReadonlyListConverter : public virtual IReadonlyList<T, K>
+		{
+		public:
+			IEnumerator<T>* CreateEnumerator()const
+			{
+				return new ReadonlyListEnumerator<T, K>(this, 0);
+			}
+
+			bool Contains(const K& item)const
+			{
+				return IndexOf(item)!=-1;
+			}
+
+			const T& operator[](int index)const
+			{
+				return Get(index);
+			}
+
+			int IndexOf(const K& item)const
+			{
+				int count=Count();
+				for(int i=0;i<count;i++)
+				{
+					if(Get(i)==item)
+					{
+						return i;
+					}
+				}
+				return -1;
 			}
 		};
 
