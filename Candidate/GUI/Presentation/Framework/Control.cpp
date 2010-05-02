@@ -82,6 +82,10 @@ Control
 
 		Control::~Control()
 		{
+			if(grid)
+			{
+				delete grid;
+			}
 		}
 
 		void Control::ProcessMessage(int message, void* arguments)
@@ -385,6 +389,18 @@ Grid
 
 		Grid::~Grid()
 		{
+			for(int i=children.Count()-1;i>=0;i--)
+			{
+				delete children[i];
+			}
+			if(hostControl)
+			{
+				hostControl->grid=0;
+			}
+			if(layout)
+			{
+				delete layout;
+			}
 		}
 
 		Control* Grid::GetHostControl()
