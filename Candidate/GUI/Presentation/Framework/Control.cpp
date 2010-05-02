@@ -256,11 +256,6 @@ Control
 			ExpectedSizeChanged(this, NotifyEventArgs());
 		}
 
-		Point Control::GetExpectedClientLocation()
-		{
-			return Point(0, 0);
-		}
-
 		Size Control::GetExpectedClientSize()
 		{
 			return GetExpectedSize();
@@ -305,6 +300,14 @@ Control
 		Size Control::GetSize()
 		{
 			return layoutHost.GetRealBounds().GetSize();
+		}
+
+		Point Control::GetClientLocation()
+		{
+			Size size=GetSize();
+			Size client=GetClientSize();
+			int x=(size.x-client.x)/2;
+			return Point(x, size.y-client.y-x);
 		}
 
 		Size Control::GetClientSize()

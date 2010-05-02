@@ -24,14 +24,40 @@ namespace vl
 Window
 ***********************************************************************/
 
-		class Window : public Control
+		class Window : public Control, private INativeWindowListener
 		{
 			friend class WindowManager;
+			typedef Control						ParentClass;
 		protected:
 			INativeWindow*						nativeWindow;
+			bool								updating;
+
+			void								UpdateHost();
+		private:
+			void								Moving(Rect& bounds);
+			void								Moved();
+			void								Enabled();
+			void								Disabled();
+			void								GotFocus();
+			void								LostFocus();
+			void								Activated();
+			void								Deactivated();
+			void								Opened();
+			void								Closing(bool& cancel);
+			void								Closed();
+			void								Destroying();
 		public:
 			Window();
 			~Window();
+
+			void								SetText(const WString& value);
+
+			Size								GetExpectedClientSize();
+			void								SetMargin(Margin margin);
+			bool								IsVisuallyVisible();
+			void								SetVisible(bool value);
+			void								SetEnabled(bool value);
+			void								SetFocused(bool value);
 		};
 
 /***********************************************************************
