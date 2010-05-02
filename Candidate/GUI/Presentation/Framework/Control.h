@@ -133,20 +133,20 @@ Framework
 			virtual void								SetMinSize(Size value);
 			virtual Size								GetMaxSize();
 			virtual void								SetMaxSize(Size value);
-			virtual Point								GetLocation();
-			virtual void								SetLocation(Point value);
-			virtual Size								GetSize();
-			virtual void								SetSize(Size value);
-			virtual Point								GetClientLocation();
-			virtual Size								GetClientSize();
-			virtual void								SetClientSize(Size value);
+			virtual Point								GetExpectedLocation();
+			virtual void								SetExpectedLocation(Point value);
+			virtual Size								GetExpectedSize();
+			virtual void								SetExpectedSize(Size value);
+			virtual Point								GetExpectedClientLocation();
+			virtual Size								GetExpectedClientSize();
+			virtual void								SetExpectedClientSize(Size value);
 			virtual Margin								GetMargin();
 			virtual void								SetMargin(Margin value);
 			virtual bool								GetAutoSizeMode();
 			virtual void								SetAutoSizeMode(bool value);
-			virtual Point								GetVisualLocation();
-			virtual Size								GetVisualSize();
-			virtual Size								GetVisualClientSize();
+			virtual Point								GetLocation();
+			virtual Size								GetSize();
+			virtual Size								GetClientSize();
 
 			// ¿Ø¼þ×´Ì¬
 			virtual bool								GetVisible();
@@ -175,14 +175,12 @@ Framework
 
 			NotifyEventArgs::Handlers					MinSizeChanged;
 			NotifyEventArgs::Handlers					MaxSizeChanged;
-			NotifyEventArgs::Handlers					LocationChanged;
-			NotifyEventArgs::Handlers					SizeChanged;
-			NotifyEventArgs::Handlers					ClientLocationChanged;
-			NotifyEventArgs::Handlers					ClientSizeChanged;
+			NotifyEventArgs::Handlers					ExpectedLocationChanged;
+			NotifyEventArgs::Handlers					ExpectedSizeChanged;
 			NotifyEventArgs::Handlers					MarginChanged;
 			NotifyEventArgs::Handlers					AutoSizeModeChanged;
-			NotifyEventArgs::Handlers					VisualLocationChanged;
-			NotifyEventArgs::Handlers					VisualSizeChanged;
+			NotifyEventArgs::Handlers					LocationChanged;
+			NotifyEventArgs::Handlers					SizeChanged;
 
 			NotifyEventArgs::Handlers					VisibleChanged;
 			NotifyEventArgs::Handlers					EnabledChanged;
