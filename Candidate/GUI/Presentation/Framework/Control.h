@@ -34,7 +34,19 @@ Events
 		class EventArgs
 		{
 		public:
-			typedef Event<void(Control*, T)>	Handlers;
+			class Handlers : public Event<void(Control*, T)>
+			{
+			public:
+				using Event<void(Control*, T)>::Add;
+
+				template<typename C>
+				void Add(C* receiver, void(C::*handler)(Control*, T))
+				{
+					Add(Function(receiver, handler));
+				}
+			};
+
+			typedef Func<void(Control*, T)>		Function;
 		};
 
 		class NotifyEventArgs : public EventArgs<NotifyEventArgs>

@@ -58,6 +58,9 @@ Window
 			void								SetVisible(bool value);
 			void								SetEnabled(bool value);
 			void								SetFocused(bool value);
+
+			void								Show();
+			void								Close();
 		};
 
 /***********************************************************************
@@ -75,6 +78,8 @@ WindowManager
 		public:
 			WindowManager();
 			~WindowManager();
+
+			void								Run(Window* window);
 		};
 
 		extern WindowManager*					GetCurrentWindowManager();
