@@ -17,9 +17,7 @@ Logic
   Prolog
     
 current:
-  1. implement NativeX
-  2. implement commented optimizations
-  3. implement constructor/destructor
-  4. implement template
-  5. implement assembly
-  6. implement basic kernel utility functions
+  1. implement commented optimizations
+  2. implement constructor/destructor
+  3. implement template
+  4. implement basic kernel utility functions
