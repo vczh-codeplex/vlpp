@@ -23,9 +23,9 @@ Control
 				{
 					SetMinSize(grid->GetMinSize());
 					SetMaxSize(grid->GetMaxSize());
-					SetSize(GetMinSize());
+					SetExpectedSize(GetMinSize());
 				}
-				grid->SetSize(GetVisualSize());
+				grid->SetSize(GetSize());
 				grid->ApplyLayout();
 				updatingGrid=false;
 			}
@@ -40,7 +40,7 @@ Control
 			{
 				visualLocation=location;
 				RequestRefresh();
-				VisualLocationChanged(this, NotifyEventArgs());
+				LocationChanged(this, NotifyEventArgs());
 				changed=true;
 			}
 			if(size!=visualSize)
@@ -48,11 +48,11 @@ Control
 				visualSize=size;
 				if(!updatingGrid)
 				{
-					grid->SetSize(GetVisualSize());
+					grid->SetSize(GetSize());
 					grid->ApplyLayout();
 				}
 				RequestRefresh();
-				VisualSizeChanged(this, NotifyEventArgs());
+				SizeChanged(this, NotifyEventArgs());
 				changed=true;
 			}
 			if(parent && changed)
@@ -185,46 +185,46 @@ Control
 			MaxSizeChanged(this, NotifyEventArgs());
 		}
 
-		Point Control::GetLocation()
+		Point Control::GetExpectedLocation()
 		{
 			return layoutHost.GetBounds().LeftTop();
 		}
 
-		void Control::SetLocation(Point value)
+		void Control::SetExpectedLocation(Point value)
 		{
 			if(layoutHost.GetBounds().LeftTop()==value)return;
 			layoutHost.SetBounds(Rect(value, layoutHost.GetBounds().GetSize()));
 			UpdateHost();
-			LocationChanged(this, NotifyEventArgs());
+			ExpectedLocationChanged(this, NotifyEventArgs());
 		}
 
-		Size Control::GetSize()
+		Size Control::GetExpectedSize()
 		{
 			return layoutHost.GetBounds().GetSize();
 		}
 
-		void Control::SetSize(Size value)
+		void Control::SetExpectedSize(Size value)
 		{
 			if(layoutHost.GetBounds().GetSize()==value)return;
 			layoutHost.SetBounds(Rect(layoutHost.GetBounds().LeftTop(), value));
 			UpdateHost();
-			SizeChanged(this, NotifyEventArgs());
+			ExpectedSizeChanged(this, NotifyEventArgs());
 		}
 
-		Point Control::GetClientLocation()
+		Point Control::GetExpectedClientLocation()
 		{
 			return GetLocation();
 		}
 
-		Size Control::GetClientSize()
+		Size Control::GetExpectedClientSize()
 		{
-			return GetSize();
+			return GetExpectedSize();
 		}
 
-		void Control::SetClientSize(Size value)
+		void Control::SetExpectedClientSize(Size value)
 		{
-			if(GetClientSize()==value)return;
-			SetSize(value);
+			if(GetExpectedClientSize()==value)return;
+			SetExpectedSize(value);
 		}
 
 		Margin Control::GetMargin()
@@ -252,19 +252,19 @@ Control
 			AutoSizeModeChanged(this, NotifyEventArgs());
 		}
 
-		Point Control::GetVisualLocation()
+		Point Control::GetLocation()
 		{
 			return layoutHost.GetRealBounds().LeftTop();
 		}
 
-		Size Control::GetVisualSize()
+		Size Control::GetSize()
 		{
 			return layoutHost.GetRealBounds().GetSize();
 		}
 
-		Size Control::GetVisualClientSize()
+		Size Control::GetClientSize()
 		{
-			return GetVisualSize();
+			return GetSize();
 		}
 
 		bool Control::GetVisible()
