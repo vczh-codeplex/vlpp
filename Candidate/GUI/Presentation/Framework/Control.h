@@ -87,137 +87,147 @@ Framework
 		{
 			friend class Grid;
 		private:
-			LayoutHost							layoutHost;
+			LayoutHost									layoutHost;
+			Point										visualLocation;
+			Size										visualSize;
 
-			Control*							parent;
-			Control*							visualParent;
-			Grid*								grid;
-			WString								name;
-			WString								text;
+			Control*									parent;
+			Grid*										grid;
+			WString										name;
+			WString										text;
+			bool										autoSizeMode;
 
-			bool								isVisible;
-			bool								isEnabled;
-			bool								isFocused;
-			bool								isMouseOver;
-			bool								isVisuallyVisible;
-			bool								isVisuallyEnabled;
-			bool								isTabStopEnabled;
-			bool								isConsumeTab;
-			bool								altShortcutKey;
+			bool										isVisible;
+			bool										isEnabled;
+			bool										isFocused;
+			bool										isMouseOver;
+			bool										isTabStopEnabled;
+			bool										isConsumeTab;
+			int											altShortcutKey;
+
+			bool										updatingGrid;
+		protected:
+			void										RequestRefresh();
+			void										UpdateGrid();
+			void										UpdateHost();
+			bool										RequestFocus();
+
 		public:
 			Control();
 			~Control();
 
-			virtual void						ProcessMessage(int message, void* arguments);
+			virtual void								ProcessMessage(int message, void* arguments);
 
 			// 控件关系
-			virtual Control*					GetParent();
-			virtual Grid*						GetGrid();
-			virtual void						SetGrid(Grid* value);
+			virtual Control*							GetParent();
+			virtual Grid*								GetGrid();
+			virtual void								SetGrid(Grid* value);
 
-			virtual WString						GetText();
-			virtual void						SetText(const WString& value);
-			virtual WString						GetName();
-			virtual void						SetName(const WString& value);
+			virtual WString								GetText();
+			virtual void								SetText(const WString& value);
+			virtual WString								GetName();
+			virtual void								SetName(const WString& value);
 
 			// 控件排版信息
-			virtual Size						GetMinSize();
-			virtual void						SetMinSize(Size value);
-			virtual Size						GetMaxSize();
-			virtual void						SetMaxSize(Size value);
-			virtual Point						GetLocation();
-			virtual void						SetLocation(Point value);
-			virtual Size						GetSize();
-			virtual void						SetSize(Size value);
-			virtual Point						GetClientLocation();
-			virtual void						SetClientLocation(Point value);
-			virtual Size						GetClientSize();
-			virtual void						SetClientSize(Size value);
-			virtual Margin						GetMargin();
-			virtual void						SetMargin(Margin value);
-			virtual bool						GetAutoSizeMode();
-			virtual void						SetAutoSizeMode(bool value);
-			virtual Point						GetVisualLocation();
-			virtual Size						GetVisualSize();
+			virtual Size								GetMinSize();
+			virtual void								SetMinSize(Size value);
+			virtual Size								GetMaxSize();
+			virtual void								SetMaxSize(Size value);
+			virtual Point								GetLocation();
+			virtual void								SetLocation(Point value);
+			virtual Size								GetSize();
+			virtual void								SetSize(Size value);
+			virtual Point								GetClientLocation();
+			virtual Size								GetClientSize();
+			virtual void								SetClientSize(Size value);
+			virtual Margin								GetMargin();
+			virtual void								SetMargin(Margin value);
+			virtual bool								GetAutoSizeMode();
+			virtual void								SetAutoSizeMode(bool value);
+			virtual Point								GetVisualLocation();
+			virtual Size								GetVisualSize();
+			virtual Size								GetVisualClientSize();
 
 			// 控件状态
-			virtual bool						GetVisible();
-			virtual void						SetVisible(bool value);
-			virtual bool						GetEnabled();
-			virtual void						SetEnabled(bool value);
-			virtual bool						GetFocused();
-			virtual void						SetFocused(bool value);
+			virtual bool								GetVisible();
+			virtual void								SetVisible(bool value);
+			virtual bool								GetEnabled();
+			virtual void								SetEnabled(bool value);
+			virtual bool								GetFocused();
+			virtual void								SetFocused(bool value);
 
-			virtual bool						GetTabStopEnabled();
-			virtual void						SetTabStopEnabled(bool value);
-			virtual bool						GetConsumeTab();
-			virtual void						SetConsumeTab(bool value);
-			virtual bool						GetAltShortcutKey();
-			virtual void						SetAltShortcutKey(int value);
+			virtual bool								GetTabStopEnabled();
+			virtual void								SetTabStopEnabled(bool value);
+			virtual bool								GetConsumeTab();
+			virtual void								SetConsumeTab(bool value);
+			virtual int									GetAltShortcutKey();
+			virtual void								SetAltShortcutKey(int value);
 
-			virtual bool						IsMouseOver();
-			virtual bool						IsVisuallyVisible();
-			virtual bool						IsVisuallyEnabled();
+			virtual bool								IsMouseOver();
+			virtual bool								IsVisuallyVisible();
+			virtual bool								IsVisuallyEnabled();
 
 			// 控件事件
-			NotifyEventArgs::Handlers			ParentChanged;
-			NotifyEventArgs::Handlers			TextChanged;
-			NotifyEventArgs::Handlers			NameChanged;
+			NotifyEventArgs::Handlers					ParentChanged;
+			NotifyEventArgs::Handlers					GridChanged;
+			NotifyEventArgs::Handlers					TextChanged;
+			NotifyEventArgs::Handlers					NameChanged;
 
-			NotifyEventArgs::Handlers			MinSizeChanged;
-			NotifyEventArgs::Handlers			MaxSizeChanged;
-			NotifyEventArgs::Handlers			LocationChanged;
-			NotifyEventArgs::Handlers			SizeChanged;
-			NotifyEventArgs::Handlers			ClientLocationChanged;
-			NotifyEventArgs::Handlers			ClientSizeChanged;
-			NotifyEventArgs::Handlers			MarginChanged;
-			NotifyEventArgs::Handlers			AutoSizeModeChanged;
-			NotifyEventArgs::Handlers			VisualLocationChanged;
-			NotifyEventArgs::Handlers			VisualSizeChanged;
+			NotifyEventArgs::Handlers					MinSizeChanged;
+			NotifyEventArgs::Handlers					MaxSizeChanged;
+			NotifyEventArgs::Handlers					LocationChanged;
+			NotifyEventArgs::Handlers					SizeChanged;
+			NotifyEventArgs::Handlers					ClientLocationChanged;
+			NotifyEventArgs::Handlers					ClientSizeChanged;
+			NotifyEventArgs::Handlers					MarginChanged;
+			NotifyEventArgs::Handlers					AutoSizeModeChanged;
+			NotifyEventArgs::Handlers					VisualLocationChanged;
+			NotifyEventArgs::Handlers					VisualSizeChanged;
 
-			NotifyEventArgs::Handlers			VisibleChanged;
-			NotifyEventArgs::Handlers			EnabledChanged;
-			NotifyEventArgs::Handlers			FocusedChanged;
-			NotifyEventArgs::Handlers			VisuallyVisibleChanged;
-			NotifyEventArgs::Handlers			VisuallyEnabledChanged;
+			NotifyEventArgs::Handlers					VisibleChanged;
+			NotifyEventArgs::Handlers					EnabledChanged;
+			NotifyEventArgs::Handlers					FocusedChanged;
 
-			NotifyEventArgs::Handlers			TabStopEnabledChanged;
-			NotifyEventArgs::Handlers			ConsumeTabChanged;
-			NotifyEventArgs::Handlers			AltShortcutKeyChanged;
+			NotifyEventArgs::Handlers					TabStopEnabledChanged;
+			NotifyEventArgs::Handlers					ConsumeTabChanged;
+			NotifyEventArgs::Handlers					AltShortcutKeyChanged;
 
-			NotifyEventArgs::Handlers			MouseOver;
-			NotifyEventArgs::Handlers			MouseLeave;
-			MouseEventArgs::Handlers			MouseMove;
-			MouseEventArgs::Handlers			MouseDown;
-			MouseEventArgs::Handlers			MouseUp;
-			MouseEventArgs::Handlers			MouseClicked;
-			MouseEventArgs::Handlers			MouseDoubleClicked;
-			MouseEventArgs::Handlers			VerticalWheel;
-			MouseEventArgs::Handlers			HorizontalWheel;
-			KeyEventArgs::Handlers				KeyDown;
-			KeyEventArgs::Handlers				KeyUp;
-			CharEventArgs::Handlers				CharInput;
+			NotifyEventArgs::Handlers					MouseOver;
+			NotifyEventArgs::Handlers					MouseLeave;
+			MouseEventArgs::Handlers					MouseMove;
+			MouseEventArgs::Handlers					MouseDown;
+			MouseEventArgs::Handlers					MouseUp;
+			MouseEventArgs::Handlers					MouseClicked;
+			MouseEventArgs::Handlers					MouseDoubleClicked;
+			MouseEventArgs::Handlers					VerticalWheel;
+			MouseEventArgs::Handlers					HorizontalWheel;
+			KeyEventArgs::Handlers						KeyDown;
+			KeyEventArgs::Handlers						KeyUp;
+			CharEventArgs::Handlers						CharInput;
 		};
 
 		class Grid : public Object
 		{
+			friend class Control;
 		protected:
-			LayoutBase*							layout;
+			LayoutBase*									layout;
+			Control*									hostControl;
+			List<Control*>								children;
 
-			LayoutHost*							GetControlLayoutHost(Control* control);
+			LayoutHost*									GetControlLayoutHost(Control* control);
 		public:
 			Grid();
 			~Grid();
 
-			virtual Control*					GetHostControl();
-			virtual IReadonlyList<Control*>		GetControls();
-			virtual Size						GetMinSize();
-			virtual Size						GetMaxSize();
-			virtual Size						GetSize();
-			virtual void						SetSize();
+			virtual Control*							GetHostControl();
+			virtual const IReadonlyList<Control*>&		GetControls();
+			virtual Size								GetMinSize();
+			virtual Size								GetMaxSize();
+			virtual Size								GetSize();
+			virtual void								SetSize(Size value);
 
-			virtual void						UpdateMinMax();
-			virtual void						ApplyLayout();
+			virtual void								UpdateMinMax();
+			virtual void								ApplyLayout();
 		};
 
 /***********************************************************************

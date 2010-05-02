@@ -210,9 +210,16 @@ Windows GDI Application
 
 			INativeApplication* CreateGdiApplication()
 			{
-				INativeApplication* application=new GdiApplication();
-				SetCurrentApplication(application);
-				return application;
+				if(GetCurrentApplication() || GetCurrentController())
+				{
+					return 0;
+				}
+				else
+				{
+					INativeApplication* application=new GdiApplication();
+					SetCurrentApplication(application);
+					return application;
+				}
 			}
 
 			void DestroyGdiApplication(INativeApplication* application)
