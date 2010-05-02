@@ -18,6 +18,6 @@ Rect GuiGetWorkArea()
 
 void NativeMain()
 {
-	RUN_MAIN(LayoutVisualizerMain);
+	RUN_MAIN(ControlFrameworkMain);
 	_CrtDumpMemoryLeaks();
 }

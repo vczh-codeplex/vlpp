@@ -263,8 +263,6 @@ void LayoutVisualizerMain()
 		TableLayoutVisualizer listener(application, mainWindow);
 		Rect area=GuiGetWorkArea();
 
-		mainWindow->SetMaximizedBox(false);
-		mainWindow->SetMinimizedBox(false);
 		mainWindow->SetClientSize(Size(640, 480));
 		mainWindow->SetBounds(Rect(
 			Point(

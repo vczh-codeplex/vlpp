@@ -46,7 +46,7 @@ Control
 			if(size!=visualSize)
 			{
 				visualSize=size;
-				if(!updatingGrid)
+				if(grid && !updatingGrid)
 				{
 					grid->SetSize(GetSize());
 					grid->ApplyLayout();

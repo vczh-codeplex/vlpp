@@ -51,8 +51,8 @@ LayoutHost
 
 		void LayoutHost::UpdateRealBounds()
 		{
-			CalculateBound(minSize.x, maxSize.x, bounds.x1, bounds.x2, margin.left, margin.right, relativeBounds.x1, relativeBounds.x2, realBounds.x1, realBounds.x2);
-			CalculateBound(minSize.y, maxSize.y, bounds.y1, bounds.y2, margin.top, margin.bottom, relativeBounds.y1, relativeBounds.y2, realBounds.y1, realBounds.y2);
+			CalculateBound(minSize.x, maxSize.x, bounds.x1, bounds.x2-bounds.x1, margin.left, margin.right, relativeBounds.x1, relativeBounds.x2, realBounds.x1, realBounds.x2);
+			CalculateBound(minSize.y, maxSize.y, bounds.y1, bounds.y2-bounds.y1, margin.top, margin.bottom, relativeBounds.y1, relativeBounds.y2, realBounds.y1, realBounds.y2);
 		}
 
 		LayoutHost::LayoutHost()

@@ -222,6 +222,16 @@ Rectangle
 			return Size(s1.x-s2.x, s1.y-s2.y);
 		}
 
+		inline Size operator*(Size s, int i)
+		{
+			return Size(s.x*i, s.y*i);
+		}
+
+		inline Size operator/(Size s, int i)
+		{
+			return Size(s.x/i, s.y/i);
+		}
+
 		inline Point operator+=(Point& s1, Size s2)
 		{
 			s1.x+=s2.x;

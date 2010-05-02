@@ -109,6 +109,7 @@ Window
 			if(!updating)
 			{
 				updating=true;
+				ParentClass::UpdateHost();
 				nativeWindow->SetBounds(Rect(GetLocation(), GetSize()));
 				updating=false;
 			}
@@ -124,10 +125,13 @@ Window
 			ParentClass::SetVisible(nativeWindow->IsVisible());
 			ParentClass::SetEnabled(nativeWindow->IsEnabled());
 			ParentClass::SetFocused(nativeWindow->IsFocused());
+			nativeWindow->InstallListener(this);
+			GetCurrentWindowManager()->RegisterWindow(this);
 		}
 
 		Window::~Window()
 		{
+			GetCurrentWindowManager()->UnregisterWindow(this);
 			if(nativeWindow)
 			{
 				GetCurrentApplication()->DestroyNativeWindow(nativeWindow);
@@ -186,6 +190,16 @@ Window
 			}
 		}
 
+		void Window::Show()
+		{
+			nativeWindow->Show();
+		}
+
+		void Window::Close()
+		{
+			nativeWindow->Hide();
+		}
+
 /***********************************************************************
 WindowManager
 ***********************************************************************/
@@ -209,6 +223,12 @@ WindowManager
 		WindowManager::~WindowManager()
 		{
 			SetCurrentWindowManager(0);
+		}
+
+		void WindowManager::Run(Window* window)
+		{
+			window->Show();
+			GetCurrentApplication()->Run(window->nativeWindow);
 		}
 
 /***********************************************************************
