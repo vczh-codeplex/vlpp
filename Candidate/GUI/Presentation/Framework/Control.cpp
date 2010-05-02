@@ -23,6 +23,7 @@ Control
 				{
 					SetMinSize(grid->GetMinSize());
 					SetMaxSize(grid->GetMaxSize());
+					SetSize(GetMinSize());
 				}
 				grid->SetSize(GetVisualSize());
 				grid->ApplyLayout();
@@ -34,10 +35,13 @@ Control
 		{
 			Point location=layoutHost.GetRealBounds().LeftTop();
 			Size size=layoutHost.GetRealBounds().GetSize();
+			bool changed=false;
 			if(location!=visualLocation)
 			{
 				visualLocation=location;
+				RequestRefresh();
 				VisualLocationChanged(this, NotifyEventArgs());
+				changed=true;
 			}
 			if(size!=visualSize)
 			{
@@ -47,7 +51,13 @@ Control
 					grid->SetSize(GetVisualSize());
 					grid->ApplyLayout();
 				}
+				RequestRefresh();
 				VisualSizeChanged(this, NotifyEventArgs());
+				changed=true;
+			}
+			if(parent && changed)
+			{
+				parent->UpdateGrid();
 			}
 		}
 
