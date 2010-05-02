@@ -106,17 +106,22 @@ Framework
 			int											altShortcutKey;
 
 			bool										updatingGrid;
+			bool										suspendLayout;
 		protected:
+
 			void										RequestRefresh();
 			void										UpdateGrid();
 			void										UpdateHost();
 			bool										RequestFocus();
-
+			Size										ClientSizeFromSize(Size value);
+			Size										SizeFromClientSize(Size value);
 		public:
 			Control();
 			~Control();
 
 			virtual void								ProcessMessage(int message, void* arguments);
+			virtual void								SuspendLayout();
+			virtual void								ResumeLayout();
 
 			// ¿Ø¼þ¹ØÏµ
 			virtual Control*							GetParent();
@@ -133,6 +138,10 @@ Framework
 			virtual void								SetMinSize(Size value);
 			virtual Size								GetMaxSize();
 			virtual void								SetMaxSize(Size value);
+			virtual Size								GetClientMinSize();
+			virtual void								SetClientMinSize(Size value);
+			virtual Size								GetClientMaxSize();
+			virtual void								SetClientMaxSize(Size value);
 			virtual Point								GetExpectedLocation();
 			virtual void								SetExpectedLocation(Point value);
 			virtual Size								GetExpectedSize();
