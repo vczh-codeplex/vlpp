@@ -291,7 +291,7 @@ Margin
 			int		left, top, right, bottom;		//-1 == no limitation
 
 			Margin()
-				:left(0), top(0), right(0), bottom(0)
+				:left(-1), top(-1), right(-1), bottom(-1)
 			{
 			}
 

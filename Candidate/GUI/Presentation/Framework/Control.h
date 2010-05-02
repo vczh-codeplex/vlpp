@@ -109,10 +109,10 @@ Framework
 			bool										suspendLayout;
 		protected:
 
-			void										RequestRefresh();
-			void										UpdateGrid();
-			void										UpdateHost();
-			bool										RequestFocus();
+			virtual void								RequestRefresh();
+			virtual void								UpdateGrid();
+			virtual void								UpdateHost();
+			virtual bool								RequestFocus();
 			Size										ClientSizeFromSize(Size value);
 			Size										SizeFromClientSize(Size value);
 		public:
@@ -146,7 +146,6 @@ Framework
 			virtual void								SetExpectedLocation(Point value);
 			virtual Size								GetExpectedSize();
 			virtual void								SetExpectedSize(Size value);
-			virtual Point								GetExpectedClientLocation();
 			virtual Size								GetExpectedClientSize();
 			virtual void								SetExpectedClientSize(Size value);
 			virtual Margin								GetMargin();
@@ -155,6 +154,7 @@ Framework
 			virtual void								SetAutoSizeMode(bool value);
 			virtual Point								GetLocation();
 			virtual Size								GetSize();
+			virtual Point								GetClientLocation();
 			virtual Size								GetClientSize();
 
 			// ¿Ø¼þ×´Ì¬
