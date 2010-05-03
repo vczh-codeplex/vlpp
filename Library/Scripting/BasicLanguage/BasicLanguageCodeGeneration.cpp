@@ -542,6 +542,38 @@ BasicCodegenParameter
 				Code_Write(type, argument);
 			}
 
+			BasicTypeRecord* Code_InvokeFunction(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly)
+			{
+				BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
+				int index=GetFunctionIndex(referenceExpression, argument);
+
+				BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
+				int returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
+				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
+				int parameterSize=0;
+				for(int i=node->arguments.Count()-1;i>=0;i--)
+				{
+					BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
+					parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
+				}
+				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
+				if(index==-1)
+				{
+					BasicLanguage_PushValue(node->function, argument);
+					argument.il->Ins(BasicIns::label);
+					argument.il->Ins(BasicIns::call_indirect);
+				}
+				else
+				{
+					argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
+				}
+				if(sideEffectOnly)
+				{
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-returnSize));
+				}
+				return functionType->ReturnType();
+			}
+
 /***********************************************************************
 BasicLanguage_PushValueInternal
 ***********************************************************************/
@@ -856,29 +888,7 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
 				{
-					BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
-					int index=GetFunctionIndex(referenceExpression, argument);
-
-					BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(argument.info->GetTypeInfo(functionType->ReturnType())->size));
-					int parameterSize=0;
-					for(int i=node->arguments.Count()-1;i>=0;i--)
-					{
-						BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
-						parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
-					}
-					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
-					if(index==-1)
-					{
-						BasicLanguage_PushValue(node->function, argument);
-						argument.il->Ins(BasicIns::label);
-						argument.il->Ins(BasicIns::call_indirect);
-					}
-					else
-					{
-						argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
-					}
-					return functionType->ReturnType();
+					return Code_InvokeFunction(node, argument, false);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
@@ -1075,30 +1085,7 @@ BasicLanguage_RunSideEffectInternal
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
 				{
-					BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
-					int index=GetFunctionIndex(referenceExpression, argument);
-
-					BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
-					int returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
-					int parameterSize=0;
-					for(int i=node->arguments.Count()-1;i>=0;i--)
-					{
-						BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
-						parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
-					}
-					argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
-					if(index==-1)
-					{
-						BasicLanguage_PushValue(node->function, argument);
-						argument.il->Ins(BasicIns::label);
-						argument.il->Ins(BasicIns::call_indirect);
-					}
-					else
-					{
-						argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
-					}
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-returnSize));
+					Code_InvokeFunction(node, argument, true);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
@@ -1388,7 +1375,7 @@ BasicLanguage_GenerateCode
 					argument.info->GetLocalVariableOffsets().Add(node, offset);
 					if(node->initializer)
 					{
-						// Optimize for big type
+						// TODO: Optimize for big type
 						BasicLanguage_PushValue(node->initializer, argument, type);
 						argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
 						Code_Write(type, argument);
