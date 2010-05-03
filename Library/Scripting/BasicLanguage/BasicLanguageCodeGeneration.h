@@ -115,6 +115,11 @@ Algorithms
 			extern BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType);
 			extern BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal, BasicExpression, BCP, BasicTypeRecord*)
+
+			extern void BasicLanguage_RunSideEffect(Ptr<BasicExpression> expression, const BCP& argument);
+			extern void BasicLanguage_RunSideEffect(BasicExpression* expression, const BCP& argument);
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffectInternal, BasicExpression, BCP)
+
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
