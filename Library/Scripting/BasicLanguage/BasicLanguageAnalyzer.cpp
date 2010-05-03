@@ -470,8 +470,9 @@ BasicLanguage_GetExpressionType
 				return type;
 			}
 
-			bool CanImplicitConvertTo(BasicTypeRecord* from, BasicTypeRecord* to, const BP& argument)
+			bool CanImplicitConvertTo(BasicTypeRecord* from, BasicTypeRecord* to, BasicExpression* fromExpression, const BP& argument)
 			{
+				bool fromNull=dynamic_cast<BasicNullExpression*>(fromExpression)!=0;
 				if(from==to)
 				{
 					return true;
@@ -480,13 +481,24 @@ BasicLanguage_GetExpressionType
 				{
 					return argument.configuration.CanImplicitConvertTo(from->PrimitiveType(), to->PrimitiveType());
 				}
-				else if(from->GetType()==BasicTypeRecord::Pointer && to->GetType()==BasicTypeRecord::Pointer)
+				else if(to->GetType()==BasicTypeRecord::Pointer)
 				{
-					return to->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+					if(fromNull)
+					{
+						return true;
+					}
+					switch(from->GetType())
+					{
+					case BasicTypeRecord::Pointer:
+					case BasicTypeRecord::Function:
+						return to->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+					default:
+						return false;
+					}
 				}
-				else if(from->GetType()==BasicTypeRecord::Function && to->GetType()==BasicTypeRecord::Pointer)
+				else if(to->GetType()==BasicTypeRecord::Function)
 				{
-					return to->ElementType()==argument.typeManager->GetPrimitiveType(void_type);
+					return fromNull;
 				}
 				else
 				{
@@ -786,8 +798,8 @@ BasicLanguage_GetExpressionType
 									break;
 								case BasicTypeRecord::Pointer:
 									if(leftType->ElementType()!=rightType->ElementType() &&
-										leftType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type) &&
-										rightType->ElementType()!=argument.typeManager->GetPrimitiveType(void_type))
+										dynamic_cast<BasicNullExpression*>(node->leftOperand.Obj())==0 &&
+										dynamic_cast<BasicNullExpression*>(node->rightOperand.Obj())==0)
 									{
 										argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
 									}
@@ -795,9 +807,25 @@ BasicLanguage_GetExpressionType
 								}
 								return argument.typeManager->GetPrimitiveType(bool_type);
 							}
+							if(leftType->GetType()==BasicTypeRecord::Pointer || leftType->GetType()==BasicTypeRecord::Function)
+							{
+								if(dynamic_cast<BasicNullExpression*>(node->rightOperand.Obj())==0)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+								}
+								return argument.typeManager->GetPrimitiveType(bool_type);
+							}
+							if(rightType->GetType()==BasicTypeRecord::Pointer || rightType->GetType()==BasicTypeRecord::Function)
+							{
+								if(dynamic_cast<BasicNullExpression*>(node->leftOperand.Obj())==0)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetBinaryTypeNotMatch(node));
+								}
+								return argument.typeManager->GetPrimitiveType(bool_type);
+							}
 							break;
 						case BasicBinaryExpression::Assign:
-							if(CanImplicitConvertTo(rightType, leftType, argument))
+							if(CanImplicitConvertTo(rightType, leftType, node->rightOperand.Obj(), argument))
 							{
 								return leftType;
 							}
@@ -891,7 +919,7 @@ BasicLanguage_GetExpressionType
 						BasicTypeRecord* argumentType=BasicLanguage_GetExpressionType(node->arguments[i], argument);
 						if(argumentType!=0)
 						{
-							if(!CanImplicitConvertTo(argumentType, function->ParameterType(i), argument))
+							if(!CanImplicitConvertTo(argumentType, function->ParameterType(i), node->arguments[i].Obj(), argument))
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetArgumentTypeNotMatch(node, i));
 							}
@@ -1098,7 +1126,7 @@ BasicLanguage_CheckStatement
 						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
 						if(type && initializerType)
 						{
-							if(!CanImplicitConvertTo(initializerType, type, argument))
+							if(!CanImplicitConvertTo(initializerType, type, node->initializer.Obj(), argument))
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetInitializerTypeNotMatch(node));
 							}
@@ -1114,7 +1142,7 @@ BasicLanguage_CheckStatement
 				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
 				{
 					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, argument);
-					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), node->condition.Obj(), argument))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
 					}
@@ -1130,7 +1158,7 @@ BasicLanguage_CheckStatement
 					if(node->beginCondition)
 					{
 						BasicTypeRecord* beginConditionType=BasicLanguage_GetExpressionType(node->beginCondition, argument);
-						if(beginConditionType && !CanImplicitConvertTo(beginConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+						if(beginConditionType && !CanImplicitConvertTo(beginConditionType, argument.typeManager->GetPrimitiveType(bool_type), node->beginCondition.Obj(), argument))
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->beginCondition.Obj()));
 						}
@@ -1138,7 +1166,7 @@ BasicLanguage_CheckStatement
 					if(node->endCondition)
 					{
 						BasicTypeRecord* endConditionType=BasicLanguage_GetExpressionType(node->endCondition, argument);
-						if(endConditionType && !CanImplicitConvertTo(endConditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+						if(endConditionType && !CanImplicitConvertTo(endConditionType, argument.typeManager->GetPrimitiveType(bool_type), node->endCondition.Obj(), argument))
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->endCondition.Obj()));
 						}
@@ -1166,7 +1194,7 @@ BasicLanguage_CheckStatement
 						}
 					}
 					BasicTypeRecord* conditionType=BasicLanguage_GetExpressionType(node->condition, newArgument);
-					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), argument))
+					if(conditionType && !CanImplicitConvertTo(conditionType, argument.typeManager->GetPrimitiveType(bool_type), node->condition.Obj(), argument))
 					{
 						argument.errors.Add(BasicLanguageCodeException::GetConditionCannotConvertToBool(node->condition.Obj()));
 					}
@@ -1261,7 +1289,7 @@ BasicLanguage_BuildDeclarationBody
 							BasicTypeRecord* variableType=BasicLanguage_GetTypeRecord(node->type, argument);
 							if(initializerType && variableType)
 							{
-								if(!CanImplicitConvertTo(initializerType, variableType, argument))
+								if(!CanImplicitConvertTo(initializerType, variableType, node->initializer.Obj(), argument))
 								{
 									argument.errors.Add(BasicLanguageCodeException::GetInitializerTypeNotMatch(node));
 								}
