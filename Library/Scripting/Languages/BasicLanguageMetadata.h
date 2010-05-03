@@ -33,13 +33,13 @@ namespace vl
 Metadata
 ***********************************************************************/
 
-		// TODO: precalculate subitem list in each info
-
 		class BasicTypeInfo : public BasicMetadataInfo
 		{
 			friend class BasicDeclarationInfo;
+			typedef collections::List<ResourceHandle<BasicTypeLinkRes>> ComponentHandleList;
 		protected:
 			ResourceRecord<BasicTypeRes>			type;
+			Ptr<ComponentHandleList>				components;
 
 			ResourceHandle<BasicTypeLinkRes>		GetComponent(int index)const;
 			BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata);
@@ -67,8 +67,10 @@ Metadata
 		class BasicDeclarationInfo : public BasicMetadataInfo
 		{
 			friend class BasicLanguageMetadata;
+			typedef collections::List<ResourceHandle<BasicParameterRes>> ParameterHandleList;
 		protected:
 			ResourceRecord<BasicDeclarationRes>		declaration;
+			Ptr<ParameterHandleList>				parameters;
 
 			ResourceHandle<BasicParameterRes>		GetParameter(int index)const;
 			BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);

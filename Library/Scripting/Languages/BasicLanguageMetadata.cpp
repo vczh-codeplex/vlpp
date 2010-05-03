@@ -26,20 +26,27 @@ BasicTypeInfo
 
 		ResourceHandle<BasicTypeLinkRes> BasicTypeInfo::GetComponent(int index)const
 		{
-			int count=0;
-			ResourceHandle<BasicTypeLinkRes> currentComponent=type->subTypes;
-			while(currentComponent && count!=index)
+			if(components && index>=0 && index<components->Count())
 			{
-				currentComponent=metadata->GetResourceStream()->ReadRecord(currentComponent)->next;
-				count++;
+				return components->Get(index);
 			}
-			return currentComponent;
+			else
+			{
+				return ResourceHandle<BasicTypeLinkRes>();
+			}
 		}
 
 		BasicTypeInfo::BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata)
 			:BasicMetadataInfo(metadata)
 			,type(metadata->GetResourceStream()->ReadRecord(_type))
 		{
+			components=new ComponentHandleList;
+			ResourceHandle<BasicTypeLinkRes> currentComponent=type->subTypes;
+			while(currentComponent)
+			{
+				components->Add(currentComponent);
+				currentComponent=metadata->GetResourceStream()->ReadRecord(currentComponent)->next;
+			}
 		}
 
 		BasicTypeInfo::BasicTypeInfo()
@@ -104,14 +111,7 @@ BasicTypeInfo
 
 		int BasicTypeInfo::GetComponentCount()const
 		{
-			int count=0;
-			ResourceHandle<BasicTypeLinkRes> currentComponent=type->subTypes;
-			while(currentComponent)
-			{
-				currentComponent=metadata->GetResourceStream()->ReadRecord(currentComponent)->next;
-				count++;
-			}
-			return count;
+			return components?components->Count():0;
 		}
 
 		BasicTypeInfo BasicTypeInfo::GetComponentType(int index)const
@@ -159,20 +159,27 @@ BasicDeclarationInfo
 		
 		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetParameter(int index)const
 		{
-			int count=0;
-			ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
-			while(currentParameter && count!=index)
+			if(parameters && index>=0 && index<parameters->Count())
 			{
-				currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
-				count++;
+				return parameters->Get(index);
 			}
-			return currentParameter;
+			else
+			{
+				return ResourceHandle<BasicParameterRes>();
+			}
 		}
 
 		BasicDeclarationInfo::BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata)
 			:BasicMetadataInfo(metadata)
 			,declaration(metadata->GetResourceStream()->ReadRecord(_declaration))
 		{
+			parameters=new ParameterHandleList;
+			ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
+			while(currentParameter)
+			{
+				parameters->Add(currentParameter);
+				currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
+			}
 		}
 
 		BasicDeclarationInfo::BasicDeclarationInfo()
@@ -217,14 +224,7 @@ BasicDeclarationInfo
 
 		int BasicDeclarationInfo::GetParameterCount()const
 		{
-			int count=0;
-			ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
-			while(currentParameter)
-			{
-				currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
-				count++;
-			}
-			return count;
+			return parameters?parameters->Count():0;
 		}
 
 		WString BasicDeclarationInfo::GetParameterName(int index)const
