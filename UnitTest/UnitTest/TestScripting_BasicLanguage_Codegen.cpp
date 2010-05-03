@@ -1164,11 +1164,10 @@ TEST_CASE(TestScripting_BasicLanguage_WideString)
 
 TEST_CASE(TestScripting_BasicLanguage_Null)
 {
-	// TODO: here are some type mistakes on NULL
 	{
 		BasicProgramNode program;
 		program.DefineFunction(L"main").ReturnType(t_bool()).Statement(
-			s_var(*t_int(), L"a", e_null()[*t_int()])
+			s_var(*t_int(), L"a", e_null())
 			<<s_expr(e_result().Assign(e_name(L"a")==e_null()))
 			);
 		RunBasicProgram<bool>(program.GetInternalValue(), true);
@@ -1176,7 +1175,7 @@ TEST_CASE(TestScripting_BasicLanguage_Null)
 	{
 		BasicProgramNode program;
 		program.DefineFunction(L"main").ReturnType(t_bool()).Statement(
-			s_expr(e_result().Assign(e_name(L"main")[*t_int()]==e_null()))
+			s_expr(e_result().Assign(e_name(L"main")==e_null()))
 			);
 		RunBasicProgram<bool>(program.GetInternalValue(), false);
 	}
