@@ -43,10 +43,7 @@ BasicLanguage_GenerateCode
 					argument.info->GetLocalVariableOffsets().Add(node, offset);
 					if(node->initializer)
 					{
-						// TODO: Optimize for big type
-						BasicLanguage_PushValue(node->initializer, argument, type);
-						argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
-						Code_Write(type, argument);
+						BasicLanguage_StoreToAddress(node->initializer.Obj(), node, argument);
 					}
 				}
 
