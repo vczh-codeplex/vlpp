@@ -804,6 +804,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_StoreToAddress.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGRes_GenerateCode.cpp"
 							>
 						</File>

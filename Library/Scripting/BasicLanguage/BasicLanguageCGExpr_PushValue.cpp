@@ -14,28 +14,6 @@ namespace vl
 BasicLanguage_PushValueInternal
 ***********************************************************************/
 
-			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument)
-			{
-				return BasicLanguage_PushValueInternal(expression, argument);
-			}
-
-			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
-			{
-				return BasicLanguage_PushValueInternal(expression, argument);
-			}
-
-			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType)
-			{
-				return BasicLanguage_PushValue(expression.Obj(), argument, expectedType);
-			}
-
-			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType)
-			{
-				BasicTypeRecord* type=BasicLanguage_PushValueInternal(expression, argument);
-				Code_Convert(type, expectedType, argument);
-				return expectedType;
-			}
-
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal, BasicExpression, BCP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
@@ -367,6 +345,28 @@ BasicLanguage_PushValueInternal
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal)
+
+			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument)
+			{
+				return BasicLanguage_PushValueInternal(expression, argument);
+			}
+
+			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument)
+			{
+				return BasicLanguage_PushValueInternal(expression, argument);
+			}
+
+			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument, BasicTypeRecord* expectedType)
+			{
+				return BasicLanguage_PushValue(expression.Obj(), argument, expectedType);
+			}
+
+			BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument, BasicTypeRecord* expectedType)
+			{
+				BasicTypeRecord* type=BasicLanguage_PushValueInternal(expression, argument);
+				Code_Convert(type, expectedType, argument);
+				return expectedType;
+			}
 		}
 	}
 }

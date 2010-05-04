@@ -234,21 +234,29 @@ namespace vl
 				Code_Write(type, argument);
 			}
 
-			BasicTypeRecord* Code_InvokeFunction(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly)
+			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack)
 			{
 				BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
-				int index=GetFunctionIndex(referenceExpression, argument);
+				index=GetFunctionIndex(referenceExpression, argument);
 
 				BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
-				int returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
-				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
-				int parameterSize=0;
+				returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
+				if(returnInStack)
+				{
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
+				}
+
+				parameterSize=0;
 				for(int i=node->arguments.Count()-1;i>=0;i--)
 				{
 					BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
 					parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 				}
-				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
+				return functionType;
+			}
+
+			void Code_InvokeFunctionCallFunction(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack)
+			{
 				if(index==-1)
 				{
 					BasicLanguage_PushValue(node->function, argument);
@@ -259,10 +267,20 @@ namespace vl
 				{
 					argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
 				}
-				if(sideEffectOnly)
+				if(clearReturnInStack)
 				{
 					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-returnSize));
 				}
+			}
+
+			BasicTypeRecord* Code_InvokeFunction(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly)
+			{
+				int index=0;
+				int returnSize=0;
+				int parameterSize=0;
+				BasicTypeRecord* functionType=Code_InvokeFunctionPushParameters(node, argument, index, returnSize, parameterSize, true);
+				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
+				Code_InvokeFunctionCallFunction(node, argument, index, returnSize, parameterSize, sideEffectOnly);
 				return functionType->ReturnType();
 			}
 		}
