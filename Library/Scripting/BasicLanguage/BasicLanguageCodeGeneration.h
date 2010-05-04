@@ -78,7 +78,7 @@ namespace vl
 			};
 
 /***********************************************************************
-Algorithms
+Extension
 ***********************************************************************/
 
 			struct BasicCodegenParameter;
@@ -88,6 +88,7 @@ Algorithms
 			{
 			public:
 				virtual BasicTypeRecord*									PushValue(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void												RunSideEffect(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												PushRef(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
@@ -109,6 +110,30 @@ Algorithms
 				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
 			};
+
+/***********************************************************************
+Code Generation Helper Functions
+***********************************************************************/
+			
+			extern basicil::BasicIns::ValueType		Convert						(BasicPrimitiveTypeEnum type);
+			extern basicil::BasicIns::ValueType		Convert						(BasicTypeRecord* type);
+			extern basicil::BasicIns::Argument		Convert						(BasicPrimitiveValueEnum value);
+			extern int								GetFunctionIndex			(BasicReferenceExpression* referenceExpression, const BCP& argument);
+			extern void								Code_ScaleAdder				(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
+			extern void								Code_Read					(BasicTypeRecord* type, const BCP& argument);
+			extern void								Code_Write					(BasicTypeRecord* type, const BCP& argument);
+			extern void								Code_CopyStack				(BasicTypeRecord* type, const BCP& argument, int offset=0);
+			extern void								Code_Convert				(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument);
+			extern BasicTypeRecord*					Code_Binary					(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
+			extern BasicTypeRecord*					Code_Compare				(BasicBinaryExpression* node, BasicTypeRecord* leftType, BasicTypeRecord* rightType, const BCP& argument, basicil::BasicIns::OpCode opCode);
+			extern BasicTypeRecord*					Code_BinaryAssign			(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
+			extern void								Code_BinaryAssignSideEffect	(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
+			extern void								Code_BinaryAssignRef		(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
+			extern BasicTypeRecord*					Code_InvokeFunction			(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly);
+
+/***********************************************************************
+Code Generation
+***********************************************************************/
 
 			extern BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument);
 			extern BasicTypeRecord* BasicLanguage_PushValue(BasicExpression* expression, const BCP& argument);
