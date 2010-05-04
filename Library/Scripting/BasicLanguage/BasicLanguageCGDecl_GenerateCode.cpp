@@ -33,6 +33,7 @@ BasicLanguage_GenerateCodePass1
 
 					if(node->initializer)
 					{
+						// TODO: Optimize for big type
 						BasicLanguage_PushValue(node->initializer, argument, type);
 						argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 						Code_Write(type, argument);

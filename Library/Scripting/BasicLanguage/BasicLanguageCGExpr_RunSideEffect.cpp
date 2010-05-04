@@ -10,20 +10,10 @@ namespace vl
 			using namespace stream;
 
 /***********************************************************************
-BasicLanguage_RunSideEffectInternal
+BasicLanguage_RunSideEffect
 ***********************************************************************/
 
-			void BasicLanguage_RunSideEffect(Ptr<BasicExpression> expression, const BCP& argument)
-			{
-				BasicLanguage_RunSideEffectInternal(expression, argument);
-			}
-
-			void BasicLanguage_RunSideEffect(BasicExpression* expression, const BCP& argument)
-			{
-				BasicLanguage_RunSideEffectInternal(expression, argument);
-			}
-
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffectInternal, BasicExpression, BCP)
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffect, BasicExpression, BCP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
@@ -137,10 +127,7 @@ BasicLanguage_RunSideEffectInternal
 						break;
 					case BasicBinaryExpression::Assign:
 						{
-							// TODO: Optimize for big type
-							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							BasicLanguage_PushRef(node->leftOperand, argument);
-							Code_Write(leftType, argument);
+							BasicLanguage_StoreToAddress(node->rightOperand.Obj(), node->leftOperand.Obj(), argument);
 						}
 						break;
 					default:
@@ -183,7 +170,7 @@ BasicLanguage_RunSideEffectInternal
 					argument.codegenExtension->RunSideEffect(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffectInternal)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffect)
 		}
 	}
 }
