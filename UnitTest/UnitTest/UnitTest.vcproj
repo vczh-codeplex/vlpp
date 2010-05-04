@@ -841,6 +841,34 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGCommon_GenerateCode.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGDecl_GenerateCode.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRef.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushValue.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_RunSideEffect.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGRes_GenerateCode.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGStat_GenerateCode.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.cpp"
 							>
 						</File>
