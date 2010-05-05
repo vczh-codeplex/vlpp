@@ -137,6 +137,11 @@ namespace vl
 				}
 			}
 
+			void Code_Copy(BasicTypeRecord* type, const BCP& argument)
+			{
+				argument.il->Ins(BasicIns::copymem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+			}
+
 			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset)
 			{
 				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
@@ -228,7 +233,8 @@ namespace vl
 				int size=argument.info->GetTypeInfo(type)->size;
 				BasicLanguage_PushRef(node->leftOperand, argument);
 				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				BasicLanguage_PushValue(node->leftOperand, argument, type);
+				Code_CopyStack(pointerType, argument, size);
+				Code_Read(type, argument);
 				argument.il->Ins(opCode, Convert(type));
 				Code_CopyStack(pointerType, argument, size);
 				Code_Write(type, argument);

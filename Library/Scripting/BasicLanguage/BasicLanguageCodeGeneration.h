@@ -122,6 +122,7 @@ Code Generation Helper Functions
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Write							(BasicTypeRecord* type, const BCP& argument);
+			extern void								Code_Copy							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_CopyStack						(BasicTypeRecord* type, const BCP& argument, int offset=0);
 			extern void								Code_Convert						(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument);
 			extern BasicTypeRecord*					Code_Binary							(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);

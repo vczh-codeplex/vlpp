@@ -1,4 +1,5 @@
 #include "BasicLanguageCodeGeneration.h"
+#include "BasicLanguageAnalyzer.h"
 
 namespace vl
 {
@@ -8,6 +9,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 BasicLanguage_StoreToAddressInternal
@@ -149,9 +151,25 @@ BasicLanguage_StoreToAddressInternal
 					}
 				}
 
-				BasicLanguage_PushValue(expression, argument, addressType);
-				stap.WriteAddress();
-				Code_Write(addressType, argument);
+				BP bp(
+					argument.info->GetEnv(),
+					0,
+					argument.info->GetTypeManager(),
+					*(List<Ptr<BasicLanguageCodeException>>*)0,
+					*(SortedList<WString>*)0
+					);
+				if(expressionType==addressType && BasicLanguage_IsLeftValue(expression, bp))
+				{
+					BasicLanguage_PushRef(expression, argument);
+					stap.WriteAddress();
+					Code_Copy(addressType, argument);
+				}
+				else
+				{
+					BasicLanguage_PushValue(expression, argument, addressType);
+					stap.WriteAddress();
+					Code_Write(addressType, argument);
+				}
 			}
 
 			void BasicLanguage_StoreToAddress(BasicExpression* expression, BasicExpression* address, const BCP& argument)
