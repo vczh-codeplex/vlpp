@@ -734,6 +734,14 @@ BasicILStack
 								env->Reserve(-size);
 							}
 							break;
+						case BasicIns::copymem:
+							{
+								int size=ins.argument.int_value;
+								void* dst=env->Pop<void*>();
+								void* src=env->Pop<void*>();
+								memcpy(dst, src, size);
+							}
+							break;
 						case BasicIns::jump:
 							nextInstruction=ins.argument.int_value;
 							nextInsKey=ins.insKey;
