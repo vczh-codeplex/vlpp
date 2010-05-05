@@ -207,12 +207,15 @@ namespace vl
 			BasicTypeRecord* Code_BinaryAssign(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				BasicLanguage_PushValue(node->leftOperand, argument, type);
-				argument.il->Ins(opCode, Convert(type));
-				Code_CopyStack(type, argument);
+				int size=argument.info->GetTypeInfo(type)->size;
 				BasicLanguage_PushRef(node->leftOperand, argument);
+				BasicLanguage_PushValue(node->rightOperand, argument, type);
+				Code_CopyStack(argument.info->GetTypeManager()->GetPointerType(type), argument, size);
+				Code_Read(type, argument);
+				argument.il->Ins(opCode, Convert(type));
+				Code_CopyStack(argument.info->GetTypeManager()->GetPointerType(type), argument, size);
 				Code_Write(type, argument);
+				Code_Read(type, argument);
 				return type;
 			}
 
