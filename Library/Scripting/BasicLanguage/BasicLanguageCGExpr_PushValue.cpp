@@ -52,20 +52,37 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+					int operandSize=argument.info->GetTypeInfo(operandType)->size;
+					int operandAddressSize=argument.info->GetTypeInfo(argument.info->GetTypeManager()->GetPointerType(operandType))->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
 						{
-							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
-							argument.il->Ins(BasicIns::add, Convert(operandType));
-							Code_CopyStack(operandType, argument);
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							Code_ScaleAdder(operandType, argument, true);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Read(operandType, argument);
+							argument.il->Ins(BasicIns::add, Convert(operandType));
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Write(operandType, argument);
+							Code_Read(operandType, argument);
 						}
 						break;
 					case BasicUnaryExpression::PostfixIncrease:
 						{
+							/*argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(operandSize));
+							BasicLanguage_PushRef(node->operand, argument);
+							Code_CopyAddressInStack(node->operand.Obj(), argument);
+							argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(operandAddressSize*2));
+							Code_Copy(operandType, argument);
+							Code_ScaleAdder(operandType, argument, true);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Read(operandType, argument);
+							argument.il->Ins(BasicIns::add, Convert(operandType));
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							argument.il->Ins(BasicIns::write, Convert(operandType));
+							argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-operandAddressSize));*/
+							
 							BasicLanguage_PushValue(node->operand, argument);
 							Code_ScaleAdder(operandType, argument, true);
 							Code_CopyStack(operandType, argument, argument.info->GetTypeInfo(operandType)->size);
@@ -76,12 +93,14 @@ BasicLanguage_PushValueInternal
 						break;
 					case BasicUnaryExpression::PrefixDecrease:
 						{
-							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
-							argument.il->Ins(BasicIns::sub, Convert(operandType));
-							Code_CopyStack(operandType, argument);
 							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							Code_ScaleAdder(operandType, argument, true);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Read(operandType, argument);
+							argument.il->Ins(BasicIns::sub, Convert(operandType));
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Write(operandType, argument);
+							Code_Read(operandType, argument);
 						}
 						break;
 					case BasicUnaryExpression::PostfixDecrease:
@@ -135,6 +154,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
+					int leftSize=argument.info->GetTypeInfo(leftType)->size;
 
 					switch(node->type)
 					{
@@ -224,13 +244,15 @@ BasicLanguage_PushValueInternal
 					case BasicBinaryExpression::AddAssign:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
+							BasicLanguage_PushRef(node->leftOperand.Obj(), argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
+							Code_Read(leftType, argument);
 							argument.il->Ins(BasicIns::add, Convert(leftType));
-							Code_CopyStack(leftType, argument);
-							BasicLanguage_PushRef(node->leftOperand, argument);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
+							Code_Read(leftType, argument);
 							return leftType;
 						}
 						else
@@ -240,13 +262,15 @@ BasicLanguage_PushValueInternal
 					case BasicBinaryExpression::SubAssign:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
+							BasicLanguage_PushRef(node->leftOperand.Obj(), argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
+							Code_Read(leftType, argument);
 							argument.il->Ins(BasicIns::sub, Convert(leftType));
-							Code_CopyStack(leftType, argument);
-							BasicLanguage_PushRef(node->leftOperand, argument);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
+							Code_Read(leftType, argument);
 							return leftType;
 						}
 						else

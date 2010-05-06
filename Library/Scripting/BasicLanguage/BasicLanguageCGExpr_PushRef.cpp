@@ -39,7 +39,6 @@ BasicLanguage_PushRef
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
 				{
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
-					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(operandType);
 					int operandSize=argument.info->GetTypeInfo(operandType)->size;
 					switch(node->type)
 					{
@@ -49,7 +48,7 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
 							argument.il->Ins(BasicIns::add, Convert(operandType));
-							Code_CopyStack(operandType, argument, operandSize);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
@@ -59,7 +58,7 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(operandType, argument, true);
 							BasicLanguage_PushValue(node->operand, argument);
 							argument.il->Ins(BasicIns::sub, Convert(operandType));
-							Code_CopyStack(operandType, argument, operandSize);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
@@ -84,9 +83,10 @@ BasicLanguage_PushRef
 							BasicLanguage_PushRef(node->leftOperand, argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
+							Code_Read(leftType, argument);
 							argument.il->Ins(BasicIns::add, Convert(leftType));
-							Code_CopyStack(pointerType, argument, leftSize);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
 						}
 						else
@@ -100,9 +100,10 @@ BasicLanguage_PushRef
 							BasicLanguage_PushRef(node->leftOperand, argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
 							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
+							Code_Read(leftType, argument);
 							argument.il->Ins(BasicIns::sub, Convert(leftType));
-							Code_CopyStack(pointerType, argument, leftSize);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
 						}
 						else
@@ -141,7 +142,7 @@ BasicLanguage_PushRef
 							// TODO: Optimize for big type
 							BasicLanguage_PushRef(node->leftOperand, argument);
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							Code_CopyStack(pointerType, argument, leftSize);
+							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
 						}
 						break;
