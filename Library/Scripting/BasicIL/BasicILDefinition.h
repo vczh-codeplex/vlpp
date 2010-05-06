@@ -55,6 +55,7 @@ OpCode:
 #include "..\..\Collections\List.h"
 #include "..\..\Collections\Dictionary.h"
 #include "..\..\Stream\Interfaces.h"
+#include "..\..\Stream\Accessor.h"
 #include "BasicILResourceStream.h"
 
 namespace vl
@@ -197,6 +198,7 @@ namespace vl
 
 				void							LoadFromStream(stream::IStream& stream);
 				void							SaveToStream(stream::IStream& stream);
+				void							SaveAsString(stream::TextWriter& writer);
 			};
 		}
 	}
