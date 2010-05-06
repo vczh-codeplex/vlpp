@@ -148,6 +148,13 @@ namespace vl
 				Code_Read(type, argument);
 			}
 
+			void Code_CopyAddressInStack(BasicExpression* addressExpression, const BCP& argument, int offset)
+			{
+				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(addressExpression);
+				BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
+				Code_CopyStack(pointerType, argument, offset);
+			}
+
 			void Code_Convert(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument)
 			{
 				if(from!=to)
@@ -210,10 +217,10 @@ namespace vl
 				int size=argument.info->GetTypeInfo(type)->size;
 				BasicLanguage_PushRef(node->leftOperand, argument);
 				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				Code_CopyStack(argument.info->GetTypeManager()->GetPointerType(type), argument, size);
+				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 				Code_Read(type, argument);
 				argument.il->Ins(opCode, Convert(type));
-				Code_CopyStack(argument.info->GetTypeManager()->GetPointerType(type), argument, size);
+				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 				Code_Write(type, argument);
 				Code_Read(type, argument);
 				return type;
@@ -232,14 +239,13 @@ namespace vl
 			void Code_BinaryAssignRef(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-				BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
 				int size=argument.info->GetTypeInfo(type)->size;
 				BasicLanguage_PushRef(node->leftOperand, argument);
 				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				Code_CopyStack(pointerType, argument, size);
+				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 				Code_Read(type, argument);
 				argument.il->Ins(opCode, Convert(type));
-				Code_CopyStack(pointerType, argument, size);
+				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 				Code_Write(type, argument);
 			}
 
