@@ -1,3 +1,4 @@
+#include <wchar.h>
 #include "BasicILDefinition.h"
 
 namespace vl
@@ -470,10 +471,73 @@ BasicIL
 #undef CASE
 			}
 
+			void WriteInteger(int integer, stream::TextWriter& writer)
+			{
+				WString intstr=itow(integer);
+				int spaces=6-intstr.Length();
+				while(spaces--)
+				{
+					writer.WriteString(L" ");
+				}
+				writer.WriteString(intstr);
+			}
+
+			void WriteData(Array<char>& data, stream::TextWriter& writer)
+			{
+				const int lineBytes=16;
+				const wchar_t* hex=L"0123456789ABCDEF";
+
+				int lines=data.Count()/lineBytes;
+				if(data.Count()%lineBytes)
+				{
+					lines+=1;
+				}
+
+				for(int i=0;i<lines;i++)
+				{
+					int start=i*lineBytes;
+					{
+						wchar_t buffer[100];
+						_itow_s(start, buffer, sizeof(buffer)/sizeof*(buffer), 16);
+						size_t length=wcslen(buffer);
+						int count=8-length;
+						writer.WriteString(L"0x");
+						while(count--)
+						{
+							writer.WriteString(L"0");
+						}
+						writer.WriteString(buffer);
+						writer.WriteString(L": ");
+					}
+					for(int j=start;j<data.Count()&&j-start<lineBytes;j++)
+					{
+						unsigned char c=(unsigned char)data[j];
+						writer.WriteChar(hex[c/16]);
+						writer.WriteChar(hex[c%16]);
+						writer.WriteString(L" ");
+					}
+					writer.WriteLine(L"");
+				}
+			}
+
 			void BasicIL::SaveAsString(stream::TextWriter& writer)
 			{
+				writer.WriteLine(L".data");
+				WriteData(globalData, writer);
+
+				writer.WriteLine(L".label");
+				for(int i=0;i<labels.Count();i++)
+				{
+					WriteInteger(i, writer);
+					writer.WriteString(L": ");
+					writer.WriteLine(L"instruction "+itow(labels[i].instructionIndex));
+				}
+
+				writer.WriteLine(L".code");
 				for(int i=0;i<instructions.Count();i++)
 				{
+					WriteInteger(i, writer);
+					writer.WriteString(L": ");
 					writer.WriteLine(BasicInsToString(instructions[i]));
 				}
 			}
