@@ -853,6 +853,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRefWithoutSideEffect.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushValue.cpp"
 							>
 						</File>
