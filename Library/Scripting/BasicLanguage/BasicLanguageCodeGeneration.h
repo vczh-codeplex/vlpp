@@ -90,6 +90,9 @@ Extension
 				virtual BasicTypeRecord*									PushValue(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												RunSideEffect(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												PushRef(BasicExtendedExpression* expression, const BCP& argument);
+				virtual void												PushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
+				virtual bool												CanPushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
+				virtual bool												IsSimpleExpression(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
 				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);
@@ -150,6 +153,8 @@ Code Generation
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_RunSideEffect, BasicExpression, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRefWithoutSideEffect, BasicExpression, BCP)
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect, BasicExpression, BCP, bool)
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
