@@ -150,9 +150,16 @@ namespace vl
 
 			void Code_CopyAddressInStack(BasicExpression* addressExpression, const BCP& argument, int offset)
 			{
-				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(addressExpression);
-				BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
-				Code_CopyStack(pointerType, argument, offset);
+				if(BasicLanguage_CanPushRefWithoutSideEffect(addressExpression, argument))
+				{
+					BasicLanguage_PushRefWithoutSideEffect(addressExpression, argument);
+				}
+				else
+				{
+					BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(addressExpression);
+					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
+					Code_CopyStack(pointerType, argument, offset);
+				}
 			}
 
 			void Code_Convert(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument)

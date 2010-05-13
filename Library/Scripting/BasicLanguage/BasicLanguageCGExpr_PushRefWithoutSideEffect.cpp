@@ -96,7 +96,7 @@ BasicLanguage_CanPushRefWithoutSideEffect
 
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionResultExpression)
 				{
-					return true;
+					return false;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
@@ -200,7 +200,7 @@ BasicLanguage_PushRefWithoutSideEffect
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
-					BasicLanguage_PushRef(node, argument);
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
