@@ -33,28 +33,58 @@ BasicLanguage_RunSideEffect
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
 				{
-					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
+					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(operandType);
+					int size=argument.info->GetTypeInfo(operandType)->size;
+					int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
 					case BasicUnaryExpression::PostfixIncrease:
 						{
-							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
-							argument.il->Ins(BasicIns::add, Convert(operandType));
-							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							if(BasicLanguage_CanPushRefWithoutSideEffect(node->operand, argument))
+							{
+								Code_ScaleAdder(operandType, argument, true);
+								BasicLanguage_PushValue(node->operand, argument);
+								argument.il->Ins(BasicIns::add, Convert(operandType));
+								BasicLanguage_PushRefWithoutSideEffect(node->operand, argument);
+								argument.il->Ins(BasicIns::write, Convert(operandType));
+							}
+							else
+							{
+								BasicLanguage_PushRef(node->operand, argument);
+								Code_ScaleAdder(operandType, argument, true);
+								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
+								Code_Read(operandType, argument);
+								argument.il->Ins(BasicIns::add, Convert(operandType));
+								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
+								argument.il->Ins(BasicIns::write, Convert(operandType));
+								argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+							}
 						}
 						break;
 					case BasicUnaryExpression::PrefixDecrease:
 					case BasicUnaryExpression::PostfixDecrease:
 						{
-							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
-							argument.il->Ins(BasicIns::sub, Convert(operandType));
-							BasicLanguage_PushRef(node->operand, argument);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							if(BasicLanguage_CanPushRefWithoutSideEffect(node->operand, argument))
+							{
+								Code_ScaleAdder(operandType, argument, true);
+								BasicLanguage_PushValue(node->operand, argument);
+								argument.il->Ins(BasicIns::sub, Convert(operandType));
+								BasicLanguage_PushRefWithoutSideEffect(node->operand, argument);
+								argument.il->Ins(BasicIns::write, Convert(operandType));
+							}
+							else
+							{
+								BasicLanguage_PushRef(node->operand, argument);
+								Code_ScaleAdder(operandType, argument, true);
+								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
+								Code_Read(operandType, argument);
+								argument.il->Ins(BasicIns::sub, Convert(operandType));
+								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
+								argument.il->Ins(BasicIns::write, Convert(operandType));
+								argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+							}
 						}
 						break;
 					default:
@@ -66,18 +96,36 @@ BasicLanguage_RunSideEffect
 				{
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
+					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(leftType);
+					int size=argument.info->GetTypeInfo(leftType)->size;
+					int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 
 					switch(node->type)
 					{
 					case BasicBinaryExpression::AddAssign:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
-							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
-							argument.il->Ins(BasicIns::add, Convert(leftType));
-							BasicLanguage_PushRef(node->leftOperand, argument);
-							Code_Write(leftType, argument);
+							if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+							{
+								BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+								Code_ScaleAdder(leftType, argument, false);
+								BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+								argument.il->Ins(BasicIns::add, Convert(leftType));
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								Code_Write(leftType, argument);
+							}
+							else
+							{
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+								Code_ScaleAdder(leftType, argument, false);
+								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+								Code_Read(leftType, argument);
+								argument.il->Ins(BasicIns::add, Convert(leftType));
+								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+								Code_Write(leftType, argument);
+								argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+							}
 						}
 						else
 						{
@@ -87,12 +135,27 @@ BasicLanguage_RunSideEffect
 					case BasicBinaryExpression::SubAssign:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
-							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							Code_ScaleAdder(leftType, argument, false);
-							BasicLanguage_PushValue(node->leftOperand, argument, leftType);
-							argument.il->Ins(BasicIns::sub, Convert(leftType));
-							BasicLanguage_PushRef(node->leftOperand, argument);
-							Code_Write(leftType, argument);
+							if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+							{
+								BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+								Code_ScaleAdder(leftType, argument, false);
+								BasicLanguage_PushValue(node->leftOperand, argument, leftType);
+								argument.il->Ins(BasicIns::sub, Convert(leftType));
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								Code_Write(leftType, argument);
+							}
+							else
+							{
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+								Code_ScaleAdder(leftType, argument, false);
+								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+								Code_Read(leftType, argument);
+								argument.il->Ins(BasicIns::sub, Convert(leftType));
+								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+								Code_Write(leftType, argument);
+								argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+							}
 						}
 						else
 						{
