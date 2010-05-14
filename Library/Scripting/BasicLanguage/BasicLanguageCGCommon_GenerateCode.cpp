@@ -222,38 +222,81 @@ namespace vl
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
 				int size=argument.info->GetTypeInfo(type)->size;
-				BasicLanguage_PushRef(node->leftOperand, argument);
-				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
-				Code_Read(type, argument);
-				argument.il->Ins(opCode, Convert(type));
-				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
-				Code_Write(type, argument);
-				Code_Read(type, argument);
+				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+				{
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					BasicLanguage_PushValue(node->leftOperand, argument);
+					argument.il->Ins(opCode, Convert(type));
+					Code_CopyStack(type, argument);
+					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
+					Code_Write(type, argument);
+				}
+				else
+				{
+					BasicLanguage_PushRef(node->leftOperand, argument);
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Read(type, argument);
+					argument.il->Ins(opCode, Convert(type));
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Write(type, argument);
+					Code_Read(type, argument);
+				}
 				return type;
 			}
 
 			void Code_BinaryAssignSideEffect(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				BasicLanguage_PushValue(node->leftOperand, argument, type);
-				argument.il->Ins(opCode, Convert(type));
-				BasicLanguage_PushRef(node->leftOperand, argument);
-				Code_Write(type, argument);
+				BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
+				int size=argument.info->GetTypeInfo(type)->size;
+				int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+
+				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+				{
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					BasicLanguage_PushValue(node->leftOperand, argument, type);
+					argument.il->Ins(opCode, Convert(type));
+					BasicLanguage_PushRef(node->leftOperand, argument);
+					Code_Write(type, argument);
+				}
+				else
+				{
+					BasicLanguage_PushRef(node->leftOperand, argument);
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Read(type, argument);
+					argument.il->Ins(opCode, Convert(type));
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Write(type, argument);
+					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+				}
 			}
 
 			void Code_BinaryAssignRef(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
 				int size=argument.info->GetTypeInfo(type)->size;
-				BasicLanguage_PushRef(node->leftOperand, argument);
-				BasicLanguage_PushValue(node->rightOperand, argument, type);
-				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
-				Code_Read(type, argument);
-				argument.il->Ins(opCode, Convert(type));
-				Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
-				Code_Write(type, argument);
+
+				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+				{
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					BasicLanguage_PushValue(node->leftOperand, argument);
+					argument.il->Ins(opCode, Convert(type));
+					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
+					Code_Write(type, argument);
+					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
+				}
+				else
+				{
+					BasicLanguage_PushRef(node->leftOperand, argument);
+					BasicLanguage_PushValue(node->rightOperand, argument, type);
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Read(type, argument);
+					argument.il->Ins(opCode, Convert(type));
+					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
+					Code_Write(type, argument);
+				}
 			}
 
 			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack)

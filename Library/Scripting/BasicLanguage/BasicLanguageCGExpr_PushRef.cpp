@@ -46,7 +46,8 @@ BasicLanguage_PushRef
 						{
 							BasicLanguage_PushRef(node->operand, argument);
 							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Read(operandType, argument);
 							argument.il->Ins(BasicIns::add, Convert(operandType));
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
@@ -56,7 +57,8 @@ BasicLanguage_PushRef
 						{
 							BasicLanguage_PushRef(node->operand, argument);
 							Code_ScaleAdder(operandType, argument, true);
-							BasicLanguage_PushValue(node->operand, argument);
+							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
+							Code_Read(operandType, argument);
 							argument.il->Ins(BasicIns::sub, Convert(operandType));
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							argument.il->Ins(BasicIns::write, Convert(operandType));
