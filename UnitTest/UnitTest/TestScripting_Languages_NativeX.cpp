@@ -534,6 +534,7 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
 		BasicFunctionExecutor<int(int,int)> addFunc(add, state);
 		BasicFunctionExecutor<int(int,int)> subFunc(sub, state);
 
@@ -632,6 +633,7 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
 		BasicFunctionExecutor<void(int*,int)> sortFunc(sort, state);
 		{
 			sortFunc(0, 0);
@@ -843,6 +845,7 @@ TEST_CASE(Test_NativeX_Sum)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
 
 		List<BasicDeclarationInfo> sums;
 		sums.Add(metadata->GetDeclaration(0));
