@@ -69,7 +69,9 @@ namespace vl
 			}
 
 			bool										PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer);
+			void										PrepareToRun(Ptr<LanguageAssembly> assembly, int instructionIndex, void* returnPointer);
 			basicil::BasicILStack::RunningResult		Run();
+			basicil::BasicILStack::RunningResult		RunInitialization(Ptr<LanguageAssembly> assembly);
 			int											GetForeignFunctionIndex();
 			void*										GetForeignFunctionResultStore();
 		};

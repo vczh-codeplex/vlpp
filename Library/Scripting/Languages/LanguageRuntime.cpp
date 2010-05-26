@@ -85,8 +85,19 @@ LanguageHost
 			}
 		}
 
+		void LanguageState::PrepareToRun(Ptr<LanguageAssembly> assembly, int instructionIndex, void* returnPointer)
+		{
+			stack->ResetBuffer(instructionIndex, assembly->GetInstructionKey(), returnPointer);
+		}
+
 		basicil::BasicILStack::RunningResult LanguageState::Run()
 		{
+			return stack->Run();
+		}
+
+		basicil::BasicILStack::RunningResult LanguageState::RunInitialization(Ptr<LanguageAssembly> assembly)
+		{
+			PrepareToRun(assembly, 0, 0);
 			return stack->Run();
 		}
 
