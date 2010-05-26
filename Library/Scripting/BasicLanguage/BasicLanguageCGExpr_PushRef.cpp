@@ -15,6 +15,7 @@ BasicLanguage_PushRef
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
@@ -48,9 +49,9 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(operandType, argument, true);
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							Code_Read(operandType, argument);
-							argument.il->Ins(BasicIns::add, Convert(operandType));
+							argument.Ins(BasicIns::add, Convert(operandType));
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							argument.Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::PrefixDecrease:
@@ -59,9 +60,9 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(operandType, argument, true);
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 							Code_Read(operandType, argument);
-							argument.il->Ins(BasicIns::sub, Convert(operandType));
+							argument.Ins(BasicIns::sub, Convert(operandType));
 							Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
-							argument.il->Ins(BasicIns::write, Convert(operandType));
+							argument.Ins(BasicIns::write, Convert(operandType));
 						}
 						break;
 					case BasicUnaryExpression::DereferencePointer:
@@ -87,7 +88,7 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(leftType, argument, false);
 							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Read(leftType, argument);
-							argument.il->Ins(BasicIns::add, Convert(leftType));
+							argument.Ins(BasicIns::add, Convert(leftType));
 							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
 						}
@@ -104,7 +105,7 @@ BasicLanguage_PushRef
 							Code_ScaleAdder(leftType, argument, false);
 							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Read(leftType, argument);
-							argument.il->Ins(BasicIns::sub, Convert(leftType));
+							argument.Ins(BasicIns::sub, Convert(leftType));
 							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
 							Code_Write(leftType, argument);
 						}
@@ -168,7 +169,7 @@ BasicLanguage_PushRef
 					}
 					BasicLanguage_PushValue(node->subscribe, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
 					Code_ScaleAdder(operandType, argument, false);
-					argument.il->Ins(BasicIns::add, BasicIns::int_type);
+					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
@@ -188,8 +189,8 @@ BasicLanguage_PushRef
 					{
 						BasicLanguage_PushRef(node->operand, argument);
 					}
-					argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
-					argument.il->Ins(BasicIns::add, BasicIns::int_type);
+					argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
+					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
@@ -199,7 +200,7 @@ BasicLanguage_PushRef
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
-					argument.il->Ins(BasicIns::resptr);
+					argument.Ins(BasicIns::resptr);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
@@ -215,12 +216,12 @@ BasicLanguage_PushRef
 						if(reference.globalVariable)
 						{
 							int offset=argument.info->GetGlobalVariableOffsets()[reference.globalVariable];
-							argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+							argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 						}
 						else if(reference.localVariable)
 						{
 							int offset=argument.info->GetLocalVariableOffsets()[reference.localVariable];
-							argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
+							argument.Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
 						}
 						else
 						{
@@ -231,7 +232,7 @@ BasicLanguage_PushRef
 							{
 								offset+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 							}
-							argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset+sizeof(int)*4));
+							argument.Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset+sizeof(int)*4));
 						}
 					}
 					else

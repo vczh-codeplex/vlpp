@@ -11,6 +11,18 @@ namespace vl
 			using namespace stream;
 			using namespace collections;
 
+#define BASIC_LANGUAGE_STORETOADDRESS_ALGORITHM_INITIALIZER\
+			BasicLanguageElement* lastCurrentLanguageElement;\
+			ALGORITHM_BEFORE_CALL\
+			{\
+				lastCurrentLanguageElement=argument.argument.currentLanguageElement;\
+				const_cast<BCP&>(argument.argument).currentLanguageElement=node;\
+			}\
+			ALGORITHM_AFTER_CALL\
+			{\
+				const_cast<BCP&>(argument.argument).currentLanguageElement=lastCurrentLanguageElement;\
+			}
+
 /***********************************************************************
 BasicLanguage_StoreToAddressInternal
 ***********************************************************************/
@@ -55,17 +67,18 @@ BasicLanguage_StoreToAddressInternal
 					else if(variableStatement)
 					{
 						int offset=argument.info->GetLocalVariableOffsets()[variableStatement];
-						argument.il->Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
+						argument.Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
 					}
 					else if(variableDeclaration)
 					{
 						int offset=argument.info->GetGlobalVariableOffsets()[variableDeclaration];
-						argument.il->Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+						argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 					}
 				}
 			};
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_StoreToAddressInternal, BasicExpression, StoreToAddressParameter, bool)
+				BASIC_LANGUAGE_STORETOADDRESS_ALGORITHM_INITIALIZER
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
 				{

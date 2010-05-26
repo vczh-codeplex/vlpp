@@ -20,6 +20,7 @@ BasicIns
 				type2=(ValueType)0;
 				argument.s64=0;
 				insKey=-1;
+				userData=0;
 			}
 
 			bool BasicIns::operator==(const BasicIns& ins)const
@@ -194,6 +195,42 @@ BasicIL
 				instructions.Add(ins);
 				return *this;
 			}
+			
+			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, void* userData)
+			{
+				Ins(opcode);
+				instructions[instructions.Count()-1].userData=userData;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData)
+			{
+				Ins(opcode, argument);
+				instructions[instructions.Count()-1].userData=userData;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData)
+			{
+				Ins(opcode, type1);
+				instructions[instructions.Count()-1].userData=userData;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData)
+			{
+				Ins(opcode, type1, argument);
+				instructions[instructions.Count()-1].userData=userData;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData)
+			{
+				Ins(opcode, type1, type2);
+				instructions[instructions.Count()-1].userData=userData;
+				return *this;
+			}
+
 
 			// Deserialization Begin
 

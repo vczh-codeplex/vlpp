@@ -15,6 +15,7 @@ BasicLanguage_CanPushRefWithoutSideEffect
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect, BasicExpression, BCP, bool)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
 				{
@@ -130,6 +131,7 @@ BasicLanguage_PushRefWithoutSideEffect
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_PushRefWithoutSideEffect, BasicExpression, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
@@ -176,7 +178,7 @@ BasicLanguage_PushRefWithoutSideEffect
 					}
 					BasicLanguage_PushValue(node->subscribe, argument, argument.info->GetTypeManager()->GetPrimitiveType(int_type));
 					Code_ScaleAdder(operandType, argument, false);
-					argument.il->Ins(BasicIns::add, BasicIns::int_type);
+					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
@@ -189,8 +191,8 @@ BasicLanguage_PushRefWithoutSideEffect
 					BasicTypeInfo* structureInfo=argument.info->GetTypeInfo(structureType);
 					int offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
 					BasicLanguage_PushRefWithoutSideEffect(node->operand, argument);
-					argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
-					argument.il->Ins(BasicIns::add, BasicIns::int_type);
+					argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
+					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)

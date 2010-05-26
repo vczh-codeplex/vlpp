@@ -325,6 +325,7 @@ BasicCodegenParameter
 				,globalData(_globalData)
 				,codegenExtension(&defaultCodegenExtension)
 				,resource(_resource)
+				,currentLanguageElement(0)
 			{
 			}
 
@@ -334,7 +335,33 @@ BasicCodegenParameter
 				,globalData(parameter.globalData)
 				,codegenExtension(parameter.codegenExtension)
 				,resource(parameter.resource)
+				,currentLanguageElement(0)
 			{
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode)const
+			{
+				il->InsUD(opcode, currentLanguageElement);
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::Argument argument)const
+			{
+				il->InsUD(opcode, argument, currentLanguageElement);
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1)const
+			{
+				il->InsUD(opcode, type1, currentLanguageElement);
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::Argument argument)const
+			{
+				il->InsUD(opcode, type1, argument, currentLanguageElement);
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::ValueType type2)const
+			{
+				il->InsUD(opcode, type1, type2, currentLanguageElement);
 			}
 
 /***********************************************************************
@@ -343,7 +370,8 @@ BasicLanguage_GenerateCode
 
 			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument)
 			{
-				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
+				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
+				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 				int reserveVariablesIndex=argument.il->instructions.Count()-1;
 				argument.info->BeginFunction();
 
@@ -354,8 +382,8 @@ BasicLanguage_GenerateCode
 
 				argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
 				argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
-				argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
-				argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(0));
+				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+				argument.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 				for(int i=0;i<program->declarations.Count();i++)
 				{

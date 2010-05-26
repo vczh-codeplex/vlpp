@@ -141,6 +141,7 @@ BasicLanguage_GenerateResource
 			}
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
