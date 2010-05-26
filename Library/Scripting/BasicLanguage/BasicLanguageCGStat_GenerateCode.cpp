@@ -14,6 +14,7 @@ BasicLanguage_GenerateCode
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
 				{
@@ -50,12 +51,12 @@ BasicLanguage_GenerateCode
 				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
 				{
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
-					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 					int jumpToFalseIndex=argument.il->instructions.Count()-1;
 					BasicLanguage_GenerateCode(node->trueStatement, argument);
 					if(node->falseStatement)
 					{
-						argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+						argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 						int jumpToEndIndex=argument.il->instructions.Count()-1;
 						argument.il->instructions[jumpToFalseIndex].argument.int_value=argument.il->instructions.Count();
 						BasicLanguage_GenerateCode(node->falseStatement, argument);
@@ -74,17 +75,17 @@ BasicLanguage_GenerateCode
 					if(node->beginCondition)
 					{
 						BasicLanguage_PushValue(node->beginCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
-						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+						argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 						argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					}
 					BasicLanguage_GenerateCode(node->statement, argument);
 					if(node->endCondition)
 					{
 						BasicLanguage_PushValue(node->endCondition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
-						argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+						argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 						argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					}
-					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.info->AssociateContinue(argument.il->instructions.Count()-1);
 					int breakBegin=argument.il->instructions.Count();
 					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
@@ -100,7 +101,7 @@ BasicLanguage_GenerateCode
 					int loopBegin=argument.il->instructions.Count();
 					argument.info->EnterLoop();
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
-					argument.il->Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 					argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					BasicLanguage_GenerateCode(node->statement, argument);
 					int continueBegin=argument.il->instructions.Count();
@@ -108,7 +109,7 @@ BasicLanguage_GenerateCode
 					{
 						BasicLanguage_GenerateCode(node->sideEffect, argument);
 					}
-					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
 					int breakBegin=argument.il->instructions.Count();
 					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
 					argument.info->LeaveScope();
@@ -116,19 +117,19 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
 				{
-					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
 				{
-					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.info->AssociateContinue(argument.il->instructions.Count()-1);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
 				{
-					argument.il->Ins(BasicIns::jump, BasicIns::MakeInt(0));
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.info->AssociateReturn(argument.il->instructions.Count()-1);
 				}
 

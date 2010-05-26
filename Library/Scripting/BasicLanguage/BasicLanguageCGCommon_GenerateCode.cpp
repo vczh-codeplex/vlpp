@@ -97,17 +97,17 @@ namespace vl
 				{
 					if(size>1)
 					{
-						argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
+						argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
 					}
 					else
 					{
-						argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1));
+						argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1));
 					}
 				}
 				else if(size>1)
 				{
-					argument.il->Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
-					argument.il->Ins(BasicIns::mul, BasicIns::int_type);
+					argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
+					argument.Ins(BasicIns::mul, BasicIns::int_type);
 				}
 			}
 
@@ -117,10 +117,10 @@ namespace vl
 				{
 				case BasicTypeRecord::Array:
 				case BasicTypeRecord::Structure:
-					argument.il->Ins(BasicIns::readmem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+					argument.Ins(BasicIns::readmem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
 					break;
 				default:
-					argument.il->Ins(BasicIns::read, Convert(type));
+					argument.Ins(BasicIns::read, Convert(type));
 				}
 			}
 
@@ -130,21 +130,21 @@ namespace vl
 				{
 				case BasicTypeRecord::Array:
 				case BasicTypeRecord::Structure:
-					argument.il->Ins(BasicIns::writemem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+					argument.Ins(BasicIns::writemem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
 					break;
 				default:
-					argument.il->Ins(BasicIns::write, Convert(type));
+					argument.Ins(BasicIns::write, Convert(type));
 				}
 			}
 
 			void Code_Copy(BasicTypeRecord* type, const BCP& argument)
 			{
-				argument.il->Ins(BasicIns::copymem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
+				argument.Ins(BasicIns::copymem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
 			}
 
 			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset)
 			{
-				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
+				argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
 				Code_Read(type, argument);
 			}
 
@@ -170,12 +170,12 @@ namespace vl
 					BasicIns::ValueType toType=Convert(to);
 					if(to==argument.info->GetTypeManager()->GetPrimitiveType(bool_type))
 					{
-						argument.il->Ins(BasicIns::push, fromType, BasicIns::MakeInt(0));
-						argument.il->Ins(BasicIns::ne, fromType);
+						argument.Ins(BasicIns::push, fromType, BasicIns::MakeInt(0));
+						argument.Ins(BasicIns::ne, fromType);
 					}
 					else if(fromType!=toType)
 					{
-						argument.il->Ins(BasicIns::convert, toType, fromType);
+						argument.Ins(BasicIns::convert, toType, fromType);
 					}
 				}
 			}
@@ -199,7 +199,7 @@ namespace vl
 				}
 				BasicLanguage_PushValue(node->rightOperand, argument, type);
 				BasicLanguage_PushValue(node->leftOperand, argument, type);
-				argument.il->Ins(opCode, Convert(type));
+				argument.Ins(opCode, Convert(type));
 				return type;
 			}
 
@@ -214,7 +214,7 @@ namespace vl
 				}
 				BasicLanguage_PushValue(node->rightOperand, argument, type);
 				BasicLanguage_PushValue(node->leftOperand, argument, type);
-				argument.il->Ins(opCode, Convert(type));
+				argument.Ins(opCode, Convert(type));
 				return argument.info->GetTypeManager()->GetPrimitiveType(bool_type);
 			}
 
@@ -226,7 +226,7 @@ namespace vl
 				{
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					BasicLanguage_PushValue(node->leftOperand, argument);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					Code_CopyStack(type, argument);
 					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
 					Code_Write(type, argument);
@@ -237,7 +237,7 @@ namespace vl
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Read(type, argument);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Write(type, argument);
 					Code_Read(type, argument);
@@ -256,7 +256,7 @@ namespace vl
 				{
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					BasicLanguage_PushValue(node->leftOperand, argument, type);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					BasicLanguage_PushRef(node->leftOperand, argument);
 					Code_Write(type, argument);
 				}
@@ -266,10 +266,10 @@ namespace vl
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Read(type, argument);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Write(type, argument);
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+					argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
 				}
 			}
 
@@ -282,7 +282,7 @@ namespace vl
 				{
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					BasicLanguage_PushValue(node->leftOperand, argument);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
 					Code_Write(type, argument);
 					BasicLanguage_PushRefWithoutSideEffect(node->leftOperand, argument);
@@ -293,7 +293,7 @@ namespace vl
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Read(type, argument);
-					argument.il->Ins(opCode, Convert(type));
+					argument.Ins(opCode, Convert(type));
 					Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 					Code_Write(type, argument);
 				}
@@ -308,7 +308,7 @@ namespace vl
 				returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
 				if(returnInStack)
 				{
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
+					argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(returnSize));
 				}
 
 				parameterSize=0;
@@ -325,16 +325,16 @@ namespace vl
 				if(index==-1)
 				{
 					BasicLanguage_PushValue(node->function, argument);
-					argument.il->Ins(BasicIns::label);
-					argument.il->Ins(BasicIns::call_indirect);
+					argument.Ins(BasicIns::label);
+					argument.Ins(BasicIns::call_indirect);
 				}
 				else
 				{
-					argument.il->Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
+					argument.Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
 				}
 				if(clearReturnInStack)
 				{
-					argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-returnSize));
+					argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-returnSize));
 				}
 			}
 
@@ -344,7 +344,7 @@ namespace vl
 				int returnSize=0;
 				int parameterSize=0;
 				BasicTypeRecord* functionType=Code_InvokeFunctionPushParameters(node, argument, index, returnSize, parameterSize, true);
-				argument.il->Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
+				argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
 				Code_InvokeFunctionCallFunction(node, argument, index, returnSize, parameterSize, sideEffectOnly);
 				return functionType->ReturnType();
 			}

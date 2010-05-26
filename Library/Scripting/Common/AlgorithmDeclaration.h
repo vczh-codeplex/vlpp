@@ -21,6 +21,9 @@ Algorithm Definition
 #define DEFINE_ALGORITHM_INTERFACE(NAME, ALGORITHM_TARGETS)\
 	class NAME##Algorithm : public Object, private NotCopyable\
 	{\
+	protected:\
+		template<typename T>void BeforeCall(void*, const T&){}\
+		template<typename T>void AfterCall(void*, const T&){}\
 	public:\
 		ALGORITHM_TARGETS(DEFINE_ALGORITHM_INTERFACE_ELEMENT)\
 	};
@@ -38,6 +41,16 @@ Algorithm Extern
 #define EXTERN_ALGORITHM_PROCEDURE(NAME, NODE, INPUT_TYPE)\
 	extern void NAME(NODE* node, INPUT_TYPE _input_value);\
 	extern void NAME(Ptr<NODE> node, INPUT_TYPE _input_value);
+
+/***********************************************************************
+Algorithm Begin/End Call
+***********************************************************************/
+
+#define ALGORITHM_BEFORE_CALL\
+		void BeforeCall(__algorithm_target_type__* node, const __algorithm_input_type__& argument)
+
+#define ALGORITHM_AFTER_CALL\
+		void AfterCall(__algorithm_target_type__* node, const __algorithm_input_type__& argument)
 
 /***********************************************************************
 Algorithm Function
@@ -71,7 +84,9 @@ Algorithm Function
 #define ALGORITHM_FUNCTION_MATCH(NODE)\
 		void Apply(NODE* node)\
 		{\
+			BeforeCall(node, *input_value);\
 			output_value=Match(node, *input_value);\
+			AfterCall(node, *input_value);\
 		}\
 		__algorithm_output_type__ Match(NODE* node, const __algorithm_input_type__& argument)
 
@@ -118,7 +133,9 @@ Algorithm Procedure
 #define ALGORITHM_PROCEDURE_MATCH(NODE)\
 		void Apply(NODE* node)\
 		{\
+			BeforeCall(node, *input_value);\
 			Match(node, *input_value);\
+			AfterCall(node, *input_value);\
 		}\
 		void Match(NODE* node, const __algorithm_input_type__& argument)
 

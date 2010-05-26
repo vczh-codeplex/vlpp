@@ -109,9 +109,16 @@ Extension
 				stream::MemoryStream*										globalData;
 				BasicCodegenExtension*										codegenExtension;
 				Ptr<ResourceStream>											resource;
+				BasicLanguageElement*										currentLanguageElement;
 
 				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
+
+				void														Ins(basicil::BasicIns::OpCode opcode)const;
+				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::Argument argument)const;
+				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1)const;
+				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::Argument argument)const;
+				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::ValueType type2)const;
 			};
 
 /***********************************************************************
@@ -162,6 +169,18 @@ Code Generation
 			extern ResourceHandle<BasicTypeRes> GenerateResource(BasicTypeRecord* type, const BCP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
+
+#define BASIC_LANGUAGE_ALGORITHM_INITIALIZER\
+			BasicLanguageElement* lastCurrentLanguageElement;\
+			ALGORITHM_BEFORE_CALL\
+			{\
+				lastCurrentLanguageElement=argument.currentLanguageElement;\
+				const_cast<BCP&>(argument).currentLanguageElement=node;\
+			}\
+			ALGORITHM_AFTER_CALL\
+			{\
+				const_cast<BCP&>(argument).currentLanguageElement=lastCurrentLanguageElement;\
+			}
 
 /***********************************************************************
 BasicCodeGenerator

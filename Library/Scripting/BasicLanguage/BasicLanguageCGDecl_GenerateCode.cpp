@@ -14,6 +14,7 @@ BasicLanguage_GenerateCodePass1
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
@@ -57,13 +58,14 @@ BasicLanguage_GenerateCodePass2
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
 					if(node->statement)
 					{
 						int functionStart=argument.il->instructions.Count();
-						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
+						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 						int reserveVariablesIndex=argument.il->instructions.Count()-1;
 
 						argument.info->BeginFunction();
@@ -71,7 +73,7 @@ BasicLanguage_GenerateCodePass2
 						argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
 
 						argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
-						argument.il->Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
 						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
 						int parameterSize=0;
@@ -79,7 +81,7 @@ BasicLanguage_GenerateCodePass2
 						{
 							parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 						}
-						argument.il->Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
+						argument.Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
 
 						BasicIL::Label label;
 						label.instructionIndex=functionStart;
