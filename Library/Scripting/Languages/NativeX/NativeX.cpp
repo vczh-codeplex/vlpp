@@ -21,6 +21,7 @@ namespace vl
 			using namespace regex;
 			using namespace combinator;
 			using namespace collections;
+			using namespace stream;
 
 			class NativeXUnit : public Object
 			{
@@ -37,6 +38,8 @@ namespace vl
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicDeclaration>>		DeclarationRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<NativeXUnit>>			UnitRule;
+
+			extern void NativeX_BasicProgram_GenerateCode(Ptr<BasicProgram> program, TextWriter& writer);
 
 /***********************************************************************
 辅助函数
@@ -1538,12 +1541,199 @@ namespace vl
 					{
 						return unit->program;
 					}
+					else
+					{
+						return 0;
+					}
 				}
 				
 				void GenerateCode(Ptr<basiclanguage::BasicProgram> program, stream::TextWriter& writer)
 				{
+					NativeX_BasicProgram_GenerateCode(program, writer);
 				}
 			};
+
+/***********************************************************************
+代码生成
+***********************************************************************/
+
+			typedef struct NativeXCodeGeneratorParameter
+			{
+				TextWriter&			writer;
+				int					indentation;
+
+				NativeXCodeGeneratorParameter(TextWriter& _writer, int _indentation)
+					:writer(_writer)
+					,indentation(_indentation)
+				{
+				}
+			} NXCGP;
+
+			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode, BasicType, NXCGP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicPointerType)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicArrayType)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReferenceType)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionType)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode)
+
+			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicExpression_GenerateCode, BasicExpression, NXCGP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicSubscribeExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(NativeX_BasicExpression_GenerateCode)
+
+			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode, BasicStatement, NXCGP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExpressionStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode)
+
+			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode, BasicDeclaration, NXCGP)
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode)
+
+			void NativeX_BasicProgram_GenerateCode(Ptr<BasicProgram> program, TextWriter& writer)
+			{
+				NXCGP argument(writer, 0);
+				for(int i=0;i<program->declarations.Count();i++)
+				{
+					NativeX_BasicDeclaration_GenerateCode(program->declarations[i], argument);
+					writer.WriteLine(L"");
+				}
+			}
 		}
 
 		Ptr<ILanguageProvider> CreateNativeXLanguageProvider()

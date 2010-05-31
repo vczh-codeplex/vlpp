@@ -118,6 +118,12 @@
     <Filter Include="Notes">
       <UniqueIdentifier>{85a096ce-427a-447d-bf89-a78faddb9486}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Scripting\Languages\NativeX\Header Files">
+      <UniqueIdentifier>{e188fe6b-d53d-4d8b-b2ac-dc6201a3adf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Languages\NativeX\Source Files">
+      <UniqueIdentifier>{6539bd3e-5478-416b-9df6-66ebaed413d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -303,12 +309,6 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.cpp">
       <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp">
-      <Filter>Library3\Scripting\Languages\NativeX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp">
-      <Filter>Library3\Scripting\Languages\NativeX</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Languages\BasicErrorMessage.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
     </ClCompile>
@@ -326,6 +326,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,9 +628,6 @@
     <ClInclude Include="..\..\Library\Scripting\Common\CommonTypeManager.h">
       <Filter>Library3\Scripting\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
-      <Filter>Library3\Scripting\Languages\NativeX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicErrorMessage.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
@@ -646,11 +649,14 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h">
-      <Filter>Library3\Scripting\Languages\NativeX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
