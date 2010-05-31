@@ -1,5 +1,6 @@
 #include "NativeX.h"
 #include "NativeXErrorMessage.h"
+#include "..\LanguageProviderExtension.h"
 #include "..\BasicErrorMessageTranslator.h"
 #include "..\..\BasicLanguage\BasicLanguageAnalyzer.h"
 #include "..\..\BasicLanguage\BasicLanguageCodeGeneration.h"
@@ -1364,14 +1365,13 @@ namespace vl
 				}
 			};
 
-			class NativeXProvider : public Object, public ILanguageProvider
+			class NativeXProvider : public Object, public ILanguageProvider, public IBasicLanguageProvider
 			{
 			protected:
 				NativeXParser			parser;
 
 				bool Parse(IReadonlyList<WString>& codes, IList<Ptr<LanguageException>>& errors, IDictionary<WString, Ptr<NativeXUnit>>& units)
 				{
-					errors.Clear();
 					for(int i=0;i<codes.Count();i++)
 					{
 						Ptr<NativeXUnit> unit=parser.Parse(codes[i], i, errors);
@@ -1509,7 +1509,7 @@ namespace vl
 					Ptr<BasicProgram> program=new BasicProgram;
 					for(int i=0;i<sortedUnits.Count();i++)
 					{
-						CopyFrom(program->declarations.Wrap(), sortedUnits[i]->program->declarations.Wrap());
+						CopyFrom(program->declarations.Wrap(), sortedUnits[i]->program->declarations.Wrap(), true);
 					}
 
 					BasicAlgorithmConfiguration configuration;
@@ -1529,6 +1529,19 @@ namespace vl
 					BasicCodeGenerator codegen(&analyzer, 0);
 					codegen.GenerateCode();
 					return new LanguageAssembly(codegen.GetIL());
+				}
+				
+				Ptr<BasicProgram> ParseProgram(const WString& code, IList<Ptr<LanguageException>>& errors)
+				{
+					Ptr<NativeXUnit> unit=parser.Parse(code, 0, errors);
+					if(unit)
+					{
+						return unit->program;
+					}
+				}
+				
+				void GenerateCode(Ptr<basiclanguage::BasicProgram> program, stream::TextWriter& writer)
+				{
 				}
 			};
 		}

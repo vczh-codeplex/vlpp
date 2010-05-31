@@ -92,7 +92,6 @@ Extension
 				virtual void												PushRef(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												PushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
 				virtual bool												CanPushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
-				virtual bool												IsSimpleExpression(BasicExtendedExpression* expression, const BCP& argument);
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
 				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);

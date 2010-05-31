@@ -622,9 +622,6 @@
     <ClInclude Include="..\..\Library\Scripting\Common\CommonTypeManager.h">
       <Filter>Library3\Scripting\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h">
-      <Filter>Library3\Scripting\Languages\NativeX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
       <Filter>Library3\Scripting\Languages\NativeX</Filter>
     </ClInclude>
@@ -647,6 +644,12 @@
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h">
+      <Filter>Library3\Scripting\Languages\NativeX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

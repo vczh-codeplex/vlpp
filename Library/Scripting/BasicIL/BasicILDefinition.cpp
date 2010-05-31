@@ -557,7 +557,7 @@ BasicIL
 				}
 			}
 
-			void BasicIL::SaveAsString(stream::TextWriter& writer)
+			void BasicIL::SaveAsString(stream::TextWriter& writer, ICommentProvider* commentProvider)
 			{
 				writer.WriteLine(L".data");
 				WriteData(globalData, writer);
@@ -573,6 +573,10 @@ BasicIL
 				writer.WriteLine(L".code");
 				for(int i=0;i<instructions.Count();i++)
 				{
+					if(commentProvider)
+					{
+						commentProvider->AppendComment(writer, instructions[i].userData);
+					}
 					WriteInteger(i, writer);
 					writer.WriteString(L": ");
 					writer.WriteLine(BasicInsToString(instructions[i]));
