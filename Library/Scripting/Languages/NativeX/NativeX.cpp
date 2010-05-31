@@ -1160,6 +1160,150 @@ namespace vl
 			};
 
 /***********************************************************************
+×Ö·û´®×ª»»¸¨Öúº¯Êý
+***********************************************************************/
+
+			const wchar_t* PrimitiveTypeToString(BasicPrimitiveTypeEnum type)
+			{
+				switch(type)
+				{
+				case s8:
+					return L"int8";
+				case s16:
+					return L"int16";
+				case s32:
+					return L"int32";
+				case s64:
+					return L"int64";
+				case u8:
+					return L"uint8";
+				case u16:
+					return L"uint16";
+				case u32:
+					return L"uint32";
+				case u64:
+					return L"uint64";
+				case f32:
+					return L"f32";
+				case f64:
+					return L"f64";
+				case bool_type:
+					return L"bool";
+				case void_type:
+					return L"void";
+				case char_type:
+					return L"char";
+				case wchar_type:
+					return L"wchar";
+				default:
+					return L"<UNKNOWN PRIMITIVE TYPE>";
+				}
+			}
+
+			const wchar_t* UnaryOperatorToString(BasicUnaryExpression::OperatorType type)
+			{
+				switch(type)
+				{
+				case BasicUnaryExpression::PrefixIncrease:
+					return L"++";
+				case BasicUnaryExpression::PostfixIncrease:
+					return L"++";
+				case BasicUnaryExpression::PrefixDecrease:
+					return L"--";
+				case BasicUnaryExpression::PostfixDecrease:
+					return L"--";
+				case BasicUnaryExpression::GetAddress:
+					return L"&";
+				case BasicUnaryExpression::DereferencePointer:
+					return L"*";
+				case BasicUnaryExpression::Negative:
+					return L"-";
+				case BasicUnaryExpression::Not:
+					return L"!";
+				case BasicUnaryExpression::BitNot:
+					return L"~";
+				default:
+					return L"<UNKNOWN UNARY OPERATOR>";
+				}
+			}
+
+			const wchar_t* BinaryOperatorToString(BasicBinaryExpression::OperatorType type)
+			{
+				switch(type)
+				{
+				case BasicBinaryExpression::Add:
+					return L"+";
+				case BasicBinaryExpression::Sub:
+					return L"-";
+				case BasicBinaryExpression::Mul:
+					return L"*";
+				case BasicBinaryExpression::Div:
+					return L"/";
+				case BasicBinaryExpression::Mod:
+					return L"%";
+				case BasicBinaryExpression::Shl:
+					return L"<<";
+				case BasicBinaryExpression::Shr:
+					return L">>";
+				case BasicBinaryExpression::And:
+					return L"&&";
+				case BasicBinaryExpression::Or:
+					return L"||";
+				case BasicBinaryExpression::Xor:
+					return L"^";
+				case BasicBinaryExpression::BitAnd:
+					return L"&";
+				case BasicBinaryExpression::BitOr:
+					return L"|";
+				case BasicBinaryExpression::Lt:
+					return L"<";
+				case BasicBinaryExpression::Le:
+					return L"<=";
+				case BasicBinaryExpression::Gt:
+					return L">";
+				case BasicBinaryExpression::Ge:
+					return L">=";
+				case BasicBinaryExpression::Eq:
+					return L"==";
+				case BasicBinaryExpression::Ne:
+					return L"!=";
+				case BasicBinaryExpression::AddAssign:
+					return L"+=";
+				case BasicBinaryExpression::SubAssign:
+					return L"-=";
+				case BasicBinaryExpression::MulAssign:
+					return L"*=";
+				case BasicBinaryExpression::DivAssign:
+					return L"/=";
+				case BasicBinaryExpression::ModAssign:
+					return L"%=";
+				case BasicBinaryExpression::ShlAssign:
+					return L"<<=";
+				case BasicBinaryExpression::ShrAssign:
+					return L">>=";
+				case BasicBinaryExpression::AndAssign:
+					return L"&&=";
+				case BasicBinaryExpression::OrAssign:
+					return L"||=";
+				case BasicBinaryExpression::XorAssign:
+					return L"^=";
+				case BasicBinaryExpression::BitAndAssign:
+					return L"&=";
+				case BasicBinaryExpression::BitOrAssign:
+					return L"|=";
+				case BasicBinaryExpression::Assign:
+					return L"=";
+				default:
+					return L"<UNKNOWN BINARY OPERATOR>";
+				}
+			}
+
+			WString IdentifierToString(const WString& identifier)
+			{
+				return identifier;
+			}
+
+/***********************************************************************
 ½Ó¿Ú
 ***********************************************************************/
 
@@ -1190,39 +1334,7 @@ namespace vl
 					switch(type->GetType())
 					{
 					case BasicTypeRecord::Primitive:
-						switch(type->PrimitiveType())
-						{
-						case s8:
-							return L"int8";
-						case s16:
-							return L"int16";
-						case s32:
-							return L"int32";
-						case s64:
-							return L"int64";
-						case u8:
-							return L"uint8";
-						case u16:
-							return L"uint16";
-						case u32:
-							return L"uint32";
-						case u64:
-							return L"uint64";
-						case f32:
-							return L"f32";
-						case f64:
-							return L"f64";
-						case bool_type:
-							return L"bool";
-						case void_type:
-							return L"void";
-						case char_type:
-							return L"char";
-						case wchar_type:
-							return L"wchar";
-						default:
-							return L"<UNKNOWN PRIMITIVE TYPE>";
-						}
+						return PrimitiveTypeToString(type->PrimitiveType());
 					case BasicTypeRecord::Pointer:
 						return ToString(type->ElementType())+L"*";
 					case BasicTypeRecord::Array:
@@ -1245,100 +1357,12 @@ namespace vl
 
 				WString OpToString(BasicUnaryExpression* expression)
 				{
-					switch(expression->type)
-					{
-					case BasicUnaryExpression::PrefixIncrease:
-						return L"++";
-					case BasicUnaryExpression::PostfixIncrease:
-						return L"++";
-					case BasicUnaryExpression::PrefixDecrease:
-						return L"--";
-					case BasicUnaryExpression::PostfixDecrease:
-						return L"--";
-					case BasicUnaryExpression::GetAddress:
-						return L"&";
-					case BasicUnaryExpression::DereferencePointer:
-						return L"*";
-					case BasicUnaryExpression::Negative:
-						return L"-";
-					case BasicUnaryExpression::Not:
-						return L"!";
-					case BasicUnaryExpression::BitNot:
-						return L"~";
-					default:
-						return L"<UNKNOWN UNARY OPERATOR>";
-					}
+					return UnaryOperatorToString(expression->type);
 				}
 
 				WString OpToString(BasicBinaryExpression* expression)
 				{
-					switch(expression->type)
-					{
-					case BasicBinaryExpression::Add:
-						return L"+";
-					case BasicBinaryExpression::Sub:
-						return L"-";
-					case BasicBinaryExpression::Mul:
-						return L"*";
-					case BasicBinaryExpression::Div:
-						return L"/";
-					case BasicBinaryExpression::Mod:
-						return L"%";
-					case BasicBinaryExpression::Shl:
-						return L"<<";
-					case BasicBinaryExpression::Shr:
-						return L">>";
-					case BasicBinaryExpression::And:
-						return L"&&";
-					case BasicBinaryExpression::Or:
-						return L"||";
-					case BasicBinaryExpression::Xor:
-						return L"^";
-					case BasicBinaryExpression::BitAnd:
-						return L"&";
-					case BasicBinaryExpression::BitOr:
-						return L"|";
-					case BasicBinaryExpression::Lt:
-						return L"<";
-					case BasicBinaryExpression::Le:
-						return L"<=";
-					case BasicBinaryExpression::Gt:
-						return L">";
-					case BasicBinaryExpression::Ge:
-						return L">=";
-					case BasicBinaryExpression::Eq:
-						return L"==";
-					case BasicBinaryExpression::Ne:
-						return L"!=";
-					case BasicBinaryExpression::AddAssign:
-						return L"+=";
-					case BasicBinaryExpression::SubAssign:
-						return L"-=";
-					case BasicBinaryExpression::MulAssign:
-						return L"*=";
-					case BasicBinaryExpression::DivAssign:
-						return L"/=";
-					case BasicBinaryExpression::ModAssign:
-						return L"%=";
-					case BasicBinaryExpression::ShlAssign:
-						return L"<<=";
-					case BasicBinaryExpression::ShrAssign:
-						return L">>=";
-					case BasicBinaryExpression::AndAssign:
-						return L"&&=";
-					case BasicBinaryExpression::OrAssign:
-						return L"||=";
-					case BasicBinaryExpression::XorAssign:
-						return L"^=";
-					case BasicBinaryExpression::BitAndAssign:
-						return L"&=";
-					case BasicBinaryExpression::BitOrAssign:
-						return L"|=";
-					case BasicBinaryExpression::Assign:
-						return L"=";
-					default:
-						return L"<UNKNOWN BINARY OPERATOR>";
-					}
+					return BinaryOperatorToString(expression->type);
 				}
 
 				WString BreakStatementToString()
@@ -1573,22 +1597,42 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
 				{
+					argument.writer.WriteString(node->type);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPointerType)
 				{
+					NativeX_BasicType_GenerateCode(node->elementType, argument);
+					argument.writer.WriteString(L"*");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicArrayType)
 				{
+					NativeX_BasicType_GenerateCode(node->elementType, argument);
+					argument.writer.WriteString(L"[");
+					argument.writer.WriteString(itow(node->size));
+					argument.writer.WriteString(L"]");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceType)
 				{
+					argument.writer.WriteString(IdentifierToString(node->name));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionType)
 				{
+					argument.writer.WriteString(L"function ");
+					NativeX_BasicType_GenerateCode(node->returnType, argument);
+					argument.writer.WriteString(L"(");
+					for(int i=0;i<node->parameterTypes.Count();i++)
+					{
+						if(i)
+						{
+							argument.writer.WriteString(L", ");
+						}
+						NativeX_BasicType_GenerateCode(node->parameterTypes[i], argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
