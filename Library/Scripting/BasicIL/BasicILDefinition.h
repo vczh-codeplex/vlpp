@@ -179,6 +179,12 @@ namespace vl
 			{
 				typedef collections::Dictionary<WString, Ptr<ResourceStream>> _ResourceMap;
 			public:
+				class ICommentProvider : public Interface
+				{
+				public:
+					virtual void				AppendComment(stream::TextWriter& writer, void* userData)=0;
+				};
+			public:
 				struct Label
 				{
 					int							instructionIndex;
@@ -205,7 +211,7 @@ namespace vl
 
 				void							LoadFromStream(stream::IStream& stream);
 				void							SaveToStream(stream::IStream& stream);
-				void							SaveAsString(stream::TextWriter& writer);
+				void							SaveAsString(stream::TextWriter& writer, ICommentProvider* commentProvider=0);
 			};
 		}
 	}

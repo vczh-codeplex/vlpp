@@ -290,11 +290,6 @@ BasicCodegenExtension
 				CHECK_ERROR(false, L"BasicCodegenExtension::CanPushRefWithoutSideEffect(BasicExtendedExpression*, const BCP&)#不支持此操作。");
 			}
 
-			bool BasicCodegenExtension::IsSimpleExpression(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_ERROR(false, L"BasicCodegenExtension::IsSimpleExpression(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
 			void BasicCodegenExtension::GenerateCode(BasicExtendedStatement* statement, const BCP& argument)
 			{
 				CHECK_ERROR(false, L"BasicCodegenExtension::GenerateCode(BasicExtendedStatement*, const BCP&)#不支持此操作。");
