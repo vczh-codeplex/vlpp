@@ -1298,9 +1298,40 @@ namespace vl
 				}
 			}
 
-			WString IdentifierToString(const WString& identifier)
+			void UnescapeStringContent(const WString& string, TextWriter& writer)
 			{
-				return identifier;
+				const wchar_t* buffer=string.Buffer();
+				while(*buffer)
+				{
+					switch(*buffer)
+					{
+					case L'\r':
+						writer.WriteString(L"\\r");
+						break;
+					case L'\n':
+						writer.WriteString(L"\\n");
+						break;
+					case L'\t':
+						writer.WriteString(L"\\t");
+						break;
+					case L'\"':
+						writer.WriteString(L"\\\"");
+						break;
+					case L'\\':
+						writer.WriteString(L"\\\\");
+						break;
+					default:
+						writer.WriteChar(*buffer);
+					}
+					buffer++;
+				}
+			}
+
+			void IdentifierToString(const WString& identifier, TextWriter& writer)
+			{
+				writer.WriteString(L"@\"");
+				UnescapeStringContent(identifier, writer);
+				writer.WriteString(L"\"");
 			}
 
 /***********************************************************************
@@ -1616,7 +1647,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceType)
 				{
-					argument.writer.WriteString(IdentifierToString(node->name));
+					IdentifierToString(node->name, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionType)
@@ -1645,50 +1676,109 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
+					argument.writer.WriteString(L"null");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
+					switch(node->type)
+					{
+					case s8:			argument.writer.WriteString(itow(node->argument.s8));						break;
+					case s16:			argument.writer.WriteString(itow(node->argument.s16));						break;
+					case s32:			argument.writer.WriteString(itow(node->argument.s32));						break;
+					case s64:			argument.writer.WriteString(i64tow(node->argument.s64));					break;
+					case u8:			argument.writer.WriteString(utow(node->argument.u8));						break;
+					case u16:			argument.writer.WriteString(utow(node->argument.u16));						break;
+					case u32:			argument.writer.WriteString(utow(node->argument.u32));						break;
+					case u64:			argument.writer.WriteString(u64tow(node->argument.u64));					break;
+					case f32:			argument.writer.WriteString(ftow(node->argument.f32));						break;
+					case f64:			argument.writer.WriteString(ftow(node->argument.f64));						break;
+					case bool_type:		argument.writer.WriteString(node->argument.bool_value?L"true":L"false");	break;
+					case char_type:
+						argument.writer.WriteString(L"\'");
+						UnescapeStringContent(atow(AString(node->argument.char_value)), argument.writer);
+						argument.writer.WriteString(L"\'");
+						break;
+					case wchar_type:
+						argument.writer.WriteString(L"L\'");
+						UnescapeStringContent(WString(node->argument.char_value), argument.writer);
+						argument.writer.WriteString(L"\'");
+						break;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
 				{
+					argument.writer.WriteString(L"\"");
+					UnescapeStringContent(atow(node->value), argument.writer);
+					argument.writer.WriteString(L"\"");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
 				{
+					argument.writer.WriteString(L"L\"");
+					UnescapeStringContent(node->value, argument.writer);
+					argument.writer.WriteString(L"\"");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
 				{
+					argument.writer.WriteString(UnaryOperatorToString(node->type));
+					NativeX_BasicExpression_GenerateCode(node->operand, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
 				{
+					argument.writer.WriteString(L"(");
+					NativeX_BasicExpression_GenerateCode(node->leftOperand, argument);
+					argument.writer.WriteString(BinaryOperatorToString(node->type));
+					NativeX_BasicExpression_GenerateCode(node->rightOperand, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicSubscribeExpression)
 				{
+					NativeX_BasicExpression_GenerateCode(node->operand, argument);
+					argument.writer.WriteString(L"[");
+					NativeX_BasicExpression_GenerateCode(node->subscribe, argument);
+					argument.writer.WriteString(L"]");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMemberExpression)
 				{
+					NativeX_BasicExpression_GenerateCode(node->operand, argument);
+					argument.writer.WriteString(node->pointerMember?L"->":L".");
+					IdentifierToString(node->member, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
 				{
+					NativeX_BasicExpression_GenerateCode(node->function, argument);
+					argument.writer.WriteString(L"(");
+					for(int i=0;i<node->arguments.Count();i++)
+					{
+						if(i)argument.writer.WriteString(L", ");
+						NativeX_BasicExpression_GenerateCode(node->arguments[i], argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
+					argument.writer.WriteString(L"result");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
 				{
+					argument.writer.WriteString(L"cast<");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L">");
+					NativeX_BasicExpression_GenerateCode(node->operand, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
 				{
+					IdentifierToString(node->name, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
