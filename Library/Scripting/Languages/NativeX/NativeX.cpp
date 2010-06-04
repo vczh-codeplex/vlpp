@@ -370,6 +370,13 @@ namespace vl
 					expression->type=BasicUnaryExpression::GetAddress;
 					return expression;
 				}
+				else if(op==L"*")
+				{
+					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
+					expression->operand=input.Second();
+					expression->type=BasicUnaryExpression::DereferencePointer;
+					return expression;
+				}
 				else if(op==L"-")
 				{
 					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
@@ -648,7 +655,7 @@ namespace vl
 				else
 				{
 					Ptr<BasicReferenceType> type=CreateNode<BasicReferenceType>(input);
-					type->name=name;
+					type->name=ConvertID(name);
 					return type;
 				}
 			}
@@ -1731,8 +1738,19 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
 				{
-					argument.writer.WriteString(UnaryOperatorToString(node->type));
-					NativeX_BasicExpression_GenerateCode(node->operand, argument);
+					argument.writer.WriteString(L"(");
+					switch(node->type)
+					{
+					case BasicUnaryExpression::PostfixIncrease:
+					case BasicUnaryExpression::PostfixDecrease:
+						NativeX_BasicExpression_GenerateCode(node->operand, argument);
+						argument.writer.WriteString(UnaryOperatorToString(node->type));
+						break;
+					default:
+						argument.writer.WriteString(UnaryOperatorToString(node->type));
+						NativeX_BasicExpression_GenerateCode(node->operand, argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
@@ -1825,7 +1843,7 @@ namespace vl
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
 				{
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"var ");
+					argument.writer.WriteString(L"variable ");
 					NativeX_BasicType_GenerateCode(node->type, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
@@ -1888,7 +1906,7 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"when(");
 					NativeX_BasicExpression_GenerateCode(node->condition, argument);
-					argument.writer.WriteLine(L");");
+					argument.writer.WriteLine(L")");
 					
 					PrintIndentation(argument);
 					argument.writer.WriteLine(L"with");
@@ -1953,7 +1971,7 @@ namespace vl
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"var ");
+					argument.writer.WriteString(L"variable ");
 					NativeX_BasicType_GenerateCode(node->type, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
@@ -2018,6 +2036,7 @@ namespace vl
 			void NativeX_BasicProgram_GenerateCode(Ptr<BasicProgram> program, TextWriter& writer)
 			{
 				NXCGP argument(writer, 0);
+				writer.WriteLine(L"unit nativex_program_generated;");
 				for(int i=0;i<program->declarations.Count();i++)
 				{
 					NativeX_BasicDeclaration_GenerateCode(program->declarations[i], argument);

@@ -4,6 +4,7 @@
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
 #include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
 #include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
@@ -92,9 +93,10 @@ Runner
 extern void SetConfiguration(BasicAlgorithmConfiguration& config);
 //from TestScripting_Languages_NativeX.cpp
 extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
+extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
 
 template<typename T>
-void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
+void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString& name)
 {
 	BasicAlgorithmConfiguration configuration;
 	SetConfiguration(configuration);
@@ -105,6 +107,7 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 	codegen.GenerateCode();
 	BasicILInterpretor interpretor(65536);
 	int key=interpretor.LoadIL(codegen.GetIL().Obj());
+	if(name!=L"")
 	{
 		WString fileName=GetPath()+L"Codegen_"+name+L".txt";
 		FileStream fileStream(fileName, FileStream::WriteOnly);
@@ -115,8 +118,14 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 		writer.WriteLine(L"/*NativeX Code*/");
 		PrintNativeXProgram(program, writer);
 		writer.WriteLine(L"");
+
+		BasicLanguageCommentProvider commentProvider;
+		TextWriter* commentProviderWriter=commentProvider.OpenWriter();
+		PrintNativeXProgram(program, *commentProviderWriter);
+		commentProvider.CloseWriter();
+
 		writer.WriteLine(L"/*Assembly*/");
-		codegen.GetIL()->SaveAsString(writer);
+		codegen.GetIL()->SaveAsString(writer, &commentProvider);
 	}
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, 0);
@@ -127,6 +136,14 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
 	TEST_ASSERT(stack.GetEnv()->Pop<T>()==result);
+}
+
+template<typename T>
+void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
+{
+	RunBasicProgramInternal(program, result, L"");
+	ConvertToNativeXProgram(program);
+	RunBasicProgramInternal(program, result, name);
 }
 
 /***********************************************************************
