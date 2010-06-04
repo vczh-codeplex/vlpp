@@ -1336,9 +1336,100 @@ namespace vl
 
 			void IdentifierToString(const WString& identifier, TextWriter& writer)
 			{
-				writer.WriteString(L"@\"");
-				UnescapeStringContent(identifier, writer);
-				writer.WriteString(L"\"");
+				static wchar_t* keywords[]=
+				{
+					L"true"
+					, L"false"
+					, L"null"
+					, L"result"
+					, L"function"
+					, L"cast"
+					, L"variable"
+					, L"if"
+					, L"else"
+					, L"break"
+					, L"continue"
+					, L"exit"
+					, L"while"
+					, L"do"
+					, L"loop"
+					, L"when"
+					, L"for"
+					, L"with"
+					, L"type"
+					, L"structure"
+					, L"unit"
+					, L"uses"
+					, L"int"
+					, L"int8"
+					, L"int16"
+					, L"int32"
+					, L"int64"
+					, L"uint"
+					, L"uint8"
+					, L"uint16"
+					, L"uint32"
+					, L"uint64"
+					, L"f32"
+					, L"f64"
+					, L"bool"
+					, L"char"
+					, L"wchar"
+					, L"void"
+				};
+
+				const wchar_t* buffer=identifier.Buffer();
+				const wchar_t* reading=buffer;
+				bool isID=true;
+
+				while(wchar_t c=*reading++)
+				{
+					if((L'a'<=c && c<=L'z') || (L'A'<=c && c<=L'Z') || c==L'_')
+					{
+					}
+					else if(L'0'<=c && c<=L'9')
+					{
+						if(reading!=buffer+1)
+						{
+							isID=false;
+							break;
+						}
+					}
+					else
+					{
+						isID=false;
+						break;
+					}
+				}
+
+				if(isID)
+				{
+					bool isKeyword=false;
+					for(int i=0;i<sizeof(keywords)/sizeof(*keywords);i++)
+					{
+						if(wcscmp(keywords[i], buffer)==0)
+						{
+							isKeyword=true;
+							break;
+						}
+					}
+					if(isKeyword)
+					{
+						writer.WriteString(L"@\"");
+						writer.WriteString(identifier);
+						writer.WriteString(L"\"");
+					}
+					else
+					{
+						writer.WriteString(identifier);
+					}
+				}
+				else
+				{
+					writer.WriteString(L"@\"");
+					UnescapeStringContent(identifier, writer);
+					writer.WriteString(L"\"");
+				}
 			}
 
 /***********************************************************************
