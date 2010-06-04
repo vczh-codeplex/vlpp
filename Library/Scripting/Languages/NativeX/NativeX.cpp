@@ -1867,7 +1867,6 @@ namespace vl
 					{
 						argument.writer.WriteLine(L"while(true)");
 					}
-					argument.writer.WriteLine(L")");
 					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 					if(node->endCondition)
 					{
