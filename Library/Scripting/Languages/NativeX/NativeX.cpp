@@ -1789,44 +1789,127 @@ namespace vl
 
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode, BasicStatement, NXCGP)
 
+				void PrintIndentation(const NXCGP& argument, int offset=0)
+				{
+					for(int i=0;i<argument.indentation+offset;i++)
+					{
+						argument.writer.WriteString(L"    ");
+					}
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
+					argument.writer.WriteLine(L"");
+					PrintIndentation(argument, -1);
+					argument.writer.WriteLine(L"{");
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+					for(int i=0;i<node->statements.Count();i++)
+					{
+						NativeX_BasicStatement_GenerateCode(node->statements[i], newArgument);
+					}
+					PrintIndentation(argument, -1);
+					argument.writer.WriteLine(L"}");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExpressionStatement)
 				{
+					PrintIndentation(argument);
+					NativeX_BasicExpression_GenerateCode(node->expression, argument);
+					argument.writer.WriteLine(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"var ");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					if(node->initializer)
+					{
+						argument.writer.WriteString(L" = ");
+						NativeX_BasicExpression_GenerateCode(node->initializer, argument);
+					}
+					argument.writer.WriteLine(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicIfStatement)
 				{
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"if(");
+					NativeX_BasicExpression_GenerateCode(node->condition, argument);
+					argument.writer.WriteLine(L")");
+					NativeX_BasicStatement_GenerateCode(node->trueStatement, newArgument);
+					if(node->falseStatement)
+					{
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"else");
+						NativeX_BasicStatement_GenerateCode(node->falseStatement, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
 				{
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"while(");
+					NativeX_BasicExpression_GenerateCode(node->beginCondition, argument);
+					argument.writer.WriteLine(L")");
+					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
+					if(node->endCondition)
+					{
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"when(");
+						NativeX_BasicExpression_GenerateCode(node->endCondition, argument);
+						argument.writer.WriteLine(L");");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicForStatement)
 				{
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"for");
+					NativeX_BasicStatement_GenerateCode(node->initializer, newArgument);
+					
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"when(");
+					NativeX_BasicExpression_GenerateCode(node->condition, argument);
+					argument.writer.WriteLine(L");");
+					
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"with");
+					NativeX_BasicStatement_GenerateCode(node->sideEffect, newArgument);
+					
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"do");
+					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicBreakStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"break;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicContinueStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"continue;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReturnStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"exit;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
