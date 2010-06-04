@@ -1636,7 +1636,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
 				{
-					argument.writer.WriteString(node->type);
+					argument.writer.WriteString(PrimitiveTypeToString(node->type));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPointerType)
@@ -1805,13 +1805,11 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
-					argument.writer.WriteLine(L"");
 					PrintIndentation(argument, -1);
 					argument.writer.WriteLine(L"{");
-					NXCGP newArgument(argument.writer, argument.indentation+1);
 					for(int i=0;i<node->statements.Count();i++)
 					{
-						NativeX_BasicStatement_GenerateCode(node->statements[i], newArgument);
+						NativeX_BasicStatement_GenerateCode(node->statements[i], argument);
 					}
 					PrintIndentation(argument, -1);
 					argument.writer.WriteLine(L"}");
@@ -1859,8 +1857,16 @@ namespace vl
 				{
 					NXCGP newArgument(argument.writer, argument.indentation+1);
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"while(");
-					NativeX_BasicExpression_GenerateCode(node->beginCondition, argument);
+					if(node->beginCondition)
+					{
+						argument.writer.WriteString(L"while(");
+						NativeX_BasicExpression_GenerateCode(node->beginCondition, argument);
+						argument.writer.WriteLine(L")");
+					}
+					else
+					{
+						argument.writer.WriteLine(L"while(true)");
+					}
 					argument.writer.WriteLine(L")");
 					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 					if(node->endCondition)
@@ -1942,7 +1948,7 @@ namespace vl
 
 					argument.writer.WriteLine(L")");
 					NXCGP newArgument(argument.writer, argument.indentation+1);
-					NativeX_BasicStatement_GenerateCode(node->signatureType, newArgument);
+					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)

@@ -2,6 +2,7 @@
 #include "..\..\Library\Scripting\Languages\NativeX\NativeX.h"
 #include "..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
+#include "..\..\Library\Scripting\Languages\LanguageProviderExtension.h"
 #include "..\..\Library\GlobalStorage.h"
 #include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\MemoryStream.h"
@@ -10,6 +11,7 @@ using namespace vl;
 using namespace vl::scripting;
 using namespace vl::collections;
 using namespace vl::scripting::basicil;
+using namespace vl::scripting::basiclanguage;
 using namespace vl::stream;
 
 extern WString GetPath();
@@ -25,6 +27,13 @@ END_GLOBAL_STORAGE_CLASS(NativeXProvider)
 TEST_CASE(TestCreateNativeXProvider)
 {
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
+}
+
+void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer)
+{
+	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
+	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider;
+	basicLanguageProvider->GenerateCode(program, writer);
 }
 
 Ptr<LanguageAssembly> TestNativeXNoError(WString code)

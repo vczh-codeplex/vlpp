@@ -90,6 +90,8 @@ Runner
 
 //from TestScripting_BasicLanguage_Analyzer.cpp
 extern void SetConfiguration(BasicAlgorithmConfiguration& config);
+//from TestScripting_Languages_NativeX.cpp
+extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
 
 template<typename T>
 void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
@@ -109,6 +111,11 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 		BomEncoder encoder(BomEncoder::Utf16);
 		EncoderStream encoderStream(fileStream, encoder);
 		StreamWriter writer(encoderStream);
+
+		writer.WriteLine(L"/*NativeX Code*/");
+		PrintNativeXProgram(program, writer);
+		writer.WriteLine(L"");
+		writer.WriteLine(L"/*Assembly*/");
 		codegen.GetIL()->SaveAsString(writer);
 	}
 	BasicILStack stack(&interpretor);
