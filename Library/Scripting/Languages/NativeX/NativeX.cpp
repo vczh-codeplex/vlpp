@@ -1624,6 +1624,14 @@ namespace vl
 				}
 			} NXCGP;
 
+			void PrintIndentation(const NXCGP& argument, int offset=0)
+			{
+				for(int i=0;i<argument.indentation+offset;i++)
+				{
+					argument.writer.WriteString(L"    ");
+				}
+			}
+
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode, BasicType, NXCGP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
@@ -1789,14 +1797,6 @@ namespace vl
 
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode, BasicStatement, NXCGP)
 
-				void PrintIndentation(const NXCGP& argument, int offset=0)
-				{
-					for(int i=0;i<argument.indentation+offset;i++)
-					{
-						argument.writer.WriteString(L"    ");
-					}
-				}
-
 				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
 				{
 					PrintIndentation(argument);
@@ -1922,18 +1922,86 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"function ");
+					NativeX_BasicType_GenerateCode(node->signatureType->returnType, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"");
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"(");
+
+					int min=node->parameterNames.Count()<node->signatureType->parameterTypes.Count()?node->parameterNames.Count():node->signatureType->parameterTypes.Count();
+					for(int i=0;i<min;i++)
+					{
+						if(i)argument.writer.WriteString(L", ");
+						NativeX_BasicType_GenerateCode(node->signatureType->parameterTypes[i], argument);
+						argument.writer.WriteString(L" ");
+						IdentifierToString(node->parameterNames[i], argument.writer);
+					}
+
+					argument.writer.WriteLine(L")");
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+					NativeX_BasicStatement_GenerateCode(node->signatureType, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"var ");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					if(node->initializer)
+					{
+						argument.writer.WriteString(L" = ");
+						NativeX_BasicExpression_GenerateCode(node->initializer, argument);
+					}
+					argument.writer.WriteLine(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"type ");
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L" = ");
+					NativeX_BasicExpression_GenerateCode(node->type, argument);
+					argument.writer.WriteLine(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
+					if(node->defined)
+					{
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"structure ");
+						IdentifierToString(node->name, argument.writer);
+						argument.writer.WriteLine(L"");
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"{");
+
+						int min=node->memberNames.Count()<node->memberTypes.Count()?node->memberNames.Count():node->memberTypes.Count();
+						NXCGP newArgument(argument.writer, argument.indentation+1);
+						for(int i=0;i<min;i++)
+						{
+							PrintIndentation(newArgument);
+							NativeX_BasicType_GenerateCode(node->memberTypes[i], newArgument);
+							argument.writer.WriteString(L" ");
+							IdentifierToString(node->memberNames[i], argument.writer);
+							argument.writer.WriteLine(L";");
+						}
+
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"}");
+					}
+					else
+					{
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"structure ");
+						IdentifierToString(node->name, argument.writer);
+						argument.writer.WriteLine(L";");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
