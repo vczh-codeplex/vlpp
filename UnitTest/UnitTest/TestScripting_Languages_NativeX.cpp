@@ -36,6 +36,24 @@ void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer)
 	basicLanguageProvider->GenerateCode(program, writer);
 }
 
+void ConvertToNativeXProgram(Ptr<BasicProgram>& program)
+{
+	MemoryStream stream;
+	StreamWriter writer(stream);
+	PrintNativeXProgram(program, writer);
+
+	stream.SeekFromBegin(0);
+	StreamReader reader(stream);
+	WString code=reader.ReadToEnd();
+
+	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
+	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider;
+	List<Ptr<LanguageException>> errors;
+	program=basicLanguageProvider->ParseProgram(code, errors.Wrap());
+	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(program);
+}
+
 Ptr<LanguageAssembly> TestNativeXNoError(WString code)
 {
 	List<Ptr<LanguageAssembly>> references;
