@@ -833,6 +833,52 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			);
 		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[10]");
 	}
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int()[5], L"a")
+			<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+			<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
+			<<s_var(*t_int(), L"c", e_name(L"a")[e_prim(4)].Ref())
+			<<s_expr(e_name(L"b")+=e_prim(4))
+			<<s_expr(e_name(L"c")-=e_prim(2))
+			<<s_expr(e_result().Assign(e_name(L"b")-e_name(L"c")))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[11]");
+	}
+}
+
+TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
+{
+	{
+		BasicProgramNode program;
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_int()[5], L"a")
+			<<s_expr(e_name(L"a")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"a")[e_prim(1)].Assign(e_prim(2)))
+			<<s_expr(e_name(L"a")[e_prim(2)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"a")[e_prim(3)].Assign(e_prim(4)))
+			<<s_expr(e_name(L"a")[e_prim(4)].Assign(e_prim(5)))
+			<<s_var(t_int(), L"i", e_prim(0))
+			<<s_var(t_int(), L"j", e_prim(0))
+			<<s_expr(e_name(L"a")[e_name(L"i")++]++)
+			<<s_expr(e_name(L"a")[e_name(L"i")++]--)
+			<<s_expr(e_name(L"a")[e_name(L"i")++]++)
+			<<s_expr(e_name(L"a")[e_name(L"i")++]--)
+			<<s_expr(e_name(L"a")[e_name(L"i")++]++)
+			<<s_expr(e_result().Assign(e_prim(0)))
+			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
+			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
+			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
+			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
+			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 21436, L"TestScripting_BasicLanguage_ComplexSideEffect[1]");
+	}
 }
 
 /***********************************************************************
