@@ -571,6 +571,10 @@ BasicIL
 				}
 
 				writer.WriteLine(L".code");
+				if(commentProvider)
+				{
+					commentProvider->StartProvideComment();
+				}
 				for(int i=0;i<instructions.Count();i++)
 				{
 					if(commentProvider)

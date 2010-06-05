@@ -35,6 +35,7 @@ namespace vl
 				void						CloseWriter();
 				bool						IsOpening();
 
+				void						StartProvideComment();
 				void						AppendComment(stream::TextWriter& writer, void* userData);
 			};
 		}
