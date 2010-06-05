@@ -1154,6 +1154,72 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			);
 		RunBasicProgram<int>(program.GetInternalValue(), 567, L"TestScripting_BasicLanguage_ComplexSideEffect[8]");
 	}
+	{
+		BasicProgramNode program;
+		program.DefineStructure(L"PPair")
+			.Member(L"a", t_int())
+			.Member(L"b", t_int())
+			.Member(L"c", t_int());
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_type(L"PPair"), L"c1")
+			<<s_var(t_type(L"PPair"), L"c2")
+			<<s_var(t_type(L"PPair"), L"c3")
+			<<s_var(t_int()[3], L"a")
+			<<s_expr(e_name(L"c1").Member(L"a").Assign(e_prim(3)))
+			<<s_expr(e_name(L"c1").Member(L"b").Assign(e_prim(4)))
+			<<s_expr(e_name(L"c1").Member(L"c").Assign(e_prim(5)))
+
+			<<s_expr(e_name(L"c3").Assign(e_name(L"copy")(e_exps()<<(e_name(L"c2").Assign(e_name(L"c1"))))))
+			<<s_var(t_int(), L"n1", ++e_name(L"c3").Member(L"a"))
+			<<s_var(t_int(), L"n2", ++e_name(L"c3").Member(L"b"))
+			<<s_var(t_int(), L"n3", ++e_name(L"c3").Member(L"c"))
+
+			<<s_expr(e_result().Assign(
+				e_name(L"n1")*e_prim(100)
+				+e_name(L"n2")*e_prim(10)
+				+e_name(L"n3")
+				))
+			);
+		program.DefineFunction(L"copy").ReturnType(t_type(L"PPair"))
+			.Parameter(L"i", t_type(L"PPair"))
+			.Statement(
+				s_expr(e_result().Assign(e_name(L"i")))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[9]");
+	}
+	{
+		BasicProgramNode program;
+		program.DefineStructure(L"PPair")
+			.Member(L"a", t_int())
+			.Member(L"b", t_int())
+			.Member(L"c", t_int());
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_type(L"PPair"), L"c1")
+			<<s_var(t_type(L"PPair"), L"c2")
+			<<s_var(t_type(L"PPair"), L"c3")
+			<<s_var(t_int()[3], L"a")
+			<<s_expr(e_name(L"c1").Member(L"a").Assign(e_prim(3)))
+			<<s_expr(e_name(L"c1").Member(L"b").Assign(e_prim(4)))
+			<<s_expr(e_name(L"c1").Member(L"c").Assign(e_prim(5)))
+
+			<<s_expr(e_name(L"c3").Assign(e_name(L"copy")(e_exps()<<(e_name(L"c2").Assign(e_name(L"c1")).Ref()))))
+			<<s_var(t_int(), L"n1", ++e_name(L"c3").Member(L"a"))
+			<<s_var(t_int(), L"n2", ++e_name(L"c3").Member(L"b"))
+			<<s_var(t_int(), L"n3", ++e_name(L"c3").Member(L"c"))
+
+			<<s_expr(e_result().Assign(
+				e_name(L"n1")*e_prim(100)
+				+e_name(L"n2")*e_prim(10)
+				+e_name(L"n3")
+				))
+			);
+		program.DefineFunction(L"copy").ReturnType(t_type(L"PPair"))
+			.Parameter(L"i", *t_type(L"PPair"))
+			.Statement(
+				s_expr(e_result().Assign(*e_name(L"i")))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[10]");
+	}
 }
 
 /***********************************************************************

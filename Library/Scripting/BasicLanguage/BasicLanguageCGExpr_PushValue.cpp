@@ -373,11 +373,19 @@ BasicLanguage_PushValueInternal
 						return Code_BinaryAssign(node, argument, BasicIns::xor);
 					case BasicBinaryExpression::Assign:
 						{
-							// TODO: Optimize for big type
 							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							Code_CopyStack(leftType, argument);
-							BasicLanguage_PushRef(node->leftOperand, argument);
-							Code_Write(leftType, argument);
+							if(leftType->GetType()==BasicTypeRecord::Array || leftType->GetType()==BasicTypeRecord::Structure)
+							{
+								argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(0));
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								Code_Copy(leftType, argument);
+							}
+							else
+							{
+								Code_CopyStack(leftType, argument);
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								Code_Write(leftType, argument);
+							}
 							return leftType;
 						}
 					}
