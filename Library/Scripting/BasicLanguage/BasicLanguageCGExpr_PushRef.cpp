@@ -9,6 +9,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 BasicLanguage_PushRef
@@ -76,8 +77,10 @@ BasicLanguage_PushRef
 				ALGORITHM_PROCEDURE_MATCH(BasicBinaryExpression)
 				{
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
+					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(leftType);
 					int leftSize=argument.info->GetTypeInfo(leftType)->size;
+					int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 					switch(node->type)
 					{
 					case BasicBinaryExpression::AddAssign:
@@ -142,11 +145,38 @@ BasicLanguage_PushRef
 						break;
 					case BasicBinaryExpression::Assign:
 						{
-							// TODO: Optimize for big type
-							BasicLanguage_PushRef(node->leftOperand, argument);
-							BasicLanguage_PushValue(node->rightOperand, argument, leftType);
-							Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
-							Code_Write(leftType, argument);
+							BP bp(
+								argument.info->GetEnv(),
+								0,
+								argument.info->GetTypeManager(),
+								*(List<Ptr<BasicLanguageCodeException>>*)0,
+								*(SortedList<WString>*)0
+								);
+							if(leftType==rightType && BasicLanguage_IsLeftValue(node->rightOperand, bp) && (leftType->GetType()==BasicTypeRecord::Array || leftType->GetType()==BasicTypeRecord::Structure))
+							{
+								if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
+								{
+									BasicLanguage_PushRef(node->leftOperand, argument);
+									BasicLanguage_PushRef(node->rightOperand, argument);
+									BasicLanguage_PushRef(node->leftOperand, argument);
+									Code_Copy(leftType, argument);
+								}
+								else
+								{
+									// TODO: Need test case
+									BasicLanguage_PushRef(node->leftOperand, argument);
+									BasicLanguage_PushRef(node->rightOperand, argument);
+									Code_CopyAddressInStack(node->leftOperand.Obj(), argument, pointerSize);
+									Code_Copy(leftType, argument);
+								}
+							}
+							else
+							{
+								BasicLanguage_PushRef(node->leftOperand, argument);
+								BasicLanguage_PushValue(node->rightOperand, argument, leftType);
+								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, leftSize);
+								Code_Write(leftType, argument);
+							}
 						}
 						break;
 					default:
