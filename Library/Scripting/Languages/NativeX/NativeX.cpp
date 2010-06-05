@@ -1389,7 +1389,7 @@ namespace vl
 					}
 					else if(L'0'<=c && c<=L'9')
 					{
-						if(reading!=buffer+1)
+						if(reading==buffer+1)
 						{
 							isID=false;
 							break;
