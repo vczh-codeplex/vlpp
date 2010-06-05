@@ -879,6 +879,50 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			);
 		RunBasicProgram<int>(program.GetInternalValue(), 21436, L"TestScripting_BasicLanguage_ComplexSideEffect[1]");
 	}
+	{
+		BasicProgramNode program;
+		program.DefineStructure(L"PPair")
+			.Member(L"a", *t_int())
+			.Member(L"b", *t_int());
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_type(L"PPair"), L"c")
+			<<s_var(t_int()[10], L"a")
+			<<s_expr(e_name(L"c").Member(L"a").Assign(e_name(L"a")[e_prim(5)].Ref()))
+			<<s_expr(e_name(L"c").Member(L"b").Assign(e_name(L"a")[e_prim(6)].Ref()))
+			<<s_var(*t_type(L"PPair"), L"pc", e_name(L"c").Ref())
+			<<s_expr(e_name(L"pc").PMember(L"a")+=e_prim(3))
+			<<s_expr(e_name(L"pc").PMember(L"b")-=e_prim(4))
+			<<s_expr(e_result().Assign(e_name(L"c").Member(L"a")-e_name(L"c").Member(L"b")))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 6, L"TestScripting_BasicLanguage_ComplexSideEffect[2]");
+	}
+	{
+		BasicProgramNode program;
+		program.DefineStructure(L"PPair")
+			.Member(L"a", *t_int())
+			.Member(L"b", *t_int());
+		program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+			s_var(t_type(L"PPair")[10], L"a")
+			<<s_var(t_int(), L"i", e_prim(3))
+			<<s_var(t_int(), L"j", e_prim(4))
+			<<s_var(t_int(), L"k", e_prim(5))
+			<<s_var(t_int(), L"l", e_prim(6))
+
+			<<s_expr(e_name(L"i")++ + e_name(L"j")++)
+			<<s_expr(++e_name(L"i") + ++e_name(L"j"))
+			<<s_expr(e_name(L"a")[e_name(L"k")--].Member(L"a"))
+			<<s_expr(e_name(L"a")[--e_name(L"l")].Member(L"b"))
+			<<s_expr((e_name(L"i")++)[t_uint()])
+
+			<<s_expr(e_result().Assign(
+				e_name(L"i")*e_prim(1000)
+				+e_name(L"j")*e_prim(100)
+				+e_name(L"k")*e_prim(10)
+				+e_name(L"l")
+				))
+			);
+		RunBasicProgram<int>(program.GetInternalValue(), 6645, L"TestScripting_BasicLanguage_ComplexSideEffect[3]");
+	}
 }
 
 /***********************************************************************
