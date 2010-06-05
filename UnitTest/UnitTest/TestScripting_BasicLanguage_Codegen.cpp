@@ -1139,9 +1139,20 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 		program.DefineFunction(L"copy").ReturnType(t_type(L"PPair"))
 			.Parameter(L"i", t_type(L"PPair"))
 			.Statement(
+				s_var(t_type(L"PPair"), L"j")
+				<<s_expr(e_result().Assign(e_name(L"i")))
+				<<s_expr(e_name(L"j").Assign(e_name(L"copy2")(e_exps()<<e_result())))
+				<<s_expr(e_name(L"j").Member(L"a")++)
+				<<s_expr(e_name(L"j").Member(L"b")++)
+				<<s_expr(e_name(L"j").Member(L"c")++)
+				<<s_expr(e_result().Assign(e_name(L"j")))
+			);
+		program.DefineFunction(L"copy2").ReturnType(t_type(L"PPair"))
+			.Parameter(L"i", t_type(L"PPair"))
+			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[8]");
+		RunBasicProgram<int>(program.GetInternalValue(), 567, L"TestScripting_BasicLanguage_ComplexSideEffect[8]");
 	}
 }
 
