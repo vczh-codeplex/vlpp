@@ -73,6 +73,11 @@ namespace vl
 				return streamWriter!=0;
 			}
 
+			void BasicLanguageCommentProvider::StartProvideComment()
+			{
+				lastLine=-2;
+			}
+
 			void BasicLanguageCommentProvider::AppendComment(stream::TextWriter& writer, void* userData)
 			{
 				if(userData)

@@ -182,6 +182,7 @@ namespace vl
 				class ICommentProvider : public Interface
 				{
 				public:
+					virtual void				StartProvideComment()=0;
 					virtual void				AppendComment(stream::TextWriter& writer, void* userData)=0;
 				};
 			public:
