@@ -12,7 +12,7 @@ OpCode:
   <binary opcode>	:*stack_top* left_operand right_operand
   ------------------instructions---------------------
   push					TYPE			CONSTANT		:*stack_top*									-> TYPE
-  pushins				CONSTANT		INSKEY			:*stack_top*									-> instruction_pointer instruction_key
+  pushins				INSTRUCTION_INDEX(int)	INSKEY	:*stack_top*									-> instruction_pointer instruction_key
   pushlabel				CONSTANT						:*stack_top*									-> instruction_label_index
   label													:*stack_top* FUNCTION_INDEX						-> instruction_pointer instruction key
   add|sub|mul|div		TYPE							:*stack_top* TYPE TYPE							-> TYPE
@@ -40,11 +40,11 @@ OpCode:
   resptr												:*stack_top*									-> pointer
   ret					STACK_RESERVE_BYTES(int)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
 ------------------link time only---------------------
-  link_pushdata			OFFSET(int)						:*stack_top*									-> pointer
-  link_pushfunc			INDEX(int)						:*stack_top*									-> instruction_label_index
+  link_pushdata			DATA-OFFSET(int)				:*stack_top*									-> pointer
+  link_pushfunc			LABEL-INDEX(int)				:*stack_top*									-> instruction_label_index
 ------------------compile time only------------------
-  codegen_pushfunc		INDEX(int)						:*stack top*									-> instruction_label_index
-  codegen_callfunc		INDEX(int)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  codegen_pushfunc		LABEL-INDEX(int)				:*stack top*									-> instruction_label_index
+  codegen_callfunc		LABEL-INDEX(int)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
