@@ -42,8 +42,10 @@ OpCode:
 ------------------link time only---------------------
   link_pushdata			DATA-OFFSET(int)				:*stack_top*									-> pointer
   link_pushfunc			LABEL-INDEX(int)				:*stack_top*									-> instruction_label_index
+  link_pushforeigndata	SYMBOL-INDEX(int)				:*stack_top*									-> pointer
+  link_pushforeignfunc	SYMBOL-INDEX(int)				:*stack_top*									-> instruction_label_index
+  link_callforeignfunc	SYMBOL-INDEX(int)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
-  codegen_pushfunc		LABEL-INDEX(int)				:*stack top*									-> instruction_label_index
   codegen_callfunc		LABEL-INDEX(int)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
 
@@ -103,7 +105,6 @@ namespace vl
 					link_pushdata,
 					link_pushfunc,
 
-					codegen_pushfunc,
 					codegen_callfunc,
 				};
 

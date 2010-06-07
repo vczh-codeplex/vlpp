@@ -385,7 +385,6 @@ BasicIL
 				CASE(ret);
 				CASE(link_pushdata);
 				CASE(link_pushfunc);
-				CASE(codegen_pushfunc);
 				CASE(codegen_callfunc);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
@@ -502,7 +501,6 @@ BasicIL
 				CASE(ret,				Constant);
 				CASE(link_pushdata,		Constant);
 				CASE(link_pushfunc,		Constant);
-				CASE(codegen_pushfunc,	Constant);
 				CASE(codegen_callfunc,	Constant);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
