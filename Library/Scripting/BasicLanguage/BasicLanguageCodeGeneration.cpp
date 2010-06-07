@@ -395,9 +395,6 @@ BasicLanguage_GenerateCode
 						ins.insKey=-1;
 						ins.argument.int_value=argument.il->labels[ins.argument.int_value].instructionIndex;
 						break;
-					case BasicIns::codegen_pushfunc:
-						ins.opcode=BasicIns::link_pushfunc;
-						break;
 					}
 				}
 
