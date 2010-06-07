@@ -13,7 +13,7 @@ OpCode:
   ------------------instructions---------------------
   push					TYPE			CONSTANT		:*stack_top*									-> TYPE
   pushins				INSTRUCTION_INDEX(int)	INSKEY	:*stack_top*									-> instruction_pointer instruction_key
-  pushlabel				CONSTANT						:*stack_top*									-> instruction_label_index
+  pushlabel				LABEL-INDEX(int)				:*stack_top*									-> instruction_label_index
   label													:*stack_top* FUNCTION_INDEX						-> instruction_pointer instruction key
   add|sub|mul|div		TYPE							:*stack_top* TYPE TYPE							-> TYPE
   eq|ne|lt|le|gt|ge		TYPE							:*stack_top* TYPE TYPE							-> bool
