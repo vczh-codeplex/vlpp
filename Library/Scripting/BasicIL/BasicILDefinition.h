@@ -104,6 +104,9 @@ namespace vl
 
 					link_pushdata,
 					link_pushfunc,
+					link_pushforeigndata,
+					link_pushforeignfunc,
+					link_callforeignfunc,
 
 					codegen_callfunc,
 				};
