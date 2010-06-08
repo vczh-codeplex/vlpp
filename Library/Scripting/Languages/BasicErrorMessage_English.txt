@@ -36,3 +36,8 @@ ILExceptionAccessViolation=Access violation.
 ILExceptionInstructionIndexOutOfRange=Instruction index out of range.
 ILExceptionUnknownInstruction=Unknown instruction.
 ILExceptionBadInstructionArgument=Bad instruction argument.
+
+ILLinkerExceptionDuplicatedAssemblyName(assembly)=Assembly {assembly} exists. Cannot load an assembly that conflict with existing names.
+ILLinkerExceptionAssemblyNotExists(assembly)=Assembly {assembly} has not been loaded.
+ILLinkerExceptionDuplicatedSymbolName(assembly,symbol)=Symbol {symbol} in assembly {assembly} exists. Assembly cannot have two symbols of the same name.
+ILLinkerExceptionSymbolNotExists(assembly,symbol)=Cannot find symbol {symbol} in assembly {assembly}.
