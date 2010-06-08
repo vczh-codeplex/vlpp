@@ -2,6 +2,7 @@
 #include "BasicILInterpretor.h"
 #include "BasicILSymbolResource.h"
 #include "..\Languages\BasicErrorMessage.h"
+#include "..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -9,6 +10,7 @@ namespace vl
 	{
 		namespace basicil
 		{
+			using namespace collections;
 
 /***********************************************************************
 BasicILEnv
@@ -271,42 +273,69 @@ BasicILLabel
 BasicILInterpretor
 ***********************************************************************/
 
-			BasicILInterpretor::BasicILInterpretor(int _stackSize)
-				:stackSize(_stackSize)
+			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols)
 			{
-				ils=0;
-				ilCount=0;
-
-				BasicILLabel label;
-				label.key=-1;
-				label.instruction=-1;
-				labels.Add(label);
-			}
-
-			BasicILInterpretor::~BasicILInterpretor()
-			{
-				if(ils)
+				int exportedSymbolsIndex=il->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
+				if(exportedSymbolsIndex!=-1)
 				{
-					delete[] ils;
+					Ptr<ResourceStream> exportedSymbols=il->resources.Values()[exportedSymbolsIndex];
+					ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+					WString assemblyName=exportedSymbols->ReadString(entry->assemblyName);
+					if(ilMap.Keys().Contains(assemblyName))
+					{
+						throw ILLinkerException(ILLinkerException::DuplicatedAssemblyName, assemblyName, L"");
+					}
+
+					_SymbolMap currentSymbolMap;
+					ResourceHandle<BasicILExportRes> currentExportHandle=entry->exports;
+					while(currentExportHandle)
+					{
+						ResourceRecord<BasicILExportRes> currentExport=exportedSymbols->ReadRecord<BasicILExportRes>(currentExportHandle);
+						Pair<WString, WString> symbol;
+						symbol.key=assemblyName;
+						symbol.value=exportedSymbols->ReadString(currentExport->name);
+
+						if(currentSymbolMap.Keys().Contains(symbol))
+						{
+							throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
+						}
+						currentSymbolMap.Add(symbol, currentExport->address);
+
+						currentExportHandle=currentExport->next;
+					}
+
+					ResourceHandle<BasicILLinkingRes> currentLinkingHandle=entry->linkings;
+					while(currentLinkingHandle)
+					{
+						ResourceRecord<BasicILLinkingRes> currentLinking=exportedSymbols->ReadRecord<BasicILLinkingRes>(currentLinkingHandle);
+						Pair<WString, WString> symbol;
+						symbol.key=exportedSymbols->ReadString(currentLinking->assemblyName);
+						symbol.value=exportedSymbols->ReadString(currentLinking->symbolName);
+
+						if(!ilMap.Keys().Contains(symbol.key))
+						{
+							throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
+						}
+						if(!symbolMap.Keys().Contains(symbol))
+						{
+							throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
+						}
+						linkingSymbols.Add(symbol);
+
+						currentLinkingHandle=currentLinking->next;
+					}
+
+					CopyFrom(symbolMap.Wrap(), currentSymbolMap.Wrap(), true);
 				}
 			}
 
-			int BasicILInterpretor::LoadIL(BasicIL* il)
+			void BasicILInterpretor::LinkILSymbol(BasicIL* il, int index, _SymbolList& linkingSymbols)
 			{
-				BasicIL** newils=new BasicIL*[ilCount+1];
-				if(ils)
-				{
-					memcpy(newils, ils, ilCount*sizeof(BasicIL*));
-					delete[] ils;
-				}
-				ils=newils;
-				ils[ilCount]=il;
-
 				int functionPointerOffset=labels.Count();
 				for(int i=0;i<il->labels.Count();i++)
 				{
 					BasicILLabel label;
-					label.key=ilCount;
+					label.key=index;
 					label.instruction=il->labels[i].instructionIndex;
 					labels.Add(label);
 				}
@@ -326,13 +355,33 @@ BasicILInterpretor
 						break;
 					}
 				}
+			}
 
-				return ilCount++;
+			BasicILInterpretor::BasicILInterpretor(int _stackSize)
+				:stackSize(_stackSize)
+			{
+				BasicILLabel label;
+				label.key=-1;
+				label.instruction=-1;
+				labels.Add(label);
+			}
+
+			BasicILInterpretor::~BasicILInterpretor()
+			{
+			}
+
+			int BasicILInterpretor::LoadIL(BasicIL* il)
+			{
+				_SymbolList linkingSymbols;
+				LoadILSymbol(il, linkingSymbols);
+				ils.Add(il);
+				LinkILSymbol(il, ils.Count()-1, linkingSymbols);
+				return ils.Count()-1;
 			}
 
 			void BasicILInterpretor::UnloadIL(BasicIL* il)
 			{
-				for(int i=0;i<ilCount;i++)
+				for(int i=0;i<ils.Count();i++)
 				{
 					if(ils[i]==il)
 					{
@@ -586,7 +635,7 @@ BasicILStack
 				{
 					while(instruction!=-1)
 					{
-						if(insKey<0 || insKey>=interpretor->ilCount || interpretor->ils[insKey]==0)
+						if(insKey<0 || insKey>=interpretor->ils.Count() || interpretor->ils[insKey]==0)
 						{
 							return BasicILStack::InstructionIndexOutOfRange;
 						}
@@ -847,7 +896,7 @@ BasicILStack
 			}
 
 /***********************************************************************
-BasicILEnv
+ILException
 ***********************************************************************/
 			
 			WString ILException::GetExceptionMessage(BasicILStack::RunningResult result)
@@ -866,6 +915,27 @@ BasicILEnv
 					return basiclanguage::BasicErrorMessage::ILExceptionUnknownInstruction();
 				case BasicILStack::BadInstructionArgument:
 					return basiclanguage::BasicErrorMessage::ILExceptionBadInstructionArgument();
+				default:
+					return L"";
+				}
+			}
+
+/***********************************************************************
+ILLinkerException
+***********************************************************************/
+			
+			WString ILLinkerException::GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName)
+			{
+				switch(_errorType)
+				{
+				case DuplicatedAssemblyName:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedAssemblyName(_assemblyName);
+				case AssemblyNotExists:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionAssemblyNotExists(_assemblyName);
+				case DuplicatedSymbolName:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedSymbolName(_assemblyName, _symbolName);
+				case SymbolNotExists:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotExists(_assemblyName, _symbolName);
 				default:
 					return L"";
 				}

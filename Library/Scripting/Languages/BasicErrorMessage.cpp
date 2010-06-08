@@ -181,6 +181,26 @@ namespace vl
 				return L"Bad instruction argument.";
 			}
 
+			WString BasicErrorMessage::ILLinkerExceptionDuplicatedAssemblyName(const WString& assembly)
+			{
+				return L"Assembly "+assembly+L" exists. Cannot load an assembly that conflict with existing names.";
+			}
+
+			WString BasicErrorMessage::ILLinkerExceptionAssemblyNotExists(const WString& assembly)
+			{
+				return L"Assembly "+assembly+L" has not been loaded.";
+			}
+
+			WString BasicErrorMessage::ILLinkerExceptionDuplicatedSymbolName(const WString& assembly, const WString& symbol)
+			{
+				return L"Symbol "+symbol+L" in assembly "+assembly+L" exists. Assembly cannot have two symbols of the same name.";
+			}
+
+			WString BasicErrorMessage::ILLinkerExceptionSymbolNotExists(const WString& assembly, const WString& symbol)
+			{
+				return L"Cannot find symbol "+symbol+L" in assembly "+assembly+L".";
+			}
+
 		}
 	}
 }

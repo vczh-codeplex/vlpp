@@ -31,7 +31,6 @@ namespace vl
 				Instruction,
 			};
 
-			TypeEnum							type;
 			int									address;
 			ResourceString						name;
 			ResourceHandle<BasicILExportRes>	next;
@@ -43,7 +42,8 @@ namespace vl
 
 		struct BasicILLinkingRes
 		{
-			ResourceString						name;
+			ResourceString						symbolName;
+			ResourceString						assemblyName;
 			ResourceHandle<BasicILLinkingRes>	next;
 		};
 

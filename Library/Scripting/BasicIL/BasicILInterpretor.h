@@ -20,6 +20,11 @@ namespace vl
 	{
 		namespace basicil
 		{
+
+/***********************************************************************
+运行时环境
+***********************************************************************/
+
 			class BasicILEnv : public Object
 			{
 			protected:
@@ -66,11 +71,19 @@ namespace vl
 			class BasicILInterpretor : public Object
 			{
 				friend class BasicILStack;
+
+				typedef collections::Dictionary<collections::Pair<WString, WString>, int>	_SymbolMap;
+				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
+				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 			protected:
 				int											stackSize;
-				BasicIL**									ils;
-				int											ilCount;
+				collections::List<BasicIL*>					ils;
+				_BasicILMap									ilMap;
 				collections::List<BasicILLabel>				labels;
+				_SymbolMap									symbolMap;
+
+				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
+				void										LinkILSymbol(BasicIL* il, int index, _SymbolList& linkingSymbols);
 			public:
 				BasicILInterpretor(int _stackSize);
 				~BasicILInterpretor();
@@ -79,6 +92,10 @@ namespace vl
 				void										UnloadIL(BasicIL* il);
 				collections::IList<BasicILLabel>&			GetLabels();
 			};
+
+/***********************************************************************
+运行时堆栈
+***********************************************************************/
 
 			class BasicILStack : public Object
 			{
@@ -115,16 +132,46 @@ namespace vl
 				RunningResult								Run();
 			};
 
+/***********************************************************************
+异常
+***********************************************************************/
+
 			class ILException : public Exception
 			{
 			private:
-				static WString								GetExceptionMessage(BasicILStack::RunningResult result);
+				static WString				GetExceptionMessage(BasicILStack::RunningResult result);
 			public:
 				BasicILStack::RunningResult result;
 
 				ILException(BasicILStack::RunningResult _result)
 					:Exception(GetExceptionMessage(_result))
 					,result(_result)
+				{
+				}
+			};
+
+			class ILLinkerException : public Exception
+			{
+			public:
+				enum ErrorType
+				{
+					DuplicatedAssemblyName,
+					AssemblyNotExists,
+					DuplicatedSymbolName,
+					SymbolNotExists,
+				};
+			private:
+				static WString				GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName);
+			public:
+				ErrorType					errorType;
+				WString						assemblyName;
+				WString						symbolName;
+
+				ILLinkerException(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName)
+					:Exception(GetExceptionMessage(_errorType, _assemblyName, _symbolName))
+					,errorType(_errorType)
+					,assemblyName(_assemblyName)
+					,symbolName(_symbolName)
 				{
 				}
 			};
