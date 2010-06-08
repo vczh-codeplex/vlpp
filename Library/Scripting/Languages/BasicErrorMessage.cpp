@@ -201,6 +201,11 @@ namespace vl
 				return L"Cannot find symbol "+symbol+L" in assembly "+assembly+L".";
 			}
 
+			WString BasicErrorMessage::ILLinkerExceptionSymbolNotALabel(const WString& assembly, const WString& symbol)
+			{
+				return L"Symbol "+symbol+L" in assembly "+assembly+L" does not associated with an instruction entry.";
+			}
+
 		}
 	}
 }

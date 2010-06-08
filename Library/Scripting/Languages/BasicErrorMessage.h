@@ -64,6 +64,7 @@ namespace vl
 				static WString ILLinkerExceptionAssemblyNotExists(const WString& assembly);
 				static WString ILLinkerExceptionDuplicatedSymbolName(const WString& assembly, const WString& symbol);
 				static WString ILLinkerExceptionSymbolNotExists(const WString& assembly, const WString& symbol);
+				static WString ILLinkerExceptionSymbolNotALabel(const WString& assembly, const WString& symbol);
 			};
 		}
 	}

@@ -159,6 +159,7 @@ namespace vl
 					AssemblyNotExists,
 					DuplicatedSymbolName,
 					SymbolNotExists,
+					SymbolNotALabel,
 				};
 			private:
 				static WString				GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName);

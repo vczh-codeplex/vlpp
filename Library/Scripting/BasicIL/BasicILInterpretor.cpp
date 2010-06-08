@@ -345,13 +345,58 @@ BasicILInterpretor
 					switch(ins.opcode)
 					{
 					case BasicIns::link_pushdata:
-						ins.opcode=BasicIns::push;
-						ins.type1=BasicIns::pointer_type;
-						ins.argument.pointer_value=&(il->globalData[0])+ins.argument.int_value;
+						{
+							ins.opcode=BasicIns::push;
+							ins.type1=BasicIns::pointer_type;
+							ins.argument.pointer_value=&(il->globalData[0])+ins.argument.int_value;
+						}
 						break;
 					case BasicIns::link_pushfunc:
-						ins.opcode=BasicIns::pushlabel;
-						ins.argument.int_value+=functionPointerOffset;
+						{
+							ins.opcode=BasicIns::pushlabel;
+							ins.argument.int_value+=functionPointerOffset;
+						}
+						break;
+					case BasicIns::link_pushforeigndata:
+						{
+							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
+							int ilIndex=ils.IndexOf(ilMap[symbol.key]);
+							int address=symbolMap[symbol];
+
+							ins.opcode=BasicIns::push;
+							ins.type1=BasicIns::pointer_type;
+							ins.argument.pointer_value=&(ils[ilIndex]->globalData[0])+address;
+						}
+						break;
+					case BasicIns::link_pushforeignfunc:
+						{
+							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
+							BasicILLabel label;
+							label.key=ils.IndexOf(ilMap[symbol.key]);
+							label.instruction=symbolMap[symbol];
+
+							int labelIndex=labels.IndexOf(label);
+							if(labelIndex!=-1)
+							{
+								ins.opcode=BasicIns::pushlabel;
+								ins.argument.int_value=labelIndex;
+							}
+							else
+							{
+								throw ILLinkerException(ILLinkerException::SymbolNotALabel, symbol.key, symbol.value);
+							}
+						}
+						break;
+					case BasicIns::link_callforeignfunc:
+						{
+							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
+							int ilIndex=ils.IndexOf(ilMap[symbol.key]);
+							int address=symbolMap[symbol];
+
+							ins.opcode=BasicIns::call;
+							ins.insKey=ilIndex;
+							ins.argument.int_value=address;
+						}
 						break;
 					}
 				}
@@ -936,6 +981,8 @@ ILLinkerException
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedSymbolName(_assemblyName, _symbolName);
 				case SymbolNotExists:
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotExists(_assemblyName, _symbolName);
+				case SymbolNotALabel:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotALabel(_assemblyName, _symbolName);
 				default:
 					return L"";
 				}
