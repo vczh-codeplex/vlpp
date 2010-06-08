@@ -133,7 +133,7 @@ namespace vl
 
 			WString BasicErrorMessage::StructureMemberCannotBeUndefinedType(const WString& name)
 			{
-				return L"Cannot refer to an undefined structure "+name+L".";
+				return L"Cannot refer to an undefined structure in member "+name+L".";
 			}
 
 			WString BasicErrorMessage::LeftOperandShouldBeStructure()
@@ -149,6 +149,36 @@ namespace vl
 			WString BasicErrorMessage::PredeclaredStructureShouldBeDefined(const WString& name)
 			{
 				return L"Predeclared structure "+name+L" should be defined.";
+			}
+
+			WString BasicErrorMessage::ILExceptionStackOverflow()
+			{
+				return L"Stack overflow.";
+			}
+
+			WString BasicErrorMessage::ILExceptionDividByZero()
+			{
+				return L"Divided by zero.";
+			}
+
+			WString BasicErrorMessage::ILExceptionAccessViolation()
+			{
+				return L"Access violation.";
+			}
+
+			WString BasicErrorMessage::ILExceptionInstructionIndexOutOfRange()
+			{
+				return L"Instruction index out of range.";
+			}
+
+			WString BasicErrorMessage::ILExceptionUnknownInstruction()
+			{
+				return L"Unknown instruction.";
+			}
+
+			WString BasicErrorMessage::ILExceptionBadInstructionArgument()
+			{
+				return L"Bad instruction argument.";
 			}
 
 		}

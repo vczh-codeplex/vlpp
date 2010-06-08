@@ -54,6 +54,12 @@ namespace vl
 				static WString LeftOperandShouldBeStructure();
 				static WString LeftOperandShouldBePointerToStructure();
 				static WString PredeclaredStructureShouldBeDefined(const WString& name);
+				static WString ILExceptionStackOverflow();
+				static WString ILExceptionDividByZero();
+				static WString ILExceptionAccessViolation();
+				static WString ILExceptionInstructionIndexOutOfRange();
+				static WString ILExceptionUnknownInstruction();
+				static WString ILExceptionBadInstructionArgument();
 			};
 		}
 	}

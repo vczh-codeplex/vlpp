@@ -1,5 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "BasicILInterpretor.h"
+#include "BasicILSymbolResource.h"
+#include "..\Languages\BasicErrorMessage.h"
 
 namespace vl
 {
@@ -841,6 +843,31 @@ BasicILStack
 				catch(const ILException& e)
 				{
 					return e.result;
+				}
+			}
+
+/***********************************************************************
+BasicILEnv
+***********************************************************************/
+			
+			WString ILException::GetExceptionMessage(BasicILStack::RunningResult result)
+			{
+				switch(result)
+				{
+				case BasicILStack::StackOverflow:
+					return basiclanguage::BasicErrorMessage::ILExceptionStackOverflow();
+				case BasicILStack::DividByZero:
+					return basiclanguage::BasicErrorMessage::ILExceptionDividByZero();
+				case BasicILStack::AccessViolation:
+					return basiclanguage::BasicErrorMessage::ILExceptionAccessViolation();
+				case BasicILStack::InstructionIndexOutOfRange:
+					return basiclanguage::BasicErrorMessage::ILExceptionInstructionIndexOutOfRange();
+				case BasicILStack::UnknownInstruction:
+					return basiclanguage::BasicErrorMessage::ILExceptionUnknownInstruction();
+				case BasicILStack::BadInstructionArgument:
+					return basiclanguage::BasicErrorMessage::ILExceptionBadInstructionArgument();
+				default:
+					return L"";
 				}
 			}
 		}

@@ -219,6 +219,7 @@
     <ClInclude Include="..\..\Library\Regex\RegexPure.h" />
     <ClInclude Include="..\..\Library\Regex\RegexRich.h" />
     <ClInclude Include="..\..\Library\Regex\RegexWriter.h" />
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
     <ClInclude Include="..\..\Library\Stream\Accessor.h" />
