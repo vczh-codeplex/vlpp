@@ -4,6 +4,14 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicLanguage
 
 Classes:
+  BasicTypeRes					：类型
+  BasicTypeLinkRes				：类型子元素链表
+
+  BasicParameterRes				：参数链表
+  BasicDeclarationRes			：声明
+  BasicDeclarationLinkRes		：声明链表
+
+  BasicEntryRes					：入口
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGERESOURCE

@@ -29,3 +29,10 @@ StructureMemberCannotBeUndefinedType(name)=Cannot refer to an undefined structur
 LeftOperandShouldBeStructure=Left operand should be a structure.
 LeftOperandShouldBePointerToStructure=Left operand should be a pointer to a structure.
 PredeclaredStructureShouldBeDefined(name)=Predeclared structure {name} should be defined.
+
+ILExceptionStackOverflow=Stack overflow.
+ILExceptionDividByZero=Divided by zero.
+ILExceptionAccessViolation=Access violation.
+ILExceptionInstructionIndexOutOfRange=Instruction index out of range.
+ILExceptionUnknownInstruction=Unknown instruction.
+ILExceptionBadInstructionArgument=Bad instruction argument.

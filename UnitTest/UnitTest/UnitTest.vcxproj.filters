@@ -664,5 +664,8 @@
     <ClInclude Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h">
       <Filter>Library3\Scripting\BasicLanguage\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h">
+      <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

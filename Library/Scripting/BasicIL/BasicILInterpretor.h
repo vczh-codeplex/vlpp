@@ -12,6 +12,7 @@ Classes:
 #define VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 
 #include "BasicILDefinition.h"
+#include "..\..\Exception.h"
 
 namespace vl
 {
@@ -114,13 +115,16 @@ namespace vl
 				RunningResult								Run();
 			};
 
-			class ILException
+			class ILException : public Exception
 			{
+			private:
+				static WString								GetExceptionMessage(BasicILStack::RunningResult result);
 			public:
 				BasicILStack::RunningResult result;
 
 				ILException(BasicILStack::RunningResult _result)
-					:result(_result)
+					:Exception(GetExceptionMessage(_result))
+					,result(_result)
 				{
 				}
 			};
