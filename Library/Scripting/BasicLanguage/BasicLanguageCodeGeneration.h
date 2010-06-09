@@ -13,6 +13,7 @@ Classes:
 #include "BasicLanguageAnalyzer.h"
 #include "BasicLanguageResource.h"
 #include "..\BasicIL\BasicILDefinition.h"
+#include "..\BasicIL\BasicILSymbolResource.h"
 
 namespace vl
 {
@@ -108,9 +109,10 @@ Extension
 				stream::MemoryStream*										globalData;
 				BasicCodegenExtension*										codegenExtension;
 				Ptr<ResourceStream>											resource;
+				Ptr<ResourceStream>											exportResource;
 				BasicLanguageElement*										currentLanguageElement;
 
-				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource);
+				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource, Ptr<ResourceStream> _exportResource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
 
 				void														Ins(basicil::BasicIns::OpCode opcode)const;
@@ -165,8 +167,12 @@ Code Generation
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+
 			extern ResourceHandle<BasicTypeRes> GenerateResource(BasicTypeRecord* type, const BCP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<BasicILExportRes>);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateLinking, BasicDeclaration, BCP, ResourceHandle<BasicILLinkingRes>);
+
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
 
 #define BASIC_LANGUAGE_ALGORITHM_INITIALIZER\

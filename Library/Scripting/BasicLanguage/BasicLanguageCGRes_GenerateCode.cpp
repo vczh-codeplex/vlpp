@@ -174,6 +174,13 @@ BasicLanguage_GenerateResource
 						}
 						currentParameter=parameter;
 					}
+
+					if(node->linking.HasLink())
+					{
+						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+					}
+
 					return resource;
 				}
 
@@ -189,6 +196,13 @@ BasicLanguage_GenerateResource
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
 					resource->address=argument.info->GetGlobalVariableOffsets()[node];
+
+					if(node->linking.HasLink())
+					{
+						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+					}
+
 					return resource;
 				}
 
@@ -211,6 +225,13 @@ BasicLanguage_GenerateResource
 						resource->name=name;
 						resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
 						resource->address=-1;
+
+						if(node->linking.HasLink())
+						{
+							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+						}
+
 						return resource;
 					}
 					else
@@ -225,6 +246,118 @@ BasicLanguage_GenerateResource
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource)
+
+/***********************************************************************
+BasicLanguage_GenerateExport
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<BasicILExportRes>)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
+			
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
+				{
+					if(node->linking.HasLink())
+					{
+						return ResourceHandle<BasicILExportRes>::Null();
+					}
+					else
+					{
+						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
+						exportRes->address=argument.il->labels[argument.info->GetFunctions().IndexOf(node)].instructionIndex;
+						exportRes->name=argument.exportResource->CreateString(node->name);
+						exportRes->next=ResourceHandle<BasicILExportRes>::Null();
+						return exportRes;
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
+				{
+					if(node->linking.HasLink())
+					{
+						return ResourceHandle<BasicILExportRes>::Null();
+					}
+					else
+					{
+						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
+						exportRes->address=argument.info->GetGlobalVariableOffsets()[node];
+						exportRes->name=argument.exportResource->CreateString(node->name);
+						exportRes->next=ResourceHandle<BasicILExportRes>::Null();
+						return exportRes;
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)
+				{
+					return ResourceHandle<BasicILExportRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
+				{
+					return ResourceHandle<BasicILExportRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
+				{
+					return ResourceHandle<BasicILExportRes>::Null();
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport)
+
+/***********************************************************************
+BasicLanguage_GenerateLinking
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateLinking, BasicDeclaration, BCP, ResourceHandle<BasicILLinkingRes>)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
+			
+				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
+				{
+					if(node->linking.HasLink())
+					{
+						ResourceRecord<BasicILLinkingRes> linkingRes=argument.exportResource->CreateRecord<BasicILLinkingRes>();
+						linkingRes->assemblyName=argument.exportResource->CreateString(node->linking.assemblyName);
+						linkingRes->symbolName=argument.exportResource->CreateString(node->linking.symbolName);
+						linkingRes->next=ResourceHandle<BasicILLinkingRes>::Null();
+						return linkingRes;
+					}
+					else
+					{
+						return ResourceHandle<BasicILLinkingRes>::Null();
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
+				{
+					if(node->linking.HasLink())
+					{
+						ResourceRecord<BasicILLinkingRes> linkingRes=argument.exportResource->CreateRecord<BasicILLinkingRes>();
+						linkingRes->assemblyName=argument.exportResource->CreateString(node->linking.assemblyName);
+						linkingRes->symbolName=argument.exportResource->CreateString(node->linking.symbolName);
+						linkingRes->next=ResourceHandle<BasicILLinkingRes>::Null();
+						return linkingRes;
+					}
+					else
+					{
+						return ResourceHandle<BasicILLinkingRes>::Null();
+					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)
+				{
+					return ResourceHandle<BasicILLinkingRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
+				{
+					return ResourceHandle<BasicILLinkingRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
+				{
+					return ResourceHandle<BasicILLinkingRes>::Null();
+				}
+
+			END_ALGORITHM_FUNCTION(BasicLanguage_GenerateLinking)
 		}
 	}
 }
