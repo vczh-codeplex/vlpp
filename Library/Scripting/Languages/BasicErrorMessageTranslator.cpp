@@ -187,6 +187,30 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::PredeclaredStructureShouldBeDefined(declaration->name);
 					}
 					break;
+				case BasicLanguageCodeException::ExternalFunctionCannotHaveStatement:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ExternalFunctionCannotHaveStatement(declaration->name);
+					}
+					break;
+				case BasicLanguageCodeException::LocalFunctionShouldHaveStatement:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::LocalFunctionShouldHaveStatement(declaration->name);
+					}
+					break;
+				case BasicLanguageCodeException::ExternalVariableCannotHaveInitializer:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ExternalVariableCannotHaveInitializer(declaration->name);
+					}
+					break;
+				case BasicLanguageCodeException::ExternalStructureShouldBeDefined:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ExternalStructureShouldBeDefined(declaration->name);
+					}
+					break;
 				default:
 					return 0;
 				}

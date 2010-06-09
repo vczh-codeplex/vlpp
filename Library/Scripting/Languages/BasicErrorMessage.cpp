@@ -151,6 +151,26 @@ namespace vl
 				return L"Predeclared structure "+name+L" should be defined.";
 			}
 
+			WString BasicErrorMessage::ExternalFunctionCannotHaveStatement(const WString& name)
+			{
+				return L"External function "+name+L" cannot have a statement.";
+			}
+
+			WString BasicErrorMessage::LocalFunctionShouldHaveStatement(const WString& name)
+			{
+				return L"Local function "+name+L" should have a statement.";
+			}
+
+			WString BasicErrorMessage::ExternalVariableCannotHaveInitializer(const WString& name)
+			{
+				return L"External variable "+name+L" cannot have an initializer.";
+			}
+
+			WString BasicErrorMessage::ExternalStructureShouldBeDefined(const WString& name)
+			{
+				return L"External structure "+name+L" should be defined.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

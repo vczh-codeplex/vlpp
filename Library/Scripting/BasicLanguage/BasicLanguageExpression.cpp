@@ -19,6 +19,11 @@ namespace vl
 			{
 			}
 
+			bool BasicLinking::HasLink()const
+			{
+				return assemblyName!=L"" || symbolName!=L"";
+			}
+
 			BasicBinaryExpression::BasicBinaryExpression()
 			{
 				shortcut=true;

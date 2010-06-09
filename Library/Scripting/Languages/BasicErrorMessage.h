@@ -54,6 +54,10 @@ namespace vl
 				static WString LeftOperandShouldBeStructure();
 				static WString LeftOperandShouldBePointerToStructure();
 				static WString PredeclaredStructureShouldBeDefined(const WString& name);
+				static WString ExternalFunctionCannotHaveStatement(const WString& name);
+				static WString LocalFunctionShouldHaveStatement(const WString& name);
+				static WString ExternalVariableCannotHaveInitializer(const WString& name);
+				static WString ExternalStructureShouldBeDefined(const WString& name);
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();

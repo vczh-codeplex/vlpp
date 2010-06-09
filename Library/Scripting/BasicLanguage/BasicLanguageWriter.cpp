@@ -891,9 +891,10 @@ BasicFunctionDeclarationNode
 				return *this;
 			}
 
-			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::ExternalKey(const WString& key)
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Linking(const WString& assemblyName, const WString& symbolName)
 			{
-				declaration->externalKey=key;
+				declaration->linking.assemblyName=assemblyName;
+				declaration->linking.symbolName=symbolName;
 				return *this;
 			}
 
@@ -924,6 +925,13 @@ BasicStructureDeclarationNode
 				return *this;
 			}
 
+			BasicStructureDeclarationNode& BasicStructureDeclarationNode::Linking(const WString& assemblyName, const WString& symbolName)
+			{
+				declaration->linking.assemblyName=assemblyName;
+				declaration->linking.symbolName=symbolName;
+				return *this;
+			}
+
 /***********************************************************************
 BasicProgramNode
 ***********************************************************************/
@@ -943,6 +951,16 @@ BasicProgramNode
 				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
 				declaration->name=name;
 				declaration->type=type.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				declaration->linking.assemblyName=assemblyName;
+				declaration->linking.symbolName=symbolName;
 				program->declarations.Add(declaration);
 			}
 

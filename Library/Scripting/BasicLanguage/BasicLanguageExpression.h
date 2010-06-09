@@ -74,6 +74,14 @@ namespace vl
 				BasicPosition();
 			};
 
+			struct BasicLinking
+			{
+				WString						assemblyName;
+				WString						symbolName;
+
+				bool						HasLink()const;
+			};
+
 			class BasicLanguageElement : public Object, private NotCopyable
 			{
 			public:
@@ -406,7 +414,7 @@ Declaration
 				Ptr<BasicFunctionType>						signatureType;
 				collections::List<WString>					parameterNames;
 				Ptr<BasicStatement>							statement;
-				WString										externalKey;
+				BasicLinking								linking;
 			};
 
 			class BasicStructureDeclaration : public BasicDeclaration
@@ -417,6 +425,7 @@ Declaration
 				collections::List<Ptr<BasicType>>			memberTypes;
 				collections::List<WString>					memberNames;
 				bool										defined;
+				BasicLinking								linking;
 			};
 
 			class BasicVariableDeclaration : public BasicDeclaration
@@ -426,6 +435,7 @@ Declaration
 
 				Ptr<BasicType>								type;
 				Ptr<BasicExpression>						initializer;
+				BasicLinking								linking;
 			};
 
 			class BasicTypeRenameDeclaration : public BasicDeclaration
