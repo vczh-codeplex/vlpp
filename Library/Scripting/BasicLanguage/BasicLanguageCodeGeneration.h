@@ -173,7 +173,7 @@ Code Generation
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<BasicILExportRes>);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateLinking, BasicDeclaration, BCP, ResourceHandle<BasicILLinkingRes>);
 
-			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument);
+			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
 
 #define BASIC_LANGUAGE_ALGORITHM_INITIALIZER\
 			BasicLanguageElement* lastCurrentLanguageElement;\
@@ -199,8 +199,9 @@ BasicCodeGenerator
 				BasicCodegenExtension*										codegenExtension;
 				Ptr<BasicCodegenInfo>										codegenInfo;
 				Ptr<BasicProgram>											program;
+				WString														programName;
 			public:
-				BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension);
+				BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension, const WString& _programName);
 				~BasicCodeGenerator();
 
 				Ptr<basicil::BasicIL>										GetIL();

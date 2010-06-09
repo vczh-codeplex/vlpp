@@ -54,7 +54,7 @@ void ConvertToNativeXProgram(Ptr<BasicProgram>& program)
 	TEST_ASSERT(program);
 }
 
-Ptr<LanguageAssembly> TestNativeXNoError(WString code)
+Ptr<LanguageAssembly> TestNativeXNoError(const WString& code, const WString& name=L"nativex_assembly")
 {
 	List<Ptr<LanguageAssembly>> references;
 	List<WString> codes;
@@ -62,7 +62,7 @@ Ptr<LanguageAssembly> TestNativeXNoError(WString code)
 	codes.Add(code);
 
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
-	Ptr<LanguageAssembly> assembly=provider->Compile(references.Wrap(), codes.Wrap(), errors.Wrap());
+	Ptr<LanguageAssembly> assembly=provider->Compile(name, references.Wrap(), codes.Wrap(), errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(assembly);
 	
@@ -153,6 +153,8 @@ ResourceRecord<BasicTypeRes> AssertIsStructureDefinition(ResourceHandle<BasicDec
 	TEST_ASSERT(record->declarationType);
 	TEST_ASSERT(!record->parameterNames);
 	TEST_ASSERT(record->address==-1);
+	TEST_ASSERT(!record->linkingAssemblyName);
+	TEST_ASSERT(!record->linkingSymbolName);
 	ResourceRecord<BasicTypeRes> result=stream->ReadRecord(record->declarationType);
 	TEST_ASSERT(result->type==BasicTypeRes::Structure);
 	return result;
@@ -169,6 +171,8 @@ ResourceRecord<BasicTypeRes> AssertIsFunctionDefinition(ResourceHandle<BasicDecl
 	ResourceRecord<BasicTypeRes> result=stream->ReadRecord(record->declarationType);
 	TEST_ASSERT(result->type==BasicTypeRes::Function);
 	TEST_ASSERT(result->elementCount==-1);
+	TEST_ASSERT(!record->linkingAssemblyName);
+	TEST_ASSERT(!record->linkingSymbolName);
 
 	ResourceHandle<BasicParameterRes> parameter=record->parameterNames;
 	while(parameterCount--)
@@ -188,6 +192,8 @@ ResourceRecord<BasicTypeRes> AssertIsVariableDefinition(ResourceHandle<BasicDecl
 	TEST_ASSERT(record->declarationType);
 	TEST_ASSERT(!record->parameterNames);
 	TEST_ASSERT(record->address!=-1);
+	TEST_ASSERT(!record->linkingAssemblyName);
+	TEST_ASSERT(!record->linkingSymbolName);
 	return stream->ReadRecord(record->declarationType);
 }
 

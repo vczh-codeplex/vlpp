@@ -180,6 +180,11 @@ BasicLanguage_GenerateResource
 						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
 						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
 					}
+					else
+					{
+						resource->linkingAssemblyName=ResourceString::Null();
+						resource->linkingSymbolName=ResourceString::Null();
+					}
 
 					return resource;
 				}
@@ -201,6 +206,11 @@ BasicLanguage_GenerateResource
 					{
 						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
 						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+					}
+					else
+					{
+						resource->linkingAssemblyName=ResourceString::Null();
+						resource->linkingSymbolName=ResourceString::Null();
 					}
 
 					return resource;
@@ -230,6 +240,11 @@ BasicLanguage_GenerateResource
 						{
 							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
 							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+						}
+						else
+						{
+							resource->linkingAssemblyName=ResourceString::Null();
+							resource->linkingSymbolName=ResourceString::Null();
 						}
 
 						return resource;

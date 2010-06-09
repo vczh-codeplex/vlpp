@@ -365,7 +365,7 @@ BasicCodegenParameter
 BasicLanguage_GenerateCode
 ***********************************************************************/
 
-			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const BCP& argument)
+			void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
@@ -412,7 +412,7 @@ BasicLanguage_GenerateCode
 				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
 
 				ResourceRecord<BasicILEntryRes> exportEntry=argument.exportResource->CreateRecord<BasicILEntryRes>();
-				exportEntry->assemblyName=ResourceString::Null();
+				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
 				exportEntry->exports=ResourceHandle<BasicILExportRes>::Null();
 				exportEntry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
 				ResourceRecord<BasicILExportRes> currentExport;
@@ -473,12 +473,13 @@ BasicLanguage_GenerateCode
 BasicCodeGenerator
 ***********************************************************************/
 
-			BasicCodeGenerator::BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension)
+			BasicCodeGenerator::BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension, const WString& _programName)
 				:il(new BasicIL)
 				,globalData(new MemoryStream)
 				,codegenExtension(extension)
 				,codegenInfo(new BasicCodegenInfo(analyzer))
 				,program(analyzer->GetProgram())
+				,programName(_programName)
 			{
 				Ptr<ResourceStream> resource=new ResourceStream;
 				il->resources.Add(BasicILResourceNames::BasicLanguageInterfaces, resource);
@@ -509,7 +510,7 @@ BasicCodeGenerator
 				{
 					argument.codegenExtension=codegenExtension;
 				}
-				BasicLanguage_GenerateCode(program, argument);
+				BasicLanguage_GenerateCode(program, programName, argument);
 			}
 		}
 	}

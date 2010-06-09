@@ -103,7 +103,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	BasicAnalyzer analyzer(program, 0, configuration);
 	analyzer.Analyze();
 	TEST_ASSERT(analyzer.GetErrors().Count()==0);
-	BasicCodeGenerator codegen(&analyzer, 0);
+	BasicCodeGenerator codegen(&analyzer, 0, L"assembly_generated");
 	codegen.GenerateCode();
 	BasicILInterpretor interpretor(65536);
 	int key=interpretor.LoadIL(codegen.GetIL().Obj());
