@@ -72,7 +72,14 @@ BasicLanguage_StoreToAddressInternal
 					else if(variableDeclaration)
 					{
 						int offset=argument.info->GetGlobalVariableOffsets()[variableDeclaration];
-						argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+						if(variableDeclaration->linking.HasLink())
+						{
+							argument.Ins(BasicIns::link_pushforeigndata, BasicIns::MakeInt(offset));
+						}
+						else
+						{
+							argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+						}
 					}
 				}
 			};
@@ -125,9 +132,10 @@ BasicLanguage_StoreToAddressInternal
 					int index=0;
 					int returnSize=0;
 					int parameterSize=0;
-					Code_InvokeFunctionPushParameters(node, argument.argument, index, returnSize, parameterSize, false);
+					bool isExternal=false;
+					Code_InvokeFunctionPushParameters(node, argument.argument, index, returnSize, parameterSize, false, isExternal);
 					argument.WriteAddress();
-					Code_InvokeFunctionCallFunction(node, argument.argument, index, returnSize, parameterSize, false);
+					Code_InvokeFunctionCallFunction(node, argument.argument, index, returnSize, parameterSize, false, isExternal);
 					return true;
 				}
 

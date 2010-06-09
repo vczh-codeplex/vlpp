@@ -36,7 +36,7 @@ namespace vl
 			protected:
 				BasicAnalyzer*												analyzer;
 				_TypeInfoTable												typeInfos;
-				collections::List<BasicFunctionDeclaration*>				functions;
+				collections::Dictionary<BasicFunctionDeclaration*, int>		functions;
 				collections::Dictionary<BasicVariableDeclaration*, int>		globalVariableOffsets;
 				collections::Dictionary<BasicVariableStatement*, int>		localVariableOffsets;
 
@@ -58,7 +58,7 @@ namespace vl
 				BasicEnv*													GetEnv();
 				BasicTypeManager*											GetTypeManager();
 				BasicAlgorithmConfiguration&								GetConfiguration();
-				collections::IList<BasicFunctionDeclaration*>&				GetFunctions();
+				collections::IDictionary<BasicFunctionDeclaration*, int>&	GetFunctions();
 				collections::IDictionary<BasicVariableDeclaration*, int>&	GetGlobalVariableOffsets();
 				collections::IDictionary<BasicVariableStatement*, int>&		GetLocalVariableOffsets();
 
@@ -111,6 +111,7 @@ Extension
 				Ptr<ResourceStream>											resource;
 				Ptr<ResourceStream>											exportResource;
 				BasicLanguageElement*										currentLanguageElement;
+				collections::List<BasicLinking>								linkings;
 
 				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource, Ptr<ResourceStream> _exportResource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);
@@ -129,6 +130,7 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::ValueType		Convert								(BasicPrimitiveTypeEnum type);
 			extern basicil::BasicIns::ValueType		Convert								(BasicTypeRecord* type);
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
+			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern int								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
@@ -142,8 +144,8 @@ Code Generation Helper Functions
 			extern BasicTypeRecord*					Code_BinaryAssign					(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignSideEffect			(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignRef				(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
-			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack);
-			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack);
+			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack, bool& isExternal);
+			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack, bool isExternal);
 			extern BasicTypeRecord*					Code_InvokeFunction					(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly);
 
 /***********************************************************************
@@ -165,13 +167,13 @@ Code Generation
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect, BasicExpression, BCP, bool)
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateLinkingSymbolTable, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
 
 			extern ResourceHandle<BasicTypeRes> GenerateResource(BasicTypeRecord* type, const BCP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<BasicILExportRes>);
-			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateLinking, BasicDeclaration, BCP, ResourceHandle<BasicILLinkingRes>);
 
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
 

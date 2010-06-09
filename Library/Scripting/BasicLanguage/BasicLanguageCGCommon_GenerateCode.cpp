@@ -72,6 +72,20 @@ namespace vl
 				return argument;
 			}
 
+			bool IsExternalFunction(BasicReferenceExpression* referenceExpression, const BCP& argument)
+			{
+				if(referenceExpression)
+				{
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(referenceExpression);
+					if(!reference.isVariable)
+					{
+						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
+						return function->linking.HasLink();
+					}
+				}
+				return false;
+			}
+
 			int GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
 			{
 				if(referenceExpression)
@@ -80,7 +94,7 @@ namespace vl
 					if(!reference.isVariable)
 					{
 						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
-						return argument.info->GetFunctions().IndexOf(function);
+						return argument.info->GetFunctions()[function];
 					}
 				}
 				return -1;
@@ -299,9 +313,10 @@ namespace vl
 				}
 			}
 
-			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack)
+			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack, bool& isExternal)
 			{
 				BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
+				isExternal=IsExternalFunction(referenceExpression, argument);
 				index=GetFunctionIndex(referenceExpression, argument);
 
 				BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
@@ -320,13 +335,17 @@ namespace vl
 				return functionType;
 			}
 
-			void Code_InvokeFunctionCallFunction(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack)
+			void Code_InvokeFunctionCallFunction(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack, bool isExternal)
 			{
 				if(index==-1)
 				{
 					BasicLanguage_PushValue(node->function, argument);
 					argument.Ins(BasicIns::label);
 					argument.Ins(BasicIns::call_indirect);
+				}
+				else if(isExternal)
+				{
+					argument.Ins(BasicIns::link_callforeignfunc, BasicIns::MakeInt(index));
 				}
 				else
 				{
@@ -343,9 +362,10 @@ namespace vl
 				int index=0;
 				int returnSize=0;
 				int parameterSize=0;
-				BasicTypeRecord* functionType=Code_InvokeFunctionPushParameters(node, argument, index, returnSize, parameterSize, true);
+				bool isExternal=false;
+				BasicTypeRecord* functionType=Code_InvokeFunctionPushParameters(node, argument, index, returnSize, parameterSize, true, isExternal);
 				argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));
-				Code_InvokeFunctionCallFunction(node, argument, index, returnSize, parameterSize, sideEffectOnly);
+				Code_InvokeFunctionCallFunction(node, argument, index, returnSize, parameterSize, sideEffectOnly, isExternal);
 				return functionType->ReturnType();
 			}
 		}

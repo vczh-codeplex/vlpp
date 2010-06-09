@@ -137,7 +137,7 @@ BasicCodegenInfo
 				return analyzer->GetConfiguration();
 			}
 
-			collections::IList<BasicFunctionDeclaration*>& BasicCodegenInfo::GetFunctions()
+			collections::IDictionary<BasicFunctionDeclaration*, int>& BasicCodegenInfo::GetFunctions()
 			{
 				return functions.Wrap();
 			}
@@ -374,6 +374,11 @@ BasicLanguage_GenerateCode
 
 				for(int i=0;i<program->declarations.Count();i++)
 				{
+					BasicLanguage_GenerateLinkingSymbolTable(program->declarations[i], argument);
+				}
+
+				for(int i=0;i<program->declarations.Count();i++)
+				{
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
 
@@ -416,7 +421,6 @@ BasicLanguage_GenerateCode
 				exportEntry->exports=ResourceHandle<BasicILExportRes>::Null();
 				exportEntry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
 				ResourceRecord<BasicILExportRes> currentExport;
-				ResourceRecord<BasicILLinkingRes> currentLinking;
 
 				for(int i=0;i<program->declarations.Count();i++)
 				{
@@ -450,21 +454,6 @@ BasicLanguage_GenerateCode
 							exportEntry->exports=exportRecord;
 						}
 						currentExport=exportRecord;
-					}
-
-					ResourceHandle<BasicILLinkingRes> linkingRes=BasicLanguage_GenerateLinking(program->declarations[i], argument);
-					if(linkingRes)
-					{
-						ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->ReadRecord<BasicILLinkingRes>(linkingRes);
-						if(currentLinking)
-						{
-							currentLinking->next=linkingRecord;
-						}
-						else
-						{
-							exportEntry->linkings=linkingRecord;
-						}
-						currentLinking=linkingRecord;
 					}
 				}
 			}
