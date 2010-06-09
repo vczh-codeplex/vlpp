@@ -1643,6 +1643,7 @@ namespace vl
 				}
 
 				Ptr<LanguageAssembly> Compile(
+					const WString& assemblyName,
 					IReadonlyList<Ptr<LanguageAssembly>>& references,
 					IReadonlyList<WString>& codes, 
 					IList<Ptr<LanguageException>>& errors
@@ -1682,7 +1683,7 @@ namespace vl
 						return 0;
 					}
 
-					BasicCodeGenerator codegen(&analyzer, 0);
+					BasicCodeGenerator codegen(&analyzer, 0, assemblyName);
 					codegen.GenerateCode();
 					return new LanguageAssembly(codegen.GetIL());
 				}
