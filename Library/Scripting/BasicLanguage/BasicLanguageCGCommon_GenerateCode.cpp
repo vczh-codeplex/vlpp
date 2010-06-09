@@ -316,8 +316,16 @@ namespace vl
 			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack, bool& isExternal)
 			{
 				BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
-				isExternal=IsExternalFunction(referenceExpression, argument);
-				index=GetFunctionIndex(referenceExpression, argument);
+				if(referenceExpression)
+				{
+					isExternal=IsExternalFunction(referenceExpression, argument);
+					index=GetFunctionIndex(referenceExpression, argument);
+				}
+				else
+				{
+					isExternal=false;
+					index=-1;
+				}
 
 				BasicTypeRecord* functionType=argument.info->GetEnv()->GetExpressionType(node->function.Obj());
 				returnSize=argument.info->GetTypeInfo(functionType->ReturnType())->size;
