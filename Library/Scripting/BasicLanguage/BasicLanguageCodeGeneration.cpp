@@ -314,12 +314,13 @@ BasicCodegenExtension
 BasicCodegenParameter
 ***********************************************************************/
 			
-			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource)
+			BasicCodegenParameter::BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource, Ptr<ResourceStream> _exportResource)
 				:info(_info)
 				,il(_il)
 				,globalData(_globalData)
 				,codegenExtension(&defaultCodegenExtension)
 				,resource(_resource)
+				,exportResource(_exportResource)
 				,currentLanguageElement(0)
 			{
 			}
@@ -330,6 +331,7 @@ BasicCodegenParameter
 				,globalData(parameter.globalData)
 				,codegenExtension(parameter.codegenExtension)
 				,resource(parameter.resource)
+				,exportResource(parameter.exportResource)
 				,currentLanguageElement(0)
 			{
 			}
@@ -408,6 +410,14 @@ BasicLanguage_GenerateCode
 				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
 				entry->declarations=ResourceHandle<BasicDeclarationLinkRes>::Null();
 				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
+
+				ResourceRecord<BasicILEntryRes> exportEntry=argument.exportResource->CreateRecord<BasicILEntryRes>();
+				exportEntry->assemblyName=ResourceString::Null();
+				exportEntry->exports=ResourceHandle<BasicILExportRes>::Null();
+				exportEntry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
+				ResourceRecord<BasicILExportRes> currentExport;
+				ResourceRecord<BasicILLinkingRes> currentLinking;
+
 				for(int i=0;i<program->declarations.Count();i++)
 				{
 					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
@@ -426,6 +436,36 @@ BasicLanguage_GenerateCode
 						}
 						currentDeclaration=declarationLink;
 					}
+
+					ResourceHandle<BasicILExportRes> exportRes=BasicLanguage_GenerateExport(program->declarations[i], argument);
+					if(exportRes)
+					{
+						ResourceRecord<BasicILExportRes> exportRecord=argument.exportResource->ReadRecord<BasicILExportRes>(exportRes);
+						if(currentExport)
+						{
+							currentExport->next=exportRecord;
+						}
+						else
+						{
+							exportEntry->exports=exportRecord;
+						}
+						currentExport=exportRecord;
+					}
+
+					ResourceHandle<BasicILLinkingRes> linkingRes=BasicLanguage_GenerateLinking(program->declarations[i], argument);
+					if(linkingRes)
+					{
+						ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->ReadRecord<BasicILLinkingRes>(linkingRes);
+						if(currentLinking)
+						{
+							currentLinking->next=linkingRecord;
+						}
+						else
+						{
+							exportEntry->linkings=linkingRecord;
+						}
+						currentLinking=linkingRecord;
+					}
 				}
 			}
 
@@ -442,6 +482,9 @@ BasicCodeGenerator
 			{
 				Ptr<ResourceStream> resource=new ResourceStream;
 				il->resources.Add(BasicILResourceNames::BasicLanguageInterfaces, resource);
+
+				Ptr<ResourceStream> exportResource=new ResourceStream;
+				il->resources.Add(BasicILResourceNames::ExportedSymbols, exportResource);
 			}
 
 			BasicCodeGenerator::~BasicCodeGenerator()
@@ -455,7 +498,13 @@ BasicCodeGenerator
 
 			void BasicCodeGenerator::GenerateCode()
 			{
-				BCP argument(codegenInfo.Obj(), il.Obj(), globalData.Obj(), il->resources[BasicILResourceNames::BasicLanguageInterfaces]);
+				BCP argument(
+					codegenInfo.Obj(),
+					il.Obj(),
+					globalData.Obj(),
+					il->resources[BasicILResourceNames::BasicLanguageInterfaces],
+					il->resources[BasicILResourceNames::ExportedSymbols]
+				);
 				if(codegenExtension)
 				{
 					argument.codegenExtension=codegenExtension;

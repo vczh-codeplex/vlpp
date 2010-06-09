@@ -60,10 +60,10 @@ namespace vl
 			};
 
 			TypeEnum								type;
-			PrimitiveTypeEnum						primitiveType;		//Primitive
-			ResourceHandle<BasicTypeRes>			elementType;		//Array, Pointer, Function(return type)
+			PrimitiveTypeEnum						primitiveType;			//Primitive
+			ResourceHandle<BasicTypeRes>			elementType;			//Array, Pointer, Function(return type)
 			int										elementCount;
-			ResourceHandle<BasicTypeLinkRes>		subTypes;			//Function(parameter), Structure(member)
+			ResourceHandle<BasicTypeLinkRes>		subTypes;				//Function(parameter), Structure(member)
 			int										size;
 			int										alignment;
 		};
@@ -71,8 +71,8 @@ namespace vl
 		struct BasicTypeLinkRes
 		{
 			ResourceHandle<BasicTypeRes>			type;
-			ResourceString							name;				//Structure(member)
-			int										offset;				//Structure(member)
+			ResourceString							name;					//Structure(member)
+			int										offset;					//Structure(member)
 			ResourceHandle<BasicTypeLinkRes>		next;
 		};
 
@@ -96,10 +96,12 @@ namespace vl
 			};
 
 			TypeEnum								type;
-			ResourceHandle<BasicTypeRes>			declarationType;	//Function, Variable, Structure
+			ResourceHandle<BasicTypeRes>			declarationType;		//Function, Variable, Structure
 			ResourceString							name;
-			ResourceHandle<BasicParameterRes>		parameterNames;		//Function(parameter)
-			int										address;			//Function(ins index), Variable(data offset)
+			ResourceHandle<BasicParameterRes>		parameterNames;			//Function(parameter)
+			int										address;				//Function(ins index), Variable(data offset)
+			ResourceString							linkingAssemblyName;	//Function, Variable, Structure
+			ResourceString							linkingSymbolName;		//Function, Variable, Structure
 		};
 
 		struct BasicDeclarationLinkRes
