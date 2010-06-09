@@ -24,6 +24,16 @@ namespace vl
 				return assemblyName!=L"" || symbolName!=L"";
 			}
 
+			bool BasicLinking::operator==(const BasicLinking& linking)const
+			{
+				return assemblyName==linking.assemblyName && symbolName==linking.symbolName;
+			}
+
+			bool BasicLinking::operator!=(const BasicLinking& linking)const
+			{
+				return assemblyName!=linking.assemblyName || symbolName!=linking.symbolName;
+			}
+
 			BasicBinaryExpression::BasicBinaryExpression()
 			{
 				shortcut=true;

@@ -80,6 +80,8 @@ namespace vl
 				WString						symbolName;
 
 				bool						HasLink()const;
+				bool						operator==(const BasicLinking& linking)const;
+				bool						operator!=(const BasicLinking& linking)const;
 			};
 
 			class BasicLanguageElement : public Object, private NotCopyable

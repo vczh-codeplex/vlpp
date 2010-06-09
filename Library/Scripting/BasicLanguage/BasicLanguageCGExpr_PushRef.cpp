@@ -246,7 +246,14 @@ BasicLanguage_PushRef
 						if(reference.globalVariable)
 						{
 							int offset=argument.info->GetGlobalVariableOffsets()[reference.globalVariable];
-							argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+							if(reference.globalVariable->linking.HasLink())
+							{
+								argument.Ins(BasicIns::link_pushforeigndata, BasicIns::MakeInt(offset));
+							}
+							else
+							{
+								argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
+							}
 						}
 						else if(reference.localVariable)
 						{
