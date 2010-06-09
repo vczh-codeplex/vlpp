@@ -246,10 +246,38 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(expression, LeftOperandShouldBePointerToStructure, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* expression)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration)
 			{
 				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(expression, PredeclaredStructureShouldBeDefined, parameters.Wrap());
+				return new BasicLanguageCodeException(declaration, PredeclaredStructureShouldBeDefined, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetExternalFunctionCannotHaveStatement(BasicFunctionDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ExternalFunctionCannotHaveStatement, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLocalFunctionShouldHaveStatement(BasicFunctionDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, LocalFunctionShouldHaveStatement, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetExternalVariableCannotHaveInitializer(BasicVariableDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ExternalVariableCannotHaveInitializer, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ExternalStructureShouldBeDefined, parameters.Wrap());
 			}
 		}
 	}

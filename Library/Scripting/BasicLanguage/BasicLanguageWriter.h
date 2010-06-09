@@ -197,7 +197,7 @@ Declaration
 
 				BasicFunctionDeclarationNode&			ReturnType(const BasicTypeNode& type);
 				BasicFunctionDeclarationNode&			Parameter(const WString& name, const BasicTypeNode& type);
-				BasicFunctionDeclarationNode&			ExternalKey(const WString& key);
+				BasicFunctionDeclarationNode&			Linking(const WString& assemblyName, const WString& symbolName);
 				BasicFunctionDeclarationNode&			Statement(const BasicStatementNode& statement);
 			};
 
@@ -210,6 +210,7 @@ Declaration
 				Ptr<BasicStructureDeclaration>			GetInternalValue();
 				
 				BasicStructureDeclarationNode&			Member(const WString& name, const BasicTypeNode& type);
+				BasicStructureDeclarationNode&			Linking(const WString& assemblyName, const WString& symbolName);
 			};
 
 			class BasicProgramNode : public Object
@@ -221,6 +222,7 @@ Declaration
 				Ptr<BasicProgram>						GetInternalValue();
 
 				void									DefineVariable(const WString& name, const BasicTypeNode& type);
+				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
 				void									DefineRename(const WString& name, const BasicTypeNode& type);
 				BasicFunctionDeclarationNode			DefineFunction(const WString& name);

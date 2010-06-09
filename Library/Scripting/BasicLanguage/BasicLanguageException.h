@@ -53,6 +53,10 @@ namespace vl
 					LeftOperandShouldBeStructure,
 					LeftOperandShouldBePointerToStructure,
 					PredeclaredStructureShouldBeDefined,
+					ExternalFunctionCannotHaveStatement,	//name
+					LocalFunctionShouldHaveStatement,		//name
+					ExternalVariableCannotHaveInitializer,	//name
+					ExternalStructureShouldBeDefined,		//name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -99,6 +103,10 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBeStructure(BasicMemberExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBePointerToStructure(BasicMemberExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetExternalFunctionCannotHaveStatement(BasicFunctionDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetLocalFunctionShouldHaveStatement(BasicFunctionDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetExternalVariableCannotHaveInitializer(BasicVariableDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 			};
 		}
 	}

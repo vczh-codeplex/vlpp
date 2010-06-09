@@ -29,6 +29,10 @@ StructureMemberCannotBeUndefinedType(name)=Cannot refer to an undefined structur
 LeftOperandShouldBeStructure=Left operand should be a structure.
 LeftOperandShouldBePointerToStructure=Left operand should be a pointer to a structure.
 PredeclaredStructureShouldBeDefined(name)=Predeclared structure {name} should be defined.
+ExternalFunctionCannotHaveStatement(name)=External function {name} cannot have a statement.
+LocalFunctionShouldHaveStatement(name)=Local function {name} should have a statement.
+ExternalVariableCannotHaveInitializer(name)=External variable {name} cannot have an initializer.
+ExternalStructureShouldBeDefined(name)=External structure {name} should be defined.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

@@ -1255,6 +1255,20 @@ BasicLanguage_BuildDeclarationBody
 					BasicTypeRecord* functionType=argument.env->GetFunctionType(node);
 					if(functionType->ParameterCount()==node->parameterNames.Count())
 					{
+						if(node->linking.HasLink())
+						{
+							if(node->statement)
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetExternalFunctionCannotHaveStatement(node));
+							}
+						}
+						else
+						{
+							if(!node->statement)
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetLocalFunctionShouldHaveStatement(node));
+							}
+						}
 						if(node->statement)
 						{
 							BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
@@ -1281,6 +1295,13 @@ BasicLanguage_BuildDeclarationBody
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					if(node->linking.HasLink())
+					{
+						if(node->initializer)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetExternalVariableCannotHaveInitializer(node));
+						}
+					}
 					if(node->initializer)
 					{
 						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
@@ -1308,6 +1329,13 @@ BasicLanguage_BuildDeclarationBody
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
+					if(node->linking.HasLink())
+					{
+						if(!node->defined)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetExternalStructureShouldBeDefined(node));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
