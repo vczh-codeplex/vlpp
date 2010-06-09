@@ -325,8 +325,10 @@ BasicILInterpretor
 						currentLinkingHandle=currentLinking->next;
 					}
 
+					ilMap.Add(assemblyName, il);
 					CopyFrom(symbolMap.Wrap(), currentSymbolMap.Wrap(), true);
 				}
+				ils.Add(il);
 			}
 
 			void BasicILInterpretor::LinkILSymbol(BasicIL* il, int index, _SymbolList& linkingSymbols)
@@ -419,7 +421,6 @@ BasicILInterpretor
 			{
 				_SymbolList linkingSymbols;
 				LoadILSymbol(il, linkingSymbols);
-				ils.Add(il);
 				LinkILSymbol(il, ils.Count()-1, linkingSymbols);
 				return ils.Count()-1;
 			}

@@ -1,6 +1,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\BasicIL\BasicILDefinition.h"
 #include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
+#include "..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h"
 
 using namespace vl;
 using namespace vl::scripting;
@@ -523,6 +524,77 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	int result=stack.GetEnv()->Pop<int>();
 	TEST_ASSERT(result==(10+20)*(30+40));
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+}
+
+TEST_CASE(TestBasicILInstruction_Linking)
+{
+	BasicIL iladd, ilmain;
+	{
+		iladd
+			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(int)))
+			.Ins(BasicIns::read, BasicIns::int_type)
+			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+			.Ins(BasicIns::read, BasicIns::int_type)
+			.Ins(BasicIns::add, BasicIns::int_type)
+			.Ins(BasicIns::resptr)
+			.Ins(BasicIns::write, BasicIns::int_type)
+			.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)))
+			;
+
+		BasicIL::Label label;
+		label.instructionIndex=0;
+		iladd.labels.Add(label);
+
+		Ptr<ResourceStream> resource=new ResourceStream;
+		iladd.resources.Add(BasicILResourceNames::ExportedSymbols, resource);
+		
+		ResourceRecord<BasicILEntryRes> entry=resource->CreateRecord<BasicILEntryRes>();
+		entry->assemblyName=resource->CreateString(L"Add1.0");
+		entry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
+
+		ResourceRecord<BasicILExportRes> exportAdd=resource->CreateRecord<BasicILExportRes>();
+		exportAdd->next=ResourceHandle<BasicILExportRes>::Null();
+		exportAdd->name=resource->CreateString(L"Add");
+		exportAdd->address=0;
+		entry->exports=exportAdd;
+	}
+	{
+		ilmain
+			.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
+			.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
+			.Ins(BasicIns::resptr)
+			.Ins(BasicIns::link_callforeignfunc, BasicIns::MakeInt(0))
+			.Ins(BasicIns::ret, BasicIns::MakeInt(0))
+			;
+
+		BasicIL::Label label;
+		label.instructionIndex=0;
+		ilmain.labels.Add(label);
+
+		Ptr<ResourceStream> resource=new ResourceStream;
+		ilmain.resources.Add(BasicILResourceNames::ExportedSymbols, resource);
+		
+		ResourceRecord<BasicILEntryRes> entry=resource->CreateRecord<BasicILEntryRes>();
+		entry->assemblyName=resource->CreateString(L"Main1.0");
+		entry->exports=ResourceHandle<BasicILExportRes>::Null();
+		
+		ResourceRecord<BasicILLinkingRes> linkingAdd=resource->CreateRecord<BasicILLinkingRes>();
+		linkingAdd->next=ResourceHandle<BasicILLinkingRes>::Null();
+		linkingAdd->assemblyName=resource->CreateString(L"Add1.0");
+		linkingAdd->symbolName=resource->CreateString(L"Add");
+		entry->linkings=linkingAdd;
+	}
+
+	BasicILInterpretor interpretor(1024);
+	interpretor.LoadIL(&iladd);
+	int key=interpretor.LoadIL(&ilmain);
+
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, key, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	int result=stack.GetEnv()->Pop<int>();
+	TEST_ASSERT(result==3);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
