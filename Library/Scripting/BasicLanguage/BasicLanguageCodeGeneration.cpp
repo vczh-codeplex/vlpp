@@ -457,6 +457,25 @@ BasicLanguage_GenerateCode
 						currentExport=exportRecord;
 					}
 				}
+
+				ResourceRecord<BasicILLinkingRes> currentLinking;
+				for(int i=0;i<argument.info->linkings.Count();i++)
+				{
+					BasicLinking& linking=argument.info->linkings[i];
+					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
+					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
+					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
+					linkingRecord->next=ResourceHandle<BasicILLinkingRes>::Null();
+					if(currentLinking)
+					{
+						currentLinking->next=linkingRecord;
+					}
+					else
+					{
+						exportEntry->linkings=linkingRecord;
+					}
+					currentLinking=linkingRecord;
+				}
 			}
 
 /***********************************************************************
