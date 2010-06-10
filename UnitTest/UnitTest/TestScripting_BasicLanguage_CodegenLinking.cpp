@@ -35,6 +35,10 @@ Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name)
 	return codegen.GetIL();
 }
 
+/***********************************************************************
+Simple Linking
+***********************************************************************/
+
 TEST_CASE(TestScripting_BasicLanguage_Linking)
 {
 	BasicProgramNode programAdd;
@@ -83,5 +87,69 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 	stack.Reset(ins, mainKey, sizeof(int));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<int>()==3);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+}
+
+/***********************************************************************
+Function Pointer
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_Pointer)
+{
+	BasicProgramNode programAdd;
+	programAdd
+		.DefineFunction(L"add")
+		.ReturnType(t_int())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+			);
+	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd");
+
+	BasicProgramNode programMain;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_var(t_int()(t_types()<<t_int()<<t_int()), L"padd1", e_name(L"add1"))
+			<<s_var(t_int()(t_types()<<t_int()<<t_int()), L"padd2", e_name(L"add2"))
+			<<s_var(t_int(), L"a", e_name(L"padd1")(e_exps()<<e_prim(1)<<e_prim(2)))
+			<<s_var(t_int(), L"b", e_name(L"padd2")(e_exps()<<e_prim(3)<<e_prim(4)))
+			<<s_expr(e_result().Assign(e_name(L"a")*e_prim(10)+e_name(L"b")))
+			);
+	programMain
+		.DefineFunction(L"add1")
+		.ReturnType(t_int())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Linking(L"programAdd", L"add")
+		;
+	programMain
+		.DefineFunction(L"add2")
+		.ReturnType(t_int())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+			);
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain");
+
+	BasicILInterpretor interpretor(65536);
+	int addKey=interpretor.LoadIL(ilAdd.Obj());
+	int mainKey=interpretor.LoadIL(ilMain.Obj());
+	
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, addKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	stack.Reset(0, mainKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	
+	int ins=ilMain->labels[0].instructionIndex;
+	stack.Reset(ins, mainKey, sizeof(int));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->Pop<int>()==37);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
