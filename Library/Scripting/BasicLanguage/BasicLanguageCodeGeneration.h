@@ -52,6 +52,8 @@ namespace vl
 
 				_TypeResTable												typeResources;
 			public:
+				int															localFunctionCount;
+
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
 				BasicTypeInfo*												GetTypeInfo(BasicTypeRecord* type);

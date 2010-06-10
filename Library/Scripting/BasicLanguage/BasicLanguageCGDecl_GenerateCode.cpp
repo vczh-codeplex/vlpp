@@ -55,7 +55,16 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					argument.info->GetFunctions().Add(node, argument.info->GetFunctions().Count());
+					int index=-1;
+					if(node->linking.HasLink())
+					{
+						index=argument.linkings.IndexOf(node->linking);
+					}
+					else
+					{
+						index=argument.info->localFunctionCount++;
+					}
+					argument.info->GetFunctions().Add(node, index);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
