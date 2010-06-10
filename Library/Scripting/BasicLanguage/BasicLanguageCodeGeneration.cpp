@@ -20,6 +20,7 @@ BasicCodegenInfo
 				:analyzer(_analyzer)
 				,maxVariableSpace(0)
 				,usedVariableSpace(0)
+				,localFunctionCount(0)
 			{
 			}
 
