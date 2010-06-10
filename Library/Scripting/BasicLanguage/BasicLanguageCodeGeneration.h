@@ -53,6 +53,7 @@ namespace vl
 				_TypeResTable												typeResources;
 			public:
 				int															localFunctionCount;
+				collections::List<BasicLinking>								linkings;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -113,7 +114,6 @@ Extension
 				Ptr<ResourceStream>											resource;
 				Ptr<ResourceStream>											exportResource;
 				BasicLanguageElement*										currentLanguageElement;
-				collections::List<BasicLinking>								linkings;
 
 				BasicCodegenParameter(BasicCodegenInfo* _info, basicil::BasicIL* _il, stream::MemoryStream* _globalData, Ptr<ResourceStream> _resource, Ptr<ResourceStream> _exportResource);
 				BasicCodegenParameter(const BasicCodegenParameter& parameter);

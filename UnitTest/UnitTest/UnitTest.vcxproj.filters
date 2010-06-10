@@ -336,6 +336,9 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.cpp">
       <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

@@ -154,7 +154,14 @@ BasicLanguage_GenerateResource
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
-					resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
+					if(node->linking.HasLink())
+					{
+						resource->address=-1;
+					}
+					else
+					{
+						resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
+					}
 
 					ResourceRecord<BasicParameterRes> currentParameter;
 					for(int i=0;i<node->parameterNames.Count();i++)

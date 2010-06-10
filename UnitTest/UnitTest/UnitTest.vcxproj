@@ -106,6 +106,7 @@
     <ClCompile Include="TestScripting_BasicIL.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Analyzer.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="TestStream.cpp" />

@@ -18,17 +18,17 @@ BasicLanguage_GenerateLinkingSymbolTable
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					if(node->linking.HasLink() && !argument.linkings.Contains(node->linking))
+					if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
 					{
-						const_cast<BCP&>(argument).linkings.Add(node->linking);
+						const_cast<BCP&>(argument).info->linkings.Add(node->linking);
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					if(node->linking.HasLink() && !argument.linkings.Contains(node->linking))
+					if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
 					{
-						const_cast<BCP&>(argument).linkings.Add(node->linking);
+						const_cast<BCP&>(argument).info->linkings.Add(node->linking);
 					}
 				}
 
@@ -58,7 +58,7 @@ BasicLanguage_GenerateCodePass1
 					int index=-1;
 					if(node->linking.HasLink())
 					{
-						index=argument.linkings.IndexOf(node->linking);
+						index=argument.info->linkings.IndexOf(node->linking);
 					}
 					else
 					{
@@ -72,7 +72,7 @@ BasicLanguage_GenerateCodePass1
 					int offset=-1;
 					if(node->linking.HasLink())
 					{
-						offset=argument.linkings.IndexOf(node->linking);
+						offset=argument.info->linkings.IndexOf(node->linking);
 					}
 					else
 					{
