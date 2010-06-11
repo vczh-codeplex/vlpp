@@ -23,8 +23,9 @@ extern void SetConfiguration(BasicAlgorithmConfiguration& config);
 extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
 extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
 
-Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name)
+Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name, const WString& fileName)
 {
+	ConvertToNativeXProgram(program);
 	BasicAlgorithmConfiguration configuration;
 	SetConfiguration(configuration);
 	BasicAnalyzer analyzer(program, 0, configuration);
@@ -32,6 +33,25 @@ Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name)
 	TEST_ASSERT(analyzer.GetErrors().Count()==0);
 	BasicCodeGenerator codegen(&analyzer, 0, name);
 	codegen.GenerateCode();
+	{
+		WString path=GetPath()+L"Codegen_"+fileName+L".txt";
+		FileStream fileStream(path, FileStream::WriteOnly);
+		BomEncoder encoder(BomEncoder::Utf16);
+		EncoderStream encoderStream(fileStream, encoder);
+		StreamWriter fileWriter(encoderStream);
+
+		fileWriter.WriteLine(L"/*NativeX Code*/");
+		PrintNativeXProgram(program, fileWriter);
+		fileWriter.WriteLine(L"");
+
+		BasicLanguageCommentProvider commentProvider;
+		TextWriter* commentProviderWriter=commentProvider.OpenWriter();
+		PrintNativeXProgram(program, *commentProviderWriter);
+		commentProvider.CloseWriter();
+
+		fileWriter.WriteLine(L"/*Assembly*/");
+		codegen.GetIL()->SaveAsString(fileWriter, &commentProvider);
+	}
 	return codegen.GetIL();
 }
 
@@ -51,7 +71,7 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"leftOperand")+e_name(L"rightOperand")))
 			);
-	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd");
+	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd", L"TestScripting_BasicLanguage_Linking_programAdd");
 
 	BasicProgramNode programMain;
 	programMain
@@ -69,7 +89,7 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 			s_expr(e_name(L"adder").Assign(e_prim(1)))
 			<<s_expr(e_result().Assign(e_name(L"add")(e_exps()<<e_prim(2))))
 			);
-	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain");
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_Linking_programMain");
 
 	BasicILInterpretor interpretor(65536);
 	int addKey=interpretor.LoadIL(ilAdd.Obj());
@@ -105,7 +125,7 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 			);
-	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd");
+	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd", L"TestScripting_BasicLanguage_Pointer_programAdd");
 
 	BasicProgramNode programMain;
 	programMain
@@ -133,7 +153,7 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 			);
-	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain");
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_Pointer_programMain");
 
 	BasicILInterpretor interpretor(65536);
 	int addKey=interpretor.LoadIL(ilAdd.Obj());
