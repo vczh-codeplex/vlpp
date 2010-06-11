@@ -87,6 +87,9 @@ Metadata
 			int										GetParameterCount()const;
 			WString									GetParameterName(int index)const;
 			int										GetAddress()const;
+			bool									IsLinkingSymbol()const;
+			WString									GetLinkingAssemblyName()const;
+			WString									GetLinkingSymbolName()const;
 		};
 
 /***********************************************************************

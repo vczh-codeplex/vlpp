@@ -68,7 +68,7 @@ LanguageHost
 
 		bool LanguageState::PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer)
 		{
-			if(function.IsFunction())
+			if(function.IsFunction() && !function.IsLinkingSymbol())
 			{
 				BasicTypeInfo returnType=function.GetType().GetElementType();
 				bool isVoid=returnType.IsPrimitive() && returnType.GetPrimitive()==BasicTypeRes::void_type;

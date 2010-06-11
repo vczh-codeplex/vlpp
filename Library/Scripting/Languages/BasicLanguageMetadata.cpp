@@ -245,6 +245,21 @@ BasicDeclarationInfo
 			return declaration->address;
 		}
 
+		bool BasicDeclarationInfo::IsLinkingSymbol()const
+		{
+			return declaration->linkingAssemblyName && declaration->linkingSymbolName;
+		}
+
+		WString BasicDeclarationInfo::GetLinkingAssemblyName()const
+		{
+			return metadata->GetResourceStream()->ReadString(declaration->linkingAssemblyName);
+		}
+
+		WString BasicDeclarationInfo::GetLinkingSymbolName()const
+		{
+			return metadata->GetResourceStream()->ReadString(declaration->linkingSymbolName);
+		}
+
 /***********************************************************************
 BasicLanguageMetadata
 ***********************************************************************/

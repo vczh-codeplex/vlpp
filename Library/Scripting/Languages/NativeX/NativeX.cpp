@@ -33,6 +33,7 @@ namespace vl
 			};
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
+			typedef Node<TokenInput<RegexToken>, BasicLinking>				LinkingNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicExpression>>		ExpressionRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
@@ -808,11 +809,28 @@ namespace vl
 ÓïÒåº¯Êý£ºÉùÃ÷
 ***********************************************************************/
 
-			Ptr<BasicDeclaration> ToVarDecl(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<Ptr<BasicExpression>>>& input)
+			void AssignBasicLinking(BasicLinking& linking, ParsingList<BasicLinking> input)
 			{
-				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First());
-				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
-				declaration->type=input.First().First().Second();
+				if(input.Head())
+				{
+					linking=input.Head()->Value();
+				}
+			}
+
+			BasicLinking ToLinking(const ParsingPair<RegexToken, RegexToken>& input)
+			{
+				BasicLinking linking;
+				linking.assemblyName=ConvertID(WString(input.First().reading, input.First().length));
+				linking.assemblyName=ConvertID(WString(input.Second().reading, input.Second().length));
+				return linking;
+			}
+
+			Ptr<BasicDeclaration> ToVarDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<BasicLinking>>, ParsingList<Ptr<BasicExpression>>>& input)
+			{
+				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First().First());
+				declaration->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				declaration->type=input.First().First().First().Second();
+				AssignBasicLinking(declaration->linking, input.First().Second());
 				if(input.Second().Head())
 				{
 					declaration->initializer=input.Second().Head()->Value();
@@ -828,20 +846,22 @@ namespace vl
 				return declaration;
 			}
 
-			Ptr<BasicDeclaration> ToFuncDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+			Ptr<BasicDeclaration> ToFuncDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
 				RegexToken, 
 				Ptr<BasicType>>, 
 				RegexToken>, 
 				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>>,
+				ParsingList<BasicLinking>>,
 				Ptr<BasicStatement>>& input)
 			{
-				Ptr<BasicFunctionDeclaration> declaration=CreateNode<BasicFunctionDeclaration>(input.First().First().First().First());
-				declaration->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				Ptr<BasicFunctionDeclaration> declaration=CreateNode<BasicFunctionDeclaration>(input.First().First().First().First().First());
+				declaration->name=ConvertID(WString(input.First().First().First().Second().reading, input.First().First().First().Second().length));
 				declaration->statement=input.Second();
-				declaration->signatureType=CreateNode<BasicFunctionType>(input.First().First().First().First());
-				declaration->signatureType->returnType=input.First().First().First().Second();
+				declaration->signatureType=CreateNode<BasicFunctionType>(input.First().First().First().First().First());
+				declaration->signatureType->returnType=input.First().First().First().First().Second();
+				AssignBasicLinking(declaration->linking, input.First().Second());
 				
-				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>::Node::Ref current=input.First().Second().Head();
+				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>::Node::Ref current=input.First().First().Second().Head();
 				while(current)
 				{
 					declaration->signatureType->parameterTypes.Add(current->Value().First());
@@ -851,15 +871,17 @@ namespace vl
 				return declaration;
 			}
 
-			Ptr<BasicDeclaration> ToStructDecl(const ParsingPair<ParsingPair<
+			Ptr<BasicDeclaration> ToStructDecl(const ParsingPair<ParsingPair<ParsingPair<
 				RegexToken,
 				RegexToken>,
+				ParsingList<BasicLinking>>,
 				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>>& input)
 			{
-				Ptr<BasicStructureDeclaration> declaration=CreateNode<BasicStructureDeclaration>(input.First().First());
+				Ptr<BasicStructureDeclaration> declaration=CreateNode<BasicStructureDeclaration>(input.First().First().First());
 				declaration->defined=true;
-				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				declaration->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
 				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>::Node::Ref current=input.Second().Head();
+				AssignBasicLinking(declaration->linking, input.First().Second());
 				while(current)
 				{
 					declaration->memberTypes.Add(current->Value().First());
@@ -957,7 +979,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE, STRUCTURE, UNIT, USES;
+				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -976,6 +998,7 @@ namespace vl
 				TokenType							BIT_AND, BIT_OR, AND, OR, XOR;
 				TokenType							OP_ASSIGN, ASSIGN;
 
+				LinkingNode							linking;
 				ExpressionRule						primitive;
 				ExpressionRule						reference;
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
@@ -1012,6 +1035,7 @@ namespace vl
 					STRUCTURE		= CreateToken(tokens, L"structure");
 					UNIT			= CreateToken(tokens, L"unit");
 					USES			= CreateToken(tokens, L"uses");
+					ALIAS			= CreateToken(tokens, L"alias");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -1060,6 +1084,8 @@ namespace vl
 					ASSIGN			= CreateToken(tokens, L"=");
 
 					lexer=new RegexLexer(tokens.Wrap());
+
+					linking			= (ALIAS >> (ID + (DOT >> ID))[ToLinking]);
 
 					primitive		= TRUE[ToTrue] | FALSE[ToFalse]
 									| ACHAR[ToAChar] | WCHAR[ToWChar]
@@ -1114,11 +1140,11 @@ namespace vl
 									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
 									;
 
-					declaration		= (VARIABLE + type + ID(NeedID) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
+					declaration		= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
 									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
-									| (STRUCTURE + ID(NeedID) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
-									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + statement)[ToFuncDecl]
+									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
+									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking) + statement)[ToFuncDecl]
 									;
 
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
@@ -1430,6 +1456,13 @@ namespace vl
 					UnescapeStringContent(identifier, writer);
 					writer.WriteString(L"\"");
 				}
+			}
+
+			void LinkingToString(const BasicLinking& linking, TextWriter& writer)
+			{
+				IdentifierToString(linking.assemblyName, writer);
+				writer.WriteString(L".");
+				IdentifierToString(linking.symbolName, writer);
 			}
 
 /***********************************************************************
@@ -2055,7 +2088,16 @@ namespace vl
 						IdentifierToString(node->parameterNames[i], argument.writer);
 					}
 
-					argument.writer.WriteLine(L")");
+					if(node->linking.HasLink())
+					{
+						argument.writer.WriteString(L") alias ");
+						LinkingToString(node->linking, argument.writer);
+					}
+					else
+					{
+						argument.writer.WriteLine(L")");
+					}
+
 					NXCGP newArgument(argument.writer, argument.indentation+1);
 					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 				}
@@ -2067,6 +2109,13 @@ namespace vl
 					NativeX_BasicType_GenerateCode(node->type, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
+
+					if(node->linking.HasLink())
+					{
+						argument.writer.WriteString(L") alias ");
+						LinkingToString(node->linking, argument.writer);
+					}
+
 					if(node->initializer)
 					{
 						argument.writer.WriteString(L" = ");
@@ -2092,7 +2141,14 @@ namespace vl
 						PrintIndentation(argument);
 						argument.writer.WriteString(L"structure ");
 						IdentifierToString(node->name, argument.writer);
+
+						if(node->linking.HasLink())
+						{
+							argument.writer.WriteString(L" alias ");
+							LinkingToString(node->linking, argument.writer);
+						}
 						argument.writer.WriteLine(L"");
+
 						PrintIndentation(argument);
 						argument.writer.WriteLine(L"{");
 
