@@ -821,7 +821,7 @@ namespace vl
 			{
 				BasicLinking linking;
 				linking.assemblyName=ConvertID(WString(input.First().reading, input.First().length));
-				linking.assemblyName=ConvertID(WString(input.Second().reading, input.Second().length));
+				linking.symbolName=ConvertID(WString(input.Second().reading, input.Second().length));
 				return linking;
 			}
 
@@ -852,11 +852,14 @@ namespace vl
 				RegexToken>, 
 				ParsingList<ParsingPair<Ptr<BasicType>, RegexToken>>>,
 				ParsingList<BasicLinking>>,
-				Ptr<BasicStatement>>& input)
+				ParsingList<Ptr<BasicStatement>>>& input)
 			{
 				Ptr<BasicFunctionDeclaration> declaration=CreateNode<BasicFunctionDeclaration>(input.First().First().First().First().First());
 				declaration->name=ConvertID(WString(input.First().First().First().Second().reading, input.First().First().First().Second().length));
-				declaration->statement=input.Second();
+				if(input.Second().Head())
+				{
+					declaration->statement=input.Second().Head()->Value();
+				}
 				declaration->signatureType=CreateNode<BasicFunctionType>(input.First().First().First().First().First());
 				declaration->signatureType->returnType=input.First().First().First().First().Second();
 				AssignBasicLinking(declaration->linking, input.First().Second());
@@ -1144,7 +1147,7 @@ namespace vl
 									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
-									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking) + statement)[ToFuncDecl]
+									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
 									;
 
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
@@ -2092,14 +2095,18 @@ namespace vl
 					{
 						argument.writer.WriteString(L") alias ");
 						LinkingToString(node->linking, argument.writer);
+						argument.writer.WriteLine(L";");
 					}
 					else
 					{
 						argument.writer.WriteLine(L")");
 					}
 
-					NXCGP newArgument(argument.writer, argument.indentation+1);
-					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
+					if(node->statement)
+					{
+						NXCGP newArgument(argument.writer, argument.indentation+1);
+						NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
@@ -2112,7 +2119,7 @@ namespace vl
 
 					if(node->linking.HasLink())
 					{
-						argument.writer.WriteString(L") alias ");
+						argument.writer.WriteString(L" alias ");
 						LinkingToString(node->linking, argument.writer);
 					}
 
