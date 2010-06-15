@@ -184,6 +184,48 @@ BasicFunctionTypeRecord
 BasicStructureTypeRecord
 ***********************************************************************/
 
+			int BasicStructureTypeRecord::P::Compare(const P& p)const
+			{
+				if(typeTable==p.typeTable)
+				{
+					return 0;
+				}
+				else
+				{
+					return CompareEnumerable(typeTable->Wrap(), p.typeTable->Wrap());
+				}
+			}
+
+			bool BasicStructureTypeRecord::P::operator==(const P& p)const
+			{
+				return Compare(p)==0;
+			}
+
+			bool BasicStructureTypeRecord::P::operator!=(const P& p)const
+			{
+				return Compare(p)!=0;
+			}
+
+			bool BasicStructureTypeRecord::P::operator<(const P& p)const
+			{
+				return Compare(p)<0;
+			}
+
+			bool BasicStructureTypeRecord::P::operator<=(const P& p)const
+			{
+				return Compare(p)<=0;
+			}
+
+			bool BasicStructureTypeRecord::P::operator>(const P& p)const
+			{
+				return Compare(p)>0;
+			}
+
+			bool BasicStructureTypeRecord::P::operator>=(const P& p)const
+			{
+				return Compare(p)>=0;
+			}
+
 			BasicStructureTypeRecord::BasicStructureTypeRecord()
 			{
 			}
@@ -336,48 +378,6 @@ BasicGenericStructureProxyTypeRecord
 BasicGenericTypeRecord
 ***********************************************************************/
 
-			int BasicGenericTypeRecord::P::Compare(const P& p)const
-			{
-				if(typeTable==p.typeTable)
-				{
-					return 0;
-				}
-				else
-				{
-					return CompareEnumerable(typeTable->Wrap(), p.typeTable->Wrap());
-				}
-			}
-
-			bool BasicGenericTypeRecord::P::operator==(const P& p)const
-			{
-				return Compare(p)==0;
-			}
-
-			bool BasicGenericTypeRecord::P::operator!=(const P& p)const
-			{
-				return Compare(p)!=0;
-			}
-
-			bool BasicGenericTypeRecord::P::operator<(const P& p)const
-			{
-				return Compare(p)<0;
-			}
-
-			bool BasicGenericTypeRecord::P::operator<=(const P& p)const
-			{
-				return Compare(p)<=0;
-			}
-
-			bool BasicGenericTypeRecord::P::operator>(const P& p)const
-			{
-				return Compare(p)>0;
-			}
-
-			bool BasicGenericTypeRecord::P::operator>=(const P& p)const
-			{
-				return Compare(p)>=0;
-			}
-
 			BasicGenericTypeRecord::BasicGenericTypeRecord()
 				:elementType(0)
 			{
@@ -445,34 +445,31 @@ BasicTypeManager
 					break;
 				case BasicTypeRecord::Structure:
 					{
-						BasicGenericStructureProxyTypeRecord* type=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters->Wrap());
-						CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
-						return type;
-					}
-					break;
-				case BasicTypeRecord::Generic:
-					{
-						if(genericType->ElementType()->GetType()==BasicTypeRecord::Structure)
+						if(BasicStructureTypeRecord* structureType=dynamic_cast<BasicStructureTypeRecord*>(genericType))
 						{
-							BasicGenericTypeRecord* type=dynamic_cast<BasicGenericTypeRecord*>(genericType);
-							BasicGenericTypeRecord::P p;
+							BasicStructureTypeRecord::P p;
 							p.typeTable=parameters;
-							int index=type->proxyTable.Keys().IndexOf(p);
+							int index=structureType->proxyTable.Keys().IndexOf(p);
 							if(index==-1)
 							{
-								BasicTypeRecord* proxyType=Instanciate(genericType->ElementType(), parameters);
-								type->proxyTable.Add(p, proxyType);
+								BasicGenericStructureProxyTypeRecord* proxyType=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters->Wrap());
+								CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(proxyType);
+								structureType->proxyTable.Add(p, proxyType);
 								return proxyType;
 							}
 							else
 							{
-								return type->proxyTable.Values()[index];
+								return structureType->proxyTable.Values()[index];
 							}
 						}
-						else
+						else if(BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(genericType))
 						{
-							return Instanciate(genericType->ElementType(), parameters);
 						}
+					}
+					break;
+				case BasicTypeRecord::Generic:
+					{
+						return Instanciate(genericType->ElementType(), parameters);
 					}
 					break;
 				default:

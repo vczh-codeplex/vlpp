@@ -136,11 +136,30 @@ BasicTypeManager
 
 			class BasicStructureTypeRecord : public CommonTypeRecord<BasicTypeRecord>
 			{
+				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>							_GenericInstanciatingTypeTable;
+
+				struct P
+				{
+					Ptr<_GenericInstanciatingTypeTable>	typeTable;
+
+					int									Compare(const P& p)const;
+					bool								operator==(const P& p)const;
+					bool								operator!=(const P& p)const;
+					bool								operator<(const P& p)const;
+					bool								operator<=(const P& p)const;
+					bool								operator>(const P& p)const;
+					bool								operator>=(const P& p)const;
+				};
+				
 				friend class BasicTypeManager;
+				friend class collections::ReadonlyListEnumerator<P>;
+				typedef collections::Dictionary<P, BasicTypeRecord*>										_ProxyTable;
+
 			protected:
 				collections::List<WString>				names;
 				collections::List<BasicTypeRecord*>		types;
 				bool									defined;
+				_ProxyTable								proxyTable;
 
 				BasicStructureTypeRecord();
 			public:
@@ -190,29 +209,11 @@ BasicTypeManager
 
 			class BasicGenericTypeRecord : public CommonTypeRecord<BasicTypeRecord>
 			{
-				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>							_GenericInstanciatingTypeTable;
-
-				struct P
-				{
-					Ptr<_GenericInstanciatingTypeTable>	typeTable;
-
-					int									Compare(const P& p)const;
-					bool								operator==(const P& p)const;
-					bool								operator!=(const P& p)const;
-					bool								operator<(const P& p)const;
-					bool								operator<=(const P& p)const;
-					bool								operator>(const P& p)const;
-					bool								operator>=(const P& p)const;
-				};
-				
 				friend class BasicTypeManager;
-				friend class collections::ReadonlyListEnumerator<P>;
-				typedef collections::Dictionary<P, BasicTypeRecord*>										_ProxyTable;
 
 			protected:
 				BasicTypeRecord*						elementType;
 				collections::List<BasicTypeRecord*>		parameterTypes;
-				_ProxyTable								proxyTable;
 
 				BasicGenericTypeRecord();
 			public:
