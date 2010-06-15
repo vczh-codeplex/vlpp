@@ -204,11 +204,44 @@ TEST_CASE(TestTypeManagerWithGeneric)
 	List<BasicTypeRecord*> genericLinkTypes;
 	genericLinkTypes.Add(manager.GetGenericArgumentType(L"T"));
 	genericLinkTypes.Add(manager.GetPointerType(manager.Instanciate(genericType, instanciatingArguments.Wrap())));
+	manager.UpdateStructureType(genericLink, genericLinkNames.Wrap(), genericLinkTypes.Wrap());
 
 	TEST_ASSERT(genericType->GetType()==BasicTypeRecord::Generic);
 	TEST_ASSERT(genericType->ParameterCount()==1);
 	TEST_ASSERT(genericType->ParameterType(0)==manager.GetGenericArgumentType(L"T"));
 	TEST_ASSERT(genericType->ElementType()==genericLink);
+
+	instanciatingArguments.Clear();
+	instanciatingArguments.Add(manager.GetGenericArgumentType(L"T"), manager.GetPrimitiveType(int_type));
+	BasicTypeRecord* intLink=manager.Instanciate(genericLink, instanciatingArguments.Wrap());
+	TEST_ASSERT(intLink->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(intLink->MemberCount()==2);
+	TEST_ASSERT(intLink->MemberName(0)==L"data");
+	TEST_ASSERT(intLink->MemberName(1)==L"next");
+	TEST_ASSERT(intLink->MemberType(0)==manager.GetPrimitiveType(int_type));
+	TEST_ASSERT(intLink->MemberType(L"data")==manager.GetPrimitiveType(int_type));
+	TEST_ASSERT(intLink->MemberType(1)==manager.GetPointerType(intLink));
+	TEST_ASSERT(intLink->MemberType(L"next")==manager.GetPointerType(intLink));
+	
+	instanciatingArguments.Clear();
+	instanciatingArguments.Add(manager.GetGenericArgumentType(L"T"), manager.GetGenericArgumentType(L"U"));
+	BasicTypeRecord* uLink=manager.Instanciate(genericLink, instanciatingArguments.Wrap());
+	TEST_ASSERT(uLink->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(uLink->MemberCount()==2);
+	TEST_ASSERT(uLink->MemberName(0)==L"data");
+	TEST_ASSERT(uLink->MemberName(1)==L"next");
+	TEST_ASSERT(uLink->MemberType(0)==manager.GetGenericArgumentType(L"U"));
+	TEST_ASSERT(uLink->MemberType(L"data")==manager.GetGenericArgumentType(L"U"));
+	TEST_ASSERT(uLink->MemberType(1)==manager.GetPointerType(uLink));
+	TEST_ASSERT(uLink->MemberType(L"next")==manager.GetPointerType(uLink));
+
+	instanciatingArguments.Clear();
+	instanciatingArguments.Add(manager.GetGenericArgumentType(L"T"), manager.GetPrimitiveType(int_type));
+	TEST_ASSERT(intLink==manager.Instanciate(genericLink, instanciatingArguments.Wrap()));
+
+	instanciatingArguments.Clear();
+	instanciatingArguments.Add(manager.GetGenericArgumentType(L"U"), manager.GetPrimitiveType(int_type));
+	TEST_ASSERT(intLink==manager.Instanciate(uLink, instanciatingArguments.Wrap()));
 }
 
 TEST_CASE(TestBasicEnv)
