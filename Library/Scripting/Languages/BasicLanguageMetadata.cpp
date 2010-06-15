@@ -24,7 +24,7 @@ BasicMetadataInfo
 BasicTypeInfo
 ***********************************************************************/
 
-		ResourceHandle<BasicTypeLinkRes> BasicTypeInfo::GetComponent(int index)const
+		ResourceHandle<BasicTypeLinkRes> BasicTypeInfo::GetComponent(vint index)const
 		{
 			if(components && index>=0 && index<components->Count())
 			{
@@ -89,7 +89,7 @@ BasicTypeInfo
 			return type->type==BasicTypeRes::Structure;
 		}
 
-		int BasicTypeInfo::GetSize()const
+		vint BasicTypeInfo::GetSize()const
 		{
 			return type->size;
 		}
@@ -104,17 +104,17 @@ BasicTypeInfo
 			return BasicTypeInfo(type->elementType, metadata);
 		}
 
-		int BasicTypeInfo::GetElementCount()const
+		vint BasicTypeInfo::GetElementCount()const
 		{
 			return type->elementCount;
 		}
 
-		int BasicTypeInfo::GetComponentCount()const
+		vint BasicTypeInfo::GetComponentCount()const
 		{
 			return components?components->Count():0;
 		}
 
-		BasicTypeInfo BasicTypeInfo::GetComponentType(int index)const
+		BasicTypeInfo BasicTypeInfo::GetComponentType(vint index)const
 		{
 			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
 			if(currentComponent)
@@ -127,7 +127,7 @@ BasicTypeInfo
 			}
 		}
 
-		WString BasicTypeInfo::GetComponentName(int index)const
+		WString BasicTypeInfo::GetComponentName(vint index)const
 		{
 			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
 			if(currentComponent)
@@ -140,7 +140,7 @@ BasicTypeInfo
 			}
 		}
 
-		int BasicTypeInfo::GetComponentOffset(int index)const
+		vint BasicTypeInfo::GetComponentOffset(vint index)const
 		{
 			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
 			if(currentComponent)
@@ -157,7 +157,7 @@ BasicTypeInfo
 BasicDeclarationInfo
 ***********************************************************************/
 		
-		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetParameter(int index)const
+		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetParameter(vint index)const
 		{
 			if(parameters && index>=0 && index<parameters->Count())
 			{
@@ -222,12 +222,12 @@ BasicDeclarationInfo
 			return metadata->GetResourceStream()->ReadString(declaration->name);
 		}
 
-		int BasicDeclarationInfo::GetParameterCount()const
+		vint BasicDeclarationInfo::GetParameterCount()const
 		{
 			return parameters?parameters->Count():0;
 		}
 
-		WString BasicDeclarationInfo::GetParameterName(int index)const
+		WString BasicDeclarationInfo::GetParameterName(vint index)const
 		{
 			ResourceHandle<BasicParameterRes> parameter=GetParameter(index);
 			if(parameter)
@@ -240,7 +240,7 @@ BasicDeclarationInfo
 			}
 		}
 
-		int BasicDeclarationInfo::GetAddress()const
+		vint BasicDeclarationInfo::GetAddress()const
 		{
 			return declaration->address;
 		}
@@ -270,9 +270,9 @@ BasicLanguageMetadata
 			entry=resources->ReadRootRecord<BasicEntryRes>();
 		}
 
-		int BasicLanguageMetadata::GetDeclarationCount()const
+		vint BasicLanguageMetadata::GetDeclarationCount()const
 		{
-			int count=0;
+			vint count=0;
 			ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
 			while(currentDeclaration)
 			{
@@ -282,9 +282,9 @@ BasicLanguageMetadata
 			return count;
 		}
 
-		BasicDeclarationInfo BasicLanguageMetadata::GetDeclaration(int index)const
+		BasicDeclarationInfo BasicLanguageMetadata::GetDeclaration(vint index)const
 		{
-			int count=0;
+			vint count=0;
 			ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
 			while(currentDeclaration && count!=index)
 			{

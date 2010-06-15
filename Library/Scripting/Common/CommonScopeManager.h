@@ -39,9 +39,9 @@ namespace vl
 				return relatedScopes.Wrap();
 			}
 
-			int Level()
+			vint Level()
 			{
-				int level=0;
+				vint level=0;
 				CommonScope<T>* scope=this;
 				while(scope->previousScope)
 				{
@@ -92,13 +92,13 @@ namespace vl
 			V Find(const K& key, T*& scope)
 			{
 				scope=0;
-				int index=items.Keys().IndexOf(key);
+				vint index=items.Keys().IndexOf(key);
 				if(index!=-1)
 				{
 					scope=owner;
 					return items.Values()[index];
 				}
-				for(int i=0;i<owner->RelatedScopes().Count();i++)
+				for(vint i=0;i<owner->RelatedScopes().Count();i++)
 				{
 					V result=GetItems(owner->RelatedScopes()[i])->Find(key, scope);
 					if(scope)

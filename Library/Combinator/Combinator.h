@@ -216,7 +216,7 @@ Node
 		}
 
 		template<typename I, typename O>
-		Node<I, ParsingList<O>> loop(const Node<I, O>& node, int min, int max=-1)
+		Node<I, ParsingList<O>> loop(const Node<I, O>& node, vint min, vint max=-1)
 		{
 			return new _Loop<I, O>(node.GetCombinator(), min, max);
 		}

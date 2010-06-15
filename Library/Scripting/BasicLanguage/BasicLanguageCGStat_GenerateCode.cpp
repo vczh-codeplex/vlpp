@@ -23,7 +23,7 @@ BasicLanguage_GenerateCode
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
 					argument.info->EnterScope();
-					for(int i=0;i<node->statements.Count();i++)
+					for(vint i=0;i<node->statements.Count();i++)
 					{
 						BasicLanguage_GenerateCode(node->statements[i], argument);
 					}
@@ -39,8 +39,8 @@ BasicLanguage_GenerateCode
 				{
 					BasicScope* scope=argument.info->GetEnv()->GetStatementScope(node);
 					BasicTypeRecord* type=scope->variables.Items()[node->name].type;
-					int size=argument.info->GetTypeInfo(type)->size;
-					int offset=argument.info->UseVariable(size);
+					vint size=argument.info->GetTypeInfo(type)->size;
+					vint offset=argument.info->UseVariable(size);
 					argument.info->GetLocalVariableOffsets().Add(node, offset);
 					if(node->initializer)
 					{
@@ -52,12 +52,12 @@ BasicLanguage_GenerateCode
 				{
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 					argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
-					int jumpToFalseIndex=argument.il->instructions.Count()-1;
+					vint jumpToFalseIndex=argument.il->instructions.Count()-1;
 					BasicLanguage_GenerateCode(node->trueStatement, argument);
 					if(node->falseStatement)
 					{
 						argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
-						int jumpToEndIndex=argument.il->instructions.Count()-1;
+						vint jumpToEndIndex=argument.il->instructions.Count()-1;
 						argument.il->instructions[jumpToFalseIndex].argument.int_value=argument.il->instructions.Count();
 						BasicLanguage_GenerateCode(node->falseStatement, argument);
 						argument.il->instructions[jumpToEndIndex].argument.int_value=argument.il->instructions.Count();
@@ -70,7 +70,7 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicWhileStatement)
 				{
-					int continueBegin=argument.il->instructions.Count();
+					vint continueBegin=argument.il->instructions.Count();
 					argument.info->EnterLoop();
 					if(node->beginCondition)
 					{
@@ -87,7 +87,7 @@ BasicLanguage_GenerateCode
 					}
 					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.info->AssociateContinue(argument.il->instructions.Count()-1);
-					int breakBegin=argument.il->instructions.Count();
+					vint breakBegin=argument.il->instructions.Count();
 					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
 				}
 
@@ -98,19 +98,19 @@ BasicLanguage_GenerateCode
 					{
 						BasicLanguage_GenerateCode(node->initializer, argument);
 					}
-					int loopBegin=argument.il->instructions.Count();
+					vint loopBegin=argument.il->instructions.Count();
 					argument.info->EnterLoop();
 					BasicLanguage_PushValue(node->condition, argument, argument.info->GetTypeManager()->GetPrimitiveType(bool_type));
 					argument.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(0));
 					argument.info->AssociateBreak(argument.il->instructions.Count()-1);
 					BasicLanguage_GenerateCode(node->statement, argument);
-					int continueBegin=argument.il->instructions.Count();
+					vint continueBegin=argument.il->instructions.Count();
 					if(node->sideEffect)
 					{
 						BasicLanguage_GenerateCode(node->sideEffect, argument);
 					}
 					argument.Ins(BasicIns::jump, BasicIns::MakeInt(loopBegin));
-					int breakBegin=argument.il->instructions.Count();
+					vint breakBegin=argument.il->instructions.Count();
 					argument.info->LeaveLoop(breakBegin, continueBegin, argument.il);
 					argument.info->LeaveScope();
 				}

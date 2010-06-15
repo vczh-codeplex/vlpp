@@ -18,7 +18,7 @@ namespace vl
 	class Ptr
 	{
 	protected:
-		int*				counter;
+		vint*				counter;
 		T*					reference;
 
 		void Inc()
@@ -53,7 +53,7 @@ namespace vl
 		{
 			if(pointer)
 			{
-				counter=new int(1);
+				counter=new vint(1);
 				reference=pointer;
 			}
 			else
@@ -97,7 +97,7 @@ namespace vl
 			Dec();
 			if(pointer)
 			{
-				counter=new int(1);
+				counter=new vint(1);
 				reference=pointer;
 			}
 			else
@@ -209,7 +209,7 @@ namespace vl
 			return reference;
 		}
 
-		int* Counter()const
+		vint* Counter()const
 		{
 			return counter;
 		}

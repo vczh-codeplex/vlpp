@@ -34,7 +34,7 @@ namespace vl
 		public:
 			~ObjectTypeNumeric()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}

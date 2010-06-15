@@ -86,7 +86,7 @@ namespace vl
 				return false;
 			}
 
-			int GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
+			vint GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
 			{
 				if(referenceExpression)
 				{
@@ -102,7 +102,7 @@ namespace vl
 
 			void Code_ScaleAdder(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne)
 			{
-				int size=1;
+				vint size=1;
 				if(addedValueType->GetType()==BasicTypeRecord::Pointer)
 				{
 					size=argument.info->GetTypeInfo(addedValueType->ElementType())->size;
@@ -156,13 +156,13 @@ namespace vl
 				argument.Ins(BasicIns::copymem, BasicIns::MakeInt(argument.info->GetTypeInfo(type)->size));
 			}
 
-			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, int offset)
+			void Code_CopyStack(BasicTypeRecord* type, const BCP& argument, vint offset)
 			{
 				argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(offset));
 				Code_Read(type, argument);
 			}
 
-			void Code_CopyAddressInStack(BasicExpression* addressExpression, const BCP& argument, int offset)
+			void Code_CopyAddressInStack(BasicExpression* addressExpression, const BCP& argument, vint offset)
 			{
 				if(BasicLanguage_CanPushRefWithoutSideEffect(addressExpression, argument))
 				{
@@ -200,7 +200,7 @@ namespace vl
 				if(type->GetType()==BasicTypeRecord::Primitive)
 				{
 					bool sign=false;
-					int bytes=0;
+					vint bytes=0;
 					if(argument.info->GetConfiguration().DecodeInteger(type->PrimitiveType(), sign, bytes))
 					{
 						if(bytes<4)
@@ -235,7 +235,7 @@ namespace vl
 			BasicTypeRecord* Code_BinaryAssign(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-				int size=argument.info->GetTypeInfo(type)->size;
+				vint size=argument.info->GetTypeInfo(type)->size;
 				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
 				{
 					BasicLanguage_PushValue(node->rightOperand, argument, type);
@@ -263,8 +263,8 @@ namespace vl
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
 				BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(type);
-				int size=argument.info->GetTypeInfo(type)->size;
-				int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+				vint size=argument.info->GetTypeInfo(type)->size;
+				vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 
 				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
 				{
@@ -290,7 +290,7 @@ namespace vl
 			void Code_BinaryAssignRef(BasicBinaryExpression* node, const BCP& argument, BasicIns::OpCode opCode)
 			{
 				BasicTypeRecord* type=argument.info->GetEnv()->GetExpressionType(node);
-				int size=argument.info->GetTypeInfo(type)->size;
+				vint size=argument.info->GetTypeInfo(type)->size;
 
 				if(BasicLanguage_CanPushRefWithoutSideEffect(node->leftOperand, argument))
 				{
@@ -313,7 +313,7 @@ namespace vl
 				}
 			}
 
-			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack, bool& isExternal)
+			BasicTypeRecord* Code_InvokeFunctionPushParameters(BasicInvokeExpression* node, const BCP& argument, vint& index, vint& returnSize, vint& parameterSize, bool returnInStack, bool& isExternal)
 			{
 				BasicReferenceExpression* referenceExpression=dynamic_cast<BasicReferenceExpression*>(node->function.Obj());
 				if(referenceExpression)
@@ -335,7 +335,7 @@ namespace vl
 				}
 
 				parameterSize=0;
-				for(int i=node->arguments.Count()-1;i>=0;i--)
+				for(vint i=node->arguments.Count()-1;i>=0;i--)
 				{
 					BasicLanguage_PushValue(node->arguments[i], argument, functionType->ParameterType(i));
 					parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
@@ -343,7 +343,7 @@ namespace vl
 				return functionType;
 			}
 
-			void Code_InvokeFunctionCallFunction(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack, bool isExternal)
+			void Code_InvokeFunctionCallFunction(BasicInvokeExpression* node, const BCP& argument, vint index, vint returnSize, vint parameterSize, bool clearReturnInStack, bool isExternal)
 			{
 				if(index==-1)
 				{
@@ -367,9 +367,9 @@ namespace vl
 
 			BasicTypeRecord* Code_InvokeFunction(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly)
 			{
-				int index=0;
-				int returnSize=0;
-				int parameterSize=0;
+				vint index=0;
+				vint returnSize=0;
+				vint parameterSize=0;
 				bool isExternal=false;
 				BasicTypeRecord* functionType=Code_InvokeFunctionPushParameters(node, argument, index, returnSize, parameterSize, true, isExternal);
 				argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(parameterSize));

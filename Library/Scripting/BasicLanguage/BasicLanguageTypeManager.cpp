@@ -33,7 +33,7 @@ BasicTypeRecord
 				CHECK_ERROR(false, L"BasicTypeRecord::ElementType()#不支持此操作。");
 			}
 
-			int BasicTypeRecord::ElementCount()
+			vint BasicTypeRecord::ElementCount()
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::ElementCount()#不支持此操作。");
 			}
@@ -43,19 +43,19 @@ BasicTypeRecord
 				CHECK_ERROR(false, L"BasicTypeRecord::ReturnType()#不支持此操作。");
 			}
 
-			BasicTypeRecord* BasicTypeRecord::ParameterType(int index)
+			BasicTypeRecord* BasicTypeRecord::ParameterType(vint index)
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::ParameterType()#不支持此操作。");
 			}
 
-			int BasicTypeRecord::ParameterCount()
+			vint BasicTypeRecord::ParameterCount()
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::ParameterCount()#不支持此操作。");
 			}
 
-			BasicTypeRecord* BasicTypeRecord::MemberType(int index)
+			BasicTypeRecord* BasicTypeRecord::MemberType(vint index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(int)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(vint)#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::MemberType(const WString& name)
@@ -63,17 +63,17 @@ BasicTypeRecord
 				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(const WString&)#不支持此操作。");
 			}
 
-			const WString& BasicTypeRecord::MemberName(int index)
+			const WString& BasicTypeRecord::MemberName(vint index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(int)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
 			}
 
-			int BasicTypeRecord::MemberNameIndex(const WString& name)
+			vint BasicTypeRecord::MemberNameIndex(const WString& name)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(int)#不支持此操作。");
+				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
 			}
 
-			int BasicTypeRecord::MemberCount()
+			vint BasicTypeRecord::MemberCount()
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::MemberCount()#不支持此操作。");
 			}
@@ -130,8 +130,8 @@ BasicPointerTypeRecord
 BasicArrayTypeRecord
 ***********************************************************************/
 
-			BasicArrayTypeRecord::BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount)
-				:CommonParameterizedTypeRecord<BasicTypeRecord, int>(elementType, elementCount)
+			BasicArrayTypeRecord::BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, vint elementCount)
+				:CommonParameterizedTypeRecord<BasicTypeRecord, vint>(elementType, elementCount)
 			{
 			}
 
@@ -145,7 +145,7 @@ BasicArrayTypeRecord
 				return InternalGetElementType();
 			}
 
-			int BasicArrayTypeRecord::ElementCount()
+			vint BasicArrayTypeRecord::ElementCount()
 			{
 				return InternalGetParameter();
 			}
@@ -170,12 +170,12 @@ BasicFunctionTypeRecord
 				return returnType;
 			}
 
-			BasicTypeRecord* BasicFunctionTypeRecord::ParameterType(int index)
+			BasicTypeRecord* BasicFunctionTypeRecord::ParameterType(vint index)
 			{
 				return parameterTypes[index];
 			}
 
-			int BasicFunctionTypeRecord::ParameterCount()
+			vint BasicFunctionTypeRecord::ParameterCount()
 			{
 				return parameterTypes.Count();
 			}
@@ -184,7 +184,7 @@ BasicFunctionTypeRecord
 BasicStructureTypeRecord
 ***********************************************************************/
 
-			int BasicStructureTypeRecord::P::Compare(const P& p)const
+			vint BasicStructureTypeRecord::P::Compare(const P& p)const
 			{
 				if(typeTable==p.typeTable)
 				{
@@ -235,28 +235,28 @@ BasicStructureTypeRecord
 				return BasicTypeRecord::Structure;
 			}
 
-			BasicTypeRecord* BasicStructureTypeRecord::MemberType(int index)
+			BasicTypeRecord* BasicStructureTypeRecord::MemberType(vint index)
 			{
 				return types[index];
 			}
 
 			BasicTypeRecord* BasicStructureTypeRecord::MemberType(const WString& name)
 			{
-				int index=names.IndexOf(name);
+				vint index=names.IndexOf(name);
 				return index==-1?0:types[index];
 			}
 
-			const WString& BasicStructureTypeRecord::MemberName(int index)
+			const WString& BasicStructureTypeRecord::MemberName(vint index)
 			{
 				return names[index];
 			}
 
-			int BasicStructureTypeRecord::MemberNameIndex(const WString& name)
+			vint BasicStructureTypeRecord::MemberNameIndex(const WString& name)
 			{
 				return names.IndexOf(name);
 			}
 
-			int BasicStructureTypeRecord::MemberCount()
+			vint BasicStructureTypeRecord::MemberCount()
 			{
 				return types.Count();
 			}
@@ -299,7 +299,7 @@ BasicTypeManager辅助函数
 				return new BasicPointerTypeRecord(elementType);
 			}
 
-			CommonParameterizedTypeRecord<BasicTypeRecord, int>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount)
+			CommonParameterizedTypeRecord<BasicTypeRecord, vint>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, vint elementCount)
 			{
 				return new BasicArrayTypeRecord(elementType, elementCount);
 			}
@@ -313,7 +313,7 @@ BasicTypeManager辅助函数
 			{
 				if(type->ReturnType()!=argument.returnType)return false;
 				if(type->ParameterCount()!=argument.parameterTypes.Count())return false;
-				for(int j=0;j<type->ParameterCount();j++)
+				for(vint j=0;j<type->ParameterCount();j++)
 				{
 					if(type->ParameterType(j)!=argument.parameterTypes[j])
 					{
@@ -344,7 +344,7 @@ BasicGenericStructureProxyTypeRecord
 				return structureType->GetType();
 			}
 
-			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(int index)
+			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(vint index)
 			{
 				return manager->Instanciate(structureType->MemberType(index), typeTable);
 			}
@@ -354,17 +354,17 @@ BasicGenericStructureProxyTypeRecord
 				return manager->Instanciate(structureType->MemberType(name), typeTable);
 			}
 
-			const WString& BasicGenericStructureProxyTypeRecord::MemberName(int index)
+			const WString& BasicGenericStructureProxyTypeRecord::MemberName(vint index)
 			{
 				return structureType->MemberName(index);
 			}
 
-			int BasicGenericStructureProxyTypeRecord::MemberNameIndex(const WString& name)
+			vint BasicGenericStructureProxyTypeRecord::MemberNameIndex(const WString& name)
 			{
 				return structureType->MemberNameIndex(name);
 			}
 
-			int BasicGenericStructureProxyTypeRecord::MemberCount()
+			vint BasicGenericStructureProxyTypeRecord::MemberCount()
 			{
 				return structureType->MemberCount();
 			}
@@ -393,12 +393,12 @@ BasicGenericTypeRecord
 				return elementType;
 			}
 
-			BasicTypeRecord* BasicGenericTypeRecord::ParameterType(int index)
+			BasicTypeRecord* BasicGenericTypeRecord::ParameterType(vint index)
 			{
 				return parameterTypes[index];
 			}
 
-			int BasicGenericTypeRecord::ParameterCount()
+			vint BasicGenericTypeRecord::ParameterCount()
 			{
 				return parameterTypes.Count();
 			}
@@ -430,7 +430,7 @@ BasicTypeManager
 					{
 						BasicTypeRecord* returnType=Instanciate(genericType->ReturnType(), parameters);
 						List<BasicTypeRecord*> parameterTypes;
-						for(int i=0;i<returnType->ParameterCount();i++)
+						for(vint i=0;i<returnType->ParameterCount();i++)
 						{
 							parameterTypes.Add(Instanciate(genericType->ParameterType(i), parameters));
 						}
@@ -439,7 +439,7 @@ BasicTypeManager
 					break;
 				case BasicTypeRecord::GenericArgument:
 					{
-						int index=parameters->Keys().IndexOf(genericType);
+						vint index=parameters->Keys().IndexOf(genericType);
 						return index==-1?genericType:parameters->Values()[index];
 					}
 					break;
@@ -449,7 +449,7 @@ BasicTypeManager
 						{
 							BasicStructureTypeRecord::P p;
 							p.typeTable=parameters;
-							int index=structureType->proxyTable.Keys().IndexOf(p);
+							vint index=structureType->proxyTable.Keys().IndexOf(p);
 							if(index==-1)
 							{
 								BasicGenericStructureProxyTypeRecord* proxyType=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters);
@@ -465,9 +465,9 @@ BasicTypeManager
 						else if(BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(genericType))
 						{
 							Ptr<_GenericInstanciatingTypeTable> newParameters=new _GenericInstanciatingTypeTable;
-							for(int i=0;i<parameters->Count();i++)
+							for(vint i=0;i<parameters->Count();i++)
 							{
-								int index=proxyType->typeTable->Values().IndexOf(parameters->Keys()[i]);
+								vint index=proxyType->typeTable->Values().IndexOf(parameters->Keys()[i]);
 								if(index==-1)
 								{
 									newParameters->Add(parameters->Keys()[i], parameters->Values()[i]);
@@ -520,7 +520,7 @@ BasicTypeManager
 					);
 			}
 
-			BasicTypeRecord* BasicTypeManager::GetArrayType(BasicTypeRecord* elementType, int elementCount)
+			BasicTypeRecord* BasicTypeManager::GetArrayType(BasicTypeRecord* elementType, vint elementCount)
 			{
 				return CommonTypeManager<BasicTypeRecord>::GetCommonParameterizedTypeRecord(
 					dynamic_cast<CommonTypeRecord<BasicTypeRecord>*>(elementType),

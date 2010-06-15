@@ -25,8 +25,8 @@ namespace vl
 			RegexNode					Some()const;
 			RegexNode					Any()const;
 			RegexNode					Opt()const;
-			RegexNode					Loop(int min, int max)const;
-			RegexNode					AtLeast(int min)const;
+			RegexNode					Loop(vint min, vint max)const;
+			RegexNode					AtLeast(vint min)const;
 			RegexNode					operator+(const RegexNode& node)const;
 			RegexNode					operator|(const RegexNode& node)const;
 			RegexNode					operator+()const;
@@ -37,8 +37,8 @@ namespace vl
 
 		extern RegexNode				rCapture(const WString& name, const RegexNode& node);
 		extern RegexNode				rUsing(const WString& name);
-		extern RegexNode				rMatch(const WString& name, int index=-1);
-		extern RegexNode				rMatch(int index);
+		extern RegexNode				rMatch(const WString& name, vint index=-1);
+		extern RegexNode				rMatch(vint index);
 		extern RegexNode				rBegin();
 		extern RegexNode				rEnd();
 		extern RegexNode				rC(wchar_t a, wchar_t b=L'\0');

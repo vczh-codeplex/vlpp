@@ -67,7 +67,7 @@ GlobalStorage
 	{
 		if(GetGlobalStorageManager().storages)
 		{
-			for(int i=0;i<GetGlobalStorageManager().storages->Count();i++)
+			for(vint i=0;i<GetGlobalStorageManager().storages->Count();i++)
 			{
 				GetGlobalStorageManager().storages->Values()[i]->ClearResource();
 			}

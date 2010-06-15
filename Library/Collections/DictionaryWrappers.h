@@ -40,7 +40,7 @@ namespace vl
 			{
 			private:
 				const IReadonlyDictionary<KT, VT, KK, VK>*	container;
-				int											index;
+				vint											index;
 				Pair<KT, VT>								current;
 
 				void UpdateCurrent()
@@ -52,7 +52,7 @@ namespace vl
 					}
 				}
 			public:
-				Enumerator(const IReadonlyDictionary* _container, int _index=0)
+				Enumerator(const IReadonlyDictionary* _container, vint _index=0)
 				{
 					container=_container;
 					index=_index;
@@ -69,7 +69,7 @@ namespace vl
 					return current;
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}
@@ -125,7 +125,7 @@ namespace vl
 				return container->Values();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
@@ -177,7 +177,7 @@ namespace vl
 				return container->Values();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
@@ -222,8 +222,8 @@ namespace vl
 			{
 			private:
 				const IReadonlyGroup<KT, VT, KK, VK>*		container;
-				int											keyIndex;
-				int											valueIndex;
+				vint											keyIndex;
+				vint											valueIndex;
 				Pair<KT, VT>								current;
 
 				void UpdateCurrent()
@@ -239,7 +239,7 @@ namespace vl
 					}
 				}
 			public:
-				Enumerator(const IReadonlyGroup* _container, int _keyIndex=0, int _valueIndex=0)
+				Enumerator(const IReadonlyGroup* _container, vint _keyIndex=0, vint _valueIndex=0)
 				{
 					container=_container;
 					keyIndex=_keyIndex;
@@ -257,12 +257,12 @@ namespace vl
 					return current;
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					if(Available())
 					{
-						int index=0;
-						for(int i=0;i<keyIndex;i++)
+						vint index=0;
+						for(vint i=0;i<keyIndex;i++)
 						{
 							index+=container->GetByIndex(i).Count();
 						}
@@ -347,7 +347,7 @@ namespace vl
 				return container->Keys();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
@@ -357,7 +357,7 @@ namespace vl
 				return container->Get(key);
 			}
 
-			const IReadonlyList<VT, VK>& GetByIndex(int index)const
+			const IReadonlyList<VT, VK>& GetByIndex(vint index)const
 			{
 				return container->GetByIndex(index);
 			}
@@ -409,7 +409,7 @@ namespace vl
 				return container->Keys();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
@@ -419,7 +419,7 @@ namespace vl
 				return container->Get(key);
 			}
 
-			const IReadonlyList<VT, VK>& GetByIndex(int index)const
+			const IReadonlyList<VT, VK>& GetByIndex(vint index)const
 			{
 				return container->GetByIndex(index);
 			}

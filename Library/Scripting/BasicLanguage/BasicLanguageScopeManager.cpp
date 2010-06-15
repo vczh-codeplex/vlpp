@@ -35,7 +35,7 @@ BasicScope::Variable
 			{
 			}
 
-			BasicScope::Variable::Variable(int variable, BasicTypeRecord* _type)
+			BasicScope::Variable::Variable(vint variable, BasicTypeRecord* _type)
 				:globalVariable(0)
 				,localVariable(0)
 				,parameterIndex(variable)
@@ -147,7 +147,7 @@ BasicEnv::Reference
 			{
 			}
 
-			BasicEnv::Reference::Reference(BasicScope* _scope, int parameter)
+			BasicEnv::Reference::Reference(BasicScope* _scope, vint parameter)
 				:scope(_scope)
 				,globalVariable(0)
 				,localVariable(0)
@@ -204,7 +204,7 @@ BasicEnv
 
 			BasicScope* BasicEnv::CreateFunctionScope(BasicScope* previousScope, BasicFunctionDeclaration* functionDeclaration)
 			{
-				int index=functionScopes.Keys().IndexOf(functionDeclaration);
+				vint index=functionScopes.Keys().IndexOf(functionDeclaration);
 				if(index!=-1)
 				{
 					BasicScope* scope=functionScopes.Values()[index];
@@ -221,7 +221,7 @@ BasicEnv
 
 			BasicScope* BasicEnv::CreateStatementScope(BasicScope* previousScope, BasicStatement* statement)
 			{
-				int index=statementScopes.Keys().IndexOf(statement);
+				vint index=statementScopes.Keys().IndexOf(statement);
 				if(index!=-1)
 				{
 					BasicScope* scope=statementScopes.Values()[index];
@@ -238,7 +238,7 @@ BasicEnv
 
 			void BasicEnv::RegisterStatementScope(BasicStatement* statement, BasicScope* scope)
 			{
-				int index=statementScopes.Keys().IndexOf(statement);
+				vint index=statementScopes.Keys().IndexOf(statement);
 				if(index==-1)
 				{
 					statementScopes.Add(statement, scope);
@@ -262,25 +262,25 @@ BasicEnv
 
 			BasicScope* BasicEnv::GetFunctionScope(BasicFunctionDeclaration* function)
 			{
-				int index=functionScopes.Keys().IndexOf(function);
+				vint index=functionScopes.Keys().IndexOf(function);
 				return index==-1?0:functionScopes.Values()[index];
 			}
 
 			BasicScope* BasicEnv::GetStatementScope(BasicStatement* statement)
 			{
-				int index=statementScopes.Keys().IndexOf(statement);
+				vint index=statementScopes.Keys().IndexOf(statement);
 				return index==-1?0:statementScopes.Values()[index];
 			}
 
 			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function)
 			{
-				int index=functionTypes.Keys().IndexOf(function);
+				vint index=functionTypes.Keys().IndexOf(function);
 				return index==-1?0:functionTypes.Values()[index];
 			}
 
 			BasicTypeRecord* BasicEnv::GetExpressionType(BasicExpression* expression)
 			{
-				int index=expressionTypes.Keys().IndexOf(expression);
+				vint index=expressionTypes.Keys().IndexOf(expression);
 				return index==-1?0:expressionTypes.Values()[index];
 			}
 

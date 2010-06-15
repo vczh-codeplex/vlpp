@@ -29,7 +29,7 @@ Where
 			protected:
 				IEnumerator<T>*		enumerator;
 				Func<bool(T)>		selector;
-				int					index;
+				vint					index;
 
 				void GoNearest()
 				{
@@ -46,7 +46,7 @@ Where
 					}
 				}
 			public:
-				Enumerator(IEnumerator<T>* _enumerator, const Func<bool(T)>& _selector, int _index=0)
+				Enumerator(IEnumerator<T>* _enumerator, const Func<bool(T)>& _selector, vint _index=0)
 					:enumerator(_enumerator)
 					,selector(_selector)
 					,index(_index)
@@ -69,7 +69,7 @@ Where
 					return enumerator->Current();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}

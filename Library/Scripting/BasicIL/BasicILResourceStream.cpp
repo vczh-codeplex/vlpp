@@ -10,11 +10,11 @@ namespace vl
 ResourceStream
 ***********************************************************************/
 
-		int ResourceStream::CreateRecord(int size)
+		vint ResourceStream::CreateRecord(vint size)
 		{
-			int pointer=usedSize;
+			vint pointer=usedSize;
 			usedSize+=size;
-			int extendedSize=(usedSize/65536+1)*65536;
+			vint extendedSize=(usedSize/65536+1)*65536;
 			if(resource.Count()!=extendedSize)
 			{
 				resource.Resize(extendedSize);
@@ -22,12 +22,12 @@ ResourceStream
 			return pointer;
 		}
 
-		const char* ResourceStream::GetPointer(int pointer)const
+		const char* ResourceStream::GetPointer(vint pointer)const
 		{
 			return &resource[pointer];
 		}
 
-		WString ResourceStream::GetString(int pointer)const
+		WString ResourceStream::GetString(vint pointer)const
 		{
 			return WString((const wchar_t*)GetPointer(pointer));
 		}
@@ -48,9 +48,9 @@ ResourceStream
 
 		// Deserialization Begin
 
-		int ReadInt(stream::IStream& stream)
+		vint ReadInt(stream::IStream& stream)
 		{
-			int result=0;
+			vint result=0;
 			stream.Read(&result, sizeof(result));
 			return result;
 		}
@@ -75,13 +75,13 @@ ResourceStream
 
 		// Serialization Begin
 
-		void WriteInt(stream::IStream& stream, int i)
+		void WriteInt(stream::IStream& stream, vint i)
 		{
 			stream.Write(&i, sizeof(i));
 		}
 
 		template<typename T>
-		void WriteArray(stream::IStream& stream, T& collection, int count)
+		void WriteArray(stream::IStream& stream, T& collection, vint count)
 		{
 			WriteInt(stream, count);
 			if(count>0)
@@ -99,8 +99,8 @@ ResourceStream
 
 		ResourceString ResourceStream::CreateString(const WString& string)
 		{
-			int size=sizeof(wchar_t)*(string.Length()+1);
-			int pointer=CreateRecord(size);
+			vint size=sizeof(wchar_t)*(string.Length()+1);
+			vint pointer=CreateRecord(size);
 			if(string.Length()==0)
 			{
 				*((wchar_t*)GetPointer(pointer))=0;

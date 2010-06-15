@@ -26,14 +26,14 @@ CharEncoder
 		{
 		}
 
-		int CharEncoder::Write(void* _buffer, int _size)
+		vint CharEncoder::Write(void* _buffer, vint _size)
 		{
-			const int all=(cacheAvailable?1:0)+_size;
-			const int chars=all/2;
-			const int bytes=chars*2;
+			const vint all=(cacheAvailable?1:0)+_size;
+			const vint chars=all/2;
+			const vint bytes=chars*2;
 			wchar_t* unicode=0;
 			bool needToFree=false;
-			int result=0;
+			vint result=0;
 
 			if(chars)
 			{
@@ -85,10 +85,10 @@ CharDecoder
 		{
 		}
 
-		int CharDecoder::Read(void* _buffer, int _size)
+		vint CharDecoder::Read(void* _buffer, vint _size)
 		{
 			unsigned char* unicode=(unsigned char*)_buffer;
-			int result=0;
+			vint result=0;
 			if(cacheAvailable && _size>0)
 			{
 				*unicode++=cache;
@@ -96,8 +96,8 @@ CharDecoder
 				result++;
 			}
 
-			const int chars=_size/2;
-			int bytes=ReadString((wchar_t*)unicode, chars)*2;
+			const vint chars=_size/2;
+			vint bytes=ReadString((wchar_t*)unicode, chars)*2;
 			result+=bytes;
 			_size-=bytes;
 			unicode+=bytes;
@@ -120,12 +120,12 @@ CharDecoder
 Mbcs
 ***********************************************************************/
 
-		int MbcsEncoder::WriteString(wchar_t* _buffer, int chars)
+		vint MbcsEncoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			int length=WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, chars, NULL, NULL, NULL, NULL);
+			vint length=WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
 			char* mbcs=new char[length];
-			WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, chars, mbcs, length, NULL, NULL);
-			int result=stream->Write(mbcs, length);
+			WideCharToMultiByte(CP_THREAD_ACP, 0, _buffer, (int)chars, mbcs, (int)length, NULL, NULL);
+			vint result=stream->Write(mbcs, length);
 			delete[] mbcs;
 			if(result==length)
 			{
@@ -138,11 +138,11 @@ Mbcs
 			}
 		}
 
-		int MbcsDecoder::ReadString(wchar_t* _buffer, int chars)
+		vint MbcsDecoder::ReadString(wchar_t* _buffer, vint chars)
 		{
 			char* source=new char[chars*2];
 			char* reading=source;
-			int readed=0;
+			vint readed=0;
 			while(readed<chars)
 			{
 				if(stream->Read(reading, 1)!=1)
@@ -163,7 +163,7 @@ Mbcs
 				}
 				readed++;
 			}
-			MultiByteToWideChar(CP_THREAD_ACP, 0, source, reading-source, _buffer, chars);
+			MultiByteToWideChar(CP_THREAD_ACP, 0, source, (int)(reading-source), _buffer, (int)chars);
 			delete[] source;
 			return readed;
 		}
@@ -172,12 +172,12 @@ Mbcs
 Utf-16-be
 ***********************************************************************/
 
-		int Utf16Encoder::WriteString(wchar_t* _buffer, int chars)
+		vint Utf16Encoder::WriteString(wchar_t* _buffer, vint chars)
 		{
 			return stream->Write(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
 		}
 
-		int Utf16Decoder::ReadString(wchar_t* _buffer, int chars)
+		vint Utf16Decoder::ReadString(wchar_t* _buffer, vint chars)
 		{
 			return stream->Read(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
 		}
@@ -186,9 +186,9 @@ Utf-16-be
 Utf-16-be
 ***********************************************************************/
 
-		int Utf16BEEncoder::WriteString(wchar_t* _buffer, int chars)
+		vint Utf16BEEncoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			int writed=0;
+			vint writed=0;
 			while(writed<chars)
 			{
 				if(stream->Write(((unsigned char*)_buffer)+1, 1)!=1)
@@ -209,11 +209,11 @@ Utf-16-be
 			return writed;
 		}
 
-		int Utf16BEDecoder::ReadString(wchar_t* _buffer, int chars)
+		vint Utf16BEDecoder::ReadString(wchar_t* _buffer, vint chars)
 		{
 			chars=stream->Read(_buffer, chars*sizeof(wchar_t))/sizeof(wchar_t);
 			unsigned char* unicode=(unsigned char*)_buffer;
-			for(int i=0;i<chars;i++)
+			for(vint i=0;i<chars;i++)
 			{
 				unsigned char t=unicode[0];
 				unicode[0]=unicode[1];
@@ -227,12 +227,12 @@ Utf-16-be
 Utf8
 ***********************************************************************/
 
-		int Utf8Encoder::WriteString(wchar_t* _buffer, int chars)
+		vint Utf8Encoder::WriteString(wchar_t* _buffer, vint chars)
 		{
-			int length=WideCharToMultiByte(CP_UTF8, 0, _buffer, chars, NULL, NULL, NULL, NULL);
+			vint length=WideCharToMultiByte(CP_UTF8, 0, _buffer, (int)chars, NULL, NULL, NULL, NULL);
 			char* mbcs=new char[length];
-			WideCharToMultiByte(CP_UTF8, 0, _buffer, chars, mbcs, length, NULL, NULL);
-			int result=stream->Write(mbcs, length);
+			WideCharToMultiByte(CP_UTF8, 0, _buffer, (int)chars, mbcs, (int)length, NULL, NULL);
+			vint result=stream->Write(mbcs, length);
 			delete[] mbcs;
 			if(result==length)
 			{
@@ -245,11 +245,11 @@ Utf8
 			}
 		}
 
-		int Utf8Decoder::ReadString(wchar_t* _buffer, int chars)
+		vint Utf8Decoder::ReadString(wchar_t* _buffer, vint chars)
 		{
 			char* source=new char[chars*3];
 			char* reading=source;
-			int readed=0;
+			vint readed=0;
 			while(readed<chars)
 			{
 				if(stream->Read(reading, 1)!=1)
@@ -278,7 +278,7 @@ Utf8
 				}
 				readed++;
 			}
-			MultiByteToWideChar(CP_UTF8, 0, source, reading-source, _buffer, chars);
+			MultiByteToWideChar(CP_UTF8, 0, source, (int)(reading-source), _buffer, (int)chars);
 			delete[] source;
 			return readed;
 		}
@@ -342,7 +342,7 @@ BomEncoder
 			}
 		}
 
-		int BomEncoder::Write(void* _buffer, int _size)
+		vint BomEncoder::Write(void* _buffer, vint _size)
 		{
 			return encoder->Write(_buffer, _size);
 		}
@@ -351,7 +351,7 @@ BomEncoder
 BomDecoder
 ***********************************************************************/
 
-		BomDecoder::BomStream::BomStream(IStream* _stream, char* _bom, int _bomLength)
+		BomDecoder::BomStream::BomStream(IStream* _stream, char* _bom, vint _bomLength)
 			:stream(_stream)
 			,bomPosition(0)
 			,bomLength(_bomLength)
@@ -419,13 +419,13 @@ BomDecoder
 			CHECK_ERROR(false, L"BomDecoder::BomStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
-		int BomDecoder::BomStream::Read(void* _buffer, int _size)
+		vint BomDecoder::BomStream::Read(void* _buffer, vint _size)
 		{
-			int result=0;
+			vint result=0;
 			unsigned char* buffer=(unsigned char*)_buffer;
 			if(bomPosition<bomLength)
 			{
-				int remain=bomLength-bomPosition;
+				vint remain=bomLength-bomPosition;
 				result=remain<_size?remain:_size;
 				memcpy(buffer, bom+bomPosition, result);
 				buffer+=result;
@@ -439,14 +439,14 @@ BomDecoder
 			return result;
 		}
 
-		int BomDecoder::BomStream::Write(void* _buffer, int _size)
+		vint BomDecoder::BomStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::Write(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"BomDecoder::BomStream::Write(void*, vint)#不支持此操作。");
 		}
 
-		int BomDecoder::BomStream::Peek(void* _buffer, int _size)
+		vint BomDecoder::BomStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::Peek(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"BomDecoder::BomStream::Peek(void*, vint)#不支持此操作。");
 		}
 
 		BomDecoder::BomDecoder()
@@ -462,7 +462,7 @@ BomDecoder
 		void BomDecoder::Setup(IStream* _stream)
 		{
 			char bom[3]={0};
-			int length=_stream->Read(bom, sizeof(bom));
+			vint length=_stream->Read(bom, sizeof(bom));
 			if(strncmp(bom, "\xEF\xBB\xBF", 3)==0)
 			{
 				decoder=new Utf8Decoder;
@@ -499,7 +499,7 @@ BomDecoder
 			}
 		}
 
-		int BomDecoder::Read(void* _buffer, int _size)
+		vint BomDecoder::Read(void* _buffer, vint _size)
 		{
 			return decoder->Read(_buffer, _size);
 		}

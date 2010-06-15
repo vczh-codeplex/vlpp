@@ -42,14 +42,14 @@ namespace vl
 	class ParsingException : public Exception
 	{
 	protected:
-		int							position;
+		vint							position;
 		WString						expression;
 
 	public:
-		ParsingException(const WString& _message, const WString& _expression, int _position);
+		ParsingException(const WString& _message, const WString& _expression, vint _position);
 
 		const WString&				GetExpression()const;
-		int							GetPosition()const;
+		vint							GetPosition()const;
 	};
 }
 

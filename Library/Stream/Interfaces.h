@@ -31,9 +31,9 @@ namespace vl
 			virtual void					Seek(pos_t _size)=0;
 			virtual void					SeekFromBegin(pos_t _size)=0;
 			virtual void					SeekFromEnd(pos_t _size)=0;
-			virtual int						Read(void* _buffer, int _size)=0;
-			virtual int						Write(void* _buffer, int _size)=0;
-			virtual int						Peek(void* _buffer, int _size)=0;
+			virtual vint						Read(void* _buffer, vint _size)=0;
+			virtual vint						Write(void* _buffer, vint _size)=0;
+			virtual vint						Peek(void* _buffer, vint _size)=0;
 		};
 
 		class IEncoder : public Interface
@@ -41,7 +41,7 @@ namespace vl
 		public:
 			virtual void					Setup(IStream* _stream)=0;
 			virtual	void					Close()=0;
-			virtual int						Write(void* _buffer, int _size)=0;
+			virtual vint						Write(void* _buffer, vint _size)=0;
 		};
 
 		class IDecoder : public Interface
@@ -49,7 +49,7 @@ namespace vl
 		public:
 			virtual void					Setup(IStream* _stream)=0;
 			virtual	void					Close()=0;
-			virtual int						Read(void* _buffer, int _size)=0;
+			virtual vint						Read(void* _buffer, vint _size)=0;
 		};
 	}
 }

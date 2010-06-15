@@ -34,7 +34,7 @@ namespace vl
 				virtual BasicTypeRecord*		GetIntegerType()=0;
 				virtual BasicTypeRecord*		GetBooleanType()=0;
 			public:
-				Ptr<LanguageException>			Translate(Ptr<BasicLanguageCodeException> error, int codeIndex);
+				Ptr<LanguageException>			Translate(Ptr<BasicLanguageCodeException> error, vint codeIndex);
 			};
 		}
 	}

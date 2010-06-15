@@ -20,22 +20,22 @@ namespace vl
 		{
 		protected:
 			IStream*				target;
-			int						block;
+			vint						block;
 			pos_t					start;
 			pos_t					position;
 
 			char*					buffer;
-			int						dirtyStart;
-			int						dirtyLength;
-			int						availableLength;
+			vint						dirtyStart;
+			vint						dirtyLength;
+			vint						availableLength;
 			pos_t					operatedSize;
 
 			void					Flush();
 			void					Load(pos_t _position);
-			int						InternalRead(void* _buffer, int _size);
-			int						InternalWrite(void* _buffer, int _size);
+			vint						InternalRead(void* _buffer, vint _size);
+			vint						InternalWrite(void* _buffer, vint _size);
 		public:
-			CacheStream(IStream& _target, int _block=65536);
+			CacheStream(IStream& _target, vint _block=65536);
 			~CacheStream();
 
 			bool					CanRead()const;
@@ -50,9 +50,9 @@ namespace vl
 			void					Seek(pos_t _size);
 			void					SeekFromBegin(pos_t _size);
 			void					SeekFromEnd(pos_t _size);
-			int						Read(void* _buffer, int _size);
-			int						Write(void* _buffer, int _size);
-			int						Peek(void* _buffer, int _size);
+			vint						Read(void* _buffer, vint _size);
+			vint						Write(void* _buffer, vint _size);
+			vint						Peek(void* _buffer, vint _size);
 		};
 	}
 }

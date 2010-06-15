@@ -85,7 +85,7 @@ BasicLanguage_GenerateResource
 							resource->primitiveType=BasicTypeRes::void_type;
 
 							ResourceRecord<BasicTypeLinkRes> currentSubType;
-							for(int i=0;i<type->ParameterCount();i++)
+							for(vint i=0;i<type->ParameterCount();i++)
 							{
 								ResourceHandle<BasicTypeRes> parameterType=GenerateResource(type->ParameterType(i), argument);
 								ResourceRecord<BasicTypeLinkRes> parameter=argument.resource->CreateRecord<BasicTypeLinkRes>();
@@ -114,7 +114,7 @@ BasicLanguage_GenerateResource
 							resource->primitiveType=BasicTypeRes::void_type;
 
 							ResourceRecord<BasicTypeLinkRes> currentSubType;
-							for(int i=0;i<type->MemberCount();i++)
+							for(vint i=0;i<type->MemberCount();i++)
 							{
 								ResourceHandle<BasicTypeRes> memberType=GenerateResource(type->MemberType(i), argument);
 								ResourceString memberName=argument.resource->CreateString(type->MemberName(i));
@@ -164,7 +164,7 @@ BasicLanguage_GenerateResource
 					}
 
 					ResourceRecord<BasicParameterRes> currentParameter;
-					for(int i=0;i<node->parameterNames.Count();i++)
+					for(vint i=0;i<node->parameterNames.Count();i++)
 					{
 						ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
 						ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();

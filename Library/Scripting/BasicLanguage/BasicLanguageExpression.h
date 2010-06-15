@@ -30,7 +30,7 @@ namespace vl
 				void_type,
 				char_type,
 				wchar_type,
-#ifdef _WIN64
+#ifdef VCZH_64
 				int_type=s64,
 				uint_type=u64,
 #else
@@ -55,7 +55,7 @@ namespace vl
 				bool						bool_value;
 				char						char_value;
 				wchar_t						wchar_value;
-#ifdef _WIN64
+#ifdef VCZH_64
 				signed __int64				int_value;
 				unsigned __int64			pointer_value;
 #else
@@ -66,10 +66,10 @@ namespace vl
 
 			struct BasicPosition
 			{
-				int							start;
-				int							lineStart;
-				int							lineIndex;
-				int							codeIndex;
+				vint							start;
+				vint							lineStart;
+				vint							lineIndex;
+				vint							codeIndex;
 
 				BasicPosition();
 			};
@@ -384,7 +384,7 @@ Type
 				ALGORITHM_ACCEPT_DECLARATION
 
 				Ptr<BasicType>								elementType;
-				int											size;
+				vint											size;
 			};
 
 			class BasicReferenceType : public BasicType

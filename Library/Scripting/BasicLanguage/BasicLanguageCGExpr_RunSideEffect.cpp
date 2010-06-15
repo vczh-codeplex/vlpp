@@ -36,8 +36,8 @@ BasicLanguage_RunSideEffect
 				{
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(operandType);
-					int size=argument.info->GetTypeInfo(operandType)->size;
-					int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+					vint size=argument.info->GetTypeInfo(operandType)->size;
+					vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
@@ -98,8 +98,8 @@ BasicLanguage_RunSideEffect
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(leftType);
-					int size=argument.info->GetTypeInfo(leftType)->size;
-					int pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+					vint size=argument.info->GetTypeInfo(leftType)->size;
+					vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 
 					switch(node->type)
 					{

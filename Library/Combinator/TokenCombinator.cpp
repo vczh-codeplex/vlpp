@@ -7,15 +7,15 @@ namespace vl
 		using namespace regex;
 
 /***********************************************************************
-tk(int)
+tk(vint)
 ***********************************************************************/
 
 		class _tk_i : public Combinator<TokenInput<RegexToken>, RegexToken>
 		{
 		protected:
-			int					token;
+			vint					token;
 		public:
-			_tk_i(int _token)
+			_tk_i(vint _token)
 				:token(_token)
 			{
 			}
@@ -70,7 +70,7 @@ tk(WString)
 ¸¨Öúº¯Êý
 ***********************************************************************/
 
-		Node<TokenInput<RegexToken>, RegexToken> tk(int token)
+		Node<TokenInput<RegexToken>, RegexToken> tk(vint token)
 		{
 			return new _tk_i(token);
 		}

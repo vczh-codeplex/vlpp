@@ -36,18 +36,18 @@ namespace vl
 		class ListStore<T,false> abstract : public Object
 		{
 		protected:
-			static void CopyObjects(T* dest, const T* source, int count)
+			static void CopyObjects(T* dest, const T* source, vint count)
 			{
 				if(dest<source)
 				{
-					for(int i=0;i<count;i++)
+					for(vint i=0;i<count;i++)
 					{
 						dest[i]=source[i];
 					}
 				}
 				else if(dest>source)
 				{
-					for(int i=count-1;i>=0;i--)
+					for(vint i=count-1;i>=0;i--)
 					{
 						dest[i]=source[i];
 					}
@@ -60,7 +60,7 @@ namespace vl
 		class ListStore<T,true> abstract : public Object
 		{
 		protected:
-			static void CopyObjects(T* dest, const T* source, int count)
+			static void CopyObjects(T* dest, const T* source, vint count)
 			{
 				if(count)
 				{
@@ -74,14 +74,14 @@ namespace vl
 		class ListBase abstract : public ListStore<T,POD<T>::Result>
 		{
 		protected:
-			int						count;
-			int						capacity;
+			vint						count;
+			vint						capacity;
 			T*						buffer;
 			bool					lessMemoryMode;
 
-			int CalculateCapacity(int expected)
+			vint CalculateCapacity(vint expected)
 			{
-				int result=capacity;
+				vint result=capacity;
 				while(result<expected)
 				{
 					result=result*5/4+1;
@@ -89,12 +89,12 @@ namespace vl
 				return result;
 			}
 
-			void MakeRoom(int index, int _count)
+			void MakeRoom(vint index, vint _count)
 			{
-				int newCount=count+_count;
+				vint newCount=count+_count;
 				if(newCount>capacity)
 				{
-					int newCapacity=CalculateCapacity(newCount);
+					vint newCapacity=CalculateCapacity(newCount);
 					T* newBuffer=new T[newCapacity];
 					CopyObjects(newBuffer, buffer, index);
 					CopyObjects(newBuffer+index+_count, buffer+index, count-index);
@@ -113,7 +113,7 @@ namespace vl
 			{
 				if(lessMemoryMode && count<=capacity/2)
 				{
-					int newCapacity=capacity*5/8;
+					vint newCapacity=capacity*5/8;
 					if(count<newCapacity)
 					{
 						T* newBuffer=new T[newCapacity];
@@ -143,36 +143,36 @@ namespace vl
 				lessMemoryMode=mode;
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return count;
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
-				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::Get(int)#参数越界。");
+				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::Get(vint)#参数越界。");
 				return buffer[index];
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
-				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::operator[](int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::operator[](vint)#参数index越界。");
 				return buffer[index];
 			}
 
-			bool RemoveAt(int index)
+			bool RemoveAt(vint index)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::RemoveAt(int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::RemoveAt(vint)#参数index越界。");
 				CopyObjects(buffer+index,buffer+index+1,count-index-1);
 				count--;
 				ReleaseUnnecessaryBuffer();
 				return true;
 			}
 
-			bool RemoveRange(int index, int _count)
+			bool RemoveRange(vint index, vint _count)
 			{
-				CHECK_ERROR(index>=0 && index<=count, L"ListBase<T, K>::RemoveRange(int, int)#参数index越界。");
-				CHECK_ERROR(index+_count>=0 && index+_count<=count, L"ListBase<T,K>::RemoveRange(int, int)#参数_count越界。");
+				CHECK_ERROR(index>=0 && index<=count, L"ListBase<T, K>::RemoveRange(vint, vint)#参数index越界。");
+				CHECK_ERROR(index+_count>=0 && index+_count<=count, L"ListBase<T,K>::RemoveRange(vint, vint)#参数_count越界。");
 				CopyObjects(buffer+index, buffer+index+_count, count-index-_count);
 				count-=_count;
 				ReleaseUnnecessaryBuffer();
@@ -200,11 +200,11 @@ namespace vl
 		class Array : public ListStore<T, POD<T>::Result>, private NotCopyable
 		{
 		protected:
-			int								count;
+			vint								count;
 			T*								buffer;
 			mutable ArrayWrapper<Array<T, K>, T, K>		wrapper;
 
-			void Create(int size)
+			void Create(vint size)
 			{
 				if(size>0)
 				{
@@ -225,13 +225,13 @@ namespace vl
 				buffer=0;
 			}
 		public:
-			Array(int size=0)
+			Array(vint size=0)
 			{
 				wrapper.SetContainer(this);
 				Create(size);
 			}
 
-			Array(const T* _buffer, int size)
+			Array(const T* _buffer, vint size)
 			{
 				wrapper.SetContainer(this);
 				Create(size);
@@ -248,26 +248,26 @@ namespace vl
 				return IndexOf(item)!=-1;
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return count;
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
-				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::Get(int)#参数越界。");
+				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::Get(vint)#参数越界。");
 				return buffer[index];
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
-				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::operator[](int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::operator[](vint)#参数index越界。");
 				return buffer[index];
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
-				for(int i=0;i<count;i++)
+				for(vint i=0;i<count;i++)
 				{
 					if(buffer[i]==item)
 					{
@@ -277,21 +277,21 @@ namespace vl
 				return -1;
 			}
 
-			void Set(int index, const K& item)
+			void Set(vint index, const K& item)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::Set(int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::Set(vint)#参数index越界。");
 				buffer[index]=item;
 			}
 
-			T& operator[](int index)
+			T& operator[](vint index)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::operator[](int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::operator[](vint)#参数index越界。");
 				return buffer[index];
 			}
 
-			void Resize(int size)
+			void Resize(vint size)
 			{
-				int oldCount=count;
+				vint oldCount=count;
 				T* oldBuffer=buffer;
 				Create(size);
 				CopyObjects(buffer, oldBuffer, (count<oldCount?count:oldCount));
@@ -320,9 +320,9 @@ namespace vl
 				return IndexOf(item)!=-1;
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
-				for(int i=0;i<count;i++)
+				for(vint i=0;i<count;i++)
 				{
 					if(buffer[i]==item)
 					{
@@ -332,16 +332,16 @@ namespace vl
 				return -1;
 			}
 
-			int Add(const T& item)
+			vint Add(const T& item)
 			{
 				MakeRoom(count, 1);
 				buffer[count-1]=item;
 				return count-1;
 			}
 
-			int Insert(int index, const T& item)
+			vint Insert(vint index, const T& item)
 			{
-				CHECK_ERROR(index>=0 && index<=count, L"List<T, K>::Insert(int, const T&)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<=count, L"List<T, K>::Insert(vint, const T&)#参数index越界。");
 				MakeRoom(index,1);
 				buffer[index]=item;
 				return index;
@@ -349,7 +349,7 @@ namespace vl
 
 			bool Remove(const K& item)
 			{
-				int index=IndexOf(item);
+				vint index=IndexOf(item);
 				if(index>=0 && index<count)
 				{
 					RemoveAt(index);
@@ -361,16 +361,16 @@ namespace vl
 				}
 			}
 
-			bool Set(int index, const K& item)
+			bool Set(vint index, const K& item)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"List<T, K>::Set(int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"List<T, K>::Set(vint)#参数index越界。");
 				buffer[index]=item;
 				return true;
 			}
 
-			T& operator[](int index)
+			T& operator[](vint index)
 			{
-				CHECK_ERROR(index>=0 && index<count, L"List<T, K>::operator[](int)#参数index越界。");
+				CHECK_ERROR(index>=0 && index<count, L"List<T, K>::operator[](vint)#参数index越界。");
 				return buffer[index];
 			}
 
@@ -397,13 +397,13 @@ namespace vl
 			}
 
 			template<typename Key>
-			int IndexOf(const Key& item)const
+			vint IndexOf(const Key& item)const
 			{
-				int start=0;
-				int end=count-1;
+				vint start=0;
+				vint end=count-1;
 				while(start<=end)
 				{
-					int index=(start+end)/2;
+					vint index=(start+end)/2;
 					if(buffer[index]==item)
 					{
 						return index;
@@ -420,12 +420,12 @@ namespace vl
 				return -1;
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
 				return IndexOf<K>(item);
 			}
 
-			int Add(const T& item)
+			vint Add(const T& item)
 			{
 				if(count==0)
 				{
@@ -435,9 +435,9 @@ namespace vl
 				}
 				else
 				{
-					int start=0;
-					int end=count-1;
-					int index=-1;
+					vint start=0;
+					vint end=count-1;
+					vint index=-1;
 					while(start<=end)
 					{
 						index=(start+end)/2;
@@ -468,7 +468,7 @@ SORTED_LIST_INSERT:
 
 			bool Remove(const K& item)
 			{
-				int index=IndexOf(item);
+				vint index=IndexOf(item);
 				if(index>=0 && index<count)
 				{
 					RemoveAt(index);
@@ -494,8 +494,8 @@ SORTED_LIST_INSERT:
 		void CopyToCollection(A& dst, const B& src, bool append=false)
 		{
 			if(!append)dst.Clear();
-			int count=src.Count();
-			for(int i=0;i<count;i++)
+			vint count=src.Count();
+			for(vint i=0;i<count;i++)
 			{
 				dst.Add(src.Get(i));
 			}
@@ -504,8 +504,8 @@ SORTED_LIST_INSERT:
 		template<typename A, typename B>
 		void CopyToArray(A& dst, const B& src, bool append=false)
 		{
-			int start=0;
-			int count=src.Count();
+			vint start=0;
+			vint count=src.Count();
 			if(append)
 			{
 				start=dst.Count();
@@ -515,7 +515,7 @@ SORTED_LIST_INSERT:
 			{
 				dst.Resize(count);
 			}
-			for(int i=0;i<count;i++)
+			for(vint i=0;i<count;i++)
 			{
 				dst[start+i]=src.Get(i);
 			}

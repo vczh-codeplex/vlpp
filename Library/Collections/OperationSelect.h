@@ -56,7 +56,7 @@ Select
 					return current;
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return enumerator->Index();
 				}

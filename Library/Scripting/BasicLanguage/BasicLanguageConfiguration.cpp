@@ -29,7 +29,7 @@ BasicAlgorithmParameter
 				enableSubscribeOnPointer=true;
 			}
 
-			bool BasicAlgorithmConfiguration::DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes)const
+			bool BasicAlgorithmConfiguration::DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, vint& bytes)const
 			{
 				switch(type)
 				{
@@ -103,7 +103,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes)const
+			bool BasicAlgorithmConfiguration::EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, vint bytes)const
 			{
 				switch(bytes)
 				{
@@ -124,7 +124,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes)const
+			bool BasicAlgorithmConfiguration::DecodeFloat(BasicPrimitiveTypeEnum type, vint& bytes)const
 			{
 				switch(type)
 				{
@@ -139,7 +139,7 @@ BasicAlgorithmParameter
 				}
 			}
 
-			bool BasicAlgorithmConfiguration::EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes)const
+			bool BasicAlgorithmConfiguration::EncodeFloat(BasicPrimitiveTypeEnum& type, vint bytes)const
 			{
 				switch(bytes)
 				{
@@ -162,7 +162,7 @@ BasicAlgorithmParameter
 				case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
 					{
 						bool fromSign=false;
-						int fromBytes=0;
+						vint fromBytes=0;
 						if(!DecodeInteger(from, fromSign, fromBytes))
 						{
 							return false;
@@ -172,7 +172,7 @@ BasicAlgorithmParameter
 						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
 							{
 								bool toSign=false;
-								int toBytes=0;
+								vint toBytes=0;
 								if(DecodeInteger(to, toSign, toBytes))
 								{
 									if(!enableImplicitSignedToUnsignedConversion && fromSign && !toSign)
@@ -199,7 +199,7 @@ BasicAlgorithmParameter
 							}
 						case f32:case f64:
 							{
-								int toBytes=0;
+								vint toBytes=0;
 								DecodeFloat(to, toBytes);
 								return enableImplicitIntegerToFloatConversion && (fromBytes<toBytes || enableImplicitHighToLowPrecisionConversion);
 							}
@@ -211,14 +211,14 @@ BasicAlgorithmParameter
 					}
 				case f32:case f64:
 					{
-						int fromBytes=0;
+						vint fromBytes=0;
 						DecodeFloat(from, fromBytes);
 						switch(to)
 						{
 						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
 							{
 								bool toSign=false;
-								int toBytes=0;
+								vint toBytes=0;
 								if(DecodeInteger(to, toSign, toBytes))
 								{
 									return enableImplicitFloatToIntegerConversion && (fromBytes<toBytes || enableImplicitHighToLowPrecisionConversion);
@@ -230,7 +230,7 @@ BasicAlgorithmParameter
 							}
 						case f32:case f64:
 							{
-								int toBytes=0;
+								vint toBytes=0;
 								DecodeFloat(to, toBytes);
 								return fromBytes<=toBytes || enableImplicitHighToLowPrecisionConversion;
 							}
@@ -247,7 +247,7 @@ BasicAlgorithmParameter
 						case s8:case s16:case s32:case s64:case u8:case u16:case u32:case u64:case char_type:case wchar_type:
 							{
 								bool toSign=false;
-								int toBytes=0;
+								vint toBytes=0;
 								if(DecodeInteger(to, toSign, toBytes))
 								{
 									return enableImplicitBooleanToIntegerConversion;
@@ -352,7 +352,7 @@ BasicAlgorithmParameter
 			bool BasicAlgorithmConfiguration::IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const
 			{
 				bool sign=false;
-				int bytes=0;
+				vint bytes=0;
 				if(DecodeInteger(operand, sign, bytes))
 				{
 					EncodeInteger(result, sign, bytes);
@@ -367,7 +367,7 @@ BasicAlgorithmParameter
 			bool BasicAlgorithmConfiguration::NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const
 			{
 				bool sign=false;
-				int bytes=0;
+				vint bytes=0;
 				if(DecodeFloat(operand, bytes))
 				{
 					EncodeFloat(result, bytes);
@@ -390,7 +390,7 @@ BasicAlgorithmParameter
 				return CanImplicitConvertTo(left, bool_type) && CanImplicitConvertTo(right, bool_type);
 			}
 
-			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result)const
+			bool BasicAlgorithmConfiguration::IntegerBinaryOperatorTypeConversion(bool leftSign, vint leftBytes, bool rightSign, vint rightBytes, BasicPrimitiveTypeEnum& result)const
 			{
 				switch(integerOperationConversion)
 				{
@@ -412,8 +412,8 @@ BasicAlgorithmParameter
 			{
 				bool leftSign=false;
 				bool rightSign=false;
-				int leftBytes=0;
-				int rightBytes=0;
+				vint leftBytes=0;
+				vint rightBytes=0;
 				if(DecodeInteger(left, leftSign, leftBytes) && DecodeInteger(right, rightSign, rightBytes))
 				{
 					return IntegerBinaryOperatorTypeConversion(leftSign, leftBytes, rightSign, rightBytes, result);
@@ -428,8 +428,8 @@ BasicAlgorithmParameter
 			{
 				bool leftSign=false;
 				bool rightSign=false;
-				int leftBytes=0;
-				int rightBytes=0;
+				vint leftBytes=0;
+				vint rightBytes=0;
 				if(DecodeInteger(left, leftSign, leftBytes))
 				{
 					if(DecodeInteger(right, rightSign, rightBytes))

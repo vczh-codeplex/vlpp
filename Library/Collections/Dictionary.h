@@ -71,7 +71,7 @@ namespace vl
 				return values.Wrap();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return keys.Count();
 			}
@@ -88,7 +88,7 @@ namespace vl
 
 			bool Set(const KK& key, const VT& value)
 			{
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index==-1)
 				{
 					index=keys.Add(key);
@@ -104,14 +104,14 @@ namespace vl
 			bool Add(const KT& key, const VT& value)
 			{
 				CHECK_ERROR(!keys.Contains(key), L"Dictionary<KT, KK, VT, VK>::Add(const KT&, const VT&)#key“—¥Ê‘⁄°£");
-				int index=keys.Add(key);
+				vint index=keys.Add(key);
 				values.Insert(index, value);
 				return true;
 			}
 
 			bool Remove(const KK& key)
 			{
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					keys.RemoveAt(index);
@@ -168,13 +168,13 @@ namespace vl
 			}
 
 			template<typename T>
-			void CopyValuesToCollection(int index, T& dst, bool append=false)const
+			void CopyValuesToCollection(vint index, T& dst, bool append=false)const
 			{
 				CopyToCollection(dst, *(values.Get(index)), append);
 			}
 
 			template<typename T>
-			void CopyValuesToArray(int index, T& dst, bool append=false)const
+			void CopyValuesToArray(vint index, T& dst, bool append=false)const
 			{
 				CopyToArray(dst, *(values.Get(index)), append);
 			}
@@ -184,7 +184,7 @@ namespace vl
 				return keys.Wrap();
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return keys.Count();
 			}
@@ -194,7 +194,7 @@ namespace vl
 				return values.Get(keys.IndexOf(key))->Wrap();
 			}
 
-			const IReadonlyList<VT, VK>& GetByIndex(int index)const
+			const IReadonlyList<VT, VK>& GetByIndex(vint index)const
 			{
 				return values.Get(index)->Wrap();
 			}
@@ -211,7 +211,7 @@ namespace vl
 
 			bool Contains(const KK& key, const VK& value)const
 			{
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					return values.Get(index)->Contains(value);
@@ -225,7 +225,7 @@ namespace vl
 			bool Add(const KT& key, const VT& value)
 			{
 				List<VT, VK>* target=0;
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index==-1)
 				{
 					target=new List<VT, VK>;
@@ -241,7 +241,7 @@ namespace vl
 
 			bool Remove(const KK& key)
 			{
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					keys.RemoveAt(index);
@@ -258,7 +258,7 @@ namespace vl
 
 			bool Remove(const KK& key, const VK& value)
 			{
-				int index=keys.IndexOf(key);
+				vint index=keys.IndexOf(key);
 				if(index!=-1)
 				{
 					List<VT, VK>* target=values[index];
@@ -279,7 +279,7 @@ namespace vl
 
 			bool Clear()
 			{
-				for(int i=0;i<values.Count();i++)
+				for(vint i=0;i<values.Count();i++)
 				{
 					delete values[i];
 				}

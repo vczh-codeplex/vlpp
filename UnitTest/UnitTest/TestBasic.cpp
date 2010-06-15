@@ -10,9 +10,9 @@ namespace ObjectsForTestAutoPointer
 	class Base : public Object
 	{
 	public:
-		int number;
+		vint number;
 
-		Base(int _number)
+		Base(vint _number)
 		{
 			number=_number;
 		}
@@ -21,7 +21,7 @@ namespace ObjectsForTestAutoPointer
 	class Derived1 : public Base
 	{
 	public:
-		Derived1(int _number)
+		Derived1(vint _number)
 			:Base(_number)
 		{
 		}
@@ -30,7 +30,7 @@ namespace ObjectsForTestAutoPointer
 	class Derived2 : public Base
 	{
 	public:
-		Derived2(int _number)
+		Derived2(vint _number)
 			:Base(_number)
 		{
 		}
@@ -48,16 +48,16 @@ TEST_CASE(TestAutoPointer)
 	Base* bs[]={b, d1, d2};
 	Ptr<Base> ps[]={b, d1, d2};
 
-	for(int i=0;i<sizeof(ps)/sizeof(*ps);i++)
+	for(vint i=0;i<sizeof(ps)/sizeof(*ps);i++)
 	{
 		TEST_ASSERT(ps[i].Obj()==bs[i]);
 		TEST_ASSERT(ps[i].operator->()==bs[i]);
 		TEST_ASSERT((bool)ps[i]==true);
 	}
 
-	for(int i=0;i<sizeof(ps)/sizeof(*ps);i++)
+	for(vint i=0;i<sizeof(ps)/sizeof(*ps);i++)
 	{
-		for(int j=0;j<sizeof(ps)/sizeof(*ps);j++)
+		for(vint j=0;j<sizeof(ps)/sizeof(*ps);j++)
 		{
 			TEST_ASSERT((ps[i]==ps[j]) == (bs[i]==bs[j]));
 			TEST_ASSERT((ps[i]!=ps[j]) == (bs[i]!=bs[j]));
@@ -95,20 +95,20 @@ TEST_CASE(TestAutoPointer)
 	TEST_ASSERT(p2->number==5);
 }
 
-int GetLazyValue1()
+vint GetLazyValue1()
 {
 	return 100;
 }
 
-int GetLazyValue2()
+vint GetLazyValue2()
 {
 	return 200;
 }
 
 TEST_CASE(TestLazy)
 {
-	Lazy<int> a=GetLazyValue1;
-	Lazy<int> b=a;
+	Lazy<vint> a=GetLazyValue1;
+	Lazy<vint> b=a;
 	TEST_ASSERT(a.IsEvaluated()==false);
 	TEST_ASSERT(b.IsEvaluated()==false);
 	TEST_ASSERT(a.Value()==100);
@@ -128,13 +128,13 @@ TEST_CASE(TestLazy)
 	TEST_ASSERT(b.Value()==200);
 
 	a=300;
-	b=Lazy<int>(400);
+	b=Lazy<vint>(400);
 	TEST_ASSERT(a.Value()==300);
 	TEST_ASSERT(a.IsEvaluated()==true);
 	TEST_ASSERT(b.IsEvaluated()==true);
 	TEST_ASSERT(b.Value()==400);
 
 	TEST_ASSERT(a.IsAvailable()==true);
-	a=Lazy<int>();
+	a=Lazy<vint>();
 	TEST_ASSERT(a.IsAvailable()==false);
 }

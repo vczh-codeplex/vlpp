@@ -22,7 +22,7 @@ namespace vl
 		template<typename T, typename K>
 		void CopyFrom(IArray<T, K>& dst, const IReadonlyList<T, K>& src, bool append=false)
 		{
-			int start=0;
+			vint start=0;
 			if(append)
 			{
 				start=dst.Count();
@@ -32,8 +32,8 @@ namespace vl
 			{
 				dst.Resize(src.Count());
 			}
-			int srcCount=src.Count();
-			for(int i=0;i<srcCount;i++)
+			vint srcCount=src.Count();
+			for(vint i=0;i<srcCount;i++)
 			{
 				dst[start+i]=src[i];
 			}
@@ -46,8 +46,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			int srcCount=src.Count();
-			for(int i=0;i<srcCount;i++)
+			vint srcCount=src.Count();
+			for(vint i=0;i<srcCount;i++)
 			{
 				dst.Add(src[i]);
 			}
@@ -60,8 +60,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			int srcCount=src.Count();
-			for(int i=0;i<srcCount;i++)
+			vint srcCount=src.Count();
+			for(vint i=0;i<srcCount;i++)
 			{
 				const Pair<KT, VT>& pair=src[i];
 				dst.Set(pair.key, pair.value);
@@ -75,8 +75,8 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			int srcCount=src.Count();
-			for(int i=0;i<srcCount;i++)
+			vint srcCount=src.Count();
+			for(vint i=0;i<srcCount;i++)
 			{
 				const Pair<KT, VT>& pair=src[i];
 				dst.Add(pair.key, pair.value);
@@ -89,14 +89,14 @@ namespace vl
 			IEnumerator<T>* enumerator=src.CreateEnumerator();
 			try
 			{
-				int count=0;
+				vint count=0;
 				while(enumerator->Available())
 				{
 					count++;
 					enumerator->Next();
 				}
 				enumerator->Reset();
-				int start=0;
+				vint start=0;
 				if(append)
 				{
 					start=dst.Count();

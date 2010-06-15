@@ -34,86 +34,98 @@ TEST_CASE(TestNumericType)
 	TEST_NUMERIC(bool);
 }
 
+#ifdef VCZH_64
+#define SIGNED_INT_NAME						L"signed __int64"
+#define CONST_SIGNED_INT_NAME				L"const(signed __int64)"
+#define VOLATILE_SIGNED_INT_NAME			L"volatile(signed __int64)"
+#define CONST_VOLATILE_SIGNED_INT_NAME		L"const-volatile(signed __int64)"
+#else
+#define SIGNED_INT_NAME						L"signed __int32"
+#define CONST_SIGNED_INT_NAME				L"const(signed __int32)"
+#define VOLATILE_SIGNED_INT_NAME			L"volatile(signed __int32)"
+#define CONST_VOLATILE_SIGNED_INT_NAME		L"const-volatile(signed __int32)"
+#endif
+
 TEST_CASE(TestDecoratorType)
 {
 	EnsureObjectTypeInitialized();
 
-	ObjectType* cint=TypeOf<const int>();
-	TEST_ASSERT(cint==GetObjectType(L"const(signed __int32)"));
-	TEST_ASSERT(cint->Name()==L"const(signed __int32)");
-	TEST_ASSERT(cint->Size()==sizeof(const int*));
-	TEST_ASSERT(cint->Category()==ObjectType::Decorator);
-	TEST_ASSERT(cint->IsPOD()==true);
-	TEST_ASSERT(cint->ElementType()==TypeOf<int>());
-	TEST_ASSERT(cint->IsConstDecorator()==true);
-	TEST_ASSERT(cint->IsVolatileDecorator()==false);
+	ObjectType* cint_ot=TypeOf<const vint>();
+	TEST_ASSERT(cint_ot==GetObjectType(CONST_SIGNED_INT_NAME));
+	TEST_ASSERT(cint_ot->Name()==CONST_SIGNED_INT_NAME);
+	TEST_ASSERT(cint_ot->Size()==sizeof(const vint*));
+	TEST_ASSERT(cint_ot->Category()==ObjectType::Decorator);
+	TEST_ASSERT(cint_ot->IsPOD()==true);
+	TEST_ASSERT(cint_ot->ElementType()==TypeOf<vint>());
+	TEST_ASSERT(cint_ot->IsConstDecorator()==true);
+	TEST_ASSERT(cint_ot->IsVolatileDecorator()==false);
 
-	ObjectType* vint=TypeOf<volatile int>();
-	TEST_ASSERT(vint==GetObjectType(L"volatile(signed __int32)"));
-	TEST_ASSERT(vint->Name()==L"volatile(signed __int32)");
-	TEST_ASSERT(vint->Size()==sizeof(volatile int*));
-	TEST_ASSERT(vint->Category()==ObjectType::Decorator);
-	TEST_ASSERT(vint->IsPOD()==true);
-	TEST_ASSERT(vint->ElementType()==TypeOf<int>());
-	TEST_ASSERT(vint->IsConstDecorator()==false);
-	TEST_ASSERT(vint->IsVolatileDecorator()==true);
+	ObjectType* vint_ot=TypeOf<volatile vint>();
+	TEST_ASSERT(vint_ot==GetObjectType(VOLATILE_SIGNED_INT_NAME));
+	TEST_ASSERT(vint_ot->Name()==VOLATILE_SIGNED_INT_NAME);
+	TEST_ASSERT(vint_ot->Size()==sizeof(volatile vint*));
+	TEST_ASSERT(vint_ot->Category()==ObjectType::Decorator);
+	TEST_ASSERT(vint_ot->IsPOD()==true);
+	TEST_ASSERT(vint_ot->ElementType()==TypeOf<vint>());
+	TEST_ASSERT(vint_ot->IsConstDecorator()==false);
+	TEST_ASSERT(vint_ot->IsVolatileDecorator()==true);
 
-	ObjectType* cvint=TypeOf<const volatile int>();
-	TEST_ASSERT(cvint==GetObjectType(L"const-volatile(signed __int32)"));
-	TEST_ASSERT(cvint->Name()==L"const-volatile(signed __int32)");
-	TEST_ASSERT(cvint->Size()==sizeof(const volatile int*));
-	TEST_ASSERT(cvint->Category()==ObjectType::Decorator);
-	TEST_ASSERT(cvint->IsPOD()==true);
-	TEST_ASSERT(cvint->ElementType()==TypeOf<int>());
-	TEST_ASSERT(cvint->IsConstDecorator()==true);
-	TEST_ASSERT(cvint->IsVolatileDecorator()==true);
+	ObjectType* cvint_ot=TypeOf<const volatile vint>();
+	TEST_ASSERT(cvint_ot==GetObjectType(CONST_VOLATILE_SIGNED_INT_NAME));
+	TEST_ASSERT(cvint_ot->Name()==CONST_VOLATILE_SIGNED_INT_NAME);
+	TEST_ASSERT(cvint_ot->Size()==sizeof(const volatile vint*));
+	TEST_ASSERT(cvint_ot->Category()==ObjectType::Decorator);
+	TEST_ASSERT(cvint_ot->IsPOD()==true);
+	TEST_ASSERT(cvint_ot->ElementType()==TypeOf<vint>());
+	TEST_ASSERT(cvint_ot->IsConstDecorator()==true);
+	TEST_ASSERT(cvint_ot->IsVolatileDecorator()==true);
 }
 
 TEST_CASE(TestPointerType)
 {
 	EnsureObjectTypeInitialized();
 
-	ObjectType* pint=TypeOf<int*>();
-	TEST_ASSERT(pint==GetObjectType(L"signed __int32*"));
-	TEST_ASSERT(pint->Name()==L"signed __int32*");
-	TEST_ASSERT(pint->Size()==sizeof(int*));
+	ObjectType* pint=TypeOf<vint*>();
+	TEST_ASSERT(pint==GetObjectType(SIGNED_INT_NAME L"*"));
+	TEST_ASSERT(pint->Name()==SIGNED_INT_NAME L"*");
+	TEST_ASSERT(pint->Size()==sizeof(vint*));
 	TEST_ASSERT(pint->Category()==ObjectType::Pointer);
 	TEST_ASSERT(pint->IsPOD()==true);
-	TEST_ASSERT(pint->ElementType()==TypeOf<int>());
+	TEST_ASSERT(pint->ElementType()==TypeOf<vint>());
 
-	ObjectType* ppint=TypeOf<int**>();
-	TEST_ASSERT(ppint==GetObjectType(L"signed __int32**"));
-	TEST_ASSERT(ppint->Name()==L"signed __int32**");
-	TEST_ASSERT(ppint->Size()==sizeof(int**));
+	ObjectType* ppint=TypeOf<vint**>();
+	TEST_ASSERT(ppint==GetObjectType(SIGNED_INT_NAME L"**"));
+	TEST_ASSERT(ppint->Name()==SIGNED_INT_NAME L"**");
+	TEST_ASSERT(ppint->Size()==sizeof(vint**));
 	TEST_ASSERT(ppint->Category()==ObjectType::Pointer);
 	TEST_ASSERT(ppint->IsPOD()==true);
-	TEST_ASSERT(ppint->ElementType()==TypeOf<int*>());
+	TEST_ASSERT(ppint->ElementType()==TypeOf<vint*>());
 }
 
 TEST_CASE(TestReferenceType)
 {
 	EnsureObjectTypeInitialized();
 
-	ObjectType* rint=TypeOf<int&>();
-	TEST_ASSERT(rint==GetObjectType(L"signed __int32&"));
-	TEST_ASSERT(rint->Name()==L"signed __int32&");
-	TEST_ASSERT(rint->Size()==sizeof(int*));
+	ObjectType* rint=TypeOf<vint&>();
+	TEST_ASSERT(rint==GetObjectType(SIGNED_INT_NAME L"&"));
+	TEST_ASSERT(rint->Name()==SIGNED_INT_NAME L"&");
+	TEST_ASSERT(rint->Size()==sizeof(vint*));
 	TEST_ASSERT(rint->Category()==ObjectType::Reference);
 	TEST_ASSERT(rint->IsPOD()==true);
-	TEST_ASSERT(rint->ElementType()==TypeOf<int>());
+	TEST_ASSERT(rint->ElementType()==TypeOf<vint>());
 }
 
 TEST_CASE(TestArrayType)
 {
 	EnsureObjectTypeInitialized();
 
-	ObjectType* pints=TypeOf<int*[10]>();
-	TEST_ASSERT(pints==GetObjectType(L"signed __int32*[10]"));
-	TEST_ASSERT(pints->Name()==L"signed __int32*[10]");
-	TEST_ASSERT(pints->Size()==sizeof(int*[10]));
+	ObjectType* pints=TypeOf<vint*[10]>();
+	TEST_ASSERT(pints==GetObjectType(SIGNED_INT_NAME L"*[10]"));
+	TEST_ASSERT(pints->Name()==SIGNED_INT_NAME L"*[10]");
+	TEST_ASSERT(pints->Size()==sizeof(vint*[10]));
 	TEST_ASSERT(pints->Category()==ObjectType::Array);
 	TEST_ASSERT(pints->IsPOD()==true);
-	TEST_ASSERT(pints->ElementType()==TypeOf<int*>());
+	TEST_ASSERT(pints->ElementType()==TypeOf<vint*>());
 	TEST_ASSERT(pints->ArraySize()==10);
 }
 
@@ -177,14 +189,14 @@ TEST_CASE(TestFunctionType)
 {
 	EnsureObjectTypeInitialized();
 
-	ObjectType* pf1=TypeOf<int(*)(void*,double)>();
-	TEST_ASSERT(pf1==GetObjectType(L"signed __int32(*)(void*,double)"));
-	TEST_ASSERT(pf1->Name()==L"signed __int32(*)(void*,double)");
-	TEST_ASSERT(pf1->Size()==sizeof(int(*)(void*,double)));
+	ObjectType* pf1=TypeOf<vint(*)(void*,double)>();
+	TEST_ASSERT(pf1==GetObjectType(SIGNED_INT_NAME L"(*)(void*,double)"));
+	TEST_ASSERT(pf1->Name()==SIGNED_INT_NAME L"(*)(void*,double)");
+	TEST_ASSERT(pf1->Size()==sizeof(vint(*)(void*,double)));
 	TEST_ASSERT(pf1->Category()==ObjectType::Function);
 	TEST_ASSERT(pf1->IsPOD()==true);
 
-	TEST_ASSERT(pf1->ReturnType()==TypeOf<int>());
+	TEST_ASSERT(pf1->ReturnType()==TypeOf<vint>());
 	TEST_ASSERT(pf1->ThisType()==0);
 	TEST_ASSERT(pf1->IsConstFunction()==false);
 	TEST_ASSERT(pf1->ParameterTypes().Count()==2);
@@ -197,21 +209,21 @@ namespace mynamespace
 	class MyBase : public Object
 	{
 	public:
-		int field1;
+		vint field1;
 		double field2;
 
-		void Method1(int)const{}
-		int Method2(int*,double*){return 0;}
+		void Method1(vint)const{}
+		vint Method2(vint*,double*){return 0;}
 	};
 
 	class MyDerived : public MyBase
 	{
 	public:
-		int* field3;
+		vint* field3;
 		double* field4;
 
-		void Method3(int)const{}
-		int Method3(int*,double*){return 0;}
+		void Method3(vint)const{}
+		vint Method3(vint*,double*){return 0;}
 	};
 
 	template<typename F1, typename F2>
@@ -236,8 +248,8 @@ BEGIN_CLASS_TYPE(mynamespace::MyDerived)
 	CLASS_CONSTRUCTOR_0
 	CLASS_FIELD(field3)
 	CLASS_FIELD(field4)
-	CLASS_METHOD_OVERLOAD(Method3, void(mynamespace::MyDerived::*)(int)const)
-	CLASS_METHOD_OVERLOAD(Method3, int(mynamespace::MyDerived::*)(int*,double*))
+	CLASS_METHOD_OVERLOAD(Method3, void(mynamespace::MyDerived::*)(vint)const)
+	CLASS_METHOD_OVERLOAD(Method3, vint(mynamespace::MyDerived::*)(vint*,double*))
 END_CLASS_TYPE
 
 BEGIN_CLASS_TEMPLATE_2(mynamespace::MyTemplate)
@@ -262,7 +274,7 @@ TEST_CASE(TestClassType)
 	TEST_ASSERT(base->Fields().Count()==2);
 	TEST_ASSERT(base->Fields().Keys()[0]==L"field1");
 	TEST_ASSERT(base->Fields().Values()[0]->Name()==L"field1");
-	TEST_ASSERT(base->Fields().Values()[0]->Type()==TypeOf<int>());
+	TEST_ASSERT(base->Fields().Values()[0]->Type()==TypeOf<vint>());
 	TEST_ASSERT(base->Fields().Keys()[1]==L"field2");
 	TEST_ASSERT(base->Fields().Values()[1]->Name()==L"field2");
 	TEST_ASSERT(base->Fields().Values()[1]->Type()==TypeOf<double>());
@@ -270,11 +282,11 @@ TEST_CASE(TestClassType)
 	TEST_ASSERT(base->Methods().Keys()[0]==L"Method1");
 	TEST_ASSERT(base->Methods().GetByIndex(0).Count()==1);
 	TEST_ASSERT(base->Methods().GetByIndex(0)[0]->Name()==L"Method1");
-	TEST_ASSERT(base->Methods().GetByIndex(0)[0]->Type()==TypeOf<void(MyBase::*)(int)const>());
+	TEST_ASSERT(base->Methods().GetByIndex(0)[0]->Type()==TypeOf<void(MyBase::*)(vint)const>());
 	TEST_ASSERT(base->Methods().Keys()[1]==L"Method2");
 	TEST_ASSERT(base->Methods().GetByIndex(1).Count()==1);
 	TEST_ASSERT(base->Methods().GetByIndex(1)[0]->Name()==L"Method2");
-	TEST_ASSERT(base->Methods().GetByIndex(1)[0]->Type()==TypeOf<int(MyBase::*)(int*,double*)>());
+	TEST_ASSERT(base->Methods().GetByIndex(1)[0]->Type()==TypeOf<vint(MyBase::*)(vint*,double*)>());
 
 	ObjectType* derived=TypeOf<MyDerived>();
 	TEST_ASSERT(derived==GetObjectType(L"mynamespace::MyDerived"));
@@ -288,7 +300,7 @@ TEST_CASE(TestClassType)
 	TEST_ASSERT(derived->Fields().Count()==2);
 	TEST_ASSERT(derived->Fields().Keys()[0]==L"field3");
 	TEST_ASSERT(derived->Fields().Values()[0]->Name()==L"field3");
-	TEST_ASSERT(derived->Fields().Values()[0]->Type()==TypeOf<int*>());
+	TEST_ASSERT(derived->Fields().Values()[0]->Type()==TypeOf<vint*>());
 	TEST_ASSERT(derived->Fields().Keys()[1]==L"field4");
 	TEST_ASSERT(derived->Fields().Values()[1]->Name()==L"field4");
 	TEST_ASSERT(derived->Fields().Values()[1]->Type()==TypeOf<double*>());
@@ -296,9 +308,9 @@ TEST_CASE(TestClassType)
 	TEST_ASSERT(derived->Methods().Keys()[0]==L"Method3");
 	TEST_ASSERT(derived->Methods().GetByIndex(0).Count()==2);
 	TEST_ASSERT(derived->Methods().GetByIndex(0)[0]->Name()==L"Method3");
-	TEST_ASSERT(derived->Methods().GetByIndex(0)[0]->Type()==TypeOf<void(MyDerived::*)(int)const>());
+	TEST_ASSERT(derived->Methods().GetByIndex(0)[0]->Type()==TypeOf<void(MyDerived::*)(vint)const>());
 	TEST_ASSERT(derived->Methods().GetByIndex(0)[1]->Name()==L"Method3");
-	TEST_ASSERT(derived->Methods().GetByIndex(0)[1]->Type()==TypeOf<int(MyDerived::*)(int*,double*)>());
+	TEST_ASSERT(derived->Methods().GetByIndex(0)[1]->Type()==TypeOf<vint(MyDerived::*)(vint*,double*)>());
 }
 
 TEST_CASE(TestClassTemplateType)
@@ -306,23 +318,23 @@ TEST_CASE(TestClassTemplateType)
 	using namespace mynamespace;
 	EnsureObjectTypeInitialized();
 
-	ObjectType* temp=TypeOf<MyTemplate<int,double>>();
-	TEST_ASSERT(temp==GetObjectType(L"mynamespace::MyTemplate<signed __int32,double>"));
-	TEST_ASSERT(temp->Name()==L"mynamespace::MyTemplate<signed __int32,double>");
-	TEST_ASSERT(temp->Size()==sizeof(MyTemplate<int,double>));
+	ObjectType* temp=TypeOf<MyTemplate<vint,double>>();
+	TEST_ASSERT(temp==GetObjectType(L"mynamespace::MyTemplate<" SIGNED_INT_NAME L",double>"));
+	TEST_ASSERT(temp->Name()==L"mynamespace::MyTemplate<" SIGNED_INT_NAME L",double>");
+	TEST_ASSERT(temp->Size()==sizeof(MyTemplate<vint,double>));
 	TEST_ASSERT(temp->Category()==ObjectType::Class);
 	TEST_ASSERT(temp->IsPOD()==false);
 	TEST_ASSERT(temp->IsTemplateClass()==true);
 	TEST_ASSERT(temp->TemplateName()==L"mynamespace::MyTemplate");
 	TEST_ASSERT(temp->Typenames().Count()==2);
-	TEST_ASSERT(temp->Typenames()[0]==TypeOf<int>());
+	TEST_ASSERT(temp->Typenames()[0]==TypeOf<vint>());
 	TEST_ASSERT(temp->Typenames()[1]==TypeOf<double>());
 
 	TEST_ASSERT(temp->BaseClasses().Count()==0);
 	TEST_ASSERT(temp->Fields().Count()==2);
 	TEST_ASSERT(temp->Fields().Keys()[0]==L"field1");
 	TEST_ASSERT(temp->Fields().Values()[0]->Name()==L"field1");
-	TEST_ASSERT(temp->Fields().Values()[0]->Type()==TypeOf<int>());
+	TEST_ASSERT(temp->Fields().Values()[0]->Type()==TypeOf<vint>());
 	TEST_ASSERT(temp->Fields().Keys()[1]==L"field2");
 	TEST_ASSERT(temp->Fields().Values()[1]->Name()==L"field2");
 	TEST_ASSERT(temp->Fields().Values()[1]->Type()==TypeOf<double>());
@@ -334,15 +346,15 @@ namespace mynamespace
 	class Foo
 	{
 	public:
-		static int		used;
-		int				value;
+		static vint		used;
+		vint				value;
 
 		Foo()
 		{
 			value=used++;
 		}
 	};
-	int Foo::used=0;
+	vint Foo::used=0;
 };
 
 BEGIN_CLASS_TYPE(mynamespace::Foo)
@@ -354,29 +366,29 @@ TEST_CASE(TestCreateInstance)
 {
 	using namespace mynamespace;
 	{
-		ObjectValue v=New<int>();
+		ObjectValue v=New<vint>();
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<int>());
-		TEST_ASSERT(*(int*)v.GetValue()==0);
+		TEST_ASSERT(v.GetType()==TypeOf<vint>());
+		TEST_ASSERT(*(vint*)v.GetValue()==0);
 	}
 	{
-		ObjectValue v=New<const int>();
+		ObjectValue v=New<const vint>();
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<const int>());
-		TEST_ASSERT(*(const int*)v.GetValue()==0);
+		TEST_ASSERT(v.GetType()==TypeOf<const vint>());
+		TEST_ASSERT(*(const vint*)v.GetValue()==0);
 	}
 	{
-		ObjectValue v=New<volatile int&>();
+		ObjectValue v=New<volatile vint&>();
 		TEST_ASSERT(v==false);
 	}
 	{
-		ObjectValue v=New<int*>();
+		ObjectValue v=New<vint*>();
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<int*>());
-		TEST_ASSERT(*(int**)v.GetValue()==0);
+		TEST_ASSERT(v.GetType()==TypeOf<vint*>());
+		TEST_ASSERT(*(vint**)v.GetValue()==0);
 	}
 	{
 		ObjectValue v=New<Foo>();
@@ -406,29 +418,29 @@ TEST_CASE(TestCreateInstance)
 		TEST_ASSERT(*(MyEnum*)v.GetValue()==0);
 	}
 	{
-		ObjectValue v=New<int(*)(int,double)>();
+		ObjectValue v=New<vint(*)(vint,double)>();
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<int(*)(int,double)>());
-		TEST_ASSERT(*(int(**)(int,double))v.GetValue()==0);
+		TEST_ASSERT(v.GetType()==TypeOf<vint(*)(vint,double)>());
+		TEST_ASSERT(*(vint(**)(vint,double))v.GetValue()==0);
 	}
 	{
-		int i=100;
+		vint i=100;
 		ObjectValue v=NewReference(i);
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<int>());
-		TEST_ASSERT((int*)v.GetValue()==&i);
-		TEST_ASSERT(*(int*)v.GetValue()==100);
+		TEST_ASSERT(v.GetType()==TypeOf<vint>());
+		TEST_ASSERT((vint*)v.GetValue()==&i);
+		TEST_ASSERT(*(vint*)v.GetValue()==100);
 	}
 	{
-		int i=100;
+		vint i=100;
 		ObjectValue v=NewValue(i);
 		TEST_ASSERT(v==true);
 		TEST_ASSERT(!v==false);
-		TEST_ASSERT(v.GetType()==TypeOf<int>());
-		TEST_ASSERT((int*)v.GetValue()!=&i);
-		TEST_ASSERT(*(int*)v.GetValue()==100);
+		TEST_ASSERT(v.GetType()==TypeOf<vint>());
+		TEST_ASSERT((vint*)v.GetValue()!=&i);
+		TEST_ASSERT(*(vint*)v.GetValue()==100);
 	}
 }
 
@@ -437,7 +449,7 @@ namespace mynamespace
 	class ClassA : public Object
 	{
 	public:
-		int a;
+		vint a;
 
 		ClassA()
 		{
@@ -448,7 +460,7 @@ namespace mynamespace
 	class ClassB : public Object
 	{
 	public:
-		int b;
+		vint b;
 
 		ClassB()
 		{
@@ -459,7 +471,7 @@ namespace mynamespace
 	class ClassC : public Object
 	{
 	public:
-		int c;
+		vint c;
 
 		ClassC()
 		{
@@ -470,7 +482,7 @@ namespace mynamespace
 	class ClassD : public Object
 	{
 	public:
-		int d;
+		vint d;
 
 		ClassD()
 		{
@@ -481,7 +493,7 @@ namespace mynamespace
 	class ClassAB : public ClassA , public ClassB
 	{
 	public:
-		int ab;
+		vint ab;
 
 		ClassAB()
 		{
@@ -492,7 +504,7 @@ namespace mynamespace
 	class ClassCD : public ClassC , public ClassD
 	{
 	public:
-		int cd;
+		vint cd;
 
 		ClassCD()
 		{
@@ -503,19 +515,19 @@ namespace mynamespace
 	class ClassABCD : public ClassAB , public ClassCD
 	{
 	public:
-		int abcd;
+		vint abcd;
 
 		ClassABCD()
 		{
 			abcd=7;
 		}
 
-		ClassABCD(int _abcd)
+		ClassABCD(vint _abcd)
 		{
 			abcd=_abcd;
 		}
 
-		int Add(int x, int y)
+		vint Add(vint x, vint y)
 		{
 			return x + y + a + b + c + d + ab + cd + abcd;
 		};
@@ -560,17 +572,17 @@ BEGIN_CLASS_TYPE(mynamespace::ClassABCD)
 	CLASS_BASE(mynamespace::ClassAB)
 	CLASS_BASE(mynamespace::ClassCD)
 	CLASS_CONSTRUCTOR_0
-	CLASS_CONSTRUCTOR_1(int)
+	CLASS_CONSTRUCTOR_1(vint)
 	CLASS_FIELD(abcd)
 	CLASS_METHOD(Add)
 END_CLASS_TYPE
 
-void TestClassFieldValue(const ObjectValue& value, const WString& name, int expected)
+void TestClassFieldValue(const ObjectValue& value, const WString& name, vint expected)
 {
 	ObjectValue field=value.GetField(name);
 	TEST_ASSERT(field);
-	TEST_ASSERT(field.GetType()==TypeOf<int>());
-	TEST_ASSERT(*((int*)field.GetValue())==expected);
+	TEST_ASSERT(field.GetType()==TypeOf<vint>());
+	TEST_ASSERT(*((vint*)field.GetValue())==expected);
 }
 
 TEST_CASE(TestClassFieldRetriving)
@@ -642,13 +654,13 @@ TEST_CASE(TestClassFieldRetriving)
 		TestClassFieldValue(abcd, L"cd", 6);
 		TestClassFieldValue(abcd, L"abcd", 7);
 
-		abcd.SetField(L"a", NewValue<int>(100));
-		abcd.SetField(L"b", NewValue<int>(200));
-		abcd.SetField(L"c", NewValue<int>(300));
-		abcd.SetField(L"d", NewValue<int>(400));
-		abcd.SetField(L"ab", NewValue<int>(500));
-		abcd.SetField(L"cd", NewValue<int>(600));
-		abcd.SetField(L"abcd", NewValue<int>(700));
+		abcd.SetField(L"a", NewValue<vint>(100));
+		abcd.SetField(L"b", NewValue<vint>(200));
+		abcd.SetField(L"c", NewValue<vint>(300));
+		abcd.SetField(L"d", NewValue<vint>(400));
+		abcd.SetField(L"ab", NewValue<vint>(500));
+		abcd.SetField(L"cd", NewValue<vint>(600));
+		abcd.SetField(L"abcd", NewValue<vint>(700));
 
 		TestClassFieldValue(abcd, L"a", 100);
 		TestClassFieldValue(abcd, L"b", 200);
@@ -667,16 +679,16 @@ TEST_CASE(TestMethodInvokingNative)
 	{
 		ObjectMember* method=abcd.GetType()->Methods()[L"Add"][0];
 
-		int x=100;
-		int y=200;
+		vint x=100;
+		vint y=200;
 		void* arguments[]={&x, &y};
-		int* result=(int*)method->Invoke(abcd.GetValue(), arguments);
+		vint* result=(vint*)method->Invoke(abcd.GetValue(), arguments);
 		TEST_ASSERT(result);
 		TEST_ASSERT(*result==328);
 		delete result;
 
-		ObjectMember* constructor=TypeOf<int>()->Constructors()[1];
-		result=(int*)constructor->Invoke(0, arguments);
+		ObjectMember* constructor=TypeOf<vint>()->Constructors()[1];
+		result=(vint*)constructor->Invoke(0, arguments);
 		TEST_ASSERT(result);
 		TEST_ASSERT(*result==100);
 		delete result;
@@ -685,18 +697,18 @@ TEST_CASE(TestMethodInvokingNative)
 		ObjectValue result;
 		Array<ObjectValue> arguments;
 		arguments.Resize(2);
-		arguments[0]=NewValue<int>(100);
-		arguments[1]=NewValue<int>(200);
+		arguments[0]=NewValue<vint>(100);
+		arguments[1]=NewValue<vint>(200);
 		TEST_ASSERT(abcd.InvokeMethod(L"Add", arguments.Wrap(), result)==true);
 		TEST_ASSERT(result);
-		TEST_ASSERT(result.GetType()==TypeOf<int>());
-		TEST_ASSERT(*((int*)result.GetValue())==328);
+		TEST_ASSERT(result.GetType()==TypeOf<vint>());
+		TEST_ASSERT(*((vint*)result.GetValue())==328);
 	}
 	{
 		ObjectValue result;
 		Array<ObjectValue> arguments;
 		arguments.Resize(1);
-		arguments[0]=NewValue<int>(100);
+		arguments[0]=NewValue<vint>(100);
 		TEST_ASSERT(InvokeMethod(TypeOf<ClassABCD>()->Constructors(), 0, arguments.Wrap(), result, TypeOf<ClassABCD>()));
 		TEST_ASSERT(result);
 		TestClassFieldValue(result, L"abcd", 100);
@@ -720,5 +732,5 @@ TEST_CASE(TestImplicitlyConversion)
 	TEST_ASSERT(cd_ptr->cd==6);
 
 	TEST_ASSERT(pcd.ImplicitlyConvertTo(TypeOf<ClassABCD*>())==false);
-	TEST_ASSERT(b.ImplicitlyConvertTo(TypeOf<int>())==false);
+	TEST_ASSERT(b.ImplicitlyConvertTo(TypeOf<vint>())==false);
 }

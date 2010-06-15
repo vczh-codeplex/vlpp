@@ -20,10 +20,10 @@ namespace vl
 		{
 		protected:
 			char*					buffer;
-			int						size;
-			int						position;
+			vint						size;
+			vint						position;
 		public:
-			MemoryWrapperStream(void* _buffer, int _size);
+			MemoryWrapperStream(void* _buffer, vint _size);
 			~MemoryWrapperStream();
 
 			bool					CanRead()const;
@@ -38,9 +38,9 @@ namespace vl
 			void					Seek(pos_t _size);
 			void					SeekFromBegin(pos_t _size);
 			void					SeekFromEnd(pos_t _size);
-			int						Read(void* _buffer, int _size);
-			int						Write(void* _buffer, int _size);
-			int						Peek(void* _buffer, int _size);
+			vint						Read(void* _buffer, vint _size);
+			vint						Write(void* _buffer, vint _size);
+			vint						Peek(void* _buffer, vint _size);
 		};
 	}
 }

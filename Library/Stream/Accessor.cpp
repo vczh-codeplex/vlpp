@@ -10,10 +10,10 @@ namespace vl
 TextReader
 ***********************************************************************/
 
-		WString TextReader::ReadString(int length)
+		WString TextReader::ReadString(vint length)
 		{
 			wchar_t* buffer=new wchar_t[length+1];
-			int i=0;
+			vint i=0;
 			for(;i<length;i++)
 			{
 				if((buffer[i]=ReadChar())==L'\0')
@@ -32,7 +32,7 @@ TextReader
 			WString result;
 			wchar_t buffer[65537];
 			buffer[0]=L'\0';
-			int i=0;
+			vint i=0;
 			while(true)
 			{
 				wchar_t c=ReadChar();
@@ -72,7 +72,7 @@ TextReader
 			WString result;
 			wchar_t buffer[65537];
 			buffer[0]=L'\0';
-			int i=0;
+			vint i=0;
 			while(true)
 			{
 				wchar_t c=ReadChar();
@@ -269,14 +269,14 @@ EncoderStream
 			CHECK_ERROR(false, L"EncoderStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
-		int EncoderStream::Read(void* _buffer, int _size)
+		vint EncoderStream::Read(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"EncoderStream::Read(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"EncoderStream::Read(void*, vint)#不支持此操作。");
 		}
 
-		int EncoderStream::Write(void* _buffer, int _size)
+		vint EncoderStream::Write(void* _buffer, vint _size)
 		{
-			int result=encoder->Write(_buffer, _size);
+			vint result=encoder->Write(_buffer, _size);
 			if(result>=0)
 			{
 				position+=result;
@@ -284,9 +284,9 @@ EncoderStream
 			return result;
 		}
 
-		int EncoderStream::Peek(void* _buffer, int _size)
+		vint EncoderStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"EncoderStream::Peek(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"EncoderStream::Peek(void*, vint)#不支持此操作。");
 		}
 
 /***********************************************************************
@@ -367,9 +367,9 @@ DecoderStream
 			CHECK_ERROR(false, L"DecoderStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
-		int DecoderStream::Read(void* _buffer, int _size)
+		vint DecoderStream::Read(void* _buffer, vint _size)
 		{
-			int result=decoder->Read(_buffer, _size);
+			vint result=decoder->Read(_buffer, _size);
 			if(result>=0)
 			{
 				position+=result;
@@ -377,14 +377,14 @@ DecoderStream
 			return result;
 		}
 
-		int DecoderStream::Write(void* _buffer, int _size)
+		vint DecoderStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"DecoderStream::Write(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"DecoderStream::Write(void*, vint)#不支持此操作。");
 		}
 
-		int DecoderStream::Peek(void* _buffer, int _size)
+		vint DecoderStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"DecoderStream::Peek(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"DecoderStream::Peek(void*, vint)#不支持此操作。");
 		}
 	}
 }

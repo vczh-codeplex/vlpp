@@ -36,7 +36,7 @@ BasicTypeNode
 				return result;
 			}
 
-			BasicTypeNode BasicTypeNode::operator[](int size)const
+			BasicTypeNode BasicTypeNode::operator[](vint size)const
 			{
 				Ptr<BasicArrayType> result=new BasicArrayType;
 				result->elementType=type;

@@ -6,7 +6,7 @@ Scripting::Common
 Classes:
 	CommonTypeRecord<I>							：类型对象
 	CommonFlagTypeRecord<I, T>					：标号类型对象
-	CommonDecoratorTypeRecord<I, int>			：修饰类型对象
+	CommonDecoratorTypeRecord<I, vint>			：修饰类型对象
 	CommonParameterizedTypeRecord<I, T>			：带参数修饰类型对象
 	CommonTypeManager<I>						：类型管理器
 ***********************************************************************/
@@ -35,7 +35,7 @@ namespace vl
 		{
 			friend class CommonTypeManager<I>;
 		private:
-			collections::Dictionary<int, CommonTypeRecord*>	decoratorTypes;
+			collections::Dictionary<vint, CommonTypeRecord*>	decoratorTypes;
 
 		protected:
 		};
@@ -62,7 +62,7 @@ namespace vl
 			}
 		};
 
-		template<typename I, int flag>
+		template<typename I, vint flag>
 		class CommonDecoratorTypeRecord : public CommonTypeRecord<I>
 		{
 		private:
@@ -127,7 +127,7 @@ namespace vl
 				CommonFlagTypeRecord<I, F>*(*allocator)(F)
 				)
 			{
-				int index=typeMap.Keys().IndexOf(flag);
+				vint index=typeMap.Keys().IndexOf(flag);
 				if(index==-1)
 				{
 					CommonFlagTypeRecord<I, F>* type=allocator(flag);
@@ -141,13 +141,13 @@ namespace vl
 				}
 			}
 
-			template<int flag>
+			template<vint flag>
 			CommonTypeRecord<I>* GetDecoratorTypeRecord(
 				CommonTypeRecord<I>* elementType,
 				CommonDecoratorTypeRecord<I, flag>*(*allocator)(CommonTypeRecord<I>*)
 				)
 			{
-				int index=elementType->decoratorTypes.Keys().IndexOf(flag);
+				vint index=elementType->decoratorTypes.Keys().IndexOf(flag);
 				if(index==-1)
 				{
 					CommonDecoratorTypeRecord<I, flag>* type=allocator(elementType);
@@ -169,7 +169,7 @@ namespace vl
 				CommonParameterizedTypeRecord<I, P>*(*allocator)(CommonTypeRecord<I>*, P)
 				)
 			{
-				int index=typeMap.Keys().IndexOf(parameter);
+				vint index=typeMap.Keys().IndexOf(parameter);
 				if(index==-1)
 				{
 					CommonParameterizedTypeRecord<I, P>* type=allocator(elementType, parameter);
@@ -190,7 +190,7 @@ namespace vl
 				CommonTypeRecord<I>*(*allocator)(P&),
 				bool(*comparer)(P&, CommonTypeRecord<I>*))
 			{
-				for(int i=0;i<types.Count();i++)
+				for(vint i=0;i<types.Count();i++)
 				{
 					if(comparer(parameter, types.Get(i)))
 					{

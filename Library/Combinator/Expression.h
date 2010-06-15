@@ -46,12 +46,12 @@ namespace vl
 			class GlobalInfo : public Object
 			{
 			protected:
-				static int GetInputFromError(ErrorRef error)
+				static vint GetInputFromError(ErrorRef error)
 				{
 					return error->GetPosition().Index();
 				}
 
-				int GetMaxErrorPosition(const ErrorList& errors)
+				vint GetMaxErrorPosition(const ErrorList& errors)
 				{
 					return errors.Wrap()>>collections::Select(GetInputFromError)>>collections::Max();
 				}
@@ -234,9 +234,9 @@ namespace vl
 			protected:
 				typename Node::Ref			head;
 				typename Node::Ref			current;
-				int							index;
+				vint							index;
 
-				Enumerator(const typename Node::Ref& _head, const typename Node::Ref& _current, int _index)
+				Enumerator(const typename Node::Ref& _head, const typename Node::Ref& _current, vint _index)
 					:head(_head)
 					,current(_current)
 					,index(_index)
@@ -269,7 +269,7 @@ namespace vl
 					return current->Value();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}
@@ -298,7 +298,7 @@ namespace vl
 
 			typename Node::Ref				head;
 			typename Node::Ref				tail;
-			int								count;
+			vint								count;
 		public:
 			ParsingList()
 				:count(0)
@@ -339,7 +339,7 @@ namespace vl
 				return tail;
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return count;
 			}

@@ -30,7 +30,7 @@ Intersect/Except
 			protected:
 				IEnumerator<T>*			enumerator;
 				SortedList<T>			reference;
-				int						index;
+				vint						index;
 
 				void GoNearest()
 				{
@@ -77,7 +77,7 @@ Intersect/Except
 					return enumerator->Current();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}

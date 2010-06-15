@@ -29,9 +29,9 @@ Take
 			{
 			protected:
 				IEnumerator<T>*		enumerator;
-				int					count;
+				vint					count;
 			public:
-				Enumerator(IEnumerator<T>* _enumerator, int _count)
+				Enumerator(IEnumerator<T>* _enumerator, vint _count)
 					:enumerator(_enumerator)
 					,count(_count)
 				{
@@ -52,7 +52,7 @@ Take
 					return enumerator->Current();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return enumerator->Index();
 				}
@@ -85,9 +85,9 @@ Take
 				}
 			};
 		protected:
-			int					count;
+			vint					count;
 		public:
-			TakeEnumerable(const IEnumerable<T>& enumerable, int _count)
+			TakeEnumerable(const IEnumerable<T>& enumerable, vint _count)
 				:EnumerableStore<T>(enumerable)
 				,count(_count)
 			{
@@ -102,9 +102,9 @@ Take
 		class TakeProcessor : public SequenceEnumerableProcessor<TakeEnumerable>
 		{
 		protected:
-			int					count;
+			vint					count;
 		public:
-			TakeProcessor(int _count)
+			TakeProcessor(vint _count)
 				:count(_count)
 			{
 			}
@@ -116,7 +116,7 @@ Take
 			}
 		};
 
-		extern TakeProcessor Take(int count);
+		extern TakeProcessor Take(vint count);
 
 /***********************************************************************
 Skip
@@ -130,13 +130,13 @@ Skip
 			{
 			protected:
 				IEnumerator<T>*		enumerator;
-				int					count;
+				vint					count;
 			public:
-				Enumerator(IEnumerator<T>* _enumerator, int _count)
+				Enumerator(IEnumerator<T>* _enumerator, vint _count)
 					:enumerator(_enumerator)
 					,count(_count)
 				{
-					for(int i=0;i<count;i++)
+					for(vint i=0;i<count;i++)
 					{
 						enumerator->Next();
 					}
@@ -157,7 +157,7 @@ Skip
 					return enumerator->Current();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return enumerator->Index()-count;
 				}
@@ -175,16 +175,16 @@ Skip
 				void Reset()
 				{
 					enumerator->Reset();
-					for(int i=0;i<count;i++)
+					for(vint i=0;i<count;i++)
 					{
 						enumerator->Next();
 					}
 				}
 			};
 		protected:
-			int					count;
+			vint					count;
 		public:
-			SkipEnumerable(const IEnumerable<T>& enumerable, int _count)
+			SkipEnumerable(const IEnumerable<T>& enumerable, vint _count)
 				:EnumerableStore<T>(enumerable)
 				,count(_count)
 			{
@@ -199,9 +199,9 @@ Skip
 		class SkipProcessor : public SequenceEnumerableProcessor<SkipEnumerable>
 		{
 		protected:
-			int					count;
+			vint					count;
 		public:
-			SkipProcessor(int _count)
+			SkipProcessor(vint _count)
 				:count(_count)
 			{
 			}
@@ -213,7 +213,7 @@ Skip
 			}
 		};
 
-		extern SkipProcessor Skip(int count);
+		extern SkipProcessor Skip(vint count);
 
 /***********************************************************************
 Repeat
@@ -227,11 +227,11 @@ Repeat
 			{
 			protected:
 				IEnumerator<T>*		enumerator;
-				int					count;
-				int					index;
-				int					repeatedCount;
+				vint					count;
+				vint					index;
+				vint					repeatedCount;
 			public:
-				Enumerator(IEnumerator<T>* _enumerator, int _count, int _index=0, int _repeatedCount=0)
+				Enumerator(IEnumerator<T>* _enumerator, vint _count, vint _index=0, vint _repeatedCount=0)
 					:enumerator(_enumerator)
 					,count(_count)
 					,index(_index)
@@ -254,7 +254,7 @@ Repeat
 					return enumerator->Current();
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}
@@ -299,9 +299,9 @@ Repeat
 				}
 			};
 		protected:
-			int					count;
+			vint					count;
 		public:
-			RepeatEnumerable(const IEnumerable<T>& enumerable, int _count)
+			RepeatEnumerable(const IEnumerable<T>& enumerable, vint _count)
 				:EnumerableStore<T>(enumerable)
 				,count(_count)
 			{
@@ -316,9 +316,9 @@ Repeat
 		class RepeatProcessor : public SequenceEnumerableProcessor<RepeatEnumerable>
 		{
 		protected:
-			int					count;
+			vint					count;
 		public:
-			RepeatProcessor(int _count)
+			RepeatProcessor(vint _count)
 				:count(_count)
 			{
 			}
@@ -330,7 +330,7 @@ Repeat
 			}
 		};
 
-		extern RepeatProcessor Repeat(int count);
+		extern RepeatProcessor Repeat(vint count);
 
 /***********************************************************************
 Distinct
@@ -387,7 +387,7 @@ Distinct
 					return distinct[distinct.Count()-1];
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return distinct.Count()-1;
 				}
@@ -450,7 +450,7 @@ Distinct
 			{
 			protected:
 				List<T>					cache;
-				int						index;
+				vint						index;
 			public:
 				Enumerator(const IEnumerable<T>& enumerable)
 					:index(0)
@@ -478,7 +478,7 @@ Distinct
 					return cache.Get(cache.Count()-1-index);
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}

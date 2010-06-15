@@ -101,9 +101,9 @@ TEST_CASE(StringComparison)
 {
 	WString full=L"VCZHgeniusvczh";
 	WString string[3]={full.Left(4), full.Sub(4, 6), full.Right(4)};
-	for(int i=0;i<3;i++)
+	for(vint i=0;i<3;i++)
 	{
-		for(int j=0;j<3;j++)
+		for(vint j=0;j<3;j++)
 		{
 			TEST_ASSERT((string[i]==string[j])==(i==j));
 			TEST_ASSERT((string[i]!=string[j])==(i!=j));
@@ -120,9 +120,9 @@ TEST_CASE(StringComparisonFriend)
 	WString full=L"VCZHgeniusvczh";
 	const wchar_t* left[3]={L"VCZH", L"genius", L"vczh"};
 	WString right[3]={full.Left(4), full.Sub(4, 6), full.Right(4)};
-	for(int i=0;i<3;i++)
+	for(vint i=0;i<3;i++)
 	{
-		for(int j=0;j<3;j++)
+		for(vint j=0;j<3;j++)
 		{
 			TEST_ASSERT((left[i]==right[j])==(i==j));
 			TEST_ASSERT((left[i]!=right[j])==(i!=j));

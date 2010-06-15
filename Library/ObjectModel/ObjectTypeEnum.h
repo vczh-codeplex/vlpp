@@ -26,10 +26,10 @@ namespace vl
 			{
 			protected:
 				WString				name;
-				int					value;
+				vint					value;
 				ObjectType*			type;
 			public:
-				Member(const WString& _name, int _value, ObjectType* _type)
+				Member(const WString& _name, vint _value, ObjectType* _type)
 					:name(_name)
 					,value(_value)
 					,type(_type)
@@ -51,7 +51,7 @@ namespace vl
 					return name;
 				}
 
-				int EnumValue()const
+				vint EnumValue()const
 				{
 					return value;
 				}
@@ -81,7 +81,7 @@ namespace vl
 				return new T(value);
 			}
 
-			static void* ctor(int value)
+			static void* ctor(vint value)
 			{
 				return new T((T)value);
 			}
@@ -96,11 +96,11 @@ namespace vl
 
 			~ObjectTypeEnum()
 			{
-				for(int i=0;i<enumMembers.Count();i++)
+				for(vint i=0;i<enumMembers.Count();i++)
 				{
 					delete enumMembers.Values()[i];
 				}
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -166,11 +166,11 @@ namespace vl\
 				RegisterObjectType(ObjectTypeInformation<__enum_type__>::GetName(), __object_type_enum__);\
 				__object_type_enum__->constructors.Add(new ObjectTypeEnum<__enum_type__>::Constructor<void*(*)()>(&ObjectTypeEnum<__enum_type__>::ctor));\
 				__object_type_enum__->constructors.Add(new ObjectTypeEnum<__enum_type__>::Constructor<void*(*)(const NAME&)>(&ObjectTypeEnum<__enum_type__>::ctor));\
-				__object_type_enum__->constructors.Add(new ObjectTypeEnum<__enum_type__>::Constructor<void*(*)(int)>(&ObjectTypeEnum<__enum_type__>::ctor));\
+				__object_type_enum__->constructors.Add(new ObjectTypeEnum<__enum_type__>::Constructor<void*(*)(vint)>(&ObjectTypeEnum<__enum_type__>::ctor));\
 				ObjectMember* member=0;\
 
 #define ENUM_MEMBER(NAME)\
-				member=new ObjectTypeEnum<__enum_type__>::Member(L#NAME, (int)NAME, __object_type_enum__);\
+				member=new ObjectTypeEnum<__enum_type__>::Member(L#NAME, (vint)NAME, __object_type_enum__);\
 				__object_type_enum__->enumMembers.Add(L#NAME, member);\
 
 #define END_ENUM_TYPE\

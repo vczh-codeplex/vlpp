@@ -113,9 +113,9 @@ BasicIns
 				return argument;
 			}
 			
-			BasicIns::Argument BasicIns::MakeInt(int value)
+			BasicIns::Argument BasicIns::MakeInt(vint value)
 			{
-#ifdef _WIN64
+#ifdef VCZH_64
 				return Makes64(value);
 #else
 				return Makes32(value);
@@ -124,7 +124,7 @@ BasicIns
 
 			BasicIns::Argument BasicIns::MakePointer(void* value)
 			{
-#ifdef _WIN64
+#ifdef VCZH_64
 				return Makeu64((unsigned __int64)value);
 #else
 				return Makeu32((unsigned __int32)value);
@@ -235,9 +235,9 @@ BasicIL
 
 			// Deserialization Begin
 
-			int ReadInt(stream::IStream& stream)
+			vint ReadInt(stream::IStream& stream)
 			{
-				int result=0;
+				vint result=0;
 				stream.Read(&result, sizeof(result));
 				return result;
 			}
@@ -253,10 +253,10 @@ BasicIL
 			template<typename T>
 			void ReadList(stream::IStream& stream, List<T>& collection)
 			{
-				int count=ReadInt(stream);
+				vint count=ReadInt(stream);
 				collection.Clear();
 				T buffer;
-				for(int i=0;i<count;i++)
+				for(vint i=0;i<count;i++)
 				{
 					stream.Read(&buffer, sizeof(buffer));
 					collection.Add(buffer);
@@ -280,8 +280,8 @@ BasicIL
 				ReadArray(stream, globalData);
 
 				resources.Clear();
-				int count=ReadInt(stream);
-				for(int i=0;i<count;i++)
+				vint count=ReadInt(stream);
+				for(vint i=0;i<count;i++)
 				{
 					WString name=ReadString(stream);
 					Ptr<ResourceStream> resource=new ResourceStream;
@@ -294,7 +294,7 @@ BasicIL
 
 			// Serialization Begin
 
-			void WriteInt(stream::IStream& stream, int i)
+			void WriteInt(stream::IStream& stream, vint i)
 			{
 				stream.Write(&i, sizeof(i));
 			}
@@ -330,7 +330,7 @@ BasicIL
 				WriteCollection(stream, globalData);
 
 				WriteInt(stream, resources.Count());
-				for(int i=0;i<resources.Count();i++)
+				for(vint i=0;i<resources.Count();i++)
 				{
 					WriteString(stream, resources.Keys()[i]);
 					WriteResource(stream, resources.Values()[i]);
@@ -513,10 +513,10 @@ BasicIL
 #undef CASE
 			}
 
-			void WriteInteger(int integer, stream::TextWriter& writer)
+			void WriteInteger(vint integer, stream::TextWriter& writer)
 			{
 				WString intstr=itow(integer);
-				int spaces=6-intstr.Length();
+				vint spaces=6-intstr.Length();
 				while(spaces--)
 				{
 					writer.WriteString(L" ");
@@ -526,23 +526,23 @@ BasicIL
 
 			void WriteData(Array<char>& data, stream::TextWriter& writer)
 			{
-				const int lineBytes=16;
+				const vint lineBytes=16;
 				const wchar_t* hex=L"0123456789ABCDEF";
 
-				int lines=data.Count()/lineBytes;
+				vint lines=data.Count()/lineBytes;
 				if(data.Count()%lineBytes)
 				{
 					lines+=1;
 				}
 
-				for(int i=0;i<lines;i++)
+				for(vint i=0;i<lines;i++)
 				{
-					int start=i*lineBytes;
+					vint start=i*lineBytes;
 					{
 						wchar_t buffer[100];
-						_itow_s(start, buffer, sizeof(buffer)/sizeof*(buffer), 16);
+						ITOW_S(start, buffer, sizeof(buffer)/sizeof*(buffer), 16);
 						size_t length=wcslen(buffer);
-						int count=8-length;
+						vint count=8-length;
 						writer.WriteString(L"0x");
 						while(count--)
 						{
@@ -551,7 +551,7 @@ BasicIL
 						writer.WriteString(buffer);
 						writer.WriteString(L": ");
 					}
-					for(int j=start;j<data.Count()&&j-start<lineBytes;j++)
+					for(vint j=start;j<data.Count()&&j-start<lineBytes;j++)
 					{
 						unsigned char c=(unsigned char)data[j];
 						writer.WriteChar(hex[c/16]);
@@ -568,7 +568,7 @@ BasicIL
 				WriteData(globalData, writer);
 
 				writer.WriteLine(L".label");
-				for(int i=0;i<labels.Count();i++)
+				for(vint i=0;i<labels.Count();i++)
 				{
 					WriteInteger(i, writer);
 					writer.WriteString(L": ");
@@ -580,7 +580,7 @@ BasicIL
 				{
 					commentProvider->StartProvideComment();
 				}
-				for(int i=0;i<instructions.Count();i++)
+				for(vint i=0;i<instructions.Count();i++)
 				{
 					if(commentProvider)
 					{

@@ -39,7 +39,7 @@ Type
 				Ptr<BasicType>							GetInternalValue()const;
 
 				BasicTypeNode							operator*()const;
-				BasicTypeNode							operator[](int size)const;
+				BasicTypeNode							operator[](vint size)const;
 				BasicTypeNode							operator()(const ListNode& types)const;
 			};
 

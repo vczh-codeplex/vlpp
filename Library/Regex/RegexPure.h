@@ -19,20 +19,20 @@ namespace vl
 		class PureResult
 		{
 		public:
-			int				start;
-			int				length;
-			int				finalState;
+			vint				start;
+			vint				length;
+			vint				finalState;
 		};
 
 		class PureInterpretor : public Object
 		{
 		protected:
-			int					charMap[1<<(8*sizeof(wchar_t))];	//char -> char set index
-			int**				transition;							//(state * char set index) -> state*
+			vint					charMap[1<<(8*sizeof(wchar_t))];	//char -> char set index
+			vint**				transition;							//(state * char set index) -> state*
 			bool*				finalState;							//state -> bool
-			int					stateCount;
-			int					charSetCount;
-			int					startState;
+			vint					stateCount;
+			vint					charSetCount;
+			vint					startState;
 		public:
 			PureInterpretor(Automaton::Ref dfa, CharRange::List& subsets);
 			~PureInterpretor();

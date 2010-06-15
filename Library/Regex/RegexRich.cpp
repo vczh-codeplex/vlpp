@@ -13,7 +13,7 @@ namespace vl
 		{
 		public:
 			bool				available;
-			int					previous;
+			vint					previous;
 		};
 
 		class StateSaver
@@ -28,11 +28,11 @@ namespace vl
 
 			const wchar_t*		reading;					//当前字符串位置
 			State*				currentState;				//当前状态
-			int					minTransition;				//最小可用转换
-			int					captureCount;				//有效capture数量
-			int					stateSaverCount;			//有效回溯状态数量
-			int					extensionSaverAvailable;	//有效未封闭扩展功能数量
-			int					extensionSaverCount;		//所有未封闭扩展功能数量
+			vint					minTransition;				//最小可用转换
+			vint					captureCount;				//有效capture数量
+			vint					stateSaverCount;			//有效回溯状态数量
+			vint					extensionSaverAvailable;	//有效未封闭扩展功能数量
+			vint					extensionSaverCount;		//所有未封闭扩展功能数量
 			StateStoreType		storeType;					//保存状态的原因
 
 			bool operator==(const StateSaver& saver)const
@@ -48,7 +48,7 @@ namespace vl
 		class ExtensionSaver : public SaverBase
 		{
 		public:
-			int					captureListIndex;
+			vint					captureListIndex;
 			Transition*			transition;
 			const wchar_t*		reading;
 
@@ -62,7 +62,7 @@ namespace vl
 		};
 
 		template<typename T, typename K>
-		void Push(List<T, K>& elements, int& available, int& count, const T& element)
+		void Push(List<T, K>& elements, vint& available, vint& count, const T& element)
 		{
 			if(elements.Count()==count)
 			{
@@ -78,7 +78,7 @@ namespace vl
 		}
 
 		template<typename T, typename K>
-		T Pop(List<T, K>& elements, int& available, int& count)
+		T Pop(List<T, K>& elements, vint& available, vint& count)
 		{
 			T& current=elements[available];
 			available=current.previous;
@@ -86,7 +86,7 @@ namespace vl
 		}
 
 		template<typename T, typename K>
-		void PushNonSaver(List<T, K>& elements, int& count, const T& element)
+		void PushNonSaver(List<T, K>& elements, vint& count, const T& element)
 		{
 			if(elements.Count()==count)
 			{
@@ -100,7 +100,7 @@ namespace vl
 		}
 
 		template<typename T, typename K>
-		T PopNonSaver(List<T, K>& elements, int& count)
+		T PopNonSaver(List<T, K>& elements, vint& count)
 		{
 			return elements[--count];
 		}
@@ -138,13 +138,13 @@ RichInterpretor
 		{
 			datas=new UserData[dfa->states.Count()];
 
-			for(int i=0;i<dfa->states.Count();i++)
+			for(vint i=0;i<dfa->states.Count();i++)
 			{
 				State* state=dfa->states[i].Obj();
-				int charEdges=0;
-				int nonCharEdges=0;
+				vint charEdges=0;
+				vint nonCharEdges=0;
 				bool mustSave=false;
-				for(int j=0;j<state->transitions.Count();j++)
+				for(vint j=0;j<state->transitions.Count();j++)
 				{
 					if(state->transitions[j]->type==Transition::Chars)
 					{
@@ -190,7 +190,7 @@ RichInterpretor
 				bool found=false;
 				StateSaver oldState=currentState;
 				//开始遍历转换
-				for(int i=currentState.minTransition;i<currentState.currentState->transitions.Count();i++)
+				for(vint i=currentState.minTransition;i<currentState.currentState->transitions.Count();i++)
 				{
 					Transition* transition=currentState.currentState->transitions[i];
 					switch(transition->type)
@@ -241,8 +241,8 @@ RichInterpretor
 						break;
 					case Transition::Match:
 						{
-							int index=0;
-							for(int j=0;j<currentState.captureCount;j++)
+							vint index=0;
+							for(vint j=0;j<currentState.captureCount;j++)
 							{
 								CaptureRecord& capture=result.captures[j];
 								if(capture.capture==transition->capture)
@@ -310,7 +310,7 @@ RichInterpretor
 								}
 								break;
 							case Transition::Positive:
-								for(int j=currentState.stateSaverCount-1;j>=0;j--)
+								for(vint j=currentState.stateSaverCount-1;j>=0;j--)
 								{
 									StateSaver& stateSaver=stateSavers[j];
 									if(stateSaver.storeType==StateSaver::Positive)
@@ -325,7 +325,7 @@ RichInterpretor
 								found=true;
 								break;
 							case Transition::Negative:
-								for(int j=currentState.stateSaverCount-1;j>=0;j--)
+								for(vint j=currentState.stateSaverCount-1;j>=0;j--)
 								{
 									StateSaver& stateSaver=stateSavers[j];
 									if(stateSaver.storeType==StateSaver::Negative)
@@ -368,7 +368,7 @@ RichInterpretor
 						if(currentState.currentState->transitions[currentState.minTransition-1]->type==Transition::Negative)
 						{
 							//寻找NegativeFail
-							for(int i=0;i<currentState.currentState->transitions.Count();i++)
+							for(vint i=0;i<currentState.currentState->transitions.Count();i++)
 							{
 								Transition* transition=currentState.currentState->transitions[i];
 								if(transition->type==Transition::NegativeFail)
@@ -394,7 +394,7 @@ RichInterpretor
 			{
 				result.start=input-start;
 				result.length=(currentState.reading-start)-result.start;
-				for(int i=result.captures.Count()-1;i>=currentState.captureCount;i--)
+				for(vint i=result.captures.Count()-1;i>=currentState.captureCount;i--)
 				{
 					result.captures.RemoveAt(i);
 				}

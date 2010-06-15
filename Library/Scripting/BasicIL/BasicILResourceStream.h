@@ -22,14 +22,14 @@ ResourceRecord<node> node=resourceStream.CreateRecord<Node>();
 如果想存放以下类型：
 struct Node
 {
-	int data;
+	vint data;
 	WString name;
 	Node* next;
 };
 修改成
 struct Node
 {
-	int data;
+	vint data;
 	ResourceString name;
 	ResourceHandle<Node> next;
 };
@@ -77,7 +77,7 @@ namespace vl
 		class ResourceReference
 		{
 		protected:
-			int								pointer;
+			vint								pointer;
 
 			ResourceReference()
 				:pointer(-1)
@@ -89,7 +89,7 @@ namespace vl
 				return pointer!=-1;
 			}
 
-			int Pointer()const
+			vint Pointer()const
 			{
 				return pointer;
 			}
@@ -126,7 +126,7 @@ namespace vl
 		{
 		protected:
 			const ResourceStream*			resourceStream;
-			int								pointer;
+			vint								pointer;
 		public:
 			ResourceRecord()
 				:resourceStream(0)
@@ -140,7 +140,7 @@ namespace vl
 			{
 			}
 
-			ResourceRecord(const ResourceStream* _resourceStream, int _pointer)
+			ResourceRecord(const ResourceStream* _resourceStream, vint _pointer)
 				:resourceStream(_pointer==-1?0:_resourceStream)
 				,pointer(_pointer)
 			{
@@ -175,7 +175,7 @@ namespace vl
 				return pointer!=-1;
 			}
 
-			int Pointer()const
+			vint Pointer()const
 			{
 				return pointer;
 			}
@@ -187,11 +187,11 @@ namespace vl
 			friend class ResourceRecord;
 		protected:
 			collections::Array<char>		resource;
-			int								usedSize;
+			vint								usedSize;
 
-			int								CreateRecord(int size);
-			const char*						GetPointer(int pointer)const;
-			WString							GetString(int pointer)const;
+			vint								CreateRecord(vint size);
+			const char*						GetPointer(vint pointer)const;
+			WString							GetString(vint pointer)const;
 			WString							GetEmptyString()const;
 
 		public:
@@ -211,9 +211,9 @@ namespace vl
 			}
 
 			template<typename T>
-			ResourceRecord<T> ReadRecord(int pointer)const
+			ResourceRecord<T> ReadRecord(vint pointer)const
 			{
-				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(int)sizeof(T))<=resource.Count()), L"ResourceStream::ReadRecord<T>(int)#参数pointer越界。");
+				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=resource.Count()), L"ResourceStream::ReadRecord<T>(vint)#参数pointer越界。");
 				return ResourceRecord<T>(this, pointer);
 			}
 

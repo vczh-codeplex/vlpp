@@ -14,7 +14,7 @@ using namespace vl;
 using namespace vl::stream;
 
 extern WString GetPath();
-const int BUFFER_SIZE = 1024;
+const vint BUFFER_SIZE = 1024;
 
 /***********************************************************************
 Õ®”√≤‚ ‘∑Ω∑®
@@ -475,7 +475,7 @@ TEST_CASE(TestStreamReaderWithCrLf)
 	wchar_t* lines[]={L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!",L""};
 	MemoryWrapperStream stream(text, sizeof(text)-sizeof(*text));
 	StreamReader reader(stream);
-	int index=0;
+	vint index=0;
 
 	while(index<sizeof(lines)/sizeof(*lines))
 	{
@@ -491,7 +491,7 @@ TEST_CASE(TestStreamReaderWithoutCrLf)
 	wchar_t* lines[]={L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!"};
 	MemoryWrapperStream stream(text, sizeof(text)-sizeof(*text));
 	StreamReader reader(stream);
-	int index=0;
+	vint index=0;
 
 	while(index<sizeof(lines)/sizeof(*lines))
 	{
@@ -539,18 +539,18 @@ TEST_CASE(TestStreamWriter)
 ±‡¬ÎΩ‚¬Î∆˜≤‚ ‘
 ***********************************************************************/
 
-const int MBCS=0;
-const int UTF16=1;
-const int UTF16BE=2;
-const int UTF8=3;
+const vint MBCS=0;
+const vint UTF16=1;
+const vint UTF16BE=2;
+const vint UTF8=3;
 
-void TestCharEncoderDecoder(IEncoder& encoder, IDecoder& decoder, int mode)
+void TestCharEncoderDecoder(IEncoder& encoder, IDecoder& decoder, vint mode)
 {
 	MemoryStream memory;
 	pos_t positions[65536];
 
 	EncoderStream encoderStream(memory, encoder);
-	for(int i=0;i<65536;i++)
+	for(vint i=0;i<65536;i++)
 	{
 		TestWriteonlyUnseekableProperty(encoderStream, i*2, -1, false);
 		wchar_t c=(wchar_t)i;
@@ -571,7 +571,7 @@ void TestCharEncoderDecoder(IEncoder& encoder, IDecoder& decoder, int mode)
 
 	memory.SeekFromBegin(0);
 	DecoderStream decoderStream(memory, decoder);
-	for(int i=0;i<65536;i++)
+	for(vint i=0;i<65536;i++)
 	{
 		TestReadonlyUnseekableProperty(decoderStream, i*2, -1, false);
 		wchar_t c=0;
@@ -603,7 +603,7 @@ void TestCharEncoderDecoder(IEncoder& encoder, IDecoder& decoder, int mode)
 }
 
 template<typename _encoder, typename _decoder>
-void TestCharEncoderDecoderStream(int mode, wchar_t* name)
+void TestCharEncoderDecoderStream(vint mode, wchar_t* name)
 {
 	{
 		_encoder encoder;

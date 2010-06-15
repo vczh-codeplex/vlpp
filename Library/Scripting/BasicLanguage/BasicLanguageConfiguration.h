@@ -42,17 +42,20 @@ namespace vl
 
 				BasicAlgorithmConfiguration();
 
-				bool		DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, int& bytes)const;
-				bool		EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, int bytes)const;
-				bool		DecodeFloat(BasicPrimitiveTypeEnum type, int& bytes)const;
-				bool		EncodeFloat(BasicPrimitiveTypeEnum& type, int bytes)const;
+				bool		DecodeInteger(BasicPrimitiveTypeEnum type, bool& sign, vint& bytes)const;
+				bool		EncodeInteger(BasicPrimitiveTypeEnum& type, bool sign, vint bytes)const;
+				bool		DecodeFloat(BasicPrimitiveTypeEnum type, vint& bytes)const;
+				bool		EncodeFloat(BasicPrimitiveTypeEnum& type, vint bytes)const;
+
 				bool		CanImplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)const;
 				bool		CanExplicitConvertTo(BasicPrimitiveTypeEnum from, BasicPrimitiveTypeEnum to)const;
+
 				bool		BooleanUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const;
 				bool		IntegerUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const;
 				bool		NumberUnaryOperatorTypeConversion(BasicPrimitiveTypeEnum operand, BasicPrimitiveTypeEnum& result)const;
+
 				bool		BooleanBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const;
-				bool		IntegerBinaryOperatorTypeConversion(bool leftSign, int leftBytes, bool rightSign, int rightBytes, BasicPrimitiveTypeEnum& result)const;
+				bool		IntegerBinaryOperatorTypeConversion(bool leftSign, vint leftBytes, bool rightSign, vint rightBytes, BasicPrimitiveTypeEnum& result)const;
 				bool		IntegerBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const;
 				bool		NumberBinaryOperatorTypeConversion(BasicPrimitiveTypeEnum left, BasicPrimitiveTypeEnum right, BasicPrimitiveTypeEnum& result)const;
 			};

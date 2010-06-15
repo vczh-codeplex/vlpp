@@ -11,7 +11,7 @@ namespace vl
 BasicErrorMessageTranslator
 ***********************************************************************/
 
-			Ptr<LanguageException> BasicErrorMessageTranslator::Translate(Ptr<BasicLanguageCodeException> error, int codeIndex)
+			Ptr<LanguageException> BasicErrorMessageTranslator::Translate(Ptr<BasicLanguageCodeException> error, vint codeIndex)
 			{
 				WString message;
 				switch(error->GetExceptionCode())
@@ -76,7 +76,7 @@ BasicErrorMessageTranslator
 				case BasicLanguageCodeException::ArgumentTypeNotMatch:
 					{
 						BasicInvokeExpression* expression=dynamic_cast<BasicInvokeExpression*>(error->GetBasicLanguageElement());
-						int index=wtoi(error->GetParameters()[0]);
+						vint index=wtoi(error->GetParameters()[0]);
 						WString from=ToString(dynamic_cast<BasicFunctionType*>(GetExpressionType(expression->function.Obj()))->parameterTypes[index].Obj());
 						WString to=ToString(GetExpressionType(expression->arguments[index].Obj()));
 						message=BasicErrorMessage::ArgumentTypeNotMatch(itow(index+1), from, to);

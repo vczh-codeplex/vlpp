@@ -25,7 +25,7 @@ namespace vl
 				collections::List<WString>	lines;
 				stream::MemoryStream*		memoryStream;
 				stream::StreamWriter*		streamWriter;
-				int							lastLine;
+				vint							lastLine;
 
 			public:
 				BasicLanguageCommentProvider();

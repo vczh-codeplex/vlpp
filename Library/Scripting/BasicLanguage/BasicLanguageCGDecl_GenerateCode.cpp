@@ -55,7 +55,7 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					int index=-1;
+					vint index=-1;
 					if(node->linking.HasLink())
 					{
 						index=argument.info->linkings.IndexOf(node->linking);
@@ -69,7 +69,7 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					int offset=-1;
+					vint offset=-1;
 					if(node->linking.HasLink())
 					{
 						offset=argument.info->linkings.IndexOf(node->linking);
@@ -77,10 +77,10 @@ BasicLanguage_GenerateCodePass1
 					else
 					{
 						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
-						int size=argument.info->GetTypeInfo(type)->size;
+						vint size=argument.info->GetTypeInfo(type)->size;
 						char* data=new char[size];
 						memset(data, 0, size);
-						offset=(int)argument.globalData->Size();
+						offset=(vint)argument.globalData->Size();
 						argument.globalData->Write(data, size);
 						delete[] data;
 					}
@@ -118,9 +118,9 @@ BasicLanguage_GenerateCodePass2
 				{
 					if(node->statement)
 					{
-						int functionStart=argument.il->instructions.Count();
+						vint functionStart=argument.il->instructions.Count();
 						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
-						int reserveVariablesIndex=argument.il->instructions.Count()-1;
+						vint reserveVariablesIndex=argument.il->instructions.Count()-1;
 
 						argument.info->BeginFunction();
 						BasicLanguage_GenerateCode(node->statement, argument);
@@ -130,8 +130,8 @@ BasicLanguage_GenerateCodePass2
 						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
 						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
-						int parameterSize=0;
-						for(int i=0;i<functionType->ParameterCount();i++)
+						vint parameterSize=0;
+						for(vint i=0;i<functionType->ParameterCount();i++)
 						{
 							parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 						}

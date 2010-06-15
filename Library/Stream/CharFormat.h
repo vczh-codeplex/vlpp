@@ -54,13 +54,13 @@ namespace vl
 			unsigned char					cache;
 			bool							cacheAvailable;
 
-			virtual int						WriteString(wchar_t* _buffer, int chars)=0;
+			virtual vint						WriteString(wchar_t* _buffer, vint chars)=0;
 		public:
 			CharEncoder();
 
 			void							Setup(IStream* _stream);
 			void							Close();
-			int								Write(void* _buffer, int _size);
+			vint								Write(void* _buffer, vint _size);
 		};
 
 		class CharDecoder : public Object, public IDecoder
@@ -70,13 +70,13 @@ namespace vl
 			unsigned char					cache;
 			bool							cacheAvailable;
 
-			virtual int						ReadString(wchar_t* _buffer, int chars)=0;
+			virtual vint						ReadString(wchar_t* _buffer, vint chars)=0;
 		public:
 			CharDecoder();
 
 			void							Setup(IStream* _stream);
 			void							Close();
-			int								Read(void* _buffer, int _size);
+			vint								Read(void* _buffer, vint _size);
 		};
 
 /***********************************************************************
@@ -86,13 +86,13 @@ Mbcs
 		class MbcsEncoder : public CharEncoder
 		{
 		protected:
-			int								WriteString(wchar_t* _buffer, int chars);
+			vint								WriteString(wchar_t* _buffer, vint chars);
 		};
 
 		class MbcsDecoder : public CharDecoder
 		{
 		protected:
-			int								ReadString(wchar_t* _buffer, int chars);
+			vint								ReadString(wchar_t* _buffer, vint chars);
 		};
 
 /***********************************************************************
@@ -102,13 +102,13 @@ Utf-16
 		class Utf16Encoder : public CharEncoder
 		{
 		protected:
-			int								WriteString(wchar_t* _buffer, int chars);
+			vint								WriteString(wchar_t* _buffer, vint chars);
 		};
 
 		class Utf16Decoder : public CharDecoder
 		{
 		protected:
-			int								ReadString(wchar_t* _buffer, int chars);
+			vint								ReadString(wchar_t* _buffer, vint chars);
 		};
 
 /***********************************************************************
@@ -118,13 +118,13 @@ Utf-16-be
 		class Utf16BEEncoder : public CharEncoder
 		{
 		protected:
-			int								WriteString(wchar_t* _buffer, int chars);
+			vint								WriteString(wchar_t* _buffer, vint chars);
 		};
 
 		class Utf16BEDecoder : public CharDecoder
 		{
 		protected:
-			int								ReadString(wchar_t* _buffer, int chars);
+			vint								ReadString(wchar_t* _buffer, vint chars);
 		};
 
 /***********************************************************************
@@ -134,13 +134,13 @@ Utf-8
 		class Utf8Encoder : public CharEncoder
 		{
 		protected:
-			int								WriteString(wchar_t* _buffer, int chars);
+			vint								WriteString(wchar_t* _buffer, vint chars);
 		};
 
 		class Utf8Decoder : public CharDecoder
 		{
 		protected:
-			int								ReadString(wchar_t* _buffer, int chars);
+			vint								ReadString(wchar_t* _buffer, vint chars);
 		};
 
 /***********************************************************************
@@ -166,7 +166,7 @@ Bom
 
 			void							Setup(IStream* _stream);
 			void							Close();
-			int								Write(void* _buffer, int _size);
+			vint								Write(void* _buffer, vint _size);
 		};
 
 		class BomDecoder : public Object, public IDecoder
@@ -177,10 +177,10 @@ Bom
 			protected:
 				IStream*					stream;
 				char						bom[3];
-				int							bomLength;
-				int							bomPosition;
+				vint							bomLength;
+				vint							bomPosition;
 			public:
-				BomStream(IStream* _stream, char* _bom, int _bomLength);
+				BomStream(IStream* _stream, char* _bom, vint _bomLength);
 
 				bool						CanRead()const;
 				bool						CanWrite()const;
@@ -194,9 +194,9 @@ Bom
 				void						Seek(pos_t _size);
 				void						SeekFromBegin(pos_t _size);
 				void						SeekFromEnd(pos_t _size);
-				int							Read(void* _buffer, int _size);
-				int							Write(void* _buffer, int _size);
-				int							Peek(void* _buffer, int _size);
+				vint							Read(void* _buffer, vint _size);
+				vint							Write(void* _buffer, vint _size);
+				vint							Peek(void* _buffer, vint _size);
 			};
 		protected:
 			IDecoder*						decoder;
@@ -208,7 +208,7 @@ Bom
 
 			void							Setup(IStream* _stream);
 			void							Close();
-			int								Read(void* _buffer, int _size);
+			vint								Read(void* _buffer, vint _size);
 		};
 	}
 }

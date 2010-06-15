@@ -71,7 +71,7 @@ namespace vl
 			bool									InvokeMethod(const WString& name, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result)const;
 		};
 
-		extern bool									FindBaseClass(const ObjectType* sub, const ObjectType* base, collections::List<int>& baseToSubPositions, collections::List<const ObjectType*>& baseToSubTypes);
+		extern bool									FindBaseClass(const ObjectType* sub, const ObjectType* base, collections::List<vint>& baseToSubPositions, collections::List<const ObjectType*>& baseToSubTypes);
 		extern ObjectMember*						FindClassField(const ObjectType* type, const WString& fieldName);
 		extern ObjectType*							ObjectTypeRemoveCVR(const ObjectType* type);
 		extern bool									InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType=0);
@@ -102,7 +102,7 @@ namespace vl
 				Class
 			};
 
-			virtual int								Size()const=0;
+			virtual vint								Size()const=0;
 			virtual WString							Name()const=0;
 			virtual ObjectCategory					Category()const=0;
 			virtual bool							IsPOD()const=0;
@@ -110,7 +110,7 @@ namespace vl
 			virtual bool							IsVolatileDecorator()const=0;
 
 			virtual const ObjectType*				ElementType()const=0;
-			virtual int								ArraySize()const=0;
+			virtual vint								ArraySize()const=0;
 			virtual const EnumMemberMap&			EnumMembers()const=0;
 			virtual const TypeList&					BaseClasses()const=0;
 			virtual const FieldMap&					Fields()const=0;
@@ -130,8 +130,8 @@ namespace vl
 			virtual bool							CanCreateInstance()const=0;
 			virtual void*							CreateInstance()const=0;
 			virtual void							DestroyInstance(void* instance)const=0;
-			virtual void*							CastToBaseClass(int baseClassIndex, void* instance)const=0;
-			virtual void*							CastToSubClass(int baseClassIndex, void* instance)const=0;
+			virtual void*							CastToBaseClass(vint baseClassIndex, void* instance)const=0;
+			virtual void*							CastToSubClass(vint baseClassIndex, void* instance)const=0;
 		};
 
 		class ObjectMember : public Object, private NotCopyable
@@ -140,7 +140,7 @@ namespace vl
 			virtual const ObjectType*				OwnerType()const=0;
 			virtual const ObjectType*				Type()const=0;
 			virtual WString							Name()const=0;
-			virtual int								EnumValue()const=0;
+			virtual vint								EnumValue()const=0;
 			virtual void*							GetValue(void* instance)const=0;
 			virtual void							SetValue(void* instance, void* value)const=0;
 			virtual void*							Invoke(void* object, void** arguments)const=0;
@@ -247,7 +247,7 @@ namespace vl
 					return L".ctor";
 				}
 
-				int EnumValue()const
+				vint EnumValue()const
 				{
 					return 0;
 				}
@@ -277,7 +277,7 @@ namespace vl
 				}
 			};
 		public:
-			int Size()const
+			vint Size()const
 			{
 				return sizeof(T);
 			}
@@ -307,7 +307,7 @@ namespace vl
 				return 0;
 			}
 
-			int ArraySize()const
+			vint ArraySize()const
 			{
 				return 0;
 			}
@@ -391,12 +391,12 @@ namespace vl
 			{
 			}
 			
-			void* CastToBaseClass(int baseClassIndex, void* instance)const
+			void* CastToBaseClass(vint baseClassIndex, void* instance)const
 			{
 				return 0;
 			}
 
-			void* CastToSubClass(int baseClassIndex, void* instance)const
+			void* CastToSubClass(vint baseClassIndex, void* instance)const
 			{
 				return 0;
 			}
@@ -422,7 +422,7 @@ void支持
 		class SpecifiedObjectType<void> : public ObjectType
 		{
 		public:
-			int Size()const
+			vint Size()const
 			{
 				return 0;
 			}
@@ -457,7 +457,7 @@ void支持
 				return 0;
 			}
 
-			int ArraySize()const
+			vint ArraySize()const
 			{
 				return 0;
 			}
@@ -541,12 +541,12 @@ void支持
 			{
 			}
 			
-			void* CastToBaseClass(int baseClassIndex, void* instance)const
+			void* CastToBaseClass(vint baseClassIndex, void* instance)const
 			{
 				return 0;
 			}
 
-			void* CastToSubClass(int baseClassIndex, void* instance)const
+			void* CastToSubClass(vint baseClassIndex, void* instance)const
 			{
 				return 0;
 			}

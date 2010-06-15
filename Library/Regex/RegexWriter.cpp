@@ -31,7 +31,7 @@ RegexNode
 			return Loop(0, 1);
 		}
 
-		RegexNode RegexNode::Loop(int min, int max)const
+		RegexNode RegexNode::Loop(vint min, vint max)const
 		{
 			LoopExpression* target=new LoopExpression;
 			target->min=min;
@@ -41,7 +41,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode RegexNode::AtLeast(int min)const
+		RegexNode RegexNode::AtLeast(vint min)const
 		{
 			return Loop(min, -1);
 		}
@@ -94,7 +94,7 @@ RegexNode
 			Ptr<CharSetExpression> target=new CharSetExpression;
 			target->reverse=false;
 			CopyFrom(target->ranges.Wrap(), left->ranges.Wrap());
-			for(int i=0;i<right->ranges.Count();i++)
+			for(vint i=0;i<right->ranges.Count();i++)
 			{
 				if(!target->AddRangeWithConflict(right->ranges[i]))
 				{
@@ -123,7 +123,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode rMatch(const WString& name, int index)
+		RegexNode rMatch(const WString& name, vint index)
 		{
 			MatchExpression* target=new MatchExpression;
 			target->name=name;
@@ -131,7 +131,7 @@ RegexNode
 			return RegexNode(target);
 		}
 
-		RegexNode rMatch(int index)
+		RegexNode rMatch(vint index)
 		{
 			MatchExpression* target=new MatchExpression;
 			target->index=index;

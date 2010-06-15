@@ -9,7 +9,7 @@ namespace vl
 MemoryStream
 ***********************************************************************/
 
-		void MemoryStream::PrepareSpace(int totalSpace)
+		void MemoryStream::PrepareSpace(vint totalSpace)
 		{
 			if(totalSpace>capacity)
 			{
@@ -25,7 +25,7 @@ MemoryStream
 			}
 		}
 
-		MemoryStream::MemoryStream(int _block)
+		MemoryStream::MemoryStream(vint _block)
 			:block(_block)
 			,buffer(0)
 			,size(0)
@@ -104,7 +104,7 @@ MemoryStream
 		void MemoryStream::SeekFromBegin(pos_t _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::SeekFromBegin(pos_t)#流处于关闭状态，不可执行此操作。");
-			int expected=(int)_size;
+			vint expected=(vint)_size;
 			if(expected<0)
 			{
 				position=0;
@@ -124,11 +124,11 @@ MemoryStream
 			SeekFromBegin(size-_size);
 		}
 
-		int MemoryStream::Read(void* _buffer, int _size)
+		vint MemoryStream::Read(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Read(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Read(void*, int)#参数size不可为负。");
-			int max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryStream::Read(void*, vint)#参数size不可为负。");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -138,10 +138,10 @@ MemoryStream
 			return _size;
 		}
 
-		int MemoryStream::Write(void* _buffer, int _size)
+		vint MemoryStream::Write(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Write(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Write(void*, int)#参数size不可为负。");
+			CHECK_ERROR(_size>=0, L"MemoryStream::Write(void*, vint)#参数size不可为负。");
 			PrepareSpace(size+_size);
 			memmove(buffer+position, _buffer, _size);
 			position+=_size;
@@ -152,11 +152,11 @@ MemoryStream
 			return _size;
 		}
 
-		int MemoryStream::Peek(void* _buffer, int _size)
+		vint MemoryStream::Peek(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(block!=0, L"MemoryStream::Peek(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryStream::Peek(void*, int)#参数size不可为负。");
-			int max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryStream::Peek(void*, vint)#参数size不可为负。");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;

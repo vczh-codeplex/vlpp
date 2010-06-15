@@ -46,9 +46,9 @@ namespace vl
 			void					Seek(pos_t _size);
 			void					SeekFromBegin(pos_t _size);
 			void					SeekFromEnd(pos_t _size);
-			int						Read(void* _buffer, int _size);
-			int						Write(void* _buffer, int _size);
-			int						Peek(void* _buffer, int _size);
+			vint						Read(void* _buffer, vint _size);
+			vint						Write(void* _buffer, vint _size);
+			vint						Peek(void* _buffer, vint _size);
 		};
 	}
 }

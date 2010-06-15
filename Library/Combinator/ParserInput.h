@@ -17,7 +17,7 @@ Parser Input Schema:
 		const T& Current()const;
 		bool Available()const;
 		bool Next();
-		int Index()const;
+		vint Index()const;
 
 		Input(const Input<T>& input);
 		bool operator > < == >= <= != (const Input<T>& input)const;
@@ -47,7 +47,7 @@ namespace vl
 			ObjectString<T>	input;
 			const T*		start;
 			const T*		current;
-			int				length;
+			vint				length;
 		public:
 			StringInput(const T* _input)
 				:input(_input)
@@ -78,12 +78,12 @@ namespace vl
 				return current;
 			}
 
-			int Length()const
+			vint Length()const
 			{
 				return length;
 			}
 
-			void Step(int count)
+			void Step(vint count)
 			{
 				current+=count;
 				if(current-start>length)
@@ -123,7 +123,7 @@ namespace vl
 				return Available();
 			}
 
-			int Index()const
+			vint Index()const
 			{
 				return current-start;
 			}
@@ -201,7 +201,7 @@ namespace vl
 				return enumerator->Next();
 			}
 
-			int Index()const
+			vint Index()const
 			{
 				return enumerator->Index();
 			}
@@ -248,10 +248,10 @@ namespace vl
 		{
 		protected:
 			T*				tokens;
-			int				current;
-			int				count;
+			vint				current;
+			vint				count;
 		public:
-			TokenInput(T* _tokens, int _count)
+			TokenInput(T* _tokens, vint _count)
 				:tokens(_tokens)
 				,current(0)
 				,count(_count)
@@ -281,7 +281,7 @@ namespace vl
 				return Available();
 			}
 
-			int Index()const
+			vint Index()const
 			{
 				return current;
 			}

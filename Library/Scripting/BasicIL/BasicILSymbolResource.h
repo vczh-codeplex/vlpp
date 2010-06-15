@@ -31,7 +31,7 @@ namespace vl
 				Instruction,
 			};
 
-			int									address;
+			vint									address;
 			ResourceString						name;
 			ResourceHandle<BasicILExportRes>	next;
 		};

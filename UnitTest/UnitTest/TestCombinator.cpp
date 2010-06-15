@@ -38,7 +38,7 @@ TEST_CASE(TestStringInput)
 
 	StringInput<wchar_t> backup=input;
 	wchar_t buffer[]=L" is genius!";
-	for(int i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
+	for(vint i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
 	{
 		TEST_ASSERT(backup.Next()==true);
 		TEST_ASSERT(backup.Available()==true);
@@ -61,7 +61,7 @@ TEST_CASE(TestEnumerableInput)
 {
 	wchar_t original[]=L"vczh is genius!";
 	List<wchar_t> list;
-	for(int i=0;i<sizeof(original)/sizeof(*original)-1;i++)
+	for(vint i=0;i<sizeof(original)/sizeof(*original)-1;i++)
 	{
 		list.Add(original[i]);
 	}
@@ -85,7 +85,7 @@ TEST_CASE(TestEnumerableInput)
 
 	EnumerableInput<wchar_t> backup=input;
 	wchar_t buffer[]=L" is genius!";
-	for(int i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
+	for(vint i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
 	{
 		TEST_ASSERT(backup.Next()==true);
 		TEST_ASSERT(backup.Available()==true);
@@ -95,7 +95,7 @@ TEST_CASE(TestEnumerableInput)
 	TEST_ASSERT(backup.Next()==false);
 	TEST_ASSERT(backup.Available()==false);
 
-	for(int i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
+	for(vint i=0;i<sizeof(buffer)/sizeof(*buffer)-1;i++)
 	{
 		TEST_ASSERT(input.Next()==true);
 		TEST_ASSERT(input.Available()==true);
@@ -439,7 +439,7 @@ TEST_CASE(TestLoopCombinator)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==3);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<3;i++)
+		for(vint i=0;i<3;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -460,7 +460,7 @@ TEST_CASE(TestLoopCombinator)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==2);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<2;i++)
+		for(vint i=0;i<2;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -482,7 +482,7 @@ TEST_CASE(TestLoopCombinator)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==3);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<3;i++)
+		for(vint i=0;i<3;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -524,7 +524,7 @@ TEST_CASE(TestLoopCombinator2)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==3);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<3;i++)
+		for(vint i=0;i<3;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -546,7 +546,7 @@ TEST_CASE(TestLoopCombinator2)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==2);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<2;i++)
+		for(vint i=0;i<2;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -568,7 +568,7 @@ TEST_CASE(TestLoopCombinator2)
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value().Count()==3);
 		ParsingList<wchar_t>::Node::Ref current=result.Value().Head();
-		for(int i=0;i<3;i++)
+		for(vint i=0;i<3;i++)
 		{
 			TEST_ASSERT(current);
 			TEST_ASSERT(current->Value()==L'v');
@@ -600,7 +600,7 @@ TEST_CASE(TestLoopCombinator2)
 _Using
 ***********************************************************************/
 
-int _f(const wchar_t& w)
+vint _f(const wchar_t& w)
 {
 	return w+1;
 }
@@ -612,12 +612,12 @@ TEST_CASE(TestUsingCombinator)
 	Types<StringInput<wchar_t>>::GlobalInfo info;
 
 	info.errors.Clear();
-	_Using<StringInput<wchar_t>, wchar_t, int> use1(
+	_Using<StringInput<wchar_t>, wchar_t, vint> use1(
 		new _Unit<StringInput<wchar_t>>(L'v', L"这里需要v。"),
 		_f
 		);
 	StringInput<wchar_t> input1=input;
-	ParsingResult<int> result1=use1.Parse(input1, info);
+	ParsingResult<vint> result1=use1.Parse(input1, info);
 	TEST_ASSERT(result1==true);
 	TEST_ASSERT(result1.Value()==L'w');
 	TEST_ASSERT(info.errors.Count()==0);
@@ -625,12 +625,12 @@ TEST_CASE(TestUsingCombinator)
 	TEST_ASSERT(input1.Index()==1);
 
 	info.errors.Clear();
-	_Using<StringInput<wchar_t>, wchar_t, int> use2(
+	_Using<StringInput<wchar_t>, wchar_t, vint> use2(
 		new _Unit<StringInput<wchar_t>>(L'c', L"这里需要c。"),
 		_f
 		);
 	StringInput<wchar_t> input2=input;
-	ParsingResult<int> result2=use2.Parse(input2, info);
+	ParsingResult<vint> result2=use2.Parse(input2, info);
 	TEST_ASSERT(result2==false);
 	TEST_ASSERT(info.errors.Count()==1);
 	TEST_ASSERT(info.errors[0]->Message()==L"这里需要c。");
@@ -729,9 +729,9 @@ TEST_CASE(TestErrorCombinator)
 Combinator
 ***********************************************************************/
 
-int cal(const int& first, const ParsingPair<wchar_t, int>& second)
+vint cal(const vint& first, const ParsingPair<wchar_t, vint>& second)
 {
-	int result=first;
+	vint result=first;
 	switch(second.First())
 	{
 		case L'+':
@@ -752,8 +752,8 @@ int cal(const int& first, const ParsingPair<wchar_t, int>& second)
 
 TEST_CASE(TestCombinator)
 {
-	typedef Rule<StringInput<wchar_t>, int> _Rule;
-	typedef Node<StringInput<wchar_t>, int> _Node;
+	typedef Rule<StringInput<wchar_t>, vint> _Rule;
+	typedef Node<StringInput<wchar_t>, vint> _Node;
 
 	_Rule FACTOR, TERM, EXP;
 	FACTOR = rgx(L"/d+")[wtoi] | (ch(L'(')>>EXP<<ch(L')'));
@@ -763,7 +763,7 @@ TEST_CASE(TestCombinator)
 	{
 		Types<StringInput<wchar_t>>::GlobalInfo info;
 		StringInput<wchar_t> input=L"(1+2)*(3+4)";
-		ParsingResult<int> result=EXP.Parse(input, info);
+		ParsingResult<vint> result=EXP.Parse(input, info);
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value()==21);
 		TEST_ASSERT(info.errors.Count()==0);
@@ -777,10 +777,10 @@ TEST_CASE(TestCombinator)
 TokenInput
 ***********************************************************************/
 
-int tcal(const int& first, const ParsingPair<RegexToken, int>& second)
+vint tcal(const vint& first, const ParsingPair<RegexToken, vint>& second)
 {
-	int result=first;
-	int value=second.Second();
+	vint result=first;
+	vint value=second.Second();
 	switch(*second.First().reading)
 	{
 		case L'+':
@@ -799,14 +799,14 @@ int tcal(const int& first, const ParsingPair<RegexToken, int>& second)
 	return result;
 }
 
-int tval(const RegexToken& input)
+vint tval(const RegexToken& input)
 {
 	return wtoi(WString(input.reading, input.length));
 }
 
 TEST_CASE(TestTokenInput)
 {
-	typedef Rule<TokenInput<RegexToken>, int> _Rule;
+	typedef Rule<TokenInput<RegexToken>, vint> _Rule;
 	typedef Node<TokenInput<RegexToken>, RegexToken> _Node;
 
 	List<WString> tokens;
@@ -835,7 +835,7 @@ TEST_CASE(TestTokenInput)
 		CopyFrom(tokens.Wrap(), lexer.Parse(code));
 		Types<TokenInput<RegexToken>>::GlobalInfo info;
 		TokenInput<RegexToken> input(&tokens[0], tokens.Count());
-		ParsingResult<int> result=EXP.Parse(input, info);
+		ParsingResult<vint> result=EXP.Parse(input, info);
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value()==21);
 		TEST_ASSERT(info.errors.Count()==0);

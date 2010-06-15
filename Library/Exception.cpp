@@ -41,7 +41,7 @@ ArgumentException
 ParsingException
 ***********************************************************************/
 
-	ParsingException::ParsingException(const WString& _message, const WString& _expression, int _position)
+	ParsingException::ParsingException(const WString& _message, const WString& _expression, vint _position)
 		:Exception(_message)
 		,expression(_expression)
 		,position(_position)
@@ -53,7 +53,7 @@ ParsingException
 		return expression;
 	}
 
-	int ParsingException::GetPosition()const
+	vint ParsingException::GetPosition()const
 	{
 		return position;
 	}

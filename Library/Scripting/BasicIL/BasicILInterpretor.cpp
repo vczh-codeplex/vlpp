@@ -16,7 +16,7 @@ namespace vl
 BasicILEnv
 ***********************************************************************/
 
-			BasicILEnv::BasicILEnv(int _stackSize)
+			BasicILEnv::BasicILEnv(vint _stackSize)
 				:stackBase(_stackSize)
 				,stackTop(_stackSize)
 				,stackSize(_stackSize)
@@ -29,22 +29,22 @@ BasicILEnv
 				delete[] stack;
 			}
 
-			int BasicILEnv::StackBase()const
+			vint BasicILEnv::StackBase()const
 			{
 				return stackBase;
 			}
 
-			int BasicILEnv::StackSize()const
+			vint BasicILEnv::StackSize()const
 			{
 				return stackSize;
 			}
 
-			int BasicILEnv::StackTop()const
+			vint BasicILEnv::StackTop()const
 			{
 				return stackTop;
 			}
 
-			void* BasicILEnv::DereferenceStack(int stackPosition)const
+			void* BasicILEnv::DereferenceStack(vint stackPosition)const
 			{
 				if(stackPosition<0 || stackPosition>=stackSize)
 				{
@@ -56,7 +56,7 @@ BasicILEnv
 				}
 			}
 
-			void* BasicILEnv::Reserve(int size)
+			void* BasicILEnv::Reserve(vint size)
 			{
 				stackTop-=size;
 				if(stackTop<0 || stackTop>stackSize)
@@ -75,7 +75,7 @@ BasicILEnv
 				stackTop=stackSize;
 			}
 
-			void BasicILEnv::SetBase(int stackPosition)
+			void BasicILEnv::SetBase(vint stackPosition)
 			{
 				stackBase=stackPosition;
 			}
@@ -275,7 +275,7 @@ BasicILInterpretor
 
 			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols)
 			{
-				int exportedSymbolsIndex=il->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
+				vint exportedSymbolsIndex=il->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
 				if(exportedSymbolsIndex!=-1)
 				{
 					Ptr<ResourceStream> exportedSymbols=il->resources.Values()[exportedSymbolsIndex];
@@ -331,17 +331,17 @@ BasicILInterpretor
 				ils.Add(il);
 			}
 
-			void BasicILInterpretor::LinkILSymbol(BasicIL* il, int index, _SymbolList& linkingSymbols)
+			void BasicILInterpretor::LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols)
 			{
-				int functionPointerOffset=labels.Count();
-				for(int i=0;i<il->labels.Count();i++)
+				vint functionPointerOffset=labels.Count();
+				for(vint i=0;i<il->labels.Count();i++)
 				{
 					BasicILLabel label;
 					label.key=index;
 					label.instruction=il->labels[i].instructionIndex;
 					labels.Add(label);
 				}
-				for(int i=0;i<il->instructions.Count();i++)
+				for(vint i=0;i<il->instructions.Count();i++)
 				{
 					BasicIns& ins=il->instructions[i];
 					switch(ins.opcode)
@@ -362,8 +362,8 @@ BasicILInterpretor
 					case BasicIns::link_pushforeigndata:
 						{
 							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
-							int ilIndex=ils.IndexOf(ilMap[symbol.key]);
-							int address=symbolMap[symbol];
+							vint ilIndex=ils.IndexOf(ilMap[symbol.key]);
+							vint address=symbolMap[symbol];
 
 							ins.opcode=BasicIns::push;
 							ins.type1=BasicIns::pointer_type;
@@ -377,7 +377,7 @@ BasicILInterpretor
 							label.key=ils.IndexOf(ilMap[symbol.key]);
 							label.instruction=symbolMap[symbol];
 
-							int labelIndex=labels.IndexOf(label);
+							vint labelIndex=labels.IndexOf(label);
 							if(labelIndex!=-1)
 							{
 								ins.opcode=BasicIns::pushlabel;
@@ -392,8 +392,8 @@ BasicILInterpretor
 					case BasicIns::link_callforeignfunc:
 						{
 							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
-							int ilIndex=ils.IndexOf(ilMap[symbol.key]);
-							int address=symbolMap[symbol];
+							vint ilIndex=ils.IndexOf(ilMap[symbol.key]);
+							vint address=symbolMap[symbol];
 
 							ins.opcode=BasicIns::call;
 							ins.insKey=ilIndex;
@@ -404,7 +404,7 @@ BasicILInterpretor
 				}
 			}
 
-			BasicILInterpretor::BasicILInterpretor(int _stackSize)
+			BasicILInterpretor::BasicILInterpretor(vint _stackSize)
 				:stackSize(_stackSize)
 			{
 				BasicILLabel label;
@@ -417,7 +417,7 @@ BasicILInterpretor
 			{
 			}
 
-			int BasicILInterpretor::LoadIL(BasicIL* il)
+			vint BasicILInterpretor::LoadIL(BasicIL* il)
 			{
 				_SymbolList linkingSymbols;
 				LoadILSymbol(il, linkingSymbols);
@@ -427,7 +427,7 @@ BasicILInterpretor
 
 			void BasicILInterpretor::UnloadIL(BasicIL* il)
 			{
-				for(int i=0;i<ils.Count();i++)
+				for(vint i=0;i<ils.Count();i++)
 				{
 					if(ils[i]==il)
 					{
@@ -636,7 +636,7 @@ BasicILStack
 				return env;
 			}
 
-			void BasicILStack::Reset(int entryInstruction, int entryInsKey, int returnSize)
+			void BasicILStack::Reset(vint entryInstruction, vint entryInsKey, vint returnSize)
 			{
 				// reserve returnSize
 				// push returnPointer
@@ -647,12 +647,12 @@ BasicILStack
 				ResetBuffer(entryInstruction, entryInsKey, returnPointer);
 			}
 
-			void BasicILStack::ResetBuffer(int entryInstruction, int entryInsKey, void* returnPointer)
+			void BasicILStack::ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer)
 			{
 				env->Push<void*>(returnPointer);
-				env->Push<int>(-2);
-				env->Push<int>(-1);
-				env->Push<int>(env->StackSize());
+				env->Push<vint>(-2);
+				env->Push<vint>(-1);
+				env->Push<vint>(env->StackSize());
 				env->SetBase(env->StackTop());
 				instruction=entryInstruction;
 				insKey=entryInsKey;
@@ -660,12 +660,12 @@ BasicILStack
 				foreignFunctionResult=0;
 			}
 
-			int BasicILStack::GetInstruction()
+			vint BasicILStack::GetInstruction()
 			{
 				return instruction;
 			}
 
-			int BasicILStack::GetForeignFunctionIndex()
+			vint BasicILStack::GetForeignFunctionIndex()
 			{
 				return foreignFunctionIndex;
 			}
@@ -689,8 +689,8 @@ BasicILStack
 						{
 							return BasicILStack::InstructionIndexOutOfRange;
 						}
-						int nextInstruction=instruction+1;
-						int nextInsKey=insKey;
+						vint nextInstruction=instruction+1;
+						vint nextInsKey=insKey;
 						BasicIns& ins=interpretor->ils[insKey]->instructions[instruction];
 						switch(ins.opcode)
 						{
@@ -732,20 +732,20 @@ BasicILStack
 							}
 							break;
 						case BasicIns::pushins:
-							env->Push<int>(ins.insKey);
-							env->Push<int>(ins.argument.int_value);
+							env->Push<vint>(ins.insKey);
+							env->Push<vint>(ins.argument.int_value);
 							break;
 						case BasicIns::pushlabel:
-							env->Push<int>(ins.argument.int_value);
+							env->Push<vint>(ins.argument.int_value);
 							break;
 						case BasicIns::label:
 							{
-								int index=env->Pop<int>();
+								vint index=env->Pop<vint>();
 								if(index>=0 && index<interpretor->labels.Count())
 								{
 									BasicILLabel label=interpretor->labels[index];
-									env->Push<int>(label.key);
-									env->Push<int>(label.instruction);
+									env->Push<vint>(label.key);
+									env->Push<vint>(label.instruction);
 								}
 								else
 								{
@@ -815,7 +815,7 @@ BasicILStack
 							break;
 						case BasicIns::readmem:
 							{
-								int size=ins.argument.int_value;
+								vint size=ins.argument.int_value;
 								void* src=env->Pop<void*>();
 								env->Reserve(size);
 								void* dst=env->DereferenceStack(env->StackTop());
@@ -824,7 +824,7 @@ BasicILStack
 							break;
 						case BasicIns::writemem:
 							{
-								int size=ins.argument.int_value;
+								vint size=ins.argument.int_value;
 								void* dst=env->Pop<void*>();
 								void* src=env->DereferenceStack(env->StackTop());
 								memcpy(dst, src, size);
@@ -833,7 +833,7 @@ BasicILStack
 							break;
 						case BasicIns::copymem:
 							{
-								int size=ins.argument.int_value;
+								vint size=ins.argument.int_value;
 								void* dst=env->Pop<void*>();
 								void* src=env->Pop<void*>();
 								memcpy(dst, src, size);
@@ -858,20 +858,20 @@ BasicILStack
 							}
 							break;
 						case BasicIns::call:
-							env->Push<int>(insKey);
-							env->Push<int>(nextInstruction);
-							env->Push<int>(env->StackBase());
+							env->Push<vint>(insKey);
+							env->Push<vint>(nextInstruction);
+							env->Push<vint>(env->StackBase());
 							env->SetBase(env->StackTop());
 							nextInstruction=ins.argument.int_value;
 							nextInsKey=ins.insKey;
 							break;
 						case BasicIns::call_indirect:
 							{
-								int pushins=env->Pop<int>();
-								int pushkey=env->Pop<int>();
-								env->Push<int>(insKey);
-								env->Push<int>(nextInstruction);
-								env->Push<int>(env->StackBase());
+								vint pushins=env->Pop<vint>();
+								vint pushkey=env->Pop<vint>();
+								env->Push<vint>(insKey);
+								env->Push<vint>(nextInstruction);
+								env->Push<vint>(env->StackBase());
 								env->SetBase(env->StackTop());
 								nextInstruction=pushins;
 								nextInsKey=pushkey;
@@ -884,7 +884,7 @@ BasicILStack
 						case BasicIns::call_raw:
 							{
 								void* arguments=env->DereferenceStack(env->StackTop());
-								int size=ins.argument.raw_function(arguments);
+								vint size=ins.argument.raw_function(arguments);
 								env->Reserve(-size);
 							}
 							break;
@@ -893,13 +893,13 @@ BasicILStack
 							break;
 						case BasicIns::stack_offset:
 							{
-								int stackBase=env->StackBase();
+								vint stackBase=env->StackBase();
 								env->Push<void*>(env->DereferenceStack(stackBase+ins.argument.int_value));
 							}
 							break;
 						case BasicIns::stack_top:
 							{
-								int stackTop=env->StackTop();
+								vint stackTop=env->StackTop();
 								env->Push<void*>(env->DereferenceStack(stackTop+ins.argument.int_value));
 							}
 							break;
@@ -914,9 +914,9 @@ BasicILStack
 							break;
 						case BasicIns::ret:
 							{
-								int stackBase=env->Pop<int>();
-								int returnInstruction=env->Pop<int>();
-								int returnInsKey=env->Pop<int>();
+								vint stackBase=env->Pop<vint>();
+								vint returnInstruction=env->Pop<vint>();
+								vint returnInsKey=env->Pop<vint>();
 								env->Pop<void*>();
 								env->SetBase(stackBase);
 								env->Reserve(-ins.argument.int_value);

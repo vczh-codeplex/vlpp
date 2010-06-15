@@ -9,7 +9,7 @@ namespace vl
 LanguageException
 ***********************************************************************/
 
-		LanguageException::LanguageException(const WString& message, int _lineIndex, int _lineStart, int _textStart, int _codeIndex)
+		LanguageException::LanguageException(const WString& message, vint _lineIndex, vint _lineStart, vint _textStart, vint _codeIndex)
 			:Exception(message)
 			,lineIndex(_lineIndex)
 			,lineStart(_lineStart)
@@ -22,22 +22,22 @@ LanguageException
 		{
 		}
 
-		int LanguageException::LineIndex()const
+		vint LanguageException::LineIndex()const
 		{
 			return lineIndex;
 		}
 
-		int LanguageException::LineStart()const
+		vint LanguageException::LineStart()const
 		{
 			return lineStart;
 		}
 
-		int LanguageException::TextStart()const
+		vint LanguageException::TextStart()const
 		{
 			return textStart;
 		}
 
-		int LanguageException::CodeIndex()const
+		vint LanguageException::CodeIndex()const
 		{
 			return codeIndex;
 		}

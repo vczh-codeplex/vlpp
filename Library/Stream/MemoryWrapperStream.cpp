@@ -9,7 +9,7 @@ namespace vl
 MemoryWrapperStream
 ***********************************************************************/
 
-		MemoryWrapperStream::MemoryWrapperStream(void* _buffer, int _size)
+		MemoryWrapperStream::MemoryWrapperStream(void* _buffer, vint _size)
 			:buffer((char*)_buffer)
 			,size(_size)
 			,position(0)
@@ -80,7 +80,7 @@ MemoryWrapperStream
 		void MemoryWrapperStream::SeekFromBegin(pos_t _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::SeekFromBegin(pos_t)#流处于关闭状态，不可执行此操作。");
-			int expected=(int)_size;
+			vint expected=(vint)_size;
 			if(expected<0)
 			{
 				position=0;
@@ -100,11 +100,11 @@ MemoryWrapperStream
 			SeekFromBegin(size-_size);
 		}
 
-		int MemoryWrapperStream::Read(void* _buffer, int _size)
+		vint MemoryWrapperStream::Read(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Read(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Read(void*, int)#参数size不可为负。");
-			int max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Read(void*, vint)#参数size不可为负。");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -114,11 +114,11 @@ MemoryWrapperStream
 			return _size;
 		}
 
-		int MemoryWrapperStream::Write(void* _buffer, int _size)
+		vint MemoryWrapperStream::Write(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Write(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Write(void*, int)#参数size不可为负。");
-			int max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Write(void*, vint)#参数size不可为负。");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;
@@ -128,11 +128,11 @@ MemoryWrapperStream
 			return _size;
 		}
 
-		int MemoryWrapperStream::Peek(void* _buffer, int _size)
+		vint MemoryWrapperStream::Peek(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(buffer!=0, L"MemoryWrapperStream::Peek(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Peek(void*, int)#参数size不可为负。");
-			int max=size-position;
+			CHECK_ERROR(_size>=0, L"MemoryWrapperStream::Peek(void*, vint)#参数size不可为负。");
+			vint max=size-position;
 			if(_size>max)
 			{
 				_size=max;

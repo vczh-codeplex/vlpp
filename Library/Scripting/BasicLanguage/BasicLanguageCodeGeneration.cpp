@@ -26,7 +26,7 @@ BasicCodegenInfo
 
 			BasicTypeInfo* BasicCodegenInfo::GetTypeInfo(BasicTypeRecord* type)
 			{
-				int index=typeInfos.Keys().IndexOf(type);
+				vint index=typeInfos.Keys().IndexOf(type);
 				if(index==-1)
 				{
 					BasicTypeInfo* info=new BasicTypeInfo;
@@ -78,10 +78,10 @@ BasicCodegenInfo
 						break;
 					case BasicTypeRecord::Structure:
 						{
-							int offset=0;
+							vint offset=0;
 							info->alignment=0;
 							info->size=0;
-							for(int i=0;i<type->MemberCount();i++)
+							for(vint i=0;i<type->MemberCount();i++)
 							{
 								BasicTypeInfo* member=GetTypeInfo(type->MemberType(i));
 								if(offset%member->alignment!=0)
@@ -138,17 +138,17 @@ BasicCodegenInfo
 				return analyzer->GetConfiguration();
 			}
 
-			collections::IDictionary<BasicFunctionDeclaration*, int>& BasicCodegenInfo::GetFunctions()
+			collections::IDictionary<BasicFunctionDeclaration*, vint>& BasicCodegenInfo::GetFunctions()
 			{
 				return functions.Wrap();
 			}
 
-			collections::IDictionary<BasicVariableDeclaration*, int>& BasicCodegenInfo::GetGlobalVariableOffsets()
+			collections::IDictionary<BasicVariableDeclaration*, vint>& BasicCodegenInfo::GetGlobalVariableOffsets()
 			{
 				return globalVariableOffsets.Wrap();
 			}
 
-			collections::IDictionary<BasicVariableStatement*, int>& BasicCodegenInfo::GetLocalVariableOffsets()
+			collections::IDictionary<BasicVariableStatement*, vint>& BasicCodegenInfo::GetLocalVariableOffsets()
 			{
 				return localVariableOffsets.Wrap();
 			}
@@ -166,16 +166,16 @@ BasicCodegenInfo
 				returnInstructions.Clear();
 			}
 
-			void BasicCodegenInfo::EndFunction(int returnIns, basicil::BasicIL* il)
+			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il)
 			{
-				for(int i=0;i<returnInstructions.Count();i++)
+				for(vint i=0;i<returnInstructions.Count();i++)
 				{
 					il->instructions[returnInstructions[i]].argument.int_value=returnIns;
 				}
 				returnInstructions.Clear();
 			}
 
-			void BasicCodegenInfo::AssociateReturn(int instruction)
+			void BasicCodegenInfo::AssociateReturn(vint instruction)
 			{
 				returnInstructions.Add(instruction);
 			}
@@ -191,7 +191,7 @@ BasicCodegenInfo
 				variableSpaceStack.RemoveAt(variableSpaceStack.Count()-1);
 			}
 
-			int BasicCodegenInfo::UseVariable(int size)
+			vint BasicCodegenInfo::UseVariable(vint size)
 			{
 				usedVariableSpace+=size;
 				if(usedVariableSpace>maxVariableSpace)
@@ -207,50 +207,50 @@ BasicCodegenInfo
 				continueInsStack.Add(continueInstructions.Count());
 			}
 
-			void BasicCodegenInfo::LeaveLoop(int breakIns, int continueIns, basicil::BasicIL* il)
+			void BasicCodegenInfo::LeaveLoop(vint breakIns, vint continueIns, basicil::BasicIL* il)
 			{
-				int breakCount=breakInsStack[breakInsStack.Count()-1];
+				vint breakCount=breakInsStack[breakInsStack.Count()-1];
 				breakInsStack.RemoveAt(breakInsStack.Count()-1);
-				int continueCount=continueInsStack[continueInsStack.Count()-1];
+				vint continueCount=continueInsStack[continueInsStack.Count()-1];
 				continueInsStack.RemoveAt(continueInsStack.Count()-1);
 
-				for(int i=breakCount;i<breakInstructions.Count();i++)
+				for(vint i=breakCount;i<breakInstructions.Count();i++)
 				{
 					il->instructions[breakInstructions[i]].argument.int_value=breakIns;
 				}
 				breakInstructions.RemoveRange(breakCount, breakInstructions.Count()-breakCount);
 
-				for(int i=continueCount;i<continueInstructions.Count();i++)
+				for(vint i=continueCount;i<continueInstructions.Count();i++)
 				{
 					il->instructions[continueInstructions[i]].argument.int_value=continueIns;
 				}
 				continueInstructions.RemoveRange(continueCount, continueInstructions.Count()-continueCount);
 			}
 
-			void BasicCodegenInfo::AssociateBreak(int instruction)
+			void BasicCodegenInfo::AssociateBreak(vint instruction)
 			{
 				breakInstructions.Add(instruction);
 			}
 
-			void BasicCodegenInfo::AssociateContinue(int instruction)
+			void BasicCodegenInfo::AssociateContinue(vint instruction)
 			{
 				continueInstructions.Add(instruction);
 			}
 
-			int BasicCodegenInfo::GetMaxVariableSpace()
+			vint BasicCodegenInfo::GetMaxVariableSpace()
 			{
 				return maxVariableSpace;
 			}
 
 			ResourceHandle<BasicTypeRes> BasicCodegenInfo::GetTypeResource(BasicTypeRecord* type)
 			{
-				int index=typeResources.Keys().IndexOf(type);
+				vint index=typeResources.Keys().IndexOf(type);
 				return index==-1?ResourceHandle<BasicTypeRes>::Null():typeResources.Values()[index];
 			}
 
 			bool BasicCodegenInfo::SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource)
 			{
-				int index=typeResources.Keys().IndexOf(type);
+				vint index=typeResources.Keys().IndexOf(type);
 				if(index==-1)
 				{
 					typeResources.Add(type, resource);
@@ -370,15 +370,15 @@ BasicLanguage_GenerateCode
 			{
 				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
-				int reserveVariablesIndex=argument.il->instructions.Count()-1;
+				vint reserveVariablesIndex=argument.il->instructions.Count()-1;
 				argument.info->BeginFunction();
 
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_GenerateLinkingSymbolTable(program->declarations[i], argument);
 				}
 
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
@@ -388,12 +388,12 @@ BasicLanguage_GenerateCode
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
 				argument.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_GenerateCodePass2(program->declarations[i], argument);
 				}
 
-				for(int i=0;i<argument.il->instructions.Count();i++)
+				for(vint i=0;i<argument.il->instructions.Count();i++)
 				{
 					BasicIns& ins=argument.il->instructions[i];
 					switch(ins.opcode)
@@ -406,11 +406,11 @@ BasicLanguage_GenerateCode
 					}
 				}
 
-				argument.il->globalData.Resize((int)argument.globalData->Size());
+				argument.il->globalData.Resize((vint)argument.globalData->Size());
 				argument.globalData->SeekFromBegin(0);
 				if(argument.globalData->Size()>0)
 				{
-					argument.globalData->Read(&(argument.il->globalData[0]), (int)argument.globalData->Size());
+					argument.globalData->Read(&(argument.il->globalData[0]), (vint)argument.globalData->Size());
 				}
 
 				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
@@ -423,7 +423,7 @@ BasicLanguage_GenerateCode
 				exportEntry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
 				ResourceRecord<BasicILExportRes> currentExport;
 
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
 					if(declaration)
@@ -459,7 +459,7 @@ BasicLanguage_GenerateCode
 				}
 
 				ResourceRecord<BasicILLinkingRes> currentLinking;
-				for(int i=0;i<argument.info->linkings.Count();i++)
+				for(vint i=0;i<argument.info->linkings.Count();i++)
 				{
 					BasicLinking& linking=argument.info->linkings[i];
 					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();

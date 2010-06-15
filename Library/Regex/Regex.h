@@ -41,15 +41,15 @@ namespace vl
 		{
 		protected:
 			WString										value;
-			int											start;
-			int											length;
+			vint											start;
+			vint											length;
 
 		public:
-			RegexString(int _start=0);
-			RegexString(const WString& _string, int _start, int _length);
+			RegexString(vint _start=0);
+			RegexString(const WString& _string, vint _start, vint _length);
 
-			int											Start()const;
-			int											Length()const;
+			vint											Start()const;
+			vint											Length()const;
 			const WString&								Value()const;
 			bool										operator==(const RegexString& string)const;
 		};
@@ -113,14 +113,14 @@ namespace vl
 		class RegexToken
 		{
 		public:
-			int											start;
-			int											length;
-			int											token;
+			vint											start;
+			vint											length;
+			vint											token;
 			const wchar_t*								reading;
 
-			int											lineIndex;
-			int											lineStart;
-			int											codeIndex;
+			vint											lineIndex;
+			vint											lineStart;
+			vint											codeIndex;
 
 			bool										operator==(const RegexToken& _token)const;
 		};
@@ -130,28 +130,28 @@ namespace vl
 			friend class RegexLexer;
 		protected:
 			regex_internal::PureInterpretor*			pure;
-			collections::Array<int>&					stateTokens;
+			collections::Array<vint>&					stateTokens;
 			WString										code;
-			int											codeIndex;
+			vint											codeIndex;
 			
-			RegexTokens(regex_internal::PureInterpretor* _pure, collections::Array<int>& _stateTokens, const WString& _code, int _codeIndex);
+			RegexTokens(regex_internal::PureInterpretor* _pure, collections::Array<vint>& _stateTokens, const WString& _code, vint _codeIndex);
 		public:
 
 			collections::IEnumerator<RegexToken>*		CreateEnumerator()const;
-			void										ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(int)=0)const;
+			void										ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(vint)=0)const;
 		};
 
 		class RegexLexer : public Object, private NotCopyable
 		{
 		protected:
 			regex_internal::PureInterpretor*			pure;
-			collections::Array<int>						ids;
-			collections::Array<int>						stateTokens;
+			collections::Array<vint>						ids;
+			collections::Array<vint>						stateTokens;
 		public:
 			RegexLexer(const collections::IEnumerable<WString>& tokens);
 			~RegexLexer();
 
-			RegexTokens									Parse(const WString& code, int codeIndex=-1);
+			RegexTokens									Parse(const WString& code, vint codeIndex=-1);
 		};
 	}
 }

@@ -19,6 +19,46 @@ namespace vl
 {
 
 /***********************************************************************
+32位/64位兼容
+***********************************************************************/
+
+#ifdef _WIN64
+#define VCZH_64
+#endif
+
+#ifdef VCZH_64
+	typedef __int64					vint;
+	typedef signed __int64			vsint;
+	typedef unsigned __int64		vuint;
+#else
+	typedef __int32					vint;
+	typedef signed __int32			vsint;
+	typedef unsigned __int32		vuint;
+#endif
+
+typedef signed __int64	pos_t;
+
+#ifdef VCZH_64
+#define ITOA_S		_i64toa_s
+#define ITOW_S		_i64tow_s
+#define I64TOA_S	_i64toa_s
+#define I64TOW_S	_i64tow_s
+#define UITOA_S		_ui64toa_s
+#define UITOW_S		_ui64tow_s
+#define UI64TOA_S	_ui64toa_s
+#define UI64TOW_S	_ui64tow_s
+#else
+#define ITOA_S		_itoa_s
+#define ITOW_S		_itow_s
+#define I64TOA_S	_i64toa_s
+#define I64TOW_S	_i64tow_s
+#define UITOA_S		_ui64toa_s
+#define UITOW_S		_ui64tow_s
+#define UI64TOA_S	_ui64toa_s
+#define UI64TOW_S	_ui64tow_s
+#endif
+
+/***********************************************************************
 基础
 ***********************************************************************/
 
@@ -103,12 +143,10 @@ namespace vl
 	template<typename T>struct POD<T*>{static const bool Result=true;};
 	template<typename T>struct POD<T&>{static const bool Result=true;};
 	template<typename T, typename C>struct POD<T C::*>{static const bool Result=true;};
-	template<typename T, int _Size>struct POD<T[_Size]>{static const bool Result=POD<T>::Result;};
+	template<typename T, vint _Size>struct POD<T[_Size]>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<const T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<volatile T>{static const bool Result=POD<T>::Result;};
 	template<typename T>struct POD<const volatile T>{static const bool Result=POD<T>::Result;};
-
-	typedef signed __int64	pos_t;
 
 /***********************************************************************
 接口

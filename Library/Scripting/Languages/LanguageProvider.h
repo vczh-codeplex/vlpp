@@ -25,18 +25,18 @@ namespace vl
 		class LanguageException : public Exception
 		{
 		private:
-			int									lineIndex;
-			int									lineStart;
-			int									textStart;
-			int									codeIndex;
+			vint									lineIndex;
+			vint									lineStart;
+			vint									textStart;
+			vint									codeIndex;
 		public:
-			LanguageException(const WString& message, int _lineIndex, int _lineStart, int _textStart, int _codeIndex);
+			LanguageException(const WString& message, vint _lineIndex, vint _lineStart, vint _textStart, vint _codeIndex);
 			~LanguageException();
 
-			int									LineIndex()const;
-			int									LineStart()const;
-			int									TextStart()const;
-			int									CodeIndex()const;
+			vint									LineIndex()const;
+			vint									LineStart()const;
+			vint									TextStart()const;
+			vint									CodeIndex()const;
 		};
 
 		class ILanguageProvider : public Interface

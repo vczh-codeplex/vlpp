@@ -22,7 +22,7 @@ vl::Event<$FUNCTION_TYPE($count,0)>
 
 		void operator()($PARAMETER_LIST($count))const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)($ARGUMENT_LIST($count));
 			}

@@ -71,7 +71,7 @@ Automaton
 			return transition;
 		}
 
-		Transition* Automaton::NewCapture(State* start, State* end, int capture)
+		Transition* Automaton::NewCapture(State* start, State* end, vint capture)
 		{
 			Transition* transition=NewTransition(start, end);
 			transition->type=Transition::Capture;
@@ -79,7 +79,7 @@ Automaton
 			return transition;
 		}
 
-		Transition* Automaton::NewMatch(State* start, State* end, int capture, int index)
+		Transition* Automaton::NewMatch(State* start, State* end, vint capture, vint index)
 		{
 			Transition* transition=NewTransition(start, end);
 			transition->type=Transition::Match;
@@ -167,7 +167,7 @@ Automaton
 			if(!epsilonStates.Contains(sourceState))
 			{
 				epsilonStates.Add(sourceState);
-				for(int i=0;i<sourceState->transitions.Count();i++)
+				for(vint i=0;i<sourceState->transitions.Count();i++)
 				{
 					Transition* transition=sourceState->transitions[i];
 					if(epsilonChecker(transition))
@@ -201,7 +201,7 @@ Automaton
 			target->startState=target->states[0].Obj();
 			CopyFrom(target->captureNames.Wrap(), source->captureNames.Wrap());
 
-			for(int i=0;i<target->states.Count();i++)
+			for(vint i=0;i<target->states.Count();i++)
 			{
 				//清空epsilonStates并包含自己
 				State* targetState=target->states[i].Obj();
@@ -217,7 +217,7 @@ Automaton
 				CollectEpsilon(targetState, sourceState, epsilonChecker, epsilonStates, transitions);
 
 				//遍历所有epsilon闭包转换
-				for(int j=0;j<transitions.Count();j++)
+				for(vint j=0;j<transitions.Count();j++)
 				{
 					Transition* transition=transitions[j];
 					//寻找到一个非epsilon闭包的时候更新映射
@@ -253,7 +253,7 @@ Automaton
 			transitionTargets.SetLessMemoryMode(false);
 			relativeStates.SetLessMemoryMode(false);
 
-			for(int i=0;i<target->states.Count();i++)
+			for(vint i=0;i<target->states.Count();i++)
 			{
 				State* currentState=target->states[i].Obj();
 				nfaTransitions.Clear();
@@ -261,16 +261,16 @@ Automaton
 
 				//对该DFA状态的所有等价NFA状态进行遍历
 				const IReadonlyList<State*>& nfaStates=dfaStateMap[currentState];
-				for(int j=0;j<nfaStates.Count();j++)
+				for(vint j=0;j<nfaStates.Count();j++)
 				{
 					State* nfaState=nfaStates[j];
 					//对每一个NFA状态的所有转换进行遍历
-					for(int k=0;k<nfaState->transitions.Count();k++)
+					for(vint k=0;k<nfaState->transitions.Count();k++)
 					{
 						Transition* nfaTransition=nfaState->transitions[k];
 						//检查该NFA转换类型是否已经具有已经被记录
 						Transition* transitionClass=0;
-						for(int l=0;l<nfaTransitions.Keys().Count();l++)
+						for(vint l=0;l<nfaTransitions.Keys().Count();l++)
 						{
 							Transition* key=nfaTransitions.Keys()[l];
 							if(AreEqual(key, nfaTransition))
@@ -291,12 +291,12 @@ Automaton
 				}
 
 				//遍历所有种类的NFA转换
-				for(int j=0;j<transitionClasses.Count();j++)
+				for(vint j=0;j<transitionClasses.Count();j++)
 				{
 					const IReadonlyList<Transition*>& transitionSet=nfaTransitions[transitionClasses[j]];
 					//对所有转换的NFA目标状态集合进行排序
 					transitionTargets.Clear();
-					for(int l=0;l<transitionSet.Count();l++)
+					for(vint l=0;l<transitionSet.Count();l++)
 					{
 						State* nfaState=transitionSet[l]->target;
 						if(!transitionTargets.Contains(nfaState))
@@ -306,7 +306,7 @@ Automaton
 					}
 					//判断转换类的所有转换的NFA目标状态组成的集合是否已经有一个对应的DFA状态
 					State* dfaState=0;
-					for(int k=0;k<dfaStateMap.Count();k++)
+					for(vint k=0;k<dfaStateMap.Count();k++)
 					{
 						//将DFA的等价NFA状态集合进行排序
 						dfaStateMap.CopyValuesToCollection(k, relativeStates);
@@ -314,7 +314,7 @@ Automaton
 						if(relativeStates.Count()==transitionTargets.Count())
 						{
 							bool equal=true;
-							for(int l=0;l<relativeStates.Count();l++)
+							for(vint l=0;l<relativeStates.Count();l++)
 							{
 								if(relativeStates[l]!=transitionTargets[l])
 								{
@@ -333,7 +333,7 @@ Automaton
 					if(!dfaState)
 					{
 						dfaState=target->NewState();
-						for(int k=0;k<transitionTargets.Count();k++)
+						for(vint k=0;k<transitionTargets.Count();k++)
 						{
 							dfaStateMap.Add(dfaState, transitionTargets[k]);
 							if(transitionTargets[k]->finalState)

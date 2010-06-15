@@ -32,8 +32,8 @@ BasicLanguage_PushValueInternal
 				ALGORITHM_FUNCTION_MATCH(BasicMbcsStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
-					int length=(node->value.Length()+1)*sizeof(char);
-					int offset=(int)argument.globalData->Size();
+					vint length=(node->value.Length()+1)*sizeof(char);
+					vint offset=(vint)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 					return argument.info->GetEnv()->GetExpressionType(node);
@@ -42,8 +42,8 @@ BasicLanguage_PushValueInternal
 				ALGORITHM_FUNCTION_MATCH(BasicUnicodeStringExpression)
 				{
 					void* data=(void*)node->value.Buffer();
-					int length=(node->value.Length()+1)*sizeof(wchar_t);
-					int offset=(int)argument.globalData->Size();
+					vint length=(node->value.Length()+1)*sizeof(wchar_t);
+					vint offset=(vint)argument.globalData->Size();
 					argument.globalData->Write(data, length);
 					argument.Ins(BasicIns::link_pushdata, BasicIns::MakeInt(offset));
 					return argument.info->GetEnv()->GetExpressionType(node);
@@ -53,8 +53,8 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
-					int operandSize=argument.info->GetTypeInfo(operandType)->size;
-					int operandAddressSize=argument.info->GetTypeInfo(argument.info->GetTypeManager()->GetPointerType(operandType))->size;
+					vint operandSize=argument.info->GetTypeInfo(operandType)->size;
+					vint operandAddressSize=argument.info->GetTypeInfo(argument.info->GetTypeManager()->GetPointerType(operandType))->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
@@ -204,7 +204,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
-					int leftSize=argument.info->GetTypeInfo(leftType)->size;
+					vint leftSize=argument.info->GetTypeInfo(leftType)->size;
 
 					switch(node->type)
 					{
@@ -232,7 +232,7 @@ BasicLanguage_PushValueInternal
 					case BasicBinaryExpression::Sub:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
-							int size=argument.info->GetTypeInfo(leftType->ElementType())->size;
+							vint size=argument.info->GetTypeInfo(leftType->ElementType())->size;
 							if(rightType->GetType()==BasicTypeRecord::Pointer)
 							{
 								if(size>1)
@@ -441,7 +441,7 @@ BasicLanguage_PushValueInternal
 					}
 					else
 					{
-						int index=GetFunctionIndex(node, argument);
+						vint index=GetFunctionIndex(node, argument);
 						if(IsExternalFunction(node, argument))
 						{
 							argument.Ins(BasicIns::link_pushforeignfunc, BasicIns::MakeInt(index));

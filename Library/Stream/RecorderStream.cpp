@@ -80,21 +80,21 @@ RecorderStream
 			CHECK_ERROR(false, L"RecorderStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
-		int RecorderStream::Read(void* _buffer, int _size)
+		vint RecorderStream::Read(void* _buffer, vint _size)
 		{
 			_size=in->Read(_buffer, _size);
 			out->Write(_buffer, _size);
 			return _size;
 		}
 
-		int RecorderStream::Write(void* _buffer, int _size)
+		vint RecorderStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"RecorderStream::Write(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"RecorderStream::Write(void*, vint)#不支持此操作。");
 		}
 
-		int RecorderStream::Peek(void* _buffer, int _size)
+		vint RecorderStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"RecorderStream::Peek(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"RecorderStream::Peek(void*, vint)#不支持此操作。");
 		}
 	}
 }

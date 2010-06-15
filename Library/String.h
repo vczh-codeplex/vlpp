@@ -23,26 +23,26 @@ namespace vl
 		static const T	zero=0;
 
 		mutable T*				buffer;
-		mutable int*			reference;
-		mutable int				start;
-		mutable int				length;
-		mutable int				realLength;
+		mutable vint*			reference;
+		mutable vint				start;
+		mutable vint				length;
+		mutable vint				realLength;
 
-		static int CalculateLength(const T* buffer)
+		static vint CalculateLength(const T* buffer)
 		{
-			int result=0;
+			vint result=0;
 			while(*buffer++)result++;
 			return result;
 		}
 
-		static int Compare(const T* bufA, const ObjectString<T>& strB)
+		static vint Compare(const T* bufA, const ObjectString<T>& strB)
 		{
 			const T* bufB=strB.buffer+strB.start;
 			const T* bufAOld=bufA;
-			int length=strB.length;
+			vint length=strB.length;
 			while(length-- && *bufA)
 			{
-				int diff=*bufA++-*bufB++;
+				vint diff=*bufA++-*bufB++;
 				if(diff!=0)
 				{
 					return diff;
@@ -51,14 +51,14 @@ namespace vl
 			return CalculateLength(bufAOld)-strB.length;
 		}
 
-		static int Compare(const ObjectString<T>& strA, const ObjectString<T>& strB)
+		static vint Compare(const ObjectString<T>& strA, const ObjectString<T>& strB)
 		{
 			const T* bufA=strA.buffer+strA.start;
 			const T* bufB=strB.buffer+strB.start;
-			int length=strA.length<strB.length?strA.length:strB.length;
+			vint length=strA.length<strB.length?strA.length:strB.length;
 			while(length--)
 			{
-				int diff=*bufA++-*bufB++;
+				vint diff=*bufA++-*bufB++;
 				if(diff!=0)
 				{
 					return diff;
@@ -87,7 +87,7 @@ namespace vl
 			}
 		}
 
-		ObjectString(const ObjectString<T>& string, int _start, int _length)
+		ObjectString(const ObjectString<T>& string, vint _start, vint _length)
 		{
 			if(_length==0)
 			{
@@ -108,7 +108,7 @@ namespace vl
 			}
 		}
 
-		ObjectString(const ObjectString<T>& dest, const ObjectString<T>& source, int index, int count)
+		ObjectString(const ObjectString<T>& dest, const ObjectString<T>& source, vint index, vint count)
 		{
 			if(index==0 && count==dest.length && source.length==0)
 			{
@@ -120,7 +120,7 @@ namespace vl
 			}
 			else
 			{
-				reference=new int(1);
+				reference=new vint(1);
 				start=0;
 				length=dest.length-count+source.length;
 				realLength=length;
@@ -145,7 +145,7 @@ namespace vl
 
 		ObjectString(const T& _char)
 		{
-			reference=new int(1);
+			reference=new vint(1);
 			start=0;
 			length=1;
 			buffer=new T[2];
@@ -154,7 +154,7 @@ namespace vl
 			realLength=length;
 		}
 
-		ObjectString(const T* _buffer, int _length)
+		ObjectString(const T* _buffer, vint _length)
 		{
 			if(_length==0)
 			{
@@ -169,7 +169,7 @@ namespace vl
 				buffer=new T[_length+1];
 				memcpy(buffer, _buffer, _length*sizeof(T));
 				buffer[_length]=0;
-				reference=new int(1);
+				reference=new vint(1);
 				start=0;
 				length=_length;
 				realLength=_length;
@@ -181,7 +181,7 @@ namespace vl
 			CHECK_ERROR(_buffer!=0, L"ObjectString<T>::ObjectString(const T*, bool)#不能用空指针构造字符串。");
 			if(copy)
 			{
-				reference=new int(1);
+				reference=new vint(1);
 				start=0;
 				length=CalculateLength(_buffer);
 				buffer=new T[length+1];
@@ -222,7 +222,7 @@ namespace vl
 				newBuffer[length]=0;
 				Dec();
 				buffer=newBuffer;
-				reference=new int(1);
+				reference=new vint(1);
 				start=0;
 				realLength=length;
 			}
@@ -314,46 +314,46 @@ namespace vl
 			return Compare(buffer, *this)>=0;
 		}
 
-		T operator[](int index)const
+		T operator[](vint index)const
 		{
-			CHECK_ERROR(index>=0 && index<length, L"ObjectString:<T>:operator[](int)#参数index越界。");
+			CHECK_ERROR(index>=0 && index<length, L"ObjectString:<T>:operator[](vint)#参数index越界。");
 			return buffer[start+index];
 		}
 
-		int Length()const
+		vint Length()const
 		{
 			return length;
 		}
 
-		ObjectString<T> Left(int count)const
+		ObjectString<T> Left(vint count)const
 		{
-			CHECK_ERROR(count>=0 && count<=length, L"ObjectString<T>::Left(int)#参数count越界。");
+			CHECK_ERROR(count>=0 && count<=length, L"ObjectString<T>::Left(vint)#参数count越界。");
 			return ObjectString<T>(*this, 0, count);
 		}
 
-		ObjectString<T> Right(int count)const
+		ObjectString<T> Right(vint count)const
 		{
-			CHECK_ERROR(count>=0 && count<=length, L"ObjectString<T>::Right(int)#参数count越界。");
+			CHECK_ERROR(count>=0 && count<=length, L"ObjectString<T>::Right(vint)#参数count越界。");
 			return ObjectString<T>(*this, length-count, count);
 		}
 
-		ObjectString<T> Sub(int index, int count)const
+		ObjectString<T> Sub(vint index, vint count)const
 		{
-			CHECK_ERROR(index>=0 && index<length, L"ObjectString<T>::Sub(int, int)#参数index越界。");
-			CHECK_ERROR(index+count>=0 && index+count<=length, L"ObjectString<T>::Sub(int, int)#参数count越界。");
+			CHECK_ERROR(index>=0 && index<length, L"ObjectString<T>::Sub(vint, vint)#参数index越界。");
+			CHECK_ERROR(index+count>=0 && index+count<=length, L"ObjectString<T>::Sub(vint, vint)#参数count越界。");
 			return ObjectString<T>(*this, index, count);
 		}
 
-		ObjectString<T> Remove(int index, int count)const
+		ObjectString<T> Remove(vint index, vint count)const
 		{
-			CHECK_ERROR(index>=0 && index<length, L"ObjectString<T>::Remove(int, int)#参数index越界。");
-			CHECK_ERROR(index+count>=0 && index+count<=length, L"ObjectString<T>::Remove(int, int)#参数count越界。");
+			CHECK_ERROR(index>=0 && index<length, L"ObjectString<T>::Remove(vint, vint)#参数index越界。");
+			CHECK_ERROR(index+count>=0 && index+count<=length, L"ObjectString<T>::Remove(vint, vint)#参数count越界。");
 			return ObjectString<T>(*this, ObjectString<T>(), index, count);
 		}
 
-		ObjectString<T> Insert(int index, const ObjectString<T>& string)const
+		ObjectString<T> Insert(vint index, const ObjectString<T>& string)const
 		{
-			CHECK_ERROR(index>=0 && index<=length, L"ObjectString<T>::Insert(int)#参数count越界。");
+			CHECK_ERROR(index>=0 && index<=length, L"ObjectString<T>::Insert(vint)#参数count越界。");
 			return ObjectString<T>(*this, string, index, 0);
 		}
 
@@ -399,22 +399,22 @@ namespace vl
 	typedef ObjectString<char>		AString;
 	typedef ObjectString<wchar_t>	WString;
 
-	extern int					atoi(const AString& string);
-	extern int					wtoi(const WString& string);
+	extern vint					atoi(const AString& string);
+	extern vint					wtoi(const WString& string);
 	extern __int64				atoi64(const AString& string);
 	extern __int64				wtoi64(const WString& string);
-	extern unsigned int			atou(const AString& string);
-	extern unsigned int			wtou(const WString& string);
+	extern vuint			atou(const AString& string);
+	extern vuint			wtou(const WString& string);
 	extern unsigned __int64		atou64(const AString& string);
 	extern unsigned __int64		wtou64(const WString& string);
 	extern double				atof(const AString& string);
 	extern double				wtof(const WString& string);
-	extern AString				itoa(int number);
-	extern WString				itow(int number);
+	extern AString				itoa(vint number);
+	extern WString				itow(vint number);
 	extern AString				i64toa(__int64 number);
 	extern WString				i64tow(__int64 number);
-	extern AString				utoa(unsigned int number);
-	extern WString				utow(unsigned int number);
+	extern AString				utoa(vuint number);
+	extern WString				utow(vuint number);
 	extern AString				u64toa(unsigned __int64 number);
 	extern WString				u64tow(unsigned __int64 number);
 	extern AString				ftoa(double number);

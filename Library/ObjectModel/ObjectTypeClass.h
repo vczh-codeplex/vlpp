@@ -59,7 +59,7 @@ namespace vl
 				{
 					return name;
 				}
-				int EnumValue()const
+				vint EnumValue()const
 				{
 					return 0;
 				}
@@ -104,7 +104,7 @@ namespace vl
 				{
 					return name;
 				}
-				int EnumValue()const
+				vint EnumValue()const
 				{
 					return 0;
 				}
@@ -193,19 +193,19 @@ namespace vl
 			}
 			~ObjectTypeClass()
 			{
-				for(int i=0;i<fields.Count();i++)
+				for(vint i=0;i<fields.Count();i++)
 				{
 					delete fields.Values()[i];
 				}
-				for(int i=0;i<methods.Keys().Count();i++)
+				for(vint i=0;i<methods.Keys().Count();i++)
 				{
 					const IReadonlyList<ObjectMember*>& members=methods.GetByIndex(i);
-					for(int j=0;j<members.Count();j++)
+					for(vint j=0;j<members.Count();j++)
 					{
 						delete members[j];
 					}
 				}
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -242,11 +242,11 @@ namespace vl
 			{
 				delete (T*)instance;
 			}
-			void* CastToBaseClass(int baseClassIndex, void* instance)const
+			void* CastToBaseClass(vint baseClassIndex, void* instance)const
 			{
 				return upCasters.Get(baseClassIndex)(instance);
 			}
-			void* CastToSubClass(int baseClassIndex, void* instance)const
+			void* CastToSubClass(vint baseClassIndex, void* instance)const
 			{
 				return downCasters.Get(baseClassIndex)(instance);
 			}

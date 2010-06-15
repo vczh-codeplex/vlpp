@@ -32,7 +32,7 @@ namespace vl
 		public:
 			virtual bool				IsEnd()=0;
 			virtual wchar_t				ReadChar()=0;
-			virtual WString				ReadString(int length);
+			virtual WString				ReadString(vint length);
 			virtual WString				ReadLine();
 			virtual WString				ReadToEnd();
 		};
@@ -97,9 +97,9 @@ namespace vl
 			void						Seek(pos_t _size);
 			void						SeekFromBegin(pos_t _size);
 			void						SeekFromEnd(pos_t _size);
-			int							Read(void* _buffer, int _size);
-			int							Write(void* _buffer, int _size);
-			int							Peek(void* _buffer, int _size);
+			vint							Read(void* _buffer, vint _size);
+			vint							Write(void* _buffer, vint _size);
+			vint							Peek(void* _buffer, vint _size);
 		};
 
 		class DecoderStream : public virtual IStream
@@ -125,9 +125,9 @@ namespace vl
 			void						Seek(pos_t _size);
 			void						SeekFromBegin(pos_t _size);
 			void						SeekFromEnd(pos_t _size);
-			int							Read(void* _buffer, int _size);
-			int							Write(void* _buffer, int _size);
-			int							Peek(void* _buffer, int _size);
+			vint							Read(void* _buffer, vint _size);
+			vint							Write(void* _buffer, vint _size);
+			vint							Peek(void* _buffer, vint _size);
 		};
 	}
 }

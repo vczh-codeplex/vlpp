@@ -106,7 +106,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	BasicCodeGenerator codegen(&analyzer, 0, L"assembly_generated");
 	codegen.GenerateCode();
 	BasicILInterpretor interpretor(65536);
-	int key=interpretor.LoadIL(codegen.GetIL().Obj());
+	vint key=interpretor.LoadIL(codegen.GetIL().Obj());
 	if(name!=L"")
 	{
 		WString fileName=GetPath()+L"Codegen_"+name+L".txt";
@@ -131,7 +131,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	stack.Reset(0, key, 0);
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==65536);
-	int ins=codegen.GetIL()->labels[0].instructionIndex;
+	vint ins=codegen.GetIL()->labels[0].instructionIndex;
 	stack.Reset(ins, key, sizeof(T));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
@@ -156,7 +156,7 @@ TEST_CASE(TestScripting_BasicLanguage_1Plus1)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(1)+e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_1Plus1");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_1Plus1");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_2Minus3)
@@ -165,7 +165,7 @@ TEST_CASE(TestScripting_BasicLanguage_2Minus3)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(2)-e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), -1, L"TestScripting_BasicLanguage_2Minus3");
+	RunBasicProgram<vint>(program.GetInternalValue(), -1, L"TestScripting_BasicLanguage_2Minus3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_7Multiply8)
@@ -174,7 +174,7 @@ TEST_CASE(TestScripting_BasicLanguage_7Multiply8)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(7)*e_prim(8)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 56, L"TestScripting_BasicLanguage_7Multiply8");
+	RunBasicProgram<vint>(program.GetInternalValue(), 56, L"TestScripting_BasicLanguage_7Multiply8");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_6Div3)
@@ -183,7 +183,7 @@ TEST_CASE(TestScripting_BasicLanguage_6Div3)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(6)/e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_6Div3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_6Div3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_10Mod3)
@@ -192,7 +192,7 @@ TEST_CASE(TestScripting_BasicLanguage_10Mod3)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(10)%e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_10Mod3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_10Mod3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_10Shl3)
@@ -201,7 +201,7 @@ TEST_CASE(TestScripting_BasicLanguage_10Shl3)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(10)<<e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 80, L"TestScripting_BasicLanguage_10Shl3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 80, L"TestScripting_BasicLanguage_10Shl3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_10Shr3)
@@ -210,7 +210,7 @@ TEST_CASE(TestScripting_BasicLanguage_10Shr3)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(10)>>e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_10Shr3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_10Shr3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_6And10)
@@ -219,7 +219,7 @@ TEST_CASE(TestScripting_BasicLanguage_6And10)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(6)&e_prim(10)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_6And10");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_6And10");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_6Or10)
@@ -228,7 +228,7 @@ TEST_CASE(TestScripting_BasicLanguage_6Or10)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(6)|e_prim(10)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 14, L"TestScripting_BasicLanguage_6Or10");
+	RunBasicProgram<vint>(program.GetInternalValue(), 14, L"TestScripting_BasicLanguage_6Or10");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_6Xor10)
@@ -237,7 +237,7 @@ TEST_CASE(TestScripting_BasicLanguage_6Xor10)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_prim(6)^e_prim(10)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 12, L"TestScripting_BasicLanguage_6Xor10");
+	RunBasicProgram<vint>(program.GetInternalValue(), 12, L"TestScripting_BasicLanguage_6Xor10");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Neg1Lt2)
@@ -302,7 +302,7 @@ TEST_CASE(TestScripting_BasicLanguage_3PlusPlus)
 		<<s_var(t_int(), L"b", e_name(L"a")++)
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 304, L"TestScripting_BasicLanguage_3PlusPlus");
+	RunBasicProgram<vint>(program.GetInternalValue(), 304, L"TestScripting_BasicLanguage_3PlusPlus");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_3MinusMinus)
@@ -313,7 +313,7 @@ TEST_CASE(TestScripting_BasicLanguage_3MinusMinus)
 		<<s_var(t_int(), L"b", e_name(L"a")--)
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 302, L"TestScripting_BasicLanguage_3MinusMinus");
+	RunBasicProgram<vint>(program.GetInternalValue(), 302, L"TestScripting_BasicLanguage_3MinusMinus");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_PlusPlus3)
@@ -324,7 +324,7 @@ TEST_CASE(TestScripting_BasicLanguage_PlusPlus3)
 		<<s_var(t_int(), L"b", ++e_name(L"a"))
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 404, L"TestScripting_BasicLanguage_PlusPlus3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 404, L"TestScripting_BasicLanguage_PlusPlus3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Neg)
@@ -335,7 +335,7 @@ TEST_CASE(TestScripting_BasicLanguage_Neg)
 		<<s_var(t_int(), L"b", -e_name(L"a"))
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), -297, L"TestScripting_BasicLanguage_Neg");
+	RunBasicProgram<vint>(program.GetInternalValue(), -297, L"TestScripting_BasicLanguage_Neg");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Not)
@@ -346,7 +346,7 @@ TEST_CASE(TestScripting_BasicLanguage_Not)
 		<<s_var(t_int(), L"b", !e_name(L"a"))
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_Not");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_Not");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_BitNot)
@@ -357,7 +357,7 @@ TEST_CASE(TestScripting_BasicLanguage_BitNot)
 		<<s_var(t_int(), L"b", ~e_name(L"a"))
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), (~3)*100+3, L"TestScripting_BasicLanguage_BitNot");
+	RunBasicProgram<vint>(program.GetInternalValue(), (~3)*100+3, L"TestScripting_BasicLanguage_BitNot");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_MinusMinus3)
@@ -368,7 +368,7 @@ TEST_CASE(TestScripting_BasicLanguage_MinusMinus3)
 		<<s_var(t_int(), L"b", --e_name(L"a"))
 		<<s_expr(e_result().Assign(e_name(L"b")*e_prim(100)+e_name(L"a")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 202, L"TestScripting_BasicLanguage_MinusMinus3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 202, L"TestScripting_BasicLanguage_MinusMinus3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_AddAssign)
@@ -378,7 +378,7 @@ TEST_CASE(TestScripting_BasicLanguage_AddAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")+=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 13, L"TestScripting_BasicLanguage_AddAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 13, L"TestScripting_BasicLanguage_AddAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_SubAssign)
@@ -388,7 +388,7 @@ TEST_CASE(TestScripting_BasicLanguage_SubAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")-=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 7, L"TestScripting_BasicLanguage_SubAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 7, L"TestScripting_BasicLanguage_SubAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_MulAssign)
@@ -398,7 +398,7 @@ TEST_CASE(TestScripting_BasicLanguage_MulAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")*=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 30, L"TestScripting_BasicLanguage_MulAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 30, L"TestScripting_BasicLanguage_MulAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_DivAssign)
@@ -408,7 +408,7 @@ TEST_CASE(TestScripting_BasicLanguage_DivAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")/=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_DivAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_DivAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ModAssign)
@@ -418,7 +418,7 @@ TEST_CASE(TestScripting_BasicLanguage_ModAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")%=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_ModAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_ModAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ShlAssign)
@@ -428,7 +428,7 @@ TEST_CASE(TestScripting_BasicLanguage_ShlAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")<<=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 80, L"TestScripting_BasicLanguage_ShlAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 80, L"TestScripting_BasicLanguage_ShlAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ShrAssign)
@@ -438,7 +438,7 @@ TEST_CASE(TestScripting_BasicLanguage_ShrAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")>>=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_ShrAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 1, L"TestScripting_BasicLanguage_ShrAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_BitAndAssign)
@@ -448,7 +448,7 @@ TEST_CASE(TestScripting_BasicLanguage_BitAndAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")&=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_BitAndAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_BitAndAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_BitOrAssign)
@@ -458,7 +458,7 @@ TEST_CASE(TestScripting_BasicLanguage_BitOrAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")|=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 11, L"TestScripting_BasicLanguage_BitOrAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 11, L"TestScripting_BasicLanguage_BitOrAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_XorAssign)
@@ -468,7 +468,7 @@ TEST_CASE(TestScripting_BasicLanguage_XorAssign)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign(e_name(L"a")^=e_prim(3)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 9, L"TestScripting_BasicLanguage_XorAssign");
+	RunBasicProgram<vint>(program.GetInternalValue(), 9, L"TestScripting_BasicLanguage_XorAssign");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_AddAssignRef)
@@ -478,7 +478,7 @@ TEST_CASE(TestScripting_BasicLanguage_AddAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")+=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 14, L"TestScripting_BasicLanguage_AddAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 14, L"TestScripting_BasicLanguage_AddAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_SubAssignRef)
@@ -488,7 +488,7 @@ TEST_CASE(TestScripting_BasicLanguage_SubAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")-=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 8, L"TestScripting_BasicLanguage_SubAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 8, L"TestScripting_BasicLanguage_SubAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_MulAssignRef)
@@ -498,7 +498,7 @@ TEST_CASE(TestScripting_BasicLanguage_MulAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")*=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 31, L"TestScripting_BasicLanguage_MulAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 31, L"TestScripting_BasicLanguage_MulAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_DivAssignRef)
@@ -508,7 +508,7 @@ TEST_CASE(TestScripting_BasicLanguage_DivAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")/=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_DivAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_DivAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ModAssignRef)
@@ -518,7 +518,7 @@ TEST_CASE(TestScripting_BasicLanguage_ModAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")%=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_ModAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_ModAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ShlAssignRef)
@@ -528,7 +528,7 @@ TEST_CASE(TestScripting_BasicLanguage_ShlAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")<<=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 81, L"TestScripting_BasicLanguage_ShlAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 81, L"TestScripting_BasicLanguage_ShlAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ShrAssignRef)
@@ -538,7 +538,7 @@ TEST_CASE(TestScripting_BasicLanguage_ShrAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")>>=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_ShrAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_ShrAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_BitAndAssignRef)
@@ -548,7 +548,7 @@ TEST_CASE(TestScripting_BasicLanguage_BitAndAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")&=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_BitAndAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_BitAndAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_BitOrAssignRef)
@@ -558,7 +558,7 @@ TEST_CASE(TestScripting_BasicLanguage_BitOrAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")|=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 12, L"TestScripting_BasicLanguage_BitOrAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 12, L"TestScripting_BasicLanguage_BitOrAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_XorAssignRef)
@@ -568,7 +568,7 @@ TEST_CASE(TestScripting_BasicLanguage_XorAssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a")^=e_prim(3))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 10, L"TestScripting_BasicLanguage_XorAssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 10, L"TestScripting_BasicLanguage_XorAssignRef");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_AssignRef)
@@ -578,7 +578,7 @@ TEST_CASE(TestScripting_BasicLanguage_AssignRef)
 		s_var(t_int(), L"a", e_prim(10))
 		<<s_expr(e_result().Assign((e_name(L"a").Assign(e_prim(3)))+=e_prim(1)))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_AssignRef");
+	RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_AssignRef");
 }
 
 /***********************************************************************
@@ -603,7 +603,7 @@ TEST_CASE(TestScripting_BasicLanguage_Sum1)
 		<<s_expr(e_result()+=e_name(L"b")[e_prim(3)])
 		<<s_expr(e_result()+=e_name(L"b")[e_prim(4)])
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum1");
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum1");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Sum2)
@@ -624,7 +624,7 @@ TEST_CASE(TestScripting_BasicLanguage_Sum2)
 		<<s_expr(e_result()+=*e_name(L"b")++)
 		<<s_expr(e_result()+=*e_name(L"b")++)
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum2");
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum2");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Sum3)
@@ -645,7 +645,7 @@ TEST_CASE(TestScripting_BasicLanguage_Sum3)
 		<<s_expr(e_result()+=*e_name(L"b")--)
 		<<s_expr(e_result()+=*e_name(L"b")--)
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum3");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Sum4)
@@ -666,7 +666,7 @@ TEST_CASE(TestScripting_BasicLanguage_Sum4)
 		<<s_expr(e_result()+=*++e_name(L"b"))
 		<<s_expr(e_result()+=*++e_name(L"b"))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum4");
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum4");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Sum5)
@@ -687,7 +687,7 @@ TEST_CASE(TestScripting_BasicLanguage_Sum5)
 		<<s_expr(e_result()+=*--e_name(L"b"))
 		<<s_expr(e_result()+=*--e_name(L"b"))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum5");
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_Sum5");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
@@ -704,7 +704,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*(e_name(L"b")+e_prim(3))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[1]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[1]");
 	}
 	{
 		BasicProgramNode program;
@@ -718,7 +718,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*(e_name(L"b")+=e_prim(3))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[2]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[2]");
 	}
 	{
 		BasicProgramNode program;
@@ -732,7 +732,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*((e_name(L"b")+=e_prim(2))+=e_prim(1))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[3]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[3]");
 	}
 	{
 		BasicProgramNode program;
@@ -746,7 +746,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*((++e_name(L"b"))+=e_prim(2))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[4]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 4, L"TestScripting_BasicLanguage_PointerArithmetic[4]");
 	}
 	{
 		BasicProgramNode program;
@@ -760,7 +760,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(0)].Ref())
 			<<s_expr(e_result().Assign(*(e_prim(2)+e_name(L"b"))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_PointerArithmetic[5]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_PointerArithmetic[5]");
 	}
 	{
 		BasicProgramNode program;
@@ -774,7 +774,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
 			<<s_expr(e_result().Assign(*(e_name(L"b")-e_prim(3))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[6]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[6]");
 	}
 	{
 		BasicProgramNode program;
@@ -788,7 +788,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
 			<<s_expr(e_result().Assign(*(e_name(L"b")-=e_prim(3))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[7]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[7]");
 	}
 	{
 		BasicProgramNode program;
@@ -802,7 +802,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
 			<<s_expr(e_result().Assign(*((e_name(L"b")-=e_prim(2))-=e_prim(1))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[8]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[8]");
 	}
 	{
 		BasicProgramNode program;
@@ -816,7 +816,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"b", e_name(L"a")[e_prim(4)].Ref())
 			<<s_expr(e_result().Assign(*((--e_name(L"b"))-=e_prim(2))))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[9]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[9]");
 	}
 	{
 		BasicProgramNode program;
@@ -831,7 +831,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_var(*t_int(), L"c", e_name(L"a")[e_prim(2)].Ref())
 			<<s_expr(e_result().Assign(e_name(L"b")-e_name(L"c")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[10]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[10]");
 	}
 	{
 		BasicProgramNode program;
@@ -848,7 +848,7 @@ TEST_CASE(TestScripting_BasicLanguage_PointerArithmetic)
 			<<s_expr(e_name(L"c")-=e_prim(2))
 			<<s_expr(e_result().Assign(e_name(L"b")-e_name(L"c")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[11]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 2, L"TestScripting_BasicLanguage_PointerArithmetic[11]");
 	}
 }
 
@@ -877,7 +877,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
 			<<s_expr((e_result()*=e_prim(10))+=e_name(L"a")[e_name(L"j")++])
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 21436, L"TestScripting_BasicLanguage_ComplexSideEffect[1]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 21436, L"TestScripting_BasicLanguage_ComplexSideEffect[1]");
 	}
 	{
 		BasicProgramNode program;
@@ -894,7 +894,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			<<s_expr(e_name(L"pc").PMember(L"b")-=e_prim(4))
 			<<s_expr(e_result().Assign(e_name(L"c").Member(L"a")-e_name(L"c").Member(L"b")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 6, L"TestScripting_BasicLanguage_ComplexSideEffect[2]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 6, L"TestScripting_BasicLanguage_ComplexSideEffect[2]");
 	}
 	{
 		BasicProgramNode program;
@@ -922,7 +922,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 				+e_name(L"l")
 				))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 7645, L"TestScripting_BasicLanguage_ComplexSideEffect[3]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 7645, L"TestScripting_BasicLanguage_ComplexSideEffect[3]");
 	}
 	{
 		BasicProgramNode program;
@@ -992,7 +992,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")-e_name(L"j")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 12212582, L"TestScripting_BasicLanguage_ComplexSideEffect[4]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 12212582, L"TestScripting_BasicLanguage_ComplexSideEffect[4]");
 	}
 	{
 		BasicProgramNode program;
@@ -1033,7 +1033,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(*e_name(L"i")-e_name(L"j")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 442, L"TestScripting_BasicLanguage_ComplexSideEffect[5]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 442, L"TestScripting_BasicLanguage_ComplexSideEffect[5]");
 	}
 	{
 		BasicProgramNode program;
@@ -1069,7 +1069,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 442, L"TestScripting_BasicLanguage_ComplexSideEffect[6]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 442, L"TestScripting_BasicLanguage_ComplexSideEffect[6]");
 	}
 	{
 		BasicProgramNode program;
@@ -1108,7 +1108,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 123456, L"TestScripting_BasicLanguage_ComplexSideEffect[7]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 123456, L"TestScripting_BasicLanguage_ComplexSideEffect[7]");
 	}
 	{
 		BasicProgramNode program;
@@ -1152,7 +1152,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 567, L"TestScripting_BasicLanguage_ComplexSideEffect[8]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 567, L"TestScripting_BasicLanguage_ComplexSideEffect[8]");
 	}
 	{
 		BasicProgramNode program;
@@ -1185,7 +1185,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[9]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[9]");
 	}
 	{
 		BasicProgramNode program;
@@ -1218,7 +1218,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexSideEffect)
 			.Statement(
 				s_expr(e_result().Assign(*e_name(L"i")))
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[10]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 456, L"TestScripting_BasicLanguage_ComplexSideEffect[10]");
 	}
 }
 
@@ -1250,7 +1250,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexNumber1)
 			e_name(L"c").Member(L"r")*e_prim(100) + e_name(L"c").Member(L"i")
 			))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber1");
+	RunBasicProgram<vint>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber1");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ComplexNumber2)
@@ -1280,7 +1280,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexNumber2)
 			e_name(L"pc").PMember(L"r")*e_prim(100) + e_name(L"pc").PMember(L"i")
 			))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber2");
+	RunBasicProgram<vint>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber2");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ComplexNumber3)
@@ -1310,7 +1310,7 @@ TEST_CASE(TestScripting_BasicLanguage_ComplexNumber3)
 			e_name(L"c").Member(L"r")*e_prim(100) + e_name(L"c").Member(L"i")
 			))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber3");
+	RunBasicProgram<vint>(program.GetInternalValue(), 406, L"TestScripting_BasicLanguage_ComplexNumber3");
 }
 
 /***********************************************************************
@@ -1328,7 +1328,7 @@ TEST_CASE(TestScripting_BasicLanguage_IfStatement)
 				,s_expr(e_result().Assign(e_prim(100)))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 0, L"TestScripting_BasicLanguage_IfStatement[1]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 0, L"TestScripting_BasicLanguage_IfStatement[1]");
 	}
 	{
 		BasicProgramNode program;
@@ -1339,7 +1339,7 @@ TEST_CASE(TestScripting_BasicLanguage_IfStatement)
 				,s_expr(e_result().Assign(e_prim(100)))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_IfStatement[2]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_IfStatement[2]");
 	}
 	{
 		BasicProgramNode program;
@@ -1351,7 +1351,7 @@ TEST_CASE(TestScripting_BasicLanguage_IfStatement)
 				,s_expr(e_result().Assign(e_prim(200)))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 200, L"TestScripting_BasicLanguage_IfStatement[3]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 200, L"TestScripting_BasicLanguage_IfStatement[3]");
 	}
 	{
 		BasicProgramNode program;
@@ -1363,7 +1363,7 @@ TEST_CASE(TestScripting_BasicLanguage_IfStatement)
 				,s_expr(e_result().Assign(e_prim(200)))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_IfStatement[4]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_IfStatement[4]");
 	}
 }
 
@@ -1379,7 +1379,7 @@ TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
 				<<s_expr(e_name(L"i")++)
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[1]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[1]");
 	}
 	{
 		BasicProgramNode program;
@@ -1391,7 +1391,7 @@ TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
 				<<s_expr(e_name(L"i")++)
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[2]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[2]");
 	}
 	{
 		BasicProgramNode program;
@@ -1403,7 +1403,7 @@ TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
 				<<s_expr(e_name(L"i")++)
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[3]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[3]");
 	}
 	{
 		BasicProgramNode program;
@@ -1416,7 +1416,7 @@ TEST_CASE(TestScripting_BasicLanguage_WhileStatement)
 				<<s_if(e_name(L"i")<=e_prim(10),s_continue(),s_break())
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[4]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_WhileStatement[4]");
 	}
 }
 
@@ -1433,7 +1433,7 @@ TEST_CASE(TestScripting_BasicLanguage_ForStatement)
 				s_expr(e_result()+=e_name(L"i"))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_ForStatement[1]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_ForStatement[1]");
 	}
 	{
 		BasicProgramNode program;
@@ -1446,7 +1446,7 @@ TEST_CASE(TestScripting_BasicLanguage_ForStatement)
 				s_expr(e_result()+=e_name(L"i")+e_name(L"j"))
 				)
 			);
-		RunBasicProgram<int>(program.GetInternalValue(), 110, L"TestScripting_BasicLanguage_ForStatement[2]");
+		RunBasicProgram<vint>(program.GetInternalValue(), 110, L"TestScripting_BasicLanguage_ForStatement[2]");
 	}
 }
 
@@ -1462,7 +1462,7 @@ TEST_CASE(TestScripting_BasicLanguage_ReturnStatement)
 			<<s_if(e_name(L"i")>e_prim(10),s_return())
 			)
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_ReturnStatement");
+	RunBasicProgram<vint>(program.GetInternalValue(), 55, L"TestScripting_BasicLanguage_ReturnStatement");
 }
 
 /***********************************************************************
@@ -1481,7 +1481,7 @@ TEST_CASE(TestScripting_BasicLanguage_SimpleFunction)
 		.Statement(
 		s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_SimpleFunction");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_SimpleFunction");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_FunctionPointer)
@@ -1497,7 +1497,7 @@ TEST_CASE(TestScripting_BasicLanguage_FunctionPointer)
 		.Statement(
 		s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_FunctionPointer");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_FunctionPointer");
 }
 
 /***********************************************************************
@@ -1511,7 +1511,7 @@ TEST_CASE(TestScripting_BasicLanguage_GlobalVariable1)
 	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
 		s_expr(e_result().Assign(e_name(L"x")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_GlobalVariable1");
+	RunBasicProgram<vint>(program.GetInternalValue(), 100, L"TestScripting_BasicLanguage_GlobalVariable1");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_GlobalVariable2)
@@ -1528,7 +1528,7 @@ TEST_CASE(TestScripting_BasicLanguage_GlobalVariable2)
 		.Statement(
 		s_expr(e_name(L"x").Assign(e_name(L"a")+e_name(L"b")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_GlobalVariable2");
+	RunBasicProgram<vint>(program.GetInternalValue(), 3, L"TestScripting_BasicLanguage_GlobalVariable2");
 }
 
 /***********************************************************************
@@ -1543,7 +1543,7 @@ TEST_CASE(TestScripting_BasicLanguage_TypeUpgrade)
 		<<s_var(t_uint8(), L"b", e_prim((unsigned __int8)200))
 		<<s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 400, L"TestScripting_BasicLanguage_TypeUpgrade");
+	RunBasicProgram<vint>(program.GetInternalValue(), 400, L"TestScripting_BasicLanguage_TypeUpgrade");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_DereferenceLeftValue)
@@ -1554,7 +1554,7 @@ TEST_CASE(TestScripting_BasicLanguage_DereferenceLeftValue)
 		<<s_var(t_uint8(), L"b", e_prim((unsigned __int8)200))
 		<<s_expr((*e_result().Ref()).Assign(e_name(L"a")+e_name(L"b")))
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 400, L"TestScripting_BasicLanguage_DereferenceLeftValue");
+	RunBasicProgram<vint>(program.GetInternalValue(), 400, L"TestScripting_BasicLanguage_DereferenceLeftValue");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_AnsiString)
@@ -1568,7 +1568,7 @@ TEST_CASE(TestScripting_BasicLanguage_AnsiString)
 			<<s_expr(e_name(L"a")++)
 			)
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 335, L"TestScripting_BasicLanguage_AnsiString");
+	RunBasicProgram<vint>(program.GetInternalValue(), 335, L"TestScripting_BasicLanguage_AnsiString");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_WideString)
@@ -1582,7 +1582,7 @@ TEST_CASE(TestScripting_BasicLanguage_WideString)
 			<<s_expr(e_name(L"a")++)
 			)
 		);
-	RunBasicProgram<int>(program.GetInternalValue(), 335, L"TestScripting_BasicLanguage_WideString");
+	RunBasicProgram<vint>(program.GetInternalValue(), 335, L"TestScripting_BasicLanguage_WideString");
 }
 
 TEST_CASE(TestScripting_BasicLanguage_Null)

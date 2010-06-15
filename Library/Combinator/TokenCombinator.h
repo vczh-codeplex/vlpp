@@ -20,7 +20,7 @@ namespace vl
 {
 	namespace combinator
 	{
-		extern Node<TokenInput<regex::RegexToken>, regex::RegexToken>	tk(int token);
+		extern Node<TokenInput<regex::RegexToken>, regex::RegexToken>	tk(vint token);
 		extern Node<TokenInput<regex::RegexToken>, regex::RegexToken>	tk(const WString& token);
 	}
 }

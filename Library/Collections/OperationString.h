@@ -18,7 +18,7 @@ namespace vl
 		template<typename T, typename K>
 		void CopyFrom(IArray<T, K>& dst, const ObjectString<T>& src, bool append=false)
 		{
-			int start=0;
+			vint start=0;
 			if(append)
 			{
 				start=dst.Count();
@@ -28,7 +28,7 @@ namespace vl
 			{
 				dst.Resize(src.Length());
 			}
-			for(int i=0;i<src.Length();i++)
+			for(vint i=0;i<src.Length();i++)
 			{
 				dst[start+i]=src[i];
 			}
@@ -41,7 +41,7 @@ namespace vl
 			{
 				dst.Clear();
 			}
-			for(int i=0;i<src.Length();i++)
+			for(vint i=0;i<src.Length();i++)
 			{
 				dst.Add(src[i]);
 			}
@@ -53,7 +53,7 @@ namespace vl
 			T* buffer=new T[src.Count()+1];
 			try
 			{
-				for(int i=0;i<src.Count();i++)
+				for(vint i=0;i<src.Count();i++)
 				{
 					buffer[i]=src[i];
 				}
@@ -81,7 +81,7 @@ namespace vl
 			IEnumerator<T>* enumerator=src.CreateEnumerator();
 			try
 			{
-				int count=0;
+				vint count=0;
 				while(enumerator->Available())
 				{
 					count++;
