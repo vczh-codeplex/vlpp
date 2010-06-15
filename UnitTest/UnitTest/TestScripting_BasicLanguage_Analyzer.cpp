@@ -178,12 +178,37 @@ TEST_CASE(TestTypeManager)
 	TEST_ASSERT(structure->MemberType(L"data")==primitiveInt);
 	TEST_ASSERT(structure->MemberType(1)==manager.GetPointerType(structure));
 	TEST_ASSERT(structure->MemberType(L"next")==manager.GetPointerType(structure));
+}
+
+TEST_CASE(TestTypeManagerWithGeneric)
+{
+	BasicTypeManager manager;
+	Dictionary<BasicTypeRecord*, BasicTypeRecord*> instanciatingArguments;
 
 	BasicTypeRecord* genericArgument=manager.GetGenericArgumentType(L"T");
 	TEST_ASSERT(genericArgument->GetType()==BasicTypeRecord::GenericArgument);
 	TEST_ASSERT(genericArgument->ArgumentName()==L"T");
 	TEST_ASSERT(genericArgument==manager.GetGenericArgumentType(L"T"));
 	TEST_ASSERT(genericArgument!=manager.GetGenericArgumentType(L"U"));
+
+	BasicTypeRecord* genericType=manager.CreateGenericType();
+	BasicTypeRecord* genericLink=manager.CreateStructureType();
+	List<BasicTypeRecord*> genericArguments;
+	genericArguments.Add(manager.GetGenericArgumentType(L"T"));
+	manager.UpdateGenericType(genericType, genericLink, genericArguments.Wrap());
+
+	instanciatingArguments.Add(manager.GetGenericArgumentType(L"T"), manager.GetGenericArgumentType(L"T"));
+	List<WString> genericLinkNames;
+	genericLinkNames.Add(L"data");
+	//genericLinkNames.Add(L"next");
+	List<BasicTypeRecord*> genericLinkTypes;
+	genericLinkTypes.Add(manager.GetGenericArgumentType(L"T"));
+	//genericLinkTypes.Add(manager.GetPointerType(manager.Instanciate(genericType, instanciatingArguments.Wrap())));
+
+	TEST_ASSERT(genericType->GetType()==BasicTypeRecord::Generic);
+	TEST_ASSERT(genericType->ParameterCount()==1);
+	TEST_ASSERT(genericType->ParameterType(0)==manager.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(genericType->ElementType()==genericLink);
 }
 
 TEST_CASE(TestBasicEnv)
