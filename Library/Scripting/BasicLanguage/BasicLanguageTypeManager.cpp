@@ -332,7 +332,7 @@ BasicTypeManager¸¨Öúº¯Êý
 BasicGenericStructureProxyTypeRecord
 ***********************************************************************/
 
-			BasicGenericStructureProxyTypeRecord::BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, const _GenericInstanciatingTypeTable& _typeTable)
+			BasicGenericStructureProxyTypeRecord::BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, Ptr<_GenericInstanciatingTypeTable> _typeTable)
 				:structureType(_structureType)
 				,manager(_manager)
 				,typeTable(_typeTable)
@@ -452,7 +452,7 @@ BasicTypeManager
 							int index=structureType->proxyTable.Keys().IndexOf(p);
 							if(index==-1)
 							{
-								BasicGenericStructureProxyTypeRecord* proxyType=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters->Wrap());
+								BasicGenericStructureProxyTypeRecord* proxyType=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters);
 								CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(proxyType);
 								structureType->proxyTable.Add(p, proxyType);
 								return proxyType;
@@ -464,6 +464,24 @@ BasicTypeManager
 						}
 						else if(BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(genericType))
 						{
+							Ptr<_GenericInstanciatingTypeTable> newParameters=new _GenericInstanciatingTypeTable;
+							for(int i=0;i<parameters->Count();i++)
+							{
+								int index=proxyType->typeTable->Values().IndexOf(parameters->Keys()[i]);
+								if(index==-1)
+								{
+									newParameters->Add(parameters->Keys()[i], parameters->Values()[i]);
+								}
+								else
+								{
+									newParameters->Add(proxyType->typeTable->Keys()[i], parameters->Values()[i]);
+								}
+							}
+							return Instanciate(proxyType->structureType, newParameters);
+						}
+						else
+						{
+							return genericType;
 						}
 					}
 					break;

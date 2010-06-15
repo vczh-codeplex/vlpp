@@ -189,13 +189,13 @@ BasicTypeManager
 			{
 				friend class BasicTypeManager;
 
-				typedef collections::IReadonlyDictionary<BasicTypeRecord*, BasicTypeRecord*>				_GenericInstanciatingTypeTable;
+				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>					_GenericInstanciatingTypeTable;
 			protected:
 				BasicTypeRecord*						structureType;
 				BasicTypeManager*						manager;
-				const _GenericInstanciatingTypeTable&	typeTable;
+				Ptr<_GenericInstanciatingTypeTable>		typeTable;
 
-				BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, const _GenericInstanciatingTypeTable& _typeTable);
+				BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, Ptr<_GenericInstanciatingTypeTable> _typeTable);
 			public:
 
 				TypeRecordType							GetType();
@@ -229,6 +229,7 @@ BasicTypeManager
 
 			class BasicTypeManager : public CommonTypeManager<BasicTypeRecord>
 			{
+				friend class BasicGenericStructureProxyTypeRecord;
 				typedef collections::List<CommonTypeRecord<BasicTypeRecord>*>								_FunctionTypeTable;
 				typedef collections::Dictionary<BasicPrimitiveTypeEnum, CommonTypeRecord<BasicTypeRecord>*>	_PrimitiveTypeTable;
 				typedef collections::Dictionary<WString, CommonTypeRecord<BasicTypeRecord>*>				_GenericArgumentTypeTable;
