@@ -224,7 +224,7 @@ BasicStructureTypeRecord
 			}
 
 /***********************************************************************
-BasicPrimitiveTypeRecord
+BasicGenericArgumentTypeRecord
 ***********************************************************************/
 
 			BasicGenericArgumentTypeRecord::BasicGenericArgumentTypeRecord(const WString& name)
@@ -283,6 +283,35 @@ BasicTypeManager¸¨Öúº¯Êý
 			CommonFlagTypeRecord<BasicTypeRecord, WString>* BasicGenericArgumentRecordAllocator(WString name)
 			{
 				return new BasicGenericArgumentTypeRecord(name);
+			}
+
+/***********************************************************************
+BasicGenericTypeRecord
+***********************************************************************/
+
+			BasicGenericTypeRecord::BasicGenericTypeRecord()
+				:elementType(0)
+			{
+			}
+
+			BasicTypeRecord::TypeRecordType BasicGenericTypeRecord::GetType()
+			{
+				return BasicTypeRecord::Generic;
+			}
+
+			BasicTypeRecord* BasicGenericTypeRecord::ElementType()
+			{
+				return elementType;
+			}
+
+			BasicTypeRecord* BasicGenericTypeRecord::ParameterType(int index)
+			{
+				return parameterTypes[index];
+			}
+
+			int BasicGenericTypeRecord::ParameterCount()
+			{
+				return parameterTypes.Count();
 			}
 
 /***********************************************************************
@@ -361,6 +390,28 @@ BasicTypeManager
 					genericArgumentTypes.Wrap(),
 					BasicGenericArgumentRecordAllocator
 					);
+			}
+
+			BasicTypeRecord* BasicTypeManager::CreateGenericType()
+			{
+				BasicGenericTypeRecord* type=new BasicGenericTypeRecord;
+				CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
+				return type;
+			}
+
+			void BasicTypeManager::UpdateGenericType(BasicTypeRecord* genericType, BasicTypeRecord* elementType, const collections::IReadonlyList<BasicTypeRecord*>& parameters)
+			{
+				BasicGenericTypeRecord* type=dynamic_cast<BasicGenericTypeRecord*>(genericType);
+				if(type)
+				{
+					type->elementType=elementType;
+					CopyFrom(type->parameterTypes.Wrap(), parameters);
+				}
+			}
+
+			BasicTypeRecord* BasicTypeManager::Instanciate(BasicTypeRecord* genericType, const _GenericInstanciatingTypeTable& parameters)
+			{
+				return 0;
 			}
 		}
 	}

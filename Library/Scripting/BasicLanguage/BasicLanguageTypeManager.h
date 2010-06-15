@@ -45,17 +45,18 @@ BasicTypeManager
 					Function,
 					Structure,
 					GenericArgument,
+					Generic,
 				};
 
 				BasicTypeRecord();
 
 				virtual TypeRecordType					GetType()=0;
 				virtual BasicPrimitiveTypeEnum			PrimitiveType();						//primitive
-				virtual BasicTypeRecord*				ElementType();							//pointer array
+				virtual BasicTypeRecord*				ElementType();							//pointer array generic
 				virtual int								ElementCount();							//array
 				virtual BasicTypeRecord*				ReturnType();							//function
-				virtual BasicTypeRecord*				ParameterType(int index);				//function
-				virtual int								ParameterCount();						//function
+				virtual BasicTypeRecord*				ParameterType(int index);				//function generic
+				virtual int								ParameterCount();						//function generic
 				virtual BasicTypeRecord*				MemberType(int index);					//structure
 				virtual BasicTypeRecord*				MemberType(const WString& name);		//structure
 				virtual const WString&					MemberName(int index);					//structure
@@ -165,6 +166,21 @@ BasicTypeManager
 				WString									ArgumentName();
 			};
 
+			class BasicGenericTypeRecord : public CommonTypeRecord<BasicTypeRecord>
+			{
+				friend class BasicTypeManager;
+			protected:
+				BasicTypeRecord*						elementType;
+				collections::List<BasicTypeRecord*>		parameterTypes;
+
+				BasicGenericTypeRecord();
+			public:
+				TypeRecordType							GetType();
+				BasicTypeRecord*						ElementType();
+				BasicTypeRecord*						ParameterType(int index);
+				int										ParameterCount();
+			};
+
 /***********************************************************************
 BasicTypeManager
 ***********************************************************************/
@@ -174,6 +190,7 @@ BasicTypeManager
 				typedef collections::List<CommonTypeRecord<BasicTypeRecord>*>								_FunctionTypeTable;
 				typedef collections::Dictionary<BasicPrimitiveTypeEnum, CommonTypeRecord<BasicTypeRecord>*>	_PrimitiveTypeTable;
 				typedef collections::Dictionary<WString, CommonTypeRecord<BasicTypeRecord>*>				_GenericArgumentTypeTable;
+				typedef collections::IReadonlyDictionary<BasicTypeRecord*, BasicTypeRecord*>				_GenericInstanciatingTypeTable;
 			protected:
 				_FunctionTypeTable						functionTypes;
 				_PrimitiveTypeTable						primitiveTypes;
@@ -190,6 +207,9 @@ BasicTypeManager
 				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
 
 				BasicTypeRecord*						GetGenericArgumentType(const WString& name);
+				BasicTypeRecord*						CreateGenericType();
+				void									UpdateGenericType(BasicTypeRecord* genericType, BasicTypeRecord* elementType, const collections::IReadonlyList<BasicTypeRecord*>& parameters);
+				BasicTypeRecord*						Instanciate(BasicTypeRecord* genericType, const _GenericInstanciatingTypeTable& parameters);
 			};
 		}
 	}
