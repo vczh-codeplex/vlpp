@@ -81,6 +81,11 @@ BasicTypeRecord
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
 			}
+			
+			WString BasicTypeRecord::ArgumentName()
+			{
+				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
+			}
 
 /***********************************************************************
 BasicPrimitiveTypeRecord
@@ -219,6 +224,25 @@ BasicStructureTypeRecord
 			}
 
 /***********************************************************************
+BasicPrimitiveTypeRecord
+***********************************************************************/
+
+			BasicGenericArgumentTypeRecord::BasicGenericArgumentTypeRecord(const WString& name)
+				:CommonFlagTypeRecord<BasicTypeRecord, WString>(name)
+			{
+			}
+
+			BasicTypeRecord::TypeRecordType BasicGenericArgumentTypeRecord::GetType()
+			{
+				return BasicTypeRecord::GenericArgument;
+			}
+
+			WString BasicGenericArgumentTypeRecord::ArgumentName()
+			{
+				return InternalGetFlag();
+			}
+
+/***********************************************************************
 BasicTypeManager辅助函数
 ***********************************************************************/
 
@@ -254,6 +278,11 @@ BasicTypeManager辅助函数
 					}
 				}
 				return true;
+			}
+
+			CommonFlagTypeRecord<BasicTypeRecord, WString>* BasicGenericArgumentRecordAllocator(WString name)
+			{
+				return new BasicGenericArgumentTypeRecord(name);
 			}
 
 /***********************************************************************
@@ -323,6 +352,15 @@ BasicTypeManager
 					CopyFrom(type->types.Wrap(), types);
 					type->defined=true;
 				}
+			}
+
+			BasicTypeRecord* BasicTypeManager::GetGenericArgumentType(const WString& name)
+			{
+				return CommonTypeManager<BasicTypeRecord>::GetFlagTypeRecord(
+					name,
+					genericArgumentTypes.Wrap(),
+					BasicGenericArgumentRecordAllocator
+					);
 			}
 		}
 	}

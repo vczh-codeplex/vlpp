@@ -26,6 +26,10 @@ namespace vl
 		{
 			class BasicTypeManager;
 
+/***********************************************************************
+BasicTypeManager
+***********************************************************************/
+
 			class BasicTypeRecord : public Object, private NotCopyable
 			{
 				friend class BasicTypeManager;
@@ -40,24 +44,30 @@ namespace vl
 					Array,
 					Function,
 					Structure,
+					GenericArgument,
 				};
 
 				BasicTypeRecord();
 
 				virtual TypeRecordType					GetType()=0;
-				virtual BasicPrimitiveTypeEnum			PrimitiveType();
-				virtual BasicTypeRecord*				ElementType();
-				virtual int								ElementCount();
-				virtual BasicTypeRecord*				ReturnType();
-				virtual BasicTypeRecord*				ParameterType(int index);
-				virtual int								ParameterCount();
-				virtual BasicTypeRecord*				MemberType(int index);
-				virtual BasicTypeRecord*				MemberType(const WString& name);
-				virtual const WString&					MemberName(int index);
-				virtual int								MemberNameIndex(const WString& name);
-				virtual int								MemberCount();
-				virtual bool							Defined();
+				virtual BasicPrimitiveTypeEnum			PrimitiveType();						//primitive
+				virtual BasicTypeRecord*				ElementType();							//pointer array
+				virtual int								ElementCount();							//array
+				virtual BasicTypeRecord*				ReturnType();							//function
+				virtual BasicTypeRecord*				ParameterType(int index);				//function
+				virtual int								ParameterCount();						//function
+				virtual BasicTypeRecord*				MemberType(int index);					//structure
+				virtual BasicTypeRecord*				MemberType(const WString& name);		//structure
+				virtual const WString&					MemberName(int index);					//structure
+				virtual int								MemberNameIndex(const WString& name);	//structure
+				virtual int								MemberCount();							//structure
+				virtual bool							Defined();								//structure
+				virtual WString							ArgumentName();							//generic-argument
 			};
+
+/***********************************************************************
+BasicTypeManager
+***********************************************************************/
 
 			class BasicPrimitiveTypeRecord : public CommonFlagTypeRecord<BasicTypeRecord, BasicPrimitiveTypeEnum>
 			{
@@ -143,13 +153,31 @@ namespace vl
 				bool									Defined();
 			};
 
+			class BasicGenericArgumentTypeRecord : public CommonFlagTypeRecord<BasicTypeRecord, WString>
+			{
+				friend CommonFlagTypeRecord<BasicTypeRecord, WString>* BasicGenericArgumentRecordAllocator(WString name);
+			protected:
+
+				BasicGenericArgumentTypeRecord(const WString& name);
+			public:
+
+				TypeRecordType							GetType();
+				WString									ArgumentName();
+			};
+
+/***********************************************************************
+BasicTypeManager
+***********************************************************************/
+
 			class BasicTypeManager : public CommonTypeManager<BasicTypeRecord>
 			{
 				typedef collections::List<CommonTypeRecord<BasicTypeRecord>*>								_FunctionTypeTable;
 				typedef collections::Dictionary<BasicPrimitiveTypeEnum, CommonTypeRecord<BasicTypeRecord>*>	_PrimitiveTypeTable;
+				typedef collections::Dictionary<WString, CommonTypeRecord<BasicTypeRecord>*>				_GenericArgumentTypeTable;
 			protected:
 				_FunctionTypeTable						functionTypes;
 				_PrimitiveTypeTable						primitiveTypes;
+				_GenericArgumentTypeTable				genericArgumentTypes;
 			public:
 				BasicTypeManager();
 				~BasicTypeManager();
@@ -160,6 +188,8 @@ namespace vl
 				BasicTypeRecord*						GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes);
 				BasicTypeRecord*						CreateStructureType();
 				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
+
+				BasicTypeRecord*						GetGenericArgumentType(const WString& name);
 			};
 		}
 	}

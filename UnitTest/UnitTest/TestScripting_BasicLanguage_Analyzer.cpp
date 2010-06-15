@@ -178,6 +178,12 @@ TEST_CASE(TestTypeManager)
 	TEST_ASSERT(structure->MemberType(L"data")==primitiveInt);
 	TEST_ASSERT(structure->MemberType(1)==manager.GetPointerType(structure));
 	TEST_ASSERT(structure->MemberType(L"next")==manager.GetPointerType(structure));
+
+	BasicTypeRecord* genericArgument=manager.GetGenericArgumentType(L"T");
+	TEST_ASSERT(genericArgument->GetType()==BasicTypeRecord::GenericArgument);
+	TEST_ASSERT(genericArgument->ArgumentName()==L"T");
+	TEST_ASSERT(genericArgument==manager.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(genericArgument!=manager.GetGenericArgumentType(L"U"));
 }
 
 TEST_CASE(TestBasicEnv)
