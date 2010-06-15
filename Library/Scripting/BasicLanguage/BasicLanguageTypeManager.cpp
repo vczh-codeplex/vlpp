@@ -1,4 +1,5 @@
 #include "BasicLanguageTypeManager.h"
+#include "..\..\Collections\OperationEnumerable.h"
 #include "..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
@@ -286,8 +287,96 @@ BasicTypeManager¸¨Öúº¯Êý
 			}
 
 /***********************************************************************
+BasicGenericStructureProxyTypeRecord
+***********************************************************************/
+
+			BasicGenericStructureProxyTypeRecord::BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, const _GenericInstanciatingTypeTable& _typeTable)
+				:structureType(_structureType)
+				,manager(_manager)
+				,typeTable(_typeTable)
+			{
+			}
+
+			BasicTypeRecord::TypeRecordType BasicGenericStructureProxyTypeRecord::GetType()
+			{
+				return structureType->GetType();
+			}
+
+			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(int index)
+			{
+				return manager->Instanciate(structureType->MemberType(index), typeTable);
+			}
+
+			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(const WString& name)
+			{
+				return manager->Instanciate(structureType->MemberType(name), typeTable);
+			}
+
+			const WString& BasicGenericStructureProxyTypeRecord::MemberName(int index)
+			{
+				return structureType->MemberName(index);
+			}
+
+			int BasicGenericStructureProxyTypeRecord::MemberNameIndex(const WString& name)
+			{
+				return structureType->MemberNameIndex(name);
+			}
+
+			int BasicGenericStructureProxyTypeRecord::MemberCount()
+			{
+				return structureType->MemberCount();
+			}
+
+			bool BasicGenericStructureProxyTypeRecord::Defined()
+			{
+				return structureType->Defined();
+			}
+
+/***********************************************************************
 BasicGenericTypeRecord
 ***********************************************************************/
+
+			int BasicGenericTypeRecord::P::Compare(const P& p)const
+			{
+				if(typeTable==p.typeTable)
+				{
+					return 0;
+				}
+				else
+				{
+					return CompareEnumerable(typeTable->Wrap(), p.typeTable->Wrap());
+				}
+			}
+
+			bool BasicGenericTypeRecord::P::operator==(const P& p)const
+			{
+				return Compare(p)==0;
+			}
+
+			bool BasicGenericTypeRecord::P::operator!=(const P& p)const
+			{
+				return Compare(p)!=0;
+			}
+
+			bool BasicGenericTypeRecord::P::operator<(const P& p)const
+			{
+				return Compare(p)<0;
+			}
+
+			bool BasicGenericTypeRecord::P::operator<=(const P& p)const
+			{
+				return Compare(p)<=0;
+			}
+
+			bool BasicGenericTypeRecord::P::operator>(const P& p)const
+			{
+				return Compare(p)>0;
+			}
+
+			bool BasicGenericTypeRecord::P::operator>=(const P& p)const
+			{
+				return Compare(p)>=0;
+			}
 
 			BasicGenericTypeRecord::BasicGenericTypeRecord()
 				:elementType(0)
@@ -317,6 +406,79 @@ BasicGenericTypeRecord
 /***********************************************************************
 BasicTypeManager
 ***********************************************************************/
+
+			BasicTypeRecord* BasicTypeManager::Instanciate(BasicTypeRecord* genericType, Ptr<_GenericInstanciatingTypeTable> parameters)
+			{
+				switch(genericType->GetType())
+				{
+				case BasicTypeRecord::Primitive:
+					{
+						return genericType;
+					}
+					break;
+				case BasicTypeRecord::Pointer:
+					{
+						return GetPointerType(Instanciate(genericType->ElementType(), parameters));
+					}
+					break;
+				case BasicTypeRecord::Array:
+					{
+						return GetArrayType(Instanciate(genericType->ElementType(), parameters), genericType->ElementCount());
+					}
+					break;
+				case BasicTypeRecord::Function:
+					{
+						BasicTypeRecord* returnType=Instanciate(genericType->ReturnType(), parameters);
+						List<BasicTypeRecord*> parameterTypes;
+						for(int i=0;i<returnType->ParameterCount();i++)
+						{
+							parameterTypes.Add(Instanciate(genericType->ParameterType(i), parameters));
+						}
+						return GetFunctionType(returnType, parameterTypes.Wrap());
+					}
+					break;
+				case BasicTypeRecord::GenericArgument:
+					{
+						int index=parameters->Keys().IndexOf(genericType);
+						return index==-1?genericType:parameters->Values()[index];
+					}
+					break;
+				case BasicTypeRecord::Structure:
+					{
+						BasicGenericStructureProxyTypeRecord* type=new BasicGenericStructureProxyTypeRecord(genericType, this, parameters->Wrap());
+						CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
+						return type;
+					}
+					break;
+				case BasicTypeRecord::Generic:
+					{
+						if(genericType->ElementType()->GetType()==BasicTypeRecord::Structure)
+						{
+							BasicGenericTypeRecord* type=dynamic_cast<BasicGenericTypeRecord*>(genericType);
+							BasicGenericTypeRecord::P p;
+							p.typeTable=parameters;
+							int index=type->proxyTable.Keys().IndexOf(p);
+							if(index==-1)
+							{
+								BasicTypeRecord* proxyType=Instanciate(genericType->ElementType(), parameters);
+								type->proxyTable.Add(p, proxyType);
+								return proxyType;
+							}
+							else
+							{
+								return type->proxyTable.Values()[index];
+							}
+						}
+						else
+						{
+							return Instanciate(genericType->ElementType(), parameters);
+						}
+					}
+					break;
+				default:
+					return genericType;
+				}
+			}
 			
 			BasicTypeManager::BasicTypeManager()
 			{
@@ -375,7 +537,7 @@ BasicTypeManager
 			void BasicTypeManager::UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types)
 			{
 				BasicStructureTypeRecord* type=dynamic_cast<BasicStructureTypeRecord*>(structureType);
-				if(type)
+				if(type && !type->defined)
 				{
 					CopyFrom(type->names.Wrap(), names);
 					CopyFrom(type->types.Wrap(), types);
@@ -402,16 +564,18 @@ BasicTypeManager
 			void BasicTypeManager::UpdateGenericType(BasicTypeRecord* genericType, BasicTypeRecord* elementType, const collections::IReadonlyList<BasicTypeRecord*>& parameters)
 			{
 				BasicGenericTypeRecord* type=dynamic_cast<BasicGenericTypeRecord*>(genericType);
-				if(type)
+				if(type && !type->elementType)
 				{
 					type->elementType=elementType;
 					CopyFrom(type->parameterTypes.Wrap(), parameters);
 				}
 			}
 
-			BasicTypeRecord* BasicTypeManager::Instanciate(BasicTypeRecord* genericType, const _GenericInstanciatingTypeTable& parameters)
+			BasicTypeRecord* BasicTypeManager::Instanciate(BasicTypeRecord* genericType, const _IGenericInstanciatingTypeTable& parameters)
 			{
-				return 0;
+				Ptr<_GenericInstanciatingTypeTable> typeTable=new _GenericInstanciatingTypeTable;
+				CopyFrom(typeTable->Wrap(), parameters);
+				return Instanciate(genericType, typeTable);
 			}
 		}
 	}

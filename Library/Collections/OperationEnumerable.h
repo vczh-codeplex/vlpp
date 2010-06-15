@@ -100,6 +100,44 @@ namespace vl
 				return *this;
 			}
 		};
+
+/***********************************************************************
+µü´úÆ÷±È½Ï
+***********************************************************************/
+
+		template<typename T, typename U>
+		int CompareEnumerable(const IEnumerable<T>& a, const IEnumerable<U>& b)
+		{
+			Ptr<IEnumerator<T>> ator=a.CreateEnumerator();
+			Ptr<IEnumerator<U>> btor=b.CreateEnumerator();
+			while(ator->Available() && btor->Available())
+			{
+				const T& ac=ator->Current();
+				const U& bc=btor->Current();
+				if(ac<bc)
+				{
+					return -1;
+				}
+				else if(ac>bc)
+				{
+					return 1;
+				}
+				ator->Next();
+				btor->Next();
+			}
+			if(ator->Available())
+			{
+				return 1;
+			}
+			else if(btor->Available())
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
 	}
 }
 

@@ -200,10 +200,10 @@ TEST_CASE(TestTypeManagerWithGeneric)
 	instanciatingArguments.Add(manager.GetGenericArgumentType(L"T"), manager.GetGenericArgumentType(L"T"));
 	List<WString> genericLinkNames;
 	genericLinkNames.Add(L"data");
-	//genericLinkNames.Add(L"next");
+	genericLinkNames.Add(L"next");
 	List<BasicTypeRecord*> genericLinkTypes;
 	genericLinkTypes.Add(manager.GetGenericArgumentType(L"T"));
-	//genericLinkTypes.Add(manager.GetPointerType(manager.Instanciate(genericType, instanciatingArguments.Wrap())));
+	genericLinkTypes.Add(manager.GetPointerType(manager.Instanciate(genericType, instanciatingArguments.Wrap())));
 
 	TEST_ASSERT(genericType->GetType()==BasicTypeRecord::Generic);
 	TEST_ASSERT(genericType->ParameterCount()==1);

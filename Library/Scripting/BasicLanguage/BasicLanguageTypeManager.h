@@ -166,12 +166,53 @@ BasicTypeManager
 				WString									ArgumentName();
 			};
 
-			class BasicGenericTypeRecord : public CommonTypeRecord<BasicTypeRecord>
+			class BasicGenericStructureProxyTypeRecord : public CommonTypeRecord<BasicTypeRecord>
 			{
 				friend class BasicTypeManager;
+
+				typedef collections::IReadonlyDictionary<BasicTypeRecord*, BasicTypeRecord*>				_GenericInstanciatingTypeTable;
+			protected:
+				BasicTypeRecord*						structureType;
+				BasicTypeManager*						manager;
+				const _GenericInstanciatingTypeTable&	typeTable;
+
+				BasicGenericStructureProxyTypeRecord(BasicTypeRecord* _structureType, BasicTypeManager* _manager, const _GenericInstanciatingTypeTable& _typeTable);
+			public:
+
+				TypeRecordType							GetType();
+				BasicTypeRecord*						MemberType(int index);
+				BasicTypeRecord*						MemberType(const WString& name);
+				const WString&							MemberName(int index);
+				int										MemberNameIndex(const WString& name);
+				int										MemberCount();
+				bool									Defined();
+			};
+
+			class BasicGenericTypeRecord : public CommonTypeRecord<BasicTypeRecord>
+			{
+				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>							_GenericInstanciatingTypeTable;
+
+				struct P
+				{
+					Ptr<_GenericInstanciatingTypeTable>	typeTable;
+
+					int									Compare(const P& p)const;
+					bool								operator==(const P& p)const;
+					bool								operator!=(const P& p)const;
+					bool								operator<(const P& p)const;
+					bool								operator<=(const P& p)const;
+					bool								operator>(const P& p)const;
+					bool								operator>=(const P& p)const;
+				};
+				
+				friend class BasicTypeManager;
+				friend class collections::ReadonlyListEnumerator<P>;
+				typedef collections::Dictionary<P, BasicTypeRecord*>										_ProxyTable;
+
 			protected:
 				BasicTypeRecord*						elementType;
 				collections::List<BasicTypeRecord*>		parameterTypes;
+				_ProxyTable								proxyTable;
 
 				BasicGenericTypeRecord();
 			public:
@@ -190,11 +231,14 @@ BasicTypeManager
 				typedef collections::List<CommonTypeRecord<BasicTypeRecord>*>								_FunctionTypeTable;
 				typedef collections::Dictionary<BasicPrimitiveTypeEnum, CommonTypeRecord<BasicTypeRecord>*>	_PrimitiveTypeTable;
 				typedef collections::Dictionary<WString, CommonTypeRecord<BasicTypeRecord>*>				_GenericArgumentTypeTable;
-				typedef collections::IReadonlyDictionary<BasicTypeRecord*, BasicTypeRecord*>				_GenericInstanciatingTypeTable;
+				typedef collections::IReadonlyDictionary<BasicTypeRecord*, BasicTypeRecord*>				_IGenericInstanciatingTypeTable;
+				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>							_GenericInstanciatingTypeTable;
 			protected:
 				_FunctionTypeTable						functionTypes;
 				_PrimitiveTypeTable						primitiveTypes;
 				_GenericArgumentTypeTable				genericArgumentTypes;
+
+				BasicTypeRecord*						Instanciate(BasicTypeRecord* genericType, Ptr<_GenericInstanciatingTypeTable> parameters);
 			public:
 				BasicTypeManager();
 				~BasicTypeManager();
@@ -209,7 +253,7 @@ BasicTypeManager
 				BasicTypeRecord*						GetGenericArgumentType(const WString& name);
 				BasicTypeRecord*						CreateGenericType();
 				void									UpdateGenericType(BasicTypeRecord* genericType, BasicTypeRecord* elementType, const collections::IReadonlyList<BasicTypeRecord*>& parameters);
-				BasicTypeRecord*						Instanciate(BasicTypeRecord* genericType, const _GenericInstanciatingTypeTable& parameters);
+				BasicTypeRecord*						Instanciate(BasicTypeRecord* genericType, const _IGenericInstanciatingTypeTable& parameters);
 			};
 		}
 	}
