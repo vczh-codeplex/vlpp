@@ -41,13 +41,13 @@ namespace vl
 				{
 					BasicVariableDeclaration*			globalVariable;
 					BasicVariableStatement*				localVariable;
-					int									parameterIndex;
+					vint									parameterIndex;
 					BasicTypeRecord*					type;
 
 					Variable();
 					Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type);
 					Variable(BasicVariableStatement* variable, BasicTypeRecord* _type);
-					Variable(int variable, BasicTypeRecord* _type);
+					Variable(vint variable, BasicTypeRecord* _type);
 
 					operator bool();
 					bool								operator==(const Variable& variable);
@@ -69,14 +69,14 @@ namespace vl
 					BasicScope*							scope;
 					BasicVariableDeclaration*			globalVariable;
 					BasicVariableStatement*				localVariable;
-					int									parameterIndex;
+					vint									parameterIndex;
 					BasicFunctionDeclaration*			function;
 					bool								isVariable;
 
 					Reference();
 					Reference(BasicScope* _scope, BasicVariableDeclaration* variable);
 					Reference(BasicScope* _scope, BasicVariableStatement* variable);
-					Reference(BasicScope* _scope, int parameter);
+					Reference(BasicScope* _scope, vint parameter);
 					Reference(BasicScope* _scope, BasicFunctionDeclaration* function);
 
 					bool			operator==(const Reference& r);

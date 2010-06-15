@@ -70,7 +70,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)() >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -168,7 +168,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)() >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -266,7 +266,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)() >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -364,7 +364,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)() >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -462,7 +462,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)()const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -560,7 +560,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)()const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -658,7 +658,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -758,7 +758,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -858,7 +858,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -958,7 +958,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1058,7 +1058,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1158,7 +1158,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1258,7 +1258,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1360,7 +1360,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1462,7 +1462,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1564,7 +1564,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1666,7 +1666,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1768,7 +1768,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1870,7 +1870,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -1974,7 +1974,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2078,7 +2078,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2182,7 +2182,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2286,7 +2286,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2390,7 +2390,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2494,7 +2494,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2600,7 +2600,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2706,7 +2706,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2812,7 +2812,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -2918,7 +2918,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3024,7 +3024,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3130,7 +3130,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3238,7 +3238,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3346,7 +3346,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3454,7 +3454,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3562,7 +3562,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3670,7 +3670,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3778,7 +3778,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4,T5) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3888,7 +3888,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4,T5) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -3998,7 +3998,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4108,7 +4108,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4218,7 +4218,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4328,7 +4328,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4438,7 +4438,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4,T5,T6) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4550,7 +4550,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4,T5,T6) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4662,7 +4662,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4774,7 +4774,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4886,7 +4886,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -4998,7 +4998,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5110,7 +5110,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4,T5,T6,T7) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5224,7 +5224,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4,T5,T6,T7) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5338,7 +5338,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5452,7 +5452,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5566,7 +5566,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5680,7 +5680,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5794,7 +5794,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4,T5,T6,T7,T8) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -5910,7 +5910,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4,T5,T6,T7,T8) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6026,7 +6026,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6142,7 +6142,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6258,7 +6258,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6374,7 +6374,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6490,7 +6490,7 @@ vl::objectmodel::ObjectTypeFunction<R(*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6608,7 +6608,7 @@ vl::objectmodel::ObjectTypeFunction<void(*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6726,7 +6726,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6844,7 +6844,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9) >
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -6962,7 +6962,7 @@ vl::objectmodel::ObjectTypeFunction<R(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)const>
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -7080,7 +7080,7 @@ vl::objectmodel::ObjectTypeFunction<void(C::*)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)con
 			}
 			~ObjectTypeFunction()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}

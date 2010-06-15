@@ -15,25 +15,25 @@ namespace vl
 RegexString
 ***********************************************************************/
 
-		RegexString::RegexString(int _start)
+		RegexString::RegexString(vint _start)
 			:start(_start)
 			,length(0)
 		{
 		}
 
-		RegexString::RegexString(const WString& _string, int _start, int _length)
+		RegexString::RegexString(const WString& _string, vint _start, vint _length)
 			:value(_length==0?L"":_string.Sub(_start, _length))
 			,start(_start)
 			,length(_length)
 		{
 		}
 
-		int RegexString::Start()const
+		vint RegexString::Start()const
 		{
 			return start;
 		}
 
-		int RegexString::Length()const
+		vint RegexString::Length()const
 		{
 			return length;
 		}
@@ -62,7 +62,7 @@ RegexMatch
 			:success(true)
 			,result(_string, _result->start, _result->length)
 		{
-			for(int i=0;i<_result->captures.Count();i++)
+			for(vint i=0;i<_result->captures.Count();i++)
 			{
 				CaptureRecord& capture=_result->captures[i];
 				if(capture.capture==-1)
@@ -115,7 +115,7 @@ Regex
 				RichResult result;
 				while(rich->Match(input, start, result))
 				{
-					int offset=input-start;
+					vint offset=input-start;
 					if(keepFail)
 					{
 						if(result.start>offset || keepEmpty)
@@ -131,8 +131,8 @@ Regex
 				}
 				if(keepFail)
 				{
-					int remain=input-start;
-					int length=text.Length()-remain;
+					vint remain=input-start;
+					vint length=text.Length()-remain;
 					if(length || keepEmpty)
 					{
 						matches.Add(new RegexMatch(RegexString(text, remain, length)));
@@ -146,7 +146,7 @@ Regex
 				PureResult result;
 				while(pure->Match(input, start, result))
 				{
-					int offset=input-start;
+					vint offset=input-start;
 					if(keepFail)
 					{
 						if(result.start>offset || keepEmpty)
@@ -162,8 +162,8 @@ Regex
 				}
 				if(keepFail)
 				{
-					int remain=input-start;
-					int length=text.Length()-remain;
+					vint remain=input-start;
+					vint length=text.Length()-remain;
 					if(length || keepEmpty)
 					{
 						matches.Add(new RegexMatch(RegexString(text, remain, length)));
@@ -365,14 +365,14 @@ RegexTokens
 		protected:
 			bool				available;
 			RegexToken			token;
-			int					index;
+			vint					index;
 			PureInterpretor*	pure;
-			Array<int>&			stateTokens;
+			Array<vint>&			stateTokens;
 			const wchar_t*		reading;
 			const wchar_t*		start;
-			int					lineIndex;
-			int					lineStart;
-			int					codeIndex;
+			vint					lineIndex;
+			vint					lineStart;
+			vint					codeIndex;
 			bool				cacheAvailable;
 			RegexToken			cacheToken;
 
@@ -399,7 +399,7 @@ RegexTokens
 					PureResult result;
 					while(*reading)
 					{
-						int id=-1;
+						vint id=-1;
 						if(!pure->MatchHead(reading, start, result))
 						{
 							result.start=reading-start;
@@ -438,7 +438,7 @@ RegexTokens
 					index++;
 					available=true;
 
-					for(int i=0;i<token.length;i++)
+					for(vint i=0;i<token.length;i++)
 					{
 						if(token.reading[i]==L'\n')
 						{
@@ -473,7 +473,7 @@ RegexTokens
 			{
 			}
 
-			RegexTokenEnumerator(PureInterpretor* _pure, Array<int>& _stateTokens, const wchar_t* _start, int _codeIndex)
+			RegexTokenEnumerator(PureInterpretor* _pure, Array<vint>& _stateTokens, const wchar_t* _start, vint _codeIndex)
 				:available(true)
 				,index(-1)
 				,pure(_pure)
@@ -498,7 +498,7 @@ RegexTokens
 				return token;
 			}
 
-			int Index()const
+			vint Index()const
 			{
 				return index;
 			}
@@ -522,7 +522,7 @@ RegexTokens
 				Read();
 			}
 
-			void ReadToEnd(List<RegexToken>& tokens, bool(*discard)(int))
+			void ReadToEnd(List<RegexToken>& tokens, bool(*discard)(vint))
 			{
 				while(available)
 				{
@@ -535,7 +535,7 @@ RegexTokens
 			}
 		};
 
-		RegexTokens::RegexTokens(PureInterpretor* _pure, Array<int>& _stateTokens, const WString& _code, int _codeIndex)
+		RegexTokens::RegexTokens(PureInterpretor* _pure, Array<vint>& _stateTokens, const WString& _code, vint _codeIndex)
 			:pure(_pure)
 			,stateTokens(_stateTokens)
 			,code(_code)
@@ -548,12 +548,12 @@ RegexTokens
 			return new RegexTokenEnumerator(pure, stateTokens, code.Buffer(), codeIndex);
 		}
 
-		bool DefaultDiscard(int token)
+		bool DefaultDiscard(vint token)
 		{
 			return false;
 		}
 
-		void RegexTokens::ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(int))const
+		void RegexTokens::ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(vint))const
 		{
 			if(discard==0)
 			{
@@ -584,7 +584,7 @@ RegexLexer
 				expression->CollectCharSet(subsets);
 				expressions.Add(expression);
 			}
-			for(int i=0;i<expressions.Count();i++)
+			for(vint i=0;i<expressions.Count();i++)
 			{
 				Dictionary<State*, State*> nfaStateMap;
 				Group<State*, State*> dfaStateMap;
@@ -597,10 +597,10 @@ RegexLexer
 			}
 
 			//为每一个DFA设置标记
-			for(int i=0;i<dfas.Count();i++)
+			for(vint i=0;i<dfas.Count();i++)
 			{
 				Automaton::Ref dfa=dfas[i];
-				for(int j=0;j<dfa->states.Count();j++)
+				for(vint j=0;j<dfa->states.Count();j++)
 				{
 					if(dfa->states[j]->finalState)
 					{
@@ -615,13 +615,13 @@ RegexLexer
 
 			//将DFA组合成大的e-NFA
 			Automaton::Ref bigEnfa=new Automaton;
-			for(int i=0;i<dfas.Count();i++)
+			for(vint i=0;i<dfas.Count();i++)
 			{
 				CopyFrom(bigEnfa->states.Wrap(), dfas[i]->states.Wrap());
 				CopyFrom(bigEnfa->transitions.Wrap(), dfas[i]->transitions.Wrap());
 			}
 			bigEnfa->startState=bigEnfa->NewState();
-			for(int i=0;i<dfas.Count();i++)
+			for(vint i=0;i<dfas.Count();i++)
 			{
 				bigEnfa->NewEpsilon(bigEnfa->startState, dfas[i]->startState);
 			}
@@ -630,16 +630,16 @@ RegexLexer
 			Dictionary<State*, State*> nfaStateMap;
 			Group<State*, State*> dfaStateMap;
 			Automaton::Ref bigNfa=EpsilonNfaToNfa(bigEnfa, PureEpsilonChecker, nfaStateMap);
-			for(int i=0;i<nfaStateMap.Keys().Count();i++)
+			for(vint i=0;i<nfaStateMap.Keys().Count();i++)
 			{
 				void* userData=nfaStateMap.Values()[i]->userData;
 				nfaStateMap.Keys()[i]->userData=userData;
 			}
 			Automaton::Ref bigDfa=NfaToDfa(bigNfa, dfaStateMap);
-			for(int i=0;i<dfaStateMap.Keys().Count();i++)
+			for(vint i=0;i<dfaStateMap.Keys().Count();i++)
 			{
 				void* userData=dfaStateMap.GetByIndex(i)[0]->userData;
-				for(int j=1;j<dfaStateMap.GetByIndex(i).Count();j++)
+				for(vint j=1;j<dfaStateMap.GetByIndex(i).Count();j++)
 				{
 					void* newData=dfaStateMap.GetByIndex(i)[j]->userData;
 					if(userData>newData)
@@ -653,10 +653,10 @@ RegexLexer
 			//构造状态机
 			pure=new PureInterpretor(bigDfa, subsets);
 			stateTokens.Resize(bigDfa->states.Count());
-			for(int i=0;i<stateTokens.Count();i++)
+			for(vint i=0;i<stateTokens.Count();i++)
 			{
 				void* userData=bigDfa->states[i]->userData;
-				stateTokens[i]=(int)userData;
+				stateTokens[i]=(vint)userData;
 			}
 		}
 
@@ -665,7 +665,7 @@ RegexLexer
 			if(pure)delete pure;
 		}
 
-		RegexTokens RegexLexer::Parse(const WString& code, int codeIndex)
+		RegexTokens RegexLexer::Parse(const WString& code, vint codeIndex)
 		{
 			return RegexTokens(pure, stateTokens, code, codeIndex);
 		}

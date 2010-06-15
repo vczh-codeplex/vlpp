@@ -69,8 +69,8 @@ namespace vl
 		{
 		public:
 			Expression::Ref				expression;		//被循环表达式
-			int							min;			//下限
-			int							max;			//上限，-1代表无限
+			vint							min;			//下限
+			vint							max;			//上限，-1代表无限
 			bool						preferLong;		//长匹配优先
 
 			void						Apply(IRegexExpressionAlgorithm& algorithm);
@@ -121,7 +121,7 @@ namespace vl
 		{
 		public:
 			WString						name;			//捕获名，空代表缺省捕获
-			int							index;			//捕获序号，-1代表非空捕获的所有项
+			vint							index;			//捕获序号，-1代表非空捕获的所有项
 
 			void						Apply(IRegexExpressionAlgorithm& algorithm);
 		};

@@ -85,14 +85,14 @@ BroadcastStream
 			CHECK_ERROR(false, L"BroadcastStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
-		int BroadcastStream::Read(void* _buffer, int _size)
+		vint BroadcastStream::Read(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::Read(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"BroadcastStream::Read(void*, vint)#不支持此操作。");
 		}
 
-		int BroadcastStream::Write(void* _buffer, int _size)
+		vint BroadcastStream::Write(void* _buffer, vint _size)
 		{
-			for(int i=0;i<streams.Count();i++)
+			for(vint i=0;i<streams.Count();i++)
 			{
 				streams[i]->Write(_buffer, _size);
 			}
@@ -100,9 +100,9 @@ BroadcastStream
 			return _size;
 		}
 
-		int BroadcastStream::Peek(void* _buffer, int _size)
+		vint BroadcastStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::Peek(void*, int)#不支持此操作。");
+			CHECK_ERROR(false, L"BroadcastStream::Peek(void*, vint)#不支持此操作。");
 		}
 	}
 }

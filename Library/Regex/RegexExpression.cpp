@@ -20,7 +20,7 @@ IsEqualAlgorithm
 				{
 					if(expression->reverse!=expected->reverse)return false;
 					if(expression->ranges.Count()!=expected->ranges.Count())return false;
-					for(int i=0;i<expression->ranges.Count();i++)
+					for(vint i=0;i<expression->ranges.Count();i++)
 					{
 						if(expression->ranges[i]!=expected->ranges[i])return false;
 					}
@@ -291,7 +291,7 @@ CharSetNormalizationAlgorithm
 				if(expression->reverse)
 				{
 					wchar_t begin=1;
-					for(int i=0;i<ranges.Count();i++)
+					for(vint i=0;i<ranges.Count();i++)
 					{
 						CharRange range=ranges[i];
 						if(range.begin>begin)
@@ -307,7 +307,7 @@ CharSetNormalizationAlgorithm
 				}
 				else
 				{
-					for(int i=0;i<ranges.Count();i++)
+					for(vint i=0;i<ranges.Count();i++)
 					{
 						Process(expression, target, ranges[i]);
 					}
@@ -368,7 +368,7 @@ CharSetNormalizationAlgorithm
 		public:
 			void Process(CharSetExpression* expression, NormalizedCharSet* target, CharRange range)
 			{
-				int index=0;
+				vint index=0;
 				while(index<target->ranges.Count())
 				{
 					CharRange current=target->ranges[index];
@@ -429,7 +429,7 @@ CharSetNormalizationAlgorithm
 		public:
 			void Process(CharSetExpression* expression, NormalizedCharSet* target, CharRange range)
 			{
-				for(int j=0;j<target->ranges.Count();j++)
+				for(vint j=0;j<target->ranges.Count();j++)
 				{
 					CharRange targetRange=target->ranges[j];
 					if(range.begin<=targetRange.begin && targetRange.end<=range.end)
@@ -610,7 +610,7 @@ EpsilonNfaAlgorithm
 				EpsilonNfa nfa;
 				nfa.start=target->NewState();
 				nfa.end=target->NewState();
-				for(int i=0;i<expression->ranges.Count();i++)
+				for(vint i=0;i<expression->ranges.Count();i++)
 				{
 					target->NewChars(nfa.start, nfa.end, expression->ranges[i]);
 				}
@@ -620,7 +620,7 @@ EpsilonNfaAlgorithm
 			EpsilonNfa Apply(LoopExpression* expression, Automaton* target)
 			{
 				EpsilonNfa head;
-				for(int i=0;i<expression->min;i++)
+				for(vint i=0;i<expression->min;i++)
 				{
 					EpsilonNfa body=Invoke(expression->expression, target);
 					head=Connect(head, body, target);
@@ -650,7 +650,7 @@ EpsilonNfaAlgorithm
 				}
 				else if(expression->max>expression->min)
 				{
-					for(int i=expression->min;i<expression->max;i++)
+					for(vint i=expression->min;i<expression->max;i++)
 					{
 						EpsilonNfa body=Invoke(expression->expression, target);
 						State* start=target->NewState();
@@ -720,7 +720,7 @@ EpsilonNfaAlgorithm
 				result.start=target->NewState();
 				result.end=target->NewState();
 
-				int capture=-1;
+				vint capture=-1;
 				if(expression->name!=L"")
 				{
 					capture=target->captureNames.IndexOf(expression->name);
@@ -739,7 +739,7 @@ EpsilonNfaAlgorithm
 
 			EpsilonNfa Apply(MatchExpression* expression, Automaton* target)
 			{
-				int capture=-1;
+				vint capture=-1;
 				if(expression->name!=L"")
 				{
 					capture=target->captureNames.IndexOf(expression->name);
@@ -848,7 +848,7 @@ CharSetExpression
 				range.begin=range.end;
 				range.end=t;
 			}
-			for(int i=0;i<ranges.Count();i++)
+			for(vint i=0;i<ranges.Count();i++)
 			{
 				if(!(range<ranges[i] || range>ranges[i]))
 				{

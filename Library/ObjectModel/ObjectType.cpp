@@ -38,9 +38,9 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 ¸¨Öúº¯Êý
 ***********************************************************************/
 
-		bool FindBaseClass(const ObjectType* sub, const ObjectType* base, List<int>& baseToSubPositions, List<const ObjectType*>& baseToSubTypes)
+		bool FindBaseClass(const ObjectType* sub, const ObjectType* base, List<vint>& baseToSubPositions, List<const ObjectType*>& baseToSubTypes)
 		{
-			for(int i=0;i<sub->BaseClasses().Count();i++)
+			for(vint i=0;i<sub->BaseClasses().Count();i++)
 			{
 				ObjectType* currentBase=sub->BaseClasses()[i];
 				if(currentBase==base || FindBaseClass(currentBase, base, baseToSubPositions, baseToSubTypes))
@@ -55,11 +55,11 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 
 		ObjectMember* FindClassField(const ObjectType* type, const WString& fieldName)
 		{
-			int index=type->Fields().Keys().IndexOf(fieldName);
+			vint index=type->Fields().Keys().IndexOf(fieldName);
 			if(index==-1)
 			{
 				ObjectMember* member=0;
-				for(int i=0;!member && i<type->BaseClasses().Count();i++)
+				for(vint i=0;!member && i<type->BaseClasses().Count();i++)
 				{
 					member=FindClassField(type->BaseClasses()[i], fieldName);
 				}
@@ -82,7 +82,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 
 		bool InvokeMethod(const collections::IReadonlyList<ObjectMember*>& methods, void* object, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result, ObjectType* resultType)
 		{
-			for(int i=0;i<methods.Count();i++)
+			for(vint i=0;i<methods.Count();i++)
 			{
 				ObjectMember* member=methods[i];
 				const ObjectType* type=member->Type();
@@ -90,7 +90,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 				{
 					Array<ObjectValue> convertedArguments;
 					convertedArguments.Resize(arguments.Count());
-					for(int j=0;j<arguments.Count();j++)
+					for(vint j=0;j<arguments.Count();j++)
 					{
 						const ObjectType* dstType=type->ParameterTypes()[j];
 						if(dstType->Category()==ObjectType::Reference)
@@ -113,7 +113,7 @@ END_GLOBAL_STORAGE_CLASS(ObjectTypeManager)
 					{
 						Array<void*> pointers;
 						pointers.Resize(arguments.Count());
-						for(int j=0;j<arguments.Count();j++)
+						for(vint j=0;j<arguments.Count();j++)
 						{
 							pointers[j]=convertedArguments[j].GetValue();
 						}
@@ -145,14 +145,14 @@ ObjectValue
 
 		bool ObjectValue::InvokeMethod(const ObjectType* type, void* object, const WString& name, const collections::IReadonlyList<ObjectValue>& arguments, ObjectValue& result)const
 		{
-			int index=type->Methods().Keys().IndexOf(name);
+			vint index=type->Methods().Keys().IndexOf(name);
 			if(index==-1)return false;
 			const IReadonlyList<ObjectMember*>& methods=type->Methods().GetByIndex(index);
 			if(vl::objectmodel::InvokeMethod(methods, object, arguments, result))
 			{
 				return true;
 			}
-			for(int i=0;i<type->BaseClasses().Count();i++)
+			for(vint i=0;i<type->BaseClasses().Count();i++)
 			{
 				ObjectValue base=CastToBaseClass(type->BaseClasses()[i]);
 				if(base.InvokeMethod(base.GetType(), base.GetValue(), name, arguments, result))
@@ -278,13 +278,13 @@ ObjectValue
 			if(objectType->Category()!=ObjectType::Class)return ObjectValue();
 			if(type->Category()!=ObjectType::Class)return ObjectValue();
 
-			List<int> baseToSubPositions;
+			List<vint> baseToSubPositions;
 			List<const ObjectType*> baseToSubTypes;
 			if(FindBaseClass(objectType, type, baseToSubPositions, baseToSubTypes))
 			{
 				const ObjectType* currentType=objectType;
 				void* instance=objectValue;
-				for(int i=baseToSubPositions.Count()-1;i>=0;i--)
+				for(vint i=baseToSubPositions.Count()-1;i>=0;i--)
 				{
 					instance=currentType->CastToBaseClass(baseToSubPositions[i], instance);
 					currentType=currentType->BaseClasses()[i];
@@ -304,12 +304,12 @@ ObjectValue
 			if(objectType->Category()!=ObjectType::Class)return ObjectValue();
 			if(type->Category()!=ObjectType::Class)return ObjectValue();
 
-			List<int> baseToSubPositions;
+			List<vint> baseToSubPositions;
 			List<const ObjectType*> baseToSubTypes;
 			if(FindBaseClass(type, objectType, baseToSubPositions, baseToSubTypes))
 			{
 				void* instance=objectValue;
-				for(int i=0;i<baseToSubPositions.Count();i++)
+				for(vint i=0;i<baseToSubPositions.Count();i++)
 				{
 					instance=baseToSubTypes[i]->CastToSubClass(baseToSubPositions[i], instance);
 				}

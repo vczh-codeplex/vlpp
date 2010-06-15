@@ -24,9 +24,9 @@ namespace vl
 			class BasicTypeInfo : public Object
 			{
 			public:
-				int															size;
-				int															alignment;
-				collections::List<int>										offsets;
+				vint															size;
+				vint															alignment;
+				collections::List<vint>										offsets;
 			};
 
 			class BasicCodegenInfo : public Object
@@ -36,23 +36,23 @@ namespace vl
 			protected:
 				BasicAnalyzer*												analyzer;
 				_TypeInfoTable												typeInfos;
-				collections::Dictionary<BasicFunctionDeclaration*, int>		functions;
-				collections::Dictionary<BasicVariableDeclaration*, int>		globalVariableOffsets;
-				collections::Dictionary<BasicVariableStatement*, int>		localVariableOffsets;
+				collections::Dictionary<BasicFunctionDeclaration*, vint>		functions;
+				collections::Dictionary<BasicVariableDeclaration*, vint>		globalVariableOffsets;
+				collections::Dictionary<BasicVariableStatement*, vint>		localVariableOffsets;
 
-				int															maxVariableSpace;
-				int															usedVariableSpace;
-				collections::List<int>										variableSpaceStack;
-				collections::List<int>										returnInstructions;
+				vint															maxVariableSpace;
+				vint															usedVariableSpace;
+				collections::List<vint>										variableSpaceStack;
+				collections::List<vint>										returnInstructions;
 
-				collections::List<int>										breakInsStack;
-				collections::List<int>										continueInsStack;
-				collections::List<int>										breakInstructions;
-				collections::List<int>										continueInstructions;
+				collections::List<vint>										breakInsStack;
+				collections::List<vint>										continueInsStack;
+				collections::List<vint>										breakInstructions;
+				collections::List<vint>										continueInstructions;
 
 				_TypeResTable												typeResources;
 			public:
-				int															localFunctionCount;
+				vint															localFunctionCount;
 				collections::List<BasicLinking>								linkings;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
@@ -61,21 +61,21 @@ namespace vl
 				BasicEnv*													GetEnv();
 				BasicTypeManager*											GetTypeManager();
 				BasicAlgorithmConfiguration&								GetConfiguration();
-				collections::IDictionary<BasicFunctionDeclaration*, int>&	GetFunctions();
-				collections::IDictionary<BasicVariableDeclaration*, int>&	GetGlobalVariableOffsets();
-				collections::IDictionary<BasicVariableStatement*, int>&		GetLocalVariableOffsets();
+				collections::IDictionary<BasicFunctionDeclaration*, vint>&	GetFunctions();
+				collections::IDictionary<BasicVariableDeclaration*, vint>&	GetGlobalVariableOffsets();
+				collections::IDictionary<BasicVariableStatement*, vint>&		GetLocalVariableOffsets();
 
 				void														BeginFunction();
-				void														EndFunction(int returnIns, basicil::BasicIL* il);
-				void														AssociateReturn(int instruction);
+				void														EndFunction(vint returnIns, basicil::BasicIL* il);
+				void														AssociateReturn(vint instruction);
 				void														EnterScope();
 				void														LeaveScope();
-				int															UseVariable(int size);
+				vint															UseVariable(vint size);
 				void														EnterLoop();
-				void														LeaveLoop(int breakIns, int continueIns, basicil::BasicIL* il);
-				void														AssociateBreak(int instruction);
-				void														AssociateContinue(int instruction);
-				int															GetMaxVariableSpace();
+				void														LeaveLoop(vint breakIns, vint continueIns, basicil::BasicIL* il);
+				void														AssociateBreak(vint instruction);
+				void														AssociateContinue(vint instruction);
+				vint															GetMaxVariableSpace();
 
 				ResourceHandle<BasicTypeRes>								GetTypeResource(BasicTypeRecord* type);
 				bool														SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);
@@ -133,21 +133,21 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::ValueType		Convert								(BasicTypeRecord* type);
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
-			extern int								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
+			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Write							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Copy							(BasicTypeRecord* type, const BCP& argument);
-			extern void								Code_CopyStack						(BasicTypeRecord* type, const BCP& argument, int offset=0);
-			extern void								Code_CopyAddressInStack				(BasicExpression* addressExpression, const BCP& argument, int offset=0);
+			extern void								Code_CopyStack						(BasicTypeRecord* type, const BCP& argument, vint offset=0);
+			extern void								Code_CopyAddressInStack				(BasicExpression* addressExpression, const BCP& argument, vint offset=0);
 			extern void								Code_Convert						(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument);
 			extern BasicTypeRecord*					Code_Binary							(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern BasicTypeRecord*					Code_Compare						(BasicBinaryExpression* node, BasicTypeRecord* leftType, BasicTypeRecord* rightType, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern BasicTypeRecord*					Code_BinaryAssign					(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignSideEffect			(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignRef				(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
-			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, int& index, int& returnSize, int& parameterSize, bool returnInStack, bool& isExternal);
-			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, int index, int returnSize, int parameterSize, bool clearReturnInStack, bool isExternal);
+			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, vint& index, vint& returnSize, vint& parameterSize, bool returnInStack, bool& isExternal);
+			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, vint index, vint returnSize, vint parameterSize, bool clearReturnInStack, bool isExternal);
 			extern BasicTypeRecord*					Code_InvokeFunction					(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly);
 
 /***********************************************************************

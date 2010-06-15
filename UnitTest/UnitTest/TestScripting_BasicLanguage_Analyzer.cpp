@@ -12,7 +12,7 @@ using namespace vl::scripting::basiclanguage;
 GetTypeID algorithm function
 ***********************************************************************/
 
-BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, int, int)
+BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, vint, vint)
 
 	ALGORITHM_FUNCTION_MATCH(BasicPrimitiveType)
 	{
@@ -50,7 +50,7 @@ END_ALGORITHM_FUNCTION(GetTypeID)
 TestTypeID algorithm procedure
 ***********************************************************************/
 
-BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, int*)
+BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, vint*)
 
 	ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
 	{
@@ -96,7 +96,7 @@ TEST_CASE(TestAlgorithmDeclaration)
 	TEST_ASSERT(GetTypeID(t_type(L"vczh").GetInternalValue(), 0)==3);
 	TEST_ASSERT(GetTypeID(t_int8()(t_types()<<t_int16()<<t_int32()).GetInternalValue(), 0)==4);
 
-	int result=-1;
+	vint result=-1;
 	TestTypeID(t_int8().GetInternalValue(), &result);
 	TEST_ASSERT(result==0);
 	TestTypeID((*t_int8()).GetInternalValue(), &result);
@@ -273,8 +273,8 @@ TEST_CASE(TestBasicEnv)
 	BasicScope* appendScope=env.CreateFunctionScope(global, &append);
 	TEST_ASSERT(env.CreateFunctionScope(global, &append)==appendScope);
 	TEST_ASSERT(env.CreateFunctionScope(appendScope, &append)==0);
-	appendScope->variables.Add(L"link", BasicScope::Variable(0, link));
-	appendScope->variables.Add(L"data", BasicScope::Variable(0, tm.GetPrimitiveType(int_type)));
+	appendScope->variables.Add(L"link", BasicScope::Variable((vint)0, link));
+	appendScope->variables.Add(L"data", BasicScope::Variable((vint)0, tm.GetPrimitiveType(int_type)));
 	TEST_ASSERT(appendScope->PreviousScope()==global);
 	TEST_ASSERT(appendScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(appendScope->OwnerStatement()==0);
@@ -290,7 +290,7 @@ TEST_CASE(TestBasicEnv)
 	BasicScope* statementScope=env.CreateStatementScope(appendScope, &statement);
 	TEST_ASSERT(env.CreateStatementScope(appendScope, &statement)==statementScope);
 	TEST_ASSERT(env.CreateStatementScope(statementScope, &statement)==0);
-	statementScope->variables.Add(L"temp", BasicScope::Variable(0, link));
+	statementScope->variables.Add(L"temp", BasicScope::Variable((vint)0, link));
 	TEST_ASSERT(statementScope->PreviousScope()==appendScope);
 	TEST_ASSERT(statementScope->OwnerDeclaration()==&append);
 	TEST_ASSERT(statementScope->OwnerStatement()==&statement);
@@ -482,8 +482,8 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	BasicScope* globalScope=env.GlobalScope();
 	BP argument(&env, globalScope, &tm, errors, forwardStructures);
 
-	Ptr<BasicExpression> intExpr=e_prim((signed int)0).GetInternalValue();
-	Ptr<BasicExpression> uintExpr=e_prim((unsigned int)0).GetInternalValue();
+	Ptr<BasicExpression> intExpr=e_prim((vsint)0).GetInternalValue();
+	Ptr<BasicExpression> uintExpr=e_prim((vuint)0).GetInternalValue();
 	Ptr<BasicExpression> s8Expr=e_prim((signed __int8)0).GetInternalValue();
 	Ptr<BasicExpression> u8Expr=e_prim((unsigned __int8)0).GetInternalValue();
 	Ptr<BasicExpression> s16Expr=e_prim((signed __int16)0).GetInternalValue();
@@ -615,6 +615,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 	BasicTypeRecord* pointerType=tm.GetPointerType(tm.GetPrimitiveType(int_type));
 	BasicTypeRecord* integerType=tm.GetPrimitiveType(int_type);
 	BasicTypeRecord* floatType=tm.GetPrimitiveType(f32);
+#ifdef VCZH_64
+	BasicTypeRecord* numericType=tm.GetPrimitiveType(f64);
+#else
+	BasicTypeRecord* numericType=tm.GetPrimitiveType(f32);
+#endif
 
 	TEST_ASSERT(BasicLanguage_GetExpressionType(a1, argument)==0);
 	TEST_ASSERT(errors.Count()==1);
@@ -626,11 +631,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 	TEST_ASSERT(errors.Count()==2);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(a5, argument)==integerType);
 	TEST_ASSERT(errors.Count()==2);
-	TEST_ASSERT(BasicLanguage_GetExpressionType(a6, argument)==floatType);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a6, argument)==numericType);
 	TEST_ASSERT(errors.Count()==2);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(a7, argument)==0);
 	TEST_ASSERT(errors.Count()==3);
-	TEST_ASSERT(BasicLanguage_GetExpressionType(a8, argument)==floatType);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(a8, argument)==numericType);
 	TEST_ASSERT(errors.Count()==3);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(a9, argument)==floatType);
 	TEST_ASSERT(errors.Count()==3);
@@ -645,11 +650,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 	TEST_ASSERT(errors.Count()==5);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(b5, argument)==integerType);
 	TEST_ASSERT(errors.Count()==5);
-	TEST_ASSERT(BasicLanguage_GetExpressionType(b6, argument)==floatType);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b6, argument)==numericType);
 	TEST_ASSERT(errors.Count()==5);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(b7, argument)==0);
 	TEST_ASSERT(errors.Count()==6);
-	TEST_ASSERT(BasicLanguage_GetExpressionType(b8, argument)==floatType);
+	TEST_ASSERT(BasicLanguage_GetExpressionType(b8, argument)==numericType);
 	TEST_ASSERT(errors.Count()==6);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(b9, argument)==floatType);
 	TEST_ASSERT(errors.Count()==6);
@@ -669,9 +674,14 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(c7, argument)==0);
 	TEST_ASSERT(errors.Count()==11);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(c8, argument)==floatType);
-	TEST_ASSERT(errors.Count()==11);
+#ifdef VCZH_64
+	const int ErrorOffset=1;
+#else
+	const int ErrorOffset=0;
+#endif
+	TEST_ASSERT(errors.Count()==11+ErrorOffset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(c9, argument)==floatType);
-	TEST_ASSERT(errors.Count()==11);
+	TEST_ASSERT(errors.Count()==11+ErrorOffset);
 }
 
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicSubscribeExpression)
@@ -791,16 +801,22 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
 
 	Ptr<BasicExpression> ddExpr=e_name(L"expd")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
 	Ptr<BasicExpression> dfExpr=e_name(L"expd")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
-	Ptr<BasicExpression> diExpr=e_name(L"expd")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> diExpr=e_name(L"expd")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
 	Ptr<BasicExpression> fdExpr=e_name(L"expf")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
 	Ptr<BasicExpression> ffExpr=e_name(L"expf")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
-	Ptr<BasicExpression> fiExpr=e_name(L"expf")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> fiExpr=e_name(L"expf")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
 	Ptr<BasicExpression> idExpr=e_name(L"expi")(e_exps()<<e_prim((double)1)<<e_prim((double)2)).GetInternalValue();
 	Ptr<BasicExpression> ifExpr=e_name(L"expi")(e_exps()<<e_prim((float)1)<<e_prim((float)2)).GetInternalValue();
-	Ptr<BasicExpression> iiExpr=e_name(L"expi")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
-	Ptr<BasicExpression> wrongExpr1=e_name(L"expvczh")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
-	Ptr<BasicExpression> wrongExpr2=e_prim(0)(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
-	Ptr<BasicExpression> wrongExpr3=e_name(L"sin")(e_exps()<<e_prim((int)1)<<e_prim((int)2)).GetInternalValue();
+	Ptr<BasicExpression> iiExpr=e_name(L"expi")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr1=e_name(L"expvczh")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr2=e_prim(0)(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
+	Ptr<BasicExpression> wrongExpr3=e_name(L"sin")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
+
+#ifdef VCZH_64
+	const int error_offset=2;
+#else
+	const int error_offset=0;
+#endif
 
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(ddExpr, argument)==tm.GetPrimitiveType(f64));
@@ -808,25 +824,25 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(dfExpr, argument)==tm.GetPrimitiveType(f64));
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(diExpr, argument)==tm.GetPrimitiveType(f64));
-	TEST_ASSERT(errors.Count()==0);
+	TEST_ASSERT(errors.Count()==0+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(fdExpr, argument)==tm.GetPrimitiveType(f32));
-	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(errors.Count()==2+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(ffExpr, argument)==tm.GetPrimitiveType(f32));
-	TEST_ASSERT(errors.Count()==2);
+	TEST_ASSERT(errors.Count()==2+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(fiExpr, argument)==tm.GetPrimitiveType(f32));
-	TEST_ASSERT(errors.Count()==4);
+	TEST_ASSERT(errors.Count()==4+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(idExpr, argument)==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(errors.Count()==6);
+	TEST_ASSERT(errors.Count()==6+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(ifExpr, argument)==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(errors.Count()==8);
+	TEST_ASSERT(errors.Count()==8+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(iiExpr, argument)==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(errors.Count()==8);
+	TEST_ASSERT(errors.Count()==8+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr1, argument)==0);
-	TEST_ASSERT(errors.Count()==9);
+	TEST_ASSERT(errors.Count()==9+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr2, argument)==0);
-	TEST_ASSERT(errors.Count()==10);
+	TEST_ASSERT(errors.Count()==10+error_offset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wrongExpr3, argument)==tm.GetPrimitiveType(f64));
-	TEST_ASSERT(errors.Count()==11);
+	TEST_ASSERT(errors.Count()==11+error_offset);
 }
 
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicResultExpression)
@@ -868,8 +884,8 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicCastingExpression)
 	BP argument(&env, globalScope, &tm, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
-	Ptr<BasicExpression> cast_int_to_uint=e_prim((signed int)0)[t_uint()].GetInternalValue();
-	Ptr<BasicExpression> cast_int_to_pvoid=e_prim((signed int)0)[*t_void()].GetInternalValue();
+	Ptr<BasicExpression> cast_int_to_uint=e_prim((vsint)0)[t_uint()].GetInternalValue();
+	Ptr<BasicExpression> cast_int_to_pvoid=e_prim((vsint)0)[*t_void()].GetInternalValue();
 	Ptr<BasicExpression> cast_pwchar_to_pint=e_prim(L"vczh")[*t_int()].GetInternalValue();
 	Ptr<BasicExpression> cast_pwchar_to_pvoid=e_prim(L"vczh")[*t_void()].GetInternalValue();
 	Ptr<BasicExpression> cast_pvoid_to_pwchar=e_null()[*t_wchar()].GetInternalValue();
@@ -896,8 +912,8 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	program.DefineVariable(L"c", t_int());
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 	BasicScope* functionScope=env.CreateFunctionScope(globalScope, dynamic_cast<BasicFunctionDeclaration*>(program.GetInternalValue()->declarations[0].Obj()));
-	functionScope->variables.Add(L"b", BasicScope::Variable(0, tm.GetPrimitiveType(uint_type)));
-	functionScope->variables.Add(L"c", BasicScope::Variable(0, tm.GetPrimitiveType(bool_type)));
+	functionScope->variables.Add(L"b", BasicScope::Variable((vint)0, tm.GetPrimitiveType(uint_type)));
+	functionScope->variables.Add(L"c", BasicScope::Variable((vint)0, tm.GetPrimitiveType(bool_type)));
 
 	Ptr<BasicExpression> aExpr=e_name(L"a").GetInternalValue();
 	Ptr<BasicExpression> bExpr=e_name(L"b").GetInternalValue();

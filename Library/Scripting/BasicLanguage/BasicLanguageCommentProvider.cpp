@@ -49,8 +49,8 @@ namespace vl
 					while(!reader.IsEnd())
 					{
 						WString line=reader.ReadLine();
-						int spaceCount=0;
-						for(int i=0;i<line.Length();i++)
+						vint spaceCount=0;
+						for(vint i=0;i<line.Length();i++)
 						{
 							if(line[i]==L' ')
 							{

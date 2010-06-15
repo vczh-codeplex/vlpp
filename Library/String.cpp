@@ -4,13 +4,13 @@
 
 namespace vl
 {
-	int atoi(const AString& string)
+	vint atoi(const AString& string)
 	{
 		char* endptr=0;
 		return strtol(string.Buffer(), &endptr, 10);
 	}
 
-	int wtoi(const WString& string)
+	vint wtoi(const WString& string)
 	{
 		wchar_t* endptr=0;
 		return wcstol(string.Buffer(), &endptr, 10);
@@ -28,13 +28,13 @@ namespace vl
 		return _wcstoi64(string.Buffer(), &endptr, 10);
 	}
 
-	unsigned int atou(const AString& string)
+	vuint atou(const AString& string)
 	{
 		char* endptr=0;
 		return strtoul(string.Buffer(), &endptr, 10);
 	}
 
-	unsigned int wtou(const WString& string)
+	vuint wtou(const WString& string)
 	{
 		wchar_t* endptr=0;
 		return wcstoul(string.Buffer(), &endptr, 10);
@@ -64,59 +64,59 @@ namespace vl
 		return wcstod(string.Buffer(), &endptr);
 	}
 
-	AString itoa(int number)
+	AString itoa(vint number)
 	{
 		char buffer[100];
-		_itoa_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		ITOA_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
-	WString itow(int number)
+	WString itow(vint number)
 	{
 		wchar_t buffer[100];
-		_itow_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		ITOW_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
 	AString i64toa(__int64 number)
 	{
 		char buffer[100];
-		_i64toa_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		I64TOA_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
 	WString i64tow(__int64 number)
 	{
 		wchar_t buffer[100];
-		_i64tow_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		I64TOW_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
-	AString utoa(unsigned int number)
+	AString utoa(vuint number)
 	{
 		char buffer[100];
-		_ui64toa_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		UITOA_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
-	WString utow(unsigned int number)
+	WString utow(vuint number)
 	{
 		wchar_t buffer[100];
-		_ui64tow_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		UITOW_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
 	AString u64toa(unsigned __int64 number)
 	{
 		char buffer[100];
-		_ui64toa_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		UI64TOA_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
 	WString u64tow(unsigned __int64 number)
 	{
 		wchar_t buffer[100];
-		_ui64tow_s(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
+		UI64TOW_S(number, buffer, sizeof(buffer)/sizeof(*buffer), 10);
 		return buffer;
 	}
 
@@ -124,7 +124,7 @@ namespace vl
 	{
 		char buffer[100];
 		_gcvt_s(buffer, 100, number, 30);
-		int len=(int)strlen(buffer);
+		vint len=(vint)strlen(buffer);
 		if(buffer[len-1]=='.')
 		{
 			buffer[len-1]='\0';
@@ -139,9 +139,9 @@ namespace vl
 
 	AString wtoa(const WString& string)
 	{
-		int Length=WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),string.Length(),0,0,0,0);
+		vint Length=WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),0,0,0,0);
 		char* Temp=new char[Length+1];
-		WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),string.Length(),Temp,Length,0,0);
+		WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),Temp,(int)Length,0,0);
 		Temp[Length]='\0';
 		AString s=Temp;
 		delete[] Temp;
@@ -150,9 +150,9 @@ namespace vl
 
 	WString atow(const AString& string)
 	{
-		int Length=MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),string.Length(),0,0);
+		vint Length=MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),0,0);
 		wchar_t* Temp=new wchar_t[Length+1];
-		MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),string.Length(),Temp,Length);
+		MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),Temp,(int)Length);
 		Temp[Length]=L'\0';
 		WString s=Temp;
 		delete[] Temp;

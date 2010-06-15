@@ -37,7 +37,7 @@ namespace vl
 				value=pair.value;
 			}
 
-			int CompareTo(const Pair<K, V>& pair)const
+			vint CompareTo(const Pair<K, V>& pair)const
 			{
 				if(key<pair.key)
 				{

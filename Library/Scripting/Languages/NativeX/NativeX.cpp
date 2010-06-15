@@ -29,7 +29,7 @@ namespace vl
 				WString				name;
 				List<WString>		imports;
 				Ptr<BasicProgram>	program;
-				int					codeIndex;
+				vint					codeIndex;
 			};
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
@@ -914,7 +914,7 @@ namespace vl
 				Ptr<NativeXUnit> unit=new NativeXUnit;
 				unit->name=ConvertID(WString(input.First().First().reading, input.First().First().length));
 				unit->program=CreateNode<BasicProgram>(input.First().First());
-				for(int i=0;i<input.First().Second()->Count();i++)
+				for(vint i=0;i<input.First().Second()->Count();i++)
 				{
 					const RegexToken& name=input.First().Second()->Get(i);
 					unit->imports.Add(ConvertID(WString(name.reading, name.length)));
@@ -968,7 +968,7 @@ namespace vl
 			{
 			protected:
 				Ptr<RegexLexer>						lexer;
-				int									blankID;
+				vint									blankID;
 
 				TokenType							ACHAR;
 				TokenType							WCHAR;
@@ -1153,16 +1153,16 @@ namespace vl
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
 				}
 
-				static bool Blank(int token)
+				static bool Blank(vint token)
 				{
 					return token==0;
 				}
 
-				Ptr<NativeXUnit> Parse(const WString& code, int codeIndex, IList<Ptr<LanguageException>>& errors)
+				Ptr<NativeXUnit> Parse(const WString& code, vint codeIndex, IList<Ptr<LanguageException>>& errors)
 				{
 					List<RegexToken> tokens;
 					lexer->Parse(code, codeIndex).ReadToEnd(tokens, Blank);
-					for(int i=0;i<tokens.Count();i++)
+					for(vint i=0;i<tokens.Count();i++)
 					{
 						if(tokens[i].token==-1)
 						{
@@ -1184,7 +1184,7 @@ namespace vl
 					}
 					catch(const CombinatorException<TokenInput<RegexToken>>& exception)
 					{
-						for(int i=0;i<exception.GetGlobalInfo().errors.Count();i++)
+						for(vint i=0;i<exception.GetGlobalInfo().errors.Count();i++)
 						{
 							Ptr<CombinatorError<TokenInput<RegexToken>>> error=exception.GetGlobalInfo().errors.Get(i);
 							RegexToken position=error->GetPosition().Current();
@@ -1434,7 +1434,7 @@ namespace vl
 				if(isID)
 				{
 					bool isKeyword=false;
-					for(int i=0;i<sizeof(keywords)/sizeof(*keywords);i++)
+					for(vint i=0;i<sizeof(keywords)/sizeof(*keywords);i++)
 					{
 						if(wcscmp(keywords[i], buffer)==0)
 						{
@@ -1507,7 +1507,7 @@ namespace vl
 					case BasicTypeRecord::Function:
 						{
 							WString result=L"function "+ToString(type->ReturnType())+L"(";
-							for(int i=0;i<type->ParameterCount();i++)
+							for(vint i=0;i<type->ParameterCount();i++)
 							{
 								if(i)result+=L", ";
 								result+=ToString(type->ParameterType(i));
@@ -1564,7 +1564,7 @@ namespace vl
 
 				bool Parse(IReadonlyList<WString>& codes, IList<Ptr<LanguageException>>& errors, IDictionary<WString, Ptr<NativeXUnit>>& units)
 				{
-					for(int i=0;i<codes.Count();i++)
+					for(vint i=0;i<codes.Count();i++)
 					{
 						Ptr<NativeXUnit> unit=parser.Parse(codes[i], i, errors);
 						if(unit)
@@ -1579,10 +1579,10 @@ namespace vl
 							}
 						}
 					}
-					for(int i=0;i<units.Count();i++)
+					for(vint i=0;i<units.Count();i++)
 					{
 						Ptr<NativeXUnit> unit=units.Values()[i];
-						for(int j=0;j<unit->imports.Count();i++)
+						for(vint j=0;j<unit->imports.Count();i++)
 						{
 							if(!units.Keys().Contains(unit->imports[j]))
 							{
@@ -1603,7 +1603,7 @@ namespace vl
 					if(safeUnits.Contains(current.Obj()))return 0;
 					if(searchedUnits.Contains(current.Obj()))return current;
 					searchedUnits.Add(current);
-					for(int i=0;i<current->imports.Count();i++)
+					for(vint i=0;i<current->imports.Count();i++)
 					{
 						Ptr<NativeXUnit> result=SearchCircularImportsInternal(units, searchedUnits, safeUnits, units[current->imports[i]]);
 						if(result)
@@ -1619,7 +1619,7 @@ namespace vl
 				{
 					SortedList<Ptr<NativeXUnit>> searchedUnits;
 					SortedList<Ptr<NativeXUnit>> safeUnits;
-					for(int i=0;i<units.Count();i++)
+					for(vint i=0;i<units.Count();i++)
 					{
 						searchedUnits.Clear();
 						Ptr<NativeXUnit> result=SearchCircularImportsInternal(units, searchedUnits.Wrap(), safeUnits.Wrap(), units.Values()[i]);
@@ -1635,11 +1635,11 @@ namespace vl
 				{
 					while(units.Count())
 					{
-						for(int i=0;i<units.Count();i++)
+						for(vint i=0;i<units.Count();i++)
 						{
 							WString name=units.Keys()[i];
-							int count=0;
-							for(int j=0;j<units.Count();j++)
+							vint count=0;
+							for(vint j=0;j<units.Count();j++)
 							{
 								if(units.Values()[j]->imports.Contains(name))
 								{
@@ -1700,7 +1700,7 @@ namespace vl
 					List<Ptr<NativeXUnit>> sortedUnits;
 					SortUnits(units.Wrap(), sortedUnits.Wrap());
 					Ptr<BasicProgram> program=new BasicProgram;
-					for(int i=0;i<sortedUnits.Count();i++)
+					for(vint i=0;i<sortedUnits.Count();i++)
 					{
 						CopyFrom(program->declarations.Wrap(), sortedUnits[i]->program->declarations.Wrap(), true);
 					}
@@ -1712,7 +1712,7 @@ namespace vl
 					if(analyzer.GetErrors().Count()>0)
 					{
 						NativeXMessageTranslator translator(&analyzer);
-						for(int i=0;i<analyzer.GetErrors().Count();i++)
+						for(vint i=0;i<analyzer.GetErrors().Count();i++)
 						{
 							errors.Add(translator.Translate(analyzer.GetErrors()[i], analyzer.GetErrors()[i]->GetBasicLanguageElement()->position.codeIndex));
 						}
@@ -1750,18 +1750,18 @@ namespace vl
 			typedef struct NativeXCodeGeneratorParameter
 			{
 				TextWriter&			writer;
-				int					indentation;
+				vint					indentation;
 
-				NativeXCodeGeneratorParameter(TextWriter& _writer, int _indentation)
+				NativeXCodeGeneratorParameter(TextWriter& _writer, vint _indentation)
 					:writer(_writer)
 					,indentation(_indentation)
 				{
 				}
 			} NXCGP;
 
-			void PrintIndentation(const NXCGP& argument, int offset=0)
+			void PrintIndentation(const NXCGP& argument, vint offset=0)
 			{
-				for(int i=0;i<argument.indentation+offset;i++)
+				for(vint i=0;i<argument.indentation+offset;i++)
 				{
 					argument.writer.WriteString(L"    ");
 				}
@@ -1798,7 +1798,7 @@ namespace vl
 					argument.writer.WriteString(L"function ");
 					NativeX_BasicType_GenerateCode(node->returnType, argument);
 					argument.writer.WriteString(L"(");
-					for(int i=0;i<node->parameterTypes.Count();i++)
+					for(vint i=0;i<node->parameterTypes.Count();i++)
 					{
 						if(i)
 						{
@@ -1909,7 +1909,7 @@ namespace vl
 				{
 					NativeX_BasicExpression_GenerateCode(node->function, argument);
 					argument.writer.WriteString(L"(");
-					for(int i=0;i<node->arguments.Count();i++)
+					for(vint i=0;i<node->arguments.Count();i++)
 					{
 						if(i)argument.writer.WriteString(L", ");
 						NativeX_BasicExpression_GenerateCode(node->arguments[i], argument);
@@ -1953,7 +1953,7 @@ namespace vl
 				{
 					PrintIndentation(argument, -1);
 					argument.writer.WriteLine(L"{");
-					for(int i=0;i<node->statements.Count();i++)
+					for(vint i=0;i<node->statements.Count();i++)
 					{
 						NativeX_BasicStatement_GenerateCode(node->statements[i], argument);
 					}
@@ -2082,8 +2082,8 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"(");
 
-					int min=node->parameterNames.Count()<node->signatureType->parameterTypes.Count()?node->parameterNames.Count():node->signatureType->parameterTypes.Count();
-					for(int i=0;i<min;i++)
+					vint min=node->parameterNames.Count()<node->signatureType->parameterTypes.Count()?node->parameterNames.Count():node->signatureType->parameterTypes.Count();
+					for(vint i=0;i<min;i++)
 					{
 						if(i)argument.writer.WriteString(L", ");
 						NativeX_BasicType_GenerateCode(node->signatureType->parameterTypes[i], argument);
@@ -2159,9 +2159,9 @@ namespace vl
 						PrintIndentation(argument);
 						argument.writer.WriteLine(L"{");
 
-						int min=node->memberNames.Count()<node->memberTypes.Count()?node->memberNames.Count():node->memberTypes.Count();
+						vint min=node->memberNames.Count()<node->memberTypes.Count()?node->memberNames.Count():node->memberTypes.Count();
 						NXCGP newArgument(argument.writer, argument.indentation+1);
-						for(int i=0;i<min;i++)
+						for(vint i=0;i<min;i++)
 						{
 							PrintIndentation(newArgument);
 							NativeX_BasicType_GenerateCode(node->memberTypes[i], newArgument);
@@ -2192,7 +2192,7 @@ namespace vl
 			{
 				NXCGP argument(writer, 0);
 				writer.WriteLine(L"unit nativex_program_generated;");
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					NativeX_BasicDeclaration_GenerateCode(program->declarations[i], argument);
 					writer.WriteLine(L"");

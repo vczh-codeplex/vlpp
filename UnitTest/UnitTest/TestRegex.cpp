@@ -194,8 +194,8 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 	EncoderStream output(file, encoder);
 	StreamWriter writer(output);
 
-	wchar_t intbuf[20]={0};
-	for(int i=0;i<automaton->states.Count();i++)
+	wchar_t intbuf[100]={0};
+	for(vint i=0;i<automaton->states.Count();i++)
 	{
 		State* state=automaton->states[i].Obj();
 		if(automaton->startState==state)
@@ -207,13 +207,13 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 			writer.WriteString(L"[FINISH]");
 		}
 		writer.WriteString(L"State<");
-		_itow_s(i, intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
+		ITOW_S(i, intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
 		writer.WriteString(intbuf);
 		writer.WriteLine(L">");
-		for(int j=0;j<state->transitions.Count();j++)
+		for(vint j=0;j<state->transitions.Count();j++)
 		{
 			Transition* transition=state->transitions[j];
-			_itow_s(automaton->states.IndexOf(transition->target), intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
+			ITOW_S(automaton->states.IndexOf(transition->target), intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
 			writer.WriteString(L"    To State<");
 			writer.WriteString(intbuf);
 			writer.WriteString(L"> : ");
@@ -253,7 +253,7 @@ void PrintAutomaton(WString fileName, Automaton::Ref automaton)
 				writer.WriteString(L"<Match : ");
 				writer.WriteString(automaton->captureNames[transition->capture]);
 				writer.WriteString(L";");
-				_itow_s(transition->index, intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
+				ITOW_S(transition->index, intbuf, sizeof(intbuf)/sizeof(*intbuf), 10);
 				writer.WriteString(intbuf);
 				writer.WriteLine(L" >");
 				break;
@@ -335,7 +335,7 @@ TEST_CASE(TestEpsilonNfa)
 ¥ø∆•≈‰
 ***********************************************************************/
 
-void RunPureInterpretor(const wchar_t* code, const wchar_t* input, int start, int length)
+void RunPureInterpretor(const wchar_t* code, const wchar_t* input, vint start, vint length)
 {
 	CharRange::List subsets;
 	Dictionary<State*, State*> nfaStateMap;
@@ -422,7 +422,7 @@ Ptr<RichInterpretor> BuildRichInterpretor(const wchar_t* code)
 	return new RichInterpretor(dfa);
 }
 
-void RunRichInterpretor(const wchar_t* code, const wchar_t* input, int start, int length)
+void RunRichInterpretor(const wchar_t* code, const wchar_t* input, vint start, vint length)
 {
 	RichResult matchResult;
 	Ptr<RichInterpretor> interpretor=BuildRichInterpretor(code);
@@ -516,7 +516,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input=L"abcde123456abcde";
 		RichResult result;
 		Ptr<RichInterpretor> regex=BuildRichInterpretor(code);
-		int index=regex->CaptureNames().IndexOf(L"number");
+		vint index=regex->CaptureNames().IndexOf(L"number");
 		TEST_ASSERT(index==0);
 
 		TEST_ASSERT(regex->Match(input, input, result)==true);
@@ -532,7 +532,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input=L"196.128.0.1";
 		RichResult result;
 		Ptr<RichInterpretor> regex=BuildRichInterpretor(code);
-		int index=regex->CaptureNames().IndexOf(L"sec");
+		vint index=regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index==0);
 
 		TEST_ASSERT(regex->Match(input, input, result)==true);
@@ -557,7 +557,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input=L"98765123123123123123123";
 		RichResult result;
 		Ptr<RichInterpretor> regex=BuildRichInterpretor(code);
-		int index=regex->CaptureNames().IndexOf(L"sec");
+		vint index=regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index==0);
 
 		TEST_ASSERT(regex->Match(input, input, result)==true);
@@ -573,7 +573,7 @@ TEST_CASE(TestRichInterpretorCapture)
 		const wchar_t* input=L"98765123123123123123123";
 		RichResult result;
 		Ptr<RichInterpretor> regex=BuildRichInterpretor(code);
-		int index=regex->CaptureNames().IndexOf(L"sec");
+		vint index=regex->CaptureNames().IndexOf(L"sec");
 		TEST_ASSERT(index==0);
 
 		TEST_ASSERT(regex->Match(input, input, result)==true);

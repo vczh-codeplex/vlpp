@@ -19,7 +19,7 @@ namespace vl
 		class IMetadataProvider : private Interface
 		{
 		public:
-			virtual int						GetInstructionKey()=0;
+			virtual vint						GetInstructionKey()=0;
 			virtual Ptr<ResourceStream>		GetResource(const WString& name)=0;
 		};
 

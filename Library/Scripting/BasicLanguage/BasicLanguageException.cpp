@@ -90,7 +90,7 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, int memberIndex)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, vint memberIndex)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=type->memberNames[memberIndex];
@@ -134,7 +134,7 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(invoke, ArgumentNumberNotMatch, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, int parameterIndex)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, vint parameterIndex)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=itow(parameterIndex);
@@ -220,14 +220,14 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, ParameterCountNotMatch, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, int parameterIndex)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, vint parameterIndex)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=itow(parameterIndex);
 				return new BasicLanguageCodeException(declaration, ParameterAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, int memberIndex)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, vint memberIndex)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=declaration->memberNames[memberIndex];

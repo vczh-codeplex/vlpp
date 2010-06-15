@@ -13,7 +13,7 @@ Console
 		void Console::Write(const WString& string)
 		{
 			DWORD count=0;
-			WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE),string.Buffer(),string.Length(),&count,0);
+			WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE),string.Buffer(),(int)string.Length(),&count,0);
 		}
 
 		void Console::WriteLine(const WString& string)

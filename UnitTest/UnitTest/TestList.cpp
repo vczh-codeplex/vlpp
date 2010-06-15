@@ -8,17 +8,17 @@ using namespace vl::collections;
 
 #define _ ,
 #define CHECK_EMPTY_LIST(CONTAINER) TestReadonlyList(CONTAINER, 0, 0)
-#define CHECK_LIST_ITEMS(CONTAINER,ITEMS)do{int __items__[]=ITEMS;TestReadonlyList(CONTAINER,__items__, sizeof(__items__)/sizeof(*__items__));}while(0)
+#define CHECK_LIST_ITEMS(CONTAINER,ITEMS)do{vint __items__[]=ITEMS;TestReadonlyList(CONTAINER,__items__, sizeof(__items__)/sizeof(*__items__));}while(0)
 #define CHECK_EMPTY_DICTIONARY(CONTAINER) TestReadonlyDictionary(CONTAINER, 0, 0, 0);
-#define CHECK_DICTIONARY_ITEMS(CONTAINER,KEYS,VALUES)do{int __keys__[]=KEYS;int __values__[]=VALUES;TestReadonlyDictionary(CONTAINER, __keys__, __values__, sizeof(__keys__)/sizeof(*__keys__));}while(0)
+#define CHECK_DICTIONARY_ITEMS(CONTAINER,KEYS,VALUES)do{vint __keys__[]=KEYS;vint __values__[]=VALUES;TestReadonlyDictionary(CONTAINER, __keys__, __values__, sizeof(__keys__)/sizeof(*__keys__));}while(0)
 #define CHECK_EMPTY_GROUP(CONTAINER) TestReadonlyGroup(CONTAINER, 0, 0, 0, 0);
-#define CHECK_GROUP_ITEMS(CONTAINER,KEYS,VALUES,COUNTS)do{int __keys__[]=KEYS;int __values__[]=VALUES;int __counts__[]=COUNTS;TestReadonlyGroup(CONTAINER, __keys__, __values__, __counts__, sizeof(__keys__)/sizeof(*__keys__));}while(0)
+#define CHECK_GROUP_ITEMS(CONTAINER,KEYS,VALUES,COUNTS)do{vint __keys__[]=KEYS;vint __values__[]=VALUES;vint __counts__[]=COUNTS;TestReadonlyGroup(CONTAINER, __keys__, __values__, __counts__, sizeof(__keys__)/sizeof(*__keys__));}while(0)
 
-void TestReadonlyList(const IReadonlyList<int>& list, int* items, int count)
+void TestReadonlyList(const IReadonlyList<vint>& list, vint* items, vint count)
 {
 	TEST_ASSERT(list.Count()==count);
-	IEnumerator<int>* enumerator=list.CreateEnumerator();
-	for(int i=0;i<count;i++)
+	IEnumerator<vint>* enumerator=list.CreateEnumerator();
+	for(vint i=0;i<count;i++)
 	{
 		TEST_ASSERT(list.Contains(items[i]));
 		TEST_ASSERT(list.Get(i)==items[i]);
@@ -51,24 +51,24 @@ void CompareEnumerable(const IEnumerable<T>& dst, const IEnumerable<T>& src)
 	delete srcEnum;
 }
 
-void TestArray(IArray<int>& arr)
+void TestArray(IArray<vint>& arr)
 {
 	arr.Resize(0);
 	CHECK_EMPTY_LIST(arr);
 
 	arr.Resize(10);
-	for(int i=0;i<5;i++)
+	for(vint i=0;i<5;i++)
 	{
 		arr[i]=i;
 	}
-	for(int i=5;i<10;i++)
+	for(vint i=5;i<10;i++)
 	{
 		arr.Set(i, i);
 	}
 	CHECK_LIST_ITEMS(arr, {0 _ 1 _ 2 _ 3 _ 4 _ 5 _ 6 _ 7 _ 8 _ 9});
 
 	arr.Resize(15);
-	for(int i=10;i<15;i++)
+	for(vint i=10;i<15;i++)
 	{
 		arr.Set(i, i*2);
 	}
@@ -78,7 +78,7 @@ void TestArray(IArray<int>& arr)
 	CHECK_LIST_ITEMS(arr, {0 _ 1 _ 2 _ 3 _ 4});
 }
 
-void TestCollectionWithIncreasingItems(ICollection<int>& collection)
+void TestCollectionWithIncreasingItems(ICollection<vint>& collection)
 {
 	collection.Clear();
 	CHECK_EMPTY_LIST(collection);
@@ -86,7 +86,7 @@ void TestCollectionWithIncreasingItems(ICollection<int>& collection)
 	collection.Add(0);
 	CHECK_LIST_ITEMS(collection, {0});
 
-	for(int i=1;i<10;i++)
+	for(vint i=1;i<10;i++)
 	{
 		collection.Add(i);
 	}
@@ -107,7 +107,7 @@ void TestCollectionWithIncreasingItems(ICollection<int>& collection)
 	TEST_ASSERT(collection.Remove(0)==true);
 	CHECK_LIST_ITEMS(collection, {1 _ 8});
 
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
 		if(i!=1 && i!=8)
 		{
@@ -120,11 +120,11 @@ void TestCollectionWithIncreasingItems(ICollection<int>& collection)
 	CHECK_EMPTY_LIST(collection);
 }
 
-void TestSortedCollection(ICollection<int>& collection)
+void TestSortedCollection(ICollection<vint>& collection)
 {
-	int items[]={7, 1, 12, 2, 8, 3, 11, 4, 9, 5, 13, 6, 10};
+	vint items[]={7, 1, 12, 2, 8, 3, 11, 4, 9, 5, 13, 6, 10};
 	collection.Clear();
-	for(int i=0;i<sizeof(items)/sizeof(*items);i++)
+	for(vint i=0;i<sizeof(items)/sizeof(*items);i++)
 	{
 		collection.Add(items[i]);
 	}
@@ -148,7 +148,7 @@ void TestSortedCollection(ICollection<int>& collection)
 	TEST_ASSERT(collection.Remove(3)==true);
 	CHECK_LIST_ITEMS(collection, {4 _ 5 _ 6 _ 9 _ 10 _ 11 _ 13});
 
-	for(int i=0;i<sizeof(items)/sizeof(*items);i++)
+	for(vint i=0;i<sizeof(items)/sizeof(*items);i++)
 	{
 		collection.Add(items[i]);
 	}
@@ -158,42 +158,42 @@ void TestSortedCollection(ICollection<int>& collection)
 	CHECK_EMPTY_LIST(collection);
 }
 
-void TestNormalList(IList<int>& list)
+void TestNormalList(IList<vint>& list)
 {
 	list.Clear();
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
 		list.Insert(i/2,i);
 	}
 	CHECK_LIST_ITEMS(list, {1 _ 3 _ 5 _ 7 _ 9 _ 8 _ 6 _ 4 _ 2 _ 0});
 
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
 		list[i]=9-i;
 	}
 	CHECK_LIST_ITEMS(list, {9 _ 8 _ 7 _ 6 _ 5 _ 4 _ 3 _ 2 _ 1 _ 0});
 
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
 		list.Set(i,i*2);
 	}
 	CHECK_LIST_ITEMS(list, {0 _ 2 _ 4 _ 6 _ 8 _ 10 _ 12 _ 14 _ 16 _ 18});
 }
 
-void TestReadonlyDictionary(const IReadonlyDictionary<int, int>& dictionary, int* keys, int* values, int count)
+void TestReadonlyDictionary(const IReadonlyDictionary<vint, vint>& dictionary, vint* keys, vint* values, vint count)
 {
 	TEST_ASSERT(dictionary.Count()==count);
 	TestReadonlyList(dictionary.Keys(), keys, count);
 	TestReadonlyList(dictionary.Values(), values, count);
-	for(int i=0;i<count;i++)
+	for(vint i=0;i<count;i++)
 	{
 		TEST_ASSERT(dictionary.Get(keys[i])==values[i]);
 	}
 
-	IEnumerator<Pair<int, int>>* enumerator=dictionary.CreateEnumerator();
-	for(int i=0;i<count;i++)
+	IEnumerator<Pair<vint, vint>>* enumerator=dictionary.CreateEnumerator();
+	for(vint i=0;i<count;i++)
 	{
-		Pair<int, int> pair(keys[i], values[i]);
+		Pair<vint, vint> pair(keys[i], values[i]);
 		TEST_ASSERT(enumerator->Available()==true);
 		TEST_ASSERT(enumerator->Current()==pair);
 		TEST_ASSERT(enumerator->Index()==i);
@@ -203,7 +203,7 @@ void TestReadonlyDictionary(const IReadonlyDictionary<int, int>& dictionary, int
 	delete enumerator;
 }
 
-void TestSortedDictionary(IDictionary<int, int>& dictionary)
+void TestSortedDictionary(IDictionary<vint, vint>& dictionary)
 {
 	dictionary.Clear();
 	CHECK_EMPTY_DICTIONARY(dictionary);
@@ -230,31 +230,31 @@ void TestSortedDictionary(IDictionary<int, int>& dictionary)
 	CHECK_EMPTY_DICTIONARY(dictionary);
 }
 
-void TestReadonlyGroup(const IReadonlyGroup<int, int>& group, int* keys, int* values, int* counts, int count)
+void TestReadonlyGroup(const IReadonlyGroup<vint, vint>& group, vint* keys, vint* values, vint* counts, vint count)
 {
 	TEST_ASSERT(group.Count()==count);
 	TestReadonlyList(group.Keys(), keys, count);
-	int offset=0;
-	for(int i=0;i<count;i++)
+	vint offset=0;
+	for(vint i=0;i<count;i++)
 	{
 		TEST_ASSERT(group.Contains(keys[i])==true);
 		TestReadonlyList(group.Get(keys[i]), values+offset, counts[i]);
 		TestReadonlyList(group[keys[i]], values+offset, counts[i]);
 		TestReadonlyList(group.GetByIndex(i), values+offset, counts[i]);
-		for(int j=0;j<counts[i];j++)
+		for(vint j=0;j<counts[i];j++)
 		{
 			TEST_ASSERT(group.Contains(keys[i], values[offset+j]));
 		}
 		offset+=counts[i];
 	}
 
-	IEnumerator<Pair<int, int>>* enumerator=group.CreateEnumerator();
-	int keyIndex=0;
-	int valueIndex=0;
-	int index=0;
+	IEnumerator<Pair<vint, vint>>* enumerator=group.CreateEnumerator();
+	vint keyIndex=0;
+	vint valueIndex=0;
+	vint index=0;
 	while(keyIndex<count)
 	{
-		Pair<int, int> pair(keys[keyIndex], values[index]);
+		Pair<vint, vint> pair(keys[keyIndex], values[index]);
 		TEST_ASSERT(enumerator->Available()==true);
 		TEST_ASSERT(enumerator->Current()==pair);
 		TEST_ASSERT(enumerator->Index()==index);
@@ -272,12 +272,12 @@ void TestReadonlyGroup(const IReadonlyGroup<int, int>& group, int* keys, int* va
 	delete enumerator;
 }
 
-void TestSortedGroup(IGroup<int, int>& group)
+void TestSortedGroup(IGroup<vint, vint>& group)
 {
 	group.Clear();
 	CHECK_EMPTY_GROUP(group);
 
-	for(int i=0;i<20;i++)
+	for(vint i=0;i<20;i++)
 	{
 		group.Add(i/5, i);
 	}
@@ -286,7 +286,7 @@ void TestSortedGroup(IGroup<int, int>& group)
 	group.Remove(1);
 	CHECK_GROUP_ITEMS(group, {0 _ 2 _ 3}, {0 _ 1 _ 2 _ 3 _ 4 _ 10 _ 11 _ 12 _ 13 _ 14 _ 15 _ 16 _ 17 _ 18 _ 19}, {5 _ 5 _ 5});
 
-	for(int i=13;i<18;i++)
+	for(vint i=13;i<18;i++)
 	{
 		group.Remove(i/5, i);
 	}
@@ -298,44 +298,44 @@ void TestSortedGroup(IGroup<int, int>& group)
 
 TEST_CASE(TestArray)
 {
-	Array<int> arr;
+	Array<vint> arr;
 	TestArray(arr.Wrap());
 }
 
 TEST_CASE(TestSortedList)
 {
-	SortedList<int> list;
+	SortedList<vint> list;
 	TestCollectionWithIncreasingItems(list.Wrap());
 	TestSortedCollection(list.Wrap());
 }
 
 TEST_CASE(TestList)
 {
-	List<int> list;
+	List<vint> list;
 	TestCollectionWithIncreasingItems(list.Wrap());
 	TestNormalList(list.Wrap());
 }
 
 TEST_CASE(TestDictionary)
 {
-	Dictionary<int, int> dictionary;
+	Dictionary<vint, vint> dictionary;
 	TestSortedDictionary(dictionary.Wrap());
 }
 
 TEST_CASE(TestGroup)
 {
-	Group<int, int> group;
+	Group<vint, vint> group;
 	TestSortedGroup(group.Wrap());
 }
 
 TEST_CASE(TestListCopy)
 {
-	Array<int> arr;
-	List<int> list;
-	SortedList<int> sortedList;
+	Array<vint> arr;
+	List<vint> list;
+	SortedList<vint> sortedList;
 
 	arr.Resize(5);
-	for(int i=0;i<5;i++)
+	for(vint i=0;i<5;i++)
 	{
 		arr[i]=i;
 	}
@@ -345,7 +345,7 @@ TEST_CASE(TestListCopy)
 	CHECK_LIST_ITEMS(sortedList.Wrap(), {0 _ 1 _ 2 _ 3 _ 4});
 
 	list.Clear();
-	for(int i=10;i<20;i++)
+	for(vint i=10;i<20;i++)
 	{
 		list.Add(i);
 	}
@@ -355,7 +355,7 @@ TEST_CASE(TestListCopy)
 	CHECK_LIST_ITEMS(sortedList.Wrap(), {10 _ 11 _ 12 _ 13 _ 14 _ 15 _ 16 _ 17 _ 18 _ 19});
 
 	sortedList.Clear();
-	for(int i=6;i<9;i++)
+	for(vint i=6;i<9;i++)
 	{
 		sortedList.Add(i);
 	}
@@ -365,60 +365,60 @@ TEST_CASE(TestListCopy)
 	CHECK_LIST_ITEMS(list.Wrap(), {6 _ 7 _ 8});
 
 	arr.Resize(5);
-	for(int i=0;i<5;i++)
+	for(vint i=0;i<5;i++)
 	{
 		arr[i]=i;
 	}
-	CopyFrom(list.Wrap(), (const IEnumerable<int>&)arr.Wrap());
-	CopyFrom(sortedList.Wrap(), (const IEnumerable<int>&)arr.Wrap());
+	CopyFrom(list.Wrap(), (const IEnumerable<vint>&)arr.Wrap());
+	CopyFrom(sortedList.Wrap(), (const IEnumerable<vint>&)arr.Wrap());
 	CHECK_LIST_ITEMS(list.Wrap(), {0 _ 1 _ 2 _ 3 _ 4});
 	CHECK_LIST_ITEMS(sortedList.Wrap(), {0 _ 1 _ 2 _ 3 _ 4});
 
 	list.Clear();
-	for(int i=10;i<20;i++)
+	for(vint i=10;i<20;i++)
 	{
 		list.Add(i);
 	}
-	CopyFrom(arr.Wrap(), (const IEnumerable<int>&)list.Wrap());
-	CopyFrom(sortedList.Wrap(), (const IEnumerable<int>&)list.Wrap());
+	CopyFrom(arr.Wrap(), (const IEnumerable<vint>&)list.Wrap());
+	CopyFrom(sortedList.Wrap(), (const IEnumerable<vint>&)list.Wrap());
 	CHECK_LIST_ITEMS(arr.Wrap(), {10 _ 11 _ 12 _ 13 _ 14 _ 15 _ 16 _ 17 _ 18 _ 19});
 	CHECK_LIST_ITEMS(sortedList.Wrap(), {10 _ 11 _ 12 _ 13 _ 14 _ 15 _ 16 _ 17 _ 18 _ 19});
 
 	sortedList.Clear();
-	for(int i=6;i<9;i++)
+	for(vint i=6;i<9;i++)
 	{
 		sortedList.Add(i);
 	}
-	CopyFrom(arr.Wrap(), (const IEnumerable<int>&)sortedList.Wrap());
-	CopyFrom(list.Wrap(), (const IEnumerable<int>&)sortedList.Wrap());
+	CopyFrom(arr.Wrap(), (const IEnumerable<vint>&)sortedList.Wrap());
+	CopyFrom(list.Wrap(), (const IEnumerable<vint>&)sortedList.Wrap());
 	CHECK_LIST_ITEMS(arr.Wrap(), {6 _ 7 _ 8});
 	CHECK_LIST_ITEMS(list.Wrap(), {6 _ 7 _ 8});
 }
 
 TEST_CASE(TestDictionaryCopy)
 {
-	Array<Pair<int, int>> arr;
-	List<Pair<int, int>> list;
-	SortedList<Pair<int, int>> sortedList;
-	Dictionary<int, int> dictionary;
-	Group<int, int> group;
+	Array<Pair<vint, vint>> arr;
+	List<Pair<vint, vint>> list;
+	SortedList<Pair<vint, vint>> sortedList;
+	Dictionary<vint, vint> dictionary;
+	Group<vint, vint> group;
 
 	arr.Resize(10);
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
-		arr[i]=(Pair<int, int>(i/3, i));
+		arr[i]=(Pair<vint, vint>(i/3, i));
 	}
 	CopyFrom(dictionary.Wrap(), arr.Wrap());
 	CopyFrom(group.Wrap(), arr.Wrap());
 	CHECK_DICTIONARY_ITEMS(dictionary.Wrap(), {0 _ 1 _ 2 _ 3}, {2 _ 5 _ 8 _ 9});
 	CHECK_GROUP_ITEMS(group.Wrap(), {0 _ 1 _ 2 _ 3}, {0 _ 1 _ 2 _ 3 _ 4 _ 5 _ 6 _ 7 _ 8 _ 9}, {3 _ 3 _ 3 _ 1});
 
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
-		arr[i]=(Pair<int, int>(i/4, i));
+		arr[i]=(Pair<vint, vint>(i/4, i));
 	}
-	CopyFrom(dictionary.Wrap(), (const IEnumerable<Pair<int, int>>&)arr.Wrap());
-	CopyFrom(group.Wrap(), (const IEnumerable<Pair<int, int>>&)arr.Wrap());
+	CopyFrom(dictionary.Wrap(), (const IEnumerable<Pair<vint, vint>>&)arr.Wrap());
+	CopyFrom(group.Wrap(), (const IEnumerable<Pair<vint, vint>>&)arr.Wrap());
 	CHECK_DICTIONARY_ITEMS(dictionary.Wrap(), {0 _ 1 _ 2}, {3 _ 7 _ 9});
 	CHECK_GROUP_ITEMS(group.Wrap(), {0 _ 1 _ 2}, {0 _ 1 _ 2 _ 3 _ 4 _ 5 _ 6 _ 7 _ 8 _ 9}, {4 _ 4 _ 2});
 
@@ -437,21 +437,21 @@ TEST_CASE(TestDictionaryCopy)
 	CompareEnumerable(sortedList.Wrap(), group.Wrap());
 }
 
-int Square(int a)
+vint Square(vint a)
 {
 	return a*a;
 }
 
-int Double(int a)
+vint Double(vint a)
 {
 	return a*2;
 }
 
 TEST_CASE(TestSelectOperation)
 {
-	List<int> src;
-	List<int> dst;
-	for(int i=1;i<=10;i++)
+	List<vint> src;
+	List<vint> dst;
+	for(vint i=1;i<=10;i++)
 	{
 		src.Add(i);
 	}
@@ -460,16 +460,16 @@ TEST_CASE(TestSelectOperation)
 	CompareEnumerable(dst.Wrap(), src.Wrap()>>Select(Square)>>Select(Double));
 }
 
-bool Odd(int a)
+bool Odd(vint a)
 {
 	return a%2==1;
 }
 
 TEST_CASE(TestWhereOperation)
 {
-	List<int> src;
-	List<int> dst;
-	for(int i=1;i<=10;i++)
+	List<vint> src;
+	List<vint> dst;
+	for(vint i=1;i<=10;i++)
 	{
 		src.Add(i);
 	}
@@ -480,7 +480,7 @@ TEST_CASE(TestWhereOperation)
 	CompareEnumerable(dst.Wrap(), src.Wrap()>>Where(Odd));
 }
 
-int Add(int a, int b)
+vint Add(vint a, vint b)
 {
 	return a+b;
 }
@@ -497,8 +497,8 @@ bool Or(bool a, bool b)
 
 TEST_CASE(TestAggregateOperation)
 {
-	List<int> src;
-	for(int i=1;i<=10;i++)
+	List<vint> src;
+	for(vint i=1;i<=10;i++)
 	{
 		src.Add(i);
 	}
@@ -511,14 +511,14 @@ TEST_CASE(TestAggregateOperation)
 
 TEST_CASE(TestConcatOperation)
 {
-	List<int> first;
-	List<int> second;
-	List<int> result;
-	for(int i=0;i<5;i++)
+	List<vint> first;
+	List<vint> second;
+	List<vint> result;
+	for(vint i=0;i<5;i++)
 	{
 		first.Add(i);
 	}
-	for(int i=5;i<10;i++)
+	for(vint i=5;i<10;i++)
 	{
 		second.Add(i);
 	}
@@ -529,9 +529,9 @@ TEST_CASE(TestConcatOperation)
 
 TEST_CASE(TestSequenceOperation)
 {
-	List<int> src;
-	List<int> dst;
-	for(int i=0;i<10;i++)
+	List<vint> src;
+	List<vint> dst;
+	for(vint i=0;i<10;i++)
 	{
 		src.Add(i);
 	}
@@ -551,7 +551,7 @@ TEST_CASE(TestSequenceOperation)
 	CompareEnumerable(dst.Wrap(), src.Wrap()>>Skip(15));
 
 	src.Clear();
-	for(int i=0;i<3;i++)
+	for(vint i=0;i<3;i++)
 	{
 		src.Add(i);
 	}
@@ -579,14 +579,14 @@ TEST_CASE(TestSequenceOperation)
 
 TEST_CASE(TestDistinctOperation)
 {
-	List<int> first;
-	List<int> second;
-	List<int> result;
-	for(int i=0;i<8;i++)
+	List<vint> first;
+	List<vint> second;
+	List<vint> result;
+	for(vint i=0;i<8;i++)
 	{
 		first.Add(i);
 	}
-	for(int i=2;i<10;i++)
+	for(vint i=2;i<10;i++)
 	{
 		second.Add(i);
 	}
@@ -600,14 +600,14 @@ TEST_CASE(TestDistinctOperation)
 
 TEST_CASE(TestSetOperation)
 {
-	List<int> first;
-	List<int> second;
-	List<int> result;
-	for(int i=0;i<8;i++)
+	List<vint> first;
+	List<vint> second;
+	List<vint> result;
+	for(vint i=0;i<8;i++)
 	{
 		first.Add(i);
 	}
-	for(int i=2;i<10;i++)
+	for(vint i=2;i<10;i++)
 	{
 		second.Add(i);
 	}
@@ -624,10 +624,10 @@ TEST_CASE(TestSetOperation)
 
 TEST_CASE(TestPairOperation)
 {
-	List<int> src;
-	Group<bool, int> dst;
-	List<Pair<bool, int>> pair;
-	for(int i=1;i<=10;i++)
+	List<vint> src;
+	Group<bool, vint> dst;
+	List<Pair<bool, vint>> pair;
+	for(vint i=1;i<=10;i++)
 	{
 		src.Add(i);
 	}
@@ -641,27 +641,27 @@ TEST_CASE(TestPairOperation)
 	CompareEnumerable(pair.Wrap(), src.Wrap()>>Select(Odd)>>Pairwise(src.Wrap()>>Select(Square)));
 }
 
-bool dividable(int a, int b)
+bool dividable(vint a, vint b)
 {
 	return b%a==0;
 }
 
-Func<bool(int)> dividableConverter(int a)
+Func<bool(vint)> dividableConverter(vint a)
 {
 	return Curry(dividable)(a);
 }
 
 TEST_CASE(TestFunctionCollection)
 {
-	int divider[]={2,3,5};
-	Func<bool(int)> selector=
-		Array<int>(divider, 3).Wrap()
+	vint divider[]={2,3,5};
+	Func<bool(vint)> selector=
+		Array<vint>(divider, 3).Wrap()
 		>>Select(dividableConverter)
-		>>Aggregate(Combiner<bool(int)>(And));
+		>>Aggregate(Combiner<bool(vint)>(And));
 
-	List<int> src;
-	List<int> dst;
-	for(int i=1;i<=100;i++)
+	List<vint> src;
+	List<vint> dst;
+	for(vint i=1;i<=100;i++)
 	{
 		src.Add(i);
 	}
@@ -669,10 +669,10 @@ TEST_CASE(TestFunctionCollection)
 	CHECK_LIST_ITEMS(dst.Wrap(), {30 _ 60 _ 90});
 }
 
-void TestABCDE(const IReadonlyList<wchar_t>& list, int repeat)
+void TestABCDE(const IReadonlyList<wchar_t>& list, vint repeat)
 {
 	TEST_ASSERT(list.Count()==5*repeat);
-	for(int i=0;i<5*repeat;i++)
+	for(vint i=0;i<5*repeat;i++)
 	{
 		TEST_ASSERT(list[i]==L'a'+i%5);
 	}
@@ -745,17 +745,17 @@ TEST_CASE(TestCopyFromString)
 
 TEST_CASE(TestForEach)
 {
-	List<int> a;
-	List<int> b;
-	List<int> c;
-	for(int i=0;i<3;i++)
+	List<vint> a;
+	List<vint> b;
+	List<vint> c;
+	for(vint i=0;i<3;i++)
 	{
 		a.Add(i);
 		b.Add(i);
 	}
 
-	FOREACH(int, i, a.Wrap())
-		FOREACH(int, j, b.Wrap())
+	FOREACH(vint, i, a.Wrap())
+		FOREACH(vint, j, b.Wrap())
 		{
 			c.Add(i+j);
 		}
@@ -764,14 +764,14 @@ TEST_CASE(TestForEach)
 
 TEST_CASE(TestForEachWithIndexer)
 {
-	List<int> a;
-	for(int i=0;i<10;i++)
+	List<vint> a;
+	for(vint i=0;i<10;i++)
 	{
 		a.Add(i*i);
 	}
-	Dictionary<int, int> b;
+	Dictionary<vint, vint> b;
 
-	FOREACH_INDEXER(int, num, i, a.Wrap())
+	FOREACH_INDEXER(vint, num, i, a.Wrap())
 	{
 		b.Add(i, num);
 	}

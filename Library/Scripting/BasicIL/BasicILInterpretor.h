@@ -28,21 +28,21 @@ namespace vl
 			class BasicILEnv : public Object
 			{
 			protected:
-				int											stackBase;
-				int											stackSize;
-				int											stackTop;
+				vint											stackBase;
+				vint											stackSize;
+				vint											stackTop;
 				unsigned char*								stack;
 			public:
-				BasicILEnv(int _stackSize);
+				BasicILEnv(vint _stackSize);
 				~BasicILEnv();
 
-				int											StackBase()const;
-				int											StackSize()const;
-				int											StackTop()const;
-				void*										DereferenceStack(int stackPosition)const;
-				void*										Reserve(int size);
+				vint											StackBase()const;
+				vint											StackSize()const;
+				vint											StackTop()const;
+				void*										DereferenceStack(vint stackPosition)const;
+				void*										Reserve(vint size);
 				void										Reset();
-				void										SetBase(int stackPosition);
+				void										SetBase(vint stackPosition);
 
 				template<typename T>
 				void Push(const T& value)
@@ -54,15 +54,15 @@ namespace vl
 				T Pop()
 				{
 					T result=*(T*)DereferenceStack(stackTop);
-					Reserve(-(int)sizeof(T));
+					Reserve(-(vint)sizeof(T));
 					return result;
 				}
 			};
 
 			struct BasicILLabel
 			{
-				int											instruction;
-				int											key;
+				vint											instruction;
+				vint											key;
 
 				bool										operator==(const BasicILLabel& label)const;
 				bool										operator!=(const BasicILLabel& label)const;
@@ -72,23 +72,23 @@ namespace vl
 			{
 				friend class BasicILStack;
 
-				typedef collections::Dictionary<collections::Pair<WString, WString>, int>	_SymbolMap;
+				typedef collections::Dictionary<collections::Pair<WString, WString>, vint>	_SymbolMap;
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 			protected:
-				int											stackSize;
+				vint											stackSize;
 				collections::List<BasicIL*>					ils;
 				_BasicILMap									ilMap;
 				collections::List<BasicILLabel>				labels;
 				_SymbolMap									symbolMap;
 
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
-				void										LinkILSymbol(BasicIL* il, int index, _SymbolList& linkingSymbols);
+				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
 			public:
-				BasicILInterpretor(int _stackSize);
+				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
 
-				int											LoadIL(BasicIL* il);
+				vint											LoadIL(BasicIL* il);
 				void										UnloadIL(BasicIL* il);
 				collections::IList<BasicILLabel>&			GetLabels();
 			};
@@ -102,9 +102,9 @@ namespace vl
 			protected:
 				BasicILEnv*									env;
 				BasicILInterpretor*							interpretor;
-				int											instruction;
-				int											insKey;
-				int											foreignFunctionIndex;
+				vint											instruction;
+				vint											insKey;
+				vint											foreignFunctionIndex;
 				void*										foreignFunctionResult;
 
 			public:
@@ -124,10 +124,10 @@ namespace vl
 				~BasicILStack();
 
 				BasicILEnv*									GetEnv();
-				void										Reset(int entryInstruction, int entryInsKey, int returnSize);
-				void										ResetBuffer(int entryInstruction, int entryInsKey, void* returnPointer);
-				int											GetInstruction();
-				int											GetForeignFunctionIndex();
+				void										Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
+				void										ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
+				vint											GetInstruction();
+				vint											GetForeignFunctionIndex();
 				void*										GetForeignFunctionResult();
 				RunningResult								Run();
 			};

@@ -14,9 +14,9 @@ Functions:
 	[T] >> Max() => T
 	[T] >> Min() => T
 	[T] >> Concat([T]) => [T]
-	[T] >> Repeat(int) => [T]
-	[T] >> Take(int) => [T]
-	[T] >> Skip(int) => [T]
+	[T] >> Repeat(vint) => [T]
+	[T] >> Take(vint) => [T]
+	[T] >> Skip(vint) => [T]
 	[T] >> Distinct() => [T]
 	[T] >> Reverse() => [T]
 	[T] >> Intersect([T]) => [T]

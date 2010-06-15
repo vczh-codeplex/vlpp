@@ -92,8 +92,8 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_Linking_programMain");
 
 	BasicILInterpretor interpretor(65536);
-	int addKey=interpretor.LoadIL(ilAdd.Obj());
-	int mainKey=interpretor.LoadIL(ilMain.Obj());
+	vint addKey=interpretor.LoadIL(ilAdd.Obj());
+	vint mainKey=interpretor.LoadIL(ilMain.Obj());
 	
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, addKey, 0);
@@ -103,10 +103,10 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	
-	int ins=ilMain->labels[0].instructionIndex;
-	stack.Reset(ins, mainKey, sizeof(int));
+	vint ins=ilMain->labels[0].instructionIndex;
+	stack.Reset(ins, mainKey, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	TEST_ASSERT(stack.GetEnv()->Pop<int>()==3);
+	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==3);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
 
@@ -156,8 +156,8 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_Pointer_programMain");
 
 	BasicILInterpretor interpretor(65536);
-	int addKey=interpretor.LoadIL(ilAdd.Obj());
-	int mainKey=interpretor.LoadIL(ilMain.Obj());
+	vint addKey=interpretor.LoadIL(ilAdd.Obj());
+	vint mainKey=interpretor.LoadIL(ilMain.Obj());
 	
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, addKey, 0);
@@ -167,9 +167,9 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	
-	int ins=ilMain->labels[0].instructionIndex;
-	stack.Reset(ins, mainKey, sizeof(int));
+	vint ins=ilMain->labels[0].instructionIndex;
+	stack.Reset(ins, mainKey, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	TEST_ASSERT(stack.GetEnv()->Pop<int>()==37);
+	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==37);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }

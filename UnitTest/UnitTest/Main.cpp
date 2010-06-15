@@ -11,8 +11,8 @@ WString GetPath()
 {
 	wchar_t buffer[65536];
 	GetModuleFileName(NULL, buffer, sizeof(buffer)/sizeof(*buffer));
-	int pos=-1;
-	int index=0;
+	vint pos=-1;
+	vint index=0;
 	while(buffer[index])
 	{
 		if(buffer[index]==L'\\')
@@ -24,7 +24,7 @@ WString GetPath()
 	return WString(buffer, pos+1);
 }
 
-int wmain(int argc , wchar_t* args[])
+int wmain(vint argc , wchar_t* args[])
 {
 	FinalizeGlobalStorage();
 	_CrtDumpMemoryLeaks();

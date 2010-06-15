@@ -33,7 +33,7 @@ BasicTypeManager
 			class BasicTypeRecord : public Object, private NotCopyable
 			{
 				friend class BasicTypeManager;
-				typedef collections::Dictionary<int, CommonTypeRecord<BasicTypeRecord>*>		_ArrayTypeTable;
+				typedef collections::Dictionary<vint, CommonTypeRecord<BasicTypeRecord>*>		_ArrayTypeTable;
 			protected:
 				_ArrayTypeTable							arrayTypes;
 			public:
@@ -53,15 +53,15 @@ BasicTypeManager
 				virtual TypeRecordType					GetType()=0;
 				virtual BasicPrimitiveTypeEnum			PrimitiveType();						//primitive
 				virtual BasicTypeRecord*				ElementType();							//pointer array generic
-				virtual int								ElementCount();							//array
+				virtual vint								ElementCount();							//array
 				virtual BasicTypeRecord*				ReturnType();							//function
-				virtual BasicTypeRecord*				ParameterType(int index);				//function generic
-				virtual int								ParameterCount();						//function generic
-				virtual BasicTypeRecord*				MemberType(int index);					//structure
+				virtual BasicTypeRecord*				ParameterType(vint index);				//function generic
+				virtual vint								ParameterCount();						//function generic
+				virtual BasicTypeRecord*				MemberType(vint index);					//structure
 				virtual BasicTypeRecord*				MemberType(const WString& name);		//structure
-				virtual const WString&					MemberName(int index);					//structure
-				virtual int								MemberNameIndex(const WString& name);	//structure
-				virtual int								MemberCount();							//structure
+				virtual const WString&					MemberName(vint index);					//structure
+				virtual vint								MemberNameIndex(const WString& name);	//structure
+				virtual vint								MemberCount();							//structure
 				virtual bool							Defined();								//structure
 				virtual WString							ArgumentName();							//generic-argument
 			};
@@ -94,17 +94,17 @@ BasicTypeManager
 				BasicTypeRecord*						ElementType();
 			};
 
-			class BasicArrayTypeRecord : public CommonParameterizedTypeRecord<BasicTypeRecord, int>
+			class BasicArrayTypeRecord : public CommonParameterizedTypeRecord<BasicTypeRecord, vint>
 			{
-				friend CommonParameterizedTypeRecord<BasicTypeRecord, int>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount);
+				friend CommonParameterizedTypeRecord<BasicTypeRecord, vint>* BasicArrayTypeRecordAllocator(CommonTypeRecord<BasicTypeRecord>* elementType, vint elementCount);
 			protected:
 
-				BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, int elementCount);
+				BasicArrayTypeRecord(CommonTypeRecord<BasicTypeRecord>* elementType, vint elementCount);
 			public:
 
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
-				int										ElementCount();
+				vint										ElementCount();
 			};
 
 			class BasicFunctionTypeRecord : public CommonTypeRecord<BasicTypeRecord>
@@ -130,8 +130,8 @@ BasicTypeManager
 
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ReturnType();
-				BasicTypeRecord*						ParameterType(int index);
-				int										ParameterCount();
+				BasicTypeRecord*						ParameterType(vint index);
+				vint										ParameterCount();
 			};
 
 			class BasicStructureTypeRecord : public CommonTypeRecord<BasicTypeRecord>
@@ -142,7 +142,7 @@ BasicTypeManager
 				{
 					Ptr<_GenericInstanciatingTypeTable>	typeTable;
 
-					int									Compare(const P& p)const;
+					vint									Compare(const P& p)const;
 					bool								operator==(const P& p)const;
 					bool								operator!=(const P& p)const;
 					bool								operator<(const P& p)const;
@@ -165,11 +165,11 @@ BasicTypeManager
 			public:
 
 				TypeRecordType							GetType();
-				BasicTypeRecord*						MemberType(int index);
+				BasicTypeRecord*						MemberType(vint index);
 				BasicTypeRecord*						MemberType(const WString& name);
-				const WString&							MemberName(int index);
-				int										MemberNameIndex(const WString& name);
-				int										MemberCount();
+				const WString&							MemberName(vint index);
+				vint										MemberNameIndex(const WString& name);
+				vint										MemberCount();
 				bool									Defined();
 			};
 
@@ -199,11 +199,11 @@ BasicTypeManager
 			public:
 
 				TypeRecordType							GetType();
-				BasicTypeRecord*						MemberType(int index);
+				BasicTypeRecord*						MemberType(vint index);
 				BasicTypeRecord*						MemberType(const WString& name);
-				const WString&							MemberName(int index);
-				int										MemberNameIndex(const WString& name);
-				int										MemberCount();
+				const WString&							MemberName(vint index);
+				vint										MemberNameIndex(const WString& name);
+				vint										MemberCount();
 				bool									Defined();
 			};
 
@@ -219,8 +219,8 @@ BasicTypeManager
 			public:
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
-				BasicTypeRecord*						ParameterType(int index);
-				int										ParameterCount();
+				BasicTypeRecord*						ParameterType(vint index);
+				vint										ParameterCount();
 			};
 
 /***********************************************************************
@@ -247,7 +247,7 @@ BasicTypeManager
 
 				BasicTypeRecord*						GetPrimitiveType(BasicPrimitiveTypeEnum primitiveType);
 				BasicTypeRecord*						GetPointerType(BasicTypeRecord* elementType);
-				BasicTypeRecord*						GetArrayType(BasicTypeRecord* elementType, int elementCount);
+				BasicTypeRecord*						GetArrayType(BasicTypeRecord* elementType, vint elementCount);
 				BasicTypeRecord*						GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes);
 				BasicTypeRecord*						CreateStructureType();
 				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);

@@ -31,9 +31,9 @@ namespace vl
 		{
 		private:
 			const IReadonlyList<T, K>*			container;
-			int									index;
+			vint									index;
 		public:
-			ReadonlyListEnumerator(const IReadonlyList<T, K>* _container, int _index)
+			ReadonlyListEnumerator(const IReadonlyList<T, K>* _container, vint _index)
 			{
 				container=_container;
 				index=_index;
@@ -49,7 +49,7 @@ namespace vl
 				return container->Get(index);
 			}
 
-			int Index()const
+			vint Index()const
 			{
 				return index;
 			}
@@ -85,15 +85,15 @@ namespace vl
 				return IndexOf(item)!=-1;
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
 				return Get(index);
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
-				int count=Count();
-				for(int i=0;i<count;i++)
+				vint count=Count();
+				for(vint i=0;i<count;i++)
 				{
 					if(Get(i)==item)
 					{
@@ -135,22 +135,22 @@ namespace vl
 				return container->Contains(item);
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
 				return container->Get(index);
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
 				return container->operator[](index);
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
 				return container->IndexOf(item);
 			}
@@ -187,37 +187,37 @@ namespace vl
 				return container->Contains(item);
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
 				return container->Get(index);
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
 				return container->operator[](index);
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
 				return container->IndexOf(item);
 			}
 
-			void Set(int index, const K& item)
+			void Set(vint index, const K& item)
 			{
 				container->Set(index, item);
 			}
 
-			T& operator[](int index)
+			T& operator[](vint index)
 			{
 				return container->operator[](index);
 			}
 
-			void Resize(int size)
+			void Resize(vint size)
 			{
 				container->Resize(size);
 			}
@@ -254,27 +254,27 @@ namespace vl
 				return container->Contains(item);
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
 				return container->Get(index);
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
 				return container->operator[](index);
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
 				return container->IndexOf(item);
 			}
 
-			int Add(const T& item)
+			vint Add(const T& item)
 			{
 				return container->Add(item);
 			}
@@ -284,12 +284,12 @@ namespace vl
 				return container->Remove(item);
 			}
 
-			bool RemoveAt(int index)
+			bool RemoveAt(vint index)
 			{
 				return container->RemoveAt(index);
 			}
 
-			bool RemoveRange(int index, int count)
+			bool RemoveRange(vint index, vint count)
 			{
 				return container->RemoveRange(index, count);
 			}
@@ -331,27 +331,27 @@ namespace vl
 				return container->Contains(item);
 			}
 
-			int Count()const
+			vint Count()const
 			{
 				return container->Count();
 			}
 
-			const T& Get(int index)const
+			const T& Get(vint index)const
 			{
 				return container->Get(index);
 			}
 
-			const T& operator[](int index)const
+			const T& operator[](vint index)const
 			{
 				return container->operator[](index);
 			}
 
-			int IndexOf(const K& item)const
+			vint IndexOf(const K& item)const
 			{
 				return container->IndexOf(item);
 			}
 
-			int Add(const T& item)
+			vint Add(const T& item)
 			{
 				return container->Add(item);
 			}
@@ -361,12 +361,12 @@ namespace vl
 				return container->Remove(item);
 			}
 
-			bool RemoveAt(int index)
+			bool RemoveAt(vint index)
 			{
 				return container->RemoveAt(index);
 			}
 
-			bool RemoveRange(int index, int count)
+			bool RemoveRange(vint index, vint count)
 			{
 				return container->RemoveRange(index, count);
 			}
@@ -376,17 +376,17 @@ namespace vl
 				return container->Clear();
 			}
 
-			int Insert(int index, const T& item)
+			vint Insert(vint index, const T& item)
 			{
 				return container->Insert(index, item);
 			}
 
-			bool Set(int index, const K& item)
+			bool Set(vint index, const K& item)
 			{
 				return container->Set(index, item);
 			}
 
-			T& operator[](int index)
+			T& operator[](vint index)
 			{
 				return container->operator[](index);
 			}

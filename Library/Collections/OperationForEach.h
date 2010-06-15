@@ -95,7 +95,7 @@ ForEachºê
 
 #define FOREACH_INDEXER(TYPE, VARIABLE, INDEXER, COLLECTION)\
 		SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
-		SCOPE_VARIABLE(int, INDEXER, 0)\
+		SCOPE_VARIABLE(vint, INDEXER, 0)\
 		for(TYPE VARIABLE = __foreach_iterator__.Current();__foreach_iterator__.Available();__foreach_iterator__.Next(VARIABLE),INDEXER++)
 	}
 }

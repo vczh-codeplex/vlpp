@@ -10,7 +10,7 @@ TEST_CASE(TestConfiguration_EncodeDecodeInteger)
 {
 	BasicAlgorithmConfiguration config;
 	bool sign=false;
-	int bytes=0;
+	vint bytes=0;
 	BasicPrimitiveTypeEnum type;
 
 	TEST_ASSERT(config.DecodeInteger(s8, sign, bytes)==true);
@@ -139,8 +139,8 @@ TEST_CASE(TestConfiguration_StrictConversion)
 	/*void_type*/	{F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    },
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			TEST_ASSERT(config.CanImplicitConvertTo(types[i], types[j])==implicitResult[i][j]);
 			TEST_ASSERT(config.CanExplicitConvertTo(types[i], types[j])==explicitResult[i][j]);
@@ -196,8 +196,8 @@ TEST_CASE(TestConfiguration_CSharpConversion)
 	/*void_type*/	{F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    },
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			TEST_ASSERT(config.CanImplicitConvertTo(types[i], types[j])==implicitResult[i][j]);
 			TEST_ASSERT(config.CanExplicitConvertTo(types[i], types[j])==explicitResult[i][j]);
@@ -257,8 +257,8 @@ TEST_CASE(TestConfiguration_CppConversion)
 	/*void_type*/	{F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    },
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			TEST_ASSERT(config.CanImplicitConvertTo(types[i], types[j])==implicitResult[i][j]);
 			TEST_ASSERT(config.CanExplicitConvertTo(types[i], types[j])==explicitResult[i][j]);
@@ -322,8 +322,8 @@ TEST_CASE(TestConfiguration_FreeConversion)
 	/*void_type*/	{F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    F,    },
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			TEST_ASSERT(config.CanImplicitConvertTo(types[i], types[j])==implicitResult[i][j]);
 			TEST_ASSERT(config.CanExplicitConvertTo(types[i], types[j])==explicitResult[i][j]);
@@ -358,7 +358,7 @@ TEST_CASE(TestConfiguration_UnaryConversion)
 	/*void_type*/	{void_type,    void_type, void_type,},
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
 	{
 		BasicPrimitiveTypeEnum result=void_type;
 		TEST_ASSERT(config.BooleanUnaryOperatorTypeConversion(types[i], result)==(unaryResult[i][0]!=void_type));
@@ -411,8 +411,8 @@ TEST_CASE(TestConfiguration_BooleanBinaryConversion)
 	/*void_type*/	{void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type,},
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			BasicPrimitiveTypeEnum result=void_type;
 			TEST_ASSERT(config.BooleanBinaryOperatorTypeConversion(types[i], types[j], result)==(conversionResult[i][j]!=void_type));
@@ -455,8 +455,8 @@ TEST_CASE(TestConfiguration_IntegerBinaryConversion)
 	/*void_type*/	{void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type,},
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			BasicPrimitiveTypeEnum result=void_type;
 			TEST_ASSERT(config.IntegerBinaryOperatorTypeConversion(types[i], types[j], result)==(conversionResult[i][j]!=void_type));
@@ -499,8 +499,8 @@ TEST_CASE(TestConfiguration_NumberBinaryConversion)
 	/*void_type*/	{void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type, void_type,},
 	};
 
-	for(int i=0;i<sizeof(types)/sizeof(*types);i++)
-		for(int j=0;j<sizeof(types)/sizeof(*types);j++)
+	for(vint i=0;i<sizeof(types)/sizeof(*types);i++)
+		for(vint j=0;j<sizeof(types)/sizeof(*types);j++)
 		{
 			BasicPrimitiveTypeEnum result=void_type;
 			TEST_ASSERT(config.NumberBinaryOperatorTypeConversion(types[i], types[j], result)==(conversionResult[i][j]!=void_type));

@@ -30,7 +30,7 @@ namespace vl
 		protected:
 			Ptr<basicil::BasicIL>						il;
 			LanguageHost*								host;
-			int											instructionKey;
+			vint											instructionKey;
 			Ptr<BasicLanguageMetadata>					basicLanguageMetadata;
 
 		public:
@@ -41,7 +41,7 @@ namespace vl
 			LanguageHost*								GetHost();
 			const _ResourceMap&							GetResources();
 			Ptr<ResourceStream>							GetResource(const WString& name);
-			int											GetInstructionKey();
+			vint											GetInstructionKey();
 
 			BasicLanguageMetadata*						GetBasicLanguageMetadata();
 		};
@@ -69,10 +69,10 @@ namespace vl
 			}
 
 			bool										PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer);
-			void										PrepareToRun(Ptr<LanguageAssembly> assembly, int instructionIndex, void* returnPointer);
+			void										PrepareToRun(Ptr<LanguageAssembly> assembly, vint instructionIndex, void* returnPointer);
 			basicil::BasicILStack::RunningResult		Run();
 			basicil::BasicILStack::RunningResult		RunInitialization(Ptr<LanguageAssembly> assembly);
-			int											GetForeignFunctionIndex();
+			vint											GetForeignFunctionIndex();
 			void*										GetForeignFunctionResultStore();
 		};
 
@@ -82,7 +82,7 @@ namespace vl
 			Ptr<basicil::BasicILInterpretor>			interpretor;
 			collections::List<Ptr<LanguageAssembly>>	loadedAssemblies;
 		public:
-			LanguageHost(int stackSize);
+			LanguageHost(vint stackSize);
 
 			bool										LoadAssembly(Ptr<LanguageAssembly> assembly);
 			Ptr<LanguageState>							CreateState();

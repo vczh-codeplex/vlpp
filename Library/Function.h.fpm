@@ -7,7 +7,7 @@ vl::Func<$FUNCTION_TYPE($count,$function)>
 	template<$TYPENAME_LIST($count,$function)>
 	class Func<$FUNCTION_TYPE($count,$function)> : public Object
 	{
-		static const int BinarySize = sizeof(void*)*8;
+		static const vint BinarySize = sizeof(void*)*8;
 	protected:
 		class Invoker : public Object
 		{

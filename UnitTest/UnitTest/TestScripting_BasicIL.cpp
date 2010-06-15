@@ -92,12 +92,12 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv)
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -118,7 +118,7 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv_Double)
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 	
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(double));
@@ -286,13 +286,13 @@ TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
-	int baseline=0;
+	vint result=stack.GetEnv()->Pop<vint>();
+	vint baseline=0;
 	baseline+=1<<17;
 	baseline+=1<<16;
 	baseline+=1<<12;
@@ -310,10 +310,10 @@ TEST_CASE(TestBasicILInstruction_Jump_Variable)
 {
 	BasicIL il;
 	il
-		// int i=0
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(sizeof(int)))
+		// vint i=0
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(sizeof(vint)))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(0))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::write, BasicIns::int_type)
 		// result=0
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(0))
@@ -322,21 +322,21 @@ TEST_CASE(TestBasicILInstruction_Jump_Variable)
 		// BEGIN_LOOP:
 		// if(i==100)jump END_LOOP
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::eq, BasicIns::int_type)
 		.Ins(BasicIns::jumptrue, BasicIns::MakeInt(26))
 		// i+=1
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::write, BasicIns::int_type)
 		// result+=i
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
 		.Ins(BasicIns::resptr)
@@ -345,16 +345,16 @@ TEST_CASE(TestBasicILInstruction_Jump_Variable)
 		.Ins(BasicIns::jump, BasicIns::MakeInt(7))
 		// END_LOOP:
 		// exit
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==55);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -371,10 +371,10 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 		// exit;
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0))
 		// fab:
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(vint)))
 		// if(n<2)
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::lt, BasicIns::int_type)
 		.Ins(BasicIns::jumpfalse, BasicIns::MakeInt(15))
@@ -382,43 +382,43 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
-		.Ins(BasicIns::ret, BasicIns::MakeInt(sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
+		.Ins(BasicIns::ret, BasicIns::MakeInt(sizeof(vint)))
 		// else
 		// result=fab(n-2)+fab(n-1)
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::sub, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::call, BasicIns::MakeInt(4))
 		
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::sub, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::call, BasicIns::MakeInt(4))
 		
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
 		
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
-		.Ins(BasicIns::ret, BasicIns::MakeInt(sizeof(int)));
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
+		.Ins(BasicIns::ret, BasicIns::MakeInt(sizeof(vint)));
 		// exit;
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==55);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -427,47 +427,47 @@ TEST_CASE(TestBasicILInstruction_FunctionPointer)
 {
 	BasicIL il;
 	il
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(vint)))
 
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::pushins, BasicIns::MakeInt(20))
 		.Ins(BasicIns::call_indirect)
 
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::pushins, BasicIns::MakeInt(20))
 		.Ins(BasicIns::call_indirect)
 		
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::mul, BasicIns::int_type)
 
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0))
 
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)));
+		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(vint)));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -476,53 +476,53 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 {
 	BasicIL il;
 	il
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(2*sizeof(vint)))
 
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(40))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(30))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::pushlabel, BasicIns::MakeInt(1))
 		.Ins(BasicIns::label)
 		.Ins(BasicIns::call_indirect)
 
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(20))
 		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::pushlabel, BasicIns::MakeInt(1))
 		.Ins(BasicIns::label)
 		.Ins(BasicIns::call_indirect)
 		
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::mul, BasicIns::int_type)
 
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(int)sizeof(int)))
+		.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-2*(vint)sizeof(vint)))
 		.Ins(BasicIns::ret, BasicIns::MakeInt(0))
 
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
-		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(int)))
+		.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(vint)))
 		.Ins(BasicIns::read, BasicIns::int_type)
 		.Ins(BasicIns::add, BasicIns::int_type)
 		.Ins(BasicIns::resptr)
 		.Ins(BasicIns::write, BasicIns::int_type)
-		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)));
+		.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(vint)));
 
 	BasicILInterpretor interpretor(1024);
-	int key=interpretor.LoadIL(&il);
+	vint key=interpretor.LoadIL(&il);
 	BasicILLabel label;
 	label.key=-1;
 	label.instruction=22;
 	interpretor.GetLabels().Add(label);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -532,14 +532,14 @@ TEST_CASE(TestBasicILInstruction_Linking)
 	BasicIL iladd, ilmain;
 	{
 		iladd
-			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(int)))
+			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(5*sizeof(vint)))
 			.Ins(BasicIns::read, BasicIns::int_type)
-			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(int)))
+			.Ins(BasicIns::stack_offset, BasicIns::MakeInt(4*sizeof(vint)))
 			.Ins(BasicIns::read, BasicIns::int_type)
 			.Ins(BasicIns::add, BasicIns::int_type)
 			.Ins(BasicIns::resptr)
 			.Ins(BasicIns::write, BasicIns::int_type)
-			.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(int)))
+			.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(vint)))
 			;
 
 		BasicIL::Label label;
@@ -588,12 +588,12 @@ TEST_CASE(TestBasicILInstruction_Linking)
 
 	BasicILInterpretor interpretor(1024);
 	interpretor.LoadIL(&iladd);
-	int key=interpretor.LoadIL(&ilmain);
+	vint key=interpretor.LoadIL(&ilmain);
 
 	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, sizeof(int));
+	stack.Reset(0, key, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	int result=stack.GetEnv()->Pop<int>();
+	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==3);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
@@ -602,7 +602,7 @@ namespace mynamespace
 {
 	struct Node
 	{
-		int							data;
+		vint							data;
 		ResourceString				empty;
 		ResourceString				name;
 		ResourceHandle<Node>		next;
@@ -616,7 +616,7 @@ TEST_CASE(TestBasicILResourceManager)
 	ResourceStream resource;
 	{
 		ResourceRecord<Node> lastNode;
-		for(int i=0;i<10;i++)
+		for(vint i=0;i<10;i++)
 		{
 			ResourceRecord<Node> currentNode=resource.CreateRecord<Node>();
 			ResourceString name=resource.CreateString(L"ID:"+itow(i));
@@ -634,7 +634,7 @@ TEST_CASE(TestBasicILResourceManager)
 	}
 	{
 		ResourceRecord<Node> currentNode=resource.ReadRootRecord<Node>();
-		int index=0;
+		vint index=0;
 		while(currentNode)
 		{
 			TEST_ASSERT(index==currentNode->data);

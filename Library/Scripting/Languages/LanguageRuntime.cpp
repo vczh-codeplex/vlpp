@@ -47,7 +47,7 @@ LanguageAssembly
 			return il->resources[name];
 		}
 
-		int LanguageAssembly::GetInstructionKey()
+		vint LanguageAssembly::GetInstructionKey()
 		{
 			return instructionKey;
 		}
@@ -85,7 +85,7 @@ LanguageHost
 			}
 		}
 
-		void LanguageState::PrepareToRun(Ptr<LanguageAssembly> assembly, int instructionIndex, void* returnPointer)
+		void LanguageState::PrepareToRun(Ptr<LanguageAssembly> assembly, vint instructionIndex, void* returnPointer)
 		{
 			stack->ResetBuffer(instructionIndex, assembly->GetInstructionKey(), returnPointer);
 		}
@@ -101,7 +101,7 @@ LanguageHost
 			return stack->Run();
 		}
 
-		int LanguageState::GetForeignFunctionIndex()
+		vint LanguageState::GetForeignFunctionIndex()
 		{
 			return stack->GetForeignFunctionIndex();
 		}
@@ -115,7 +115,7 @@ LanguageHost
 LanguageHost
 ***********************************************************************/
 
-		LanguageHost::LanguageHost(int stackSize)
+		LanguageHost::LanguageHost(vint stackSize)
 		{
 			interpretor=new BasicILInterpretor(stackSize);
 		}

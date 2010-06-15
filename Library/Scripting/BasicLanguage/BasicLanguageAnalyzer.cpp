@@ -132,7 +132,7 @@ BasicLanguage_GetTypeRecord
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionType)
 				{
 					List<BasicTypeRecord*> parameterTypes;
-					for(int i=0;i<node->parameterTypes.Count();i++)
+					for(vint i=0;i<node->parameterTypes.Count();i++)
 					{
 						parameterTypes.Add(BasicLanguage_GetTypeRecord(node->parameterTypes[i], argument));
 					}
@@ -187,7 +187,7 @@ BasicLanguage_BuildGlobalScopePass1
 						BasicTypeRecord* structure=0;
 						if(argument.scope->types.Items().Keys().Contains(node->name))
 						{
-							int forward=argument.forwardStructures.IndexOf(node->name);
+							vint forward=argument.forwardStructures.IndexOf(node->name);
 							if(forward==-1)
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
@@ -208,7 +208,7 @@ BasicLanguage_BuildGlobalScopePass1
 						{
 							List<WString> names;
 							List<BasicTypeRecord*> types;
-							for(int i=0;i<node->memberNames.Count();i++)
+							for(vint i=0;i<node->memberNames.Count();i++)
 							{
 								if(node->memberNames.IndexOf(node->memberNames[i])==i)
 								{
@@ -337,11 +337,11 @@ BasicLanguage_BuildGlobalScope
 
 			void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument)
 			{
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_BuildGlobalScopePass1(program->declarations[i], argument);
 				}
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_BuildGlobalScopePass2(program->declarations[i], argument);
 				}
@@ -914,7 +914,7 @@ BasicLanguage_GetExpressionType
 						argument.errors.Add(BasicLanguageCodeException::GetArgumentNumberNotMatch(node));
 						return function->ReturnType();
 					}
-					for(int i=0;i<node->arguments.Count();i++)
+					for(vint i=0;i<node->arguments.Count();i++)
 					{
 						BasicTypeRecord* argumentType=BasicLanguage_GetExpressionType(node->arguments[i], argument);
 						if(argumentType!=0)
@@ -1089,7 +1089,7 @@ BasicLanguage_CheckStatement
 				ALGORITHM_PROCEDURE_MATCH(BasicCompositeStatement)
 				{
 					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
-					for(int i=0;i<node->statements.Count();i++)
+					for(vint i=0;i<node->statements.Count();i++)
 					{
 						BasicLanguage_CheckStatement(node->statements[i], newArgument);
 					}
@@ -1183,7 +1183,7 @@ BasicLanguage_CheckStatement
 						Ptr<BasicCompositeStatement> composite=node->initializer;
 						if(composite)
 						{
-							for(int i=0;i<composite->statements.Count();i++)
+							for(vint i=0;i<composite->statements.Count();i++)
 							{
 								BasicLanguage_CheckStatement(composite->statements[i], newArgument);
 							}
@@ -1272,7 +1272,7 @@ BasicLanguage_BuildDeclarationBody
 						if(node->statement)
 						{
 							BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
-							for(int i=0;i<node->parameterNames.Count();i++)
+							for(vint i=0;i<node->parameterNames.Count();i++)
 							{
 								if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))
 								{
@@ -1347,7 +1347,7 @@ BasicLanguage_BuildDeclarationBody
 
 			void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument)
 			{
-				for(int i=0;i<program->declarations.Count();i++)
+				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					BasicLanguage_BuildDeclarationBody(program->declarations[i], argument);
 				}

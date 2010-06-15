@@ -67,7 +67,7 @@ namespace vl
 µü´úÆ÷´æ´¢
 ***********************************************************************/
 
-		template<typename T, int I=0>
+		template<typename T, vint I=0>
 		class EnumerableStore : public virtual Object
 		{
 		private:
@@ -106,7 +106,7 @@ namespace vl
 ***********************************************************************/
 
 		template<typename T, typename U>
-		int CompareEnumerable(const IEnumerable<T>& a, const IEnumerable<U>& b)
+		vint CompareEnumerable(const IEnumerable<T>& a, const IEnumerable<U>& b)
 		{
 			Ptr<IEnumerator<T>> ator=a.CreateEnumerator();
 			Ptr<IEnumerator<U>> btor=b.CreateEnumerator();

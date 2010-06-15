@@ -30,7 +30,7 @@ Pairwise
 				IEnumerator<T>*					enumerator2;
 				Pair<S, T>						current;
 			public:
-				Enumerator(IEnumerator<S>* _enumerator1, IEnumerator<T>* _enumerator2, int _index=0, bool _turned=false)
+				Enumerator(IEnumerator<S>* _enumerator1, IEnumerator<T>* _enumerator2, vint _index=0, bool _turned=false)
 					:enumerator1(_enumerator1)
 					,enumerator2(_enumerator2)
 				{
@@ -56,7 +56,7 @@ Pairwise
 					return current;
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return enumerator1->Index();
 				}

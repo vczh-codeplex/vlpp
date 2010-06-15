@@ -50,7 +50,7 @@ namespace vl
 				void_type,
 				char_type,
 				wchar_type,
-#ifdef _WIN64
+#ifdef VCZH_64
 				int_type=s64,
 				uint_type=u64,
 #else
@@ -62,17 +62,17 @@ namespace vl
 			TypeEnum								type;
 			PrimitiveTypeEnum						primitiveType;			//Primitive
 			ResourceHandle<BasicTypeRes>			elementType;			//Array, Pointer, Function(return type)
-			int										elementCount;
+			vint										elementCount;
 			ResourceHandle<BasicTypeLinkRes>		subTypes;				//Function(parameter), Structure(member)
-			int										size;
-			int										alignment;
+			vint										size;
+			vint										alignment;
 		};
 
 		struct BasicTypeLinkRes
 		{
 			ResourceHandle<BasicTypeRes>			type;
 			ResourceString							name;					//Structure(member)
-			int										offset;					//Structure(member)
+			vint										offset;					//Structure(member)
 			ResourceHandle<BasicTypeLinkRes>		next;
 		};
 
@@ -99,7 +99,7 @@ namespace vl
 			ResourceHandle<BasicTypeRes>			declarationType;		//Function, Variable, Structure
 			ResourceString							name;
 			ResourceHandle<BasicParameterRes>		parameterNames;			//Function(parameter)
-			int										address;				//Function(ins index), Variable(data offset)
+			vint										address;				//Function(ins index), Variable(data offset)
 			ResourceString							linkingAssemblyName;	//Function, Variable, Structure
 			ResourceString							linkingSymbolName;		//Function, Variable, Structure
 		};

@@ -28,10 +28,10 @@ Concat
 			protected:
 				IEnumerator<T>*					enumerator1;
 				IEnumerator<T>*					enumerator2;
-				int								index;
+				vint								index;
 				bool							turned;
 			public:
-				Enumerator(IEnumerator<T>* _enumerator1, IEnumerator<T>* _enumerator2, int _index=0, bool _turned=false)
+				Enumerator(IEnumerator<T>* _enumerator1, IEnumerator<T>* _enumerator2, vint _index=0, bool _turned=false)
 					:enumerator1(_enumerator1)
 					,enumerator2(_enumerator2)
 					,index(_index)
@@ -62,7 +62,7 @@ Concat
 					}
 				}
 
-				int Index()const
+				vint Index()const
 				{
 					return index;
 				}

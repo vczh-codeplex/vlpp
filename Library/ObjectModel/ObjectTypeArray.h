@@ -15,7 +15,7 @@ namespace vl
 {
 	namespace objectmodel
 	{
-		template<typename T, int _Size>
+		template<typename T, vint _Size>
 		class ObjectTypeArray : public SpecifiedObjectType<T[_Size]>
 		{
 			friend class ObjectTypeRegister<T[_Size]>;
@@ -35,7 +35,7 @@ namespace vl
 
 			~ObjectTypeArray()
 			{
-				for(int i=0;i<constructors.Count();i++)
+				for(vint i=0;i<constructors.Count();i++)
 				{
 					delete constructors[i];
 				}
@@ -51,7 +51,7 @@ namespace vl
 				return elementType;
 			}
 
-			int ArraySize()const
+			vint ArraySize()const
 			{
 				return _Size;
 			}
@@ -77,7 +77,7 @@ namespace vl
 			}
 		};
 
-		template<typename T, int _Size>
+		template<typename T, vint _Size>
 		class ObjectTypeInformation<T[_Size]>
 		{
 		public:
@@ -89,7 +89,7 @@ namespace vl
 			typedef ObjectTypeArray<T, _Size> ObjectTypeImplementation;
 		};
 
-		template<typename T, int _Size>
+		template<typename T, vint _Size>
 		class ObjectTypeRegister<T[_Size]>
 		{
 		public:

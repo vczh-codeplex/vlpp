@@ -14,17 +14,17 @@ namespace vl
 			return MinProcessor();
 		}
 
-		TakeProcessor Take(int count)
+		TakeProcessor Take(vint count)
 		{
 			return TakeProcessor(count);
 		}
 		
-		SkipProcessor Skip(int count)
+		SkipProcessor Skip(vint count)
 		{
 			return SkipProcessor(count);
 		}
 
-		RepeatProcessor Repeat(int count)
+		RepeatProcessor Repeat(vint count)
 		{
 			return RepeatProcessor(count);
 		}

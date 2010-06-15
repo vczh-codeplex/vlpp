@@ -156,24 +156,24 @@ FileStream
 			}
 		}
 
-		int FileStream::Read(void* _buffer, int _size)
+		vint FileStream::Read(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(file!=0, L"FileStream::Read(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"FileStream::Read(void*, int)#参数size不可为负。");
+			CHECK_ERROR(_size>=0, L"FileStream::Read(void*, vint)#参数size不可为负。");
 			return fread(_buffer, 1, _size, file);
 		}
 
-		int FileStream::Write(void* _buffer, int _size)
+		vint FileStream::Write(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(file!=0, L"FileStream::Write(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"FileStream::Write(void*, int)#参数size不可为负。");
+			CHECK_ERROR(_size>=0, L"FileStream::Write(void*, vint)#参数size不可为负。");
 			return fwrite(_buffer, 1, _size, file);
 		}
 
-		int FileStream::Peek(void* _buffer, int _size)
+		vint FileStream::Peek(void* _buffer, vint _size)
 		{
 			CHECK_ERROR(file!=0, L"FileStream::Peek(pos_t)#流处于关闭状态，不可执行此操作。");
-			CHECK_ERROR(_size>=0, L"FileStream::Peek(void*, int)#参数size不可为负。");
+			CHECK_ERROR(_size>=0, L"FileStream::Peek(void*, vint)#参数size不可为负。");
 			fpos_t position=0;
 			if(fgetpos(file, &position)==0)
 			{

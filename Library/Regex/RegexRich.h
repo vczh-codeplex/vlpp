@@ -19,9 +19,9 @@ namespace vl
 		class CaptureRecord
 		{
 		public:
-			int								capture;
-			int								start;
-			int								length;
+			vint								capture;
+			vint								start;
+			vint								length;
 
 			bool							operator==(const CaptureRecord& record)const;
 		};
@@ -38,8 +38,8 @@ namespace vl
 		class RichResult
 		{
 		public:
-			int							start;
-			int							length;
+			vint							start;
+			vint							length;
 			List<CaptureRecord>			captures;
 		};
 

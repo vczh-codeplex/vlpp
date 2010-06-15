@@ -39,7 +39,7 @@ vl::Event<void()>
 		}
 		void operator()()const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)();
 			}
@@ -66,7 +66,7 @@ vl::Event<void(T0)>
 		}
 		void operator()(T0 p0)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0);
 			}
@@ -93,7 +93,7 @@ vl::Event<void(T0,T1)>
 		}
 		void operator()(T0 p0,T1 p1)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1);
 			}
@@ -120,7 +120,7 @@ vl::Event<void(T0,T1,T2)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2);
 			}
@@ -147,7 +147,7 @@ vl::Event<void(T0,T1,T2,T3)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3);
 			}
@@ -174,7 +174,7 @@ vl::Event<void(T0,T1,T2,T3,T4)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4);
 			}
@@ -201,7 +201,7 @@ vl::Event<void(T0,T1,T2,T3,T4,T5)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4,p5);
 			}
@@ -228,7 +228,7 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4,p5,p6);
 			}
@@ -255,7 +255,7 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4,p5,p6,p7);
 			}
@@ -282,7 +282,7 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7,T8 p8)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4,p5,p6,p7,p8);
 			}
@@ -309,7 +309,7 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 		}
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7,T8 p8,T9 p9)const
 		{
-			for(int i=0;i<functions.Count();i++)
+			for(vint i=0;i<functions.Count();i++)
 			{
 				functions.Get(i)(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9);
 			}

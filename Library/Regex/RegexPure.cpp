@@ -16,38 +16,38 @@ PureInterpretor
 			startState=dfa->states.IndexOf(dfa->startState);
 
 			//填充字符映射表
-			for(int i=0;i<sizeof(charMap)/sizeof(*charMap);i++)
+			for(vint i=0;i<sizeof(charMap)/sizeof(*charMap);i++)
 			{
 				charMap[i]=charSetCount-1;
 			}
-			for(int i=0;i<subsets.Count();i++)
+			for(vint i=0;i<subsets.Count();i++)
 			{
 				CharRange range=subsets[i];
-				for(int j=range.begin;j<=range.end;j++)
+				for(vint j=range.begin;j<=range.end;j++)
 				{
 					charMap[j]=i;
 				}
 			}
 			
 			//构造状态转换表
-			transition=new int*[stateCount];
-			for(int i=0;i<stateCount;i++)
+			transition=new vint*[stateCount];
+			for(vint i=0;i<stateCount;i++)
 			{
-				transition[i]=new int[charSetCount];
-				for(int j=0;j<charSetCount;j++)
+				transition[i]=new vint[charSetCount];
+				for(vint j=0;j<charSetCount;j++)
 				{
 					transition[i][j]=-1;
 				}
 
 				State* state=dfa->states[i].Obj();
-				for(int j=0;j<state->transitions.Count();j++)
+				for(vint j=0;j<state->transitions.Count();j++)
 				{
 					Transition* dfaTransition=state->transitions[j];
 					switch(dfaTransition->type)
 					{
 					case Transition::Chars:
 						{
-							int index=subsets.IndexOf(dfaTransition->range);
+							vint index=subsets.IndexOf(dfaTransition->range);
 							if(index==-1)
 							{
 								CHECK_ERROR(false, L"PureInterpretor::PureInterpretor(Automaton::Ref, CharRange::List&)#指定的字符集转换没有出现在正规化的字符集结果上。");
@@ -63,7 +63,7 @@ PureInterpretor
 
 			//填充终结状态表
 			finalState=new bool[stateCount];
-			for(int i=0;i<stateCount;i++)
+			for(vint i=0;i<stateCount;i++)
 			{
 				finalState[i]=dfa->states[i]->finalState;
 			}
@@ -72,7 +72,7 @@ PureInterpretor
 		PureInterpretor::~PureInterpretor()
 		{
 			delete[] finalState;
-			for(int i=0;i<stateCount;i++)
+			for(vint i=0;i<stateCount;i++)
 			{
 				delete[] transition[i];
 			}
@@ -85,7 +85,7 @@ PureInterpretor
 			result.length=-1;
 			result.finalState=-1;
 
-			int currentState=startState;
+			vint currentState=startState;
 			const wchar_t* read=input;
 			while(currentState!=-1)
 			{
@@ -95,7 +95,7 @@ PureInterpretor
 					result.finalState=currentState;
 				}
 				if(!*read)break;
-				int charIndex=charMap[*read++];
+				vint charIndex=charMap[*read++];
 				currentState=transition[currentState][charIndex];
 			}
 

@@ -57,7 +57,7 @@ namespace vl
 			return IsChars(input, chars, c);
 		}
 
-		bool IsPositiveInteger(const wchar_t*& input, int& number)
+		bool IsPositiveInteger(const wchar_t*& input, vint& number)
 		{
 			bool readed=false;
 			number=0;
@@ -94,8 +94,8 @@ namespace vl
 
 		Ptr<LoopExpression> ParseLoop(const wchar_t*& input)
 		{
-			int min=0;
-			int max=0;
+			vint min=0;
+			vint max=0;
 			if(!*input)
 			{
 				return 0;
@@ -377,7 +377,7 @@ namespace vl
 			else if(IsStr(input, L"(<$"))
 			{
 				WString name;
-				int index=-1;
+				vint index=-1;
 				if(IsName(input, name))
 				{
 					if(IsChar(input, L';'))

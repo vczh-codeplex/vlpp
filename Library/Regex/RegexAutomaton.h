@@ -47,8 +47,8 @@ namespace vl
 			State*					target;
 			CharRange				range;
 			Type					type;
-			int						capture;
-			int						index;
+			vint						capture;
+			vint						index;
 		};
 
 		class State
@@ -79,8 +79,8 @@ namespace vl
 			Transition*				NewBeginString(State* start, State* end);
 			Transition*				NewEndString(State* start, State* end);
 			Transition*				NewNop(State* start, State* end);
-			Transition*				NewCapture(State* start, State* end, int capture);
-			Transition*				NewMatch(State* start, State* end, int capture, int index=-1);
+			Transition*				NewCapture(State* start, State* end, vint capture);
+			Transition*				NewMatch(State* start, State* end, vint capture, vint index=-1);
 			Transition*				NewPositive(State* start, State* end);
 			Transition*				NewNegative(State* start, State* end);
 			Transition*				NewNegativeFail(State* start, State* end);

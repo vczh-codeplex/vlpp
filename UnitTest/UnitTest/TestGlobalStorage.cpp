@@ -4,10 +4,10 @@
 using namespace vl;
 
 BEGIN_GLOBAL_STORAGE_CLASS(MyGlobalStorage)
-	Ptr<int>	resource;
+	Ptr<vint>	resource;
 
 	INITIALIZE_GLOBAL_STORAGE_CLASS
-		resource=new int(100);
+		resource=new vint(100);
 
 	FINALIZE_GLOBAL_STORAGE_CLASS
 		resource=0;

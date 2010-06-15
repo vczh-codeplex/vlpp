@@ -41,7 +41,7 @@ Metadata
 			ResourceRecord<BasicTypeRes>			type;
 			Ptr<ComponentHandleList>				components;
 
-			ResourceHandle<BasicTypeLinkRes>		GetComponent(int index)const;
+			ResourceHandle<BasicTypeLinkRes>		GetComponent(vint index)const;
 			BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata);
 		public:
 			BasicTypeInfo();
@@ -54,14 +54,14 @@ Metadata
 			bool									IsFunction()const;
 			bool									IsStructure()const;
 	
-			int										GetSize()const;
+			vint										GetSize()const;
 			BasicTypeRes::PrimitiveTypeEnum			GetPrimitive()const;
 			BasicTypeInfo							GetElementType()const;
-			int										GetElementCount()const;
-			int										GetComponentCount()const;
-			BasicTypeInfo							GetComponentType(int index)const;
-			WString									GetComponentName(int index)const;
-			int										GetComponentOffset(int index)const;
+			vint										GetElementCount()const;
+			vint										GetComponentCount()const;
+			BasicTypeInfo							GetComponentType(vint index)const;
+			WString									GetComponentName(vint index)const;
+			vint										GetComponentOffset(vint index)const;
 		};
 
 		class BasicDeclarationInfo : public BasicMetadataInfo
@@ -72,7 +72,7 @@ Metadata
 			ResourceRecord<BasicDeclarationRes>		declaration;
 			Ptr<ParameterHandleList>				parameters;
 
-			ResourceHandle<BasicParameterRes>		GetParameter(int index)const;
+			ResourceHandle<BasicParameterRes>		GetParameter(vint index)const;
 			BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);
 		public:
 			BasicDeclarationInfo();
@@ -84,9 +84,9 @@ Metadata
 			bool									IsStructure()const;
 			BasicTypeInfo							GetType()const;
 			WString									GetName()const;
-			int										GetParameterCount()const;
-			WString									GetParameterName(int index)const;
-			int										GetAddress()const;
+			vint										GetParameterCount()const;
+			WString									GetParameterName(vint index)const;
+			vint										GetAddress()const;
 			bool									IsLinkingSymbol()const;
 			WString									GetLinkingAssemblyName()const;
 			WString									GetLinkingSymbolName()const;
@@ -103,8 +103,8 @@ BasicLanguageMetadata
 		public:
 			BasicLanguageMetadata(IMetadataProvider* metadataProvider);
 
-			int										GetDeclarationCount()const;
-			BasicDeclarationInfo					GetDeclaration(int index)const;
+			vint										GetDeclarationCount()const;
+			BasicDeclarationInfo					GetDeclaration(vint index)const;
 		};
 	}
 }

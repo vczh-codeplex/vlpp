@@ -20,10 +20,10 @@ namespace vl
 		{
 		protected:
 			typename Combinator<I, O>::Ref		element;
-			int									min;
-			int									max;
+			vint									min;
+			vint									max;
 		public:
-			_Loop(const typename Combinator<I, O>::Ref _element, int _min, int _max=-1)
+			_Loop(const typename Combinator<I, O>::Ref _element, vint _min, vint _max=-1)
 				:element(_element)
 				,min(_min)
 				,max(_max)
