@@ -40,6 +40,7 @@ Type
 
 				BasicTypeNode							operator*()const;
 				BasicTypeNode							operator[](vint size)const;
+				BasicTypeNode							operator[](const ListNode& types)const;
 				BasicTypeNode							operator()(const ListNode& types)const;
 			};
 
@@ -227,6 +228,7 @@ Program
 			public:
 				BasicGenericNode(Ptr<BasicProgram> _program);
 
+				BasicGenericNode&						GenericArgument(const WString& name);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);

@@ -382,6 +382,32 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 		);*/
 }
 
+TEST_CASE(Text_BasicLanguage_GetTypeRecord_GenericTypeRename)
+{
+	BasicProgramNode program;
+	program
+		.Generic().GenericArgument(L"T")
+		.DefineRename(L"Unit", t_type(L"T"));
+
+	BasicEnv env;
+	BasicTypeManager tm;
+	BasicScope* global=env.GlobalScope();
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BP argument(&env, global, &tm, errors, forwardStructures);
+
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	BasicTypeRecord* unitType=BasicLanguage_GetTypeRecord(t_type(L"Unit").GetInternalValue(), argument, true);
+	TEST_ASSERT(unitType->GetType()==BasicTypeRecord::Generic);
+	TEST_ASSERT(unitType->ParameterCount()==1);
+	TEST_ASSERT(unitType->ParameterType(0)==tm.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(unitType->ElementType()==tm.GetGenericArgumentType(L"T"));
+
+	BasicTypeRecord* intType=BasicLanguage_GetTypeRecord(t_type(L"Unit")[t_types()<<t_int()].GetInternalValue(), argument, true);
+	TEST_ASSERT(intType==tm.GetPrimitiveType(int_type));
+}
+
 /***********************************************************************
 BasicLanguage_BuildGlobalScope
 ***********************************************************************/
