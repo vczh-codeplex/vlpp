@@ -350,26 +350,26 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 	BasicTypeRecord* link=tm.CreateStructureType();
 	global->types.Add(L"Link", link);
 
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), argument)==tm.GetPrimitiveType(void_type));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int().GetInternalValue(), argument)==tm.GetPrimitiveType(int_type));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), argument)==link);
-	TEST_ASSERT(BasicLanguage_GetTypeRecord((*t_type(L"Link")).GetInternalValue(), argument)==tm.GetPointerType(link));
-	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int()[10].GetInternalValue(), argument)==tm.GetArrayType(tm.GetPrimitiveType(int_type), 10));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), argument, true)==tm.GetPrimitiveType(void_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int().GetInternalValue(), argument, true)==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), argument, true)==link);
+	TEST_ASSERT(BasicLanguage_GetTypeRecord((*t_type(L"Link")).GetInternalValue(), argument, true)==tm.GetPointerType(link));
+	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_int()[10].GetInternalValue(), argument, true)==tm.GetArrayType(tm.GetPrimitiveType(int_type), 10));
 
 	List<BasicTypeRecord*> functionParameterTypes;
 	functionParameterTypes.Add(tm.GetPointerType(link));
 	functionParameterTypes.Add(tm.GetPointerType(link));
 	TEST_ASSERT(BasicLanguage_GetTypeRecord(
-		t_void()(t_types()<<*t_type(L"Link")<<*t_type(L"Link")).GetInternalValue(), argument)==
+		t_void()(t_types()<<*t_type(L"Link")<<*t_type(L"Link")).GetInternalValue(), argument, true)==
 		tm.GetFunctionType(tm.GetPrimitiveType(void_type), functionParameterTypes.Wrap())
 		);
 
 	Ptr<BasicType> wrongType=(*t_type(L"Link"))(t_types()<<(*t_type(L"Link"))[10]<<(*t_type(L"Wrong"))[10]).GetInternalValue();
-	TEST_EXCEPTION(
-		BasicLanguage_GetTypeRecord(wrongType, argument),
+	/*TEST_EXCEPTION(
+		BasicLanguage_GetTypeRecord(wrongType, argument, true),
 		Ptr<BasicLanguageCodeException>,
 		Curry(TestTypeNameNotExists)(L"Wrong")
-		);
+		);*/
 }
 
 /***********************************************************************
@@ -756,7 +756,7 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicMemberExpression)
 	Ptr<BasicExpression> p6=e_name(L"link").PMember(L"wrong").GetInternalValue();
 	Ptr<BasicExpression> w1=e_prim(0).Member(L"data").GetInternalValue();
 
-	BasicTypeRecord* PLink=BasicLanguage_GetTypeRecord(t_type(L"PLink").GetInternalValue(), argument);
+	BasicTypeRecord* PLink=BasicLanguage_GetTypeRecord(t_type(L"PLink").GetInternalValue(), argument, true);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(m1, argument)==0);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(m2, argument)==0);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(m3, argument)==0);
@@ -920,9 +920,9 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	Ptr<BasicExpression> cExpr=e_name(L"c").GetInternalValue();
 
 	BP argumentExpression(argument, functionScope);
-	TEST_ASSERT(BasicLanguage_GetExpressionType(aExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_void()(t_types()).GetInternalValue(), argumentExpression));
-	TEST_ASSERT(BasicLanguage_GetExpressionType(bExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_uint().GetInternalValue(), argumentExpression));
-	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(aExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_void()(t_types()).GetInternalValue(), argumentExpression, true));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(bExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_uint().GetInternalValue(), argumentExpression, true));
+	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression, true));
 }
 
 /***********************************************************************

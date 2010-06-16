@@ -176,6 +176,11 @@ namespace vl
 				return L"Generic argument "+name+L" duplicated in declaration "+declaration+L".";
 			}
 
+			WString BasicErrorMessage::CannotUseUninstanciatedGenericType()
+			{
+				return L"Cannot use uninstanciated generic types.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

@@ -99,7 +99,7 @@ BasicSemanticExtension
 BasicLanguage_GetTypeRecord
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord, BasicType, BP, BasicTypeRecord*)
+			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecordInternal, BasicType, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicPrimitiveType)
 				{
@@ -108,12 +108,12 @@ BasicLanguage_GetTypeRecord
 
 				ALGORITHM_FUNCTION_MATCH(BasicPointerType)
 				{
-					return argument.typeManager->GetPointerType(BasicLanguage_GetTypeRecord(node->elementType, argument));
+					return argument.typeManager->GetPointerType(BasicLanguage_GetTypeRecord(node->elementType, argument, false));
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicArrayType)
 				{
-					return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument), node->size);
+					return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument, false), node->size);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceType)
@@ -134,10 +134,10 @@ BasicLanguage_GetTypeRecord
 					List<BasicTypeRecord*> parameterTypes;
 					for(vint i=0;i<node->parameterTypes.Count();i++)
 					{
-						parameterTypes.Add(BasicLanguage_GetTypeRecord(node->parameterTypes[i], argument));
+						parameterTypes.Add(BasicLanguage_GetTypeRecord(node->parameterTypes[i], argument, false));
 					}
 					return argument.typeManager->GetFunctionType(
-						BasicLanguage_GetTypeRecord(node->returnType, argument),
+						BasicLanguage_GetTypeRecord(node->returnType, argument, false),
 						parameterTypes.Wrap()
 						);
 				}
@@ -147,7 +147,22 @@ BasicLanguage_GetTypeRecord
 					return argument.semanticExtension->GetTypeRecord(node, argument);
 				}
 
-			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecord)
+			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecordInternal)
+
+			BasicTypeRecord* BasicLanguage_GetTypeRecord(BasicType* type, const BP& argument, bool acceptRawGenericType)
+			{
+				BasicTypeRecord* typeRecord=BasicLanguage_GetTypeRecordInternal(type, argument);
+				if(typeRecord->GetType()==BasicTypeRecord::Generic && !acceptRawGenericType)
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(type));
+				}
+				return typeRecord;
+			}
+
+			BasicTypeRecord* BasicLanguage_GetTypeRecord(Ptr<BasicType> type, const BP& argument, bool acceptRawGenericType)
+			{
+				return BasicLanguage_GetTypeRecord(type.Obj(), argument, acceptRawGenericType);
+			}
 
 /***********************************************************************
 BasicLanguage_BuildGlobalScopePass1
@@ -217,7 +232,7 @@ BasicLanguage_BuildGlobalScopePass1
 						BasicTypeRecord* type=0;
 						try
 						{
-							type=BasicLanguage_GetTypeRecord(node->signatureType, internalArgument);
+							type=BasicLanguage_GetTypeRecord(node->signatureType, internalArgument, false);
 							type=BuildBasicGenericType(type, node, internalArgument);
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
@@ -272,7 +287,7 @@ BasicLanguage_BuildGlobalScopePass1
 								{
 									try
 									{
-										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], internalArgument);
+										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], internalArgument, false);
 										if(type->GetType()==BasicTypeRecord::Structure)
 										{
 											if(!type->Defined())
@@ -319,7 +334,7 @@ BasicLanguage_BuildGlobalScopePass1
 						try
 						{
 							BP internalArgument=BuildBasicGenericScope(node, argument);
-							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument);
+							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument, false);
 							type=BuildBasicGenericType(type, node, internalArgument);
 							argument.scope->variables.Add(node->name, BasicScope::Variable(node, type));
 						}
@@ -341,7 +356,7 @@ BasicLanguage_BuildGlobalScopePass1
 						try
 						{
 							BP internalArgument=BuildBasicGenericScope(node, argument);
-							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument);
+							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument, false);
 							type=BuildBasicGenericType(type, node, internalArgument);
 							argument.scope->types.Add(node->name, type);
 						}
@@ -1019,7 +1034,7 @@ BasicLanguage_GetExpressionType
 				{
 					try
 					{
-						BasicTypeRecord* dstType=BasicLanguage_GetTypeRecord(node->type, argument);
+						BasicTypeRecord* dstType=BasicLanguage_GetTypeRecord(node->type, argument, false);
 						BasicTypeRecord* srcType=BasicLanguage_GetExpressionType(node->operand, argument);
 						if(dstType && srcType)
 						{
@@ -1178,7 +1193,7 @@ BasicLanguage_CheckStatement
 
 					try
 					{
-						type=BasicLanguage_GetTypeRecord(node->type, argument);
+						type=BasicLanguage_GetTypeRecord(node->type, argument, false);
 					}
 					catch(Ptr<BasicLanguageCodeException> e)
 					{
@@ -1372,7 +1387,7 @@ BasicLanguage_BuildDeclarationBody
 						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
 						try
 						{
-							BasicTypeRecord* variableType=BasicLanguage_GetTypeRecord(node->type, argument);
+							BasicTypeRecord* variableType=BasicLanguage_GetTypeRecord(node->type, argument, false);
 							if(initializerType && variableType)
 							{
 								if(!CanImplicitConvertTo(initializerType, variableType, node->initializer.Obj(), argument))

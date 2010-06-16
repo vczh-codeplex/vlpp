@@ -1491,7 +1491,7 @@ namespace vl
 						*(List<Ptr<BasicLanguageCodeException>>*)0,
 						*(SortedList<WString>*)0
 						);
-					return ToString(BasicLanguage_GetTypeRecord(type, argument));
+					return ToString(BasicLanguage_GetTypeRecord(type, argument, true));
 				}
 
 				WString ToString(BasicTypeRecord* type)
