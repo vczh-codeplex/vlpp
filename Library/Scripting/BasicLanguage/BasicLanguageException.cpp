@@ -292,6 +292,18 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(type, CannotUseUninstanciatedGenericType, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicType* type)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(type, GenericArgumentNumberNotMatch, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(BasicType* type)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(type, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());
+			}
 		}
 	}
 }

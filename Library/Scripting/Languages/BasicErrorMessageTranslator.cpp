@@ -222,6 +222,16 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::CannotUseUninstanciatedGenericType();
 					}
 					break;
+				case BasicLanguageCodeException::GenericArgumentNumberNotMatch:
+					{
+						message=BasicErrorMessage::GenericArgumentNumberNotMatch();
+					}
+					break;
+				case BasicLanguageCodeException::GenericArgumentCannotApplyToNonGenericType:
+					{
+						message=BasicErrorMessage::GenericArgumentCannotApplyToNonGenericType();
+					}
+					break;
 				default:
 					return 0;
 				}

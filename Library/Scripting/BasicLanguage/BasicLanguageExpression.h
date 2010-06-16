@@ -390,7 +390,7 @@ Type
 				ALGORITHM_ACCEPT_DECLARATION
 
 				Ptr<BasicType>								elementType;
-				vint											size;
+				vint										size;
 			};
 
 			class BasicReferenceType : public BasicType
@@ -408,6 +408,15 @@ Type
 
 				Ptr<BasicType>								returnType;
 				collections::List<Ptr<BasicType>>			parameterTypes;
+			};
+
+			class BasicInstanciatedGenericType : public BasicType
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicType>								elementType;
+				collections::List<Ptr<BasicType>>			argumentTypes;
 			};
 
 /***********************************************************************
@@ -520,6 +529,7 @@ Algorithms
 			F(BasicArrayType)\
 			F(BasicReferenceType)\
 			F(BasicFunctionType)\
+			F(BasicInstanciatedGenericType)\
 			F(BasicExtendedType)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicType, BASIC_TYPE_TARGETS)

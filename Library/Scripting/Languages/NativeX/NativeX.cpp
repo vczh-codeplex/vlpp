@@ -1809,6 +1809,11 @@ namespace vl
 					argument.writer.WriteString(L")");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedGenericType)
+				{
+					CHECK_ERROR(false, L"NativeX暂时不支持BasicInstanciatedGenericType。");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
 				{
 				}
