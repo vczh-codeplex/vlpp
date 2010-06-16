@@ -171,6 +171,11 @@ namespace vl
 				return L"External structure "+name+L" should be defined.";
 			}
 
+			WString BasicErrorMessage::GenericArgumentAlreadyExists(const WString& declaration, const WString& name)
+			{
+				return L"Generic argument "+name+L" duplicated in declaration "+declaration+L".";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

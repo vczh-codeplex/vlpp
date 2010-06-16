@@ -153,6 +153,55 @@ BasicLanguage_GetTypeRecord
 BasicLanguage_BuildGlobalScopePass1
 ***********************************************************************/
 
+			BP BuildBasicGenericScope(BasicDeclaration* declaration, const BP& argument)
+			{
+				if(declaration->genericDeclaration.arguments.Count()>0)
+				{
+					BasicScope* scope=argument.env->CreateScope(argument.scope);
+					for(int i=0;i<declaration->genericDeclaration.arguments.Count();i++)
+					{
+						const WString& name=declaration->genericDeclaration.arguments[i];
+						if(scope->types.Items().Keys().Contains(name))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetGenericArgumentAlreadyExists(declaration, name));
+						}
+						else
+						{
+							scope->types.Add(name, argument.typeManager->GetGenericArgumentType(name));
+						}
+					}
+					BP newArgument(argument, scope);
+					return BP(argument, scope);
+				}
+				else
+				{
+					return argument;
+				}
+			}
+
+			BasicTypeRecord* BuildBasicGenericType(BasicTypeRecord* type, BasicDeclaration* declaration, const BP& argument)
+			{
+				if(declaration->genericDeclaration.arguments.Count()>0)
+				{
+					BasicTypeRecord* genericType=argument.typeManager->CreateGenericType();
+					List<BasicTypeRecord*> genericArguments;
+					for(int i=0;i<declaration->genericDeclaration.arguments.Count();i++)
+					{
+						BasicTypeRecord* genericArgument=argument.typeManager->GetGenericArgumentType(declaration->genericDeclaration.arguments[i]);
+						if(!genericArguments.Contains(genericArgument))
+						{
+							genericArguments.Add(genericArgument);
+						}
+					}
+					argument.typeManager->UpdateGenericType(genericType, type, genericArguments.Wrap());
+					return genericType;
+				}
+				else
+				{
+					return type;
+				}
+			}
+
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
@@ -163,11 +212,13 @@ BasicLanguage_BuildGlobalScopePass1
 					}
 					else
 					{
+						BP internalArgument=BuildBasicGenericScope(node, argument);
 						argument.scope->functions.Add(node->name, node);
 						BasicTypeRecord* type=0;
 						try
 						{
-							type=BasicLanguage_GetTypeRecord(node->signatureType, argument);
+							type=BasicLanguage_GetTypeRecord(node->signatureType, internalArgument);
+							type=BuildBasicGenericType(type, node, internalArgument);
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -195,26 +246,33 @@ BasicLanguage_BuildGlobalScopePass1
 							else
 							{
 								argument.forwardStructures.RemoveAt(forward);
-								structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
+								BasicTypeRecord* type=argument.scope->types.Items()[node->name];
+								if(type->GetType()==BasicTypeRecord::Generic)
+								{
+									type=type->ElementType();
+								}
+								structure=dynamic_cast<BasicStructureTypeRecord*>(type);
 							}
 						}
 						else
 						{
 							structure=argument.typeManager->CreateStructureType();
-							argument.scope->types.Add(node->name, structure);
+							BasicTypeRecord* genericType=BuildBasicGenericType(structure, node, argument);
+							argument.scope->types.Add(node->name, genericType);
 						}
 
 						if(structure)
 						{
 							List<WString> names;
 							List<BasicTypeRecord*> types;
+							BP internalArgument=BuildBasicGenericScope(node, argument);
 							for(vint i=0;i<node->memberNames.Count();i++)
 							{
 								if(node->memberNames.IndexOf(node->memberNames[i])==i)
 								{
 									try
 									{
-										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], argument);
+										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], internalArgument);
 										if(type->GetType()==BasicTypeRecord::Structure)
 										{
 											if(!type->Defined())
@@ -244,6 +302,7 @@ BasicLanguage_BuildGlobalScopePass1
 						{
 							argument.forwardStructures.Add(node->name);
 							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
+							structure=BuildBasicGenericType(structure, node, argument);
 							argument.scope->types.Add(node->name, structure);
 						}
 					}
@@ -259,7 +318,10 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->variables.Add(node->name, BasicScope::Variable(node, BasicLanguage_GetTypeRecord(node->type, argument)));
+							BP internalArgument=BuildBasicGenericScope(node, argument);
+							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument);
+							type=BuildBasicGenericType(type, node, internalArgument);
+							argument.scope->variables.Add(node->name, BasicScope::Variable(node, type));
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
@@ -278,7 +340,10 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						try
 						{
-							argument.scope->types.Add(node->name, BasicLanguage_GetTypeRecord(node->type, argument));
+							BP internalArgument=BuildBasicGenericScope(node, argument);
+							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument);
+							type=BuildBasicGenericType(type, node, internalArgument);
+							argument.scope->types.Add(node->name, type);
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{
