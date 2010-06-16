@@ -44,6 +44,14 @@ BasicTypeNode
 				return result;
 			}
 
+			BasicTypeNode BasicTypeNode::operator[](const ListNode& types)const
+			{
+				Ptr<BasicInstanciatedGenericType> result=new BasicInstanciatedGenericType;
+				result->elementType=type;
+				CopyFrom(result->argumentTypes.Wrap(), types.types->Wrap());
+				return result;
+			}
+
 			BasicTypeNode BasicTypeNode::operator()(const ListNode& types)const
 			{
 				Ptr<BasicFunctionType> result=new BasicFunctionType;
@@ -945,6 +953,12 @@ BasicGenericNode
 				:program(_program)
 				,genericDeclaration(new BasicGeneric)
 			{
+			}
+
+			BasicGenericNode& BasicGenericNode::GenericArgument(const WString& name)
+			{
+				genericDeclaration->arguments.Add(name);
+				return *this;
 			}
 
 			void BasicGenericNode::DefineVariable(const WString& name, const BasicTypeNode& type)
