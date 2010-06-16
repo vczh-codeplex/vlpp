@@ -933,6 +933,100 @@ BasicStructureDeclarationNode
 			}
 
 /***********************************************************************
+BasicGenericNode
+***********************************************************************/
+
+			void BasicGenericNode::CopyGenericDeclaration(Ptr<BasicDeclaration> declaration)
+			{
+				CopyFrom(declaration->genericDeclaration.arguments.Wrap(), genericDeclaration->arguments.Wrap());
+			}
+
+			BasicGenericNode::BasicGenericNode(Ptr<BasicProgram> _program)
+				:program(_program)
+				,genericDeclaration(new BasicGeneric)
+			{
+			}
+
+			void BasicGenericNode::DefineVariable(const WString& name, const BasicTypeNode& type)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			void BasicGenericNode::DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				declaration->linking.assemblyName=assemblyName;
+				declaration->linking.symbolName=symbolName;
+				program->declarations.Add(declaration);
+			}
+
+			void BasicGenericNode::DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				declaration->initializer=initializer.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			void BasicGenericNode::DefineRename(const WString& name, const BasicTypeNode& type)
+			{
+				Ptr<BasicTypeRenameDeclaration> declaration=new BasicTypeRenameDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				program->declarations.Add(declaration);
+			}
+
+			BasicFunctionDeclarationNode BasicGenericNode::DefineFunction(const WString& name)
+			{
+				Ptr<BasicFunctionDeclaration> declaration=new BasicFunctionDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->signatureType=new BasicFunctionType;
+				Ptr<BasicPrimitiveType> voidType=new BasicPrimitiveType;
+				voidType->type=void_type;
+				declaration->signatureType->returnType=voidType;
+
+				declaration->name=name;
+				program->declarations.Add(declaration);
+				return declaration;
+			}
+
+			void BasicGenericNode::DefineStructureForward(const WString& name)
+			{
+				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->defined=false;
+				program->declarations.Add(declaration);
+			}
+
+			BasicStructureDeclarationNode BasicGenericNode::DefineStructure(const WString& name)
+			{
+				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->defined=true;
+				program->declarations.Add(declaration);
+				return declaration;
+			}
+
+/***********************************************************************
 BasicProgramNode
 ***********************************************************************/
 
@@ -946,70 +1040,44 @@ BasicProgramNode
 				return program;
 			}
 
+			BasicGenericNode BasicProgramNode::Generic()
+			{
+				return BasicGenericNode(program);
+			}
+
 			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type)
 			{
-				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
-				declaration->name=name;
-				declaration->type=type.GetInternalValue();
-				program->declarations.Add(declaration);
+				return Generic().DefineVariable(name, type);
 			}
 
 			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName)
 			{
-				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
-				declaration->name=name;
-				declaration->type=type.GetInternalValue();
-				declaration->linking.assemblyName=assemblyName;
-				declaration->linking.symbolName=symbolName;
-				program->declarations.Add(declaration);
+				return Generic().DefineVariable(name, type, assemblyName, symbolName);
 			}
 
 			void BasicProgramNode::DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer)
 			{
-				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
-				declaration->name=name;
-				declaration->type=type.GetInternalValue();
-				declaration->initializer=initializer.GetInternalValue();
-				program->declarations.Add(declaration);
+				return Generic().DefineVariable(name, type, initializer);
 			}
 
 			void BasicProgramNode::DefineRename(const WString& name, const BasicTypeNode& type)
 			{
-				Ptr<BasicTypeRenameDeclaration> declaration=new BasicTypeRenameDeclaration;
-				declaration->name=name;
-				declaration->type=type.GetInternalValue();
-				program->declarations.Add(declaration);
+				return Generic().DefineRename(name, type);
 			}
 
 			BasicFunctionDeclarationNode BasicProgramNode::DefineFunction(const WString& name)
 			{
-				Ptr<BasicFunctionDeclaration> declaration=new BasicFunctionDeclaration;
-
-				declaration->signatureType=new BasicFunctionType;
-				Ptr<BasicPrimitiveType> voidType=new BasicPrimitiveType;
-				voidType->type=void_type;
-				declaration->signatureType->returnType=voidType;
-
-				declaration->name=name;
-				program->declarations.Add(declaration);
-				return declaration;
+				return Generic().DefineFunction(name);
 			}
 
 			void BasicProgramNode::DefineStructureForward(const WString& name)
 			{
-				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
-				declaration->name=name;
-				declaration->defined=false;
-				program->declarations.Add(declaration);
+				return Generic().DefineStructureForward(name);
 			}
 
 			BasicStructureDeclarationNode BasicProgramNode::DefineStructure(const WString& name)
 			{
-				Ptr<BasicStructureDeclaration> declaration=new BasicStructureDeclaration;
-				declaration->name=name;
-				declaration->defined=true;
-				program->declarations.Add(declaration);
-				return declaration;
+				return Generic().DefineStructure(name);
 			}
 		}
 	}
