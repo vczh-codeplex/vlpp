@@ -21,7 +21,7 @@ WString GetPath()
 		}
 		index++;
 	}
-	return WString(buffer, pos+1);
+	return WString(buffer, pos+1)+L"..\\TestFiles\\";
 }
 
 int wmain(vint argc , wchar_t* args[])
