@@ -382,7 +382,7 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 		);*/
 }
 
-TEST_CASE(Text_BasicLanguage_GetTypeRecord_GenericTypeRename)
+TEST_CASE(Test_BasicLanguage_GetTypeRecord_GenericTypeRename)
 {
 	BasicProgramNode program;
 	program
@@ -395,7 +395,6 @@ TEST_CASE(Text_BasicLanguage_GetTypeRecord_GenericTypeRename)
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BP argument(&env, global, &tm, errors, forwardStructures);
-
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 
 	BasicTypeRecord* unitType=BasicLanguage_GetTypeRecord(t_type(L"Unit").GetInternalValue(), argument, true);
@@ -404,8 +403,45 @@ TEST_CASE(Text_BasicLanguage_GetTypeRecord_GenericTypeRename)
 	TEST_ASSERT(unitType->ParameterType(0)==tm.GetGenericArgumentType(L"T"));
 	TEST_ASSERT(unitType->ElementType()==tm.GetGenericArgumentType(L"T"));
 
-	BasicTypeRecord* intType=BasicLanguage_GetTypeRecord(t_type(L"Unit")[t_types()<<t_int()].GetInternalValue(), argument, true);
+	BasicTypeRecord* intType=BasicLanguage_GetTypeRecord(t_type(L"Unit")[t_types()<<t_int()].GetInternalValue(), argument, false);
 	TEST_ASSERT(intType==tm.GetPrimitiveType(int_type));
+}
+
+TEST_CASE(Test_BasicLanguage_GetTypeRecord_GenericStructure)
+{
+	BasicProgramNode program;
+	program
+		.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Link")
+		.Member(L"data", t_type(L"T"))
+		.Member(L"next", *t_type(L"Link")[t_types()<<t_type(L"T")]);
+
+	BasicEnv env;
+	BasicTypeManager tm;
+	BasicScope* global=env.GlobalScope();
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BP argument(&env, global, &tm, errors, forwardStructures);
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	BasicTypeRecord* linkType=BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), argument, true);
+	TEST_ASSERT(linkType->GetType()==BasicTypeRecord::Generic);
+	TEST_ASSERT(linkType->ParameterCount()==1);
+	TEST_ASSERT(linkType->ParameterType(0)==tm.GetGenericArgumentType(L"T"));
+
+	Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
+	argumentTypes.Add(tm.GetGenericArgumentType(L"T"), tm.GetGenericArgumentType(L"T"));
+	BasicTypeRecord* tLinkType=linkType->ElementType();
+	TEST_ASSERT(tLinkType->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(tLinkType->MemberCount()==2);
+	TEST_ASSERT(tLinkType->MemberType(L"data")==tm.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(tLinkType->MemberType(L"next")==tm.GetPointerType(tm.Instanciate(linkType, argumentTypes.Wrap())));
+
+	BasicTypeRecord* intLinkType=BasicLanguage_GetTypeRecord(t_type(L"Link")[t_types()<<t_int()].GetInternalValue(), argument, false);
+	TEST_ASSERT(intLinkType->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(intLinkType->MemberCount()==2);
+	TEST_ASSERT(intLinkType->MemberType(L"data")==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(intLinkType->MemberType(L"next")==tm.GetPointerType(intLinkType));
 }
 
 /***********************************************************************
