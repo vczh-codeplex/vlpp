@@ -59,6 +59,8 @@ namespace vl
 					ExternalStructureShouldBeDefined,		//name
 					GenericArgumentAlreadyExists,			//name
 					CannotUseUninstanciatedGenericType,
+					GenericArgumentNumberNotMatch,
+					GenericArgumentCannotApplyToNonGenericType,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -111,6 +113,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericType(BasicType* type);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicType* type);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
 			};
 		}
 	}

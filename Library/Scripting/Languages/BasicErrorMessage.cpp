@@ -181,6 +181,16 @@ namespace vl
 				return L"Cannot use uninstanciated generic types.";
 			}
 
+			WString BasicErrorMessage::GenericArgumentNumberNotMatch()
+			{
+				return L"Generic argument number should not be greater or less than the generic type required.";
+			}
+
+			WString BasicErrorMessage::GenericArgumentCannotApplyToNonGenericType()
+			{
+				return L"Generic argument cannot apply to non-generic type.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

@@ -35,6 +35,8 @@ ExternalVariableCannotHaveInitializer(name)=External variable {name} cannot have
 ExternalStructureShouldBeDefined(name)=External structure {name} should be defined.
 GenericArgumentAlreadyExists(declaration,name)=Generic argument {name} duplicated in declaration {declaration}.
 CannotUseUninstanciatedGenericType=Cannot use uninstanciated generic types.
+GenericArgumentNumberNotMatch=Generic argument number should not be greater or less than the generic type required.
+GenericArgumentCannotApplyToNonGenericType=Generic argument cannot apply to non-generic type.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

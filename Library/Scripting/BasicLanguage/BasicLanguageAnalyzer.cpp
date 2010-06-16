@@ -142,6 +142,28 @@ BasicLanguage_GetTypeRecord
 						);
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedGenericType)
+				{
+					BasicTypeRecord* genericType=BasicLanguage_GetTypeRecord(node->elementType, argument, true);
+					if(genericType->GetType()!=BasicTypeRecord::Generic)
+					{
+						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
+					}
+					else
+					{
+						if(node->argumentTypes.Count()!=genericType->ParameterCount())
+						{
+							throw BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(node);
+						}
+						Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
+						for(int i=0;i<genericType->ParameterCount();i++)
+						{
+							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
+						}
+						return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
+					}
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
 				{
 					return argument.semanticExtension->GetTypeRecord(node, argument);
