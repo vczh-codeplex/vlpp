@@ -286,6 +286,12 @@ BasicLanguageCodeException
 				parameters[0]=name;
 				return new BasicLanguageCodeException(declaration, GenericArgumentAlreadyExists, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(BasicType* type)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(type, CannotUseUninstanciatedGenericType, parameters.Wrap());
+			}
 		}
 	}
 }

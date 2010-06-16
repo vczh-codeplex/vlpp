@@ -217,6 +217,11 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::GenericArgumentAlreadyExists(declaration->name, error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::CannotUseUninstanciatedGenericType:
+					{
+						message=BasicErrorMessage::CannotUseUninstanciatedGenericType();
+					}
+					break;
 				default:
 					return 0;
 				}
