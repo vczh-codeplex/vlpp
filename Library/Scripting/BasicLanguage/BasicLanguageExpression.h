@@ -84,6 +84,11 @@ namespace vl
 				bool						operator!=(const BasicLinking& linking)const;
 			};
 
+			struct BasicGeneric
+			{
+				collections::List<WString>	arguments;
+			};
+
 			class BasicLanguageElement : public Object, private NotCopyable
 			{
 			public:
@@ -113,6 +118,7 @@ namespace vl
 			public:
 				ALGORITHM_TARGET_ROOT(BasicDeclaration)
 
+				BasicGeneric								genericDeclaration;
 				WString										name;
 			};
 

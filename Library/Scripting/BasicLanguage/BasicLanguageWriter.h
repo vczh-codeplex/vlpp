@@ -213,6 +213,29 @@ Declaration
 				BasicStructureDeclarationNode&			Linking(const WString& assemblyName, const WString& symbolName);
 			};
 
+/***********************************************************************
+Program
+***********************************************************************/
+
+			class BasicGenericNode : public Object
+			{
+			protected:
+				Ptr<BasicProgram>						program;
+				Ptr<BasicGeneric>						genericDeclaration;
+
+				void									CopyGenericDeclaration(Ptr<BasicDeclaration> declaration);
+			public:
+				BasicGenericNode(Ptr<BasicProgram> _program);
+
+				void									DefineVariable(const WString& name, const BasicTypeNode& type);
+				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
+				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
+				void									DefineRename(const WString& name, const BasicTypeNode& type);
+				BasicFunctionDeclarationNode			DefineFunction(const WString& name);
+				void									DefineStructureForward(const WString& name);
+				BasicStructureDeclarationNode			DefineStructure(const WString& name);
+			};
+
 			class BasicProgramNode : public Object
 			{
 			protected:
@@ -221,6 +244,7 @@ Declaration
 				BasicProgramNode();
 				Ptr<BasicProgram>						GetInternalValue();
 
+				BasicGenericNode						Generic();
 				void									DefineVariable(const WString& name, const BasicTypeNode& type);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
