@@ -279,6 +279,13 @@ BasicLanguageCodeException
 				parameters[0]=declaration->name;
 				return new BasicLanguageCodeException(declaration, ExternalStructureShouldBeDefined, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, GenericArgumentAlreadyExists, parameters.Wrap());
+			}
 		}
 	}
 }

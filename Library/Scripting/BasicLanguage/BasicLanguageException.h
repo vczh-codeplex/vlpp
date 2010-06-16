@@ -57,6 +57,7 @@ namespace vl
 					LocalFunctionShouldHaveStatement,		//name
 					ExternalVariableCannotHaveInitializer,	//name
 					ExternalStructureShouldBeDefined,		//name
+					GenericArgumentAlreadyExists,			//name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -107,6 +108,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetLocalFunctionShouldHaveStatement(BasicFunctionDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetExternalVariableCannotHaveInitializer(BasicVariableDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name);
 			};
 		}
 	}

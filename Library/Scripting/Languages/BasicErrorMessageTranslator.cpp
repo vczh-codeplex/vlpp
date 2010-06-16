@@ -211,6 +211,12 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ExternalStructureShouldBeDefined(declaration->name);
 					}
 					break;
+				case BasicLanguageCodeException::GenericArgumentAlreadyExists:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::GenericArgumentAlreadyExists(declaration->name, error->GetParameters()[0]);
+					}
+					break;
 				default:
 					return 0;
 				}
