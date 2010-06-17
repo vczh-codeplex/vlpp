@@ -239,15 +239,34 @@ BasicLanguage_BuildGlobalScopePass1
 				}
 			}
 
+			bool BasicLanguage_EnsureNothingExists(BasicDeclaration* declaration, const BP& argument, const WString& name)
+			{
+				if(argument.scope->functions.Items().Keys().Contains(name))
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetFunctionAlreadyExists(declaration));
+					return false;
+				}
+				else if(argument.scope->variables.Items().Keys().Contains(name))
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetVariableAlreadyExists(declaration));
+					return false;
+				}
+				else if(argument.scope->types.Items().Keys().Contains(name))
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(declaration));
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					if(argument.scope->functions.Items().Keys().Contains(node->name))
-					{
-						argument.errors.Add(BasicLanguageCodeException::GetFunctionAlreadyExists(node));
-					}
-					else
+					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						BP internalArgument=BuildBasicGenericScope(node, argument);
 						argument.scope->functions.Add(node->name, node);
@@ -270,72 +289,14 @@ BasicLanguage_BuildGlobalScopePass1
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
-					if(node->defined)
+					vint forward=argument.forwardStructures.IndexOf(node->name);
+					if(forward==-1 && !BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
-						BasicTypeRecord* structure=0;
-						if(argument.scope->types.Items().Keys().Contains(node->name))
-						{
-							vint forward=argument.forwardStructures.IndexOf(node->name);
-							if(forward==-1)
-							{
-								argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
-							}
-							else
-							{
-								argument.forwardStructures.RemoveAt(forward);
-								BasicTypeRecord* type=argument.scope->types.Items()[node->name];
-								if(type->GetType()==BasicTypeRecord::Generic)
-								{
-									type=type->ElementType();
-								}
-								structure=dynamic_cast<BasicStructureTypeRecord*>(type);
-							}
-						}
-						else
-						{
-							structure=argument.typeManager->CreateStructureType();
-							BasicTypeRecord* genericType=BuildBasicGenericType(structure, node, argument);
-							argument.scope->types.Add(node->name, genericType);
-						}
-
-						if(structure)
-						{
-							List<WString> names;
-							List<BasicTypeRecord*> types;
-							BP internalArgument=BuildBasicGenericScope(node, argument);
-							for(vint i=0;i<node->memberNames.Count();i++)
-							{
-								if(node->memberNames.IndexOf(node->memberNames[i])==i)
-								{
-									try
-									{
-										BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], internalArgument, false);
-										if(type->GetType()==BasicTypeRecord::Structure)
-										{
-											if(!type->Defined())
-											{
-												argument.errors.Add(BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(node, i));
-											}
-										}
-										types.Add(type);
-										names.Add(node->memberNames[i]);
-									}
-									catch(Ptr<BasicLanguageCodeException> e)
-									{
-										argument.errors.Add(e);
-									}
-								}
-								else
-								{
-									argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
-								}
-							}
-							argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
-						}
+						return;
 					}
-					else
+					if(!node->defined)
 					{
-						if(!argument.forwardStructures.Contains(node->name))
+						if(forward==-1)
 						{
 							argument.forwardStructures.Add(node->name);
 							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
@@ -343,15 +304,63 @@ BasicLanguage_BuildGlobalScopePass1
 							argument.scope->types.Add(node->name, structure);
 						}
 					}
+					else
+					{
+						BasicTypeRecord* structure=0;
+						if(forward==-1)
+						{
+							structure=argument.typeManager->CreateStructureType();
+							BasicTypeRecord* genericType=BuildBasicGenericType(structure, node, argument);
+							argument.scope->types.Add(node->name, genericType);
+						}
+						else
+						{
+							argument.forwardStructures.RemoveAt(forward);
+							BasicTypeRecord* type=argument.scope->types.Items()[node->name];
+							if(type->GetType()==BasicTypeRecord::Generic)
+							{
+								type=type->ElementType();
+							}
+							structure=dynamic_cast<BasicStructureTypeRecord*>(type);
+						}
+
+						List<WString> names;
+						List<BasicTypeRecord*> types;
+						BP internalArgument=BuildBasicGenericScope(node, argument);
+						for(vint i=0;i<node->memberNames.Count();i++)
+						{
+							if(node->memberNames.IndexOf(node->memberNames[i])==i)
+							{
+								try
+								{
+									BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->memberTypes[i], internalArgument, false);
+									if(type->GetType()==BasicTypeRecord::Structure)
+									{
+										if(!type->Defined())
+										{
+											argument.errors.Add(BasicLanguageCodeException::GetStructureMemberCannotBeUndefinedType(node, i));
+										}
+									}
+									types.Add(type);
+									names.Add(node->memberNames[i]);
+								}
+								catch(Ptr<BasicLanguageCodeException> e)
+								{
+									argument.errors.Add(e);
+								}
+							}
+							else
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
+							}
+						}
+						argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
+					}
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					if(argument.scope->variables.Items().Keys().Contains(node->name))
-					{
-						argument.errors.Add(BasicLanguageCodeException::GetVariableAlreadyExists(node));
-					}
-					else
+					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						try
 						{
@@ -369,11 +378,7 @@ BasicLanguage_BuildGlobalScopePass1
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
-					if(argument.scope->types.Items().Keys().Contains(node->name))
-					{
-						argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(node));
-					}
-					else
+					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						try
 						{

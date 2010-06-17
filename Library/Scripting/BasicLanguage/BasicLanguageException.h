@@ -76,11 +76,10 @@ namespace vl
 				const collections::IReadonlyList<WString>&						GetParameters()const;
 
 				static Ptr<BasicLanguageCodeException>							GetTypeNameNotExists(BasicReferenceType* type);
-				static Ptr<BasicLanguageCodeException>							GetFunctionAlreadyExists(BasicFunctionDeclaration* function);
-				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicVariableDeclaration* variable);
+				static Ptr<BasicLanguageCodeException>							GetFunctionAlreadyExists(BasicDeclaration* function);
+				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicDeclaration* variable);
 				static Ptr<BasicLanguageCodeException>							GetVariableAlreadyExists(BasicVariableStatement* statement);
-				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicStructureDeclaration* type);
-				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicTypeRenameDeclaration* type);
+				static Ptr<BasicLanguageCodeException>							GetTypeAlreadyExists(BasicDeclaration* type);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberAlreadyExists(BasicStructureDeclaration* type, vint memberIndex);
 				static Ptr<BasicLanguageCodeException>							GetVariableNotExists(BasicReferenceExpression* variable);
 				static Ptr<BasicLanguageCodeException>							GetFailToCast(BasicCastingExpression* casting);

@@ -55,14 +55,14 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, TypeNameNotExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetFunctionAlreadyExists(BasicFunctionDeclaration* function)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetFunctionAlreadyExists(BasicDeclaration* function)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=function->name;
 				return new BasicLanguageCodeException(function, FunctionAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVariableAlreadyExists(BasicVariableDeclaration* variable)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetVariableAlreadyExists(BasicDeclaration* variable)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=variable->name;
@@ -76,14 +76,7 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(statement, VariableAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicStructureDeclaration* type)
-			{
-				Array<WString> parameters(1);
-				parameters[0]=type->name;
-				return new BasicLanguageCodeException(type, TypeAlreadyExists, parameters.Wrap());
-			}
-
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicTypeRenameDeclaration* type)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetTypeAlreadyExists(BasicDeclaration* type)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=type->name;
