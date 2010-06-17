@@ -121,56 +121,23 @@
     <Filter Include="Library3\Scripting\Languages\Header Files">
       <UniqueIdentifier>{d6c7e927-735a-418c-9b06-87c3b58e5b92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Fundamental">
+      <UniqueIdentifier>{3895fc29-3f75-40ef-955b-59b64908f4ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripting">
+      <UniqueIdentifier>{4f85e3ad-adc0-4438-a15a-5a04155ccaaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripting\Languages">
+      <UniqueIdentifier>{457542b7-8fca-4867-a131-e81be4839f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripting\BasicLanguage">
+      <UniqueIdentifier>{73e533bc-1e47-46d1-8aff-4ef7b390c7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripting\BasicIL">
+      <UniqueIdentifier>{c8741f98-d336-4939-b63e-2f7cb171c489}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\UnitTest\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestString.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestBasic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestCombinator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestFunction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestGlobalStorage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestObjectModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestRegex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicIL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Analyzer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Codegen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_CodegenLinking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Configuration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
       <Filter>Library3\Collections\Source Files</Filter>
     </ClCompile>
@@ -335,6 +302,54 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestBasic.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestRegex.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestCombinator.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestFunction.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestGlobalStorage.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestList.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestObjectModel.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestStream.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestString.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp">
+      <Filter>Source Files\Scripting\Languages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Analyzer.cpp">
+      <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Configuration.cpp">
+      <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Codegen.cpp">
+      <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_CodegenLinking.cpp">
+      <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_BasicIL.cpp">
+      <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

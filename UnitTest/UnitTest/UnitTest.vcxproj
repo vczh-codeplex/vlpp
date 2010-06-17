@@ -172,22 +172,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestBasic.cpp" />
-    <ClCompile Include="TestCombinator.cpp" />
-    <ClCompile Include="TestFunction.cpp" />
-    <ClCompile Include="TestGlobalStorage.cpp" />
-    <ClCompile Include="TestList.cpp" />
-    <ClCompile Include="TestObjectModel.cpp" />
-    <ClCompile Include="TestRegex.cpp" />
-    <ClCompile Include="TestScripting_BasicIL.cpp" />
-    <ClCompile Include="TestScripting_BasicLanguage_Analyzer.cpp" />
-    <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
-    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
-    <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
-    <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
-    <ClCompile Include="TestStream.cpp" />
-    <ClCompile Include="TestString.cpp" />
     <ClCompile Include="..\..\Library\Collections\Operation.cpp" />
     <ClCompile Include="..\..\Library\Combinator\StringCombinator.cpp" />
     <ClCompile Include="..\..\Library\Combinator\TokenCombinator.cpp" />
@@ -242,6 +226,22 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageMetadata.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageProvider.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestBasic.cpp" />
+    <ClCompile Include="TestCombinator.cpp" />
+    <ClCompile Include="TestFunction.cpp" />
+    <ClCompile Include="TestGlobalStorage.cpp" />
+    <ClCompile Include="TestList.cpp" />
+    <ClCompile Include="TestObjectModel.cpp" />
+    <ClCompile Include="TestRegex.cpp" />
+    <ClCompile Include="TestScripting_BasicIL.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_Analyzer.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
+    <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
+    <ClCompile Include="TestStream.cpp" />
+    <ClCompile Include="TestString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat" />
