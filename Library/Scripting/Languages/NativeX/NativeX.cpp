@@ -34,6 +34,7 @@ namespace vl
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
 			typedef Node<TokenInput<RegexToken>, BasicLinking>				LinkingNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<BasicDeclaration>>		DeclarationNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicExpression>>		ExpressionRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicType>>			TypeRule;
 			typedef Rule<TokenInput<RegexToken>, Ptr<BasicStatement>>		StatementRule;
@@ -846,6 +847,19 @@ namespace vl
 				return linking;
 			}
 
+			Ptr<BasicDeclaration> ToGeneric(const ParsingPair<ParsingList<RegexToken>, Ptr<BasicDeclaration>>& input)
+			{
+				BasicGeneric& genericDeclaration=input.Second()->genericDeclaration;
+				ParsingList<RegexToken>::Node::Ref current=input.First().Head();
+				while(current)
+				{
+					const RegexToken& token=current->Value();
+					genericDeclaration.arguments.Add(WString(token.reading, token.start));
+					current=current->Next();
+				}
+				return input.Second();
+			}
+
 			Ptr<BasicDeclaration> ToVarDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, ParsingList<BasicLinking>>, ParsingList<Ptr<BasicExpression>>>& input)
 			{
 				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First().First());
@@ -959,6 +973,7 @@ namespace vl
 			ERROR_HANDLER(NeedExpression,	Ptr<BasicExpression>)
 			ERROR_HANDLER(NeedType,			RegexToken)
 			ERROR_HANDLER(NeedStatement,	RegexToken)
+			ERROR_HANDLER(NeedDeclaration,	Ptr<BasicDeclaration>)
 			ERROR_HANDLER(NeedID,			RegexToken)
 
 			ERROR_HANDLER(NeedLt,			RegexToken)
@@ -1003,7 +1018,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS;
+				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -1029,6 +1044,7 @@ namespace vl
 				ExpressionRule						exp;
 				TypeRule							primType,type;
 				StatementRule						statement;
+				DeclarationNode						nonGenericDeclaration;
 				DeclarationRule						declaration;
 				UnitRule							unit;
 			public:
@@ -1060,6 +1076,7 @@ namespace vl
 					UNIT			= CreateToken(tokens, L"unit");
 					USES			= CreateToken(tokens, L"uses");
 					ALIAS			= CreateToken(tokens, L"alias");
+					GENERIC			= CreateToken(tokens, L"generic");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -1162,11 +1179,15 @@ namespace vl
 									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
 									;
 
-					declaration		= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
+					nonGenericDeclaration		
+									= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
 									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
 									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
+									;
+					declaration		= nonGenericDeclaration
+									| ((GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
 									;
 
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
@@ -1408,6 +1429,8 @@ namespace vl
 					, L"structure"
 					, L"unit"
 					, L"uses"
+					, L"alias"
+					, L"generic"
 					, L"int"
 					, L"int8"
 					, L"int16"

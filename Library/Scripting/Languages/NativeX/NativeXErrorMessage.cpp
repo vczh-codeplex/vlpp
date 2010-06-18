@@ -41,6 +41,11 @@ namespace vl
 				return L"Here needs a statement.";
 			}
 
+			WString NativeXErrorMessage::NeedDeclaration()
+			{
+				return L"Here needs a declaration.";
+			}
+
 			WString NativeXErrorMessage::NeedID()
 			{
 				return L"Here needs a name.";
