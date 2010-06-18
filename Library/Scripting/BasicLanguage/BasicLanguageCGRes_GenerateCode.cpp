@@ -140,12 +140,34 @@ BasicLanguage_GenerateResource
 				}
 			}
 
+			void BuildGenericResource(ResourceRecord<BasicDeclarationRes> resource, BasicDeclaration* node, const BCP& argument)
+			{
+				resource->genericArgumentNames=ResourceHandle<BasicParameterRes>::Null();
+				ResourceRecord<BasicParameterRes> currentParameter;
+				for(int i=0;i<node->genericDeclaration.arguments.Count();i++)
+				{
+					ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
+					parameter->next=ResourceHandle<BasicParameterRes>::Null();
+					parameter->name=argument.resource->CreateString(node->genericDeclaration.arguments[i]);
+					if(currentParameter)
+					{
+						resource->genericArgumentNames=parameter;
+					}
+					else
+					{
+						currentParameter->next=parameter;
+					}
+					currentParameter=parameter;
+				}
+			}
+
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>)
 				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildGenericResource(resource, node, argument);
 					ResourceString name=argument.resource->CreateString(node->name);
 					BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node);
 					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
@@ -199,6 +221,7 @@ BasicLanguage_GenerateResource
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildGenericResource(resource, node, argument);
 					ResourceString name=argument.resource->CreateString(node->name);
 					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
 					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
@@ -233,6 +256,7 @@ BasicLanguage_GenerateResource
 					if(node->defined)
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						BuildGenericResource(resource, node, argument);
 						ResourceString name=argument.resource->CreateString(node->name);
 						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->types.Find(node->name);
 						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
