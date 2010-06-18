@@ -900,3 +900,23 @@ TEST_CASE(Test_NativeX_Sum)
 		}
 	}
 }
+
+TEST_CASE(Test_NativeX_GenericStructure)
+{
+	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
+		LINE_(	unit generic_structure;										)
+		LINE_(	generic<T>     												)
+		LINE_(	structure Vector											)
+		LINE_(	{															)
+		LINE_(		T x;													)
+		LINE_(		T y;													)
+		LINE_(	}															)
+		LINE_(	function int Main()											)
+		LINE_(	{															)
+		LINE_(		variable Vector<int> v;									)
+		LINE_(		v.x=10;													)
+		LINE_(		v.y=20;													)
+		LINE_(		result=v.x+v.y;											)
+		LINE_(	}															)
+		);
+}

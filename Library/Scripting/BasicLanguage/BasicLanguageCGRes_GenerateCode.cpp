@@ -151,11 +151,11 @@ BasicLanguage_GenerateResource
 					parameter->name=argument.resource->CreateString(node->genericDeclaration.arguments[i]);
 					if(currentParameter)
 					{
-						resource->genericArgumentNames=parameter;
+						currentParameter->next=parameter;
 					}
 					else
 					{
-						currentParameter->next=parameter;
+						resource->genericArgumentNames=parameter;
 					}
 					currentParameter=parameter;
 				}
