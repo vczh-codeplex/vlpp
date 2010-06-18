@@ -89,6 +89,11 @@ BasicTypeInfo
 			return type->type==BasicTypeRes::Structure;
 		}
 
+		bool BasicTypeInfo::IsGenericArgument()const
+		{
+			return type->type==BasicTypeRes::GenericArgument;
+		}
+
 		vint BasicTypeInfo::GetSize()const
 		{
 			return type->size;
@@ -151,6 +156,11 @@ BasicTypeInfo
 			{
 				return -1;
 			}
+		}
+
+		WString BasicTypeInfo::GetGenericArgumentName()const
+		{
+			return metadata->GetResourceStream()->ReadString(type->genericArgumentName);
 		}
 
 /***********************************************************************

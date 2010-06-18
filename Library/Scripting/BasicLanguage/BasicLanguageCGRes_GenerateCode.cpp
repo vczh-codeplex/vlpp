@@ -28,6 +28,7 @@ BasicLanguage_GenerateResource
 					BasicTypeInfo* typeInfo=argument.info->GetTypeInfo(type);
 					resource->size=typeInfo->size;
 					resource->alignment=typeInfo->alignment;
+					resource->genericArgumentName=ResourceString::Null();
 					switch(type->GetType())
 					{
 					case BasicTypeRecord::Primitive:
@@ -133,6 +134,20 @@ BasicLanguage_GenerateResource
 								}
 								currentSubType=member;
 							}
+						}
+						break;
+					case BasicTypeRecord::GenericArgument:
+						{
+							resource->type=BasicTypeRes::GenericArgument;
+							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
+							resource->elementCount=-1;
+							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
+							resource->genericArgumentName=argument.resource->CreateString(type->ArgumentName());
+						}
+						break;
+					case BasicTypeRecord::Generic:
+						{
+							return GenerateResource(type->ElementType(), argument);
 						}
 						break;
 					}
