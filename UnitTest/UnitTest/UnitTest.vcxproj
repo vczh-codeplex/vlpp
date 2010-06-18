@@ -239,6 +239,7 @@
     <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
+    <ClCompile Include="TestScripting_BasicLanguage_Generic.cpp" />
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />
