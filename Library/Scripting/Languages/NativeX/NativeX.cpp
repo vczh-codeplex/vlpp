@@ -431,14 +431,6 @@ namespace vl
 				{
 					expression->type=BasicBinaryExpression::Mod;
 				}
-				else if(op==L"<<")
-				{
-					expression->type=BasicBinaryExpression::Shl;
-				}
-				else if(op==L">>")
-				{
-					expression->type=BasicBinaryExpression::Shr;
-				}
 				else if(op==L"<")
 				{
 					expression->type=BasicBinaryExpression::Lt;
@@ -540,6 +532,35 @@ namespace vl
 					CHECK_ERROR(false, L"language_nativex::ToBinary()#´íÎóµÄ²Ù×÷·û¡£");
 				}
 				return expression;
+			}
+
+			Ptr<BasicExpression> ToBinary2(const Ptr<BasicExpression>& left, const ParsingPair<ParsingPair<RegexToken, RegexToken>, Ptr<BasicExpression>>& binary)
+			{
+				WString op(binary.First().First().reading, binary.First().First().length);
+				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(binary.First().First());
+				expression->leftOperand=left;
+				expression->rightOperand=binary.Second();
+				if(op==L"<")
+				{
+					expression->type=BasicBinaryExpression::Shl;
+				}
+				else if(op==L">")
+				{
+					expression->type=BasicBinaryExpression::Shr;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"language_nativex::ToBinary()#´íÎóµÄ²Ù×÷·û¡£");
+				}
+				if(binary.First().First().start+1!=binary.First().Second().start)
+				{
+					WString message=NativeXErrorMessage::OperatorShouldNotBe(op+op, op+L" "+op);
+					throw CombinatorResultError<Ptr<BasicExpression>>(message, ParsingResult<Ptr<BasicExpression>>(expression));
+				}
+				else
+				{
+					return expression;
+				}
 			}
 
 			Ptr<BasicExpression> ToCastExpression(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, Ptr<BasicExpression>>& input)
@@ -996,7 +1017,7 @@ namespace vl
 				TokenType							SEMICOLON;
 
 				TokenType							INCREASE, DECREASE, BIT_NOT, NOT;
-				TokenType							ADD, SUB, MUL, DIV, MOD, SHL, SHR;
+				TokenType							ADD, SUB, MUL, DIV, MOD;
 				TokenType							LT, GT, LE, GE, EQ, NE;
 				TokenType							BIT_AND, BIT_OR, AND, OR, XOR;
 				TokenType							OP_ASSIGN, ASSIGN;
@@ -1070,8 +1091,6 @@ namespace vl
 					MUL				= CreateToken(tokens, L"/*");
 					DIV				= CreateToken(tokens, L"//");
 					MOD				= CreateToken(tokens, L"%");
-					SHL				= CreateToken(tokens, L"<<");
-					SHR				= CreateToken(tokens, L">>");
 					LT				= CreateToken(tokens, L"<");
 					GT				= CreateToken(tokens, L">");
 					LE				= CreateToken(tokens, L"<=");
@@ -1114,7 +1133,7 @@ namespace vl
 					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp1)[ToPreUnary];
 					exp3			= lrec(exp2 + *((MUL | DIV | MOD) + exp2), ToBinary);
 					exp4			= lrec(exp3 + *((ADD | SUB) + exp3), ToBinary);
-					exp5			= lrec(exp4 + *((SHL | SHR) + exp4), ToBinary);
+					exp5			= lrec(exp4 + *((LT+LT | GT+GT) + exp4), ToBinary2);
 					exp6			= lrec(exp5 + *((LT | GT | LE | GE) + exp5), ToBinary);
 					exp7			= lrec(exp6 + *((EQ | NE) + exp6), ToBinary);
 					exp8			= lrec(exp7 + *(BIT_AND + exp7), ToBinary);

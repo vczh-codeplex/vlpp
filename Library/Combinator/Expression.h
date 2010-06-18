@@ -162,6 +162,25 @@ namespace vl
 			}
 		};
 
+		template<typename T>
+		class CombinatorResultError : public Exception
+		{
+		protected:
+			ParsingResult<T>		result;
+
+		public:
+			CombinatorResultError(const WString& _message, const ParsingResult<T>& _result)
+				:Exception(_message)
+				,result(_result)
+			{
+			}
+
+			const ParsingResult<T>& Result()const
+			{
+				return result;
+			}
+		};
+
 		template<typename T1, typename T2>
 		class ParsingPair
 		{

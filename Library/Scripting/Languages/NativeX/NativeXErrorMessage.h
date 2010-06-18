@@ -49,6 +49,7 @@ namespace vl
 				static WString NeedWith();
 				static WString NeedDo();
 				static WString NeedUnit();
+				static WString OperatorShouldNotBe(const WString& right, const WString& wrong);
 			};
 		}
 	}

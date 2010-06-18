@@ -27,3 +27,5 @@ NeedWhen=Here needs \"when\".
 NeedWith=Here needs \"with\".
 NeedDo=Here needs \"do\".
 NeedUnit=Here needs \"unit\".
+
+OperatorShouldNotBe(right,wrong)=Operator {right} should not be {wrong}.
