@@ -8,6 +8,7 @@ UnitCircularReferenced(name)=Unit {name} has circular unit imports.
 NeedExpression=Here needs an expression.
 NeedType=Here needs a type.
 NeedStatement=Here needs a statement.
+NeedDeclaration=Here needs a declaration.
 NeedID=Here needs a name.
 
 NeedLt=Here needs an open angle bracket \"<\".
