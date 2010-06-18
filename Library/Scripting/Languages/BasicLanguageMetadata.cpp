@@ -168,17 +168,40 @@ BasicDeclarationInfo
 				return ResourceHandle<BasicParameterRes>();
 			}
 		}
+		
+		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetGenericArgument(vint index)const
+		{
+			if(genericArguments && index>=0 && index<genericArguments->Count())
+			{
+				return genericArguments->Get(index);
+			}
+			else
+			{
+				return ResourceHandle<BasicParameterRes>();
+			}
+		}
 
 		BasicDeclarationInfo::BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata)
 			:BasicMetadataInfo(metadata)
 			,declaration(metadata->GetResourceStream()->ReadRecord(_declaration))
 		{
 			parameters=new ParameterHandleList;
-			ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
-			while(currentParameter)
+			genericArguments=new ParameterHandleList;
 			{
-				parameters->Add(currentParameter);
-				currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
+				ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
+				while(currentParameter)
+				{
+					parameters->Add(currentParameter);
+					currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
+				}
+			}
+			{
+				ResourceHandle<BasicParameterRes> currentParameter=declaration->genericArgumentNames;
+				while(currentParameter)
+				{
+					genericArguments->Add(currentParameter);
+					currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
+				}
 			}
 		}
 
@@ -258,6 +281,24 @@ BasicDeclarationInfo
 		WString BasicDeclarationInfo::GetLinkingSymbolName()const
 		{
 			return metadata->GetResourceStream()->ReadString(declaration->linkingSymbolName);
+		}
+
+		vint BasicDeclarationInfo::GetGenericArgumentCount()const
+		{
+			return genericArguments?genericArguments->Count():0;
+		}
+
+		WString BasicDeclarationInfo::GetGenericArgumentName(vint index)const
+		{
+			ResourceHandle<BasicParameterRes> parameter=GetGenericArgument(index);
+			if(parameter)
+			{
+				return metadata->GetResourceStream()->ReadString(metadata->GetResourceStream()->ReadRecord(parameter)->name);
+			}
+			else
+			{
+				return L"";
+			}
 		}
 
 /***********************************************************************

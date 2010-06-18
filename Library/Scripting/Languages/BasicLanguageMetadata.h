@@ -54,14 +54,14 @@ Metadata
 			bool									IsFunction()const;
 			bool									IsStructure()const;
 	
-			vint										GetSize()const;
+			vint									GetSize()const;
 			BasicTypeRes::PrimitiveTypeEnum			GetPrimitive()const;
 			BasicTypeInfo							GetElementType()const;
-			vint										GetElementCount()const;
-			vint										GetComponentCount()const;
+			vint									GetElementCount()const;
+			vint									GetComponentCount()const;
 			BasicTypeInfo							GetComponentType(vint index)const;
 			WString									GetComponentName(vint index)const;
-			vint										GetComponentOffset(vint index)const;
+			vint									GetComponentOffset(vint index)const;
 		};
 
 		class BasicDeclarationInfo : public BasicMetadataInfo
@@ -71,8 +71,11 @@ Metadata
 		protected:
 			ResourceRecord<BasicDeclarationRes>		declaration;
 			Ptr<ParameterHandleList>				parameters;
+			Ptr<ParameterHandleList>				genericArguments;
 
 			ResourceHandle<BasicParameterRes>		GetParameter(vint index)const;
+			ResourceHandle<BasicParameterRes>		GetGenericArgument(vint index)const;
+
 			BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);
 		public:
 			BasicDeclarationInfo();
@@ -84,12 +87,14 @@ Metadata
 			bool									IsStructure()const;
 			BasicTypeInfo							GetType()const;
 			WString									GetName()const;
-			vint										GetParameterCount()const;
+			vint									GetParameterCount()const;
 			WString									GetParameterName(vint index)const;
-			vint										GetAddress()const;
+			vint									GetAddress()const;
 			bool									IsLinkingSymbol()const;
 			WString									GetLinkingAssemblyName()const;
 			WString									GetLinkingSymbolName()const;
+			vint									GetGenericArgumentCount()const;
+			WString									GetGenericArgumentName(vint index)const;
 		};
 
 /***********************************************************************
@@ -103,7 +108,7 @@ BasicLanguageMetadata
 		public:
 			BasicLanguageMetadata(IMetadataProvider* metadataProvider);
 
-			vint										GetDeclarationCount()const;
+			vint									GetDeclarationCount()const;
 			BasicDeclarationInfo					GetDeclaration(vint index)const;
 		};
 	}

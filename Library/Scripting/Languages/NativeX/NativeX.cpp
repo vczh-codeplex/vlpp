@@ -708,6 +708,14 @@ namespace vl
 				return type;
 			}
 
+			Ptr<BasicType> ToInstanciatedGenericType(const ParsingPair<Ptr<BasicType>, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
+			{
+				Ptr<BasicInstanciatedGenericType> type=CreateNode<BasicInstanciatedGenericType>(input.Second().First());
+				type->elementType=input.First();
+				CopyFrom(type->argumentTypes.Wrap(), input.Second().Second()->Wrap());
+				return type;
+			}
+
 /***********************************************************************
 ÓïÒåº¯Êý£ºÓï¾ä
 ***********************************************************************/
@@ -854,7 +862,7 @@ namespace vl
 				while(current)
 				{
 					const RegexToken& token=current->Value();
-					genericDeclaration.arguments.Add(WString(token.reading, token.start));
+					genericDeclaration.arguments.Add(WString(token.reading, token.length));
 					current=current->Next();
 				}
 				return input.Second();
@@ -1161,6 +1169,7 @@ namespace vl
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 
 					primType		= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType]
+									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									;
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
