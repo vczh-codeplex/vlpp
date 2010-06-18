@@ -965,5 +965,12 @@ TEST_CASE(Test_NativeX_GenericStructure)
 		TEST_ASSERT(mainType.IsPrimitive()==false);
 		TEST_ASSERT(mainType.IsGenericArgument()==false);
 		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+
+		LanguageHost host(65536);
+		host.LoadAssembly(assembly);
+		Ptr<LanguageState> state=host.CreateState();
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		BasicFunctionExecutor<int()> mainFunction(main, state);
+		TEST_ASSERT(mainFunction()==30);
 	}
 }
