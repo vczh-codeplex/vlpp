@@ -1510,6 +1510,17 @@ namespace vl
 				IdentifierToString(linking.symbolName, writer);
 			}
 
+			void GenericToString(const BasicGeneric& genericDeclaration, TextWriter& writer)
+			{
+				writer.WriteString(L"generic<");
+				for(vint i=0;i<genericDeclaration.arguments.Count();i++)
+				{
+					if(i)writer.WriteString(L", ");
+					writer.WriteString(genericDeclaration.arguments.Get(i));
+				}
+				writer.WriteString(L">");
+			}
+
 /***********************************************************************
 ½Ó¿Ú
 ***********************************************************************/
@@ -2116,10 +2127,21 @@ namespace vl
 
 			END_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode)
 
+			void PrintGeneric(BasicDeclaration* node, const NXCGP& argument)
+			{
+				if(node->genericDeclaration.HasGeneric())
+				{
+					PrintIndentation(argument);
+					GenericToString(node->genericDeclaration, argument.writer);
+					argument.writer.WriteLine(L"");
+				}
+			}
+
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode, BasicDeclaration, NXCGP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"function ");
 					NativeX_BasicType_GenerateCode(node->signatureType->returnType, argument);
@@ -2158,6 +2180,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"variable ");
 					NativeX_BasicType_GenerateCode(node->type, argument);
@@ -2180,6 +2203,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"type ");
 					IdentifierToString(node->name, argument.writer);
@@ -2190,6 +2214,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
+					PrintGeneric(node, argument);
 					if(node->defined)
 					{
 						PrintIndentation(argument);

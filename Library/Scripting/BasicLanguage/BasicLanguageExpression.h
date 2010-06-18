@@ -87,6 +87,8 @@ namespace vl
 			struct BasicGeneric
 			{
 				collections::List<WString>	arguments;
+
+				bool						HasGeneric()const;
 			};
 
 			class BasicLanguageElement : public Object, private NotCopyable

@@ -192,7 +192,7 @@ BasicLanguage_BuildGlobalScopePass1
 
 			BP BuildBasicGenericScope(BasicDeclaration* declaration, const BP& argument)
 			{
-				if(declaration->genericDeclaration.arguments.Count()>0)
+				if(declaration->genericDeclaration.HasGeneric())
 				{
 					BasicScope* scope=argument.env->CreateScope(argument.scope);
 					for(int i=0;i<declaration->genericDeclaration.arguments.Count();i++)
@@ -218,7 +218,7 @@ BasicLanguage_BuildGlobalScopePass1
 
 			BasicTypeRecord* BuildBasicGenericType(BasicTypeRecord* type, BasicDeclaration* declaration, const BP& argument)
 			{
-				if(declaration->genericDeclaration.arguments.Count()>0)
+				if(declaration->genericDeclaration.HasGeneric())
 				{
 					BasicTypeRecord* genericType=argument.typeManager->CreateGenericType();
 					List<BasicTypeRecord*> genericArguments;

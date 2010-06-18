@@ -38,6 +38,11 @@ namespace vl
 			{
 				shortcut=true;
 			}
+
+			bool BasicGeneric::HasGeneric()const
+			{
+				return arguments.Count()>0;
+			}
 		}
 	}
 }
