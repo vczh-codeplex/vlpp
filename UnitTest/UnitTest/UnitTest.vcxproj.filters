@@ -354,6 +354,9 @@
     <ClCompile Include="TestScripting_BasicIL.cpp">
       <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
+    <ClCompile Include="TestScripting_BasicLanguage_Generic.cpp">
+      <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

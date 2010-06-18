@@ -1873,7 +1873,17 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedGenericType)
 				{
-					CHECK_ERROR(false, L"NativeX暂时不支持BasicInstanciatedGenericType。");
+					NativeX_BasicType_GenerateCode(node->elementType, argument);
+					argument.writer.WriteString(L"<");
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						if(i)
+						{
+							argument.writer.WriteString(L", ");
+						}
+						NativeX_BasicType_GenerateCode(node->argumentTypes[i], argument);
+					}
+					argument.writer.WriteString(L">");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
@@ -2217,7 +2227,7 @@ namespace vl
 					argument.writer.WriteString(L"type ");
 					IdentifierToString(node->name, argument.writer);
 					argument.writer.WriteString(L" = ");
-					NativeX_BasicExpression_GenerateCode(node->type, argument);
+					NativeX_BasicType_GenerateCode(node->type, argument);
 					argument.writer.WriteLine(L";");
 				}
 
