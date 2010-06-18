@@ -16,6 +16,7 @@ namespace vl
 {
 	namespace combinator
 	{
+
 		template<typename I, typename O1, typename O2>
 		class _Using : public Combinator<I, O2>
 		{
@@ -31,10 +32,19 @@ namespace vl
 
 			ParsingResult<OutputType> Parse(InputType& input, GlobalInfoType& globalInfo)const
 			{
+				InputType errorInput=input;
 				ParsingResult<O1> result=element->Parse(input, globalInfo);
 				if(result)
 				{
-					return ParsingResult<OutputType>(converter(result.Value()));
+					try
+					{
+						return ParsingResult<OutputType>(converter(result.Value()));
+					}
+					catch(const CombinatorResultError<O2>& error)
+					{
+						globalInfo.errors.Add(new CombinatorError<I>(error.Message(), errorInput));
+						return error.Result();
+					}
 				}
 				else
 				{
