@@ -113,6 +113,13 @@ BasicCodegenInfo
 							}
 						}
 						break;
+					case BasicTypeRecord::GenericArgument:
+					case BasicTypeRecord::Generic:
+						{
+							info->alignment=1;
+							info->size=1;
+						}
+						break;
 					}
 					typeInfos.Add(type, info);
 					return info;

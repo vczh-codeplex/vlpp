@@ -38,7 +38,8 @@ namespace vl
 				Pointer,
 				Array,
 				Function,
-				Structure
+				Structure,
+				GenericArgument,
 			};
 
 			enum PrimitiveTypeEnum
@@ -66,6 +67,7 @@ namespace vl
 			ResourceHandle<BasicTypeLinkRes>		subTypes;				//Function(parameter), Structure(member)
 			vint									size;
 			vint									alignment;
+			ResourceString							genericArgumentName;	//GenericArgument
 		};
 
 		struct BasicTypeLinkRes

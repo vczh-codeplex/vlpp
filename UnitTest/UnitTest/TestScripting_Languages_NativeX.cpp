@@ -919,4 +919,51 @@ TEST_CASE(Test_NativeX_GenericStructure)
 		LINE_(		result=v.x+v.y;											)
 		LINE_(	}															)
 		);
+	{
+		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
+		TEST_ASSERT(metadata->GetDeclarationCount()==2);
+
+		BasicDeclarationInfo vector=metadata->GetDeclaration(0);
+		BasicDeclarationInfo main=metadata->GetDeclaration(1);
+
+		TEST_ASSERT(vector.IsFunction()==false);
+		TEST_ASSERT(vector.IsStructure()==true);
+		TEST_ASSERT(vector.IsVariable()==false);
+		TEST_ASSERT(vector.IsLinkingSymbol()==false);
+		TEST_ASSERT(vector.GetName()==L"Vector");
+		TEST_ASSERT(vector.GetGenericArgumentCount()==1);
+		TEST_ASSERT(vector.GetGenericArgumentName(0)==L"T");
+		BasicTypeInfo vectorType=vector.GetType();
+		TEST_ASSERT(vectorType.IsArray()==false);
+		TEST_ASSERT(vectorType.IsFunction()==false);
+		TEST_ASSERT(vectorType.IsPointer()==false);
+		TEST_ASSERT(vectorType.IsStructure()==true);
+		TEST_ASSERT(vectorType.IsPrimitive()==false);
+		TEST_ASSERT(vectorType.IsGenericArgument()==false);
+		TEST_ASSERT(vectorType.GetComponentCount()==2);
+		TEST_ASSERT(vectorType.GetComponentName(0)==L"x");
+		TEST_ASSERT(vectorType.GetComponentOffset(0)==0);
+		TEST_ASSERT(vectorType.GetComponentType(0).IsGenericArgument()==true);
+		TEST_ASSERT(vectorType.GetComponentType(0).GetGenericArgumentName()==L"T");
+		TEST_ASSERT(vectorType.GetComponentName(1)==L"y");
+		TEST_ASSERT(vectorType.GetComponentOffset(1)==1);
+		TEST_ASSERT(vectorType.GetComponentType(1).IsGenericArgument()==true);
+		TEST_ASSERT(vectorType.GetComponentType(1).GetGenericArgumentName()==L"T");
+
+		TEST_ASSERT(main.IsFunction()==true);
+		TEST_ASSERT(main.IsStructure()==false);
+		TEST_ASSERT(main.IsVariable()==false);
+		TEST_ASSERT(main.IsLinkingSymbol()==false);
+		TEST_ASSERT(main.GetName()==L"Main");
+		TEST_ASSERT(main.GetGenericArgumentCount()==0);
+		TEST_ASSERT(main.GetParameterCount()==0);
+		BasicTypeInfo mainType=main.GetType();
+		TEST_ASSERT(mainType.IsArray()==false);
+		TEST_ASSERT(mainType.IsFunction()==true);
+		TEST_ASSERT(mainType.IsPointer()==false);
+		TEST_ASSERT(mainType.IsStructure()==false);
+		TEST_ASSERT(mainType.IsPrimitive()==false);
+		TEST_ASSERT(mainType.IsGenericArgument()==false);
+		TEST_ASSERT(mainType.GetElementType().IsPrimitive() && mainType.GetElementType().GetPrimitive()==BasicTypeRes::int_type);
+	}
 }

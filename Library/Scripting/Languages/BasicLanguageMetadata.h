@@ -53,6 +53,7 @@ Metadata
 			bool									IsArray()const;
 			bool									IsFunction()const;
 			bool									IsStructure()const;
+			bool									IsGenericArgument()const;
 	
 			vint									GetSize()const;
 			BasicTypeRes::PrimitiveTypeEnum			GetPrimitive()const;
@@ -62,6 +63,7 @@ Metadata
 			BasicTypeInfo							GetComponentType(vint index)const;
 			WString									GetComponentName(vint index)const;
 			vint									GetComponentOffset(vint index)const;
+			WString									GetGenericArgumentName()const;
 		};
 
 		class BasicDeclarationInfo : public BasicMetadataInfo
