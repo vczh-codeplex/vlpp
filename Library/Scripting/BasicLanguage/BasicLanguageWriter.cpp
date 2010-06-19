@@ -759,7 +759,7 @@ BasicStatementNode
 
 			BasicStatementNode BasicStatementNode::operator<<(const BasicStatementNode& nextStatement)const
 			{
-				Ptr<BasicCompositeStatement> result=statement;
+				Ptr<BasicCompositeStatement> result=statement.Cast<BasicCompositeStatement>();
 				if(!result)
 				{
 					result=new BasicCompositeStatement;

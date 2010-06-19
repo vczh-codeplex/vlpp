@@ -43,6 +43,13 @@ namespace vl
 			}
 		}
 	public:
+		Ptr(vint* _counter, T* _reference)
+			:counter(_counter)
+			,reference(_reference)
+		{
+			Inc();
+		}
+
 		Ptr()
 		{
 			counter=0;
@@ -73,7 +80,7 @@ namespace vl
 		template<typename C>
 		Ptr(const Ptr<C>& pointer)
 		{
-			T* converted=dynamic_cast<T*>(pointer.Obj());
+			T* converted=pointer.Obj();
 			if(converted)
 			{
 				counter=pointer.Counter();
@@ -90,6 +97,13 @@ namespace vl
 		~Ptr()
 		{
 			Dec();
+		}
+
+		template<typename C>
+		Ptr<C> Cast()const
+		{
+			C* converted=dynamic_cast<C*>(reference);
+			return Ptr<C>(counter, converted);
 		}
 
 		Ptr<T>& operator=(T* pointer)
@@ -123,7 +137,7 @@ namespace vl
 		template<typename C>
 		Ptr<T>& operator=(const Ptr<C>& pointer)
 		{
-			T* converted=dynamic_cast<T*>(pointer.Obj());
+			T* converted=pointer.Obj();
 			Dec();
 			if(converted)
 			{

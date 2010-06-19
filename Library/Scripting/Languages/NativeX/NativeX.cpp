@@ -304,7 +304,7 @@ namespace vl
 				}
 				else if(op==L"(")
 				{
-					Ptr<NativeXArguments> arguments=unary.Second();
+					Ptr<NativeXArguments> arguments=unary.Second().Cast<NativeXArguments>();
 					Ptr<BasicInvokeExpression> expression=CreateNode<BasicInvokeExpression>(unary.First());
 					expression->function=operand;
 					CopyFrom(expression->arguments.Wrap(), arguments->arguments->Wrap());
@@ -312,7 +312,7 @@ namespace vl
 				}
 				else if(op==L".")
 				{
-					Ptr<BasicReferenceExpression> member=unary.Second();
+					Ptr<BasicReferenceExpression> member=unary.Second().Cast<BasicReferenceExpression>();
 					Ptr<BasicMemberExpression> expression=CreateNode<BasicMemberExpression>(unary.First());
 					expression->operand=operand;
 					expression->member=member->name;
@@ -321,7 +321,7 @@ namespace vl
 				}
 				else if(op==L"->")
 				{
-					Ptr<BasicReferenceExpression> member=unary.Second();
+					Ptr<BasicReferenceExpression> member=unary.Second().Cast<BasicReferenceExpression>();
 					Ptr<BasicMemberExpression> expression=CreateNode<BasicMemberExpression>(unary.First());
 					expression->operand=operand;
 					expression->member=member->name;
