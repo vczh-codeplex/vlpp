@@ -32,7 +32,7 @@ TEST_CASE(TestCreateNativeXProvider)
 void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer)
 {
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
-	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider;
+	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider.Cast<IBasicLanguageProvider>();
 	basicLanguageProvider->GenerateCode(program, writer);
 }
 
@@ -47,7 +47,7 @@ void ConvertToNativeXProgram(Ptr<BasicProgram>& program)
 	WString code=reader.ReadToEnd();
 
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
-	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider;
+	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider.Cast<IBasicLanguageProvider>();
 	List<Ptr<LanguageException>> errors;
 	program=basicLanguageProvider->ParseProgram(code, errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);

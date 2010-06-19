@@ -1287,7 +1287,7 @@ BasicLanguage_CheckStatement
 					BP newArgument(argument, argument.env->CreateStatementScope(argument.scope, node));
 					if(node->initializer)
 					{
-						Ptr<BasicCompositeStatement> composite=node->initializer;
+						Ptr<BasicCompositeStatement> composite=node->initializer.Cast<BasicCompositeStatement>();
 						if(composite)
 						{
 							for(vint i=0;i<composite->statements.Count();i++)

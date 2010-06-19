@@ -75,14 +75,14 @@ TEST_CASE(TestAutoPointer)
 		}
 	}
 
-	Ptr<Derived1> p1=ps[1];
-	Ptr<Derived2> p2=ps[1];
+	Ptr<Derived1> p1=ps[1].Cast<Derived1>();
+	Ptr<Derived2> p2=ps[1].Cast<Derived2>();
 	TEST_ASSERT((bool)p1==true);
 	TEST_ASSERT(p1->number==2);
 	TEST_ASSERT((bool)p2==false);
 
-	p1=ps[2];
-	p2=ps[2];
+	p1=ps[2].Cast<Derived1>();
+	p2=ps[2].Cast<Derived2>();
 	TEST_ASSERT((bool)p1==false);
 	TEST_ASSERT((bool)p2==true);
 	TEST_ASSERT(p2->number==3);
