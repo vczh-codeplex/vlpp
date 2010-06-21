@@ -611,7 +611,7 @@ namespace mynamespace
 
 using namespace mynamespace;
 
-TEST_CASE(TestBasicILResourceManager)
+TEST_CASE(TestBasicILResourceManager_Primitive)
 {
 	ResourceStream resource;
 	{
@@ -644,5 +644,36 @@ TEST_CASE(TestBasicILResourceManager)
 			currentNode=resource.ReadRecord(currentNode->next);
 		}
 		TEST_ASSERT(index==10);
+	}
+}
+
+TEST_CASE(TestBasicILResourceManager_Array)
+{
+	ResourceStream resource;
+	{
+		ResourceArrayRecord<Node> nodes=resource.CreateArrayRecord<Node>(10);
+		TEST_ASSERT(nodes.Count()==10);
+		for(vint i=0;i<10;i++)
+		{
+			ResourceRecord<Node> currentNode=resource.CreateRecord<Node>();
+			ResourceString name=resource.CreateString(L"ID:"+itow(i));
+			currentNode->data=i;
+			currentNode->empty=ResourceString::Null();
+			currentNode->name=name;
+			currentNode->next=ResourceHandle<Node>::Null();
+			nodes[i]=currentNode;
+		}
+	}
+	{
+		ResourceArrayRecord<Node> nodes=resource.ReadRootArrayRecord<Node>();
+		TEST_ASSERT(nodes.Count()==10);
+		for(vint i=0;i<10;i++)
+		{
+			ResourceRecord<Node> currentNode=nodes[i];
+			TEST_ASSERT(i==currentNode->data);
+			TEST_ASSERT(resource.ReadString(currentNode->empty)==L"");
+			TEST_ASSERT(resource.ReadString(currentNode->name)==L"ID:"+itow(i));
+			TEST_ASSERT(!currentNode->next);
+		}
 	}
 }
