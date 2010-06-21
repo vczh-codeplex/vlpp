@@ -127,6 +127,21 @@ namespace vl
 			}
 		};
 
+		template<typename T>
+		class ResourceArrayHandle : public ResourceReference
+		{
+			friend class ResourceStream;
+			template<typename T>
+			friend class ResourceArrayRecord;
+		public:
+			typedef T ResourceType;
+
+			static ResourceArrayHandle<T> Null()
+			{
+				return ResourceArrayHandle<T>();
+			}
+		};
+
 /***********************************************************************
 读写对象
 ***********************************************************************/
@@ -136,7 +151,7 @@ namespace vl
 		{
 		protected:
 			const ResourceStream*			resourceStream;
-			vint								pointer;
+			vint							pointer;
 		public:
 			ResourceRecord()
 				:resourceStream(0)
@@ -191,6 +206,109 @@ namespace vl
 			}
 		};
 
+		template<typename T>
+		class ResourceArrayRecord
+		{
+		protected:
+			const ResourceStream*			resourceStream;
+			vint							pointer;
+		public:
+			class ElementReference
+			{
+			protected:
+				const ResourceArrayRecord<T>*	record;
+				vint							index;
+			public:
+				ElementReference(const ResourceArrayRecord<T>* _record, vint _index)
+					:record(_record)
+					,index(_index)
+				{
+				}
+
+				operator ResourceRecord<T>()const
+				{
+					return record->Get(index);
+				}
+
+				void operator=(const ResourceHandle<T> handle)const
+				{
+					record->Set(index, handle);
+				}
+			};
+
+			ResourceArrayRecord()
+				:resourceStream(0)
+				,pointer(-1)
+			{
+			}
+
+			ResourceArrayRecord(const ResourceArrayRecord<T>& record)
+				:resourceStream(record.resourceStream)
+				,pointer(record.pointer)
+			{
+			}
+
+			ResourceArrayRecord(const ResourceStream* _resourceStream, vint _pointer)
+				:resourceStream(_pointer==-1?0:_resourceStream)
+				,pointer(_pointer)
+			{
+			}
+
+			ResourceArrayRecord& operator=(const ResourceArrayRecord<T>& record)
+			{
+				resourceStream=record.resourceStream;
+				pointer=record.pointer;
+				return *this;
+			}
+
+			ResourceStream* GetResourceStream()
+			{
+				return resourceStream;
+			}
+
+			vint Count()const
+			{
+				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
+				return buffer[0];
+			}
+
+			ResourceRecord<T> Get(int index)const
+			{
+				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
+				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
+				return ResourceRecord<T>(resourceStream, buffer[index+1]);
+			}
+
+			void Set(int index, const ResourceHandle<T> handle)const
+			{
+				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
+				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
+				buffer[index+1]=handle.Pointer();
+			}
+
+			const ElementReference operator[](vint index)const
+			{
+				return ElementReference(this, index);
+			}
+
+			operator ResourceArrayHandle<T>()const
+			{
+				ResourceArrayHandle<T> handle;
+				handle.pointer=pointer;
+				return handle;
+			}
+
+			operator bool()const
+			{
+				return pointer!=-1;
+			}
+
+			vint Pointer()const
+			{
+				return pointer;
+			}
+		};
+
 /***********************************************************************
 资源流
 ***********************************************************************/
@@ -199,11 +317,13 @@ namespace vl
 		{
 			template<typename T>
 			friend class ResourceRecord;
+			template<typename T>
+			friend class ResourceArrayRecord;
 		protected:
 			collections::Array<char>		resource;
-			vint								usedSize;
+			vint							usedSize;
 
-			vint								CreateRecord(vint size);
+			vint							CreateRecord(vint size);
 			const char*						GetPointer(vint pointer)const;
 			WString							GetString(vint pointer)const;
 			WString							GetEmptyString()const;
@@ -217,6 +337,8 @@ namespace vl
 
 			ResourceString					CreateString(const WString& string);
 			WString							ReadString(ResourceString string)const;
+
+			//------------------------------------------------------------------------------
 
 			template<typename T>
 			ResourceRecord<T> CreateRecord()
@@ -241,6 +363,35 @@ namespace vl
 			ResourceRecord<T> ReadRootRecord()const
 			{
 				return ReadRecord<T>(0);
+			}
+
+			//------------------------------------------------------------------------------
+
+			template<typename T>
+			ResourceArrayRecord<T> CreateArrayRecord(int count)
+			{
+				vint pointer=CreateRecord((count+1)*sizeof(T));
+				*(vint*)GetPointer(pointer)=count;
+				return ResourceArrayRecord<T>(this, pointer);
+			}
+
+			template<typename T>
+			ResourceArrayRecord<T> ReadArrayRecord(vint pointer)const
+			{
+				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=resource.Count()), L"ResourceStream::ReadArrayRecord<T>(vint)#参数pointer越界。");
+				return ResourceArrayRecord<T>(this, pointer);
+			}
+
+			template<typename T>
+			ResourceArrayRecord<T> ReadArrayRecord(ResourceArrayHandle<T> handler)const
+			{
+				return ReadArrayRecord<T>(handler.pointer);
+			}
+
+			template<typename T>
+			ResourceArrayRecord<T> ReadRootArrayRecord()const
+			{
+				return ReadArrayRecord<T>(0);
 			}
 		};
 	}
