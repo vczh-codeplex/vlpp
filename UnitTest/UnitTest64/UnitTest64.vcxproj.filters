@@ -682,5 +682,8 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Stream\StreamSerialization.h">
+      <Filter>Library3\Stream\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
