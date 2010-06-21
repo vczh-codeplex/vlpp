@@ -542,7 +542,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 			.Ins(BasicIns::ret, BasicIns::MakeInt(2*sizeof(vint)))
 			;
 
-		BasicIL::Label label;
+		BasicILLocalLabel label;
 		label.instructionIndex=0;
 		iladd.labels.Add(label);
 
@@ -568,7 +568,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 			.Ins(BasicIns::ret, BasicIns::MakeInt(0))
 			;
 
-		BasicIL::Label label;
+		BasicILLocalLabel label;
 		label.instructionIndex=0;
 		ilmain.labels.Add(label);
 

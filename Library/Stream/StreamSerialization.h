@@ -170,7 +170,10 @@ namespace vl
 			static void Write(IStream& stream, const C& value)
 			{
 				WriteStream<vint>(stream, value.Count());
-				stream.Write((void*)&value.Get(0), value.Count()*sizeof(T)); 
+				if(value.Count()>0)
+				{
+					stream.Write((void*)&value.Get(0), value.Count()*sizeof(T)); 
+				}
 			}
 
 			static void ReadList(IStream& stream, C& value)
@@ -187,7 +190,10 @@ namespace vl
 			{
 				int count=ReadStream<vint>(stream);
 				value.Resize(count);
-				stream.Read((void*)&value.Get(0), count*sizeof(T)); 
+				if(count>0)
+				{
+					stream.Read((void*)&value.Get(0), count*sizeof(T)); 
+				}
 			}
 		};
 
