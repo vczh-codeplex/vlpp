@@ -65,14 +65,20 @@ WString name=resourceStream.ReadString(node->name);
 #define VCZH_SCRIPTING_BASICIL_BASICILRESOURCESTREAM
 
 #include "..\..\String.h"
+#include "..\..\Pointer.h"
 #include "..\..\Collections\List.h"
 #include "..\..\Stream\Interfaces.h"
+#include "..\..\Stream\StreamSerialization.h"
 
 namespace vl
 {
 	namespace scripting
 	{
 		class ResourceStream;
+
+/***********************************************************************
+句柄
+***********************************************************************/
 
 		class ResourceReference
 		{
@@ -120,6 +126,10 @@ namespace vl
 				return ResourceString();
 			}
 		};
+
+/***********************************************************************
+读写对象
+***********************************************************************/
 
 		template<typename T>
 		class ResourceRecord
@@ -181,6 +191,10 @@ namespace vl
 			}
 		};
 
+/***********************************************************************
+资源流
+***********************************************************************/
+
 		class ResourceStream : public Object
 		{
 			template<typename T>
@@ -227,6 +241,35 @@ namespace vl
 			ResourceRecord<T> ReadRootRecord()const
 			{
 				return ReadRecord<T>(0);
+			}
+		};
+	}
+}
+
+/***********************************************************************
+二进制序列化
+***********************************************************************/
+
+namespace vl
+{
+	namespace stream
+	{
+		template<>
+		class StreamBinarySerializer<Ptr<scripting::ResourceStream>>
+		{
+		public:
+			static void Write(IStream& stream, const Ptr<scripting::ResourceStream>& value)
+			{
+				value->SaveToStream(stream);
+			}
+
+			static void Read(IStream& stream, Ptr<scripting::ResourceStream>& value)
+			{
+				if(!value)
+				{
+					value=new scripting::ResourceStream;
+				}
+				value->LoadFromStream(stream);
 			}
 		};
 	}

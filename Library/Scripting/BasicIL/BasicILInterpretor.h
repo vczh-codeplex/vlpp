@@ -61,8 +61,8 @@ namespace vl
 
 			struct BasicILLabel
 			{
-				vint											instruction;
-				vint											key;
+				vint										instruction;
+				vint										key;
 
 				bool										operator==(const BasicILLabel& label)const;
 				bool										operator!=(const BasicILLabel& label)const;

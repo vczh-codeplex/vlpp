@@ -130,7 +130,7 @@ namespace vl
 					bool						bool_value;
 					char						char_value;
 					wchar_t						wchar_value;
-					vint							(*raw_function)(void* arguments);
+					vint						(*raw_function)(void* arguments);
 #ifdef VCZH_64
 					signed __int64				int_value;
 					void*						pointer_value;
@@ -139,7 +139,7 @@ namespace vl
 					void*						pointer_value;
 #endif
 				}								argument;
-				vint								insKey;
+				vint							insKey;
 				void*							userData;
 
 				BasicIns();
@@ -163,12 +163,6 @@ namespace vl
 		}
 	}
 
-	template<>
-	struct POD<vl::scripting::basicil::BasicIns>
-	{
-		static const bool Result=true;
-	};
-
 	namespace scripting
 	{
 		namespace basicil
@@ -180,6 +174,32 @@ namespace vl
 				static const wchar_t*const		ExportedSymbols;
 			};
 
+			struct BasicILLocalLabel
+			{
+				vint						instructionIndex;
+
+				bool						operator==(const BasicILLocalLabel& label);
+			};
+		}
+	}
+
+	template<>
+	struct POD<vl::scripting::basicil::BasicIns>
+	{
+		static const bool Result=true;
+	};
+
+	template<>
+	struct POD<vl::scripting::basicil::BasicILLocalLabel>
+	{
+		static const bool Result=true;
+	};
+
+	namespace scripting
+	{
+		namespace basicil
+		{
+
 			class BasicIL : public Object
 			{
 				typedef collections::Dictionary<WString, Ptr<ResourceStream>> _ResourceMap;
@@ -187,37 +207,31 @@ namespace vl
 				class ICommentProvider : public Interface
 				{
 				public:
-					virtual void				StartProvideComment()=0;
-					virtual void				AppendComment(stream::TextWriter& writer, void* userData)=0;
+					virtual void						StartProvideComment()=0;
+					virtual void						AppendComment(stream::TextWriter& writer, void* userData)=0;
 				};
 			public:
-				struct Label
-				{
-					vint							instructionIndex;
 
-					bool						operator==(const Label& label);
-				};
+				collections::List<BasicIns>				instructions;
+				collections::List<BasicILLocalLabel>	labels;
+				collections::Array<char>				globalData;
+				_ResourceMap							resources;
 
-				collections::List<BasicIns>		instructions;
-				collections::List<Label>		labels;
-				collections::Array<char>		globalData;
-				_ResourceMap					resources;
+				BasicIL&								Ins(BasicIns::OpCode opcode);
+				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::Argument argument);
+				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1);
+				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
+				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
 
-				BasicIL&						Ins(BasicIns::OpCode opcode);
-				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::Argument argument);
-				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1);
-				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
-				BasicIL&						Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
+				BasicIL&								InsUD(BasicIns::OpCode opcode, void* userData);
+				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData);
+				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData);
+				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData);
+				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData);
 
-				BasicIL&						InsUD(BasicIns::OpCode opcode, void* userData);
-				BasicIL&						InsUD(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData);
-				BasicIL&						InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData);
-				BasicIL&						InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData);
-				BasicIL&						InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData);
-
-				void							LoadFromStream(stream::IStream& stream);
-				void							SaveToStream(stream::IStream& stream);
-				void							SaveAsString(stream::TextWriter& writer, ICommentProvider* commentProvider=0);
+				void									LoadFromStream(stream::IStream& stream);
+				void									SaveToStream(stream::IStream& stream);
+				void									SaveAsString(stream::TextWriter& writer, ICommentProvider* commentProvider=0);
 			};
 		}
 	}

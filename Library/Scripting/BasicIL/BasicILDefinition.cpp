@@ -1,5 +1,6 @@
 #include <wchar.h>
 #include "BasicILDefinition.h"
+#include "..\..\Stream\StreamSerialization.h"
 
 namespace vl
 {
@@ -139,10 +140,10 @@ BasicILResourceNames
 			const wchar_t* const BasicILResourceNames::ExportedSymbols			= L"[EXPORTED-SYMBOLS]";
 
 /***********************************************************************
-BasicIL::Label
+BasicILLabel
 ***********************************************************************/
 
-			bool BasicIL::Label::operator==(const Label& label)
+			bool BasicILLocalLabel::operator==(const BasicILLocalLabel& label)
 			{
 				return instructionIndex==label.instructionIndex;
 			}
@@ -232,112 +233,21 @@ BasicIL
 				return *this;
 			}
 
-
-			// Deserialization Begin
-
-			vint ReadInt(stream::IStream& stream)
-			{
-				vint result=0;
-				stream.Read(&result, sizeof(result));
-				return result;
-			}
-
-			WString ReadString(stream::IStream& stream)
-			{
-				Array<wchar_t> buffer(ReadInt(stream)+1);
-				stream.Read(&buffer[0], sizeof(wchar_t)*(buffer.Count()-1));
-				buffer[buffer.Count()-1]=0;
-				return &buffer[0];
-			}
-
-			template<typename T>
-			void ReadList(stream::IStream& stream, List<T>& collection)
-			{
-				vint count=ReadInt(stream);
-				collection.Clear();
-				T buffer;
-				for(vint i=0;i<count;i++)
-				{
-					stream.Read(&buffer, sizeof(buffer));
-					collection.Add(buffer);
-				}
-			}
-
-			template<typename T>
-			void ReadArray(stream::IStream& stream, Array<T>& collection)
-			{
-				collection.Resize(ReadInt(stream));
-				if(collection.Count()>0)
-				{
-					stream.Read(&collection[0], sizeof(T)*collection.Count());
-				}
-			}
-
 			void BasicIL::LoadFromStream(stream::IStream& stream)
 			{
-				ReadList(stream, instructions);
-				ReadList(stream, labels);
-				ReadArray(stream, globalData);
-
-				resources.Clear();
-				vint count=ReadInt(stream);
-				for(vint i=0;i<count;i++)
-				{
-					WString name=ReadString(stream);
-					Ptr<ResourceStream> resource=new ResourceStream;
-					resource->LoadFromStream(stream);
-					resources.Add(name, resource);
-				}
-			}
-
-			// Deserialization End
-
-			// Serialization Begin
-
-			void WriteInt(stream::IStream& stream, vint i)
-			{
-				stream.Write(&i, sizeof(i));
-			}
-
-			void WriteString(stream::IStream& stream, const WString& string)
-			{
-				WriteInt(stream, string.Length());
-				if(string.Length()>0)
-				{
-					stream.Write((void*)string.Buffer(), sizeof(wchar_t)*string.Length());
-				}
-			}
-
-			template<typename T>
-			void WriteCollection(stream::IStream& stream, T& collection)
-			{
-				WriteInt(stream, collection.Count());
-				if(collection.Count()>0)
-				{
-					stream.Write(&collection[0], sizeof(collection[0])*collection.Count());
-				}
-			}
-
-			void WriteResource(stream::IStream& stream, Ptr<ResourceStream> resource)
-			{
-				resource->SaveToStream(stream);
+				ReadStream(stream, instructions);
+				ReadStream(stream, labels);
+				ReadStream(stream, globalData);
+				ReadStream(stream, resources);
 			}
 
 			void BasicIL::SaveToStream(stream::IStream& stream)
 			{
-				WriteCollection(stream, instructions);
-				WriteCollection(stream, labels);
-				WriteCollection(stream, globalData);
-
-				WriteInt(stream, resources.Count());
-				for(vint i=0;i<resources.Count();i++)
-				{
-					WriteString(stream, resources.Keys()[i]);
-					WriteResource(stream, resources.Values()[i]);
-				}
+				WriteStream(stream, instructions);
+				WriteStream(stream, labels);
+				WriteStream(stream, globalData);
+				WriteStream(stream, resources);
 			}
-
-			// Serialization End
 
 			// SaveAsString End
 

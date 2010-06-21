@@ -137,7 +137,7 @@ BasicLanguage_GenerateCodePass2
 						}
 						argument.Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
 
-						BasicIL::Label label;
+						BasicILLocalLabel label;
 						label.instructionIndex=functionStart;
 						argument.il->labels.Add(label);
 					}
