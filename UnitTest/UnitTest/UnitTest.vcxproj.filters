@@ -688,5 +688,8 @@
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h">
       <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Stream\StreamSerialization.h">
+      <Filter>Library3\Stream\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

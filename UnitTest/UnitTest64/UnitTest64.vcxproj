@@ -354,6 +354,7 @@
     <ClInclude Include="..\..\Library\Stream\MemoryStream.h" />
     <ClInclude Include="..\..\Library\Stream\MemoryWrapperStream.h" />
     <ClInclude Include="..\..\Library\Stream\RecorderStream.h" />
+    <ClInclude Include="..\..\Library\Stream\StreamSerialization.h" />
     <ClInclude Include="..\..\Library\String.h" />
     <ClInclude Include="..\..\Library\Tuple.h" />
     <ClInclude Include="..\..\Library\UnitTest\UnitTest.h" />

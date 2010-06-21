@@ -9,9 +9,12 @@
 #include "..\..\Library\Stream\CacheStream.h"
 #include "..\..\Library\Stream\Accessor.h"
 #include "..\..\Library\Stream\CharFormat.h"
+#include "..\..\Library\Stream\StreamSerialization.h"
+#include "..\..\Library\Pointer.h"
 
 using namespace vl;
 using namespace vl::stream;
+using namespace vl::collections;
 
 extern WString GetPath();
 const vint BUFFER_SIZE = 1024;
@@ -680,4 +683,145 @@ TEST_CASE(TestUtf16BEEncoderDecoder)
 TEST_CASE(TestUtf8EncoderDecoder)
 {
 	TestCharEncoderDecoderStream<Utf8Encoder, Utf8Decoder>(UTF8, L"UTF8");
+}
+
+/***********************************************************************
+–Ú¡–ªØ
+***********************************************************************/
+
+template<typename T>
+void StreamCompareEnumerable(const IEnumerable<T>& dst, const IEnumerable<T>& src)
+{
+	Ptr<IEnumerator<T>> dstEnum=dst.CreateEnumerator();
+	Ptr<IEnumerator<T>> srcEnum=src.CreateEnumerator();
+	while(dstEnum->Available())
+	{
+		TEST_ASSERT(dstEnum->Available()==srcEnum->Available());
+		TEST_ASSERT(dstEnum->Current()==srcEnum->Current());
+		TEST_ASSERT(dstEnum->Index()==srcEnum->Index());
+		TEST_ASSERT(dstEnum->Next()==srcEnum->Next());
+	}
+	TEST_ASSERT(dstEnum->Available()==false);
+	TEST_ASSERT(srcEnum->Available()==false);
+}
+
+TEST_CASE(TestPrimitiveSerialization)
+{
+	{
+		MemoryStream stream;
+		WriteStream<vint>(stream, 1234);
+		TEST_ASSERT(stream.Size()==sizeof(vint));
+		stream.SeekFromBegin(0);
+		TEST_ASSERT(ReadStream<vint>(stream)==1234);
+	}
+	{
+		MemoryStream stream;
+		WriteStream<WString>(stream, L"vczh is genius!");
+		TEST_ASSERT(stream.Size()==sizeof(vint)+15*sizeof(wchar_t));
+		stream.SeekFromBegin(0);
+		TEST_ASSERT(ReadStream<WString>(stream)== L"vczh is genius!");
+	}
+	{
+		MemoryStream stream;
+		WriteStream<AString>(stream, "vczh is genius!");
+		TEST_ASSERT(stream.Size()==sizeof(vint)+15*sizeof(char));
+		stream.SeekFromBegin(0);
+		TEST_ASSERT(ReadStream<AString>(stream)== "vczh is genius!");
+	}
+}
+
+TEST_CASE(TestPodCollectionSerialization)
+{
+	{
+		MemoryStream stream;
+		List<signed __int8> src, dst;
+		for(vint i=0;i<100;i++)
+		{
+			src.Add((signed __int8)(100-i));
+		}
+		WriteStream<List<signed __int8>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*sizeof(signed __int8));
+		stream.SeekFromBegin(0);
+		ReadStream<List<signed __int8>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
+	{
+		MemoryStream stream;
+		SortedList<signed __int8> src, dst;
+		for(vint i=0;i<100;i++)
+		{
+			src.Add((signed __int8)(100-i));
+		}
+		WriteStream<SortedList<signed __int8>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*sizeof(signed __int8));
+		stream.SeekFromBegin(0);
+		ReadStream<SortedList<signed __int8>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
+	{
+		MemoryStream stream;
+		Array<signed __int8> src(100), dst;
+		for(vint i=0;i<100;i++)
+		{
+			src[i]=(signed __int8)(100-i);
+		}
+		WriteStream<Array<signed __int8>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*sizeof(signed __int8));
+		stream.SeekFromBegin(0);
+		ReadStream<Array<signed __int8>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
+}
+
+WString To3Digits(vint number)
+{
+	WString result=itow(number);
+	while(result.Length()<3)
+	{
+		result=L"0"+result;
+	}
+	return result;
+}
+
+TEST_CASE(TestNonPodCollectionSerialization)
+{
+	{
+		MemoryStream stream;
+		List<WString> src, dst;
+		for(vint i=0;i<100;i++)
+		{
+			src.Add(To3Digits(100-i));
+		}
+		WriteStream<List<WString>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*(sizeof(vint)+3*sizeof(wchar_t)));
+		stream.SeekFromBegin(0);
+		ReadStream<List<WString>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
+	{
+		MemoryStream stream;
+		SortedList<WString> src, dst;
+		for(vint i=0;i<100;i++)
+		{
+			src.Add(To3Digits(100-i));
+		}
+		WriteStream<SortedList<WString>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*(sizeof(vint)+3*sizeof(wchar_t)));
+		stream.SeekFromBegin(0);
+		ReadStream<SortedList<WString>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
+	{
+		MemoryStream stream;
+		Array<WString> src(100), dst;
+		for(vint i=0;i<100;i++)
+		{
+			src[i]=To3Digits(100-i);
+		}
+		WriteStream<Array<WString>>(stream, src);
+		TEST_ASSERT(stream.Size()==sizeof(vint)+100*(sizeof(vint)+3*sizeof(wchar_t)));
+		stream.SeekFromBegin(0);
+		ReadStream<Array<WString>>(stream, dst);
+		StreamCompareEnumerable(dst.Wrap(), src.Wrap());
+	}
 }
