@@ -14,6 +14,7 @@ Interfaces:
 #include "..\String.h"
 #include "..\Collections\List.h"
 #include "..\Collections\Dictionary.h"
+#include "..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -100,6 +101,27 @@ namespace vl
 				stream.Read((void*)&buffer[0], count*sizeof(T));
 				buffer[count]=0;
 				value=&buffer[0];
+			}
+		};
+
+/***********************************************************************
+¶Ô
+***********************************************************************/
+
+		template<typename K, typename V>
+		class StreamBinaryPrimitiveSerializer<collections::Pair<K, V>, false>
+		{
+		public:
+			static void Write(IStream& stream, const collections::Pair<K, V>& value)
+			{
+				WriteStream<K>(stream, value.key);
+				WriteStream<V>(stream, value.value);
+			}
+
+			static void Read(IStream& stream, collections::Pair<K, V>& value)
+			{
+				ReadStream<K>(stream, value.key);
+				ReadStream<V>(stream, value.value);
 			}
 		};
 
@@ -214,16 +236,30 @@ namespace vl
 			}
 		};
 
-		/*template<typename K, typename V>
+		template<typename K, typename V>
 		class StreamBinarySerializer<collections::Dictionary<K, V>>
 		{
 		public:
 			static void Write(IStream& stream, const collections::Dictionary<K, V>& value)
 			{
+				collections::Array<collections::Pair<K, V>> buffer;
+				collections::CopyFrom(buffer.Wrap(), value.Wrap());
+				StreamBinaryCollectionSerializer<
+					collections::Pair<K, V>,
+					collections::Array<collections::Pair<K, V>>,
+					POD<collections::Pair<K, V>>::Result>
+					::Write(stream, buffer);
 			}
 
-			static void Write(IStream& stream, collections::Dictionary<K, V>& value)
+			static void Read(IStream& stream, collections::Dictionary<K, V>& value)
 			{
+				collections::Array<collections::Pair<K, V>> buffer;
+				StreamBinaryCollectionSerializer<
+					collections::Pair<K, V>,
+					collections::Array<collections::Pair<K, V>>,
+					POD<collections::Pair<K, V>>::Result>
+					::ReadArray(stream, buffer);
+				collections::CopyFrom(value.Wrap(), buffer.Wrap());
 			}
 		};
 
@@ -233,12 +269,30 @@ namespace vl
 		public:
 			static void Write(IStream& stream, const collections::Group<K, V>& value)
 			{
+				vint count=value.Count();
+				WriteStream<vint>(stream, count);
+				for(vint i=0;i<count;i++)
+				{
+					WriteStream<K>(stream, value.Keys()[i]);
+					StreamBinaryCollectionSerializer<V, collections::IReadonlyList<V>, POD<V>::Result>::Write(stream, value.GetByIndex(i));
+				}
 			}
 
-			static void Write(IStream& stream, collections::Group<K, V>& value)
+			static void Read(IStream& stream, collections::Group<K, V>& value)
 			{
+				vint count=ReadStream<vint>(stream);
+				collections::Array<V> buffer;
+				for(vint i=0;i<count;i++)
+				{
+					K key=ReadStream<K>(stream);
+					StreamBinaryCollectionSerializer<V, collections::Array<V>, POD<V>::Result>::ReadArray(stream, buffer);
+					for(vint j=0;j<buffer.Count();j++)
+					{
+						value.Add(key, buffer[j]);
+					}
+				}
 			}
-		};*/
+		};
 	}
 }
 

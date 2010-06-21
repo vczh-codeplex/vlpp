@@ -35,12 +35,12 @@ namespace vl
 		class IEnumerator : public virtual Interface
 		{
 		public:
-			virtual IEnumerator<T>*					Clone()const=0;
-			virtual const T&						Current()const=0;
+			virtual IEnumerator<T>*						Clone()const=0;
+			virtual const T&							Current()const=0;
 			virtual vint								Index()const=0;
-			virtual bool							Next()=0;
-			virtual bool							Available()const=0;
-			virtual void							Reset()=0;
+			virtual bool								Next()=0;
+			virtual bool								Available()const=0;
+			virtual void								Reset()=0;
 		};
 
 		template<typename T>
@@ -55,10 +55,10 @@ namespace vl
 		{
 		public:
 			virtual bool								Contains(const K& item)const=0;
-			virtual vint									Count()const=0;
+			virtual vint								Count()const=0;
 			virtual const T&							Get(vint index)const=0;
 			virtual const T&							operator[](vint index)const=0;
-			virtual vint									IndexOf(const K& item)const=0;
+			virtual vint								IndexOf(const K& item)const=0;
 		};
 
 		template<typename T, typename K=typename KeyType<T>::Type>
@@ -74,7 +74,7 @@ namespace vl
 		class ICollection : public virtual IReadonlyList<T, K>
 		{
 		public:
-			virtual vint									Add(const T& item)=0;
+			virtual vint								Add(const T& item)=0;
 			virtual bool								Remove(const K& item)=0;
 			virtual bool								RemoveAt(vint index)=0;
 			virtual bool								RemoveRange(vint index, vint count)=0;
@@ -85,7 +85,7 @@ namespace vl
 		class IList : public virtual ICollection<T, K>
 		{
 		public:
-			virtual vint									Insert(vint index, const T& item)=0;
+			virtual vint								Insert(vint index, const T& item)=0;
 			virtual bool								Set(vint index, const K& item)=0;
 			virtual T&									operator[](vint index)=0;
 		};
@@ -96,7 +96,7 @@ namespace vl
 		public:
 			virtual const IReadonlyList<KT, KK>&		Keys()const=0;
 			virtual const IReadonlyList<VT, VK>&		Values()const=0;
-			virtual vint									Count()const=0;
+			virtual vint								Count()const=0;
 			virtual const VT&							Get(const KK& key)const=0;
 			virtual const VT&							operator[](const KK& key)const=0;
 		};
@@ -116,7 +116,7 @@ namespace vl
 		{
 		public:
 			virtual const IReadonlyList<KT, KK>&		Keys()const=0;
-			virtual vint									Count()const=0;
+			virtual vint								Count()const=0;
 			virtual const IReadonlyList<VT, VK>&		Get(const KK& key)const=0;
 			virtual const IReadonlyList<VT, VK>&		GetByIndex(vint index)const=0;
 			virtual const IReadonlyList<VT, VK>&		operator[](const KK& key)const=0;
