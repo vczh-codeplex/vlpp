@@ -551,13 +551,15 @@ TEST_CASE(TestBasicILInstruction_Linking)
 		
 		ResourceRecord<BasicILEntryRes> entry=resource->CreateRecord<BasicILEntryRes>();
 		entry->assemblyName=resource->CreateString(L"Add1.0");
-		entry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
+		entry->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
 
 		ResourceRecord<BasicILExportRes> exportAdd=resource->CreateRecord<BasicILExportRes>();
-		exportAdd->next=ResourceHandle<BasicILExportRes>::Null();
 		exportAdd->name=resource->CreateString(L"Add");
 		exportAdd->address=0;
-		entry->exports=exportAdd;
+
+		ResourceArrayRecord<BasicILExportRes> exportArray=resource->CreateArrayRecord<BasicILExportRes>(1);
+		exportArray[0]=exportAdd;
+		entry->exports=exportArray;
 	}
 	{
 		ilmain
@@ -577,13 +579,15 @@ TEST_CASE(TestBasicILInstruction_Linking)
 		
 		ResourceRecord<BasicILEntryRes> entry=resource->CreateRecord<BasicILEntryRes>();
 		entry->assemblyName=resource->CreateString(L"Main1.0");
-		entry->exports=ResourceHandle<BasicILExportRes>::Null();
+		entry->exports=ResourceArrayHandle<BasicILExportRes>::Null();
 		
 		ResourceRecord<BasicILLinkingRes> linkingAdd=resource->CreateRecord<BasicILLinkingRes>();
-		linkingAdd->next=ResourceHandle<BasicILLinkingRes>::Null();
 		linkingAdd->assemblyName=resource->CreateString(L"Add1.0");
 		linkingAdd->symbolName=resource->CreateString(L"Add");
-		entry->linkings=linkingAdd;
+
+		ResourceArrayRecord<BasicILLinkingRes> linkingArray=resource->CreateArrayRecord<BasicILLinkingRes>(1);
+		linkingArray[0]=linkingAdd;
+		entry->linkings=linkingArray;
 	}
 
 	BasicILInterpretor interpretor(1024);

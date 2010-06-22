@@ -11,6 +11,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 BasicCodegenInfo
@@ -426,9 +427,9 @@ BasicLanguage_GenerateCode
 
 				ResourceRecord<BasicILEntryRes> exportEntry=argument.exportResource->CreateRecord<BasicILEntryRes>();
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
-				exportEntry->exports=ResourceHandle<BasicILExportRes>::Null();
-				exportEntry->linkings=ResourceHandle<BasicILLinkingRes>::Null();
-				ResourceRecord<BasicILExportRes> currentExport;
+
+				List<ResourceHandle<BasicILExportRes>> exports;
+				List<ResourceHandle<BasicILLinkingRes>> linkings;
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
@@ -452,16 +453,7 @@ BasicLanguage_GenerateCode
 					ResourceHandle<BasicILExportRes> exportRes=BasicLanguage_GenerateExport(program->declarations[i], argument);
 					if(exportRes)
 					{
-						ResourceRecord<BasicILExportRes> exportRecord=argument.exportResource->ReadRecord<BasicILExportRes>(exportRes);
-						if(currentExport)
-						{
-							currentExport->next=exportRecord;
-						}
-						else
-						{
-							exportEntry->exports=exportRecord;
-						}
-						currentExport=exportRecord;
+						exports.Add(exportRes);
 					}
 				}
 
@@ -472,17 +464,11 @@ BasicLanguage_GenerateCode
 					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
 					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
 					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
-					linkingRecord->next=ResourceHandle<BasicILLinkingRes>::Null();
-					if(currentLinking)
-					{
-						currentLinking->next=linkingRecord;
-					}
-					else
-					{
-						exportEntry->linkings=linkingRecord;
-					}
-					currentLinking=linkingRecord;
+					linkings.Add(linkingRecord);
 				}
+
+				exportEntry->exports=argument.exportResource->CreateArrayRecord(exports.Wrap());
+				exportEntry->linkings=argument.exportResource->CreateArrayRecord(linkings.Wrap());
 			}
 
 /***********************************************************************

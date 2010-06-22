@@ -326,7 +326,6 @@ BasicLanguage_GenerateExport
 						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
 						exportRes->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
 						exportRes->name=argument.exportResource->CreateString(node->name);
-						exportRes->next=ResourceHandle<BasicILExportRes>::Null();
 						return exportRes;
 					}
 				}
@@ -342,7 +341,6 @@ BasicLanguage_GenerateExport
 						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
 						exportRes->address=argument.info->GetGlobalVariableOffsets()[node];
 						exportRes->name=argument.exportResource->CreateString(node->name);
-						exportRes->next=ResourceHandle<BasicILExportRes>::Null();
 						return exportRes;
 					}
 				}

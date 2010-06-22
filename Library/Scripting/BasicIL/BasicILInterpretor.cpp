@@ -287,42 +287,47 @@ BasicILInterpretor
 					}
 
 					_SymbolMap currentSymbolMap;
-					ResourceHandle<BasicILExportRes> currentExportHandle=entry->exports;
-					while(currentExportHandle)
+
+					if(ResourceArrayHandle<BasicILExportRes> exportArrayHandle=entry->exports)
 					{
-						ResourceRecord<BasicILExportRes> currentExport=exportedSymbols->ReadRecord<BasicILExportRes>(currentExportHandle);
-						Pair<WString, WString> symbol;
-						symbol.key=assemblyName;
-						symbol.value=exportedSymbols->ReadString(currentExport->name);
-
-						if(currentSymbolMap.Keys().Contains(symbol))
+						ResourceArrayRecord<BasicILExportRes> exportArray=exportedSymbols->ReadArrayRecord<BasicILExportRes>(exportArrayHandle);
+						vint count=exportArray.Count();
+						for(vint i=0;i<count;i++)
 						{
-							throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
-						}
-						currentSymbolMap.Add(symbol, currentExport->address);
+							ResourceRecord<BasicILExportRes> currentExport=exportArray[i];
+							Pair<WString, WString> symbol;
+							symbol.key=assemblyName;
+							symbol.value=exportedSymbols->ReadString(currentExport->name);
 
-						currentExportHandle=currentExport->next;
+							if(currentSymbolMap.Keys().Contains(symbol))
+							{
+								throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
+							}
+							currentSymbolMap.Add(symbol, currentExport->address);
+						}
 					}
 
-					ResourceHandle<BasicILLinkingRes> currentLinkingHandle=entry->linkings;
-					while(currentLinkingHandle)
+					if(ResourceArrayHandle<BasicILLinkingRes> linkingArrayHandle=entry->linkings)
 					{
-						ResourceRecord<BasicILLinkingRes> currentLinking=exportedSymbols->ReadRecord<BasicILLinkingRes>(currentLinkingHandle);
-						Pair<WString, WString> symbol;
-						symbol.key=exportedSymbols->ReadString(currentLinking->assemblyName);
-						symbol.value=exportedSymbols->ReadString(currentLinking->symbolName);
-
-						if(!ilMap.Keys().Contains(symbol.key))
+						ResourceArrayRecord<BasicILLinkingRes> linkingArray=exportedSymbols->ReadArrayRecord<BasicILLinkingRes>(linkingArrayHandle);
+						vint count=linkingArray.Count();
+						for(vint i=0;i<count;i++)
 						{
-							throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
-						}
-						if(!symbolMap.Keys().Contains(symbol))
-						{
-							throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
-						}
-						linkingSymbols.Add(symbol);
+							ResourceRecord<BasicILLinkingRes> currentLinking=linkingArray[i];
+							Pair<WString, WString> symbol;
+							symbol.key=exportedSymbols->ReadString(currentLinking->assemblyName);
+							symbol.value=exportedSymbols->ReadString(currentLinking->symbolName);
 
-						currentLinkingHandle=currentLinking->next;
+							if(!ilMap.Keys().Contains(symbol.key))
+							{
+								throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
+							}
+							if(!symbolMap.Keys().Contains(symbol))
+							{
+								throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
+							}
+							linkingSymbols.Add(symbol);
+						}
 					}
 
 					ilMap.Add(assemblyName, il);

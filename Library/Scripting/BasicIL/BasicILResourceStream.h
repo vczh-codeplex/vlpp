@@ -5,7 +5,10 @@ Scripting::BasicIL
 
 Classes:
   ResourceHandle<T>						：POD资源记录句柄
+  ResourceString<T>						：字符串资源句柄
+  ResourceArrayHandle<T>				：数组资源句柄
   ResourceRecord<T>						：POD资源记录引用
+  ResourceArrayRecord<T>				：数组资源引用
   ResourceStream						：POD资源流
 
 警告：
@@ -307,6 +310,18 @@ namespace vl
 			{
 				return pointer;
 			}
+
+			vint CopyFromList(const collections::IReadonlyList<ResourceHandle<T>>& src)const
+			{
+				vint dstCount=Count();
+				vint srcCount=src.Count();
+				vint minCount=dstCount<srcCount?dstCount:srcCount;
+				for(vint i=0;i<minCount;i++)
+				{
+					Set(i, src[i]);
+				}
+				return minCount;
+			}
 		};
 
 /***********************************************************************
@@ -373,6 +388,14 @@ namespace vl
 				vint pointer=CreateRecord((count+1)*sizeof(T));
 				*(vint*)GetPointer(pointer)=count;
 				return ResourceArrayRecord<T>(this, pointer);
+			}
+
+			template<typename T>
+			ResourceArrayRecord<T> CreateArrayRecord(const collections::IReadonlyList<ResourceHandle<T>>& src)
+			{
+				ResourceArrayRecord<T> result=CreateArrayRecord<T>(src.Count());
+				result.CopyFromList(src);
+				return result;
 			}
 
 			template<typename T>
