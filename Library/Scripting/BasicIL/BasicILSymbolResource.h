@@ -31,9 +31,8 @@ namespace vl
 				Instruction,
 			};
 
-			vint									address;
-			ResourceString						name;
-			ResourceHandle<BasicILExportRes>	next;
+			vint										address;
+			ResourceString								name;
 		};
 
 /***********************************************************************
@@ -42,9 +41,8 @@ namespace vl
 
 		struct BasicILLinkingRes
 		{
-			ResourceString						symbolName;
-			ResourceString						assemblyName;
-			ResourceHandle<BasicILLinkingRes>	next;
+			ResourceString								symbolName;
+			ResourceString								assemblyName;
 		};
 
 /***********************************************************************
@@ -53,9 +51,9 @@ namespace vl
 
 		struct BasicILEntryRes
 		{
-			ResourceString						assemblyName;
-			ResourceHandle<BasicILExportRes>	exports;
-			ResourceHandle<BasicILLinkingRes>	linkings;
+			ResourceString								assemblyName;
+			ResourceArrayHandle<BasicILExportRes>		exports;
+			ResourceArrayHandle<BasicILLinkingRes>		linkings;
 		};
 	}
 }
