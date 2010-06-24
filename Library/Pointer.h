@@ -17,6 +17,8 @@ namespace vl
 	template<typename T>
 	class Ptr
 	{
+		 template<typename X>
+		 friend class Ptr;
 	protected:
 		vint*				counter;
 		T*					reference;
@@ -42,13 +44,19 @@ namespace vl
 				}
 			}
 		}
-	public:
+
+		vint* Counter()const
+		{
+			return counter;
+		}
+
 		Ptr(vint* _counter, T* _reference)
 			:counter(_counter)
 			,reference(_reference)
 		{
 			Inc();
 		}
+	public:
 
 		Ptr()
 		{
@@ -221,11 +229,6 @@ namespace vl
 		T* Obj()const
 		{
 			return reference;
-		}
-
-		vint* Counter()const
-		{
-			return counter;
 		}
 
 		T* operator->()const
