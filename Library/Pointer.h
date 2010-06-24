@@ -111,7 +111,7 @@ namespace vl
 		Ptr<C> Cast()const
 		{
 			C* converted=dynamic_cast<C*>(reference);
-			return Ptr<C>(counter, converted);
+			return Ptr<C>((converted?counter:0), converted);
 		}
 
 		Ptr<T>& operator=(T* pointer)
