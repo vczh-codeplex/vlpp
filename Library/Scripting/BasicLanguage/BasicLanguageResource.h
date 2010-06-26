@@ -60,21 +60,21 @@ namespace vl
 #endif
 			};
 
-			TypeEnum								type;
-			PrimitiveTypeEnum						primitiveType;			//Primitive
-			ResourceHandle<BasicTypeRes>			elementType;			//Array, Pointer, Function(return type)
-			vint									elementCount;
-			ResourceArrayHandle<BasicSubTypeRes>	subTypes;				//Function(parameter), Structure(member)
-			vint									size;
-			vint									alignment;
-			ResourceString							genericArgumentName;	//GenericArgument
+			TypeEnum									type;
+			PrimitiveTypeEnum							primitiveType;			//Primitive
+			ResourceHandle<BasicTypeRes>				elementType;			//Array, Pointer, Function(return type)
+			vint										elementCount;
+			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member)
+			vint										size;
+			vint										alignment;
+			ResourceString								genericArgumentName;	//GenericArgument
 		};
 
 		struct BasicSubTypeRes
 		{
-			ResourceHandle<BasicTypeRes>			type;
-			ResourceString							name;					//Structure(member)
-			vint									offset;					//Structure(member)
+			ResourceHandle<BasicTypeRes>				type;
+			ResourceString								name;					//Structure(member)
+			vint										offset;					//Structure(member)
 		};
 
 /***********************************************************************
@@ -83,8 +83,7 @@ namespace vl
 
 		struct BasicParameterRes
 		{
-			ResourceString							name;
-			ResourceHandle<BasicParameterRes>		next;
+			ResourceString								name;
 		};
 
 		struct BasicDeclarationRes
@@ -96,20 +95,14 @@ namespace vl
 				Structure
 			};
 
-			TypeEnum								type;
-			ResourceHandle<BasicTypeRes>			declarationType;		//Function, Variable, Structure
-			ResourceString							name;
-			ResourceHandle<BasicParameterRes>		parameterNames;			//Function(parameter)
-			vint									address;				//Function(ins index), Variable(data offset)
-			ResourceString							linkingAssemblyName;	//Function, Variable, Structure
-			ResourceString							linkingSymbolName;		//Function, Variable, Structure
-			ResourceHandle<BasicParameterRes>		genericArgumentNames;	//Function, Variable, Structure
-		};
-
-		struct BasicDeclarationLinkRes
-		{
-			ResourceHandle<BasicDeclarationRes>		declaration;
-			ResourceHandle<BasicDeclarationLinkRes>	next;
+			TypeEnum									type;
+			ResourceHandle<BasicTypeRes>				declarationType;		//Function, Variable, Structure
+			ResourceString								name;
+			ResourceArrayHandle<BasicParameterRes>		parameterNames;			//Function(parameter)
+			vint										address;				//Function(ins index), Variable(data offset)
+			ResourceString								linkingAssemblyName;	//Function, Variable, Structure
+			ResourceString								linkingSymbolName;		//Function, Variable, Structure
+			ResourceArrayHandle<BasicParameterRes>		genericArgumentNames;	//Function, Variable, Structure
 		};
 
 /***********************************************************************
@@ -118,7 +111,7 @@ namespace vl
 
 		struct BasicEntryRes
 		{
-			ResourceHandle<BasicDeclarationLinkRes>	declarations;
+			ResourceArrayHandle<BasicDeclarationRes>	declarations;
 		};
 	}
 }

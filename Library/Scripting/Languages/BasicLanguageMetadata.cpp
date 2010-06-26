@@ -134,53 +134,11 @@ BasicTypeInfo
 /***********************************************************************
 BasicDeclarationInfo
 ***********************************************************************/
-		
-		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetParameter(vint index)const
-		{
-			if(parameters && index>=0 && index<parameters->Count())
-			{
-				return parameters->Get(index);
-			}
-			else
-			{
-				return ResourceHandle<BasicParameterRes>();
-			}
-		}
-		
-		ResourceHandle<BasicParameterRes> BasicDeclarationInfo::GetGenericArgument(vint index)const
-		{
-			if(genericArguments && index>=0 && index<genericArguments->Count())
-			{
-				return genericArguments->Get(index);
-			}
-			else
-			{
-				return ResourceHandle<BasicParameterRes>();
-			}
-		}
 
 		BasicDeclarationInfo::BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata)
 			:BasicMetadataInfo(metadata)
 			,declaration(metadata->GetResourceStream()->ReadRecord(_declaration))
 		{
-			parameters=new ParameterHandleList;
-			genericArguments=new ParameterHandleList;
-			{
-				ResourceHandle<BasicParameterRes> currentParameter=declaration->parameterNames;
-				while(currentParameter)
-				{
-					parameters->Add(currentParameter);
-					currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
-				}
-			}
-			{
-				ResourceHandle<BasicParameterRes> currentParameter=declaration->genericArgumentNames;
-				while(currentParameter)
-				{
-					genericArguments->Add(currentParameter);
-					currentParameter=metadata->GetResourceStream()->ReadRecord(currentParameter)->next;
-				}
-			}
 		}
 
 		BasicDeclarationInfo::BasicDeclarationInfo()
@@ -225,20 +183,21 @@ BasicDeclarationInfo
 
 		vint BasicDeclarationInfo::GetParameterCount()const
 		{
-			return parameters?parameters->Count():0;
+			if(declaration->parameterNames)
+			{
+				ResourceArrayRecord<BasicParameterRes> parameters=metadata->GetResourceStream()->ReadArrayRecord(declaration->parameterNames);
+				return parameters.Count();
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		WString BasicDeclarationInfo::GetParameterName(vint index)const
 		{
-			ResourceHandle<BasicParameterRes> parameter=GetParameter(index);
-			if(parameter)
-			{
-				return metadata->GetResourceStream()->ReadString(metadata->GetResourceStream()->ReadRecord(parameter)->name);
-			}
-			else
-			{
-				return L"";
-			}
+			ResourceArrayRecord<BasicParameterRes> parameters=metadata->GetResourceStream()->ReadArrayRecord(declaration->parameterNames);
+			return metadata->GetResourceStream()->ReadString(parameters.Get(index)->name);
 		}
 
 		vint BasicDeclarationInfo::GetAddress()const
@@ -263,20 +222,21 @@ BasicDeclarationInfo
 
 		vint BasicDeclarationInfo::GetGenericArgumentCount()const
 		{
-			return genericArguments?genericArguments->Count():0;
+			if(declaration->genericArgumentNames)
+			{
+				ResourceArrayRecord<BasicParameterRes> parameters=metadata->GetResourceStream()->ReadArrayRecord(declaration->genericArgumentNames);
+				return parameters.Count();
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		WString BasicDeclarationInfo::GetGenericArgumentName(vint index)const
 		{
-			ResourceHandle<BasicParameterRes> parameter=GetGenericArgument(index);
-			if(parameter)
-			{
-				return metadata->GetResourceStream()->ReadString(metadata->GetResourceStream()->ReadRecord(parameter)->name);
-			}
-			else
-			{
-				return L"";
-			}
+			ResourceArrayRecord<BasicParameterRes> parameters=metadata->GetResourceStream()->ReadArrayRecord(declaration->genericArgumentNames);
+			return metadata->GetResourceStream()->ReadString(parameters.Get(index)->name);
 		}
 
 /***********************************************************************
@@ -291,33 +251,21 @@ BasicLanguageMetadata
 
 		vint BasicLanguageMetadata::GetDeclarationCount()const
 		{
-			vint count=0;
-			ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
-			while(currentDeclaration)
+			if(entry->declarations)
 			{
-				currentDeclaration=resources->ReadRecord(currentDeclaration)->next;
-				count++;
+				ResourceArrayRecord<BasicDeclarationRes> declarations=GetResourceStream()->ReadArrayRecord(entry->declarations);
+				return declarations.Count();
 			}
-			return count;
+			else
+			{
+				return 0;
+			}
 		}
 
 		BasicDeclarationInfo BasicLanguageMetadata::GetDeclaration(vint index)const
 		{
-			vint count=0;
-			ResourceHandle<BasicDeclarationLinkRes> currentDeclaration=entry->declarations;
-			while(currentDeclaration && count!=index)
-			{
-				currentDeclaration=resources->ReadRecord(currentDeclaration)->next;
-				count++;
-			}
-			if(currentDeclaration)
-			{
-				return BasicDeclarationInfo(resources->ReadRecord(currentDeclaration)->declaration, this);
-			}
-			else
-			{
-				return BasicDeclarationInfo();
-			}
+			ResourceArrayRecord<BasicDeclarationRes> declarations=GetResourceStream()->ReadArrayRecord(entry->declarations);
+			return BasicDeclarationInfo(declarations.Get(index), this);
 		}
 	}
 }

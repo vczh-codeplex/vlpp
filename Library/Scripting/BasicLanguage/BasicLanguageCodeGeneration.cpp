@@ -422,12 +422,10 @@ BasicLanguage_GenerateCode
 				}
 
 				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
-				entry->declarations=ResourceHandle<BasicDeclarationLinkRes>::Null();
-				ResourceRecord<BasicDeclarationLinkRes> currentDeclaration;
+				List<ResourceHandle<BasicDeclarationRes>> declarations;
 
 				ResourceRecord<BasicILEntryRes> exportEntry=argument.exportResource->CreateRecord<BasicILEntryRes>();
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
-
 				List<ResourceHandle<BasicILExportRes>> exports;
 				List<ResourceHandle<BasicILLinkingRes>> linkings;
 
@@ -436,18 +434,7 @@ BasicLanguage_GenerateCode
 					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
 					if(declaration)
 					{
-						ResourceRecord<BasicDeclarationLinkRes> declarationLink=argument.resource->CreateRecord<BasicDeclarationLinkRes>();
-						declarationLink->declaration=declaration;
-						declarationLink->next=ResourceHandle<BasicDeclarationLinkRes>::Null();
-						if(currentDeclaration)
-						{
-							currentDeclaration->next=declarationLink;
-						}
-						else
-						{
-							entry->declarations=declarationLink;
-						}
-						currentDeclaration=declarationLink;
+						declarations.Add(declaration);
 					}
 
 					ResourceHandle<BasicILExportRes> exportRes=BasicLanguage_GenerateExport(program->declarations[i], argument);
@@ -467,6 +454,7 @@ BasicLanguage_GenerateCode
 					linkings.Add(linkingRecord);
 				}
 
+				entry->declarations=argument.resource->CreateArrayRecord(declarations.Wrap());
 				exportEntry->exports=argument.exportResource->CreateArrayRecord(exports.Wrap());
 				exportEntry->linkings=argument.exportResource->CreateArrayRecord(linkings.Wrap());
 			}
