@@ -66,14 +66,8 @@ Metadata
 		class BasicDeclarationInfo : public BasicMetadataInfo
 		{
 			friend class BasicLanguageMetadata;
-			typedef collections::List<ResourceHandle<BasicParameterRes>> ParameterHandleList;
 		protected:
 			ResourceRecord<BasicDeclarationRes>		declaration;
-			Ptr<ParameterHandleList>				parameters;
-			Ptr<ParameterHandleList>				genericArguments;
-
-			ResourceHandle<BasicParameterRes>		GetParameter(vint index)const;
-			ResourceHandle<BasicParameterRes>		GetGenericArgument(vint index)const;
 
 			BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);
 		public:

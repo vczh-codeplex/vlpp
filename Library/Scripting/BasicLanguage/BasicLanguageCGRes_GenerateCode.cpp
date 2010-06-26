@@ -139,22 +139,13 @@ BasicLanguage_GenerateResource
 
 			void BuildGenericResource(ResourceRecord<BasicDeclarationRes> resource, BasicDeclaration* node, const BCP& argument)
 			{
-				resource->genericArgumentNames=ResourceHandle<BasicParameterRes>::Null();
-				ResourceRecord<BasicParameterRes> currentParameter;
+				ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->genericDeclaration.arguments.Count());
+				resource->genericArgumentNames=parameters;
 				for(int i=0;i<node->genericDeclaration.arguments.Count();i++)
 				{
 					ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
-					parameter->next=ResourceHandle<BasicParameterRes>::Null();
 					parameter->name=argument.resource->CreateString(node->genericDeclaration.arguments[i]);
-					if(currentParameter)
-					{
-						currentParameter->next=parameter;
-					}
-					else
-					{
-						resource->genericArgumentNames=parameter;
-					}
-					currentParameter=parameter;
+					parameters.Set(i, parameter);
 				}
 			}
 
@@ -172,7 +163,6 @@ BasicLanguage_GenerateResource
 					resource->type=BasicDeclarationRes::Function;
 					resource->declarationType=declarationType;
 					resource->name=name;
-					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
 					if(node->linking.HasLink())
 					{
 						resource->address=-1;
@@ -182,23 +172,14 @@ BasicLanguage_GenerateResource
 						resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
 					}
 
-					ResourceRecord<BasicParameterRes> currentParameter;
+					ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->parameterNames.Count());
+					resource->parameterNames=parameters;
 					for(vint i=0;i<node->parameterNames.Count();i++)
 					{
 						ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
 						ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
 						parameter->name=name;
-						parameter->next=ResourceHandle<BasicParameterRes>::Null();
-
-						if(currentParameter)
-						{
-							currentParameter->next=parameter;
-						}
-						else
-						{
-							resource->parameterNames=parameter;
-						}
-						currentParameter=parameter;
+						parameters.Set(i, parameter);
 					}
 
 					if(node->linking.HasLink())
@@ -226,7 +207,7 @@ BasicLanguage_GenerateResource
 					resource->type=BasicDeclarationRes::Variable;
 					resource->declarationType=declarationType;
 					resource->name=name;
-					resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
 					resource->address=argument.info->GetGlobalVariableOffsets()[node];
 
 					if(node->linking.HasLink())
@@ -261,7 +242,7 @@ BasicLanguage_GenerateResource
 						resource->type=BasicDeclarationRes::Structure;
 						resource->declarationType=declarationType;
 						resource->name=name;
-						resource->parameterNames=ResourceHandle<BasicParameterRes>::Null();
+						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
 						resource->address=-1;
 
 						if(node->linking.HasLink())
