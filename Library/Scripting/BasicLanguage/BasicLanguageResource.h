@@ -24,7 +24,7 @@ namespace vl
 	namespace scripting
 	{
 		struct BasicTypeRes;
-		struct BasicTypeLinkRes;
+		struct BasicSubTypeRes;
 
 /***********************************************************************
 ¿‡–Õ
@@ -64,18 +64,17 @@ namespace vl
 			PrimitiveTypeEnum						primitiveType;			//Primitive
 			ResourceHandle<BasicTypeRes>			elementType;			//Array, Pointer, Function(return type)
 			vint									elementCount;
-			ResourceHandle<BasicTypeLinkRes>		subTypes;				//Function(parameter), Structure(member)
+			ResourceArrayHandle<BasicSubTypeRes>	subTypes;				//Function(parameter), Structure(member)
 			vint									size;
 			vint									alignment;
 			ResourceString							genericArgumentName;	//GenericArgument
 		};
 
-		struct BasicTypeLinkRes
+		struct BasicSubTypeRes
 		{
 			ResourceHandle<BasicTypeRes>			type;
 			ResourceString							name;					//Structure(member)
 			vint									offset;					//Structure(member)
-			ResourceHandle<BasicTypeLinkRes>		next;
 		};
 
 /***********************************************************************
