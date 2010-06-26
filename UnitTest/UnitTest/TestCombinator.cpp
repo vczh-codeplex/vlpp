@@ -831,10 +831,10 @@ TEST_CASE(TestTokenInput)
 
 	{
 		WString code=L"(1+2)*(3+4)";
-		List<RegexToken> tokens;
-		CopyFrom(tokens.Wrap(), lexer.Parse(code));
+		List<RegexToken> regexTokens;
+		CopyFrom(regexTokens.Wrap(), lexer.Parse(code));
 		Types<TokenInput<RegexToken>>::GlobalInfo info;
-		TokenInput<RegexToken> input(&tokens[0], tokens.Count());
+		TokenInput<RegexToken> input(&regexTokens[0], regexTokens.Count());
 		ParsingResult<vint> result=EXP.Parse(input, info);
 		TEST_ASSERT(result);
 		TEST_ASSERT(result.Value()==21);
@@ -842,9 +842,9 @@ TEST_CASE(TestTokenInput)
 	}
 	{
 		WString code=L"(10+20)*(30+40)";
-		List<RegexToken> tokens;
-		CopyFrom(tokens.Wrap(), lexer.Parse(code));
-		TokenInput<RegexToken> input(&tokens[0], tokens.Count());
+		List<RegexToken> regexTokens;
+		CopyFrom(regexTokens.Wrap(), lexer.Parse(code));
+		TokenInput<RegexToken> input(&regexTokens[0], regexTokens.Count());
 		TEST_ASSERT(EXP.Parse(input, false)==2100);
 	}
 }

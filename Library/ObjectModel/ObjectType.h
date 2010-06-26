@@ -270,9 +270,9 @@ namespace vl
 					}
 					else
 					{
-						void* object=*result;
+						void* realResult=*result;
 						delete result;
-						return object;
+						return realResult;
 					}
 				}
 			};
