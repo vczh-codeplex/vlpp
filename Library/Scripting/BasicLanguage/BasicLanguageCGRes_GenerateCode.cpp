@@ -36,7 +36,7 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::Primitive;
 							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
 							resource->elementCount=-1;
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
+							resource->subTypes=ResourceArrayHandle<BasicSubTypeRes>::Null();
 							switch(type->PrimitiveType())
 							{
 							case s8:resource->primitiveType=BasicTypeRes::s8;break;
@@ -62,7 +62,7 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::Pointer;
 							resource->elementType=elementType;
 							resource->elementCount=-1;
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
+							resource->subTypes=ResourceArrayHandle<BasicSubTypeRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 						}
 						break;
@@ -72,7 +72,7 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::Array;
 							resource->elementType=elementType;
 							resource->elementCount=type->ElementCount();
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
+							resource->subTypes=ResourceArrayHandle<BasicSubTypeRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 						}
 						break;
@@ -82,27 +82,18 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::Function;
 							resource->elementType=elementType;
 							resource->elementCount=-1;
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
 
-							ResourceRecord<BasicTypeLinkRes> currentSubType;
+							ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(type->ParameterCount());
+							resource->subTypes=subTypes;
 							for(vint i=0;i<type->ParameterCount();i++)
 							{
 								ResourceHandle<BasicTypeRes> parameterType=GenerateResource(type->ParameterType(i), argument);
-								ResourceRecord<BasicTypeLinkRes> parameter=argument.resource->CreateRecord<BasicTypeLinkRes>();
+								ResourceRecord<BasicSubTypeRes> parameter=argument.resource->CreateRecord<BasicSubTypeRes>();
 								parameter->name=ResourceString::Null();
 								parameter->type=parameterType;
 								parameter->offset=-1;
-								parameter->next=ResourceHandle<BasicTypeLinkRes>::Null();
-								if(currentSubType)
-								{
-									currentSubType->next=parameter;
-								}
-								else
-								{
-									resource->subTypes=parameter;
-								}
-								currentSubType=parameter;
+								subTypes.Set(i, parameter);
 							}
 						}
 						break;
@@ -111,28 +102,19 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::Structure;
 							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
 							resource->elementCount=-1;
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
 							resource->primitiveType=BasicTypeRes::void_type;
-
-							ResourceRecord<BasicTypeLinkRes> currentSubType;
+							
+							ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(type->MemberCount());
+							resource->subTypes=subTypes;
 							for(vint i=0;i<type->MemberCount();i++)
 							{
 								ResourceHandle<BasicTypeRes> memberType=GenerateResource(type->MemberType(i), argument);
 								ResourceString memberName=argument.resource->CreateString(type->MemberName(i));
-								ResourceRecord<BasicTypeLinkRes> member=argument.resource->CreateRecord<BasicTypeLinkRes>();
+								ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
 								member->name=memberName;
 								member->type=memberType;
 								member->offset=typeInfo->offsets[i];
-								member->next=ResourceHandle<BasicTypeLinkRes>::Null();
-								if(currentSubType)
-								{
-									currentSubType->next=member;
-								}
-								else
-								{
-									resource->subTypes=member;
-								}
-								currentSubType=member;
+								subTypes.Set(i, member);
 							}
 						}
 						break;
@@ -141,7 +123,7 @@ BasicLanguage_GenerateResource
 							resource->type=BasicTypeRes::GenericArgument;
 							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
 							resource->elementCount=-1;
-							resource->subTypes=ResourceHandle<BasicTypeLinkRes>::Null();
+							resource->subTypes=ResourceArrayHandle<BasicSubTypeRes>::Null();
 							resource->genericArgumentName=argument.resource->CreateString(type->ArgumentName());
 						}
 						break;

@@ -36,12 +36,9 @@ Metadata
 		class BasicTypeInfo : public BasicMetadataInfo
 		{
 			friend class BasicDeclarationInfo;
-			typedef collections::List<ResourceHandle<BasicTypeLinkRes>> ComponentHandleList;
 		protected:
 			ResourceRecord<BasicTypeRes>			type;
-			Ptr<ComponentHandleList>				components;
 
-			ResourceHandle<BasicTypeLinkRes>		GetComponent(vint index)const;
 			BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata);
 		public:
 			BasicTypeInfo();

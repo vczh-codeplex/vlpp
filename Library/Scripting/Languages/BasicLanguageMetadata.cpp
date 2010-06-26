@@ -24,29 +24,10 @@ BasicMetadataInfo
 BasicTypeInfo
 ***********************************************************************/
 
-		ResourceHandle<BasicTypeLinkRes> BasicTypeInfo::GetComponent(vint index)const
-		{
-			if(components && index>=0 && index<components->Count())
-			{
-				return components->Get(index);
-			}
-			else
-			{
-				return ResourceHandle<BasicTypeLinkRes>();
-			}
-		}
-
 		BasicTypeInfo::BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata)
 			:BasicMetadataInfo(metadata)
 			,type(metadata->GetResourceStream()->ReadRecord(_type))
 		{
-			components=new ComponentHandleList;
-			ResourceHandle<BasicTypeLinkRes> currentComponent=type->subTypes;
-			while(currentComponent)
-			{
-				components->Add(currentComponent);
-				currentComponent=metadata->GetResourceStream()->ReadRecord(currentComponent)->next;
-			}
 		}
 
 		BasicTypeInfo::BasicTypeInfo()
@@ -116,46 +97,33 @@ BasicTypeInfo
 
 		vint BasicTypeInfo::GetComponentCount()const
 		{
-			return components?components->Count():0;
+			if(type->subTypes)
+			{
+				ResourceArrayRecord<BasicSubTypeRes> subTypes=metadata->GetResourceStream()->ReadArrayRecord<BasicSubTypeRes>(type->subTypes);
+				return subTypes.Count();
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		BasicTypeInfo BasicTypeInfo::GetComponentType(vint index)const
 		{
-			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
-			if(currentComponent)
-			{
-				return BasicTypeInfo(metadata->GetResourceStream()->ReadRecord(currentComponent)->type, metadata);
-			}
-			else
-			{
-				return BasicTypeInfo();
-			}
+			ResourceArrayRecord<BasicSubTypeRes> subTypes=metadata->GetResourceStream()->ReadArrayRecord<BasicSubTypeRes>(type->subTypes);
+			return BasicTypeInfo(subTypes.Get(index)->type, metadata);
 		}
 
 		WString BasicTypeInfo::GetComponentName(vint index)const
 		{
-			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
-			if(currentComponent)
-			{
-				return metadata->GetResourceStream()->ReadString(metadata->GetResourceStream()->ReadRecord(currentComponent)->name);
-			}
-			else
-			{
-				return L"";
-			}
+			ResourceArrayRecord<BasicSubTypeRes> subTypes=metadata->GetResourceStream()->ReadArrayRecord<BasicSubTypeRes>(type->subTypes);
+			return metadata->GetResourceStream()->ReadString(subTypes.Get(index)->name);
 		}
 
 		vint BasicTypeInfo::GetComponentOffset(vint index)const
 		{
-			ResourceHandle<BasicTypeLinkRes> currentComponent=GetComponent(index);
-			if(currentComponent)
-			{
-				return metadata->GetResourceStream()->ReadRecord(currentComponent)->offset;
-			}
-			else
-			{
-				return -1;
-			}
+			ResourceArrayRecord<BasicSubTypeRes> subTypes=metadata->GetResourceStream()->ReadArrayRecord<BasicSubTypeRes>(type->subTypes);
+			return subTypes.Get(index)->offset;
 		}
 
 		WString BasicTypeInfo::GetGenericArgumentName()const

@@ -127,14 +127,20 @@ ResourceRecord<BasicDeclarationRes> AssertAvailableAndNext(ResourceHandle<BasicD
 	return stream->ReadRecord(record->declaration);
 }
 
-ResourceRecord<BasicTypeRes> AssertAvailableAndNext(ResourceHandle<BasicTypeLinkRes>& type, const WString& name, Ptr<ResourceStream> stream)
+ResourceRecord<BasicTypeRes> AssertAvailableAndNext(ResourceArrayHandle<BasicSubTypeRes> type, vint index, const WString& name, Ptr<ResourceStream> stream)
 {
 	TEST_ASSERT(type);
-	ResourceRecord<BasicTypeLinkRes> record=stream->ReadRecord(type);
+	ResourceRecord<BasicSubTypeRes> record=stream->ReadArrayRecord(type).Get(index);
 	TEST_ASSERT(stream->ReadString(record->name)==name);
 	TEST_ASSERT(record->type);
-	type=record->next;
 	return stream->ReadRecord(record->type);
+}
+
+template<typename T>
+void AssertArrayCount(ResourceArrayHandle<T> type, vint count, Ptr<ResourceStream> stream)
+{
+	TEST_ASSERT(type);
+	TEST_ASSERT(stream->ReadArrayRecord(type).Count()==count);
 }
 
 void AssertAvailableAndNext(ResourceHandle<BasicParameterRes>& parameter, const WString& name, Ptr<ResourceStream> stream)
@@ -236,10 +242,10 @@ TEST_CASE(Test_NativeX_DefineStructure1)
 		{
 			ResourceRecord<BasicTypeRes> pointType=AssertIsStructureDefinition(pointDeclaration, L"Point", stream);
 
-			ResourceHandle<BasicTypeLinkRes> currentMember=pointType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"x", stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"y", stream), stream);
-			TEST_ASSERT(!currentMember);
+			ResourceArrayHandle<BasicSubTypeRes> currentMember=pointType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentMember, 0, L"x", stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentMember, 1, L"y", stream), stream);
+			AssertArrayCount(currentMember, 2, stream);
 		}
 	}
 	{
@@ -294,18 +300,18 @@ TEST_CASE(Test_NativeX_DefineStructure2)
 		{
 			ResourceRecord<BasicTypeRes> bType=AssertIsStructureDefinition(bDeclaration, L"B", stream);
 
-			ResourceHandle<BasicTypeLinkRes> currentMember=bType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"x", stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"y", stream), stream);
-			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"a", stream), stream), aDeclaration->declarationType);
-			TEST_ASSERT(!currentMember);
+			ResourceArrayHandle<BasicSubTypeRes> currentMember=bType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentMember, 0, L"x", stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentMember, 1,L"y", stream), stream);
+			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, 2, L"a", stream), stream), aDeclaration->declarationType);
+			AssertArrayCount(currentMember, 3, stream);
 		}
 		{
 			ResourceRecord<BasicTypeRes> aType=AssertIsStructureDefinition(aDeclaration, L"A", stream);
 
-			ResourceHandle<BasicTypeLinkRes> currentMember=aType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"a", stream), stream);
-			TEST_ASSERT(!currentMember);
+			ResourceArrayHandle<BasicSubTypeRes> currentMember=aType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentMember, 0, L"a", stream), stream);
+			AssertArrayCount(currentMember, 1, stream);
 		}
 	}
 	{
@@ -377,10 +383,10 @@ TEST_CASE(Test_NativeX_TypeRename1)
 		{
 			ResourceRecord<BasicTypeRes> linkType=AssertIsStructureDefinition(linkDeclaration, L"Link", stream);
 
-			ResourceHandle<BasicTypeLinkRes> currentMember=linkType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentMember, L"data", stream), stream);
-			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"next", stream), stream), linkType);
-			TEST_ASSERT(!currentMember);
+			ResourceArrayHandle<BasicSubTypeRes> currentMember=linkType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentMember, 0, L"data", stream), stream);
+			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, 1, L"next", stream), stream), linkType);
+			AssertArrayCount(currentMember, 2, stream);
 		}
 	}
 	{
@@ -433,19 +439,19 @@ TEST_CASE(Test_NativeX_TypeName2)
 		{
 			ResourceRecord<BasicTypeRes> commandType=AssertIsStructureDefinition(commandDeclaration, L"Command", stream);
 
-			ResourceHandle<BasicTypeLinkRes> currentMember=commandType->subTypes;
-			ResourceRecord<BasicTypeRes> functionType=AssertAvailableAndNext(currentMember, L"executor", stream);
+			ResourceArrayHandle<BasicSubTypeRes> currentMember=commandType->subTypes;
+			ResourceRecord<BasicTypeRes> functionType=AssertAvailableAndNext(currentMember, 0, L"executor", stream);
 			{
 				TEST_ASSERT(functionType->type==BasicTypeRes::Function);
 				AssertIsVoid(functionType->elementType, stream);
 				TEST_ASSERT(functionType->elementCount=-1);
-				ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-				AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), commandType);
-				TEST_ASSERT(!currentParameter);
+				ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+				AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), commandType);
+				AssertArrayCount(currentParameter, 1, stream);
 			}
-			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"previous", stream), stream), commandType);
-			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, L"next", stream), stream), commandType);
-			TEST_ASSERT(!currentMember);
+			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, 1, L"previous", stream), stream), commandType);
+			AssertIsType(AssertIsPointer(AssertAvailableAndNext(currentMember, 2, L"next", stream), stream), commandType);
+			AssertArrayCount(currentMember, 3, stream);
 		}
 	}
 	{
@@ -509,19 +515,19 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 			const wchar_t* parameters[]={L"a", L"b"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(addFunction, L"Add", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			const wchar_t* parameters[]={L"a", L"b"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(subFunction, L"Sub", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 	}
 	{
@@ -615,16 +621,16 @@ TEST_CASE(Test_NativeX_BubbleSort)
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sortFunction, L"Sort", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsVoid(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(mainFunction, L"Main", stream, 0, 0);
 			AssertIsVoid(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertArrayCount(currentParameter, 0, stream);
 		}
 	}
 	{
@@ -793,37 +799,37 @@ TEST_CASE(Test_NativeX_Sum)
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum1Function, L"Sum1", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum2Function, L"Sum2", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum3Function, L"Sum3", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum4Function, L"Sum4", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			AssertIsInt(AssertIsVariableDefinition(sum5Variable, L"Sum5Result", stream), stream);
@@ -832,16 +838,16 @@ TEST_CASE(Test_NativeX_Sum)
 			const wchar_t* parameters[]={L"nums", L"count"};
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(sum5Function, L"Sum5", stream, parameters, sizeof(parameters)/sizeof(*parameters));
 			AssertIsInt(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, L"", stream), stream), stream);
-			AssertIsInt(AssertAvailableAndNext(currentParameter, L"", stream), stream);
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertIsInt(AssertIsPointer(AssertAvailableAndNext(currentParameter, 0, L"", stream), stream), stream);
+			AssertIsInt(AssertAvailableAndNext(currentParameter, 1, L"", stream), stream);
+			AssertArrayCount(currentParameter, 2, stream);
 		}
 		{
 			ResourceRecord<BasicTypeRes> functionType=AssertIsFunctionDefinition(mainFunction, L"Main", stream, 0, 0);
 			AssertIsVoid(functionType->elementType, stream);
-			ResourceHandle<BasicTypeLinkRes> currentParameter=functionType->subTypes;
-			TEST_ASSERT(!currentParameter);
+			ResourceArrayHandle<BasicSubTypeRes> currentParameter=functionType->subTypes;
+			AssertArrayCount(currentParameter, 0, stream);
 		}
 	}
 	{
