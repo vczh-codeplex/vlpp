@@ -25,6 +25,7 @@ namespace vl
 		V									constant;
 	public:
 		Linear()
+			:constant(0)
 		{
 		}
 
@@ -65,20 +66,15 @@ namespace vl
 			return *this;
 		}
 
-		const V& Constant()
+		V Constant()
 		{
 			return constant;
 		}
 
-		const V& Factor(const K& k)
-		{
-			return factors[k];
-		}
-
-		const V& Factor(const K& k, const V& v)
+		V Factor(const K& k)
 		{
 			vint index=factors.Keys().IndexOf(k);
-			return index==-1?v:factors.Values()[index];
+			return index==-1?0:factors.Values()[index];
 		}
 
 /***********************************************************************
@@ -194,15 +190,23 @@ namespace vl
 		template<typename K, typename V>
 		friend Linear<K, V> operator*(const Linear<K, V>& a, const V& b)
 		{
+			return Linear<K, V>(a)*=b;
 		}
 		
 		template<typename K, typename V>
 		friend Linear<K, V> operator*(const V& a, const Linear<K, V>& b)
 		{
+			return Linear<K, V>(b)*=a;
 		}
 
 		Linear<K, V>& operator*=(const V& value)
 		{
+			for(vint i=0;i<factors.Count();i++)
+			{
+				factors.Set(factors.Keys()[i], factors.Values()[i]*value);
+			}
+			constant*=value;
+			return *this;
 		}
 
 /***********************************************************************
@@ -210,17 +214,19 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend V operator/(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-		}
-		
-		template<typename K, typename V>
 		friend Linear<K, V> operator/(const Linear<K, V>& a, const V& b)
 		{
+			return Linear<K, V>(a)/=b;
 		}
 
 		Linear<K, V>& operator/=(const V& value)
 		{
+			for(vint i=0;i<factors.Count();i++)
+			{
+				factors.Set(factors.Keys()[i], factors.Values()[i]/value);
+			}
+			constant/=value;
+			return *this;
 		}
 
 /***********************************************************************
@@ -228,21 +234,28 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator%(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-		}
-		
-		template<typename K, typename V>
 		friend Linear<K, V> operator%(const Linear<K, V>& a, const V& b)
 		{
-		}
-
-		Linear<K, V>& operator%=(const Linear<K, V>& value)
-		{
+			return Linear<K, V>(a)%=b;
 		}
 
 		Linear<K, V>& operator%=(const V& value)
 		{
+			for(vint i=0;i<factors.Count();i++)
+			{
+				K key=factors.Keys()[i];
+				V factor=factors.Values()[i]%value;
+				if(factor==0)
+				{
+					factors.Remove(key);
+				}
+				else
+				{
+					factors.Set(key, factor);
+				}
+			}
+			constant%=value;
+			return *this;
 		}
 
 /***********************************************************************
