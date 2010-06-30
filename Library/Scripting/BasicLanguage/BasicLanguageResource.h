@@ -66,7 +66,6 @@ namespace vl
 			vint										elementCount;
 			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member)
 			vint										size;
-			vint										alignment;
 			ResourceString								genericArgumentName;	//GenericArgument
 		};
 
