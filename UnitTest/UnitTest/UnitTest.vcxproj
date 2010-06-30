@@ -229,6 +229,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestBasic.cpp" />
     <ClCompile Include="TestCombinator.cpp" />
+    <ClCompile Include="TestEntity.cpp" />
     <ClCompile Include="TestFunction.cpp" />
     <ClCompile Include="TestGlobalStorage.cpp" />
     <ClCompile Include="TestList.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="..\..\Library\Combinator\ParserInput.h" />
     <ClInclude Include="..\..\Library\Combinator\StringCombinator.h" />
     <ClInclude Include="..\..\Library\Combinator\TokenCombinator.h" />
+    <ClInclude Include="..\..\Library\Entity\Linear.h" />
     <ClInclude Include="..\..\Library\Regex\Regex.h" />
     <ClInclude Include="..\..\Library\Regex\RegexAutomaton.h" />
     <ClInclude Include="..\..\Library\Regex\RegexData.h" />
