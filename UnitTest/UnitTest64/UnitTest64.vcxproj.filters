@@ -136,6 +136,15 @@
     <Filter Include="Source Files\Scripting\BasicIL">
       <UniqueIdentifier>{c8741f98-d336-4939-b63e-2f7cb171c489}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Entity">
+      <UniqueIdentifier>{00c6c937-fa52-43dc-8d4a-a12af2f3fbb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Entity\Header Files">
+      <UniqueIdentifier>{6ec59785-07a9-4251-b541-a07f3b334628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Entity\Source Files">
+      <UniqueIdentifier>{856997f4-af84-46ad-8e8a-d5653208e353}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -353,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Generic.cpp">
       <Filter>Source Files\Scripting\BasicLanguage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestEntity.cpp">
+      <Filter>Source Files\Fundamental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -684,6 +696,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Stream\StreamSerialization.h">
       <Filter>Library3\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\Linear.h">
+      <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

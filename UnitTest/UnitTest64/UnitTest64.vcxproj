@@ -211,6 +211,7 @@
     <ClCompile Include="..\UnitTest\Main.cpp" />
     <ClCompile Include="..\UnitTest\TestBasic.cpp" />
     <ClCompile Include="..\UnitTest\TestCombinator.cpp" />
+    <ClCompile Include="..\UnitTest\TestEntity.cpp" />
     <ClCompile Include="..\UnitTest\TestFunction.cpp" />
     <ClCompile Include="..\UnitTest\TestGlobalStorage.cpp" />
     <ClCompile Include="..\UnitTest\TestList.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="..\..\Library\Combinator\_Unit.h" />
     <ClInclude Include="..\..\Library\Combinator\_Using.h" />
     <ClInclude Include="..\..\Library\Console.h" />
+    <ClInclude Include="..\..\Library\Entity\Linear.h" />
     <ClInclude Include="..\..\Library\Event.h" />
     <ClInclude Include="..\..\Library\Exception.h" />
     <ClInclude Include="..\..\Library\Function.h" />

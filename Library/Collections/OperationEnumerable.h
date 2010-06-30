@@ -9,6 +9,7 @@ Data Structure::Operations
 #define VCZH_COLLECTIONS_OPERATIONENUMERABLE
 
 #include "Interfaces.h"
+#include "..\Pointer.h"
 
 namespace vl
 {
