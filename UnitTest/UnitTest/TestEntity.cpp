@@ -51,4 +51,18 @@ TEST_CASE(TestEntity_Linear)
 		TEST_ASSERT(F(0)!=F(0)('x', 1)('y', 2));
 		TEST_ASSERT(F(1)!=F(0)('y', 2)('x', 1));
 	}
+	{
+		TEST_ASSERT(F(1)+2==F(3));
+		TEST_ASSERT(2+F(1)==F(3));
+		TEST_ASSERT(F(1)+F(2)==F(3));
+		TEST_ASSERT(F(1)('x', 2)+F(3)('x', 4)==F(4)('x', 6));
+		TEST_ASSERT(F(1)('x', 2)('y', 3)+F(4)('x', 5)('z', 6)==F(5)('x', 7)('y', 3)('z', 6));
+	}
+	{
+		TEST_ASSERT(F(1)-2==F(-1));
+		TEST_ASSERT(2-F(1)==F(1));
+		TEST_ASSERT(F(1)-F(2)==F(-1));
+		TEST_ASSERT(F(1)('x', 2)-F(3)('x', 4)==F(-2)('x', -2));
+		TEST_ASSERT(F(1)('x', 2)('y', 3)-F(4)('x', 5)('z', 6)==F(-3)('x', -3)('y', 3)('z', -6));
+	}
 }
