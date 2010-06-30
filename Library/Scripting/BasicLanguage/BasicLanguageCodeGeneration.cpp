@@ -20,7 +20,6 @@ BasicCodegenInfo
 
 			BasicCodegenInfo::BasicCodegenInfo(BasicAnalyzer* _analyzer)
 				:analyzer(_analyzer)
-				,maxVariableSpace(0)
 				,usedVariableSpace(0)
 				,localFunctionCount(0)
 			{
@@ -69,7 +68,7 @@ BasicCodegenInfo
 						break;
 					case BasicTypeRecord::Structure:
 						{
-							vint offset=0;
+							BasicOffset offset=0;
 							info->size=0;
 							for(vint i=0;i<type->MemberCount();i++)
 							{
@@ -128,17 +127,14 @@ BasicCodegenInfo
 				return globalVariableOffsets.Wrap();
 			}
 
-			collections::IDictionary<BasicVariableStatement*, vint>& BasicCodegenInfo::GetLocalVariableOffsets()
+			collections::IDictionary<BasicVariableStatement*, BasicOffset>& BasicCodegenInfo::GetLocalVariableOffsets()
 			{
 				return localVariableOffsets.Wrap();
 			}
 
 			void BasicCodegenInfo::BeginFunction()
 			{
-				maxVariableSpace=0;
 				usedVariableSpace=0;
-				variableSpaceStack.Clear();
-				variableSpaceStack.Add(0);
 				breakInsStack.Clear();
 				breakInstructions.Clear();
 				continueInsStack.Clear();
@@ -162,22 +158,15 @@ BasicCodegenInfo
 
 			void BasicCodegenInfo::EnterScope()
 			{
-				variableSpaceStack.Add(usedVariableSpace);
 			}
 
 			void BasicCodegenInfo::LeaveScope()
 			{
-				usedVariableSpace=variableSpaceStack[variableSpaceStack.Count()-1];
-				variableSpaceStack.RemoveAt(variableSpaceStack.Count()-1);
 			}
 
-			vint BasicCodegenInfo::UseVariable(vint size)
+			BasicOffset BasicCodegenInfo::UseVariable(BasicOffset size)
 			{
 				usedVariableSpace+=size;
-				if(usedVariableSpace>maxVariableSpace)
-				{
-					maxVariableSpace=usedVariableSpace;
-				}
 				return -usedVariableSpace;
 			}
 
@@ -217,9 +206,9 @@ BasicCodegenInfo
 				continueInstructions.Add(instruction);
 			}
 
-			vint BasicCodegenInfo::GetMaxVariableSpace()
+			BasicOffset BasicCodegenInfo::GetMaxVariableSpace()
 			{
-				return maxVariableSpace;
+				return usedVariableSpace;
 			}
 
 			ResourceHandle<BasicTypeRes> BasicCodegenInfo::GetTypeResource(BasicTypeRecord* type)
@@ -342,6 +331,20 @@ BasicCodegenParameter
 				il->InsUD(opcode, type1, type2, currentLanguageElement);
 			}
 
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, const BasicOffset& argument)const
+			{
+				TODO_FOR_GENERIC_FUNCTION_BEGIN
+					il->InsUD(opcode, BasicIns::MakeInt(argument.Constant()), currentLanguageElement);
+				TODO_FOR_GENERIC_FUNCTION_END
+			}
+
+			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, const BasicOffset& argument)const
+			{
+				TODO_FOR_GENERIC_FUNCTION_BEGIN
+					il->InsUD(opcode, type1, BasicIns::MakeInt(argument.Constant()), currentLanguageElement);
+				TODO_FOR_GENERIC_FUNCTION_END
+			}
+
 /***********************************************************************
 BasicLanguage_GenerateCode
 ***********************************************************************/
@@ -364,8 +367,10 @@ BasicLanguage_GenerateCode
 				}
 
 				argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
-				argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
-				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+				TODO_FOR_GENERIC_FUNCTION_BEGIN
+					argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace().Constant();
+					argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace().Constant()));
+				TODO_FOR_GENERIC_FUNCTION_END
 				argument.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 				for(vint i=0;i<program->declarations.Count();i++)

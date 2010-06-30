@@ -14,6 +14,10 @@ Classes:
 #include "BasicLanguageResource.h"
 #include "..\BasicIL\BasicILDefinition.h"
 #include "..\BasicIL\BasicILSymbolResource.h"
+#include "..\..\Entity\Linear.h"
+
+#define TODO_FOR_GENERIC_FUNCTION_BEGIN
+#define TODO_FOR_GENERIC_FUNCTION_END
 
 namespace vl
 {
@@ -21,11 +25,13 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+			typedef Linear<BasicTypeRecord*, vint>									BasicOffset;
+
 			class BasicTypeInfo : public Object
 			{
 			public:
-				vint														size;
-				collections::List<vint>										offsets;
+				BasicOffset															size;
+				collections::List<BasicOffset>										offsets;
 			};
 
 			class BasicCodegenInfo : public Object
@@ -33,51 +39,49 @@ namespace vl
 				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
 				typedef collections::Dictionary<BasicTypeRecord*, ResourceHandle<BasicTypeRes>>	_TypeResTable;
 			protected:
-				BasicAnalyzer*												analyzer;
-				_TypeInfoTable												typeInfos;
-				collections::Dictionary<BasicFunctionDeclaration*, vint>	functions;
-				collections::Dictionary<BasicVariableDeclaration*, vint>	globalVariableOffsets;
-				collections::Dictionary<BasicVariableStatement*, vint>		localVariableOffsets;
+				BasicAnalyzer*														analyzer;
+				_TypeInfoTable														typeInfos;
+				collections::Dictionary<BasicFunctionDeclaration*, vint>			functions;
+				collections::Dictionary<BasicVariableDeclaration*, vint>			globalVariableOffsets;
+				collections::Dictionary<BasicVariableStatement*, BasicOffset>		localVariableOffsets;
 
-				vint														maxVariableSpace;
-				vint														usedVariableSpace;
-				collections::List<vint>										variableSpaceStack;
-				collections::List<vint>										returnInstructions;
+				BasicOffset															usedVariableSpace;
 
-				collections::List<vint>										breakInsStack;
-				collections::List<vint>										continueInsStack;
-				collections::List<vint>										breakInstructions;
-				collections::List<vint>										continueInstructions;
+				collections::List<vint>												returnInstructions;
+				collections::List<vint>												breakInsStack;
+				collections::List<vint>												continueInsStack;
+				collections::List<vint>												breakInstructions;
+				collections::List<vint>												continueInstructions;
 
-				_TypeResTable												typeResources;
+				_TypeResTable														typeResources;
 			public:
-				vint														localFunctionCount;
-				collections::List<BasicLinking>								linkings;
+				vint																localFunctionCount;
+				collections::List<BasicLinking>										linkings;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
-				BasicTypeInfo*												GetTypeInfo(BasicTypeRecord* type);
-				BasicEnv*													GetEnv();
-				BasicTypeManager*											GetTypeManager();
-				BasicAlgorithmConfiguration&								GetConfiguration();
-				collections::IDictionary<BasicFunctionDeclaration*, vint>&	GetFunctions();
-				collections::IDictionary<BasicVariableDeclaration*, vint>&	GetGlobalVariableOffsets();
-				collections::IDictionary<BasicVariableStatement*, vint>&	GetLocalVariableOffsets();
+				BasicTypeInfo*														GetTypeInfo(BasicTypeRecord* type);
+				BasicEnv*															GetEnv();
+				BasicTypeManager*													GetTypeManager();
+				BasicAlgorithmConfiguration&										GetConfiguration();
+				collections::IDictionary<BasicFunctionDeclaration*, vint>&			GetFunctions();
+				collections::IDictionary<BasicVariableDeclaration*, vint>&			GetGlobalVariableOffsets();
+				collections::IDictionary<BasicVariableStatement*, BasicOffset>&		GetLocalVariableOffsets();
 
-				void														BeginFunction();
-				void														EndFunction(vint returnIns, basicil::BasicIL* il);
-				void														AssociateReturn(vint instruction);
-				void														EnterScope();
-				void														LeaveScope();
-				vint														UseVariable(vint size);
-				void														EnterLoop();
-				void														LeaveLoop(vint breakIns, vint continueIns, basicil::BasicIL* il);
-				void														AssociateBreak(vint instruction);
-				void														AssociateContinue(vint instruction);
-				vint														GetMaxVariableSpace();
+				void																BeginFunction();
+				void																EndFunction(vint returnIns, basicil::BasicIL* il);
+				void																AssociateReturn(vint instruction);
+				void																EnterScope();
+				void																LeaveScope();
+				BasicOffset															UseVariable(BasicOffset size);
+				void																EnterLoop();
+				void																LeaveLoop(vint breakIns, vint continueIns, basicil::BasicIL* il);
+				void																AssociateBreak(vint instruction);
+				void																AssociateContinue(vint instruction);
+				BasicOffset															GetMaxVariableSpace();
 
-				ResourceHandle<BasicTypeRes>								GetTypeResource(BasicTypeRecord* type);
-				bool														SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);
+				ResourceHandle<BasicTypeRes>										GetTypeResource(BasicTypeRecord* type);
+				bool																SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);
 			};
 
 /***********************************************************************
@@ -122,6 +126,9 @@ Extension
 				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1)const;
 				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::Argument argument)const;
 				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, basicil::BasicIns::ValueType type2)const;
+				
+				void														Ins(basicil::BasicIns::OpCode opcode, const BasicOffset& argument)const;
+				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, const BasicOffset& argument)const;
 			};
 
 /***********************************************************************
@@ -137,16 +144,16 @@ Code Generation Helper Functions
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Write							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Copy							(BasicTypeRecord* type, const BCP& argument);
-			extern void								Code_CopyStack						(BasicTypeRecord* type, const BCP& argument, vint offset=0);
-			extern void								Code_CopyAddressInStack				(BasicExpression* addressExpression, const BCP& argument, vint offset=0);
+			extern void								Code_CopyStack						(BasicTypeRecord* type, const BCP& argument, const BasicOffset& offset=0);
+			extern void								Code_CopyAddressInStack				(BasicExpression* addressExpression, const BCP& argument, const BasicOffset& offset=0);
 			extern void								Code_Convert						(BasicTypeRecord* from, BasicTypeRecord* to, const BCP& argument);
 			extern BasicTypeRecord*					Code_Binary							(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern BasicTypeRecord*					Code_Compare						(BasicBinaryExpression* node, BasicTypeRecord* leftType, BasicTypeRecord* rightType, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern BasicTypeRecord*					Code_BinaryAssign					(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignSideEffect			(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignRef				(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
-			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, vint& index, vint& returnSize, vint& parameterSize, bool returnInStack, bool& isExternal);
-			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, vint index, vint returnSize, vint parameterSize, bool clearReturnInStack, bool isExternal);
+			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, vint& index, BasicOffset& returnSize, BasicOffset& parameterSize, bool returnInStack, bool& isExternal);
+			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, vint index, const BasicOffset& returnSize, const BasicOffset& parameterSize, bool clearReturnInStack, bool isExternal);
 			extern BasicTypeRecord*					Code_InvokeFunction					(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly);
 
 /***********************************************************************

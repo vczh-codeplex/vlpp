@@ -69,22 +69,24 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					vint offset=-1;
-					if(node->linking.HasLink())
-					{
-						offset=argument.info->linkings.IndexOf(node->linking);
-					}
-					else
-					{
-						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
-						vint size=argument.info->GetTypeInfo(type)->size;
-						char* data=new char[size];
-						memset(data, 0, size);
-						offset=(vint)argument.globalData->Size();
-						argument.globalData->Write(data, size);
-						delete[] data;
-					}
-					argument.info->GetGlobalVariableOffsets().Add(node, offset);
+					TODO_FOR_GENERIC_FUNCTION_BEGIN
+						BasicOffset offset=-1;
+						if(node->linking.HasLink())
+						{
+							offset=argument.info->linkings.IndexOf(node->linking);
+						}
+						else
+						{
+							BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
+							BasicOffset size=argument.info->GetTypeInfo(type)->size;
+							char* data=new char[size.Constant()];
+							memset(data, 0, size.Constant());
+							offset=(vint)argument.globalData->Size();
+							argument.globalData->Write(data, size.Constant());
+							delete[] data;
+						}
+						argument.info->GetGlobalVariableOffsets().Add(node, offset.Constant());
+					TODO_FOR_GENERIC_FUNCTION_END
 
 					if(node->initializer)
 					{
@@ -126,16 +128,18 @@ BasicLanguage_GenerateCodePass2
 						BasicLanguage_GenerateCode(node->statement, argument);
 						argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
 
-						argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace();
-						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace()));
+						TODO_FOR_GENERIC_FUNCTION_BEGIN
+							argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace().Constant();
+						TODO_FOR_GENERIC_FUNCTION_END
+						argument.Ins(BasicIns::stack_reserve, -argument.info->GetMaxVariableSpace());
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
 						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
-						vint parameterSize=0;
+						BasicOffset parameterSize=0;
 						for(vint i=0;i<functionType->ParameterCount();i++)
 						{
 							parameterSize+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 						}
-						argument.Ins(BasicIns::ret, BasicIns::MakeInt(parameterSize));
+						argument.Ins(BasicIns::ret, parameterSize);
 
 						BasicILLocalLabel label;
 						label.instructionIndex=functionStart;

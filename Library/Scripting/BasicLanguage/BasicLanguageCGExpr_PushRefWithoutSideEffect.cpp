@@ -189,9 +189,9 @@ BasicLanguage_PushRefWithoutSideEffect
 					}
 					BasicTypeRecord* structureType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					BasicTypeInfo* structureInfo=argument.info->GetTypeInfo(structureType);
-					vint offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
+					BasicOffset offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
 					BasicLanguage_PushRefWithoutSideEffect(node->operand, argument);
-					argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
+					argument.Ins(BasicIns::push, BasicIns::int_type, offset);
 					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 

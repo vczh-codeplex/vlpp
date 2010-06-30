@@ -61,14 +61,14 @@ TEST_CASE(TestBasicTypeInfo)
 	BasicTypeInfo* infoType=info.GetTypeInfo(typeType);
 
 	TEST_ASSERT(infoInt8->size==1);
-	TEST_ASSERT(infoPInt8->size==sizeof(void*));
-	TEST_ASSERT(infoFunc->size==sizeof(void*));
+	TEST_ASSERT(infoPInt8->size==(vint)sizeof(void*));
+	TEST_ASSERT(infoFunc->size==(vint)sizeof(void*));
 	TEST_ASSERT(infoInt8s->size==10);
-	TEST_ASSERT(infoLink->size==sizeof(void*)*3);
+	TEST_ASSERT(infoLink->size==(vint)sizeof(void*)*3);
 	TEST_ASSERT(infoLink->offsets.Count()==3);
 	TEST_ASSERT(infoLink->offsets[0]==0);
-	TEST_ASSERT(infoLink->offsets[1]==sizeof(void*));
-	TEST_ASSERT(infoLink->offsets[2]==sizeof(void*)*2);
+	TEST_ASSERT(infoLink->offsets[1]==(vint)sizeof(void*));
+	TEST_ASSERT(infoLink->offsets[2]==(vint)sizeof(void*)*2);
 	TEST_ASSERT(infoType->size==17);
 	TEST_ASSERT(infoType->offsets.Count()==6);
 	TEST_ASSERT(infoType->offsets[0]==0);
