@@ -66,12 +66,12 @@ namespace vl
 			return *this;
 		}
 
-		V Constant()
+		V Constant()const
 		{
 			return constant;
 		}
 
-		V Factor(const K& k)
+		V Factor(const K& k)const
 		{
 			vint index=factors.Keys().IndexOf(k);
 			return index==-1?0:factors.Values()[index];
@@ -173,7 +173,7 @@ namespace vl
 			return *this;
 		}
 
-		Linear<K, V> operator-()
+		Linear<K, V> operator-()const
 		{
 			Linear<K, V> result(-constant);
 			for(vint i=0;i<factors.Count();i++)

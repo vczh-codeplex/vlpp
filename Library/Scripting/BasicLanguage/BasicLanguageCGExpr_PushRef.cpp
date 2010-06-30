@@ -41,7 +41,7 @@ BasicLanguage_PushRef
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
 				{
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
-					vint operandSize=argument.info->GetTypeInfo(operandType)->size;
+					BasicOffset operandSize=argument.info->GetTypeInfo(operandType)->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
@@ -79,8 +79,8 @@ BasicLanguage_PushRef
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(leftType);
-					vint leftSize=argument.info->GetTypeInfo(leftType)->size;
-					vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+					BasicOffset leftSize=argument.info->GetTypeInfo(leftType)->size;
+					BasicOffset pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 					switch(node->type)
 					{
 					case BasicBinaryExpression::AddAssign:
@@ -210,7 +210,7 @@ BasicLanguage_PushRef
 						structureType=structureType->ElementType();
 					}
 					BasicTypeInfo* structureInfo=argument.info->GetTypeInfo(structureType);
-					vint offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
+					BasicOffset offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
 					if(node->pointerMember)
 					{
 						BasicLanguage_PushValue(node->operand, argument);
@@ -219,7 +219,7 @@ BasicLanguage_PushRef
 					{
 						BasicLanguage_PushRef(node->operand, argument);
 					}
-					argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(offset));
+					argument.Ins(BasicIns::push, BasicIns::int_type, offset);
 					argument.Ins(BasicIns::add, BasicIns::int_type);
 				}
 
@@ -257,19 +257,19 @@ BasicLanguage_PushRef
 						}
 						else if(reference.localVariable)
 						{
-							vint offset=argument.info->GetLocalVariableOffsets()[reference.localVariable];
-							argument.Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset));
+							BasicOffset offset=argument.info->GetLocalVariableOffsets()[reference.localVariable];
+							argument.Ins(BasicIns::stack_offset, offset);
 						}
 						else
 						{
-							vint offset=0;
+							BasicOffset offset=0;
 							BasicFunctionDeclaration* function=reference.scope->OwnerDeclaration();
 							BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(function);
 							for(vint i=0;i<reference.parameterIndex;i++)
 							{
 								offset+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
 							}
-							argument.Ins(BasicIns::stack_offset, BasicIns::MakeInt(offset+sizeof(vint)*4));
+							argument.Ins(BasicIns::stack_offset, offset+(vint)sizeof(vint)*4);
 						}
 					}
 					else

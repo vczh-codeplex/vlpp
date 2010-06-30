@@ -26,7 +26,9 @@ BasicLanguage_GenerateResource
 					argument.info->SetTypeResource(type, resource);
 
 					BasicTypeInfo* typeInfo=argument.info->GetTypeInfo(type);
-					resource->size=typeInfo->size;
+					TODO_FOR_GENERIC_FUNCTION_BEGIN
+						resource->size=typeInfo->size.Constant();
+					TODO_FOR_GENERIC_FUNCTION_END
 					resource->genericArgumentName=ResourceString::Null();
 					switch(type->GetType())
 					{
@@ -112,7 +114,9 @@ BasicLanguage_GenerateResource
 								ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
 								member->name=memberName;
 								member->type=memberType;
-								member->offset=typeInfo->offsets[i];
+								TODO_FOR_GENERIC_FUNCTION_BEGIN
+									member->offset=typeInfo->offsets[i].Constant();
+								TODO_FOR_GENERIC_FUNCTION_END
 								subTypes.Set(i, member);
 							}
 						}

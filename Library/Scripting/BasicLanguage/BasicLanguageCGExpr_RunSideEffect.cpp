@@ -36,8 +36,8 @@ BasicLanguage_RunSideEffect
 				{
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(operandType);
-					vint size=argument.info->GetTypeInfo(operandType)->size;
-					vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+					BasicOffset size=argument.info->GetTypeInfo(operandType)->size;
+					BasicOffset pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
@@ -60,7 +60,7 @@ BasicLanguage_RunSideEffect
 								argument.Ins(BasicIns::add, Convert(operandType));
 								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
 								argument.Ins(BasicIns::write, Convert(operandType));
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+								argument.Ins(BasicIns::stack_reserve, -pointerSize);
 							}
 						}
 						break;
@@ -84,7 +84,7 @@ BasicLanguage_RunSideEffect
 								argument.Ins(BasicIns::sub, Convert(operandType));
 								Code_CopyAddressInStack(node->operand.Obj(), argument, size);
 								argument.Ins(BasicIns::write, Convert(operandType));
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+								argument.Ins(BasicIns::stack_reserve, -pointerSize);
 							}
 						}
 						break;
@@ -98,8 +98,8 @@ BasicLanguage_RunSideEffect
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
 					BasicTypeRecord* pointerType=argument.info->GetTypeManager()->GetPointerType(leftType);
-					vint size=argument.info->GetTypeInfo(leftType)->size;
-					vint pointerSize=argument.info->GetTypeInfo(pointerType)->size;
+					BasicOffset size=argument.info->GetTypeInfo(leftType)->size;
+					BasicOffset pointerSize=argument.info->GetTypeInfo(pointerType)->size;
 
 					switch(node->type)
 					{
@@ -125,7 +125,7 @@ BasicLanguage_RunSideEffect
 								argument.Ins(BasicIns::add, Convert(leftType));
 								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 								Code_Write(leftType, argument);
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+								argument.Ins(BasicIns::stack_reserve, -pointerSize);
 							}
 						}
 						else
@@ -155,7 +155,7 @@ BasicLanguage_RunSideEffect
 								argument.Ins(BasicIns::sub, Convert(leftType));
 								Code_CopyAddressInStack(node->leftOperand.Obj(), argument, size);
 								Code_Write(leftType, argument);
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-pointerSize));
+								argument.Ins(BasicIns::stack_reserve, -pointerSize);
 							}
 						}
 						else

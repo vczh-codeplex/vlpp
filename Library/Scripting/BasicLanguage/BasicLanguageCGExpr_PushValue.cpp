@@ -53,8 +53,8 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
-					vint operandSize=argument.info->GetTypeInfo(operandType)->size;
-					vint operandAddressSize=argument.info->GetTypeInfo(argument.info->GetTypeManager()->GetPointerType(operandType))->size;
+					BasicOffset operandSize=argument.info->GetTypeInfo(operandType)->size;
+					BasicOffset operandAddressSize=argument.info->GetTypeInfo(argument.info->GetTypeManager()->GetPointerType(operandType))->size;
 					switch(node->type)
 					{
 					case BasicUnaryExpression::PrefixIncrease:
@@ -95,10 +95,10 @@ BasicLanguage_PushValueInternal
 							}
 							else
 							{
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(operandSize));
+								argument.Ins(BasicIns::stack_reserve, operandSize);
 								BasicLanguage_PushRef(node->operand, argument);
 								Code_CopyAddressInStack(node->operand.Obj(), argument);
-								argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(operandAddressSize*2));
+								argument.Ins(BasicIns::stack_top, operandAddressSize*2);
 								Code_Copy(operandType, argument);
 								Code_ScaleAdder(operandType, argument, true);
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
@@ -106,7 +106,7 @@ BasicLanguage_PushValueInternal
 								argument.Ins(BasicIns::add, Convert(operandType));
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 								argument.Ins(BasicIns::write, Convert(operandType));
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-operandAddressSize));
+								argument.Ins(BasicIns::stack_reserve, -operandAddressSize);
 							}
 						}
 						break;
@@ -148,10 +148,10 @@ BasicLanguage_PushValueInternal
 							}
 							else
 							{
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(operandSize));
+								argument.Ins(BasicIns::stack_reserve, operandSize);
 								BasicLanguage_PushRef(node->operand, argument);
 								Code_CopyAddressInStack(node->operand.Obj(), argument);
-								argument.Ins(BasicIns::stack_top, BasicIns::MakeInt(operandAddressSize*2));
+								argument.Ins(BasicIns::stack_top,operandAddressSize*2);
 								Code_Copy(operandType, argument);
 								Code_ScaleAdder(operandType, argument, true);
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
@@ -159,7 +159,7 @@ BasicLanguage_PushValueInternal
 								argument.Ins(BasicIns::sub, Convert(operandType));
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
 								argument.Ins(BasicIns::write, Convert(operandType));
-								argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-operandAddressSize));
+								argument.Ins(BasicIns::stack_reserve, -operandAddressSize);
 							}
 						}
 						break;
@@ -204,7 +204,7 @@ BasicLanguage_PushValueInternal
 				{
 					BasicTypeRecord* leftType=argument.info->GetEnv()->GetExpressionType(node->leftOperand.Obj());
 					BasicTypeRecord* rightType=argument.info->GetEnv()->GetExpressionType(node->rightOperand.Obj());
-					vint leftSize=argument.info->GetTypeInfo(leftType)->size;
+					BasicOffset leftSize=argument.info->GetTypeInfo(leftType)->size;
 
 					switch(node->type)
 					{
@@ -232,20 +232,14 @@ BasicLanguage_PushValueInternal
 					case BasicBinaryExpression::Sub:
 						if(leftType->GetType()==BasicTypeRecord::Pointer)
 						{
-							vint size=argument.info->GetTypeInfo(leftType->ElementType())->size;
+							BasicOffset size=argument.info->GetTypeInfo(leftType->ElementType())->size;
 							if(rightType->GetType()==BasicTypeRecord::Pointer)
 							{
-								if(size>1)
-								{
-									argument.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(size));
-								}
+								argument.Ins(BasicIns::push, BasicIns::int_type, size);
 								BasicLanguage_PushValue(node->rightOperand, argument);
 								BasicLanguage_PushValue(node->leftOperand, argument);
 								argument.Ins(BasicIns::sub, BasicIns::pointer_type);
-								if(size>1)
-								{
-									argument.Ins(BasicIns::div, BasicIns::int_type);
-								}
+								argument.Ins(BasicIns::div, BasicIns::int_type);
 								return argument.info->GetTypeManager()->GetPrimitiveType(int_type);
 							}
 							else

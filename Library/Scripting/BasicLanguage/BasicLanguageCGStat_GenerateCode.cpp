@@ -39,8 +39,8 @@ BasicLanguage_GenerateCode
 				{
 					BasicScope* scope=argument.info->GetEnv()->GetStatementScope(node);
 					BasicTypeRecord* type=scope->variables.Items()[node->name].type;
-					vint size=argument.info->GetTypeInfo(type)->size;
-					vint offset=argument.info->UseVariable(size);
+					BasicOffset size=argument.info->GetTypeInfo(type)->size;
+					BasicOffset offset=argument.info->UseVariable(size);
 					argument.info->GetLocalVariableOffsets().Add(node, offset);
 					if(node->initializer)
 					{
