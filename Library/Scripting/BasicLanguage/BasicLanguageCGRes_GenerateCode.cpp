@@ -27,7 +27,6 @@ BasicLanguage_GenerateResource
 
 					BasicTypeInfo* typeInfo=argument.info->GetTypeInfo(type);
 					resource->size=typeInfo->size;
-					resource->alignment=typeInfo->alignment;
 					resource->genericArgumentName=ResourceString::Null();
 					switch(type->GetType())
 					{

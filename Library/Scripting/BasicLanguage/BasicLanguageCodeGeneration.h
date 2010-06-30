@@ -21,31 +21,10 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
-			struct BasicLinear
-			{
-				collections::Dictionary<BasicTypeRecord*, vint>				parameters;
-				int															constant;
-
-				BasicLinear();
-				BasicLinear(const BasicLinear& linear);
-				BasicLinear&												operator=(const BasicLinear& linear);
-
-				BasicLinear													operator+(vint number)const;
-				BasicLinear													operator+(const BasicLinear& linear)const;
-				BasicLinear													operator*(vint number)const;
-
-				bool														IsConstant()const;
-				bool														operator==(const BasicLinear& linear)const;
-				bool														operator!=(const BasicLinear& linear)const;
-				bool														operator==(vint number)const;
-				bool														operator!=(vint number)const;
-			};
-
 			class BasicTypeInfo : public Object
 			{
 			public:
 				vint														size;
-				vint														alignment;
 				collections::List<vint>										offsets;
 			};
 

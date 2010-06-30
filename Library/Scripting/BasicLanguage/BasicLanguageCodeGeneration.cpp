@@ -15,99 +15,6 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-BasicLinear
-***********************************************************************/
-
-			BasicLinear::BasicLinear()
-				:constant(0)
-			{
-			}
-
-			BasicLinear::BasicLinear(const BasicLinear& linear)
-				:constant(linear.constant)
-			{
-				CopyFrom(parameters.Wrap(), linear.parameters.Wrap());
-			}
-
-			BasicLinear& BasicLinear::operator=(const BasicLinear& linear)
-			{
-				CopyFrom(parameters.Wrap(), linear.parameters.Wrap());
-				constant=linear.constant;
-				return *this;
-			}
-
-			BasicLinear BasicLinear::operator+(vint number)const
-			{
-				BasicLinear result(*this);
-				result.constant+=number;
-				return result;
-			}
-
-			BasicLinear BasicLinear::operator+(const BasicLinear& linear)const
-			{
-				BasicLinear result(*this);
-				for(int i=0;i<linear.parameters.Count();i++)
-				{
-					vint index=result.parameters.Keys().IndexOf(linear.parameters.Keys()[i]);
-					if(index==-1)
-					{
-						result.parameters.Add(linear.parameters.Keys()[i], linear.parameters.Values()[i]);
-					}
-					else
-					{
-						vint value=result.parameters.Values()[index];
-						result.parameters.Set(linear.parameters.Keys()[i], value+linear.parameters.Values()[i]);
-					}
-				}
-				result.constant+=linear.constant;
-				return result;
-			}
-
-			BasicLinear BasicLinear::operator*(vint number)const
-			{
-				if(number==0)
-				{
-					return BasicLinear();
-				}
-				else
-				{
-					BasicLinear result;
-					for(int i=0;i<parameters.Count();i++)
-					{
-						vint value=parameters.Values()[i];
-						result.parameters.Add(parameters.Keys()[i], value*number);
-					}
-					result.constant=constant*number;
-					return result;
-				}
-			}
-
-			bool BasicLinear::IsConstant()const
-			{
-				return parameters.Count()==0;
-			}
-
-			bool BasicLinear::operator==(const BasicLinear& linear)const
-			{
-				return constant==linear.constant && CompareEnumerable(parameters.Wrap(), linear.parameters.Wrap())==0;
-			}
-
-			bool BasicLinear::operator!=(const BasicLinear& linear)const
-			{
-				return constant!=linear.constant || CompareEnumerable(parameters.Wrap(), linear.parameters.Wrap())!=0;
-			}
-
-			bool BasicLinear::operator==(vint number)const
-			{
-				return constant==number && parameters.Count()==0;
-			}
-
-			bool BasicLinear::operator!=(vint number)const
-			{
-				return constant!=number || parameters.Count()!=0;
-			}
-
-/***********************************************************************
 BasicCodegenInfo
 ***********************************************************************/
 
@@ -130,18 +37,12 @@ BasicCodegenInfo
 					case BasicTypeRecord::Array:
 						{
 							BasicTypeInfo* element=GetTypeInfo(type->ElementType());
-							info->alignment=element->alignment;
 							info->size=element->size*type->ElementCount();
-							if(info->size==0)
-							{
-								info->size=info->alignment;
-							}
 						}
 						break;
 					case BasicTypeRecord::Function:
 					case BasicTypeRecord::Pointer:
 						{
-							info->alignment=sizeof(void*);
 							info->size=sizeof(void*);
 						}
 						break;
@@ -150,23 +51,18 @@ BasicCodegenInfo
 							switch(type->PrimitiveType())
 							{
 							case s8:case u8:case bool_type:case char_type:
-								info->alignment=1;
 								info->size=1;
 								break;
 							case s16:case u16:case wchar_type:
-								info->alignment=2;
 								info->size=2;
 								break;
 							case s32:case u32:case f32:
-								info->alignment=4;
 								info->size=4;
 								break;
 							case s64:case u64:case f64:
-								info->alignment=8;
 								info->size=8;
 								break;
 							default:
-								info->alignment=1;
 								info->size=1;
 							}
 						}
@@ -174,44 +70,26 @@ BasicCodegenInfo
 					case BasicTypeRecord::Structure:
 						{
 							vint offset=0;
-							info->alignment=0;
 							info->size=0;
 							for(vint i=0;i<type->MemberCount();i++)
 							{
 								BasicTypeInfo* member=GetTypeInfo(type->MemberType(i));
-								if(offset%member->alignment!=0)
-								{
-									offset=(offset/member->alignment+1)*member->alignment;
-								}
 								info->offsets.Add(offset);
-								if(info->alignment<member->alignment)
-								{
-									info->alignment=member->alignment;
-								}
 								offset+=member->size;
 							}
-							if(info->alignment==0)
+							if(offset==0)
 							{
-								info->alignment=1;
 								info->size=1;
 							}
 							else
 							{
-								if(offset%info->alignment==0)
-								{
-									info->size=offset;
-								}
-								else
-								{
-									info->size=(offset/info->alignment+1)*info->alignment;
-								}
+								info->size=offset;
 							}
 						}
 						break;
 					case BasicTypeRecord::GenericArgument:
 					case BasicTypeRecord::Generic:
 						{
-							info->alignment=1;
 							info->size=1;
 						}
 						break;
