@@ -1,5 +1,6 @@
 #include "BasicLanguageCodeGeneration.h"
 #include "BasicLanguageResource.h"
+#include "..\..\Collections\OperationEnumerable.h"
 
 namespace vl
 {
@@ -12,6 +13,99 @@ namespace vl
 			using namespace basicil;
 			using namespace stream;
 			using namespace collections;
+
+/***********************************************************************
+BasicLinear
+***********************************************************************/
+
+			BasicLinear::BasicLinear()
+				:constant(0)
+			{
+			}
+
+			BasicLinear::BasicLinear(const BasicLinear& linear)
+				:constant(linear.constant)
+			{
+				CopyFrom(parameters.Wrap(), linear.parameters.Wrap());
+			}
+
+			BasicLinear& BasicLinear::operator=(const BasicLinear& linear)
+			{
+				CopyFrom(parameters.Wrap(), linear.parameters.Wrap());
+				constant=linear.constant;
+				return *this;
+			}
+
+			BasicLinear BasicLinear::operator+(vint number)const
+			{
+				BasicLinear result(*this);
+				result.constant+=number;
+				return result;
+			}
+
+			BasicLinear BasicLinear::operator+(const BasicLinear& linear)const
+			{
+				BasicLinear result(*this);
+				for(int i=0;i<linear.parameters.Count();i++)
+				{
+					vint index=result.parameters.Keys().IndexOf(linear.parameters.Keys()[i]);
+					if(index==-1)
+					{
+						result.parameters.Add(linear.parameters.Keys()[i], linear.parameters.Values()[i]);
+					}
+					else
+					{
+						vint value=result.parameters.Values()[index];
+						result.parameters.Set(linear.parameters.Keys()[i], value+linear.parameters.Values()[i]);
+					}
+				}
+				result.constant+=linear.constant;
+				return result;
+			}
+
+			BasicLinear BasicLinear::operator*(vint number)const
+			{
+				if(number==0)
+				{
+					return BasicLinear();
+				}
+				else
+				{
+					BasicLinear result;
+					for(int i=0;i<parameters.Count();i++)
+					{
+						vint value=parameters.Values()[i];
+						result.parameters.Add(parameters.Keys()[i], value*number);
+					}
+					result.constant=constant*number;
+					return result;
+				}
+			}
+
+			bool BasicLinear::IsConstant()const
+			{
+				return parameters.Count()==0;
+			}
+
+			bool BasicLinear::operator==(const BasicLinear& linear)const
+			{
+				return constant==linear.constant && CompareEnumerable(parameters.Wrap(), linear.parameters.Wrap())==0;
+			}
+
+			bool BasicLinear::operator!=(const BasicLinear& linear)const
+			{
+				return constant!=linear.constant || CompareEnumerable(parameters.Wrap(), linear.parameters.Wrap())!=0;
+			}
+
+			bool BasicLinear::operator==(vint number)const
+			{
+				return constant==number && parameters.Count()==0;
+			}
+
+			bool BasicLinear::operator!=(vint number)const
+			{
+				return constant!=number || parameters.Count()!=0;
+			}
 
 /***********************************************************************
 BasicCodegenInfo

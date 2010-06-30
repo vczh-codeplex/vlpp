@@ -18,6 +18,87 @@ using namespace vl::stream;
 extern WString GetPath();
 
 /***********************************************************************
+BasicLinear
+***********************************************************************/
+
+TEST_CASE(TestBasicLinear)
+{
+	BasicTypeManager tm;
+
+	BasicLinear zero;
+	TEST_ASSERT(zero.parameters.Count()==0 && zero.constant==0);
+
+	BasicLinear one;
+	one.constant=1;
+
+	BasicLinear tZero;
+	tZero.parameters.Add(tm.GetGenericArgumentType(L"T"), 1);
+
+	BasicLinear tOne;
+	tOne.parameters.Add(tm.GetGenericArgumentType(L"T"), 1);
+	tOne.constant=1;
+
+	BasicLinear uZero;
+	uZero.parameters.Add(tm.GetGenericArgumentType(L"U"), 1);
+
+	BasicLinear uOne;
+	uOne.parameters.Add(tm.GetGenericArgumentType(L"U"), 1);
+	uOne.constant=1;
+
+	BasicLinear tuZero;
+	tuZero.parameters.Add(tm.GetGenericArgumentType(L"T"), 1);
+	tuZero.parameters.Add(tm.GetGenericArgumentType(L"U"), 1);
+
+	BasicLinear tuOne;
+	tuOne.parameters.Add(tm.GetGenericArgumentType(L"T"), 1);
+	tuOne.parameters.Add(tm.GetGenericArgumentType(L"U"), 1);
+	tuOne.constant=1;
+
+	TEST_ASSERT(zero+one==one);
+	TEST_ASSERT(zero+one==1);
+	TEST_ASSERT(zero+tZero==tZero);
+	TEST_ASSERT(zero+tOne==tOne);
+	TEST_ASSERT(zero+uZero==uZero);
+	TEST_ASSERT(zero+uOne==uOne);
+	TEST_ASSERT(zero+tuZero==tuZero);
+	TEST_ASSERT(zero+tuOne==tuOne);
+
+	TEST_ASSERT(tOne!=zero);
+	TEST_ASSERT(tOne!=one);
+	TEST_ASSERT(tOne!=tZero);
+	TEST_ASSERT(tOne!=uZero);
+	TEST_ASSERT(tOne!=uOne);
+	TEST_ASSERT(tOne!=tuZero);
+	TEST_ASSERT(tOne!=tuOne);
+	TEST_ASSERT(tOne!=0);
+	TEST_ASSERT(tOne!=1);
+	TEST_ASSERT(zero!=1);
+	TEST_ASSERT(one!=0);
+
+	TEST_ASSERT(one+one==2);
+	TEST_ASSERT(one+tZero==tOne);
+	TEST_ASSERT(one+uZero==uOne);
+	TEST_ASSERT(one+tuZero==tuOne);
+
+	TEST_ASSERT(zero+tOne==one+tZero);
+	TEST_ASSERT(zero+uOne==one+uZero);
+	TEST_ASSERT(zero+tuOne==one+tuZero);
+	TEST_ASSERT(tOne+uZero==tZero+uOne);
+	TEST_ASSERT(tOne+uZero==tuOne);
+	TEST_ASSERT(tZero+uOne==tuOne);
+
+	BasicLinear x;
+	x.parameters.Add(tm.GetGenericArgumentType(L"T"), 2);
+	x.parameters.Add(tm.GetGenericArgumentType(L"U"), 3);
+	x.constant=4;
+	BasicLinear y;
+	y.parameters.Add(tm.GetGenericArgumentType(L"T"), 4);
+	y.parameters.Add(tm.GetGenericArgumentType(L"U"), 6);
+	y.constant=8;
+	TEST_ASSERT(x*2==y);
+}
+
+/***********************************************************************
 Size
 ***********************************************************************/
 

@@ -21,11 +21,31 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+			struct BasicLinear
+			{
+				collections::Dictionary<BasicTypeRecord*, vint>				parameters;
+				int															constant;
+
+				BasicLinear();
+				BasicLinear(const BasicLinear& linear);
+				BasicLinear&												operator=(const BasicLinear& linear);
+
+				BasicLinear													operator+(vint number)const;
+				BasicLinear													operator+(const BasicLinear& linear)const;
+				BasicLinear													operator*(vint number)const;
+
+				bool														IsConstant()const;
+				bool														operator==(const BasicLinear& linear)const;
+				bool														operator!=(const BasicLinear& linear)const;
+				bool														operator==(vint number)const;
+				bool														operator!=(vint number)const;
+			};
+
 			class BasicTypeInfo : public Object
 			{
 			public:
-				vint															size;
-				vint															alignment;
+				vint														size;
+				vint														alignment;
 				collections::List<vint>										offsets;
 			};
 
@@ -36,12 +56,12 @@ namespace vl
 			protected:
 				BasicAnalyzer*												analyzer;
 				_TypeInfoTable												typeInfos;
-				collections::Dictionary<BasicFunctionDeclaration*, vint>		functions;
-				collections::Dictionary<BasicVariableDeclaration*, vint>		globalVariableOffsets;
+				collections::Dictionary<BasicFunctionDeclaration*, vint>	functions;
+				collections::Dictionary<BasicVariableDeclaration*, vint>	globalVariableOffsets;
 				collections::Dictionary<BasicVariableStatement*, vint>		localVariableOffsets;
 
-				vint															maxVariableSpace;
-				vint															usedVariableSpace;
+				vint														maxVariableSpace;
+				vint														usedVariableSpace;
 				collections::List<vint>										variableSpaceStack;
 				collections::List<vint>										returnInstructions;
 
@@ -52,7 +72,7 @@ namespace vl
 
 				_TypeResTable												typeResources;
 			public:
-				vint															localFunctionCount;
+				vint														localFunctionCount;
 				collections::List<BasicLinking>								linkings;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
@@ -63,19 +83,19 @@ namespace vl
 				BasicAlgorithmConfiguration&								GetConfiguration();
 				collections::IDictionary<BasicFunctionDeclaration*, vint>&	GetFunctions();
 				collections::IDictionary<BasicVariableDeclaration*, vint>&	GetGlobalVariableOffsets();
-				collections::IDictionary<BasicVariableStatement*, vint>&		GetLocalVariableOffsets();
+				collections::IDictionary<BasicVariableStatement*, vint>&	GetLocalVariableOffsets();
 
 				void														BeginFunction();
 				void														EndFunction(vint returnIns, basicil::BasicIL* il);
 				void														AssociateReturn(vint instruction);
 				void														EnterScope();
 				void														LeaveScope();
-				vint															UseVariable(vint size);
+				vint														UseVariable(vint size);
 				void														EnterLoop();
 				void														LeaveLoop(vint breakIns, vint continueIns, basicil::BasicIL* il);
 				void														AssociateBreak(vint instruction);
 				void														AssociateContinue(vint instruction);
-				vint															GetMaxVariableSpace();
+				vint														GetMaxVariableSpace();
 
 				ResourceHandle<BasicTypeRes>								GetTypeResource(BasicTypeRecord* type);
 				bool														SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);
