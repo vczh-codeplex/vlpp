@@ -20,40 +20,96 @@ namespace vl
 	{
 
 /***********************************************************************
-对外符号
+可见符号
 ***********************************************************************/
 
+		//可见符号
 		struct BasicILExportRes
 		{
-			enum TypeEnum
-			{
-				Data,
-				Instruction,
-			};
-
-			vint										address;
-			ResourceString								name;
+			vint													address;				//地址
+			ResourceString											name;					//符号
 		};
 
 /***********************************************************************
 待链接符号
 ***********************************************************************/
 
+		//链接目标
 		struct BasicILLinkingRes
 		{
-			ResourceString								symbolName;
-			ResourceString								assemblyName;
+			ResourceString											symbolName;				//符号
+			ResourceString											assemblyName;			//Asembly名
+		};
+
+/***********************************************************************
+模板符号
+***********************************************************************/
+
+		//字符串来源
+		struct BasicILGenericNameRes
+		{
+			bool													isConstant;				//是否常数
+			ResourceString											constantString;			//常数字符串
+			vint													stringArgumentIndex;	//字符串参数（来源于特化函数传入的参数）
+		};
+
+		//模板函数入口
+		struct BasicILGenericFunctionEntryRes
+		{
+			ResourceString											name;					//模板函数名称
+			vint													genericArgumentCount;	//模板参数数量
+			vint													startInstruction;		//起始指令位置
+			vint													instructionCount;		//指令数量
+			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
+		};
+
+		//模板参数
+		struct BasicILGenericArgumentRes
+		{
+			ResourceArrayHandle<BasicILGenericNameRes>				nameArgument;			//字符串参数
+			vint													sizeArgument;			//尺寸参数
+		};
+
+		//模板函数特化
+		struct BasicILGenericFunctionTargetRes
+		{
+			ResourceString											symbolName;				//符号
+			ResourceString											assemblyName;			//Assembly名
+			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
+		};
+
+		//线性对象参数
+		struct BasicILGenericFactorItem
+		{
+			vint													factor;					//参数
+		};
+
+		//线性对象（值 = sum(fi*ti) + constant）
+		struct BasicILGenericLinearRes
+		{
+			ResourceArrayHandle<BasicILGenericFactorItem>			factors;				//参数表
+			vint													constant;				//常数项
+		};
+
+		//模板符号表
+		struct BasicILGenericRes
+		{
+			ResourceArrayHandle<BasicILGenericFunctionEntryRes>		functionEntries;		//函数入口
+			ResourceArrayHandle<BasicILGenericFunctionTargetRes>	functionTargets;		//特化表
+			ResourceArrayHandle<BasicILGenericLinearRes>			linears;				//线性参数表
 		};
 
 /***********************************************************************
 入口
 ***********************************************************************/
 
+		 //总符号入口
 		struct BasicILEntryRes
 		{
-			ResourceString								assemblyName;
-			ResourceArrayHandle<BasicILExportRes>		exports;
-			ResourceArrayHandle<BasicILLinkingRes>		linkings;
+			ResourceString											assemblyName;			//Assembly名
+			ResourceArrayHandle<BasicILExportRes>					exports;				//可见符号
+			ResourceArrayHandle<BasicILLinkingRes>					linkings;				//待链接符号
+			ResourceHandle<BasicILGenericRes>						genericSymbols;			//模板符号
 		};
 	}
 }

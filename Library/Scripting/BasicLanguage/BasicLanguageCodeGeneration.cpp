@@ -405,6 +405,7 @@ BasicLanguage_GenerateCode
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
 				List<ResourceHandle<BasicILExportRes>> exports;
 				List<ResourceHandle<BasicILLinkingRes>> linkings;
+				exportEntry->genericSymbols=ResourceHandle<BasicILGenericRes>::Null();
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
