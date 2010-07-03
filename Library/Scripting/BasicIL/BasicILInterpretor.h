@@ -28,17 +28,17 @@ namespace vl
 			class BasicILEnv : public Object
 			{
 			protected:
-				vint											stackBase;
-				vint											stackSize;
-				vint											stackTop;
+				vint										stackBase;
+				vint										stackSize;
+				vint										stackTop;
 				unsigned char*								stack;
 			public:
 				BasicILEnv(vint _stackSize);
 				~BasicILEnv();
 
-				vint											StackBase()const;
-				vint											StackSize()const;
-				vint											StackTop()const;
+				vint										StackBase()const;
+				vint										StackSize()const;
+				vint										StackTop()const;
 				void*										DereferenceStack(vint stackPosition)const;
 				void*										Reserve(vint size);
 				void										Reset();
@@ -76,7 +76,7 @@ namespace vl
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 			protected:
-				vint											stackSize;
+				vint										stackSize;
 				collections::List<BasicIL*>					ils;
 				_BasicILMap									ilMap;
 				collections::List<BasicILLabel>				labels;
@@ -88,7 +88,7 @@ namespace vl
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
 
-				vint											LoadIL(BasicIL* il);
+				vint										LoadIL(BasicIL* il);
 				void										UnloadIL(BasicIL* il);
 				collections::IList<BasicILLabel>&			GetLabels();
 			};
@@ -102,9 +102,9 @@ namespace vl
 			protected:
 				BasicILEnv*									env;
 				BasicILInterpretor*							interpretor;
-				vint											instruction;
-				vint											insKey;
-				vint											foreignFunctionIndex;
+				vint										instruction;
+				vint										insKey;
+				vint										foreignFunctionIndex;
 				void*										foreignFunctionResult;
 
 			public:
@@ -126,8 +126,8 @@ namespace vl
 				BasicILEnv*									GetEnv();
 				void										Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
 				void										ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
-				vint											GetInstruction();
-				vint											GetForeignFunctionIndex();
+				vint										GetInstruction();
+				vint										GetForeignFunctionIndex();
 				void*										GetForeignFunctionResult();
 				RunningResult								Run();
 			};

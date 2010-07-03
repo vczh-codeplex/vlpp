@@ -45,6 +45,9 @@ OpCode:
   link_pushforeigndata	SYMBOL-INDEX(vint)				:*stack_top*									-> pointer
   link_pushforeignfunc	SYMBOL-INDEX(vint)				:*stack_top*									-> instruction_label_index
   link_callforeignfunc	SYMBOL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+------------------generic instanciation only---------
+  generic_pushfunc		FUNCTION-TARGET-INDEX(int)		:*stack_top*									-> instruction_label_index
+  generic_callfunc		FUNCTION-TARGET-INDEX(int)		:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
   codegen_callfunc		LABEL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
@@ -87,6 +90,12 @@ namespace vl
 					uint_type=u32,
 					pointer_type=u32,
 #endif
+				};
+
+				enum ArgumentType
+				{
+					constantArgument,
+					linearArgument,
 				};
 
 				enum OpCode
@@ -141,6 +150,7 @@ namespace vl
 				}								argument;
 				vint							insKey;
 				void*							userData;
+				ArgumentType					argumentType;
 
 				BasicIns();
 

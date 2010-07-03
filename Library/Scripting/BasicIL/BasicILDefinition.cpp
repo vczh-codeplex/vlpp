@@ -22,6 +22,7 @@ BasicIns
 				argument.s64=0;
 				insKey=-1;
 				userData=0;
+				argumentType=constantArgument;
 			}
 
 			bool BasicIns::operator==(const BasicIns& ins)const
