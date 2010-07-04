@@ -22,7 +22,7 @@ namespace vl
 		{
 
 /***********************************************************************
-运行时环境
+运行时存储环境
 ***********************************************************************/
 
 			class BasicILEnv : public Object
@@ -59,6 +59,53 @@ namespace vl
 				}
 			};
 
+/***********************************************************************
+模板符号表
+***********************************************************************/
+
+			struct BasicILGenericName
+			{
+				vint										argumentIndex;
+				WString										name;
+
+				BasicILGenericName();
+				BasicILGenericName(vint _argumentIndex);
+				BasicILGenericName(const WString& _name);
+
+				bool										operator==(const BasicILGenericName& value)const;
+				bool										operator!=(const BasicILGenericName& value)const;
+			};
+
+			struct BasicILGenericFunctionEntry
+			{
+				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>> MapType;
+
+				vint										instruction;
+				vint										key;
+				vint										count;
+				vint										argumentCount;
+				collections::Array<BasicILGenericName>		nameTemplate;
+			};
+
+			/*struct BasicILGenericArgument
+			{
+				typedef collections::Array<Ptr<BasicILGenericArgument>> ArrayType;
+
+				vint										size;
+				collections::Array<BasicILGenericName>		nameTemplate;
+			};
+
+			struct BasicILGenericFunctionTarget
+			{
+				WString										symbolName;
+				WString										assemblyName;
+				BasicILGenericArgument::ArrayType			arguments;
+			};*/
+
+/***********************************************************************
+虚拟机
+***********************************************************************/
+
 			struct BasicILLabel
 			{
 				vint										instruction;
@@ -82,6 +129,8 @@ namespace vl
 				collections::List<BasicILLabel>				labels;
 				_SymbolMap									symbolMap;
 
+				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
+
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
 			public:
@@ -94,7 +143,7 @@ namespace vl
 			};
 
 /***********************************************************************
-运行时堆栈
+调用堆栈
 ***********************************************************************/
 
 			class BasicILStack : public Object
