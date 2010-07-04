@@ -126,6 +126,8 @@ BasicILLabel
 BasicILInterpretor
 ***********************************************************************/
 
+			const int BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
+
 			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols)
 			{
 				vint exportedSymbolsIndex=il->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
@@ -320,6 +322,9 @@ BasicILInterpretor
 				label.key=-1;
 				label.instruction=-1;
 				labels.Add(label);
+
+				genericFunctionSitingIL=new BasicIL;
+				ils.Add(genericFunctionSitingIL.Obj());
 			}
 
 			BasicILInterpretor::~BasicILInterpretor()

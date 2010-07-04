@@ -87,7 +87,7 @@ namespace vl
 				collections::Array<BasicILGenericName>		nameTemplate;
 			};
 
-			/*struct BasicILGenericArgument
+			struct BasicILGenericArgument
 			{
 				typedef collections::Array<Ptr<BasicILGenericArgument>> ArrayType;
 
@@ -97,10 +97,20 @@ namespace vl
 
 			struct BasicILGenericFunctionTarget
 			{
+				typedef collections::List<Ptr<BasicILGenericFunctionTarget>> ListType;
+
 				WString										symbolName;
 				WString										assemblyName;
 				BasicILGenericArgument::ArrayType			arguments;
-			};*/
+			};
+
+			struct BasicILGenericLinear
+			{
+				typedef collections::List<Ptr<BasicILGenericLinear>> ListType;
+
+				collections::Array<vint>					factors;
+				vint										constant;
+			};
 
 /***********************************************************************
 ÐéÄâ»ú
@@ -122,6 +132,8 @@ namespace vl
 				typedef collections::Dictionary<collections::Pair<WString, WString>, vint>	_SymbolMap;
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
+
+				static const int							GenericFunctionSitingAssemblyKey;
 			protected:
 				vint										stackSize;
 				collections::List<BasicIL*>					ils;
@@ -130,6 +142,9 @@ namespace vl
 				_SymbolMap									symbolMap;
 
 				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
+				BasicILGenericFunctionTarget::ListType		genericFunctionTargets;
+				BasicILGenericLinear::ListType				genericLinears;
+				Ptr<BasicIL>								genericFunctionSitingIL;
 
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
