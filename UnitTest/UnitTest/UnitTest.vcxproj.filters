@@ -369,6 +369,9 @@
     <ClCompile Include="TestEntity.cpp">
       <Filter>Source Files\Fundamental</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILStack.cpp">
+      <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

@@ -172,6 +172,7 @@
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILDefinition.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILInterpretor.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILResourceStream.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILStack.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGCommon_GenerateCode.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGDecl_GenerateCode.cpp" />
