@@ -237,6 +237,7 @@
     <ClCompile Include="TestObjectModel.cpp" />
     <ClCompile Include="TestRegex.cpp" />
     <ClCompile Include="TestScripting_BasicIL.cpp" />
+    <ClCompile Include="TestScripting_BasicIL_Generic.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Analyzer.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
