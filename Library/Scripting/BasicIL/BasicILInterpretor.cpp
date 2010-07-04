@@ -109,6 +109,20 @@ BasicGenericName
 			}
 
 /***********************************************************************
+BasicILGenericArgument
+***********************************************************************/
+
+			bool BasicILGenericArgument::operator==(const BasicILGenericArgument& value)const
+			{
+				return size==value.size && name==value.name;
+			}
+
+			bool BasicILGenericArgument::operator!=(const BasicILGenericArgument& value)const
+			{
+				return size!=value.size || name!=value.name;
+			}
+
+/***********************************************************************
 BasicILLabel
 ***********************************************************************/
 
@@ -189,6 +203,7 @@ BasicILInterpretor
 					{
 						ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(genericResHandle);
 						ResourceArrayRecord<BasicILGenericFunctionEntryRes> functionEntries=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionEntryRes>(genericRes->functionEntries);
+						ResourceArrayRecord<BasicILGenericFunctionTargetRes> functionTargets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets);
 
 						for(vint i=0;i<functionEntries.Count();i++)
 						{
@@ -222,6 +237,23 @@ BasicILInterpretor
 								}
 							}
 							currentFunctionEntries.Add(symbol, genericFunctionEntry);
+						}
+
+						for(vint i=0;i<functionTargets.Count();i++)
+						{
+							ResourceRecord<BasicILGenericFunctionTargetRes> target=functionTargets.Get(i);
+							Pair<WString, WString> symbol;
+							symbol.key=exportedSymbols->ReadString(target->assemblyName);
+							symbol.value=exportedSymbols->ReadString(target->symbolName);
+
+							if(!ilMap.Keys().Contains(symbol.key))
+							{
+								throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
+							}
+							if(!symbolMap.Keys().Contains(symbol) && !currentFunctionEntries.Keys().Contains(symbol))
+							{
+								throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
+							}
 						}
 					}
 
@@ -312,6 +344,102 @@ BasicILInterpretor
 					{
 						ins.insKey=index;
 					}
+				}
+			}
+
+			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericFunctionTarget* target)
+			{
+				Pair<WString, WString> symbol;
+				symbol.key=target->assemblyName;
+				symbol.value=target->symbolName;
+				BasicILGenericFunctionEntry* functionEntry=genericFunctionEntries[symbol].Obj();
+				WString uniqueName;
+				for(vint i=0;i<functionEntry->nameTemplate.Count();i++)
+				{
+					BasicILGenericName& name=functionEntry->nameTemplate[i];
+					if(name.argumentIndex==-1)
+					{
+						uniqueName+=name.name;
+					}
+					else
+					{
+						uniqueName+=target->arguments[name.argumentIndex].name;
+					}
+				}
+
+				vint instanciationIndex=instanciatedGenericFunctions.Keys().IndexOf(uniqueName);
+				if(instanciationIndex!=-1)
+				{
+					return instanciatedGenericFunctions.Values()[instanciationIndex];
+				}
+				else
+				{
+					BasicILLabel label;
+					label.key=BasicILInterpretor::GenericFunctionSitingAssemblyKey;
+					label.instruction=genericFunctionSitingIL->instructions.Count();
+					labels.Add(label);
+
+					BasicIL* il=ilMap[functionEntry->key];
+					Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
+					ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+					ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
+					ResourceArrayRecord<BasicILGenericFunctionTargetRes> targets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets);
+					ResourceArrayRecord<BasicILGenericLinearRes> linears=exportedSymbols->ReadArrayRecord<BasicILGenericLinearRes>(genericRes->linears);
+
+					vint targetOffset=genericFunctionTargets.Count();
+					for(vint i=0;i<targets.Count();i++)
+					{
+						ResourceRecord<BasicILGenericFunctionTargetRes> targetRecord=targets.Get(i);
+						Ptr<BasicILGenericFunctionTarget> newTarget=new BasicILGenericFunctionTarget;
+						newTarget->assemblyName=exportedSymbols->ReadString(targetRecord->assemblyName);
+						newTarget->symbolName=exportedSymbols->ReadString(targetRecord->symbolName);
+						genericFunctionTargets.Add(newTarget);
+
+						ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord<BasicILGenericArgumentRes>(targetRecord->arguments);
+						newTarget->arguments.Resize(arguments.Count());
+						for(vint j=0;j<arguments.Count();j++)
+						{
+							ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
+							BasicILGenericArgument& newArgument=newTarget->arguments[j];
+							newArgument.size=argumentRecord->sizeArgument;
+
+							ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(argumentRecord->nameArgument);
+							for(vint k=0;k<names.Count();k++)
+							{
+								ResourceRecord<BasicILGenericNameRes> nameRecord=names.Get(k);
+								if(nameRecord->isConstant)
+								{
+									newArgument.name+=exportedSymbols->ReadString(nameRecord->constantString);
+								}
+								else
+								{
+									newArgument.name+=target->arguments[nameRecord->stringArgumentIndex].name;
+								}
+							}
+						}
+					}
+
+					List<BasicIns>& instructions=genericFunctionSitingIL->instructions;
+					for(vint i=0;i<functionEntry->count;i++)
+					{
+						instructions.Add(il->instructions[functionEntry->instruction+i]);
+						BasicIns& ins=instructions[instructions.Count()-1];
+						if(ins.argumentType==BasicIns::linearArgument)
+						{
+							ResourceRecord<BasicILGenericLinearRes> linearRecord=linears.Get(ins.argument.int_value);
+							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
+							vint value=linearRecord->constant;
+							for(vint j=0;j<factors.Count();j++)
+							{
+								vint factor=factors.Get(j)->factor;
+								value+=factor*target->arguments[j].size;
+							}
+							ins.argumentType=BasicIns::constantArgument;
+							ins.argument.int_value=value;
+						}
+					}
+
+					return labels.Count()-1;
 				}
 			}
 

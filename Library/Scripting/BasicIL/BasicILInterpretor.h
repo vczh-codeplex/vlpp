@@ -89,10 +89,11 @@ namespace vl
 
 			struct BasicILGenericArgument
 			{
-				typedef collections::Array<Ptr<BasicILGenericArgument>> ArrayType;
-
 				vint										size;
-				collections::Array<BasicILGenericName>		nameTemplate;
+				WString										name;
+
+				bool										operator==(const BasicILGenericArgument& value)const;
+				bool										operator!=(const BasicILGenericArgument& value)const;
 			};
 
 			struct BasicILGenericFunctionTarget
@@ -101,15 +102,7 @@ namespace vl
 
 				WString										symbolName;
 				WString										assemblyName;
-				BasicILGenericArgument::ArrayType			arguments;
-			};
-
-			struct BasicILGenericLinear
-			{
-				typedef collections::List<Ptr<BasicILGenericLinear>> ListType;
-
-				collections::Array<vint>					factors;
-				vint										constant;
+				collections::Array<BasicILGenericArgument>	arguments;
 			};
 
 /***********************************************************************
@@ -132,6 +125,7 @@ namespace vl
 				typedef collections::Dictionary<collections::Pair<WString, WString>, vint>	_SymbolMap;
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
+				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
 
 				static const int							GenericFunctionSitingAssemblyKey;
 			protected:
@@ -143,11 +137,12 @@ namespace vl
 
 				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
 				BasicILGenericFunctionTarget::ListType		genericFunctionTargets;
-				BasicILGenericLinear::ListType				genericLinears;
+				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
 				Ptr<BasicIL>								genericFunctionSitingIL;
 
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
+				vint										InstanciateGenericFunction(BasicILGenericFunctionTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
