@@ -406,6 +406,10 @@ BasicILInterpretor
 						}
 						break;
 					}
+					if(ins.insKey==-1)
+					{
+						ins.insKey=index;
+					}
 				}
 			}
 
@@ -933,10 +937,7 @@ BasicILStack
 							return BasicILStack::UnknownInstruction;
 						}
 						instruction=nextInstruction;
-						if(nextInsKey!=-1)
-						{
-							insKey=nextInsKey;
-						}
+						insKey=nextInsKey;
 					}
 					return BasicILStack::Finished;
 				}
