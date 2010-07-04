@@ -436,6 +436,34 @@ BasicILStack
 						BasicIns& ins=interpretor->ils[insKey]->instructions[instruction];
 						switch(ins.opcode)
 						{
+						case BasicIns::generic_callfunc:
+							{
+								BasicILGenericFunctionTarget* target=interpretor->genericFunctionTargets[ins.argument.int_value].Obj();
+								vint labelIndex=interpretor->InstanciateGenericFunction(target);
+
+								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
+								BasicILLabel& label=interpretor->labels[labelIndex];
+								theIns.opcode=BasicIns::call;
+								theIns.insKey=label.key;
+								theIns.argument.int_value=label.instruction;
+
+								nextInstruction=instruction;
+								nextInsKey=insKey;
+							}
+							break;
+						case BasicIns::generic_pushfunc:
+							{
+								BasicILGenericFunctionTarget* target=interpretor->genericFunctionTargets[ins.argument.int_value].Obj();
+								vint labelIndex=interpretor->InstanciateGenericFunction(target);
+
+								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
+								theIns.opcode=BasicIns::pushlabel;
+								theIns.argument.int_value=labelIndex;
+
+								nextInstruction=instruction;
+								nextInsKey=insKey;
+							}
+							break;
 						case BasicIns::push:
 							switch(ins.type1)
 							{

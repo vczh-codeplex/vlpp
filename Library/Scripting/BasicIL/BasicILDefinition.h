@@ -31,7 +31,7 @@ OpCode:
   jumpfalse				INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top* bool								->
   call					INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   call_indirect											:*stack_top* PUSHINS RETPTR						-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  call_foreign			FOREIGN_FUNCTION_INDEX(vint)		:*stack_top* RETPTR								-> RETPTR
+  call_foreign			FOREIGN_FUNCTION_INDEX(vint)	:*stack_top* RETPTR								-> RETPTR
   call_raw				RAW_FUNCTION_POINTER			:*stack_top* ARGUMENTS							->
   convert				DEST_TYPE		SOURCE_TYPE		:*stack_top* SOURCE_TYPE						-> DEST_TYPE
   stack_offset			BYTES(vint)						:*stack_top*									-> pointer
@@ -116,6 +116,9 @@ namespace vl
 					link_pushforeigndata,
 					link_pushforeignfunc,
 					link_callforeignfunc,
+
+					generic_pushfunc,
+					generic_callfunc,
 
 					codegen_callfunc,
 				};
