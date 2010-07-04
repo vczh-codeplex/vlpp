@@ -424,7 +424,11 @@ BasicILInterpretor
 					{
 						instructions.Add(il->instructions[functionEntry->instruction+i]);
 						BasicIns& ins=instructions[instructions.Count()-1];
-						if(ins.argumentType==BasicIns::linearArgument)
+						if(ins.opcode==BasicIns::generic_pushfunc || ins.opcode==BasicIns::generic_callfunc)
+						{
+							ins.argument.int_value+=targetOffset;
+						}
+						else if(ins.argumentType==BasicIns::linearArgument)
 						{
 							ResourceRecord<BasicILGenericLinearRes> linearRecord=linears.Get(ins.argument.int_value);
 							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
