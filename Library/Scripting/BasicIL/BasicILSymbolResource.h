@@ -79,7 +79,7 @@ namespace vl
 		};
 
 		//线性对象参数
-		struct BasicILGenericFactorItem
+		struct BasicILGenericFactorItemRes
 		{
 			vint													factor;					//参数
 		};
@@ -87,7 +87,7 @@ namespace vl
 		//线性对象（值 = sum(fi*ti) + constant）
 		struct BasicILGenericLinearRes
 		{
-			ResourceArrayHandle<BasicILGenericFactorItem>			factors;				//参数表
+			ResourceArrayHandle<BasicILGenericFactorItemRes>		factors;				//参数表
 			vint													constant;				//常数项
 		};
 
