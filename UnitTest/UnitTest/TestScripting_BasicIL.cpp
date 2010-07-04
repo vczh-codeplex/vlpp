@@ -515,7 +515,7 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 	BasicILInterpretor interpretor(1024);
 	vint key=interpretor.LoadIL(&il);
 	BasicILLabel label;
-	label.key=-1;
+	label.key=key;
 	label.instruction=22;
 	interpretor.GetLabels().Add(label);
 
