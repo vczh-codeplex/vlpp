@@ -196,9 +196,18 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	/*	61	*/.Ins(BasicIns::resptr)
 	/*	62	*/.Ins(BasicIns::generic_pushfunc,	BasicIns::MakeInt(1))
 	/*	63	*/.Ins(BasicIns::label)
-	/*	65	*/.Ins(BasicIns::call_indirect,		BasicIns::MakeInt(0))
-	/*	64	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(char))))
-	/*	65	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
+	/*	64	*/.Ins(BasicIns::call_indirect,		BasicIns::MakeInt(0))
+	/*	65	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(char))))
+	/*	66	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
+	;
+
+	il
+	/*	67	*/.Ins(BasicIns::generic_pushfunc,	BasicIns::MakeInt(1))
+	/*	68	*/.Ins(BasicIns::generic_pushfunc,	BasicIns::MakeInt(1))
+	/*	69	*/.Ins(BasicIns::eq,				BasicIns::int_type)
+	/*	70	*/.Ins(BasicIns::resptr)
+	/*	71	*/.Ins(BasicIns::write,				BasicIns::bool_type)
+	/*	72	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
 	;
 
 	{
@@ -209,6 +218,11 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	{
 		BasicILLocalLabel label;
 		label.instructionIndex=52;
+		il.labels.Add(label);
+	}
+	{
+		BasicILLocalLabel label;
+		label.instructionIndex=67;
 		il.labels.Add(label);
 	}
 
@@ -241,6 +255,20 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 		char result=stack.GetEnv()->Pop<char>();
 		TEST_ASSERT(result=='B');
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
+	{
+		stack.Reset(il.labels[2].instructionIndex, key, sizeof(bool));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		bool result=stack.GetEnv()->Pop<bool>();
+		TEST_ASSERT(result==true);
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
+	{
+		stack.Reset(il.labels[2].instructionIndex, key, sizeof(bool));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		bool result=stack.GetEnv()->Pop<bool>();
+		TEST_ASSERT(result==true);
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 }

@@ -478,7 +478,9 @@ BasicILInterpretor
 						}
 					}
 
-					return labels.Count()-1;
+					vint result=labels.Count()-1;
+					instanciatedGenericFunctions.Add(uniqueName, result);
+					return result;
 				}
 			}
 
