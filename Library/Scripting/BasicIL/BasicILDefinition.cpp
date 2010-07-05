@@ -161,6 +161,8 @@ BasicIL
 				return *this;
 			}
 
+			//---------------------------------------------------------------------------------------
+
 			BasicIL& BasicIL::Ins(BasicIns::OpCode opcode, BasicIns::Argument argument)
 			{
 				BasicIns ins;
@@ -198,6 +200,45 @@ BasicIL
 				instructions.Add(ins);
 				return *this;
 			}
+
+			//---------------------------------------------------------------------------------------
+			
+			BasicIL& BasicIL::InsG(BasicIns::OpCode opcode)
+			{
+				Ins(opcode);
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsG(BasicIns::OpCode opcode, BasicIns::Argument argument)
+			{
+				Ins(opcode, argument);
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1)
+			{
+				Ins(opcode, type1);
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument)
+			{
+				Ins(opcode, type1, argument);
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2)
+			{
+				Ins(opcode, type1, type2);
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			//---------------------------------------------------------------------------------------
 			
 			BasicIL& BasicIL::InsUD(BasicIns::OpCode opcode, void* userData)
 			{
@@ -233,6 +274,50 @@ BasicIL
 				instructions[instructions.Count()-1].userData=userData;
 				return *this;
 			}
+
+			//---------------------------------------------------------------------------------------
+			
+			BasicIL& BasicIL::InsUDG(BasicIns::OpCode opcode, void* userData)
+			{
+				Ins(opcode);
+				instructions[instructions.Count()-1].userData=userData;
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUDG(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData)
+			{
+				Ins(opcode, argument);
+				instructions[instructions.Count()-1].userData=userData;
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData)
+			{
+				Ins(opcode, type1);
+				instructions[instructions.Count()-1].userData=userData;
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData)
+			{
+				Ins(opcode, type1, argument);
+				instructions[instructions.Count()-1].userData=userData;
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			BasicIL& BasicIL::InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData)
+			{
+				Ins(opcode, type1, type2);
+				instructions[instructions.Count()-1].userData=userData;
+				instructions[instructions.Count()-1].argumentType=BasicIns::linearArgument;
+				return *this;
+			}
+
+			//---------------------------------------------------------------------------------------
 
 			void BasicIL::LoadFromStream(stream::IStream& stream)
 			{
