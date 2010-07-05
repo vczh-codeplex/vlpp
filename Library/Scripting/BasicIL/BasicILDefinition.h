@@ -48,6 +48,8 @@ OpCode:
 ------------------generic instanciation only---------
   generic_pushfunc		FUNCTION-TARGET-INDEX(int)		:*stack_top*									-> instruction_label_index
   generic_callfunc		FUNCTION-TARGET-INDEX(int)		:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  generic_pushfunc_vm	INTERPRETOR-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
+  generic_callfunc_vm	INTERPRETOR-TARGET-INDEX(int)	:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
   codegen_callfunc		LABEL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
@@ -119,6 +121,8 @@ namespace vl
 
 					generic_pushfunc,
 					generic_callfunc,
+					generic_pushfunc_vm,
+					generic_callfunc_vm,
 
 					codegen_callfunc,
 				};

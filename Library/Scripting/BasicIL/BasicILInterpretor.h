@@ -139,9 +139,10 @@ namespace vl
 				BasicILGenericFunctionTarget::ListType		genericFunctionTargets;
 				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
 				Ptr<BasicIL>								genericFunctionSitingIL;
-
+				
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
+				vint										RegisterTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
 				vint										InstanciateGenericFunction(BasicILGenericFunctionTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);

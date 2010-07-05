@@ -113,7 +113,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		targets.Set(1, target1);
 		ResourceArrayRecord<BasicILGenericLinearRes> linears=symbolResource->CreateArrayRecord<BasicILGenericLinearRes>(2);
 		linears.Set(0, linear0);
-		linears.Set(0, linear1);
+		linears.Set(1, linear1);
 		genericRes->functionEntries=entries;
 		genericRes->functionTargets=targets;
 		genericRes->linears=linears;
@@ -127,8 +127,8 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	//T FindFirst<T>((int+T)* items, int count, int key);
 	il
 	/*	0	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(sizeof(vint)))
-	/*	1	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(address_of_i))
-	/*	2	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(0))
+	/*	1	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(0))
+	/*	2	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(address_of_i))
 	/*	3	*/.Ins(BasicIns::write,				BasicIns::int_type)
 	/*	4	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(address_of_i))
 	/*	5	*/.Ins(BasicIns::read,				BasicIns::int_type)
@@ -148,7 +148,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	/*	19	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(sizeof(vint)))
 	/*	20	*/.Ins(BasicIns::add,				BasicIns::int_type)
 	/*	21	*/.Ins(BasicIns::resptr)
-	/*	22	*/.InsG(BasicIns::writemem,			BasicIns::MakeInt(1))
+	/*	22	*/.InsG(BasicIns::copymem,			BasicIns::MakeInt(1))
 	/*	23	*/.Ins(BasicIns::jump,				BasicIns::MakeInt(37))
 	/*	24	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(address_of_items))
 	/*	25	*/.Ins(BasicIns::read,				BasicIns::pointer_type)
@@ -163,7 +163,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	/*	34	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(address_of_i))
 	/*	35	*/.Ins(BasicIns::write,				BasicIns::int_type)
 	/*	36	*/.Ins(BasicIns::jump,				BasicIns::MakeInt(4))
-	/*	37	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(sizeof(vint)))
+	/*	37	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-(vint)sizeof(vint)))
 	/*	38	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(3*sizeof(vint)))
 	;
 
@@ -176,10 +176,10 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	/*	44	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(1))
 	/*	45	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(5))
 	/*	46	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(3))
-	/*	47	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(3*(sizeof(vint)+sizeof(double))))
+	/*	47	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(double))))
 	/*	48	*/.Ins(BasicIns::resptr)
 	/*	49	*/.Ins(BasicIns::generic_callfunc,	BasicIns::MakeInt(0))
-	/*	50	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(3*(sizeof(vint)+sizeof(double))))
+	/*	50	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(sizeof(vint)+sizeof(double))))
 	/*	51	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
 	;
 
@@ -195,7 +195,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	BasicILStack stack(&interpretor);
 	stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	vint result=stack.GetEnv()->Pop<vint>();
+	double result=stack.GetEnv()->Pop<double>();
 	TEST_ASSERT(result==90);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
