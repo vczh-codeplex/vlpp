@@ -747,9 +747,9 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 	TEST_ASSERT(errors.Count()==11);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(c8, argument)==floatType);
 #ifdef VCZH_64
-	const int ErrorOffset=1;
+	const vint ErrorOffset=1;
 #else
-	const int ErrorOffset=0;
+	const vint ErrorOffset=0;
 #endif
 	TEST_ASSERT(errors.Count()==11+ErrorOffset);
 	TEST_ASSERT(BasicLanguage_GetExpressionType(c9, argument)==floatType);
@@ -885,9 +885,9 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
 	Ptr<BasicExpression> wrongExpr3=e_name(L"sin")(e_exps()<<e_prim((vint)1)<<e_prim((vint)2)).GetInternalValue();
 
 #ifdef VCZH_64
-	const int error_offset=2;
+	const vint error_offset=2;
 #else
-	const int error_offset=0;
+	const vint error_offset=0;
 #endif
 
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);

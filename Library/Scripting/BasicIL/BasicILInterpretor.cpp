@@ -140,7 +140,7 @@ BasicILLabel
 BasicILInterpretor
 ***********************************************************************/
 
-			const int BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
+			const vint BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
 
 			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols)
 			{

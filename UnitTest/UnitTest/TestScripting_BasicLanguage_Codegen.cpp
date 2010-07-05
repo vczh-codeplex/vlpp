@@ -140,9 +140,9 @@ void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 	RunBasicProgramInternal(program, result, name);
 }
 
-void RunBasicProgramInt(Ptr<BasicProgram> program, int result, const WString& name)
+void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name)
 {
-	RunBasicProgram<int>(program, result, name);
+	RunBasicProgram<vint>(program, result, name);
 }
 
 /***********************************************************************

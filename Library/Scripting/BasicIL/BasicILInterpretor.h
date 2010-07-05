@@ -127,7 +127,7 @@ namespace vl
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
 
-				static const int							GenericFunctionSitingAssemblyKey;
+				static const vint							GenericFunctionSitingAssemblyKey;
 			protected:
 				vint										stackSize;
 				collections::List<BasicIL*>					ils;
