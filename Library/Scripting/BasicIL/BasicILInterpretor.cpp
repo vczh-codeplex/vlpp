@@ -246,7 +246,7 @@ BasicILInterpretor
 							symbol.key=exportedSymbols->ReadString(target->assemblyName);
 							symbol.value=exportedSymbols->ReadString(target->symbolName);
 
-							if(!ilMap.Keys().Contains(symbol.key))
+							if(assemblyName!=symbol.key && !ilMap.Keys().Contains(symbol.key))
 							{
 								throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
 							}
@@ -265,7 +265,7 @@ BasicILInterpretor
 					{
 						currentFunctionEntries.Values()[i]->key=index;
 					}
-					CopyFrom(genericFunctionEntries.Wrap(), currentFunctionEntries.Wrap());
+					CopyFrom(genericFunctionEntries.Wrap(), currentFunctionEntries.Wrap(), true);
 				}
 				ils.Add(il);
 			}
