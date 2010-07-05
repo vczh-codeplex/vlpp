@@ -245,6 +245,6 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	}
 }
 
-TEST_CASE(TestBasicILInstruction_Generic_FunctionPointer)
+TEST_CASE(TestBasicILInstruction_Generic_GlobalVariable)
 {
 }
