@@ -574,7 +574,6 @@ TEST_CASE(Test_NativeX_Sum)
 
 TEST_CASE(Test_NativeX_GenericStructure)
 {
-	return;
 	Ptr<LanguageAssembly> assembly=TestNativeXNoError(
 		LINE_(	unit generic_structure;										)
 		LINE_(	generic<T>     												)
@@ -642,7 +641,7 @@ TEST_CASE(Test_NativeX_GenericStructure)
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
 		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
-		BasicFunctionExecutor<int()> mainFunction(main, state);
+		BasicFunctionExecutor<vint()> mainFunction(main, state);
 		TEST_ASSERT(mainFunction()==30);
 	}
 }

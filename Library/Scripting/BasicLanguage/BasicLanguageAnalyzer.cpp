@@ -156,7 +156,7 @@ BasicLanguage_GetTypeRecord
 							throw BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(node);
 						}
 						Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
-						for(int i=0;i<genericType->ParameterCount();i++)
+						for(vint i=0;i<genericType->ParameterCount();i++)
 						{
 							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
 						}
@@ -195,7 +195,7 @@ BasicLanguage_BuildGlobalScopePass1
 				if(declaration->genericDeclaration.HasGeneric())
 				{
 					BasicScope* scope=argument.env->CreateScope(argument.scope);
-					for(int i=0;i<declaration->genericDeclaration.arguments.Count();i++)
+					for(vint i=0;i<declaration->genericDeclaration.arguments.Count();i++)
 					{
 						const WString& name=declaration->genericDeclaration.arguments[i];
 						if(scope->types.Items().Keys().Contains(name))
@@ -222,7 +222,7 @@ BasicLanguage_BuildGlobalScopePass1
 				{
 					BasicTypeRecord* genericType=argument.typeManager->CreateGenericType();
 					List<BasicTypeRecord*> genericArguments;
-					for(int i=0;i<declaration->genericDeclaration.arguments.Count();i++)
+					for(vint i=0;i<declaration->genericDeclaration.arguments.Count();i++)
 					{
 						BasicTypeRecord* genericArgument=argument.typeManager->GetGenericArgumentType(declaration->genericDeclaration.arguments[i]);
 						if(!genericArguments.Contains(genericArgument))

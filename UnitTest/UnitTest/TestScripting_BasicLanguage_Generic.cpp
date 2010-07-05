@@ -16,7 +16,7 @@ using namespace vl::scripting::basicil;
 using namespace vl::stream;
 
 //from TestScripting_BasicLanguage_Codegen.cpp
-extern void RunBasicProgramInt(Ptr<BasicProgram> program, int result, const WString& name);
+extern void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name);
 
 /***********************************************************************
 Generic Structure
@@ -24,7 +24,6 @@ Generic Structure
 
 TEST_CASE(TestScripting_BasicLanguage_GenericStructure)
 {
-	return;
 	BasicProgramNode programMain;
 	programMain
 		.Generic().GenericArgument(L"T")
@@ -49,7 +48,6 @@ Generic Type Rename
 
 TEST_CASE(TestScripting_BasicLanguage_GenericTypeRename)
 {
-	return;
 	BasicProgramNode programMain;
 	programMain
 		.Generic().GenericArgument(L"T")

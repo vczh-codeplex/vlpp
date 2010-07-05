@@ -144,7 +144,7 @@ BasicLanguage_GenerateResource
 			{
 				ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->genericDeclaration.arguments.Count());
 				resource->genericArgumentNames=parameters;
-				for(int i=0;i<node->genericDeclaration.arguments.Count();i++)
+				for(vint i=0;i<node->genericDeclaration.arguments.Count();i++)
 				{
 					ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
 					parameter->name=argument.resource->CreateString(node->genericDeclaration.arguments[i]);
