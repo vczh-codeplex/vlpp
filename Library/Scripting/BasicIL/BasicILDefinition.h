@@ -236,11 +236,23 @@ namespace vl
 				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
 				BasicIL&								Ins(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
 
+				BasicIL&								InsG(BasicIns::OpCode opcode);
+				BasicIL&								InsG(BasicIns::OpCode opcode, BasicIns::Argument argument);
+				BasicIL&								InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1);
+				BasicIL&								InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument);
+				BasicIL&								InsG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2);
+
 				BasicIL&								InsUD(BasicIns::OpCode opcode, void* userData);
 				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData);
 				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData);
 				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData);
 				BasicIL&								InsUD(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData);
+
+				BasicIL&								InsUDG(BasicIns::OpCode opcode, void* userData);
+				BasicIL&								InsUDG(BasicIns::OpCode opcode, BasicIns::Argument argument, void* userData);
+				BasicIL&								InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, void* userData);
+				BasicIL&								InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::Argument argument, void* userData);
+				BasicIL&								InsUDG(BasicIns::OpCode opcode, BasicIns::ValueType type1, BasicIns::ValueType type2, void* userData);
 
 				void									LoadFromStream(stream::IStream& stream);
 				void									SaveToStream(stream::IStream& stream);
