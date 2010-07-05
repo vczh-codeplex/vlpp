@@ -347,6 +347,46 @@ BasicILInterpretor
 				}
 			}
 
+			vint BasicILInterpretor::RegisterTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex)
+			{
+				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
+				ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+				ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
+				ResourceArrayRecord<BasicILGenericFunctionTargetRes> targets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets);
+				ResourceArrayRecord<BasicILGenericLinearRes> linears=exportedSymbols->ReadArrayRecord<BasicILGenericLinearRes>(genericRes->linears);
+				
+				ResourceRecord<BasicILGenericFunctionTargetRes> targetRecord=targets.Get(targetIndex);
+				Ptr<BasicILGenericFunctionTarget> newTarget=new BasicILGenericFunctionTarget;
+				newTarget->assemblyName=exportedSymbols->ReadString(targetRecord->assemblyName);
+				newTarget->symbolName=exportedSymbols->ReadString(targetRecord->symbolName);
+				genericFunctionTargets.Add(newTarget);
+
+				ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord<BasicILGenericArgumentRes>(targetRecord->arguments);
+				newTarget->arguments.Resize(arguments.Count());
+				for(vint j=0;j<arguments.Count();j++)
+				{
+					ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
+					BasicILGenericArgument& newArgument=newTarget->arguments[j];
+					newArgument.size=argumentRecord->sizeArgument;
+
+					ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(argumentRecord->nameArgument);
+					for(vint k=0;k<names.Count();k++)
+					{
+						ResourceRecord<BasicILGenericNameRes> nameRecord=names.Get(k);
+						if(nameRecord->isConstant)
+						{
+							newArgument.name+=exportedSymbols->ReadString(nameRecord->constantString);
+						}
+						else
+						{
+							newArgument.name+=target->arguments[nameRecord->stringArgumentIndex].name;
+						}
+					}
+				}
+
+				return genericFunctionTargets.Count()-1;
+			}
+
 			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericFunctionTarget* target)
 			{
 				Pair<WString, WString> symbol;
@@ -379,67 +419,62 @@ BasicILInterpretor
 					label.instruction=genericFunctionSitingIL->instructions.Count();
 					labels.Add(label);
 
-					BasicIL* il=ilMap[functionEntry->key];
+					BasicIL* il=ils[functionEntry->key];
 					Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
 					ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
 					ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
-					ResourceArrayRecord<BasicILGenericFunctionTargetRes> targets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets);
 					ResourceArrayRecord<BasicILGenericLinearRes> linears=exportedSymbols->ReadArrayRecord<BasicILGenericLinearRes>(genericRes->linears);
-
-					vint targetOffset=genericFunctionTargets.Count();
-					for(vint i=0;i<targets.Count();i++)
-					{
-						ResourceRecord<BasicILGenericFunctionTargetRes> targetRecord=targets.Get(i);
-						Ptr<BasicILGenericFunctionTarget> newTarget=new BasicILGenericFunctionTarget;
-						newTarget->assemblyName=exportedSymbols->ReadString(targetRecord->assemblyName);
-						newTarget->symbolName=exportedSymbols->ReadString(targetRecord->symbolName);
-						genericFunctionTargets.Add(newTarget);
-
-						ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord<BasicILGenericArgumentRes>(targetRecord->arguments);
-						newTarget->arguments.Resize(arguments.Count());
-						for(vint j=0;j<arguments.Count();j++)
-						{
-							ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
-							BasicILGenericArgument& newArgument=newTarget->arguments[j];
-							newArgument.size=argumentRecord->sizeArgument;
-
-							ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(argumentRecord->nameArgument);
-							for(vint k=0;k<names.Count();k++)
-							{
-								ResourceRecord<BasicILGenericNameRes> nameRecord=names.Get(k);
-								if(nameRecord->isConstant)
-								{
-									newArgument.name+=exportedSymbols->ReadString(nameRecord->constantString);
-								}
-								else
-								{
-									newArgument.name+=target->arguments[nameRecord->stringArgumentIndex].name;
-								}
-							}
-						}
-					}
 
 					List<BasicIns>& instructions=genericFunctionSitingIL->instructions;
 					for(vint i=0;i<functionEntry->count;i++)
 					{
 						instructions.Add(il->instructions[functionEntry->instruction+i]);
 						BasicIns& ins=instructions[instructions.Count()-1];
-						if(ins.opcode==BasicIns::generic_pushfunc || ins.opcode==BasicIns::generic_callfunc)
+						switch(ins.opcode)
 						{
-							ins.argument.int_value+=targetOffset;
-						}
-						else if(ins.argumentType==BasicIns::linearArgument)
-						{
-							ResourceRecord<BasicILGenericLinearRes> linearRecord=linears.Get(ins.argument.int_value);
-							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
-							vint value=linearRecord->constant;
-							for(vint j=0;j<factors.Count();j++)
+						case BasicIns::generic_callfunc:
 							{
-								vint factor=factors.Get(j)->factor;
-								value+=factor*target->arguments[j].size;
+							ins.opcode=BasicIns::generic_callfunc_vm;
+							ins.argument.int_value=RegisterTarget(target, il, ins.argument.int_value);
 							}
-							ins.argumentType=BasicIns::constantArgument;
-							ins.argument.int_value=value;
+							break;
+						case BasicIns::generic_pushfunc:
+							{
+								ins.opcode=BasicIns::generic_pushfunc_vm;
+								ins.argument.int_value=RegisterTarget(target, il, ins.argument.int_value);
+							}
+							break;
+						case BasicIns::pushins:
+						case BasicIns::jump:
+						case BasicIns::jumpfalse:
+						case BasicIns::jumptrue:
+						case BasicIns::call:
+							{
+								if(ins.insKey==functionEntry->key
+									&& ins.argument.int_value>=functionEntry->instruction
+									&& ins.argument.int_value<functionEntry->instruction+functionEntry->count)
+								{
+									ins.insKey=BasicILInterpretor::GenericFunctionSitingAssemblyKey;
+									ins.argument.int_value=label.instruction+(ins.argument.int_value-functionEntry->instruction);
+								}
+							}
+							break;
+						default:
+							{
+								if(ins.argumentType==BasicIns::linearArgument)
+								{
+									ResourceRecord<BasicILGenericLinearRes> linearRecord=linears.Get(ins.argument.int_value);
+									ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
+									vint value=linearRecord->constant;
+									for(vint j=0;j<factors.Count();j++)
+									{
+										vint factor=factors.Get(j)->factor;
+										value+=factor*target->arguments[j].size;
+									}
+									ins.argumentType=BasicIns::constantArgument;
+									ins.argument.int_value=value;
+								}
+							}
 						}
 					}
 
