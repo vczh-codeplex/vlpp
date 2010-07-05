@@ -96,7 +96,7 @@ namespace vl
 
 			static void Read(IStream& stream, ObjectString<T>& value)
 			{
-				int count=ReadStream<vint>(stream);
+				vint count=ReadStream<vint>(stream);
 				collections::Array<T> buffer(count+1);
 				stream.Read((void*)&buffer[0], count*sizeof(T));
 				buffer[count]=0;
@@ -144,7 +144,7 @@ namespace vl
 
 			static void ReadList(IStream& stream, C& value)
 			{
-				int count=ReadStream<vint>(stream);
+				vint count=ReadStream<vint>(stream);
 				value.Clear();
 				for(vint i=0;i<count;i++)
 				{
@@ -154,7 +154,7 @@ namespace vl
 
 			static void ReadArray(IStream& stream, C& value)
 			{
-				int count=ReadStream<vint>(stream);
+				vint count=ReadStream<vint>(stream);
 				value.Resize(count);
 				for(vint i=0;i<count;i++)
 				{
@@ -178,7 +178,7 @@ namespace vl
 
 			static void ReadList(IStream& stream, C& value)
 			{
-				int count=ReadStream<vint>(stream);
+				vint count=ReadStream<vint>(stream);
 				value.Clear();
 				for(vint i=0;i<count;i++)
 				{
@@ -188,7 +188,7 @@ namespace vl
 
 			static void ReadArray(IStream& stream, C& value)
 			{
-				int count=ReadStream<vint>(stream);
+				vint count=ReadStream<vint>(stream);
 				value.Resize(count);
 				if(count>0)
 				{

@@ -275,14 +275,14 @@ namespace vl
 				return buffer[0];
 			}
 
-			ResourceRecord<T> Get(int index)const
+			ResourceRecord<T> Get(vint index)const
 			{
 				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
 				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
 				return ResourceRecord<T>(resourceStream, buffer[index+1]);
 			}
 
-			void Set(int index, const ResourceHandle<T> handle)const
+			void Set(vint index, const ResourceHandle<T> handle)const
 			{
 				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
 				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
@@ -383,7 +383,7 @@ namespace vl
 			//------------------------------------------------------------------------------
 
 			template<typename T>
-			ResourceArrayRecord<T> CreateArrayRecord(int count)
+			ResourceArrayRecord<T> CreateArrayRecord(vint count)
 			{
 				vint pointer=CreateRecord((count+1)*sizeof(T));
 				*(vint*)GetPointer(pointer)=count;
