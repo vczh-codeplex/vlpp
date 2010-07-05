@@ -60,23 +60,23 @@ TEST_CASE(TestBasicTypeInfo)
 	BasicTypeInfo* infoLink=info.GetTypeInfo(typeLink);
 	BasicTypeInfo* infoType=info.GetTypeInfo(typeType);
 
-	TEST_ASSERT(infoInt8->size==1);
+	TEST_ASSERT(infoInt8->size==(vint)1);
 	TEST_ASSERT(infoPInt8->size==(vint)sizeof(void*));
 	TEST_ASSERT(infoFunc->size==(vint)sizeof(void*));
-	TEST_ASSERT(infoInt8s->size==10);
+	TEST_ASSERT(infoInt8s->size==(vint)10);
 	TEST_ASSERT(infoLink->size==(vint)sizeof(void*)*3);
-	TEST_ASSERT(infoLink->offsets.Count()==3);
-	TEST_ASSERT(infoLink->offsets[0]==0);
+	TEST_ASSERT(infoLink->offsets.Count()==(vint)3);
+	TEST_ASSERT(infoLink->offsets[0]==(vint)0);
 	TEST_ASSERT(infoLink->offsets[1]==(vint)sizeof(void*));
 	TEST_ASSERT(infoLink->offsets[2]==(vint)sizeof(void*)*2);
-	TEST_ASSERT(infoType->size==17);
-	TEST_ASSERT(infoType->offsets.Count()==6);
-	TEST_ASSERT(infoType->offsets[0]==0);
-	TEST_ASSERT(infoType->offsets[1]==1);
-	TEST_ASSERT(infoType->offsets[2]==5);
-	TEST_ASSERT(infoType->offsets[3]==6);
-	TEST_ASSERT(infoType->offsets[4]==8);
-	TEST_ASSERT(infoType->offsets[5]==16);
+	TEST_ASSERT(infoType->size==(vint)17);
+	TEST_ASSERT(infoType->offsets.Count()==(vint)6);
+	TEST_ASSERT(infoType->offsets[0]==(vint)0);
+	TEST_ASSERT(infoType->offsets[1]==(vint)1);
+	TEST_ASSERT(infoType->offsets[2]==(vint)5);
+	TEST_ASSERT(infoType->offsets[3]==(vint)6);
+	TEST_ASSERT(infoType->offsets[4]==(vint)8);
+	TEST_ASSERT(infoType->offsets[5]==(vint)16);
 }
 
 /***********************************************************************

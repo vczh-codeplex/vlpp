@@ -76,7 +76,7 @@ BasicCodegenInfo
 								info->offsets.Add(offset);
 								offset+=member->size;
 							}
-							if(offset==0)
+							if(offset==(vint)0)
 							{
 								info->size=1;
 							}

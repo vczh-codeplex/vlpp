@@ -73,10 +73,10 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 
 			ResourceRecord<BasicILGenericArgumentRes> argument0=symbolResource->CreateRecord<BasicILGenericArgumentRes>();
 			{
-				argument0->sizeArgument=sizeof(vint);
+				argument0->sizeArgument=sizeof(char);
 				ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
 				name0->isConstant=true;
-				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:INTEGER");
+				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:CHAR");
 				name0->stringArgumentIndex=-1;
 				ResourceArrayRecord<BasicILGenericNameRes> names=symbolResource->CreateArrayRecord<BasicILGenericNameRes>(1);
 				names.Set(0, name0);
@@ -179,8 +179,26 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	/*	47	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(double))))
 	/*	48	*/.Ins(BasicIns::resptr)
 	/*	49	*/.Ins(BasicIns::generic_callfunc,	BasicIns::MakeInt(0))
-	/*	50	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(sizeof(vint)+sizeof(double))))
+	/*	50	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(double))))
 	/*	51	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
+	;
+
+	il
+	/*	52	*/.Ins(BasicIns::push,				BasicIns::char_type, BasicIns::Makes8('C'))
+	/*	53	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(5))
+	/*	54	*/.Ins(BasicIns::push,				BasicIns::char_type, BasicIns::Makes8('B'))
+	/*	55	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(4))
+	/*	56	*/.Ins(BasicIns::push,				BasicIns::char_type, BasicIns::Makes8('A'))
+	/*	57	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(3))
+	/*	58	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(4))
+	/*	59	*/.Ins(BasicIns::push,				BasicIns::int_type, BasicIns::MakeInt(3))
+	/*	60	*/.Ins(BasicIns::stack_offset,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(char))))
+	/*	61	*/.Ins(BasicIns::resptr)
+	/*	62	*/.Ins(BasicIns::generic_pushfunc,	BasicIns::MakeInt(1))
+	/*	63	*/.Ins(BasicIns::label)
+	/*	65	*/.Ins(BasicIns::call_indirect,		BasicIns::MakeInt(0))
+	/*	64	*/.Ins(BasicIns::stack_reserve,		BasicIns::MakeInt(-3*(vint)(sizeof(vint)+sizeof(char))))
+	/*	65	*/.Ins(BasicIns::ret,				BasicIns::MakeInt(0))
 	;
 
 	{
@@ -188,16 +206,43 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		label.instructionIndex=39;
 		il.labels.Add(label);
 	}
+	{
+		BasicILLocalLabel label;
+		label.instructionIndex=52;
+		il.labels.Add(label);
+	}
 
 	BasicILInterpretor interpretor(1024);
 	vint key=interpretor.LoadIL(&il);
-
 	BasicILStack stack(&interpretor);
-	stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	double result=stack.GetEnv()->Pop<double>();
-	TEST_ASSERT(result==90);
-	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	{
+		stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		double result=stack.GetEnv()->Pop<double>();
+		TEST_ASSERT(result==90);
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
+	{
+		stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		double result=stack.GetEnv()->Pop<double>();
+		TEST_ASSERT(result==90);
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
+	{
+		stack.Reset(il.labels[1].instructionIndex, key, sizeof(char));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		char result=stack.GetEnv()->Pop<char>();
+		TEST_ASSERT(result=='B');
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
+	{
+		stack.Reset(il.labels[1].instructionIndex, key, sizeof(char));
+		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		char result=stack.GetEnv()->Pop<char>();
+		TEST_ASSERT(result=='B');
+		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	}
 }
 
 TEST_CASE(TestBasicILInstruction_Generic_FunctionPointer)

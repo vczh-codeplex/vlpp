@@ -98,7 +98,7 @@ BasicLanguage_PushValueInternal
 								argument.Ins(BasicIns::stack_reserve, operandSize);
 								BasicLanguage_PushRef(node->operand, argument);
 								Code_CopyAddressInStack(node->operand.Obj(), argument);
-								argument.Ins(BasicIns::stack_top, operandAddressSize*2);
+								argument.Ins(BasicIns::stack_top, operandAddressSize*(vint)2);
 								Code_Copy(operandType, argument);
 								Code_ScaleAdder(operandType, argument, true);
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);
@@ -151,7 +151,7 @@ BasicLanguage_PushValueInternal
 								argument.Ins(BasicIns::stack_reserve, operandSize);
 								BasicLanguage_PushRef(node->operand, argument);
 								Code_CopyAddressInStack(node->operand.Obj(), argument);
-								argument.Ins(BasicIns::stack_top,operandAddressSize*2);
+								argument.Ins(BasicIns::stack_top,operandAddressSize*(vint)2);
 								Code_Copy(operandType, argument);
 								Code_ScaleAdder(operandType, argument, true);
 								Code_CopyAddressInStack(node->operand.Obj(), argument, operandSize);

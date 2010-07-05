@@ -10,7 +10,7 @@ using namespace vl;
 
 TEST_CASE(TestEntity_Linear)
 {
-	typedef Linear<char, vint> F;
+	typedef Linear<char, int> F;
 
 	{
 		TEST_ASSERT(F(0).Constant()==0);
