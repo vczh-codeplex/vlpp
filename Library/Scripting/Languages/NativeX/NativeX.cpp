@@ -185,49 +185,95 @@ namespace vl
 
 			Ptr<BasicExpression> ToInteger(const RegexToken& input)
 			{
-				__int64 number=wtoi64(WString(input.reading, input.length));
-				unsigned __int64 unsignedNumber=wtou64(WString(input.reading, input.length));
+				bool sign=true;
+				vint bits=8*sizeof(vint);
+				if(input.length>2)
+				{
+					switch(input.reading[input.length-2])
+					{
+					case L's':
+						sign=true;
+						bits=8;
+						goto FINISHED_TYPE_RECOGNIZING;
+					case L'u':
+						sign=false;
+						bits=8;
+						goto FINISHED_TYPE_RECOGNIZING;
+					}
+				}
+				if(input.length>3)
+				{
+					switch(input.reading[input.length-3])
+					{
+					case L's':
+						sign=true;
+						break;
+					case L'u':
+						sign=false;
+						break;
+					default:
+						goto FINISHED_TYPE_RECOGNIZING;
+					}
+					if(wcsncmp(input.reading+input.length-2, L"16", 2)==0)
+					{
+						bits=16;
+					}
+					else if(wcsncmp(input.reading+input.length-2, L"32", 2)==0)
+					{
+						bits=32;
+					}
+					else if(wcsncmp(input.reading+input.length-2, L"64", 2)==0)
+					{
+						bits=64;
+					}
+					else
+					{
+						CHECK_ERROR(false, L"词法分析器有错。");
+					}
+				}
+			FINISHED_TYPE_RECOGNIZING:
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
-				expression->argument.s64=0;
-				if(-128<=number && number<=127)
+				if(sign)
 				{
-					expression->type=s8;
-					expression->argument.s8=(__int8)number;
-				}
-				else if(128<=number && number<=255)
-				{
-					expression->type=u8;
-					expression->argument.u8=(unsigned __int8)number;
-				}
-				else if(-32768<=number && number<32767)
-				{
-					expression->type=s16;
-					expression->argument.s16=(__int16)number;
-				}
-				else if(32768<=number && number<=65535)
-				{
-					expression->type=u16;
-					expression->argument.u16=(unsigned __int16)number;
-				}
-				else if(-(__int64)2147483648<=number && number<=(__int64)2147483647)
-				{
-					expression->type=s32;
-					expression->argument.s32=(__int32)number;
-				}
-				else if((__int64)2147483648<=number && number<=(__int64)4294967295)
-				{
-					expression->type=u32;
-					expression->argument.u32=(unsigned __int32)number;
-				}
-				else if(number<0 || number==unsignedNumber)
-				{
-					expression->type=s64;
-					expression->argument.s64=number;
+					expression->argument.s64=wtoi64(WString(input.reading, input.length));
+					switch(bits)
+					{
+					case 8:
+						expression->type=s8;
+						break;
+					case 16:
+						expression->type=s16;
+						break;
+					case 32:
+						expression->type=s32;
+						break;
+					case 64:
+						expression->type=s64;
+						break;
+					default:
+						CHECK_ERROR(false, L"词法分析器有错。");
+					}
 				}
 				else
 				{
-					expression->type=u64;
-					expression->argument.u64=unsignedNumber;
+					expression->argument.u64=wtou64(WString(input.reading, input.length));
+					switch(bits)
+					{
+					case 8:
+						expression->type=u8;
+						break;
+					case 16:
+						expression->type=u16;
+						break;
+					case 32:
+						expression->type=u32;
+						break;
+					case 64:
+						expression->type=u64;
+						break;
+					default:
+						CHECK_ERROR(false, L"词法分析器有错。");
+					}
 				}
 				return expression;
 			}
@@ -1091,9 +1137,9 @@ namespace vl
 					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
 					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
 					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
-					INTEGER			= CreateToken(tokens, L"/d+");
-					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
-					DOUBLE			= CreateToken(tokens, L"/d+./d+");
+					INTEGER			= CreateToken(tokens, L"[+/-]?/d+([su](8|16|32|64))?");
+					FLOAT			= CreateToken(tokens, L"[+/-]?/d+(./d+)[fF]");
+					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
@@ -1903,15 +1949,15 @@ namespace vl
 				{
 					switch(node->type)
 					{
-					case s8:			argument.writer.WriteString(itow(node->argument.s8));						break;
-					case s16:			argument.writer.WriteString(itow(node->argument.s16));						break;
-					case s32:			argument.writer.WriteString(itow(node->argument.s32));						break;
-					case s64:			argument.writer.WriteString(i64tow(node->argument.s64));					break;
-					case u8:			argument.writer.WriteString(utow(node->argument.u8));						break;
-					case u16:			argument.writer.WriteString(utow(node->argument.u16));						break;
-					case u32:			argument.writer.WriteString(utow(node->argument.u32));						break;
-					case u64:			argument.writer.WriteString(u64tow(node->argument.u64));					break;
-					case f32:			argument.writer.WriteString(ftow(node->argument.f32));						break;
+					case s8:			argument.writer.WriteString(itow(node->argument.s8)+L"s8");					break;
+					case s16:			argument.writer.WriteString(itow(node->argument.s16)+L"s16");				break;
+					case s32:			argument.writer.WriteString(itow(node->argument.s32)+L"s32");				break;
+					case s64:			argument.writer.WriteString(i64tow(node->argument.s64)+L"s64");				break;
+					case u8:			argument.writer.WriteString(utow(node->argument.u8)+L"u8");					break;
+					case u16:			argument.writer.WriteString(utow(node->argument.u16)+L"u16");				break;
+					case u32:			argument.writer.WriteString(utow(node->argument.u32)+L"u32");				break;
+					case u64:			argument.writer.WriteString(u64tow(node->argument.u64)+L"u64");				break;
+					case f32:			argument.writer.WriteString(ftow(node->argument.f32)+L"f");					break;
 					case f64:			argument.writer.WriteString(ftow(node->argument.f64));						break;
 					case bool_type:		argument.writer.WriteString(node->argument.bool_value?L"true":L"false");	break;
 					case char_type:
@@ -1949,10 +1995,14 @@ namespace vl
 					case BasicUnaryExpression::PostfixIncrease:
 					case BasicUnaryExpression::PostfixDecrease:
 						NativeX_BasicExpression_GenerateCode(node->operand, argument);
+						argument.writer.WriteString(L" ");
 						argument.writer.WriteString(UnaryOperatorToString(node->type));
+						argument.writer.WriteString(L" ");
 						break;
 					default:
+						argument.writer.WriteString(L" ");
 						argument.writer.WriteString(UnaryOperatorToString(node->type));
+						argument.writer.WriteString(L" ");
 						NativeX_BasicExpression_GenerateCode(node->operand, argument);
 					}
 					argument.writer.WriteString(L")");
@@ -1962,7 +2012,9 @@ namespace vl
 				{
 					argument.writer.WriteString(L"(");
 					NativeX_BasicExpression_GenerateCode(node->leftOperand, argument);
+					argument.writer.WriteString(L" ");
 					argument.writer.WriteString(BinaryOperatorToString(node->type));
+					argument.writer.WriteString(L" ");
 					NativeX_BasicExpression_GenerateCode(node->rightOperand, argument);
 					argument.writer.WriteString(L")");
 				}
