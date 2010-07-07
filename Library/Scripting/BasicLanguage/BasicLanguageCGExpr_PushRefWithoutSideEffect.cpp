@@ -119,6 +119,11 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					}
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return argument.codegenExtension->CanPushRefWithoutSideEffect(node, argument);
@@ -135,22 +140,22 @@ BasicLanguage_PushRefWithoutSideEffect
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicNullExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicNumericExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicMbcsStringExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicMbcsStringExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnicodeStringExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnicodeStringExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicUnaryExpression)
@@ -169,7 +174,7 @@ BasicLanguage_PushRefWithoutSideEffect
 					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					if(operandType->GetType()==BasicTypeRecord::Pointer)
 					{
-						CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+						CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicSubscribeExpression*, const BCP&)#不支持此操作。");
 					}
 					else
 					{
@@ -185,7 +190,7 @@ BasicLanguage_PushRefWithoutSideEffect
 				{
 					if(node->pointerMember)
 					{
-						CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+						CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicMemberExpression*, const BCP&)#不支持此操作。");
 					}
 					BasicTypeRecord* structureType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
 					BasicTypeInfo* structureInfo=argument.info->GetTypeInfo(structureType);
@@ -197,22 +202,27 @@ BasicLanguage_PushRefWithoutSideEffect
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInvokeExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicInvokeExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicFunctionResultExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicUnaryExpression*, const BCP&)#不支持此操作。");
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicCastingExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
 				{
 					BasicLanguage_PushRef(node, argument);
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicInstanciatedExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
