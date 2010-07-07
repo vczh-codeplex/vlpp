@@ -9,6 +9,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 BasicLanguage_GenerateResource
@@ -327,6 +328,58 @@ BasicLanguage_GenerateExport
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport)
+
+/***********************************************************************
+BasicLanguage_Generate*Resource
+***********************************************************************/
+
+			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const WString& programName, const BCP& argument)
+			{
+				return ResourceHandle<BasicILGenericRes>::Null();
+			}
+
+			ResourceArrayHandle<BasicDeclarationRes> BasicLanguage_GenerateDeclarationResource(const Ptr<BasicProgram> program, const BCP& argument)
+			{
+				List<ResourceHandle<BasicDeclarationRes>> declarations;
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
+					if(declaration)
+					{
+						declarations.Add(declaration);
+					}
+				}
+				return argument.resource->CreateArrayRecord(declarations.Wrap());
+			}
+
+			ResourceArrayHandle<BasicILExportRes> BasicLanguage_GenerateExportResource(const Ptr<BasicProgram> program, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILExportRes>> exports;
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					ResourceHandle<BasicILExportRes> exportRes=BasicLanguage_GenerateExport(program->declarations[i], argument);
+					if(exportRes)
+					{
+						exports.Add(exportRes);
+					}
+				}
+				return argument.exportResource->CreateArrayRecord(exports.Wrap());
+			}
+
+			ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateLinkingResource(const Ptr<BasicProgram> program, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILLinkingRes>> linkings;
+				ResourceRecord<BasicILLinkingRes> currentLinking;
+				for(vint i=0;i<argument.info->linkings.Count();i++)
+				{
+					BasicLinking& linking=argument.info->linkings[i];
+					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
+					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
+					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
+					linkings.Add(linkingRecord);
+				}
+				return argument.exportResource->CreateArrayRecord(linkings.Wrap());
+			}
 		}
 	}
 }
