@@ -447,42 +447,13 @@ BasicLanguage_GenerateCode
 				}
 
 				ResourceRecord<BasicEntryRes> entry=argument.resource->CreateRecord<BasicEntryRes>();
-				List<ResourceHandle<BasicDeclarationRes>> declarations;
+				entry->declarations=BasicLanguage_GenerateDeclarationResource(program, argument);
 
 				ResourceRecord<BasicILEntryRes> exportEntry=argument.exportResource->CreateRecord<BasicILEntryRes>();
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
-				List<ResourceHandle<BasicILExportRes>> exports;
-				List<ResourceHandle<BasicILLinkingRes>> linkings;
-				exportEntry->genericSymbols=ResourceHandle<BasicILGenericRes>::Null();
-
-				for(vint i=0;i<program->declarations.Count();i++)
-				{
-					ResourceHandle<BasicDeclarationRes> declaration=BasicLanguage_GenerateResource(program->declarations[i], argument);
-					if(declaration)
-					{
-						declarations.Add(declaration);
-					}
-
-					ResourceHandle<BasicILExportRes> exportRes=BasicLanguage_GenerateExport(program->declarations[i], argument);
-					if(exportRes)
-					{
-						exports.Add(exportRes);
-					}
-				}
-
-				ResourceRecord<BasicILLinkingRes> currentLinking;
-				for(vint i=0;i<argument.info->linkings.Count();i++)
-				{
-					BasicLinking& linking=argument.info->linkings[i];
-					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
-					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
-					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
-					linkings.Add(linkingRecord);
-				}
-
-				entry->declarations=argument.resource->CreateArrayRecord(declarations.Wrap());
-				exportEntry->exports=argument.exportResource->CreateArrayRecord(exports.Wrap());
-				exportEntry->linkings=argument.exportResource->CreateArrayRecord(linkings.Wrap());
+				exportEntry->exports=BasicLanguage_GenerateExportResource(program, argument);
+				exportEntry->linkings=BasicLanguage_GenerateLinkingResource(program, argument);
+				exportEntry->genericSymbols=BasicLanguage_GenerateGenericResource(programName, argument);
 			}
 
 /***********************************************************************
