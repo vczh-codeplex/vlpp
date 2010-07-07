@@ -250,6 +250,11 @@ BasicEnv
 				functionTypes.Add(function, type);
 			}
 
+			void BasicEnv::RegisterStructureType(BasicStructureDeclaration* structure, BasicTypeRecord* type)
+			{
+				structureTypes.Add(structure, type);
+			}
+
 			void BasicEnv::RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type)
 			{
 				expressionTypes.Add(expression, type);
@@ -276,6 +281,12 @@ BasicEnv
 			{
 				vint index=functionTypes.Keys().IndexOf(function);
 				return index==-1?0:functionTypes.Values()[index];
+			}
+
+			BasicTypeRecord* BasicEnv::GetStructureType(BasicStructureDeclaration* structure)
+			{
+				vint index=structureTypes.Keys().IndexOf(structure);
+				return index==-1?0:structureTypes.Values()[index];
 			}
 
 			BasicTypeRecord* BasicEnv::GetExpressionType(BasicExpression* expression)

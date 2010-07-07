@@ -345,6 +345,216 @@ BasicLanguage_Generate*Resource
 				return name;
 			}
 
+			class TypeUniqueStringRecorder
+			{
+				typedef collections::Dictionary<BasicTypeRecord*, BasicStructureDeclaration*> _RegisteredTypeMap;
+			protected:
+				BasicFunctionDeclaration*						currentFunction;
+				List<ResourceHandle<BasicILGenericNameRes>>		names;
+				WString											currentString;
+				_RegisteredTypeMap								map;
+
+				Ptr<ResourceStream>								resource;
+				Ptr<BasicProgram>								program;
+				BasicEnv*										env;
+				WString											assemblyName;
+
+				void Submit()
+				{
+					if(currentString!=L"")
+					{
+						ResourceRecord<BasicILGenericNameRes> name=resource->CreateRecord<BasicILGenericNameRes>();
+						name->constantString=resource->CreateString(currentString);
+						name->isConstant=true;
+						name->stringArgumentIndex=-1;
+						names.Add(name);
+						currentString=L"";
+					}
+				}
+			public:
+				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName)
+					:resource(_resource)
+					,program(_program)
+					,env(_env)
+					,assemblyName(_assemblyName)
+					,currentFunction(0)
+				{
+					for(vint i=0;i<program->declarations.Count();i++)
+					{
+						BasicStructureDeclaration* declaration=dynamic_cast<BasicStructureDeclaration*>(program->declarations[i].Obj());
+						if(declaration)
+						{
+							BasicTypeRecord* type=env->GetStructureType(declaration);
+							if(type)
+							{
+								map.Add(type, declaration);
+							}
+						}
+					}
+				}
+
+				void Start(BasicFunctionDeclaration* function)
+				{
+					currentFunction=function;
+					currentString=L"";
+					names.Clear();
+				}
+
+				void AppendString(const WString& string)
+				{
+					currentString+=string;
+				}
+
+				void AppendParameter(BasicTypeRecord* genericArgument)
+				{
+					Submit();
+					ResourceRecord<BasicILGenericNameRes> name=resource->CreateRecord<BasicILGenericNameRes>();
+					name->constantString=ResourceString::Null();
+					name->isConstant=false;
+					name->stringArgumentIndex=currentFunction->genericDeclaration.arguments.IndexOf(genericArgument->ArgumentName());
+					names.Add(name);
+				}
+
+				void AppendRegistered(BasicTypeRecord* structure)
+				{
+					BasicStructureDeclaration* declaration=map[structure];
+					if(declaration->linking.HasLink())
+					{
+						AppendString(EscapeResourceName(declaration->linking.assemblyName));
+						AppendString(L"::");
+						AppendString(EscapeResourceName(declaration->linking.symbolName));
+					}
+					else
+					{
+						AppendString(EscapeResourceName(assemblyName));
+						AppendString(L"::");
+						AppendString(EscapeResourceName(declaration->name));
+					}
+				}
+
+				ResourceArrayHandle<BasicILGenericNameRes> End()
+				{
+					Submit();
+					return resource->CreateArrayRecord(names.Wrap());
+				}
+			};
+
+			void GetTypeUniqueString(BasicTypeRecord* type, TypeUniqueStringRecorder& recorder)
+			{
+				switch(type->GetType())
+				{
+				case BasicTypeRecord::Primitive:
+					{
+						switch(type->PrimitiveType())
+						{
+						case s8:
+							recorder.AppendString(L"s8");
+							break;
+						case s16:
+							recorder.AppendString(L"s16");
+							break;
+						case s32:
+							recorder.AppendString(L"s32");
+							break;
+						case s64:
+							recorder.AppendString(L"s64");
+							break;
+						case u8:
+							recorder.AppendString(L"u8");
+							break;
+						case u16:
+							recorder.AppendString(L"u16");
+							break;
+						case u32:
+							recorder.AppendString(L"u32");
+							break;
+						case u64:
+							recorder.AppendString(L"u64");
+							break;
+						case f32:
+							recorder.AppendString(L"f32");
+							break;
+						case f64:
+							recorder.AppendString(L"f64");
+							break;
+						case bool_type:
+							recorder.AppendString(L"bool_type");
+							break;
+						case void_type:
+							recorder.AppendString(L"void_type");
+							break;
+						case char_type:
+							recorder.AppendString(L"char_type");
+							break;
+						case wchar_type:
+							recorder.AppendString(L"wchar_type");
+							break;
+						}
+					}
+					break;
+				case BasicTypeRecord::Pointer:
+					{
+						recorder.AppendString(L"pointer<");
+						GetTypeUniqueString(type->ElementType(), recorder);
+						recorder.AppendString(L">");
+					}
+					break;
+				case BasicTypeRecord::Array:
+					{
+						recorder.AppendString(L"pointer<");
+						GetTypeUniqueString(type->ElementType(), recorder);
+						recorder.AppendString(L", ");
+						recorder.AppendString(itow(type->ElementCount()));
+						recorder.AppendString(L">");
+					}
+					break;
+				case BasicTypeRecord::Function:
+					{
+						recorder.AppendString(L"pointer<");
+						GetTypeUniqueString(type->ReturnType(), recorder);
+						for(vint i=0;i<type->ParameterCount();i++)
+						{
+							recorder.AppendString(L", ");
+							GetTypeUniqueString(type->ParameterType(i), recorder);
+						}
+						recorder.AppendString(L">");
+					}
+					break;
+				case BasicTypeRecord::Structure:
+					{
+						BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+						if(proxy)
+						{
+							GetTypeUniqueString(proxy->UninstanciatedStructureType(), recorder);
+							recorder.AppendString(L"<");
+							vint count=proxy->GenericArgumentMap().Count();
+							for(vint i=0;i<count;i++)
+							{
+								if(i)recorder.AppendString(L", ");
+								BasicTypeRecord* key=proxy->UninstanciatedStructureType()->ParameterType(i);
+								GetTypeUniqueString(proxy->GenericArgumentMap()[key], recorder);
+							}
+							recorder.AppendString(L">");
+						}
+						else
+						{
+							recorder.AppendRegistered(type);
+						}
+					}
+					break;
+				case BasicTypeRecord::GenericArgument:
+					{
+						recorder.AppendParameter(type);
+					}
+					break;
+				case BasicTypeRecord::Generic:
+					{
+						recorder.AppendRegistered(type);
+					}
+					break;
+				}
+			}
+
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericFunctionEntryRes>> entries;

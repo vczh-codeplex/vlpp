@@ -190,6 +190,7 @@ BasicTypeManager
 				friend class BasicTypeManager;
 
 				typedef collections::Dictionary<BasicTypeRecord*, BasicTypeRecord*>					_GenericInstanciatingTypeTable;
+				typedef collections::IDictionary<BasicTypeRecord*, BasicTypeRecord*>				_IGenericInstanciatingTypeTable;
 			protected:
 				BasicTypeRecord*						structureType;
 				BasicTypeManager*						manager;
@@ -205,6 +206,9 @@ BasicTypeManager
 				vint									MemberNameIndex(const WString& name);
 				vint									MemberCount();
 				bool									Defined();
+
+				BasicTypeRecord*						UninstanciatedStructureType();
+				_IGenericInstanciatingTypeTable&		GenericArgumentMap();
 			};
 
 			class BasicGenericTypeRecord : public CommonTypeRecord<BasicTypeRecord>

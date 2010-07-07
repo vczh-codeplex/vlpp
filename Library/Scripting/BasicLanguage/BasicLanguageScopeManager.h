@@ -83,6 +83,7 @@ namespace vl
 				};
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicScope*>			_FunctionScopeTable;
 				typedef collections::Dictionary<BasicFunctionDeclaration*, BasicTypeRecord*>	_FunctionTypeTable;
+				typedef collections::Dictionary<BasicStructureDeclaration*, BasicTypeRecord*>	_StructureTypeTable;
 				typedef collections::Dictionary<BasicStatement*, BasicScope*>					_StatementScopeTable;
 				typedef collections::Dictionary<BasicExpression*, BasicTypeRecord*>				_ExpressionTypeTable;
 				typedef collections::Dictionary<BasicReferenceExpression*, Reference>			_ReferenceTable;
@@ -92,6 +93,7 @@ namespace vl
 				_FunctionScopeTable												functionScopes;
 				_StatementScopeTable											statementScopes;
 				_FunctionTypeTable												functionTypes;
+				_StructureTypeTable												structureTypes;
 				_ExpressionTypeTable											expressionTypes;
 				_ReferenceTable													referenceTypes;
 			public:
@@ -104,12 +106,14 @@ namespace vl
 				BasicScope*														CreateStatementScope(BasicScope* previousScope, BasicStatement* statement);
 				void															RegisterStatementScope(BasicStatement* statement, BasicScope* scope);
 				void															RegisterFunctionType(BasicFunctionDeclaration* function, BasicTypeRecord* type);
+				void															RegisterStructureType(BasicStructureDeclaration* structure, BasicTypeRecord* type);
 				void															RegisterExpressionType(BasicExpression* expression, BasicTypeRecord* type);
 				void															RegisterReference(BasicReferenceExpression* expression, Reference reference);
 
 				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
 				BasicScope*														GetStatementScope(BasicStatement* statement);
 				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function);
+				BasicTypeRecord*												GetStructureType(BasicStructureDeclaration* structure);
 				BasicTypeRecord*												GetExpressionType(BasicExpression* expression);
 				Reference														GetReference(BasicReferenceExpression* expression);
 			};
