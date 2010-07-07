@@ -132,7 +132,7 @@ BasicCodegenInfo
 				return localVariableOffsets.Wrap();
 			}
 
-			void BasicCodegenInfo::BeginFunction()
+			void BasicCodegenInfo::BeginFunction(BasicFunctionDeclaration* declaration)
 			{
 				usedVariableSpace=0;
 				breakInsStack.Clear();
@@ -140,6 +140,15 @@ BasicCodegenInfo
 				continueInsStack.Clear();
 				continueInstructions.Clear();
 				returnInstructions.Clear();
+
+				if(declaration)
+				{
+					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration);
+					for(vint i=0;i<type->ParameterCount();i++)
+					{
+						currentFunctionGenericParameters.Add(type->ParameterType(i));
+					}
+				}
 			}
 
 			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il)
@@ -149,6 +158,7 @@ BasicCodegenInfo
 					il->instructions[returnInstructions[i]].argument.int_value=returnIns;
 				}
 				returnInstructions.Clear();
+				currentFunctionGenericParameters.Clear();
 			}
 
 			void BasicCodegenInfo::AssociateReturn(vint instruction)
@@ -209,6 +219,44 @@ BasicCodegenInfo
 			BasicOffset BasicCodegenInfo::GetMaxVariableSpace()
 			{
 				return usedVariableSpace;
+			}
+
+			vint BasicCodegenInfo::RegisterInstanciatedGenericFunction(Ptr<FunctionTarget> target)
+			{
+				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
+				{
+					FunctionTarget* currentTarget=instanciatedGenericFunctions[i].Obj();
+					if(target->declaration==currentTarget->declaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
+					{
+						return i;
+					}
+				}
+				instanciatedGenericFunctions.Add(target);
+				return instanciatedGenericFunctions.Count()-1;
+			}
+
+			vint BasicCodegenInfo::RegisterLinear(const BasicOffset& offset)
+			{
+				FunctionLinear linear;
+				linear(offset.Constant());
+				for(vint i=0;i<currentFunctionGenericParameters.Count();i++)
+				{
+					vint value=offset.Factor(currentFunctionGenericParameters[i]);
+					if(value!=0)
+					{
+						linear(i, value);
+					}
+				}
+				vint index=instanciatedGenericLinears.IndexOf(linear);
+				if(index==-1)
+				{
+					instanciatedGenericLinears.Add(linear);
+					return instanciatedGenericLinears.Count()-1;
+				}
+				else
+				{
+					return index;
+				}
 			}
 
 			ResourceHandle<BasicTypeRes> BasicCodegenInfo::GetTypeResource(BasicTypeRecord* type)
@@ -354,7 +402,7 @@ BasicLanguage_GenerateCode
 				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 				vint reserveVariablesIndex=argument.il->instructions.Count()-1;
-				argument.info->BeginFunction();
+				argument.info->BeginFunction(0);
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{

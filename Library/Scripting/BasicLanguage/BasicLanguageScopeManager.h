@@ -41,7 +41,7 @@ namespace vl
 				{
 					BasicVariableDeclaration*			globalVariable;
 					BasicVariableStatement*				localVariable;
-					vint									parameterIndex;
+					vint								parameterIndex;
 					BasicTypeRecord*					type;
 
 					Variable();
@@ -69,7 +69,7 @@ namespace vl
 					BasicScope*							scope;
 					BasicVariableDeclaration*			globalVariable;
 					BasicVariableStatement*				localVariable;
-					vint									parameterIndex;
+					vint								parameterIndex;
 					BasicFunctionDeclaration*			function;
 					bool								isVariable;
 
