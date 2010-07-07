@@ -333,9 +333,28 @@ BasicLanguage_GenerateExport
 BasicLanguage_Generate*Resource
 ***********************************************************************/
 
+			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
+			{
+				return ResourceArrayHandle<BasicILGenericFunctionEntryRes>::Null();
+			}
+
+			ResourceArrayHandle<BasicILGenericFunctionTargetRes> BasicLanguage_GenerateFunctionTargetResource(const WString& programName, const BCP& argument)
+			{
+				return ResourceArrayHandle<BasicILGenericFunctionTargetRes>::Null();
+			}
+
+			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const WString& programName, const BCP& argument)
+			{
+				return ResourceArrayHandle<BasicILGenericLinearRes>::Null();
+			}
+
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const WString& programName, const BCP& argument)
 			{
-				return ResourceHandle<BasicILGenericRes>::Null();
+				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
+				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
+				genericRes->functionTargets=BasicLanguage_GenerateFunctionTargetResource(programName, argument);
+				genericRes->linears=BasicLanguage_GenerateLinearResource(programName, argument);
+				return genericRes;
 			}
 
 			ResourceArrayHandle<BasicDeclarationRes> BasicLanguage_GenerateDeclarationResource(const Ptr<BasicProgram> program, const BCP& argument)

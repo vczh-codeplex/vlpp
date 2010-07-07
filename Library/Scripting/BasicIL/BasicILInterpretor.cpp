@@ -202,57 +202,61 @@ BasicILInterpretor
 					if(ResourceHandle<BasicILGenericRes> genericResHandle=entry->genericSymbols)
 					{
 						ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(genericResHandle);
-						ResourceArrayRecord<BasicILGenericFunctionEntryRes> functionEntries=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionEntryRes>(genericRes->functionEntries);
-						ResourceArrayRecord<BasicILGenericFunctionTargetRes> functionTargets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets);
 
-						for(vint i=0;i<functionEntries.Count();i++)
+						if(ResourceArrayRecord<BasicILGenericFunctionEntryRes> functionEntries=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionEntryRes>(genericRes->functionEntries))
 						{
-							ResourceRecord<BasicILGenericFunctionEntryRes> functionEntry=functionEntries.Get(i);
-
-							Pair<WString, WString> symbol;
-							symbol.key=assemblyName;
-							symbol.value=exportedSymbols->ReadString(functionEntry->name);
-							if(currentSymbolMap.Keys().Contains(symbol) || currentFunctionEntries.Keys().Contains(symbol))
+							for(vint i=0;i<functionEntries.Count();i++)
 							{
-								throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
-							}
+								ResourceRecord<BasicILGenericFunctionEntryRes> functionEntry=functionEntries.Get(i);
 
-							Ptr<BasicILGenericFunctionEntry> genericFunctionEntry=new BasicILGenericFunctionEntry;
-							genericFunctionEntry->key=-1;
-							genericFunctionEntry->instruction=functionEntry->startInstruction;
-							genericFunctionEntry->count=functionEntry->instructionCount;
-							genericFunctionEntry->argumentCount=functionEntry->genericArgumentCount;
-							ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(functionEntry->uniqueNameTemplate);
-							genericFunctionEntry->nameTemplate.Resize(names.Count());
-							for(vint j=0;j<names.Count();j++)
-							{
-								ResourceRecord<BasicILGenericNameRes> name=names.Get(j);
-								if(name->isConstant)
+								Pair<WString, WString> symbol;
+								symbol.key=assemblyName;
+								symbol.value=exportedSymbols->ReadString(functionEntry->name);
+								if(currentSymbolMap.Keys().Contains(symbol) || currentFunctionEntries.Keys().Contains(symbol))
 								{
-									genericFunctionEntry->nameTemplate[j]=BasicILGenericName(exportedSymbols->ReadString(name->constantString));
+									throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
 								}
-								else
+
+								Ptr<BasicILGenericFunctionEntry> genericFunctionEntry=new BasicILGenericFunctionEntry;
+								genericFunctionEntry->key=-1;
+								genericFunctionEntry->instruction=functionEntry->startInstruction;
+								genericFunctionEntry->count=functionEntry->instructionCount;
+								genericFunctionEntry->argumentCount=functionEntry->genericArgumentCount;
+								ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(functionEntry->uniqueNameTemplate);
+								genericFunctionEntry->nameTemplate.Resize(names.Count());
+								for(vint j=0;j<names.Count();j++)
 								{
-									genericFunctionEntry->nameTemplate[j]=BasicILGenericName(name->stringArgumentIndex);
+									ResourceRecord<BasicILGenericNameRes> name=names.Get(j);
+									if(name->isConstant)
+									{
+										genericFunctionEntry->nameTemplate[j]=BasicILGenericName(exportedSymbols->ReadString(name->constantString));
+									}
+									else
+									{
+										genericFunctionEntry->nameTemplate[j]=BasicILGenericName(name->stringArgumentIndex);
+									}
 								}
+								currentFunctionEntries.Add(symbol, genericFunctionEntry);
 							}
-							currentFunctionEntries.Add(symbol, genericFunctionEntry);
 						}
 
-						for(vint i=0;i<functionTargets.Count();i++)
+						if(ResourceArrayRecord<BasicILGenericFunctionTargetRes> functionTargets=exportedSymbols->ReadArrayRecord<BasicILGenericFunctionTargetRes>(genericRes->functionTargets))
 						{
-							ResourceRecord<BasicILGenericFunctionTargetRes> target=functionTargets.Get(i);
-							Pair<WString, WString> symbol;
-							symbol.key=exportedSymbols->ReadString(target->assemblyName);
-							symbol.value=exportedSymbols->ReadString(target->symbolName);
+							for(vint i=0;i<functionTargets.Count();i++)
+							{
+								ResourceRecord<BasicILGenericFunctionTargetRes> target=functionTargets.Get(i);
+								Pair<WString, WString> symbol;
+								symbol.key=exportedSymbols->ReadString(target->assemblyName);
+								symbol.value=exportedSymbols->ReadString(target->symbolName);
 
-							if(assemblyName!=symbol.key && !ilMap.Keys().Contains(symbol.key))
-							{
-								throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
-							}
-							if(!symbolMap.Keys().Contains(symbol) && !currentFunctionEntries.Keys().Contains(symbol))
-							{
-								throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
+								if(assemblyName!=symbol.key && !ilMap.Keys().Contains(symbol.key))
+								{
+									throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
+								}
+								if(!symbolMap.Keys().Contains(symbol) && !currentFunctionEntries.Keys().Contains(symbol))
+								{
+									throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
+								}
 							}
 						}
 					}
