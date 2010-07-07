@@ -35,13 +35,20 @@ namespace vl
 			{
 				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
 				typedef collections::Dictionary<BasicTypeRecord*, ResourceHandle<BasicTypeRes>>	_TypeResTable;
+			public:
+				struct FunctionTarget
+				{
+					BasicFunctionDeclaration*										declaration;
+					collections::List<BasicTypeRecord*>								genericParameters;
+				};
+
+				typedef Linear<vint, vint>											FunctionLinear;
 			protected:
 				BasicAnalyzer*														analyzer;
 				_TypeInfoTable														typeInfos;
 				collections::Dictionary<BasicFunctionDeclaration*, vint>			functions;
 				collections::Dictionary<BasicVariableDeclaration*, vint>			globalVariableOffsets;
 				collections::Dictionary<BasicVariableStatement*, BasicOffset>		localVariableOffsets;
-
 				BasicOffset															usedVariableSpace;
 
 				collections::List<vint>												returnInstructions;
@@ -51,9 +58,12 @@ namespace vl
 				collections::List<vint>												continueInstructions;
 
 				_TypeResTable														typeResources;
+				collections::List<BasicTypeRecord*>									currentFunctionGenericParameters;
 			public:
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
+				collections::List<Ptr<FunctionTarget>>								instanciatedGenericFunctions;
+				collections::List<FunctionLinear>									instanciatedGenericLinears;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -65,7 +75,7 @@ namespace vl
 				collections::IDictionary<BasicVariableDeclaration*, vint>&			GetGlobalVariableOffsets();
 				collections::IDictionary<BasicVariableStatement*, BasicOffset>&		GetLocalVariableOffsets();
 
-				void																BeginFunction();
+				void																BeginFunction(BasicFunctionDeclaration* declaration);
 				void																EndFunction(vint returnIns, basicil::BasicIL* il);
 				void																AssociateReturn(vint instruction);
 				void																EnterScope();
@@ -76,6 +86,9 @@ namespace vl
 				void																AssociateBreak(vint instruction);
 				void																AssociateContinue(vint instruction);
 				BasicOffset															GetMaxVariableSpace();
+
+				vint																RegisterInstanciatedGenericFunction(Ptr<FunctionTarget> target);
+				vint																RegisterLinear(const BasicOffset& offset);
 
 				ResourceHandle<BasicTypeRes>										GetTypeResource(BasicTypeRecord* type);
 				bool																SetTypeResource(BasicTypeRecord* type, ResourceHandle<BasicTypeRes> resource);

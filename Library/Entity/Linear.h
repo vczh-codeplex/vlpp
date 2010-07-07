@@ -82,22 +82,13 @@ namespace vl
 ***********************************************************************/
 
 		template<typename K, typename V>
-		friend Linear<K, V> operator+(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-			return Linear<K, V>(a)+=b;
-		}
+		friend Linear<K, V> operator+(const Linear<K, V>& a, const Linear<K, V>& b);
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator+(const Linear<K, V>& a, const V& b)
-		{
-			return Linear<K, V>(a)+=b;
-		}
+		friend Linear<K, V> operator+(const Linear<K, V>& a, const V& b);
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator+(const V& a, const Linear<K, V>& b)
-		{
-			return Linear<K, V>(b)+=a;
-		}
+		friend Linear<K, V> operator+(const V& a, const Linear<K, V>& b);
 
 		Linear<K, V>& operator+=(const Linear<K, V>& value)
 		{
@@ -130,22 +121,13 @@ namespace vl
 ***********************************************************************/
 
 		template<typename K, typename V>
-		friend Linear<K, V> operator-(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-			return Linear<K, V>(a)-=b;
-		}
+		friend Linear<K, V> operator-(const Linear<K, V>& a, const Linear<K, V>& b);
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator-(const Linear<K, V>& a, const V& b)
-		{
-			return Linear<K, V>(a)-=b;
-		}
+		friend Linear<K, V> operator-(const Linear<K, V>& a, const V& b);
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator-(const V& a, const Linear<K, V>& b)
-		{
-			return (-Linear<K, V>(b))(a-b.constant);
-		}
+		friend Linear<K, V> operator-(const V& a, const Linear<K, V>& b);
 
 		Linear<K, V>& operator-=(const Linear<K, V>& value)
 		{
@@ -188,16 +170,10 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator*(const Linear<K, V>& a, const V& b)
-		{
-			return Linear<K, V>(a)*=b;
-		}
+		friend Linear<K, V> operator*(const Linear<K, V>& a, const V& b);
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator*(const V& a, const Linear<K, V>& b)
-		{
-			return Linear<K, V>(b)*=a;
-		}
+		friend Linear<K, V> operator*(const V& a, const Linear<K, V>& b);
 
 		Linear<K, V>& operator*=(const V& value)
 		{
@@ -214,10 +190,7 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator/(const Linear<K, V>& a, const V& b)
-		{
-			return Linear<K, V>(a)/=b;
-		}
+		friend Linear<K, V> operator/(const Linear<K, V>& a, const V& b);
 
 		Linear<K, V>& operator/=(const V& value)
 		{
@@ -234,10 +207,7 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend Linear<K, V> operator%(const Linear<K, V>& a, const V& b)
-		{
-			return Linear<K, V>(a)%=b;
-		}
+		friend Linear<K, V> operator%(const Linear<K, V>& a, const V& b);
 
 		Linear<K, V>& operator%=(const V& value)
 		{
@@ -263,41 +233,120 @@ namespace vl
 ***********************************************************************/
 		
 		template<typename K, typename V>
-		friend bool operator==(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-			return a.constant==b.constant && collections::CompareEnumerable(a.factors.Wrap(), b.factors.Wrap())==0;
-		}
+		friend bool operator==(const Linear<K, V>& a, const Linear<K, V>& b);
 		
 		template<typename K, typename V>
-		friend bool operator==(const Linear<K, V>& a, const V& b)
-		{
-			return a.constant==b && a.factors.Count()==0;
-		}
+		friend bool operator==(const Linear<K, V>& a, const V& b);
 		
 		template<typename K, typename V>
-		friend bool operator==(const V& a, const Linear<K, V>& b)
-		{
-			return b.constant==a && b.factors.Count()==0;
-		}
+		friend bool operator==(const V& a, const Linear<K, V>& b);
 		
 		template<typename K, typename V>
-		friend bool operator!=(const Linear<K, V>& a, const Linear<K, V>& b)
-		{
-			return a.constant!=b.constant || collections::CompareEnumerable(a.factors.Wrap(), b.factors.Wrap())!=0;
-		}
+		friend bool operator!=(const Linear<K, V>& a, const Linear<K, V>& b);
 		
 		template<typename K, typename V>
-		friend bool operator!=(const Linear<K, V>& a, const V& b)
-		{
-			return a.constant!=b || a.factors.Count()!=0;
-		}
+		friend bool operator!=(const Linear<K, V>& a, const V& b);
 		
 		template<typename K, typename V>
-		friend bool operator!=(const V& a, const Linear<K, V>& b)
-		{
-			return b.constant!=a || b.factors.Count()!=0;
-		}
+		friend bool operator!=(const V& a, const Linear<K, V>& b);
 	};
+	
+
+	template<typename K, typename V>
+	Linear<K, V> operator+(const Linear<K, V>& a, const Linear<K, V>& b)
+	{
+		return Linear<K, V>(a)+=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator+(const Linear<K, V>& a, const V& b)
+	{
+		return Linear<K, V>(a)+=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator+(const V& a, const Linear<K, V>& b)
+	{
+		return Linear<K, V>(b)+=a;
+	}
+
+	template<typename K, typename V>
+	Linear<K, V> operator-(const Linear<K, V>& a, const Linear<K, V>& b)
+	{
+		return Linear<K, V>(a)-=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator-(const Linear<K, V>& a, const V& b)
+	{
+		return Linear<K, V>(a)-=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator-(const V& a, const Linear<K, V>& b)
+	{
+		return (-Linear<K, V>(b))(a-b.constant);
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator*(const Linear<K, V>& a, const V& b)
+	{
+		return Linear<K, V>(a)*=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator*(const V& a, const Linear<K, V>& b)
+	{
+		return Linear<K, V>(b)*=a;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator/(const Linear<K, V>& a, const V& b)
+	{
+		return Linear<K, V>(a)/=b;
+	}
+		
+	template<typename K, typename V>
+	Linear<K, V> operator%(const Linear<K, V>& a, const V& b)
+	{
+		return Linear<K, V>(a)%=b;
+	}
+		
+	template<typename K, typename V>
+	bool operator==(const Linear<K, V>& a, const Linear<K, V>& b)
+	{
+		return a.constant==b.constant && collections::CompareEnumerable(a.factors.Wrap(), b.factors.Wrap())==0;
+	}
+		
+	template<typename K, typename V>
+	bool operator==(const Linear<K, V>& a, const V& b)
+	{
+		return a.constant==b && a.factors.Count()==0;
+	}
+		
+	template<typename K, typename V>
+	bool operator==(const V& a, const Linear<K, V>& b)
+	{
+		return b.constant==a && b.factors.Count()==0;
+	}
+		
+	template<typename K, typename V>
+	bool operator!=(const Linear<K, V>& a, const Linear<K, V>& b)
+	{
+		return a.constant!=b.constant || collections::CompareEnumerable(a.factors.Wrap(), b.factors.Wrap())!=0;
+	}
+		
+	template<typename K, typename V>
+	bool operator!=(const Linear<K, V>& a, const V& b)
+	{
+		return a.constant!=b || a.factors.Count()!=0;
+	}
+		
+	template<typename K, typename V>
+	bool operator!=(const V& a, const Linear<K, V>& b)
+	{
+		return b.constant!=a || b.factors.Count()!=0;
+	}
 }
 
 #endif

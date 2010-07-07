@@ -53,15 +53,15 @@ BasicTypeManager
 				virtual TypeRecordType					GetType()=0;
 				virtual BasicPrimitiveTypeEnum			PrimitiveType();						//primitive
 				virtual BasicTypeRecord*				ElementType();							//pointer array generic
-				virtual vint								ElementCount();							//array
+				virtual vint							ElementCount();							//array
 				virtual BasicTypeRecord*				ReturnType();							//function
 				virtual BasicTypeRecord*				ParameterType(vint index);				//function generic
-				virtual vint								ParameterCount();						//function generic
+				virtual vint							ParameterCount();						//function generic
 				virtual BasicTypeRecord*				MemberType(vint index);					//structure
 				virtual BasicTypeRecord*				MemberType(const WString& name);		//structure
 				virtual const WString&					MemberName(vint index);					//structure
-				virtual vint								MemberNameIndex(const WString& name);	//structure
-				virtual vint								MemberCount();							//structure
+				virtual vint							MemberNameIndex(const WString& name);	//structure
+				virtual vint							MemberCount();							//structure
 				virtual bool							Defined();								//structure
 				virtual WString							ArgumentName();							//generic-argument
 			};
@@ -104,7 +104,7 @@ BasicTypeManager
 
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
-				vint										ElementCount();
+				vint									ElementCount();
 			};
 
 			class BasicFunctionTypeRecord : public CommonTypeRecord<BasicTypeRecord>
@@ -131,7 +131,7 @@ BasicTypeManager
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ReturnType();
 				BasicTypeRecord*						ParameterType(vint index);
-				vint										ParameterCount();
+				vint									ParameterCount();
 			};
 
 			class BasicStructureTypeRecord : public CommonTypeRecord<BasicTypeRecord>
@@ -142,7 +142,7 @@ BasicTypeManager
 				{
 					Ptr<_GenericInstanciatingTypeTable>	typeTable;
 
-					vint									Compare(const P& p)const;
+					vint								Compare(const P& p)const;
 					bool								operator==(const P& p)const;
 					bool								operator!=(const P& p)const;
 					bool								operator<(const P& p)const;
@@ -168,8 +168,8 @@ BasicTypeManager
 				BasicTypeRecord*						MemberType(vint index);
 				BasicTypeRecord*						MemberType(const WString& name);
 				const WString&							MemberName(vint index);
-				vint										MemberNameIndex(const WString& name);
-				vint										MemberCount();
+				vint									MemberNameIndex(const WString& name);
+				vint									MemberCount();
 				bool									Defined();
 			};
 
@@ -202,8 +202,8 @@ BasicTypeManager
 				BasicTypeRecord*						MemberType(vint index);
 				BasicTypeRecord*						MemberType(const WString& name);
 				const WString&							MemberName(vint index);
-				vint										MemberNameIndex(const WString& name);
-				vint										MemberCount();
+				vint									MemberNameIndex(const WString& name);
+				vint									MemberCount();
 				bool									Defined();
 			};
 
@@ -220,7 +220,7 @@ BasicTypeManager
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
 				BasicTypeRecord*						ParameterType(vint index);
-				vint										ParameterCount();
+				vint									ParameterCount();
 			};
 
 /***********************************************************************
