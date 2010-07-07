@@ -141,6 +141,7 @@ BasicCodegenInfo
 				continueInstructions.Clear();
 				returnInstructions.Clear();
 
+				currentFunctionDeclaration=declaration;
 				if(declaration)
 				{
 					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration);
@@ -235,11 +236,12 @@ BasicCodegenInfo
 				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
 				{
 					FunctionTarget* currentTarget=instanciatedGenericFunctions[i].Obj();
-					if(target->declaration==currentTarget->declaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
+					if(currentFunctionDeclaration==currentTarget->currentDeclaration && target->declaration==currentTarget->declaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
 					{
 						return i;
 					}
 				}
+				target->currentDeclaration=currentFunctionDeclaration;
 				instanciatedGenericFunctions.Add(target);
 				return instanciatedGenericFunctions.Count()-1;
 			}
@@ -459,7 +461,7 @@ BasicLanguage_GenerateCode
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
 				exportEntry->exports=BasicLanguage_GenerateExportResource(program, argument);
 				exportEntry->linkings=BasicLanguage_GenerateLinkingResource(program, argument);
-				exportEntry->genericSymbols=BasicLanguage_GenerateGenericResource(programName, argument);
+				exportEntry->genericSymbols=BasicLanguage_GenerateGenericResource(program, programName, argument);
 			}
 
 /***********************************************************************
