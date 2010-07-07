@@ -430,7 +430,7 @@ BasicTypeManager
 					{
 						BasicTypeRecord* returnType=Instanciate(genericType->ReturnType(), parameters);
 						List<BasicTypeRecord*> parameterTypes;
-						for(vint i=0;i<returnType->ParameterCount();i++)
+						for(vint i=0;i<genericType->ParameterCount();i++)
 						{
 							parameterTypes.Add(Instanciate(genericType->ParameterType(i), parameters));
 						}

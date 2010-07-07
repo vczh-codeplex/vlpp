@@ -292,10 +292,22 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, GenericArgumentNumberNotMatch, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicInstanciatedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, GenericArgumentNumberNotMatch, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(BasicType* type)
 			{
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(type, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());
 			}
 		}
 	}

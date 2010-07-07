@@ -726,6 +726,15 @@ BasicExpressionNode
 				return result;
 			}
 
+			BasicExpressionNode e_name(const WString& name, const BasicTypeNode::ListNode& types)
+			{
+				Ptr<BasicInstanciatedExpression> result=new BasicInstanciatedExpression;
+				result->reference=new BasicReferenceExpression;
+				result->reference->name=name;
+				CopyFrom(result->argumentTypes.Wrap(), types.types->Wrap());
+				return result;
+			}
+
 			BasicExpressionNode e_null()
 			{
 				return new BasicNullExpression();

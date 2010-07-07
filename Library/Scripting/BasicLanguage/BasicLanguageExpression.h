@@ -288,7 +288,7 @@ Other Expression
 			public:
 				ALGORITHM_ACCEPT_DECLARATION
 
-				WString										name;
+				Ptr<BasicReferenceExpression>				reference;
 				collections::List<Ptr<BasicType>>			argumentTypes;
 			};
 

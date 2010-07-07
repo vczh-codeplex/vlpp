@@ -997,6 +997,31 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression, true));
 }
 
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstanciatedExpression)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+
+	BasicProgramNode program;
+	program.Generic().GenericArgument(L"T").GenericArgument(L"U")
+		.DefineFunction(L"Map")
+		.ReturnType(t_void())
+		.Parameter(L"ts", *t_type(L"T"))
+		.Parameter(L"us", *t_type(L"U"))
+		.Parameter(L"count", t_int())
+		.Parameter(L"mapper", t_type(L"T")(t_types()<<t_type(L"U")))
+		;
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+
+	Ptr<BasicExpression> expr=e_name(L"Map", t_types()<<t_int()<<t_char()).GetInternalValue();
+	Ptr<BasicType> expectedType=t_void()(t_types()<<*t_int()<<*t_char()<<t_int()<<(t_int()(t_types()<<t_char()))).GetInternalValue();
+	TEST_ASSERT(BasicLanguage_GetExpressionType(expr, argument)==BasicLanguage_GetTypeRecord(expectedType, argument, false));
+}
+
 /***********************************************************************
 BasicLanguage_CheckStatement
 ***********************************************************************/

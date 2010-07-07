@@ -1169,9 +1169,29 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					TODO_FOR_GENERIC_FUNCTION_BEGIN
+					Ptr<BasicExpression> referenceExpression=node->reference;
+					BasicTypeRecord* genericType=BasicLanguage_GetExpressionType(referenceExpression, argument);
+					if(!genericType)
+					{
 						return 0;
-					TODO_FOR_GENERIC_FUNCTION_END
+					}
+					if(genericType->GetType()!=BasicTypeRecord::Generic)
+					{
+						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
+					}
+					else
+					{
+						if(node->argumentTypes.Count()!=genericType->ParameterCount())
+						{
+							throw BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(node);
+						}
+						Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
+						for(vint i=0;i<genericType->ParameterCount();i++)
+						{
+							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
+						}
+						return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
