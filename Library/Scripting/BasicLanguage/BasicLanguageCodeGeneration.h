@@ -36,6 +36,13 @@ namespace vl
 				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
 				typedef collections::Dictionary<BasicTypeRecord*, ResourceHandle<BasicTypeRes>>	_TypeResTable;
 			public:
+				struct FunctionEntry
+				{
+					BasicFunctionDeclaration*										declaration;
+					vint															startInstruction;
+					vint															instructionCount;
+				};
+
 				struct FunctionTarget
 				{
 					BasicFunctionDeclaration*										declaration;
@@ -62,6 +69,7 @@ namespace vl
 			public:
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
+				collections::List<Ptr<FunctionEntry>>								instanciatedGenericFunctionEntries;
 				collections::List<Ptr<FunctionTarget>>								instanciatedGenericFunctions;
 				collections::List<FunctionLinear>									instanciatedGenericLinears;
 
@@ -75,7 +83,7 @@ namespace vl
 				collections::IDictionary<BasicVariableDeclaration*, vint>&			GetGlobalVariableOffsets();
 				collections::IDictionary<BasicVariableStatement*, BasicOffset>&		GetLocalVariableOffsets();
 
-				void																BeginFunction(BasicFunctionDeclaration* declaration);
+				void																BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il);
 				void																EndFunction(vint returnIns, basicil::BasicIL* il);
 				void																AssociateReturn(vint instruction);
 				void																EnterScope();

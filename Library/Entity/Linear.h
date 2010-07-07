@@ -77,6 +77,16 @@ namespace vl
 			return index==-1?0:factors.Values()[index];
 		}
 
+		vint Count()const
+		{
+			return factors.Count();
+		}
+
+		K Key(vint index)const
+		{
+			return factors.Keys()[index];
+		}
+
 /***********************************************************************
 ¼Ó·¨
 ***********************************************************************/
