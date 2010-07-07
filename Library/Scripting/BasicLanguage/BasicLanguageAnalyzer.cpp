@@ -355,6 +355,7 @@ BasicLanguage_BuildGlobalScopePass1
 							}
 						}
 						argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
+						argument.env->RegisterStructureType(node, structure);
 					}
 				}
 				

@@ -374,6 +374,16 @@ BasicGenericStructureProxyTypeRecord
 				return structureType->Defined();
 			}
 
+			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::UninstanciatedStructureType()
+			{
+				return structureType;
+			}
+
+			BasicGenericStructureProxyTypeRecord::_IGenericInstanciatingTypeTable& BasicGenericStructureProxyTypeRecord::GenericArgumentMap()
+			{
+				return typeTable->Wrap();
+			}
+
 /***********************************************************************
 BasicGenericTypeRecord
 ***********************************************************************/
