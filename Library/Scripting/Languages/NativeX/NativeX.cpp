@@ -2066,7 +2066,7 @@ namespace vl
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
 				{
-					IdentifierToString(node->name, argument.writer);
+					IdentifierToString(node->reference->name, argument.writer);
 					argument.writer.WriteString(L"<");
 					for(vint i=0;i<node->argumentTypes.Count();i++)
 					{
