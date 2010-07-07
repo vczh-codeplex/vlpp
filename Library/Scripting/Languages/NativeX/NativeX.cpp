@@ -2064,6 +2064,18 @@ namespace vl
 					IdentifierToString(node->name, argument.writer);
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				{
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"<");
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						if(i)argument.writer.WriteString(L", ");
+						NativeX_BasicType_GenerateCode(node->argumentTypes[i], argument);
+					}
+					argument.writer.WriteString(L">");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
 				{
 				}

@@ -448,6 +448,13 @@ BasicLanguage_PushValueInternal
 					return nodeType;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				{
+					TODO_FOR_GENERIC_FUNCTION_BEGIN
+						return 0;
+					TODO_FOR_GENERIC_FUNCTION_END
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return argument.codegenExtension->PushValue(node, argument);

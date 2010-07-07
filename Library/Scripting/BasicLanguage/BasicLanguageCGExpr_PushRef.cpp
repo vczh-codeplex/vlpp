@@ -278,6 +278,11 @@ BasicLanguage_PushRef
 					}
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicInstanciatedExpression*, const BCP&)#不支持此操作。");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
 				{
 					argument.codegenExtension->PushRef(node, argument);

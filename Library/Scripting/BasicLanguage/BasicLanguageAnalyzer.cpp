@@ -547,6 +547,11 @@ BasicLanguage_IsLeftValue
 					return argument.env->GetReference(node).isVariable;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return argument.semanticExtension->IsLeftValue(node, argument);
@@ -1160,6 +1165,13 @@ BasicLanguage_GetExpressionType
 						argument.errors.Add(BasicLanguageCodeException::GetVariableNotExists(node));
 						return 0;
 					}
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				{
+					TODO_FOR_GENERIC_FUNCTION_BEGIN
+						return 0;
+					TODO_FOR_GENERIC_FUNCTION_END
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

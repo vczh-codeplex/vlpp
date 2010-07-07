@@ -16,9 +16,6 @@ Classes:
 #include "..\BasicIL\BasicILSymbolResource.h"
 #include "..\..\Entity\Linear.h"
 
-#define TODO_FOR_GENERIC_FUNCTION_BEGIN
-#define TODO_FOR_GENERIC_FUNCTION_END
-
 namespace vl
 {
 	namespace scripting

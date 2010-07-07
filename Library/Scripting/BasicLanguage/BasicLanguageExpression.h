@@ -15,6 +15,9 @@ Classes:
 #include "..\..\Collections\Dictionary.h"
 #include "..\Common\AlgorithmDeclaration.h"
 
+#define TODO_FOR_GENERIC_FUNCTION_BEGIN
+#define TODO_FOR_GENERIC_FUNCTION_END
+
 namespace vl
 {
 	namespace scripting
@@ -280,6 +283,15 @@ Other Expression
 				WString										name;
 			};
 
+			class BasicInstanciatedExpression : public BasicExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				WString										name;
+				collections::List<Ptr<BasicType>>			argumentTypes;
+			};
+
 /***********************************************************************
 Statement
 ***********************************************************************/
@@ -506,6 +518,7 @@ Algorithms
 			F(BasicFunctionResultExpression)\
 			F(BasicCastingExpression)\
 			F(BasicReferenceExpression)\
+			F(BasicInstanciatedExpression)\
 			F(BasicExtendedExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicExpression, BASIC_EXPRESSION_TARGETS)
