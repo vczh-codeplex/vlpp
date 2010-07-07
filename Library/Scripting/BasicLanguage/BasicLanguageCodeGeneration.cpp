@@ -132,7 +132,7 @@ BasicCodegenInfo
 				return localVariableOffsets.Wrap();
 			}
 
-			void BasicCodegenInfo::BeginFunction(BasicFunctionDeclaration* declaration)
+			void BasicCodegenInfo::BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il)
 			{
 				usedVariableSpace=0;
 				breakInsStack.Clear();
@@ -149,6 +149,12 @@ BasicCodegenInfo
 						currentFunctionGenericParameters.Add(type->ParameterType(i));
 					}
 				}
+
+				Ptr<FunctionEntry> entry=new FunctionEntry;
+				entry->declaration=declaration;
+				entry->startInstruction=il->instructions.Count();
+				entry->instructionCount=0;
+				instanciatedGenericFunctionEntries.Add(entry);
 			}
 
 			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il)
@@ -159,6 +165,9 @@ BasicCodegenInfo
 				}
 				returnInstructions.Clear();
 				currentFunctionGenericParameters.Clear();
+
+				Ptr<FunctionEntry> entry=instanciatedGenericFunctionEntries[instanciatedGenericFunctionEntries.Count()-1];
+				entry->instructionCount=il->instructions.Count()-entry->startInstruction;
 			}
 
 			void BasicCodegenInfo::AssociateReturn(vint instruction)
@@ -242,10 +251,7 @@ BasicCodegenInfo
 				for(vint i=0;i<currentFunctionGenericParameters.Count();i++)
 				{
 					vint value=offset.Factor(currentFunctionGenericParameters[i]);
-					if(value!=0)
-					{
-						linear(i, value);
-					}
+					linear(i, value);
 				}
 				vint index=instanciatedGenericLinears.IndexOf(linear);
 				if(index==-1)
@@ -402,7 +408,7 @@ BasicLanguage_GenerateCode
 				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 				vint reserveVariablesIndex=argument.il->instructions.Count()-1;
-				argument.info->BeginFunction(0);
+				argument.info->BeginFunction(0, argument.il);
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{

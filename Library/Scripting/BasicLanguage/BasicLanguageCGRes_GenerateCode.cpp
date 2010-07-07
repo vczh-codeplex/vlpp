@@ -158,46 +158,53 @@ BasicLanguage_GenerateResource
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
-					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-					BuildGenericResource(resource, node, argument);
-					ResourceString name=argument.resource->CreateString(node->name);
-					BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node);
-					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
-
-					resource->type=BasicDeclarationRes::Function;
-					resource->declarationType=declarationType;
-					resource->name=name;
-					if(node->linking.HasLink())
+					if(node->genericDeclaration.HasGeneric())
 					{
-						resource->address=-1;
+						return ResourceHandle<BasicDeclarationRes>::Null();
 					}
 					else
 					{
-						resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
-					}
+						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						BuildGenericResource(resource, node, argument);
+						ResourceString name=argument.resource->CreateString(node->name);
+						BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node);
+						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
 
-					ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->parameterNames.Count());
-					resource->parameterNames=parameters;
-					for(vint i=0;i<node->parameterNames.Count();i++)
-					{
-						ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
-						ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
-						parameter->name=name;
-						parameters.Set(i, parameter);
-					}
+						resource->type=BasicDeclarationRes::Function;
+						resource->declarationType=declarationType;
+						resource->name=name;
+						if(node->linking.HasLink())
+						{
+							resource->address=-1;
+						}
+						else
+						{
+							resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
+						}
 
-					if(node->linking.HasLink())
-					{
-						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-					}
-					else
-					{
-						resource->linkingAssemblyName=ResourceString::Null();
-						resource->linkingSymbolName=ResourceString::Null();
-					}
+						ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->parameterNames.Count());
+						resource->parameterNames=parameters;
+						for(vint i=0;i<node->parameterNames.Count();i++)
+						{
+							ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
+							ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
+							parameter->name=name;
+							parameters.Set(i, parameter);
+						}
 
-					return resource;
+						if(node->linking.HasLink())
+						{
+							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+						}
+						else
+						{
+							resource->linkingAssemblyName=ResourceString::Null();
+							resource->linkingSymbolName=ResourceString::Null();
+						}
+
+						return resource;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
@@ -333,19 +340,90 @@ BasicLanguage_GenerateExport
 BasicLanguage_Generate*Resource
 ***********************************************************************/
 
+			WString EscapeResourceName(const WString& name)
+			{
+				return name;
+			}
+
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
 			{
-				return ResourceArrayHandle<BasicILGenericFunctionEntryRes>::Null();
+				List<ResourceHandle<BasicILGenericFunctionEntryRes>> entries;
+				for(vint i=0;i<argument.info->instanciatedGenericFunctionEntries.Count();i++)
+				{
+					Ptr<BasicCodegenInfo::FunctionEntry> entry=argument.info->instanciatedGenericFunctionEntries[i];
+					if(entry->declaration && entry->declaration->genericDeclaration.HasGeneric() && !entry->declaration->linking.HasLink())
+					{
+						ResourceRecord<BasicILGenericFunctionEntryRes> entryResource=argument.exportResource->CreateRecord<BasicILGenericFunctionEntryRes>();
+						entryResource->genericArgumentCount=entry->declaration->genericDeclaration.arguments.Count();
+						entryResource->name=argument.exportResource->CreateString(entry->declaration->name);
+						entryResource->startInstruction=entry->startInstruction;
+						entryResource->instructionCount=entry->instructionCount;
+
+						List<ResourceHandle<BasicILGenericNameRes>> names;
+						ResourceRecord<BasicILGenericNameRes> currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+						currentName->constantString=argument.exportResource->CreateString(EscapeResourceName(programName)+L"::"+EscapeResourceName(entry->declaration->name)+L"<");
+						currentName->isConstant=true;
+						currentName->stringArgumentIndex=-1;
+						names.Add(currentName);
+
+						for(vint j=0;j<entry->declaration->genericDeclaration.arguments.Count();j++)
+						{
+							currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+							currentName->constantString=ResourceString::Null();
+							currentName->isConstant=false;
+							currentName->stringArgumentIndex=j;
+							names.Add(currentName);
+							
+							if(j)
+							{
+								currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+								currentName->constantString=argument.exportResource->CreateString(L", ");
+								currentName->isConstant=true;
+								currentName->stringArgumentIndex=-1;
+								names.Add(currentName);
+							}
+						}
+						
+						currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+						currentName->constantString=argument.exportResource->CreateString(L">");
+						currentName->isConstant=true;
+						currentName->stringArgumentIndex=-1;
+						names.Add(currentName);
+
+						entryResource->uniqueNameTemplate=argument.exportResource->CreateArrayRecord(names.Wrap());
+					}
+				}
+				return argument.exportResource->CreateArrayRecord(entries.Wrap());
 			}
 
 			ResourceArrayHandle<BasicILGenericFunctionTargetRes> BasicLanguage_GenerateFunctionTargetResource(const WString& programName, const BCP& argument)
 			{
-				return ResourceArrayHandle<BasicILGenericFunctionTargetRes>::Null();
+				List<ResourceHandle<BasicILGenericFunctionTargetRes>> targets;
+				return argument.exportResource->CreateArrayRecord(targets.Wrap());
 			}
 
-			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const WString& programName, const BCP& argument)
+			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const BCP& argument)
 			{
-				return ResourceArrayHandle<BasicILGenericLinearRes>::Null();
+				List<ResourceHandle<BasicILGenericLinearRes>> linears;
+				for(vint i=0;i<argument.info->instanciatedGenericLinears.Count();i++)
+				{
+					BasicCodegenInfo::FunctionLinear& linear=argument.info->instanciatedGenericLinears[i];
+					ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
+					linearRecord->constant=linear.Constant();
+
+					vint count=linear.Count();
+					ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
+					for(vint j=0;j<count;j++)
+					{
+						ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
+						factor->factor=linear.Factor(j);
+						factors[j]=factor;
+					}
+
+					linearRecord->factors=factors;
+					linears.Add(linearRecord);
+				}
+				return argument.exportResource->CreateArrayRecord(linears.Wrap());
 			}
 
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const WString& programName, const BCP& argument)
@@ -353,7 +431,7 @@ BasicLanguage_Generate*Resource
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
 				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
 				genericRes->functionTargets=BasicLanguage_GenerateFunctionTargetResource(programName, argument);
-				genericRes->linears=BasicLanguage_GenerateLinearResource(programName, argument);
+				genericRes->linears=BasicLanguage_GenerateLinearResource(argument);
 				return genericRes;
 			}
 
