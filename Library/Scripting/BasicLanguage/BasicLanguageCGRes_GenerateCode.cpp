@@ -613,7 +613,6 @@ BasicLanguage_Generate*Resource
 				for(vint i=0;i<argument.info->instanciatedGenericFunctions.Count();i++)
 				{
 					BasicCodegenInfo::FunctionTarget* target=argument.info->instanciatedGenericFunctions[i].Obj();
-					recorder.Start(target->currentDeclaration);
 					ResourceRecord<BasicILGenericFunctionTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericFunctionTargetRes>();
 					WString assemblyName;
 					WString symbolName;
@@ -632,7 +631,32 @@ BasicLanguage_Generate*Resource
 					for(vint j=0;j<target->genericParameters.Count();j++)
 					{
 						BasicTypeRecord* type=target->genericParameters[j];
-						// TODO: CONTINUE
+						const BasicOffset& offset=argument.info->GetTypeInfo(type)->size;
+						
+						ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
+						{
+							linearRecord->constant=offset.Constant();
+							vint count=target->currentDeclaration->genericDeclaration.arguments.Count();
+							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
+							for(vint j=0;j<count;j++)
+							{
+								ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
+								WString genericArgumentName=target->currentDeclaration->genericDeclaration.arguments[j];
+								BasicTypeRecord* genericArgumentType=argument.info->GetTypeManager()->GetGenericArgumentType(genericArgumentName);
+								factor->factor=offset.Factor(genericArgumentType);
+								factors[j]=factor;
+							}
+							linearRecord->factors=factors;
+						}
+
+						ResourceRecord<BasicILGenericArgumentRes> argumentRecord=argument.exportResource->CreateRecord<BasicILGenericArgumentRes>();
+						{
+							argumentRecord->sizeArgument=linearRecord;
+							recorder.Start(target->currentDeclaration);
+							GetTypeUniqueString(type, recorder);
+							argumentRecord->nameArgument=recorder.End();
+						}
+						arguments.Add(argumentRecord);
 					}
 
 					targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
