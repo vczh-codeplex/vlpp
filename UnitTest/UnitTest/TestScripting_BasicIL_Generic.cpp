@@ -52,7 +52,11 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 
 			ResourceRecord<BasicILGenericArgumentRes> argument0=symbolResource->CreateRecord<BasicILGenericArgumentRes>();
 			{
-				argument0->sizeArgument=sizeof(double);
+				ResourceRecord<BasicILGenericLinearRes> sizeArgument=symbolResource->CreateRecord<BasicILGenericLinearRes>();
+				sizeArgument->constant=sizeof(double);
+				sizeArgument->factors=ResourceArrayHandle<BasicILGenericFactorItemRes>::Null();
+				argument0->sizeArgument=sizeArgument;
+
 				ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
 				name0->isConstant=true;
 				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:DOUBLE");
@@ -73,7 +77,11 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 
 			ResourceRecord<BasicILGenericArgumentRes> argument0=symbolResource->CreateRecord<BasicILGenericArgumentRes>();
 			{
-				argument0->sizeArgument=sizeof(char);
+				ResourceRecord<BasicILGenericLinearRes> sizeArgument=symbolResource->CreateRecord<BasicILGenericLinearRes>();
+				sizeArgument->constant=sizeof(char);
+				sizeArgument->factors=ResourceArrayHandle<BasicILGenericFactorItemRes>::Null();
+				argument0->sizeArgument=sizeArgument;
+
 				ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
 				name0->isConstant=true;
 				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:CHAR");

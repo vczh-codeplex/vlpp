@@ -351,6 +351,21 @@ BasicILInterpretor
 				}
 			}
 
+			vint CalculateLinear(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericLinearRes> linearRecord, BasicILGenericFunctionTarget* target)
+			{
+				vint value=linearRecord->constant;
+				if(linearRecord->factors)
+				{
+					ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
+					for(vint j=0;j<factors.Count();j++)
+					{
+						vint factor=factors.Get(j)->factor;
+						value+=factor*target->arguments[j].size;
+					}
+				}
+				return value;
+			}
+
 			vint BasicILInterpretor::RegisterTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex)
 			{
 				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
@@ -371,7 +386,7 @@ BasicILInterpretor
 				{
 					ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
 					BasicILGenericArgument& newArgument=newTarget->arguments[j];
-					newArgument.size=argumentRecord->sizeArgument;
+					newArgument.size=CalculateLinear(exportedSymbols, exportedSymbols->ReadRecord(argumentRecord->sizeArgument), target);
 
 					ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(argumentRecord->nameArgument);
 					for(vint k=0;k<names.Count();k++)
@@ -468,15 +483,8 @@ BasicILInterpretor
 								if(ins.argumentType==BasicIns::linearArgument)
 								{
 									ResourceRecord<BasicILGenericLinearRes> linearRecord=linears.Get(ins.argument.int_value);
-									ResourceArrayRecord<BasicILGenericFactorItemRes> factors=exportedSymbols->ReadArrayRecord<BasicILGenericFactorItemRes>(linearRecord->factors);
-									vint value=linearRecord->constant;
-									for(vint j=0;j<factors.Count();j++)
-									{
-										vint factor=factors.Get(j)->factor;
-										value+=factor*target->arguments[j].size;
-									}
 									ins.argumentType=BasicIns::constantArgument;
-									ins.argument.int_value=value;
+									ins.argument.int_value=CalculateLinear(exportedSymbols, linearRecord, target);
 								}
 							}
 						}
