@@ -18,6 +18,9 @@ Classes:
 #define TODO_FOR_GENERIC_FUNCTION_BEGIN
 #define TODO_FOR_GENERIC_FUNCTION_END
 
+#define TODO_FOR_GENERIC_VARIABLE_BEGIN
+#define TODO_FOR_GENERIC_VARIABLE_END
+
 namespace vl
 {
 	namespace scripting
