@@ -389,16 +389,28 @@ BasicCodegenParameter
 
 			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, const BasicOffset& argument)const
 			{
-				TODO_FOR_GENERIC_FUNCTION_BEGIN
+				if(argument.IsConstant())
+				{
 					il->InsUD(opcode, BasicIns::MakeInt(argument.Constant()), currentLanguageElement);
-				TODO_FOR_GENERIC_FUNCTION_END
+				}
+				else
+				{
+					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
+					il->InsUDG(opcode, BasicIns::MakeInt(info->RegisterLinear(argument)), currentLanguageElement);
+				}
 			}
 
 			void BasicCodegenParameter::Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, const BasicOffset& argument)const
 			{
-				TODO_FOR_GENERIC_FUNCTION_BEGIN
+				if(argument.IsConstant())
+				{
 					il->InsUD(opcode, type1, BasicIns::MakeInt(argument.Constant()), currentLanguageElement);
-				TODO_FOR_GENERIC_FUNCTION_END
+				}
+				else
+				{
+					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
+					il->InsUDG(opcode, type1, BasicIns::MakeInt(info->RegisterLinear(argument)), currentLanguageElement);
+				}
 			}
 
 /***********************************************************************
@@ -423,10 +435,22 @@ BasicLanguage_GenerateCode
 				}
 
 				argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
-				TODO_FOR_GENERIC_FUNCTION_BEGIN
-					argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace().Constant();
-					argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace().Constant()));
-				TODO_FOR_GENERIC_FUNCTION_END
+				{
+					BasicOffset space=argument.info->GetMaxVariableSpace();
+					if(space.IsConstant())
+					{
+						argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace().Constant();
+						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(-argument.info->GetMaxVariableSpace().Constant()));
+					}
+					else
+					{
+						GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
+						BasicIns& ins=argument.il->instructions[reserveVariablesIndex];
+						ins.argumentType=BasicIns::linearArgument;
+						ins.argument.int_value=argument.info->RegisterLinear(space);
+						argument.Ins(BasicIns::stack_reserve, space);
+					}
+				}
 				argument.Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
 				for(vint i=0;i<program->declarations.Count();i++)

@@ -128,9 +128,20 @@ BasicLanguage_GenerateCodePass2
 						BasicLanguage_GenerateCode(node->statement, argument);
 						argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
 
-						TODO_FOR_GENERIC_FUNCTION_BEGIN
-							argument.il->instructions[reserveVariablesIndex].argument.int_value=argument.info->GetMaxVariableSpace().Constant();
-						TODO_FOR_GENERIC_FUNCTION_END
+						{
+							BasicIns& ins=argument.il->instructions[reserveVariablesIndex];
+							BasicOffset space=argument.info->GetMaxVariableSpace();
+							if(space.IsConstant())
+							{
+								ins.argument.int_value=space.Constant();
+							}
+							else
+							{
+								GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
+								ins.argumentType=BasicIns::linearArgument;
+								ins.argument.int_value=argument.info->RegisterLinear(space);
+							}
+						}
 						argument.Ins(BasicIns::stack_reserve, -argument.info->GetMaxVariableSpace());
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
 						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());

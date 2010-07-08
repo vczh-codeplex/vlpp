@@ -87,6 +87,18 @@ namespace vl
 			return factors.Keys()[index];
 		}
 
+		bool IsConstant()const
+		{
+			for(vint i=0;i<factors.Count();i++)
+			{
+				if(factors.Values()[i]!=0)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
 /***********************************************************************
 ¼Ó·¨
 ***********************************************************************/

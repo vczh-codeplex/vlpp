@@ -108,9 +108,11 @@ BasicLanguage_InvokeInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					TODO_FOR_GENERIC_FUNCTION_BEGIN
-						return false;
-					TODO_FOR_GENERIC_FUNCTION_END
+					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
+					BasicTypeRecord* resultType=0;
+					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
+					argument.Ins(BasicIns::generic_callfunc, BasicIns::MakeInt(index));
+					return resultType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
