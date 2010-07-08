@@ -63,21 +63,6 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
 		};
 
-		//模板参数
-		struct BasicILGenericArgumentRes
-		{
-			ResourceArrayHandle<BasicILGenericNameRes>				nameArgument;			//字符串参数
-			vint													sizeArgument;			//尺寸参数
-		};
-
-		//模板函数特化
-		struct BasicILGenericFunctionTargetRes
-		{
-			ResourceString											symbolName;				//符号
-			ResourceString											assemblyName;			//Assembly名
-			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
-		};
-
 		//线性对象参数
 		struct BasicILGenericFactorItemRes
 		{
@@ -89,6 +74,21 @@ namespace vl
 		{
 			ResourceArrayHandle<BasicILGenericFactorItemRes>		factors;				//参数表
 			vint													constant;				//常数项
+		};
+
+		//模板参数
+		struct BasicILGenericArgumentRes
+		{
+			ResourceArrayHandle<BasicILGenericNameRes>				nameArgument;			//字符串参数
+			ResourceHandle<BasicILGenericLinearRes>					sizeArgument;			//尺寸参数
+		};
+
+		//模板函数特化
+		struct BasicILGenericFunctionTargetRes
+		{
+			ResourceString											symbolName;				//符号
+			ResourceString											assemblyName;			//Assembly名
+			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
 		};
 
 		//模板符号表
