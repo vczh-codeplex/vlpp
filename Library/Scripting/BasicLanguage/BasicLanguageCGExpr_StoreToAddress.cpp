@@ -129,13 +129,11 @@ BasicLanguage_StoreToAddressInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInvokeExpression)
 				{
-					vint index=0;
 					BasicOffset returnSize=0;
 					BasicOffset parameterSize=0;
-					bool isExternal=false;
-					Code_InvokeFunctionPushParameters(node, argument.argument, index, returnSize, parameterSize, false, isExternal);
+					Code_InvokeFunctionPushParameters(node, argument.argument, returnSize, parameterSize, false);
 					argument.WriteAddress();
-					Code_InvokeFunctionCallFunction(node, argument.argument, index, returnSize, parameterSize, false, isExternal);
+					Code_InvokeFunctionCallFunction(node, argument.argument, returnSize, parameterSize, false);
 					return true;
 				}
 
