@@ -172,8 +172,8 @@ Code Generation Helper Functions
 			extern BasicTypeRecord*					Code_BinaryAssign					(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignSideEffect			(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
 			extern void								Code_BinaryAssignRef				(BasicBinaryExpression* node, const BCP& argument, basicil::BasicIns::OpCode opCode);
-			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, vint& index, BasicOffset& returnSize, BasicOffset& parameterSize, bool returnInStack, bool& isExternal);
-			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, vint index, const BasicOffset& returnSize, const BasicOffset& parameterSize, bool clearReturnInStack, bool isExternal);
+			extern BasicTypeRecord*					Code_InvokeFunctionPushParameters	(BasicInvokeExpression* node, const BCP& argument, BasicOffset& returnSize, BasicOffset& parameterSize, bool returnInStack);
+			extern void								Code_InvokeFunctionCallFunction		(BasicInvokeExpression* node, const BCP& argument, const BasicOffset& returnSize, const BasicOffset& parameterSize, bool clearReturnInStack);
 			extern BasicTypeRecord*					Code_InvokeFunction					(BasicInvokeExpression* node, const BCP& argument, bool sideEffectOnly);
 
 /***********************************************************************
@@ -193,6 +193,7 @@ Code Generation
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRef, BasicExpression, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_PushRefWithoutSideEffect, BasicExpression, BCP)
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect, BasicExpression, BCP, bool)
+			extern void BasicLanguage_Invoke(BasicExpression* expression, const BCP& argument);
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateLinkingSymbolTable, BasicDeclaration, BCP)

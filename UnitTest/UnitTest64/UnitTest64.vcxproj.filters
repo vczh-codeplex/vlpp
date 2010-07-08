@@ -372,6 +372,9 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicIL_Generic.cpp">
       <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_Invoke.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

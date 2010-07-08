@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGCommon_GenerateCode.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGDecl_GenerateCode.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_Invoke.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRef.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRefWithoutSideEffect.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushValue.cpp" />
