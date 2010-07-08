@@ -160,6 +160,7 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
+			extern vint								GetGenericFunctionTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Write							(BasicTypeRecord* type, const BCP& argument);

@@ -9,6 +9,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 BasicLanguage_PushValueInternal
@@ -450,9 +451,11 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					TODO_FOR_GENERIC_FUNCTION_BEGIN
-						return 0;
-					TODO_FOR_GENERIC_FUNCTION_END
+					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
+					BasicTypeRecord* resultType=0;
+					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
+					argument.Ins(BasicIns::generic_pushfunc, BasicIns::MakeInt(index));
+					return resultType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

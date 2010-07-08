@@ -15,8 +15,7 @@ Classes:
 #include "..\..\Collections\Dictionary.h"
 #include "..\Common\AlgorithmDeclaration.h"
 
-#define TODO_FOR_GENERIC_FUNCTION_BEGIN
-#define TODO_FOR_GENERIC_FUNCTION_END
+#define GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN CHECK_ERROR(false, L"暂时不支持模板函数。");
 
 #define TODO_FOR_GENERIC_VARIABLE_BEGIN
 #define TODO_FOR_GENERIC_VARIABLE_END

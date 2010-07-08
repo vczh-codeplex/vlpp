@@ -8,6 +8,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace stream;
+			using namespace collections;
 
 /***********************************************************************
 ¸¨Öúº¯Êý
@@ -98,6 +99,44 @@ namespace vl
 					}
 				}
 				return -1;
+			}
+
+			vint GetGenericFunctionTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
+			{
+				BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+				BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
+				if(reference.isVariable)
+				{
+					resultType=0;
+					return -1;
+				}
+				else
+				{
+					BP bp(
+						argument.info->GetEnv(),
+						0,
+						argument.info->GetTypeManager(),
+						*(List<Ptr<BasicLanguageCodeException>>*)0,
+						*(SortedList<WString>*)0
+						);
+
+					Ptr<BasicCodegenInfo::FunctionTarget> target=new BasicCodegenInfo::FunctionTarget;
+					target->currentDeclaration=0;
+					target->declaration=reference.function;
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						target->genericParameters.Add(BasicLanguage_GetTypeRecord(node->argumentTypes[i], bp, false));
+					}
+
+					Dictionary<BasicTypeRecord*, BasicTypeRecord*> map;
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						map.Add(nodeType->ParameterType(i), target->genericParameters[i]);
+					}
+
+					resultType=argument.info->GetTypeManager()->Instanciate(nodeType, map.Wrap());
+					return argument.info->RegisterInstanciatedGenericFunction(target);
+				}
 			}
 
 			void Code_ScaleAdder(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne)
