@@ -84,22 +84,29 @@ BasicIns
 #undef CASE
 			}
 
-			WString ValueToString(BasicIns::ValueType type, BasicIns::Argument argument)
+			WString ValueToString(BasicIns::ValueType type, BasicIns::ArgumentType argumentType, BasicIns::Argument argument)
 			{
-				switch(type)
+				if(argumentType==BasicIns::linearArgument)
 				{
-				case BasicIns::s8:	return itow(argument.s8);
-				case BasicIns::s16:	return itow(argument.s16);
-				case BasicIns::s32:	return itow(argument.s32);
-				case BasicIns::s64:	return i64tow(argument.s64);
-				case BasicIns::u8:	return utow(argument.u8);
-				case BasicIns::u16:	return utow(argument.u16);
-				case BasicIns::u32:	return utow(argument.u32);
-				case BasicIns::u64:	return u64tow(argument.u64);
-				case BasicIns::f32:	return ftow(argument.f32);
-				case BasicIns::f64:	return ftow(argument.f64);
-				default:
-					return L"<UNKNOWN-VALUE>";
+					return itow(argument.int_value)+L"[Linear]";
+				}
+				else
+				{
+					switch(type)
+					{
+					case BasicIns::s8:	return itow(argument.s8);
+					case BasicIns::s16:	return itow(argument.s16);
+					case BasicIns::s32:	return itow(argument.s32);
+					case BasicIns::s64:	return i64tow(argument.s64);
+					case BasicIns::u8:	return utow(argument.u8);
+					case BasicIns::u16:	return utow(argument.u16);
+					case BasicIns::u32:	return utow(argument.u32);
+					case BasicIns::u64:	return u64tow(argument.u64);
+					case BasicIns::f32:	return ftow(argument.f32);
+					case BasicIns::f64:	return ftow(argument.f64);
+					default:
+						return L"<UNKNOWN-VALUE>";
+					}
 				}
 			}
 
@@ -120,17 +127,17 @@ BasicIns
 
 			WString BasicInsToStringTypeArgument(BasicIns ins)
 			{
-				return OpCodeToString(ins.opcode)+L" "+ValueTypeToString(ins.type1)+L" "+ValueToString(ins.type1, ins.argument);
+				return OpCodeToString(ins.opcode)+L" "+ValueTypeToString(ins.type1)+L" "+ValueToString(ins.type1, ins.argumentType, ins.argument);
 			}
 
 			WString BasicInsToStringConstant(BasicIns ins)
 			{
-				return OpCodeToString(ins.opcode)+L" "+ValueToString(BasicIns::int_type, ins.argument);
+				return OpCodeToString(ins.opcode)+L" "+ValueToString(BasicIns::int_type, ins.argumentType, ins.argument);
 			}
 
 			WString BasicInsToStringJump(BasicIns ins)
 			{
-				return OpCodeToString(ins.opcode)+L" "+ValueToString(BasicIns::int_type, ins.argument)+L" "+itow(ins.insKey);
+				return OpCodeToString(ins.opcode)+L" "+ValueToString(BasicIns::int_type, ins.argumentType, ins.argument)+L" "+itow(ins.insKey);
 			}
 
 			WString BasicInsToString(BasicIns ins)

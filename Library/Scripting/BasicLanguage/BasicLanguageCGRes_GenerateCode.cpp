@@ -120,7 +120,11 @@ BasicLanguage_GenerateResource
 								ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
 								member->name=memberName;
 								member->type=memberType;
-								if(typeInfo->offsets[i].IsConstant())
+								if(type->MemberType(i)->GetType()==BasicTypeRecord::GenericArgument)
+								{
+									member->offset=-1;
+								}
+								else if(typeInfo->offsets[i].IsConstant())
 								{
 									member->offset=typeInfo->offsets[i].Constant();
 								}

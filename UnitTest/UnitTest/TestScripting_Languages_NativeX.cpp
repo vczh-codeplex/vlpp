@@ -613,11 +613,11 @@ TEST_CASE(Test_NativeX_GenericStructure)
 		TEST_ASSERT(vectorType.IsGenericArgument()==false);
 		TEST_ASSERT(vectorType.GetComponentCount()==2);
 		TEST_ASSERT(vectorType.GetComponentName(0)==L"x");
-		TEST_ASSERT(vectorType.GetComponentOffset(0)==0);
+		TEST_ASSERT(vectorType.GetComponentOffset(0)==-1);
 		TEST_ASSERT(vectorType.GetComponentType(0).IsGenericArgument()==true);
 		TEST_ASSERT(vectorType.GetComponentType(0).GetGenericArgumentName()==L"T");
 		TEST_ASSERT(vectorType.GetComponentName(1)==L"y");
-		TEST_ASSERT(vectorType.GetComponentOffset(1)==1);
+		TEST_ASSERT(vectorType.GetComponentOffset(1)==-1);
 		TEST_ASSERT(vectorType.GetComponentType(1).IsGenericArgument()==true);
 		TEST_ASSERT(vectorType.GetComponentType(1).GetGenericArgumentName()==L"T");
 
