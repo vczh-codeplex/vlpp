@@ -356,7 +356,27 @@ BasicLanguage_Generate*Resource
 
 			WString EscapeResourceName(const WString& name)
 			{
-				return name;
+				Array<wchar_t> buffer(name.Length()*2+3);
+				vint index=0;
+				const wchar_t* reading=name.Buffer();
+				wchar_t* writing=&buffer[0];
+				*writing++=L'[';
+				while(*reading)
+				{
+					switch(*reading)
+					{
+					case L':':case L'<':case L'>':case L'[':case L']':case L' ':case L'\\':
+						*writing++=L'\\';
+						*writing++=*reading;
+						break;
+					default:
+						*writing++=*reading;
+					}
+					reading++;
+				}
+				*writing++=L']';
+				*writing=0;
+				return WString(&buffer[0]);
 			}
 
 			class TypeUniqueStringRecorder
@@ -515,7 +535,7 @@ BasicLanguage_Generate*Resource
 					break;
 				case BasicTypeRecord::Array:
 					{
-						recorder.AppendString(L"pointer<");
+						recorder.AppendString(L"array<");
 						GetTypeUniqueString(type->ElementType(), recorder);
 						recorder.AppendString(L", ");
 						recorder.AppendString(itow(type->ElementCount()));
@@ -524,7 +544,7 @@ BasicLanguage_Generate*Resource
 					break;
 				case BasicTypeRecord::Function:
 					{
-						recorder.AppendString(L"pointer<");
+						recorder.AppendString(L"function<");
 						GetTypeUniqueString(type->ReturnType(), recorder);
 						for(vint i=0;i<type->ParameterCount();i++)
 						{
