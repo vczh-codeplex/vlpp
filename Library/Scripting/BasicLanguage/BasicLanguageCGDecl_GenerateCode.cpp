@@ -143,7 +143,7 @@ BasicLanguage_GenerateCodePass2
 						}
 						argument.Ins(BasicIns::stack_reserve, -argument.info->GetMaxVariableSpace());
 						BasicScope* functionScope=argument.info->GetEnv()->GetFunctionScope(node);
-						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration());
+						BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(functionScope->OwnerDeclaration(), true);
 						BasicOffset parameterSize=0;
 						for(vint i=0;i<functionType->ParameterCount();i++)
 						{

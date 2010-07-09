@@ -503,9 +503,9 @@ TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
 	BasicFunctionDeclaration* functionCreate=env.GlobalScope()->functions.Items()[L"Create"];
 	BasicFunctionDeclaration* functionDestroy=env.GlobalScope()->functions.Items()[L"Destroy"];
 	BasicFunctionDeclaration* functionAppend=env.GlobalScope()->functions.Items()[L"Append"];
-	BasicTypeRecord* typeCreate=env.GetFunctionType(functionCreate);
-	BasicTypeRecord* typeDestroy=env.GetFunctionType(functionDestroy);
-	BasicTypeRecord* typeAppend=env.GetFunctionType(functionAppend);
+	BasicTypeRecord* typeCreate=env.GetFunctionType(functionCreate, false);
+	BasicTypeRecord* typeDestroy=env.GetFunctionType(functionDestroy, false);
+	BasicTypeRecord* typeAppend=env.GetFunctionType(functionAppend, false);
 
 	TEST_ASSERT(functionCreate->parameterNames.Count()==0);
 	TEST_ASSERT(typeCreate->GetType()==BasicTypeRecord::Function);

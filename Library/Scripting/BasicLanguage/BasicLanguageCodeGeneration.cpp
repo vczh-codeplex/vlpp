@@ -144,7 +144,7 @@ BasicCodegenInfo
 				currentFunctionDeclaration=declaration;
 				if(declaration)
 				{
-					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration);
+					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration, true);
 					for(vint i=0;i<type->ParameterCount();i++)
 					{
 						currentFunctionGenericParameters.Add(type->ParameterType(i));

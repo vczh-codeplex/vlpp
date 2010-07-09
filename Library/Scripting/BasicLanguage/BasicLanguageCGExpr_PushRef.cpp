@@ -264,7 +264,7 @@ BasicLanguage_PushRef
 						{
 							BasicOffset offset=0;
 							BasicFunctionDeclaration* function=reference.scope->OwnerDeclaration();
-							BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(function);
+							BasicTypeRecord* functionType=argument.info->GetEnv()->GetFunctionType(function, true);
 							for(vint i=0;i<reference.parameterIndex;i++)
 							{
 								offset+=argument.info->GetTypeInfo(functionType->ParameterType(i))->size;
