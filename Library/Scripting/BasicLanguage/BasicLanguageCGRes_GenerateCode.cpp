@@ -305,7 +305,7 @@ BasicLanguage_GenerateExport
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
-					if(node->linking.HasLink())
+					if(node->linking.HasLink() || node->genericDeclaration.HasGeneric())
 					{
 						return ResourceHandle<BasicILExportRes>::Null();
 					}
@@ -615,6 +615,7 @@ BasicLanguage_Generate*Resource
 						names.Add(currentName);
 
 						entryResource->uniqueNameTemplate=argument.exportResource->CreateArrayRecord(names.Wrap());
+						entries.Add(entryResource);
 					}
 				}
 				return argument.exportResource->CreateArrayRecord(entries.Wrap());
@@ -676,6 +677,7 @@ BasicLanguage_Generate*Resource
 					targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
 					targetResource->symbolName=argument.exportResource->CreateString(symbolName);
 					targetResource->arguments=argument.exportResource->CreateArrayRecord(arguments.Wrap());
+					targets.Add(targetResource);
 				}
 				return argument.exportResource->CreateArrayRecord(targets.Wrap());
 			}

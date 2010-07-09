@@ -1,5 +1,6 @@
 #include <wchar.h>
 #include "BasicILDefinition.h"
+#include "BasicILSymbolResource.h"
 #include "..\..\Stream\StreamSerialization.h"
 
 namespace vl
@@ -246,6 +247,108 @@ BasicIns
 				}
 			}
 
+			WString LinearToString(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericLinearRes> linearRes)
+			{
+				WString result;
+				if(ResourceArrayRecord<BasicILGenericFactorItemRes> factorsRes=exportedSymbols->ReadArrayRecord(linearRes->factors))
+				{
+					for(vint i=0;i<factorsRes.Count();i++)
+					{
+						result+=itow(factorsRes.Get(i)->factor)+L"*T"+itow(i)+L" + ";
+					}
+				}
+				result+=itow(linearRes->constant);
+				return result;
+			}
+
+			WString NamesToString(Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericNameRes> namesRes)
+			{
+				WString result;
+				for(vint i=0;i<namesRes.Count();i++)
+				{
+					ResourceRecord<BasicILGenericNameRes> nameRes=namesRes.Get(i);
+					if(nameRes->isConstant)
+					{
+						result+=exportedSymbols->ReadString(nameRes->constantString);
+					}
+					else
+					{
+						result+=L"{"+itow(nameRes->stringArgumentIndex)+L"}";
+					}
+				}
+				return result;
+			}
+
+			void WriteExportSymbol(Ptr<ResourceStream> exportedSymbols, stream::TextWriter& writer)
+			{
+				ResourceRecord<BasicILEntryRes> entryRes=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+				writer.WriteLine(L"Assembly Name: "+exportedSymbols->ReadString(entryRes->assemblyName));
+
+				if(ResourceArrayRecord<BasicILExportRes> exportsRes=exportedSymbols->ReadArrayRecord(entryRes->exports))
+				{
+					for(vint i=0;i<exportsRes.Count();i++)
+					{
+						ResourceRecord<BasicILExportRes> exportRes=exportsRes.Get(i);
+						writer.WriteLine(L"Exports["+itow(i)+L"] = ("+itow(exportRes->address)+L", "+exportedSymbols->ReadString(exportRes->name)+L")");
+					}
+				}
+
+				if(ResourceArrayRecord<BasicILLinkingRes> linkingsRes=exportedSymbols->ReadArrayRecord(entryRes->linkings))
+				{
+					for(vint i=0;i<linkingsRes.Count();i++)
+					{
+						ResourceRecord<BasicILLinkingRes> linkingRes=linkingsRes.Get(i);
+						writer.WriteLine(L"Linkings["+itow(i)+L"] = "+exportedSymbols->ReadString(linkingRes->assemblyName)+L"::"+exportedSymbols->ReadString(linkingRes->symbolName));
+					}
+				}
+
+				if(ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord(entryRes->genericSymbols))
+				{
+					if(ResourceArrayRecord<BasicILGenericFunctionEntryRes> entriesRes=exportedSymbols->ReadArrayRecord(genericRes->functionEntries))
+					{
+						for(vint i=0;i<entriesRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericFunctionEntryRes> entryRes=entriesRes.Get(i);
+							writer.WriteLine(L"Entries["+itow(i)+L"] = {");
+							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
+							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
+							writer.WriteLine(L"  Instruction = "+itow(entryRes->startInstruction));
+							writer.WriteLine(L"  Lengtht = "+itow(entryRes->instructionCount));
+							writer.WriteLine(L"  UniqueName = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(entryRes->uniqueNameTemplate)));
+							writer.WriteLine(L"}");
+						}
+					}
+					
+					if(ResourceArrayRecord<BasicILGenericFunctionTargetRes> targetsRes=exportedSymbols->ReadArrayRecord(genericRes->functionTargets))
+					{
+						for(vint i=0;i<targetsRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericFunctionTargetRes> targetRes=targetsRes.Get(i);
+							writer.WriteLine(L"Targets["+itow(i)+L"] = {");
+							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
+							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
+							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
+							for(vint j=0;j<argumentsRes.Count();j++)
+							{
+								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
+								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
+								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRes->nameArgument)));
+							}
+							writer.WriteLine(L"}");
+						}
+					}
+					
+					if(ResourceArrayRecord<BasicILGenericLinearRes> linearsRes=exportedSymbols->ReadArrayRecord(genericRes->linears))
+					{
+						for(vint i=0;i<linearsRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericLinearRes> linearRes=linearsRes.Get(i);
+							writer.WriteLine(L"Linears["+itow(i)+L"] = "+LinearToString(exportedSymbols, linearRes));
+						}
+					}
+				}
+			}
+
 			void BasicIL::SaveAsString(stream::TextWriter& writer, ICommentProvider* commentProvider)
 			{
 				writer.WriteLine(L".data");
@@ -273,6 +376,13 @@ BasicIns
 					WriteInteger(i, writer);
 					writer.WriteString(L": ");
 					writer.WriteLine(BasicInsToString(instructions[i]));
+				}
+
+				writer.WriteLine(L".exports");
+				Ptr<ResourceStream> exportedSymbols=resources[BasicILResourceNames::ExportedSymbols];
+				if(exportedSymbols)
+				{
+					WriteExportSymbol(exportedSymbols, writer);
 				}
 			}
 		}
