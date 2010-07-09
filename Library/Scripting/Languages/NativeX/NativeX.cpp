@@ -308,6 +308,17 @@ namespace vl
 				return expression;
 			}
 
+			Ptr<BasicExpression> ToInstanciatedExpression(const ParsingPair<RegexToken, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
+			{
+				Ptr<BasicReferenceExpression> reference=CreateNode<BasicReferenceExpression>(input.First());
+				reference->name=ConvertID(WString(input.First().reading, input.First().length));
+
+				Ptr<BasicInstanciatedExpression> expression=CreateNode<BasicInstanciatedExpression>(input.Second().First());
+				expression->reference=reference;
+				CopyFrom(expression->argumentTypes.Wrap(), input.Second().Second()->Wrap());
+				return expression;
+			}
+
 			Ptr<BasicExpression> ToResult(const RegexToken& input)
 			{
 				return CreateNode<BasicFunctionResultExpression>(input);
@@ -1187,7 +1198,8 @@ namespace vl
 									| NULL_VALUE[ToNull]
 									| INTEGER[ToInteger]
 									;
-					reference		= ID[ToReference];
+					reference		= (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedExpression]
+									| ID[ToReference];
 
 					exp0			= primitive(NeedExpression)
 									| reference

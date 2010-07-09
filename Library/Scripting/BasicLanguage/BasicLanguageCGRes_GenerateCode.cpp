@@ -33,7 +33,6 @@ BasicLanguage_GenerateResource
 					}
 					else
 					{
-						GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
 						resource->size=-1;
 					}
 					resource->genericArgumentName=ResourceString::Null();
@@ -127,7 +126,6 @@ BasicLanguage_GenerateResource
 								}
 								else
 								{
-									GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
 									member->offset=-1;
 								}
 								subTypes.Set(i, member);
