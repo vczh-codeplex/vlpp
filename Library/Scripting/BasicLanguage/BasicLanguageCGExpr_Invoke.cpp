@@ -108,7 +108,6 @@ BasicLanguage_InvokeInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
 					BasicTypeRecord* resultType=0;
 					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
 					argument.Ins(BasicIns::generic_callfunc, BasicIns::MakeInt(index));

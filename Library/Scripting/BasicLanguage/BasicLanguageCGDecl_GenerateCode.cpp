@@ -137,7 +137,6 @@ BasicLanguage_GenerateCodePass2
 							}
 							else
 							{
-								GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN
 								ins.argumentType=BasicIns::linearArgument;
 								ins.argument.int_value=argument.info->RegisterLinear(space);
 							}

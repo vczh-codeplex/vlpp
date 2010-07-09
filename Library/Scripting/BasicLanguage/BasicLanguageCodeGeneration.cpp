@@ -395,7 +395,6 @@ BasicCodegenParameter
 				}
 				else
 				{
-					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
 					il->InsUDG(opcode, BasicIns::MakeInt(info->RegisterLinear(argument)), currentLanguageElement);
 				}
 			}
@@ -408,7 +407,6 @@ BasicCodegenParameter
 				}
 				else
 				{
-					GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
 					il->InsUDG(opcode, type1, BasicIns::MakeInt(info->RegisterLinear(argument)), currentLanguageElement);
 				}
 			}
@@ -444,7 +442,6 @@ BasicLanguage_GenerateCode
 					}
 					else
 					{
-						GENERIC_FUNCTION_IS_IMPOSSIBLE_TO_HAPPEN;
 						BasicIns& ins=argument.il->instructions[reserveVariablesIndex];
 						ins.argumentType=BasicIns::linearArgument;
 						ins.argument.int_value=argument.info->RegisterLinear(space);
