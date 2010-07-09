@@ -1050,7 +1050,7 @@ BasicLanguage_GetExpressionType
 					}
 					else
 					{
-						BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration())->ReturnType();
+						BasicTypeRecord* returnType=argument.env->GetFunctionType(argument.scope->OwnerDeclaration(), true)->ReturnType();
 						if(returnType->GetType()==BasicTypeRecord::Primitive && returnType->PrimitiveType()==void_type)
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetVoidFunctionNotHaveResult(node));
@@ -1128,7 +1128,7 @@ BasicLanguage_GetExpressionType
 					BasicScope* functionScope=0;
 					BasicScope::Variable variableType=argument.scope->variables.Find(node->name, variableScope);
 					BasicFunctionDeclaration* functionDeclaration=argument.scope->functions.Find(node->name, functionScope);
-					BasicTypeRecord* functionType=argument.env->GetFunctionType(functionDeclaration);
+					BasicTypeRecord* functionType=argument.env->GetFunctionType(functionDeclaration, false);
 					if(variableType && functionType)
 					{
 						if(variableScope->Level()>functionScope->Level())
@@ -1142,6 +1142,10 @@ BasicLanguage_GetExpressionType
 					}
 					if(variableType)
 					{
+						if(variableType.type->GetType()==BasicTypeRecord::Generic)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(node));
+						}
 						if(variableType.globalVariable)
 						{
 							argument.env->RegisterReference(node, BasicEnv::Reference(variableScope, variableType.globalVariable));
@@ -1158,6 +1162,10 @@ BasicLanguage_GetExpressionType
 					}
 					else if(functionType)
 					{
+						if(functionType->GetType()==BasicTypeRecord::Generic)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(node));
+						}
 						argument.env->RegisterReference(node, BasicEnv::Reference(functionScope, functionDeclaration));
 						return functionType;
 					}
@@ -1392,7 +1400,7 @@ BasicLanguage_BuildDeclarationBody
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
-					BasicTypeRecord* functionType=argument.env->GetFunctionType(node);
+					BasicTypeRecord* functionType=argument.env->GetFunctionType(node, true);
 					if(functionType->ParameterCount()==node->parameterNames.Count())
 					{
 						if(node->linking.HasLink())

@@ -177,7 +177,7 @@ BasicLanguage_GenerateResource
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 						BuildGenericResource(resource, node, argument);
 						ResourceString name=argument.resource->CreateString(node->name);
-						BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node);
+						BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node, true);
 						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
 
 						resource->type=BasicDeclarationRes::Function;

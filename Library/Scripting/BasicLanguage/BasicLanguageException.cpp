@@ -286,6 +286,12 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, CannotUseUninstanciatedGenericType, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(BasicReferenceExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericType, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicType* type)
 			{
 				Array<WString> parameters(0);

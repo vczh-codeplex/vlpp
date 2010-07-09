@@ -277,10 +277,22 @@ BasicEnv
 				return index==-1?0:statementScopes.Values()[index];
 			}
 
-			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function)
+			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstanciatedType)
 			{
 				vint index=functionTypes.Keys().IndexOf(function);
-				return index==-1?0:functionTypes.Values()[index];
+				if(index==-1)
+				{
+					return 0;
+				}
+				else
+				{
+					BasicTypeRecord* type=functionTypes.Values()[index];
+					if(avoidUninstanciatedType && type->GetType()==BasicTypeRecord::Generic)
+					{
+						type=type->ElementType();
+					}
+					return type;
+				}
 			}
 
 			BasicTypeRecord* BasicEnv::GetStructureType(BasicStructureDeclaration* structure)

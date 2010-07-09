@@ -163,6 +163,7 @@ namespace vl
 				{
 				case BasicTypeRecord::Array:
 				case BasicTypeRecord::Structure:
+				case BasicTypeRecord::GenericArgument:
 					argument.Ins(BasicIns::readmem, argument.info->GetTypeInfo(type)->size);
 					break;
 				default:
@@ -176,6 +177,7 @@ namespace vl
 				{
 				case BasicTypeRecord::Array:
 				case BasicTypeRecord::Structure:
+				case BasicTypeRecord::GenericArgument:
 					argument.Ins(BasicIns::writemem, argument.info->GetTypeInfo(type)->size);
 					break;
 				default:

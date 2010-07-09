@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILStack.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_Invoke.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.cpp" />

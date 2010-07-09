@@ -112,7 +112,7 @@ namespace vl
 
 				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
 				BasicScope*														GetStatementScope(BasicStatement* statement);
-				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function);
+				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstanciatedType);
 				BasicTypeRecord*												GetStructureType(BasicStructureDeclaration* structure);
 				BasicTypeRecord*												GetExpressionType(BasicExpression* expression);
 				Reference														GetReference(BasicReferenceExpression* expression);
