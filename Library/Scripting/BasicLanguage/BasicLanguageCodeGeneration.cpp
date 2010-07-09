@@ -146,9 +146,10 @@ BasicCodegenInfo
 				returnInstructions.Clear();
 
 				currentFunctionDeclaration=declaration;
+				currentFunctionGenericParameters.Clear();
 				if(declaration)
 				{
-					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration, true);
+					BasicTypeRecord* type=analyzer->GetEnv()->GetFunctionType(declaration, false);
 					for(vint i=0;i<type->ParameterCount();i++)
 					{
 						currentFunctionGenericParameters.Add(type->ParameterType(i));
@@ -169,7 +170,6 @@ BasicCodegenInfo
 					il->instructions[returnInstructions[i]].argument.int_value=returnIns;
 				}
 				returnInstructions.Clear();
-				currentFunctionGenericParameters.Clear();
 
 				Ptr<FunctionEntry> entry=instanciatedGenericFunctionEntries[instanciatedGenericFunctionEntries.Count()-1];
 				entry->instructionCount=il->instructions.Count()-entry->startInstruction;
