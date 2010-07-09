@@ -87,9 +87,13 @@ BasicCodegenInfo
 						}
 						break;
 					case BasicTypeRecord::GenericArgument:
+						{
+							info->size(type, 1);
+						}
+						break;
 					case BasicTypeRecord::Generic:
 						{
-							info->size=1;
+							info->size=0;
 						}
 						break;
 					}
