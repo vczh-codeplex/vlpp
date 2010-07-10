@@ -124,9 +124,9 @@ BasicLanguage_GenerateCodePass2
 						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 						vint reserveVariablesIndex=argument.il->instructions.Count()-1;
 
-						argument.info->BeginFunction(node, argument.il);
+						argument.info->BeginFunction(node, argument.il, 1);
 						BasicLanguage_GenerateCode(node->statement, argument);
-						argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
+						argument.info->EndFunction(argument.il->instructions.Count(), argument.il, 2);
 
 						{
 							BasicIns& ins=argument.il->instructions[reserveVariablesIndex];

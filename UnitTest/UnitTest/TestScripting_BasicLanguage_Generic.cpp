@@ -80,7 +80,28 @@ TEST_CASE(TestScripting_BasicLanguage_GenericFunction)
 		.DefineFunction(L"main")
 		.ReturnType(t_int())
 		.Statement(
-			s_expr(e_result().Assign(e_prim(0)))
+			s_var(t_int()[5], L"numbers")
+			<<s_expr(e_name(L"numbers")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"numbers")[e_prim(1)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"numbers")[e_prim(2)].Assign(e_prim(5)))
+			<<s_expr(e_name(L"numbers")[e_prim(3)].Assign(e_prim(7)))
+			<<s_expr(e_name(L"numbers")[e_prim(4)].Assign(e_prim(9)))
+			<<s_expr(e_result().Assign(
+				e_name(L"Sum", t_types()<<t_int())(e_exps()
+					<<e_name(L"numbers").Ref()[*t_int()]
+					<<e_prim(5)
+					<<e_prim(0)
+					<<e_name(L"Add")
+					)
+				))
+			);
+	programMain
+		.DefineFunction(L"Add")
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 			);
 	programMain
 		.Generic().GenericArgument(L"T")
@@ -109,5 +130,5 @@ TEST_CASE(TestScripting_BasicLanguage_GenericFunction)
 				)
 			);
 		;
-	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericFunction");
+	RunBasicProgramInt(programMain.GetInternalValue(), 25, L"TestScripting_BasicLanguage_GenericFunction");
 }

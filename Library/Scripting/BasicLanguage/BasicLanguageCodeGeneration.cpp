@@ -136,7 +136,7 @@ BasicCodegenInfo
 				return localVariableOffsets.Wrap();
 			}
 
-			void BasicCodegenInfo::BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il)
+			void BasicCodegenInfo::BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il, vint existInstructionCount)
 			{
 				usedVariableSpace=0;
 				breakInsStack.Clear();
@@ -158,12 +158,12 @@ BasicCodegenInfo
 
 				Ptr<FunctionEntry> entry=new FunctionEntry;
 				entry->declaration=declaration;
-				entry->startInstruction=il->instructions.Count();
+				entry->startInstruction=il->instructions.Count()-existInstructionCount;
 				entry->instructionCount=0;
 				instanciatedGenericFunctionEntries.Add(entry);
 			}
 
-			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il)
+			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il, vint remainInstructionCount)
 			{
 				for(vint i=0;i<returnInstructions.Count();i++)
 				{
@@ -172,7 +172,7 @@ BasicCodegenInfo
 				returnInstructions.Clear();
 
 				Ptr<FunctionEntry> entry=instanciatedGenericFunctionEntries[instanciatedGenericFunctionEntries.Count()-1];
-				entry->instructionCount=il->instructions.Count()-entry->startInstruction;
+				entry->instructionCount=il->instructions.Count()-entry->startInstruction+remainInstructionCount;
 			}
 
 			void BasicCodegenInfo::AssociateReturn(vint instruction)
@@ -424,7 +424,7 @@ BasicLanguage_GenerateCode
 				const_cast<BCP&>(argument).currentLanguageElement=program.Obj();
 				argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 				vint reserveVariablesIndex=argument.il->instructions.Count()-1;
-				argument.info->BeginFunction(0, argument.il);
+				argument.info->BeginFunction(0, argument.il, 1);
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
@@ -436,7 +436,7 @@ BasicLanguage_GenerateCode
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
 
-				argument.info->EndFunction(argument.il->instructions.Count(), argument.il);
+				argument.info->EndFunction(argument.il->instructions.Count(), argument.il, 2);
 				{
 					BasicOffset space=argument.info->GetMaxVariableSpace();
 					if(space.IsConstant())
