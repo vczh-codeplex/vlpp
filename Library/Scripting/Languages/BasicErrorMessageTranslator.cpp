@@ -222,6 +222,18 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::CannotUseUninstanciatedGenericType();
 					}
 					break;
+				case BasicLanguageCodeException::CannotUseUninstanciatedGenericVariable:
+					{
+						BasicReferenceExpression* reference=dynamic_cast<BasicReferenceExpression*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::CannotUseUninstanciatedGenericVariable(reference->name);
+					}
+					break;
+				case BasicLanguageCodeException::CannotUseUninstanciatedGenericFunction:
+					{
+						BasicReferenceExpression* reference=dynamic_cast<BasicReferenceExpression*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::CannotUseUninstanciatedGenericFunction(reference->name);
+					}
+					break;
 				case BasicLanguageCodeException::GenericArgumentNumberNotMatch:
 					{
 						message=BasicErrorMessage::GenericArgumentNumberNotMatch();

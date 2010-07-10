@@ -1144,7 +1144,7 @@ BasicLanguage_GetExpressionType
 					{
 						if(variableType.type->GetType()==BasicTypeRecord::Generic)
 						{
-							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(node));
+							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericVariable(node));
 						}
 						if(variableType.globalVariable)
 						{
@@ -1164,7 +1164,7 @@ BasicLanguage_GetExpressionType
 					{
 						if(functionType->GetType()==BasicTypeRecord::Generic)
 						{
-							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(node));
+							argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericFunction(node));
 						}
 						argument.env->RegisterReference(node, BasicEnv::Reference(functionScope, functionDeclaration));
 						return functionType;

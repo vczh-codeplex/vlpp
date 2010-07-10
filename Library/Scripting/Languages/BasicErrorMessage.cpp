@@ -181,6 +181,16 @@ namespace vl
 				return L"Cannot use uninstanciated generic types.";
 			}
 
+			WString BasicErrorMessage::CannotUseUninstanciatedGenericVariable(const WString& name)
+			{
+				return L"Cannot use uninstanciated generic variable "+name+L".";
+			}
+
+			WString BasicErrorMessage::CannotUseUninstanciatedGenericFunction(const WString& name)
+			{
+				return L"Cannot use uninstanciated generic function "+name+L".";
+			}
+
 			WString BasicErrorMessage::GenericArgumentNumberNotMatch()
 			{
 				return L"Generic argument number should not be greater or less than the generic type required.";
