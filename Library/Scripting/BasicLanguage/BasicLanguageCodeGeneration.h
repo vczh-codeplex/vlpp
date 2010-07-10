@@ -85,8 +85,8 @@ namespace vl
 				collections::IDictionary<BasicVariableDeclaration*, vint>&			GetGlobalVariableOffsets();
 				collections::IDictionary<BasicVariableStatement*, BasicOffset>&		GetLocalVariableOffsets();
 
-				void																BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il);
-				void																EndFunction(vint returnIns, basicil::BasicIL* il);
+				void																BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il, vint existInstructionCount);
+				void																EndFunction(vint returnIns, basicil::BasicIL* il, vint remainInstructionCount);
 				void																AssociateReturn(vint instruction);
 				void																EnterScope();
 				void																LeaveScope();

@@ -135,7 +135,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 template<typename T>
 void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 {
-	RunBasicProgramInternal(program, result, L"");
+	//RunBasicProgramInternal(program, result, L"");
 	ConvertToNativeXProgram(program);
 	RunBasicProgramInternal(program, result, name);
 }
