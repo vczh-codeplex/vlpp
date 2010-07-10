@@ -1178,13 +1178,14 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					Ptr<BasicExpression> referenceExpression=node->reference;
-					BasicTypeRecord* genericType=BasicLanguage_GetExpressionType(referenceExpression, argument);
+					BasicScope* functionScope=0;
+					BasicFunctionDeclaration* functionDeclaration=argument.scope->functions.Find(node->reference->name, functionScope);
+					BasicTypeRecord* genericType=argument.env->GetFunctionType(functionDeclaration, false);
 					if(!genericType)
 					{
-						return 0;
+						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
 					}
-					if(genericType->GetType()!=BasicTypeRecord::Generic)
+					else if(genericType->GetType()!=BasicTypeRecord::Generic)
 					{
 						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
 					}
@@ -1199,6 +1200,7 @@ BasicLanguage_GetExpressionType
 						{
 							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
 						}
+						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(functionScope, functionDeclaration));
 						return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
 					}
 				}
@@ -1420,6 +1422,11 @@ BasicLanguage_BuildDeclarationBody
 						if(node->statement)
 						{
 							BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
+							for(vint i=0;i<node->genericDeclaration.arguments.Count();i++)
+							{
+								const WString& typeName=node->genericDeclaration.arguments[i];
+								functionScope->types.Add(typeName, argument.typeManager->GetGenericArgumentType(typeName));
+							}
 							for(vint i=0;i<node->parameterNames.Count();i++)
 							{
 								if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))

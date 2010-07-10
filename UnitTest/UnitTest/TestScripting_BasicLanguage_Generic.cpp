@@ -92,5 +92,22 @@ TEST_CASE(TestScripting_BasicLanguage_GenericFunction)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"f")(e_exps()<<e_name(L"a")<<e_name(L"b"))))
 			);
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"Sum")
+		.Parameter(L"items", *t_type(L"T"))
+		.Parameter(L"count", t_int())
+		.Parameter(L"init", t_type(L"T"))
+		.Parameter(L"f",  t_type(L"T")(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.ReturnType(t_type(L"T"))
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"init")))
+			<<s_while(e_name(L"count")>e_prim(0),
+					s_expr(e_result().Assign(e_name(L"Apply2", t_types()<<t_type(L"T"))(e_exps()<<e_name(L"f")<<e_result()<<*e_name(L"items"))))
+					<<s_expr(e_name(L"count")--)
+					<<s_expr(e_name(L"items")++)
+				)
+			);
+		;
 	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericFunction");
 }
