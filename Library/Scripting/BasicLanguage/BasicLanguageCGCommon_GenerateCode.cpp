@@ -114,7 +114,7 @@ namespace vl
 				{
 					BP bp(
 						argument.info->GetEnv(),
-						0,
+						argument.info->GetEnv()->GetFunctionScope(reference.function),
 						argument.info->GetTypeManager(),
 						*(List<Ptr<BasicLanguageCodeException>>*)0,
 						*(SortedList<WString>*)0

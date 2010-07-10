@@ -63,6 +63,10 @@ BasicIns
 				CASE(link_pushforeigndata);
 				CASE(link_pushforeignfunc);
 				CASE(link_callforeignfunc);
+				CASE(generic_callfunc);
+				CASE(generic_pushfunc);
+				CASE(generic_callfunc_vm);
+				CASE(generic_pushfunc_vm);
 				CASE(codegen_callfunc);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
