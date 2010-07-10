@@ -285,11 +285,19 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(type, CannotUseUninstanciatedGenericType, parameters.Wrap());
 			}
-
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(BasicReferenceExpression* expression)
+			
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericVariable(BasicReferenceExpression* expression)
 			{
-				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericType, parameters.Wrap());
+				Array<WString> parameters(1);
+				parameters[0]=expression->name;
+				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericVariable, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericFunction(BasicReferenceExpression* expression)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=expression->name;
+				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericFunction, parameters.Wrap());
 			}
 
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicType* type)

@@ -60,6 +60,8 @@ namespace vl
 				static WString ExternalStructureShouldBeDefined(const WString& name);
 				static WString GenericArgumentAlreadyExists(const WString& declaration, const WString& name);
 				static WString CannotUseUninstanciatedGenericType();
+				static WString CannotUseUninstanciatedGenericVariable(const WString& name);
+				static WString CannotUseUninstanciatedGenericFunction(const WString& name);
 				static WString GenericArgumentNumberNotMatch();
 				static WString GenericArgumentCannotApplyToNonGenericType();
 				static WString ILExceptionStackOverflow();

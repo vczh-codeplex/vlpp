@@ -59,6 +59,8 @@ namespace vl
 					ExternalStructureShouldBeDefined,		//name
 					GenericArgumentAlreadyExists,			//name
 					CannotUseUninstanciatedGenericType,
+					CannotUseUninstanciatedGenericVariable,	//name
+					CannotUseUninstanciatedGenericFunction,	//name
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
 				};
@@ -112,7 +114,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericType(BasicType* type);
-				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericType(BasicReferenceExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericVariable(BasicReferenceExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericFunction(BasicReferenceExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicType* type);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicInstanciatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
