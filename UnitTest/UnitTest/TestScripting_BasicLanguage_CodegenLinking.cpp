@@ -59,7 +59,7 @@ Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name, const WStri
 Simple Linking
 ***********************************************************************/
 
-TEST_CASE(TestScripting_BasicLanguage_Linking)
+TEST_CASE(TestScripting_BasicLanguage_LinkingFunction)
 {
 	BasicProgramNode programAdd;
 	programAdd
@@ -114,7 +114,7 @@ TEST_CASE(TestScripting_BasicLanguage_Linking)
 Function Pointer
 ***********************************************************************/
 
-TEST_CASE(TestScripting_BasicLanguage_Pointer)
+TEST_CASE(TestScripting_BasicLanguage_LinkingPointer)
 {
 	BasicProgramNode programAdd;
 	programAdd
@@ -125,7 +125,7 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 			);
-	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd", L"TestScripting_BasicLanguage_Pointer_programAdd");
+	Ptr<BasicIL> ilAdd=Compile(programAdd.GetInternalValue(), L"programAdd", L"TestScripting_BasicLanguage_LinkingPointer_programAdd");
 
 	BasicProgramNode programMain;
 	programMain
@@ -153,7 +153,7 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
 			);
-	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_Pointer_programMain");
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_LinkingPointer_programMain");
 
 	BasicILInterpretor interpretor(65536);
 	vint addKey=interpretor.LoadIL(ilAdd.Obj());
@@ -171,5 +171,100 @@ TEST_CASE(TestScripting_BasicLanguage_Pointer)
 	stack.Reset(ins, mainKey, sizeof(vint));
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==37);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+}
+
+/***********************************************************************
+Generic Function
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_LinkingGenericFunction)
+{
+	BasicProgramNode programMain;
+	BasicProgramNode programGeneric;
+
+	programGeneric
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"Apply2")
+		.Parameter(L"f", t_type(L"T")(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.Parameter(L"a", t_type(L"T"))
+		.Parameter(L"b", t_type(L"T"))
+		.ReturnType(t_type(L"T"))
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"f")(e_exps()<<e_name(L"a")<<e_name(L"b"))))
+			);
+	programGeneric
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"Sum")
+		.Parameter(L"items", *t_type(L"T"))
+		.Parameter(L"count", t_int())
+		.Parameter(L"init", t_type(L"T"))
+		.Parameter(L"f",  t_type(L"T")(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.ReturnType(t_type(L"T"))
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"init")))
+			<<s_while(e_name(L"count")>e_prim(0),
+					s_expr(e_result().Assign(e_name(L"Apply2", t_types()<<t_type(L"T"))(e_exps()<<e_name(L"f")<<e_result()<<*e_name(L"items"))))
+					<<s_expr(e_name(L"count")--)
+					<<s_expr(e_name(L"items")++)
+				)
+			);
+		;
+	Ptr<BasicIL> ilGeneric=Compile(programGeneric.GetInternalValue(), L"programGeneric", L"TestScripting_BasicLanguage_LinkingGeneric_ProgramGeneric");
+
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_var(t_int()[5], L"numbers")
+			<<s_expr(e_name(L"numbers")[e_prim(0)].Assign(e_prim(1)))
+			<<s_expr(e_name(L"numbers")[e_prim(1)].Assign(e_prim(3)))
+			<<s_expr(e_name(L"numbers")[e_prim(2)].Assign(e_prim(5)))
+			<<s_expr(e_name(L"numbers")[e_prim(3)].Assign(e_prim(7)))
+			<<s_expr(e_name(L"numbers")[e_prim(4)].Assign(e_prim(9)))
+			<<s_expr(e_result().Assign(
+				e_name(L"Sum", t_types()<<t_int())(e_exps()
+					<<e_name(L"numbers").Ref()[*t_int()]
+					<<e_prim(5)
+					<<e_prim(0)
+					<<e_name(L"Add")
+					)
+				))
+			);
+	programMain
+		.DefineFunction(L"Add")
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+			);
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"Sum")
+		.Parameter(L"items", *t_type(L"T"))
+		.Parameter(L"count", t_int())
+		.Parameter(L"init", t_type(L"T"))
+		.Parameter(L"f",  t_type(L"T")(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.ReturnType(t_type(L"T"))
+		.Linking(L"programGeneric", L"Sum");
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_LinkingGeneric_ProgramMain");
+
+	BasicILInterpretor interpretor(65536);
+	vint sumKey=interpretor.LoadIL(ilGeneric.Obj());
+	vint mainKey=interpretor.LoadIL(ilMain.Obj());
+	
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, sumKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	stack.Reset(0, mainKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	
+	vint ins=ilMain->labels[0].instructionIndex;
+	stack.Reset(ins, mainKey, sizeof(vint));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==25);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }

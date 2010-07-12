@@ -20,7 +20,10 @@ BasicLanguage_GenerateLinkingSymbolTable
 				{
 					if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
 					{
-						const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+						if(!node->genericDeclaration.HasGeneric())
+						{
+							const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+						}
 					}
 				}
 
@@ -28,7 +31,10 @@ BasicLanguage_GenerateLinkingSymbolTable
 				{
 					if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
 					{
-						const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+						if(!node->genericDeclaration.HasGeneric())
+						{
+							const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+						}
 					}
 				}
 

@@ -253,7 +253,7 @@ BasicILInterpretor
 								{
 									throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.key, symbol.value);
 								}
-								if(!symbolMap.Keys().Contains(symbol) && !currentFunctionEntries.Keys().Contains(symbol))
+								if(!genericFunctionEntries.Keys().Contains(symbol) && !currentFunctionEntries.Keys().Contains(symbol))
 								{
 									throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
 								}
