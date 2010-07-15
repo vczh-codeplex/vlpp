@@ -124,6 +124,8 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		linears.Set(1, linear1);
 		genericRes->functionEntries=entries;
 		genericRes->functionTargets=targets;
+		genericRes->variableEntries=ResourceArrayHandle<BasicILGenericVariableEntryRes>::Null();
+		genericRes->variableTargets=ResourceArrayHandle<BasicILGenericVariableTargetRes>::Null();
 		genericRes->linears=linears;
 	}
 
