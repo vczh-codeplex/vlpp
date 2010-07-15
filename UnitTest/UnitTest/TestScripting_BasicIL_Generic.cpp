@@ -45,7 +45,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 			names.Set(2, name2);
 			entry0->uniqueNameTemplate=names;
 		}
-		ResourceRecord<BasicILGenericFunctionTargetRes> target0=symbolResource->CreateRecord<BasicILGenericFunctionTargetRes>();
+		ResourceRecord<BasicILGenericTargetRes> target0=symbolResource->CreateRecord<BasicILGenericTargetRes>();
 		{
 			target0->assemblyName=symbolResource->CreateString(L"Map");
 			target0->symbolName=symbolResource->CreateString(L"FindFirst");
@@ -70,7 +70,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 			arguments.Set(0, argument0);
 			target0->arguments=arguments;
 		}
-		ResourceRecord<BasicILGenericFunctionTargetRes> target1=symbolResource->CreateRecord<BasicILGenericFunctionTargetRes>();
+		ResourceRecord<BasicILGenericTargetRes> target1=symbolResource->CreateRecord<BasicILGenericTargetRes>();
 		{
 			target1->assemblyName=symbolResource->CreateString(L"Map");
 			target1->symbolName=symbolResource->CreateString(L"FindFirst");
@@ -116,16 +116,15 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 
 		ResourceArrayRecord<BasicILGenericFunctionEntryRes> entries=symbolResource->CreateArrayRecord<BasicILGenericFunctionEntryRes>(1);
 		entries.Set(0, entry0);
-		ResourceArrayRecord<BasicILGenericFunctionTargetRes> targets=symbolResource->CreateArrayRecord<BasicILGenericFunctionTargetRes>(2);
+		ResourceArrayRecord<BasicILGenericTargetRes> targets=symbolResource->CreateArrayRecord<BasicILGenericTargetRes>(2);
 		targets.Set(0, target0);
 		targets.Set(1, target1);
 		ResourceArrayRecord<BasicILGenericLinearRes> linears=symbolResource->CreateArrayRecord<BasicILGenericLinearRes>(2);
 		linears.Set(0, linear0);
 		linears.Set(1, linear1);
 		genericRes->functionEntries=entries;
-		genericRes->functionTargets=targets;
 		genericRes->variableEntries=ResourceArrayHandle<BasicILGenericVariableEntryRes>::Null();
-		genericRes->variableTargets=ResourceArrayHandle<BasicILGenericVariableTargetRes>::Null();
+		genericRes->targets=targets;
 		genericRes->linears=linears;
 	}
 

@@ -124,6 +124,7 @@ namespace vl
 				ALGORITHM_TARGET_ROOT(BasicDeclaration)
 
 				BasicGeneric								genericDeclaration;
+				BasicLinking								linking;
 				WString										name;
 			};
 
@@ -445,7 +446,6 @@ Declaration
 				Ptr<BasicFunctionType>						signatureType;
 				collections::List<WString>					parameterNames;
 				Ptr<BasicStatement>							statement;
-				BasicLinking								linking;
 			};
 
 			class BasicStructureDeclaration : public BasicDeclaration
@@ -456,7 +456,6 @@ Declaration
 				collections::List<Ptr<BasicType>>			memberTypes;
 				collections::List<WString>					memberNames;
 				bool										defined;
-				BasicLinking								linking;
 			};
 
 			class BasicVariableDeclaration : public BasicDeclaration
@@ -466,7 +465,6 @@ Declaration
 
 				Ptr<BasicType>								type;
 				Ptr<BasicExpression>						initializer;
-				BasicLinking								linking;
 			};
 
 			class BasicTypeRenameDeclaration : public BasicDeclaration

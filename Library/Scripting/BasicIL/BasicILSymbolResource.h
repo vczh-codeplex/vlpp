@@ -85,16 +85,6 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
 		};
 
-		//模板函数特化
-		struct BasicILGenericFunctionTargetRes
-		{
-			ResourceString											symbolName;				//符号
-			ResourceString											assemblyName;			//Assembly名
-			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
-		};
-
-		//--------------------------------------------------------------------------------------------------------
-
 		//模板函数入口
 		struct BasicILGenericVariableEntryRes
 		{
@@ -105,7 +95,7 @@ namespace vl
 		};
 
 		//模板函数特化
-		struct BasicILGenericVariableTargetRes
+		struct BasicILGenericTargetRes
 		{
 			ResourceString											symbolName;				//符号
 			ResourceString											assemblyName;			//Assembly名
@@ -118,9 +108,8 @@ namespace vl
 		struct BasicILGenericRes
 		{
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes>		functionEntries;		//函数入口
-			ResourceArrayHandle<BasicILGenericFunctionTargetRes>	functionTargets;		//函数特化表
 			ResourceArrayHandle<BasicILGenericVariableEntryRes>		variableEntries;		//变量函数入口
-			ResourceArrayHandle<BasicILGenericVariableTargetRes>	variableTargets;		//变量特化表
+			ResourceArrayHandle<BasicILGenericTargetRes>			targets;				//特化表
 			ResourceArrayHandle<BasicILGenericLinearRes>			linears;				//线性参数表
 		};
 
