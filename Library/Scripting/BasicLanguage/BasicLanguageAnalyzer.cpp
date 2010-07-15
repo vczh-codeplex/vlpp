@@ -550,7 +550,7 @@ BasicLanguage_IsLeftValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					return false;
+					return argument.env->GetReference(node->reference.Obj()).isVariable;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
@@ -1178,10 +1178,16 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
+					BasicScope* variableScope=0;
 					BasicScope* functionScope=0;
+					BasicScope::Variable variableType=argument.scope->variables.Find(node->reference->name, variableScope);
 					BasicFunctionDeclaration* functionDeclaration=argument.scope->functions.Find(node->reference->name, functionScope);
-					BasicTypeRecord* genericType=argument.env->GetFunctionType(functionDeclaration, false);
-					if(!genericType)
+					BasicTypeRecord* genericType=
+						variableScope
+						?variableType.type
+						:argument.env->GetFunctionType(functionDeclaration, false);
+
+					if(!variableType.globalVariable && !functionDeclaration)
 					{
 						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
 					}
@@ -1189,20 +1195,26 @@ BasicLanguage_GetExpressionType
 					{
 						throw BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(node);
 					}
-					else
+					
+					if(node->argumentTypes.Count()!=genericType->ParameterCount())
 					{
-						if(node->argumentTypes.Count()!=genericType->ParameterCount())
-						{
-							throw BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(node);
-						}
-						Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
-						for(vint i=0;i<genericType->ParameterCount();i++)
-						{
-							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
-						}
-						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(functionScope, functionDeclaration));
-						return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
+						throw BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(node);
 					}
+					Dictionary<BasicTypeRecord*, BasicTypeRecord*> argumentTypes;
+					for(vint i=0;i<genericType->ParameterCount();i++)
+					{
+						argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
+					}
+
+					if(variableType.globalVariable)
+					{
+						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(variableScope, variableType.globalVariable));
+					}
+					else if(functionDeclaration)
+					{
+						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(functionScope, functionDeclaration));
+					}
+					return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
