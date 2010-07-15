@@ -284,4 +284,141 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 
 TEST_CASE(TestBasicILInstruction_Generic_GlobalVariable)
 {
+	BasicIL il;
+	{
+		Ptr<ResourceStream> symbolResource=new ResourceStream;
+		il.resources.Add(BasicILResourceNames::ExportedSymbols, symbolResource);
+
+		ResourceRecord<BasicILEntryRes> entryRes=symbolResource->CreateRecord<BasicILEntryRes>();
+		entryRes->assemblyName=symbolResource->CreateString(L"Generic");
+		entryRes->exports=ResourceArrayHandle<BasicILExportRes>::Null();
+		entryRes->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
+		ResourceRecord<BasicILGenericRes> genericRes=symbolResource->CreateRecord<BasicILGenericRes>();
+		entryRes->genericSymbols=genericRes;
+
+		ResourceRecord<BasicILGenericVariableEntryRes> entry0=symbolResource->CreateRecord<BasicILGenericVariableEntryRes>();
+		{
+			entry0->genericArgumentCount=1;
+			entry0->name=symbolResource->CreateString(L"Storage");
+
+			ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
+			name0->isConstant=true;
+			name0->constantString=symbolResource->CreateString(L"Storage<");
+			name0->stringArgumentIndex=-1;
+			ResourceRecord<BasicILGenericNameRes> name1=symbolResource->CreateRecord<BasicILGenericNameRes>();
+			name1->isConstant=false;
+			name1->constantString=ResourceString::Null();
+			name1->stringArgumentIndex=0;
+			ResourceRecord<BasicILGenericNameRes> name2=symbolResource->CreateRecord<BasicILGenericNameRes>();
+			name2->isConstant=true;
+			name2->constantString=symbolResource->CreateString(L">");
+			name2->stringArgumentIndex=-1;
+			ResourceArrayRecord<BasicILGenericNameRes> names=symbolResource->CreateArrayRecord<BasicILGenericNameRes>(3);
+			names.Set(0, name0);
+			names.Set(1, name1);
+			names.Set(2, name2);
+			entry0->uniqueNameTemplate=names;
+
+			ResourceRecord<BasicILGenericLinearRes> linear=symbolResource->CreateRecord<BasicILGenericLinearRes>();
+			{
+				linear->constant=0;
+				ResourceRecord<BasicILGenericFactorItemRes> factor0=symbolResource->CreateRecord<BasicILGenericFactorItemRes>();
+				factor0->factor=1;
+				ResourceArrayRecord<BasicILGenericFactorItemRes> factors=symbolResource->CreateArrayRecord<BasicILGenericFactorItemRes>(1);
+				factors.Set(0, factor0);
+				linear->factors=factors;
+			}
+			entry0->size=linear;
+		}
+		ResourceRecord<BasicILGenericTargetRes> target0=symbolResource->CreateRecord<BasicILGenericTargetRes>();
+		{
+			target0->assemblyName=symbolResource->CreateString(L"Generic");
+			target0->symbolName=symbolResource->CreateString(L"Storage");
+
+			ResourceRecord<BasicILGenericArgumentRes> argument0=symbolResource->CreateRecord<BasicILGenericArgumentRes>();
+			{
+				ResourceRecord<BasicILGenericLinearRes> sizeArgument=symbolResource->CreateRecord<BasicILGenericLinearRes>();
+				sizeArgument->constant=sizeof(vint);
+				sizeArgument->factors=ResourceArrayHandle<BasicILGenericFactorItemRes>::Null();
+				argument0->sizeArgument=sizeArgument;
+
+				ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
+				name0->isConstant=true;
+				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:INTEGER");
+				name0->stringArgumentIndex=-1;
+				ResourceArrayRecord<BasicILGenericNameRes> names=symbolResource->CreateArrayRecord<BasicILGenericNameRes>(1);
+				names.Set(0, name0);
+				argument0->nameArgument=names;
+			}
+
+			ResourceArrayRecord<BasicILGenericArgumentRes> arguments=symbolResource->CreateArrayRecord<BasicILGenericArgumentRes>(1);
+			arguments.Set(0, argument0);
+			target0->arguments=arguments;
+		}
+		ResourceRecord<BasicILGenericTargetRes> target1=symbolResource->CreateRecord<BasicILGenericTargetRes>();
+		{
+			target1->assemblyName=symbolResource->CreateString(L"Generic");
+			target1->symbolName=symbolResource->CreateString(L"Storage");
+
+			ResourceRecord<BasicILGenericArgumentRes> argument0=symbolResource->CreateRecord<BasicILGenericArgumentRes>();
+			{
+				ResourceRecord<BasicILGenericLinearRes> sizeArgument=symbolResource->CreateRecord<BasicILGenericLinearRes>();
+				sizeArgument->constant=sizeof(char);
+				sizeArgument->factors=ResourceArrayHandle<BasicILGenericFactorItemRes>::Null();
+				argument0->sizeArgument=sizeArgument;
+
+				ResourceRecord<BasicILGenericNameRes> name0=symbolResource->CreateRecord<BasicILGenericNameRes>();
+				name0->isConstant=true;
+				name0->constantString=symbolResource->CreateString(L"PRIMITIVE:CHAR");
+				name0->stringArgumentIndex=-1;
+				ResourceArrayRecord<BasicILGenericNameRes> names=symbolResource->CreateArrayRecord<BasicILGenericNameRes>(1);
+				names.Set(0, name0);
+				argument0->nameArgument=names;
+			}
+
+			ResourceArrayRecord<BasicILGenericArgumentRes> arguments=symbolResource->CreateArrayRecord<BasicILGenericArgumentRes>(1);
+			arguments.Set(0, argument0);
+			target1->arguments=arguments;
+		}
+
+		ResourceArrayRecord<BasicILGenericVariableEntryRes> entries=symbolResource->CreateArrayRecord<BasicILGenericVariableEntryRes>(1);
+		entries.Set(0, entry0);
+		ResourceArrayRecord<BasicILGenericTargetRes> targets=symbolResource->CreateArrayRecord<BasicILGenericTargetRes>(2);
+		targets.Set(0, target0);
+		targets.Set(1, target1);
+		genericRes->functionEntries=ResourceArrayHandle<BasicILGenericFunctionEntryRes>::Null();
+		genericRes->variableEntries=entries;
+		genericRes->targets=targets;
+		genericRes->linears=ResourceArrayHandle<BasicILGenericLinearRes>::Null();
+	}
+
+	il
+		.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(10))
+		.Ins(BasicIns::generic_pushdata, BasicIns::MakeInt(0))
+		.Ins(BasicIns::write, BasicIns::int_type)
+		.Ins(BasicIns::push, BasicIns::s8, BasicIns::Makes8(20))
+		.Ins(BasicIns::generic_pushdata, BasicIns::MakeInt(1))
+		.Ins(BasicIns::write, BasicIns::s8)
+		
+		.Ins(BasicIns::generic_pushdata, BasicIns::MakeInt(0))
+		.Ins(BasicIns::read, BasicIns::int_type)
+		.Ins(BasicIns::generic_pushdata, BasicIns::MakeInt(1))
+		.Ins(BasicIns::read, BasicIns::s8)
+		.Ins(BasicIns::convert, BasicIns::int_type, BasicIns::s8)
+		.Ins(BasicIns::add, BasicIns::int_type)
+		.Ins(BasicIns::resptr)
+		.Ins(BasicIns::write, BasicIns::int_type)
+
+		.Ins(BasicIns::ret);
+		;
+
+	BasicILInterpretor interpretor(1024);
+	vint key=interpretor.LoadIL(&il);
+	BasicILStack stack(&interpretor);
+	
+	stack.Reset(0, key, sizeof(vint));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	vint result=stack.GetEnv()->Pop<vint>();
+	TEST_ASSERT(result==30);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }

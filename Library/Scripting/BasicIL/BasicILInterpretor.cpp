@@ -153,7 +153,7 @@ BasicILInterpretor
 				if(remainBytes>=size)
 				{
 					char* result=&buffer[0]+(buffer.Count()-remainBytes);
-					remainBytes+=size;
+					remainBytes-=size;
 					return result;
 				}
 				else

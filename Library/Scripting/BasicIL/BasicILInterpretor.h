@@ -103,7 +103,6 @@ namespace vl
 			{
 				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>> MapType;
 
-				vint										instruction;
 				vint										argumentCount;
 				Linear<vint, vint>							size;
 				collections::Array<BasicILGenericName>		nameTemplate;
