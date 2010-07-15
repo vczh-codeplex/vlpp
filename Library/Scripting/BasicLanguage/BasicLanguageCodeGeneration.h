@@ -68,6 +68,7 @@ namespace vl
 				_TypeResTable														typeResources;
 				BasicFunctionDeclaration*											currentFunctionDeclaration;
 				collections::List<BasicTypeRecord*>									currentFunctionGenericParameters;
+				collections::List<BasicScope*>										semanticScopes;
 			public:
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
@@ -87,6 +88,10 @@ namespace vl
 
 				void																BeginFunction(BasicFunctionDeclaration* declaration, basicil::BasicIL* il, vint existInstructionCount);
 				void																EndFunction(vint returnIns, basicil::BasicIL* il, vint remainInstructionCount);
+				void																EnterSemanticScope(BasicScope* scope);
+				void																LeaveSemanticScope();
+				BasicScope*															GetSemanticScope();
+
 				void																AssociateReturn(vint instruction);
 				void																EnterScope();
 				void																LeaveScope();
@@ -160,6 +165,7 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
+			extern vint								GetGenericVariableTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern vint								GetGenericFunctionTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
@@ -196,7 +202,8 @@ Code Generation
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect, BasicExpression, BCP, bool)
 			extern void BasicLanguage_Invoke(BasicExpression* expression, const BCP& argument);
 
-			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+			extern void BasicLanguage_GenerateCode(BasicStatement* node, const BCP& argument);
+			extern void BasicLanguage_GenerateCode(Ptr<BasicStatement> node, const BCP& argument);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateLinkingSymbolTable, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)

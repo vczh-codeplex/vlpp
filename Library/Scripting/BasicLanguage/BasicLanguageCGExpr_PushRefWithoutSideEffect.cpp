@@ -107,7 +107,6 @@ BasicLanguage_CanPushRefWithoutSideEffect
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node);
 					if(reference.isVariable)
 					{
@@ -121,7 +120,15 @@ BasicLanguage_CanPushRefWithoutSideEffect
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					return false;
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
+					if(reference.isVariable)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
@@ -222,7 +229,7 @@ BasicLanguage_PushRefWithoutSideEffect
 
 				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
 				{
-					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicInstanciatedExpression*, const BCP&)#不支持此操作。");
+					BasicLanguage_PushRef(node, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)

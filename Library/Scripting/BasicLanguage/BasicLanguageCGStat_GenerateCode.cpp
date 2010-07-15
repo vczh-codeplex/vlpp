@@ -13,7 +13,7 @@ namespace vl
 BasicLanguage_GenerateCode
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode, BasicStatement, BCP)
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodeInternal, BasicStatement, BCP)
 				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicEmptyStatement)
@@ -138,7 +138,19 @@ BasicLanguage_GenerateCode
 					argument.codegenExtension->GenerateCode(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCode)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodeInternal)
+
+			void BasicLanguage_GenerateCode(BasicStatement* node, const BCP& argument)
+			{
+				argument.info->EnterSemanticScope(argument.info->GetEnv()->GetStatementScope(node));
+				BasicLanguage_GenerateCodeInternal(node, argument);
+				argument.info->LeaveSemanticScope();
+			}
+
+			void BasicLanguage_GenerateCode(Ptr<BasicStatement> node, const BCP& argument)
+			{
+				BasicLanguage_GenerateCode(node.Obj(), argument);
+			}
 		}
 	}
 }
