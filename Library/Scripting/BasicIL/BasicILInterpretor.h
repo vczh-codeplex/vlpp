@@ -13,6 +13,7 @@ Classes:
 
 #include "BasicILDefinition.h"
 #include "..\..\Exception.h"
+#include "..\..\Entity\Linear.h"
 
 namespace vl
 {
@@ -76,6 +77,17 @@ namespace vl
 				bool										operator!=(const BasicILGenericName& value)const;
 			};
 
+			struct BasicILGenericArgument
+			{
+				vint										size;
+				WString										name;
+
+				bool										operator==(const BasicILGenericArgument& value)const;
+				bool										operator!=(const BasicILGenericArgument& value)const;
+			};
+
+			//----------------------------------------------------------------------------------------------------
+
 			struct BasicILGenericFunctionEntry
 			{
 				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>> MapType;
@@ -87,18 +99,30 @@ namespace vl
 				collections::Array<BasicILGenericName>		nameTemplate;
 			};
 
-			struct BasicILGenericArgument
-			{
-				vint										size;
-				WString										name;
-
-				bool										operator==(const BasicILGenericArgument& value)const;
-				bool										operator!=(const BasicILGenericArgument& value)const;
-			};
-
 			struct BasicILGenericFunctionTarget
 			{
 				typedef collections::List<Ptr<BasicILGenericFunctionTarget>> ListType;
+
+				WString										symbolName;
+				WString										assemblyName;
+				collections::Array<BasicILGenericArgument>	arguments;
+			};
+
+			//----------------------------------------------------------------------------------------------------
+
+			struct BasicILGenericVariableEntry
+			{
+				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>> MapType;
+
+				vint										instruction;
+				vint										argumentCount;
+				Linear<vint, vint>							size;
+				collections::Array<BasicILGenericName>		nameTemplate;
+			};
+
+			struct BasicILGenericVariableTarget
+			{
+				typedef collections::List<Ptr<BasicILGenericVariableTarget>> ListType;
 
 				WString										symbolName;
 				WString										assemblyName;
@@ -137,12 +161,16 @@ namespace vl
 
 				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
 				BasicILGenericFunctionTarget::ListType		genericFunctionTargets;
+				BasicILGenericVariableEntry::MapType		genericVariableEntries;
+				BasicILGenericVariableTarget::ListType		genericVariableTargets;
+
 				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
 				Ptr<BasicIL>								genericFunctionSitingIL;
 				
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
-				vint										RegisterTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
+				vint										RegisterFunctionTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
+				vint										RegisterVariableTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
 				vint										InstanciateGenericFunction(BasicILGenericFunctionTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);
