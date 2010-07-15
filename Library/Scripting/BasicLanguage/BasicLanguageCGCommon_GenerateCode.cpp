@@ -101,6 +101,49 @@ namespace vl
 				return -1;
 			}
 
+			vint GetGenericTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord* nodeType, BasicEnv::Reference& reference, BasicTypeRecord*& resultType)
+			{
+				BP bp(
+					argument.info->GetEnv(),
+					argument.info->GetSemanticScope(),
+					argument.info->GetTypeManager(),
+					*(List<Ptr<BasicLanguageCodeException>>*)0,
+					*(SortedList<WString>*)0
+					);
+
+				Ptr<BasicCodegenInfo::GenericTarget> target=new BasicCodegenInfo::GenericTarget;
+				target->ownerFunctionDeclaration=0;
+				target->targetDeclaration=reference.function;
+				for(vint i=0;i<node->argumentTypes.Count();i++)
+				{
+					target->genericParameters.Add(BasicLanguage_GetTypeRecord(node->argumentTypes[i], bp, false));
+				}
+
+				Dictionary<BasicTypeRecord*, BasicTypeRecord*> map;
+				for(vint i=0;i<node->argumentTypes.Count();i++)
+				{
+					map.Add(nodeType->ParameterType(i), target->genericParameters[i]);
+				}
+
+				resultType=argument.info->GetTypeManager()->Instanciate(nodeType, map.Wrap());
+				return argument.info->RegisterGenericTarget(target);
+			}
+
+			vint GetGenericVariableTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
+			{
+				BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+				BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
+				if(reference.isVariable && reference.globalVariable)
+				{
+					return GetGenericTargetIndex(node, argument, nodeType, reference, resultType);
+				}
+				else
+				{
+					resultType=0;
+					return -1;
+				}
+			}
+
 			vint GetGenericFunctionTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
 			{
 				BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
@@ -112,30 +155,7 @@ namespace vl
 				}
 				else
 				{
-					BP bp(
-						argument.info->GetEnv(),
-						argument.info->GetEnv()->GetFunctionScope(reference.function),
-						argument.info->GetTypeManager(),
-						*(List<Ptr<BasicLanguageCodeException>>*)0,
-						*(SortedList<WString>*)0
-						);
-
-					Ptr<BasicCodegenInfo::GenericTarget> target=new BasicCodegenInfo::GenericTarget;
-					target->ownerFunctionDeclaration=0;
-					target->targetDeclaration=reference.function;
-					for(vint i=0;i<node->argumentTypes.Count();i++)
-					{
-						target->genericParameters.Add(BasicLanguage_GetTypeRecord(node->argumentTypes[i], bp, false));
-					}
-
-					Dictionary<BasicTypeRecord*, BasicTypeRecord*> map;
-					for(vint i=0;i<node->argumentTypes.Count();i++)
-					{
-						map.Add(nodeType->ParameterType(i), target->genericParameters[i]);
-					}
-
-					resultType=argument.info->GetTypeManager()->Instanciate(nodeType, map.Wrap());
-					return argument.info->RegisterGenericTarget(target);
+					return GetGenericTargetIndex(node, argument, nodeType, reference, resultType);
 				}
 			}
 

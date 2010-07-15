@@ -451,10 +451,21 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
 				{
-					BasicTypeRecord* resultType=0;
-					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
-					argument.Ins(BasicIns::generic_pushfunc, BasicIns::MakeInt(index));
-					return resultType;
+					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
+					if(reference.isVariable)
+					{
+						BasicLanguage_PushRef(node, argument);
+						Code_Read(nodeType, argument);
+						return nodeType;
+					}
+					else
+					{
+						BasicTypeRecord* resultType=0;
+						vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
+						argument.Ins(BasicIns::generic_pushfunc, BasicIns::MakeInt(index));
+						return resultType;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

@@ -184,12 +184,12 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingGenericFunction)
 	BasicProgramNode programGeneric;
 
 	programGeneric
-		.Generic().GenericArgument(L"T")
+		.Generic().GenericArgument(L"U")
 		.DefineFunction(L"Apply2")
-		.Parameter(L"f", t_type(L"T")(t_types()<<t_type(L"T")<<t_type(L"T")))
-		.Parameter(L"a", t_type(L"T"))
-		.Parameter(L"b", t_type(L"T"))
-		.ReturnType(t_type(L"T"))
+		.Parameter(L"f", t_type(L"U")(t_types()<<t_type(L"U")<<t_type(L"U")))
+		.Parameter(L"a", t_type(L"U"))
+		.Parameter(L"b", t_type(L"U"))
+		.ReturnType(t_type(L"U"))
 		.Statement(
 			s_expr(e_result().Assign(e_name(L"f")(e_exps()<<e_name(L"a")<<e_name(L"b"))))
 			);

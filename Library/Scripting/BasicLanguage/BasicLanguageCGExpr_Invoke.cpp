@@ -110,8 +110,15 @@ BasicLanguage_InvokeInternal
 				{
 					BasicTypeRecord* resultType=0;
 					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);
-					argument.Ins(BasicIns::generic_callfunc, BasicIns::MakeInt(index));
-					return true;
+					if(index==-1)
+					{
+						return false;
+					}
+					else
+					{
+						argument.Ins(BasicIns::generic_callfunc, BasicIns::MakeInt(index));
+						return true;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

@@ -126,6 +126,7 @@ BasicLanguage_GenerateCodePass2
 				{
 					if(node->statement)
 					{
+						argument.info->EnterSemanticScope(argument.info->GetEnv()->GetFunctionScope(node));
 						vint functionStart=argument.il->instructions.Count();
 						argument.Ins(BasicIns::stack_reserve, BasicIns::MakeInt(0));
 						vint reserveVariablesIndex=argument.il->instructions.Count()-1;
@@ -160,6 +161,7 @@ BasicLanguage_GenerateCodePass2
 						BasicILLocalLabel label;
 						label.instructionIndex=functionStart;
 						argument.il->labels.Add(label);
+						argument.info->LeaveSemanticScope();
 					}
 				}
 

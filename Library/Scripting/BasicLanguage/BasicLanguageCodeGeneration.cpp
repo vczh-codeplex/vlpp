@@ -175,6 +175,21 @@ BasicCodegenInfo
 				entry->instructionCount=il->instructions.Count()-entry->startInstruction+remainInstructionCount;
 			}
 
+			void BasicCodegenInfo::EnterSemanticScope(BasicScope* scope)
+			{
+				semanticScopes.Add(scope);
+			}
+
+			void BasicCodegenInfo::LeaveSemanticScope()
+			{
+				semanticScopes.RemoveAt(semanticScopes.Count()-1);
+			}
+
+			BasicScope* BasicCodegenInfo::GetSemanticScope()
+			{
+				return semanticScopes[semanticScopes.Count()-1];
+			}
+
 			void BasicCodegenInfo::AssociateReturn(vint instruction)
 			{
 				returnInstructions.Add(instruction);
@@ -530,7 +545,9 @@ BasicCodeGenerator
 				{
 					argument.codegenExtension=codegenExtension;
 				}
+				argument.info->EnterSemanticScope(argument.info->GetEnv()->GlobalScope());
 				BasicLanguage_GenerateCode(program, programName, argument);
+				argument.info->LeaveSemanticScope();
 			}
 		}
 	}
