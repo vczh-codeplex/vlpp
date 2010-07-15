@@ -589,6 +589,59 @@ BasicLanguage_Generate*Resource
 				}
 			}
 
+			ResourceHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const BCP& argument, BasicCodegenInfo::FunctionLinear& linear)
+			{
+				ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
+				linearRecord->constant=linear.Constant();
+
+				vint count=linear.Count();
+				ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
+				for(vint j=0;j<count;j++)
+				{
+					ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
+					factor->factor=linear.Factor(j);
+					factors[j]=factor;
+				}
+
+				linearRecord->factors=factors;
+				return linearRecord;
+			}
+
+			ResourceArrayHandle<BasicILGenericNameRes> BasicLanguage_GenerateUniqueNameTemplate(const WString& programName, BasicDeclaration* declaration, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILGenericNameRes>> names;
+				ResourceRecord<BasicILGenericNameRes> currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+				currentName->constantString=argument.exportResource->CreateString(EscapeResourceName(programName)+L"::"+EscapeResourceName(declaration->name)+L"<");
+				currentName->isConstant=true;
+				currentName->stringArgumentIndex=-1;
+				names.Add(currentName);
+
+				for(vint j=0;j<declaration->genericDeclaration.arguments.Count();j++)
+				{
+					currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+					currentName->constantString=ResourceString::Null();
+					currentName->isConstant=false;
+					currentName->stringArgumentIndex=j;
+					names.Add(currentName);
+							
+					if(j)
+					{
+						currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+						currentName->constantString=argument.exportResource->CreateString(L", ");
+						currentName->isConstant=true;
+						currentName->stringArgumentIndex=-1;
+						names.Add(currentName);
+					}
+				}
+						
+				currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+				currentName->constantString=argument.exportResource->CreateString(L">");
+				currentName->isConstant=true;
+				currentName->stringArgumentIndex=-1;
+				names.Add(currentName);
+				return argument.exportResource->CreateArrayRecord(names.Wrap());
+			}
+
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericFunctionEntryRes>> entries;
@@ -602,39 +655,42 @@ BasicLanguage_Generate*Resource
 						entryResource->name=argument.exportResource->CreateString(entry->declaration->name);
 						entryResource->startInstruction=entry->startInstruction;
 						entryResource->instructionCount=entry->instructionCount;
+						entryResource->uniqueNameTemplate=BasicLanguage_GenerateUniqueNameTemplate(programName, entry->declaration, argument);
+						entries.Add(entryResource);
+					}
+				}
+				return argument.exportResource->CreateArrayRecord(entries.Wrap());
+			}
 
-						List<ResourceHandle<BasicILGenericNameRes>> names;
-						ResourceRecord<BasicILGenericNameRes> currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-						currentName->constantString=argument.exportResource->CreateString(EscapeResourceName(programName)+L"::"+EscapeResourceName(entry->declaration->name)+L"<");
-						currentName->isConstant=true;
-						currentName->stringArgumentIndex=-1;
-						names.Add(currentName);
+			ResourceArrayHandle<BasicILGenericVariableEntryRes> BasicLanguage_GenerateVariableEntryResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILGenericVariableEntryRes>> entries;
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					Ptr<BasicVariableDeclaration> declaration=program->declarations[i].Cast<BasicVariableDeclaration>();
+					if(declaration && declaration->genericDeclaration.HasGeneric() && !declaration->linking.HasLink())
+					{
+						ResourceRecord<BasicILGenericVariableEntryRes> entryResource=argument.exportResource->CreateRecord<BasicILGenericVariableEntryRes>();
+						entryResource->genericArgumentCount=declaration->genericDeclaration.arguments.Count();
+						entryResource->name=argument.exportResource->CreateString(declaration->name);
+						entryResource->uniqueNameTemplate=BasicLanguage_GenerateUniqueNameTemplate(programName, declaration.Obj(), argument);
 
-						for(vint j=0;j<entry->declaration->genericDeclaration.arguments.Count();j++)
+						BasicTypeRecord* variableType=argument.info->GetEnv()->GlobalScope()->variables.Items()[declaration->name].type;
+						BasicOffset& offset=argument.info->GetTypeInfo(variableType)->size;
+						List<BasicTypeRecord*> genericParameters;
+						for(vint i=0;i<variableType->ParameterCount();i++)
 						{
-							currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-							currentName->constantString=ResourceString::Null();
-							currentName->isConstant=false;
-							currentName->stringArgumentIndex=j;
-							names.Add(currentName);
-							
-							if(j)
-							{
-								currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-								currentName->constantString=argument.exportResource->CreateString(L", ");
-								currentName->isConstant=true;
-								currentName->stringArgumentIndex=-1;
-								names.Add(currentName);
-							}
+							genericParameters.Add(variableType->ParameterType(i));
 						}
-						
-						currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-						currentName->constantString=argument.exportResource->CreateString(L">");
-						currentName->isConstant=true;
-						currentName->stringArgumentIndex=-1;
-						names.Add(currentName);
 
-						entryResource->uniqueNameTemplate=argument.exportResource->CreateArrayRecord(names.Wrap());
+						BasicCodegenInfo::FunctionLinear linear;
+						linear(offset.Constant());
+						for(vint i=0;i<genericParameters.Count();i++)
+						{
+							vint value=offset.Factor(genericParameters[i]);
+							linear(i, value);
+						}
+
 						entries.Add(entryResource);
 					}
 				}
@@ -708,20 +764,7 @@ BasicLanguage_Generate*Resource
 				for(vint i=0;i<argument.info->instanciatedGenericLinears.Count();i++)
 				{
 					BasicCodegenInfo::FunctionLinear& linear=argument.info->instanciatedGenericLinears[i];
-					ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
-					linearRecord->constant=linear.Constant();
-
-					vint count=linear.Count();
-					ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
-					for(vint j=0;j<count;j++)
-					{
-						ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
-						factor->factor=linear.Factor(j);
-						factors[j]=factor;
-					}
-
-					linearRecord->factors=factors;
-					linears.Add(linearRecord);
+					linears.Add(BasicLanguage_GenerateLinearResource(argument, linear));
 				}
 				return argument.exportResource->CreateArrayRecord(linears.Wrap());
 			}
@@ -730,7 +773,7 @@ BasicLanguage_Generate*Resource
 			{
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
 				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
-				genericRes->variableEntries=ResourceArrayHandle<BasicILGenericVariableEntryRes>::Null();
+				genericRes->variableEntries=BasicLanguage_GenerateVariableEntryResource(program, programName, argument);
 				genericRes->targets=BasicLanguage_GenerateTargetResource(program, programName, argument);
 				genericRes->linears=BasicLanguage_GenerateLinearResource(argument);
 				return genericRes;
