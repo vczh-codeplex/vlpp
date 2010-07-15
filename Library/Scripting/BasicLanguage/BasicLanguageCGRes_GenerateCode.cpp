@@ -731,6 +731,8 @@ BasicLanguage_Generate*Resource
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
 				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
 				genericRes->functionTargets=BasicLanguage_GenerateFunctionTargetResource(program, programName, argument);
+				genericRes->variableEntries=ResourceArrayHandle<BasicILGenericVariableEntryRes>::Null();
+				genericRes->variableTargets=ResourceArrayHandle<BasicILGenericVariableTargetRes>::Null();
 				genericRes->linears=BasicLanguage_GenerateLinearResource(argument);
 				return genericRes;
 			}

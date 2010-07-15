@@ -53,16 +53,6 @@ namespace vl
 			vint													stringArgumentIndex;	//字符串参数（来源于特化函数传入的参数）
 		};
 
-		//模板函数入口
-		struct BasicILGenericFunctionEntryRes
-		{
-			ResourceString											name;					//模板函数名称
-			vint													genericArgumentCount;	//模板参数数量
-			vint													startInstruction;		//起始指令位置
-			vint													instructionCount;		//指令数量
-			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
-		};
-
 		//线性对象参数
 		struct BasicILGenericFactorItemRes
 		{
@@ -83,6 +73,18 @@ namespace vl
 			ResourceHandle<BasicILGenericLinearRes>					sizeArgument;			//尺寸参数
 		};
 
+		//--------------------------------------------------------------------------------------------------------
+
+		//模板函数入口
+		struct BasicILGenericFunctionEntryRes
+		{
+			ResourceString											name;					//模板函数名称
+			vint													genericArgumentCount;	//模板参数数量
+			vint													startInstruction;		//起始指令位置
+			vint													instructionCount;		//指令数量
+			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
+		};
+
 		//模板函数特化
 		struct BasicILGenericFunctionTargetRes
 		{
@@ -91,11 +93,34 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
 		};
 
+		//--------------------------------------------------------------------------------------------------------
+
+		//模板函数入口
+		struct BasicILGenericVariableEntryRes
+		{
+			ResourceString											name;					//模板变量名称
+			vint													genericArgumentCount;	//模板参数数量
+			ResourceHandle<BasicILGenericLinearRes>					size;					//模板变量尺寸
+			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
+		};
+
+		//模板函数特化
+		struct BasicILGenericVariableTargetRes
+		{
+			ResourceString											symbolName;				//符号
+			ResourceString											assemblyName;			//Assembly名
+			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
+		};
+
+		//--------------------------------------------------------------------------------------------------------
+
 		//模板符号表
 		struct BasicILGenericRes
 		{
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes>		functionEntries;		//函数入口
-			ResourceArrayHandle<BasicILGenericFunctionTargetRes>	functionTargets;		//特化表
+			ResourceArrayHandle<BasicILGenericFunctionTargetRes>	functionTargets;		//函数特化表
+			ResourceArrayHandle<BasicILGenericVariableEntryRes>		variableEntries;		//变量函数入口
+			ResourceArrayHandle<BasicILGenericVariableTargetRes>	variableTargets;		//变量特化表
 			ResourceArrayHandle<BasicILGenericLinearRes>			linears;				//线性参数表
 		};
 

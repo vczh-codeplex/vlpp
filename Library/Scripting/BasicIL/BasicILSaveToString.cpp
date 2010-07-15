@@ -341,6 +341,39 @@ BasicIns
 							writer.WriteLine(L"}");
 						}
 					}
+
+					if(ResourceArrayRecord<BasicILGenericVariableEntryRes> entriesRes=exportedSymbols->ReadArrayRecord(genericRes->variableEntries))
+					{
+						for(vint i=0;i<entriesRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericVariableEntryRes> entryRes=entriesRes.Get(i);
+							writer.WriteLine(L"Entries["+itow(i)+L"] = {");
+							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
+							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
+							writer.WriteLine(L"  Size = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(entryRes->size)));
+							writer.WriteLine(L"  UniqueName = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(entryRes->uniqueNameTemplate)));
+							writer.WriteLine(L"}");
+						}
+					}
+					
+					if(ResourceArrayRecord<BasicILGenericVariableTargetRes> targetsRes=exportedSymbols->ReadArrayRecord(genericRes->variableTargets))
+					{
+						for(vint i=0;i<targetsRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericVariableTargetRes> targetRes=targetsRes.Get(i);
+							writer.WriteLine(L"Targets["+itow(i)+L"] = {");
+							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
+							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
+							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
+							for(vint j=0;j<argumentsRes.Count();j++)
+							{
+								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
+								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
+								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRes->nameArgument)));
+							}
+							writer.WriteLine(L"}");
+						}
+					}
 					
 					if(ResourceArrayRecord<BasicILGenericLinearRes> linearsRes=exportedSymbols->ReadArrayRecord(genericRes->linears))
 					{
