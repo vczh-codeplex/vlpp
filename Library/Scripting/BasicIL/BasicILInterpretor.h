@@ -141,6 +141,24 @@ namespace vl
 				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
 
 				static const vint							GenericFunctionSitingAssemblyKey;
+
+			public:
+				struct VariablePackage
+				{
+					collections::Array<char>				buffer;
+					vint									remainBytes;
+
+					VariablePackage(vint size);
+					char*									Allocate(vint size);
+				};
+
+				struct VariableManager
+				{
+					collections::List<Ptr<VariablePackage>>	packages;
+					collections::Dictionary<WString, char*>	variables;
+
+					char*									Allocate(const WString& name, vint size);
+				};
 			protected:
 				vint										stackSize;
 				collections::List<BasicIL*>					ils;
@@ -153,12 +171,14 @@ namespace vl
 				BasicILGenericTarget::ListType				genericTargets;
 
 				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
+				VariableManager								instanciatedGenericVariables;
 				Ptr<BasicIL>								genericFunctionSitingIL;
 				
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
 				vint										RegisterTarget(BasicILGenericTarget* target, BasicIL* il, vint targetIndex);
 				vint										InstanciateGenericFunction(BasicILGenericTarget* target);
+				char*										InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();

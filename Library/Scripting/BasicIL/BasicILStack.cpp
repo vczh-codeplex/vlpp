@@ -436,6 +436,19 @@ BasicILStack
 						BasicIns& ins=interpretor->ils[insKey]->instructions[instruction];
 						switch(ins.opcode)
 						{
+						case BasicIns::generic_pushdata:
+							{
+								ins.opcode=BasicIns::push;
+								ins.type1=BasicIns::pointer_type;
+
+								vint index=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
+								ins.argument.pointer_value=interpretor->InstanciateGenericVariable(target);
+
+								nextInstruction=instruction;
+								nextInsKey=insKey;
+							}
+							break;
 						case BasicIns::generic_callfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
