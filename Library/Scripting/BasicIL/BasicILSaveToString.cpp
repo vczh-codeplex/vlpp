@@ -63,6 +63,7 @@ BasicIns
 				CASE(link_pushforeigndata);
 				CASE(link_pushforeignfunc);
 				CASE(link_callforeignfunc);
+				CASE(generic_pushdata);
 				CASE(generic_callfunc);
 				CASE(generic_pushfunc);
 				CASE(generic_callfunc_vm);
@@ -193,6 +194,7 @@ BasicIns
 				CASE(link_pushforeigndata,	Constant);
 				CASE(link_pushforeignfunc,	Constant);
 				CASE(link_callforeignfunc,	Constant);
+				CASE(generic_pushdata,		Constant);
 				CASE(generic_callfunc,		Constant);
 				CASE(generic_pushfunc,		Constant);
 				CASE(generic_callfunc_vm,	Constant);
@@ -313,7 +315,7 @@ BasicIns
 						for(vint i=0;i<entriesRes.Count();i++)
 						{
 							ResourceRecord<BasicILGenericFunctionEntryRes> entryRes=entriesRes.Get(i);
-							writer.WriteLine(L"Entries["+itow(i)+L"] = {");
+							writer.WriteLine(L"Function Entries["+itow(i)+L"] = {");
 							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
 							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
 							writer.WriteLine(L"  Instruction = "+itow(entryRes->startInstruction));
@@ -328,7 +330,7 @@ BasicIns
 						for(vint i=0;i<targetsRes.Count();i++)
 						{
 							ResourceRecord<BasicILGenericFunctionTargetRes> targetRes=targetsRes.Get(i);
-							writer.WriteLine(L"Targets["+itow(i)+L"] = {");
+							writer.WriteLine(L"Function Targets["+itow(i)+L"] = {");
 							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
 							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
 							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
@@ -347,7 +349,7 @@ BasicIns
 						for(vint i=0;i<entriesRes.Count();i++)
 						{
 							ResourceRecord<BasicILGenericVariableEntryRes> entryRes=entriesRes.Get(i);
-							writer.WriteLine(L"Entries["+itow(i)+L"] = {");
+							writer.WriteLine(L"Variable Entries["+itow(i)+L"] = {");
 							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
 							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
 							writer.WriteLine(L"  Size = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(entryRes->size)));
@@ -361,7 +363,7 @@ BasicIns
 						for(vint i=0;i<targetsRes.Count();i++)
 						{
 							ResourceRecord<BasicILGenericVariableTargetRes> targetRes=targetsRes.Get(i);
-							writer.WriteLine(L"Targets["+itow(i)+L"] = {");
+							writer.WriteLine(L"Variable Targets["+itow(i)+L"] = {");
 							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
 							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
 							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
