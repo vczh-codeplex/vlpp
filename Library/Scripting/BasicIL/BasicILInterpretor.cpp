@@ -142,6 +142,55 @@ BasicILInterpretor
 
 			const vint BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
 
+			BasicILInterpretor::VariablePackage::VariablePackage(vint size)
+				:buffer(size)
+				,remainBytes(size)
+			{
+			}
+
+			char* BasicILInterpretor::VariablePackage::Allocate(vint size)
+			{
+				if(remainBytes>=size)
+				{
+					char* result=&buffer[0]+(buffer.Count()-remainBytes);
+					remainBytes+=size;
+					return result;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
+			char* BasicILInterpretor::VariableManager::Allocate(const WString& name, vint size)
+			{
+				vint index=variables.Keys().IndexOf(name);
+				if(index!=-1)
+				{
+					return variables.Values()[index];
+				}
+				else
+				{
+					char* result=0;
+					for(vint i=0;i<packages.Count();i++)
+					{
+						if(result=packages[i]->Allocate(size))
+						{
+							break;
+						}
+					}
+					if(!result)
+					{
+						vint minSize=size>65536?size:65536;
+						VariablePackage* package=new VariablePackage(minSize);
+						packages.Add(package);
+						result=package->Allocate(size);
+					}
+					variables.Add(name, result);
+					return result;
+				}
+			}
+
 			vint CalculateLinear(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericLinearRes> linearRecord, BasicILGenericTarget* target)
 			{
 				vint value=linearRecord->constant;
@@ -472,16 +521,12 @@ BasicILInterpretor
 				return genericTargets.Count()-1;
 			}
 
-			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericTarget* target)
+			WString CalculateUniqueName(collections::Array<BasicILGenericName>& nameTemplate, BasicILGenericTarget* target)
 			{
-				Pair<WString, WString> symbol;
-				symbol.key=target->assemblyName;
-				symbol.value=target->symbolName;
-				BasicILGenericFunctionEntry* functionEntry=genericFunctionEntries[symbol].Obj();
 				WString uniqueName;
-				for(vint i=0;i<functionEntry->nameTemplate.Count();i++)
+				for(vint i=0;i<nameTemplate.Count();i++)
 				{
-					BasicILGenericName& name=functionEntry->nameTemplate[i];
+					BasicILGenericName& name=nameTemplate[i];
 					if(name.argumentIndex==-1)
 					{
 						uniqueName+=name.name;
@@ -491,6 +536,16 @@ BasicILInterpretor
 						uniqueName+=target->arguments[name.argumentIndex].name;
 					}
 				}
+				return uniqueName;
+			}
+
+			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericTarget* target)
+			{
+				Pair<WString, WString> symbol;
+				symbol.key=target->assemblyName;
+				symbol.value=target->symbolName;
+				BasicILGenericFunctionEntry* functionEntry=genericFunctionEntries[symbol].Obj();
+				WString uniqueName=CalculateUniqueName(functionEntry->nameTemplate, target);
 
 				vint instanciationIndex=instanciatedGenericFunctions.Keys().IndexOf(uniqueName);
 				if(instanciationIndex!=-1)
@@ -565,6 +620,23 @@ BasicILInterpretor
 					instanciatedGenericFunctions.Add(uniqueName, result);
 					return result;
 				}
+			}
+
+			char* BasicILInterpretor::InstanciateGenericVariable(BasicILGenericTarget* target)
+			{
+				Pair<WString, WString> symbol;
+				symbol.key=target->assemblyName;
+				symbol.value=target->symbolName;
+				BasicILGenericVariableEntry* variableEntry=genericVariableEntries[symbol].Obj();
+				WString uniqueName=CalculateUniqueName(variableEntry->nameTemplate, target);
+
+				vint size=variableEntry->size.Constant();
+				for(vint i=0;i<target->arguments.Count();i++)
+				{
+					size+=variableEntry->size.Factor(i)*target->arguments[i].size;
+				}
+
+				return instanciatedGenericVariables.Allocate(uniqueName, size);
 			}
 
 			BasicILInterpretor::BasicILInterpretor(vint _stackSize)
