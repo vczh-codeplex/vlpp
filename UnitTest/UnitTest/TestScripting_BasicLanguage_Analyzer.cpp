@@ -1015,11 +1015,28 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstanciatedExpression)
 		.Parameter(L"count", t_int())
 		.Parameter(L"mapper", t_type(L"T")(t_types()<<t_type(L"U")))
 		;
+	program.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Vector")
+		.Member(L"x", t_type(L"T"))
+		.Member(L"y", t_type(L"T"))
+		;
+	program.Generic().GenericArgument(L"T")
+		.DefineVariable(L"var", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		;
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 
-	Ptr<BasicExpression> expr=e_name(L"Map", t_types()<<t_int()<<t_char()).GetInternalValue();
-	Ptr<BasicType> expectedType=t_void()(t_types()<<*t_int()<<*t_char()<<t_int()<<(t_int()(t_types()<<t_char()))).GetInternalValue();
-	TEST_ASSERT(BasicLanguage_GetExpressionType(expr, argument)==BasicLanguage_GetTypeRecord(expectedType, argument, false));
+	{
+		Ptr<BasicExpression> expr=e_name(L"Map", t_types()<<t_int()<<t_char()).GetInternalValue();
+		Ptr<BasicType> expectedType=t_void()(t_types()<<*t_int()<<*t_char()<<t_int()<<(t_int()(t_types()<<t_char()))).GetInternalValue();
+		TEST_ASSERT(BasicLanguage_GetExpressionType(expr, argument)==BasicLanguage_GetTypeRecord(expectedType, argument, false));
+	}
+	{
+		Ptr<BasicExpression> expr=e_name(L"var", t_types()<<t_int()).GetInternalValue();
+		BasicTypeRecord* type=BasicLanguage_GetExpressionType(expr, argument);
+		TEST_ASSERT(type->GetType()==BasicTypeRecord::Structure);
+		TEST_ASSERT(type->MemberType(L"x")==tm.GetPrimitiveType(int_type));
+		TEST_ASSERT(type->MemberType(L"y")==tm.GetPrimitiveType(int_type));
+	}
 }
 
 /***********************************************************************
