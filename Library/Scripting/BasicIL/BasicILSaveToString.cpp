@@ -324,25 +324,6 @@ BasicIns
 							writer.WriteLine(L"}");
 						}
 					}
-					
-					if(ResourceArrayRecord<BasicILGenericFunctionTargetRes> targetsRes=exportedSymbols->ReadArrayRecord(genericRes->functionTargets))
-					{
-						for(vint i=0;i<targetsRes.Count();i++)
-						{
-							ResourceRecord<BasicILGenericFunctionTargetRes> targetRes=targetsRes.Get(i);
-							writer.WriteLine(L"Function Targets["+itow(i)+L"] = {");
-							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
-							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
-							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
-							for(vint j=0;j<argumentsRes.Count();j++)
-							{
-								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
-								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRes->nameArgument)));
-							}
-							writer.WriteLine(L"}");
-						}
-					}
 
 					if(ResourceArrayRecord<BasicILGenericVariableEntryRes> entriesRes=exportedSymbols->ReadArrayRecord(genericRes->variableEntries))
 					{
@@ -358,12 +339,12 @@ BasicIns
 						}
 					}
 					
-					if(ResourceArrayRecord<BasicILGenericVariableTargetRes> targetsRes=exportedSymbols->ReadArrayRecord(genericRes->variableTargets))
+					if(ResourceArrayRecord<BasicILGenericTargetRes> targetsRes=exportedSymbols->ReadArrayRecord(genericRes->targets))
 					{
 						for(vint i=0;i<targetsRes.Count();i++)
 						{
-							ResourceRecord<BasicILGenericVariableTargetRes> targetRes=targetsRes.Get(i);
-							writer.WriteLine(L"Variable Targets["+itow(i)+L"] = {");
+							ResourceRecord<BasicILGenericTargetRes> targetRes=targetsRes.Get(i);
+							writer.WriteLine(L"Targets["+itow(i)+L"] = {");
 							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
 							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
 							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);

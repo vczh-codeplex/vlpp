@@ -43,10 +43,10 @@ namespace vl
 					vint															instructionCount;
 				};
 
-				struct FunctionTarget
+				struct GenericTarget
 				{
-					BasicFunctionDeclaration*										currentDeclaration;
-					BasicFunctionDeclaration*										declaration;
+					BasicFunctionDeclaration*										ownerFunctionDeclaration;
+					BasicDeclaration*												targetDeclaration;
 					collections::List<BasicTypeRecord*>								genericParameters;
 				};
 
@@ -72,7 +72,7 @@ namespace vl
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
 				collections::List<Ptr<FunctionEntry>>								instanciatedGenericFunctionEntries;
-				collections::List<Ptr<FunctionTarget>>								instanciatedGenericFunctions;
+				collections::List<Ptr<GenericTarget>>								instanciatedGenericTargets;
 				collections::List<FunctionLinear>									instanciatedGenericLinears;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
@@ -97,7 +97,7 @@ namespace vl
 				void																AssociateContinue(vint instruction);
 				BasicOffset															GetMaxVariableSpace();
 
-				vint																RegisterInstanciatedGenericFunction(Ptr<FunctionTarget> target);
+				vint																RegisterGenericTarget(Ptr<GenericTarget> target);
 				vint																RegisterLinear(const BasicOffset& offset);
 
 				ResourceHandle<BasicTypeRes>										GetTypeResource(BasicTypeRecord* type);

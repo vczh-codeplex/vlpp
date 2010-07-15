@@ -641,25 +641,25 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(entries.Wrap());
 			}
 
-			ResourceArrayHandle<BasicILGenericFunctionTargetRes> BasicLanguage_GenerateFunctionTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
+			ResourceArrayHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
-				List<ResourceHandle<BasicILGenericFunctionTargetRes>> targets;
-				for(vint i=0;i<argument.info->instanciatedGenericFunctions.Count();i++)
+				List<ResourceHandle<BasicILGenericTargetRes>> targets;
+				for(vint i=0;i<argument.info->instanciatedGenericTargets.Count();i++)
 				{
-					BasicCodegenInfo::FunctionTarget* target=argument.info->instanciatedGenericFunctions[i].Obj();
-					ResourceRecord<BasicILGenericFunctionTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericFunctionTargetRes>();
+					BasicCodegenInfo::GenericTarget* target=argument.info->instanciatedGenericTargets[i].Obj();
+					ResourceRecord<BasicILGenericTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericTargetRes>();
 					WString assemblyName;
 					WString symbolName;
-					if(target->declaration->linking.HasLink())
+					if(target->targetDeclaration->linking.HasLink())
 					{
-						assemblyName=target->declaration->linking.assemblyName;
-						symbolName=target->declaration->linking.symbolName;
+						assemblyName=target->targetDeclaration->linking.assemblyName;
+						symbolName=target->targetDeclaration->linking.symbolName;
 					}
 					else
 					{
 						assemblyName=programName;
-						symbolName=target->declaration->name;
+						symbolName=target->targetDeclaration->name;
 					}
 
 					List<ResourceHandle<BasicILGenericArgumentRes>> arguments;
@@ -671,12 +671,12 @@ BasicLanguage_Generate*Resource
 						ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
 						{
 							linearRecord->constant=offset.Constant();
-							vint count=target->currentDeclaration->genericDeclaration.arguments.Count();
+							vint count=target->ownerFunctionDeclaration->genericDeclaration.arguments.Count();
 							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
 							for(vint j=0;j<count;j++)
 							{
 								ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
-								WString genericArgumentName=target->currentDeclaration->genericDeclaration.arguments[j];
+								WString genericArgumentName=target->ownerFunctionDeclaration->genericDeclaration.arguments[j];
 								BasicTypeRecord* genericArgumentType=argument.info->GetTypeManager()->GetGenericArgumentType(genericArgumentName);
 								factor->factor=offset.Factor(genericArgumentType);
 								factors[j]=factor;
@@ -687,7 +687,7 @@ BasicLanguage_Generate*Resource
 						ResourceRecord<BasicILGenericArgumentRes> argumentRecord=argument.exportResource->CreateRecord<BasicILGenericArgumentRes>();
 						{
 							argumentRecord->sizeArgument=linearRecord;
-							recorder.Start(target->currentDeclaration);
+							recorder.Start(target->ownerFunctionDeclaration);
 							GetTypeUniqueString(type, recorder);
 							argumentRecord->nameArgument=recorder.End();
 						}
@@ -730,9 +730,8 @@ BasicLanguage_Generate*Resource
 			{
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
 				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
-				genericRes->functionTargets=BasicLanguage_GenerateFunctionTargetResource(program, programName, argument);
 				genericRes->variableEntries=ResourceArrayHandle<BasicILGenericVariableEntryRes>::Null();
-				genericRes->variableTargets=ResourceArrayHandle<BasicILGenericVariableTargetRes>::Null();
+				genericRes->targets=BasicLanguage_GenerateTargetResource(program, programName, argument);
 				genericRes->linears=BasicLanguage_GenerateLinearResource(argument);
 				return genericRes;
 			}

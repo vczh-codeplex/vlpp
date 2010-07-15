@@ -235,19 +235,19 @@ BasicCodegenInfo
 				return usedVariableSpace;
 			}
 
-			vint BasicCodegenInfo::RegisterInstanciatedGenericFunction(Ptr<FunctionTarget> target)
+			vint BasicCodegenInfo::RegisterGenericTarget(Ptr<GenericTarget> target)
 			{
-				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
+				for(vint i=0;i<instanciatedGenericTargets.Count();i++)
 				{
-					FunctionTarget* currentTarget=instanciatedGenericFunctions[i].Obj();
-					if(currentFunctionDeclaration==currentTarget->currentDeclaration && target->declaration==currentTarget->declaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
+					GenericTarget* currentTarget=instanciatedGenericTargets[i].Obj();
+					if(currentFunctionDeclaration==currentTarget->ownerFunctionDeclaration && target->targetDeclaration==currentTarget->targetDeclaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
 					{
 						return i;
 					}
 				}
-				target->currentDeclaration=currentFunctionDeclaration;
-				instanciatedGenericFunctions.Add(target);
-				return instanciatedGenericFunctions.Count()-1;
+				target->ownerFunctionDeclaration=currentFunctionDeclaration;
+				instanciatedGenericTargets.Add(target);
+				return instanciatedGenericTargets.Count()-1;
 			}
 
 			vint BasicCodegenInfo::RegisterLinear(const BasicOffset& offset)

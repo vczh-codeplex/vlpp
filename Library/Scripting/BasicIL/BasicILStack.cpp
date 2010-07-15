@@ -439,11 +439,11 @@ BasicILStack
 						case BasicIns::generic_callfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=interpretor->RegisterFunctionTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
 							}
 						case BasicIns::generic_callfunc_vm:
 							{
-								BasicILGenericFunctionTarget* target=interpretor->genericFunctionTargets[ins.argument.int_value].Obj();
+								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
 								vint labelIndex=interpretor->InstanciateGenericFunction(target);
 
 								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
@@ -459,11 +459,11 @@ BasicILStack
 						case BasicIns::generic_pushfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=interpretor->RegisterFunctionTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
 							}
 						case BasicIns::generic_pushfunc_vm:
 							{
-								BasicILGenericFunctionTarget* target=interpretor->genericFunctionTargets[ins.argument.int_value].Obj();
+								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
 								vint labelIndex=interpretor->InstanciateGenericFunction(target);
 
 								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];

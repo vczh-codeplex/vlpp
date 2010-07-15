@@ -99,17 +99,6 @@ namespace vl
 				collections::Array<BasicILGenericName>		nameTemplate;
 			};
 
-			struct BasicILGenericFunctionTarget
-			{
-				typedef collections::List<Ptr<BasicILGenericFunctionTarget>> ListType;
-
-				WString										symbolName;
-				WString										assemblyName;
-				collections::Array<BasicILGenericArgument>	arguments;
-			};
-
-			//----------------------------------------------------------------------------------------------------
-
 			struct BasicILGenericVariableEntry
 			{
 				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>> MapType;
@@ -120,9 +109,9 @@ namespace vl
 				collections::Array<BasicILGenericName>		nameTemplate;
 			};
 
-			struct BasicILGenericVariableTarget
+			struct BasicILGenericTarget
 			{
-				typedef collections::List<Ptr<BasicILGenericVariableTarget>> ListType;
+				typedef collections::List<Ptr<BasicILGenericTarget>> ListType;
 
 				WString										symbolName;
 				WString										assemblyName;
@@ -160,18 +149,16 @@ namespace vl
 				_SymbolMap									symbolMap;
 
 				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
-				BasicILGenericFunctionTarget::ListType		genericFunctionTargets;
 				BasicILGenericVariableEntry::MapType		genericVariableEntries;
-				BasicILGenericVariableTarget::ListType		genericVariableTargets;
+				BasicILGenericTarget::ListType				genericTargets;
 
 				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
 				Ptr<BasicIL>								genericFunctionSitingIL;
 				
 				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
-				vint										RegisterFunctionTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
-				vint										RegisterVariableTarget(BasicILGenericFunctionTarget* target, BasicIL* il, vint targetIndex);
-				vint										InstanciateGenericFunction(BasicILGenericFunctionTarget* target);
+				vint										RegisterTarget(BasicILGenericTarget* target, BasicIL* il, vint targetIndex);
+				vint										InstanciateGenericFunction(BasicILGenericTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();

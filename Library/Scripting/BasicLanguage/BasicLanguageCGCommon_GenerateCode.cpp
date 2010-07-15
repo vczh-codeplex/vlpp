@@ -120,9 +120,9 @@ namespace vl
 						*(SortedList<WString>*)0
 						);
 
-					Ptr<BasicCodegenInfo::FunctionTarget> target=new BasicCodegenInfo::FunctionTarget;
-					target->currentDeclaration=0;
-					target->declaration=reference.function;
+					Ptr<BasicCodegenInfo::GenericTarget> target=new BasicCodegenInfo::GenericTarget;
+					target->ownerFunctionDeclaration=0;
+					target->targetDeclaration=reference.function;
 					for(vint i=0;i<node->argumentTypes.Count();i++)
 					{
 						target->genericParameters.Add(BasicLanguage_GetTypeRecord(node->argumentTypes[i], bp, false));
@@ -135,7 +135,7 @@ namespace vl
 					}
 
 					resultType=argument.info->GetTypeManager()->Instanciate(nodeType, map.Wrap());
-					return argument.info->RegisterInstanciatedGenericFunction(target);
+					return argument.info->RegisterGenericTarget(target);
 				}
 			}
 
