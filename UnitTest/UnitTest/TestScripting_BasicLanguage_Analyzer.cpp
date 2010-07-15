@@ -1025,18 +1025,16 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstanciatedExpression)
 		;
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 
-	{
-		Ptr<BasicExpression> expr=e_name(L"Map", t_types()<<t_int()<<t_char()).GetInternalValue();
-		Ptr<BasicType> expectedType=t_void()(t_types()<<*t_int()<<*t_char()<<t_int()<<(t_int()(t_types()<<t_char()))).GetInternalValue();
-		TEST_ASSERT(BasicLanguage_GetExpressionType(expr, argument)==BasicLanguage_GetTypeRecord(expectedType, argument, false));
-	}
-	{
-		Ptr<BasicExpression> expr=e_name(L"var", t_types()<<t_int()).GetInternalValue();
-		BasicTypeRecord* type=BasicLanguage_GetExpressionType(expr, argument);
-		TEST_ASSERT(type->GetType()==BasicTypeRecord::Structure);
-		TEST_ASSERT(type->MemberType(L"x")==tm.GetPrimitiveType(int_type));
-		TEST_ASSERT(type->MemberType(L"y")==tm.GetPrimitiveType(int_type));
-	}
+
+	Ptr<BasicExpression> exprFunction=e_name(L"Map", t_types()<<t_int()<<t_char()).GetInternalValue();
+	Ptr<BasicType> functionType=t_void()(t_types()<<*t_int()<<*t_char()<<t_int()<<(t_int()(t_types()<<t_char()))).GetInternalValue();
+	TEST_ASSERT(BasicLanguage_GetExpressionType(exprFunction, argument)==BasicLanguage_GetTypeRecord(functionType, argument, false));
+
+	Ptr<BasicExpression> exprVariable=e_name(L"var", t_types()<<t_int()).GetInternalValue();
+	BasicTypeRecord* variableType=BasicLanguage_GetExpressionType(exprVariable, argument);
+	TEST_ASSERT(variableType->GetType()==BasicTypeRecord::Structure);
+	TEST_ASSERT(variableType->MemberType(L"x")==tm.GetPrimitiveType(int_type));
+	TEST_ASSERT(variableType->MemberType(L"y")==tm.GetPrimitiveType(int_type));
 }
 
 /***********************************************************************
