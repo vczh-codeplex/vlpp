@@ -46,6 +46,7 @@ OpCode:
   link_pushforeignfunc	SYMBOL-INDEX(vint)				:*stack_top*									-> instruction_label_index
   link_callforeignfunc	SYMBOL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------generic instanciation only---------
+  generic_pushdata		VARIABLE-TARGET-INDEX(int)		:*stack_top*									-> pointer
   generic_pushfunc		FUNCTION-TARGET-INDEX(int)		:*stack_top*									-> instruction_label_index
   generic_callfunc		FUNCTION-TARGET-INDEX(int)		:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   generic_pushfunc_vm	INTERPRETOR-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
@@ -119,6 +120,7 @@ namespace vl
 					link_pushforeignfunc,
 					link_callforeignfunc,
 
+					generic_pushdata,
 					generic_pushfunc,
 					generic_callfunc,
 					generic_pushfunc_vm,
