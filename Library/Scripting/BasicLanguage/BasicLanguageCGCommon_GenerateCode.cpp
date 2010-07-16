@@ -101,7 +101,7 @@ namespace vl
 				return -1;
 			}
 
-			vint GetGenericTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord* nodeType, BasicEnv::Reference& reference, BasicTypeRecord*& resultType)
+			vint GetGenericTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord* nodeType, BasicDeclaration* declaration)
 			{
 				BP bp(
 					argument.info->GetEnv(),
@@ -113,19 +113,11 @@ namespace vl
 
 				Ptr<BasicCodegenInfo::GenericTarget> target=new BasicCodegenInfo::GenericTarget;
 				target->ownerFunctionDeclaration=0;
-				target->targetDeclaration=reference.function;
+				target->targetDeclaration=declaration;
 				for(vint i=0;i<node->argumentTypes.Count();i++)
 				{
 					target->genericParameters.Add(BasicLanguage_GetTypeRecord(node->argumentTypes[i], bp, false));
 				}
-
-				Dictionary<BasicTypeRecord*, BasicTypeRecord*> map;
-				for(vint i=0;i<node->argumentTypes.Count();i++)
-				{
-					map.Add(nodeType->ParameterType(i), target->genericParameters[i]);
-				}
-
-				resultType=argument.info->GetTypeManager()->Instanciate(nodeType, map.Wrap());
 				return argument.info->RegisterGenericTarget(target);
 			}
 
@@ -135,7 +127,8 @@ namespace vl
 				BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
 				if(reference.isVariable && reference.globalVariable)
 				{
-					return GetGenericTargetIndex(node, argument, nodeType, reference, resultType);
+					resultType=nodeType;
+					return GetGenericTargetIndex(node, argument, nodeType, reference.globalVariable);
 				}
 				else
 				{
@@ -155,7 +148,8 @@ namespace vl
 				}
 				else
 				{
-					return GetGenericTargetIndex(node, argument, nodeType, reference, resultType);
+					resultType=nodeType;
+					return GetGenericTargetIndex(node, argument, nodeType, reference.function);
 				}
 			}
 

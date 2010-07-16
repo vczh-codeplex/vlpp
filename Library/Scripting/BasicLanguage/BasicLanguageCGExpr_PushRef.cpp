@@ -283,6 +283,9 @@ BasicLanguage_PushRef
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
 					if(reference.isVariable && reference.globalVariable)
 					{
+						BasicTypeRecord* resultType=0;
+						vint index=GetGenericVariableTargetIndex(node, argument, resultType);
+						argument.Ins(BasicIns::generic_pushdata, index);
 					}
 					else
 					{
