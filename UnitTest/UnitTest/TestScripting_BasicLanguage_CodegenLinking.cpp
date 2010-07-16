@@ -268,3 +268,83 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingGenericFunction)
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==25);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 }
+
+/***********************************************************************
+Generic Function
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_LinkingGenericVariable)
+{
+	BasicProgramNode programStorage;
+	programStorage
+		.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Storage")
+		.Member(L"data", t_type(L"T"))
+		;
+	programStorage
+		.Generic().GenericArgument(L"U")
+		.DefineVariable(L"storage", t_type(L"Storage")[t_types()<<t_type(L"U")])
+		;
+	programStorage
+		.Generic().GenericArgument(L"V")
+		.DefineFunction(L"Get")
+		.ReturnType(t_type(L"V"))
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"storage", t_types()<<t_type(L"V")).Member(L"data")))
+			);
+	Ptr<BasicIL> ilStorage=Compile(programStorage.GetInternalValue(), L"programStorage", L"TestScripting_BasicLanguage_LinkingStorage_ProgramStorage");
+	
+	BasicProgramNode programMain;
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Storage")
+		.Member(L"data", t_type(L"T"))
+		.Linking(L"programStorage", L"Storage")
+		;
+	programMain
+		.Generic().GenericArgument(L"U")
+		.DefineVariable(L"storage", t_type(L"Storage")[t_types()<<t_type(L"U")], L"programStorage", L"storage")
+		;
+	programMain
+		.Generic().GenericArgument(L"V")
+		.DefineFunction(L"Get")
+		.ReturnType(t_type(L"V"))
+		.Linking(L"programStorage", L"Get")
+		;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_name(L"storage", t_types()<<t_int()).Member(L"data").Assign(e_prim(10)))
+			<<s_expr(e_name(L"Set", t_types()<<t_char())(e_exps()<<e_prim((char)20)))
+			<<s_var(t_int(), L"a", e_name(L"Get", t_types()<<t_int())(e_exps()))
+			<<s_var(t_int(), L"b", e_name(L"storage", t_types()<<t_char()).Member(L"data"))
+			<<s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+			);
+	programMain
+		.Generic().GenericArgument(L"W")
+		.DefineFunction(L"Set")
+		.Parameter(L"value", t_type(L"W"))
+		.Statement(
+			s_expr(e_name(L"storage", t_types()<<t_type(L"W")).Member(L"data").Assign(e_name(L"value")))
+			);
+	Ptr<BasicIL> ilMain=Compile(programMain.GetInternalValue(), L"programMain", L"TestScripting_BasicLanguage_LinkingStorage_ProgramMain");
+
+	BasicILInterpretor interpretor(65536);
+	vint sumKey=interpretor.LoadIL(ilStorage.Obj());
+	vint mainKey=interpretor.LoadIL(ilMain.Obj());
+	
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, sumKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	stack.Reset(0, mainKey, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	
+	vint ins=ilMain->labels[0].instructionIndex;
+	stack.Reset(ins, mainKey, sizeof(vint));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==30);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+}
