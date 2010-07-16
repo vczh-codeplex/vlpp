@@ -320,7 +320,7 @@ BasicLanguage_GenerateExport
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
 				{
-					if(node->linking.HasLink())
+					if(node->linking.HasLink() || node->genericDeclaration.HasGeneric())
 					{
 						return ResourceHandle<BasicILExportRes>::Null();
 					}
@@ -676,12 +676,16 @@ BasicLanguage_Generate*Resource
 						entryResource->uniqueNameTemplate=BasicLanguage_GenerateUniqueNameTemplate(programName, declaration.Obj(), argument);
 
 						BasicTypeRecord* variableType=argument.info->GetEnv()->GlobalScope()->variables.Items()[declaration->name].type;
-						BasicOffset& offset=argument.info->GetTypeInfo(variableType)->size;
 						List<BasicTypeRecord*> genericParameters;
+						Dictionary<BasicTypeRecord*, BasicTypeRecord*> genericParameterMap;
 						for(vint i=0;i<variableType->ParameterCount();i++)
 						{
-							genericParameters.Add(variableType->ParameterType(i));
+							BasicTypeRecord* parameter=variableType->ParameterType(i);
+							genericParameters.Add(parameter);
+							genericParameterMap.Add(parameter, parameter);
 						}
+						variableType=argument.info->GetTypeManager()->Instanciate(variableType, genericParameterMap.Wrap());
+						BasicOffset& offset=argument.info->GetTypeInfo(variableType)->size;
 
 						BasicCodegenInfo::FunctionLinear linear;
 						linear(offset.Constant());
@@ -690,6 +694,7 @@ BasicLanguage_Generate*Resource
 							vint value=offset.Factor(genericParameters[i]);
 							linear(i, value);
 						}
+						entryResource->size=BasicLanguage_GenerateLinearResource(argument, linear);
 
 						entries.Add(entryResource);
 					}

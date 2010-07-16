@@ -441,8 +441,8 @@ BasicILStack
 								ins.opcode=BasicIns::push;
 								ins.type1=BasicIns::pointer_type;
 
-								vint index=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
-								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
+								vint index=interpretor->RegisterTarget(0, interpretor->ils[ins.insKey], ins.argument.int_value);
+								BasicILGenericTarget* target=interpretor->genericTargets[index].Obj();
 								ins.argument.pointer_value=interpretor->InstanciateGenericVariable(target);
 
 								nextInstruction=instruction;

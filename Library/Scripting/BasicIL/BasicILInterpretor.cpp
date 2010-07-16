@@ -468,6 +468,11 @@ BasicILInterpretor
 							ins.argument.int_value=address;
 						}
 						break;
+					case BasicIns::generic_pushdata:
+						{
+							ins.insKey=index;
+						}
+						break;
 					}
 					if(ins.insKey==-1)
 					{
@@ -574,7 +579,12 @@ BasicILInterpretor
 						{
 						case BasicIns::generic_pushdata:
 							{
-								ins.argument.int_value=RegisterTarget(target, il, ins.argument.int_value);
+								ins.opcode=BasicIns::push;
+								ins.type1=BasicIns::pointer_type;
+
+								vint index=RegisterTarget(target, il, ins.argument.int_value);
+								BasicILGenericTarget* target=genericTargets[index].Obj();
+								ins.argument.pointer_value=InstanciateGenericVariable(target);
 							}
 							break;
 						case BasicIns::generic_callfunc:

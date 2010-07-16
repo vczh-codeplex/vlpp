@@ -129,6 +129,48 @@ TEST_CASE(TestScripting_BasicLanguage_GenericFunction)
 					<<s_expr(e_name(L"items")++)
 				)
 			);
-		;
 	RunBasicProgramInt(programMain.GetInternalValue(), 25, L"TestScripting_BasicLanguage_GenericFunction");
+}
+
+/***********************************************************************
+Generic Variable
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_GenericVariable)
+{
+	BasicProgramNode programMain;
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Storage")
+		.Member(L"data", t_type(L"T"))
+		;
+	programMain
+		.Generic().GenericArgument(L"U")
+		.DefineVariable(L"storage", t_type(L"Storage")[t_types()<<t_type(L"U")])
+		;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_name(L"storage", t_types()<<t_int()).Member(L"data").Assign(e_prim(10)))
+			<<s_expr(e_name(L"Set", t_types()<<t_char())(e_exps()<<e_prim((char)20)))
+			<<s_var(t_int(), L"a", e_name(L"Get", t_types()<<t_int())(e_exps()))
+			<<s_var(t_int(), L"b", e_name(L"storage", t_types()<<t_char()).Member(L"data"))
+			<<s_expr(e_result().Assign(e_name(L"a")+e_name(L"b")))
+			);
+	programMain
+		.Generic().GenericArgument(L"V")
+		.DefineFunction(L"Get")
+		.ReturnType(t_type(L"V"))
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"storage", t_types()<<t_type(L"V")).Member(L"data")))
+			);
+	programMain
+		.Generic().GenericArgument(L"W")
+		.DefineFunction(L"Set")
+		.Parameter(L"value", t_type(L"W"))
+		.Statement(
+			s_expr(e_name(L"storage", t_types()<<t_type(L"W")).Member(L"data").Assign(e_name(L"value")))
+			);
+	RunBasicProgramInt(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericVariable");
 }
