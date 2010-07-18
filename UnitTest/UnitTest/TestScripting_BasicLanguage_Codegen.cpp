@@ -89,6 +89,16 @@ extern void SetConfiguration(BasicAlgorithmConfiguration& config);
 extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
 extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
 
+void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName)
+{
+	WString path=GetPath()+L"Codegen_"+fileName+L".txt";
+	FileStream fileStream(path, FileStream::WriteOnly);
+	BomEncoder encoder(BomEncoder::Utf16);
+	EncoderStream encoderStream(fileStream, encoder);
+	StreamWriter fileWriter(encoderStream);
+	interpretor.LogInternalState(fileWriter);
+}
+
 template<typename T>
 void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString& name)
 {
@@ -130,12 +140,16 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
 	TEST_ASSERT(stack.GetEnv()->Pop<T>()==result);
+	if(name!=L"")
+	{
+		LogInterpretor(interpretor, name+L"[Interpretor]");
+	}
 }
 
 template<typename T>
 void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
 {
-	//RunBasicProgramInternal(program, result, L"");
+	RunBasicProgramInternal(program, result, L"");
 	ConvertToNativeXProgram(program);
 	RunBasicProgramInternal(program, result, name);
 }

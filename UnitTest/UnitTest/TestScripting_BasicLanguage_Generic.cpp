@@ -17,6 +17,8 @@ using namespace vl::stream;
 
 //from TestScripting_BasicLanguage_Codegen.cpp
 extern void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name);
+//from TestScripting_BasicLanguage_Codegen.cpp
+extern void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName);
 
 /***********************************************************************
 Generic Structure

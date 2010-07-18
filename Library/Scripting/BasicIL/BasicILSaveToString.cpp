@@ -1,5 +1,6 @@
 #include <wchar.h>
 #include "BasicILDefinition.h"
+#include "BasicILInterpretor.h"
 #include "BasicILSymbolResource.h"
 #include "..\..\Stream\StreamSerialization.h"
 
@@ -12,7 +13,53 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-BasicIns
+BasicILInterpretor
+***********************************************************************/
+
+			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			{
+				for(vint i=0;i<ils.Count();i++)
+				{
+					writer.WriteLine(L"-----------------------------------------------");
+					writer.WriteLine(L"Loaded Assemblies["+itow(i)+L"]");
+					writer.WriteLine(L"-----------------------------------------------");
+					ils[i]->SaveAsString(writer, 0);
+					writer.WriteLine(L"");
+				}
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Assembly Name Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<ilMap.Count();i++)
+				{
+					writer.WriteString(ilMap.Keys()[i]);
+					writer.WriteString(L" = ");
+					writer.WriteLine(itow(ils.IndexOf(ilMap.Values()[i])));
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Function Pointer Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<labels.Count();i++)
+				{
+					BasicILLabel& label=labels[i];
+					writer.WriteLine(itow(i)+L" = Assemblies["+itow(label.key)+L"].Instructions["+itow(label.instruction)+L"]");
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Loaded Symbol Names");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<symbolMap.Count();i++)
+				{
+					writer.WriteLine(symbolMap.Keys()[i].key+L"."+symbolMap.Keys()[i].value);
+				}
+				writer.WriteLine(L"");
+			}
+
+/***********************************************************************
+BasicIL
 ***********************************************************************/
 
 			WString OpCodeToString(BasicIns::OpCode opCode)
@@ -407,11 +454,15 @@ BasicIns
 					writer.WriteLine(BasicInsToString(instructions[i]));
 				}
 
-				writer.WriteLine(L".exports");
-				Ptr<ResourceStream> exportedSymbols=resources[BasicILResourceNames::ExportedSymbols];
-				if(exportedSymbols)
+				vint exportedSymbolsIndex=resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
+				if(exportedSymbolsIndex!=-1)
 				{
-					WriteExportSymbol(exportedSymbols, writer);
+					writer.WriteLine(L".exports");
+					Ptr<ResourceStream> exportedSymbols=resources.Values()[exportedSymbolsIndex];
+					if(exportedSymbols)
+					{
+						WriteExportSymbol(exportedSymbols, writer);
+					}
 				}
 			}
 		}
