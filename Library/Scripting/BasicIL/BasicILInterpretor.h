@@ -173,6 +173,7 @@ namespace vl
 				vint											LoadIL(BasicIL* il);
 				void											UnloadIL(BasicIL* il);
 				collections::IList<BasicILLabel>&				GetLabels();
+				void											LogInternalState(stream::TextWriter& writer);
 			};
 
 /***********************************************************************

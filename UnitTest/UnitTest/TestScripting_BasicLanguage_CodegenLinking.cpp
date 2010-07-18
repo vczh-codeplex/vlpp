@@ -22,6 +22,8 @@ extern void SetConfiguration(BasicAlgorithmConfiguration& config);
 //from TestScripting_Languages_NativeX.cpp
 extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
 extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
+//from TestScripting_BasicLanguage_Codegen.cpp
+extern void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName);
 
 Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name, const WString& fileName)
 {
@@ -108,6 +110,8 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingFunction)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==3);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+
+	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_Linking_[Interpretor]");
 }
 
 /***********************************************************************
@@ -172,6 +176,8 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingPointer)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==37);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+
+	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_LinkingPointer_[Interpretor]");
 }
 
 /***********************************************************************
@@ -267,10 +273,12 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingGenericFunction)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==25);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+
+	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_LinkingGeneric_[Interpretor]");
 }
 
 /***********************************************************************
-Generic Function
+Generic Global Variable
 ***********************************************************************/
 
 TEST_CASE(TestScripting_BasicLanguage_LinkingGenericVariable)
@@ -347,4 +355,6 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingGenericVariable)
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==30);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+
+	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_LinkingStorage_[Interpretor]");
 }
