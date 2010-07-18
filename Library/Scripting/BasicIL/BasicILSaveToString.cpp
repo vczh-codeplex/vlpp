@@ -16,6 +16,17 @@ namespace vl
 BasicILInterpretor
 ***********************************************************************/
 
+			WString LinearToString(Linear<vint, vint> linear, vint count)
+			{
+				WString result;
+				for(vint i=0;i<count;i++)
+				{
+					result+=itow(linear.Factor(i))+L"*T"+itow(i)+L" + ";
+				}
+				result+=itow(linear.Constant());
+				return result;
+			}
+
 			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
 			{
 				for(vint i=0;i<ils.Count();i++)
@@ -54,6 +65,58 @@ BasicILInterpretor
 				for(vint i=0;i<symbolMap.Count();i++)
 				{
 					writer.WriteLine(symbolMap.Keys()[i].key+L"."+symbolMap.Keys()[i].value);
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Function Entry Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericFunctionEntries.Count();i++)
+				{
+					Pair<WString, WString> key=genericFunctionEntries.Keys()[i];
+					BasicILGenericFunctionEntry* value=genericFunctionEntries.Values()[i].Obj();
+					writer.WriteLine(key.key+L"."+key.value);
+					writer.WriteLine(L"  Instruction = "+itow(value->instruction));
+					writer.WriteLine(L"  Count = "+itow(value->count));
+					writer.WriteLine(L"  Assembly = "+itow(value->key));
+					writer.WriteLine(L"  Generic Argument Count = "+itow(value->argumentCount));
+					writer.WriteLine(L"  Unique Entry ID = "+value->uniqueEntryID);
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Variable Entry Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericVariableEntries.Count();i++)
+				{
+					Pair<WString, WString> key=genericVariableEntries.Keys()[i];
+					BasicILGenericVariableEntry* value=genericVariableEntries.Values()[i].Obj();
+					writer.WriteLine(key.key+L"."+key.value);
+					writer.WriteLine(L"  Generic Argument Count = "+itow(value->argumentCount));
+					writer.WriteLine(L"  Size = "+LinearToString(value->size, value->argumentCount));
+					writer.WriteLine(L"  Unique Entry ID = "+value->uniqueEntryID);
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Instanciated Generic Function Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
+				{
+					WString key=instanciatedGenericFunctions.Keys()[i];
+					vint value=instanciatedGenericFunctions.Values()[i];
+					writer.WriteLine(key+L" = "+itow(value));
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Instanciated Generic Variable Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<instanciatedGenericVariables.variables.Count();i++)
+				{
+					WString key=instanciatedGenericVariables.variables.Keys()[i];
+					char* value=instanciatedGenericVariables.variables.Values()[i];
+					writer.WriteLine(key+L" = "+itow((vint)value));
 				}
 				writer.WriteLine(L"");
 			}
