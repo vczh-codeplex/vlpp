@@ -79,36 +79,6 @@ BasicILEnv
 			}
 
 /***********************************************************************
-BasicGenericName
-***********************************************************************/
-
-			BasicILGenericName::BasicILGenericName()
-				:argumentIndex(-1)
-			{
-			}
-
-			BasicILGenericName::BasicILGenericName(vint _argumentIndex)
-				:argumentIndex(_argumentIndex)
-			{
-			}
-
-			BasicILGenericName::BasicILGenericName(const WString& _name)
-				:argumentIndex(-1)
-				,name(_name)
-			{
-			}
-
-			bool BasicILGenericName::operator==(const BasicILGenericName& value)const
-			{
-				return argumentIndex==value.argumentIndex && name==value.name;
-			}
-
-			bool BasicILGenericName::operator!=(const BasicILGenericName& value)const
-			{
-				return argumentIndex!=value.argumentIndex || name!=value.name;
-			}
-
-/***********************************************************************
 BasicILGenericArgument
 ***********************************************************************/
 
@@ -200,7 +170,7 @@ BasicILInterpretor
 					for(vint j=0;j<factors.Count();j++)
 					{
 						vint factor=factors.Get(j)->factor;
-						value+=factor*target->arguments[j].size;
+						value+=factor*target->arguments[j]->size;
 					}
 				}
 				return value;
@@ -306,20 +276,7 @@ BasicILInterpretor
 								genericFunctionEntry->instruction=functionEntry->startInstruction;
 								genericFunctionEntry->count=functionEntry->instructionCount;
 								genericFunctionEntry->argumentCount=functionEntry->genericArgumentCount;
-								ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(functionEntry->uniqueNameTemplate);
-								genericFunctionEntry->nameTemplate.Resize(names.Count());
-								for(vint j=0;j<names.Count();j++)
-								{
-									ResourceRecord<BasicILGenericNameRes> name=names.Get(j);
-									if(name->isConstant)
-									{
-										genericFunctionEntry->nameTemplate[j]=BasicILGenericName(exportedSymbols->ReadString(name->constantString));
-									}
-									else
-									{
-										genericFunctionEntry->nameTemplate[j]=BasicILGenericName(name->stringArgumentIndex);
-									}
-								}
+								genericFunctionEntry->uniqueEntryID=exportedSymbols->ReadString(functionEntry->uniqueEntryID);
 								currentFunctionEntries.Add(symbol, genericFunctionEntry);
 							}
 						}
@@ -343,20 +300,7 @@ BasicILInterpretor
 								Ptr<BasicILGenericVariableEntry> genericVariableEntry=new BasicILGenericVariableEntry;
 								genericVariableEntry->argumentCount=variableEntry->genericArgumentCount;
 								genericVariableEntry->size=TranslateLinear(exportedSymbols, exportedSymbols->ReadRecord<BasicILGenericLinearRes>(variableEntry->size));
-								ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(variableEntry->uniqueNameTemplate);
-								genericVariableEntry->nameTemplate.Resize(names.Count());
-								for(vint j=0;j<names.Count();j++)
-								{
-									ResourceRecord<BasicILGenericNameRes> name=names.Get(j);
-									if(name->isConstant)
-									{
-										genericVariableEntry->nameTemplate[j]=BasicILGenericName(exportedSymbols->ReadString(name->constantString));
-									}
-									else
-									{
-										genericVariableEntry->nameTemplate[j]=BasicILGenericName(name->stringArgumentIndex);
-									}
-								}
+								genericVariableEntry->uniqueEntryID=exportedSymbols->ReadString(variableEntry->uniqueEntryID);
 								currentVariableEntries.Add(symbol, genericVariableEntry);
 							}
 						}
@@ -481,28 +425,27 @@ BasicILInterpretor
 				}
 			}
 
-			void TranslateTargetArguments(BasicILGenericTarget* target, Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericArgumentRes> arguments, Array<BasicILGenericArgument>& result)
+			void TranslateTargetArguments(BasicILGenericTarget* target, Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericArgumentRes> arguments, Array<Ptr<BasicILGenericArgument>>& result)
 			{
 				result.Resize(arguments.Count());
 				for(vint j=0;j<arguments.Count();j++)
 				{
 					ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
-					BasicILGenericArgument& newArgument=result[j];
-					newArgument.size=CalculateLinear(exportedSymbols, exportedSymbols->ReadRecord(argumentRecord->sizeArgument), target);
+					Ptr<BasicILGenericArgument> newArgument=new BasicILGenericArgument;
+					result[j]=newArgument;
+					newArgument->size=CalculateLinear(exportedSymbols, exportedSymbols->ReadRecord(argumentRecord->sizeArgument), target);
 
-					ResourceArrayRecord<BasicILGenericNameRes> names=exportedSymbols->ReadArrayRecord<BasicILGenericNameRes>(argumentRecord->nameArgument);
-					for(vint k=0;k<names.Count();k++)
+					ResourceRecord<BasicILGenericNameRes> nameRecord=exportedSymbols->ReadRecord(argumentRecord->nameArgument);
+					if(nameRecord->isConstant)
 					{
-						ResourceRecord<BasicILGenericNameRes> nameRecord=names.Get(k);
-						if(nameRecord->isConstant)
-						{
-							newArgument.name+=exportedSymbols->ReadString(nameRecord->constantString);
-						}
-						else
-						{
-							newArgument.name+=target->arguments[nameRecord->stringArgumentIndex].name;
-						}
+						newArgument->name=exportedSymbols->ReadString(nameRecord->constantString);
 					}
+					else
+					{
+						newArgument->name=target->arguments[nameRecord->stringArgumentIndex]->name;
+					}
+
+					TranslateTargetArguments(target, exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRecord->subArgument), newArgument->subArguments);
 				}
 			}
 
@@ -526,22 +469,27 @@ BasicILInterpretor
 				return genericTargets.Count()-1;
 			}
 
-			WString CalculateUniqueName(collections::Array<BasicILGenericName>& nameTemplate, BasicILGenericTarget* target)
+			WString CalculateArgumentsName(Array<Ptr<BasicILGenericArgument>>& arguments)
 			{
-				WString uniqueName;
-				for(vint i=0;i<nameTemplate.Count();i++)
+				if(arguments.Count())
 				{
-					BasicILGenericName& name=nameTemplate[i];
-					if(name.argumentIndex==-1)
+					WString uniqueName=L"<";
+					for(vint i=0;i<arguments.Count();i++)
 					{
-						uniqueName+=name.name;
+						uniqueName+=arguments[i]->name+CalculateArgumentsName(arguments[i]->subArguments);
 					}
-					else
-					{
-						uniqueName+=target->arguments[name.argumentIndex].name;
-					}
+					uniqueName+=L">";
+					return uniqueName;
 				}
-				return uniqueName;
+				else
+				{
+					return L"";
+				}
+			}
+
+			WString CalculateUniqueName(const WString uniqueEntryID, BasicILGenericTarget* target)
+			{
+				return uniqueEntryID+CalculateArgumentsName(target->arguments);
 			}
 
 			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericTarget* target)
@@ -550,7 +498,7 @@ BasicILInterpretor
 				symbol.key=target->assemblyName;
 				symbol.value=target->symbolName;
 				BasicILGenericFunctionEntry* functionEntry=genericFunctionEntries[symbol].Obj();
-				WString uniqueName=CalculateUniqueName(functionEntry->nameTemplate, target);
+				WString uniqueName=CalculateUniqueName(functionEntry->uniqueEntryID, target);
 
 				vint instanciationIndex=instanciatedGenericFunctions.Keys().IndexOf(uniqueName);
 				if(instanciationIndex!=-1)
@@ -638,12 +586,12 @@ BasicILInterpretor
 				symbol.key=target->assemblyName;
 				symbol.value=target->symbolName;
 				BasicILGenericVariableEntry* variableEntry=genericVariableEntries[symbol].Obj();
-				WString uniqueName=CalculateUniqueName(variableEntry->nameTemplate, target);
+				WString uniqueName=CalculateUniqueName(variableEntry->uniqueEntryID, target);
 
 				vint size=variableEntry->size.Constant();
 				for(vint i=0;i<target->arguments.Count();i++)
 				{
-					size+=variableEntry->size.Factor(i)*target->arguments[i].size;
+					size+=variableEntry->size.Factor(i)*target->arguments[i]->size;
 				}
 
 				return instanciatedGenericVariables.Allocate(uniqueName, size);

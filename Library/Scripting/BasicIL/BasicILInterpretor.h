@@ -29,21 +29,21 @@ namespace vl
 			class BasicILEnv : public Object
 			{
 			protected:
-				vint										stackBase;
-				vint										stackSize;
-				vint										stackTop;
-				unsigned char*								stack;
+				vint											stackBase;
+				vint											stackSize;
+				vint											stackTop;
+				unsigned char*									stack;
 			public:
 				BasicILEnv(vint _stackSize);
 				~BasicILEnv();
 
-				vint										StackBase()const;
-				vint										StackSize()const;
-				vint										StackTop()const;
-				void*										DereferenceStack(vint stackPosition)const;
-				void*										Reserve(vint size);
-				void										Reset();
-				void										SetBase(vint stackPosition);
+				vint											StackBase()const;
+				vint											StackSize()const;
+				vint											StackTop()const;
+				void*											DereferenceStack(vint stackPosition)const;
+				void*											Reserve(vint size);
+				void											Reset();
+				void											SetBase(vint stackPosition);
 
 				template<typename T>
 				void Push(const T& value)
@@ -64,26 +64,14 @@ namespace vl
 Ä£°å·ûºÅ±í
 ***********************************************************************/
 
-			struct BasicILGenericName
-			{
-				vint										argumentIndex;
-				WString										name;
-
-				BasicILGenericName();
-				BasicILGenericName(vint _argumentIndex);
-				BasicILGenericName(const WString& _name);
-
-				bool										operator==(const BasicILGenericName& value)const;
-				bool										operator!=(const BasicILGenericName& value)const;
-			};
-
 			struct BasicILGenericArgument
 			{
-				vint										size;
-				WString										name;
+				vint											size;
+				WString											name;
+				collections::Array<Ptr<BasicILGenericArgument>>	subArguments;
 
-				bool										operator==(const BasicILGenericArgument& value)const;
-				bool										operator!=(const BasicILGenericArgument& value)const;
+				bool											operator==(const BasicILGenericArgument& value)const;
+				bool											operator!=(const BasicILGenericArgument& value)const;
 			};
 
 			//----------------------------------------------------------------------------------------------------
@@ -92,29 +80,29 @@ namespace vl
 			{
 				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>> MapType;
 
-				vint										instruction;
-				vint										key;
-				vint										count;
-				vint										argumentCount;
-				collections::Array<BasicILGenericName>		nameTemplate;
+				vint											instruction;
+				vint											key;
+				vint											count;
+				vint											argumentCount;
+				WString											uniqueEntryID;
 			};
 
 			struct BasicILGenericVariableEntry
 			{
 				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>> MapType;
 
-				vint										argumentCount;
-				Linear<vint, vint>							size;
-				collections::Array<BasicILGenericName>		nameTemplate;
+				vint											argumentCount;
+				Linear<vint, vint>								size;
+				WString											uniqueEntryID;
 			};
 
 			struct BasicILGenericTarget
 			{
 				typedef collections::List<Ptr<BasicILGenericTarget>> ListType;
 
-				WString										symbolName;
-				WString										assemblyName;
-				collections::Array<BasicILGenericArgument>	arguments;
+				WString											symbolName;
+				WString											assemblyName;
+				collections::Array<Ptr<BasicILGenericArgument>>	arguments;
 			};
 
 /***********************************************************************
@@ -123,11 +111,11 @@ namespace vl
 
 			struct BasicILLabel
 			{
-				vint										instruction;
-				vint										key;
+				vint											instruction;
+				vint											key;
 
-				bool										operator==(const BasicILLabel& label)const;
-				bool										operator!=(const BasicILLabel& label)const;
+				bool											operator==(const BasicILLabel& label)const;
+				bool											operator!=(const BasicILLabel& label)const;
 			};
 
 			class BasicILInterpretor : public Object
@@ -139,16 +127,16 @@ namespace vl
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
 
-				static const vint							GenericFunctionSitingAssemblyKey;
+				static const vint								GenericFunctionSitingAssemblyKey;
 
 			public:
 				struct VariablePackage
 				{
-					collections::Array<char>				buffer;
-					vint									remainBytes;
+					collections::Array<char>					buffer;
+					vint										remainBytes;
 
 					VariablePackage(vint size);
-					char*									Allocate(vint size);
+					char*										Allocate(vint size);
 				};
 
 				struct VariableManager
@@ -156,35 +144,35 @@ namespace vl
 					collections::List<Ptr<VariablePackage>>	packages;
 					collections::Dictionary<WString, char*>	variables;
 
-					char*									Allocate(const WString& name, vint size);
+					char*										Allocate(const WString& name, vint size);
 				};
 			protected:
-				vint										stackSize;
-				collections::List<BasicIL*>					ils;
-				_BasicILMap									ilMap;
-				collections::List<BasicILLabel>				labels;
-				_SymbolMap									symbolMap;
+				vint											stackSize;
+				collections::List<BasicIL*>						ils;
+				_BasicILMap										ilMap;
+				collections::List<BasicILLabel>					labels;
+				_SymbolMap										symbolMap;
 
-				BasicILGenericFunctionEntry::MapType		genericFunctionEntries;
-				BasicILGenericVariableEntry::MapType		genericVariableEntries;
-				BasicILGenericTarget::ListType				genericTargets;
+				BasicILGenericFunctionEntry::MapType			genericFunctionEntries;
+				BasicILGenericVariableEntry::MapType			genericVariableEntries;
+				BasicILGenericTarget::ListType					genericTargets;
 
-				_InstanciatedGenericFunctionMap				instanciatedGenericFunctions;
-				VariableManager								instanciatedGenericVariables;
-				Ptr<BasicIL>								genericFunctionSitingIL;
+				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
+				VariableManager									instanciatedGenericVariables;
+				Ptr<BasicIL>									genericFunctionSitingIL;
 				
-				void										LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
-				void										LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
-				vint										RegisterTarget(BasicILGenericTarget* target, BasicIL* il, vint targetIndex);
-				vint										InstanciateGenericFunction(BasicILGenericTarget* target);
-				char*										InstanciateGenericVariable(BasicILGenericTarget* target);
+				void											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
+				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
+				vint											RegisterTarget(BasicILGenericTarget* target, BasicIL* il, vint targetIndex);
+				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
+				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
 
-				vint										LoadIL(BasicIL* il);
-				void										UnloadIL(BasicIL* il);
-				collections::IList<BasicILLabel>&			GetLabels();
+				vint											LoadIL(BasicIL* il);
+				void											UnloadIL(BasicIL* il);
+				collections::IList<BasicILLabel>&				GetLabels();
 			};
 
 /***********************************************************************
@@ -194,12 +182,12 @@ namespace vl
 			class BasicILStack : public Object
 			{
 			protected:
-				BasicILEnv*									env;
-				BasicILInterpretor*							interpretor;
-				vint										instruction;
-				vint										insKey;
-				vint										foreignFunctionIndex;
-				void*										foreignFunctionResult;
+				BasicILEnv*										env;
+				BasicILInterpretor*								interpretor;
+				vint											instruction;
+				vint											insKey;
+				vint											foreignFunctionIndex;
+				void*											foreignFunctionResult;
 
 			public:
 				enum RunningResult
@@ -217,13 +205,13 @@ namespace vl
 				BasicILStack(BasicILInterpretor* _interpretor);
 				~BasicILStack();
 
-				BasicILEnv*									GetEnv();
-				void										Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
-				void										ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
-				vint										GetInstruction();
-				vint										GetForeignFunctionIndex();
-				void*										GetForeignFunctionResult();
-				RunningResult								Run();
+				BasicILEnv*										GetEnv();
+				void											Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
+				void											ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
+				vint											GetInstruction();
+				vint											GetForeignFunctionIndex();
+				void*											GetForeignFunctionResult();
+				RunningResult									Run();
 			};
 
 /***********************************************************************

@@ -69,8 +69,9 @@ namespace vl
 		//模板参数
 		struct BasicILGenericArgumentRes
 		{
-			ResourceArrayHandle<BasicILGenericNameRes>				nameArgument;			//字符串参数
+			ResourceHandle<BasicILGenericNameRes>					nameArgument;			//类型ID
 			ResourceHandle<BasicILGenericLinearRes>					sizeArgument;			//尺寸参数
+			ResourceArrayHandle<BasicILGenericArgumentRes>			subArgument;			//子参数
 		};
 
 		//--------------------------------------------------------------------------------------------------------
@@ -82,7 +83,7 @@ namespace vl
 			vint													genericArgumentCount;	//模板参数数量
 			vint													startInstruction;		//起始指令位置
 			vint													instructionCount;		//指令数量
-			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
+			ResourceString											uniqueEntryID;			//函数入口的唯一标识符（将跟参数组成一个唯一长字符串）
 		};
 
 		//模板函数入口
@@ -91,7 +92,7 @@ namespace vl
 			ResourceString											name;					//模板变量名称
 			vint													genericArgumentCount;	//模板参数数量
 			ResourceHandle<BasicILGenericLinearRes>					size;					//模板变量尺寸
-			ResourceArrayHandle<BasicILGenericNameRes>				uniqueNameTemplate;		//唯一标识字符串模板（最终组成一个长字符串来唯一表示自己）
+			ResourceString											uniqueEntryID;			//函数入口的唯一标识符（将跟参数组成一个唯一长字符串）
 		};
 
 		//模板函数特化

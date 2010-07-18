@@ -406,12 +406,12 @@ BasicLanguage_Generate*Resource
 					}
 				}
 			public:
-				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName)
+				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName, BasicFunctionDeclaration* function)
 					:resource(_resource)
 					,program(_program)
 					,env(_env)
 					,assemblyName(_assemblyName)
-					,currentFunction(0)
+					,currentFunction(function)
 				{
 					for(vint i=0;i<program->declarations.Count();i++)
 					{
@@ -427,167 +427,128 @@ BasicLanguage_Generate*Resource
 					}
 				}
 
-				void Start(BasicFunctionDeclaration* function)
-				{
-					currentFunction=function;
-					currentString=L"";
-					names.Clear();
-				}
-
-				void AppendString(const WString& string)
-				{
-					currentString+=string;
-				}
-
-				void AppendParameter(BasicTypeRecord* genericArgument)
-				{
-					Submit();
-					ResourceRecord<BasicILGenericNameRes> name=resource->CreateRecord<BasicILGenericNameRes>();
-					name->constantString=ResourceString::Null();
-					name->isConstant=false;
-					name->stringArgumentIndex=currentFunction->genericDeclaration.arguments.IndexOf(genericArgument->ArgumentName());
-					names.Add(name);
-				}
-
-				void AppendRegistered(BasicTypeRecord* structure)
+				WString GetRegisteredType(BasicTypeRecord* structure)
 				{
 					BasicStructureDeclaration* declaration=map[structure];
+					WString resultAssemblyName;
+					WString resultSymbolName;
 					if(declaration->linking.HasLink())
 					{
-						AppendString(EscapeResourceName(declaration->linking.assemblyName));
-						AppendString(L"::");
-						AppendString(EscapeResourceName(declaration->linking.symbolName));
+						resultAssemblyName=declaration->linking.assemblyName;
+						resultSymbolName=declaration->linking.symbolName;
 					}
 					else
 					{
-						AppendString(EscapeResourceName(assemblyName));
-						AppendString(L"::");
-						AppendString(EscapeResourceName(declaration->name));
+						resultAssemblyName=assemblyName;
+						resultSymbolName=declaration->name;
 					}
+					return EscapeResourceName(resultAssemblyName)+L"::"+EscapeResourceName(resultSymbolName);
 				}
 
-				ResourceArrayHandle<BasicILGenericNameRes> End()
+				WString GetTypeName(BasicTypeRecord* type, List<BasicTypeRecord*>& argumentTypes)
 				{
-					Submit();
-					return resource->CreateArrayRecord(names.Wrap());
+					argumentTypes.Clear();
+					switch(type->GetType())
+					{
+					case BasicTypeRecord::Primitive:
+						{
+							switch(type->PrimitiveType())
+							{
+							case s8:
+								return L"s8";
+								break;
+							case s16:
+								return L"s16";
+								break;
+							case s32:
+								return L"s32";
+								break;
+							case s64:
+								return L"s64";
+								break;
+							case u8:
+								return L"u8";
+								break;
+							case u16:
+								return L"u16";
+								break;
+							case u32:
+								return L"u32";
+								break;
+							case u64:
+								return L"u64";
+								break;
+							case f32:
+								return L"f32";
+								break;
+							case f64:
+								return L"f64";
+								break;
+							case bool_type:
+								return L"bool_type";
+								break;
+							case void_type:
+								return L"void_type";
+								break;
+							case char_type:
+								return L"char_type";
+								break;
+							case wchar_type:
+								return L"wchar_type";
+								break;
+							default:
+								CHECK_ERROR(false, L"vl::scripting::basiclanguage::TypeUniqueStringRecorder::GetTypeName#内部错误。");
+								return L"";
+							}
+						}
+						break;
+					case BasicTypeRecord::Pointer:
+						{
+							argumentTypes.Add(type->ElementType());
+							return L"pointer";
+						}
+						break;
+					case BasicTypeRecord::Array:
+						{
+							argumentTypes.Add(type->ElementType());
+							return L"array[itow(type->ElementCount())]";
+						}
+						break;
+					case BasicTypeRecord::Function:
+						{
+							argumentTypes.Add(type->ReturnType());
+							for(vint i=0;i<type->ParameterCount();i++)
+							{
+								argumentTypes.Add(type->ParameterType(i));
+							}
+							return L"function";
+						}
+						break;
+					case BasicTypeRecord::Structure:
+						{
+							BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+							if(proxy)
+							{
+								vint count=proxy->GenericArgumentMap().Count();
+								for(vint i=0;i<count;i++)
+								{
+									BasicTypeRecord* key=proxy->UninstanciatedStructureType()->ParameterType(i);
+									argumentTypes.Add(proxy->GenericArgumentMap()[key]);
+								}
+								return GetRegisteredType(proxy->UninstanciatedStructureType());
+							}
+							else
+							{
+								return GetRegisteredType(type);
+							}
+						}
+						break;
+					default:
+						CHECK_ERROR(false, L"vl::scripting::basiclanguage::TypeUniqueStringRecorder::GetTypeName#内部错误。");
+						return L"";
+					}
 				}
 			};
-
-			void GetTypeUniqueString(BasicTypeRecord* type, TypeUniqueStringRecorder& recorder)
-			{
-				switch(type->GetType())
-				{
-				case BasicTypeRecord::Primitive:
-					{
-						switch(type->PrimitiveType())
-						{
-						case s8:
-							recorder.AppendString(L"s8");
-							break;
-						case s16:
-							recorder.AppendString(L"s16");
-							break;
-						case s32:
-							recorder.AppendString(L"s32");
-							break;
-						case s64:
-							recorder.AppendString(L"s64");
-							break;
-						case u8:
-							recorder.AppendString(L"u8");
-							break;
-						case u16:
-							recorder.AppendString(L"u16");
-							break;
-						case u32:
-							recorder.AppendString(L"u32");
-							break;
-						case u64:
-							recorder.AppendString(L"u64");
-							break;
-						case f32:
-							recorder.AppendString(L"f32");
-							break;
-						case f64:
-							recorder.AppendString(L"f64");
-							break;
-						case bool_type:
-							recorder.AppendString(L"bool_type");
-							break;
-						case void_type:
-							recorder.AppendString(L"void_type");
-							break;
-						case char_type:
-							recorder.AppendString(L"char_type");
-							break;
-						case wchar_type:
-							recorder.AppendString(L"wchar_type");
-							break;
-						}
-					}
-					break;
-				case BasicTypeRecord::Pointer:
-					{
-						recorder.AppendString(L"pointer<");
-						GetTypeUniqueString(type->ElementType(), recorder);
-						recorder.AppendString(L">");
-					}
-					break;
-				case BasicTypeRecord::Array:
-					{
-						recorder.AppendString(L"array<");
-						GetTypeUniqueString(type->ElementType(), recorder);
-						recorder.AppendString(L", ");
-						recorder.AppendString(itow(type->ElementCount()));
-						recorder.AppendString(L">");
-					}
-					break;
-				case BasicTypeRecord::Function:
-					{
-						recorder.AppendString(L"function<");
-						GetTypeUniqueString(type->ReturnType(), recorder);
-						for(vint i=0;i<type->ParameterCount();i++)
-						{
-							recorder.AppendString(L", ");
-							GetTypeUniqueString(type->ParameterType(i), recorder);
-						}
-						recorder.AppendString(L">");
-					}
-					break;
-				case BasicTypeRecord::Structure:
-					{
-						BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
-						if(proxy)
-						{
-							GetTypeUniqueString(proxy->UninstanciatedStructureType(), recorder);
-							recorder.AppendString(L"<");
-							vint count=proxy->GenericArgumentMap().Count();
-							for(vint i=0;i<count;i++)
-							{
-								if(i)recorder.AppendString(L", ");
-								BasicTypeRecord* key=proxy->UninstanciatedStructureType()->ParameterType(i);
-								GetTypeUniqueString(proxy->GenericArgumentMap()[key], recorder);
-							}
-							recorder.AppendString(L">");
-						}
-						else
-						{
-							recorder.AppendRegistered(type);
-						}
-					}
-					break;
-				case BasicTypeRecord::GenericArgument:
-					{
-						recorder.AppendParameter(type);
-					}
-					break;
-				case BasicTypeRecord::Generic:
-					{
-						recorder.AppendRegistered(type);
-					}
-					break;
-				}
-			}
 
 			ResourceHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const BCP& argument, BasicCodegenInfo::FunctionLinear& linear)
 			{
@@ -607,39 +568,10 @@ BasicLanguage_Generate*Resource
 				return linearRecord;
 			}
 
-			ResourceArrayHandle<BasicILGenericNameRes> BasicLanguage_GenerateUniqueNameTemplate(const WString& programName, BasicDeclaration* declaration, const BCP& argument)
+			ResourceString BasicLanguage_GenerateUniqueEntryID(const WString& programName, BasicDeclaration* declaration, const BCP& argument)
 			{
-				List<ResourceHandle<BasicILGenericNameRes>> names;
-				ResourceRecord<BasicILGenericNameRes> currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-				currentName->constantString=argument.exportResource->CreateString(EscapeResourceName(programName)+L"::"+EscapeResourceName(declaration->name)+L"<");
-				currentName->isConstant=true;
-				currentName->stringArgumentIndex=-1;
-				names.Add(currentName);
-
-				for(vint j=0;j<declaration->genericDeclaration.arguments.Count();j++)
-				{
-					currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-					currentName->constantString=ResourceString::Null();
-					currentName->isConstant=false;
-					currentName->stringArgumentIndex=j;
-					names.Add(currentName);
-							
-					if(j)
-					{
-						currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-						currentName->constantString=argument.exportResource->CreateString(L", ");
-						currentName->isConstant=true;
-						currentName->stringArgumentIndex=-1;
-						names.Add(currentName);
-					}
-				}
-						
-				currentName=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
-				currentName->constantString=argument.exportResource->CreateString(L">");
-				currentName->isConstant=true;
-				currentName->stringArgumentIndex=-1;
-				names.Add(currentName);
-				return argument.exportResource->CreateArrayRecord(names.Wrap());
+				WString id=EscapeResourceName(programName)+L"::"+EscapeResourceName(declaration->name);
+				return argument.exportResource->CreateString(id);
 			}
 
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
@@ -655,7 +587,7 @@ BasicLanguage_Generate*Resource
 						entryResource->name=argument.exportResource->CreateString(entry->declaration->name);
 						entryResource->startInstruction=entry->startInstruction;
 						entryResource->instructionCount=entry->instructionCount;
-						entryResource->uniqueNameTemplate=BasicLanguage_GenerateUniqueNameTemplate(programName, entry->declaration, argument);
+						entryResource->uniqueEntryID=BasicLanguage_GenerateUniqueEntryID(programName, entry->declaration, argument);
 						entries.Add(entryResource);
 					}
 				}
@@ -673,7 +605,7 @@ BasicLanguage_Generate*Resource
 						ResourceRecord<BasicILGenericVariableEntryRes> entryResource=argument.exportResource->CreateRecord<BasicILGenericVariableEntryRes>();
 						entryResource->genericArgumentCount=declaration->genericDeclaration.arguments.Count();
 						entryResource->name=argument.exportResource->CreateString(declaration->name);
-						entryResource->uniqueNameTemplate=BasicLanguage_GenerateUniqueNameTemplate(programName, declaration.Obj(), argument);
+						entryResource->uniqueEntryID=BasicLanguage_GenerateUniqueEntryID(programName, declaration.Obj(), argument);
 
 						BasicTypeRecord* variableType=argument.info->GetEnv()->GlobalScope()->variables.Items()[declaration->name].type;
 						List<BasicTypeRecord*> genericParameters;
@@ -702,13 +634,65 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(entries.Wrap());
 			}
 
+			ResourceHandle<BasicILGenericArgumentRes> BasicLanguage_GenerateGenericArgumentRes(BasicTypeRecord* type, BasicDeclaration* ownerDeclaration, TypeUniqueStringRecorder& recorder, const BCP& argument)
+			{
+				const BasicOffset& offset=argument.info->GetTypeInfo(type)->size;
+						
+				ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
+				{
+					linearRecord->constant=offset.Constant();
+					vint count=ownerDeclaration->genericDeclaration.arguments.Count();
+					ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
+					for(vint j=0;j<count;j++)
+					{
+						ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
+						WString genericArgumentName=ownerDeclaration->genericDeclaration.arguments[j];
+						BasicTypeRecord* genericArgumentType=argument.info->GetTypeManager()->GetGenericArgumentType(genericArgumentName);
+						factor->factor=offset.Factor(genericArgumentType);
+						factors[j]=factor;
+					}
+					linearRecord->factors=factors;
+				}
+
+				ResourceRecord<BasicILGenericArgumentRes> argumentRecord=argument.exportResource->CreateRecord<BasicILGenericArgumentRes>();
+				{
+					argumentRecord->sizeArgument=linearRecord;
+					List<BasicTypeRecord*> argumentTypes;
+					if(type->GetType()==BasicTypeRecord::GenericArgument)
+					{
+						ResourceRecord<BasicILGenericNameRes> nameRes=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+						nameRes->constantString=ResourceString::Null();
+						nameRes->isConstant=false;
+						nameRes->stringArgumentIndex=ownerDeclaration->genericDeclaration.arguments.IndexOf(type->ArgumentName());
+						argumentRecord->nameArgument=nameRes;
+					}
+					else
+					{
+						ResourceRecord<BasicILGenericNameRes> nameRes=argument.exportResource->CreateRecord<BasicILGenericNameRes>();
+						nameRes->constantString=argument.exportResource->CreateString(recorder.GetTypeName(type, argumentTypes));
+						nameRes->isConstant=true;
+						nameRes->stringArgumentIndex=-1;
+						argumentRecord->nameArgument=nameRes;
+					}
+
+					List<ResourceHandle<BasicILGenericArgumentRes>> subArguments;
+					for(vint j=0;j<argumentTypes.Count();j++)
+					{
+						subArguments.Add(BasicLanguage_GenerateGenericArgumentRes(argumentTypes[j], ownerDeclaration, recorder, argument));
+					}
+					argumentRecord->subArgument=argument.exportResource->CreateArrayRecord(subArguments.Wrap());
+				}
+
+				return argumentRecord;
+			}
+
 			ResourceArrayHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
-				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
 				List<ResourceHandle<BasicILGenericTargetRes>> targets;
 				for(vint i=0;i<argument.info->instanciatedGenericTargets.Count();i++)
 				{
 					BasicCodegenInfo::GenericTarget* target=argument.info->instanciatedGenericTargets[i].Obj();
+					TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName, target->ownerFunctionDeclaration);
 					ResourceRecord<BasicILGenericTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericTargetRes>();
 					WString assemblyName;
 					WString symbolName;
@@ -727,32 +711,7 @@ BasicLanguage_Generate*Resource
 					for(vint j=0;j<target->genericParameters.Count();j++)
 					{
 						BasicTypeRecord* type=target->genericParameters[j];
-						const BasicOffset& offset=argument.info->GetTypeInfo(type)->size;
-						
-						ResourceRecord<BasicILGenericLinearRes> linearRecord=argument.exportResource->CreateRecord<BasicILGenericLinearRes>();
-						{
-							linearRecord->constant=offset.Constant();
-							vint count=target->ownerFunctionDeclaration->genericDeclaration.arguments.Count();
-							ResourceArrayRecord<BasicILGenericFactorItemRes> factors=argument.exportResource->CreateArrayRecord<BasicILGenericFactorItemRes>(count);
-							for(vint j=0;j<count;j++)
-							{
-								ResourceRecord<BasicILGenericFactorItemRes> factor=argument.exportResource->CreateRecord<BasicILGenericFactorItemRes>();
-								WString genericArgumentName=target->ownerFunctionDeclaration->genericDeclaration.arguments[j];
-								BasicTypeRecord* genericArgumentType=argument.info->GetTypeManager()->GetGenericArgumentType(genericArgumentName);
-								factor->factor=offset.Factor(genericArgumentType);
-								factors[j]=factor;
-							}
-							linearRecord->factors=factors;
-						}
-
-						ResourceRecord<BasicILGenericArgumentRes> argumentRecord=argument.exportResource->CreateRecord<BasicILGenericArgumentRes>();
-						{
-							argumentRecord->sizeArgument=linearRecord;
-							recorder.Start(target->ownerFunctionDeclaration);
-							GetTypeUniqueString(type, recorder);
-							argumentRecord->nameArgument=recorder.End();
-						}
-						arguments.Add(argumentRecord);
+						arguments.Add(BasicLanguage_GenerateGenericArgumentRes(type, target->ownerFunctionDeclaration, recorder, argument));
 					}
 
 					targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
