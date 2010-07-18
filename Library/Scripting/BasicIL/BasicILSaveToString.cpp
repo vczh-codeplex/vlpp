@@ -27,6 +27,23 @@ BasicILInterpretor
 				return result;
 			}
 
+			void WriteGenericArgumentArray(stream::TextWriter& writer, const WString& propertyName, const WString& prefix, Array<Ptr<BasicILGenericArgument>>& arguments)
+			{
+				if(arguments.Count()>0)
+				{
+					writer.WriteLine(prefix+propertyName+L" = {");
+					for(vint i=0;i<arguments.Count();i++)
+					{
+						writer.WriteLine(prefix+L"  Argument["+itow(i)+L"] = {");
+						writer.WriteLine(prefix+L"    Name = "+arguments[i]->name);
+						writer.WriteLine(prefix+L"    Size = "+itow(arguments[i]->size));
+						WriteGenericArgumentArray(writer, L"Sub Arguments", prefix+L"    ", arguments[i]->subArguments);
+						writer.WriteLine(prefix+L"  }");
+					}
+					writer.WriteLine(prefix+L"}");
+				}
+			}
+
 			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
 			{
 				for(vint i=0;i<ils.Count();i++)
@@ -117,6 +134,18 @@ BasicILInterpretor
 					WString key=instanciatedGenericVariables.variables.Keys()[i];
 					char* value=instanciatedGenericVariables.variables.Values()[i];
 					writer.WriteLine(key+L" = "+itow((vint)value));
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Cached Generic Target List");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericTargets.Count();i++)
+				{
+					BasicILGenericTarget* target=genericTargets[i].Obj();
+					writer.WriteLine(L"Assembly Name = "+target->assemblyName);
+					writer.WriteLine(L"Symbol Name = "+target->symbolName);
+					WriteGenericArgumentArray(writer, L"Arguments", L"", target->arguments);
 				}
 				writer.WriteLine(L"");
 			}
