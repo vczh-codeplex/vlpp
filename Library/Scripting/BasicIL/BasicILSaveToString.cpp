@@ -267,20 +267,29 @@ BasicIns
 				return result;
 			}
 
-			WString NamesToString(Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericNameRes> namesRes)
+			WString NamesToString(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericArgumentRes> argumentRes)
 			{
 				WString result;
-				for(vint i=0;i<namesRes.Count();i++)
+				ResourceRecord<BasicILGenericNameRes> nameRes=exportedSymbols->ReadRecord(argumentRes->nameArgument);
+				if(nameRes->isConstant)
 				{
-					ResourceRecord<BasicILGenericNameRes> nameRes=namesRes.Get(i);
-					if(nameRes->isConstant)
+					result+=exportedSymbols->ReadString(nameRes->constantString);
+				}
+				else
+				{
+					result+=L"{"+itow(nameRes->stringArgumentIndex)+L"}";
+				}
+
+				ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord(argumentRes->subArgument);
+				if(arguments.Count())
+				{
+					result+=L"<";
+					for(vint i=0;i<arguments.Count();i++)
 					{
-						result+=exportedSymbols->ReadString(nameRes->constantString);
+						if(i)result+=L", ";
+						result+=NamesToString(exportedSymbols, arguments.Get(i));
 					}
-					else
-					{
-						result+=L"{"+itow(nameRes->stringArgumentIndex)+L"}";
-					}
+					result+=L">";
 				}
 				return result;
 			}
@@ -320,7 +329,7 @@ BasicIns
 							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
 							writer.WriteLine(L"  Instruction = "+itow(entryRes->startInstruction));
 							writer.WriteLine(L"  Lengtht = "+itow(entryRes->instructionCount));
-							writer.WriteLine(L"  UniqueName = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(entryRes->uniqueNameTemplate)));
+							writer.WriteLine(L"  UniqueName = "+exportedSymbols->ReadString(entryRes->uniqueEntryID));
 							writer.WriteLine(L"}");
 						}
 					}
@@ -334,7 +343,7 @@ BasicIns
 							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
 							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
 							writer.WriteLine(L"  Size = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(entryRes->size)));
-							writer.WriteLine(L"  UniqueName = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(entryRes->uniqueNameTemplate)));
+							writer.WriteLine(L"  UniqueName = "+exportedSymbols->ReadString(entryRes->uniqueEntryID));
 							writer.WriteLine(L"}");
 						}
 					}
@@ -352,7 +361,7 @@ BasicIns
 							{
 								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
 								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRes->nameArgument)));
+								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
 							}
 							writer.WriteLine(L"}");
 						}
