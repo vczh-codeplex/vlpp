@@ -420,7 +420,7 @@ BasicIL
 				}
 
 				ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord(argumentRes->subArgument);
-				if(arguments.Count())
+				if(arguments && arguments.Count()>0)
 				{
 					result+=L"<";
 					for(vint i=0;i<arguments.Count();i++)
