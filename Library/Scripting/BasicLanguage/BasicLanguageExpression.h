@@ -475,6 +475,32 @@ Declaration
 				Ptr<BasicType>								type;
 			};
 
+			class BasicConceptBaseDeclaration : public BasicDeclaration
+			{
+			public:
+				struct FunctionConcept
+				{
+					WString									name;
+					Ptr<BasicFunctionType>					signatureType;
+				};
+
+				WString										conceptType;
+				collections::List<Ptr<FunctionConcept>>		functions;
+			};
+
+			class BasicConceptInstanceDeclaration : public BasicDeclaration
+			{
+			public:
+				struct FunctionInstance
+				{
+					WString									name;
+					Ptr<BasicInstanciatedExpression>		target;
+				};
+
+				WString										instanceType;
+				collections::List<Ptr<FunctionInstance>>	functions;
+			};
+
 /***********************************************************************
 Extension Nodes
 ***********************************************************************/
