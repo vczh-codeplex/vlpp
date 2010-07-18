@@ -444,8 +444,10 @@ BasicILInterpretor
 					{
 						newArgument->name=target->arguments[nameRecord->stringArgumentIndex]->name;
 					}
-
-					TranslateTargetArguments(target, exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRecord->subArgument), newArgument->subArguments);
+					if(argumentRecord->subArgument)
+					{
+						TranslateTargetArguments(target, exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRecord->subArgument), newArgument->subArguments);
+					}
 				}
 			}
 

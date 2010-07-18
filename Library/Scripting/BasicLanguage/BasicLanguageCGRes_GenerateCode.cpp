@@ -680,7 +680,14 @@ BasicLanguage_Generate*Resource
 					{
 						subArguments.Add(BasicLanguage_GenerateGenericArgumentRes(argumentTypes[j], ownerDeclaration, recorder, argument));
 					}
-					argumentRecord->subArgument=argument.exportResource->CreateArrayRecord(subArguments.Wrap());
+					if(subArguments.Count()>0)
+					{
+						argumentRecord->subArgument=argument.exportResource->CreateArrayRecord(subArguments.Wrap());
+					}
+					else
+					{
+						argumentRecord->subArgument=ResourceArrayHandle<BasicILGenericArgumentRes>::Null();
+					}
 				}
 
 				return argumentRecord;
