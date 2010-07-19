@@ -215,6 +215,18 @@ Declaration
 				BasicStructureDeclarationNode&			Linking(const WString& assemblyName, const WString& symbolName);
 			};
 
+			class BasicConceptBaseDeclarationNode : public Object
+			{
+			protected:
+				Ptr<BasicConceptBaseDeclaration>		declaration;
+			public:
+				BasicConceptBaseDeclarationNode(Ptr<BasicConceptBaseDeclaration> _declaration);
+				Ptr<BasicConceptBaseDeclaration>		GetInternalValue();
+				
+				BasicConceptBaseDeclarationNode&		Member(const WString& name, const BasicTypeNode& type);
+				BasicConceptBaseDeclarationNode&		Linking(const WString& assemblyName, const WString& symbolName);
+			};
+
 /***********************************************************************
 Program
 ***********************************************************************/
@@ -255,6 +267,7 @@ Program
 				BasicFunctionDeclarationNode			DefineFunction(const WString& name);
 				void									DefineStructureForward(const WString& name);
 				BasicStructureDeclarationNode			DefineStructure(const WString& name);
+				BasicConceptBaseDeclarationNode			DefineConcept(const WString& name, const WString& conceptType);
 			};
 		}
 	}

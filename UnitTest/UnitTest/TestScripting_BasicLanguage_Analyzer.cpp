@@ -1293,6 +1293,45 @@ TEST_CASE(Test_BasicLanguage_BuildDeclarationBody)
 }
 
 /***********************************************************************
+Concept
+***********************************************************************/
+
+TEST_CASE(Test_BasicLanguage_ConceptDeclaration)
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	BasicProgramNode program;
+	program.DefineConcept(L"Eq", L"T")
+		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		;
+	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
+	BasicScope::Concept* conceptObject=globalScope->concepts.Find(L"Eq").Obj();
+	TEST_ASSERT(conceptObject!=0);
+	TEST_ASSERT(conceptObject->conceptType==tm.GetGenericArgumentType(L"T"));
+
+	BasicTypeRecord* typeEquals=conceptObject->functions[L"Equals"];
+	TEST_ASSERT(typeEquals->GetType()==BasicTypeRecord::Function);
+	TEST_ASSERT(typeEquals->ReturnType()==tm.GetPrimitiveType(bool_type));
+	TEST_ASSERT(typeEquals->ParameterCount()==2);
+	TEST_ASSERT(typeEquals->ParameterType(0)==tm.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(typeEquals->ParameterType(1)==tm.GetGenericArgumentType(L"T"));
+
+	BasicTypeRecord* typeNotEquals=conceptObject->functions[L"NotEquals"];
+	TEST_ASSERT(typeNotEquals->GetType()==BasicTypeRecord::Function);
+	TEST_ASSERT(typeNotEquals->ReturnType()==tm.GetPrimitiveType(bool_type));
+	TEST_ASSERT(typeNotEquals->ParameterCount()==2);
+	TEST_ASSERT(typeNotEquals->ParameterType(0)==tm.GetGenericArgumentType(L"T"));
+	TEST_ASSERT(typeNotEquals->ParameterType(1)==tm.GetGenericArgumentType(L"T"));
+}
+
+/***********************************************************************
 BasicAnalyzer
 ***********************************************************************/
 
