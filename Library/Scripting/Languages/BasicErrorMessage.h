@@ -64,6 +64,11 @@ namespace vl
 				static WString CannotUseUninstanciatedGenericFunction(const WString& name);
 				static WString GenericArgumentNumberNotMatch();
 				static WString GenericArgumentCannotApplyToNonGenericType();
+				static WString ConceptFunctionAlreadyExists(const WString& name, const WString& function);
+				static WString ConceptFunctionNotExists(const WString& name, const WString& function);
+				static WString ConceptAlreadyExists(const WString& name);
+				static WString ConceptNotExists(const WString& name);
+				static WString ConceptFunctionTypeNotMatches(const WString& name, const WString& function);
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();

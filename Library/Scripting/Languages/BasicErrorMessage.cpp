@@ -201,6 +201,31 @@ namespace vl
 				return L"Generic argument cannot apply to non-generic type.";
 			}
 
+			WString BasicErrorMessage::ConceptFunctionAlreadyExists(const WString& name, const WString& function)
+			{
+				return L"Concept "+name+L" already have a function called "+function+L".";
+			}
+
+			WString BasicErrorMessage::ConceptFunctionNotExists(const WString& name, const WString& function)
+			{
+				return L"Concept "+name+L" does not have a function called "+function+L".";
+			}
+
+			WString BasicErrorMessage::ConceptAlreadyExists(const WString& name)
+			{
+				return L"Concept "+name+L" already exists;";
+			}
+
+			WString BasicErrorMessage::ConceptNotExists(const WString& name)
+			{
+				return L"Concept "+name+L" not exists.";
+			}
+
+			WString BasicErrorMessage::ConceptFunctionTypeNotMatches(const WString& name, const WString& function)
+			{
+				return L"Concept "+name+L" has a function "+function+L" with a different type.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

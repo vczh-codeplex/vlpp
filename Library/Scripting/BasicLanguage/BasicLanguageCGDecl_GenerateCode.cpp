@@ -75,7 +75,8 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					TODO_FOR_GENERIC_VARIABLE_BEGIN
+					if(!node->genericDeclaration.HasGeneric())
+					{
 						BasicOffset offset=-1;
 						if(node->linking.HasLink())
 						{
@@ -92,8 +93,7 @@ BasicLanguage_GenerateCodePass1
 							delete[] data;
 						}
 						argument.info->GetGlobalVariableOffsets().Add(node, offset.Constant());
-					TODO_FOR_GENERIC_VARIABLE_END
-
+					}
 					if(node->initializer)
 					{
 						BasicLanguage_StoreToAddress(node->initializer.Obj(), node, argument);

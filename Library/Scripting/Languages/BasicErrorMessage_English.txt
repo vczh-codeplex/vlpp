@@ -39,6 +39,11 @@ CannotUseUninstanciatedGenericVariable(name)=Cannot use uninstanciated generic v
 CannotUseUninstanciatedGenericFunction(name)=Cannot use uninstanciated generic function {name}.
 GenericArgumentNumberNotMatch=Generic argument number should not be greater or less than the generic type required.
 GenericArgumentCannotApplyToNonGenericType=Generic argument cannot apply to non-generic type.
+ConceptFunctionAlreadyExists(name,function)=Concept {name} already have a function called {function}.
+ConceptFunctionNotExists(name,function)=Concept {name} does not have a function called {function}.
+ConceptAlreadyExists(name)=Concept {name} already exists;
+ConceptNotExists(name)=Concept {name} not exists.
+ConceptFunctionTypeNotMatches(name,function)=Concept {name} has a function {function} with a different type.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

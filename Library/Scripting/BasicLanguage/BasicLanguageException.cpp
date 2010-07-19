@@ -323,6 +323,41 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(expression, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, ConceptFunctionAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionNotExists(BasicConceptBaseDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, ConceptFunctionNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptAlreadyExists(BasicConceptBaseDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ConceptAlreadyExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptNotExists(BasicConceptBaseDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ConceptNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(BasicConceptBaseDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, ConceptFunctionTypeNotMatches, parameters.Wrap());
+			}
 		}
 	}
 }
