@@ -41,10 +41,13 @@ namespace vl
 				static WString NeedCloseArray();
 				static WString NeedComma();
 				static WString NeedSemicolon();
+				static WString NeedColon();
 				static WString NeedCloseStat();
 				static WString NeedAssign();
 				static WString NeedOpenStruct();
 				static WString NeedCloseStruct();
+				static WString NeedOpenConcept();
+				static WString NeedCloseConcept();
 				static WString NeedWhile();
 				static WString NeedWhen();
 				static WString NeedWith();

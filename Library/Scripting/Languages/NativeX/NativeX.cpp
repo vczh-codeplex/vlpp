@@ -1002,6 +1002,23 @@ namespace vl
 				return declaration;
 			}
 
+			Ptr<BasicConceptBaseDeclaration::FunctionConcept> ToFunctionConcept(const ParsingPair<RegexToken, Ptr<BasicType>>& input)
+			{
+				Ptr<BasicConceptBaseDeclaration::FunctionConcept> functionConcept=new BasicConceptBaseDeclaration::FunctionConcept;
+				functionConcept->name=ConvertID(WString(input.First().reading, input.First().length));
+				functionConcept->signatureType=input.Second().Cast<BasicFunctionType>();
+				return functionConcept;
+			}
+
+			Ptr<BasicDeclaration> ToConceptDecl(const ParsingPair<ParsingPair<RegexToken, RegexToken>, ParsingList<Ptr<BasicConceptBaseDeclaration::FunctionConcept>>>& input)
+			{
+				Ptr<BasicConceptBaseDeclaration> declaration=CreateNode<BasicConceptBaseDeclaration>(input.First().First());
+				declaration->conceptType=ConvertID(WString(input.First().First().reading, input.First().First().length));
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				CopyFrom(declaration->functions.Wrap(), input.Second());
+				return declaration;
+			}
+
 /***********************************************************************
 语义函数：主程序
 ***********************************************************************/
@@ -1048,10 +1065,13 @@ namespace vl
 			ERROR_HANDLER(NeedCloseArray,	RegexToken)
 			ERROR_HANDLER(NeedComma,		RegexToken)
 			ERROR_HANDLER(NeedSemicolon,	RegexToken)
+			ERROR_HANDLER(NeedColon,		RegexToken)
 			ERROR_HANDLER(NeedCloseStat,	RegexToken)
 			ERROR_HANDLER(NeedAssign,		RegexToken)
 			ERROR_HANDLER(NeedOpenStruct,	RegexToken)
 			ERROR_HANDLER(NeedCloseStruct,	RegexToken)
+			ERROR_HANDLER(NeedOpenConcept,	RegexToken)
+			ERROR_HANDLER(NeedCloseConcept,	RegexToken)
 
 			ERROR_HANDLER(NeedWhile,		RegexToken)
 			ERROR_HANDLER(NeedWhen,			RegexToken)
@@ -1069,7 +1089,7 @@ namespace vl
 			{
 			protected:
 				Ptr<RegexLexer>						lexer;
-				vint									blankID;
+				vint								blankID;
 
 				TokenType							ACHAR;
 				TokenType							WCHAR;
@@ -1083,7 +1103,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC;
+				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -1095,6 +1115,7 @@ namespace vl
 				TokenType							POINTER;
 				TokenType							COMMA;
 				TokenType							SEMICOLON;
+				TokenType							COLON;
 
 				TokenType							INCREASE, DECREASE, BIT_NOT, NOT;
 				TokenType							ADD, SUB, MUL, DIV, MOD;
@@ -1107,7 +1128,7 @@ namespace vl
 				ExpressionRule						reference;
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
-				TypeRule							primType,type;
+				TypeRule							primType,functionType,type;
 				StatementRule						statement;
 				DeclarationNode						nonGenericDeclaration;
 				DeclarationRule						declaration;
@@ -1142,6 +1163,8 @@ namespace vl
 					USES			= CreateToken(tokens, L"uses");
 					ALIAS			= CreateToken(tokens, L"alias");
 					GENERIC			= CreateToken(tokens, L"generic");
+					CONCEPT			= CreateToken(tokens, L"concept");
+					INSTANCE		= CreateToken(tokens, L"instance");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -1163,6 +1186,7 @@ namespace vl
 					POINTER			= CreateToken(tokens, L"->");
 					COMMA			= CreateToken(tokens, L",");
 					SEMICOLON		= CreateToken(tokens, L";");
+					COLON			= CreateToken(tokens, L":");
 
 					INCREASE		= CreateToken(tokens, L"/+/+");
 					DECREASE		= CreateToken(tokens, L"--");
@@ -1226,7 +1250,8 @@ namespace vl
 					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
 					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
 
-					primType		= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType]
+					functionType	= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType];
+					primType		= functionType
 									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									;
@@ -1254,6 +1279,7 @@ namespace vl
 									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
 									;
 					declaration		= nonGenericDeclaration
+									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
 									| ((GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
 									;
 
@@ -1498,6 +1524,8 @@ namespace vl
 					, L"uses"
 					, L"alias"
 					, L"generic"
+					, L"concept"
+					, L"instance"
 					, L"int"
 					, L"int8"
 					, L"int16"
@@ -2353,9 +2381,9 @@ namespace vl
 				{
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"concept ");
-					IdentifierToString(node->name, argument.writer);
-					argument.writer.WriteString(L" : ");
 					IdentifierToString(node->conceptType, argument.writer);
+					argument.writer.WriteString(L" : ");
+					IdentifierToString(node->name, argument.writer);
 
 					if(node->linking.HasLink())
 					{
@@ -2373,9 +2401,9 @@ namespace vl
 						BasicConceptBaseDeclaration::FunctionConcept* functionConcept=node->functions[i].Obj();
 						PrintIndentation(newArgument);
 						IdentifierToString(functionConcept->name, argument.writer);
-						argument.writer.WriteString(L" ");
+						argument.writer.WriteString(L" = ");
 						NativeX_BasicType_GenerateCode(functionConcept->signatureType, newArgument);
-						argument.writer.WriteString(L";");
+						argument.writer.WriteLine(L";");
 					}
 
 					PrintIndentation(argument);

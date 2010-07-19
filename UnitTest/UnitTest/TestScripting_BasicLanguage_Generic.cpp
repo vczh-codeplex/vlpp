@@ -176,3 +176,24 @@ TEST_CASE(TestScripting_BasicLanguage_GenericVariable)
 			);
 	RunBasicProgramInt(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericVariable");
 }
+
+/***********************************************************************
+Generic Concept
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
+{
+	BasicProgramNode programMain;
+	programMain
+		.DefineConcept(L"Eq", L"T")
+		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_prim(0)))
+			);
+	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");
+}
