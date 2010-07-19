@@ -58,6 +58,8 @@ namespace vl
 				struct Concept
 				{
 					BasicTypeRecord*					conceptType;
+					BasicScope*							conceptScope;
+					BasicConceptBaseDeclaration*		conceptDeclaration;
 					ConceptFunctionMap					functions;
 				};
 

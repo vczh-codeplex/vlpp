@@ -46,6 +46,10 @@ BasicLanguage_GenerateLinkingSymbolTable
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
 				}
@@ -105,6 +109,10 @@ BasicLanguage_GenerateCodePass1
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
 				{
 				}
 
@@ -174,6 +182,10 @@ BasicLanguage_GenerateCodePass2
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
 				{
 				}
 

@@ -40,6 +40,7 @@ namespace vl
 				Function,
 				Structure,
 				GenericArgument,
+				Concept,
 			};
 
 			enum PrimitiveTypeEnum
@@ -91,7 +92,8 @@ namespace vl
 			{
 				Function,
 				Variable,
-				Structure
+				Structure,
+				Concept,
 			};
 
 			TypeEnum									type;

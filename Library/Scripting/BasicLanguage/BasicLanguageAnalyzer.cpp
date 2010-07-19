@@ -256,6 +256,11 @@ BasicLanguage_BuildGlobalScopePass1
 					argument.errors.Add(BasicLanguageCodeException::GetTypeAlreadyExists(declaration));
 					return false;
 				}
+				else if(argument.scope->concepts.Items().Keys().Contains(name))
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetConceptAlreadyExists(declaration));
+					return false;
+				}
 				else
 				{
 					return true;
@@ -395,6 +400,43 @@ BasicLanguage_BuildGlobalScopePass1
 					}
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
+					{
+						BasicScope* conceptScope=argument.env->CreateScope(argument.scope);
+						conceptScope->types.Add(node->conceptType, argument.typeManager->GetGenericArgumentType(node->conceptType));
+						BP internalArgument(argument, conceptScope);
+
+						Ptr<BasicScope::Concept> conceptObject=new BasicScope::Concept;
+						conceptObject->conceptScope=conceptScope;
+						conceptObject->conceptType=argument.typeManager->GetGenericArgumentType(node->conceptType);
+						conceptObject->conceptDeclaration=node;
+						argument.scope->concepts.Add(node->name, conceptObject);
+
+						for(vint i=0;i<node->functions.Count();i++)
+						{
+							BasicConceptBaseDeclaration::FunctionConcept* functionConcept=node->functions[i].Obj();
+							if(conceptObject->functions.Keys().Contains(functionConcept->name))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionAlreadyExists(node, functionConcept->name));
+							}
+							else
+							{
+								try
+								{
+									BasicTypeRecord* functionType=BasicLanguage_GetTypeRecord(functionConcept->signatureType, internalArgument, false);
+									conceptObject->functions.Add(functionConcept->name, functionType);
+								}
+								catch(Ptr<BasicLanguageCodeException> e)
+								{
+									argument.errors.Add(e);
+								}
+							}
+						}
+					}
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
 					argument.semanticExtension->BuildGlobalScopePass1(node, argument);
@@ -429,6 +471,10 @@ BasicLanguage_BuildGlobalScopePass2
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
 				{
 				}
 
@@ -1503,6 +1549,10 @@ BasicLanguage_BuildDeclarationBody
 							argument.errors.Add(BasicLanguageCodeException::GetExternalStructureShouldBeDefined(node));
 						}
 					}
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
