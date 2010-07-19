@@ -2349,6 +2349,37 @@ namespace vl
 					}
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"concept ");
+					IdentifierToString(node->name, argument.writer);
+
+					if(node->linking.HasLink())
+					{
+						argument.writer.WriteString(L" alias ");
+						LinkingToString(node->linking, argument.writer);
+					}
+					argument.writer.WriteLine(L"");
+
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"{");
+
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+					for(vint i=0;i<node->functions.Count();i++)
+					{
+						BasicConceptBaseDeclaration::FunctionConcept* functionConcept=node->functions[i].Obj();
+						PrintIndentation(newArgument);
+						IdentifierToString(functionConcept->name, argument.writer);
+						argument.writer.WriteString(L" ");
+						NativeX_BasicType_GenerateCode(functionConcept->signatureType, newArgument);
+						argument.writer.WriteString(L";");
+					}
+
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"}");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
 				}

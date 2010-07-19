@@ -475,6 +475,8 @@ Declaration
 			class BasicConceptBaseDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				struct FunctionConcept
 				{
 					WString									name;
@@ -488,6 +490,8 @@ Declaration
 			class BasicConceptInstanceDeclaration : public BasicDeclaration
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
 				struct FunctionInstance
 				{
 					WString									name;
@@ -575,6 +579,7 @@ Algorithms
 			F(BasicStructureDeclaration)\
 			F(BasicVariableDeclaration)\
 			F(BasicTypeRenameDeclaration)\
+			F(BasicConceptBaseDeclaration)\
 			F(BasicExtendedDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicDeclaration, BASIC_DECLARATION_TARGETS)

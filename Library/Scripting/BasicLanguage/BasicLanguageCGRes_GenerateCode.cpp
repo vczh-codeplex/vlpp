@@ -296,6 +296,58 @@ BasicLanguage_GenerateResource
 					}
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicConceptBaseDeclaration)
+				{
+					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					{
+						ResourceArrayRecord<BasicParameterRes> genericArguments=argument.resource->CreateArrayRecord<BasicParameterRes>(1);
+						ResourceRecord<BasicParameterRes> genericArgument=argument.resource->CreateRecord<BasicParameterRes>();
+						genericArgument->name=argument.resource->CreateString(node->conceptType);
+						genericArguments.Set(0, genericArgument);
+						resource->genericArgumentNames=genericArguments;
+					}
+					{
+						ResourceRecord<BasicTypeRes> conceptType=argument.resource->CreateRecord<BasicTypeRes>();
+						conceptType->type=BasicTypeRes::Concept;
+						conceptType->elementType=ResourceHandle<BasicTypeRes>::Null();
+						conceptType->elementCount=-1;
+						conceptType->primitiveType=BasicTypeRes::void_type;
+							
+						BasicScope::Concept* conceptObject=argument.info->GetEnv()->GlobalScope()->concepts.Find(node->name).Obj();
+						ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(node->functions.Count());
+						conceptType->subTypes=subTypes;
+						for(vint i=0;i<node->functions.Count();i++)
+						{
+							BasicConceptBaseDeclaration::FunctionConcept* functionConcept=node->functions[i].Obj();
+							ResourceHandle<BasicTypeRes> memberType=GenerateResource(conceptObject->functions[functionConcept->name], argument);
+							ResourceString memberName=argument.resource->CreateString(functionConcept->name);
+							ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
+							member->name=memberName;
+							member->type=memberType;
+							member->offset=-1;
+							subTypes.Set(i, member);
+						}
+						resource->declarationType=conceptType;
+					}
+					resource->type=BasicDeclarationRes::Concept;
+					resource->name=argument.resource->CreateString(node->name);
+					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+					resource->address=-1;
+
+					if(node->linking.HasLink())
+					{
+						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+					}
+					else
+					{
+						resource->linkingAssemblyName=ResourceString::Null();
+						resource->linkingSymbolName=ResourceString::Null();
+					}
+
+					return resource;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
 				{
 					return argument.codegenExtension->GenerateResource(node, argument);
@@ -346,6 +398,11 @@ BasicLanguage_GenerateExport
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
+				{
+					return ResourceHandle<BasicILExportRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicConceptBaseDeclaration)
 				{
 					return ResourceHandle<BasicILExportRes>::Null();
 				}
