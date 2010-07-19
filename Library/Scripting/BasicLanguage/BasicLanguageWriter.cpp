@@ -950,6 +950,36 @@ BasicStructureDeclarationNode
 			}
 
 /***********************************************************************
+BasicStructureDeclarationNode
+***********************************************************************/
+
+			BasicConceptBaseDeclarationNode::BasicConceptBaseDeclarationNode(Ptr<BasicConceptBaseDeclaration> _declaration)
+				:declaration(_declaration)
+			{
+			}
+
+			Ptr<BasicConceptBaseDeclaration> BasicConceptBaseDeclarationNode::GetInternalValue()
+			{
+				return declaration;
+			}
+				
+			BasicConceptBaseDeclarationNode& BasicConceptBaseDeclarationNode::Member(const WString& name, const BasicTypeNode& type)
+			{
+				Ptr<BasicConceptBaseDeclaration::FunctionConcept> functionConcept=new BasicConceptBaseDeclaration::FunctionConcept;
+				functionConcept->name=name;
+				functionConcept->signatureType=type.GetInternalValue().Cast<BasicFunctionType>();
+				declaration->functions.Add(functionConcept);
+				return *this;
+			}
+
+			BasicConceptBaseDeclarationNode& BasicConceptBaseDeclarationNode::Linking(const WString& assemblyName, const WString& symbolName)
+			{
+				declaration->linking.assemblyName=assemblyName;
+				declaration->linking.symbolName=symbolName;
+				return *this;
+			}
+
+/***********************************************************************
 BasicGenericNode
 ***********************************************************************/
 
@@ -1101,6 +1131,15 @@ BasicProgramNode
 			BasicStructureDeclarationNode BasicProgramNode::DefineStructure(const WString& name)
 			{
 				return Generic().DefineStructure(name);
+			}
+
+			BasicConceptBaseDeclarationNode BasicProgramNode::DefineConcept(const WString& name, const WString& conceptType)
+			{
+				Ptr<BasicConceptBaseDeclaration> declaration=new BasicConceptBaseDeclaration;
+				declaration->name=name;
+				declaration->conceptType=conceptType;
+				program->declarations.Add(declaration);
+				return BasicConceptBaseDeclarationNode(declaration);
 			}
 		}
 	}

@@ -2354,6 +2354,8 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"concept ");
 					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L" : ");
+					IdentifierToString(node->conceptType, argument.writer);
 
 					if(node->linking.HasLink())
 					{
