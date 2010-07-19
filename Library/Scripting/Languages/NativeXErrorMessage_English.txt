@@ -1,6 +1,6 @@
 resource:vl.scripting.language_nativex.NativeXErrorMessage
 
-UnrecognizedToken(token)=Unrecognized Token \"{token}.\"
+UnrecognizedToken(token)=Unrecognized Token \"{token}\".
 UnitAlreadyExists(name)=Unit {name} already exists.
 UnitNotExists(name)=Unit {name} not exists.
 UnitCircularReferenced(name)=Unit {name} has circular unit imports.
@@ -18,10 +18,13 @@ NeedCloseBrace=Here needs a close brace \")\".
 NeedCloseArray=Here needs a close square bracket \"]\".
 NeedComma=Here needs a comma \",\".
 NeedSemicolon=Here needs a semicolon \";\".
+NeedColon=Here needs a colon \":\".
 NeedCloseStat=Here needs a close statement bracket \"}\".
 NeedAssign=Here needs an assignment operator \"=\".
 NeedOpenStruct=Here needs a open structure bracket \"{\".
 NeedCloseStruct=Here needs a close structure bracket \"}\".
+NeedOpenConcept=Here needs a open concept bracket \"{\".
+NeedCloseConcept=Here needs a close concept bracket \"}\".
 
 NeedWhile=Here needs \"while\".
 NeedWhen=Here needs \"when\".

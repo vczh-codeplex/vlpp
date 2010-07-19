@@ -8,7 +8,7 @@ namespace vl
 		{
 			WString NativeXErrorMessage::UnrecognizedToken(const WString& token)
 			{
-				return L"Unrecognized Token \""+token+L".\"";
+				return L"Unrecognized Token \""+token+L"\".";
 			}
 
 			WString NativeXErrorMessage::UnitAlreadyExists(const WString& name)
@@ -86,6 +86,11 @@ namespace vl
 				return L"Here needs a semicolon \";\".";
 			}
 
+			WString NativeXErrorMessage::NeedColon()
+			{
+				return L"Here needs a colon \":\".";
+			}
+
 			WString NativeXErrorMessage::NeedCloseStat()
 			{
 				return L"Here needs a close statement bracket \"}\".";
@@ -104,6 +109,16 @@ namespace vl
 			WString NativeXErrorMessage::NeedCloseStruct()
 			{
 				return L"Here needs a close structure bracket \"}\".";
+			}
+
+			WString NativeXErrorMessage::NeedOpenConcept()
+			{
+				return L"Here needs a open concept bracket \"{\".";
+			}
+
+			WString NativeXErrorMessage::NeedCloseConcept()
+			{
+				return L"Here needs a close concept bracket \"}\".";
 			}
 
 			WString NativeXErrorMessage::NeedWhile()
