@@ -25,6 +25,8 @@ namespace vl
 			{
 				friend class BasicEnv;
 				friend class Ptr<BasicScope>;
+
+				typedef collections::Dictionary<WString, BasicTypeRecord*>			ConceptFunctionMap;
 			protected:
 				BasicFunctionDeclaration*											functionDeclaration;
 				BasicStatement*														statement;
@@ -53,12 +55,19 @@ namespace vl
 					bool								operator==(const Variable& variable);
 				};
 
+				struct Concept
+				{
+					BasicTypeRecord*					conceptType;
+					ConceptFunctionMap					functions;
+				};
+
 				BasicFunctionDeclaration*											OwnerDeclaration();
 				BasicStatement*														OwnerStatement();
 
 				CommonScopeItems<BasicScope, WString, BasicTypeRecord*>				types;
 				CommonScopeItems<BasicScope, WString, Variable>						variables;
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
+				CommonScopeItems<BasicScope, WString, Ptr<Concept>>					concepts;
 			};
 
 			class BasicEnv : public Object, private NotCopyable

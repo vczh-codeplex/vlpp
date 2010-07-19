@@ -15,9 +15,6 @@ Classes:
 #include "..\..\Collections\Dictionary.h"
 #include "..\Common\AlgorithmDeclaration.h"
 
-#define TODO_FOR_GENERIC_VARIABLE_BEGIN
-#define TODO_FOR_GENERIC_VARIABLE_END
-
 namespace vl
 {
 	namespace scripting

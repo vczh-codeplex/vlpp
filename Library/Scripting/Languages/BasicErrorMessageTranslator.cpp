@@ -244,6 +244,34 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::GenericArgumentCannotApplyToNonGenericType();
 					}
 					break;
+				case BasicLanguageCodeException::ConceptFunctionAlreadyExists:
+					{
+						BasicConceptBaseDeclaration* declaration=dynamic_cast<BasicConceptBaseDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ConceptFunctionAlreadyExists(declaration->name, error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::ConceptFunctionNotExists:
+					{
+						BasicConceptBaseDeclaration* declaration=dynamic_cast<BasicConceptBaseDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ConceptFunctionNotExists(declaration->name, error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::ConceptAlreadyExists:
+					{
+						message=BasicErrorMessage::ConceptAlreadyExists(error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::ConceptNotExists:
+					{
+						message=BasicErrorMessage::ConceptNotExists(error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::ConceptFunctionTypeNotMatches:
+					{
+						BasicConceptBaseDeclaration* declaration=dynamic_cast<BasicConceptBaseDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ConceptFunctionTypeNotMatches(declaration->name, error->GetParameters()[0]);
+					}
+					break;
 				default:
 					return 0;
 				}

@@ -63,6 +63,11 @@ namespace vl
 					CannotUseUninstanciatedGenericFunction,	//name
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
+					ConceptFunctionAlreadyExists,			//name
+					ConceptFunctionNotExists,				//name
+					ConceptAlreadyExists,					//name
+					ConceptNotExists,						//name
+					ConceptFunctionTypeNotMatches,			//name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -120,6 +125,11 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicInstanciatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetConceptFunctionNotExists(BasicConceptBaseDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicConceptBaseDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicConceptBaseDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptBaseDeclaration* declaration, const WString& name);
 			};
 		}
 	}

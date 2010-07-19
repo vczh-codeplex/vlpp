@@ -233,7 +233,14 @@ BasicLanguage_GenerateResource
 					resource->declarationType=declarationType;
 					resource->name=name;
 					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
-					resource->address=argument.info->GetGlobalVariableOffsets()[node];
+					if(node->genericDeclaration.HasGeneric())
+					{
+						resource->address=-1;
+					}
+					else
+					{
+						resource->address=argument.info->GetGlobalVariableOffsets()[node];
+					}
 
 					if(node->linking.HasLink())
 					{
