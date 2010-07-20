@@ -74,6 +74,7 @@ namespace vl
 					};
 
 					Concept*									targetConcept;
+					BasicTypeRecord*							instanceType;
 					BasicScope*									instanceScope;
 					BasicConceptInstanceDeclaration*			instanceDeclaration;
 					FunctionInstance::MapType					functions;
@@ -86,7 +87,7 @@ namespace vl
 				CommonScopeItems<BasicScope, WString, Variable>						variables;
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 				CommonScopeItems<BasicScope, WString, Ptr<Concept>>					concepts;
-				CommonScopeItems<BasicScope, WString, Ptr<Instance>>				instances;
+				collections::List<Ptr<Instance>>									instances;
 			};
 
 			class BasicEnv : public Object, private NotCopyable
