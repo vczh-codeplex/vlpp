@@ -64,10 +64,11 @@ namespace vl
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
 					ConceptFunctionAlreadyExists,			//name
-					ConceptFunctionNotExists,				//name
 					ConceptAlreadyExists,					//name
 					ConceptNotExists,						//name
 					ConceptFunctionTypeNotMatches,			//name
+					InstanceShouldHaveFunction,				//name
+					InstanceShouldNotHaveFunction,			//name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -126,10 +127,11 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
-				static Ptr<BasicLanguageCodeException>							GetConceptFunctionNotExists(BasicConceptBaseDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicDeclaration* declaration);
-				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicDeclaration* declaration);
-				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptBaseDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicConceptInstanceDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
 			};
 		}
 	}

@@ -495,7 +495,8 @@ Declaration
 				struct FunctionInstance
 				{
 					WString									name;
-					Ptr<BasicInstanciatedExpression>		target;
+					Ptr<BasicReferenceExpression>			normalFunction;
+					Ptr<BasicInstanciatedExpression>		genericFunction;
 				};
 
 				WString										instanceType;

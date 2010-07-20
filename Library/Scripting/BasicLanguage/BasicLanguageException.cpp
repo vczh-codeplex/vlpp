@@ -331,13 +331,6 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, ConceptFunctionAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionNotExists(BasicConceptBaseDeclaration* declaration, const WString& name)
-			{
-				Array<WString> parameters(1);
-				parameters[0]=name;
-				return new BasicLanguageCodeException(declaration, ConceptFunctionNotExists, parameters.Wrap());
-			}
-
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptAlreadyExists(BasicDeclaration* declaration)
 			{
 				Array<WString> parameters(1);
@@ -345,18 +338,32 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, ConceptAlreadyExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptNotExists(BasicDeclaration* declaration)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptNotExists(BasicConceptInstanceDeclaration* declaration)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=declaration->name;
 				return new BasicLanguageCodeException(declaration, ConceptNotExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(BasicConceptBaseDeclaration* declaration, const WString& name)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=name;
 				return new BasicLanguageCodeException(declaration, ConceptFunctionTypeNotMatches, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, InstanceShouldHaveFunction, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, InstanceShouldNotHaveFunction, parameters.Wrap());
 			}
 		}
 	}
