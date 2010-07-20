@@ -66,6 +66,7 @@ BasicScope
 				variables.Initialize(this, &BasicScope::variables, Variable());
 				functions.Initialize(this, &BasicScope::functions, 0);
 				concepts.Initialize(this, &BasicScope::concepts, 0);
+				instances.Initialize(this, &BasicScope::instances, 0);
 			}
 
 			BasicScope::BasicScope(BasicScope* _previousScope, BasicFunctionDeclaration* _functionDeclaration)

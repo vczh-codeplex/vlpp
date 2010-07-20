@@ -216,7 +216,9 @@ BasicLanguage_GenerateResource
 							resource->linkingAssemblyName=ResourceString::Null();
 							resource->linkingSymbolName=ResourceString::Null();
 						}
-
+						
+						resource->instanceConceptAssemblyName=ResourceString::Null();
+						resource->instanceConceptSymbolName=ResourceString::Null();
 						return resource;
 					}
 				}
@@ -252,7 +254,9 @@ BasicLanguage_GenerateResource
 						resource->linkingAssemblyName=ResourceString::Null();
 						resource->linkingSymbolName=ResourceString::Null();
 					}
-
+						
+					resource->instanceConceptAssemblyName=ResourceString::Null();
+					resource->instanceConceptSymbolName=ResourceString::Null();
 					return resource;
 				}
 
@@ -287,7 +291,9 @@ BasicLanguage_GenerateResource
 							resource->linkingAssemblyName=ResourceString::Null();
 							resource->linkingSymbolName=ResourceString::Null();
 						}
-
+						
+						resource->instanceConceptAssemblyName=ResourceString::Null();
+						resource->instanceConceptSymbolName=ResourceString::Null();
 						return resource;
 					}
 					else
@@ -344,7 +350,9 @@ BasicLanguage_GenerateResource
 						resource->linkingAssemblyName=ResourceString::Null();
 						resource->linkingSymbolName=ResourceString::Null();
 					}
-
+						
+					resource->instanceConceptAssemblyName=ResourceString::Null();
+					resource->instanceConceptSymbolName=ResourceString::Null();
 					return resource;
 				}
 
