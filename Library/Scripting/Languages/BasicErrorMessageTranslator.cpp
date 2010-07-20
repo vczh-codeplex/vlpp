@@ -250,12 +250,6 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ConceptFunctionAlreadyExists(declaration->name, error->GetParameters()[0]);
 					}
 					break;
-				case BasicLanguageCodeException::ConceptFunctionNotExists:
-					{
-						BasicConceptBaseDeclaration* declaration=dynamic_cast<BasicConceptBaseDeclaration*>(error->GetBasicLanguageElement());
-						message=BasicErrorMessage::ConceptFunctionNotExists(declaration->name, error->GetParameters()[0]);
-					}
-					break;
 				case BasicLanguageCodeException::ConceptAlreadyExists:
 					{
 						message=BasicErrorMessage::ConceptAlreadyExists(error->GetParameters()[0]);
@@ -268,8 +262,20 @@ BasicErrorMessageTranslator
 					break;
 				case BasicLanguageCodeException::ConceptFunctionTypeNotMatches:
 					{
-						BasicConceptBaseDeclaration* declaration=dynamic_cast<BasicConceptBaseDeclaration*>(error->GetBasicLanguageElement());
+						BasicConceptInstanceDeclaration* declaration=dynamic_cast<BasicConceptInstanceDeclaration*>(error->GetBasicLanguageElement());
 						message=BasicErrorMessage::ConceptFunctionTypeNotMatches(declaration->name, error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::InstanceShouldHaveFunction:
+					{
+						BasicConceptInstanceDeclaration* declaration=dynamic_cast<BasicConceptInstanceDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::InstanceShouldHaveFunction(declaration->name, error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::InstanceShouldNotHaveFunction:
+					{
+						BasicConceptInstanceDeclaration* declaration=dynamic_cast<BasicConceptInstanceDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::InstanceShouldNotHaveFunction(declaration->name, error->GetParameters()[0]);
 					}
 					break;
 				default:

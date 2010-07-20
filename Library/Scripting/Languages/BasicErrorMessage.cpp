@@ -226,6 +226,16 @@ namespace vl
 				return L"Concept "+name+L" has a function "+function+L" with a different type.";
 			}
 
+			WString BasicErrorMessage::InstanceShouldHaveFunction(const WString& name, const WString& function)
+			{
+				return L"Instance "+name+L" should have a function "+function+L".";
+			}
+
+			WString BasicErrorMessage::InstanceShouldNotHaveFunction(const WString& name, const WString& function)
+			{
+				return L"Concept "+name+L" should not have a function "+function+L".";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

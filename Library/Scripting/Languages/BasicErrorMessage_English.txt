@@ -44,6 +44,8 @@ ConceptFunctionNotExists(name,function)=Concept {name} does not have a function 
 ConceptAlreadyExists(name)=Concept {name} already exists;
 ConceptNotExists(name)=Concept {name} not exists.
 ConceptFunctionTypeNotMatches(name,function)=Concept {name} has a function {function} with a different type.
+InstanceShouldHaveFunction(name,function)=Instance {name} should have a function {function}.
+InstanceShouldNotHaveFunction(name,function)=Concept {name} should not have a function {function}.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.
