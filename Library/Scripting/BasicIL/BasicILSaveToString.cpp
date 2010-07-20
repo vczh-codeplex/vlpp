@@ -514,6 +514,58 @@ BasicIL
 							writer.WriteLine(L"Linears["+itow(i)+L"] = "+LinearToString(exportedSymbols, linearRes));
 						}
 					}
+					
+					if(ResourceArrayRecord<BasicILGenericConceptRes> conceptsRes=exportedSymbols->ReadArrayRecord(genericRes->concepts))
+					{
+						for(vint i=0;i<conceptsRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericConceptRes> conceptRes=conceptsRes.Get(i);
+							writer.WriteLine(L"Concepts["+itow(i)+L"] = {");
+							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(conceptRes->name));
+							if(ResourceArrayRecord<BasicILGenericConceptFunctionRes> functionsRes=exportedSymbols->ReadArrayRecord(conceptRes->functions))
+							{
+								for(vint j=0;j<functionsRes.Count();j++)
+								{
+									writer.WriteLine(L"  Functions["+itow(j)+L"] = "+exportedSymbols->ReadString(functionsRes.Get(j)->name));
+								}
+							}
+							writer.WriteLine(L"}");
+						}
+					}
+					
+					if(ResourceArrayRecord<BasicILGenericInstanceRes> instancesRes=exportedSymbols->ReadArrayRecord(genericRes->instances))
+					{
+						for(vint i=0;i<instancesRes.Count();i++)
+						{
+							ResourceRecord<BasicILGenericInstanceRes> instanceRes=instancesRes.Get(i);
+							writer.WriteLine(L"Instances["+itow(i)+L"] = {");
+							writer.WriteLine(L"  ConcpetAssemblyName = "+exportedSymbols->ReadString(instanceRes->conceptAssemblyName));
+							writer.WriteLine(L"  ConceptSymbolName = "+exportedSymbols->ReadString(instanceRes->conceptSymbolName));
+							writer.WriteLine(L"  TypeUniqueName = "+exportedSymbols->ReadString(instanceRes->typeUniqueName));
+							writer.WriteLine(L"  Arguments = "+itow(instanceRes->genericArgumentCount));
+							if(ResourceArrayRecord<BasicILGenericInstanceFunctionRes> functionsRes=exportedSymbols->ReadArrayRecord(instanceRes->functions))
+							{
+								for(vint j=0;j<functionsRes.Count();j++)
+								{
+									ResourceRecord<BasicILGenericInstanceFunctionRes> functionRes=functionsRes.Get(j);
+									ResourceRecord<BasicILGenericTargetRes> targetRes=exportedSymbols->ReadRecord(functionRes->functionTarget);
+									writer.WriteLine(L"  Functions["+itow(j)+L"] = {");
+									writer.WriteLine(L"  FunctionName = "+exportedSymbols->ReadString(functionRes->functionName));
+									writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
+									writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
+									ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
+									for(vint j=0;j<argumentsRes.Count();j++)
+									{
+										ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
+										writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
+										writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
+									}
+									writer.WriteLine(L"  }");
+								}
+							}
+							writer.WriteLine(L"}");
+						}
+					}
 				}
 			}
 

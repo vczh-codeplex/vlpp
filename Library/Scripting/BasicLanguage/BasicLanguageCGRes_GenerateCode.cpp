@@ -638,7 +638,7 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateString(id);
 			}
 
-			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const WString& programName, const BCP& argument)
+			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericFunctionEntryRes>> entries;
 				for(vint i=0;i<argument.info->instanciatedGenericFunctionEntries.Count();i++)
@@ -793,7 +793,7 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(targets.Wrap());
 			}
 
-			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const BCP& argument)
+			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericLinearRes>> linears;
 				for(vint i=0;i<argument.info->instanciatedGenericLinears.Count();i++)
@@ -804,13 +804,40 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(linears.Wrap());
 			}
 
+			ResourceArrayHandle<BasicILGenericConceptRes> BasicLanguage_GenerateConceptResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILGenericConceptRes>> concepts;
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					Ptr<BasicConceptBaseDeclaration> declaration=program->declarations[i].Cast<BasicConceptBaseDeclaration>();
+					if(declaration)
+					{
+						ResourceRecord<BasicILGenericConceptRes> conceptResource=argument.exportResource->CreateRecord<BasicILGenericConceptRes>();
+						conceptResource->name=argument.exportResource->CreateString(declaration->name);
+						ResourceArrayRecord<BasicILGenericConceptFunctionRes> functions=argument.exportResource->CreateArrayRecord<BasicILGenericConceptFunctionRes>(declaration->functions.Count());
+						for(vint j=0;j<declaration->functions.Count();j++)
+						{
+							BasicConceptBaseDeclaration::FunctionConcept* functionConcept=declaration->functions[j].Obj();
+							ResourceRecord<BasicILGenericConceptFunctionRes> functionResource=argument.exportResource->CreateRecord<BasicILGenericConceptFunctionRes>();
+							functionResource->name=argument.exportResource->CreateString(functionConcept->name);
+							functions.Set(j, functionResource);
+						}
+						conceptResource->functions=functions;
+						concepts.Add(conceptResource);
+					}
+				}
+				return argument.exportResource->CreateArrayRecord(concepts.Wrap());
+			}
+
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
-				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(programName, argument);
+				genericRes->functionEntries=BasicLanguage_GenerateFunctionEntryResource(program, programName, argument);
 				genericRes->variableEntries=BasicLanguage_GenerateVariableEntryResource(program, programName, argument);
 				genericRes->targets=BasicLanguage_GenerateTargetResource(program, programName, argument);
-				genericRes->linears=BasicLanguage_GenerateLinearResource(argument);
+				genericRes->linears=BasicLanguage_GenerateLinearResource(program, programName,argument);
+				genericRes->concepts=BasicLanguage_GenerateConceptResource(program, programName,argument);
+				genericRes->instances=ResourceArrayHandle<BasicILGenericInstanceRes>::Null();
 				return genericRes;
 			}
 

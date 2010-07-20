@@ -105,6 +105,36 @@ namespace vl
 
 		//--------------------------------------------------------------------------------------------------------
 
+		struct BasicILGenericConceptFunctionRes
+		{
+			ResourceString											name;
+		};
+
+		struct BasicILGenericConceptRes
+		{
+			ResourceString											name;
+			ResourceArrayHandle<BasicILGenericConceptFunctionRes>	functions;
+		};
+
+		//--------------------------------------------------------------------------------------------------------
+
+		struct BasicILGenericInstanceFunctionRes
+		{
+			ResourceString											functionName;
+			ResourceHandle<BasicILGenericTargetRes>					functionTarget;
+		};
+
+		struct BasicILGenericInstanceRes
+		{
+			ResourceString											conceptSymbolName;
+			ResourceString											conceptAssemblyName;
+			ResourceString											typeUniqueName;
+			vint													genericArgumentCount;
+			ResourceArrayHandle<BasicILGenericInstanceFunctionRes>	functions;
+		};
+
+		//--------------------------------------------------------------------------------------------------------
+
 		//模板符号表
 		struct BasicILGenericRes
 		{
@@ -112,6 +142,8 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericVariableEntryRes>		variableEntries;		//变量函数入口
 			ResourceArrayHandle<BasicILGenericTargetRes>			targets;				//特化表
 			ResourceArrayHandle<BasicILGenericLinearRes>			linears;				//线性参数表
+			ResourceArrayHandle<BasicILGenericConceptRes>			concepts;
+			ResourceArrayHandle<BasicILGenericInstanceRes>			instances;
 		};
 
 /***********************************************************************
