@@ -358,8 +358,28 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicConceptInstanceDeclaration)
 				{
-					// TODO:
-					return ResourceHandle<BasicDeclarationRes>::Null();
+					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildGenericResource(resource, node, argument);
+					resource->declarationType=GenerateResource(argument.info->GetEnv()->GlobalScope()->types.Find(node->instanceType), argument);
+					resource->type=BasicDeclarationRes::Instance;
+					resource->name=ResourceString::Null();
+					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+					resource->address=-1;
+
+					if(node->linking.HasLink())
+					{
+						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+					}
+					else
+					{
+						resource->linkingAssemblyName=ResourceString::Null();
+						resource->linkingSymbolName=ResourceString::Null();
+					}
+						
+					resource->instanceConceptAssemblyName=ResourceString::Null();
+					resource->instanceConceptSymbolName=ResourceString::Null();
+					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
@@ -466,7 +486,6 @@ BasicLanguage_Generate*Resource
 			{
 				typedef collections::Dictionary<BasicTypeRecord*, BasicStructureDeclaration*> _RegisteredTypeMap;
 			protected:
-				BasicFunctionDeclaration*						currentFunction;
 				List<ResourceHandle<BasicILGenericNameRes>>		names;
 				WString											currentString;
 				_RegisteredTypeMap								map;
@@ -489,12 +508,11 @@ BasicLanguage_Generate*Resource
 					}
 				}
 			public:
-				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName, BasicFunctionDeclaration* function)
+				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName)
 					:resource(_resource)
 					,program(_program)
 					,env(_env)
 					,assemblyName(_assemblyName)
-					,currentFunction(function)
 				{
 					for(vint i=0;i<program->declarations.Count();i++)
 					{
@@ -776,38 +794,43 @@ BasicLanguage_Generate*Resource
 				return argumentRecord;
 			}
 
+			ResourceHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const WString& programName, const BCP& argument, TypeUniqueStringRecorder& recorder, BasicDeclaration* targetDeclaration, BasicDeclaration* ownerDeclaration, const IReadonlyList<BasicTypeRecord*>& genericParameters)
+			{
+				ResourceRecord<BasicILGenericTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericTargetRes>();
+				WString assemblyName;
+				WString symbolName;
+				if(targetDeclaration->linking.HasLink())
+				{
+					assemblyName=targetDeclaration->linking.assemblyName;
+					symbolName=targetDeclaration->linking.symbolName;
+				}
+				else
+				{
+					assemblyName=programName;
+					symbolName=targetDeclaration->name;
+				}
+
+				List<ResourceHandle<BasicILGenericArgumentRes>> arguments;
+				for(vint j=0;j<genericParameters.Count();j++)
+				{
+					BasicTypeRecord* type=genericParameters[j];
+					arguments.Add(BasicLanguage_GenerateGenericArgumentRes(type, ownerDeclaration, recorder, argument));
+				}
+
+				targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
+				targetResource->symbolName=argument.exportResource->CreateString(symbolName);
+				targetResource->arguments=argument.exportResource->CreateArrayRecord(arguments.Wrap());
+				return targetResource;
+			}
+
 			ResourceArrayHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericTargetRes>> targets;
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
 				for(vint i=0;i<argument.info->instanciatedGenericTargets.Count();i++)
 				{
 					BasicCodegenInfo::GenericTarget* target=argument.info->instanciatedGenericTargets[i].Obj();
-					TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName, target->ownerFunctionDeclaration);
-					ResourceRecord<BasicILGenericTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericTargetRes>();
-					WString assemblyName;
-					WString symbolName;
-					if(target->targetDeclaration->linking.HasLink())
-					{
-						assemblyName=target->targetDeclaration->linking.assemblyName;
-						symbolName=target->targetDeclaration->linking.symbolName;
-					}
-					else
-					{
-						assemblyName=programName;
-						symbolName=target->targetDeclaration->name;
-					}
-
-					List<ResourceHandle<BasicILGenericArgumentRes>> arguments;
-					for(vint j=0;j<target->genericParameters.Count();j++)
-					{
-						BasicTypeRecord* type=target->genericParameters[j];
-						arguments.Add(BasicLanguage_GenerateGenericArgumentRes(type, target->ownerFunctionDeclaration, recorder, argument));
-					}
-
-					targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
-					targetResource->symbolName=argument.exportResource->CreateString(symbolName);
-					targetResource->arguments=argument.exportResource->CreateArrayRecord(arguments.Wrap());
-					targets.Add(targetResource);
+					targets.Add(BasicLanguage_GenerateTargetResource(programName, argument, recorder, target->targetDeclaration, target->ownerFunctionDeclaration, target->genericParameters.Wrap()));
 				}
 				return argument.exportResource->CreateArrayRecord(targets.Wrap());
 			}
@@ -848,6 +871,56 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(concepts.Wrap());
 			}
 
+			ResourceArrayHandle<BasicILGenericInstanceRes> BasicLanguage_GenerateInstanceResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILGenericInstanceRes>> instances;
+				BasicScope* globalScope=argument.info->GetEnv()->GlobalScope();
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
+				for(vint i=0;i<globalScope->instances.Count();i++)
+				{
+					BasicScope::Instance* instanceObject=globalScope->instances[i].Obj();
+					BasicScope::Concept* conceptObject=instanceObject->targetConcept;
+					BasicConceptBaseDeclaration* conceptDeclaration=conceptObject->conceptDeclaration;
+
+					ResourceRecord<BasicILGenericInstanceRes> instanceResource=argument.exportResource->CreateRecord<BasicILGenericInstanceRes>();
+					if(conceptDeclaration->linking.HasLink())
+					{
+						instanceResource->conceptAssemblyName=argument.exportResource->CreateString(conceptDeclaration->linking.assemblyName);
+						instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->linking.symbolName);
+					}
+					else
+					{
+						instanceResource->conceptAssemblyName=argument.exportResource->CreateString(programName);
+						instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->name);
+					}
+					instanceResource->genericArgumentCount=instanceObject->instanceDeclaration->genericDeclaration.arguments.Count();
+					{
+						List<BasicTypeRecord*> argumentTypes;
+						BasicTypeRecord* instanceType=instanceObject->instanceType;
+						if(instanceType->GetType()==BasicTypeRecord::Generic)
+						{
+							instanceType=instanceType->ElementType();
+						}
+						WString typeUniqueName=recorder.GetTypeName(instanceType, argumentTypes);
+						instanceResource->typeUniqueName=argument.exportResource->CreateString(typeUniqueName);
+					}
+
+					List<ResourceHandle<BasicILGenericInstanceFunctionRes>> functions;
+					for(vint j=0;j<instanceObject->functions.Count();j++)
+					{
+						ResourceRecord<BasicILGenericInstanceFunctionRes> functionResource=argument.exportResource->CreateRecord<BasicILGenericInstanceFunctionRes>();
+						BasicScope::Instance::FunctionInstance* functionInstance=instanceObject->functions.Values()[j].Obj();
+						functionResource->functionName=argument.exportResource->CreateString(instanceObject->functions.Keys()[j]);
+						functionResource->functionTarget=BasicLanguage_GenerateTargetResource(programName, argument, recorder, functionInstance->functionDeclaration, instanceObject->instanceDeclaration, functionInstance->genericParameters.Wrap());
+						functions.Add(functionResource);
+					}
+					instanceResource->functions=argument.exportResource->CreateArrayRecord(functions.Wrap());
+
+					instances.Add(instanceResource);
+				}
+				return argument.exportResource->CreateArrayRecord(instances.Wrap());
+			}
+
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
@@ -856,7 +929,7 @@ BasicLanguage_Generate*Resource
 				genericRes->targets=BasicLanguage_GenerateTargetResource(program, programName, argument);
 				genericRes->linears=BasicLanguage_GenerateLinearResource(program, programName,argument);
 				genericRes->concepts=BasicLanguage_GenerateConceptResource(program, programName,argument);
-				genericRes->instances=ResourceArrayHandle<BasicILGenericInstanceRes>::Null();
+				genericRes->instances=BasicLanguage_GenerateInstanceResource(program, programName,argument);
 				return genericRes;
 			}
 
