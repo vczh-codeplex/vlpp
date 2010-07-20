@@ -356,6 +356,12 @@ BasicLanguage_GenerateResource
 					return resource;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicConceptInstanceDeclaration)
+				{
+					// TODO:
+					return ResourceHandle<BasicDeclarationRes>::Null();
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
 				{
 					return argument.codegenExtension->GenerateResource(node, argument);
@@ -411,6 +417,11 @@ BasicLanguage_GenerateExport
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicConceptBaseDeclaration)
+				{
+					return ResourceHandle<BasicILExportRes>::Null();
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicConceptInstanceDeclaration)
 				{
 					return ResourceHandle<BasicILExportRes>::Null();
 				}

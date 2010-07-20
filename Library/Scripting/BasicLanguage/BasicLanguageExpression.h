@@ -499,6 +499,7 @@ Declaration
 					Ptr<BasicInstanciatedExpression>		genericFunction;
 				};
 
+				bool										defined;
 				WString										instanceType;
 				collections::List<Ptr<FunctionInstance>>	functions;
 			};
@@ -581,6 +582,7 @@ Algorithms
 			F(BasicVariableDeclaration)\
 			F(BasicTypeRenameDeclaration)\
 			F(BasicConceptBaseDeclaration)\
+			F(BasicConceptInstanceDeclaration)\
 			F(BasicExtendedDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicDeclaration, BASIC_DECLARATION_TARGETS)
