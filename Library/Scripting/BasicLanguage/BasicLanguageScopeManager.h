@@ -25,8 +25,6 @@ namespace vl
 			{
 				friend class BasicEnv;
 				friend class Ptr<BasicScope>;
-
-				typedef collections::Dictionary<WString, BasicTypeRecord*>			ConceptFunctionMap;
 			protected:
 				BasicFunctionDeclaration*											functionDeclaration;
 				BasicStatement*														statement;
@@ -41,10 +39,10 @@ namespace vl
 			public:
 				struct Variable
 				{
-					BasicVariableDeclaration*			globalVariable;
-					BasicVariableStatement*				localVariable;
-					vint								parameterIndex;
-					BasicTypeRecord*					type;
+					BasicVariableDeclaration*					globalVariable;
+					BasicVariableStatement*						localVariable;
+					vint										parameterIndex;
+					BasicTypeRecord*							type;
 
 					Variable();
 					Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type);
@@ -52,15 +50,33 @@ namespace vl
 					Variable(vint variable, BasicTypeRecord* _type);
 
 					operator bool();
-					bool								operator==(const Variable& variable);
+					bool										operator==(const Variable& variable);
 				};
 
 				struct Concept
 				{
-					BasicTypeRecord*					conceptType;
-					BasicScope*							conceptScope;
-					BasicConceptBaseDeclaration*		conceptDeclaration;
-					ConceptFunctionMap					functions;
+					typedef collections::Dictionary<WString, BasicTypeRecord*>		ConceptFunctionMap;
+
+					BasicTypeRecord*							conceptType;
+					BasicScope*									conceptScope;
+					BasicConceptBaseDeclaration*				conceptDeclaration;
+					ConceptFunctionMap							functions;
+				};
+
+				struct Instance
+				{
+					struct FunctionInstance
+					{
+						typedef collections::Dictionary<WString, Ptr<FunctionInstance>>	MapType;
+
+						BasicFunctionDeclaration*				functionDeclaration;
+						collections::List<BasicTypeRecord*>		genericParameters;
+					};
+
+					Concept*									targetConcept;
+					BasicScope*									instanceScope;
+					BasicConceptInstanceDeclaration*			instanceDeclaration;
+					FunctionInstance::MapType					functions;
 				};
 
 				BasicFunctionDeclaration*											OwnerDeclaration();
@@ -70,6 +86,7 @@ namespace vl
 				CommonScopeItems<BasicScope, WString, Variable>						variables;
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 				CommonScopeItems<BasicScope, WString, Ptr<Concept>>					concepts;
+				CommonScopeItems<BasicScope, WString, Ptr<Instance>>				instances;
 			};
 
 			class BasicEnv : public Object, private NotCopyable
@@ -77,12 +94,12 @@ namespace vl
 			public:
 				struct Reference
 				{
-					BasicScope*							scope;
-					BasicVariableDeclaration*			globalVariable;
-					BasicVariableStatement*				localVariable;
-					vint								parameterIndex;
-					BasicFunctionDeclaration*			function;
-					bool								isVariable;
+					BasicScope*									scope;
+					BasicVariableDeclaration*					globalVariable;
+					BasicVariableStatement*						localVariable;
+					vint										parameterIndex;
+					BasicFunctionDeclaration*					function;
+					bool										isVariable;
 
 					Reference();
 					Reference(BasicScope* _scope, BasicVariableDeclaration* variable);

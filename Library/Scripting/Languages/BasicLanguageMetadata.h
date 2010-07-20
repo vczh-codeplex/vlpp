@@ -78,6 +78,9 @@ Metadata
 			bool									IsFunction()const;
 			bool									IsVariable()const;
 			bool									IsStructure()const;
+			bool									IsConcept()const;
+			bool									IsInstance()const;
+
 			BasicTypeInfo							GetType()const;
 			WString									GetName()const;
 			vint									GetParameterCount()const;
@@ -88,6 +91,8 @@ Metadata
 			WString									GetLinkingSymbolName()const;
 			vint									GetGenericArgumentCount()const;
 			WString									GetGenericArgumentName(vint index)const;
+			WString									GetInstanceConceptAssemblyName()const;
+			WString									GetInstanceConceptSymbolName()const;
 		};
 
 /***********************************************************************

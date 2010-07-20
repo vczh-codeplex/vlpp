@@ -171,6 +171,16 @@ BasicDeclarationInfo
 			return declaration->type==BasicDeclarationRes::Structure;
 		}
 
+		bool BasicDeclarationInfo::IsConcept()const
+		{
+			return declaration->type==BasicDeclarationRes::Concept;
+		}
+
+		bool BasicDeclarationInfo::IsInstance()const
+		{
+			return declaration->type==BasicDeclarationRes::Instance;
+		}
+
 		BasicTypeInfo BasicDeclarationInfo::GetType()const
 		{
 			return BasicTypeInfo(declaration->declarationType, metadata);
@@ -237,6 +247,16 @@ BasicDeclarationInfo
 		{
 			ResourceArrayRecord<BasicParameterRes> parameters=metadata->GetResourceStream()->ReadArrayRecord(declaration->genericArgumentNames);
 			return metadata->GetResourceStream()->ReadString(parameters.Get(index)->name);
+		}
+
+		WString BasicDeclarationInfo::GetInstanceConceptAssemblyName()const
+		{
+			return metadata->GetResourceStream()->ReadString(declaration->instanceConceptAssemblyName);
+		}
+
+		WString BasicDeclarationInfo::GetInstanceConceptSymbolName()const
+		{
+			return metadata->GetResourceStream()->ReadString(declaration->instanceConceptSymbolName);
 		}
 
 /***********************************************************************

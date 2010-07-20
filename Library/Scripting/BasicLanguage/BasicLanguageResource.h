@@ -94,16 +94,19 @@ namespace vl
 				Variable,
 				Structure,
 				Concept,
+				Instance,
 			};
 
 			TypeEnum									type;
-			ResourceHandle<BasicTypeRes>				declarationType;		//Function, Variable, Structure
+			ResourceHandle<BasicTypeRes>				declarationType;				//Function, Variable, Structure, Instance
 			ResourceString								name;
-			ResourceArrayHandle<BasicParameterRes>		parameterNames;			//Function(parameter)
-			vint										address;				//Function(ins index), Variable(data offset)
-			ResourceString								linkingAssemblyName;	//Function, Variable, Structure
-			ResourceString								linkingSymbolName;		//Function, Variable, Structure
-			ResourceArrayHandle<BasicParameterRes>		genericArgumentNames;	//Function, Variable, Structure
+			ResourceArrayHandle<BasicParameterRes>		parameterNames;					//Function(parameter)
+			vint										address;						//Function(ins index), Variable(data offset)
+			ResourceString								linkingAssemblyName;			//Function, Variable, Structure
+			ResourceString								linkingSymbolName;				//Function, Variable, Structure
+			ResourceArrayHandle<BasicParameterRes>		genericArgumentNames;			//Function, Variable, Structure
+			ResourceString								instanceConceptAssemblyName;	//Instance
+			ResourceString								instanceConceptSymbolName;		//Instance
 		};
 
 /***********************************************************************
