@@ -2410,6 +2410,47 @@ namespace vl
 					argument.writer.WriteLine(L"}");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
+				{
+					PrintGeneric(node, argument);
+					argument.writer.WriteString(L"instance ");
+					IdentifierToString(node->instanceType, argument.writer);
+					argument.writer.WriteString(L" : ");
+					IdentifierToString(node->name, argument.writer);
+					if(node->defined)
+					{
+						argument.writer.WriteLine(L"");
+
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"{");
+
+						NXCGP newArgument(argument.writer, argument.indentation+1);
+						for(vint i=0;i<node->functions.Count();i++)
+						{
+							BasicConceptInstanceDeclaration::FunctionInstance* functionInstance=node->functions[i].Obj();
+							PrintIndentation(newArgument);
+							IdentifierToString(functionInstance->name, argument.writer);
+							argument.writer.WriteString(L" = ");
+							if(functionInstance->normalFunction)
+							{
+								NativeX_BasicExpression_GenerateCode(functionInstance->normalFunction, newArgument);
+							}
+							else
+							{
+								NativeX_BasicExpression_GenerateCode(functionInstance->genericFunction, newArgument);
+							}
+							argument.writer.WriteLine(L";");
+						}
+
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"}");
+					}
+					else
+					{
+						argument.writer.WriteLine(L";");
+					}
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
 				}

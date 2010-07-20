@@ -437,6 +437,11 @@ BasicLanguage_BuildGlobalScopePass1
 					}
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
+				{
+					// TODO:
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
 					argument.semanticExtension->BuildGlobalScopePass1(node, argument);
@@ -475,6 +480,10 @@ BasicLanguage_BuildGlobalScopePass2
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
 				}
 
@@ -1552,6 +1561,10 @@ BasicLanguage_BuildDeclarationBody
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
 				}
 
