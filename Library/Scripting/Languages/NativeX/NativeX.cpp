@@ -1019,6 +1019,41 @@ namespace vl
 				return declaration;
 			}
 
+			Ptr<BasicType> ToInstancePointerType(const RegexToken& identifier)
+			{
+				Ptr<BasicPointerType> type=CreateNode<BasicPointerType>(identifier);
+				type->elementType=ToNamedType(identifier);
+				return type;
+			}
+
+			Ptr<BasicConceptInstanceDeclaration::FunctionInstance> ToFunctionInstance(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
+				functionInstance->name=ConvertID(WString(input.First().reading, input.First().length));
+				functionInstance->normalFunction=input.Second().Cast<BasicReferenceExpression>();
+				functionInstance->genericFunction=input.Second().Cast<BasicInstanciatedExpression>();
+				return functionInstance;
+			}
+
+			Ptr<BasicDeclaration> ToInstancePreDecl(const ParsingPair<Ptr<BasicType>, RegexToken>& input)
+			{
+				Ptr<BasicConceptInstanceDeclaration> declaration=CreateNode<BasicConceptInstanceDeclaration>(input.Second());
+				declaration->defined=false;
+				declaration->instanceType=input.First();
+				declaration->name=ConvertID(WString(input.Second().reading, input.Second().length));
+				return declaration;
+			}
+
+			Ptr<BasicDeclaration> ToInstanceDecl(const ParsingPair<ParsingPair<Ptr<BasicType>, RegexToken>, ParsingList<Ptr<BasicConceptInstanceDeclaration::FunctionInstance>>>& input)
+			{
+				Ptr<BasicConceptInstanceDeclaration> declaration=CreateNode<BasicConceptInstanceDeclaration>(input.First().Second());
+				declaration->defined=true;
+				declaration->instanceType=input.First().First();
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				CopyFrom(declaration->functions.Wrap(), input.Second());
+				return declaration;
+			}
+
 /***********************************************************************
 语义函数：主程序
 ***********************************************************************/
@@ -1128,7 +1163,7 @@ namespace vl
 				ExpressionRule						reference;
 				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
 				ExpressionRule						exp;
-				TypeRule							primType,functionType,type;
+				TypeRule							primType, functionType, type, instanceType;
 				StatementRule						statement;
 				DeclarationNode						nonGenericDeclaration;
 				DeclarationRule						declaration;
@@ -1222,8 +1257,10 @@ namespace vl
 									| NULL_VALUE[ToNull]
 									| INTEGER[ToInteger]
 									;
+
 					reference		= (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedExpression]
-									| ID[ToReference];
+									| ID[ToReference]
+									;
 
 					exp0			= primitive(NeedExpression)
 									| reference
@@ -1231,6 +1268,7 @@ namespace vl
 									| (CAST + (LT(NeedLt) >> type << GT(NeedGt)) + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToCastExpression]
 									| (OPEN_BRACE >> exp << CLOSE_BRACE(NeedCloseBrace))
 									;
+
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp << CLOSE_ARRAY(NeedCloseArray))
 													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE(NeedCloseBrace))
@@ -1255,6 +1293,7 @@ namespace vl
 									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									;
+
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
 
 					statement		= SEMICOLON(NeedStatement)[ToEmptyStat]
@@ -1271,13 +1310,20 @@ namespace vl
 									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
 									;
 
+					instanceType	= (PRIM_TYPE | ID)[ToNamedType]
+									| (ID << MUL)[ToInstancePointerType]
+									;
+
 					nonGenericDeclaration		
 									= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
 									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
 									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
+									| (INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))[ToInstancePreDecl]
+									| ((INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>reference)<<SEMICOLON(NeedSemicolon)))[ToFunctionInstance]<<CLOSE_STAT(NeedCloseConcept)))[ToInstanceDecl]
 									;
+
 					declaration		= nonGenericDeclaration
 									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
 									| ((GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
