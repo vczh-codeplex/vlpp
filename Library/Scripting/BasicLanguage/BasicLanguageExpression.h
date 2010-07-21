@@ -500,7 +500,7 @@ Declaration
 				};
 
 				bool										defined;
-				WString										instanceType;
+				Ptr<BasicType>								instanceType;
 				collections::List<Ptr<FunctionInstance>>	functions;
 			};
 

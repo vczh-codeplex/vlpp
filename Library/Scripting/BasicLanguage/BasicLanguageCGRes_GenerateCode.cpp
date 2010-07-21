@@ -360,7 +360,16 @@ BasicLanguage_GenerateResource
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 					BuildGenericResource(resource, node, argument);
-					resource->declarationType=GenerateResource(argument.info->GetEnv()->GlobalScope()->types.Find(node->instanceType), argument);
+
+					BP bp(
+						argument.info->GetEnv(),
+						argument.info->GetEnv()->GlobalScope(),
+						argument.info->GetTypeManager(),
+						*(List<Ptr<BasicLanguageCodeException>>*)0,
+						*(SortedList<WString>*)0
+						);
+					BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, bp, true);
+					resource->declarationType=GenerateResource(instanceType, argument);
 					resource->type=BasicDeclarationRes::Instance;
 					resource->name=ResourceString::Null();
 					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();

@@ -950,7 +950,7 @@ BasicStructureDeclarationNode
 			}
 
 /***********************************************************************
-BasicStructureDeclarationNode
+BasicConceptBaseDeclarationNode
 ***********************************************************************/
 
 			BasicConceptBaseDeclarationNode::BasicConceptBaseDeclarationNode(Ptr<BasicConceptBaseDeclaration> _declaration)
@@ -976,6 +976,37 @@ BasicStructureDeclarationNode
 			{
 				declaration->linking.assemblyName=assemblyName;
 				declaration->linking.symbolName=symbolName;
+				return *this;
+			}
+
+/***********************************************************************
+BasicConceptInstanceDeclarationNode
+***********************************************************************/
+
+			BasicConceptInstanceDeclarationNode::BasicConceptInstanceDeclarationNode(Ptr<BasicConceptInstanceDeclaration> _declaration)
+				:declaration(_declaration)
+			{
+			}
+
+			Ptr<BasicConceptInstanceDeclaration> BasicConceptInstanceDeclarationNode::GetInternalValue()
+			{
+				return declaration;
+			}
+
+			BasicConceptInstanceDeclarationNode& BasicConceptInstanceDeclarationNode::Member(const WString& function, const WString& target)
+			{
+				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
+				functionInstance->name=function;
+				functionInstance->normalFunction=e_name(target).GetInternalValue().Cast<BasicReferenceExpression>();
+				declaration->functions.Add(functionInstance);
+				return *this;
+			}
+
+			BasicConceptInstanceDeclarationNode& BasicConceptInstanceDeclarationNode::Member(const WString& function, const WString& target, const BasicTypeNode::ListNode& types)
+			{
+				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
+				functionInstance->name=function;
+				functionInstance->genericFunction=e_name(target, types).GetInternalValue().Cast<BasicInstanciatedExpression>();
 				return *this;
 			}
 
@@ -1079,6 +1110,29 @@ BasicGenericNode
 				return declaration;
 			}
 
+			void BasicGenericNode::DefineInstanceForward(const BasicTypeNode& type, const WString& conceptName)
+			{
+				Ptr<BasicConceptInstanceDeclaration> declaration=new BasicConceptInstanceDeclaration();
+				CopyGenericDeclaration(declaration);
+
+				declaration->instanceType=type.GetInternalValue();
+				declaration->name=conceptName;
+				declaration->defined=false;
+				program->declarations.Add(declaration);
+			}
+
+			BasicConceptInstanceDeclarationNode BasicGenericNode::DefineInstance(const BasicTypeNode& type, const WString& conceptName)
+			{
+				Ptr<BasicConceptInstanceDeclaration> declaration=new BasicConceptInstanceDeclaration();
+				CopyGenericDeclaration(declaration);
+
+				declaration->instanceType=type.GetInternalValue();
+				declaration->name=conceptName;
+				declaration->defined=true;
+				program->declarations.Add(declaration);
+				return declaration;
+			}
+
 /***********************************************************************
 BasicProgramNode
 ***********************************************************************/
@@ -1140,6 +1194,16 @@ BasicProgramNode
 				declaration->conceptType=conceptType;
 				program->declarations.Add(declaration);
 				return BasicConceptBaseDeclarationNode(declaration);
+			}
+
+			void BasicProgramNode::DefineInstanceForward(const BasicTypeNode& type, const WString& conceptName)
+			{
+				return Generic().DefineInstanceForward(type, conceptName);
+			}
+
+			BasicConceptInstanceDeclarationNode BasicProgramNode::DefineInstance(const BasicTypeNode& type, const WString& conceptName)
+			{
+				return Generic().DefineInstance(type, conceptName);
 			}
 		}
 	}

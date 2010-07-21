@@ -2414,7 +2414,7 @@ namespace vl
 				{
 					PrintGeneric(node, argument);
 					argument.writer.WriteString(L"instance ");
-					IdentifierToString(node->instanceType, argument.writer);
+					NativeX_BasicType_GenerateCode(node->instanceType, argument);
 					argument.writer.WriteString(L" : ");
 					IdentifierToString(node->name, argument.writer);
 					if(node->defined)
