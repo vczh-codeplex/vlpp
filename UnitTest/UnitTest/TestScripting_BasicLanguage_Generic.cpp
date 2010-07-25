@@ -219,32 +219,32 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			);
 
 	programMain
-		.Generic().GenericArgument(L"T")
+		.Generic().GenericArgument(L"U")
 		.DefineStructure(L"Vector")
-		.Member(L"X", t_type(L"T"))
-		.Member(L"Y", t_type(L"T"))
+		.Member(L"X", t_type(L"U"))
+		.Member(L"Y", t_type(L"U"))
 		;
 	programMain
-		.Generic().GenericArgument(L"T")
+		.Generic().GenericArgument(L"V")
 		.DefineInstance(t_type(L"Vector"), L"Eq")
-		.Member(L"Equals", L"VectorEquals", t_types()<<t_type(L"T"))
-		.Member(L"NotEquals", L"VectorNotEquals", t_types()<<t_type(L"T"))
+		.Member(L"Equals", L"VectorEquals", t_types()<<t_type(L"V"))
+		.Member(L"NotEquals", L"VectorNotEquals", t_types()<<t_type(L"V"))
 		;
 	programMain
-		.Generic().GenericArgument(L"T")
+		.Generic().GenericArgument(L"W")
 		.DefineFunction(L"VectorEquals")
 		.ReturnType(t_bool())
-		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"T")])
-		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])
+		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Statement(
 			s_empty()
 			);
 	programMain
-		.Generic().GenericArgument(L"T")
+		.Generic().GenericArgument(L"W")
 		.DefineFunction(L"VectorNotEquals")
 		.ReturnType(t_bool())
-		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"T")])
-		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])
+		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Statement(
 			s_empty()
 			);
