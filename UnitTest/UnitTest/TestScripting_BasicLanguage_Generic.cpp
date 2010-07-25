@@ -185,15 +185,38 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 {
 	BasicProgramNode programMain;
 	programMain
-		.DefineConcept(L"Eq", L"T")
-		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
-		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
-		;
-	programMain
 		.DefineFunction(L"main")
 		.ReturnType(t_int())
 		.Statement(
 			s_expr(e_result().Assign(e_prim(0)))
 			);
+	programMain
+		.DefineConcept(L"Eq", L"T")
+		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
+		;
+
+	programMain
+		.DefineInstance(t_int(), L"Eq")
+		.Member(L"Equals", L"IntEquals")
+		.Member(L"NotEquals", L"IntNotEquals")
+		;
+	programMain
+		.DefineFunction(L"IntEquals")
+		.ReturnType(t_bool())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")==e_name(L"b")))
+			);
+	programMain
+		.DefineFunction(L"IntNotEquals")
+		.ReturnType(t_bool())
+		.Parameter(L"a", t_int())
+		.Parameter(L"b", t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_name(L"a")!=e_name(L"b")))
+			);
+
 	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");
 }

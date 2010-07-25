@@ -529,6 +529,22 @@ BasicLanguage_BuildGlobalScopePass2
 						CopyFrom(conceptFunctions.Wrap(), instanceObject->targetConcept->functions.Keys());
 						BP newArgument(argument, instanceObject->instanceScope);
 
+						Dictionary<BasicTypeRecord*, BasicTypeRecord*> table;
+						if(node->genericDeclaration.HasGeneric())
+						{
+							Dictionary<BasicTypeRecord*, BasicTypeRecord*> internalTable;
+							for(vint i=0;i<node->genericDeclaration.arguments.Count();i++)
+							{
+								internalTable.Add(instanceObject->instanceType->ParameterType(i), argument.typeManager->GetGenericArgumentType(node->genericDeclaration.arguments[i]));
+							}
+							BasicTypeRecord* instanciatedInstanceType=argument.typeManager->Instanciate(instanceObject->instanceType, internalTable.Wrap());
+							table.Add(instanceObject->targetConcept->conceptType, instanciatedInstanceType);
+						}
+						else
+						{
+							table.Add(instanceObject->targetConcept->conceptType, instanceObject->instanceType);
+						}
+
 						for(vint i=0;i<node->functions.Count();i++)
 						{
 							BasicConceptInstanceDeclaration::FunctionInstance* functionInstance=node->functions[i].Obj();
@@ -564,12 +580,13 @@ BasicLanguage_BuildGlobalScopePass2
 									else
 									{
 										functionDeclaration=reference.function;
+										BasicTypeRecord* conceptFunctionType=instanceObject->targetConcept->functions[functionInstance->name];
+										conceptFunctionType=argument.typeManager->Instanciate(conceptFunctionType, table.Wrap());
+										if(conceptFunctionType!=functionType)
+										{
+											argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(node, functionInstance->name));
+										}
 									}
-								}
-
-								if(instanceObject->targetConcept->functions[functionInstance->name]!=functionType)
-								{
-									argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(node, functionInstance->name));
 								}
 
 								functionInstanceObject->functionDeclaration=functionDeclaration;
