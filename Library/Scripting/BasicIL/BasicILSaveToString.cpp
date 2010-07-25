@@ -467,7 +467,7 @@ BasicIL
 							writer.WriteLine(L"  Name = "+exportedSymbols->ReadString(entryRes->name));
 							writer.WriteLine(L"  Arguments = "+itow(entryRes->genericArgumentCount));
 							writer.WriteLine(L"  Instruction = "+itow(entryRes->startInstruction));
-							writer.WriteLine(L"  Lengtht = "+itow(entryRes->instructionCount));
+							writer.WriteLine(L"  Length = "+itow(entryRes->instructionCount));
 							writer.WriteLine(L"  UniqueName = "+exportedSymbols->ReadString(entryRes->uniqueEntryID));
 							writer.WriteLine(L"}");
 						}

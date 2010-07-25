@@ -218,5 +218,36 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			s_expr(e_result().Assign(e_name(L"a")!=e_name(L"b")))
 			);
 
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineStructure(L"Vector")
+		.Member(L"X", t_type(L"T"))
+		.Member(L"Y", t_type(L"T"))
+		;
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineInstance(t_type(L"Vector"), L"Eq")
+		.Member(L"Equals", L"VectorEquals", t_types()<<t_type(L"T"))
+		.Member(L"NotEquals", L"VectorNotEquals", t_types()<<t_type(L"T"))
+		;
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"VectorEquals")
+		.ReturnType(t_bool())
+		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Statement(
+			s_empty()
+			);
+	programMain
+		.Generic().GenericArgument(L"T")
+		.DefineFunction(L"VectorNotEquals")
+		.ReturnType(t_bool())
+		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"T")])
+		.Statement(
+			s_empty()
+			);
+
 	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");
 }
