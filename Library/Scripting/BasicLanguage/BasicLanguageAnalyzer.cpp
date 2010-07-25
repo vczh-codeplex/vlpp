@@ -1,4 +1,5 @@
 #include "BasicLanguageAnalyzer.h"
+#include "..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -439,7 +440,42 @@ BasicLanguage_BuildGlobalScopePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
-					// TODO:
+					Ptr<BasicScope::Concept> conceptObject=argument.scope->concepts.Find(node->name);
+					if(!conceptObject)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConceptNotExists(node));
+						return;
+					}
+
+					BP internalArgument=BuildBasicGenericScope(node, argument);
+					BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
+					switch(instanceType->GetType())
+					{
+					case BasicTypeRecord::Primitive:
+						if(instanceType->PrimitiveType()==void_type)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetInstanceTypeNotCorrect(node));
+						}
+						break;
+					case BasicTypeRecord::Generic:
+						if(instanceType->ParameterCount()!=node->genericDeclaration.arguments.Count())
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetInstanceTypeNotCorrect(node));
+						}
+						break;
+					default:
+						argument.errors.Add(BasicLanguageCodeException::GetInstanceTypeNotCorrect(node));
+					}
+					
+					if(node->defined)
+					{
+						Ptr<BasicScope::Instance> instanceObject=new BasicScope::Instance;
+						instanceObject->targetConcept=conceptObject.Obj();
+						instanceObject->instanceDeclaration=node;
+						instanceObject->instanceType=instanceType;
+						instanceObject->instanceScope=internalArgument.scope;
+						argument.scope->instances.Add(instanceObject);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
@@ -485,6 +521,71 @@ BasicLanguage_BuildGlobalScopePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
+					if(node->defined)
+					{
+						BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
+						Ptr<BasicScope::Instance> instanceObject=argument.scope->FindInstance(instanceType, node->name);
+						List<WString> conceptFunctions;
+						CopyFrom(conceptFunctions.Wrap(), instanceObject->targetConcept->functions.Keys());
+						BP newArgument(argument, instanceObject->instanceScope);
+
+						for(vint i=0;i<node->functions.Count();i++)
+						{
+							BasicConceptInstanceDeclaration::FunctionInstance* functionInstance=node->functions[i].Obj();
+							if(conceptFunctions.Contains(functionInstance->name))
+							{
+								conceptFunctions.Remove(functionInstance->name);
+								BasicTypeRecord* functionType=0;
+								BasicFunctionDeclaration* functionDeclaration=0;
+								Ptr<BasicScope::Instance::FunctionInstance> functionInstanceObject=new BasicScope::Instance::FunctionInstance;
+								Ptr<BasicExpression> functionExpression;
+
+								if(functionInstance->normalFunction)
+								{
+									functionExpression=functionInstance->normalFunction;
+								}
+								else
+								{
+									functionExpression=functionInstance->genericFunction;
+									for(vint j=0;j<functionInstance->genericFunction->argumentTypes.Count();j++)
+									{
+										functionInstanceObject->genericParameters.Add(BasicLanguage_GetTypeRecord(functionInstance->genericFunction->argumentTypes[j], newArgument, false));
+									}
+								}
+								
+								functionType=BasicLanguage_GetExpressionType(functionExpression, newArgument);
+								if(functionType)
+								{
+									BasicEnv::Reference reference=argument.env->GetReference(functionInstance->normalFunction.Obj());
+									if(reference.isVariable)
+									{
+										argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(node, functionInstance->name));
+									}
+									else
+									{
+										functionDeclaration=reference.function;
+									}
+								}
+
+								if(instanceObject->targetConcept->functions[functionInstance->name]!=functionType)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(node, functionInstance->name));
+								}
+
+								functionInstanceObject->functionDeclaration=functionDeclaration;
+								instanceObject->functions.Add(functionInstance->name, functionInstanceObject);
+							}
+							else
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldNotHaveFunction(node, functionInstance->name));
+							}
+						}
+
+						for(vint i=0;i<conceptFunctions.Count();i++)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldHaveFunction(node, conceptFunctions[i]));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)

@@ -88,6 +88,8 @@ namespace vl
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 				CommonScopeItems<BasicScope, WString, Ptr<Concept>>					concepts;
 				collections::List<Ptr<Instance>>									instances;
+
+				Ptr<Instance> FindInstance(BasicTypeRecord* type, const WString& conceptName);
 			};
 
 			class BasicEnv : public Object, private NotCopyable
