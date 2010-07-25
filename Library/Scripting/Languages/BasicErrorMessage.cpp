@@ -221,6 +221,11 @@ namespace vl
 				return L"Concept "+name+L" not exists.";
 			}
 
+			WString BasicErrorMessage::InstanceTypeNotCorrect(const WString& name)
+			{
+				return L"Instance "+name+L" can only apply to primitive types or raw generic types.";
+			}
+
 			WString BasicErrorMessage::ConceptFunctionTypeNotMatches(const WString& name, const WString& function)
 			{
 				return L"Concept "+name+L" has a function "+function+L" with a different type.";

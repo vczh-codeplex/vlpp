@@ -912,15 +912,29 @@ namespace vl
 				return linking;
 			}
 
-			Ptr<BasicDeclaration> ToGeneric(const ParsingPair<ParsingList<RegexToken>, Ptr<BasicDeclaration>>& input)
+			Ptr<BasicDeclaration> ToGeneric(const ParsingPair<ParsingPair<ParsingList<RegexToken>, ParsingList<ParsingList<ParsingPair<RegexToken, RegexToken>>>>, Ptr<BasicDeclaration>>& input)
 			{
 				BasicGeneric& genericDeclaration=input.Second()->genericDeclaration;
-				ParsingList<RegexToken>::Node::Ref current=input.First().Head();
-				while(current)
 				{
-					const RegexToken& token=current->Value();
-					genericDeclaration.arguments.Add(WString(token.reading, token.length));
-					current=current->Next();
+					ParsingList<RegexToken>::Node::Ref current=input.First().First().Head();
+					while(current)
+					{
+						const RegexToken& token=current->Value();
+						genericDeclaration.arguments.Add(WString(token.reading, token.length));
+						current=current->Next();
+					}
+				}
+				if(input.First().Second().Head())
+				{
+					ParsingList<ParsingPair<RegexToken, RegexToken>>::Node::Ref current=input.First().Second().Head()->Value().Head();
+					while(current)
+					{
+						Ptr<BasicGeneric::Constraint> constraint=new BasicGeneric::Constraint;
+						constraint->argumentName=WString(current->Value().First().reading, current->Value().First().length);
+						constraint->conceptName=WString(current->Value().Second().reading, current->Value().Second().length);
+						genericDeclaration.constraints.Add(constraint);
+						current=current->Next();
+					}
 				}
 				return input.Second();
 			}
@@ -1131,7 +1145,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
-				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE;
+				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -1193,6 +1207,7 @@ namespace vl
 					GENERIC			= CreateToken(tokens, L"generic");
 					CONCEPT			= CreateToken(tokens, L"concept");
 					INSTANCE		= CreateToken(tokens, L"instance");
+					WHERE			= CreateToken(tokens, L"where");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -1316,9 +1331,17 @@ namespace vl
 									| ((INSTANCE >> (instanceType + (COLON(NeedColon) >> ID)))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>reference)<<SEMICOLON(NeedSemicolon)))[ToFunctionInstance]<<CLOSE_STAT(NeedCloseConcept)))[ToInstanceDecl]
 									;
 
+					Node<TokenInput<RegexToken>, ParsingList<RegexToken>> genericHead
+									= (GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))
+									;
+					Node<TokenInput<RegexToken>, ParsingPair<RegexToken, RegexToken>> genericConstraintClause
+									;
+					Node<TokenInput<RegexToken>, ParsingList<ParsingPair<RegexToken, RegexToken>>> genericConstraint
+									= WHERE >> (plist(genericConstraintClause + *(COMMA >> genericConstraintClause)))
+									;
 					declaration		= nonGenericDeclaration
 									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
-									| ((GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
+									| (genericHead+opt(genericConstraint)+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
 									;
 
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
@@ -1564,6 +1587,7 @@ namespace vl
 					, L"generic"
 					, L"concept"
 					, L"instance"
+					, L"where"
 					, L"int"
 					, L"int8"
 					, L"int16"
@@ -2294,6 +2318,23 @@ namespace vl
 				{
 					PrintIndentation(argument);
 					GenericToString(node->genericDeclaration, argument.writer);
+					if(node->genericDeclaration.constraints.Count()>0)
+					{
+						argument.writer.WriteLine(L" where");
+						for(vint i=0;i<node->genericDeclaration.constraints.Count();i++)
+						{
+							if(i)
+							{
+								argument.writer.WriteLine(L",");
+							}
+							Ptr<BasicGeneric::Constraint> constraint=node->genericDeclaration.constraints[i];
+							PrintIndentation(argument);
+							argument.writer.WriteString(L"  ");
+							IdentifierToString(constraint->argumentName, argument.writer);
+							argument.writer.WriteString(L" : ");
+							IdentifierToString(constraint->argumentName, argument.writer);
+						}
+					}
 					argument.writer.WriteLine(L"");
 				}
 			}

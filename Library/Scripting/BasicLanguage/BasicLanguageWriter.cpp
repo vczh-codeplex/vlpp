@@ -1018,6 +1018,7 @@ BasicGenericNode
 			void BasicGenericNode::CopyGenericDeclaration(Ptr<BasicDeclaration> declaration)
 			{
 				CopyFrom(declaration->genericDeclaration.arguments.Wrap(), genericDeclaration->arguments.Wrap());
+				CopyFrom(declaration->genericDeclaration.constraints.Wrap(), genericDeclaration->constraints.Wrap());
 			}
 
 			BasicGenericNode::BasicGenericNode(Ptr<BasicProgram> _program)

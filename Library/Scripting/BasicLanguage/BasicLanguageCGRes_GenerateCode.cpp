@@ -165,6 +165,16 @@ BasicLanguage_GenerateResource
 					parameter->name=argument.resource->CreateString(node->genericDeclaration.arguments[i]);
 					parameters.Set(i, parameter);
 				}
+				
+				ResourceArrayRecord<BasicConstraintRes> constraints=argument.resource->CreateArrayRecord<BasicConstraintRes>(node->genericDeclaration.constraints.Count());
+				resource->genericArgumentConstraints=constraints;
+				for(vint i=0;i<node->genericDeclaration.constraints.Count();i++)
+				{
+					ResourceRecord<BasicConstraintRes> constraint=argument.resource->CreateRecord<BasicConstraintRes>();
+					constraint->argumentName=argument.resource->CreateString(node->genericDeclaration.constraints[i]->argumentName);
+					constraint->conceptName=argument.resource->CreateString(node->genericDeclaration.constraints[i]->conceptName);
+					constraints.Set(i, constraint);
+				}
 			}
 
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>)
@@ -311,6 +321,7 @@ BasicLanguage_GenerateResource
 						genericArgument->name=argument.resource->CreateString(node->conceptType);
 						genericArguments.Set(0, genericArgument);
 						resource->genericArgumentNames=genericArguments;
+						resource->genericArgumentConstraints=ResourceArrayHandle<BasicConstraintRes>::Null();
 					}
 					{
 						ResourceRecord<BasicTypeRes> conceptType=argument.resource->CreateRecord<BasicTypeRes>();
@@ -888,44 +899,47 @@ BasicLanguage_Generate*Resource
 				for(vint i=0;i<globalScope->instances.Count();i++)
 				{
 					BasicScope::Instance* instanceObject=globalScope->instances[i].Obj();
-					BasicScope::Concept* conceptObject=instanceObject->targetConcept;
-					BasicConceptBaseDeclaration* conceptDeclaration=conceptObject->conceptDeclaration;
+					if(instanceObject->instanceDeclaration->defined)
+					{
+						BasicScope::Concept* conceptObject=instanceObject->targetConcept;
+						BasicConceptBaseDeclaration* conceptDeclaration=conceptObject->conceptDeclaration;
 
-					ResourceRecord<BasicILGenericInstanceRes> instanceResource=argument.exportResource->CreateRecord<BasicILGenericInstanceRes>();
-					if(conceptDeclaration->linking.HasLink())
-					{
-						instanceResource->conceptAssemblyName=argument.exportResource->CreateString(conceptDeclaration->linking.assemblyName);
-						instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->linking.symbolName);
-					}
-					else
-					{
-						instanceResource->conceptAssemblyName=argument.exportResource->CreateString(programName);
-						instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->name);
-					}
-					instanceResource->genericArgumentCount=instanceObject->instanceDeclaration->genericDeclaration.arguments.Count();
-					{
-						List<BasicTypeRecord*> argumentTypes;
-						BasicTypeRecord* instanceType=instanceObject->instanceType;
-						if(instanceType->GetType()==BasicTypeRecord::Generic)
+						ResourceRecord<BasicILGenericInstanceRes> instanceResource=argument.exportResource->CreateRecord<BasicILGenericInstanceRes>();
+						if(conceptDeclaration->linking.HasLink())
 						{
-							instanceType=instanceType->ElementType();
+							instanceResource->conceptAssemblyName=argument.exportResource->CreateString(conceptDeclaration->linking.assemblyName);
+							instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->linking.symbolName);
 						}
-						WString typeUniqueName=recorder.GetTypeName(instanceType, argumentTypes);
-						instanceResource->typeUniqueName=argument.exportResource->CreateString(typeUniqueName);
-					}
+						else
+						{
+							instanceResource->conceptAssemblyName=argument.exportResource->CreateString(programName);
+							instanceResource->conceptSymbolName=argument.exportResource->CreateString(conceptDeclaration->name);
+						}
+						instanceResource->genericArgumentCount=instanceObject->instanceDeclaration->genericDeclaration.arguments.Count();
+						{
+							List<BasicTypeRecord*> argumentTypes;
+							BasicTypeRecord* instanceType=instanceObject->instanceType;
+							if(instanceType->GetType()==BasicTypeRecord::Generic)
+							{
+								instanceType=instanceType->ElementType();
+							}
+							WString typeUniqueName=recorder.GetTypeName(instanceType, argumentTypes);
+							instanceResource->typeUniqueName=argument.exportResource->CreateString(typeUniqueName);
+						}
 
-					List<ResourceHandle<BasicILGenericInstanceFunctionRes>> functions;
-					for(vint j=0;j<instanceObject->functions.Count();j++)
-					{
-						ResourceRecord<BasicILGenericInstanceFunctionRes> functionResource=argument.exportResource->CreateRecord<BasicILGenericInstanceFunctionRes>();
-						BasicScope::Instance::FunctionInstance* functionInstance=instanceObject->functions.Values()[j].Obj();
-						functionResource->functionName=argument.exportResource->CreateString(instanceObject->functions.Keys()[j]);
-						functionResource->functionTarget=BasicLanguage_GenerateTargetResource(programName, argument, recorder, functionInstance->functionDeclaration, instanceObject->instanceDeclaration, functionInstance->genericParameters.Wrap());
-						functions.Add(functionResource);
-					}
-					instanceResource->functions=argument.exportResource->CreateArrayRecord(functions.Wrap());
+						List<ResourceHandle<BasicILGenericInstanceFunctionRes>> functions;
+						for(vint j=0;j<instanceObject->functions.Count();j++)
+						{
+							ResourceRecord<BasicILGenericInstanceFunctionRes> functionResource=argument.exportResource->CreateRecord<BasicILGenericInstanceFunctionRes>();
+							BasicScope::Instance::FunctionInstance* functionInstance=instanceObject->functions.Values()[j].Obj();
+							functionResource->functionName=argument.exportResource->CreateString(instanceObject->functions.Keys()[j]);
+							functionResource->functionTarget=BasicLanguage_GenerateTargetResource(programName, argument, recorder, functionInstance->functionDeclaration, instanceObject->instanceDeclaration, functionInstance->genericParameters.Wrap());
+							functions.Add(functionResource);
+						}
+						instanceResource->functions=argument.exportResource->CreateArrayRecord(functions.Wrap());
 
-					instances.Add(instanceResource);
+						instances.Add(instanceResource);
+					}
 				}
 				return argument.exportResource->CreateArrayRecord(instances.Wrap());
 			}
