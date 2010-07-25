@@ -1019,13 +1019,6 @@ namespace vl
 				return declaration;
 			}
 
-			Ptr<BasicType> ToInstancePointerType(const RegexToken& identifier)
-			{
-				Ptr<BasicPointerType> type=CreateNode<BasicPointerType>(identifier);
-				type->elementType=ToNamedType(identifier);
-				return type;
-			}
-
 			Ptr<BasicConceptInstanceDeclaration::FunctionInstance> ToFunctionInstance(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
 			{
 				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
@@ -1311,7 +1304,6 @@ namespace vl
 									;
 
 					instanceType	= (PRIM_TYPE | ID)[ToNamedType]
-									| (ID << MUL)[ToInstancePointerType]
 									;
 
 					nonGenericDeclaration		

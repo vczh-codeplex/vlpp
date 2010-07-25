@@ -114,6 +114,19 @@ BasicScope
 				return statement;
 			}
 
+			Ptr<BasicScope::Instance> BasicScope::FindInstance(BasicTypeRecord* type, const WString& conceptName)
+			{
+				for(vint i=0;i<instances.Count();i++)
+				{
+					Ptr<BasicScope::Instance> instance=instances[i];
+					if(instance->instanceType==type && instance->targetConcept->conceptDeclaration->name==conceptName)
+					{
+						return instance;
+					}
+				}
+				return 0;
+			}
+
 /***********************************************************************
 BasicEnv::Reference
 ***********************************************************************/

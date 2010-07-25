@@ -66,6 +66,7 @@ namespace vl
 					ConceptFunctionAlreadyExists,			//name
 					ConceptAlreadyExists,					//name
 					ConceptNotExists,						//name
+					InstanceTypeNotCorrect,
 					ConceptFunctionTypeNotMatches,			//name
 					InstanceShouldHaveFunction,				//name
 					InstanceShouldNotHaveFunction,			//name
@@ -129,6 +130,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicConceptInstanceDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetInstanceTypeNotCorrect(BasicConceptInstanceDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);

@@ -345,6 +345,12 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, ConceptNotExists, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceTypeNotCorrect(BasicConceptInstanceDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, InstanceTypeNotCorrect, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name)
 			{
 				Array<WString> parameters(1);
