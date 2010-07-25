@@ -1313,7 +1313,7 @@ namespace vl
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
 									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
 									| (INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))[ToInstancePreDecl]
-									| ((INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>reference)<<SEMICOLON(NeedSemicolon)))[ToFunctionInstance]<<CLOSE_STAT(NeedCloseConcept)))[ToInstanceDecl]
+									| ((INSTANCE >> (instanceType + (COLON(NeedColon) >> ID)))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>reference)<<SEMICOLON(NeedSemicolon)))[ToFunctionInstance]<<CLOSE_STAT(NeedCloseConcept)))[ToInstanceDecl]
 									;
 
 					declaration		= nonGenericDeclaration

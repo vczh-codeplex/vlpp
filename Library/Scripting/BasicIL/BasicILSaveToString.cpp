@@ -550,15 +550,15 @@ BasicIL
 									ResourceRecord<BasicILGenericInstanceFunctionRes> functionRes=functionsRes.Get(j);
 									ResourceRecord<BasicILGenericTargetRes> targetRes=exportedSymbols->ReadRecord(functionRes->functionTarget);
 									writer.WriteLine(L"  Functions["+itow(j)+L"] = {");
-									writer.WriteLine(L"  FunctionName = "+exportedSymbols->ReadString(functionRes->functionName));
-									writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
-									writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
+									writer.WriteLine(L"    FunctionName = "+exportedSymbols->ReadString(functionRes->functionName));
+									writer.WriteLine(L"    AssemblyName = "+exportedSymbols->ReadString(targetRes->assemblyName));
+									writer.WriteLine(L"    SymbolName = "+exportedSymbols->ReadString(targetRes->symbolName));
 									ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(targetRes->arguments);
 									for(vint j=0;j<argumentsRes.Count();j++)
 									{
 										ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
-										writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-										writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
+										writer.WriteLine(L"    ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
+										writer.WriteLine(L"    ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
 									}
 									writer.WriteLine(L"  }");
 								}
