@@ -260,6 +260,12 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ConceptNotExists(error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::InstanceTypeNotCorrect:
+					{
+						BasicConceptInstanceDeclaration* declaration=dynamic_cast<BasicConceptInstanceDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::InstanceTypeNotCorrect(declaration->name);
+					}
+					break;
 				case BasicLanguageCodeException::ConceptFunctionTypeNotMatches:
 					{
 						BasicConceptInstanceDeclaration* declaration=dynamic_cast<BasicConceptInstanceDeclaration*>(error->GetBasicLanguageElement());

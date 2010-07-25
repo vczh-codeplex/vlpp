@@ -41,60 +41,67 @@ namespace vl
 
 			union BasicPrimitiveValueEnum
 			{
-				signed __int8				s8;
-				signed __int16				s16;
-				signed __int32				s32;
-				signed __int64				s64;
-				unsigned __int8				u8;
-				unsigned __int16			u16;
-				unsigned __int32			u32;
-				unsigned __int64			u64;
-				float						f32;
-				double						f64;
+				signed __int8								s8;
+				signed __int16								s16;
+				signed __int32								s32;
+				signed __int64								s64;
+				unsigned __int8								u8;
+				unsigned __int16							u16;
+				unsigned __int32							u32;
+				unsigned __int64							u64;
+				float										f32;
+				double										f64;
 
-				bool						bool_value;
-				char						char_value;
-				wchar_t						wchar_value;
+				bool										bool_value;
+				char										char_value;
+				wchar_t										wchar_value;
 #ifdef VCZH_64
-				signed __int64				int_value;
-				unsigned __int64			pointer_value;
+				signed __int64								int_value;
+				unsigned __int64							pointer_value;
 #else
-				signed __int32				int_value;
-				unsigned __int32			pointer_value;
+				signed __int32								int_value;
+				unsigned __int32							pointer_value;
 #endif
 			};
 
 			struct BasicPosition
 			{
-				vint							start;
-				vint							lineStart;
-				vint							lineIndex;
-				vint							codeIndex;
+				vint										start;
+				vint										lineStart;
+				vint										lineIndex;
+				vint										codeIndex;
 
 				BasicPosition();
 			};
 
 			struct BasicLinking
 			{
-				WString						assemblyName;
-				WString						symbolName;
+				WString										assemblyName;
+				WString										symbolName;
 
-				bool						HasLink()const;
-				bool						operator==(const BasicLinking& linking)const;
-				bool						operator!=(const BasicLinking& linking)const;
+				bool										HasLink()const;
+				bool										operator==(const BasicLinking& linking)const;
+				bool										operator!=(const BasicLinking& linking)const;
 			};
 
 			struct BasicGeneric
 			{
-				collections::List<WString>	arguments;
+				struct Constraint
+				{
+					WString									argumentName;
+					WString									conceptName;
+				};
 
-				bool						HasGeneric()const;
+				collections::List<WString>					arguments;
+				collections::List<Ptr<Constraint>>			constraints;
+
+				bool										HasGeneric()const;
 			};
 
 			class BasicLanguageElement : public Object, private NotCopyable
 			{
 			public:
-				BasicPosition				position;
+				BasicPosition								position;
 			};
 
 			class BasicExpression : public BasicLanguageElement

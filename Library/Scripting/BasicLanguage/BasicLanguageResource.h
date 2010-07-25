@@ -86,6 +86,12 @@ namespace vl
 			ResourceString								name;
 		};
 
+		struct BasicConstraintRes
+		{
+			ResourceString								argumentName;
+			ResourceString								conceptName;
+		};
+
 		struct BasicDeclarationRes
 		{
 			enum TypeEnum
@@ -105,6 +111,7 @@ namespace vl
 			ResourceString								linkingAssemblyName;			//Function, Variable, Structure
 			ResourceString								linkingSymbolName;				//Function, Variable, Structure
 			ResourceArrayHandle<BasicParameterRes>		genericArgumentNames;			//Function, Variable, Structure
+			ResourceArrayHandle<BasicConstraintRes>		genericArgumentConstraints;
 			ResourceString								instanceConceptAssemblyName;	//Instance
 			ResourceString								instanceConceptSymbolName;		//Instance
 		};

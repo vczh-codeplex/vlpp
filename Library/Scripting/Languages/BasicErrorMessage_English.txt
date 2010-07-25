@@ -43,6 +43,7 @@ ConceptFunctionAlreadyExists(name,function)=Concept {name} already have a functi
 ConceptFunctionNotExists(name,function)=Concept {name} does not have a function called {function}.
 ConceptAlreadyExists(name)=Concept {name} already exists;
 ConceptNotExists(name)=Concept {name} not exists.
+InstanceTypeNotCorrect(name)=Instance {name} can only apply to primitive types or raw generic types.
 ConceptFunctionTypeNotMatches(name,function)=Concept {name} has a function {function} with a different type.
 InstanceShouldHaveFunction(name,function)=Instance {name} should have a function {function}.
 InstanceShouldNotHaveFunction(name,function)=Concept {name} should not have a function {function}.
