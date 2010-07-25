@@ -1007,6 +1007,7 @@ BasicConceptInstanceDeclarationNode
 				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
 				functionInstance->name=function;
 				functionInstance->genericFunction=e_name(target, types).GetInternalValue().Cast<BasicInstanciatedExpression>();
+				declaration->functions.Add(functionInstance);
 				return *this;
 			}
 

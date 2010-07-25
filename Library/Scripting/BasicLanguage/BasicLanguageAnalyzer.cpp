@@ -554,15 +554,18 @@ BasicLanguage_BuildGlobalScopePass2
 								BasicTypeRecord* functionType=0;
 								BasicFunctionDeclaration* functionDeclaration=0;
 								Ptr<BasicScope::Instance::FunctionInstance> functionInstanceObject=new BasicScope::Instance::FunctionInstance;
-								Ptr<BasicExpression> functionExpression;
 
+								Ptr<BasicExpression> functionExpression;
+								Ptr<BasicReferenceExpression> referenceExpression;
 								if(functionInstance->normalFunction)
 								{
 									functionExpression=functionInstance->normalFunction;
+									referenceExpression=functionInstance->normalFunction;
 								}
 								else
 								{
 									functionExpression=functionInstance->genericFunction;
+									referenceExpression=functionInstance->genericFunction->reference;
 									for(vint j=0;j<functionInstance->genericFunction->argumentTypes.Count();j++)
 									{
 										functionInstanceObject->genericParameters.Add(BasicLanguage_GetTypeRecord(functionInstance->genericFunction->argumentTypes[j], newArgument, false));
@@ -572,7 +575,7 @@ BasicLanguage_BuildGlobalScopePass2
 								functionType=BasicLanguage_GetExpressionType(functionExpression, newArgument);
 								if(functionType)
 								{
-									BasicEnv::Reference reference=argument.env->GetReference(functionInstance->normalFunction.Obj());
+									BasicEnv::Reference reference=argument.env->GetReference(referenceExpression.Obj());
 									if(reference.isVariable)
 									{
 										argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionTypeNotMatches(node, functionInstance->name));
