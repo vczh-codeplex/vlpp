@@ -22,7 +22,7 @@
     <ProjectGuid>{C5B7B948-A36F-418C-815D-2FFA8B81A2A9}</ProjectGuid>
     <RootNamespace>UnitTest</RootNamespace>
     <SccProjectName>$/vlpp/UnitTest/UnitTest</SccProjectName>
-    <SccAuxPath>https://tfs02.codeplex.com</SccAuxPath>
+    <SccAuxPath>https://tfs.codeplex.com/tfs/tfs02</SccAuxPath>
     <SccLocalPath>.</SccLocalPath>
     <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
     <Keyword>Win32Proj</Keyword>
