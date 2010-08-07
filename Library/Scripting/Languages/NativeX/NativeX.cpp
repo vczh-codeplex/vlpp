@@ -1335,6 +1335,7 @@ namespace vl
 									= (GENERIC>>LT(NeedLt)>>plist(ID(NeedID)+*(COMMA>>ID(NeedID)))<<GT(NeedGt))
 									;
 					Node<TokenInput<RegexToken>, ParsingPair<RegexToken, RegexToken>> genericConstraintClause
+									= ID(NeedID) + (COLON(NeedColon) >> ID(NeedID))
 									;
 					Node<TokenInput<RegexToken>, ParsingList<ParsingPair<RegexToken, RegexToken>>> genericConstraint
 									= WHERE >> (plist(genericConstraintClause + *(COMMA >> genericConstraintClause)))
@@ -2332,7 +2333,7 @@ namespace vl
 							argument.writer.WriteString(L"  ");
 							IdentifierToString(constraint->argumentName, argument.writer);
 							argument.writer.WriteString(L" : ");
-							IdentifierToString(constraint->argumentName, argument.writer);
+							IdentifierToString(constraint->conceptName, argument.writer);
 						}
 					}
 					argument.writer.WriteLine(L"");

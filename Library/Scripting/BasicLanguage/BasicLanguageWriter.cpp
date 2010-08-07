@@ -1033,6 +1033,15 @@ BasicGenericNode
 				return *this;
 			}
 
+			BasicGenericNode& BasicGenericNode::Where(const WString& genericArgument, const WString& conceptName)
+			{
+				Ptr<BasicGeneric::Constraint> constraint=new BasicGeneric::Constraint;
+				constraint->argumentName=genericArgument;
+				constraint->conceptName=conceptName;
+				genericDeclaration->constraints.Add(constraint);
+				return *this;
+			}
+
 			void BasicGenericNode::DefineVariable(const WString& name, const BasicTypeNode& type)
 			{
 				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;

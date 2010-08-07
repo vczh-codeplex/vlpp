@@ -226,12 +226,14 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		;
 	programMain
 		.Generic().GenericArgument(L"V")
+		.Where(L"V", L"Eq")
 		.DefineInstance(t_type(L"Vector"), L"Eq")
 		.Member(L"Equals", L"VectorEquals", t_types()<<t_type(L"V"))
 		.Member(L"NotEquals", L"VectorNotEquals", t_types()<<t_type(L"V"))
 		;
 	programMain
 		.Generic().GenericArgument(L"W")
+		.Where(L"W", L"Eq")
 		.DefineFunction(L"VectorEquals")
 		.ReturnType(t_bool())
 		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])
@@ -241,6 +243,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			);
 	programMain
 		.Generic().GenericArgument(L"W")
+		.Where(L"W", L"Eq")
 		.DefineFunction(L"VectorNotEquals")
 		.ReturnType(t_bool())
 		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])

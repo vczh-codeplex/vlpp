@@ -254,6 +254,7 @@ Program
 				BasicGenericNode(Ptr<BasicProgram> _program);
 
 				BasicGenericNode&						GenericArgument(const WString& name);
+				BasicGenericNode&						Where(const WString& genericArgument, const WString& conceptName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
