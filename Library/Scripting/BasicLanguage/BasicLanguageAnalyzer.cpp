@@ -208,6 +208,25 @@ BasicLanguage_BuildGlobalScopePass1
 							scope->types.Add(name, argument.typeManager->GetGenericArgumentType(name));
 						}
 					}
+					for(vint i=0;i<declaration->genericDeclaration.constraints.Count();i++)
+					{
+						Ptr<BasicGeneric::Constraint> constraint=declaration->genericDeclaration.constraints[i];
+						if(!scope->types.Items().Keys().Contains(constraint->argumentName))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetGenericArgumentNotExists(declaration, constraint->argumentName));
+						}
+						else
+						{
+							Ptr<BasicScope::Concept> concept=scope->concepts.Find(constraint->conceptName);
+							if(!concept)
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetConceptNotExists(declaration, constraint->conceptName));
+							}
+							else
+							{
+							}
+						}
+					}
 					BP newArgument(argument, scope);
 					return BP(argument, scope);
 				}

@@ -217,6 +217,12 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::GenericArgumentAlreadyExists(declaration->name, error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::GenericArgumentNotExists:
+					{
+						BasicDeclaration* declaration=dynamic_cast<BasicDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::GenericArgumentNotExists(declaration->name, error->GetParameters()[0]);
+					}
+					break;
 				case BasicLanguageCodeException::CannotUseUninstanciatedGenericType:
 					{
 						message=BasicErrorMessage::CannotUseUninstanciatedGenericType();

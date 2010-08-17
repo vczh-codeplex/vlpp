@@ -58,6 +58,7 @@ namespace vl
 					ExternalVariableCannotHaveInitializer,	//name
 					ExternalStructureShouldBeDefined,		//name
 					GenericArgumentAlreadyExists,			//name
+					GenericArgumentNotExists,				//name
 					CannotUseUninstanciatedGenericType,
 					CannotUseUninstanciatedGenericVariable,	//name
 					CannotUseUninstanciatedGenericFunction,	//name
@@ -120,6 +121,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetExternalVariableCannotHaveInitializer(BasicVariableDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNotExists(BasicDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericType(BasicType* type);
 				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericVariable(BasicReferenceExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericFunction(BasicReferenceExpression* expression);
@@ -130,6 +132,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicConceptInstanceDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicDeclaration* declaration, const WString& conceptName);
 				static Ptr<BasicLanguageCodeException>							GetInstanceTypeNotCorrect(BasicConceptInstanceDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
