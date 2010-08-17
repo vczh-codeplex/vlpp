@@ -280,6 +280,13 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, GenericArgumentAlreadyExists, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNotExists(BasicDeclaration* declaration, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new BasicLanguageCodeException(declaration, GenericArgumentNotExists, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(BasicType* type)
 			{
 				Array<WString> parameters(0);
@@ -342,6 +349,13 @@ BasicLanguageCodeException
 			{
 				Array<WString> parameters(1);
 				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ConceptNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptNotExists(BasicDeclaration* declaration, const WString& conceptName)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=conceptName;
 				return new BasicLanguageCodeException(declaration, ConceptNotExists, parameters.Wrap());
 			}
 
