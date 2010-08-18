@@ -246,6 +246,11 @@ namespace vl
 				return L"Concept "+name+L" should not have a function "+function+L".";
 			}
 
+			WString BasicErrorMessage::InstanceShouldBeDeclaredOnType(const WString& type, const WString& conceptName)
+			{
+				return L"An instance of concept "+conceptName+L" on type "+type+L" is needed.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

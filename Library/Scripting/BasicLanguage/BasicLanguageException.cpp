@@ -385,6 +385,13 @@ BasicLanguageCodeException
 				parameters[0]=name;
 				return new BasicLanguageCodeException(declaration, InstanceShouldNotHaveFunction, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(BasicType* type, const WString& conceptName)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=conceptName;
+				return new BasicLanguageCodeException(type, InstanceShouldBeDeclaredOnType, parameters.Wrap());
+			}
 		}
 	}
 }

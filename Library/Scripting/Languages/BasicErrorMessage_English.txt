@@ -48,6 +48,7 @@ InstanceTypeNotCorrect(name)=Instance {name} can only apply to primitive types o
 ConceptFunctionTypeNotMatches(name,function)=Concept {name} has a function {function} with a different type.
 InstanceShouldHaveFunction(name,function)=Instance {name} should have a function {function}.
 InstanceShouldNotHaveFunction(name,function)=Concept {name} should not have a function {function}.
+InstanceShouldBeDeclaredOnType(type,conceptName)=An instance of concept {conceptName} on type {type} is needed.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

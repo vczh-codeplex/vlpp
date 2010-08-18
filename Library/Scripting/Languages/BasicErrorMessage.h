@@ -73,6 +73,7 @@ namespace vl
 				static WString ConceptFunctionTypeNotMatches(const WString& name, const WString& function);
 				static WString InstanceShouldHaveFunction(const WString& name, const WString& function);
 				static WString InstanceShouldNotHaveFunction(const WString& name, const WString& function);
+				static WString InstanceShouldBeDeclaredOnType(const WString& type, const WString& conceptName);
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();
