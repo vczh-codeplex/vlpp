@@ -63,6 +63,7 @@ BasicTypeManager
 				virtual vint							MemberNameIndex(const WString& name);	//structure
 				virtual vint							MemberCount();							//structure
 				virtual bool							Defined();								//structure
+				virtual BasicDeclaration*				Declaration();							//structure
 				virtual WString							ArgumentName();							//generic-argument
 			};
 
@@ -160,8 +161,9 @@ BasicTypeManager
 				collections::List<BasicTypeRecord*>		types;
 				bool									defined;
 				_ProxyTable								proxyTable;
+				BasicDeclaration*						declaration;
 
-				BasicStructureTypeRecord();
+				BasicStructureTypeRecord(BasicDeclaration* _declaration);
 			public:
 
 				TypeRecordType							GetType();
@@ -171,6 +173,7 @@ BasicTypeManager
 				vint									MemberNameIndex(const WString& name);
 				vint									MemberCount();
 				bool									Defined();
+				BasicDeclaration*						Declaration();
 			};
 
 			class BasicGenericArgumentTypeRecord : public CommonFlagTypeRecord<BasicTypeRecord, WString>
@@ -218,13 +221,15 @@ BasicTypeManager
 			protected:
 				BasicTypeRecord*						elementType;
 				collections::List<BasicTypeRecord*>		parameterTypes;
+				BasicDeclaration*						declaration;
 
-				BasicGenericTypeRecord();
+				BasicGenericTypeRecord(BasicDeclaration* _declaration);
 			public:
 				TypeRecordType							GetType();
 				BasicTypeRecord*						ElementType();
 				BasicTypeRecord*						ParameterType(vint index);
 				vint									ParameterCount();
+				BasicDeclaration*						Declaration();
 			};
 
 /***********************************************************************
@@ -253,11 +258,11 @@ BasicTypeManager
 				BasicTypeRecord*						GetPointerType(BasicTypeRecord* elementType);
 				BasicTypeRecord*						GetArrayType(BasicTypeRecord* elementType, vint elementCount);
 				BasicTypeRecord*						GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes);
-				BasicTypeRecord*						CreateStructureType();
+				BasicTypeRecord*						CreateStructureType(BasicStructureDeclaration* declaration);
 				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
 
 				BasicTypeRecord*						GetGenericArgumentType(const WString& name);
-				BasicTypeRecord*						CreateGenericType();
+				BasicTypeRecord*						CreateGenericType(BasicStructureDeclaration* declaration);
 				void									UpdateGenericType(BasicTypeRecord* genericType, BasicTypeRecord* elementType, const collections::IReadonlyList<BasicTypeRecord*>& parameters);
 				BasicTypeRecord*						Instanciate(BasicTypeRecord* genericType, const _IGenericInstanciatingTypeTable& parameters);
 			};

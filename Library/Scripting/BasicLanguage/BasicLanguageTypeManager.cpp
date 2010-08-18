@@ -82,6 +82,11 @@ BasicTypeRecord
 			{
 				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
 			}
+
+			BasicDeclaration* BasicTypeRecord::Declaration()
+			{
+				CHECK_ERROR(false, L"BasicTypeRecord::Declaration()#不支持此操作。");
+			}
 			
 			WString BasicTypeRecord::ArgumentName()
 			{
@@ -226,7 +231,8 @@ BasicStructureTypeRecord
 				return Compare(p)>=0;
 			}
 
-			BasicStructureTypeRecord::BasicStructureTypeRecord()
+			BasicStructureTypeRecord::BasicStructureTypeRecord(BasicDeclaration* _declaration)
+				:declaration(_declaration)
 			{
 			}
 
@@ -264,6 +270,11 @@ BasicStructureTypeRecord
 			bool BasicStructureTypeRecord::Defined()
 			{
 				return defined;
+			}
+
+			BasicDeclaration* BasicStructureTypeRecord::Declaration()
+			{
+				return declaration;
 			}
 
 /***********************************************************************
@@ -388,8 +399,9 @@ BasicGenericStructureProxyTypeRecord
 BasicGenericTypeRecord
 ***********************************************************************/
 
-			BasicGenericTypeRecord::BasicGenericTypeRecord()
+			BasicGenericTypeRecord::BasicGenericTypeRecord(BasicDeclaration* _declaration)
 				:elementType(0)
+				,declaration(_declaration)
 			{
 			}
 
@@ -411,6 +423,11 @@ BasicGenericTypeRecord
 			vint BasicGenericTypeRecord::ParameterCount()
 			{
 				return parameterTypes.Count();
+			}
+
+			BasicDeclaration* BasicGenericTypeRecord::Declaration()
+			{
+				return declaration;
 			}
 
 /***********************************************************************
@@ -551,9 +568,9 @@ BasicTypeManager
 					);
 			}
 
-			BasicTypeRecord* BasicTypeManager::CreateStructureType()
+			BasicTypeRecord* BasicTypeManager::CreateStructureType(BasicStructureDeclaration* declaration)
 			{
-				BasicStructureTypeRecord* type=new BasicStructureTypeRecord;
+				BasicStructureTypeRecord* type=new BasicStructureTypeRecord(declaration);
 				type->defined=false;
 				CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
 				return type;
@@ -579,9 +596,9 @@ BasicTypeManager
 					);
 			}
 
-			BasicTypeRecord* BasicTypeManager::CreateGenericType()
+			BasicTypeRecord* BasicTypeManager::CreateGenericType(BasicStructureDeclaration* declaration)
 			{
-				BasicGenericTypeRecord* type=new BasicGenericTypeRecord;
+				BasicGenericTypeRecord* type=new BasicGenericTypeRecord(declaration);
 				CommonTypeManager<BasicTypeRecord>::RegisterTypeRecord(type);
 				return type;
 			}

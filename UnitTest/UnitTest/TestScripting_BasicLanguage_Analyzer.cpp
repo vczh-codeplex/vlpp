@@ -172,7 +172,7 @@ TEST_CASE(TestTypeManager)
 	parameters.RemoveAt(0);
 	TEST_ASSERT(function!=manager.GetFunctionType(primitiveVoid, parameters.Wrap()));
 
-	BasicTypeRecord* structure=manager.CreateStructureType();
+	BasicTypeRecord* structure=manager.CreateStructureType(0);
 	List<WString> names;
 	names.Add(L"data");
 	names.Add(L"next");
@@ -201,8 +201,8 @@ TEST_CASE(TestTypeManagerWithGeneric)
 	TEST_ASSERT(genericArgument==manager.GetGenericArgumentType(L"T"));
 	TEST_ASSERT(genericArgument!=manager.GetGenericArgumentType(L"U"));
 
-	BasicTypeRecord* genericType=manager.CreateGenericType();
-	BasicTypeRecord* genericLink=manager.CreateStructureType();
+	BasicTypeRecord* genericType=manager.CreateGenericType(0);
+	BasicTypeRecord* genericLink=manager.CreateStructureType(0);
 	List<BasicTypeRecord*> genericArguments;
 	genericArguments.Add(manager.GetGenericArgumentType(L"T"));
 	manager.UpdateGenericType(genericType, genericLink, genericArguments.Wrap());
@@ -264,7 +264,7 @@ TEST_CASE(TestBasicEnv)
 	TEST_ASSERT(global->PreviousScope()==0);
 	TEST_ASSERT(global->OwnerDeclaration()==0);
 	TEST_ASSERT(global->OwnerStatement()==0);
-	BasicTypeRecord* link=tm.CreateStructureType();
+	BasicTypeRecord* link=tm.CreateStructureType(0);
 	{
 		List<WString> names;
 		names.Add(L"data");
@@ -357,7 +357,7 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 	SortedList<WString> forwardStructures;
 	BP argument(&env, global, &tm, errors, forwardStructures);
 	
-	BasicTypeRecord* link=tm.CreateStructureType();
+	BasicTypeRecord* link=tm.CreateStructureType(0);
 	global->types.Add(L"Link", link);
 
 	TEST_ASSERT(BasicLanguage_GetTypeRecord(t_void().GetInternalValue(), argument, true)==tm.GetPrimitiveType(void_type));
