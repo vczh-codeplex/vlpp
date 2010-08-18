@@ -240,6 +240,7 @@ BasicLanguage_BuildGlobalScopePass1
 							}
 							else
 							{
+								scope->genericConstraints.Add(argument.typeManager->GetGenericArgumentType(constraint->argumentName), constraint->conceptName);
 							}
 						}
 					}

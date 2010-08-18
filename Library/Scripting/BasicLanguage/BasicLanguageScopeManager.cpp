@@ -129,7 +129,23 @@ BasicScope
 
 			bool BasicScope::RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName)
 			{
-				return true;
+				vint genericArgumentIndex=genericConstraints.Keys().IndexOf(type);
+				if(genericArgumentIndex!=-1)
+				{
+					return genericConstraints.GetByIndex(genericArgumentIndex).Contains(conceptName);
+				}
+				else
+				{
+					BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+					if(structureProxyType)
+					{
+						return FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
+					}
+					else
+					{
+						return FindInstance(type, conceptName);
+					}
+				}
 			}
 
 /***********************************************************************

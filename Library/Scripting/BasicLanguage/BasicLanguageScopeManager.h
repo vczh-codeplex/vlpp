@@ -88,6 +88,7 @@ namespace vl
 				CommonScopeItems<BasicScope, WString, BasicFunctionDeclaration*>	functions;
 				CommonScopeItems<BasicScope, WString, Ptr<Concept>>					concepts;
 				collections::List<Ptr<Instance>>									instances;
+				collections::Group<BasicTypeRecord*, WString>						genericConstraints;
 
 				Ptr<Instance>									FindInstance(BasicTypeRecord* type, const WString& conceptName);
 				bool											RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName);
