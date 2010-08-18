@@ -290,6 +290,11 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::InstanceShouldNotHaveFunction(declaration->name, error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::InstanceShouldBeDeclaredOnType:
+					{
+						BasicType* type=dynamic_cast<BasicType*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::InstanceShouldBeDeclaredOnType(ToString(type), error->GetParameters()[0]);
+					}
 				default:
 					return 0;
 				}

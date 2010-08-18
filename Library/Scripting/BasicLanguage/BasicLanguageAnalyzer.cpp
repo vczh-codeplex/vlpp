@@ -1401,13 +1401,29 @@ BasicLanguage_GetExpressionType
 						argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
 					}
 
+					BasicDeclaration* genericDeclaration=0;
 					if(variableType.globalVariable)
 					{
+						genericDeclaration=variableType.globalVariable;
 						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(variableScope, variableType.globalVariable));
 					}
 					else if(functionDeclaration)
 					{
+						genericDeclaration=functionDeclaration;
 						argument.env->RegisterReference(node->reference.Obj(), BasicEnv::Reference(functionScope, functionDeclaration));
+					}
+					if(genericDeclaration)
+					{
+						for(vint i=0;i<genericDeclaration->genericDeclaration.constraints.Count();i++)
+						{
+							BasicGeneric::Constraint* constraint=genericDeclaration->genericDeclaration.constraints[i].Obj();
+							vint argumentIndex=genericDeclaration->genericDeclaration.arguments.IndexOf(constraint->argumentName);
+							BasicTypeRecord* argumentType=argumentTypes[genericType->ParameterType(argumentIndex)];
+							if(!argument.scope->RequiredInstanceExists(argumentType, constraint->conceptName))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->argumentTypes[argumentIndex].Obj(), constraint->conceptName));
+							}
+						}
 					}
 					return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
 				}

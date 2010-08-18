@@ -71,6 +71,7 @@ namespace vl
 					ConceptFunctionTypeNotMatches,			//name
 					InstanceShouldHaveFunction,				//name
 					InstanceShouldNotHaveFunction,			//name
+					InstanceShouldBeDeclaredOnType,			//concept-name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -137,6 +138,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetInstanceShouldBeDeclaredOnType(BasicType* type, const WString& conceptName);
 			};
 		}
 	}

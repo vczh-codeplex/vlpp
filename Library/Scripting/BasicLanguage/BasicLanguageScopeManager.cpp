@@ -127,6 +127,11 @@ BasicScope
 				return 0;
 			}
 
+			bool BasicScope::RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName)
+			{
+				return true;
+			}
+
 /***********************************************************************
 BasicEnv::Reference
 ***********************************************************************/
