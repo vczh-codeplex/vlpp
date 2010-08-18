@@ -161,6 +161,22 @@ BasicLanguage_GetTypeRecord
 						{
 							argumentTypes.Add(genericType->ParameterType(i), BasicLanguage_GetTypeRecord(node->argumentTypes[i], argument, false));
 						}
+						
+						BasicDeclaration* genericDeclaration=genericType->Declaration();
+						if(genericDeclaration)
+						{
+							for(vint i=0;i<genericDeclaration->genericDeclaration.constraints.Count();i++)
+							{
+								BasicGeneric::Constraint* constraint=genericDeclaration->genericDeclaration.constraints[i].Obj();
+								vint argumentIndex=genericDeclaration->genericDeclaration.arguments.IndexOf(constraint->argumentName);
+								BasicTypeRecord* argumentType=argumentTypes[genericType->ParameterType(argumentIndex)];
+								if(!argument.scope->RequiredInstanceExists(argumentType, constraint->conceptName))
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->argumentTypes[argumentIndex].Obj(), constraint->conceptName));
+								}
+							}
+						}
+
 						return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
 					}
 				}
@@ -240,7 +256,7 @@ BasicLanguage_BuildGlobalScopePass1
 			{
 				if(declaration->genericDeclaration.HasGeneric())
 				{
-					BasicTypeRecord* genericType=argument.typeManager->CreateGenericType();
+					BasicTypeRecord* genericType=argument.typeManager->CreateGenericType(dynamic_cast<BasicStructureDeclaration*>(declaration));
 					List<BasicTypeRecord*> genericArguments;
 					for(vint i=0;i<declaration->genericDeclaration.arguments.Count();i++)
 					{
@@ -324,7 +340,7 @@ BasicLanguage_BuildGlobalScopePass1
 						if(forward==-1)
 						{
 							argument.forwardStructures.Add(node->name);
-							BasicTypeRecord* structure=argument.typeManager->CreateStructureType();
+							BasicTypeRecord* structure=argument.typeManager->CreateStructureType(node);
 							structure=BuildBasicGenericType(structure, node, argument);
 							argument.scope->types.Add(node->name, structure);
 						}
@@ -334,7 +350,7 @@ BasicLanguage_BuildGlobalScopePass1
 						BasicTypeRecord* structure=0;
 						if(forward==-1)
 						{
-							structure=argument.typeManager->CreateStructureType();
+							structure=argument.typeManager->CreateStructureType(node);
 							BasicTypeRecord* genericType=BuildBasicGenericType(structure, node, argument);
 							argument.scope->types.Add(node->name, genericType);
 						}
