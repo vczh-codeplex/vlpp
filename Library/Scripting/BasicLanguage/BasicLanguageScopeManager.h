@@ -91,7 +91,7 @@ namespace vl
 				collections::Group<BasicTypeRecord*, WString>						genericConstraints;
 
 				Ptr<Instance>									FindInstance(BasicTypeRecord* type, const WString& conceptName);
-				bool											RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName);
+				bool											RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName, Ptr<BasicScope::Instance>& instance);
 			};
 
 			class BasicEnv : public Object, private NotCopyable
