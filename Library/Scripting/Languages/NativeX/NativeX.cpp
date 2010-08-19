@@ -1737,8 +1737,33 @@ namespace vl
 							result+=L")";
 							return result;
 						}
+					case BasicTypeRecord::Structure:
+						{
+							BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+							if(proxy)
+							{
+								BasicTypeRecord* genericType=proxy->UninstanciatedStructureType();
+								WString result=genericType->Declaration()->name;
+								for(vint i=0;i<genericType->ParameterCount();i++)
+								{
+									result+=(i?L", ":L"<");
+									result+=ToString(genericType->ParameterType(i));
+								}
+								result+=L">";
+								return result;
+							}
+							else
+							{
+								return type->Declaration()->name;
+							}
+						}
+						break;
+					case BasicTypeRecord::GenericArgument:
+						return type->ArgumentName();
+					case BasicTypeRecord::Generic:
+						return type->Declaration()->name;
 					default:
-						return L"structure";
+						return L"[UNKNOWN-NATIVEX-TYPE]";
 					}
 				}
 
