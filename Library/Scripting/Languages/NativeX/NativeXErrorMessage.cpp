@@ -51,6 +51,11 @@ namespace vl
 				return L"Here needs a name.";
 			}
 
+			WString NativeXErrorMessage::NeedTypeExpression()
+			{
+				return L"Here needs a type.";
+			}
+
 			WString NativeXErrorMessage::NeedLt()
 			{
 				return L"Here needs an open angle bracket \"<\".";

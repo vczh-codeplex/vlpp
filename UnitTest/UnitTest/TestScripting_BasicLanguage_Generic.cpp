@@ -195,9 +195,6 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
 		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
 		;
-	programMain
-		.DefineConcept(L"Fake", L"T")
-		;
 
 	programMain
 		.DefineInstance(t_int(), L"Eq")

@@ -34,6 +34,7 @@ namespace vl
 				static WString NeedStatement();
 				static WString NeedDeclaration();
 				static WString NeedID();
+				static WString NeedTypeExpression();
 				static WString NeedLt();
 				static WString NeedGt();
 				static WString NeedOpenBrace();

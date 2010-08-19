@@ -157,6 +157,11 @@ BasicLanguage_StoreToAddressInternal
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return false;
