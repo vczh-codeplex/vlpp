@@ -256,6 +256,11 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ConceptFunctionAlreadyExists(declaration->name, error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::ConceptFunctionNotExists:
+					{
+						message=BasicErrorMessage::ConceptFunctionNotExists(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
 				case BasicLanguageCodeException::ConceptAlreadyExists:
 					{
 						message=BasicErrorMessage::ConceptAlreadyExists(error->GetParameters()[0]);
