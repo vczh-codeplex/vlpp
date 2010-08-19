@@ -13,9 +13,10 @@ namespace vl
 BasicLanguageCodeException
 ***********************************************************************/
 
-			BasicLanguageCodeException::BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters)
+			BasicLanguageCodeException::BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, BasicTypeRecord* _typeParameter)
 				:Exception(L"发生BasicLanguage语义分析错误。")
 				,element(_element)
+				,typeParameter(_typeParameter)
 				,exceptionCode(_exceptionCode)
 			{
 				CopyFrom(parameters.Wrap(), _parameters);
@@ -24,6 +25,7 @@ BasicLanguageCodeException
 			BasicLanguageCodeException::BasicLanguageCodeException(const BasicLanguageCodeException& exception)
 				:Exception(exception.Message())
 				,element(exception.element)
+				,typeParameter(exception.typeParameter)
 				,exceptionCode(exception.exceptionCode)
 			{
 				CopyFrom(parameters.Wrap(), exception.parameters.Wrap());
@@ -36,6 +38,11 @@ BasicLanguageCodeException
 			BasicLanguageElement* BasicLanguageCodeException::GetBasicLanguageElement()const
 			{
 				return element;
+			}
+
+			BasicTypeRecord* BasicLanguageCodeException::GetTypeParameter()const
+			{
+				return typeParameter;
 			}
 
 			BasicLanguageCodeException::ExceptionCode BasicLanguageCodeException::GetExceptionCode()const
@@ -394,11 +401,11 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, InstanceShouldNotHaveFunction, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(BasicType* type, const WString& conceptName)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(BasicType* typeExpression, BasicTypeRecord* type, const WString& conceptName)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=conceptName;
-				return new BasicLanguageCodeException(type, InstanceShouldBeDeclaredOnType, parameters.Wrap());
+				return new BasicLanguageCodeException(typeExpression, InstanceShouldBeDeclaredOnType, parameters.Wrap(), type);
 			}
 		}
 	}
