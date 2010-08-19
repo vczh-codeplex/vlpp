@@ -239,7 +239,9 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Statement(
-			s_empty()
+			s_var(t_bool(), L"x_equals", e_name(L"Eq", t_type(L"W"), L"Equals")(e_exps()<<e_name(L"a").Member(L"X")<<e_name(L"b").Member(L"X")))
+			<<s_var(t_bool(), L"y_equals", e_name(L"Eq", t_type(L"W"), L"Equals")(e_exps()<<e_name(L"a").Member(L"Y")<<e_name(L"b").Member(L"Y")))
+			<<s_expr(e_result().Assign(e_name(L"x_equals")&&e_name(L"y_equals")))
 			);
 	programMain
 		.Generic().GenericArgument(L"W")
@@ -249,7 +251,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		.Parameter(L"a", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Parameter(L"b", t_type(L"Vector")[t_types()<<t_type(L"W")])
 		.Statement(
-			s_empty()
+			s_expr(e_result().Assign(!e_name(L"VectorEquals", t_types()<<t_type(L"W"))(e_exps()<<e_name(L"a")<<e_name(L"b"))))
 			);
 
 	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");

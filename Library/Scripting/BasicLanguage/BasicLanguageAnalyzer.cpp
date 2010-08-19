@@ -211,7 +211,16 @@ BasicLanguage_BuildGlobalScopePass1
 			{
 				if(declaration->genericDeclaration.HasGeneric())
 				{
-					BasicScope* scope=argument.env->CreateScope(argument.scope);
+					BasicScope* scope=0;
+					BasicFunctionDeclaration* functionDeclaration=dynamic_cast<BasicFunctionDeclaration*>(declaration);
+					if(functionDeclaration)
+					{
+						scope=argument.env->CreateFunctionScope(argument.scope, functionDeclaration);
+					}
+					else
+					{
+						scope=argument.env->CreateScope(argument.scope);
+					}
 					for(vint i=0;i<declaration->genericDeclaration.arguments.Count();i++)
 					{
 						const WString& name=declaration->genericDeclaration.arguments[i];
@@ -1452,8 +1461,27 @@ BasicLanguage_GetExpressionType
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
 				{
-					// TODO: Implement it.
-					return 0;
+					BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					if(!type)
+					{
+						return 0;
+					}
+					if(!argument.scope->RequiredInstanceExists(type, node->conceptName))
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->type.Obj(), node->conceptName));
+						return 0;
+					}
+					Ptr<BasicScope::Concept> conceptObject=argument.scope->concepts.Find(node->conceptName);
+					vint functionIndex=conceptObject->functions.Keys().IndexOf(node->functionName);
+					if(functionIndex==-1)
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetConceptFunctionNotExists(node));
+						return 0;
+					}
+
+					Dictionary<BasicTypeRecord*, BasicTypeRecord*> typeMap;
+					typeMap.Add(conceptObject->conceptType, type);
+					return argument.typeManager->Instanciate(conceptObject->functions.Values()[functionIndex], typeMap.Wrap());
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
@@ -1672,12 +1700,9 @@ BasicLanguage_BuildDeclarationBody
 						}
 						if(node->statement)
 						{
+							// if this is a generic function, the generic argument types have beed added in BuildGlobalScopePass1
+							// and functionScope will be the previous created function scope
 							BasicScope* functionScope=argument.env->CreateFunctionScope(argument.scope, node);
-							for(vint i=0;i<node->genericDeclaration.arguments.Count();i++)
-							{
-								const WString& typeName=node->genericDeclaration.arguments[i];
-								functionScope->types.Add(typeName, argument.typeManager->GetGenericArgumentType(typeName));
-							}
 							for(vint i=0;i<node->parameterNames.Count();i++)
 							{
 								if(functionScope->variables.Items().Keys().Contains(node->parameterNames[i]))

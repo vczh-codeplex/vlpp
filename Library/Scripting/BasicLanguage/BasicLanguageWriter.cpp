@@ -735,6 +735,15 @@ BasicExpressionNode
 				return result;
 			}
 
+			BasicExpressionNode e_name(const WString& conceptName, const BasicTypeNode& type, const WString& functionName)
+			{
+				Ptr<BasicInstanceFunctionExpression> result=new BasicInstanceFunctionExpression;
+				result->conceptName=conceptName;
+				result->functionName=functionName;
+				result->type=type.GetInternalValue();
+				return result;
+			}
+
 			BasicExpressionNode e_null()
 			{
 				return new BasicNullExpression();

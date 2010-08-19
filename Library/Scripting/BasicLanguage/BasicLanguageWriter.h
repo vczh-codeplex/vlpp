@@ -152,6 +152,7 @@ Expression
 			extern BasicExpressionNode					e_null();
 			extern BasicExpressionNode					e_name(const WString& name);
 			extern BasicExpressionNode					e_name(const WString& name, const BasicTypeNode::ListNode& types);
+			extern BasicExpressionNode					e_name(const WString& conceptName, const BasicTypeNode& type, const WString& functionName);
 			extern BasicExpressionNode					e_result();
 			extern BasicExpressionNode::ListNode		e_exps();
 

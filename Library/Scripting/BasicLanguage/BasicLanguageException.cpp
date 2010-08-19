@@ -338,6 +338,14 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, ConceptFunctionAlreadyExists, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptFunctionNotExists(BasicInstanceFunctionExpression* expression)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=expression->conceptName;
+				parameters[1]=expression->functionName;
+				return new BasicLanguageCodeException(expression, ConceptFunctionAlreadyExists, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConceptAlreadyExists(BasicDeclaration* declaration)
 			{
 				Array<WString> parameters(1);

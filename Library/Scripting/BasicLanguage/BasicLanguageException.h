@@ -65,6 +65,7 @@ namespace vl
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
 					ConceptFunctionAlreadyExists,			//name
+					ConceptFunctionNotExists,				//conceptName, functionName
 					ConceptAlreadyExists,					//name
 					ConceptNotExists,						//name
 					InstanceTypeNotCorrect,
@@ -131,6 +132,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
+				static Ptr<BasicLanguageCodeException>							GetConceptFunctionNotExists(BasicInstanceFunctionExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicConceptInstanceDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetConceptNotExists(BasicDeclaration* declaration, const WString& conceptName);

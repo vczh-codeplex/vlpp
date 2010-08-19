@@ -116,35 +116,43 @@ BasicScope
 
 			Ptr<BasicScope::Instance> BasicScope::FindInstance(BasicTypeRecord* type, const WString& conceptName)
 			{
-				for(vint i=0;i<instances.Count();i++)
+				BasicScope* scope=this;
+				while(scope)
 				{
-					Ptr<BasicScope::Instance> instance=instances[i];
-					if(instance->instanceType==type && instance->targetConcept->conceptDeclaration->name==conceptName)
+					for(vint i=0;i<scope->instances.Count();i++)
 					{
-						return instance;
+						Ptr<BasicScope::Instance> instance=scope->instances[i];
+						if(instance->instanceType==type && instance->targetConcept->conceptDeclaration->name==conceptName)
+						{
+							return instance;
+						}
 					}
+					scope=scope->previousScope;
 				}
 				return 0;
 			}
 
 			bool BasicScope::RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName)
 			{
-				vint genericArgumentIndex=genericConstraints.Keys().IndexOf(type);
-				if(genericArgumentIndex!=-1)
+				BasicScope* scope=this;
+				while(scope)
 				{
-					return genericConstraints.GetByIndex(genericArgumentIndex).Contains(conceptName);
+					vint genericArgumentIndex=scope->genericConstraints.Keys().IndexOf(type);
+					if(genericArgumentIndex!=-1)
+					{
+						return scope->genericConstraints.GetByIndex(genericArgumentIndex).Contains(conceptName);
+					}
+					scope=scope->previousScope;
+				}
+
+				BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+				if(structureProxyType)
+				{
+					return FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
 				}
 				else
 				{
-					BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
-					if(structureProxyType)
-					{
-						return FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
-					}
-					else
-					{
-						return FindInstance(type, conceptName);
-					}
+					return FindInstance(type, conceptName);
 				}
 			}
 
