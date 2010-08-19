@@ -122,7 +122,7 @@ BasicLanguage_GetTypeRecord
 				}
 				else
 				{
-					argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(typeExpression, conceptName));
+					argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(typeExpression, type, conceptName));
 				}
 			}
 

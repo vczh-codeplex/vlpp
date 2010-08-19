@@ -12,6 +12,7 @@ Classes:
 
 #include "..\..\Exception.h"
 #include "BasicLanguageExpression.h"
+#include "BasicLanguageTypeManager.h"
 
 namespace vl
 {
@@ -72,18 +73,20 @@ namespace vl
 					ConceptFunctionTypeNotMatches,			//name
 					InstanceShouldHaveFunction,				//name
 					InstanceShouldNotHaveFunction,			//name
-					InstanceShouldBeDeclaredOnType,			//concept-name
+					InstanceShouldBeDeclaredOnType,			//concept-name, [typeParameter for type information]
 				};
 			protected:
 				BasicLanguageElement*											element;
+				BasicTypeRecord*												typeParameter;
 				ExceptionCode													exceptionCode;
 				collections::List<WString>										parameters;
 			public:
-				BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters);
+				BasicLanguageCodeException(BasicLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, BasicTypeRecord* _typeParameter=0);
 				BasicLanguageCodeException(const BasicLanguageCodeException& exception);
 				~BasicLanguageCodeException();
 
 				BasicLanguageElement*											GetBasicLanguageElement()const;
+				BasicTypeRecord*												GetTypeParameter()const;
 				ExceptionCode													GetExceptionCode()const;
 				const collections::IReadonlyList<WString>&						GetParameters()const;
 
@@ -140,7 +143,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionTypeNotMatches(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
-				static Ptr<BasicLanguageCodeException>							GetInstanceShouldBeDeclaredOnType(BasicType* type, const WString& conceptName);
+				static Ptr<BasicLanguageCodeException>							GetInstanceShouldBeDeclaredOnType(BasicType* typeExpression, BasicTypeRecord* type, const WString& conceptName);
 			};
 		}
 	}
