@@ -10,6 +10,7 @@ NeedType=Here needs a type.
 NeedStatement=Here needs a statement.
 NeedDeclaration=Here needs a declaration.
 NeedID=Here needs a name.
+NeedTypeExpression=Here needs a type.
 
 NeedLt=Here needs an open angle bracket \"<\".
 NeedGt=Here needs a close angle bracket \">\".

@@ -297,6 +297,16 @@ Other Expression
 				collections::List<Ptr<BasicType>>			argumentTypes;
 			};
 
+			class BasicInstanceFunctionExpression : public BasicExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				WString										conceptName;
+				WString										functionName;
+				Ptr<BasicType>								type;
+			};
+
 /***********************************************************************
 Statement
 ***********************************************************************/
@@ -553,6 +563,7 @@ Algorithms
 			F(BasicCastingExpression)\
 			F(BasicReferenceExpression)\
 			F(BasicInstanciatedExpression)\
+			F(BasicInstanceFunctionExpression)\
 			F(BasicExtendedExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicExpression, BASIC_EXPRESSION_TARGETS)

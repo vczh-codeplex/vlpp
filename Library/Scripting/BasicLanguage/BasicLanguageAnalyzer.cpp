@@ -765,6 +765,11 @@ BasicLanguage_IsLeftValue
 					return argument.env->GetReference(node->reference.Obj()).isVariable;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return argument.semanticExtension->IsLeftValue(node, argument);
@@ -1443,6 +1448,12 @@ BasicLanguage_GetExpressionType
 						}
 					}
 					return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
+				{
+					// TODO: Implement it.
+					return 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

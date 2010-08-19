@@ -233,6 +233,10 @@ BasicLanguage_RunSideEffect
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanceFunctionExpression)
+				{
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
 				{
 					argument.codegenExtension->RunSideEffect(node, argument);

@@ -468,6 +468,12 @@ BasicLanguage_PushValueInternal
 					}
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
+				{
+					// TODO: Implement it.
+					return 0;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return argument.codegenExtension->PushValue(node, argument);

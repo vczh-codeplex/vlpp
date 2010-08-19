@@ -319,6 +319,15 @@ namespace vl
 				return expression;
 			}
 
+			Ptr<BasicExpression> ToBasicInstanceFunctionExpression(const ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>& input)
+			{
+				Ptr<BasicInstanceFunctionExpression> expression=CreateNode<BasicInstanceFunctionExpression>(input.First().First());
+				expression->conceptName=ConvertID(WString(input.First().First().reading, input.First().First().length));
+				expression->type=input.First().Second();
+				expression->functionName=ConvertID(WString(input.Second().reading, input.Second().length));
+				return expression;
+			}
+
 			Ptr<BasicExpression> ToResult(const RegexToken& input)
 			{
 				return CreateNode<BasicFunctionResultExpression>(input);
@@ -1094,32 +1103,33 @@ namespace vl
 				return ParsingResult<TYPE>();																			\
 			}
 
-			ERROR_HANDLER(NeedExpression,	Ptr<BasicExpression>)
-			ERROR_HANDLER(NeedType,			RegexToken)
-			ERROR_HANDLER(NeedStatement,	RegexToken)
-			ERROR_HANDLER(NeedDeclaration,	Ptr<BasicDeclaration>)
-			ERROR_HANDLER(NeedID,			RegexToken)
+			ERROR_HANDLER(NeedExpression,		Ptr<BasicExpression>)
+			ERROR_HANDLER(NeedType,				RegexToken)
+			ERROR_HANDLER(NeedStatement,		RegexToken)
+			ERROR_HANDLER(NeedDeclaration,		Ptr<BasicDeclaration>)
+			ERROR_HANDLER(NeedID,				RegexToken)
+			ERROR_HANDLER(NeedTypeExpression,	Ptr<BasicType>)
 
-			ERROR_HANDLER(NeedLt,			RegexToken)
-			ERROR_HANDLER(NeedGt,			RegexToken)
-			ERROR_HANDLER(NeedOpenBrace,	RegexToken)
-			ERROR_HANDLER(NeedCloseBrace,	RegexToken)
-			ERROR_HANDLER(NeedCloseArray,	RegexToken)
-			ERROR_HANDLER(NeedComma,		RegexToken)
-			ERROR_HANDLER(NeedSemicolon,	RegexToken)
-			ERROR_HANDLER(NeedColon,		RegexToken)
-			ERROR_HANDLER(NeedCloseStat,	RegexToken)
-			ERROR_HANDLER(NeedAssign,		RegexToken)
-			ERROR_HANDLER(NeedOpenStruct,	RegexToken)
-			ERROR_HANDLER(NeedCloseStruct,	RegexToken)
-			ERROR_HANDLER(NeedOpenConcept,	RegexToken)
-			ERROR_HANDLER(NeedCloseConcept,	RegexToken)
+			ERROR_HANDLER(NeedLt,				RegexToken)
+			ERROR_HANDLER(NeedGt,				RegexToken)
+			ERROR_HANDLER(NeedOpenBrace,		RegexToken)
+			ERROR_HANDLER(NeedCloseBrace,		RegexToken)
+			ERROR_HANDLER(NeedCloseArray,		RegexToken)
+			ERROR_HANDLER(NeedComma,			RegexToken)
+			ERROR_HANDLER(NeedSemicolon,		RegexToken)
+			ERROR_HANDLER(NeedColon,			RegexToken)
+			ERROR_HANDLER(NeedCloseStat,		RegexToken)
+			ERROR_HANDLER(NeedAssign,			RegexToken)
+			ERROR_HANDLER(NeedOpenStruct,		RegexToken)
+			ERROR_HANDLER(NeedCloseStruct,		RegexToken)
+			ERROR_HANDLER(NeedOpenConcept,		RegexToken)
+			ERROR_HANDLER(NeedCloseConcept,		RegexToken)
 
-			ERROR_HANDLER(NeedWhile,		RegexToken)
-			ERROR_HANDLER(NeedWhen,			RegexToken)
-			ERROR_HANDLER(NeedWith,			RegexToken)
-			ERROR_HANDLER(NeedDo,			RegexToken)
-			ERROR_HANDLER(NeedUnit,			RegexToken)
+			ERROR_HANDLER(NeedWhile,			RegexToken)
+			ERROR_HANDLER(NeedWhen,				RegexToken)
+			ERROR_HANDLER(NeedWith,				RegexToken)
+			ERROR_HANDLER(NeedDo,				RegexToken)
+			ERROR_HANDLER(NeedUnit,				RegexToken)
 
 #undef ERROR_HANDLER
 
@@ -1266,7 +1276,8 @@ namespace vl
 									| INTEGER[ToInteger]
 									;
 
-					reference		= (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedExpression]
+					reference		= (ID + (LT(NeedLt) >> type(NeedTypeExpression) << GT(NeedGt)) + (COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID)))[ToBasicInstanceFunctionExpression]
+									| (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedExpression]
 									| ID[ToReference]
 									;
 
@@ -2177,6 +2188,15 @@ namespace vl
 						NativeX_BasicType_GenerateCode(node->argumentTypes[i], argument);
 					}
 					argument.writer.WriteString(L">");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanceFunctionExpression)
+				{
+					IdentifierToString(node->conceptName, argument.writer);
+					argument.writer.WriteString(L"<");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L">::");
+					IdentifierToString(node->functionName, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)

@@ -121,6 +121,11 @@ BasicLanguage_InvokeInternal
 					}
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicInstanceFunctionExpression)
+				{
+					// TODO: Implement it.
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return false;
