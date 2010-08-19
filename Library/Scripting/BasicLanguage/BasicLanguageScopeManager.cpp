@@ -132,8 +132,9 @@ BasicScope
 				return 0;
 			}
 
-			bool BasicScope::RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName)
+			bool BasicScope::RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName, Ptr<BasicScope::Instance>& instance)
 			{
+				instance=0;
 				BasicScope* scope=this;
 				while(scope)
 				{
@@ -148,12 +149,13 @@ BasicScope
 				BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
 				if(structureProxyType)
 				{
-					return FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
+					instance=FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
 				}
 				else
 				{
-					return FindInstance(type, conceptName);
+					instance=FindInstance(type, conceptName);
 				}
+				return instance;
 			}
 
 /***********************************************************************

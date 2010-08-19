@@ -100,6 +100,32 @@ BasicSemanticExtension
 BasicLanguage_GetTypeRecord
 ***********************************************************************/
 
+			void CheckRequiredInstance(BasicTypeRecord* type, BasicType* typeExpression, const WString& conceptName, const BP& argument)
+			{
+				Ptr<BasicScope::Instance> instanceObject;
+				if(argument.scope->RequiredInstanceExists(type, conceptName, instanceObject))
+				{
+					BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+					if(structureProxyType)
+					{
+						BasicConceptInstanceDeclaration* instance=instanceObject->instanceDeclaration;
+						BasicDeclaration* structure=structureProxyType->UninstanciatedStructureType()->Declaration();
+						for(vint i=0;i<instance->genericDeclaration.constraints.Count();i++)
+						{
+							Ptr<BasicGeneric::Constraint> constraint=instance->genericDeclaration.constraints[i];
+							vint argumentIndex=instance->genericDeclaration.arguments.IndexOf(constraint->argumentName);
+							BasicTypeRecord* structureGenericArgumentType=argument.typeManager->GetGenericArgumentType(structure->genericDeclaration.arguments[argumentIndex]);
+							BasicTypeRecord* parameterType=structureProxyType->GenericArgumentMap()[structureGenericArgumentType];
+							CheckRequiredInstance(parameterType, typeExpression, constraint->conceptName, argument);
+						}
+					}
+				}
+				else
+				{
+					argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(typeExpression, conceptName));
+				}
+			}
+
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecordInternal, BasicType, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicPrimitiveType)
@@ -170,10 +196,7 @@ BasicLanguage_GetTypeRecord
 								BasicGeneric::Constraint* constraint=genericDeclaration->genericDeclaration.constraints[i].Obj();
 								vint argumentIndex=genericDeclaration->genericDeclaration.arguments.IndexOf(constraint->argumentName);
 								BasicTypeRecord* argumentType=argumentTypes[genericType->ParameterType(argumentIndex)];
-								if(!argument.scope->RequiredInstanceExists(argumentType, constraint->conceptName))
-								{
-									argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->argumentTypes[argumentIndex].Obj(), constraint->conceptName));
-								}
+								CheckRequiredInstance(argumentType, node->argumentTypes[argumentIndex].Obj(), constraint->conceptName, argument);
 							}
 						}
 
@@ -1450,10 +1473,7 @@ BasicLanguage_GetExpressionType
 							BasicGeneric::Constraint* constraint=genericDeclaration->genericDeclaration.constraints[i].Obj();
 							vint argumentIndex=genericDeclaration->genericDeclaration.arguments.IndexOf(constraint->argumentName);
 							BasicTypeRecord* argumentType=argumentTypes[genericType->ParameterType(argumentIndex)];
-							if(!argument.scope->RequiredInstanceExists(argumentType, constraint->conceptName))
-							{
-								argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->argumentTypes[argumentIndex].Obj(), constraint->conceptName));
-							}
+							CheckRequiredInstance(argumentType, node->argumentTypes[argumentIndex].Obj(), constraint->conceptName, argument);
 						}
 					}
 					return argument.typeManager->Instanciate(genericType, argumentTypes.Wrap());
@@ -1466,11 +1486,7 @@ BasicLanguage_GetExpressionType
 					{
 						return 0;
 					}
-					if(!argument.scope->RequiredInstanceExists(type, node->conceptName))
-					{
-						argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldBeDeclaredOnType(node->type.Obj(), node->conceptName));
-						return 0;
-					}
+					CheckRequiredInstance(type, node->type.Obj(), node->conceptName, argument);
 					Ptr<BasicScope::Concept> conceptObject=argument.scope->concepts.Find(node->conceptName);
 					vint functionIndex=conceptObject->functions.Keys().IndexOf(node->functionName);
 					if(functionIndex==-1)
