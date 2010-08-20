@@ -11,48 +11,50 @@ OpCode:
   stack				:low(0) push<--data-->pop high(size)
   <binary opcode>	:*stack_top* left_operand right_operand
   ------------------instructions---------------------
-  push					TYPE			CONSTANT		:*stack_top*									-> TYPE
-  pushins				INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top*									-> instruction_pointer instruction_key
-  pushlabel				LABEL-INDEX(vint)				:*stack_top*									-> instruction_label_index
-  label													:*stack_top* FUNCTION_INDEX						-> instruction_pointer instruction key
-  add|sub|mul|div		TYPE							:*stack_top* TYPE TYPE							-> TYPE
-  eq|ne|lt|le|gt|ge		TYPE							:*stack_top* TYPE TYPE							-> bool
-  mod|shl|shr			INTEGER_TYPE					:*stack_top* TYPE TYPE							-> TYPE
-  and|or|xor			INTEGER_TYPE					:*stack_typ* TYPE TYPE							-> TYPE
-  not					INTEGER_TYPE					:*stack_top* TYPE								-> TYPE
-  neg					INTEGER_TYPE					:*stack_top* TYPE								-> TYPE
-  read					TYPE							:*stack_top* TYPE*								-> TYPE
-  write					TYPE							:*stack_top* TYPE* TYPE							->
-  readmem				BYTES(vint)						:*stack_top* TYPE*								-> data[BYTES]
-  writemem				BYTES(vint)						:*stack_top* TYPE* data[BYTES]					->
-  copymem				BYTES(vint)						:*stack_top* DESTPTR SRCPTR						->
-  jump					INSTRUCTION_INDEX(vint)	INSKEY
-  jumptrue				INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top* bool								->
-  jumpfalse				INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top* bool								->
-  call					INSTRUCTION_INDEX(vint)	INSKEY	:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  call_indirect											:*stack_top* PUSHINS RETPTR						-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  call_foreign			FOREIGN_FUNCTION_INDEX(vint)	:*stack_top* RETPTR								-> RETPTR
-  call_raw				RAW_FUNCTION_POINTER			:*stack_top* ARGUMENTS							->
-  convert				DEST_TYPE		SOURCE_TYPE		:*stack_top* SOURCE_TYPE						-> DEST_TYPE
-  stack_offset			BYTES(vint)						:*stack_top*									-> pointer
-  stack_top				BYTES(vint)						:*stack_top*									-> pointer(old stack top pointer)
-  stack_reserve			BYTES(vint)(+=push, -=pop)
-  resptr												:*stack_top*									-> pointer
-  ret					STACK_RESERVE_BYTES(vint)		:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
+  push							TYPE			CONSTANT				:*stack_top*									-> TYPE
+  pushins						INSTRUCTION_INDEX(vint)	INSKEY			:*stack_top*									-> instruction_pointer instruction_key
+  pushlabel						LABEL-INDEX(vint)						:*stack_top*									-> instruction_label_index
+  label																	:*stack_top* FUNCTION_INDEX						-> instruction_pointer instruction key
+  add|sub|mul|div				TYPE									:*stack_top* TYPE TYPE							-> TYPE
+  eq|ne|lt|le|gt|ge				TYPE									:*stack_top* TYPE TYPE							-> bool
+  mod|shl|shr					INTEGER_TYPE							:*stack_top* TYPE TYPE							-> TYPE
+  and|or|xor					INTEGER_TYPE							:*stack_typ* TYPE TYPE							-> TYPE
+  not							INTEGER_TYPE							:*stack_top* TYPE								-> TYPE
+  neg							INTEGER_TYPE							:*stack_top* TYPE								-> TYPE
+  read							TYPE									:*stack_top* TYPE*								-> TYPE
+  write							TYPE									:*stack_top* TYPE* TYPE							->
+  readmem						BYTES(vint)								:*stack_top* TYPE*								-> data[BYTES]
+  writemem						BYTES(vint)								:*stack_top* TYPE* data[BYTES]					->
+  copymem						BYTES(vint)								:*stack_top* DESTPTR SRCPTR						->
+  jump							INSTRUCTION_INDEX(vint)	INSKEY
+  jumptrue						INSTRUCTION_INDEX(vint)	INSKEY			:*stack_top* bool								->
+  jumpfalse						INSTRUCTION_INDEX(vint)	INSKEY			:*stack_top* bool								->
+  call							INSTRUCTION_INDEX(vint)	INSKEY			:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  call_indirect															:*stack_top* PUSHINS RETPTR						-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  call_foreign					FOREIGN_FUNCTION_INDEX(vint)			:*stack_top* RETPTR								-> RETPTR
+  call_raw						RAW_FUNCTION_POINTER					:*stack_top* ARGUMENTS							->
+  convert						DEST_TYPE		SOURCE_TYPE				:*stack_top* SOURCE_TYPE						-> DEST_TYPE
+  stack_offset					BYTES(vint)								:*stack_top*									-> pointer
+  stack_top						BYTES(vint)								:*stack_top*									-> pointer(old stack top pointer)
+  stack_reserve					BYTES(vint)(+=push, -=pop)
+  resptr																:*stack_top*									-> pointer
+  ret							STACK_RESERVE_BYTES(vint)				:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
 ------------------link time only---------------------
-  link_pushdata			DATA-OFFSET(vint)				:*stack_top*									-> pointer
-  link_pushfunc			LABEL-INDEX(vint)				:*stack_top*									-> instruction_label_index
-  link_pushforeigndata	SYMBOL-INDEX(vint)				:*stack_top*									-> pointer
-  link_pushforeignfunc	SYMBOL-INDEX(vint)				:*stack_top*									-> instruction_label_index
-  link_callforeignfunc	SYMBOL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  link_pushdata					DATA-OFFSET(vint)						:*stack_top*									-> pointer
+  link_pushfunc					LABEL-INDEX(vint)						:*stack_top*									-> instruction_label_index
+  link_pushforeigndata			SYMBOL-INDEX(vint)						:*stack_top*									-> pointer
+  link_pushforeignfunc			SYMBOL-INDEX(vint)						:*stack_top*									-> instruction_label_index
+  link_callforeignfunc			SYMBOL-INDEX(vint)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------generic instanciation only---------
-  generic_pushdata		VARIABLE-TARGET-INDEX(int)		:*stack_top*									-> pointer
-  generic_pushfunc		FUNCTION-TARGET-INDEX(int)		:*stack_top*									-> instruction_label_index
-  generic_callfunc		FUNCTION-TARGET-INDEX(int)		:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  generic_pushfunc_vm	INTERPRETOR-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
-  generic_callfunc_vm	INTERPRETOR-TARGET-INDEX(int)	:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  generic_pushdata				VARIABLE-TARGET-INDEX(int)				:*stack_top*									-> pointer
+  generic_pushfunc				FUNCTION-TARGET-INDEX(int)				:*stack_top*									-> instruction_label_index
+  generic_callfunc				FUNCTION-TARGET-INDEX(int)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  generic_pushfunc_vm			INTERPRETOR-TARGET-INDEX(int)			:*stack_top*									-> instruction_label_index
+  generic_callfunc_vm			INTERPRETOR-TARGET-INDEX(int)			:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  generic_instance_pushfunc_vm	INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
+  generic_instance_callfunc_vm	INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
-  codegen_callfunc		LABEL-INDEX(vint)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  codegen_callfunc				LABEL-INDEX(vint)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILDEFINITION
@@ -125,6 +127,8 @@ namespace vl
 					generic_callfunc,
 					generic_pushfunc_vm,
 					generic_callfunc_vm,
+					generic_instance_pushfunc_vm,
+					generic_instance_callfunc_vm,
 
 					codegen_callfunc,
 				};
