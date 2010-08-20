@@ -470,8 +470,9 @@ BasicLanguage_PushValueInternal
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
 				{
-					// TODO: Implement it.
-					return 0;
+					vint index=GetGenericInstanceTargetIndex(node, argument);
+					argument.Ins(BasicIns::generic_instance_pushfunc_vm, BasicIns::MakeInt(index));
+					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)

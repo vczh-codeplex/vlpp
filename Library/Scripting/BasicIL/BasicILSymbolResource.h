@@ -106,10 +106,10 @@ namespace vl
 		//Instance函数特化
 		struct BasicILGenericInstanceTargetRes
 		{
-			ResourceString											symbolName;				//符号
+			ResourceString											symbolName;				//Concept符号
 			ResourceString											assemblyName;			//Assembly名
 			ResourceString											functionName;			//函数名
-			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
+			ResourceHandle<BasicILGenericArgumentRes>				type;					//模板参数
 		};
 
 		//--------------------------------------------------------------------------------------------------------

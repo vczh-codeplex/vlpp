@@ -843,6 +843,28 @@ BasicLanguage_Generate*Resource
 				return targetResource;
 			}
 
+			ResourceHandle<BasicILGenericInstanceTargetRes> BasicLanguage_GenerateTargetInstanceResource(const WString& programName, const BCP& argument, TypeUniqueStringRecorder& recorder, BasicDeclaration* targetDeclaration, BasicDeclaration* ownerDeclaration, const WString& functionName, BasicTypeRecord* type)
+			{
+				ResourceRecord<BasicILGenericInstanceTargetRes> targetResource=argument.exportResource->CreateRecord<BasicILGenericInstanceTargetRes>();
+				WString assemblyName;
+				WString symbolName;
+				if(targetDeclaration->linking.HasLink())
+				{
+					assemblyName=targetDeclaration->linking.assemblyName;
+					symbolName=targetDeclaration->linking.symbolName;
+				}
+				else
+				{
+					assemblyName=programName;
+					symbolName=targetDeclaration->name;
+				}
+				targetResource->assemblyName=argument.exportResource->CreateString(assemblyName);
+				targetResource->symbolName=argument.exportResource->CreateString(symbolName);
+				targetResource->functionName=argument.exportResource->CreateString(functionName);
+				targetResource->type=BasicLanguage_GenerateGenericArgumentRes(type, ownerDeclaration, recorder, argument);
+				return targetResource;
+			}
+
 			ResourceArrayHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericTargetRes>> targets;
@@ -946,7 +968,14 @@ BasicLanguage_Generate*Resource
 
 			ResourceArrayHandle<BasicILGenericInstanceTargetRes> BasicLanguage_GenericInstanceTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
-				return ResourceArrayHandle<BasicILGenericInstanceTargetRes>::Null();
+				List<ResourceHandle<BasicILGenericInstanceTargetRes>> targets;
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
+				for(vint i=0;i<argument.info->instanciatedGenericInstanceTargets.Count();i++)
+				{
+					BasicCodegenInfo::GenericInstanceTarget* target=argument.info->instanciatedGenericInstanceTargets[i].Obj();
+					targets.Add(BasicLanguage_GenerateTargetInstanceResource(programName, argument, recorder, target->targetDeclaration, target->ownerFunctionDeclaration, target->functionName, target->type));
+				}
+				return argument.exportResource->CreateArrayRecord(targets.Wrap());
 			}
 
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
