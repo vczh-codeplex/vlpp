@@ -265,6 +265,21 @@ BasicCodegenInfo
 				return instanciatedGenericTargets.Count()-1;
 			}
 
+			vint BasicCodegenInfo::RegisterGenericInstanceTarget(Ptr<GenericInstanceTarget> target)
+			{
+				for(vint i=0;i<instanciatedGenericInstanceTargets.Count();i++)
+				{
+					GenericInstanceTarget* currentTarget=instanciatedGenericInstanceTargets[i].Obj();
+					if(currentFunctionDeclaration==currentTarget->ownerFunctionDeclaration && target->targetDeclaration==currentTarget->targetDeclaration && target->functionName==currentTarget->functionName && target->type==currentTarget->type)
+					{
+						return i;
+					}
+				}
+				target->ownerFunctionDeclaration=currentFunctionDeclaration;
+				instanciatedGenericInstanceTargets.Add(target);
+				return instanciatedGenericInstanceTargets.Count()-1;
+			}
+
 			vint BasicCodegenInfo::RegisterLinear(const BasicOffset& offset)
 			{
 				FunctionLinear linear;

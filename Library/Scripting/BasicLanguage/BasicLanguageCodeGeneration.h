@@ -50,6 +50,14 @@ namespace vl
 					collections::List<BasicTypeRecord*>								genericParameters;
 				};
 
+				struct GenericInstanceTarget
+				{
+					BasicFunctionDeclaration*										ownerFunctionDeclaration;
+					BasicConceptBaseDeclaration*									targetDeclaration;
+					WString															functionName;
+					BasicTypeRecord*												type;
+				};
+
 				typedef Linear<vint, vint>											FunctionLinear;
 			protected:
 				BasicAnalyzer*														analyzer;
@@ -74,6 +82,7 @@ namespace vl
 				collections::List<BasicLinking>										linkings;
 				collections::List<Ptr<FunctionEntry>>								instanciatedGenericFunctionEntries;
 				collections::List<Ptr<GenericTarget>>								instanciatedGenericTargets;
+				collections::List<Ptr<GenericInstanceTarget>>						instanciatedGenericInstanceTargets;
 				collections::List<FunctionLinear>									instanciatedGenericLinears;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
@@ -103,6 +112,7 @@ namespace vl
 				BasicOffset															GetMaxVariableSpace();
 
 				vint																RegisterGenericTarget(Ptr<GenericTarget> target);
+				vint																RegisterGenericInstanceTarget(Ptr<GenericInstanceTarget> target);
 				vint																RegisterLinear(const BasicOffset& offset);
 
 				ResourceHandle<BasicTypeRes>										GetTypeResource(BasicTypeRecord* type);
@@ -167,6 +177,7 @@ Code Generation Helper Functions
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetGenericVariableTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern vint								GetGenericFunctionTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
+			extern vint								GetGenericInstanceTargetIndex		(BasicInstanceFunctionExpression* node, const BCP& argument);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);
 			extern void								Code_Write							(BasicTypeRecord* type, const BCP& argument);

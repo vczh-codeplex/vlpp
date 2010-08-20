@@ -153,6 +153,26 @@ namespace vl
 				}
 			}
 
+			vint GetGenericInstanceTargetIndex(BasicInstanceFunctionExpression* node, const BCP& argument)
+			{
+				BP bp(
+					argument.info->GetEnv(),
+					argument.info->GetSemanticScope(),
+					argument.info->GetTypeManager(),
+					*(List<Ptr<BasicLanguageCodeException>>*)0,
+					*(SortedList<WString>*)0
+					);
+				BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, bp, false);
+				Ptr<BasicScope::Concept> conceptObject=argument.info->GetSemanticScope()->concepts.Find(node->conceptName);
+
+				Ptr<BasicCodegenInfo::GenericInstanceTarget> target=new BasicCodegenInfo::GenericInstanceTarget;
+				target->ownerFunctionDeclaration=0;
+				target->type=type;
+				target->targetDeclaration=conceptObject->conceptDeclaration;
+				target->functionName=node->functionName;
+				return argument.info->RegisterGenericInstanceTarget(target);
+			}
+
 			void Code_ScaleAdder(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne)
 			{
 				BasicOffset size=1;

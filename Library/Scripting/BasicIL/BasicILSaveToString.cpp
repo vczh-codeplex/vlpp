@@ -580,13 +580,9 @@ BasicIL
 							writer.WriteLine(L"  AssemblyName = "+exportedSymbols->ReadString(instanceTargetRes->assemblyName));
 							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(instanceTargetRes->symbolName));
 							writer.WriteLine(L"  FunctionName = "+exportedSymbols->ReadString(instanceTargetRes->functionName));
-							ResourceArrayRecord<BasicILGenericArgumentRes> argumentsRes=exportedSymbols->ReadArrayRecord(instanceTargetRes->arguments);
-							for(vint j=0;j<argumentsRes.Count();j++)
-							{
-								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
-								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
-							}
+							ResourceRecord<BasicILGenericArgumentRes> argumentRes=exportedSymbols->ReadRecord(instanceTargetRes->type);
+							writer.WriteLine(L"  ArgumentSize = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
+							writer.WriteLine(L"  ArgumentName = "+NamesToString(exportedSymbols, argumentRes));
 							writer.WriteLine(L"}");
 						}
 					}
