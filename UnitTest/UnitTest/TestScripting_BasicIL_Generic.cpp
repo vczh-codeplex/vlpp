@@ -112,6 +112,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		genericRes->linears=linears;
 		genericRes->concepts=ResourceArrayHandle<BasicILGenericConceptRes>::Null();
 		genericRes->instances=ResourceArrayHandle<BasicILGenericInstanceRes>::Null();
+		genericRes->instanceTargets=ResourceArrayHandle<BasicILGenericInstanceTargetRes>::Null();
 	}
 
 	const vint address_of_i=-(vint)sizeof(vint);
@@ -361,6 +362,7 @@ TEST_CASE(TestBasicILInstruction_Generic_GlobalVariable)
 		genericRes->linears=ResourceArrayHandle<BasicILGenericLinearRes>::Null();
 		genericRes->concepts=ResourceArrayHandle<BasicILGenericConceptRes>::Null();
 		genericRes->instances=ResourceArrayHandle<BasicILGenericInstanceRes>::Null();
+		genericRes->instanceTargets=ResourceArrayHandle<BasicILGenericInstanceTargetRes>::Null();
 	}
 
 	il

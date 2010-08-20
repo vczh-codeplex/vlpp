@@ -103,6 +103,15 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
 		};
 
+		//Instance函数特化
+		struct BasicILGenericInstanceTargetRes
+		{
+			ResourceString											symbolName;				//符号
+			ResourceString											assemblyName;			//Assembly名
+			ResourceString											functionName;			//函数名
+			ResourceArrayHandle<BasicILGenericArgumentRes>			arguments;				//模板参数
+		};
+
 		//--------------------------------------------------------------------------------------------------------
 
 		struct BasicILGenericConceptFunctionRes
@@ -142,8 +151,9 @@ namespace vl
 			ResourceArrayHandle<BasicILGenericVariableEntryRes>		variableEntries;		//变量函数入口
 			ResourceArrayHandle<BasicILGenericTargetRes>			targets;				//特化表
 			ResourceArrayHandle<BasicILGenericLinearRes>			linears;				//线性参数表
-			ResourceArrayHandle<BasicILGenericConceptRes>			concepts;
-			ResourceArrayHandle<BasicILGenericInstanceRes>			instances;
+			ResourceArrayHandle<BasicILGenericConceptRes>			concepts;				//concept表
+			ResourceArrayHandle<BasicILGenericInstanceRes>			instances;				//instance表
+			ResourceArrayHandle<BasicILGenericInstanceTargetRes>	instanceTargets;		//instance函数特化表
 		};
 
 /***********************************************************************

@@ -944,6 +944,11 @@ BasicLanguage_Generate*Resource
 				return argument.exportResource->CreateArrayRecord(instances.Wrap());
 			}
 
+			ResourceArrayHandle<BasicILGenericInstanceTargetRes> BasicLanguage_GenericInstanceTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
+			{
+				return ResourceArrayHandle<BasicILGenericInstanceTargetRes>::Null();
+			}
+
 			ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				ResourceRecord<BasicILGenericRes> genericRes=argument.exportResource->CreateRecord<BasicILGenericRes>();
@@ -953,6 +958,7 @@ BasicLanguage_Generate*Resource
 				genericRes->linears=BasicLanguage_GenerateLinearResource(program, programName,argument);
 				genericRes->concepts=BasicLanguage_GenerateConceptResource(program, programName,argument);
 				genericRes->instances=BasicLanguage_GenerateInstanceResource(program, programName,argument);
+				genericRes->instanceTargets=BasicLanguage_GenericInstanceTargetResource(program, programName,argument);
 				return genericRes;
 			}
 
