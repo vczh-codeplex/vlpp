@@ -410,31 +410,35 @@ BasicIL
 				return result;
 			}
 
-			WString NamesToString(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericArgumentRes> argumentRes)
+			void WriteNameToString(Ptr<ResourceStream> exportedSymbols, ResourceRecord<BasicILGenericArgumentRes> argumentRes, const WString& prefix, stream::TextWriter& writer)
 			{
-				WString result;
 				ResourceRecord<BasicILGenericNameRes> nameRes=exportedSymbols->ReadRecord(argumentRes->nameArgument);
 				if(nameRes->isConstant)
 				{
-					result+=exportedSymbols->ReadString(nameRes->constantString);
+					writer.WriteString(exportedSymbols->ReadString(nameRes->constantString));
 				}
 				else
 				{
-					result+=L"{"+itow(nameRes->stringArgumentIndex)+L"}";
+					writer.WriteString(L"{"+itow(nameRes->stringArgumentIndex)+L"}");
 				}
+				writer.WriteString(L" : ");
+				writer.WriteString(LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
 
 				ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord(argumentRes->subArgument);
 				if(arguments && arguments.Count()>0)
 				{
-					result+=L"<";
+					writer.WriteLine(L" {");
 					for(vint i=0;i<arguments.Count();i++)
 					{
-						if(i)result+=L", ";
-						result+=NamesToString(exportedSymbols, arguments.Get(i));
+						writer.WriteString(prefix+L"  ");
+						WriteNameToString(exportedSymbols, arguments.Get(i), prefix+L"  ", writer);
 					}
-					result+=L">";
+					writer.WriteLine(prefix+L"}");
 				}
-				return result;
+				else
+				{
+					writer.WriteLine(L"");
+				}
 			}
 
 			void WriteExportSymbol(Ptr<ResourceStream> exportedSymbols, stream::TextWriter& writer)
@@ -503,8 +507,8 @@ BasicIL
 							for(vint j=0;j<argumentsRes.Count();j++)
 							{
 								ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
-								writer.WriteLine(L"  ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-								writer.WriteLine(L"  ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
+								writer.WriteString(L"  Argument["+itow(j)+L"] = ");
+								WriteNameToString(exportedSymbols, argumentRes, L"  ", writer);
 							}
 							writer.WriteLine(L"}");
 						}
@@ -561,8 +565,8 @@ BasicIL
 									for(vint j=0;j<argumentsRes.Count();j++)
 									{
 										ResourceRecord<BasicILGenericArgumentRes> argumentRes=argumentsRes.Get(j);
-										writer.WriteLine(L"    ArgumentSizes["+itow(j)+L"] = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-										writer.WriteLine(L"    ArgumentNames["+itow(j)+L"] = "+NamesToString(exportedSymbols, argumentRes));
+										writer.WriteString(L"    Argument["+itow(j)+L"] = ");
+										WriteNameToString(exportedSymbols, argumentRes, L"    ", writer);
 									}
 									writer.WriteLine(L"  }");
 								}
@@ -581,8 +585,8 @@ BasicIL
 							writer.WriteLine(L"  SymbolName = "+exportedSymbols->ReadString(instanceTargetRes->symbolName));
 							writer.WriteLine(L"  FunctionName = "+exportedSymbols->ReadString(instanceTargetRes->functionName));
 							ResourceRecord<BasicILGenericArgumentRes> argumentRes=exportedSymbols->ReadRecord(instanceTargetRes->type);
-							writer.WriteLine(L"  ArgumentSize = "+LinearToString(exportedSymbols, exportedSymbols->ReadRecord(argumentRes->sizeArgument)));
-							writer.WriteLine(L"  ArgumentName = "+NamesToString(exportedSymbols, argumentRes));
+							writer.WriteString(L"  Argument = ");
+							WriteNameToString(exportedSymbols, argumentRes, L"  ", writer);
 							writer.WriteLine(L"}");
 						}
 					}
