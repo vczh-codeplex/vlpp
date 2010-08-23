@@ -191,6 +191,20 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			s_expr(e_result().Assign(e_prim(0)))
 			);
 	programMain
+		.DefineFunction(L"main1")
+		.ReturnType(t_int())
+		.Statement(
+			s_var(t_type(L"Vector")[t_types()<<t_int()], L"v1")
+			<<s_var(t_type(L"Vector")[t_types()<<t_int()], L"v2")
+			<<s_expr(e_name(L"v1").Member(L"X").Assign(e_prim(0)))
+			<<s_expr(e_name(L"v1").Member(L"Y").Assign(e_prim(1)))
+			<<s_expr(e_name(L"v2").Member(L"X").Assign(e_prim(2)))
+			<<s_expr(e_name(L"v2").Member(L"Y").Assign(e_prim(3)))
+			<<s_if(e_name(L"Eq", t_type(L"Vector")[t_types()<<t_int()], L"Equals")(e_exps()<<e_name(L"v1")<<e_name(L"v2")),
+				s_expr(e_result().Assign(e_prim(1))),
+				s_expr(e_result().Assign(e_prim(0))))
+			);
+	programMain
 		.DefineConcept(L"Eq", L"T")
 		.Member(L"Equals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))
 		.Member(L"NotEquals", t_bool()(t_types()<<t_type(L"T")<<t_type(L"T")))

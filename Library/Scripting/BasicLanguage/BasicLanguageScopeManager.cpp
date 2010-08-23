@@ -122,7 +122,12 @@ BasicScope
 					for(vint i=0;i<scope->instances.Count();i++)
 					{
 						Ptr<BasicScope::Instance> instance=scope->instances[i];
-						if(instance->instanceType==type && instance->targetConcept->conceptDeclaration->name==conceptName)
+						BasicTypeRecord* secondaryType=instance->instanceType;
+						if(secondaryType->GetType()==BasicTypeRecord::Generic)
+						{
+							secondaryType=secondaryType->ElementType();
+						}
+						if((instance->instanceType==type || secondaryType==type) && instance->targetConcept->conceptDeclaration->name==conceptName)
 						{
 							return instance;
 						}

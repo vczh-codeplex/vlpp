@@ -513,6 +513,7 @@ BasicLanguage_Generate*Resource
 				Ptr<ResourceStream>								resource;
 				Ptr<BasicProgram>								program;
 				BasicEnv*										env;
+				BasicTypeManager*								typeManager;
 				WString											assemblyName;
 
 				void Submit()
@@ -528,10 +529,11 @@ BasicLanguage_Generate*Resource
 					}
 				}
 			public:
-				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, BasicEnv* _env, const WString& _assemblyName)
+				TypeUniqueStringRecorder(Ptr<ResourceStream> _resource, Ptr<BasicProgram> _program, const BCP& _argument, const WString& _assemblyName)
 					:resource(_resource)
 					,program(_program)
-					,env(_env)
+					,env(_argument.info->GetEnv())
+					,typeManager(_argument.info->GetTypeManager())
 					,assemblyName(_assemblyName)
 				{
 					for(vint i=0;i<program->declarations.Count();i++)
@@ -650,10 +652,11 @@ BasicLanguage_Generate*Resource
 							BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
 							if(proxy)
 							{
-								vint count=proxy->GenericArgumentMap().Count();
+								BasicDeclaration* structureDeclaration=proxy->UninstanciatedStructureType()->Declaration();
+								vint count=structureDeclaration->genericDeclaration.arguments.Count();
 								for(vint i=0;i<count;i++)
 								{
-									BasicTypeRecord* key=proxy->UninstanciatedStructureType()->ParameterType(i);
+									BasicTypeRecord* key=typeManager->GetGenericArgumentType(structureDeclaration->genericDeclaration.arguments[i]);
 									argumentTypes.Add(proxy->GenericArgumentMap()[key]);
 								}
 								return GetRegisteredType(proxy->UninstanciatedStructureType());
@@ -868,7 +871,7 @@ BasicLanguage_Generate*Resource
 			ResourceArrayHandle<BasicILGenericTargetRes> BasicLanguage_GenerateTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericTargetRes>> targets;
-				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument, programName);
 				for(vint i=0;i<argument.info->instanciatedGenericTargets.Count();i++)
 				{
 					BasicCodegenInfo::GenericTarget* target=argument.info->instanciatedGenericTargets[i].Obj();
@@ -917,7 +920,7 @@ BasicLanguage_Generate*Resource
 			{
 				List<ResourceHandle<BasicILGenericInstanceRes>> instances;
 				BasicScope* globalScope=argument.info->GetEnv()->GlobalScope();
-				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument, programName);
 				for(vint i=0;i<globalScope->instances.Count();i++)
 				{
 					BasicScope::Instance* instanceObject=globalScope->instances[i].Obj();
@@ -969,7 +972,7 @@ BasicLanguage_Generate*Resource
 			ResourceArrayHandle<BasicILGenericInstanceTargetRes> BasicLanguage_GenericInstanceTargetResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericInstanceTargetRes>> targets;
-				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument.info->GetEnv(), programName);
+				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument, programName);
 				for(vint i=0;i<argument.info->instanciatedGenericInstanceTargets.Count();i++)
 				{
 					BasicCodegenInfo::GenericInstanceTarget* target=argument.info->instanciatedGenericInstanceTargets[i].Obj();
