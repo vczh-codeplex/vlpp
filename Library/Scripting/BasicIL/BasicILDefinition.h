@@ -51,8 +51,8 @@ OpCode:
   generic_callfunc				FUNCTION-TARGET-INDEX(int)				:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   generic_pushfunc_vm			INTERPRETOR-TARGET-INDEX(int)			:*stack_top*									-> instruction_label_index
   generic_callfunc_vm			INTERPRETOR-TARGET-INDEX(int)			:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  generic_instance_pushfunc_vm	INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
-  generic_instance_callfunc_vm	INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  generic_instance_pushfunc		INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack_top*									-> instruction_label_index
+  generic_instance_callfunc		INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
   codegen_callfunc				LABEL-INDEX(vint)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ***********************************************************************/
@@ -127,8 +127,8 @@ namespace vl
 					generic_callfunc,
 					generic_pushfunc_vm,
 					generic_callfunc_vm,
-					generic_instance_pushfunc_vm,
-					generic_instance_callfunc_vm,
+					generic_instance_pushfunc,
+					generic_instance_callfunc,
 
 					codegen_callfunc,
 				};

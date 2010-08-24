@@ -62,3 +62,4 @@ ILLinkerExceptionAssemblyNotExists(assembly)=Assembly {assembly} has not been lo
 ILLinkerExceptionDuplicatedSymbolName(assembly,symbol)=Symbol {symbol} in assembly {assembly} exists. Assembly cannot have two symbols of the same name.
 ILLinkerExceptionSymbolNotExists(assembly,symbol)=Cannot find symbol {symbol} in assembly {assembly}.
 ILLinkerExceptionSymbolNotALabel(assembly,symbol)=Symbol {symbol} in assembly {assembly} does not associated with an instruction entry.
+ILLinkerExceptionDuplicatedInstance(name)=Instance {name} already exists.
