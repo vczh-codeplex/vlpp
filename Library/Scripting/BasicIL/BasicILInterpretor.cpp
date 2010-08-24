@@ -248,8 +248,10 @@ BasicILInterpretor
 						}
 					}
 
-					BasicILGenericFunctionEntry::MapType currentFunctionEntries;
-					BasicILGenericVariableEntry::MapType currentVariableEntries;
+					BasicILGenericFunctionEntry::MapType	currentFunctionEntries;
+					BasicILGenericVariableEntry::MapType	currentVariableEntries;
+					_SymbolList								currentConcepts;
+					BasicILGenericInstanceEntry::MapType	currentInstances;
 
 					if(ResourceHandle<BasicILGenericRes> genericResHandle=entry->genericSymbols)
 					{
@@ -266,7 +268,8 @@ BasicILInterpretor
 								symbol.value=exportedSymbols->ReadString(functionEntry->name);
 								if(currentSymbolMap.Keys().Contains(symbol)
 									|| currentFunctionEntries.Keys().Contains(symbol)
-									|| currentVariableEntries.Keys().Contains(symbol))
+									|| currentVariableEntries.Keys().Contains(symbol)
+									|| currentConcepts.Contains(symbol))
 								{
 									throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
 								}
@@ -292,7 +295,8 @@ BasicILInterpretor
 								symbol.value=exportedSymbols->ReadString(variableEntry->name);
 								if(currentSymbolMap.Keys().Contains(symbol)
 									|| currentFunctionEntries.Keys().Contains(symbol)
-									|| currentVariableEntries.Keys().Contains(symbol))
+									|| currentVariableEntries.Keys().Contains(symbol)
+									|| currentConcepts.Contains(symbol))
 								{
 									throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
 								}
@@ -327,6 +331,63 @@ BasicILInterpretor
 								}
 							}
 						}
+
+						if(ResourceArrayRecord<BasicILGenericConceptRes> concepts=exportedSymbols->ReadArrayRecord<BasicILGenericConceptRes>(genericRes->concepts))
+						{
+							for(vint i=0;i<concepts.Count();i++)
+							{
+								ResourceRecord<BasicILGenericConceptRes> concept=concepts.Get(i);
+
+								Pair<WString, WString> symbol;
+								symbol.key=assemblyName;
+								symbol.value=exportedSymbols->ReadString(concept->name);
+								if(currentSymbolMap.Keys().Contains(symbol)
+									|| currentFunctionEntries.Keys().Contains(symbol)
+									|| currentVariableEntries.Keys().Contains(symbol)
+									|| currentConcepts.Contains(symbol))
+								{
+									throw ILLinkerException(ILLinkerException::DuplicatedSymbolName, assemblyName, symbol.value);
+								}
+
+								currentConcepts.Add(symbol);
+							}
+						}
+
+						if(ResourceArrayRecord<BasicILGenericInstanceRes> instances=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceRes>(genericRes->instances))
+						{
+							for(vint i=0;i<instances.Count();i++)
+							{
+								ResourceRecord<BasicILGenericInstanceRes> instance=instances.Get(i);
+								BasicILGenericInstanceEntry::Key symbol;
+								symbol.assemblyName=exportedSymbols->ReadString(instance->conceptAssemblyName);
+								symbol.symbolName=exportedSymbols->ReadString(instance->conceptSymbolName);
+								symbol.typeUniqueName=exportedSymbols->ReadString(instance->typeUniqueName);
+
+								if(assemblyName!=symbol.assemblyName && !ilMap.Keys().Contains(symbol.assemblyName))
+								{
+									throw ILLinkerException(ILLinkerException::AssemblyNotExists, symbol.assemblyName, symbol.symbolName);
+								}
+								if(!currentConcepts.Contains(Pair<WString, WString>(symbol.assemblyName, symbol.symbolName))
+									&& !genericConcepts.Contains(Pair<WString, WString>(symbol.assemblyName, symbol.symbolName)))
+								{
+									throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.assemblyName, symbol.symbolName);
+								}
+								if(currentInstances.Keys().Contains(symbol)
+									|| genericInstances.Keys().Contains(symbol))
+								{
+									throw ILLinkerException(ILLinkerException::DuplicatedInstance, symbol.assemblyName+L"."+symbol.symbolName+L"<"+symbol.typeUniqueName+L">", L"");
+								}
+
+								Ptr<BasicILGenericInstanceEntry> genericInstance=new BasicILGenericInstanceEntry;
+								genericInstance->argumentCount=instance->genericArgumentCount;
+								ResourceArrayRecord<BasicILGenericInstanceFunctionRes> functions=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instance->functions);
+								for(vint j=0;j<functions.Count();j++)
+								{
+									ResourceRecord<BasicILGenericInstanceFunctionRes> function=functions.Get(i);
+								}
+								currentInstances.Add(symbol, genericInstance);
+							}
+						}
 					}
 
 					ilMap.Add(assemblyName, il);
@@ -339,6 +400,8 @@ BasicILInterpretor
 					}
 					CopyFrom(genericFunctionEntries.Wrap(), currentFunctionEntries.Wrap(), true);
 					CopyFrom(genericVariableEntries.Wrap(), currentVariableEntries.Wrap(), true);
+					CopyFrom(genericConcepts.Wrap(), currentConcepts.Wrap(), true);
+					CopyFrom(genericInstances.Wrap(), currentInstances.Wrap(), true);
 				}
 				ils.Add(il);
 			}
@@ -682,6 +745,8 @@ ILLinkerException
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotExists(_assemblyName, _symbolName);
 				case SymbolNotALabel:
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotALabel(_assemblyName, _symbolName);
+				case DuplicatedInstance:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedInstance(_assemblyName);
 				default:
 					return L"";
 				}

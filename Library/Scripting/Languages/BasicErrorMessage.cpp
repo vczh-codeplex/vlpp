@@ -306,6 +306,11 @@ namespace vl
 				return L"Symbol "+symbol+L" in assembly "+assembly+L" does not associated with an instruction entry.";
 			}
 
+			WString BasicErrorMessage::ILLinkerExceptionDuplicatedInstance(const WString& name)
+			{
+				return L"Instance "+name+L" already exists.";
+			}
+
 		}
 	}
 }

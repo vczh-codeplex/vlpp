@@ -148,6 +148,39 @@ BasicILInterpretor
 					WriteGenericArgumentArray(writer, L"Arguments", L"", target->arguments);
 				}
 				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Concept Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericConcepts.Count();i++)
+				{
+					Pair<WString, WString> key=genericConcepts[i];
+					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
+					writer.WriteLine(key.key+L"."+key.value);
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Instance Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericInstances.Count();i++)
+				{
+					BasicILGenericInstanceEntry::Key key=genericInstances.Keys()[i];
+					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
+					writer.WriteLine(key.assemblyName+L"."+key.symbolName+L"<"+key.typeUniqueName+L">");
+					writer.WriteLine(L"Generic Argument Count = "+itow(instance->argumentCount));
+
+					for(vint j=0;j<instance->functions.Count();j++)
+					{
+						WString key=instance->functions.Keys()[j];
+						writer.WriteLine(L"Function "+key+L" =");
+						BasicILGenericTarget* target=instance->functions.Values()[j].Obj();
+						writer.WriteLine(L"  Assembly Name = "+target->assemblyName);
+						writer.WriteLine(L"  Symbol Name = "+target->symbolName);
+						WriteGenericArgumentArray(writer, L"Arguments", L"  ", target->arguments);
+					}
+				}
+				writer.WriteLine(L"");
 			}
 
 /***********************************************************************
@@ -207,8 +240,8 @@ BasicIL
 				CASE(generic_pushfunc);
 				CASE(generic_callfunc_vm);
 				CASE(generic_pushfunc_vm);
-				CASE(generic_instance_pushfunc_vm);
-				CASE(generic_instance_callfunc_vm);
+				CASE(generic_instance_pushfunc);
+				CASE(generic_instance_callfunc);
 				CASE(codegen_callfunc);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
@@ -340,8 +373,8 @@ BasicIL
 				CASE(generic_pushfunc,				Constant);
 				CASE(generic_callfunc_vm,			Constant);
 				CASE(generic_pushfunc_vm,			Constant);
-				CASE(generic_instance_pushfunc_vm,	Constant);
-				CASE(generic_instance_callfunc_vm,	Constant);
+				CASE(generic_instance_pushfunc,	Constant);
+				CASE(generic_instance_callfunc,	Constant);
 				CASE(codegen_callfunc,				Constant);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE

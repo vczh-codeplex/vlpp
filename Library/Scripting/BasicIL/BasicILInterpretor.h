@@ -14,6 +14,7 @@ Classes:
 #include "BasicILDefinition.h"
 #include "..\..\Exception.h"
 #include "..\..\Entity\Linear.h"
+#include "..\..\Tuple.h"
 
 namespace vl
 {
@@ -78,7 +79,7 @@ namespace vl
 
 			struct BasicILGenericFunctionEntry
 			{
-				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>> MapType;
+				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>>	MapType;
 
 				vint											instruction;
 				vint											key;
@@ -89,7 +90,7 @@ namespace vl
 
 			struct BasicILGenericVariableEntry
 			{
-				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>> MapType;
+				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>>	MapType;
 
 				vint											argumentCount;
 				Linear<vint, vint>								size;
@@ -103,6 +104,48 @@ namespace vl
 				WString											symbolName;
 				WString											assemblyName;
 				collections::Array<Ptr<BasicILGenericArgument>>	arguments;
+			};
+
+			struct BasicILGenericInstanceEntry
+			{
+				struct Key
+				{
+					WString										symbolName;
+					WString										assemblyName;
+					WString										typeUniqueName;
+
+					int Compare(const Key& k)const
+					{
+						if(symbolName<k.symbolName)return -1;
+						if(symbolName>k.symbolName)return 1;
+						if(assemblyName<k.assemblyName)return -1;
+						if(assemblyName>k.assemblyName)return 1;
+						if(typeUniqueName<k.typeUniqueName)return -1;
+						if(typeUniqueName>k.typeUniqueName)return 1;
+						return 0;
+					}
+
+					bool operator<(const Key& k)const
+					{
+						return Compare(k)<0;
+					}
+
+					bool operator>(const Key& k)const
+					{
+						return Compare(k)>0;
+					}
+
+					bool operator==(const Key& k)const
+					{
+						return Compare(k)==0;
+					}
+				};
+
+				typedef collections::Dictionary<Key, Ptr<BasicILGenericInstanceEntry>>									MapType;
+				typedef collections::Dictionary<WString, Ptr<BasicILGenericTarget>>										FunctionMap;
+
+				vint											argumentCount;
+				FunctionMap										functions;
 			};
 
 /***********************************************************************
@@ -156,6 +199,8 @@ namespace vl
 				BasicILGenericFunctionEntry::MapType			genericFunctionEntries;
 				BasicILGenericVariableEntry::MapType			genericVariableEntries;
 				BasicILGenericTarget::ListType					genericTargets;
+				_SymbolList										genericConcepts;
+				BasicILGenericInstanceEntry::MapType			genericInstances;
 
 				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
 				VariableManager									instanciatedGenericVariables;
@@ -243,6 +288,7 @@ namespace vl
 					DuplicatedSymbolName,
 					SymbolNotExists,
 					SymbolNotALabel,
+					DuplicatedInstance,
 				};
 			private:
 				static WString				GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName);

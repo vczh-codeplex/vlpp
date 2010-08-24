@@ -124,7 +124,7 @@ BasicLanguage_InvokeInternal
 				ALGORITHM_PROCEDURE_MATCH(BasicInstanceFunctionExpression)
 				{
 					vint index=GetGenericInstanceTargetIndex(node, argument);
-					argument.Ins(BasicIns::generic_instance_callfunc_vm, BasicIns::MakeInt(index));
+					argument.Ins(BasicIns::generic_instance_callfunc, BasicIns::MakeInt(index));
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
