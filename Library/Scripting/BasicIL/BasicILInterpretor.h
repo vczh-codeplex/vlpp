@@ -14,7 +14,7 @@ Classes:
 #include "BasicILDefinition.h"
 #include "..\..\Exception.h"
 #include "..\..\Entity\Linear.h"
-#include "..\..\Tuple.h"
+#include "..\BasicIL\BasicILSymbolResource.h"
 
 namespace vl
 {
@@ -97,13 +97,17 @@ namespace vl
 				WString											uniqueEntryID;
 			};
 
-			struct BasicILGenericTarget
+			struct BasicILGenericArgumentEnvironment
+			{
+				collections::Array<Ptr<BasicILGenericArgument>>	arguments;
+			};
+
+			struct BasicILGenericTarget : public BasicILGenericArgumentEnvironment
 			{
 				typedef collections::List<Ptr<BasicILGenericTarget>> ListType;
 
 				WString											symbolName;
 				WString											assemblyName;
-				collections::Array<Ptr<BasicILGenericArgument>>	arguments;
 			};
 
 			struct BasicILGenericInstanceEntry
@@ -142,9 +146,10 @@ namespace vl
 				};
 
 				typedef collections::Dictionary<Key, Ptr<BasicILGenericInstanceEntry>>									MapType;
-				typedef collections::Dictionary<WString, Ptr<BasicILGenericTarget>>										FunctionMap;
+				typedef collections::Dictionary<WString, vint>															FunctionMap;
 
 				vint											argumentCount;
+				vint											instanceIndex;
 				FunctionMap										functions;
 			};
 
@@ -208,7 +213,8 @@ namespace vl
 				
 				void											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
 				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
-				vint											RegisterTarget(BasicILGenericTarget* target, BasicIL* il, vint targetIndex);
+				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
+				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
 				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:

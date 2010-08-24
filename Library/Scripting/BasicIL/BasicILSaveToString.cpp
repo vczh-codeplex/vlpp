@@ -168,16 +168,13 @@ BasicILInterpretor
 					BasicILGenericInstanceEntry::Key key=genericInstances.Keys()[i];
 					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
 					writer.WriteLine(key.assemblyName+L"."+key.symbolName+L"<"+key.typeUniqueName+L">");
-					writer.WriteLine(L"Generic Argument Count = "+itow(instance->argumentCount));
+					writer.WriteLine(L"  Generic Argument Count = "+itow(instance->argumentCount));
+					writer.WriteLine(L"  Resource Index = "+itow(instance->instanceIndex));
 
 					for(vint j=0;j<instance->functions.Count();j++)
 					{
 						WString key=instance->functions.Keys()[j];
-						writer.WriteLine(L"Function "+key+L" =");
-						BasicILGenericTarget* target=instance->functions.Values()[j].Obj();
-						writer.WriteLine(L"  Assembly Name = "+target->assemblyName);
-						writer.WriteLine(L"  Symbol Name = "+target->symbolName);
-						WriteGenericArgumentArray(writer, L"Arguments", L"  ", target->arguments);
+						writer.WriteLine(L"  Function "+key+L" = "+itow(instance->functions.Values()[j]));
 					}
 				}
 				writer.WriteLine(L"");
