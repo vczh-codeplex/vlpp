@@ -215,6 +215,7 @@ namespace vl
 				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
+				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
 				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:

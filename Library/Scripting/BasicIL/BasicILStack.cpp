@@ -417,6 +417,10 @@ BasicILStack
 				return foreignFunctionResult;
 			}
 
+#define DO_NOT_MOVE_TO_NEXT_INSTRUCTION		\
+			nextInstruction=instruction;	\
+			nextInsKey=insKey;
+
 			BasicILStack::RunningResult BasicILStack::Run()
 			{
 				try
@@ -445,15 +449,25 @@ BasicILStack
 								BasicILGenericTarget* target=interpretor->genericTargets[index].Obj();
 								ins.argument.pointer_value=interpretor->InstanciateGenericVariable(target);
 
-								nextInstruction=instruction;
-								nextInsKey=insKey;
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_callfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
 								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
+							break;
+						case BasicIns::generic_instance_callfunc:
+							{
+								ins.opcode=BasicIns::generic_callfunc_vm;
+								ins.argument.int_value=interpretor->RegisterInstanceFunction(0, interpretor->ils[insKey], ins.argument.int_value);
+
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
+							}
+							break;
 						case BasicIns::generic_callfunc_vm:
 							{
 								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
@@ -464,16 +478,26 @@ BasicILStack
 								theIns.opcode=BasicIns::call;
 								theIns.insKey=label.key;
 								theIns.argument.int_value=label.instruction;
-
-								nextInstruction=instruction;
-								nextInsKey=insKey;
+								
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_pushfunc:
 							{
-								ins.opcode=BasicIns::generic_callfunc_vm;
+								ins.opcode=BasicIns::generic_pushfunc_vm;
 								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
+							break;
+						case BasicIns::generic_instance_pushfunc:
+							{
+								ins.opcode=BasicIns::generic_pushfunc_vm;
+								ins.argument.int_value=interpretor->RegisterInstanceFunction(0, interpretor->ils[insKey], ins.argument.int_value);
+
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
+							}
+							break;
 						case BasicIns::generic_pushfunc_vm:
 							{
 								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
@@ -482,9 +506,8 @@ BasicILStack
 								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
 								theIns.opcode=BasicIns::pushlabel;
 								theIns.argument.int_value=labelIndex;
-
-								nextInstruction=instruction;
-								nextInsKey=insKey;
+								
+								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::push:
