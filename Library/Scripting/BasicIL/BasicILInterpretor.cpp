@@ -542,6 +542,11 @@ BasicILInterpretor
 				return RegisterTarget(environment, il, targets.Get(targetIndex));
 			}
 
+			vint BasicILInterpretor::RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex)
+			{
+				CHECK_ERROR(false, L"ÔÝ²»Ö§³Ö¡£");
+			}
+
 			WString CalculateArgumentsName(Array<Ptr<BasicILGenericArgument>>& arguments)
 			{
 				if(arguments.Count())
@@ -618,6 +623,18 @@ BasicILInterpretor
 							{
 								ins.opcode=BasicIns::generic_pushfunc_vm;
 								ins.argument.int_value=RegisterTarget(target, il, ins.argument.int_value);
+							}
+							break;
+						case BasicIns::generic_instance_callfunc:
+							{
+								ins.opcode=BasicIns::generic_callfunc_vm;
+								ins.argument.int_value=RegisterInstanceFunction(target, il, ins.argument.int_value);
+							}
+							break;
+						case BasicIns::generic_instance_pushfunc:
+							{
+								ins.opcode=BasicIns::generic_pushfunc_vm;
+								ins.argument.int_value=RegisterInstanceFunction(target, il, ins.argument.int_value);
 							}
 							break;
 						case BasicIns::pushins:
