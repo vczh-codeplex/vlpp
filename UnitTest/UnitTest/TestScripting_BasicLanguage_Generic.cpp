@@ -188,7 +188,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		.DefineFunction(L"main")
 		.ReturnType(t_int())
 		.Statement(
-			s_expr(e_result().Assign(e_prim(0)))
+			s_expr(e_result().Assign(e_name(L"main1")(e_exps())))
 			);
 	programMain
 		.DefineFunction(L"main1")
