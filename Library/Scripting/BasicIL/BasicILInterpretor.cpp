@@ -550,7 +550,7 @@ BasicILInterpretor
 				return RegisterTarget(environment, il, targets.Get(targetIndex));
 			}
 
-			vint BasicILInterpretor::RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex)
+			vint BasicILInterpretor::RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction)
 			{
 				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
 				ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
@@ -570,7 +570,26 @@ BasicILInterpretor
 				ResourceRecord<BasicILGenericInstanceFunctionRes> instanceFunctionRes=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instanceRes->functions).Get(functionIndex);
 				BasicILGenericArgumentEnvironment instanceEnvironment;
 				CopyFrom(instanceEnvironment.arguments.Wrap(), type->subArguments.Wrap());
-				return RegisterTarget(&instanceEnvironment, il, instanceFunctionRes->functionTarget);
+
+				if(instanceEnvironment.arguments.Count()==0)
+				{
+					isGenericFunction=false;
+					ResourceRecord<BasicILGenericTargetRes> realTarget=exportedSymbols->ReadRecord<BasicILGenericTargetRes>(instanceFunctionRes->functionTarget);
+					Pair<WString, WString> key;
+					key.key=exportedSymbols->ReadString(realTarget->assemblyName);
+					key.value=exportedSymbols->ReadString(realTarget->symbolName);
+
+					BasicILLabel label;
+					label.key=ils.IndexOf(ilMap[key.key]);
+					label.instruction=symbolMap[key];
+					vint functionIndex=labels.IndexOf(label);
+					return functionIndex;
+				}
+				else
+				{
+					isGenericFunction=true;
+					return RegisterTarget(&instanceEnvironment, il, instanceFunctionRes->functionTarget);
+				}
 			}
 
 			WString CalculateArgumentsName(Array<Ptr<BasicILGenericArgument>>& arguments)
@@ -653,14 +672,38 @@ BasicILInterpretor
 							break;
 						case BasicIns::generic_instance_callfunc:
 							{
-								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=RegisterInstanceFunction(target, il, ins.argument.int_value);
+								bool isGenericFunction=false;
+								vint index=RegisterInstanceFunction(target, il, ins.argument.int_value, isGenericFunction);
+								if(isGenericFunction)
+								{
+									ins.opcode=BasicIns::generic_callfunc_vm;
+									ins.argument.int_value=index;
+								}
+								else
+								{
+									ins.opcode=BasicIns::call;
+									BasicILLabel& label=labels[index];
+									ins.insKey=label.key;
+									ins.argument.int_value=label.instruction;
+								}
 							}
 							break;
 						case BasicIns::generic_instance_pushfunc:
 							{
-								ins.opcode=BasicIns::generic_pushfunc_vm;
-								ins.argument.int_value=RegisterInstanceFunction(target, il, ins.argument.int_value);
+								bool isGenericFunction=false;
+								vint index=RegisterInstanceFunction(target, il, ins.argument.int_value, isGenericFunction);
+								if(isGenericFunction)
+								{
+									ins.opcode=BasicIns::generic_pushfunc_vm;
+									ins.argument.int_value=index;
+								}
+								else
+								{
+									ins.opcode=BasicIns::pushins;
+									BasicILLabel& label=labels[index];
+									ins.insKey=label.key;
+									ins.argument.int_value=label.instruction;
+								}
 							}
 							break;
 						case BasicIns::pushins:
