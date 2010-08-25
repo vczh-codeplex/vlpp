@@ -490,29 +490,39 @@ BasicILInterpretor
 				}
 			}
 
+			void TranslateTargetArguments(BasicILGenericArgumentEnvironment* environment, Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericArgumentRes> arguments, Array<Ptr<BasicILGenericArgument>>& result);
+
+			Ptr<BasicILGenericArgument> TranslateTargetArgument(BasicILGenericArgumentEnvironment* environment, Ptr<ResourceStream> exportedSymbols, ResourceHandle<BasicILGenericArgumentRes> argument)
+			{
+				ResourceRecord<BasicILGenericArgumentRes> argumentRecord=exportedSymbols->ReadRecord(argument);
+				Ptr<BasicILGenericArgument> newArgument=new BasicILGenericArgument;
+				newArgument->size=CalculateLinear(exportedSymbols, exportedSymbols->ReadRecord(argumentRecord->sizeArgument), environment);
+
+				ResourceRecord<BasicILGenericNameRes> nameRecord=exportedSymbols->ReadRecord(argumentRecord->nameArgument);
+				if(nameRecord->isConstant)
+				{
+					newArgument->name=exportedSymbols->ReadString(nameRecord->constantString);
+				}
+				else
+				{
+					newArgument->name=environment->arguments[nameRecord->stringArgumentIndex]->name;
+				}
+				if(argumentRecord->subArgument)
+				{
+					TranslateTargetArguments(environment, exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRecord->subArgument), newArgument->subArguments);
+				}
+
+				return newArgument;
+			}
+
 			void TranslateTargetArguments(BasicILGenericArgumentEnvironment* environment, Ptr<ResourceStream> exportedSymbols, ResourceArrayRecord<BasicILGenericArgumentRes> arguments, Array<Ptr<BasicILGenericArgument>>& result)
 			{
 				result.Resize(arguments.Count());
 				for(vint j=0;j<arguments.Count();j++)
 				{
 					ResourceRecord<BasicILGenericArgumentRes> argumentRecord=arguments.Get(j);
-					Ptr<BasicILGenericArgument> newArgument=new BasicILGenericArgument;
+					Ptr<BasicILGenericArgument> newArgument=TranslateTargetArgument(environment, exportedSymbols, argumentRecord);
 					result[j]=newArgument;
-					newArgument->size=CalculateLinear(exportedSymbols, exportedSymbols->ReadRecord(argumentRecord->sizeArgument), environment);
-
-					ResourceRecord<BasicILGenericNameRes> nameRecord=exportedSymbols->ReadRecord(argumentRecord->nameArgument);
-					if(nameRecord->isConstant)
-					{
-						newArgument->name=exportedSymbols->ReadString(nameRecord->constantString);
-					}
-					else
-					{
-						newArgument->name=environment->arguments[nameRecord->stringArgumentIndex]->name;
-					}
-					if(argumentRecord->subArgument)
-					{
-						TranslateTargetArguments(environment, exportedSymbols, exportedSymbols->ReadArrayRecord(argumentRecord->subArgument), newArgument->subArguments);
-					}
 				}
 			}
 
@@ -527,7 +537,6 @@ BasicILInterpretor
 
 				ResourceArrayRecord<BasicILGenericArgumentRes> arguments=exportedSymbols->ReadArrayRecord<BasicILGenericArgumentRes>(targetRecord->arguments);
 				TranslateTargetArguments(environment, exportedSymbols, arguments, newTarget->arguments);
-
 				return genericTargets.Count()-1;
 			}
 
@@ -538,13 +547,30 @@ BasicILInterpretor
 				ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
 				ResourceArrayRecord<BasicILGenericTargetRes> targets=exportedSymbols->ReadArrayRecord<BasicILGenericTargetRes>(genericRes->targets);
 				ResourceArrayRecord<BasicILGenericLinearRes> linears=exportedSymbols->ReadArrayRecord<BasicILGenericLinearRes>(genericRes->linears);
-				
 				return RegisterTarget(environment, il, targets.Get(targetIndex));
 			}
 
 			vint BasicILInterpretor::RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex)
 			{
-				CHECK_ERROR(false, L"ÔÝ²»Ö§³Ö¡£");
+				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
+				ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+				ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
+				ResourceArrayRecord<BasicILGenericInstanceTargetRes> instanceTargets=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceTargetRes>(genericRes->instanceTargets);
+				ResourceRecord<BasicILGenericInstanceTargetRes> instanceTarget=instanceTargets.Get(targetIndex);
+
+				BasicILGenericInstanceEntry::Key key;
+				Ptr<BasicILGenericArgument> type=TranslateTargetArgument(environment, exportedSymbols, instanceTarget->type);
+				key.assemblyName=exportedSymbols->ReadString(instanceTarget->assemblyName);
+				key.symbolName=exportedSymbols->ReadString(instanceTarget->symbolName);
+				key.typeUniqueName=type->name;
+				Ptr<BasicILGenericInstanceEntry> instance=genericInstances[key];
+
+				vint functionIndex=instance->functions[exportedSymbols->ReadString(instanceTarget->functionName)];
+				ResourceRecord<BasicILGenericInstanceRes> instanceRes=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceRes>(genericRes->instances).Get(instance->instanceIndex);
+				ResourceRecord<BasicILGenericInstanceFunctionRes> instanceFunctionRes=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instanceRes->functions).Get(functionIndex);
+				BasicILGenericArgumentEnvironment instanceEnvironment;
+				CopyFrom(instanceEnvironment.arguments.Wrap(), type->subArguments.Wrap());
+				return RegisterTarget(&instanceEnvironment, il, instanceFunctionRes->functionTarget);
 			}
 
 			WString CalculateArgumentsName(Array<Ptr<BasicILGenericArgument>>& arguments)
