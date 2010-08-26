@@ -615,6 +615,24 @@ BasicILInterpretor
 				return uniqueEntryID+CalculateArgumentsName(target->arguments);
 			}
 
+			void BasicILInterpretor::RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp)
+			{
+				bool isGenericFunction=false;
+				vint index=RegisterInstanceFunction(environment, originIL, ins.argument.int_value, isGenericFunction);
+				if(isGenericFunction)
+				{
+					ins.opcode=genericOp;
+					ins.argument.int_value=index;
+				}
+				else
+				{
+					ins.opcode=normalOp;
+					BasicILLabel& label=labels[index];
+					ins.insKey=label.key;
+					ins.argument.int_value=label.instruction;
+				}
+			}
+
 			vint BasicILInterpretor::InstanciateGenericFunction(BasicILGenericTarget* target)
 			{
 				Pair<WString, WString> symbol;
@@ -672,38 +690,12 @@ BasicILInterpretor
 							break;
 						case BasicIns::generic_instance_callfunc:
 							{
-								bool isGenericFunction=false;
-								vint index=RegisterInstanceFunction(target, il, ins.argument.int_value, isGenericFunction);
-								if(isGenericFunction)
-								{
-									ins.opcode=BasicIns::generic_callfunc_vm;
-									ins.argument.int_value=index;
-								}
-								else
-								{
-									ins.opcode=BasicIns::call;
-									BasicILLabel& label=labels[index];
-									ins.insKey=label.key;
-									ins.argument.int_value=label.instruction;
-								}
+								RewriteInstanceFunctionInstruction(target, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
 							}
 							break;
 						case BasicIns::generic_instance_pushfunc:
 							{
-								bool isGenericFunction=false;
-								vint index=RegisterInstanceFunction(target, il, ins.argument.int_value, isGenericFunction);
-								if(isGenericFunction)
-								{
-									ins.opcode=BasicIns::generic_pushfunc_vm;
-									ins.argument.int_value=index;
-								}
-								else
-								{
-									ins.opcode=BasicIns::pushins;
-									BasicILLabel& label=labels[index];
-									ins.insKey=label.key;
-									ins.argument.int_value=label.instruction;
-								}
+								RewriteInstanceFunctionInstruction(target, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
 							}
 							break;
 						case BasicIns::pushins:
