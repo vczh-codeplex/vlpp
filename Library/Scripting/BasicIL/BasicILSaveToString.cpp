@@ -155,7 +155,6 @@ BasicILInterpretor
 				for(vint i=0;i<genericConcepts.Count();i++)
 				{
 					Pair<WString, WString> key=genericConcepts[i];
-					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
 					writer.WriteLine(key.key+L"."+key.value);
 				}
 				writer.WriteLine(L"");
@@ -170,6 +169,7 @@ BasicILInterpretor
 					writer.WriteLine(key.assemblyName+L"."+key.symbolName+L"<"+key.typeUniqueName+L">");
 					writer.WriteLine(L"  Generic Argument Count = "+itow(instance->argumentCount));
 					writer.WriteLine(L"  Resource Index = "+itow(instance->instanceIndex));
+					writer.WriteLine(L"  Declared Assembly = "+instance->assemblyName);
 
 					for(vint j=0;j<instance->functions.Count();j++)
 					{
