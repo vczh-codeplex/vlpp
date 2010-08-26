@@ -240,6 +240,11 @@ BasicIL
 				CASE(generic_instance_pushfunc);
 				CASE(generic_instance_callfunc);
 				CASE(codegen_callfunc);
+				CASE(exception_handler_push);
+				CASE(exception_handler_pop);
+				CASE(exception_object_reserve);
+				CASE(exception_object_address);
+				CASE(exception_raise);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
 			}
@@ -370,9 +375,14 @@ BasicIL
 				CASE(generic_pushfunc,				Constant);
 				CASE(generic_callfunc_vm,			Constant);
 				CASE(generic_pushfunc_vm,			Constant);
-				CASE(generic_instance_pushfunc,	Constant);
-				CASE(generic_instance_callfunc,	Constant);
+				CASE(generic_instance_pushfunc,		Constant);
+				CASE(generic_instance_callfunc,		Constant);
 				CASE(codegen_callfunc,				Constant);
+				CASE(exception_handler_push,		Constant);
+				CASE(exception_handler_pop,			Single);
+				CASE(exception_object_reserve,		Constant);
+				CASE(exception_object_address,		Single);
+				CASE(exception_raise,				Single);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
 			}

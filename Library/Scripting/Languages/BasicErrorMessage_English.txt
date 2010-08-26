@@ -56,6 +56,7 @@ ILExceptionAccessViolation=Access violation.
 ILExceptionInstructionIndexOutOfRange=Instruction index out of range.
 ILExceptionUnknownInstruction=Unknown instruction.
 ILExceptionBadInstructionArgument=Bad instruction argument.
+ILExceptionUnhandledException=Unhandled exception raised.
 
 ILLinkerExceptionDuplicatedAssemblyName(assembly)=Assembly {assembly} exists. Cannot load an assembly that conflict with existing names.
 ILLinkerExceptionAssemblyNotExists(assembly)=Assembly {assembly} has not been loaded.

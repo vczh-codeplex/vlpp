@@ -80,6 +80,7 @@ namespace vl
 				static WString ILExceptionInstructionIndexOutOfRange();
 				static WString ILExceptionUnknownInstruction();
 				static WString ILExceptionBadInstructionArgument();
+				static WString ILExceptionUnhandledException();
 				static WString ILLinkerExceptionDuplicatedAssemblyName(const WString& assembly);
 				static WString ILLinkerExceptionAssemblyNotExists(const WString& assembly);
 				static WString ILLinkerExceptionDuplicatedSymbolName(const WString& assembly, const WString& symbol);
