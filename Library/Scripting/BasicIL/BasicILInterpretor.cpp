@@ -381,6 +381,7 @@ BasicILInterpretor
 								Ptr<BasicILGenericInstanceEntry> genericInstance=new BasicILGenericInstanceEntry;
 								genericInstance->argumentCount=instance->genericArgumentCount;
 								genericInstance->instanceIndex=i;
+								genericInstance->assemblyName=assemblyName;
 								ResourceArrayRecord<BasicILGenericInstanceFunctionRes> functions=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instance->functions);
 								for(vint j=0;j<functions.Count();j++)
 								{
@@ -552,43 +553,56 @@ BasicILInterpretor
 
 			vint BasicILInterpretor::RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction)
 			{
-				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
-				ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
-				ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
-				ResourceArrayRecord<BasicILGenericInstanceTargetRes> instanceTargets=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceTargetRes>(genericRes->instanceTargets);
-				ResourceRecord<BasicILGenericInstanceTargetRes> instanceTarget=instanceTargets.Get(targetIndex);
-
-				BasicILGenericInstanceEntry::Key key;
-				Ptr<BasicILGenericArgument> type=TranslateTargetArgument(environment, exportedSymbols, instanceTarget->type);
-				key.assemblyName=exportedSymbols->ReadString(instanceTarget->assemblyName);
-				key.symbolName=exportedSymbols->ReadString(instanceTarget->symbolName);
-				key.typeUniqueName=type->name;
-				Ptr<BasicILGenericInstanceEntry> instance=genericInstances[key];
-
-				vint functionIndex=instance->functions[exportedSymbols->ReadString(instanceTarget->functionName)];
-				ResourceRecord<BasicILGenericInstanceRes> instanceRes=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceRes>(genericRes->instances).Get(instance->instanceIndex);
-				ResourceRecord<BasicILGenericInstanceFunctionRes> instanceFunctionRes=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instanceRes->functions).Get(functionIndex);
-				BasicILGenericArgumentEnvironment instanceEnvironment;
-				CopyFrom(instanceEnvironment.arguments.Wrap(), type->subArguments.Wrap());
-
-				if(instanceEnvironment.arguments.Count()==0)
+				vint functionIndex=-1;
+				vint instanceIndex=-1;
+				BasicIL* instanceIL=0;
+				Ptr<BasicILGenericArgument> type;
 				{
-					isGenericFunction=false;
-					ResourceRecord<BasicILGenericTargetRes> realTarget=exportedSymbols->ReadRecord<BasicILGenericTargetRes>(instanceFunctionRes->functionTarget);
-					Pair<WString, WString> key;
-					key.key=exportedSymbols->ReadString(realTarget->assemblyName);
-					key.value=exportedSymbols->ReadString(realTarget->symbolName);
+					Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
+					ResourceRecord<BasicILEntryRes> entry=exportedSymbols->ReadRootRecord<BasicILEntryRes>();
+					ResourceRecord<BasicILGenericRes> genericRes=exportedSymbols->ReadRecord<BasicILGenericRes>(entry->genericSymbols);
+					ResourceArrayRecord<BasicILGenericInstanceTargetRes> instanceTargets=exportedSymbols->ReadArrayRecord<BasicILGenericInstanceTargetRes>(genericRes->instanceTargets);
+					ResourceRecord<BasicILGenericInstanceTargetRes> instanceTarget=instanceTargets.Get(targetIndex);
 
-					BasicILLabel label;
-					label.key=ils.IndexOf(ilMap[key.key]);
-					label.instruction=symbolMap[key];
-					vint functionIndex=labels.IndexOf(label);
-					return functionIndex;
+					BasicILGenericInstanceEntry::Key key;
+					type=TranslateTargetArgument(environment, exportedSymbols, instanceTarget->type);
+					key.assemblyName=exportedSymbols->ReadString(instanceTarget->assemblyName);
+					key.symbolName=exportedSymbols->ReadString(instanceTarget->symbolName);
+					key.typeUniqueName=type->name;
+					Ptr<BasicILGenericInstanceEntry> instance=genericInstances[key];
+
+					functionIndex=instance->functions[exportedSymbols->ReadString(instanceTarget->functionName)];
+					instanceIndex=instance->instanceIndex;
+					instanceIL=ilMap[instance->assemblyName];
 				}
-				else
 				{
-					isGenericFunction=true;
-					return RegisterTarget(&instanceEnvironment, il, instanceFunctionRes->functionTarget);
+					Ptr<ResourceStream> instanceSymbols=instanceIL->resources[BasicILResourceNames::ExportedSymbols];
+					ResourceRecord<BasicILEntryRes> instanceEntryRes=instanceSymbols->ReadRootRecord<BasicILEntryRes>();
+					ResourceRecord<BasicILGenericRes> instanceGenericRes=instanceSymbols->ReadRecord<BasicILGenericRes>(instanceEntryRes->genericSymbols);
+					ResourceRecord<BasicILGenericInstanceRes> instanceRes=instanceSymbols->ReadArrayRecord<BasicILGenericInstanceRes>(instanceGenericRes->instances).Get(instanceIndex);
+					ResourceRecord<BasicILGenericInstanceFunctionRes> instanceFunctionRes=instanceSymbols->ReadArrayRecord<BasicILGenericInstanceFunctionRes>(instanceRes->functions).Get(functionIndex);
+					BasicILGenericArgumentEnvironment instanceEnvironment;
+					CopyFrom(instanceEnvironment.arguments.Wrap(), type->subArguments.Wrap());
+
+					if(instanceEnvironment.arguments.Count()==0)
+					{
+						isGenericFunction=false;
+						ResourceRecord<BasicILGenericTargetRes> realTarget=instanceSymbols->ReadRecord<BasicILGenericTargetRes>(instanceFunctionRes->functionTarget);
+						Pair<WString, WString> key;
+						key.key=instanceSymbols->ReadString(realTarget->assemblyName);
+						key.value=instanceSymbols->ReadString(realTarget->symbolName);
+
+						BasicILLabel label;
+						label.key=ils.IndexOf(ilMap[key.key]);
+						label.instruction=symbolMap[key];
+						vint functionIndex=labels.IndexOf(label);
+						return functionIndex;
+					}
+					else
+					{
+						isGenericFunction=true;
+						return RegisterTarget(&instanceEnvironment, instanceIL, instanceFunctionRes->functionTarget);
+					}
 				}
 			}
 

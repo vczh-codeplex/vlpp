@@ -535,15 +535,12 @@ BasicLanguage_BuildGlobalScopePass1
 						argument.errors.Add(BasicLanguageCodeException::GetInstanceTypeNotCorrect(node));
 					}
 					
-					if(node->defined)
-					{
-						Ptr<BasicScope::Instance> instanceObject=new BasicScope::Instance;
-						instanceObject->targetConcept=conceptObject.Obj();
-						instanceObject->instanceDeclaration=node;
-						instanceObject->instanceType=instanceType;
-						instanceObject->instanceScope=internalArgument.scope;
-						argument.scope->instances.Add(instanceObject);
-					}
+					Ptr<BasicScope::Instance> instanceObject=new BasicScope::Instance;
+					instanceObject->targetConcept=conceptObject.Obj();
+					instanceObject->instanceDeclaration=node;
+					instanceObject->instanceType=instanceType;
+					instanceObject->instanceScope=internalArgument.scope;
+					argument.scope->instances.Add(instanceObject);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)

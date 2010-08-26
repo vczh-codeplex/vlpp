@@ -1033,11 +1033,12 @@ namespace vl
 				return functionConcept;
 			}
 
-			Ptr<BasicDeclaration> ToConceptDecl(const ParsingPair<ParsingPair<RegexToken, RegexToken>, ParsingList<Ptr<BasicConceptBaseDeclaration::FunctionConcept>>>& input)
+			Ptr<BasicDeclaration> ToConceptDecl(const ParsingPair<ParsingPair<ParsingPair<RegexToken, RegexToken>, ParsingList<BasicLinking>>, ParsingList<Ptr<BasicConceptBaseDeclaration::FunctionConcept>>>& input)
 			{
-				Ptr<BasicConceptBaseDeclaration> declaration=CreateNode<BasicConceptBaseDeclaration>(input.First().First());
-				declaration->conceptType=ConvertID(WString(input.First().First().reading, input.First().First().length));
-				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				Ptr<BasicConceptBaseDeclaration> declaration=CreateNode<BasicConceptBaseDeclaration>(input.First().First().First());
+				declaration->conceptType=ConvertID(WString(input.First().First().First().reading, input.First().First().First().length));
+				declaration->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				AssignBasicLinking(declaration->linking, input.First().Second());
 				CopyFrom(declaration->functions.Wrap(), input.Second());
 				return declaration;
 			}
@@ -1352,7 +1353,7 @@ namespace vl
 									= WHERE >> (plist(genericConstraintClause + *(COMMA >> genericConstraintClause)))
 									;
 					declaration		= nonGenericDeclaration
-									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
+									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+opt(linking)+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
 									| (genericHead+opt(genericConstraint)+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
 									;
 

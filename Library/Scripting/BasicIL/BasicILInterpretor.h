@@ -150,6 +150,7 @@ namespace vl
 
 				vint											argumentCount;
 				vint											instanceIndex;
+				WString											assemblyName;
 				FunctionMap										functions;
 			};
 

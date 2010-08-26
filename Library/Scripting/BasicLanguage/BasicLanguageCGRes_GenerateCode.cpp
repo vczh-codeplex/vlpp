@@ -897,7 +897,7 @@ BasicLanguage_Generate*Resource
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					Ptr<BasicConceptBaseDeclaration> declaration=program->declarations[i].Cast<BasicConceptBaseDeclaration>();
-					if(declaration)
+					if(declaration && !declaration->linking.HasLink())
 					{
 						ResourceRecord<BasicILGenericConceptRes> conceptResource=argument.exportResource->CreateRecord<BasicILGenericConceptRes>();
 						conceptResource->name=argument.exportResource->CreateString(declaration->name);
