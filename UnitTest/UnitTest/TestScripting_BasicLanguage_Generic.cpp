@@ -188,7 +188,9 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 		.DefineFunction(L"main")
 		.ReturnType(t_int())
 		.Statement(
-			s_expr(e_result().Assign(e_name(L"main1")(e_exps())))
+			s_expr(e_result().Assign(
+				e_name(L"main1")(e_exps())+e_name(L"main2")(e_exps())
+				))
 			);
 	programMain
 		.DefineFunction(L"main1")
@@ -201,6 +203,21 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			<<s_expr(e_name(L"v2").Member(L"X").Assign(e_prim(2)))
 			<<s_expr(e_name(L"v2").Member(L"Y").Assign(e_prim(3)))
 			<<s_if(e_name(L"Eq", t_type(L"Vector")[t_types()<<t_int()], L"Equals")(e_exps()<<e_name(L"v1")<<e_name(L"v2")),
+				s_expr(e_result().Assign(e_prim(1))),
+				s_expr(e_result().Assign(e_prim(0))))
+			);
+	programMain
+		.DefineFunction(L"main2")
+		.ReturnType(t_int())
+		.Statement(
+			s_var(t_type(L"Vector")[t_types()<<t_int()], L"v1")
+			<<s_var(t_type(L"Vector")[t_types()<<t_int()], L"v2")
+			<<s_var(t_bool()(t_types()<<t_type(L"Vector")[t_types()<<t_int()]<<t_type(L"Vector")[t_types()<<t_int()]), L"f", e_name(L"Eq", t_type(L"Vector")[t_types()<<t_int()], L"NotEquals"))
+			<<s_expr(e_name(L"v1").Member(L"X").Assign(e_prim(0)))
+			<<s_expr(e_name(L"v1").Member(L"Y").Assign(e_prim(1)))
+			<<s_expr(e_name(L"v2").Member(L"X").Assign(e_prim(0)))
+			<<s_expr(e_name(L"v2").Member(L"Y").Assign(e_prim(1)))
+			<<s_if(e_name(L"f")(e_exps()<<e_name(L"v1")<<e_name(L"v2")),
 				s_expr(e_result().Assign(e_prim(1))),
 				s_expr(e_result().Assign(e_prim(0))))
 			);

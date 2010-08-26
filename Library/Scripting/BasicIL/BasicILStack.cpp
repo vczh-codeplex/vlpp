@@ -462,20 +462,7 @@ BasicILStack
 							break;
 						case BasicIns::generic_instance_callfunc:
 							{
-								bool isGenericFunction=false;
-								vint index=interpretor->RegisterInstanceFunction(0, interpretor->ils[insKey], ins.argument.int_value, isGenericFunction);
-								if(isGenericFunction)
-								{
-									ins.opcode=BasicIns::generic_callfunc_vm;
-									ins.argument.int_value=index;
-								}
-								else
-								{
-									ins.opcode=BasicIns::call;
-									BasicILLabel& label=interpretor->labels[index];
-									ins.insKey=label.key;
-									ins.argument.int_value=label.instruction;
-								}
+								interpretor->RewriteInstanceFunctionInstruction(0, ins, interpretor->ils[insKey], BasicIns::generic_callfunc_vm, BasicIns::call);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
@@ -504,20 +491,7 @@ BasicILStack
 							break;
 						case BasicIns::generic_instance_pushfunc:
 							{
-								bool isGenericFunction=false;
-								vint index=interpretor->RegisterInstanceFunction(0, interpretor->ils[insKey], ins.argument.int_value, isGenericFunction);
-								if(isGenericFunction)
-								{
-									ins.opcode=BasicIns::generic_pushfunc_vm;
-									ins.argument.int_value=index;
-								}
-								else
-								{
-									ins.opcode=BasicIns::call;
-									BasicILLabel& label=interpretor->labels[index];
-									ins.insKey=label.key;
-									ins.argument.int_value=label.instruction;
-								}
+								interpretor->RewriteInstanceFunctionInstruction(0, ins, interpretor->ils[insKey], BasicIns::generic_pushfunc_vm, BasicIns::pushins);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
