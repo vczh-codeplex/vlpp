@@ -18,6 +18,7 @@ BasicILEnv
 				:stackBase(_stackSize)
 				,stackTop(_stackSize)
 				,stackSize(_stackSize)
+				,stackReserveTopSize(0)
 			{
 				stack=new unsigned char[_stackSize];
 			}
@@ -56,26 +57,47 @@ BasicILEnv
 
 			void* BasicILEnv::Reserve(vint size)
 			{
-				stackTop-=size;
-				if(stackTop<0 || stackTop>stackSize)
+				vint newStackTop=stackTop-size;
+				if(newStackTop<stackReserveTopSize || newStackTop>stackSize)
 				{
 					throw ILException(BasicILStack::StackOverflow);
 				}
 				else
 				{
+					stackTop=newStackTop;
 					return &stack[stackTop];
 				}
+			}
+
+			void BasicILEnv::ReserveTop(vint size)
+			{
+				if(size<0 || size>stackTop)
+				{
+					throw ILException(BasicILStack::StackOverflow);
+				}
+				stackReserveTopSize=size;
+			}
+
+			vint BasicILEnv::GetReserveTopSize()
+			{
+				return stackReserveTopSize;
 			}
 
 			void BasicILEnv::Reset()
 			{
 				stackBase=stackSize;
 				stackTop=stackSize;
+				stackReserveTopSize=0;
 			}
 
 			void BasicILEnv::SetBase(vint stackPosition)
 			{
 				stackBase=stackPosition;
+			}
+
+			void BasicILEnv::SetTop(vint stackPosition)
+			{
+				stackTop=stackPosition;
 			}
 
 /***********************************************************************
@@ -822,6 +844,8 @@ ILException
 					return basiclanguage::BasicErrorMessage::ILExceptionUnknownInstruction();
 				case BasicILStack::BadInstructionArgument:
 					return basiclanguage::BasicErrorMessage::ILExceptionBadInstructionArgument();
+				case BasicILStack::UnhandledException:
+					return basiclanguage::BasicErrorMessage::ILExceptionUnhandledException();
 				default:
 					return L"";
 				}

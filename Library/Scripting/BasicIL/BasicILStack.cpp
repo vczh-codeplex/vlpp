@@ -396,6 +396,10 @@ BasicILStack
 				env->Push<vint>(-1);
 				env->Push<vint>(env->StackSize());
 				env->SetBase(env->StackTop());
+				
+				env->ReserveTop(sizeof(BasicILExceptionHandler*));
+				SetExceptionHandler(0);
+
 				instruction=entryInstruction;
 				insKey=entryInsKey;
 				foreignFunctionIndex=-1;
@@ -738,6 +742,56 @@ BasicILStack
 								nextInsKey=returnInsKey;
 							}
 							break;
+						case BasicIns::exception_handler_push:
+							{
+								BasicILExceptionHandler* handler=(BasicILExceptionHandler*)env->Reserve(sizeof(BasicILExceptionHandler));
+								handler->key=insKey;
+								handler->instruction=ins.argument.int_value;
+								handler->stackBase=env->StackBase();
+								handler->stackTop=env->StackTop();
+								handler->previous=GetExceptionHandler();
+								SetExceptionHandler(handler);
+							}
+							break;
+						case BasicIns::exception_handler_pop:
+							{
+								BasicILExceptionHandler* stackHandler=(BasicILExceptionHandler*)env->DereferenceStack(env->StackTop());
+								BasicILExceptionHandler* registeredHandler=GetExceptionHandler();
+								if(stackHandler!=registeredHandler)
+								{
+									return BasicILStack::BadInstructionArgument;
+								}
+								SetExceptionHandler(registeredHandler->previous);
+								env->Reserve(-(vint)sizeof(BasicILExceptionHandler));
+							}
+							break;
+						case BasicIns::exception_object_reserve:
+							{
+								env->ReserveTop(sizeof(BasicILExceptionHandler*)+ins.argument.int_value);
+							}
+							break;
+						case BasicIns::exception_object_address:
+							{
+								void* buffer=env->DereferenceStack(sizeof(BasicILExceptionHandler*));
+								env->Push<void*>(buffer);
+							}
+							break;
+						case BasicIns::exception_raise:
+							{
+								BasicILExceptionHandler* handler=GetExceptionHandler();
+								if(handler)
+								{
+									env->SetBase(handler->stackBase);
+									env->SetTop(handler->stackTop);
+									nextInstruction=handler->instruction;
+									nextInsKey=handler->key;
+								}
+								else
+								{
+									return BasicILStack::UnhandledException;
+								}
+							}
+							break;
 						default:
 							return BasicILStack::UnknownInstruction;
 						}
@@ -750,6 +804,16 @@ BasicILStack
 				{
 					return e.result;
 				}
+			}
+
+			BasicILExceptionHandler* BasicILStack::GetExceptionHandler()
+			{
+				return *(BasicILExceptionHandler**)env->DereferenceStack(0);
+			}
+
+			void BasicILStack::SetExceptionHandler(BasicILExceptionHandler* handler)
+			{
+				*((BasicILExceptionHandler**)env->DereferenceStack(0))=handler;
 			}
 		}
 	}

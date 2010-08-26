@@ -281,6 +281,11 @@ namespace vl
 				return L"Bad instruction argument.";
 			}
 
+			WString BasicErrorMessage::ILExceptionUnhandledException()
+			{
+				return L"Unhandled exception raised.";
+			}
+
 			WString BasicErrorMessage::ILLinkerExceptionDuplicatedAssemblyName(const WString& assembly)
 			{
 				return L"Assembly "+assembly+L" exists. Cannot load an assembly that conflict with existing names.";

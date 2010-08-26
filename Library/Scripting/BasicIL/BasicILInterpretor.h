@@ -34,6 +34,7 @@ namespace vl
 				vint											stackSize;
 				vint											stackTop;
 				unsigned char*									stack;
+				vint											stackReserveTopSize;
 			public:
 				BasicILEnv(vint _stackSize);
 				~BasicILEnv();
@@ -43,8 +44,11 @@ namespace vl
 				vint											StackTop()const;
 				void*											DereferenceStack(vint stackPosition)const;
 				void*											Reserve(vint size);
+				void											ReserveTop(vint size);
+				vint											GetReserveTopSize();
 				void											Reset();
 				void											SetBase(vint stackPosition);
+				void											SetTop(vint stackPosition);
 
 				template<typename T>
 				void Push(const T& value)
@@ -167,6 +171,15 @@ namespace vl
 				bool											operator!=(const BasicILLabel& label)const;
 			};
 
+			struct BasicILExceptionHandler
+			{
+				vint											instruction;
+				vint											key;
+				vint											stackBase;
+				vint											stackTop;
+				BasicILExceptionHandler*						previous;
+			};
+
 			class BasicILInterpretor : public Object
 			{
 				friend class BasicILStack;
@@ -255,6 +268,7 @@ namespace vl
 					InstructionIndexOutOfRange,
 					UnknownInstruction,
 					BadInstructionArgument,
+					UnhandledException,
 				};
 
 				BasicILStack(BasicILInterpretor* _interpretor);
@@ -267,6 +281,9 @@ namespace vl
 				vint											GetForeignFunctionIndex();
 				void*											GetForeignFunctionResult();
 				RunningResult									Run();
+
+				BasicILExceptionHandler*						GetExceptionHandler();
+				void											SetExceptionHandler(BasicILExceptionHandler* handler);
 			};
 
 /***********************************************************************
