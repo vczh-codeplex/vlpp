@@ -298,7 +298,12 @@ namespace vl
 
 			Ptr<BasicExpression> ToNull(const RegexToken& input)
 			{
-				return new BasicNullExpression;
+				return CreateNode<BasicNullExpression>(input);
+			}
+
+			Ptr<BasicExpression> ToException(const RegexToken& input)
+			{
+				return CreateNode<BasicExceptionAddressExpression>(input);
 			}
 
 			Ptr<BasicExpression> ToReference(const RegexToken& input)
@@ -901,6 +906,14 @@ namespace vl
 				return statement;
 			}
 
+			Ptr<BasicStatement> ToTryCatch(const ParsingPair<RegexToken, ParsingPair<Ptr<BasicStatement>, Ptr<BasicStatement>>>& input)
+			{
+				Ptr<BasicTryCatchStatement> statement=CreateNode<BasicTryCatchStatement>(input.First());
+				statement->tryStatement=input.Second().First();
+				statement->catchStatement=input.Second().Second();
+				return statement;
+			}
+
 /***********************************************************************
 ÓïÒåº¯Êý£ºÉùÃ÷
 ***********************************************************************/
@@ -1131,6 +1144,7 @@ namespace vl
 			ERROR_HANDLER(NeedWith,				RegexToken)
 			ERROR_HANDLER(NeedDo,				RegexToken)
 			ERROR_HANDLER(NeedUnit,				RegexToken)
+			ERROR_HANDLER(NeedCatch,			RegexToken)
 
 #undef ERROR_HANDLER
 
@@ -1154,8 +1168,8 @@ namespace vl
 				TokenType							ID;
 				TokenType							PRIM_TYPE;
 
-				TokenType							TRUE, FALSE, NULL_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
-				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH;
+				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
+				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH;
 				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE;
 
 				TokenType							OPEN_ARRAY;
@@ -1195,6 +1209,7 @@ namespace vl
 					TRUE			= CreateToken(tokens, L"true");
 					FALSE			= CreateToken(tokens, L"false");
 					NULL_VALUE		= CreateToken(tokens, L"null");
+					EXCEPTION_VALUE	= CreateToken(tokens, L"exception");
 					RESULT			= CreateToken(tokens, L"result");
 					FUNCTION		= CreateToken(tokens, L"function");
 					CAST			= CreateToken(tokens, L"cast");
@@ -1210,6 +1225,8 @@ namespace vl
 					WHEN			= CreateToken(tokens, L"when");
 					FOR				= CreateToken(tokens, L"for");
 					WITH			= CreateToken(tokens, L"with");
+					TRY				= CreateToken(tokens, L"try");
+					CATCH			= CreateToken(tokens, L"catch");
 					TYPE			= CreateToken(tokens, L"type");
 					STRUCTURE		= CreateToken(tokens, L"structure");
 					UNIT			= CreateToken(tokens, L"unit");
@@ -1274,6 +1291,7 @@ namespace vl
 									| ASTRING[ToAString] | WSTRING[ToWString]
 									| FLOAT[ToFloat] | DOUBLE[ToDouble]
 									| NULL_VALUE[ToNull]
+									| EXCEPTION_VALUE[ToException]
 									| INTEGER[ToInteger]
 									;
 
@@ -1328,6 +1346,7 @@ namespace vl
 									| (LOOP + statement)[ToLoopStat]
 									| (WHILE + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + statement + opt(WHEN >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToWhileStat]
 									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
+									| (TRY + (statement + (CATCH(NeedCatch) >> statement)))[ToTryCatch]
 									;
 
 					instanceType	= (PRIM_TYPE | ID)[ToNamedType]

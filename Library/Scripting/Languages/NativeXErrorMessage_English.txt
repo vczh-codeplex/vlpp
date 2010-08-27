@@ -32,5 +32,6 @@ NeedWhen=Here needs \"when\".
 NeedWith=Here needs \"with\".
 NeedDo=Here needs \"do\".
 NeedUnit=Here needs \"unit\".
+NeedCatch=Here needs \"catch\".
 
 OperatorShouldNotBe(right,wrong)=Operator {right} should not be {wrong}.
