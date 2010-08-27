@@ -299,6 +299,12 @@ BasicErrorMessageTranslator
 					{
 						message=BasicErrorMessage::InstanceShouldBeDeclaredOnType(ToString(error->GetTypeParameter()), error->GetParameters()[0]);
 					}
+					break;
+				case BasicLanguageCodeException::CannotThrowVoidValue:
+					{
+						message=BasicErrorMessage::CannotThrowVoidValue();
+					}
+					break;
 				default:
 					return 0;
 				}

@@ -707,6 +707,11 @@ BasicLanguage_IsLeftValue
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;
@@ -884,6 +889,11 @@ BasicLanguage_GetExpressionType
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
 				ALGORITHM_FUNCTION_MATCH(BasicNullExpression)
+				{
+					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(void_type));
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
 				{
 					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(void_type));
 				}
@@ -1681,12 +1691,20 @@ BasicLanguage_CheckStatement
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTryCatchStatement)
 				{
-					// TODO: Implement it
+					BasicLanguage_CheckStatement(node->tryStatement, argument);
+					BasicLanguage_CheckStatement(node->catchStatement, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicThrowStatement)
 				{
-					// TODO: Implement it
+					if(node->expression)
+					{
+						BasicTypeRecord* expressionType=BasicLanguage_GetExpressionType(node->expression, argument);
+						if(expressionType==argument.typeManager->GetPrimitiveType(void_type))
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetCannotThrowVoidValue(node));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)

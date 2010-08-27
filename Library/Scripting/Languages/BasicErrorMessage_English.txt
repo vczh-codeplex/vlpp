@@ -49,6 +49,7 @@ ConceptFunctionTypeNotMatches(name,function)=Concept {name} has a function {func
 InstanceShouldHaveFunction(name,function)=Instance {name} should have a function {function}.
 InstanceShouldNotHaveFunction(name,function)=Concept {name} should not have a function {function}.
 InstanceShouldBeDeclaredOnType(type,conceptName)=An instance of concept {conceptName} on type {type} is needed.
+CannotThrowVoidValue=Cannot throw an expression that returns no value.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

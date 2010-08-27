@@ -407,6 +407,12 @@ BasicLanguageCodeException
 				parameters[0]=conceptName;
 				return new BasicLanguageCodeException(typeExpression, InstanceShouldBeDeclaredOnType, parameters.Wrap(), type);
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotThrowVoidValue(BasicThrowStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(statement, CannotThrowVoidValue, parameters.Wrap());
+			}
 		}
 	}
 }

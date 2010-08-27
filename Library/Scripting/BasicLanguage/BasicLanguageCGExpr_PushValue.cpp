@@ -24,6 +24,12 @@ BasicLanguage_PushValueInternal
 					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
+				{
+					argument.Ins(BasicIns::exception_object_address);
+					return argument.info->GetEnv()->GetExpressionType(node);
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					argument.Ins(BasicIns::push, Convert(node->type), Convert(node->argument));

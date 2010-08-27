@@ -152,6 +152,12 @@ Primitive Expression
 				ALGORITHM_ACCEPT_DECLARATION
 			};
 
+			class BasicExceptionAddressExpression : public BasicPrimitiveExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
 			class BasicNumericExpression : public BasicPrimitiveExpression
 			{
 			public:
@@ -400,7 +406,6 @@ Statement
 
 				Ptr<BasicStatement>							tryStatement;
 				Ptr<BasicStatement>							catchStatement;
-				WString										exceptionAddressName;
 			};
 
 			class BasicThrowStatement : public BasicStatement
@@ -569,6 +574,7 @@ Algorithms
 
 #define BASIC_EXPRESSION_TARGETS(F)\
 			F(BasicNullExpression)\
+			F(BasicExceptionAddressExpression)\
 			F(BasicNumericExpression)\
 			F(BasicMbcsStringExpression)\
 			F(BasicUnicodeStringExpression)\
