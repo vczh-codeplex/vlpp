@@ -19,7 +19,6 @@ using namespace vl::stream;
 extern void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name);
 
 /*
-
 	programMain
 		.DefineFunction(L"main")
 		.ReturnType(t_int())
@@ -63,4 +62,24 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionSimpleThrow)
 				)
 			);
 	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionSimpleThrow");
+}
+
+/***********************************************************************
+Throw Integer
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_ExceptionThrowInteger)
+{
+	BasicProgramNode programMain;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_prim(10)))
+			<<s_try_catch(
+				s_throw(e_prim(20)),
+				s_expr(e_result().Assign(*e_exception()[*t_int()]))
+				)
+			);
+	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInteger");
 }
