@@ -226,6 +226,7 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Codegen.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_CodegenLinking.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Configuration.cpp" />
+    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_ExceptionHandling.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Generic.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="..\UnitTest\TestStream.cpp" />

@@ -135,21 +135,24 @@ BasicLanguage_GenerateCode
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTryCatchStatement)
 				{
-					int catchIndex=argument.il->instructions.Count();
+					vint catchIndex=argument.il->instructions.Count();
 					argument.Ins(BasicIns::exception_handler_push, BasicIns::MakeInt(0));
 					BasicLanguage_GenerateCode(node->tryStatement, argument);
 					argument.Ins(BasicIns::exception_handler_pop);
+					vint jumpIndex=argument.il->instructions.Count();
+					argument.Ins(BasicIns::jump, BasicIns::MakeInt(0));
 					argument.il->instructions[catchIndex].argument.int_value=argument.il->instructions.Count();
 
 					argument.Ins(BasicIns::exception_handler_pop);
 					BasicLanguage_GenerateCode(node->catchStatement, argument);
+					argument.il->instructions[jumpIndex].argument.int_value=argument.il->instructions.Count();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicThrowStatement)
 				{
 					if(node->expression)
 					{
-						int reserveIndex=argument.il->instructions.Count();
+						vint reserveIndex=argument.il->instructions.Count();
 						argument.Ins(BasicIns::exception_object_reserve, BasicIns::MakeInt(0));
 						BasicTypeRecord* type=BasicLanguage_PushValue(node->expression, argument);
 						argument.Ins(BasicIns::exception_object_address);
