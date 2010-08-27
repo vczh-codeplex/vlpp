@@ -890,6 +890,15 @@ BasicStatementNode
 				return result;
 			}
 
+			BasicStatementNode s_try_catch(const BasicStatementNode& tryStatement, const WString& exceptionAddressName, const BasicStatementNode& catchStatement)
+			{
+				Ptr<BasicTryCatchStatement> result=new BasicTryCatchStatement;
+				result->tryStatement=tryStatement.GetInternalValue();
+				result->catchStatement=catchStatement.GetInternalValue();
+				result->exceptionAddressName=exceptionAddressName;
+				return result;
+			}
+
 /***********************************************************************
 BasicFunctionDeclarationNode
 ***********************************************************************/

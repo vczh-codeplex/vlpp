@@ -377,20 +377,30 @@ Statement
 
 			class BasicBreakStatement : public BasicStatement
 			{
+			public:
 				ALGORITHM_ACCEPT_DECLARATION
-
 			};
 
 			class BasicContinueStatement : public BasicStatement
 			{
+			public:
 				ALGORITHM_ACCEPT_DECLARATION
-
 			};
 
 			class BasicReturnStatement : public BasicStatement
 			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
+			class BasicTryCatchStatement : public BasicStatement
+			{
+			public:
 				ALGORITHM_ACCEPT_DECLARATION
 
+				Ptr<BasicStatement>							tryStatement;
+				Ptr<BasicStatement>							catchStatement;
+				WString										exceptionAddressName;
 			};
 
 /***********************************************************************
@@ -579,6 +589,7 @@ Algorithms
 			F(BasicBreakStatement)\
 			F(BasicContinueStatement)\
 			F(BasicReturnStatement)\
+			F(BasicTryCatchStatement)\
 			F(BasicExtendedStatement)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicStatement, BASIC_STATEMENT_TARGETS)
