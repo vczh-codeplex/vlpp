@@ -749,6 +749,11 @@ BasicExpressionNode
 				return new BasicNullExpression();
 			}
 
+			BasicExpressionNode e_exception()
+			{
+				return new BasicExceptionAddressExpression();
+			}
+
 			BasicExpressionNode e_result()
 			{
 				return new BasicFunctionResultExpression;

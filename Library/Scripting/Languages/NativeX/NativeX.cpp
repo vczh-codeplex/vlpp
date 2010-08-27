@@ -914,6 +914,16 @@ namespace vl
 				return statement;
 			}
 
+			Ptr<BasicStatement> ToThrow(const ParsingPair<RegexToken, ParsingList<Ptr<BasicExpression>>>& input)
+			{
+				Ptr<BasicThrowStatement> statement=CreateNode<BasicThrowStatement>(input.First());
+				if(input.Second().Head())
+				{
+					statement->expression=input.Second().Head()->Value();
+				}
+				return statement;
+			}
+
 /***********************************************************************
 ÓïÒåº¯Êý£ºÉùÃ÷
 ***********************************************************************/
@@ -1169,7 +1179,7 @@ namespace vl
 				TokenType							PRIM_TYPE;
 
 				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
-				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH;
+				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH, THROW;
 				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE;
 
 				TokenType							OPEN_ARRAY;
@@ -1227,6 +1237,7 @@ namespace vl
 					WITH			= CreateToken(tokens, L"with");
 					TRY				= CreateToken(tokens, L"try");
 					CATCH			= CreateToken(tokens, L"catch");
+					THROW			= CreateToken(tokens, L"throw");
 					TYPE			= CreateToken(tokens, L"type");
 					STRUCTURE		= CreateToken(tokens, L"structure");
 					UNIT			= CreateToken(tokens, L"unit");
@@ -1347,6 +1358,7 @@ namespace vl
 									| (WHILE + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + statement + opt(WHEN >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToWhileStat]
 									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
 									| (TRY + (statement + (CATCH(NeedCatch) >> statement)))[ToTryCatch]
+									| (THROW + opt(exp) << SEMICOLON(NeedSemicolon))[ToThrow]
 									;
 
 					instanceType	= (PRIM_TYPE | ID)[ToNamedType]
@@ -1614,6 +1626,7 @@ namespace vl
 					, L"with"
 					, L"try"
 					, L"catch"
+					, L"throw"
 					, L"type"
 					, L"structure"
 					, L"unit"
@@ -2388,6 +2401,7 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteLine(L"try");
 					NativeX_BasicStatement_GenerateCode(node->tryStatement, newArgument);
+					PrintIndentation(argument);
 					argument.writer.WriteLine(L"catch");
 					NativeX_BasicStatement_GenerateCode(node->catchStatement, newArgument);
 				}
