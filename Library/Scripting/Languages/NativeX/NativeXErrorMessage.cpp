@@ -151,6 +151,11 @@ namespace vl
 				return L"Here needs \"unit\".";
 			}
 
+			WString NativeXErrorMessage::NeedCatch()
+			{
+				return L"Here needs \"catch\".";
+			}
+
 			WString NativeXErrorMessage::OperatorShouldNotBe(const WString& right, const WString& wrong)
 			{
 				return L"Operator "+right+L" should not be "+wrong+L".";
