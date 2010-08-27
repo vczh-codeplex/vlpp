@@ -2367,6 +2367,21 @@ namespace vl
 					NativeX_BasicStatement_GenerateCode(node->catchStatement, newArgument);
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicThrowStatement)
+				{
+					PrintIndentation(argument);
+					if(node->expression)
+					{
+						argument.writer.WriteString(L"throw ");
+						NativeX_BasicExpression_GenerateCode(node->expression, argument);
+						argument.writer.WriteLine(L";");
+					}
+					else
+					{
+						argument.writer.WriteLine(L"throw;");
+					}
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
 				{
 				}

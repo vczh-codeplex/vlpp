@@ -138,6 +138,11 @@ BasicLanguage_GenerateCode
 					// TODO: Implement it
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicThrowStatement)
+				{
+					// TODO: Implement it
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
 				{
 					argument.codegenExtension->GenerateCode(node, argument);

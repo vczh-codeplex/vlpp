@@ -899,6 +899,19 @@ BasicStatementNode
 				return result;
 			}
 
+			BasicStatementNode s_throw()
+			{
+				Ptr<BasicThrowStatement> result=new BasicThrowStatement;
+				return result;
+			}
+
+			BasicStatementNode s_throw(const BasicExpressionNode& expression)
+			{
+				Ptr<BasicThrowStatement> result=new BasicThrowStatement;
+				result->expression=expression.GetInternalValue();
+				return result;
+			}
+
 /***********************************************************************
 BasicFunctionDeclarationNode
 ***********************************************************************/

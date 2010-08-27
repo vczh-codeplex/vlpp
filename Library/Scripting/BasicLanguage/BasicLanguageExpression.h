@@ -403,6 +403,14 @@ Statement
 				WString										exceptionAddressName;
 			};
 
+			class BasicThrowStatement : public BasicStatement
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicExpression>						expression;
+			};
+
 /***********************************************************************
 Type
 ***********************************************************************/
@@ -590,6 +598,7 @@ Algorithms
 			F(BasicContinueStatement)\
 			F(BasicReturnStatement)\
 			F(BasicTryCatchStatement)\
+			F(BasicThrowStatement)\
 			F(BasicExtendedStatement)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicStatement, BASIC_STATEMENT_TARGETS)
