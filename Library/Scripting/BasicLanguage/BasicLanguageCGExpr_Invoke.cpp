@@ -35,6 +35,11 @@ BasicLanguage_InvokeInternal
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;

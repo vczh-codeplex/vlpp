@@ -23,6 +23,11 @@ BasicLanguage_PushRef
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicNullExpression*, const BCP&)#不支持此操作。");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicExceptionAddressExpression*, const BCP&)#不支持此操作。");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicNumericExpression*, const BCP&)#不支持此操作。");

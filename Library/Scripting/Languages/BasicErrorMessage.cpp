@@ -251,6 +251,11 @@ namespace vl
 				return L"An instance of concept "+conceptName+L" on type "+type+L" is needed.";
 			}
 
+			WString BasicErrorMessage::CannotThrowVoidValue()
+			{
+				return L"Cannot throw an expression that returns no value.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

@@ -20,6 +20,10 @@ BasicLanguage_RunSideEffect
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
+				{
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
 				}

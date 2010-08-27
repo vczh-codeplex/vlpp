@@ -1577,6 +1577,7 @@ namespace vl
 					L"true"
 					, L"false"
 					, L"null"
+					, L"exception"
 					, L"result"
 					, L"function"
 					, L"cast"
@@ -1592,6 +1593,8 @@ namespace vl
 					, L"when"
 					, L"for"
 					, L"with"
+					, L"try"
+					, L"catch"
 					, L"type"
 					, L"structure"
 					, L"unit"
@@ -2085,6 +2088,11 @@ namespace vl
 					argument.writer.WriteString(L"null");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
+				{
+					argument.writer.WriteString(L"exception");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
 					switch(node->type)
@@ -2361,9 +2369,7 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteLine(L"try");
 					NativeX_BasicStatement_GenerateCode(node->tryStatement, newArgument);
-					argument.writer.WriteString(L"catch(");
-					IdentifierToString(node->exceptionAddressName, newArgument.writer);
-					argument.writer.WriteLine(L")");
+					argument.writer.WriteLine(L"catch");
 					NativeX_BasicStatement_GenerateCode(node->catchStatement, newArgument);
 				}
 

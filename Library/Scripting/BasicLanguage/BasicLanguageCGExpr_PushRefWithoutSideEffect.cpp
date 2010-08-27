@@ -22,6 +22,11 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;
@@ -153,6 +158,11 @@ BasicLanguage_PushRefWithoutSideEffect
 				ALGORITHM_PROCEDURE_MATCH(BasicNullExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicNullExpression*, const BCP&)#不支持此操作。");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicExceptionAddressExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
