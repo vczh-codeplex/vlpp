@@ -83,3 +83,28 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionThrowInteger)
 			);
 	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInteger");
 }
+
+/***********************************************************************
+Throw In Function
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_ExceptionThrowInFunction)
+{
+	BasicProgramNode programMain;
+	programMain
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_prim(10)))
+			<<s_try_catch(
+				s_expr(e_name(L"throw")(e_exps())),
+				s_expr(e_result().Assign(*e_exception()[*t_int()]))
+				)
+			);
+	programMain
+		.DefineFunction(L"throw")
+		.Statement(
+			s_throw(e_prim(20))
+			);
+	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInFunction");
+}
