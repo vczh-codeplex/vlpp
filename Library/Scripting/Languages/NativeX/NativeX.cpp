@@ -2235,8 +2235,9 @@ namespace vl
 				{
 					argument.writer.WriteString(L"cast<");
 					NativeX_BasicType_GenerateCode(node->type, argument);
-					argument.writer.WriteString(L">");
+					argument.writer.WriteString(L">(");
 					NativeX_BasicExpression_GenerateCode(node->operand, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicReferenceExpression)
