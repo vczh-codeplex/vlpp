@@ -1679,6 +1679,11 @@ BasicLanguage_CheckStatement
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicTryCatchStatement)
+				{
+					// TODO: Implement it
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
 				{
 					argument.semanticExtension->CheckStatement(node, argument);

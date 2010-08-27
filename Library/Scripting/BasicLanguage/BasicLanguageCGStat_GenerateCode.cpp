@@ -133,6 +133,11 @@ BasicLanguage_GenerateCode
 					argument.info->AssociateReturn(argument.il->instructions.Count()-1);
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicTryCatchStatement)
+				{
+					// TODO: Implement it
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
 				{
 					argument.codegenExtension->GenerateCode(node, argument);

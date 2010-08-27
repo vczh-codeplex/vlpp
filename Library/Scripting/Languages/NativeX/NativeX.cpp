@@ -2352,6 +2352,20 @@ namespace vl
 					PrintIndentation(argument);
 					argument.writer.WriteLine(L"exit;");
 				}
+				
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTryCatchStatement)
+				{
+					NXCGP newArgument(argument.writer, argument.indentation+1);
+
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"try");
+					NativeX_BasicStatement_GenerateCode(node->tryStatement, newArgument);
+					argument.writer.WriteString(L"catch(");
+					IdentifierToString(node->exceptionAddressName, newArgument.writer);
+					argument.writer.WriteLine(L")");
+					NativeX_BasicStatement_GenerateCode(node->catchStatement, newArgument);
+				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
 				{

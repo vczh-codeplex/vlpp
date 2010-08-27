@@ -185,6 +185,7 @@ Statement
 			extern BasicStatementNode					s_return();
 			extern BasicStatementNode					s_empty();
 			extern BasicStatementNode					s_for(const BasicStatementNode& initializer, const BasicExpressionNode& condition, const BasicStatementNode& sideEffect, const BasicStatementNode& statement);
+			extern BasicStatementNode					s_try_catch(const BasicStatementNode& tryStatement, const WString& exceptionAddressName, const BasicStatementNode& catchStatement);
 
 /***********************************************************************
 Declaration
