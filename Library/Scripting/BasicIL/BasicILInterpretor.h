@@ -261,7 +261,6 @@ namespace vl
 				enum RunningResult
 				{
 					Finished,
-					ForeignFunctionCall,
 					StackOverflow,
 					DividByZero,
 					AccessViolation,

@@ -695,17 +695,6 @@ BasicILStack
 								nextInsKey=pushkey;
 							}
 							break;
-						case BasicIns::call_foreign:
-							foreignFunctionIndex=ins.argument.int_value;
-							foreignFunctionResult=env->Pop<void*>();
-							return BasicILStack::ForeignFunctionCall;
-						case BasicIns::call_raw:
-							{
-								void* arguments=env->DereferenceStack(env->StackTop());
-								vint size=ins.argument.raw_function(arguments);
-								env->Reserve(-size);
-							}
-							break;
 						case BasicIns::convert:
 							CONVERT_INSTRUCTION
 							break;

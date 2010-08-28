@@ -219,8 +219,6 @@ BasicIL
 				CASE(jumpfalse);
 				CASE(call);
 				CASE(call_indirect);
-				CASE(call_foreign);
-				CASE(call_raw);
 				CASE(convert);
 				CASE(stack_offset);
 				CASE(stack_top);
@@ -357,8 +355,6 @@ BasicIL
 				CASE(jumpfalse,						Jump);
 				CASE(call,							Jump);
 				CASE(call_indirect,					Single);
-				CASE(call_foreign,					Constant);
-				CASE(call_raw,						Constant);
 				CASE(convert,						Type2);
 				CASE(stack_offset,					Constant);
 				CASE(stack_top,						Constant);

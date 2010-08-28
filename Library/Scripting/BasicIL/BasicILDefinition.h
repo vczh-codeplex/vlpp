@@ -31,8 +31,6 @@ OpCode:
   jumpfalse						INSTRUCTION-INDEX(vint)	INSKEY			:*stack_top* bool								->
   call							INSTRUCTION-INDEX(vint)	INSKEY			:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   call_indirect															:*stack_top* PUSHINS RETPTR						-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
-  call_foreign					FOREIGN-FUNCTION-INDEX(vint)			:*stack_top* RETPTR								-> RETPTR
-  call_raw						RAW_FUNCTION_POINTER					:*stack_top* ARGUMENTS							->
   convert						DEST-TYPE		SOURCE-TYPE				:*stack_top* SOURCE_TYPE						-> DEST_TYPE
   stack_offset					BYTES(vint)								:*stack_top*									-> pointer
   stack_top						BYTES(vint)								:*stack_top*									-> pointer(old stack top pointer)
@@ -116,7 +114,7 @@ namespace vl
 					and,or,xor,not,
 					eq,ne,lt,le,gt,ge,
 					read,write,readmem,writemem,copymem,
-					jump,jumptrue,jumpfalse,call,call_indirect,call_foreign,call_raw,
+					jump,jumptrue,jumpfalse,call,call_indirect,
 					convert,
 					stack_offset,stack_top,stack_reserve,
 					resptr,
@@ -164,7 +162,6 @@ namespace vl
 					bool						bool_value;
 					char						char_value;
 					wchar_t						wchar_value;
-					vint						(*raw_function)(void* arguments);
 #ifdef VCZH_64
 					signed __int64				int_value;
 					void*						pointer_value;
