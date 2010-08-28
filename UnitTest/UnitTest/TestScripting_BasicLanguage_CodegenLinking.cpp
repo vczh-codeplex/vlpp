@@ -524,3 +524,55 @@ TEST_CASE(TestScripting_BasicLanguage_LinkingGenericConcept)
 
 	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_LinkingConcept_[Interpretor]");
 }
+
+/***********************************************************************
+Try Catch
+***********************************************************************/
+
+TEST_CASE(TestScripting_BasicLanguage_LinkingTryCatch)
+{
+	BasicProgramNode programThrow;
+	programThrow
+		.DefineFunction(L"Throw")
+		.Statement(
+			s_throw(e_prim((vint)20))
+			);
+	Ptr<BasicIL> ilThrow=Compile(programThrow.GetInternalValue(), L"programThrow", L"TestScripting_BasicLanguage_LinkingTryCatch_ProgramThrow");
+
+	BasicProgramNode programCatch;
+	programCatch
+		.DefineFunction(L"Throw")
+		.Linking(L"programThrow", L"Throw")
+		;
+	programCatch
+		.DefineFunction(L"main")
+		.ReturnType(t_int())
+		.Statement(
+			s_expr(e_result().Assign(e_prim((vint)10)))
+			<<s_try_catch(
+				s_expr(e_name(L"Throw")(e_exps())),
+				s_expr(e_result().Assign(*e_exception()[*t_int()]))
+				)
+			);
+	Ptr<BasicIL> ilCatch=Compile(programCatch.GetInternalValue(), L"programCatch", L"TestScripting_BasicLanguage_LinkingTryCatch_ProgramCatch");
+
+	BasicILInterpretor interpretor(65536);
+	vint keyThrow=interpretor.LoadIL(ilThrow.Obj());
+	vint keyMain=interpretor.LoadIL(ilCatch.Obj());
+	
+	BasicILStack stack(&interpretor);
+	stack.Reset(0, keyThrow, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	stack.Reset(0, keyMain, 0);
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+	
+	vint ins=ilCatch->labels[0].instructionIndex;
+	stack.Reset(ins, keyMain, sizeof(vint));
+	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.GetEnv()->Pop<vint>()==20);
+	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
+
+	LogInterpretor(interpretor, L"TestScripting_BasicLanguage_LinkingTryCatch[Interpretor]");
+}
