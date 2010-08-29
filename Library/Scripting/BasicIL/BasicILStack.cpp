@@ -364,8 +364,6 @@ BasicILStack
 				env=new BasicILEnv(interpretor->stackSize);
 				instruction=-1;
 				insKey=-1;
-				foreignFunctionIndex=-1;
-				foreignFunctionResult=0;
 			}
 
 			BasicILStack::~BasicILStack()
@@ -402,23 +400,11 @@ BasicILStack
 
 				instruction=entryInstruction;
 				insKey=entryInsKey;
-				foreignFunctionIndex=-1;
-				foreignFunctionResult=0;
 			}
 
 			vint BasicILStack::GetInstruction()
 			{
 				return instruction;
-			}
-
-			vint BasicILStack::GetForeignFunctionIndex()
-			{
-				return foreignFunctionIndex;
-			}
-
-			void* BasicILStack::GetForeignFunctionResult()
-			{
-				return foreignFunctionResult;
 			}
 
 #define DO_NOT_MOVE_TO_NEXT_INSTRUCTION		\
@@ -676,23 +662,37 @@ BasicILStack
 							}
 							break;
 						case BasicIns::call:
-							env->Push<vint>(insKey);
-							env->Push<vint>(nextInstruction);
-							env->Push<vint>(env->StackBase());
-							env->SetBase(env->StackTop());
-							nextInstruction=ins.argument.int_value;
-							nextInsKey=ins.insKey;
+							if(ins.insKey==BasicILInterpretor::ForeignFunctionSitingAssemblyKey)
+							{
+								InvokeForeignFunction(ins.argument.int_value);
+							}
+							else
+							{
+								env->Push<vint>(insKey);
+								env->Push<vint>(nextInstruction);
+								env->Push<vint>(env->StackBase());
+								env->SetBase(env->StackTop());
+								nextInstruction=ins.argument.int_value;
+								nextInsKey=ins.insKey;
+							}
 							break;
 						case BasicIns::call_indirect:
 							{
 								vint pushins=env->Pop<vint>();
 								vint pushkey=env->Pop<vint>();
-								env->Push<vint>(insKey);
-								env->Push<vint>(nextInstruction);
-								env->Push<vint>(env->StackBase());
-								env->SetBase(env->StackTop());
-								nextInstruction=pushins;
-								nextInsKey=pushkey;
+								if(pushkey==BasicILInterpretor::ForeignFunctionSitingAssemblyKey)
+								{
+									InvokeForeignFunction(pushins);
+								}
+								else
+								{
+									env->Push<vint>(insKey);
+									env->Push<vint>(nextInstruction);
+									env->Push<vint>(env->StackBase());
+									env->SetBase(env->StackTop());
+									nextInstruction=pushins;
+									nextInsKey=pushkey;
+								}
 							}
 							break;
 						case BasicIns::convert:
@@ -803,6 +803,14 @@ BasicILStack
 			void BasicILStack::SetExceptionHandler(BasicILExceptionHandler* handler)
 			{
 				*((BasicILExceptionHandler**)env->DereferenceStack(0))=handler;
+			}
+
+			void BasicILStack::InvokeForeignFunction(vint index)
+			{
+				void* stackTop=env->DereferenceStack(env->StackTop());
+				void* result=((void**)stackTop)[0];
+				void* arguments=&((void**)stackTop)[1];
+				interpretor->foreignFunctionList[index]->Invoke(interpretor, this, result, arguments);
 			}
 		}
 	}
