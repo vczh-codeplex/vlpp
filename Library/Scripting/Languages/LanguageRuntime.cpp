@@ -101,16 +101,6 @@ LanguageHost
 			return stack->Run();
 		}
 
-		vint LanguageState::GetForeignFunctionIndex()
-		{
-			return stack->GetForeignFunctionIndex();
-		}
-
-		void* LanguageState::GetForeignFunctionResultStore()
-		{
-			return stack->GetForeignFunctionResult();
-		}
-
 /***********************************************************************
 LanguageHost
 ***********************************************************************/
