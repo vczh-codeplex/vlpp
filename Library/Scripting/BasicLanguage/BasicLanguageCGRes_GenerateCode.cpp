@@ -182,7 +182,7 @@ BasicLanguage_GenerateResource
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
-					if(node->genericDeclaration.HasGeneric() || node->foreignFunction)
+					if(node->foreignFunction)
 					{
 						return ResourceHandle<BasicDeclarationRes>::Null();
 					}
