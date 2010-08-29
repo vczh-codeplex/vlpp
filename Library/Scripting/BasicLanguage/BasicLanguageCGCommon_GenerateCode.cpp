@@ -87,6 +87,20 @@ namespace vl
 				return false;
 			}
 
+			bool IsForeignFunction(BasicReferenceExpression* referenceExpression, const BCP& argument)
+			{
+				if(referenceExpression)
+				{
+					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(referenceExpression);
+					if(!reference.isVariable)
+					{
+						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
+						return function->foreignFunction;
+					}
+				}
+				return false;
+			}
+
 			vint GetFunctionIndex(BasicReferenceExpression* referenceExpression, const BCP& argument)
 			{
 				if(referenceExpression)

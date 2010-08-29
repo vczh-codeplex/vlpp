@@ -1131,6 +1131,7 @@ BasicGenericNode
 				declaration->signatureType->returnType=voidType;
 
 				declaration->name=name;
+				declaration->foreignFunction=false;
 				program->declarations.Add(declaration);
 				return declaration;
 			}

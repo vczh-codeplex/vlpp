@@ -50,6 +50,7 @@ InstanceShouldHaveFunction(name,function)=Instance {name} should have a function
 InstanceShouldNotHaveFunction(name,function)=Concept {name} should not have a function {function}.
 InstanceShouldBeDeclaredOnType(type,conceptName)=An instance of concept {conceptName} on type {type} is needed.
 CannotThrowVoidValue=Cannot throw an expression that returns no value.
+ForeignFunctionCannotBeGeneric(name)=Foreign function {name} cannot be generic.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

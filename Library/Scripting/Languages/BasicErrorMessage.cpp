@@ -256,6 +256,11 @@ namespace vl
 				return L"Cannot throw an expression that returns no value.";
 			}
 
+			WString BasicErrorMessage::ForeignFunctionCannotBeGeneric(const WString& name)
+			{
+				return L"Foreign function "+name+L" cannot be generic.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

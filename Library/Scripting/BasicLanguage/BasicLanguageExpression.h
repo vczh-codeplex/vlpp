@@ -483,6 +483,7 @@ Declaration
 				Ptr<BasicFunctionType>						signatureType;
 				collections::List<WString>					parameterNames;
 				Ptr<BasicStatement>							statement;
+				bool										foreignFunction;
 			};
 
 			class BasicStructureDeclaration : public BasicDeclaration

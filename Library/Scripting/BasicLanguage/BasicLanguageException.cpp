@@ -413,6 +413,13 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(statement, CannotThrowVoidValue, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetForeignFunctionCannotBeGeneric(BasicFunctionDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, ForeignFunctionCannotBeGeneric, parameters.Wrap());
+			}
 		}
 	}
 }

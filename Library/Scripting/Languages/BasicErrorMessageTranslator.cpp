@@ -305,6 +305,12 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::CannotThrowVoidValue();
 					}
 					break;
+				case BasicLanguageCodeException::ForeignFunctionCannotBeGeneric:
+					{
+						BasicFunctionDeclaration* declaration=dynamic_cast<BasicFunctionDeclaration*>(error->GetBasicLanguageElement());
+						message=BasicErrorMessage::ForeignFunctionCannotBeGeneric(declaration->name);
+					}
+					break;
 				default:
 					return 0;
 				}

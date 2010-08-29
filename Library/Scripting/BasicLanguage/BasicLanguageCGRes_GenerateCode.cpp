@@ -182,7 +182,7 @@ BasicLanguage_GenerateResource
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
-					if(node->genericDeclaration.HasGeneric())
+					if(node->genericDeclaration.HasGeneric() || node->foreignFunction)
 					{
 						return ResourceHandle<BasicDeclarationRes>::Null();
 					}
@@ -1029,6 +1029,21 @@ BasicLanguage_Generate*Resource
 				for(vint i=0;i<argument.info->linkings.Count();i++)
 				{
 					BasicLinking& linking=argument.info->linkings[i];
+					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
+					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
+					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
+					linkings.Add(linkingRecord);
+				}
+				return argument.exportResource->CreateArrayRecord(linkings.Wrap());
+			}
+
+			ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateForeignResource(const Ptr<BasicProgram> program, const BCP& argument)
+			{
+				List<ResourceHandle<BasicILLinkingRes>> linkings;
+				ResourceRecord<BasicILLinkingRes> currentLinking;
+				for(vint i=0;i<argument.info->foreigns.Count();i++)
+				{
+					BasicLinking& linking=argument.info->foreigns[i];
 					ResourceRecord<BasicILLinkingRes> linkingRecord=argument.exportResource->CreateRecord<BasicILLinkingRes>();
 					linkingRecord->assemblyName=argument.exportResource->CreateString(linking.assemblyName);
 					linkingRecord->symbolName=argument.exportResource->CreateString(linking.symbolName);
