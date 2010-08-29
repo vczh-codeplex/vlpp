@@ -205,6 +205,7 @@ Declaration
 				BasicFunctionDeclarationNode&			ReturnType(const BasicTypeNode& type);
 				BasicFunctionDeclarationNode&			Parameter(const WString& name, const BasicTypeNode& type);
 				BasicFunctionDeclarationNode&			Linking(const WString& assemblyName, const WString& symbolName);
+				BasicFunctionDeclarationNode&			Foreign();
 				BasicFunctionDeclarationNode&			Statement(const BasicStatementNode& statement);
 			};
 

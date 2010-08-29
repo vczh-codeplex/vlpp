@@ -1021,6 +1021,12 @@ namespace vl
 				return declaration;
 			}
 
+			Ptr<BasicDeclaration> ToForeignFunctionDecl(const Ptr<BasicDeclaration>& input)
+			{
+				input.Cast<BasicFunctionDeclaration>()->foreignFunction=true;
+				return input;
+			}
+
 			Ptr<BasicDeclaration> ToStructDecl(const ParsingPair<ParsingPair<ParsingPair<
 				RegexToken,
 				RegexToken>,
@@ -1181,7 +1187,7 @@ namespace vl
 
 				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH, THROW;
-				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE;
+				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE, FOREIGN;
 
 				TokenType							OPEN_ARRAY;
 				TokenType							CLOSE_ARRAY;
@@ -1208,7 +1214,7 @@ namespace vl
 				ExpressionRule						exp;
 				TypeRule							primType, functionType, type, instanceType;
 				StatementRule						statement;
-				DeclarationNode						nonGenericDeclaration;
+				DeclarationNode						nonGenericDeclaration, functionDeclaration;
 				DeclarationRule						declaration;
 				UnitRule							unit;
 			public:
@@ -1248,6 +1254,7 @@ namespace vl
 					CONCEPT			= CreateToken(tokens, L"concept");
 					INSTANCE		= CreateToken(tokens, L"instance");
 					WHERE			= CreateToken(tokens, L"where");
+					FOREIGN			= CreateToken(tokens, L"foreign");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
 					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
@@ -1365,14 +1372,19 @@ namespace vl
 					instanceType	= (PRIM_TYPE | ID)[ToNamedType]
 									;
 
+					functionDeclaration
+									= (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
+									;
+
 					nonGenericDeclaration		
 									= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
 									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
-									| (FUNCTION + type + ID(NeedID) + (OPEN_BRACE(NeedOpenBrace) >> plist(opt((type + ID(NeedID)) + *(COMMA >> (type + ID(NeedID))))) << CLOSE_BRACE(NeedCloseBrace)) + opt(linking << SEMICOLON(NeedSemicolon)) + opt(statement))[ToFuncDecl]
 									| (INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))[ToInstancePreDecl]
 									| ((INSTANCE >> (instanceType + (COLON(NeedColon) >> ID)))+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>reference)<<SEMICOLON(NeedSemicolon)))[ToFunctionInstance]<<CLOSE_STAT(NeedCloseConcept)))[ToInstanceDecl]
+									| functionDeclaration
+									| (FOREIGN >> functionDeclaration)[ToForeignFunctionDecl]
 									;
 
 					Node<TokenInput<RegexToken>, ParsingList<RegexToken>> genericHead
@@ -1637,6 +1649,7 @@ namespace vl
 					, L"concept"
 					, L"instance"
 					, L"where"
+					, L"foreign"
 					, L"int"
 					, L"int8"
 					, L"int16"
@@ -2462,7 +2475,14 @@ namespace vl
 				{
 					PrintGeneric(node, argument);
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"function ");
+					if(node->foreignFunction)
+					{
+						argument.writer.WriteString(L"foreign function ");
+					}
+					else
+					{
+						argument.writer.WriteString(L"function ");
+					}
 					NativeX_BasicType_GenerateCode(node->signatureType->returnType, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
