@@ -21,7 +21,18 @@ namespace vl
 	namespace scripting
 	{
 		class LanguageAssembly;
+		class LanguageState;
 		class LanguageHost;
+
+		class ILanguageForeignFunction : public Interface
+		{
+		public:
+			virtual void								Invoke(LanguageHost* host, LanguageState* state, void* result, void* arguments)=0;
+		};
+
+/***********************************************************************
+可执行对象
+***********************************************************************/
 
 		class LanguageAssembly : public Object, public IMetadataProvider
 		{
@@ -30,7 +41,7 @@ namespace vl
 		protected:
 			Ptr<basicil::BasicIL>						il;
 			LanguageHost*								host;
-			vint											instructionKey;
+			vint										instructionKey;
 			Ptr<BasicLanguageMetadata>					basicLanguageMetadata;
 
 		public:
@@ -38,10 +49,11 @@ namespace vl
 			LanguageAssembly(stream::IStream& stream);
 
 			void										SaveToStream(stream::IStream& stream);
+			void										LogInternalState(stream::TextWriter& writer, basicil::BasicIL::ICommentProvider* commentProvider=0);
 			LanguageHost*								GetHost();
 			const _ResourceMap&							GetResources();
 			Ptr<ResourceStream>							GetResource(const WString& name);
-			vint											GetInstructionKey();
+			vint										GetInstructionKey();
 
 			BasicLanguageMetadata*						GetBasicLanguageMetadata();
 		};
@@ -72,8 +84,7 @@ namespace vl
 			void										PrepareToRun(Ptr<LanguageAssembly> assembly, vint instructionIndex, void* returnPointer);
 			basicil::BasicILStack::RunningResult		Run();
 			basicil::BasicILStack::RunningResult		RunInitialization(Ptr<LanguageAssembly> assembly);
-			vint											GetForeignFunctionIndex();
-			void*										GetForeignFunctionResultStore();
+			basicil::BasicILEnv*						GetStack();
 		};
 
 		class LanguageHost : public Object
@@ -86,6 +97,8 @@ namespace vl
 
 			bool										LoadAssembly(Ptr<LanguageAssembly> assembly);
 			Ptr<LanguageState>							CreateState();
+			void										LogInternalState(stream::TextWriter& writer);
+			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
 		};
 	}
 }
