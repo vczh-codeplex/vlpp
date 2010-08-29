@@ -516,6 +516,7 @@ BasicLanguage_GenerateCode
 				exportEntry->assemblyName=argument.exportResource->CreateString(programName);
 				exportEntry->exports=BasicLanguage_GenerateExportResource(program, argument);
 				exportEntry->linkings=BasicLanguage_GenerateLinkingResource(program, argument);
+				exportEntry->foreigns=ResourceArrayHandle<BasicILLinkingRes>::Null();
 				exportEntry->genericSymbols=BasicLanguage_GenerateGenericResource(program, programName, argument);
 			}
 

@@ -459,7 +459,7 @@ BasicILInterpretor
 							ins.argument.int_value+=functionPointerOffset;
 						}
 						break;
-					case BasicIns::link_pushforeigndata:
+					case BasicIns::link_pushfardata:
 						{
 							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
 							vint ilIndex=ils.IndexOf(ilMap[symbol.key]);
@@ -470,7 +470,7 @@ BasicILInterpretor
 							ins.argument.pointer_value=&(ils[ilIndex]->globalData[0])+address;
 						}
 						break;
-					case BasicIns::link_pushforeignfunc:
+					case BasicIns::link_pushfarfunc:
 						{
 							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
 							BasicILLabel label;
@@ -489,7 +489,7 @@ BasicILInterpretor
 							}
 						}
 						break;
-					case BasicIns::link_callforeignfunc:
+					case BasicIns::link_callfarfunc:
 						{
 							Pair<WString, WString> symbol=linkingSymbols[ins.argument.int_value];
 							vint ilIndex=ils.IndexOf(ilMap[symbol.key]);

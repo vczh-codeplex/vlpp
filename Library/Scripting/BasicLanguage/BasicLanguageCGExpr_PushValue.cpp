@@ -445,7 +445,7 @@ BasicLanguage_PushValueInternal
 						vint index=GetFunctionIndex(node, argument);
 						if(IsExternalFunction(node, argument))
 						{
-							argument.Ins(BasicIns::link_pushforeignfunc, BasicIns::MakeInt(index));
+							argument.Ins(BasicIns::link_pushfarfunc, BasicIns::MakeInt(index));
 						}
 						else
 						{

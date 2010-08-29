@@ -553,6 +553,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 		entry->assemblyName=resource->CreateString(L"Add1.0");
 		entry->genericSymbols=ResourceHandle<BasicILGenericRes>::Null();
 		entry->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
+		entry->foreigns=ResourceArrayHandle<BasicILLinkingRes>::Null();
 
 		ResourceRecord<BasicILExportRes> exportAdd=resource->CreateRecord<BasicILExportRes>();
 		exportAdd->name=resource->CreateString(L"Add");
@@ -567,7 +568,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 			.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(1))
 			.Ins(BasicIns::push, BasicIns::int_type, BasicIns::MakeInt(2))
 			.Ins(BasicIns::resptr)
-			.Ins(BasicIns::link_callforeignfunc, BasicIns::MakeInt(0))
+			.Ins(BasicIns::link_callfarfunc, BasicIns::MakeInt(0))
 			.Ins(BasicIns::ret, BasicIns::MakeInt(0))
 			;
 
@@ -582,6 +583,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 		entry->assemblyName=resource->CreateString(L"Main1.0");
 		entry->genericSymbols=ResourceHandle<BasicILGenericRes>::Null();
 		entry->exports=ResourceArrayHandle<BasicILExportRes>::Null();
+		entry->foreigns=ResourceArrayHandle<BasicILLinkingRes>::Null();
 		
 		ResourceRecord<BasicILLinkingRes> linkingAdd=resource->CreateRecord<BasicILLinkingRes>();
 		linkingAdd->assemblyName=resource->CreateString(L"Add1.0");
