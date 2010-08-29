@@ -99,8 +99,10 @@ void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName)
 	interpretor.LogInternalState(fileWriter);
 }
 
+typedef void (*InterpretorInitializer)(BasicILInterpretor& interpretor);
+
 template<typename T>
-void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString& name)
+void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString& name, InterpretorInitializer initializer)
 {
 	BasicAlgorithmConfiguration configuration;
 	SetConfiguration(configuration);
@@ -109,8 +111,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	TEST_ASSERT(analyzer.GetErrors().Count()==0);
 	BasicCodeGenerator codegen(&analyzer, 0, L"assembly_generated");
 	codegen.GenerateCode();
-	BasicILInterpretor interpretor(65536);
-	vint key=interpretor.LoadIL(codegen.GetIL().Obj());
+
 	if(name!=L"")
 	{
 		WString fileName=GetPath()+L"Codegen_"+name+L".txt";
@@ -131,6 +132,14 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 		writer.WriteLine(L"/*Assembly*/");
 		codegen.GetIL()->SaveAsString(writer, &commentProvider);
 	}
+
+	BasicILInterpretor interpretor(65536);
+	if(initializer)
+	{
+		initializer(interpretor);
+	}
+	vint key=interpretor.LoadIL(codegen.GetIL().Obj());
+
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, 0);
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
@@ -140,6 +149,7 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
 	TEST_ASSERT(stack.GetEnv()->Pop<T>()==result);
+
 	if(name!=L"")
 	{
 		LogInterpretor(interpretor, name+L"[Interpretor]");
@@ -147,16 +157,16 @@ void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString&
 }
 
 template<typename T>
-void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name)
+void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name, InterpretorInitializer initializer=0)
 {
-	RunBasicProgramInternal(program, result, L"");
+	RunBasicProgramInternal(program, result, L"", initializer);
 	ConvertToNativeXProgram(program);
-	RunBasicProgramInternal(program, result, name);
+	RunBasicProgramInternal(program, result, name, initializer);
 }
 
 void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name)
 {
-	RunBasicProgram<vint>(program, result, name);
+	RunBasicProgram<vint>(program, result, name, 0);
 }
 
 /***********************************************************************
@@ -1545,6 +1555,38 @@ TEST_CASE(TestScripting_BasicLanguage_GlobalVariable2)
 }
 
 /***********************************************************************
+Test Foreign Function
+***********************************************************************/
+
+class ForeignSumFunction : public Object, public IBasicILForeignFunction
+{
+};
+
+void ForeignSumInterpretorInitializer(BasicILInterpretor& interpretor)
+{
+	interpretor.RegisterForeignFunction(L"Foreign", L"Sum", new ForeignSumFunction);
+}
+
+TEST_CASE(TestScripting_BasicLanguage_ForeignFunction)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"Sum").ReturnType(t_int()).Parameter(L"numbers", *t_int()).Parameter(L"count", t_int()).Linking(L"Foreign", L"Sum").Foreign();
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_expr(e_result().Assign(e_prim(0)))
+		);
+	program.DefineFunction(L"main1").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"numbers")
+		<<s_expr(e_name(L"numbers")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"numbers")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"numbers")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"numbers")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"numbers")[e_prim(4)].Assign(e_prim(5)))
+		<<s_expr(e_result().Assign(e_name(L"Sum")(e_exps()<<e_name(L"numbers").Ref()[*t_int()]<<e_prim(5))))
+		);
+	RunBasicProgram<vint>(program.GetInternalValue(), 0, L"TestScripting_BasicLanguage_ForeignFunction", ForeignSumInterpretorInitializer);
+}
+
+/***********************************************************************
 Test Others
 ***********************************************************************/
 
@@ -1615,23 +1657,4 @@ TEST_CASE(TestScripting_BasicLanguage_Null)
 			);
 		RunBasicProgram<bool>(program.GetInternalValue(), false, L"TestScripting_BasicLanguage_Null[2]");
 	}
-}
-
-TEST_CASE(TestScripting_BasicLanguage_ForeignFunction)
-{
-	BasicProgramNode program;
-	program.DefineFunction(L"Sum").ReturnType(t_int()).Parameter(L"numbers", *t_int()).Parameter(L"count", t_int()).Linking(L"Foreign", L"Sum").Foreign();
-	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
-		s_expr(e_result().Assign(e_prim(0)))
-		);
-	program.DefineFunction(L"main1").ReturnType(t_int()).Statement(
-		s_var(t_int()[5], L"numbers")
-		<<s_expr(e_name(L"numbers")[e_prim(0)].Assign(e_prim(1)))
-		<<s_expr(e_name(L"numbers")[e_prim(1)].Assign(e_prim(2)))
-		<<s_expr(e_name(L"numbers")[e_prim(2)].Assign(e_prim(3)))
-		<<s_expr(e_name(L"numbers")[e_prim(3)].Assign(e_prim(4)))
-		<<s_expr(e_name(L"numbers")[e_prim(4)].Assign(e_prim(5)))
-		<<s_expr(e_result().Assign(e_name(L"Sum")(e_exps()<<e_name(L"numbers").Ref()[*t_int()]<<e_prim(5))))
-		);
-	RunBasicProgram<vint>(program.GetInternalValue(), 0, L"TestScripting_BasicLanguage_ForeignFunction");
 }

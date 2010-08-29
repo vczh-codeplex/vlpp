@@ -133,6 +133,7 @@ BasicILInterpretor
 ***********************************************************************/
 
 			const vint BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
+			const vint BasicILInterpretor::ForeignFunctionSitingAssemblyKey=-2;
 
 			BasicILInterpretor::VariablePackage::VariablePackage(vint size)
 				:buffer(size)
@@ -214,7 +215,7 @@ BasicILInterpretor
 				return value;
 			}
 
-			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols)
+			void BasicILInterpretor::LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions)
 			{
 				vint exportedSymbolsIndex=il->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
 				if(exportedSymbolsIndex!=-1)
@@ -267,6 +268,25 @@ BasicILInterpretor
 								throw ILLinkerException(ILLinkerException::SymbolNotExists, symbol.key, symbol.value);
 							}
 							linkingSymbols.Add(symbol);
+						}
+					}
+
+					if(ResourceArrayHandle<BasicILLinkingRes> foreignArrayHandle=entry->foreigns)
+					{
+						ResourceArrayRecord<BasicILLinkingRes> foreignArray=exportedSymbols->ReadArrayRecord<BasicILLinkingRes>(foreignArrayHandle);
+						vint count=foreignArray.Count();
+						for(vint i=0;i<count;i++)
+						{
+							ResourceRecord<BasicILLinkingRes> currentForeign=foreignArray[i];
+							Pair<WString, WString> symbol;
+							symbol.key=exportedSymbols->ReadString(currentForeign->assemblyName);
+							symbol.value=exportedSymbols->ReadString(currentForeign->symbolName);
+
+							if(!foreignFunctionLabelMap.Keys().Contains(symbol))
+							{
+								throw ILLinkerException(ILLinkerException::ForeignFunctionNotExists, symbol.key, symbol.value);
+							}
+							foreignFunctions.Add(symbol);
 						}
 					}
 
@@ -431,7 +451,7 @@ BasicILInterpretor
 				ils.Add(il);
 			}
 
-			void BasicILInterpretor::LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols)
+			void BasicILInterpretor::LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions)
 			{
 				vint functionPointerOffset=labels.Count();
 				for(vint i=0;i<il->labels.Count();i++)
@@ -498,6 +518,25 @@ BasicILInterpretor
 							ins.opcode=BasicIns::call;
 							ins.insKey=ilIndex;
 							ins.argument.int_value=address;
+						}
+						break;
+					case BasicIns::link_pushforeignfunc:
+						{
+							Pair<WString, WString> symbol=foreignFunctions[ins.argument.int_value];
+							vint labelIndex=foreignFunctionLabelMap[symbol];
+							ins.opcode=BasicIns::pushlabel;
+							ins.argument.int_value=labelIndex;
+						}
+						break;
+					case BasicIns::link_callforeignfunc:
+						{
+							Pair<WString, WString> symbol=foreignFunctions[ins.argument.int_value];
+							vint labelIndex=foreignFunctionLabelMap[symbol];
+							BasicILLabel label=labels[labelIndex];
+
+							ins.opcode=BasicIns::call;
+							ins.insKey=label.key;
+							ins.argument.int_value=label.instruction;
 						}
 						break;
 					case BasicIns::generic_pushdata:
@@ -803,8 +842,9 @@ BasicILInterpretor
 			vint BasicILInterpretor::LoadIL(BasicIL* il)
 			{
 				_SymbolList linkingSymbols;
-				LoadILSymbol(il, linkingSymbols);
-				LinkILSymbol(il, ils.Count()-1, linkingSymbols);
+				_SymbolList foreignFunctions;
+				LoadILSymbol(il, linkingSymbols, foreignFunctions);
+				LinkILSymbol(il, ils.Count()-1, linkingSymbols, foreignFunctions);
 				return ils.Count()-1;
 			}
 
@@ -816,6 +856,26 @@ BasicILInterpretor
 					{
 						ils[i]=0;
 					}
+				}
+			}
+
+			
+			bool BasicILInterpretor::RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function)
+			{
+				Pair<WString, WString> symbol(category, name);
+				if(foreignFunctionLabelMap.Keys().Contains(symbol))
+				{
+					return false;
+				}
+				else
+				{
+					BasicILLabel label;
+					label.key=ForeignFunctionSitingAssemblyKey;
+					label.instruction=foreignFunctionList.Count();
+					foreignFunctionLabelMap.Add(symbol, labels.Count());
+					foreignFunctionList.Add(function);
+					labels.Add(label);
+					return true;
 				}
 			}
 
@@ -871,6 +931,8 @@ ILLinkerException
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotALabel(_assemblyName, _symbolName);
 				case DuplicatedInstance:
 					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedInstance(_assemblyName);
+				case ForeignFunctionNotExists:
+					return basiclanguage::BasicErrorMessage::ILLinkerExceptionForeignFunctionNotExists(_assemblyName, _symbolName);
 				default:
 					return L"";
 				}

@@ -159,6 +159,14 @@ namespace vl
 			};
 
 /***********************************************************************
+外接函数
+***********************************************************************/
+
+			class IBasicILForeignFunction : public Interface
+			{
+			};
+
+/***********************************************************************
 虚拟机
 ***********************************************************************/
 
@@ -188,8 +196,10 @@ namespace vl
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
+				typedef collections::List<Ptr<IBasicILForeignFunction>>						_ForeignFunctionList;
 
 				static const vint								GenericFunctionSitingAssemblyKey;
+				static const vint								ForeignFunctionSitingAssemblyKey;
 
 			public:
 				struct VariablePackage
@@ -214,6 +224,8 @@ namespace vl
 				_BasicILMap										ilMap;
 				collections::List<BasicILLabel>					labels;
 				_SymbolMap										symbolMap;
+				_SymbolMap										foreignFunctionLabelMap;
+				_ForeignFunctionList							foreignFunctionList;
 
 				BasicILGenericFunctionEntry::MapType			genericFunctionEntries;
 				BasicILGenericVariableEntry::MapType			genericVariableEntries;
@@ -225,8 +237,8 @@ namespace vl
 				VariableManager									instanciatedGenericVariables;
 				Ptr<BasicIL>									genericFunctionSitingIL;
 				
-				void											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols);
-				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols);
+				void											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
+				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
 				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction);
@@ -239,6 +251,7 @@ namespace vl
 
 				vint											LoadIL(BasicIL* il);
 				void											UnloadIL(BasicIL* il);
+				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
 				collections::IList<BasicILLabel>&				GetLabels();
 				void											LogInternalState(stream::TextWriter& writer);
 			};
@@ -314,6 +327,7 @@ namespace vl
 					SymbolNotExists,
 					SymbolNotALabel,
 					DuplicatedInstance,
+					ForeignFunctionNotExists,
 				};
 			private:
 				static WString				GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName);
