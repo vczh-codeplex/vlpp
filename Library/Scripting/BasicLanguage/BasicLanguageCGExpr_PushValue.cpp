@@ -447,6 +447,10 @@ BasicLanguage_PushValueInternal
 						{
 							argument.Ins(BasicIns::link_pushfarfunc, BasicIns::MakeInt(index));
 						}
+						else if(IsForeignFunction(node, argument))
+						{
+							argument.Ins(BasicIns::link_pushforeignfunc, BasicIns::MakeInt(index));
+						}
 						else
 						{
 							argument.Ins(BasicIns::link_pushfunc, BasicIns::MakeInt(index));

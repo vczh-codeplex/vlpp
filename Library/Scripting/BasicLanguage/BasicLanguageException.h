@@ -75,6 +75,7 @@ namespace vl
 					InstanceShouldNotHaveFunction,			//name
 					InstanceShouldBeDeclaredOnType,			//concept-name, [typeParameter for type information]
 					CannotThrowVoidValue,
+					ForeignFunctionCannotBeGeneric,			//name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -146,6 +147,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldNotHaveFunction(BasicConceptInstanceDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetInstanceShouldBeDeclaredOnType(BasicType* typeExpression, BasicTypeRecord* type, const WString& conceptName);
 				static Ptr<BasicLanguageCodeException>							GetCannotThrowVoidValue(BasicThrowStatement* statement);
+				static Ptr<BasicLanguageCodeException>							GetForeignFunctionCannotBeGeneric(BasicFunctionDeclaration* declaration);
 			};
 		}
 	}

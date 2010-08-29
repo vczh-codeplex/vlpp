@@ -22,7 +22,14 @@ BasicLanguage_GenerateLinkingSymbolTable
 					{
 						if(!node->genericDeclaration.HasGeneric())
 						{
-							const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+							if(node->foreignFunction)
+							{
+								const_cast<BCP&>(argument).info->foreigns.Add(node->linking);
+							}
+							else
+							{
+								const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+							}
 						}
 					}
 				}
@@ -72,7 +79,14 @@ BasicLanguage_GenerateCodePass1
 					vint index=-1;
 					if(node->linking.HasLink())
 					{
-						index=argument.info->linkings.IndexOf(node->linking);
+						if(node->foreignFunction)
+						{
+							index=argument.info->foreigns.IndexOf(node->linking);
+						}
+						else
+						{
+							index=argument.info->linkings.IndexOf(node->linking);
+						}
 					}
 					else
 					{

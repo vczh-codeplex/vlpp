@@ -1731,6 +1731,10 @@ BasicLanguage_BuildDeclarationBody
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetExternalFunctionCannotHaveStatement(node));
 							}
+							if(node->foreignFunction && node->genericDeclaration.HasGeneric())
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetForeignFunctionCannotBeGeneric(node));
+							}
 						}
 						else
 						{

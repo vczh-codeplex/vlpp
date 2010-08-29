@@ -80,6 +80,7 @@ namespace vl
 			public:
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
+				collections::List<BasicLinking>										foreigns;
 				collections::List<Ptr<FunctionEntry>>								instanciatedGenericFunctionEntries;
 				collections::List<Ptr<GenericTarget>>								instanciatedGenericTargets;
 				collections::List<Ptr<GenericInstanceTarget>>						instanciatedGenericInstanceTargets;
@@ -174,6 +175,7 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::ValueType		Convert								(BasicTypeRecord* type);
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
+			extern bool								IsForeignFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetGenericVariableTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern vint								GetGenericFunctionTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
@@ -226,6 +228,7 @@ Code Generation
 			extern ResourceArrayHandle<BasicDeclarationRes> BasicLanguage_GenerateDeclarationResource(const Ptr<BasicProgram> program, const BCP& argument);
 			extern ResourceArrayHandle<BasicILExportRes> BasicLanguage_GenerateExportResource(const Ptr<BasicProgram> program, const BCP& argument);
 			extern ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateLinkingResource(const Ptr<BasicProgram> program, const BCP& argument);
+			extern ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateForeignResource(const Ptr<BasicProgram> program, const BCP& argument);
 
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
 

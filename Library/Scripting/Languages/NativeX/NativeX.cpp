@@ -1002,6 +1002,7 @@ namespace vl
 			{
 				Ptr<BasicFunctionDeclaration> declaration=CreateNode<BasicFunctionDeclaration>(input.First().First().First().First().First());
 				declaration->name=ConvertID(WString(input.First().First().First().Second().reading, input.First().First().First().Second().length));
+				declaration->foreignFunction=false;
 				if(input.Second().Head())
 				{
 					declaration->statement=input.Second().Head()->Value();
