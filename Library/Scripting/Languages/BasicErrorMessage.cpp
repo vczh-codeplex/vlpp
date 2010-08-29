@@ -326,6 +326,11 @@ namespace vl
 				return L"Instance "+name+L" already exists.";
 			}
 
+			WString BasicErrorMessage::ILLinkerExceptionForeignFunctionNotExists(const WString& assembly, const WString& symbol)
+			{
+				return L"Cannot find foreign function "+assembly+L"::"+symbol+L".";
+			}
+
 		}
 	}
 }

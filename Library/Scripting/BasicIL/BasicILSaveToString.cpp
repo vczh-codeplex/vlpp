@@ -86,6 +86,17 @@ BasicILInterpretor
 				writer.WriteLine(L"");
 
 				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Foreign Function Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<foreignFunctionLabelMap.Count();i++)
+				{
+					Pair<WString, WString> key=foreignFunctionLabelMap.Keys()[i];
+					vint labelIndex=foreignFunctionLabelMap[key];
+					writer.WriteLine(key.key+L"::"+key.value+L" = "+itow(labelIndex));
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
 				writer.WriteLine(L"Generic Function Entry Map");
 				writer.WriteLine(L"-----------------------------------------------");
 				for(vint i=0;i<genericFunctionEntries.Count();i++)
