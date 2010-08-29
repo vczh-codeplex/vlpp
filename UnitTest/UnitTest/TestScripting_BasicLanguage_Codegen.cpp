@@ -1616,3 +1616,22 @@ TEST_CASE(TestScripting_BasicLanguage_Null)
 		RunBasicProgram<bool>(program.GetInternalValue(), false, L"TestScripting_BasicLanguage_Null[2]");
 	}
 }
+
+TEST_CASE(TestScripting_BasicLanguage_ForeignFunction)
+{
+	BasicProgramNode program;
+	program.DefineFunction(L"Sum").ReturnType(t_int()).Parameter(L"numbers", *t_int()).Parameter(L"count", t_int()).Linking(L"Foreign", L"Sum").Foreign();
+	program.DefineFunction(L"main").ReturnType(t_int()).Statement(
+		s_expr(e_result().Assign(e_prim(0)))
+		);
+	program.DefineFunction(L"main1").ReturnType(t_int()).Statement(
+		s_var(t_int()[5], L"numbers")
+		<<s_expr(e_name(L"numbers")[e_prim(0)].Assign(e_prim(1)))
+		<<s_expr(e_name(L"numbers")[e_prim(1)].Assign(e_prim(2)))
+		<<s_expr(e_name(L"numbers")[e_prim(2)].Assign(e_prim(3)))
+		<<s_expr(e_name(L"numbers")[e_prim(3)].Assign(e_prim(4)))
+		<<s_expr(e_name(L"numbers")[e_prim(4)].Assign(e_prim(5)))
+		<<s_expr(e_result().Assign(e_name(L"Sum")(e_exps()<<e_name(L"numbers").Ref()[*t_int()]<<e_prim(5))))
+		);
+	RunBasicProgram<vint>(program.GetInternalValue(), 0, L"TestScripting_BasicLanguage_ForeignFunction");
+}

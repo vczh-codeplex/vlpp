@@ -81,7 +81,7 @@ namespace vl
 					if(!reference.isVariable)
 					{
 						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
-						return function->linking.HasLink();
+						return function->linking.HasLink() && !function->foreignFunction;
 					}
 				}
 				return false;
@@ -95,7 +95,7 @@ namespace vl
 					if(!reference.isVariable)
 					{
 						BasicFunctionDeclaration* function=reference.scope->functions.Items()[referenceExpression->name];
-						return function->foreignFunction;
+						return function->linking.HasLink() && function->foreignFunction;
 					}
 				}
 				return false;

@@ -950,6 +950,12 @@ BasicFunctionDeclarationNode
 				return *this;
 			}
 
+			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Foreign()
+			{
+				declaration->foreignFunction=true;
+				return *this;
+			}
+
 			BasicFunctionDeclarationNode& BasicFunctionDeclarationNode::Statement(const BasicStatementNode& statement)
 			{
 				declaration->statement=statement.GetInternalValue();
