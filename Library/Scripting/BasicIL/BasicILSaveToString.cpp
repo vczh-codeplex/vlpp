@@ -227,7 +227,9 @@ BasicIL
 				CASE(ret);
 				CASE(link_pushdata);
 				CASE(link_pushfunc);
-				CASE(link_pushforeigndata);
+				CASE(link_pushfardata);
+				CASE(link_pushfarfunc);
+				CASE(link_callfarfunc);
 				CASE(link_pushforeignfunc);
 				CASE(link_callforeignfunc);
 				CASE(generic_pushdata);
@@ -363,7 +365,9 @@ BasicIL
 				CASE(ret,							Constant);
 				CASE(link_pushdata,					Constant);
 				CASE(link_pushfunc,					Constant);
-				CASE(link_pushforeigndata,			Constant);
+				CASE(link_pushfardata,				Constant);
+				CASE(link_pushfarfunc,				Constant);
+				CASE(link_callfarfunc,				Constant);
 				CASE(link_pushforeignfunc,			Constant);
 				CASE(link_callforeignfunc,			Constant);
 				CASE(generic_pushdata,				Constant);
@@ -497,6 +501,15 @@ BasicIL
 					{
 						ResourceRecord<BasicILLinkingRes> linkingRes=linkingsRes.Get(i);
 						writer.WriteLine(L"Linkings["+itow(i)+L"] = "+exportedSymbols->ReadString(linkingRes->assemblyName)+L"::"+exportedSymbols->ReadString(linkingRes->symbolName));
+					}
+				}
+
+				if(ResourceArrayRecord<BasicILLinkingRes> foreignsRes=exportedSymbols->ReadArrayRecord(entryRes->foreigns))
+				{
+					for(vint i=0;i<foreignsRes.Count();i++)
+					{
+						ResourceRecord<BasicILLinkingRes> foreignRes=foreignsRes.Get(i);
+						writer.WriteLine(L"Foreigns["+itow(i)+L"] = "+exportedSymbols->ReadString(foreignRes->assemblyName)+L"::"+exportedSymbols->ReadString(foreignRes->symbolName));
 					}
 				}
 

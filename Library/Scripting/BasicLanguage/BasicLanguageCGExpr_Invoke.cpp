@@ -101,7 +101,7 @@ BasicLanguage_InvokeInternal
 					{
 						if(IsExternalFunction(node, argument))
 						{
-							argument.Ins(BasicIns::link_callforeignfunc, BasicIns::MakeInt(index));
+							argument.Ins(BasicIns::link_callfarfunc, BasicIns::MakeInt(index));
 						}
 						else
 						{

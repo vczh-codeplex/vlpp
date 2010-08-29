@@ -40,9 +40,11 @@ OpCode:
 ------------------link time only---------------------
   link_pushdata					DATA-OFFSET(vint)						:*stack_top*									-> pointer
   link_pushfunc					LABEL-INDEX(vint)						:*stack_top*									-> instruction_label_index
-  link_pushforeigndata			SYMBOL-INDEX(vint)						:*stack_top*									-> pointer
+  link_pushfardata				SYMBOL-INDEX(vint)						:*stack_top*									-> pointer
+  link_pushfarfunc				SYMBOL-INDEX(vint)						:*stack_top*									-> instruction_label_index
+  link_callfarfunc				SYMBOL-INDEX(vint)						:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
   link_pushforeignfunc			SYMBOL-INDEX(vint)						:*stack_top*									-> instruction_label_index
-  link_callforeignfunc			SYMBOL-INDEX(vint)						:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  link_callforeignfunc			SYMBOL-INDEX(vint)						:*stack_top* RETPTR PARAMS						-> *stack_top* RETPTR PARAMS
 ------------------generic instanciation only---------
   generic_pushdata				VARIABLE-TARGET-INDEX(int)				:*stack_top*									-> pointer
   generic_pushfunc				FUNCTION-TARGET-INDEX(int)				:*stack_top*									-> instruction_label_index
@@ -122,7 +124,9 @@ namespace vl
 
 					link_pushdata,
 					link_pushfunc,
-					link_pushforeigndata,
+					link_pushfardata,
+					link_pushfarfunc,
+					link_callfarfunc,
 					link_pushforeignfunc,
 					link_callforeignfunc,
 

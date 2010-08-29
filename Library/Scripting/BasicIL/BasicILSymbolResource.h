@@ -166,6 +166,7 @@ namespace vl
 			ResourceString											assemblyName;			//Assembly名
 			ResourceArrayHandle<BasicILExportRes>					exports;				//可见符号
 			ResourceArrayHandle<BasicILLinkingRes>					linkings;				//待链接符号
+			ResourceArrayHandle<BasicILLinkingRes>					foreigns;				//外界函数符号
 			ResourceHandle<BasicILGenericRes>						genericSymbols;			//模板符号
 		};
 	}

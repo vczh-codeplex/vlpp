@@ -18,6 +18,7 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 		entryRes->assemblyName=symbolResource->CreateString(L"Map");
 		entryRes->exports=ResourceArrayHandle<BasicILExportRes>::Null();
 		entryRes->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
+		entryRes->foreigns=ResourceArrayHandle<BasicILLinkingRes>::Null();
 		ResourceRecord<BasicILGenericRes> genericRes=symbolResource->CreateRecord<BasicILGenericRes>();
 		entryRes->genericSymbols=genericRes;
 
@@ -280,6 +281,7 @@ TEST_CASE(TestBasicILInstruction_Generic_GlobalVariable)
 		entryRes->assemblyName=symbolResource->CreateString(L"Generic");
 		entryRes->exports=ResourceArrayHandle<BasicILExportRes>::Null();
 		entryRes->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
+		entryRes->foreigns=ResourceArrayHandle<BasicILLinkingRes>::Null();
 		ResourceRecord<BasicILGenericRes> genericRes=symbolResource->CreateRecord<BasicILGenericRes>();
 		entryRes->genericSymbols=genericRes;
 

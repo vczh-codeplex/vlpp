@@ -74,7 +74,7 @@ BasicLanguage_StoreToAddressInternal
 						vint offset=argument.info->GetGlobalVariableOffsets()[variableDeclaration];
 						if(variableDeclaration->linking.HasLink())
 						{
-							argument.Ins(BasicIns::link_pushforeigndata, BasicIns::MakeInt(offset));
+							argument.Ins(BasicIns::link_pushfardata, BasicIns::MakeInt(offset));
 						}
 						else
 						{
