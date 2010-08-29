@@ -272,6 +272,7 @@ namespace vl
 				BasicILInterpretor*								interpretor;
 				vint											instruction;
 				vint											insKey;
+				void*											userData;
 
 			public:
 				enum RunningResult
@@ -293,11 +294,14 @@ namespace vl
 				void											Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
 				void											ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
 				vint											GetInstruction();
+				vint											GetInsKey();
 				RunningResult									Run();
 
 				BasicILExceptionHandler*						GetExceptionHandler();
 				void											SetExceptionHandler(BasicILExceptionHandler* handler);
 				void											InvokeForeignFunction(vint index);
+				void*											GetUserData();
+				void											SetUserData(void* data);
 			};
 
 /***********************************************************************

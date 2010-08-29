@@ -364,6 +364,7 @@ BasicILStack
 				env=new BasicILEnv(interpretor->stackSize);
 				instruction=-1;
 				insKey=-1;
+				userData=0;
 			}
 
 			BasicILStack::~BasicILStack()
@@ -405,6 +406,11 @@ BasicILStack
 			vint BasicILStack::GetInstruction()
 			{
 				return instruction;
+			}
+
+			vint BasicILStack::GetInsKey()
+			{
+				return insKey;
 			}
 
 #define DO_NOT_MOVE_TO_NEXT_INSTRUCTION		\
@@ -811,6 +817,16 @@ BasicILStack
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
 				interpretor->foreignFunctionList[index]->Invoke(interpretor, this, result, arguments);
+			}
+
+			void* BasicILStack::GetUserData()
+			{
+				return userData;
+			}
+
+			void BasicILStack::SetUserData(void* data)
+			{
+				userData=data;
 			}
 		}
 	}

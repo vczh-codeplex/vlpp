@@ -10,6 +10,22 @@ namespace vl
 LanguageAssembly
 ***********************************************************************/
 
+		class LanguageForeignFunction : public Object, public IBasicILForeignFunction
+		{
+		public:
+			Ptr<ILanguageForeignFunction>		function;
+			LanguageHost*						host;
+
+			void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)
+			{
+				function->Invoke(host, (LanguageState*)stack->GetUserData(), result, arguments);
+			}
+		};
+
+/***********************************************************************
+LanguageAssembly
+***********************************************************************/
+
 		LanguageAssembly::LanguageAssembly(Ptr<basicil::BasicIL> _il)
 			:il(_il)
 			,host(0)
@@ -30,6 +46,11 @@ LanguageAssembly
 		void LanguageAssembly::SaveToStream(stream::IStream& stream)
 		{
 			il->SaveToStream(stream);
+		}
+
+		void LanguageAssembly::LogInternalState(stream::TextWriter& writer, basicil::BasicIL::ICommentProvider* commentProvider)
+		{
+			il->SaveAsString(writer, commentProvider);
 		}
 
 		LanguageHost* LanguageAssembly::GetHost()
@@ -64,6 +85,7 @@ LanguageHost
 		LanguageState::LanguageState(Ptr<basicil::BasicILStack> _stack)
 			:stack(_stack)
 		{
+			stack->SetUserData(this);
 		}
 
 		bool LanguageState::PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer)
@@ -101,6 +123,11 @@ LanguageHost
 			return stack->Run();
 		}
 
+		basicil::BasicILEnv* LanguageState::GetStack()
+		{
+			return stack->GetEnv();
+		}
+
 /***********************************************************************
 LanguageHost
 ***********************************************************************/
@@ -132,6 +159,19 @@ LanguageHost
 		Ptr<LanguageState> LanguageHost::CreateState()
 		{
 			return new LanguageState(new BasicILStack(interpretor.Obj()));
+		}
+
+		void LanguageHost::LogInternalState(stream::TextWriter& writer)
+		{
+			interpretor->LogInternalState(writer);
+		}
+
+		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)
+		{
+			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
+			proxy->host=this;
+			proxy->function=function;
+			return interpretor->RegisterForeignFunction(category, name, proxy);
 		}
 	}
 }
