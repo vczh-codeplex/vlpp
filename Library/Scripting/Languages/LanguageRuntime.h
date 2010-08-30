@@ -23,11 +23,12 @@ namespace vl
 		class LanguageAssembly;
 		class LanguageState;
 		class LanguageHost;
+		class LanguageArguments;
 
 		class ILanguageForeignFunction : public Interface
 		{
 		public:
-			virtual void								Invoke(LanguageHost* host, LanguageState* state, void* result, void* arguments)=0;
+			virtual void								Invoke(LanguageArguments& arguments)=0;
 		};
 
 /***********************************************************************
@@ -99,6 +100,43 @@ namespace vl
 			Ptr<LanguageState>							CreateState();
 			void										LogInternalState(stream::TextWriter& writer);
 			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
+		};
+
+/***********************************************************************
+外部函数参数表
+***********************************************************************/
+
+		class LanguageArguments
+		{
+		protected:
+			char*										result;
+			char*										arguments;
+			char*										currentArgument;
+			LanguageHost*								host;
+			LanguageState*								state;
+		public:
+			LanguageArguments(LanguageHost* _host, LanguageState* _state, void* _result, void* _arguments);
+			~LanguageArguments();
+
+			template<typename T>
+			T NextArgument()
+			{
+				return NextArgumentRef<T>();
+			}
+
+			template<typename T>
+			T& NextArgumentRef()
+			{
+				T& argument=*(T*)currentArgument;
+				currentArgument+=sizeof(T);
+				return argument;
+			}
+
+			template<typename T>
+			T& Result()
+			{
+				return *(T*)result;
+			}
 		};
 	}
 }

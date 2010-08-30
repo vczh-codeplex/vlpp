@@ -18,7 +18,8 @@ LanguageAssembly
 
 			void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)
 			{
-				function->Invoke(host, (LanguageState*)stack->GetUserData(), result, arguments);
+				LanguageArguments args(host, (LanguageState*)stack->GetUserData(), result, arguments);
+				function->Invoke(args);
 			}
 		};
 
@@ -172,6 +173,24 @@ LanguageHost
 			proxy->host=this;
 			proxy->function=function;
 			return interpretor->RegisterForeignFunction(category, name, proxy);
+		}
+
+/***********************************************************************
+LanguageAssembly
+***********************************************************************/
+
+		LanguageArguments::LanguageArguments(LanguageHost* _host, LanguageState* _state, void* _result, void* _arguments)
+			:host(_host)
+			,state(_state)
+			,result((char*)_result)
+			,arguments((char*)_arguments)
+			,currentArgument((char*)_arguments)
+		{
+		}
+
+		LanguageArguments::~LanguageArguments()
+		{
+			state->GetStack()->Reserve(-(vint)(sizeof(result)+(currentArgument-arguments)));
 		}
 	}
 }
