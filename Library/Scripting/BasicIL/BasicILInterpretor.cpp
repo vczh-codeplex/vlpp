@@ -115,6 +115,20 @@ BasicILGenericArgument
 			}
 
 /***********************************************************************
+BasicILLightFunctionInfo
+***********************************************************************/
+
+			bool BasicILLightFunctionInfo::operator==(const BasicILLightFunctionInfo& info)const
+			{
+				return function==info.function && argumentSize==info.argumentSize;
+			}
+
+			bool BasicILLightFunctionInfo::operator!=(const BasicILLightFunctionInfo& info)const
+			{
+				return function!=info.function || argumentSize!=info.argumentSize;
+			}
+
+/***********************************************************************
 BasicILLabel
 ***********************************************************************/
 
@@ -131,9 +145,6 @@ BasicILLabel
 /***********************************************************************
 BasicILInterpretor
 ***********************************************************************/
-
-			const vint BasicILInterpretor::GenericFunctionSitingAssemblyKey=0;
-			const vint BasicILInterpretor::ForeignFunctionSitingAssemblyKey=-2;
 
 			BasicILInterpretor::VariablePackage::VariablePackage(vint size)
 				:buffer(size)
@@ -873,7 +884,31 @@ BasicILInterpretor
 					label.key=ForeignFunctionSitingAssemblyKey;
 					label.instruction=foreignFunctionList.Count();
 					foreignFunctionLabelMap.Add(symbol, labels.Count());
+
 					foreignFunctionList.Add(function);
+					labels.Add(label);
+					return true;
+				}
+			}
+
+			bool BasicILInterpretor::RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize)
+			{
+				Pair<WString, WString> symbol(category, name);
+				if(foreignFunctionLabelMap.Keys().Contains(symbol))
+				{
+					return false;
+				}
+				else
+				{
+					BasicILLabel label;
+					label.key=LightFunctionSitingAssemblyKey;
+					label.instruction=foreignFunctionList.Count();
+					foreignFunctionLabelMap.Add(symbol, labels.Count());
+
+					BasicILLightFunctionInfo info;
+					info.function=function;
+					info.argumentSize=argumentSize;
+					lightFunctionList.Add(info);
 					labels.Add(label);
 					return true;
 				}

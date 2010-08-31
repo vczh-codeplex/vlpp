@@ -1575,9 +1575,26 @@ public:
 	}
 };
 
+void LightSumFunction(void* result, void* arguments)
+{
+	vint* numbers=*(vint**)(arguments);
+	vint count=*(vint*)((char*)arguments+sizeof(vint*));
+	vint sum=0;
+	for(vint i=0;i<count;i++)
+	{
+		sum+=numbers[i];
+	}
+	*((vint*)result)=sum;
+}
+
 void ForeignSumInterpretorInitializer(BasicILInterpretor& interpretor)
 {
 	interpretor.RegisterForeignFunction(L"Foreign", L"Sum", new ForeignSumFunction);
+}
+
+void LightSumInterpretorInitializer(BasicILInterpretor& interpretor)
+{
+	interpretor.RegisterLightFunction(L"Foreign", L"Sum", LightSumFunction, sizeof(vint*)+sizeof(vint));
 }
 
 TEST_CASE(TestScripting_BasicLanguage_ForeignFunction)
@@ -1594,6 +1611,7 @@ TEST_CASE(TestScripting_BasicLanguage_ForeignFunction)
 		<<s_expr(e_result().Assign(e_name(L"Sum")(e_exps()<<e_name(L"numbers").Ref()[*t_int()]<<e_prim(5))))
 		);
 	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_ForeignFunction", ForeignSumInterpretorInitializer);
+	RunBasicProgram<vint>(program.GetInternalValue(), 15, L"TestScripting_BasicLanguage_LightFunction", LightSumInterpretorInitializer);
 }
 
 /***********************************************************************

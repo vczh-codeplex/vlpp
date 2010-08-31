@@ -171,6 +171,17 @@ namespace vl
 				virtual void									Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)=0;
 			};
 
+			typedef void(*BasicILLightFunction)(void* result, void* arguments);
+
+			struct BasicILLightFunctionInfo
+			{
+				BasicILLightFunction							function;
+				vint											argumentSize;
+
+				bool											operator==(const BasicILLightFunctionInfo& info)const;
+				bool											operator!=(const BasicILLightFunctionInfo& info)const;
+			};
+
 /***********************************************************************
 ÐéÄâ»ú
 ***********************************************************************/
@@ -202,9 +213,11 @@ namespace vl
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
 				typedef collections::List<Ptr<IBasicILForeignFunction>>						_ForeignFunctionList;
+				typedef collections::List<BasicILLightFunctionInfo>							_LightFunctionList;
 
-				static const vint								GenericFunctionSitingAssemblyKey;
-				static const vint								ForeignFunctionSitingAssemblyKey;
+				static const vint								GenericFunctionSitingAssemblyKey=0;
+				static const vint								ForeignFunctionSitingAssemblyKey=-2;
+				static const vint								LightFunctionSitingAssemblyKey=-3;
 
 			public:
 				struct VariablePackage
@@ -229,8 +242,10 @@ namespace vl
 				_BasicILMap										ilMap;
 				collections::List<BasicILLabel>					labels;
 				_SymbolMap										symbolMap;
+
 				_SymbolMap										foreignFunctionLabelMap;
 				_ForeignFunctionList							foreignFunctionList;
+				_LightFunctionList								lightFunctionList;
 
 				BasicILGenericFunctionEntry::MapType			genericFunctionEntries;
 				BasicILGenericVariableEntry::MapType			genericVariableEntries;
@@ -257,6 +272,7 @@ namespace vl
 				vint											LoadIL(BasicIL* il);
 				void											UnloadIL(BasicIL* il);
 				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
+				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize);
 				collections::IList<BasicILLabel>&				GetLabels();
 				void											LogInternalState(stream::TextWriter& writer);
 			};
@@ -300,6 +316,7 @@ namespace vl
 				BasicILExceptionHandler*						GetExceptionHandler();
 				void											SetExceptionHandler(BasicILExceptionHandler* handler);
 				void											InvokeForeignFunction(vint index);
+				void											InvokeLightFunction(vint index);
 				void*											GetUserData();
 				void											SetUserData(void* data);
 			};
