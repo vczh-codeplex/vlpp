@@ -902,7 +902,7 @@ BasicILInterpretor
 				{
 					BasicILLabel label;
 					label.key=LightFunctionSitingAssemblyKey;
-					label.instruction=foreignFunctionList.Count();
+					label.instruction=lightFunctionList.Count();
 					foreignFunctionLabelMap.Add(symbol, labels.Count());
 
 					BasicILLightFunctionInfo info;
