@@ -668,30 +668,38 @@ BasicILStack
 							}
 							break;
 						case BasicIns::call:
-							if(ins.insKey==BasicILInterpretor::ForeignFunctionSitingAssemblyKey)
 							{
-								InvokeForeignFunction(ins.argument.int_value);
-							}
-							else
-							{
-								env->Push<vint>(insKey);
-								env->Push<vint>(nextInstruction);
-								env->Push<vint>(env->StackBase());
-								env->SetBase(env->StackTop());
-								nextInstruction=ins.argument.int_value;
-								nextInsKey=ins.insKey;
+								switch(ins.insKey)
+								{
+								case BasicILInterpretor::ForeignFunctionSitingAssemblyKey:
+									InvokeForeignFunction(ins.argument.int_value);
+									break;
+								case BasicILInterpretor::LightFunctionSitingAssemblyKey:
+									InvokeLightFunction(ins.argument.int_value);
+									break;
+								default:
+									env->Push<vint>(insKey);
+									env->Push<vint>(nextInstruction);
+									env->Push<vint>(env->StackBase());
+									env->SetBase(env->StackTop());
+									nextInstruction=ins.argument.int_value;
+									nextInsKey=ins.insKey;
+								}
 							}
 							break;
 						case BasicIns::call_indirect:
 							{
 								vint pushins=env->Pop<vint>();
 								vint pushkey=env->Pop<vint>();
-								if(pushkey==BasicILInterpretor::ForeignFunctionSitingAssemblyKey)
+								switch(pushkey)
 								{
+								case BasicILInterpretor::ForeignFunctionSitingAssemblyKey:
 									InvokeForeignFunction(pushins);
-								}
-								else
-								{
+									break;
+								case BasicILInterpretor::LightFunctionSitingAssemblyKey:
+									InvokeLightFunction(pushins);
+									break;
+								default:
 									env->Push<vint>(insKey);
 									env->Push<vint>(nextInstruction);
 									env->Push<vint>(env->StackBase());
@@ -817,6 +825,16 @@ BasicILStack
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
 				interpretor->foreignFunctionList[index]->Invoke(interpretor, this, result, arguments);
+			}
+
+			void BasicILStack::InvokeLightFunction(vint index)
+			{
+				void* stackTop=env->DereferenceStack(env->StackTop());
+				void* result=((void**)stackTop)[0];
+				void* arguments=&((void**)stackTop)[1];
+				BasicILLightFunctionInfo& info=interpretor->lightFunctionList[index];
+				info.function(result, arguments);
+				env->Reserve(-(vint)(sizeof(void*)+info.argumentSize));
 			}
 
 			void* BasicILStack::GetUserData()
