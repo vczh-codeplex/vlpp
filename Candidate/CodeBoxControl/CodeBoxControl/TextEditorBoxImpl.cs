@@ -29,10 +29,10 @@ namespace CodeBoxControl
             }
         }
 
-        public int ColorizeLine(char[] items, int initialState, int[] colors)
+        public int ColorizeLine(char[] items, int length, int initialState, int[] colors)
         {
             int count = items.Length;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < length; i++)
             {
                 colors[i] = 0;
             }

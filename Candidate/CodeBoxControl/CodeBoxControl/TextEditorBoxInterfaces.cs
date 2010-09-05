@@ -16,6 +16,6 @@ namespace CodeBoxControl
     public interface ITextEditorColorizer
     {
         TextEditorColorItem[] ColorItems { get; }
-        int ColorizeLine(char[] items, int initialState, int[] colors);
+        int ColorizeLine(char[] items, int length, int initialState, int[] colors);
     }
 }
