@@ -143,7 +143,7 @@ namespace CodeForm
                         return InStringState;
                     else if (input == '\'')
                         return InCharState;
-                    else if ('a' <= input && input <= 'z' || 'A' <= input && input <= 'Z' || input == '_')
+                    else if ('a' <= input && input <= 'z' || 'A' <= input && input <= 'Z' || input == '_' || input == '#')
                         return IdState;
                     else if (input == '/')
                         return CommentStartState;
@@ -253,7 +253,7 @@ namespace CodeForm
 
         private bool IsKeyword(string id)
         {
-            return Array.BinarySearch(keywords, id) >= 0;
+            return id[0] == '#' || Array.BinarySearch(keywords, id) >= 0;
         }
 
         private static string[] keywords ={
