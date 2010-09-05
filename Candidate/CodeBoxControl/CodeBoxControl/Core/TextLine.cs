@@ -11,6 +11,7 @@ namespace CodeBoxControl.Core
         private const int BufferBlock = 128;
 
         private PinnedArray<char> charArray = null;
+        private int[] colorArray = null;
         private int availableCharCount = 0;
         private T tag;
 
@@ -29,6 +30,7 @@ namespace CodeBoxControl.Core
         public TextLine()
         {
             this.charArray = new PinnedArray<char>(BufferBlock);
+            this.colorArray = new int[BufferBlock];
         }
 
         public void Dispose()
@@ -49,6 +51,22 @@ namespace CodeBoxControl.Core
             get
             {
                 return GetString(0, this.availableCharCount);
+            }
+        }
+
+        public char[] CharArray
+        {
+            get
+            {
+                return this.charArray.Buffer;
+            }
+        }
+
+        public int[] ColorArray
+        {
+            get
+            {
+                return this.colorArray;
             }
         }
 
@@ -86,6 +104,10 @@ namespace CodeBoxControl.Core
             if (this.charArray.Buffer.Length - newBlock > BufferBlock)
             {
                 this.charArray.Resize(newBlock);
+            }
+            if (this.colorArray.Length != this.charArray.Buffer.Length)
+            {
+                this.colorArray = new int[this.charArray.Buffer.Length];
             }
         }
 
