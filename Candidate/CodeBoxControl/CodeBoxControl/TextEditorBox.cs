@@ -413,10 +413,13 @@ namespace CodeBoxControl
         {
             if (index >= this.colorizedLines)
             {
-                int initialState = index == 0 ? 0 : this.textProvider[index - 1].Tag.colorizerFinalState;
-                TextLine<LineInfo> line = this.textProvider[index];
-                int finalState = this.colorizer.ColorizeLine(line.CharArray, initialState, line.ColorArray);
-                line.Tag.colorizerFinalState = finalState;
+                for (int i = this.colorizedLines; i <= index; i++)
+                {
+                    int initialState = i == 0 ? 0 : this.textProvider[i - 1].Tag.colorizerFinalState;
+                    TextLine<LineInfo> line = this.textProvider[i];
+                    int finalState = this.colorizer.ColorizeLine(line.CharArray, line.CharCount, initialState, line.ColorArray);
+                    line.Tag.colorizerFinalState = finalState;
+                }
                 this.colorizedLines = index + 1;
             }
         }

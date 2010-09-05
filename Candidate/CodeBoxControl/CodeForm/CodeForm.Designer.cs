@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textEditorBox1 = new CodeBoxControl.TextEditorBox();
+            this.textEditorBox = new CodeBoxControl.TextEditorBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textEditorBox1
+            // textEditorBox
             // 
-            this.textEditorBox1.BackColor = System.Drawing.Color.Honeydew;
-            this.textEditorBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textEditorBox1.EnableDefaultCommands = true;
-            this.textEditorBox1.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textEditorBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textEditorBox1.Location = new System.Drawing.Point(0, 0);
-            this.textEditorBox1.Name = "textEditorBox1";
-            this.textEditorBox1.SelectedText = "";
-            this.textEditorBox1.Size = new System.Drawing.Size(346, 348);
-            this.textEditorBox1.TabIndex = 0;
+            this.textEditorBox.BackColor = System.Drawing.Color.Honeydew;
+            this.textEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textEditorBox.EnableDefaultCommands = true;
+            this.textEditorBox.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.textEditorBox.Location = new System.Drawing.Point(0, 0);
+            this.textEditorBox.Name = "textEditorBox";
+            this.textEditorBox.SelectedText = "";
+            this.textEditorBox.Size = new System.Drawing.Size(346, 348);
+            this.textEditorBox.TabIndex = 0;
             // 
             // panel1
             // 
@@ -52,7 +52,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.textEditorBox1);
+            this.panel1.Controls.Add(this.textEditorBox);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(348, 350);
@@ -75,7 +75,7 @@
 
         #endregion
 
-        private CodeBoxControl.TextEditorBox textEditorBox1;
+        private CodeBoxControl.TextEditorBox textEditorBox;
         private System.Windows.Forms.Panel panel1;
 
     }

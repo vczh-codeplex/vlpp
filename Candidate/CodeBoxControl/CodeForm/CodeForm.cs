@@ -15,6 +15,7 @@ namespace CodeForm
         public CodeForm()
         {
             InitializeComponent();
+            textEditorBox.Colorizer = new CSharpColorizer();
         }
 
         private void CodeForm_Shown(object sender, EventArgs e)
