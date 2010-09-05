@@ -43,7 +43,6 @@ namespace CodeBoxControl
 
         private ITextEditorColorizer colorizer = null;
         private int colorizedLines = 0;
-        private int[] colorBuffer = new int[1024];
 
         #endregion
 
@@ -331,15 +330,20 @@ namespace CodeBoxControl
             UpdateViewSize();
         }
 
-        private Point CalculateOffset(TextPosition position)
+        private int CalculateOffset(string text)
         {
             if (this.temporaryGraphics == null)
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            string text = this.textProvider[position.row].GetString(0, position.col);
             Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding);
-            return new Point(size.Width, position.row * this.lineHeight + this.textTopOffset);
+            return size.Width;
+        }
+
+        private Point CalculateOffset(TextPosition position)
+        {
+            string text = this.textProvider[position.row].GetString(0, position.col);
+            return new Point(CalculateOffset(text), position.row * this.lineHeight + this.textTopOffset);
         }
 
         private TextPosition CalculatePosition(Point point)
@@ -403,6 +407,18 @@ namespace CodeBoxControl
                 line.Tag.lineWidthAvailable = true;
             }
             return line.Tag.lineWidth;
+        }
+
+        private void EnsureLineColorized(int index)
+        {
+            if (index >= this.colorizedLines)
+            {
+                int initialState = index == 0 ? 0 : this.textProvider[index - 1].Tag.colorizerFinalState;
+                TextLine<LineInfo> line = this.textProvider[index];
+                int finalState = this.colorizer.ColorizeLine(line.CharArray, initialState, line.ColorArray);
+                line.Tag.colorizerFinalState = finalState;
+                this.colorizedLines = index + 1;
+            }
         }
 
         #endregion
@@ -755,6 +771,7 @@ namespace CodeBoxControl
 
                         for (int i = startLine; i <= endLine; i++)
                         {
+                            this.textEditorBox.EnsureLineColorized(i);
                             TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
                             int x = EditorMargin - viewVisibleBounds.Left;
                             int y = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight + this.textEditorBox.textTopOffset;
@@ -788,15 +805,15 @@ namespace CodeBoxControl
 
                                 if (c0 < c1)
                                 {
-                                    RenderLine(g, text.Substring(c0, c1 - c0), new Point(x0, y), false);
+                                    RenderLine(g, i, c0, c1, new Point(x0, y), false, viewAreaBounds.Width);
                                 }
                                 if (c1 < c2)
                                 {
-                                    RenderLine(g, text.Substring(c1, c2 - c1), new Point(x1, y), true);
+                                    RenderLine(g, i, c1, c2, new Point(x1, y), true, viewAreaBounds.Width);
                                 }
                                 if (c2 < c3)
                                 {
-                                    RenderLine(g, text.Substring(c2, c3 - c2), new Point(x2, y), false);
+                                    RenderLine(g, i, c2, c3, new Point(x2, y), false, viewAreaBounds.Width);
                                 }
                                 if (c2 == text.Length && selectionEnd.row > i)
                                 {
@@ -805,7 +822,7 @@ namespace CodeBoxControl
                             }
                             else
                             {
-                                RenderLine(g, text.Substring(c0, c3 - c0), new Point(x0, y), false);
+                                RenderLine(g, i, c0, c3, new Point(x0, y), false, viewAreaBounds.Width);
                             }
                         }
 
@@ -838,22 +855,63 @@ namespace CodeBoxControl
 
             #endregion
 
-            private void RenderLine(Graphics g, string text, Point position, bool selected)
+            #region Rendering
+
+            private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth)
             {
-                if (selected)
+                if (colEnd > colStart)
                 {
-                    TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, SystemColors.HighlightText, SystemColors.Highlight, TextFormatFlags.NoPadding);
+                    TextLine<LineInfo> line = this.textEditorBox.textProvider[row];
+                    TextEditorColorItem[] colorItems = this.textEditorBox.colorizer.ColorItems;
+                    int[] colors = line.ColorArray;
+                    int itemStart = colStart;
+                    int itemColor = colors[colStart];
+                    int xStart = position.X;
+
+                    for (int i = colStart; i <= colEnd; i++)
+                    {
+                        if (itemColor != colors[i] || i == colEnd)
+                        {
+                            string text = line.GetString(itemStart, i - itemStart);
+                            TextEditorColorItem colorItem = colorItems[itemColor];
+                            int xEnd = xStart + this.textEditorBox.CalculateOffset(text);
+                            if (xStart >= 0)
+                            {
+                                if (selected)
+                                {
+                                    RenderString(g, text, new Point(xStart, position.Y), colorItem.HighlightText, colorItem.Highlight);
+                                }
+                                else
+                                {
+                                    RenderString(g, text, new Point(xStart, position.Y), colorItem.Text, this.textEditorBox.BackColor);
+                                }
+                            }
+                            if (xEnd >= visibleWidth)
+                            {
+                                break;
+                            }
+                            if (i != colEnd)
+                            {
+                                itemStart = i;
+                                itemColor = colors[i];
+                                xStart = xEnd;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, this.textEditorBox.ForeColor, TextFormatFlags.NoPadding);
-                }
+            }
+
+            private void RenderString(Graphics g, string text, Point position, Color foreColor, Color backColor)
+            {
+                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, backColor, TextFormatFlags.NoPadding);
             }
 
             private void RenderSelectedCrLf(Graphics g, Point position)
             {
-                RenderLine(g, " ", position, true);
+                RenderString(g, " ", position, SystemColors.HighlightText, SystemColors.Highlight);
             }
+
+            #endregion
         }
     }
 
