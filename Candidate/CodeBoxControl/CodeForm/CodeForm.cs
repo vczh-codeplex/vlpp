@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using CodeBoxControl;
+using System.IO;
 
 namespace CodeForm
 {
@@ -20,6 +21,10 @@ namespace CodeForm
 
         private void CodeForm_Shown(object sender, EventArgs e)
         {
+            using (StreamReader reader = new StreamReader("CSharpCode.txt"))
+            {
+                textEditorBox.Text = reader.ReadToEnd();
+            }
         }
     }
 }
