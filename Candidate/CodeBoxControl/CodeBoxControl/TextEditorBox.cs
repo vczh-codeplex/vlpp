@@ -873,7 +873,7 @@ namespace CodeBoxControl
 
                     for (int i = colStart; i <= colEnd; i++)
                     {
-                        if (itemColor != colors[i] || i == colEnd)
+                        if (i == colEnd || itemColor != colors[i])
                         {
                             string text = line.GetString(itemStart, i - itemStart);
                             TextEditorColorItem colorItem = colorItems[itemColor];
