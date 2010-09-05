@@ -8,15 +8,21 @@ using System.Text;
 using System.Windows.Forms;
 using CodeBoxControl;
 using System.IO;
+using System.ServiceModel;
 
 namespace CodeForm
 {
     public partial class CodeForm : Form
     {
+        private ServiceHost serviceHost = null;
+
         public CodeForm()
         {
             InitializeComponent();
             textEditorBox.Colorizer = new CSharpColorizer();
+
+            this.serviceHost = new ServiceHost(typeof(TextEditorService));
+            this.serviceHost.Open();
         }
 
         private void CodeForm_Shown(object sender, EventArgs e)
@@ -28,6 +34,11 @@ namespace CodeForm
                     textEditorBox.Text = reader.ReadToEnd();
                 }
             }
+        }
+
+        private void CodeForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.serviceHost.Close();
         }
     }
 }

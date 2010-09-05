@@ -69,6 +69,7 @@
             this.Name = "CodeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CodeForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CodeForm_FormClosed);
             this.Shown += new System.EventHandler(this.CodeForm_Shown);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

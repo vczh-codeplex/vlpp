@@ -5,30 +5,38 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UITesting;
 using System.Windows.Input;
+using CodeBoxControlTest.TextEditorServiceReference;
 
 namespace CodeBoxControlTest
 {
     [TestClass]
     public class UILaunchTest
     {
+        private ApplicationUnderTest application;
+        private CodeFormWindow window;
+        private TextEditorServiceClient service;
+
         [TestInitialize]
         public void Initialize()
         {
             Playback.Initialize();
+            application = ApplicationUnderTest.Launch("CodeForm.exe");
+            window = new CodeFormWindow();
+            service = new TextEditorServiceClient();
+            service.Open();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
+            service.Close();
+            application.Close();
             Playback.Cleanup();
         }
 
         [TestMethod]
         public void UITestHelperOpenForm()
         {
-            ApplicationUnderTest application = ApplicationUnderTest.Launch("CodeForm.exe");
-            CodeFormWindow window = new CodeFormWindow();
-
             window.TypeAndEnter("using System;");
             window.TypeAndEnter("");
             window.TypeAndEnter("namespace Program");
@@ -42,8 +50,7 @@ namespace CodeBoxControlTest
             window.TypeAndEnter("    }");
             window.TypeAndEnter("}");
 
-            window.Wait(1000);
-            application.Close();
+            Assert.AreEqual("TextEditorService", service.GetName());
         }
     }
 }
