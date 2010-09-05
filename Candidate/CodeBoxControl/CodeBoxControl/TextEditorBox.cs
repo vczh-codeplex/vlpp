@@ -13,7 +13,7 @@ namespace CodeBoxControl
     {
         private const int EditorMargin = 4;
 
-        class LineInfo
+        public class LineInfo
         {
             public int lineWidth = 0;
             public bool lineWidthAvailable = false;
@@ -70,6 +70,22 @@ namespace CodeBoxControl
             this.keyCommands.RegisterCommand(Keys.X, true, false, DoCut);
             this.keyCommands.RegisterCommand(Keys.V, true, false, DoPaste);
             this.keyCommands.RegisterCommand(Keys.A, true, false, DoSelectAll);
+        }
+
+        public TextProvider<LineInfo> TextProvider
+        {
+            get
+            {
+                return this.textProvider;
+            }
+        }
+
+        public TextEditorController Controller
+        {
+            get
+            {
+                return this.controller;
+            }
         }
 
         public TextEditorBoxKeyCommands KeyCommands

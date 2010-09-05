@@ -40,11 +40,13 @@
             this.textEditorBox.EnableDefaultCommands = true;
             this.textEditorBox.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.textEditorBox.HorizontalSmallChange = 10;
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
             this.textEditorBox.SelectedText = "";
             this.textEditorBox.Size = new System.Drawing.Size(346, 348);
             this.textEditorBox.TabIndex = 0;
+            this.textEditorBox.VerticalSmallChange = 10;
             // 
             // panel1
             // 
@@ -75,8 +77,8 @@
 
         #endregion
 
-        private CodeBoxControl.TextEditorBox textEditorBox;
         private System.Windows.Forms.Panel panel1;
+        public CodeBoxControl.TextEditorBox textEditorBox;
 
     }
 }
