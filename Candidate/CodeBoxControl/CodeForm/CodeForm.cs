@@ -13,17 +13,28 @@ namespace CodeForm
 {
     public partial class CodeForm : Form
     {
+        private bool loadFile = true;
+
         public CodeForm()
         {
             InitializeComponent();
             textEditorBox.Colorizer = new CSharpColorizer();
         }
 
+        public CodeForm(bool loadFile)
+            :this()
+        {
+            this.loadFile = loadFile;
+        }
+
         private void CodeForm_Shown(object sender, EventArgs e)
         {
-            using (StreamReader reader = new StreamReader("CSharpCode.txt"))
+            if (this.loadFile)
             {
-                textEditorBox.Text = reader.ReadToEnd();
+                using (StreamReader reader = new StreamReader("CSharpCode.txt"))
+                {
+                    textEditorBox.Text = reader.ReadToEnd();
+                }
             }
         }
     }
