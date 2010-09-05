@@ -140,7 +140,6 @@ namespace CodeBoxControl
             set
             {
                 SelectAllText();
-                this.needToForceUpdateViewSize = true;
                 this.SelectedText = value;
                 SetCaret(new TextPosition(0, 0));
             }
@@ -154,7 +153,6 @@ namespace CodeBoxControl
             }
             set
             {
-                this.needToForceUpdateViewSize = true;
                 this.controller.Input(value, false);
             }
         }
