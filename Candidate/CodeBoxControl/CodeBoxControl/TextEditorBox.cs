@@ -326,6 +326,8 @@ namespace CodeBoxControl
                 this.textTopOffset = (this.lineHeight - this.textHeight) / 2;
             }
             UpdateViewSize();
+            this.VerticalSmallChange = this.lineHeight;
+            this.HorizontalSmallChange = CalculateOffset(" ");
         }
 
         private int CalculateOffset(string text)
@@ -876,7 +878,7 @@ namespace CodeBoxControl
                             string text = line.GetString(itemStart, i - itemStart);
                             TextEditorColorItem colorItem = colorItems[itemColor];
                             int xEnd = xStart + this.textEditorBox.CalculateOffset(text);
-                            if (xStart >= 0)
+                            if (xStart < visibleWidth && xEnd >= 0)
                             {
                                 if (selected)
                                 {

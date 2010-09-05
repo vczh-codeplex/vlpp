@@ -80,6 +80,30 @@ namespace CodeBoxControl
             }
         }
 
+        public int VerticalSmallChange
+        {
+            get
+            {
+                return scrollVertical.SmallChange;
+            }
+            set
+            {
+                scrollVertical.SmallChange = value;
+            }
+        }
+
+        public int HorizontalSmallChange
+        {
+            get
+            {
+                return scrollHorizontal.SmallChange;
+            }
+            set
+            {
+                scrollHorizontal.SmallChange = value;
+            }
+        }
+
         public bool ImeEnabled
         {
             get
