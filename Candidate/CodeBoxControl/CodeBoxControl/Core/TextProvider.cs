@@ -89,17 +89,19 @@ namespace CodeBoxControl.Core
                 for (int i = end.row - 1; i >= startRow; i--)
                 {
                     this.lines[i].Dispose();
-                    this.lines.RemoveAt(i);
                 }
+                this.lines.RemoveRange(startRow, end.row - startRow);
                 end.row = startRow;
             }
             else if (affectedLines < texts.Length)
             {
                 int count = texts.Length - affectedLines;
+                TextLine<T>[] allocatedLines = new TextLine<T>[count];
                 for (int i = 0; i < count; i++)
                 {
-                    this.lines.Insert(end.row, new TextLine<T>());
+                    allocatedLines[i] = new TextLine<T>();
                 }
+                this.lines.InsertRange(end.row, allocatedLines);
                 end.row += count;
             }
 
