@@ -508,7 +508,10 @@ namespace CodeBoxControl
 
         bool ITextContentProvider.OnEdit(TextPosition start, TextPosition end, string[] lines)
         {
-            this.colorizedLines = Math.Min(this.colorizedLines, start.row);
+            bool optimizable = this.colorizedLines + 1 >= end.row;
+            int lastFinalState = this.textProvider[end.row].Tag.colorizerFinalState;
+            int lastColorizedLines = this.colorizedLines;
+
             for (int i = start.row; i <= end.row; i++)
             {
                 if (GetCachedLineWidth(i) >= this.cachedWholeWidth)
@@ -518,6 +521,19 @@ namespace CodeBoxControl
                 this.textProvider[i].Tag.lineWidthAvailable = false;
             }
             this.textProvider.Edit(start, end, lines);
+
+            if (optimizable)
+            {
+                int newEndRow = start.row + lines.Length - 1;
+                this.colorizedLines = start.row;
+                EnsureLineColorized(newEndRow);
+                if (this.textProvider[newEndRow].Tag.colorizerFinalState == lastFinalState)
+                {
+                    this.colorizedLines = lastColorizedLines + newEndRow - end.row;
+                    return true;
+                }
+            }
+            this.colorizedLines = Math.Min(this.colorizedLines, start.row);
             return true;
         }
 
