@@ -6,39 +6,11 @@ using CodeBoxControl;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UITesting.WinControls;
+using Microsoft.VisualStudio.TestTools.UITesting;
+using System.Windows.Input;
 
 namespace CodeBoxControlTest
 {
-    static class UITestHelper
-    {
-        public static TextEditorBox OpenEditor(bool loadFile)
-        {
-            CodeForm.CodeForm form = null;
-            new Thread(new ThreadStart(() =>
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                form = new CodeForm.CodeForm(loadFile);
-                Application.Run(form);
-            })).Start();
-            while (form == null) Thread.Sleep(10);
-            return form.textEditorBox;
-        }
-
-        public static TextEditorBox OpenEditor()
-        {
-            return OpenEditor(false);
-        }
-
-        public static void CloseEditor(TextEditorBox editor)
-        {
-            editor.Invoke(new MethodInvoker(() =>
-            {
-                editor.FindForm().Close();
-            }));
-        }
-    }
-
     class CodeFormWindow : WinWindow
     {
         public WinWindow Editor { get; set; }
@@ -82,6 +54,31 @@ namespace CodeBoxControlTest
                 this.Host = new WinWindow(window);
                 this.Host.Find();
             }
+        }
+
+        public void Wait(int ms)
+        {
+            Thread.Sleep(ms);
+        }
+
+        public void Type(string text)
+        {
+            text = text.Select(c => c == '{' ? "{{}" : c == '}' ? "{}}" : c.ToString()).Aggregate((a, b) => (a + b));
+            Keyboard.SendKeys(this.Host, text);
+        }
+
+        public void TypeAndEnter(string text)
+        {
+            if (text != "")
+            {
+                Type(text);
+            }
+            Press("{ENTER}", ModifierKeys.None);
+        }
+
+        public void Press(string keys, ModifierKeys modifiers)
+        {
+            Keyboard.SendKeys(this.Host, keys, modifiers);
         }
     }
 }

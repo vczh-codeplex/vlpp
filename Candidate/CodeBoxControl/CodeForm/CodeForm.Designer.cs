@@ -44,7 +44,7 @@
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
             this.textEditorBox.SelectedText = "";
-            this.textEditorBox.Size = new System.Drawing.Size(346, 348);
+            this.textEditorBox.Size = new System.Drawing.Size(676, 596);
             this.textEditorBox.TabIndex = 0;
             this.textEditorBox.VerticalSmallChange = 10;
             // 
@@ -57,14 +57,14 @@
             this.panel1.Controls.Add(this.textEditorBox);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(348, 350);
+            this.panel1.Size = new System.Drawing.Size(678, 598);
             this.panel1.TabIndex = 1;
             // 
             // CodeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 374);
+            this.ClientSize = new System.Drawing.Size(702, 622);
             this.Controls.Add(this.panel1);
             this.Name = "CodeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
