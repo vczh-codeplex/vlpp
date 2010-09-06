@@ -980,7 +980,7 @@ namespace CodeBoxControlTest
             Assert.AreEqual(new TextPosition(2, 4), this.controller.SelectionCaret);
             AssertController("ABCDEFG\r\nHIJKLMN\r\nOPQR", "", "ST\r\nUVWXYZ");
 
-            this.controller.PressBackspace(false, true);
+            this.controller.PressBackspace(true, true);
             Assert.AreEqual(new TextPosition(2, 0), this.controller.SelectionAnchor);
             Assert.AreEqual(new TextPosition(2, 0), this.controller.SelectionCaret);
             AssertController("ABCDEFG\r\nHIJKLMN\r\n", "", "UVWXYZ");
@@ -990,7 +990,7 @@ namespace CodeBoxControlTest
             Assert.AreEqual(new TextPosition(0, 3), this.controller.SelectionCaret);
             AssertController("ABC", "", "DEFG\r\nHIJKLMN\r\nUVWXYZ");
 
-            this.controller.PressBackspace(false, true);
+            this.controller.PressBackspace(true, true);
             Assert.AreEqual(new TextPosition(0, 0), this.controller.SelectionAnchor);
             Assert.AreEqual(new TextPosition(0, 0), this.controller.SelectionCaret);
             AssertController("", "", "HIJKLMN\r\nUVWXYZ");

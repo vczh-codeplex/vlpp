@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Drawing;
 
 namespace CodeForm
 {
@@ -12,6 +13,15 @@ namespace CodeForm
     public interface ITextEditorService
     {
         [OperationContract]
-        string GetName();
+        Point GetSelectionAnchor();
+
+        [OperationContract]
+        Point GetSelectionCaret();
+
+        [OperationContract]
+        Point GetSelectionStart();
+
+        [OperationContract]
+        Point GetSelectionEnd();
     }
 }

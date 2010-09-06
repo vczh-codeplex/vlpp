@@ -20,6 +20,7 @@ namespace CodeForm
         {
             InitializeComponent();
             textEditorBox.Colorizer = new CSharpColorizer();
+            TextEditorService.CodeForm = this;
 
             this.serviceHost = new ServiceHost(typeof(TextEditorService));
             this.serviceHost.Open();
