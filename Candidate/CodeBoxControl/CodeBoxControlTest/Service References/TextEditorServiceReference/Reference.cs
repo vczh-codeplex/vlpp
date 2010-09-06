@@ -26,6 +26,15 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectionEnd", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectionEndResponse")]
         System.Drawing.Point GetSelectionEnd();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetLineCount", ReplyAction="http://tempuri.org/ITextEditorService/GetLineCountResponse")]
+        int GetLineCount();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetLineLength", ReplyAction="http://tempuri.org/ITextEditorService/GetLineLengthResponse")]
+        int GetLineLength(int index);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetString", ReplyAction="http://tempuri.org/ITextEditorService/GetStringResponse")]
+        string GetString(System.Drawing.Point p1, System.Drawing.Point p2);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -69,6 +78,18 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
         
         public System.Drawing.Point GetSelectionEnd() {
             return base.Channel.GetSelectionEnd();
+        }
+        
+        public int GetLineCount() {
+            return base.Channel.GetLineCount();
+        }
+        
+        public int GetLineLength(int index) {
+            return base.Channel.GetLineLength(index);
+        }
+        
+        public string GetString(System.Drawing.Point p1, System.Drawing.Point p2) {
+            return base.Channel.GetString(p1, p2);
         }
     }
 }

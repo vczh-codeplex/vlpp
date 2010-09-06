@@ -31,6 +31,13 @@ namespace CodeBoxControlTest
 
         private void AssertController(string a, string b, string c)
         {
+            TextPosition p0 = new TextPosition(0, 0);
+            TextPosition p1 = window.SelectionStart;
+            TextPosition p2 = window.SelectionEnd;
+            TextPosition p3 = new TextPosition(window.LineCount - 1, window.GetLineLength(window.LineCount - 1));
+            Assert.AreEqual(a, window.GetString(p0, p1));
+            Assert.AreEqual(b, window.GetString(p1, p2));
+            Assert.AreEqual(c, window.GetString(p2, p3));
         }
 
         private void AssertTextPosition(TextPosition a, TextPosition b)

@@ -23,5 +23,14 @@ namespace CodeForm
 
         [OperationContract]
         Point GetSelectionEnd();
+
+        [OperationContract]
+        int GetLineCount();
+
+        [OperationContract]
+        int GetLineLength(int index);
+
+        [OperationContract]
+        string GetString(Point p1, Point p2);
     }
 }
