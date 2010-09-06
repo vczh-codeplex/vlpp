@@ -15,8 +15,17 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="TextEditorServiceReference.ITextEditorService")]
     public interface ITextEditorService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetName", ReplyAction="http://tempuri.org/ITextEditorService/GetNameResponse")]
-        string GetName();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectionAnchor", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectionAnchorResponse")]
+        System.Drawing.Point GetSelectionAnchor();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectionCaret", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectionCaretResponse")]
+        System.Drawing.Point GetSelectionCaret();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectionStart", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectionStartResponse")]
+        System.Drawing.Point GetSelectionStart();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectionEnd", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectionEndResponse")]
+        System.Drawing.Point GetSelectionEnd();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -46,8 +55,20 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public string GetName() {
-            return base.Channel.GetName();
+        public System.Drawing.Point GetSelectionAnchor() {
+            return base.Channel.GetSelectionAnchor();
+        }
+        
+        public System.Drawing.Point GetSelectionCaret() {
+            return base.Channel.GetSelectionCaret();
+        }
+        
+        public System.Drawing.Point GetSelectionStart() {
+            return base.Channel.GetSelectionStart();
+        }
+        
+        public System.Drawing.Point GetSelectionEnd() {
+            return base.Channel.GetSelectionEnd();
         }
     }
 }
