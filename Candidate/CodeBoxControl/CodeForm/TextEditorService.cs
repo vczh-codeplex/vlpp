@@ -44,5 +44,20 @@ namespace CodeForm
         {
             return ToPoint(CodeForm.textEditorBox.SelectionEnd);
         }
+
+        public int GetLineCount()
+        {
+            return CodeForm.textEditorBox.TextProvider.Count;
+        }
+
+        public int GetLineLength(int index)
+        {
+            return CodeForm.textEditorBox.TextProvider[index].CharCount;
+        }
+
+        public string GetString(Point p1, Point p2)
+        {
+            return CodeForm.textEditorBox.TextProvider.GetString(ToPosition(p1), ToPosition(p2));
+        }
     }
 }

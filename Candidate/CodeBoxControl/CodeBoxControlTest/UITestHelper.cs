@@ -153,6 +153,24 @@ namespace CodeBoxControlTest
             }
         }
 
+        public int LineCount
+        {
+            get
+            {
+                return this.Service.GetLineCount();
+            }
+        }
+
+        public int GetLineLength(int index)
+        {
+            return this.Service.GetLineLength(index);
+        }
+
+        public string GetString(TextPosition p1, TextPosition p2)
+        {
+            return this.Service.GetString(ToPoint(p1), ToPoint(p2));
+        }
+
         #endregion
 
         #region Input
