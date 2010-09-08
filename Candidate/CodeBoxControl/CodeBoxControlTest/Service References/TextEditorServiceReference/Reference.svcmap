@@ -21,11 +21,12 @@
     <MetadataSource Address="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="c413c5aa-9f71-4e92-94d1-6750cf710201" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd1" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="ab082ee0-8c86-4dd8-8b1a-4bd0048041af" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="626b39f9-070e-4065-bdec-d539d50477d6" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?disco" />
-    <MetadataFile FileName="TextEditorService.wsdl" MetadataType="Wsdl" ID="ffe891e9-b785-4cbc-9771-b7e91c34a260" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?wsdl" />
     <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="711c5fbc-df36-4a91-a4cf-6f0c391b676a" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd2" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="ab082ee0-8c86-4dd8-8b1a-4bd0048041af" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd0" />
+    <MetadataFile FileName="TextEditorService.wsdl" MetadataType="Wsdl" ID="ffe891e9-b785-4cbc-9771-b7e91c34a260" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?wsdl" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="626b39f9-070e-4065-bdec-d539d50477d6" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?disco" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="5afe833a-7981-4937-a610-a9a8a30d3f64" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd3" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="c413c5aa-9f71-4e92-94d1-6750cf710201" SourceId="1" SourceUrl="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

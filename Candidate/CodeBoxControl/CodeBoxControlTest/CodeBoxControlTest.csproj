@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="TextProviderTests.cs" />
     <Compile Include="TextEditorControllerTests.cs" />
+    <Compile Include="UILanguageServiceTest.cs" />
     <Compile Include="UILaunchTest.cs" />
     <Compile Include="UITestHelper.cs" />
   </ItemGroup>
@@ -110,6 +111,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\TextEditorServiceReference\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TextEditorServiceReference\item3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\TextEditorServiceReference\TextEditorService.wsdl" />

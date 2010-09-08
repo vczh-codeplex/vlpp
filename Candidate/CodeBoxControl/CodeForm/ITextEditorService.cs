@@ -35,5 +35,8 @@ namespace CodeForm
 
         [OperationContract]
         Point TextPositionToViewPoint(Point p);
+
+        [OperationContract]
+        int[] GetColorsOfLine(int index);
     }
 }

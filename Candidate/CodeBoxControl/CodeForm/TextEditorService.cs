@@ -64,5 +64,10 @@ namespace CodeForm
         {
             return CodeForm.textEditorBox.TextPositionToViewPoint(ToPosition(p));
         }
+
+        public int[] GetColorsOfLine(int index)
+        {
+            return CodeForm.textEditorBox.GetColorsOfLine(index);
+        }
     }
 }
