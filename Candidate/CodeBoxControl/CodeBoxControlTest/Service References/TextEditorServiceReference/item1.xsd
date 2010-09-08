@@ -90,4 +90,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="TextPositionToViewPoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/System.Drawing" minOccurs="0" name="p" type="q7:Point" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TextPositionToViewPointResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/System.Drawing" minOccurs="0" name="TextPositionToViewPointResult" type="q8:Point" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

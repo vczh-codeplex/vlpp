@@ -32,5 +32,8 @@ namespace CodeForm
 
         [OperationContract]
         string GetString(Point p1, Point p2);
+
+        [OperationContract]
+        Point TextPositionToViewPoint(Point p);
     }
 }

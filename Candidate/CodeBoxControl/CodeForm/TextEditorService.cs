@@ -59,5 +59,10 @@ namespace CodeForm
         {
             return CodeForm.textEditorBox.TextProvider.GetString(ToPosition(p1), ToPosition(p2));
         }
+
+        public Point TextPositionToViewPoint(Point p)
+        {
+            return CodeForm.textEditorBox.TextPositionToViewPoint(ToPosition(p));
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace CodeBoxControlTest
         public WinScrollBar HScroll { get; private set; }
         public WinScrollBar VScroll { get; private set; }
         public WinWindow Host { get; private set; }
+        public WinClient HostClient { get; private set; }
 
         public CodeFormWindow(string colorizer = "normal")
         {
@@ -63,6 +64,9 @@ namespace CodeBoxControlTest
 
                 this.Host = new WinWindow(window);
                 this.Host.Find();
+
+                this.HostClient = new WinClient(this.Host);
+                this.HostClient.Find();
             }
         }
 
@@ -193,15 +197,11 @@ namespace CodeBoxControlTest
 
         public void Move(TextPosition caret, bool control, bool shift)
         {
-            PressHome(true, shift);
-            for (int i = 0; i < caret.row; i++)
-            {
-                PressDown(false, shift);
-            }
-            for (int i = 0; i < caret.col; i++)
-            {
-                PressRight(false, shift);
-            }
+            System.Drawing.Point point = this.Service.TextPositionToViewPoint(ToPoint(caret));
+            ModifierKeys modifiers = ModifierKeys.None;
+            if (control) modifiers |= ModifierKeys.Control;
+            if (shift) modifiers |= ModifierKeys.Shift;
+            Mouse.Click(this.HostClient, MouseButtons.Left, modifiers, point);
         }
 
         public void PressUp(bool control, bool shift)
