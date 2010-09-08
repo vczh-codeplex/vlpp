@@ -39,4 +39,15 @@ namespace CodeBoxControl
             return initialState;
         }
     }
+
+    public class TextEditorControlPanel : ITextEditorControlPanel
+    {
+        public int Width
+        {
+            get
+            {
+                return 0;
+            }
+        }
+    }
 }

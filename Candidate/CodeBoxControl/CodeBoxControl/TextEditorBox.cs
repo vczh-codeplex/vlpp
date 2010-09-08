@@ -35,7 +35,6 @@ namespace CodeBoxControl
         private int textTopOffset = 0;
         private int cachedWholeWidth = 0;
         private bool cachedWholeWidthAvailable = false;
-        private bool needToForceUpdateViewSize = false;
 
         #endregion
 
@@ -43,6 +42,12 @@ namespace CodeBoxControl
 
         private ITextEditorColorizer colorizer = null;
         private int colorizedLines = 0;
+
+        #endregion
+
+        #region Control Panel Fields
+
+        private ITextEditorControlPanel controlPanel = null;
 
         #endregion
 
@@ -62,6 +67,7 @@ namespace CodeBoxControl
             this.ImeEnabled = true;
             this.EnableDefaultCommands = true;
             this.colorizer = new TextEditorPlanTextColorizer(this);
+            this.controlPanel = new TextEditorControlPanel();
 
             InitializeComponent();
             UpdateLineHeight();
@@ -202,6 +208,27 @@ namespace CodeBoxControl
             }
         }
 
+        public ITextEditorControlPanel ControlPanel
+        {
+            get
+            {
+                return this.controlPanel;
+            }
+            set
+            {
+                this.controlPanel = value;
+                UpdateViewSize();
+            }
+        }
+
+        public int EditorControlPanel
+        {
+            get
+            {
+                return this.controlPanel.Width;
+            }
+        }
+
         #endregion
 
         #region View API
@@ -218,12 +245,12 @@ namespace CodeBoxControl
 
         public Point TextPositionToDocumentPoint(TextPosition position)
         {
-            return Point.Add(CalculateOffset(position), new Size(EditorMargin, EditorMargin));
+            return Point.Add(CalculateOffset(position), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
         }
 
         public TextPosition DocumentPointToTextPosition(Point point)
         {
-            return CalculatePosition(Point.Subtract(point, new Size(EditorMargin, EditorMargin)));
+            return CalculatePosition(Point.Subtract(point, new Size(this.EditorControlPanel + EditorMargin, EditorMargin)));
         }
 
         public Point TextPositionToViewPoint(TextPosition position)
@@ -326,7 +353,7 @@ namespace CodeBoxControl
 
         private void UpdateViewSize()
         {
-            this.ViewSize = new Size(this.cachedWholeWidth + EditorMargin * 2, this.textProvider.Count * this.lineHeight + EditorMargin * 2);
+            this.ViewSize = new Size(this.cachedWholeWidth + this.EditorControlPanel + EditorMargin * 2, this.textProvider.Count * this.lineHeight + EditorMargin * 2);
         }
 
         private void UpdateLineHeight()
@@ -499,22 +526,16 @@ namespace CodeBoxControl
         void ITextContentProvider.OnSelectionAreaChanged()
         {
             TextPosition caret = this.controller.SelectionCaret;
-            Point caretPosition = Point.Add(CalculateOffset(caret), new Size(EditorMargin, EditorMargin));
+            Point caretPosition = Point.Add(CalculateOffset(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
             if (!new Rectangle(this.ViewPosition, this.ViewVisibleSize).Contains(caretPosition))
             {
                 Point oldViewPosition = this.ViewPosition;
                 Point newViewPosition = new Point(caretPosition.X - this.ViewVisibleSize.Width / 2, caretPosition.Y - this.ViewVisibleSize.Height / 2);
-                if (this.needToForceUpdateViewSize || newViewPosition.X < oldViewPosition.X && !this.cachedWholeWidthAvailable)
+                if (newViewPosition.X < oldViewPosition.X && !this.cachedWholeWidthAvailable)
                 {
                     ForceUpdateViewSize();
-                    this.needToForceUpdateViewSize = false;
                 }
                 this.ViewPosition = newViewPosition;
-            }
-            if (this.needToForceUpdateViewSize)
-            {
-                this.needToForceUpdateViewSize = false;
-                ForceUpdateViewSize();
             }
             this.caretVisible = true;
         }
@@ -616,16 +637,19 @@ namespace CodeBoxControl
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    this.mouseMode = MouseMode.Selecting;
-                    TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                    this.textEditorBox.caretVisible = true;
-                    if (Control.ModifierKeys == Keys.Shift)
+                    if (e.X >= this.textEditorBox.EditorControlPanel)
                     {
-                        this.textEditorBox.controller.Move(position, false, true);
-                    }
-                    else
-                    {
-                        this.textEditorBox.controller.Select(position, position);
+                        this.mouseMode = MouseMode.Selecting;
+                        TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                        this.textEditorBox.caretVisible = true;
+                        if (Control.ModifierKeys == Keys.Shift)
+                        {
+                            this.textEditorBox.controller.Move(position, false, true);
+                        }
+                        else
+                        {
+                            this.textEditorBox.controller.Select(position, position);
+                        }
                     }
                 }
             }
@@ -805,7 +829,7 @@ namespace CodeBoxControl
                         {
                             this.textEditorBox.EnsureLineColorized(i);
                             TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
-                            int x = EditorMargin - viewVisibleBounds.Left;
+                            int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
                             int y = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight + this.textEditorBox.textTopOffset;
                             string text = line.Text;
 
@@ -861,7 +885,7 @@ namespace CodeBoxControl
                         if (this.textEditorBox.caretVisible && this.host.Focused)
                         {
                             Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
-                            caretX = EditorMargin + caret.X;
+                            caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X;
                             caretY1 = EditorMargin + caret.Y;
                             caretY2 = caretY1 + this.textEditorBox.textHeight;
 
@@ -880,6 +904,12 @@ namespace CodeBoxControl
                             {
                                 this.textEditorBox.CaretPosition = caretPosition;
                             }
+                        }
+
+                        if (this.textEditorBox.EditorControlPanel > 0)
+                        {
+                            Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
+                            g.FillRectangle(backBrush, controlPanelArea);
                         }
                     }
                 }

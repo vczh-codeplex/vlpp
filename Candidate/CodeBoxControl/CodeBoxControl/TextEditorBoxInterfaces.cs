@@ -18,4 +18,9 @@ namespace CodeBoxControl
         TextEditorColorItem[] ColorItems { get; }
         int ColorizeLine(char[] items, int length, int initialState, int[] colors);
     }
+
+    public interface ITextEditorControlPanel
+    {
+        int Width { get; }
+    }
 }
