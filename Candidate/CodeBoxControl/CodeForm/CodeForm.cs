@@ -19,15 +19,10 @@ namespace CodeForm
         public CodeForm()
         {
             InitializeComponent();
+            textEditorBox.Colorizer = new CSharpColorizer();
             TextEditorService.CodeForm = this;
             this.serviceHost = new ServiceHost(typeof(TextEditorService));
             this.serviceHost.Open();
-        }
-
-        public CodeForm(ITextEditorColorizer colorizer)
-            : this()
-        {
-            textEditorBox.Colorizer = colorizer;
         }
 
         private void CodeForm_Shown(object sender, EventArgs e)

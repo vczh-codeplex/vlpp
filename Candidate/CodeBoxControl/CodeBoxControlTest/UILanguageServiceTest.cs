@@ -17,7 +17,7 @@ namespace CodeBoxControlTest
         public void Initialize()
         {
             Playback.Initialize();
-            window = new CodeFormWindow("C#");
+            window = new CodeFormWindow();
         }
 
         [TestCleanup]
