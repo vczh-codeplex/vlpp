@@ -269,7 +269,6 @@ namespace CodeBoxControl
             if (this.CanCopy)
             {
                 Clipboard.SetText(this.SelectedText);
-                return true;
             }
             return this.CanCopy;
         }
@@ -280,7 +279,6 @@ namespace CodeBoxControl
             {
                 Clipboard.SetText(this.SelectedText);
                 this.SelectedText = "";
-                return true;
             }
             return this.CanCut;
         }
@@ -290,7 +288,6 @@ namespace CodeBoxControl
             if (this.CanPaste)
             {
                 this.SelectedText = Clipboard.GetText();
-                return true;
             }
             return this.CanPaste;
         }

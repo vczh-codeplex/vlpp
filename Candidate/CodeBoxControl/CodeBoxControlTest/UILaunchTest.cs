@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UITesting;
 using System.Windows.Input;
 using CodeBoxControlTest.TextEditorServiceReference;
 using CodeBoxControl.Core;
+using System.Windows.Forms;
 
 namespace CodeBoxControlTest
 {
@@ -1082,6 +1083,49 @@ namespace CodeBoxControlTest
             AssertTextPosition(new TextPosition(5, 0), this.window.SelectionAnchor);
             AssertTextPosition(new TextPosition(5, 0), this.window.SelectionCaret);
             AssertController("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\n\r\nUVWXYZ\r\n", "", "");
+        }
+
+        [TestMethod]
+        public void CutTest()
+        {
+            Clipboard.Clear();
+            this.window.Input("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(2, 4), false, false);
+            this.window.Move(new TextPosition(1, 3), false, true);
+            this.window.Press("X", ModifierKeys.Control);
+            AssertController("ABCDEFG\r\nHIJ", "", "ST\r\nUVWXYZ");
+            Assert.AreEqual("KLMN\r\nOPQR", Clipboard.GetText());
+        }
+
+        [TestMethod]
+        public void CopyTest()
+        {
+            Clipboard.Clear();
+            this.window.Input("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(2, 4), false, false);
+            this.window.Move(new TextPosition(1, 3), false, true);
+            this.window.Press("C", ModifierKeys.Control);
+            AssertController("ABCDEFG\r\nHIJ", "KLMN\r\nOPQR", "ST\r\nUVWXYZ");
+            Assert.AreEqual("KLMN\r\nOPQR", Clipboard.GetText());
+        }
+
+        [TestMethod]
+        public void PasteTest()
+        {
+            Clipboard.SetText("Vczh is a genius!");
+            this.window.Input("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(2, 4), false, false);
+            this.window.Move(new TextPosition(1, 3), false, true);
+            this.window.Press("V", ModifierKeys.Control);
+            AssertController("ABCDEFG\r\nHIJVczh is a genius!", "", "ST\r\nUVWXYZ");
+        }
+
+        [TestMethod]
+        public void SelectAllTest()
+        {
+            this.window.Input("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Press("A", ModifierKeys.Control);
+            AssertController("", "ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ", "");
         }
     }
 }
