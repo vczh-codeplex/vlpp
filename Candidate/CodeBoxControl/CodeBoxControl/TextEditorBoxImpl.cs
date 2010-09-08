@@ -49,5 +49,25 @@ namespace CodeBoxControl
                 return 0;
             }
         }
+
+        public void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea)
+        {
+        }
+
+        public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
+        {
+        }
+
+        public void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        {
+        }
+
+        public void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        {
+        }
+
+        public void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        {
+        }
     }
 }

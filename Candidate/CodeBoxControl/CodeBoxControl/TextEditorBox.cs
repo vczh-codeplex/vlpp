@@ -949,13 +949,15 @@ namespace CodeBoxControl
                             int xEnd = xStart + this.textEditorBox.CalculateOffset(text);
                             if (xStart < visibleWidth && xEnd >= 0)
                             {
+                                Point p = new Point(xStart, position.Y);
                                 if (selected)
                                 {
-                                    RenderString(g, text, new Point(xStart, position.Y), colorItem.HighlightText, colorItem.Highlight);
+                                    RenderBackground(g, p, xEnd - xStart, colorItem.HighlightBrush);
+                                    RenderString(g, text, p, colorItem.HighlightText);
                                 }
                                 else
                                 {
-                                    RenderString(g, text, new Point(xStart, position.Y), colorItem.Text, this.textEditorBox.BackColor);
+                                    RenderString(g, text, p, colorItem.Text);
                                 }
                             }
                             if (xEnd >= visibleWidth)
@@ -973,14 +975,20 @@ namespace CodeBoxControl
                 }
             }
 
-            private void RenderString(Graphics g, string text, Point position, Color foreColor, Color backColor)
+            private void RenderString(Graphics g, string text, Point position, Color foreColor)
             {
-                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, backColor, TextFormatFlags.NoPadding);
+                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, TextFormatFlags.NoPadding);
+            }
+
+            private void RenderBackground(Graphics g, Point position, int width, Brush brush)
+            {
+                int y = position.Y - this.textEditorBox.textTopOffset;
+                g.FillRectangle(brush, position.X, y, width, this.textEditorBox.lineHeight);
             }
 
             private void RenderSelectedCrLf(Graphics g, Point position)
             {
-                RenderString(g, " ", position, SystemColors.HighlightText, SystemColors.Highlight);
+                RenderBackground(g, position, 10, SystemBrushes.Highlight);
             }
 
             #endregion

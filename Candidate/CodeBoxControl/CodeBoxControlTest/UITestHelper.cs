@@ -25,9 +25,9 @@ namespace CodeBoxControlTest
         public WinWindow Host { get; private set; }
         public WinClient HostClient { get; private set; }
 
-        public CodeFormWindow(string colorizer = "normal")
+        public CodeFormWindow()
         {
-            this.Application = ApplicationUnderTest.Launch("CodeForm.exe", "", colorizer);
+            this.Application = ApplicationUnderTest.Launch("CodeForm.exe");
             this.Service = new TextEditorServiceClient();
             this.Service.Open();
 
