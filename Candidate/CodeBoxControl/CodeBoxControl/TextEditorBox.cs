@@ -229,6 +229,16 @@ namespace CodeBoxControl
             }
         }
 
+        public int[] GetColorsOfLine(int index)
+        {
+            EnsureLineColorized(index);
+            TextLine<LineInfo> line = this.textProvider[index];
+            int[] colors = line.ColorArray;
+            int[] copy = new int[line.CharCount];
+            Array.Copy(colors, copy, copy.Length);
+            return copy;
+        }
+
         #endregion
 
         #region View API

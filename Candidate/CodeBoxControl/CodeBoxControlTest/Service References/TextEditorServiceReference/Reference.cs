@@ -38,6 +38,9 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/TextPositionToViewPoint", ReplyAction="http://tempuri.org/ITextEditorService/TextPositionToViewPointResponse")]
         System.Drawing.Point TextPositionToViewPoint(System.Drawing.Point p);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetColorsOfLine", ReplyAction="http://tempuri.org/ITextEditorService/GetColorsOfLineResponse")]
+        int[] GetColorsOfLine(int index);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,6 +100,10 @@ namespace CodeBoxControlTest.TextEditorServiceReference {
         
         public System.Drawing.Point TextPositionToViewPoint(System.Drawing.Point p) {
             return base.Channel.TextPositionToViewPoint(p);
+        }
+        
+        public int[] GetColorsOfLine(int index) {
+            return base.Channel.GetColorsOfLine(index);
         }
     }
 }
