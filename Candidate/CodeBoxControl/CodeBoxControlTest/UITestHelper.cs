@@ -24,9 +24,9 @@ namespace CodeBoxControlTest
         public WinScrollBar VScroll { get; private set; }
         public WinWindow Host { get; private set; }
 
-        public CodeFormWindow()
+        public CodeFormWindow(string colorizer = "normal")
         {
-            this.Application = ApplicationUnderTest.Launch("CodeForm.exe");
+            this.Application = ApplicationUnderTest.Launch("CodeForm.exe", "", colorizer);
             this.Service = new TextEditorServiceClient();
             this.Service.Open();
 
