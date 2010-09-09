@@ -59,10 +59,6 @@ namespace CodeBoxControl
         {
         }
 
-        public void OnBindedLineDataRemoved(int index, object data)
-        {
-        }
-
         public void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea)
         {
         }

@@ -52,7 +52,7 @@ namespace CodeBoxControl.Core
             }
         }
 
-        private void EditSingleLine(TextPosition start, TextPosition end, string text)
+        private TextPosition EditSingleLine(TextPosition start, TextPosition end, string text)
         {
             if (start.row == end.row)
             {
@@ -70,9 +70,10 @@ namespace CodeBoxControl.Core
                     this.lines.RemoveAt(i);
                 }
             }
+            return new TextPosition(start.row, start.col + text.Length);
         }
 
-        private void EditMultipleLine(TextPosition start, TextPosition end, string[] texts)
+        private TextPosition EditMultipleLine(TextPosition start, TextPosition end, string[] texts)
         {
             if (start.row == end.row)
             {
@@ -111,21 +112,22 @@ namespace CodeBoxControl.Core
             {
                 this.lines[i].Edit(0, this.lines[i].CharCount, texts[i - start.row]);
             }
+            return new TextPosition(start.row + texts.Length - 1, texts[texts.Length - 1].Length);
         }
 
-        public void Edit(TextPosition start, TextPosition end, params string[] texts)
+        public TextPosition Edit(TextPosition start, TextPosition end, params string[] texts)
         {
             if (texts.Length == 0)
             {
-                EditSingleLine(start, end, "");
+                return EditSingleLine(start, end, "");
             }
             else if (texts.Length == 1)
             {
-                EditSingleLine(start, end, texts[0]);
+                return EditSingleLine(start, end, texts[0]);
             }
             else
             {
-                EditMultipleLine(start, end, texts);
+                return EditMultipleLine(start, end, texts);
             }
         }
 
