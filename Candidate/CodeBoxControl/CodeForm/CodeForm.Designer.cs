@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            CodeBoxControl.TextEditorControlPanel textEditorControlPanel1 = new CodeBoxControl.TextEditorControlPanel();
             this.textEditorBox = new CodeBoxControl.TextEditorBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
@@ -35,12 +36,13 @@
             // 
             // textEditorBox
             // 
-            this.textEditorBox.BackColor = System.Drawing.Color.Honeydew;
+            this.textEditorBox.BackColor = System.Drawing.SystemColors.Window;
+            this.textEditorBox.ControlPanel = textEditorControlPanel1;
             this.textEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditorBox.EnableDefaultCommands = true;
-            this.textEditorBox.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textEditorBox.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textEditorBox.HorizontalSmallChange = 10;
+            this.textEditorBox.HorizontalSmallChange = 7;
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
             this.textEditorBox.SelectedText = "";

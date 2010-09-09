@@ -45,6 +45,7 @@ namespace CodeBoxControl
     {
         object GetLineData(int index);
         void BindLineData(int index, object data);
+        TextEditorBox TextEditorBox { get; }
     }
 
     public interface ITextEditorControlPanel
