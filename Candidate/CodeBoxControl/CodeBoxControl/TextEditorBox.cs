@@ -9,7 +9,10 @@ using CodeBoxControl.Core;
 
 namespace CodeBoxControl
 {
-    public partial class TextEditorBox : CodeBoxControl.ScrollableContentControl, ITextContentProvider
+    public partial class TextEditorBox
+        : ScrollableContentControl
+        , ITextContentProvider
+        , ITextEditorControlPanelCallBack
     {
         private const int EditorMargin = 4;
 
@@ -18,6 +21,7 @@ namespace CodeBoxControl
             public int lineWidth = 0;
             public bool lineWidthAvailable = false;
             public int colorizerFinalState = 0;
+            public object controlPanelData = null;
         }
 
         #region Editing Processor Fields
@@ -78,6 +82,10 @@ namespace CodeBoxControl
             this.keyCommands.RegisterCommand(Keys.A, true, false, DoSelectAll);
         }
 
+        public bool EnableDefaultCommands { get; set; }
+
+        #region Service API
+
         public TextProvider<LineInfo> TextProvider
         {
             get
@@ -102,7 +110,7 @@ namespace CodeBoxControl
             }
         }
 
-        public bool EnableDefaultCommands { get; set; }
+        #endregion
 
         #region Selection API
 
@@ -217,6 +225,10 @@ namespace CodeBoxControl
             set
             {
                 this.controlPanel = value;
+                if (this.controlPanel != null)
+                {
+                    this.controlPanel.InstallCallBack(this);
+                }
                 UpdateViewSize();
             }
         }
@@ -564,7 +576,7 @@ namespace CodeBoxControl
                 }
                 this.textProvider[i].Tag.lineWidthAvailable = false;
             }
-            this.textProvider.Edit(start, end, lines);
+            TextPosition newEnd = this.textProvider.Edit(start, end, lines);
 
             if (optimizable)
             {
@@ -578,6 +590,8 @@ namespace CodeBoxControl
                 }
             }
             this.colorizedLines = Math.Min(this.colorizedLines, start.row);
+
+            this.controlPanel.OnEdit(start, end, newEnd);
             return true;
         }
 
@@ -625,6 +639,20 @@ namespace CodeBoxControl
             {
                 return caret;
             }
+        }
+
+        #endregion
+
+        #region ITextEditorControlPanelCallBack Members
+
+        object ITextEditorControlPanelCallBack.GetLineData(int index)
+        {
+            return this.textProvider[index].Tag.controlPanelData;
+        }
+
+        void ITextEditorControlPanelCallBack.BindLineData(int index, object data)
+        {
+            this.textProvider[index].Tag.controlPanelData = data;
         }
 
         #endregion

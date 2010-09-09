@@ -101,27 +101,27 @@ namespace CodeBoxControlTest
             {
                 AssertTextProvider("", text);
 
-                text.Edit(new TextPosition(0, 0), new TextPosition(0, 0), "Vczh is genius!");
+                Assert.AreEqual(new TextPosition(0, 15), text.Edit(new TextPosition(0, 0), new TextPosition(0, 0), "Vczh is genius!"));
                 AssertTextProvider("Vczh is genius!", text);
 
-                text.Edit(new TextPosition(0, 15), new TextPosition(0, 15), "", "Vczh is clever!");
+                Assert.AreEqual(new TextPosition(1, 15), text.Edit(new TextPosition(0, 15), new TextPosition(0, 15), "", "Vczh is clever!"));
                 AssertTextProvider("Vczh is genius!\r\nVczh is clever!", text);
 
-                text.Edit(new TextPosition(0, 6), new TextPosition(1, 6));
+                Assert.AreEqual(new TextPosition(0, 6), text.Edit(new TextPosition(0, 6), new TextPosition(1, 6)));
                 AssertTextProvider("Vczh is clever!", text);
             }
             using (TextProvider<object> text = new TextProvider<object>())
             {
-                text.Edit(new TextPosition(0, 0), new TextPosition(0, 0), "ABCDEFG", "HIJKLMN", "OPQRST", "UVWXYZ");
+                Assert.AreEqual(new TextPosition(3, 6), text.Edit(new TextPosition(0, 0), new TextPosition(0, 0), "ABCDEFG", "HIJKLMN", "OPQRST", "UVWXYZ"));
                 AssertTextProvider("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ", text);
 
-                text.Edit(new TextPosition(0, 4), new TextPosition(2, 3), "...");
+                Assert.AreEqual(new TextPosition(0, 7), text.Edit(new TextPosition(0, 4), new TextPosition(2, 3), "..."));
                 AssertTextProvider("ABCD...RST\r\nUVWXYZ", text);
 
-                text.Edit(new TextPosition(0, 4), new TextPosition(0, 7), "EFG", "HIJKLMN", "OPQ");
+                Assert.AreEqual(new TextPosition(2, 3), text.Edit(new TextPosition(0, 4), new TextPosition(0, 7), "EFG", "HIJKLMN", "OPQ"));
                 AssertTextProvider("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ", text);
 
-                text.Edit(new TextPosition(0, 4), new TextPosition(2, 3), "...", "???");
+                Assert.AreEqual(new TextPosition(1, 3), text.Edit(new TextPosition(0, 4), new TextPosition(2, 3), "...", "???"));
                 AssertTextProvider("ABCD...\r\n???RST\r\nUVWXYZ", text);
             }
         }

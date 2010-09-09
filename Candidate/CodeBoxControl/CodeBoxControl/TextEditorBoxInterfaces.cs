@@ -52,7 +52,6 @@ namespace CodeBoxControl
         int Width { get; }
         void InstallCallBack(ITextEditorControlPanelCallBack callback);
         void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
-        void OnBindedLineDataRemoved(int index, object data);
 
         void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea);
         void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
