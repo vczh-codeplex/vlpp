@@ -53,9 +53,12 @@ namespace CodeBoxControl
         int Width { get; }
         void InstallCallBack(ITextEditorControlPanelCallBack callback);
         void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
+        bool NeedColorLineForDisplay(int lineIndex);
+        void ColorLineForDisplay(int lineIndex, int[] colors);
 
         void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea);
         void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
+        void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea);
         void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
         void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
         void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);

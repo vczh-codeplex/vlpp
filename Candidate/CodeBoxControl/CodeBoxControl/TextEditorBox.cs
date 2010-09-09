@@ -921,8 +921,8 @@ namespace CodeBoxControl
 
             public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds)
             {
-                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top + EditorMargin) / this.textEditorBox.lineHeight);
-                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom + EditorMargin) / this.textEditorBox.lineHeight);
+                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
+                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
                 bool widthChanged = false;
 
                 int caretX = 0;
@@ -986,6 +986,17 @@ namespace CodeBoxControl
                                 x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c3)).X;
                             }
 
+                            int[] colors = null;
+                            if (this.textEditorBox.controlPanel.NeedColorLineForDisplay(i))
+                            {
+                                colors = new int[line.CharCount];
+                                Array.Copy(line.ColorArray, colors, line.CharCount);
+                                this.textEditorBox.controlPanel.ColorLineForDisplay(i, colors);
+                            }
+                            else
+                            {
+                                colors = line.ColorArray;
+                            }
                             if (selectionStart.row <= i && i <= selectionEnd.row)
                             {
                                 int c1 = selectionStart.row == i ? selectionStart.col : 0;
@@ -999,15 +1010,15 @@ namespace CodeBoxControl
 
                                 if (c0 < c1)
                                 {
-                                    RenderLine(g, i, c0, c1, new Point(x0, y), false, viewAreaBounds.Width);
+                                    RenderLine(g, i, c0, c1, new Point(x0, y), false, viewAreaBounds.Width, colors);
                                 }
                                 if (c1 < c2)
                                 {
-                                    RenderLine(g, i, c1, c2, new Point(x1, y), true, viewAreaBounds.Width);
+                                    RenderLine(g, i, c1, c2, new Point(x1, y), true, viewAreaBounds.Width, colors);
                                 }
                                 if (c2 < c3)
                                 {
-                                    RenderLine(g, i, c2, c3, new Point(x2, y), false, viewAreaBounds.Width);
+                                    RenderLine(g, i, c2, c3, new Point(x2, y), false, viewAreaBounds.Width, colors);
                                 }
                                 if (c2 == text.Length && selectionEnd.row > i)
                                 {
@@ -1016,7 +1027,7 @@ namespace CodeBoxControl
                             }
                             else
                             {
-                                RenderLine(g, i, c0, c3, new Point(x0, y), false, viewAreaBounds.Width);
+                                RenderLine(g, i, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors);
                             }
                         }
 
@@ -1047,6 +1058,8 @@ namespace CodeBoxControl
                         if (this.textEditorBox.EditorControlPanel > 0)
                         {
                             Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
+                            g.FillRectangle(backBrush, controlPanelArea);
+                            this.textEditorBox.controlPanel.DrawControlPanelBackground(g, controlPanelArea);
                             int width = this.textEditorBox.EditorControlPanel;
                             int height = this.textEditorBox.lineHeight;
                             int y = EditorMargin - viewVisibleBounds.Top + startLine * height;
@@ -1065,13 +1078,12 @@ namespace CodeBoxControl
 
             #region Rendering
 
-            private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth)
+            private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth, int[] colors)
             {
                 if (colEnd > colStart)
                 {
                     TextLine<LineInfo> line = this.textEditorBox.textProvider[row];
                     TextEditorColorItem[] colorItems = this.textEditorBox.colorizer.ColorItems;
-                    int[] colors = line.ColorArray;
                     int itemStart = colStart;
                     int itemColor = colors[colStart];
                     int xStart = position.X;

@@ -59,11 +59,24 @@ namespace CodeBoxControl
         {
         }
 
+        public bool NeedColorLineForDisplay(int lineIndex)
+        {
+            return false;
+        }
+
+        public void ColorLineForDisplay(int lineIndex, int[] colors)
+        {
+        }
+
         public void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
         }
 
         public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
+        {
+        }
+
+        public void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
         {
         }
 
