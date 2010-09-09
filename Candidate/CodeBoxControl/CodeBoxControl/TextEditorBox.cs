@@ -84,6 +84,11 @@ namespace CodeBoxControl
 
         public bool EnableDefaultCommands { get; set; }
 
+        public void RedrawEditor()
+        {
+            this.host.Refresh();
+        }
+
         #region Service API
 
         public TextProvider<LineInfo> TextProvider
@@ -655,6 +660,14 @@ namespace CodeBoxControl
             this.textProvider[index].Tag.controlPanelData = data;
         }
 
+        TextEditorBox ITextEditorControlPanelCallBack.TextEditorBox
+        {
+            get
+            {
+                return this;
+            }
+        }
+
         #endregion
 
         class TextContent : IScrollableContent
@@ -679,12 +692,16 @@ namespace CodeBoxControl
 
             #region Mouse Handlers
 
-            private void InvokeControlPanel(MouseAction action, MouseEventArgs e)
+            private bool InvokeControlPanel(MouseAction action, MouseEventArgs e, bool ensureInvoked)
             {
-                int line = (e.Y + this.textEditorBox.ViewPosition.Y + EditorMargin) / this.textEditorBox.lineHeight;
+                int line = (e.Y + this.textEditorBox.ViewPosition.Y - EditorMargin) / this.textEditorBox.lineHeight;
                 if (line >= 0 && line < this.textEditorBox.textProvider.Count)
                 {
-                    Rectangle area = new Rectangle(0, EditorMargin - this.textEditorBox.ViewPosition.Y + line * EditorMargin, this.textEditorBox.EditorControlPanel, this.textEditorBox.lineHeight);
+                    Rectangle area = new Rectangle(
+                        0,
+                        EditorMargin - this.textEditorBox.ViewPosition.Y + line * this.textEditorBox.lineHeight,
+                        this.textEditorBox.EditorControlPanel, this.textEditorBox.lineHeight
+                        );
                     Point position = new Point(e.X, e.Y - area.Top);
                     switch (action)
                     {
@@ -698,6 +715,27 @@ namespace CodeBoxControl
                             this.textEditorBox.controlPanel.OnMouseUp(line, area, position, e.Button);
                             break;
                     }
+                    return true;
+                }
+                else if (ensureInvoked)
+                {
+                    switch (action)
+                    {
+                        case MouseAction.Down:
+                            this.textEditorBox.controlPanel.OnMouseDown(-1, Rectangle.Empty, Point.Empty, e.Button);
+                            break;
+                        case MouseAction.Move:
+                            this.textEditorBox.controlPanel.OnMouseMove(-1, Rectangle.Empty, Point.Empty, e.Button);
+                            break;
+                        case MouseAction.Up:
+                            this.textEditorBox.controlPanel.OnMouseUp(-1, Rectangle.Empty, Point.Empty, e.Button);
+                            break;
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
 
@@ -722,8 +760,10 @@ namespace CodeBoxControl
                 }
                 else
                 {
-                    this.mouseMode = MouseMode.ControlPanelDragging;
-                    InvokeControlPanel(MouseAction.Down, e);
+                    if (InvokeControlPanel(MouseAction.Down, e, false))
+                    {
+                        this.mouseMode = MouseMode.ControlPanelDragging;
+                    }
                 }
             }
 
@@ -737,11 +777,23 @@ namespace CodeBoxControl
                             this.textEditorBox.controller.Move(position, false, true);
                         }
                         break;
+                    case MouseMode.Normal:
                     case MouseMode.ControlPanelDragging:
                         {
-                            InvokeControlPanel(MouseAction.Move, e);
+                            if (e.X < this.textEditorBox.EditorControlPanel)
+                            {
+                                InvokeControlPanel(MouseAction.Move, e, this.mouseMode == MouseMode.ControlPanelDragging);
+                            }
                         }
                         break;
+                }
+                if (e.X < this.textEditorBox.EditorControlPanel)
+                {
+                    this.host.Cursor = Cursors.Default;
+                }
+                else
+                {
+                    this.host.Cursor = Cursors.IBeam;
                 }
             }
 
@@ -758,7 +810,8 @@ namespace CodeBoxControl
                         }
                         break;
                     case MouseMode.ControlPanelDragging:
-                        InvokeControlPanel(MouseAction.Up, e);
+                        InvokeControlPanel(MouseAction.Up, e, true);
+                        this.mouseMode = MouseMode.Normal;
                         break;
                 }
             }
@@ -911,7 +964,7 @@ namespace CodeBoxControl
                         for (int i = startLine; i <= endLine; i++)
                         {
                             int backgroundTop = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight;
-                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, backgroundTop + this.textEditorBox.lineHeight));
+                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight));
                             this.textEditorBox.EnsureLineColorized(i);
                             TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
                             int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
@@ -1001,6 +1054,7 @@ namespace CodeBoxControl
                             {
                                 Rectangle area = new Rectangle(0, y, width, height);
                                 y += height;
+                                this.textEditorBox.controlPanel.DrawControlPanel(g, i, area);
                             }
                         }
                     }
