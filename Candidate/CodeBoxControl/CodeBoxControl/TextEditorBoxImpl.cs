@@ -59,7 +59,7 @@ namespace CodeBoxControl
         {
         }
 
-        public void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea)
+        public void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
         }
 

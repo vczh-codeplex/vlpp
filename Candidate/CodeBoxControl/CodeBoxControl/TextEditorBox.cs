@@ -662,7 +662,15 @@ namespace CodeBoxControl
             enum MouseMode
             {
                 Normal,
-                Selecting
+                Selecting,
+                ControlPanelDragging
+            }
+
+            enum MouseAction
+            {
+                Down,
+                Move,
+                Up
             }
 
             private Control host = null;
@@ -671,11 +679,33 @@ namespace CodeBoxControl
 
             #region Mouse Handlers
 
+            private void InvokeControlPanel(MouseAction action, MouseEventArgs e)
+            {
+                int line = (e.Y + this.textEditorBox.ViewPosition.Y + EditorMargin) / this.textEditorBox.lineHeight;
+                if (line >= 0 && line < this.textEditorBox.textProvider.Count)
+                {
+                    Rectangle area = new Rectangle(0, EditorMargin - this.textEditorBox.ViewPosition.Y + line * EditorMargin, this.textEditorBox.EditorControlPanel, this.textEditorBox.lineHeight);
+                    Point position = new Point(e.X, e.Y - area.Top);
+                    switch (action)
+                    {
+                        case MouseAction.Down:
+                            this.textEditorBox.controlPanel.OnMouseDown(line, area, position, e.Button);
+                            break;
+                        case MouseAction.Move:
+                            this.textEditorBox.controlPanel.OnMouseMove(line, area, position, e.Button);
+                            break;
+                        case MouseAction.Up:
+                            this.textEditorBox.controlPanel.OnMouseUp(line, area, position, e.Button);
+                            break;
+                    }
+                }
+            }
+
             private void host_MouseDown(object sender, MouseEventArgs e)
             {
-                if (e.Button == MouseButtons.Left)
+                if (e.X >= this.textEditorBox.EditorControlPanel)
                 {
-                    if (e.X >= this.textEditorBox.EditorControlPanel)
+                    if (e.Button == MouseButtons.Left)
                     {
                         this.mouseMode = MouseMode.Selecting;
                         TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
@@ -690,6 +720,11 @@ namespace CodeBoxControl
                         }
                     }
                 }
+                else
+                {
+                    this.mouseMode = MouseMode.ControlPanelDragging;
+                    InvokeControlPanel(MouseAction.Down, e);
+                }
             }
 
             private void host_MouseMove(object sender, MouseEventArgs e)
@@ -702,21 +737,29 @@ namespace CodeBoxControl
                             this.textEditorBox.controller.Move(position, false, true);
                         }
                         break;
+                    case MouseMode.ControlPanelDragging:
+                        {
+                            InvokeControlPanel(MouseAction.Move, e);
+                        }
+                        break;
                 }
             }
 
             private void host_MouseUp(object sender, MouseEventArgs e)
             {
-                if (e.Button == MouseButtons.Left)
+                switch (this.mouseMode)
                 {
-                    switch (this.mouseMode)
-                    {
-                        case MouseMode.Selecting:
+                    case MouseMode.Selecting:
+                        {
+                            if (e.Button == MouseButtons.Left)
                             {
                                 this.mouseMode = MouseMode.Normal;
                             }
-                            break;
-                    }
+                        }
+                        break;
+                    case MouseMode.ControlPanelDragging:
+                        InvokeControlPanel(MouseAction.Up, e);
+                        break;
                 }
             }
 
@@ -825,8 +868,8 @@ namespace CodeBoxControl
 
             public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds)
             {
-                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, viewVisibleBounds.Top / this.textEditorBox.lineHeight);
-                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, viewVisibleBounds.Bottom / this.textEditorBox.lineHeight);
+                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top + EditorMargin) / this.textEditorBox.lineHeight);
+                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom + EditorMargin) / this.textEditorBox.lineHeight);
                 bool widthChanged = false;
 
                 int caretX = 0;
@@ -863,12 +906,16 @@ namespace CodeBoxControl
                             selectionEnd = this.textEditorBox.controller.SelectionAnchor;
                         }
 
+                        int backgroundLeft = this.textEditorBox.EditorControlPanel;
+                        int backgroundWidth = viewAreaBounds.Width - backgroundLeft;
                         for (int i = startLine; i <= endLine; i++)
                         {
+                            int backgroundTop = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight;
+                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, backgroundTop + this.textEditorBox.lineHeight));
                             this.textEditorBox.EnsureLineColorized(i);
                             TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
                             int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
-                            int y = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight + this.textEditorBox.textTopOffset;
+                            int y = backgroundTop + this.textEditorBox.textTopOffset;
                             string text = line.Text;
 
                             int coffset = this.textEditorBox.lineHeight * 2;
@@ -947,7 +994,14 @@ namespace CodeBoxControl
                         if (this.textEditorBox.EditorControlPanel > 0)
                         {
                             Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
-                            g.FillRectangle(backBrush, controlPanelArea);
+                            int width = this.textEditorBox.EditorControlPanel;
+                            int height = this.textEditorBox.lineHeight;
+                            int y = EditorMargin - viewVisibleBounds.Top + startLine * height;
+                            for (int i = startLine; i <= endLine; i++)
+                            {
+                                Rectangle area = new Rectangle(0, y, width, height);
+                                y += height;
+                            }
                         }
                     }
                 }

@@ -53,7 +53,7 @@ namespace CodeBoxControl
         void InstallCallBack(ITextEditorControlPanelCallBack callback);
         void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
 
-        void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea);
+        void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea);
         void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
         void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
         void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
