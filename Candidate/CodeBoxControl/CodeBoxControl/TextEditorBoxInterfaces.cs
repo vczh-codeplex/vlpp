@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using CodeBoxControl.Core;
 
 namespace CodeBoxControl
 {
@@ -40,9 +41,19 @@ namespace CodeBoxControl
         int ColorizeLine(char[] items, int length, int initialState, int[] colors);
     }
 
+    public interface ITextEditorControlPanelCallBack
+    {
+        object GetLineData(int index);
+        void BindLineData(int index, object data);
+    }
+
     public interface ITextEditorControlPanel
     {
         int Width { get; }
+        void InstallCallBack(ITextEditorControlPanelCallBack callback);
+        void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
+        void OnBindedLineDataRemoved(int index, object data);
+
         void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea);
         void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
         void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
