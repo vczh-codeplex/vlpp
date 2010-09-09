@@ -59,6 +59,7 @@
       <DependentUpon>CodeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CSharpColorizer.cs" />
+    <Compile Include="CSharpControlPanel.cs" />
     <Compile Include="ITextEditorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

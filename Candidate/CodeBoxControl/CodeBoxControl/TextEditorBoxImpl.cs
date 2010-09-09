@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using CodeBoxControl.Core;
 
 namespace CodeBoxControl
 {
@@ -48,6 +49,18 @@ namespace CodeBoxControl
             {
                 return 0;
             }
+        }
+
+        public void InstallCallBack(ITextEditorControlPanelCallBack callback)
+        {
+        }
+
+        public void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
+        {
+        }
+
+        public void OnBindedLineDataRemoved(int index, object data)
+        {
         }
 
         public void DrawLineBackground(Graphics g, char[] items, int lineIndex, Point textPosition, Rectangle backgroundArea)
