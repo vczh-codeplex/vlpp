@@ -131,6 +131,12 @@ namespace CodeBoxControl
             this.content.Initialize(panelContent, this);
         }
 
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            tableLayoutContent.BackColor = this.BackColor;
+            base.OnBackColorChanged(e);
+        }
+
         private int SetScrollBar(ScrollBar scrollBar, int value, int max, int page)
         {
             if (page < max)

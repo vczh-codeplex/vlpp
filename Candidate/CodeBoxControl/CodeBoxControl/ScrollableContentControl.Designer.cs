@@ -31,23 +31,23 @@
             this.scrollHorizontal = new System.Windows.Forms.HScrollBar();
             this.scrollVertical = new System.Windows.Forms.VScrollBar();
             this.panelContent = new CodeBoxControl.ScrollableContentControl.ImePanel();
+            this.tableLayoutContent = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutContent.SuspendLayout();
             this.SuspendLayout();
             // 
             // scrollHorizontal
             // 
-            this.scrollHorizontal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.scrollHorizontal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scrollHorizontal.Location = new System.Drawing.Point(0, 345);
             this.scrollHorizontal.Name = "scrollHorizontal";
-            this.scrollHorizontal.Size = new System.Drawing.Size(346, 20);
+            this.scrollHorizontal.Size = new System.Drawing.Size(349, 20);
             this.scrollHorizontal.TabIndex = 0;
             this.scrollHorizontal.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollHorizontal_Scroll);
             // 
             // scrollVertical
             // 
-            this.scrollVertical.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.scrollVertical.Location = new System.Drawing.Point(346, 0);
+            this.scrollVertical.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scrollVertical.Location = new System.Drawing.Point(349, 0);
             this.scrollVertical.Name = "scrollVertical";
             this.scrollVertical.Size = new System.Drawing.Size(20, 345);
             this.scrollVertical.TabIndex = 1;
@@ -55,26 +55,41 @@
             // 
             // panelContent
             // 
-            this.panelContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContent.ImeEnabled = false;
             this.panelContent.Location = new System.Drawing.Point(0, 0);
+            this.panelContent.Margin = new System.Windows.Forms.Padding(0);
             this.panelContent.Name = "panelContent";
             this.panelContent.ParentControl = null;
-            this.panelContent.Size = new System.Drawing.Size(346, 345);
+            this.panelContent.Size = new System.Drawing.Size(349, 345);
             this.panelContent.TabIndex = 2;
             this.panelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.panelContent_Paint);
             this.panelContent.Resize += new System.EventHandler(this.panelContent_Resize);
             // 
+            // tableLayoutContent
+            // 
+            this.tableLayoutContent.ColumnCount = 2;
+            this.tableLayoutContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutContent.Controls.Add(this.scrollVertical, 1, 0);
+            this.tableLayoutContent.Controls.Add(this.panelContent, 0, 0);
+            this.tableLayoutContent.Controls.Add(this.scrollHorizontal, 0, 1);
+            this.tableLayoutContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutContent.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutContent.Name = "tableLayoutContent";
+            this.tableLayoutContent.RowCount = 2;
+            this.tableLayoutContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutContent.Size = new System.Drawing.Size(369, 365);
+            this.tableLayoutContent.TabIndex = 3;
+            // 
             // ScrollableContentControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.panelContent);
-            this.Controls.Add(this.scrollVertical);
-            this.Controls.Add(this.scrollHorizontal);
+            this.Controls.Add(this.tableLayoutContent);
             this.Name = "ScrollableContentControl";
-            this.Size = new System.Drawing.Size(366, 365);
+            this.Size = new System.Drawing.Size(369, 365);
+            this.tableLayoutContent.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -84,5 +99,6 @@
         private System.Windows.Forms.HScrollBar scrollHorizontal;
         private System.Windows.Forms.VScrollBar scrollVertical;
         private ImePanel panelContent;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutContent;
     }
 }
