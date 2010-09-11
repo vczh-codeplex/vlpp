@@ -1194,5 +1194,20 @@ namespace CodeBoxControlTest
         {
             this.provider.Dispose();
         }
+
+        public int GetLeftBlock(TextPosition caret)
+        {
+            return caret.col;
+        }
+
+        public int GetRightBlock(TextPosition caret)
+        {
+            return caret.col;
+        }
+
+        public Tuple<int, int> GetBlock(TextPosition caret)
+        {
+            return Tuple.Create(caret.col, caret.col);
+        }
     }
 }
