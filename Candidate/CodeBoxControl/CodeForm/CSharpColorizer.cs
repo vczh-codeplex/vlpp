@@ -14,6 +14,7 @@ namespace CodeForm
         public const int StringColorId = 2;
         public const int CommentColorId = 3;
         public const int BreakPointColorId = 4;
+        public const int BlockPointColorId = 5;
 
         private const int StartState = 0;
         private const int IdState = 1;
@@ -30,12 +31,13 @@ namespace CodeForm
         private const int NormalState = 12;
 
         private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
+        private readonly Color BreakPointHighlightColor = Color.FromArgb(123, 119, 166);
         private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
         private readonly Color KeywordColor = Color.FromArgb(0, 0, 255);
         private readonly Color StringColor = Color.FromArgb(163, 21, 21);
         private readonly Color CommentColor = Color.FromArgb(0, 128, 0);
         private readonly Color BreakPointColor = Color.FromArgb(255, 255, 255);
-        private readonly Color BreakPointHighlightColor = Color.FromArgb(123, 119, 166);
+        private readonly Color BlockPointColor = Color.Gray;
 
         private TextEditorColorItem[] colorItems = null;
 
@@ -49,7 +51,7 @@ namespace CodeForm
 
         public CSharpColorizer()
         {
-            this.colorItems = new TextEditorColorItem[5];
+            this.colorItems = new TextEditorColorItem[6];
             this.colorItems[NormalColorId] = new TextEditorColorItem()
             {
                 Text = NormalColor,
@@ -79,6 +81,12 @@ namespace CodeForm
                 Text = BreakPointColor,
                 HighlightText = BreakPointColor,
                 Highlight = BreakPointHighlightColor
+            };
+            this.colorItems[BlockPointColorId] = new TextEditorColorItem()
+            {
+                Text = BlockPointColor,
+                HighlightText = BlockPointColor,
+                Highlight = HighlightColor
             };
         }
 

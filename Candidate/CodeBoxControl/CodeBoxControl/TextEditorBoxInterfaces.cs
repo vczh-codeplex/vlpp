@@ -57,6 +57,7 @@ namespace CodeBoxControl
         void ColorLineForDisplay(int lineIndex, int[] colors);
 
         void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea);
+        void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea);
         void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
         void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea);
         void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);

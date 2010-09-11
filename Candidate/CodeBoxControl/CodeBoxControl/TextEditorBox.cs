@@ -205,7 +205,7 @@ namespace CodeBoxControl
 
         #endregion
 
-        #region Language Service API
+        #region Extension API
 
         public ITextEditorColorizer Colorizer
         {
@@ -254,6 +254,32 @@ namespace CodeBoxControl
             int[] copy = new int[line.CharCount];
             Array.Copy(colors, copy, copy.Length);
             return copy;
+        }
+
+        public bool AddBlock(int row, int start, int end)
+        {
+            if (this.textProvider[row].AddBlock(start, end))
+            {
+                this.host.Refresh();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveBlock(int row, int start, int end)
+        {
+            if (this.textProvider[row].RemoveBlock(start, end))
+            {
+                this.host.Refresh();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -995,7 +1021,9 @@ namespace CodeBoxControl
                         for (int i = startLine; i <= endLine; i++)
                         {
                             int backgroundTop = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight;
-                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight));
+                            Rectangle lineRectangle = new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight);
+                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, lineRectangle);
+
                             this.textEditorBox.EnsureLineColorized(i);
                             TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
                             int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
@@ -1060,6 +1088,8 @@ namespace CodeBoxControl
                             {
                                 RenderLine(g, i, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors);
                             }
+
+                            this.textEditorBox.controlPanel.DrawLineForeground(g, i, lineRectangle);
                         }
 
                         if (this.textEditorBox.caretVisible && this.host.Focused)

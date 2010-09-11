@@ -72,6 +72,10 @@ namespace CodeBoxControl
         {
         }
 
+        public void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        {
+        }
+
         public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
         {
         }

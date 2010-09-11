@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using CodeBoxControl;
 using System.IO;
 using System.ServiceModel;
+using CodeBoxControl.Core;
 
 namespace CodeForm
 {
@@ -24,6 +25,31 @@ namespace CodeForm
             TextEditorService.CodeForm = this;
             this.serviceHost = new ServiceHost(typeof(TextEditorService));
             this.serviceHost.Open();
+
+            textEditorBox.KeyCommands.RegisterCommand(Keys.Q, true, false, AddBlock);
+            textEditorBox.KeyCommands.RegisterCommand(Keys.W, true, false, RemoveBlock);
+        }
+
+        private bool AddBlock(TextEditorBox editor, KeyEventArgs e)
+        {
+            TextPosition start = editor.SelectionStart;
+            TextPosition end = editor.SelectionEnd;
+            if (start.row == end.row)
+            {
+                editor.AddBlock(start.row, start.col, end.col);
+            }
+            return true;
+        }
+
+        private bool RemoveBlock(TextEditorBox editor, KeyEventArgs e)
+        {
+            TextPosition start = editor.SelectionStart;
+            TextPosition end = editor.SelectionEnd;
+            if (start.row == end.row)
+            {
+                editor.RemoveBlock(start.row, start.col, end.col);
+            }
+            return true;
         }
 
         private void CodeForm_Shown(object sender, EventArgs e)
