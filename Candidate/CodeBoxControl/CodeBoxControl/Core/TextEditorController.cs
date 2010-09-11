@@ -14,8 +14,12 @@ namespace CodeBoxControl.Core
         bool OnEdit(TextPosition start, TextPosition end, string[] lines);
         void OnFinishEdit();
         void OnRefreshSuggestion();
+
         TextPosition GetLeftWord(TextPosition caret);
         TextPosition GetRightWord(TextPosition caret);
+        int GetLeftBlock(TextPosition caret);
+        int GetRightBlock(TextPosition caret);
+        Tuple<int, int> GetBlock(TextPosition caret);
     }
 
     public class TextEditorController
@@ -63,27 +67,35 @@ namespace CodeBoxControl.Core
         // CONTROL + SHIFT
         public void PressLeft(bool control, bool shift)
         {
-            if (control)
+            int block = this.provider.GetLeftBlock(this.selectionCaret);
+            if (block != this.selectionCaret.col)
             {
-                TextPosition newCaret = this.provider.GetLeftWord(this.selectionCaret);
-                if (newCaret == this.selectionCaret)
-                {
-                    control = false;
-                }
-                else
-                {
-                    Move(newCaret, false, shift);
-                }
+                Move(new TextPosition(this.selectionCaret.row, block), false, shift);
             }
-            if (!control)
+            else
             {
-                if (this.selectionCaret.col > 0)
+                if (control)
                 {
-                    Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col - 1), false, shift);
+                    TextPosition newCaret = this.provider.GetLeftWord(this.selectionCaret);
+                    if (newCaret == this.selectionCaret)
+                    {
+                        control = false;
+                    }
+                    else
+                    {
+                        Move(newCaret, false, shift);
+                    }
                 }
-                else if (this.selectionCaret.row > 0)
+                if (!control)
                 {
-                    Move(new TextPosition(this.selectionCaret.row - 1, this.provider.GetLineLength(this.selectionCaret.row - 1)), false, shift);
+                    if (this.selectionCaret.col > 0)
+                    {
+                        Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col - 1), false, shift);
+                    }
+                    else if (this.selectionCaret.row > 0)
+                    {
+                        Move(new TextPosition(this.selectionCaret.row - 1, this.provider.GetLineLength(this.selectionCaret.row - 1)), false, shift);
+                    }
                 }
             }
         }
@@ -91,27 +103,35 @@ namespace CodeBoxControl.Core
         // CONTROL + SHIFT
         public void PressRight(bool control, bool shift)
         {
-            if (control)
+            int block = this.provider.GetRightBlock(this.selectionCaret);
+            if (block != this.selectionCaret.col)
             {
-                TextPosition newCaret = this.provider.GetRightWord(this.selectionCaret);
-                if (newCaret == this.selectionCaret)
-                {
-                    control = false;
-                }
-                else
-                {
-                    Move(newCaret, false, shift);
-                }
+                Move(new TextPosition(this.selectionCaret.row, block), false, shift);
             }
-            if (!control)
+            else
             {
-                if (this.selectionCaret.col < this.provider.GetLineLength(this.selectionCaret.row))
+                if (control)
                 {
-                    Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col + 1), false, shift);
+                    TextPosition newCaret = this.provider.GetRightWord(this.selectionCaret);
+                    if (newCaret == this.selectionCaret)
+                    {
+                        control = false;
+                    }
+                    else
+                    {
+                        Move(newCaret, false, shift);
+                    }
                 }
-                else if (this.selectionCaret.row < this.provider.GetLineCount() - 1)
+                if (!control)
                 {
-                    Move(new TextPosition(this.selectionCaret.row + 1, 0), false, shift);
+                    if (this.selectionCaret.col < this.provider.GetLineLength(this.selectionCaret.row))
+                    {
+                        Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col + 1), false, shift);
+                    }
+                    else if (this.selectionCaret.row < this.provider.GetLineCount() - 1)
+                    {
+                        Move(new TextPosition(this.selectionCaret.row + 1, 0), false, shift);
+                    }
                 }
             }
         }
@@ -267,24 +287,23 @@ namespace CodeBoxControl.Core
         {
             if (position.row < 0)
             {
-                return new TextPosition(0, 0);
+                position = new TextPosition(0, 0);
             }
             else if (position.row >= this.provider.GetLineCount())
             {
-                return new TextPosition(this.provider.GetLineCount() - 1, this.provider.GetLineLength(position.row));
+                position = new TextPosition(this.provider.GetLineCount() - 1, this.provider.GetLineLength(position.row));
             }
             else if (position.col < 0)
             {
-                return new TextPosition(position.row, 0);
+                position = new TextPosition(position.row, 0);
             }
             else if (position.col > this.provider.GetLineLength(position.row))
             {
-                return new TextPosition(position.row, this.provider.GetLineLength(position.row));
+                position = new TextPosition(position.row, this.provider.GetLineLength(position.row));
             }
-            else
-            {
-                return position;
-            }
+            Tuple<int, int> block = this.provider.GetBlock(position);
+            position.col = Math.Abs(block.Item1 - position.col) < Math.Abs(block.Item2 - position.col) ? block.Item1 : block.Item2;
+            return position;
         }
 
         // SHIFT

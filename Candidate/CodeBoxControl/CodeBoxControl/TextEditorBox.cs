@@ -616,34 +616,27 @@ namespace CodeBoxControl
 
         TextPosition ITextContentProvider.GetLeftWord(TextPosition caret)
         {
-            if (caret.col > 0)
-            {
-                return new TextPosition(caret.row, caret.col - 1);
-            }
-            else if (caret.row > 0)
-            {
-                return new TextPosition(caret.row - 1, this.textProvider[caret.row - 1].CharCount);
-            }
-            else
-            {
-                return caret;
-            }
+            return caret;
         }
 
         TextPosition ITextContentProvider.GetRightWord(TextPosition caret)
         {
-            if (caret.col < this.textProvider[caret.row].CharCount)
-            {
-                return new TextPosition(caret.row, caret.col + 1);
-            }
-            else if (caret.row < this.textProvider.Count - 1)
-            {
-                return new TextPosition(caret.row + 1, 0);
-            }
-            else
-            {
-                return caret;
-            }
+            return caret;
+        }
+
+        int ITextContentProvider.GetLeftBlock(TextPosition caret)
+        {
+            return caret.col;
+        }
+
+        int ITextContentProvider.GetRightBlock(TextPosition caret)
+        {
+            return caret.col;
+        }
+
+        Tuple<int, int> ITextContentProvider.GetBlock(TextPosition caret)
+        {
+            return Tuple.Create(caret.col, caret.col);
         }
 
         #endregion
