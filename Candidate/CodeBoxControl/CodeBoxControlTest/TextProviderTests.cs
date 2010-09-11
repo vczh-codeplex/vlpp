@@ -82,6 +82,126 @@ namespace CodeBoxControlTest
             }
         }
 
+        [TestMethod]
+        public void TestLineBlocks()
+        {
+            using (TextLine<object> line = new TextLine<object>())
+            {
+                line.Edit(0, 0, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+
+                Assert.IsFalse(line.AddBlock(3, 3));
+                Assert.AreEqual(0, line.BlockCount);
+
+                Assert.IsFalse(line.AddBlock(-1, 5));
+                Assert.AreEqual(0, line.BlockCount);
+
+                Assert.IsFalse(line.AddBlock(8, 20));
+                Assert.AreEqual(0, line.BlockCount);
+
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+
+                Assert.IsTrue(line.AddBlock(1, 4));
+                Assert.AreEqual(2, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                Assert.AreEqual(Tuple.Create(1, 4), line.GetBlockByIndex(1));
+
+                Assert.IsTrue(line.AddBlock(9, 10));
+                Assert.AreEqual(3, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                Assert.AreEqual(Tuple.Create(1, 4), line.GetBlockByIndex(1));
+                Assert.AreEqual(Tuple.Create(9, 10), line.GetBlockByIndex(2));
+
+                Assert.IsFalse(line.AddBlock(7, 13));
+                Assert.IsFalse(line.AddBlock(0, 3));
+                Assert.IsFalse(line.RemoveBlock(0, 0));
+                Assert.IsTrue(line.RemoveBlock(1, 4));
+                Assert.IsTrue(line.RemoveBlock(9, 10));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+
+                for (int i = 0; i < 17; i++)
+                {
+                    Assert.AreEqual(i == 9 ? 5 : i, line.GetLeftBlock(i));
+                    Assert.AreEqual(i == 5 ? 9 : i, line.GetRightBlock(i));
+                    if (5 < i && i < 9)
+                    {
+                        Assert.AreEqual(Tuple.Create(5, 9), line.GetBlock(i));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(Tuple.Create(i, i), line.GetBlock(i));
+                    }
+                }
+
+                line.Edit(10, 0, "X");
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+
+                line.Edit(9, 1, "ABCDEFG");
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+
+                line.Edit(3, 1, "XYZ");
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(7, 11), line.GetBlockByIndex(0));
+
+                line.Edit(6, 1, "");
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(6, 10), line.GetBlockByIndex(0));
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(4, 2, "");
+                Assert.AreEqual(0, line.BlockCount);
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(7, 4, "123");
+                Assert.AreEqual(0, line.BlockCount);
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(5, 4, "..");
+                Assert.AreEqual(0, line.BlockCount);
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(4, 6, "..");
+                Assert.AreEqual(0, line.BlockCount);
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(4, 5, "..");
+                Assert.AreEqual(0, line.BlockCount);
+
+                line.Edit(0, line.CharCount, "Vczh is a genius!");
+                Assert.AreEqual(0, line.BlockCount);
+                Assert.IsTrue(line.AddBlock(5, 9));
+                Assert.AreEqual(1, line.BlockCount);
+                Assert.AreEqual(Tuple.Create(5, 9), line.GetBlockByIndex(0));
+                line.Edit(5, 5, "..");
+                Assert.AreEqual(0, line.BlockCount);
+            }
+        }
+
         private void AssertTextProvider<T>(string text, TextProvider<T> provider)
             where T : new()
         {
