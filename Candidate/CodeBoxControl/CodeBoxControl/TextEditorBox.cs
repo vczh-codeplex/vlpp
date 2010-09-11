@@ -260,6 +260,30 @@ namespace CodeBoxControl
 
         #region View API
 
+        public int LineHeight
+        {
+            get
+            {
+                return this.lineHeight;
+            }
+        }
+
+        public int TextHeight
+        {
+            get
+            {
+                return this.textHeight;
+            }
+        }
+
+        public int TextTopOffset
+        {
+            get
+            {
+                return this.textTopOffset;
+            }
+        }
+
         public Point ViewPointToDocumentPoint(Point point)
         {
             return Point.Add(point, new Size(this.ViewPosition));
@@ -626,17 +650,17 @@ namespace CodeBoxControl
 
         int ITextContentProvider.GetLeftBlock(TextPosition caret)
         {
-            return caret.col;
+            return this.textProvider[caret.row].GetLeftBlock(caret.col);
         }
 
         int ITextContentProvider.GetRightBlock(TextPosition caret)
         {
-            return caret.col;
+            return this.textProvider[caret.row].GetRightBlock(caret.col);
         }
 
         Tuple<int, int> ITextContentProvider.GetBlock(TextPosition caret)
         {
-            return Tuple.Create(caret.col, caret.col);
+            return this.textProvider[caret.row].GetBlock(caret.col);
         }
 
         #endregion
@@ -740,14 +764,15 @@ namespace CodeBoxControl
                     {
                         this.mouseMode = MouseMode.Selecting;
                         TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                        Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
                         this.textEditorBox.caretVisible = true;
                         if (Control.ModifierKeys == Keys.Shift)
                         {
-                            this.textEditorBox.controller.Move(position, false, true);
+                            this.textEditorBox.controller.Move(new TextPosition(position.row, block.Item1), false, true);
                         }
                         else
                         {
-                            this.textEditorBox.controller.Select(position, position);
+                            this.textEditorBox.controller.Select(new TextPosition(position.row, block.Item1), new TextPosition(position.row, block.Item2));
                         }
                     }
                 }
@@ -784,9 +809,22 @@ namespace CodeBoxControl
                 {
                     this.host.Cursor = Cursors.Default;
                 }
-                else
+                else if (this.mouseMode == MouseMode.Selecting)
                 {
                     this.host.Cursor = Cursors.IBeam;
+                }
+                else
+                {
+                    TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                    Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
+                    if (block.Item1 != block.Item2)
+                    {
+                        this.host.Cursor = Cursors.Default;
+                    }
+                    else
+                    {
+                        this.host.Cursor = Cursors.IBeam;
+                    }
                 }
             }
 
