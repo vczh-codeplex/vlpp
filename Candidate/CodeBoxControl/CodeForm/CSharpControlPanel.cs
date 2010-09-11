@@ -43,22 +43,34 @@ namespace CodeForm
 
         public bool NeedColorLineForDisplay(int lineIndex)
         {
-            return GetBreakPoint(lineIndex);
+            return GetBreakPoint(lineIndex) || this.callback.TextEditorBox.TextProvider[lineIndex].BlockCount > 0;
         }
 
         public void ColorLineForDisplay(int lineIndex, int[] colors)
         {
             TextLine<TextEditorBox.LineInfo> line = this.callback.TextEditorBox.TextProvider[lineIndex];
-            int count = line.CharCount;
-            char[] chars = line.CharArray;
-            int color = CSharpColorizer.NormalColorId;
-            for (int i = 0; i < count; i++)
+
+            if (GetBreakPoint(lineIndex))
             {
-                if (chars[i] != ' ' && chars[i] != '\t')
+                int count = line.CharCount;
+                char[] chars = line.CharArray;
+                int color = CSharpColorizer.NormalColorId;
+                for (int i = 0; i < count; i++)
                 {
-                    color = CSharpColorizer.BreakPointColorId;
+                    if (chars[i] != ' ' && chars[i] != '\t')
+                    {
+                        color = CSharpColorizer.BreakPointColorId;
+                    }
+                    colors[i] = color;
                 }
-                colors[i] = color;
+            }
+
+            foreach (Tuple<int, int> block in line.Blocks)
+            {
+                for (int i = block.Item1; i < block.Item2; i++)
+                {
+                    colors[i] = CSharpColorizer.BlockPointColorId;
+                }
             }
         }
 
@@ -89,6 +101,17 @@ namespace CodeForm
                         g.FillRectangle(Brushes.Brown, x1, backgroundArea.Top, x2 - x1, backgroundArea.Height);
                     }
                 }
+            }
+        }
+
+        public void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        {
+            TextLine<TextEditorBox.LineInfo> line = this.callback.TextEditorBox.TextProvider[lineIndex];
+            foreach (Tuple<int, int> block in line.Blocks)
+            {
+                int x1 = this.callback.TextEditorBox.TextPositionToViewPoint(new TextPosition(lineIndex, block.Item1)).X;
+                int x2 = this.callback.TextEditorBox.TextPositionToViewPoint(new TextPosition(lineIndex, block.Item2)).X;
+                g.DrawRectangle(Pens.Gray, x1, backgroundArea.Top, x2 - x1, backgroundArea.Height);
             }
         }
 

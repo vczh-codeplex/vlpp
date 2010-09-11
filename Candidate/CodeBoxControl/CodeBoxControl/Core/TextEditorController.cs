@@ -67,34 +67,41 @@ namespace CodeBoxControl.Core
         // CONTROL + SHIFT
         public void PressLeft(bool control, bool shift)
         {
-            int block = this.provider.GetLeftBlock(this.selectionCaret);
-            if (block != this.selectionCaret.col)
+            if (this.selectionAnchor != this.selectionCaret && !control && !shift)
             {
-                Move(new TextPosition(this.selectionCaret.row, block), false, shift);
+                Move(this.selectionAnchor < this.selectionCaret ? this.selectionAnchor : this.selectionCaret, false, false);
             }
             else
             {
-                if (control)
+                int block = this.provider.GetLeftBlock(this.selectionCaret);
+                if (block != this.selectionCaret.col)
                 {
-                    TextPosition newCaret = this.provider.GetLeftWord(this.selectionCaret);
-                    if (newCaret == this.selectionCaret)
-                    {
-                        control = false;
-                    }
-                    else
-                    {
-                        Move(newCaret, false, shift);
-                    }
+                    Move(new TextPosition(this.selectionCaret.row, block), false, shift);
                 }
-                if (!control)
+                else
                 {
-                    if (this.selectionCaret.col > 0)
+                    if (control)
                     {
-                        Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col - 1), false, shift);
+                        TextPosition newCaret = this.provider.GetLeftWord(this.selectionCaret);
+                        if (newCaret == this.selectionCaret)
+                        {
+                            control = false;
+                        }
+                        else
+                        {
+                            Move(newCaret, false, shift);
+                        }
                     }
-                    else if (this.selectionCaret.row > 0)
+                    if (!control)
                     {
-                        Move(new TextPosition(this.selectionCaret.row - 1, this.provider.GetLineLength(this.selectionCaret.row - 1)), false, shift);
+                        if (this.selectionCaret.col > 0)
+                        {
+                            Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col - 1), false, shift);
+                        }
+                        else if (this.selectionCaret.row > 0)
+                        {
+                            Move(new TextPosition(this.selectionCaret.row - 1, this.provider.GetLineLength(this.selectionCaret.row - 1)), false, shift);
+                        }
                     }
                 }
             }
@@ -103,34 +110,41 @@ namespace CodeBoxControl.Core
         // CONTROL + SHIFT
         public void PressRight(bool control, bool shift)
         {
-            int block = this.provider.GetRightBlock(this.selectionCaret);
-            if (block != this.selectionCaret.col)
+            if (this.selectionAnchor != this.selectionCaret && !control && !shift)
             {
-                Move(new TextPosition(this.selectionCaret.row, block), false, shift);
+                Move(this.selectionAnchor > this.selectionCaret ? this.selectionAnchor : this.selectionCaret, false, false);
             }
             else
             {
-                if (control)
+                int block = this.provider.GetRightBlock(this.selectionCaret);
+                if (block != this.selectionCaret.col)
                 {
-                    TextPosition newCaret = this.provider.GetRightWord(this.selectionCaret);
-                    if (newCaret == this.selectionCaret)
-                    {
-                        control = false;
-                    }
-                    else
-                    {
-                        Move(newCaret, false, shift);
-                    }
+                    Move(new TextPosition(this.selectionCaret.row, block), false, shift);
                 }
-                if (!control)
+                else
                 {
-                    if (this.selectionCaret.col < this.provider.GetLineLength(this.selectionCaret.row))
+                    if (control)
                     {
-                        Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col + 1), false, shift);
+                        TextPosition newCaret = this.provider.GetRightWord(this.selectionCaret);
+                        if (newCaret == this.selectionCaret)
+                        {
+                            control = false;
+                        }
+                        else
+                        {
+                            Move(newCaret, false, shift);
+                        }
                     }
-                    else if (this.selectionCaret.row < this.provider.GetLineCount() - 1)
+                    if (!control)
                     {
-                        Move(new TextPosition(this.selectionCaret.row + 1, 0), false, shift);
+                        if (this.selectionCaret.col < this.provider.GetLineLength(this.selectionCaret.row))
+                        {
+                            Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col + 1), false, shift);
+                        }
+                        else if (this.selectionCaret.row < this.provider.GetLineCount() - 1)
+                        {
+                            Move(new TextPosition(this.selectionCaret.row + 1, 0), false, shift);
+                        }
                     }
                 }
             }
