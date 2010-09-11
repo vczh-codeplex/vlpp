@@ -13,6 +13,7 @@ namespace CodeBoxControl.Core
         private PinnedArray<char> charArray = null;
         private int[] colorArray = null;
         private int availableCharCount = 0;
+        private List<Tuple<int, int>> blocks = new List<Tuple<int, int>>();
         private T tag;
 
         public T Tag
@@ -37,6 +38,8 @@ namespace CodeBoxControl.Core
         {
             this.charArray.Dispose();
         }
+
+        #region Infomation
 
         public int CharCount
         {
@@ -77,15 +80,26 @@ namespace CodeBoxControl.Core
             return new string(buffer);
         }
 
-        private int GetBlockSize(int size)
-        {
-            return (size + BufferBlock - 1) / BufferBlock * BufferBlock;
-        }
+        #endregion
 
         #region Edit Functions
 
         public void Edit(int start, int count, PinnedArray<char> text, int textStart, int textLength)
         {
+            int blockOffset = textLength - count;
+            for (int i = this.blocks.Count - 1; i >= 0; i--)
+            {
+                Tuple<int, int> block = this.blocks[i];
+                if (start < block.Item2 && start + count > block.Item1)
+                {
+                    this.blocks.RemoveAt(i);
+                }
+                else if (start + count <= block.Item1)
+                {
+                    this.blocks[i] = Tuple.Create(block.Item1 + blockOffset, block.Item2 + blockOffset);
+                }
+            }
+
             int newSize = this.availableCharCount + textLength - count;
             int newBlock = GetBlockSize(newSize);
             if (newBlock > this.charArray.Buffer.Length)
@@ -147,6 +161,100 @@ namespace CodeBoxControl.Core
         public void Edit(int start, int count, string text)
         {
             Edit(start, count, text, 0, text.Length);
+        }
+
+        #endregion
+
+        #region Block
+
+        public int GetLeftBlock(int index)
+        {
+            foreach (Tuple<int, int> block in this.blocks)
+            {
+                if (block.Item2 == index)
+                {
+                    return block.Item1;
+                }
+            }
+            return index;
+        }
+
+        public int GetRightBlock(int index)
+        {
+            foreach (Tuple<int, int> block in this.blocks)
+            {
+                if (block.Item1 == index)
+                {
+                    return block.Item2;
+                }
+            }
+            return index;
+        }
+
+        public Tuple<int, int> GetBlock(int index)
+        {
+            foreach (Tuple<int, int> block in this.blocks)
+            {
+                if (block.Item1 < index && index < block.Item2)
+                {
+                    return block;
+                }
+            }
+            return Tuple.Create(index, index);
+        }
+
+        public bool AddBlock(int start, int end)
+        {
+            if (0 <= start && start < end && end <= this.availableCharCount)
+            {
+                foreach (Tuple<int, int> block in this.blocks)
+                {
+                    if (start < block.Item2 && end > block.Item1)
+                    {
+                        return false;
+                    }
+                }
+                this.blocks.Add(Tuple.Create(start, end));
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveBlock(int start, int end)
+        {
+            int index = this.blocks.IndexOf(Tuple.Create(start, end));
+            if (index >= 0) this.blocks.RemoveAt(index);
+            return index >= 0;
+        }
+
+        public int BlockCount
+        {
+            get
+            {
+                return this.blocks.Count;
+            }
+        }
+
+        public IEnumerable<Tuple<int, int>> Blocks
+        {
+            get
+            {
+                return this.blocks;
+            }
+        }
+
+        public Tuple<int, int> GetBlockByIndex(int index)
+        {
+            return this.blocks[index];
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private int GetBlockSize(int size)
+        {
+            return (size + BufferBlock - 1) / BufferBlock * BufferBlock;
         }
 
         #endregion
