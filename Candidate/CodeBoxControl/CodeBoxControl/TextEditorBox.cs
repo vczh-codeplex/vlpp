@@ -630,6 +630,10 @@ namespace CodeBoxControl
                     this.cachedWholeWidthAvailable = false;
                 }
                 this.textProvider[i].Tag.lineWidthAvailable = false;
+                if (i > start.row)
+                {
+                    this.textProvider[i].Tag.controlPanelData = null;
+                }
             }
             TextPosition newEnd = this.textProvider.Edit(start, end, lines);
 
