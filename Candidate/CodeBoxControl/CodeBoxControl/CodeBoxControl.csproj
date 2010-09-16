@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeProvider\CodeNode.cs" />
+    <Compile Include="CodeProvider\CodeNodeCollection.cs" />
+    <Compile Include="CodeProvider\ICodeScope.cs" />
     <Compile Include="Core\TextEditorController.cs" />
     <Compile Include="Core\TextLine.cs" />
     <Compile Include="Core\TextPosition.cs" />
