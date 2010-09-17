@@ -51,7 +51,6 @@ namespace CodeBoxControl.CodeProvider
         {
             if (!implementationTypes.Keys.Contains(typeof(T)))
             {
-                CodeDomProvider provider = new CSharpCodeProvider();
                 CodeCompileUnit unit = new CodeCompileUnit();
                 string namespaceString = "CodeBoxControl.CodeProvide.CodeNodeAutoImplementation.OfType" + typeof(T).FullName + "CodeNodeAutoNamespace";
                 string typeString = typeof(T).Name + "Implementation";
@@ -105,14 +104,8 @@ namespace CodeBoxControl.CodeProvider
                             );
                     }
                 }
-                CompilerParameters options = new CompilerParameters();
-                options.GenerateExecutable = false;
-                options.GenerateInMemory = true;
-                options.IncludeDebugInformation = false;
-                options.ReferencedAssemblies.Add(typeof(CodeNode).Assembly.Location);
-                options.ReferencedAssemblies.Add(typeof(T).Assembly.Location);
-                CompilerResults results = provider.CompileAssemblyFromDom(options, unit);
-                implementationTypes[typeof(T)] = results.CompiledAssembly.GetType(fullNameString);
+                Assembly assembly = CodeDomHelper.Compile(unit, typeof(CodeNode).Assembly.Location, typeof(T).Assembly.Location);
+                implementationTypes[typeof(T)] = assembly.GetType(fullNameString);
             }
             return (T)implementationTypes[typeof(T)].GetConstructor(new Type[] { }).Invoke(new object[] { });
         }
