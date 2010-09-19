@@ -52,14 +52,14 @@ namespace TokenizerBuilder.Shape
                 int x = (this.ControlPoint.X + this.Start.Position.X) / 2;
                 int y = (this.ControlPoint.Y + this.Start.Position.Y) / 2;
                 int r = (int)Math.Round(Math.Sqrt(Math.Pow(this.ControlPoint.X - this.Start.Position.X, 2) + Math.Pow(this.ControlPoint.Y - this.Start.Position.Y, 2))) / 2;
-                g.DrawEllipse(Pens.Gray, x - r + offset.Width, y - r + offset.Height, r * 2, r * 2);
+                g.DrawEllipse(Pens.LightBlue, x - r + offset.Width, y - r + offset.Height, r * 2, r * 2);
 
                 vx = this.Start.Position.Y - this.ControlPoint.Y;
                 vy = this.ControlPoint.X - this.Start.Position.X;
             }
             else
             {
-                g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset }, 0.8f);
+                g.DrawCurve(Pens.LightBlue, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset }, 0.8f);
 
                 vx = this.End.Position.X - this.Start.Position.X;
                 vy = this.End.Position.Y - this.Start.Position.Y;
@@ -67,7 +67,7 @@ namespace TokenizerBuilder.Shape
 
             Rectangle handle = new Rectangle(this.ControlPoint.X - this.Radius + offset.Width, this.ControlPoint.Y - this.Radius + offset.Height, this.Radius * 2, this.Radius * 2);
             g.FillEllipse(Brushes.White, handle);
-            g.DrawEllipse(Pens.Gray, handle);
+            g.DrawEllipse(Pens.LightBlue, handle);
 
             {
                 float v = (float)Math.Sqrt(vx * vx + vy * vy);
@@ -89,7 +89,7 @@ namespace TokenizerBuilder.Shape
                     points[i].Y = this.Radius * py + offset.Height + this.ControlPoint.Y;
                 }
 
-                g.FillPolygon(Brushes.Gray, points);
+                g.FillPolygon(Brushes.LightBlue, points);
             }
 
             SizeF size = g.MeasureString(this.Name, font);

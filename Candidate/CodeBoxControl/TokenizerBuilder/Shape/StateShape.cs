@@ -64,19 +64,19 @@ namespace TokenizerBuilder.Shape
             {
                 case StateType.Start:
                     g.FillEllipse(Brushes.White, outer);
-                    g.DrawEllipse(Pens.Gray, outer);
-                    g.DrawEllipse(Pens.Gray, inner);
+                    g.DrawEllipse(Pens.LightGreen, outer);
+                    g.DrawEllipse(Pens.LightGreen, inner);
                     break;
                 case StateType.Finish:
-                    g.FillEllipse(Brushes.Gray, outer);
+                    g.FillEllipse(Brushes.LightGreen, outer);
                     g.FillEllipse(Brushes.White, inner);
                     break;
                 case StateType.Normal:
                     g.FillEllipse(Brushes.White, inner);
-                    g.DrawEllipse(Pens.Gray, inner);
+                    g.DrawEllipse(Pens.LightGreen, inner);
                     break;
                 case StateType.Partial:
-                    g.FillEllipse(Brushes.Gray, inner);
+                    g.FillEllipse(Brushes.LightGreen, inner);
                     break;
             }
 
