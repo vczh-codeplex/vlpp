@@ -63,5 +63,16 @@ namespace TokenizerBuilder.Shape
                 }
             }
         }
+
+        public void Move(Size offset)
+        {
+            foreach (var pair in this.Shapes)
+            {
+                foreach (var shape in pair.Value)
+                {
+                    shape.Move(offset);
+                }
+            }
+        }
     }
 }

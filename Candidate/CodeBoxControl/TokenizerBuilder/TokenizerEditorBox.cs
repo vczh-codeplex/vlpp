@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using TokenizerBuilder.Shape;
 using CodeBoxControl;
+using System.Linq;
 
 namespace TokenizerBuilder
 {
@@ -54,6 +55,7 @@ namespace TokenizerBuilder
                                 this.selectedShape = this.manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
                                 this.lastMouse = e.Location;
                                 this.mouseState = MouseState.Dragging;
+                                this.host.Refresh();
                             }
                             break;
                         case KeyState.Arrow:
@@ -61,6 +63,7 @@ namespace TokenizerBuilder
                                 this.selectedShape = this.manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
                                 this.lastMouse = e.Location;
                                 this.mouseState = MouseState.Connecting;
+                                this.host.Refresh();
                             }
                             break;
                         case KeyState.State:
@@ -70,10 +73,10 @@ namespace TokenizerBuilder
                                 state.Position = e.Location + new Size(this.editor.ViewPosition);
                                 this.manager.AddShape(state);
                                 this.mouseState = MouseState.Normal;
+                                UpdateViewSize();
                             }
                             break;
                     }
-                    this.host.Refresh();
                 }
             }
 
@@ -86,7 +89,7 @@ namespace TokenizerBuilder
                         {
                             this.selectedShape.Move(new Size(e.Location - new Size(this.lastMouse)));
                             this.lastMouse = e.Location;
-                            this.host.Refresh();
+                            UpdateViewSize();
                         }
                         break;
                 }
@@ -119,7 +122,7 @@ namespace TokenizerBuilder
                                     this.manager.AddShape(arrow);
                                     start.OutArrows.Add(arrow);
                                     end.InArrows.Add(arrow);
-                                    this.host.Refresh();
+                                    UpdateViewSize();
                                 }
                             }
                             break;
@@ -148,12 +151,10 @@ namespace TokenizerBuilder
                             foreach (ArrowShape arrow in state.InArrows)
                             {
                                 arrow.Start.OutArrows.Remove(arrow);
-                                arrow.End.InArrows.Remove(arrow);
                                 this.manager.RemoveShape(arrow);
                             }
                             foreach (ArrowShape arrow in state.OutArrows)
                             {
-                                arrow.Start.OutArrows.Remove(arrow);
                                 arrow.End.InArrows.Remove(arrow);
                                 this.manager.RemoveShape(arrow);
                             }
@@ -166,7 +167,8 @@ namespace TokenizerBuilder
                             arrow.End.InArrows.Remove(arrow);
                             this.manager.RemoveShape(arrow);
                         }
-                        this.host.Refresh();
+                        this.selectedShape = null;
+                        UpdateViewSize();
                     }
                 }
                 else
@@ -197,6 +199,27 @@ namespace TokenizerBuilder
             {
                 g.FillRectangle(Brushes.White, viewAreaBounds);
                 this.manager.Draw(g, this.editor.Font, new Size(-viewVisibleBounds.X, -viewVisibleBounds.Y));
+                if (this.selectedShape != null)
+                {
+                    Rectangle bounds = this.selectedShape.SelectionBounds;
+                    bounds.Offset(-viewVisibleBounds.X, -viewVisibleBounds.Y);
+                    using (Pen pen = new Pen(SystemColors.Highlight))
+                    {
+                        pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+                        g.DrawRectangle(pen, bounds);
+                    }
+                }
+            }
+
+            private void UpdateViewSize()
+            {
+                Rectangle bounds = this.manager.Shapes.Values.SelectMany(v => v).Select(s => s.SelectionBounds).Aggregate(new Rectangle(0, 0, 0, 0), Rectangle.Union);
+                bounds.X = Math.Min(bounds.X, 0);
+                bounds.Y = Math.Min(bounds.Y, 0);
+                Size offset = new Size(-bounds.X, -bounds.Y);
+                this.manager.Move(offset);
+                this.editor.ViewSize = bounds.Size;
+                this.host.Refresh();
             }
         }
 
