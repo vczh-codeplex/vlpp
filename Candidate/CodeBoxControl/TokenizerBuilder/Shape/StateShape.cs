@@ -15,10 +15,13 @@ namespace TokenizerBuilder.Shape
 
     public class StateShape : ShapeBase
     {
+        public const int StateShapeProprity = 0;
+
         public string Name { get; set; }
         public Point Position { get; set; }
         public int Radius { get; set; }
         public StateType Type { get; set; }
+
         public List<ArrowShape> OutArrows { get; set; }
         public List<ArrowShape> InArrows { get; set; }
 
