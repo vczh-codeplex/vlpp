@@ -12,10 +12,12 @@ namespace TokenizerBuilder.Shape
         public StateShape Start { get; set; }
         public StateShape End { get; set; }
         public Point ControlPoint { get; set; }
+        public int Radius { get; set; }
 
         public ArrowShape()
         {
             this.Name = "";
+            this.Radius = 5;
         }
 
         public override int Priority
@@ -30,32 +32,63 @@ namespace TokenizerBuilder.Shape
         {
             get
             {
-                return new Rectangle(this.ControlPoint.X - 10, this.ControlPoint.Y - 10, 20, 20);
+                return new Rectangle(this.ControlPoint.X - this.Radius - 5, this.ControlPoint.Y - this.Radius - 5, this.Radius * 2 + 10, this.Radius * 2 + 10);
             }
         }
 
         public override bool IsInShape(Graphics g, Point p)
         {
-            return (p.X - this.ControlPoint.X) * (p.X - this.ControlPoint.X) + (p.Y - this.ControlPoint.Y) * (p.Y - this.ControlPoint.Y) <= 25;
+            return (p.X - this.ControlPoint.X) * (p.X - this.ControlPoint.X) + (p.Y - this.ControlPoint.Y) * (p.Y - this.ControlPoint.Y) <= this.Radius * this.Radius;
         }
 
         public override void Draw(Graphics g, Font font, Size offset)
         {
+            float vx = 0;
+            float vy = 0;
             if (this.Start == this.End)
             {
                 int x = (this.ControlPoint.X + this.Start.Position.X) / 2;
                 int y = (this.ControlPoint.Y + this.Start.Position.Y) / 2;
                 int r = (int)Math.Round(Math.Sqrt(Math.Pow(this.ControlPoint.X - this.Start.Position.X, 2) + Math.Pow(this.ControlPoint.Y - this.Start.Position.Y, 2))) / 2;
                 g.DrawEllipse(Pens.Gray, x - r + offset.Width, y - r + offset.Height, r * 2, r * 2);
+
+                vx = this.Start.Position.Y - this.ControlPoint.Y;
+                vy = this.ControlPoint.X - this.Start.Position.X;
             }
             else
             {
                 g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset }, 0.8f);
+
+                vx = this.End.Position.X - this.Start.Position.X;
+                vy = this.End.Position.Y - this.Start.Position.Y;
             }
 
-            Rectangle handle = new Rectangle(this.ControlPoint.X - 5 + offset.Width, this.ControlPoint.Y - 5 + offset.Height, 10, 10);
-            g.FillRectangle(Brushes.White, handle);
+            Rectangle handle = new Rectangle(this.ControlPoint.X - this.Radius + offset.Width, this.ControlPoint.Y - this.Radius + offset.Height, this.Radius * 2, this.Radius * 2);
+            g.FillEllipse(Brushes.White, handle);
             g.DrawEllipse(Pens.Gray, handle);
+
+            {
+                float v = (float)Math.Sqrt(vx * vx + vy * vy);
+                float sinv = vy / v;
+                float cosv = vx / v;
+
+                PointF[] points = new PointF[3];
+                points[0].X = -0.5f;
+                points[0].Y = -(float)Math.Sqrt(3) / 2;
+                points[1].X = 1.0f;
+                points[1].Y = 0.0f;
+                points[2].X = -0.5f;
+                points[2].Y = (float)Math.Sqrt(3) / 2;
+                for (int i = 0; i < 3; i++)
+                {
+                    float px = cosv * points[i].X - sinv * points[i].Y;
+                    float py = sinv * points[i].X + cosv * points[i].Y;
+                    points[i].X = this.Radius * px + offset.Width + this.ControlPoint.X;
+                    points[i].Y = this.Radius * py + offset.Height + this.ControlPoint.Y;
+                }
+
+                g.DrawLines(Pens.Gray, points);
+            }
 
             SizeF size = g.MeasureString(this.Name, font);
             g.DrawString(this.Name, font, Brushes.Black, this.ControlPoint.X - size.Width / 2 + offset.Width, this.ControlPoint.Y - size.Height * 3 / 2 + offset.Height);
