@@ -14,9 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenizerBuilder", "TokenizerBuilder\TokenizerBuilder.csproj", "{A011D61F-A54B-45FA-8E27-769DFDA98D94}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -29,6 +31,9 @@ Global
 		SccProjectUniqueName3 = CodeForm\\CodeForm.csproj
 		SccProjectName3 = CodeForm
 		SccLocalPath3 = CodeForm
+		SccProjectUniqueName4 = TokenizerBuilder\\TokenizerBuilder.csproj
+		SccProjectName4 = TokenizerBuilder
+		SccLocalPath4 = TokenizerBuilder
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CodeBoxControl.vsmdi
@@ -72,6 +77,16 @@ Global
 		{43AC33A7-C838-4F7B-8D17-6B318C189850}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{43AC33A7-C838-4F7B-8D17-6B318C189850}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{43AC33A7-C838-4F7B-8D17-6B318C189850}.Release|x86.ActiveCfg = Release|Any CPU
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Debug|x86.ActiveCfg = Debug|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Debug|x86.Build.0 = Debug|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Release|Any CPU.ActiveCfg = Release|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Release|x86.ActiveCfg = Release|x86
+		{A011D61F-A54B-45FA-8E27-769DFDA98D94}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
