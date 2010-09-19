@@ -13,20 +13,22 @@ namespace TokenizerBuilder.Shape
         Finish
     }
 
-    public class StateShape : Shape
+    public class StateShape : ShapeBase
     {
         public string Name { get; set; }
         public Point Position { get; set; }
         public int Radius { get; set; }
         public StateType Type { get; set; }
-        public List<ArrowShape> Arrows { get; set; }
+        public List<ArrowShape> OutArrows { get; set; }
+        public List<ArrowShape> InArrows { get; set; }
 
         public StateShape()
         {
             this.Name = "";
             this.Radius = 32;
             this.Type = StateType.Normal;
-            this.Arrows = new List<ArrowShape>();
+            this.OutArrows = new List<ArrowShape>();
+            this.InArrows = new List<ArrowShape>();
         }
 
         public override int Priority
@@ -34,6 +36,14 @@ namespace TokenizerBuilder.Shape
             get
             {
                 return 0;
+            }
+        }
+
+        public override Rectangle SelectionBounds
+        {
+            get
+            {
+                return new Rectangle(this.Position.X - this.Radius - 5, this.Position.Y - this.Radius - 5, this.Radius * 2 + 10, this.Radius * 2 + 10);
             }
         }
 
