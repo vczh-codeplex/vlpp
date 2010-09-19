@@ -61,6 +61,12 @@
     <Compile Include="Shape\ArrowShape.cs" />
     <Compile Include="Shape\ShapeBase.cs" />
     <Compile Include="Shape\StateShape.cs" />
+    <Compile Include="StringEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StringEditorForm.Designer.cs">
+      <DependentUpon>StringEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TokenizerEditorBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,6 +85,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="StringEditorForm.resx">
+      <DependentUpon>StringEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TokenizerEditorBox.resx">
       <DependentUpon>TokenizerEditorBox.cs</DependentUpon>
     </EmbeddedResource>

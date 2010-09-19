@@ -14,6 +14,7 @@ namespace TokenizerBuilder
     public partial class TokenizerEditorBox : ScrollableContentControl
     {
         private Content content = null;
+        private Control host = null;
 
         public TokenizerEditorBox()
             : base(new Content())
@@ -29,6 +30,11 @@ namespace TokenizerBuilder
         public void SaveToFile(string filename)
         {
             this.content.Manager.SaveToFile(filename);
+        }
+
+        public void Clear()
+        {
+            this.content.Manager = new ShapeManager();
         }
 
         private class Content : IScrollableContent
@@ -58,11 +64,20 @@ namespace TokenizerBuilder
                 }
             }
 
+            public ShapeBase SelectedShape
+            {
+                get
+                {
+                    return this.selectedShape;
+                }
+            }
+
             public void Initialize(Control host, ScrollableContentControl control)
             {
                 this.editor = (TokenizerEditorBox)control;
                 this.editor.content = this;
                 this.host = host;
+                this.editor.host = host;
                 this.temporaryGraphics = Graphics.FromHwnd(host.Handle);
                 this.host.MouseDown += new MouseEventHandler(host_MouseDown);
                 this.host.MouseMove += new MouseEventHandler(host_MouseMove);
@@ -103,6 +118,27 @@ namespace TokenizerBuilder
                                 UpdateViewSize();
                             }
                             break;
+                    }
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    if (this.mouseState == MouseState.Normal)
+                    {
+                        this.selectedShape = this.Manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
+                        this.host.Refresh();
+
+                        if (this.selectedShape is StateShape)
+                        {
+                            this.host.ContextMenuStrip = this.editor.contextMenuState;
+                        }
+                        else if (this.selectedShape is ArrowShape)
+                        {
+                            this.host.ContextMenuStrip = this.editor.contextMenuArrow;
+                        }
+                        else
+                        {
+                            this.host.ContextMenuStrip = null;
+                        }
                     }
                 }
             }
@@ -261,6 +297,56 @@ namespace TokenizerBuilder
             Normal,
             State,
             Arrow
+        }
+
+        private void menuItemStateEditName_Click(object sender, EventArgs e)
+        {
+            using (StringEditorForm form = new StringEditorForm())
+            {
+                form.Value = (this.content.SelectedShape as StateShape).Name;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    (this.content.SelectedShape as StateShape).Name = form.Value;
+                    this.host.Refresh();
+                }
+            }
+        }
+
+        private void menuItemStateSwitchTypeNormal_Click(object sender, EventArgs e)
+        {
+            (this.content.SelectedShape as StateShape).Type = StateType.Normal;
+            this.host.Refresh();
+        }
+
+        private void menuItemStateSwitchTypeStart_Click(object sender, EventArgs e)
+        {
+            (this.content.SelectedShape as StateShape).Type = StateType.Start;
+            this.host.Refresh();
+        }
+
+        private void menuItemStateSwitchTypeFinish_Click(object sender, EventArgs e)
+        {
+            (this.content.SelectedShape as StateShape).Type = StateType.Finish;
+            this.host.Refresh();
+        }
+
+        private void menuItemStateSwitchTypePartial_Click(object sender, EventArgs e)
+        {
+            (this.content.SelectedShape as StateShape).Type = StateType.Partial;
+            this.host.Refresh();
+        }
+
+        private void menuItemArrowEditName_Click(object sender, EventArgs e)
+        {
+            using (StringEditorForm form = new StringEditorForm())
+            {
+                form.Value = (this.content.SelectedShape as ArrowShape).Name;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    (this.content.SelectedShape as ArrowShape).Name = form.Value;
+                    this.host.Refresh();
+                }
+            }
         }
     }
 }

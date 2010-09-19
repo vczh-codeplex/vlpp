@@ -34,6 +34,7 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.dialogOpen = new System.Windows.Forms.OpenFileDialog();
             this.dialogSave = new System.Windows.Forms.SaveFileDialog();
+            this.buttonClear = new System.Windows.Forms.Button();
             this.panelContainer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,11 +92,22 @@
             this.dialogSave.Filter = "*.statemachine..xml|*.statemachine.xml";
             this.dialogSave.Title = "Save Tokenizer State Machine";
             // 
+            // buttonClear
+            // 
+            this.buttonClear.Location = new System.Drawing.Point(174, 12);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(75, 23);
+            this.buttonClear.TabIndex = 3;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
             // BuilderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 506);
+            this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.panelContainer);
@@ -115,6 +127,7 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.OpenFileDialog dialogOpen;
         private System.Windows.Forms.SaveFileDialog dialogSave;
+        private System.Windows.Forms.Button buttonClear;
     }
 }
 

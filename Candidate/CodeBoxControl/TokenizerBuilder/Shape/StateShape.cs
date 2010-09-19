@@ -9,8 +9,9 @@ namespace TokenizerBuilder.Shape
     public enum StateType
     {
         Normal,
-        Begin,
-        Finish
+        Start,
+        Finish,
+        Partial
     }
 
     public class StateShape : ShapeBase
@@ -61,7 +62,7 @@ namespace TokenizerBuilder.Shape
             Rectangle inner = new Rectangle(this.Position.X - this.Radius + offset.Width, this.Position.Y - this.Radius + offset.Height, this.Radius * 2, this.Radius * 2);
             switch (this.Type)
             {
-                case StateType.Begin:
+                case StateType.Start:
                     g.FillEllipse(Brushes.White, outer);
                     g.DrawEllipse(Pens.Gray, outer);
                     g.DrawEllipse(Pens.Gray, inner);
@@ -73,6 +74,9 @@ namespace TokenizerBuilder.Shape
                 case StateType.Normal:
                     g.FillEllipse(Brushes.White, inner);
                     g.DrawEllipse(Pens.Gray, inner);
+                    break;
+                case StateType.Partial:
+                    g.FillEllipse(Brushes.Gray, inner);
                     break;
             }
 
