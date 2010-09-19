@@ -50,7 +50,7 @@ namespace TokenizerBuilder.Shape
             }
             else
             {
-                g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset });
+                g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset }, 0.8f);
             }
 
             Rectangle handle = new Rectangle(this.ControlPoint.X - 5 + offset.Width, this.ControlPoint.Y - 5 + offset.Height, 10, 10);
