@@ -87,7 +87,7 @@ namespace TokenizerBuilder.Shape
                     points[i].Y = this.Radius * py + offset.Height + this.ControlPoint.Y;
                 }
 
-                g.DrawLines(Pens.Gray, points);
+                g.FillPolygon(Brushes.Gray, points);
             }
 
             SizeF size = g.MeasureString(this.Name, font);
