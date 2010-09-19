@@ -17,11 +17,11 @@ namespace TokenizerBuilder.Shape
 
     public class ShapeManager
     {
-        public Dictionary<int, List<ShapeBase>> Shapes { get; private set; }
+        public SortedList<int, List<ShapeBase>> Shapes { get; private set; }
 
         public ShapeManager()
         {
-            this.Shapes = new Dictionary<int, List<ShapeBase>>();
+            this.Shapes = new SortedList<int, List<ShapeBase>>();
         }
 
         public void AddShape(ShapeBase shape)
