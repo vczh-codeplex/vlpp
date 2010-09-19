@@ -41,7 +41,17 @@ namespace TokenizerBuilder.Shape
 
         public override void Draw(Graphics g, Font font, Size offset)
         {
-            g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset });
+            if (this.Start == this.End)
+            {
+                int x = (this.ControlPoint.X + this.Start.Position.X) / 2;
+                int y = (this.ControlPoint.Y + this.Start.Position.Y) / 2;
+                int r = (int)Math.Round(Math.Sqrt(Math.Pow(this.ControlPoint.X - this.Start.Position.X, 2) + Math.Pow(this.ControlPoint.Y - this.Start.Position.Y, 2))) / 2;
+                g.DrawEllipse(Pens.Gray, x - r + offset.Width, y - r + offset.Height, r * 2, r * 2);
+            }
+            else
+            {
+                g.DrawCurve(Pens.Gray, new Point[] { this.Start.Position + offset, this.ControlPoint + offset, this.End.Position + offset });
+            }
 
             Rectangle handle = new Rectangle(this.ControlPoint.X - 5 + offset.Width, this.ControlPoint.Y - 5 + offset.Height, 10, 10);
             g.FillRectangle(Brushes.White, handle);

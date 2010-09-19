@@ -59,16 +59,16 @@ namespace TokenizerBuilder.Shape
             switch (this.Type)
             {
                 case StateType.Begin:
-                    g.FillRectangle(Brushes.White, outer);
+                    g.FillEllipse(Brushes.White, outer);
                     g.DrawEllipse(Pens.Gray, outer);
                     g.DrawEllipse(Pens.Gray, inner);
                     break;
                 case StateType.Finish:
-                    g.FillRectangle(Brushes.Gray, outer);
-                    g.FillRectangle(Brushes.White, inner);
+                    g.FillEllipse(Brushes.Gray, outer);
+                    g.FillEllipse(Brushes.White, inner);
                     break;
                 case StateType.Normal:
-                    g.FillRectangle(Brushes.White, inner);
+                    g.FillEllipse(Brushes.White, inner);
                     g.DrawEllipse(Pens.Gray, inner);
                     break;
             }
