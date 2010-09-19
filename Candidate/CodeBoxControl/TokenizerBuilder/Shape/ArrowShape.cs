@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace TokenizerBuilder.Shape
 {
-    public class ArrowShape : Shape
+    public class ArrowShape : ShapeBase
     {
         public string Name { get; set; }
         public StateShape Start { get; set; }
@@ -23,6 +23,14 @@ namespace TokenizerBuilder.Shape
             get
             {
                 return 1;
+            }
+        }
+
+        public override Rectangle SelectionBounds
+        {
+            get
+            {
+                return new Rectangle(this.ControlPoint.X - 10, this.ControlPoint.Y - 10, 20, 20);
             }
         }
 
