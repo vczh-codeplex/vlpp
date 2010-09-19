@@ -108,7 +108,14 @@ namespace TokenizerBuilder
                                     arrow.Start = start;
                                     arrow.End = end;
                                     arrow.Name = "New Arrow";
-                                    arrow.ControlPoint = e.Location + new Size(this.editor.ViewPosition);
+                                    if (start == end)
+                                    {
+                                        arrow.ControlPoint = new Point(start.Position.X, start.Position.Y - start.Radius - 10);
+                                    }
+                                    else
+                                    {
+                                        arrow.ControlPoint = new Point((start.Position.X + end.Position.X) / 2, (start.Position.Y + end.Position.Y) / 2);
+                                    }
                                     this.manager.AddShape(arrow);
                                     start.OutArrows.Add(arrow);
                                     end.InArrows.Add(arrow);
