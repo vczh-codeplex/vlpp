@@ -31,5 +31,10 @@ namespace TokenizerBuilder
                 tokenizerEditorBox.SaveToFile(dialogSave.FileName);
             }
         }
+
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            tokenizerEditorBox.Clear();
+        }
     }
 }
