@@ -13,18 +13,30 @@ namespace TokenizerBuilder
 {
     public partial class TokenizerEditorBox : ScrollableContentControl
     {
+        private Content content = null;
+
         public TokenizerEditorBox()
             : base(new Content())
         {
             InitializeComponent();
         }
 
+        public void LoadFromFile(string filename)
+        {
+            this.content.Manager = ShapeManager.LoadFromFile(filename);
+        }
+
+        public void SaveToFile(string filename)
+        {
+            this.content.Manager.SaveToFile(filename);
+        }
+
         private class Content : IScrollableContent
         {
             private TokenizerEditorBox editor = null;
             private Control host = null;
-            private ShapeManager manager = new ShapeManager();
             private Graphics temporaryGraphics = null;
+            private ShapeManager manager = new ShapeManager();
 
             private MouseState mouseState = MouseState.Normal;
             private KeyState keyState = KeyState.Normal;
@@ -32,9 +44,24 @@ namespace TokenizerBuilder
             private ShapeBase selectedShape = null;
             private Point lastMouse = new Point(0, 0);
 
+            public ShapeManager Manager
+            {
+                get
+                {
+                    return this.manager;
+                }
+                set
+                {
+                    this.manager = value;
+                    this.selectedShape = null;
+                    UpdateViewSize();
+                }
+            }
+
             public void Initialize(Control host, ScrollableContentControl control)
             {
                 this.editor = (TokenizerEditorBox)control;
+                this.editor.content = this;
                 this.host = host;
                 this.temporaryGraphics = Graphics.FromHwnd(host.Handle);
                 this.host.MouseDown += new MouseEventHandler(host_MouseDown);
@@ -52,7 +79,7 @@ namespace TokenizerBuilder
                     {
                         case KeyState.Normal:
                             {
-                                this.selectedShape = this.manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
+                                this.selectedShape = this.Manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
                                 this.lastMouse = e.Location;
                                 this.mouseState = MouseState.Dragging;
                                 this.host.Refresh();
@@ -60,7 +87,7 @@ namespace TokenizerBuilder
                             break;
                         case KeyState.Arrow:
                             {
-                                this.selectedShape = this.manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
+                                this.selectedShape = this.Manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition));
                                 this.lastMouse = e.Location;
                                 this.mouseState = MouseState.Connecting;
                                 this.host.Refresh();
@@ -71,7 +98,7 @@ namespace TokenizerBuilder
                                 StateShape state = new StateShape();
                                 state.Name = "New State";
                                 state.Position = e.Location + new Size(this.editor.ViewPosition);
-                                this.manager.AddShape(state);
+                                this.Manager.AddShape(state);
                                 this.mouseState = MouseState.Normal;
                                 UpdateViewSize();
                             }
@@ -104,7 +131,7 @@ namespace TokenizerBuilder
                         case MouseState.Connecting:
                             {
                                 StateShape start = this.selectedShape as StateShape;
-                                StateShape end = this.manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition)) as StateShape;
+                                StateShape end = this.Manager.Pick(this.temporaryGraphics, e.Location + new Size(this.editor.ViewPosition)) as StateShape;
                                 if (start != null && end != null)
                                 {
                                     ArrowShape arrow = new ArrowShape();
@@ -119,7 +146,7 @@ namespace TokenizerBuilder
                                     {
                                         arrow.ControlPoint = new Point((start.Position.X + end.Position.X) / 2, (start.Position.Y + end.Position.Y) / 2);
                                     }
-                                    this.manager.AddShape(arrow);
+                                    this.Manager.AddShape(arrow);
                                     start.OutArrows.Add(arrow);
                                     end.InArrows.Add(arrow);
                                     UpdateViewSize();
@@ -151,21 +178,21 @@ namespace TokenizerBuilder
                             foreach (ArrowShape arrow in state.InArrows)
                             {
                                 arrow.Start.OutArrows.Remove(arrow);
-                                this.manager.RemoveShape(arrow);
+                                this.Manager.RemoveShape(arrow);
                             }
                             foreach (ArrowShape arrow in state.OutArrows)
                             {
                                 arrow.End.InArrows.Remove(arrow);
-                                this.manager.RemoveShape(arrow);
+                                this.Manager.RemoveShape(arrow);
                             }
-                            this.manager.RemoveShape(state);
+                            this.Manager.RemoveShape(state);
                         }
                         else if (this.selectedShape is ArrowShape)
                         {
                             ArrowShape arrow = (ArrowShape)this.selectedShape;
                             arrow.Start.OutArrows.Remove(arrow);
                             arrow.End.InArrows.Remove(arrow);
-                            this.manager.RemoveShape(arrow);
+                            this.Manager.RemoveShape(arrow);
                         }
                         this.selectedShape = null;
                         UpdateViewSize();
@@ -198,7 +225,7 @@ namespace TokenizerBuilder
             public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds)
             {
                 g.FillRectangle(Brushes.White, viewAreaBounds);
-                this.manager.Draw(g, this.editor.Font, new Size(-viewVisibleBounds.X, -viewVisibleBounds.Y));
+                this.Manager.Draw(g, this.editor.Font, new Size(-viewVisibleBounds.X, -viewVisibleBounds.Y));
                 if (this.selectedShape != null)
                 {
                     Rectangle bounds = this.selectedShape.SelectionBounds;
@@ -213,13 +240,12 @@ namespace TokenizerBuilder
 
             private void UpdateViewSize()
             {
-                Rectangle bounds = this.manager.Shapes.Values.SelectMany(v => v).Select(s => s.SelectionBounds).Aggregate(new Rectangle(0, 0, 0, 0), Rectangle.Union);
+                Rectangle bounds = this.Manager.Shapes.Values.SelectMany(v => v).Select(s => s.SelectionBounds).Aggregate(new Rectangle(0, 0, 0, 0), Rectangle.Union);
                 bounds.X = Math.Min(bounds.X, 0);
                 bounds.Y = Math.Min(bounds.Y, 0);
                 Size offset = new Size(-bounds.X, -bounds.Y);
-                this.manager.Move(offset);
+                this.Manager.Move(offset);
                 this.editor.ViewSize = bounds.Size;
-                this.host.Refresh();
             }
         }
 

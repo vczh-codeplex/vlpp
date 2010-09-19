@@ -15,5 +15,21 @@ namespace TokenizerBuilder
         {
             InitializeComponent();
         }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            if (dialogOpen.ShowDialog() == DialogResult.OK)
+            {
+                tokenizerEditorBox.LoadFromFile(dialogOpen.FileName);
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (dialogSave.ShowDialog() == DialogResult.OK)
+            {
+                tokenizerEditorBox.SaveToFile(dialogSave.FileName);
+            }
+        }
     }
 }

@@ -8,6 +8,8 @@ namespace TokenizerBuilder.Shape
 {
     public class ArrowShape : ShapeBase
     {
+        public const int ArrowShapeProprity = 1;
+
         public string Name { get; set; }
         public StateShape Start { get; set; }
         public StateShape End { get; set; }

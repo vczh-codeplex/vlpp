@@ -30,6 +30,10 @@
         {
             this.panelContainer = new System.Windows.Forms.Panel();
             this.tokenizerEditorBox = new TokenizerBuilder.TokenizerEditorBox();
+            this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.dialogOpen = new System.Windows.Forms.OpenFileDialog();
+            this.dialogSave = new System.Windows.Forms.SaveFileDialog();
             this.panelContainer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,9 +44,9 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelContainer.Controls.Add(this.tokenizerEditorBox);
-            this.panelContainer.Location = new System.Drawing.Point(12, 12);
+            this.panelContainer.Location = new System.Drawing.Point(12, 41);
             this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(616, 524);
+            this.panelContainer.Size = new System.Drawing.Size(616, 453);
             this.panelContainer.TabIndex = 0;
             // 
             // tokenizerEditorBox
@@ -51,15 +55,49 @@
             this.tokenizerEditorBox.HorizontalSmallChange = 1;
             this.tokenizerEditorBox.Location = new System.Drawing.Point(0, 0);
             this.tokenizerEditorBox.Name = "tokenizerEditorBox";
-            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 522);
+            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 451);
             this.tokenizerEditorBox.TabIndex = 0;
             this.tokenizerEditorBox.VerticalSmallChange = 1;
             // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Location = new System.Drawing.Point(12, 12);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(75, 23);
+            this.buttonOpen.TabIndex = 1;
+            this.buttonOpen.Text = "Open";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(93, 12);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 2;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // dialogOpen
+            // 
+            this.dialogOpen.DefaultExt = "statemachine.xml";
+            this.dialogOpen.Filter = "*.statemachine..xml|*.statemachine.xml";
+            this.dialogOpen.Title = "Open Tokenizer State Machine";
+            // 
+            // dialogSave
+            // 
+            this.dialogSave.DefaultExt = "statemachine.xml";
+            this.dialogSave.Filter = "*.statemachine..xml|*.statemachine.xml";
+            this.dialogSave.Title = "Save Tokenizer State Machine";
+            // 
             // BuilderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 548);
+            this.ClientSize = new System.Drawing.Size(640, 506);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.panelContainer);
             this.Name = "BuilderForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -73,6 +111,10 @@
 
         private System.Windows.Forms.Panel panelContainer;
         private TokenizerEditorBox tokenizerEditorBox;
+        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.OpenFileDialog dialogOpen;
+        private System.Windows.Forms.SaveFileDialog dialogSave;
     }
 }
 
