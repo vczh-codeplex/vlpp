@@ -19,6 +19,8 @@ namespace TokenizerBuilder.Shape
         public const int StateShapeProprity = 0;
 
         public string Name { get; set; }
+        public string Color { get; set; }
+        public string Token { get; set; }
         public Point Position { get; set; }
         public int Radius { get; set; }
         public StateType Type { get; set; }
@@ -29,6 +31,8 @@ namespace TokenizerBuilder.Shape
         public StateShape()
         {
             this.Name = "";
+            this.Color = "";
+            this.Token = "";
             this.Radius = 32;
             this.Type = StateType.Normal;
             this.OutArrows = new List<ArrowShape>();
@@ -81,7 +85,20 @@ namespace TokenizerBuilder.Shape
             }
 
             SizeF size = g.MeasureString(this.Name, font);
-            g.DrawString(this.Name, font, Brushes.Black, this.Position.X - size.Width / 2 + offset.Width, this.Position.Y - size.Height / 2 + offset.Height);
+            if (this.Type == StateType.Finish)
+            {
+                SizeF sizeColor = g.MeasureString("Color: " + this.Color, font);
+                SizeF sizeToken = g.MeasureString("Token: " + this.Token, font);
+                int maxWidth = (int)Math.Round(Math.Max(Math.Max(size.Width, sizeColor.Width), sizeToken.Width));
+
+                g.DrawString(this.Name, font, Brushes.Black, this.Position.X - maxWidth / 2 + offset.Width, this.Position.Y - size.Height * 3 / 2 + offset.Height);
+                g.DrawString("Color: " + this.Color, font, Brushes.Black, this.Position.X - maxWidth / 2 + offset.Width, this.Position.Y - size.Height / 2 + offset.Height);
+                g.DrawString("Token: " + this.Token, font, Brushes.Black, this.Position.X - maxWidth / 2 + offset.Width, this.Position.Y + size.Height / 2 + offset.Height);
+            }
+            else
+            {
+                g.DrawString(this.Name, font, Brushes.Black, this.Position.X - size.Width / 2 + offset.Width, this.Position.Y - size.Height / 2 + offset.Height);
+            }
         }
 
         public override void Move(Size size)
