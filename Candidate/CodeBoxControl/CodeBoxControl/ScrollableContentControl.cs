@@ -161,10 +161,34 @@ namespace CodeBoxControl
 
         private void UpdateScrollBar()
         {
+            bool enabledV = scrollVertical.Enabled;
+            bool enabledH = scrollHorizontal.Enabled;
+
             this.updating = true;
             this.viewPosition.X = SetScrollBar(scrollHorizontal, this.viewPosition.X, this.viewSize.Width, panelContent.Width);
             this.viewPosition.Y = SetScrollBar(scrollVertical, this.viewPosition.Y, this.viewSize.Height, panelContent.Height);
+            if (enabledV)
+            {
+                tableLayoutContent.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+            }
+            else
+            {
+                tableLayoutContent.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, 0);
+            }
+            if (enabledH)
+            {
+                tableLayoutContent.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+            }
+            else
+            {
+                tableLayoutContent.RowStyles[1] = new RowStyle(SizeType.Absolute, 0);
+            }
             this.updating = false;
+
+            if (enabledV != scrollVertical.Enabled || enabledH != scrollHorizontal.Enabled)
+            {
+                UpdateScrollBar();
+            }
         }
 
         private void scrollVertical_Scroll(object sender, ScrollEventArgs e)
@@ -196,7 +220,10 @@ namespace CodeBoxControl
 
         private void panelContent_Resize(object sender, EventArgs e)
         {
-            UpdateScrollBar();
+            if (!this.updating)
+            {
+                UpdateScrollBar();
+            }
         }
 
         private class ImePanel : UserControl
