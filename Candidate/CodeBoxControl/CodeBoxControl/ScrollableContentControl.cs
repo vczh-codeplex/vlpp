@@ -16,6 +16,8 @@ namespace CodeBoxControl
         private Point viewPosition;
         private Point caretPosition;
         private bool updating = false;
+        private int scrollHorizontalHeight = 0;
+        private int scrollVerticalWidth = 0;
         private IScrollableContent content = null;
 
         public Size ViewSize
@@ -120,6 +122,8 @@ namespace CodeBoxControl
         {
             this.updating = true;
             InitializeComponent();
+            this.scrollHorizontalHeight = scrollHorizontal.Height;
+            this.scrollVerticalWidth = scrollVertical.Width;
             this.updating = false;
             panelContent.ParentControl = this;
         }
@@ -167,17 +171,19 @@ namespace CodeBoxControl
             this.updating = true;
             this.viewPosition.X = SetScrollBar(scrollHorizontal, this.viewPosition.X, this.viewSize.Width, panelContent.Width);
             this.viewPosition.Y = SetScrollBar(scrollVertical, this.viewPosition.Y, this.viewSize.Height, panelContent.Height);
-            if (enabledV)
+            if (scrollVertical.Enabled)
             {
                 tableLayoutContent.ColumnStyles[1] = new ColumnStyle(SizeType.AutoSize);
+                scrollVertical.Width = this.scrollVerticalWidth;
             }
             else
             {
                 tableLayoutContent.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, 0);
             }
-            if (enabledH)
+            if (scrollHorizontal.Enabled)
             {
                 tableLayoutContent.RowStyles[1] = new RowStyle(SizeType.AutoSize);
+                scrollHorizontal.Height = this.scrollHorizontalHeight;
             }
             else
             {
