@@ -603,11 +603,13 @@ namespace CodeBoxControl
         void ITextContentProvider.OnSelectionAreaChanged()
         {
             TextPosition caret = this.controller.SelectionCaret;
-            Point caretPosition = Point.Add(CalculateOffset(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
-            if (!new Rectangle(this.ViewPosition, this.ViewVisibleSize).Contains(caretPosition))
+            Point caretPositionTop = Point.Add(CalculateOffset(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
+            Point caretPositionBottom = new Point(caretPositionTop.X, caretPositionTop.Y + this.lineHeight);
+            Rectangle visibleBounds = new Rectangle(this.ViewPosition, this.ViewVisibleSize);
+            if (!visibleBounds.Contains(caretPositionTop) || !visibleBounds.Contains(caretPositionBottom))
             {
                 Point oldViewPosition = this.ViewPosition;
-                Point newViewPosition = new Point(caretPosition.X - this.ViewVisibleSize.Width / 2, caretPosition.Y - this.ViewVisibleSize.Height / 2);
+                Point newViewPosition = new Point(caretPositionTop.X - this.ViewVisibleSize.Width / 2, caretPositionTop.Y - this.ViewVisibleSize.Height / 2 + this.lineHeight / 2);
                 if (newViewPosition.X < oldViewPosition.X && !this.cachedWholeWidthAvailable)
                 {
                     ForceUpdateViewSize();
@@ -656,11 +658,11 @@ namespace CodeBoxControl
 
         void ITextContentProvider.OnFinishEdit()
         {
-            this.caretVisible = true;
             if (this.ViewSize.Height != this.textProvider.Count * this.lineHeight)
             {
                 UpdateLineHeight();
             }
+            (this as ITextContentProvider).OnSelectionAreaChanged();
         }
 
         void ITextContentProvider.OnRefreshSuggestion()
