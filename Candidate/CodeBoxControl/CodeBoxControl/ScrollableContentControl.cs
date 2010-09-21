@@ -191,7 +191,7 @@ namespace CodeBoxControl
             }
         }
 
-        private void scrollVertical_Scroll(object sender, ScrollEventArgs e)
+        private void scrollVertical_ValueChanged(object sender, EventArgs e)
         {
             if (!this.updating)
             {
@@ -200,7 +200,7 @@ namespace CodeBoxControl
             }
         }
 
-        private void scrollHorizontal_Scroll(object sender, ScrollEventArgs e)
+        private void scrollHorizontal_ValueChanged(object sender, EventArgs e)
         {
             if (!this.updating)
             {

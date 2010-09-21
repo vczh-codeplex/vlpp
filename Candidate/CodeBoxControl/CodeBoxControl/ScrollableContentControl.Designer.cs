@@ -42,7 +42,7 @@
             this.scrollHorizontal.Name = "scrollHorizontal";
             this.scrollHorizontal.Size = new System.Drawing.Size(349, 20);
             this.scrollHorizontal.TabIndex = 0;
-            this.scrollHorizontal.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollHorizontal_Scroll);
+            this.scrollHorizontal.ValueChanged += new System.EventHandler(this.scrollHorizontal_ValueChanged);
             // 
             // scrollVertical
             // 
@@ -51,7 +51,7 @@
             this.scrollVertical.Name = "scrollVertical";
             this.scrollVertical.Size = new System.Drawing.Size(20, 345);
             this.scrollVertical.TabIndex = 1;
-            this.scrollVertical.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollVertical_Scroll);
+            this.scrollVertical.ValueChanged += new System.EventHandler(this.scrollVertical_ValueChanged);
             // 
             // panelContent
             // 
