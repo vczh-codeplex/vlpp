@@ -38,7 +38,6 @@
             this.menuItemStateSwitchTypePartial = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuArrow = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItemArrowEditName = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemStateEditToken = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemStateEditColor = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuState.SuspendLayout();
             this.contextMenuArrow.SuspendLayout();
@@ -49,7 +48,6 @@
             this.contextMenuState.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemStateEditName,
             this.menuItemStateEditColor,
-            this.menuItemStateEditToken,
             this.menuItemStateSwitchType});
             this.contextMenuState.Name = "contextMenuState";
             this.contextMenuState.Size = new System.Drawing.Size(153, 114);
@@ -114,13 +112,6 @@
             this.menuItemArrowEditName.Text = "Edit Name...";
             this.menuItemArrowEditName.Click += new System.EventHandler(this.menuItemArrowEditName_Click);
             // 
-            // menuItemStateEditToken
-            // 
-            this.menuItemStateEditToken.Name = "menuItemStateEditToken";
-            this.menuItemStateEditToken.Size = new System.Drawing.Size(152, 22);
-            this.menuItemStateEditToken.Text = "Edit Token...";
-            this.menuItemStateEditToken.Click += new System.EventHandler(this.menuItemStateEditToken_Click);
-            // 
             // menuItemStateEditColor
             // 
             this.menuItemStateEditColor.Name = "menuItemStateEditColor";
@@ -149,7 +140,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuItemStateSwitchTypePartial;
         private System.Windows.Forms.ContextMenuStrip contextMenuArrow;
         private System.Windows.Forms.ToolStripMenuItem menuItemArrowEditName;
-        private System.Windows.Forms.ToolStripMenuItem menuItemStateEditToken;
         private System.Windows.Forms.ToolStripMenuItem menuItemStateEditColor;
     }
 }

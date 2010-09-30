@@ -132,7 +132,6 @@ namespace TokenizerBuilder
                             StateShape state = this.selectedShape as StateShape;
                             this.host.ContextMenuStrip = this.editor.contextMenuState;
                             this.editor.menuItemStateEditColor.Enabled = state.Type == StateType.Finish;
-                            this.editor.menuItemStateEditToken.Enabled = state.Type == StateType.Finish;
                         }
                         else if (this.selectedShape is ArrowShape)
                         {
@@ -323,19 +322,6 @@ namespace TokenizerBuilder
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     (this.content.SelectedShape as StateShape).Color = form.Value;
-                    this.host.Refresh();
-                }
-            }
-        }
-
-        private void menuItemStateEditToken_Click(object sender, EventArgs e)
-        {
-            using (StringEditorForm form = new StringEditorForm())
-            {
-                form.Value = (this.content.SelectedShape as StateShape).Token;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    (this.content.SelectedShape as StateShape).Token = form.Value;
                     this.host.Refresh();
                 }
             }
