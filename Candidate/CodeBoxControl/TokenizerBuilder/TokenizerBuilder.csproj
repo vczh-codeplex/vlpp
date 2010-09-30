@@ -56,6 +56,7 @@
     <Compile Include="BuilderForm.Designer.cs">
       <DependentUpon>BuilderForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ColorizerCodeGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape\ArrowShape.cs" />
