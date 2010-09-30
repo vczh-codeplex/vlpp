@@ -42,6 +42,8 @@ namespace TokenizerBuilder
                     .Select(s => s.Name)
                     .ToArray();
 
+                charset = MergeCharset(arrows.Select(a => GetCharsetFromArrow(a.Name)).ToArray());
+
                 finalStates = states
                     .Select(s => s.Type == StateType.Finish)
                     .ToArray();
@@ -50,7 +52,21 @@ namespace TokenizerBuilder
                     .Select(s => Array.FindIndex(colorIds, x => x == s.Color) + 1)
                     .ToArray();
             }
+            return GenerateCSharpCodeInternal(className, colorIds, stateIds, charset, transitions, finalStates, stateColors);
+        }
 
+        private static bool[] GetCharsetFromArrow(string arrowName)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static int[] MergeCharset(bool[][] arrows)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
+        {
             StringBuilder builder = new StringBuilder();
             // header
             builder.AppendLine("using System;");
