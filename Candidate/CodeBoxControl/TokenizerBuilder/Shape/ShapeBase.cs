@@ -94,7 +94,6 @@ namespace TokenizerBuilder.Shape
                             return new XElement("StateShape",
                                 new XAttribute("Name", state.Name),
                                 new XAttribute("Color", state.Color),
-                                new XAttribute("Token", state.Token),
                                 new XAttribute("X", state.Position.X),
                                 new XAttribute("Y", state.Position.Y),
                                 new XAttribute("R", state.Radius),
@@ -129,7 +128,6 @@ namespace TokenizerBuilder.Shape
                     StateShape state = new StateShape();
                     state.Name = shapeElement.Attribute("Name").Value;
                     state.Color = shapeElement.Attribute("Color").Value;
-                    state.Token = shapeElement.Attribute("Token").Value;
                     state.Position = new Point(int.Parse(shapeElement.Attribute("X").Value), int.Parse(shapeElement.Attribute("Y").Value));
                     state.Radius = int.Parse(shapeElement.Attribute("R").Value);
                     state.Type = (StateType)Enum.Parse(typeof(StateType), shapeElement.Attribute("Type").Value);
