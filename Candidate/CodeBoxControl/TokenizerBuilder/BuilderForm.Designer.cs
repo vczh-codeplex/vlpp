@@ -46,9 +46,9 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelContainer.Controls.Add(this.tokenizerEditorBox);
-            this.panelContainer.Location = new System.Drawing.Point(12, 44);
+            this.panelContainer.Location = new System.Drawing.Point(12, 41);
             this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(616, 491);
+            this.panelContainer.Size = new System.Drawing.Size(616, 453);
             this.panelContainer.TabIndex = 0;
             // 
             // tokenizerEditorBox
@@ -57,15 +57,15 @@
             this.tokenizerEditorBox.HorizontalSmallChange = 1;
             this.tokenizerEditorBox.Location = new System.Drawing.Point(0, 0);
             this.tokenizerEditorBox.Name = "tokenizerEditorBox";
-            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 489);
+            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 451);
             this.tokenizerEditorBox.TabIndex = 0;
             this.tokenizerEditorBox.VerticalSmallChange = 1;
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(12, 13);
+            this.buttonOpen.Location = new System.Drawing.Point(12, 12);
             this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(75, 25);
+            this.buttonOpen.Size = new System.Drawing.Size(75, 23);
             this.buttonOpen.TabIndex = 1;
             this.buttonOpen.Text = "Open";
             this.buttonOpen.UseVisualStyleBackColor = true;
@@ -73,9 +73,9 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(93, 13);
+            this.buttonSave.Location = new System.Drawing.Point(93, 12);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 25);
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -95,9 +95,9 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(174, 13);
+            this.buttonClear.Location = new System.Drawing.Point(174, 12);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(75, 25);
+            this.buttonClear.Size = new System.Drawing.Size(75, 23);
             this.buttonClear.TabIndex = 3;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
@@ -105,9 +105,9 @@
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(255, 14);
+            this.buttonGenerate.Location = new System.Drawing.Point(255, 13);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(130, 23);
+            this.buttonGenerate.Size = new System.Drawing.Size(192, 21);
             this.buttonGenerate.TabIndex = 4;
             this.buttonGenerate.Text = "Generate to Clipboard";
             this.buttonGenerate.UseVisualStyleBackColor = true;
@@ -115,9 +115,9 @@
             // 
             // BuilderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 548);
+            this.ClientSize = new System.Drawing.Size(640, 506);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.buttonSave);
