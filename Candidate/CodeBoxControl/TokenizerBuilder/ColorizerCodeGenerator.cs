@@ -43,17 +43,24 @@ namespace TokenizerBuilder
                     .ToArray();
 
                 stateIds = states
+                    .Skip(1)
                     .Select(s => s.Name)
                     .ToArray();
 
                 charset = MergeCharset(arrows.Select(a => GetCharsetFromArrow(a.Name)).ToArray());
 
-                finalStates = states
-                    .Select(s => s.Type == StateType.Finish)
+                finalStates = new bool[] { false, true }.Concat(
+                        states
+                        .Skip(1)
+                        .Select(s => s.Type == StateType.Finish)
+                    )
                     .ToArray();
 
-                stateColors = states
-                    .Select(s => Array.FindIndex(colorIds, x => x == FindStateColor(s)) + 1)
+                stateColors = new int[] { 0, 0 }.Concat(
+                        states
+                        .Skip(1)
+                        .Select(s => Array.FindIndex(colorIds, x => x == FindStateColor(s)) + 1)
+                    )
                     .ToArray();
 
                 int fakeCharset = charset.Max() + 1;
@@ -64,26 +71,47 @@ namespace TokenizerBuilder
                         charset[i] = fakeCharset;
                     }
                 }
-                transitions = new int[states.Count, fakeCharset + 1];
+                transitions = new int[states.Count + 1, fakeCharset + 1];
                 for (int i = 0; i < states.Count; i++)
                 {
-                    StateShape state = states[i];
-                    for (int j = 0; j <= fakeCharset; j++)
+                    if (i == 1)
                     {
-                        transitions[i, j] = 0;
-                    }
-                    for (int j = 0; j < state.OutArrows.Count; j++)
-                    {
-                        ArrowShape arrow = state.OutArrows[j];
-                        int[] charsets = GetCharsetFromArrow(arrow.Name)
-                            .Select((b, c) => Tuple.Create(b, c))
-                            .Where(t => t.Item1)
-                            .Select(t => charset[t.Item2])
-                            .Distinct()
-                            .ToArray();
-                        foreach (int k in charsets)
+                        for (int j = 0; j <= fakeCharset; j++)
                         {
-                            transitions[i, k] = states.IndexOf(arrow.End);
+                            transitions[i, j] = 0;
+                        }
+                    }
+                    else
+                    {
+                        StateShape state = states[i == 0 ? 0 : i - 1];
+                        if (stateColors[i] == 0)
+                        {
+                            for (int j = 0; j <= fakeCharset; j++)
+                            {
+                                transitions[i, j] = 1;
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j <= fakeCharset; j++)
+                            {
+                                transitions[i, j] = 0;
+                            }
+                        }
+                        for (int j = 0; j < state.OutArrows.Count; j++)
+                        {
+                            ArrowShape arrow = state.OutArrows[j];
+                            int[] charsets = GetCharsetFromArrow(arrow.Name)
+                                .Select((b, c) => Tuple.Create(b, c))
+                                .Where(t => t.Item1)
+                                .Select(t => charset[t.Item2])
+                                .Distinct()
+                                .ToArray();
+                            foreach (int k in charsets)
+                            {
+                                int end = states.IndexOf(arrow.End);
+                                transitions[i, k] = end == 0 ? 0 : end + 1;
+                            }
                         }
                     }
                 }
@@ -256,9 +284,10 @@ namespace TokenizerBuilder
 
             // state ids
             builder.AppendLine("        private const int StartState = 0;");
-            for (int i = 1; i < stateIds.Length; i++)
+            builder.AppendLine("        private const int NormalState = 1;");
+            for (int i = 0; i < stateIds.Length; i++)
             {
-                builder.AppendLine("        private const int " + stateIds[i] + "StateId = " + i.ToString() + ";");
+                builder.AppendLine("        private const int " + stateIds[i] + "StateId = " + (i + 2).ToString() + ";");
             }
             builder.AppendLine();
 
