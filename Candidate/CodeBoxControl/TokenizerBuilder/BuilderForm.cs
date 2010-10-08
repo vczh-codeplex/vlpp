@@ -36,5 +36,17 @@ namespace TokenizerBuilder
         {
             tokenizerEditorBox.Clear();
         }
+
+        private void buttonGenerate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, "Colorizer"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text);
+            }
+        }
     }
 }

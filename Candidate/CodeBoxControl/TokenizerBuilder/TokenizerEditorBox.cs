@@ -37,6 +37,14 @@ namespace TokenizerBuilder
             this.content.Manager = new ShapeManager();
         }
 
+        public ShapeManager Document
+        {
+            get
+            {
+                return this.content.Manager;
+            }
+        }
+
         private class Content : IScrollableContent
         {
             private TokenizerEditorBox editor = null;
