@@ -36,7 +36,7 @@ namespace CodeForm
 
         private TextEditorColorItem[] colorItems = new TextEditorColorItem[NormalColorId + 4];
         private int[] charset = new int[65536];
-        private int[,] transitions = new int[13, 10];
+        private int[,] transitions = new int[13, 11];
         private bool[] finalStates = new bool[13];
         private int[] stateColors = new int[13];
 
@@ -104,6 +104,13 @@ namespace CodeForm
                 if (i == length || lastFinalState != state && lastFinalState != StartState)
                 {
                     int color = stateColors[lastFinalState];
+                    switch (lastFinalState)
+                    {
+                        case IdStateId:
+                            // You should write your own IsValidId implementation.
+                            color = IsValidId(new string(items, itemStart, Math.Min(i, length) - itemStart)) ? stateColors[lastFinalState] : NormalColorId;
+                            break;
+                    }
                     for (int j = itemStart; j < i; j++)
                     {
                         colors[j] = color;
@@ -126,36 +133,38 @@ namespace CodeForm
                 charset[i] = 0;
             for (int i = 34; i < 35; i++)
                 charset[i] = 2;
-            for (int i = 35; i < 39; i++)
+            for (int i = 35; i < 36; i++)
+                charset[i] = 3;
+            for (int i = 36; i < 39; i++)
                 charset[i] = 0;
             for (int i = 39; i < 40; i++)
-                charset[i] = 3;
+                charset[i] = 4;
             for (int i = 40; i < 42; i++)
                 charset[i] = 0;
             for (int i = 42; i < 43; i++)
-                charset[i] = 4;
+                charset[i] = 5;
             for (int i = 43; i < 47; i++)
                 charset[i] = 0;
             for (int i = 47; i < 48; i++)
-                charset[i] = 5;
-            for (int i = 48; i < 58; i++)
                 charset[i] = 6;
+            for (int i = 48; i < 58; i++)
+                charset[i] = 7;
             for (int i = 58; i < 65; i++)
                 charset[i] = 0;
             for (int i = 65; i < 91; i++)
-                charset[i] = 7;
+                charset[i] = 8;
             for (int i = 91; i < 92; i++)
                 charset[i] = 0;
             for (int i = 92; i < 93; i++)
-                charset[i] = 8;
+                charset[i] = 9;
             for (int i = 93; i < 95; i++)
                 charset[i] = 0;
             for (int i = 95; i < 96; i++)
-                charset[i] = 7;
+                charset[i] = 8;
             for (int i = 96; i < 97; i++)
                 charset[i] = 0;
             for (int i = 97; i < 123; i++)
-                charset[i] = 7;
+                charset[i] = 8;
             for (int i = 123; i < 65536; i++)
                 charset[i] = 0;
 
@@ -190,13 +199,14 @@ namespace CodeForm
             transitions[0, 0] = 1;
             transitions[0, 1] = 1;
             transitions[0, 2] = 3;
-            transitions[0, 3] = 5;
-            transitions[0, 4] = 1;
-            transitions[0, 5] = 8;
-            transitions[0, 6] = 1;
-            transitions[0, 7] = 2;
-            transitions[0, 8] = 1;
+            transitions[0, 3] = 2;
+            transitions[0, 4] = 5;
+            transitions[0, 5] = 1;
+            transitions[0, 6] = 8;
+            transitions[0, 7] = 1;
+            transitions[0, 8] = 2;
             transitions[0, 9] = 1;
+            transitions[0, 10] = 1;
             transitions[1, 0] = 0;
             transitions[1, 1] = 0;
             transitions[1, 2] = 0;
@@ -207,16 +217,18 @@ namespace CodeForm
             transitions[1, 7] = 0;
             transitions[1, 8] = 0;
             transitions[1, 9] = 0;
+            transitions[1, 10] = 0;
             transitions[2, 0] = 0;
             transitions[2, 1] = 0;
             transitions[2, 2] = 0;
             transitions[2, 3] = 0;
             transitions[2, 4] = 0;
             transitions[2, 5] = 0;
-            transitions[2, 6] = 2;
+            transitions[2, 6] = 0;
             transitions[2, 7] = 2;
-            transitions[2, 8] = 0;
+            transitions[2, 8] = 2;
             transitions[2, 9] = 0;
+            transitions[2, 10] = 0;
             transitions[3, 0] = 3;
             transitions[3, 1] = 0;
             transitions[3, 2] = 7;
@@ -225,8 +237,9 @@ namespace CodeForm
             transitions[3, 5] = 3;
             transitions[3, 6] = 3;
             transitions[3, 7] = 3;
-            transitions[3, 8] = 4;
-            transitions[3, 9] = 0;
+            transitions[3, 8] = 3;
+            transitions[3, 9] = 4;
+            transitions[3, 10] = 0;
             transitions[4, 0] = 3;
             transitions[4, 1] = 0;
             transitions[4, 2] = 3;
@@ -236,17 +249,19 @@ namespace CodeForm
             transitions[4, 6] = 3;
             transitions[4, 7] = 3;
             transitions[4, 8] = 3;
-            transitions[4, 9] = 0;
+            transitions[4, 9] = 3;
+            transitions[4, 10] = 0;
             transitions[5, 0] = 5;
             transitions[5, 1] = 0;
             transitions[5, 2] = 5;
-            transitions[5, 3] = 7;
-            transitions[5, 4] = 5;
+            transitions[5, 3] = 5;
+            transitions[5, 4] = 7;
             transitions[5, 5] = 5;
             transitions[5, 6] = 5;
             transitions[5, 7] = 5;
-            transitions[5, 8] = 6;
-            transitions[5, 9] = 0;
+            transitions[5, 8] = 5;
+            transitions[5, 9] = 6;
+            transitions[5, 10] = 0;
             transitions[6, 0] = 5;
             transitions[6, 1] = 0;
             transitions[6, 2] = 5;
@@ -256,7 +271,8 @@ namespace CodeForm
             transitions[6, 6] = 5;
             transitions[6, 7] = 5;
             transitions[6, 8] = 5;
-            transitions[6, 9] = 0;
+            transitions[6, 9] = 5;
+            transitions[6, 10] = 0;
             transitions[7, 0] = 0;
             transitions[7, 1] = 0;
             transitions[7, 2] = 0;
@@ -267,16 +283,18 @@ namespace CodeForm
             transitions[7, 7] = 0;
             transitions[7, 8] = 0;
             transitions[7, 9] = 0;
+            transitions[7, 10] = 0;
             transitions[8, 0] = 1;
             transitions[8, 1] = 1;
             transitions[8, 2] = 1;
             transitions[8, 3] = 1;
-            transitions[8, 4] = 10;
-            transitions[8, 5] = 9;
-            transitions[8, 6] = 1;
+            transitions[8, 4] = 1;
+            transitions[8, 5] = 10;
+            transitions[8, 6] = 9;
             transitions[8, 7] = 1;
             transitions[8, 8] = 1;
             transitions[8, 9] = 1;
+            transitions[8, 10] = 1;
             transitions[9, 0] = 9;
             transitions[9, 1] = 0;
             transitions[9, 2] = 9;
@@ -286,27 +304,30 @@ namespace CodeForm
             transitions[9, 6] = 9;
             transitions[9, 7] = 9;
             transitions[9, 8] = 9;
-            transitions[9, 9] = 0;
+            transitions[9, 9] = 9;
+            transitions[9, 10] = 0;
             transitions[10, 0] = 10;
             transitions[10, 1] = 10;
             transitions[10, 2] = 10;
             transitions[10, 3] = 10;
-            transitions[10, 4] = 11;
-            transitions[10, 5] = 0;
-            transitions[10, 6] = 10;
+            transitions[10, 4] = 10;
+            transitions[10, 5] = 11;
+            transitions[10, 6] = 0;
             transitions[10, 7] = 10;
             transitions[10, 8] = 10;
-            transitions[10, 9] = 0;
+            transitions[10, 9] = 10;
+            transitions[10, 10] = 0;
             transitions[11, 0] = 10;
             transitions[11, 1] = 10;
             transitions[11, 2] = 10;
             transitions[11, 3] = 10;
             transitions[11, 4] = 10;
-            transitions[11, 5] = 12;
-            transitions[11, 6] = 10;
+            transitions[11, 5] = 10;
+            transitions[11, 6] = 12;
             transitions[11, 7] = 10;
             transitions[11, 8] = 10;
-            transitions[11, 9] = 0;
+            transitions[11, 9] = 10;
+            transitions[11, 10] = 0;
             transitions[12, 0] = 0;
             transitions[12, 1] = 0;
             transitions[12, 2] = 0;
@@ -317,6 +338,7 @@ namespace CodeForm
             transitions[12, 7] = 0;
             transitions[12, 8] = 0;
             transitions[12, 9] = 0;
+            transitions[12, 10] = 0;
         }
     }
 }

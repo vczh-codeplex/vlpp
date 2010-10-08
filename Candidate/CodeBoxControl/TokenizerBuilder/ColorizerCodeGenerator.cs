@@ -14,6 +14,7 @@ namespace TokenizerBuilder
         public static string GenerateCSharpCode(ShapeManager manager, string className)
         {
             string[] colorIds = null;
+            bool[] partialStates = null;
             string[] stateIds = null;
             int[] charset = null;
             int[,] transitions = null;
@@ -46,6 +47,9 @@ namespace TokenizerBuilder
                     .Skip(1)
                     .Select(s => s.Name)
                     .ToArray();
+
+                partialStates = stateIds.Select(c => c.EndsWith("*")).ToArray();
+                stateIds = stateIds.Select(s => s.EndsWith("*") ? s.Substring(0, s.Length - 1) : s).ToArray();
 
                 charset = MergeCharset(arrows.Select(a => GetCharsetFromArrow(a.Name)).ToArray());
 
@@ -116,7 +120,7 @@ namespace TokenizerBuilder
                     }
                 }
             }
-            return GenerateCSharpCodeInternal(className, colorIds, stateIds, charset, transitions, finalStates, stateColors);
+            return GenerateCSharpCodeInternal(className, colorIds, stateIds, partialStates, charset, transitions, finalStates, stateColors);
         }
 
         private static char Escape(string text)
@@ -249,7 +253,7 @@ namespace TokenizerBuilder
             }
         }
 
-        private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
+        private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, bool[] partialStates, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
         {
             StringBuilder builder = new StringBuilder();
             // header
@@ -355,6 +359,22 @@ namespace TokenizerBuilder
             builder.AppendLine("                if (i == length || lastFinalState != state && lastFinalState != StartState)");
             builder.AppendLine("                {");
             builder.AppendLine("                    int color = stateColors[lastFinalState];");
+            if (partialStates.Any())
+            {
+                builder.AppendLine("                    switch (lastFinalState)");
+                builder.AppendLine("                    {");
+                for (int i = 0; i < partialStates.Length; i++)
+                {
+                    if (partialStates[i])
+                    {
+                        builder.AppendLine("                        case " + stateIds[i] + "StateId:");
+                        builder.AppendLine("                            // You should write your own IsValid" + stateIds[i] + " implementation.");
+                        builder.AppendLine("                            color = IsValid" + stateIds[i] + "(new string(items, itemStart, Math.Min(i, length) - itemStart)) ? stateColors[lastFinalState] : NormalColorId;");
+                        builder.AppendLine("                            break;");
+                    }
+                }
+                builder.AppendLine("                    }");
+            }
             builder.AppendLine("                    for (int j = itemStart; j < i; j++)");
             builder.AppendLine("                    {");
             builder.AppendLine("                        colors[j] = color;");
