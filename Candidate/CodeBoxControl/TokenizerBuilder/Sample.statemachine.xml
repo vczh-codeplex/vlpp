@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ShapeManager>
   <StateShape Name="Start" Color="" X="60" Y="342" R="32" Type="Start" />
-  <StateShape Name="Id" Color="Id" X="188" Y="92" R="32" Type="Finish" />
+  <StateShape Name="Id*" Color="Id" X="188" Y="92" R="32" Type="Finish" />
   <StateShape Name="InString" Color="" X="194" Y="229" R="32" Type="Normal" />
   <StateShape Name="InStringEscaping" Color="" X="349" Y="227" R="32" Type="Normal" />
   <StateShape Name="InChar" Color="" X="199" Y="342" R="32" Type="Normal" />
@@ -12,7 +12,7 @@
   <StateShape Name="InMultipleLineComment" Color="" X="362" Y="685" R="32" Type="Normal" />
   <StateShape Name="InMultipleLineCommentWaitingToFinish" Color="" X="559" Y="683" R="32" Type="Normal" />
   <StateShape Name="MultipleLineComment" Color="Comment" X="777" Y="683" R="32" Type="Finish" />
-  <ArrowShape Name="a-zA-Z_" X="124" Y="217" R="5" Start="0" End="1" />
+  <ArrowShape Name="a-zA-Z_#" X="124" Y="217" R="5" Start="0" End="1" />
   <ArrowShape Name="a-zA-Z0-9_" X="187" Y="32" R="5" Start="1" End="1" />
   <ArrowShape Name="&quot;" X="127" Y="285" R="5" Start="0" End="2" />
   <ArrowShape Name="'" X="129" Y="342" R="5" Start="0" End="4" />

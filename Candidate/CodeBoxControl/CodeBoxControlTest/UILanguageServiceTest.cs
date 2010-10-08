@@ -34,7 +34,7 @@ namespace CodeBoxControlTest
 
         private void AssertFullCommentLine(int index)
         {
-            string colors = Enumerable.Range(0, window.Service.GetLineLength(index)).Select(c => "3").Aggregate("", (a, b) => (a + b));
+            string colors = Enumerable.Range(0, window.Service.GetLineLength(index)).Select(c => "5").Aggregate("", (a, b) => (a + b));
             AssertColors(colors, index);
         }
 
@@ -94,7 +94,7 @@ namespace CodeBoxControlTest
 
             window.Move(new TextPosition(9, 40), false, false);
             window.PressBackspace(false, false);
-            AssertColors("00000000000000000000000000222222222222222", 9);
+            AssertColors("22222222222222222222222222444444444444444", 9);
             AssertColors(data[10 * 2 + 1], 10);
             AssertColors(data[11 * 2 + 1], 11);
 
