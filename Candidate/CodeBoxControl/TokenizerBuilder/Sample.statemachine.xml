@@ -22,8 +22,8 @@
   <ArrowShape Name="^\n" X="274" Y="244" R="5" Start="3" End="2" />
   <ArrowShape Name="\\" X="273" Y="322" R="5" Start="4" End="5" />
   <ArrowShape Name="^\n" X="274" Y="359" R="5" Start="5" End="4" />
-  <ArrowShape Name="^\\\n" X="193" Y="171" R="5" Start="2" End="2" />
-  <ArrowShape Name="^\\\n" X="200" Y="406" R="5" Start="4" End="4" />
+  <ArrowShape Name="^\\\n&quot;" X="193" Y="171" R="5" Start="2" End="2" />
+  <ArrowShape Name="^\\\n'" X="200" Y="406" R="5" Start="4" End="4" />
   <ArrowShape Name="/" X="127" Y="442" R="5" Start="0" End="7" />
   <ArrowShape Name="/" X="258" Y="467" R="5" Start="7" End="8" />
   <ArrowShape Name="^\n" X="455" Y="501" R="5" Start="8" End="8" />
