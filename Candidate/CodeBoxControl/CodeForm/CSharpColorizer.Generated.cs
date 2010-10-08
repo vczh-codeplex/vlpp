@@ -75,6 +75,7 @@ namespace CodeForm
             };
             // You should write your own CreateAdditionalColors() implementation to add additional colors.
             // You can modify the NormalColorId and put all additional colors ids before NormalColorId.
+            // It is recommended to use another partial class to store all customized code.
             CreateAdditionalColors();
             CreateStateMachine();
         }
@@ -89,6 +90,14 @@ namespace CodeForm
                 if (i != length)
                 {
                     state = transitions[state, charset[items[i]]];
+                    if (state == StartState)
+                    {
+                        state = transitions[state, charset[items[i]]];
+                    }
+                }
+                else
+                {
+                    lastFinalState = state;
                 }
 
                 if (i == length || lastFinalState != state && lastFinalState != StartState)
@@ -162,18 +171,18 @@ namespace CodeForm
             finalStates[10] = false;
             finalStates[11] = true;
 
-            stateColors[0] = 0;
-            stateColors[1] = 1;
-            stateColors[2] = 0;
-            stateColors[3] = 0;
-            stateColors[4] = 0;
-            stateColors[5] = 0;
-            stateColors[6] = 2;
-            stateColors[7] = 0;
-            stateColors[8] = 3;
-            stateColors[9] = 0;
-            stateColors[10] = 0;
-            stateColors[11] = 3;
+            stateColors[0] = NormalColorId + 0;
+            stateColors[1] = NormalColorId + 1;
+            stateColors[2] = NormalColorId + 2;
+            stateColors[3] = NormalColorId + 2;
+            stateColors[4] = NormalColorId + 2;
+            stateColors[5] = NormalColorId + 2;
+            stateColors[6] = NormalColorId + 2;
+            stateColors[7] = NormalColorId + 0;
+            stateColors[8] = NormalColorId + 3;
+            stateColors[9] = NormalColorId + 3;
+            stateColors[10] = NormalColorId + 3;
+            stateColors[11] = NormalColorId + 3;
 
             transitions[0, 0] = 0;
             transitions[0, 1] = 0;
