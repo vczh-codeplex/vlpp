@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace CodeForm
 {
-    class CSharpColorizer : ITextEditorColorizer
+    class CSharpColorizerHandWrite : ITextEditorColorizer
     {
         public const int NormalColorId = 0;
         public const int KeywordColorId = 1;
@@ -49,7 +49,7 @@ namespace CodeForm
             }
         }
 
-        public CSharpColorizer()
+        public CSharpColorizerHandWrite()
         {
             this.colorItems = new TextEditorColorItem[6];
             this.colorItems[NormalColorId] = new TextEditorColorItem()
