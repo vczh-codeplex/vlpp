@@ -9,7 +9,7 @@ namespace TokenizerBuilder
 {
     class ColorizerCodeGenerator
     {
-        private static Regex charSetPattern = new Regex(@"^(((<a>\\.|[^\\])\-(<b>\\.|[^\\]))|(<c>\\.|[^\\]))*$");
+        private static Regex charSetPattern = new Regex(@"^((?<a>\\.|[^\\])\-(?<b>\\.|[^\\])|(?<c>\\.|[^\\]))+$");
 
         public static string GenerateCSharpCode(ShapeManager manager, string className)
         {
@@ -21,7 +21,7 @@ namespace TokenizerBuilder
             int[] stateColors = null;
 
             {
-                StateShape[] states = manager.Shapes[StateShape.StateShapeProprity]
+                List<StateShape> states = manager.Shapes[StateShape.StateShapeProprity]
                     .Cast<StateShape>()
                     .Where(s => s.Type == StateType.Start)
                     .Concat(
@@ -29,16 +29,17 @@ namespace TokenizerBuilder
                         .Cast<StateShape>()
                         .Where(s => s.Type != StateType.Start)
                     )
-                    .ToArray();
+                    .ToList();
 
-                ArrowShape[] arrows = manager.Shapes[ArrowShape.ArrowShapeProprity]
+                List<ArrowShape> arrows = manager.Shapes[ArrowShape.ArrowShapeProprity]
                     .Cast<ArrowShape>()
-                    .ToArray();
+                    .ToList();
 
                 colorIds = manager.Shapes[StateShape.StateShapeProprity]
                     .Cast<StateShape>()
                     .Where(s => s.Type == StateType.Finish && !string.IsNullOrEmpty(s.Color))
                     .Select(s => s.Color)
+                    .Distinct()
                     .ToArray();
 
                 stateIds = states
@@ -54,6 +55,38 @@ namespace TokenizerBuilder
                 stateColors = states
                     .Select(s => Array.FindIndex(colorIds, x => x == s.Color) + 1)
                     .ToArray();
+
+                int fakeCharset = charset.Max() + 1;
+                for (int i = 0; i < charset.Length; i++)
+                {
+                    if (charset[i] == -1)
+                    {
+                        charset[i] = fakeCharset;
+                    }
+                }
+                transitions = new int[states.Count, fakeCharset + 1];
+                for (int i = 0; i < states.Count; i++)
+                {
+                    StateShape state = states[i];
+                    for (int j = 0; j <= fakeCharset; j++)
+                    {
+                        transitions[i, j] = 0;
+                    }
+                    for (int j = 0; j < state.OutArrows.Count; j++)
+                    {
+                        ArrowShape arrow = state.OutArrows[j];
+                        int[] charsets = GetCharsetFromArrow(arrow.Name)
+                            .Select((b, c) => Tuple.Create(b, c))
+                            .Where(t => t.Item1)
+                            .Select(t => charset[t.Item2])
+                            .Distinct()
+                            .ToArray();
+                        foreach (int k in charsets)
+                        {
+                            transitions[i, k] = states.IndexOf(arrow.End);
+                        }
+                    }
+                }
             }
             return GenerateCSharpCodeInternal(className, colorIds, stateIds, charset, transitions, finalStates, stateColors);
         }
@@ -68,6 +101,8 @@ namespace TokenizerBuilder
                     return '\r';
                 case @"\t":
                     return '\t';
+                case @"\\":
+                    return '\\';
             }
             if (text.Length != 1)
             {
@@ -87,31 +122,38 @@ namespace TokenizerBuilder
                 arrowName = arrowName.Substring(1);
             }
             Match match = charSetPattern.Match(arrowName);
-            bool[] result = new bool[char.MaxValue + 1];
-            CaptureCollection acc = match.Groups["a"].Captures;
-            CaptureCollection bcc = match.Groups["b"].Captures;
-            CaptureCollection ccc = match.Groups["c"].Captures;
-            foreach (Capture c in ccc)
+            if (match.Success)
             {
-                result[Escape(c.Value)] = true;
-            }
-            for (int i = 0; i < acc.Count; i++)
-            {
-                char a = Escape(acc[i].Value);
-                char b = Escape(bcc[i].Value);
-                for (char x = a; x <= b; x++)
+                bool[] result = new bool[char.MaxValue + 1];
+                CaptureCollection acc = match.Groups["a"].Captures;
+                CaptureCollection bcc = match.Groups["b"].Captures;
+                CaptureCollection ccc = match.Groups["c"].Captures;
+                foreach (Capture c in ccc)
                 {
-                    result[x] = true;
+                    result[Escape(c.Value)] = true;
                 }
-            }
-            if (revert)
-            {
-                for (int i = 0; i <= char.MaxValue; i++)
+                for (int i = 0; i < acc.Count; i++)
                 {
-                    result[i] = !result[i];
+                    char a = Escape(acc[i].Value);
+                    char b = Escape(bcc[i].Value);
+                    for (char x = a; x <= b; x++)
+                    {
+                        result[x] = true;
+                    }
                 }
+                if (revert)
+                {
+                    for (int i = 0; i <= char.MaxValue; i++)
+                    {
+                        result[i] = !result[i];
+                    }
+                }
+                return result;
             }
-            return result;
+            else
+            {
+                throw new ArgumentException("Transition \"" + arrowName + "\" is not valid.");
+            }
         }
 
         private static int[] MergeCharset(bool[][] arrows)
@@ -164,11 +206,11 @@ namespace TokenizerBuilder
             builder.AppendLine();
 
             // colors
-            builder.AppendLine("        private readonly HighlightColor = Color.FromArgb(173, 214, 255);");
-            builder.AppendLine("        private readonly NormalColor = Color.FromArgb(0, 0, 0);");
+            builder.AppendLine("        private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);");
+            builder.AppendLine("        private readonly Color NormalColor = Color.FromArgb(0, 0, 0);");
             for (int i = 0; i < colorIds.Length; i++)
             {
-                builder.AppendLine("        private readonly " + colorIds[i] + "Color = Color.FromArgb(0, 0, 0);");
+                builder.AppendLine("        private readonly Color " + colorIds[i] + "Color = Color.FromArgb(0, 0, 0);");
             }
             builder.AppendLine();
 
@@ -226,7 +268,7 @@ namespace TokenizerBuilder
             builder.AppendLine("            {");
             builder.AppendLine("                if (i != length)");
             builder.AppendLine("                {");
-            builder.AppendLine("                    state = transitions[state, items[i]];");
+            builder.AppendLine("                    state = transitions[state, charset[items[i]]];");
             builder.AppendLine("                }");
             builder.AppendLine();
             builder.AppendLine("                if (i == length || lastFinalState != state && lastFinalState != StartState)");
@@ -241,33 +283,48 @@ namespace TokenizerBuilder
             builder.AppendLine("                lastFinalState = finalStates[state] ? state : StartState;");
             builder.AppendLine("            }");
             builder.AppendLine();
-            builder.AppendLine("            return transitions[state, '\n'];");
+            builder.AppendLine("            return transitions[state, charset['\\n']];");
             builder.AppendLine("        }");
             builder.AppendLine();
 
             // state machine
             builder.AppendLine("        private void CreateStateMachine()");
             builder.AppendLine("        {");
-            for (int i = 0; i < charset.Length; i++)
+
+            int oldCharsetStart = 0;
+            int oldCharsetValue = charset[0];
+            for (int i = 1; i <= charset.Length; i++)
             {
-                builder.AppendLine("            charset[" + i.ToString() + "] = " + charset[i].ToString() + ";");
+                if (i == charset.Length || charset[i] != oldCharsetValue)
+                {
+                    builder.AppendLine("            for (int i = " + oldCharsetStart.ToString() + "; i < " + i.ToString() + "; i++)");
+                    builder.AppendLine("                charset[i] = " + oldCharsetValue.ToString() + ";");
+                    if (i != charset.Length)
+                    {
+                        oldCharsetStart = i;
+                        oldCharsetValue = charset[i];
+                    }
+                }
             }
             builder.AppendLine();
+
             for (int i = 0; i < finalStates.Length; i++)
             {
-                builder.AppendLine("            finalStates[" + i.ToString() + "] = " + finalStates[i].ToString() + ";");
+                builder.AppendLine("            finalStates[" + i.ToString() + "] = " + (finalStates[i] ? "true" : "false") + ";");
             }
             builder.AppendLine();
+
             for (int i = 0; i < stateColors.Length; i++)
             {
                 builder.AppendLine("            stateColors[" + i.ToString() + "] = " + stateColors[i].ToString() + ";");
             }
             builder.AppendLine();
+
             for (int i = 0; i < transitions.GetLength(0); i++)
             {
                 for (int j = 0; j < transitions.GetLength(1); j++)
                 {
-                    builder.AppendLine("            stateColors[" + i.ToString() + ", " + j.ToString() + "] = " + transitions[i, j].ToString() + ";");
+                    builder.AppendLine("            transitions[" + i.ToString() + ", " + j.ToString() + "] = " + transitions[i, j].ToString() + ";");
                 }
             }
             builder.AppendLine("        }");

@@ -68,6 +68,7 @@
     <Compile Include="ITextEditorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleColorizer.cs" />
     <Compile Include="TextEditorService.cs" />
     <EmbeddedResource Include="CodeForm.resx">
       <DependentUpon>CodeForm.cs</DependentUpon>

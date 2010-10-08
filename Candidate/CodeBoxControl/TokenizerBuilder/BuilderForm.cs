@@ -39,13 +39,20 @@ namespace TokenizerBuilder
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            try
+            using (StringEditorForm form = new StringEditorForm())
             {
-                Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, "Colorizer"));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, this.Text);
+                form.Value = "ColorizerName";
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, form.Value));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, this.Text);
+                    }
+                }
             }
         }
     }
