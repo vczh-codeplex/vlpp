@@ -116,7 +116,27 @@ namespace TokenizerBuilder
 
         private static int[] MergeCharset(bool[][] arrows)
         {
-            throw new NotImplementedException();
+            List<string> charsetName = new List<string>();
+            int[] result = new int[char.MaxValue + 1];
+            for (int x = char.MinValue; x <= char.MaxValue; x++)
+            {
+                if (arrows.All(a => !a[x]))
+                {
+                    result[x] = -1;
+                }
+                else
+                {
+                    string name = arrows.Select(a => a[x].ToString()).Aggregate("", (a, b) => a + "," + b);
+                    int index = charsetName.IndexOf(name);
+                    if (index == -1)
+                    {
+                        index = charsetName.Count;
+                        charsetName.Add(name);
+                    }
+                    result[x] = index;
+                }
+            }
+            return result;
         }
 
         private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
