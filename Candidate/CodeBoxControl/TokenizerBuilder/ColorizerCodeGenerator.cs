@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TokenizerBuilder.Shape;
+using System.Text.RegularExpressions;
 
 namespace TokenizerBuilder
 {
     class ColorizerCodeGenerator
     {
+        private static Regex charSetPattern = new Regex(@"^(((<a>\\.|[^\\])\-(<b>\\.|[^\\]))|(<c>\\.|[^\\]))*$");
+
         public static string GenerateCSharpCode(ShapeManager manager, string className)
         {
             string[] colorIds = null;
@@ -55,9 +58,60 @@ namespace TokenizerBuilder
             return GenerateCSharpCodeInternal(className, colorIds, stateIds, charset, transitions, finalStates, stateColors);
         }
 
+        private static char Escape(string text)
+        {
+            switch (text)
+            {
+                case @"\n":
+                    return '\n';
+                case @"\r":
+                    return '\r';
+                case @"\t":
+                    return '\t';
+            }
+            if (text.Length != 1)
+            {
+                throw new ArgumentException("Char cannot be \"" + text + "\".");
+            }
+            else
+            {
+                return text[0];
+            }
+        }
+
         private static bool[] GetCharsetFromArrow(string arrowName)
         {
-            throw new NotImplementedException();
+            bool revert = arrowName.StartsWith("^");
+            if (revert)
+            {
+                arrowName = arrowName.Substring(1);
+            }
+            Match match = charSetPattern.Match(arrowName);
+            bool[] result = new bool[char.MaxValue + 1];
+            CaptureCollection acc = match.Groups["a"].Captures;
+            CaptureCollection bcc = match.Groups["b"].Captures;
+            CaptureCollection ccc = match.Groups["c"].Captures;
+            foreach (Capture c in ccc)
+            {
+                result[Escape(c.Value)] = true;
+            }
+            for (int i = 0; i < acc.Count; i++)
+            {
+                char a = Escape(acc[i].Value);
+                char b = Escape(bcc[i].Value);
+                for (char x = a; x <= b; x++)
+                {
+                    result[x] = true;
+                }
+            }
+            if (revert)
+            {
+                for (int i = 0; i <= char.MaxValue; i++)
+                {
+                    result[i] = !result[i];
+                }
+            }
+            return result;
         }
 
         private static int[] MergeCharset(bool[][] arrows)
