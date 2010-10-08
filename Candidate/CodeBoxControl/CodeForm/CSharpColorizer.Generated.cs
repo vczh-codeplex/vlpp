@@ -5,20 +5,20 @@ using System.Text;
 using CodeBoxControl;
 using System.Drawing;
 
-namespace SampleColorizerNamespace
+namespace CodeForm
 {
-    class SampleColorizer : ITextEditorColorizer
+    partial class CSharpColorizer : ITextEditorColorizer
     {
-        public const int NormalColorId = 0;
+        //public const int NormalColorId = 0;
         public const int IdColorId = NormalColorId + 1;
         public const int StringColorId = NormalColorId + 2;
         public const int CommentColorId = NormalColorId + 3;
 
-        private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
-        private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
-        private readonly Color IdColor = Color.FromArgb(0, 0, 0);
-        private readonly Color StringColor = Color.FromArgb(0, 0, 0);
-        private readonly Color CommentColor = Color.FromArgb(0, 0, 0);
+        //private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
+        //private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
+        //private readonly Color IdColor = Color.FromArgb(0, 0, 0);
+        //private readonly Color StringColor = Color.FromArgb(0, 0, 0);
+        //private readonly Color CommentColor = Color.FromArgb(0, 0, 0);
 
         private const int StartState = 0;
         private const int IdStateId = 1;
@@ -33,7 +33,7 @@ namespace SampleColorizerNamespace
         private const int InMultipleLineCommentWaitingToFinishStateId = 10;
         private const int MultipleLineCommentStateId = 11;
 
-        private TextEditorColorItem[] colorItems = new TextEditorColorItem[4];
+        private TextEditorColorItem[] colorItems = new TextEditorColorItem[NormalColorId + 4];
         private int[] charset = new int[65536];
         private int[,] transitions = new int[12, 10];
         private bool[] finalStates = new bool[12];
@@ -47,7 +47,7 @@ namespace SampleColorizerNamespace
             }
         }
 
-        public SampleColorizer()
+        public CSharpColorizer()
         {
             this.colorItems[NormalColorId] = new TextEditorColorItem()
             {
@@ -73,6 +73,9 @@ namespace SampleColorizerNamespace
                 HighlightText = CommentColor,
                 Highlight = HighlightColor
             };
+            // You should write your own CreateAdditionalColors() implementation to add additional colors.
+            // You can modify the NormalColorId and put all additional colors ids before NormalColorId.
+            CreateAdditionalColors();
             CreateStateMachine();
         }
         public int ColorizeLine(char[] items, int length, int initialState, int[] colors)

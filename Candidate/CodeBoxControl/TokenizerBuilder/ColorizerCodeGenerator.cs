@@ -194,7 +194,7 @@ namespace TokenizerBuilder
             builder.AppendLine();
             builder.AppendLine("namespace " + className + "Namespace");
             builder.AppendLine("{");
-            builder.AppendLine("    class " + className + " : ITextEditorColorizer");
+            builder.AppendLine("    partial class " + className + " : ITextEditorColorizer");
             builder.AppendLine("    {");
 
             // color ids
@@ -223,7 +223,7 @@ namespace TokenizerBuilder
             builder.AppendLine();
 
             // color items
-            builder.AppendLine("        private TextEditorColorItem[] colorItems = new TextEditorColorItem[" + (colorIds.Length + 1).ToString() + "];");
+            builder.AppendLine("        private TextEditorColorItem[] colorItems = new TextEditorColorItem[NormalColorId + " + (colorIds.Length + 1).ToString() + "];");
             builder.AppendLine("        private int[] charset = new int[" + charset.Length.ToString() + "];");
             builder.AppendLine("        private int[,] transitions = new int[" + transitions.GetLength(0).ToString() + "," + transitions.GetLength(1).ToString() + "];");
             builder.AppendLine("        private bool[] finalStates = new bool[" + finalStates.Length.ToString() + "];");
@@ -254,6 +254,9 @@ namespace TokenizerBuilder
                 builder.AppendLine("                Highlight = HighlightColor");
                 builder.AppendLine("            };");
             }
+            builder.AppendLine("            // You should write your own CreateAdditionalColors() implementation to add additional colors.");
+            builder.AppendLine("            // You can modify the NormalColorId and put all additional colors ids before NormalColorId.");
+            builder.AppendLine("            CreateAdditionalColors();");
             builder.AppendLine("            CreateStateMachine();");
             builder.AppendLine("        }");
 

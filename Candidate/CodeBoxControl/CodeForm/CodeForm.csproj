@@ -58,7 +58,7 @@
     <Compile Include="CodeForm.Designer.cs">
       <DependentUpon>CodeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CSharpColorizer.cs" />
+    <Compile Include="CSharpColorizer.HandWrite.cs" />
     <Compile Include="CSharpControlPanel.cs" />
     <Compile Include="Images.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -68,7 +68,8 @@
     <Compile Include="ITextEditorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleColorizer.cs" />
+    <Compile Include="CSharpColorizer.Configuration.cs" />
+    <Compile Include="CSharpColorizer.Generated.cs" />
     <Compile Include="TextEditorService.cs" />
     <EmbeddedResource Include="CodeForm.resx">
       <DependentUpon>CodeForm.cs</DependentUpon>
