@@ -53,7 +53,7 @@ namespace TokenizerBuilder
                     .ToArray();
 
                 stateColors = states
-                    .Select(s => Array.FindIndex(colorIds, x => x == s.Color) + 1)
+                    .Select(s => Array.FindIndex(colorIds, x => x == FindStateColor(s)) + 1)
                     .ToArray();
 
                 int fakeCharset = charset.Max() + 1;
@@ -181,6 +181,46 @@ namespace TokenizerBuilder
             return result;
         }
 
+        private static string FindStateColor(StateShape state)
+        {
+            List<StateShape> closure = new List<StateShape>();
+            int current = 0;
+            closure.Add(state);
+            while (current < closure.Count)
+            {
+                StateShape currentState = closure[current];
+                if (currentState.Type != StateType.Partial && currentState.Type != StateType.Start)
+                {
+                    foreach (StateShape newState in currentState.OutArrows.Select(a => a.End))
+                    {
+                        if (!closure.Contains(newState))
+                        {
+                            closure.Add(newState);
+                        }
+                    }
+                }
+                current++;
+            }
+
+            string[] colors = closure
+                .Where(s => s.Type == StateType.Finish)
+                .Select(s => s.Color)
+                .Distinct()
+                .ToArray();
+            if (colors.Length == 0)
+            {
+                return "";
+            }
+            else if (colors.Length == 1)
+            {
+                return colors[0];
+            }
+            else
+            {
+                throw new ArgumentException("State \"" + state.Name + "\" transites to final states of different colors.");
+            }
+        }
+
         private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
         {
             StringBuilder builder = new StringBuilder();
@@ -256,6 +296,7 @@ namespace TokenizerBuilder
             }
             builder.AppendLine("            // You should write your own CreateAdditionalColors() implementation to add additional colors.");
             builder.AppendLine("            // You can modify the NormalColorId and put all additional colors ids before NormalColorId.");
+            builder.AppendLine("            // It is recommended to use another partial class to store all customized code.");
             builder.AppendLine("            CreateAdditionalColors();");
             builder.AppendLine("            CreateStateMachine();");
             builder.AppendLine("        }");
@@ -272,6 +313,14 @@ namespace TokenizerBuilder
             builder.AppendLine("                if (i != length)");
             builder.AppendLine("                {");
             builder.AppendLine("                    state = transitions[state, charset[items[i]]];");
+            builder.AppendLine("                    if(state == StartState)");
+            builder.AppendLine("                    {");
+            builder.AppendLine("                        state = transitions[state, charset[items[i]]];");
+            builder.AppendLine("                    }");
+            builder.AppendLine("                }");
+            builder.AppendLine("                else");
+            builder.AppendLine("                {");
+            builder.AppendLine("                    lastFinalState = state;");
             builder.AppendLine("                }");
             builder.AppendLine();
             builder.AppendLine("                if (i == length || lastFinalState != state && lastFinalState != StartState)");
@@ -319,7 +368,7 @@ namespace TokenizerBuilder
 
             for (int i = 0; i < stateColors.Length; i++)
             {
-                builder.AppendLine("            stateColors[" + i.ToString() + "] = " + stateColors[i].ToString() + ";");
+                builder.AppendLine("            stateColors[" + i.ToString() + "] = NormalColorId + " + stateColors[i].ToString() + ";");
             }
             builder.AppendLine();
 
