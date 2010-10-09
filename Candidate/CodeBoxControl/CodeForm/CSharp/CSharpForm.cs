@@ -13,11 +13,11 @@ using CodeBoxControl.Core;
 
 namespace CodeForm
 {
-    public partial class CodeForm : Form
+    public partial class CSharpForm : Form
     {
         private ServiceHost serviceHost = null;
 
-        public CodeForm()
+        public CSharpForm()
         {
             InitializeComponent();
             textEditorBox.Colorizer = new CSharpColorizer();

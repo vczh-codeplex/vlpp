@@ -12,11 +12,18 @@ namespace CodeForm
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CodeForm());
+            if (args.SequenceEqual(new string[] { }))
+            {
+                Application.Run(new CSharpForm());
+            }
+            else if (args.SequenceEqual(new string[] { "C#" }))
+            {
+                Application.Run(new CSharpForm());
+            }
         }
     }
 }

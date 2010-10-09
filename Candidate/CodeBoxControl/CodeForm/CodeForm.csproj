@@ -52,14 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeForm.cs">
+    <Compile Include="CSharp\CSharpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CodeForm.Designer.cs">
-      <DependentUpon>CodeForm.cs</DependentUpon>
+    <Compile Include="CSharp\CSharpForm.Designer.cs">
+      <DependentUpon>CSharpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CSharpColorizer.HandWrite.cs" />
-    <Compile Include="CSharpControlPanel.cs" />
+    <Compile Include="CSharp\CSharpColorizer.HandWrite.cs" />
+    <Compile Include="CSharp\CSharpControlPanel.cs" />
     <Compile Include="Images.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -68,11 +68,11 @@
     <Compile Include="ITextEditorService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CSharpColorizer.Configuration.cs" />
-    <Compile Include="CSharpColorizer.Generated.cs" />
+    <Compile Include="CSharp\CSharpColorizer.Configuration.cs" />
+    <Compile Include="CSharp\CSharpColorizer.Generated.cs" />
     <Compile Include="TextEditorService.cs" />
-    <EmbeddedResource Include="CodeForm.resx">
-      <DependentUpon>CodeForm.cs</DependentUpon>
+    <EmbeddedResource Include="CSharp\CSharpForm.resx">
+      <DependentUpon>CSharpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +110,7 @@
     </Content>
     <None Include="Resources\Breakpoints.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
