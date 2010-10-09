@@ -13,7 +13,7 @@ namespace CodeForm
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "TextEditorService" in both code and config file together.
     public class TextEditorService : ITextEditorService
     {
-        public static CodeForm CodeForm { get; set; }
+        public static CSharpForm CodeForm { get; set; }
 
         private Point ToPoint(TextPosition p)
         {

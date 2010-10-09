@@ -1,6 +1,6 @@
 ﻿namespace CodeForm
 {
-    partial class CodeForm
+    partial class CSharpForm
     {
         /// <summary>
         /// Required designer variable.
@@ -46,7 +46,7 @@
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
             this.textEditorBox.SelectedText = "";
-            this.textEditorBox.Size = new System.Drawing.Size(676, 596);
+            this.textEditorBox.Size = new System.Drawing.Size(672, 646);
             this.textEditorBox.TabIndex = 0;
             this.textEditorBox.VerticalSmallChange = 10;
             // 
@@ -57,20 +57,20 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.textEditorBox);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(678, 598);
+            this.panel1.Size = new System.Drawing.Size(674, 648);
             this.panel1.TabIndex = 1;
             // 
-            // CodeForm
+            // CSharpForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 622);
+            this.ClientSize = new System.Drawing.Size(698, 674);
             this.Controls.Add(this.panel1);
-            this.Name = "CodeForm";
+            this.Name = "CSharpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CodeForm";
+            this.Text = "C# Form";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CodeForm_FormClosed);
             this.Shown += new System.EventHandler(this.CodeForm_Shown);
             this.panel1.ResumeLayout(false);

@@ -25,13 +25,13 @@ namespace CodeBoxControlTest
         public WinWindow Host { get; private set; }
         public WinClient HostClient { get; private set; }
 
-        public CodeFormWindow()
+        public CodeFormWindow(string args, string windowName)
         {
-            this.Application = ApplicationUnderTest.Launch("CodeForm.exe");
+            this.Application = ApplicationUnderTest.Launch("CodeForm.exe ", "", args);
             this.Service = new TextEditorServiceClient();
             this.Service.Open();
 
-            this.SearchProperties[WinControl.PropertyNames.Name] = "CodeForm";
+            this.SearchProperties[WinControl.PropertyNames.Name] = windowName;
             this.Find();
             {
                 WinWindow window = new WinWindow(this);
