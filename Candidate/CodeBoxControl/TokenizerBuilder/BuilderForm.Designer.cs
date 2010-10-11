@@ -29,14 +29,20 @@
         private void InitializeComponent()
         {
             this.panelContainer = new System.Windows.Forms.Panel();
-            this.tokenizerEditorBox = new TokenizerBuilder.TokenizerEditorBox();
-            this.buttonOpen = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.dialogOpen = new System.Windows.Forms.OpenFileDialog();
             this.dialogSave = new System.Windows.Forms.SaveFileDialog();
-            this.buttonClear = new System.Windows.Forms.Button();
-            this.buttonGenerate = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tokenizerEditorBox = new TokenizerBuilder.TokenizerEditorBox();
             this.panelContainer.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelContainer
@@ -46,40 +52,10 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelContainer.Controls.Add(this.tokenizerEditorBox);
-            this.panelContainer.Location = new System.Drawing.Point(12, 41);
+            this.panelContainer.Location = new System.Drawing.Point(12, 28);
             this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(616, 453);
+            this.panelContainer.Size = new System.Drawing.Size(616, 466);
             this.panelContainer.TabIndex = 0;
-            // 
-            // tokenizerEditorBox
-            // 
-            this.tokenizerEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tokenizerEditorBox.HorizontalSmallChange = 1;
-            this.tokenizerEditorBox.Location = new System.Drawing.Point(0, 0);
-            this.tokenizerEditorBox.Name = "tokenizerEditorBox";
-            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 451);
-            this.tokenizerEditorBox.TabIndex = 0;
-            this.tokenizerEditorBox.VerticalSmallChange = 1;
-            // 
-            // buttonOpen
-            // 
-            this.buttonOpen.Location = new System.Drawing.Point(12, 12);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(75, 23);
-            this.buttonOpen.TabIndex = 1;
-            this.buttonOpen.Text = "Open";
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(93, 12);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 2;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // dialogOpen
             // 
@@ -93,41 +69,104 @@
             this.dialogSave.Filter = "*.statemachine..xml|*.statemachine.xml";
             this.dialogSave.Title = "Save Tokenizer State Machine";
             // 
-            // buttonClear
+            // menuStrip1
             // 
-            this.buttonClear.Location = new System.Drawing.Point(174, 12);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(75, 23);
-            this.buttonClear.TabIndex = 3;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.generateToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(640, 25);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // buttonGenerate
+            // fileToolStripMenuItem
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(255, 13);
-            this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(192, 21);
-            this.buttonGenerate.TabIndex = 4;
-            this.buttonGenerate.Text = "Generate to Clipboard";
-            this.buttonGenerate.UseVisualStyleBackColor = true;
-            this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.clearToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.clearToolStripMenuItem.Text = "&Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // generateToolStripMenuItem
+            // 
+            this.generateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorizerToolStripMenuItem});
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(73, 21);
+            this.generateToolStripMenuItem.Text = "&Generate";
+            // 
+            // colorizerToolStripMenuItem
+            // 
+            this.colorizerToolStripMenuItem.Name = "colorizerToolStripMenuItem";
+            this.colorizerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.colorizerToolStripMenuItem.Text = "&Colorizer...";
+            this.colorizerToolStripMenuItem.Click += new System.EventHandler(this.colorizerToolStripMenuItem_Click);
+            // 
+            // tokenizerEditorBox
+            // 
+            this.tokenizerEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tokenizerEditorBox.HorizontalSmallChange = 1;
+            this.tokenizerEditorBox.Location = new System.Drawing.Point(0, 0);
+            this.tokenizerEditorBox.Name = "tokenizerEditorBox";
+            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 464);
+            this.tokenizerEditorBox.TabIndex = 0;
+            this.tokenizerEditorBox.VerticalSmallChange = 1;
             // 
             // BuilderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 506);
-            this.Controls.Add(this.buttonGenerate);
-            this.Controls.Add(this.buttonClear);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.panelContainer);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "BuilderForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tokenizer Builder v1.0 (vczh)";
             this.panelContainer.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -135,12 +174,17 @@
 
         private System.Windows.Forms.Panel panelContainer;
         private TokenizerEditorBox tokenizerEditorBox;
-        private System.Windows.Forms.Button buttonOpen;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.OpenFileDialog dialogOpen;
         private System.Windows.Forms.SaveFileDialog dialogSave;
-        private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.Button buttonGenerate;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorizerToolStripMenuItem;
     }
 }
 

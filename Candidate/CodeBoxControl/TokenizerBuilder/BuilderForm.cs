@@ -16,7 +16,7 @@ namespace TokenizerBuilder
             InitializeComponent();
         }
 
-        private void buttonOpen_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dialogOpen.ShowDialog() == DialogResult.OK)
             {
@@ -24,7 +24,7 @@ namespace TokenizerBuilder
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dialogSave.ShowDialog() == DialogResult.OK)
             {
@@ -32,21 +32,25 @@ namespace TokenizerBuilder
             }
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tokenizerEditorBox.Clear();
         }
 
-        private void buttonGenerate_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (StringEditorForm form = new StringEditorForm())
+            Close();
+        }
+
+        private void colorizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (GenerateColorizerForm form = new GenerateColorizerForm())
             {
-                form.Value = "ColorizerName";
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, form.Value));
+                        Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, form.NamespaceName, form.ClassName, form.CommentOutColors));
                     }
                     catch (Exception ex)
                     {
