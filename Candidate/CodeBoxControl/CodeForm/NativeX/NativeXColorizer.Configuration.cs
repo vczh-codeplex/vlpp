@@ -17,6 +17,7 @@ namespace CodeForm
         private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
         private readonly Color IdColor = Color.FromArgb(0, 0, 255);
         private readonly Color StringColor = Color.FromArgb(163, 21, 21);
+        private readonly Color NumberColor = Color.FromArgb(128, 0, 255);
         private readonly Color CommentColor = Color.FromArgb(0, 128, 0);
 
         private readonly Color BreakPointColor = Color.FromArgb(255, 255, 255);
@@ -42,6 +43,11 @@ namespace CodeForm
         private bool IsValidId(string token)
         {
             return Array.BinarySearch(keywords, token) >= 0;
+        }
+
+        private bool IsValidNativeId(string token)
+        {
+            return true;
         }
 
         private static string[] keywords = new string[]{

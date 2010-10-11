@@ -453,7 +453,7 @@ namespace CodeBoxControl
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding);
+            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
             return size.Width;
         }
 
@@ -1192,7 +1192,7 @@ namespace CodeBoxControl
 
             private void RenderString(Graphics g, string text, Point position, Color foreColor)
             {
-                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, TextFormatFlags.NoPadding);
+                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
             }
 
             private void RenderBackground(Graphics g, Point position, int width, Brush brush)

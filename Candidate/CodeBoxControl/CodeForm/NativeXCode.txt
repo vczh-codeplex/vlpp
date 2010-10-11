@@ -2,6 +2,7 @@
 function int32 main()
     (result = (main1() + main2()));
 
+// 比较数字
 function int32 main1()
 {
     variable Vector<int32> v1;
@@ -16,6 +17,7 @@ function int32 main1()
         (result = 0s32);
 }
 
+// 比较向量
 function int32 main2()
 {
     variable Vector<int32> v1;
@@ -31,24 +33,32 @@ function int32 main2()
         (result = 0s32);
 }
 
+// 相等概念
 concept T : Eq
 {
+    // 相等函数
     Equals = function bool(T, T);
+	// 不等函数
     NotEquals = function bool(T, T);
 }
 
+
+// 32位整数相等实例
 instance int32 : Eq
 {
     Equals = IntEquals;
     NotEquals = IntNotEquals;
 }
 
+// 判断数字相等
 function bool IntEquals(int32 a, int32 b)
     (result = (a == b));
 
+// 判断数字不等
 function bool IntNotEquals(int32 a, int32 b)
     (result = (a != b));
 
+// 向量模板类
 generic<U>
 structure Vector
 {
@@ -56,6 +66,7 @@ structure Vector
     U Y;
 }
 
+// 向量相等实例
 generic<V> where
   V : Eq
 instance Vector : Eq
@@ -64,6 +75,7 @@ instance Vector : Eq
     NotEquals = VectorNotEquals<V>;
 }
 
+// 判断向量相等
 generic<W> where
   W : Eq
 function bool VectorEquals(Vector<W> a, Vector<W> b)
@@ -73,6 +85,7 @@ function bool VectorEquals(Vector<W> a, Vector<W> b)
     (result = (x_equals && y_equals));
 }
 
+// 判断向量不等
 generic<W> where
   W : Eq
 function bool VectorNotEquals(Vector<W> a, Vector<W> b)

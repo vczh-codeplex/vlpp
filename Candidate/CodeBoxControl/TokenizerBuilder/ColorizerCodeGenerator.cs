@@ -135,6 +135,10 @@ namespace TokenizerBuilder
                     return '\t';
                 case @"\\":
                     return '\\';
+                case @"\^":
+                    return '^';
+                case @"\.":
+                    return '.';
             }
             if (text.Length != 1)
             {
@@ -162,7 +166,18 @@ namespace TokenizerBuilder
                 CaptureCollection ccc = match.Groups["c"].Captures;
                 foreach (Capture c in ccc)
                 {
-                    result[Escape(c.Value)] = true;
+                    switch (c.Value)
+                    {
+                        case @"\.":
+                            for (int i = 0; i < result.Length; i++)
+                            {
+                                result[i] = true;
+                            }
+                            break;
+                        default:
+                            result[Escape(c.Value)] = true;
+                            break;
+                    }
                 }
                 for (int i = 0; i < acc.Count; i++)
                 {
@@ -359,7 +374,7 @@ namespace TokenizerBuilder
             builder.AppendLine("                if (i == length || lastFinalState != state && lastFinalState != StartState)");
             builder.AppendLine("                {");
             builder.AppendLine("                    int color = stateColors[lastFinalState];");
-            if (partialStates.Any())
+            if (partialStates.Any(t => t))
             {
                 builder.AppendLine("                    switch (lastFinalState)");
                 builder.AppendLine("                    {");
