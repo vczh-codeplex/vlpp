@@ -47,7 +47,7 @@ namespace CodeForm
 
         private bool IsValidNativeId(string token)
         {
-            return true;
+            return false;
         }
 
         private static string[] keywords = new string[]{

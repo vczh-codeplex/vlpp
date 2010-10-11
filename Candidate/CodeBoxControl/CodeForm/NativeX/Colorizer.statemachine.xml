@@ -15,7 +15,7 @@
   <StateShape Name="Integer" Color="Number" X="288" Y="679" R="32" Type="Finish" />
   <StateShape Name="Float" Color="Number" X="467" Y="699" R="32" Type="Finish" />
   <StateShape Name="Double" Color="Number" X="610" Y="698" R="32" Type="Finish" />
-  <StateShape Name="TypedInteger" Color="" X="164" Y="778" R="32" Type="Normal" />
+  <StateShape Name="TypedInteger" Color="Number" X="164" Y="778" R="32" Type="Finish" />
   <StateShape Name="SizedInteger" Color="Number" X="731" Y="787" R="32" Type="Finish" />
   <StateShape Name="Sized16Integer" Color="" X="316" Y="804" R="32" Type="Normal" />
   <StateShape Name="Sized32Integer" Color="" X="419" Y="851" R="32" Type="Normal" />
@@ -40,7 +40,6 @@
   <ArrowShape Name="^\\'" X="279" Y="378" R="5" Start="6" End="6" />
   <ArrowShape Name="'" X="469" Y="279" R="5" Start="6" End="8" />
   <ArrowShape Name="\\" X="403" Y="559" R="5" Start="9" End="10" />
-  <ArrowShape Name="\." X="399" Y="511" R="5" Start="9" End="10" />
   <ArrowShape Name="&quot;" X="196" Y="608" R="5" Start="0" End="9" />
   <ArrowShape Name="&quot;" X="484" Y="612" R="5" Start="9" End="8" />
   <ArrowShape Name="^\\&quot;" X="239" Y="522" R="5" Start="9" End="9" />
@@ -57,16 +56,12 @@
   <ArrowShape Name="s" X="181" Y="728" R="5" Start="12" End="15" />
   <ArrowShape Name="u" X="220" Y="745" R="5" Start="12" End="15" />
   <ArrowShape Name="8" X="469" Y="755" R="5" Start="15" End="16" />
-  <ArrowShape Name="1" X="293" Y="755" R="5" Start="12" End="17" />
-  <ArrowShape Name="3" X="345" Y="755" R="5" Start="12" End="18" />
-  <ArrowShape Name="6" X="399" Y="755" R="5" Start="12" End="19" />
   <ArrowShape Name="1" X="239" Y="795" R="5" Start="15" End="17" />
   <ArrowShape Name="3" X="333" Y="859" R="5" Start="15" End="18" />
   <ArrowShape Name="6" X="425" Y="924" R="5" Start="15" End="19" />
   <ArrowShape Name="6" X="524" Y="815" R="5" Start="17" End="16" />
   <ArrowShape Name="2" X="577" Y="840" R="5" Start="18" End="16" />
   <ArrowShape Name="4" X="640" Y="853" R="5" Start="19" End="16" />
-  <ArrowShape Name="8" X="574" Y="776" R="5" Start="12" End="16" />
   <ArrowShape Name="/" X="72" Y="855" R="5" Start="0" End="21" />
   <ArrowShape Name="*" X="247" Y="1025" R="5" Start="21" End="20" />
   <ArrowShape Name="/" X="254" Y="938" R="5" Start="21" End="22" />
@@ -75,4 +70,5 @@
   <ArrowShape Name="*" X="410" Y="1110" R="5" Start="20" End="23" />
   <ArrowShape Name="^/" X="410" Y="1057" R="5" Start="23" End="20" />
   <ArrowShape Name="/" X="619" Y="1059" R="5" Start="23" End="24" />
+  <ArrowShape Name="\." X="402" Y="508" R="5" Start="10" End="9" />
 </ShapeManager>
