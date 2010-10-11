@@ -22,7 +22,7 @@ namespace CodeForm
             InitializeComponent();
             textEditorBox.Colorizer = new CSharpColorizer();
             textEditorBox.ControlPanel = new CSharpControlPanel();
-            TextEditorService.CodeForm = this;
+            TextEditorService.EditorControl = textEditorBox;
             this.serviceHost = new ServiceHost(typeof(TextEditorService));
             this.serviceHost.Open();
 

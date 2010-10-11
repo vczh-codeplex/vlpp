@@ -7,13 +7,14 @@ using System.Text;
 using System.Drawing;
 using CodeBoxControl.Core;
 using System.Windows.Forms;
+using CodeBoxControl;
 
 namespace CodeForm
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "TextEditorService" in both code and config file together.
     public class TextEditorService : ITextEditorService
     {
-        public static CSharpForm CodeForm { get; set; }
+        public static TextEditorBox EditorControl { get; set; }
 
         private Point ToPoint(TextPosition p)
         {
@@ -27,47 +28,47 @@ namespace CodeForm
 
         public Point GetSelectionAnchor()
         {
-            return ToPoint(CodeForm.textEditorBox.SelectionAnchor);
+            return ToPoint(EditorControl.SelectionAnchor);
         }
 
         public Point GetSelectionCaret()
         {
-            return ToPoint(CodeForm.textEditorBox.SelectionCaret);
+            return ToPoint(EditorControl.SelectionCaret);
         }
 
         public Point GetSelectionStart()
         {
-            return ToPoint(CodeForm.textEditorBox.SelectionStart);
+            return ToPoint(EditorControl.SelectionStart);
         }
 
         public Point GetSelectionEnd()
         {
-            return ToPoint(CodeForm.textEditorBox.SelectionEnd);
+            return ToPoint(EditorControl.SelectionEnd);
         }
 
         public int GetLineCount()
         {
-            return CodeForm.textEditorBox.TextProvider.Count;
+            return EditorControl.TextProvider.Count;
         }
 
         public int GetLineLength(int index)
         {
-            return CodeForm.textEditorBox.TextProvider[index].CharCount;
+            return EditorControl.TextProvider[index].CharCount;
         }
 
         public string GetString(Point p1, Point p2)
         {
-            return CodeForm.textEditorBox.TextProvider.GetString(ToPosition(p1), ToPosition(p2));
+            return EditorControl.TextProvider.GetString(ToPosition(p1), ToPosition(p2));
         }
 
         public Point TextPositionToViewPoint(Point p)
         {
-            return CodeForm.textEditorBox.TextPositionToViewPoint(ToPosition(p));
+            return EditorControl.TextPositionToViewPoint(ToPosition(p));
         }
 
         public int[] GetColorsOfLine(int index)
         {
-            return CodeForm.textEditorBox.GetColorsOfLine(index);
+            return EditorControl.GetColorsOfLine(index);
         }
     }
 }

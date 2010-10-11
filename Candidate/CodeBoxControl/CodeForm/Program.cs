@@ -18,11 +18,15 @@ namespace CodeForm
             Application.SetCompatibleTextRenderingDefault(false);
             if (args.SequenceEqual(new string[] { }))
             {
-                Application.Run(new CSharpForm());
+                Application.Run(new NativeXForm());
             }
             else if (args.SequenceEqual(new string[] { "C#" }))
             {
                 Application.Run(new CSharpForm());
+            }
+            else if (args.SequenceEqual(new string[] { "NativeX" }))
+            {
+                Application.Run(new NativeXForm());
             }
         }
     }
