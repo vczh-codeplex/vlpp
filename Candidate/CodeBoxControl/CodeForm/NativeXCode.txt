@@ -1,0 +1,79 @@
+﻿unit nativex_program_generated;
+function int32 main()
+    (result = (main1() + main2()));
+
+function int32 main1()
+{
+    variable Vector<int32> v1;
+    variable Vector<int32> v2;
+    (v1.X = 0s32);
+    (v1.Y = 1s32);
+    (v2.X = 2s32);
+    (v2.Y = 3s32);
+    if(Eq<Vector<int32>>::Equals(v1, v2))
+        (result = 1s32);
+    else
+        (result = 0s32);
+}
+
+function int32 main2()
+{
+    variable Vector<int32> v1;
+    variable Vector<int32> v2;
+    variable function bool(Vector<int32>, Vector<int32>) f = Eq<Vector<int32>>::NotEquals;
+    (v1.X = 0s32);
+    (v1.Y = 1s32);
+    (v2.X = 0s32);
+    (v2.Y = 1s32);
+    if(f(v1, v2))
+        (result = 1s32);
+    else
+        (result = 0s32);
+}
+
+concept T : Eq
+{
+    Equals = function bool(T, T);
+    NotEquals = function bool(T, T);
+}
+
+instance int32 : Eq
+{
+    Equals = IntEquals;
+    NotEquals = IntNotEquals;
+}
+
+function bool IntEquals(int32 a, int32 b)
+    (result = (a == b));
+
+function bool IntNotEquals(int32 a, int32 b)
+    (result = (a != b));
+
+generic<U>
+structure Vector
+{
+    U X;
+    U Y;
+}
+
+generic<V> where
+  V : Eq
+instance Vector : Eq
+{
+    Equals = VectorEquals<V>;
+    NotEquals = VectorNotEquals<V>;
+}
+
+generic<W> where
+  W : Eq
+function bool VectorEquals(Vector<W> a, Vector<W> b)
+{
+    variable bool x_equals = Eq<W>::Equals(a.X, b.X);
+    variable bool y_equals = Eq<W>::Equals(a.Y, b.Y);
+    (result = (x_equals && y_equals));
+}
+
+generic<W> where
+  W : Eq
+function bool VectorNotEquals(Vector<W> a, Vector<W> b)
+    (result = ( ! VectorEquals<W>(a, b)));
