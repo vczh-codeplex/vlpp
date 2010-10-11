@@ -11,7 +11,7 @@ namespace TokenizerBuilder
     {
         private static Regex charSetPattern = new Regex(@"^((?<a>\\.|[^\\])\-(?<b>\\.|[^\\])|(?<c>\\.|[^\\]))+$");
 
-        public static string GenerateCSharpCode(ShapeManager manager, string className)
+        public static string GenerateCSharpCode(ShapeManager manager, string namespaceName, string className, bool commentOutColors)
         {
             string[] colorIds = null;
             bool[] partialStates = null;
@@ -120,7 +120,7 @@ namespace TokenizerBuilder
                     }
                 }
             }
-            return GenerateCSharpCodeInternal(className, colorIds, stateIds, partialStates, charset, transitions, finalStates, stateColors);
+            return GenerateCSharpCodeInternal(namespaceName, className, commentOutColors, colorIds, stateIds, partialStates, charset, transitions, finalStates, stateColors);
         }
 
         private static char Escape(string text)
@@ -268,7 +268,7 @@ namespace TokenizerBuilder
             }
         }
 
-        private static string GenerateCSharpCodeInternal(string className, string[] colorIds, string[] stateIds, bool[] partialStates, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
+        private static string GenerateCSharpCodeInternal(string namespaceName, string className, bool commentOutColors, string[] colorIds, string[] stateIds, bool[] partialStates, int[] charset, int[,] transitions, bool[] finalStates, int[] stateColors)
         {
             StringBuilder builder = new StringBuilder();
             // header
@@ -279,13 +279,13 @@ namespace TokenizerBuilder
             builder.AppendLine("using CodeBoxControl;");
             builder.AppendLine("using System.Drawing;");
             builder.AppendLine();
-            builder.AppendLine("namespace " + className + "Namespace");
+            builder.AppendLine("namespace " + namespaceName);
             builder.AppendLine("{");
             builder.AppendLine("    partial class " + className + " : ITextEditorColorizer");
             builder.AppendLine("    {");
 
             // color ids
-            builder.AppendLine("        public const int NormalColorId = 0;");
+            builder.AppendLine("        " + (commentOutColors ? "//" : "") + "public const int NormalColorId = 0;");
             for (int i = 0; i < colorIds.Length; i++)
             {
                 builder.AppendLine("        public const int " + colorIds[i] + "ColorId = NormalColorId + " + (i + 1).ToString() + ";");
@@ -293,11 +293,11 @@ namespace TokenizerBuilder
             builder.AppendLine();
 
             // colors
-            builder.AppendLine("        private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);");
-            builder.AppendLine("        private readonly Color NormalColor = Color.FromArgb(0, 0, 0);");
+            builder.AppendLine("        " + (commentOutColors ? "//" : "") + "private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);");
+            builder.AppendLine("        " + (commentOutColors ? "//" : "") + "private readonly Color NormalColor = Color.FromArgb(0, 0, 0);");
             for (int i = 0; i < colorIds.Length; i++)
             {
-                builder.AppendLine("        private readonly Color " + colorIds[i] + "Color = Color.FromArgb(0, 0, 0);");
+                builder.AppendLine("        " + (commentOutColors ? "//" : "") + "private readonly Color " + colorIds[i] + "Color = Color.FromArgb(0, 0, 0);");
             }
             builder.AppendLine();
 

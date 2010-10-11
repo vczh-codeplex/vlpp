@@ -9,7 +9,7 @@ namespace CodeForm
 {
     partial class NativeXColorizer : ITextEditorColorizer
     {
-       // public const int NormalColorId = 0;
+        //public const int NormalColorId = 0;
         public const int IdColorId = NormalColorId + 1;
         public const int StringColorId = NormalColorId + 2;
         public const int NumberColorId = NormalColorId + 3;

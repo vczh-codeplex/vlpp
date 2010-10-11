@@ -57,6 +57,12 @@
       <DependentUpon>BuilderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ColorizerCodeGenerator.cs" />
+    <Compile Include="GenerateColorizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateColorizerForm.Designer.cs">
+      <DependentUpon>GenerateColorizerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape\ArrowShape.cs" />
@@ -76,6 +82,9 @@
     </Compile>
     <EmbeddedResource Include="BuilderForm.resx">
       <DependentUpon>BuilderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateColorizerForm.resx">
+      <DependentUpon>GenerateColorizerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
