@@ -776,7 +776,7 @@ namespace CodeForm
             transitions[21, 3] = 21;
             transitions[21, 4] = 24;
             transitions[21, 5] = 21;
-            transitions[21, 6] = 0;
+            transitions[21, 6] = 21;
             transitions[21, 7] = 21;
             transitions[21, 8] = 21;
             transitions[21, 9] = 21;
