@@ -32,6 +32,17 @@ namespace TokenizerBuilder
             this.content.Manager.SaveToFile(filename);
         }
 
+        public Bitmap SaveToBitmap()
+        {
+            Bitmap bitmap = new Bitmap(this.ViewSize.Width, this.ViewSize.Height);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
+                this.content.Manager.Draw(g, this.Font, new Size(0, 0));
+            }
+            return bitmap;
+        }
+
         public void Clear()
         {
             this.content.Manager = new ShapeManager();

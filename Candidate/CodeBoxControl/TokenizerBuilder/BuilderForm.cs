@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace TokenizerBuilder
 {
@@ -55,6 +57,31 @@ namespace TokenizerBuilder
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, this.Text);
+                    }
+                }
+            }
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dialogExport.ShowDialog() == DialogResult.OK)
+            {
+                using (Bitmap bitmap = tokenizerEditorBox.SaveToBitmap())
+                {
+                    switch (Path.GetExtension(dialogExport.FileName).ToUpper())
+                    {
+                        case ".BMP":
+                            bitmap.Save(dialogExport.FileName, ImageFormat.Bmp);
+                            break;
+                        case ".JPG":
+                            bitmap.Save(dialogExport.FileName, ImageFormat.Jpeg);
+                            break;
+                        case ".GIF":
+                            bitmap.Save(dialogExport.FileName, ImageFormat.Gif);
+                            break;
+                        case ".PNG":
+                            bitmap.Save(dialogExport.FileName, ImageFormat.Png);
+                            break;
                     }
                 }
             }
