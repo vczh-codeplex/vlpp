@@ -103,6 +103,13 @@ namespace TokenizerBuilder
                 this.host.MouseUp += new MouseEventHandler(host_MouseUp);
                 this.host.KeyDown += new KeyEventHandler(host_KeyDown);
                 this.host.KeyUp += new KeyEventHandler(host_KeyUp);
+                this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
+            }
+
+            void host_MouseWheel(object sender, MouseEventArgs e)
+            {
+                int offset = -e.Delta / 3;
+                this.editor.ViewPosition = new Point(this.editor.ViewPosition.X, this.editor.ViewPosition.Y + offset);
             }
 
             private void host_MouseDown(object sender, MouseEventArgs e)
