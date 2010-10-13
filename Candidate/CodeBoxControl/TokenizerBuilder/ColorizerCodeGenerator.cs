@@ -9,8 +9,6 @@ namespace TokenizerBuilder
 {
     class ColorizerCodeGenerator
     {
-        private static Regex charSetPattern = new Regex(@"^((?<a>\\.|[^\\])\-(?<b>\\.|[^\\])|(?<c>\\.|[^\\]))+$");
-
         public static string GenerateCSharpCode(ShapeManager manager, string namespaceName, string className, bool commentOutColors)
         {
             string[] colorIds = null;
@@ -51,7 +49,7 @@ namespace TokenizerBuilder
                 partialStates = stateIds.Select(c => c.EndsWith("*")).ToArray();
                 stateIds = stateIds.Select(s => s.EndsWith("*") ? s.Substring(0, s.Length - 1) : s).ToArray();
 
-                charset = MergeCharset(arrows.Select(a => GetCharsetFromArrow(a.Name)).ToArray());
+                charset = CodeGeneratorHelper.MergeCharset(arrows.Select(a => CodeGeneratorHelper.GetCharsetFromArrow(a.Name)).ToArray());
 
                 finalStates = new bool[] { false, true }.Concat(
                         states
@@ -76,7 +74,7 @@ namespace TokenizerBuilder
                     }
                 }
                 transitions = new int[states.Count + 1, fakeCharset + 1];
-                for (int i = 0; i < states.Count; i++)
+                for (int i = 0; i <= states.Count; i++)
                 {
                     if (i == 1)
                     {
@@ -105,7 +103,7 @@ namespace TokenizerBuilder
                         for (int j = 0; j < state.OutArrows.Count; j++)
                         {
                             ArrowShape arrow = state.OutArrows[j];
-                            int[] charsets = GetCharsetFromArrow(arrow.Name)
+                            int[] charsets = CodeGeneratorHelper.GetCharsetFromArrow(arrow.Name)
                                 .Select((b, c) => Tuple.Create(b, c))
                                 .Where(t => t.Item1)
                                 .Select(t => charset[t.Item2])
@@ -121,111 +119,6 @@ namespace TokenizerBuilder
                 }
             }
             return GenerateCSharpCodeInternal(namespaceName, className, commentOutColors, colorIds, stateIds, partialStates, charset, transitions, finalStates, stateColors);
-        }
-
-        private static char Escape(string text)
-        {
-            switch (text)
-            {
-                case @"\n":
-                    return '\n';
-                case @"\r":
-                    return '\r';
-                case @"\t":
-                    return '\t';
-                case @"\\":
-                    return '\\';
-                case @"\^":
-                    return '^';
-                case @"\.":
-                    return '.';
-            }
-            if (text.Length != 1)
-            {
-                throw new ArgumentException("Char cannot be \"" + text + "\".");
-            }
-            else
-            {
-                return text[0];
-            }
-        }
-
-        private static bool[] GetCharsetFromArrow(string arrowName)
-        {
-            bool revert = arrowName.StartsWith("^");
-            if (revert)
-            {
-                arrowName = arrowName.Substring(1);
-            }
-            Match match = charSetPattern.Match(arrowName);
-            if (match.Success)
-            {
-                bool[] result = new bool[char.MaxValue + 1];
-                CaptureCollection acc = match.Groups["a"].Captures;
-                CaptureCollection bcc = match.Groups["b"].Captures;
-                CaptureCollection ccc = match.Groups["c"].Captures;
-                foreach (Capture c in ccc)
-                {
-                    switch (c.Value)
-                    {
-                        case @"\.":
-                            for (int i = 0; i < result.Length; i++)
-                            {
-                                result[i] = true;
-                            }
-                            break;
-                        default:
-                            result[Escape(c.Value)] = true;
-                            break;
-                    }
-                }
-                for (int i = 0; i < acc.Count; i++)
-                {
-                    char a = Escape(acc[i].Value);
-                    char b = Escape(bcc[i].Value);
-                    for (char x = a; x <= b; x++)
-                    {
-                        result[x] = true;
-                    }
-                }
-                if (revert)
-                {
-                    for (int i = 0; i <= char.MaxValue; i++)
-                    {
-                        result[i] = !result[i];
-                    }
-                }
-                return result;
-            }
-            else
-            {
-                throw new ArgumentException("Transition \"" + arrowName + "\" is not valid.");
-            }
-        }
-
-        private static int[] MergeCharset(bool[][] arrows)
-        {
-            List<string> charsetName = new List<string>();
-            int[] result = new int[char.MaxValue + 1];
-            for (int x = char.MinValue; x <= char.MaxValue; x++)
-            {
-                if (arrows.All(a => !a[x]))
-                {
-                    result[x] = -1;
-                }
-                else
-                {
-                    string name = arrows.Select(a => a[x].ToString()).Aggregate("", (a, b) => a + "," + b);
-                    int index = charsetName.IndexOf(name);
-                    if (index == -1)
-                    {
-                        index = charsetName.Count;
-                        charsetName.Add(name);
-                    }
-                    result[x] = index;
-                }
-            }
-            return result;
         }
 
         private static string FindStateColor(StateShape state)

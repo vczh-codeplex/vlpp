@@ -53,6 +53,7 @@ namespace TokenizerBuilder
                     try
                     {
                         Clipboard.SetText(ColorizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, form.NamespaceName, form.ClassName, form.CommentOutColors));
+                        MessageBox.Show("Colorizer generated in the Clipboard.", this.Text);
                     }
                     catch (Exception ex)
                     {
@@ -82,6 +83,25 @@ namespace TokenizerBuilder
                         case ".PNG":
                             bitmap.Save(dialogExport.FileName, ImageFormat.Png);
                             break;
+                    }
+                }
+            }
+        }
+
+        private void tokenizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (GenerateTokenizerForm form = new GenerateTokenizerForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Clipboard.SetText(TokenizerCodeGenerator.GenerateCSharpCode(tokenizerEditorBox.Document, form.NamespaceName, form.ClassName));
+                        MessageBox.Show("Colorizer generated in the Clipboard.", this.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, this.Text);
                     }
                 }
             }

@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="NativeX\NativeXColorizer.Configuration.cs" />
     <Compile Include="NativeX\NativeXColorizer.Generated.cs" />
+    <Compile Include="NativeX\NativeXTokenizer.Generated.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharp\CSharpColorizer.Configuration.cs" />

@@ -42,6 +42,7 @@
             this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dialogExport = new System.Windows.Forms.SaveFileDialog();
+            this.tokenizerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tokenizerEditorBox = new TokenizerBuilder.TokenizerEditorBox();
             this.panelContainer.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -54,9 +55,9 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelContainer.Controls.Add(this.tokenizerEditorBox);
-            this.panelContainer.Location = new System.Drawing.Point(12, 30);
+            this.panelContainer.Location = new System.Drawing.Point(12, 28);
             this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(616, 505);
+            this.panelContainer.Size = new System.Drawing.Size(616, 466);
             this.panelContainer.TabIndex = 0;
             // 
             // dialogOpen
@@ -78,7 +79,7 @@
             this.generateToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(640, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(640, 25);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -92,14 +93,14 @@
             this.clearToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -107,49 +108,50 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.exportToolStripMenuItem.Text = "Export...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.clearToolStripMenuItem.Text = "&Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // generateToolStripMenuItem
             // 
             this.generateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.colorizerToolStripMenuItem});
+            this.colorizerToolStripMenuItem,
+            this.tokenizerToolStripMenuItem});
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(73, 21);
             this.generateToolStripMenuItem.Text = "&Generate";
             // 
             // colorizerToolStripMenuItem
             // 
             this.colorizerToolStripMenuItem.Name = "colorizerToolStripMenuItem";
-            this.colorizerToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.colorizerToolStripMenuItem.Text = "&Colorizer...";
+            this.colorizerToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.colorizerToolStripMenuItem.Text = "&Colorizer to Clipboard...";
             this.colorizerToolStripMenuItem.Click += new System.EventHandler(this.colorizerToolStripMenuItem_Click);
             // 
             // dialogExport
@@ -158,21 +160,28 @@
                 "iles (*.png)|*.png";
             this.dialogExport.Title = "Export to Image";
             // 
+            // tokenizerToolStripMenuItem
+            // 
+            this.tokenizerToolStripMenuItem.Name = "tokenizerToolStripMenuItem";
+            this.tokenizerToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.tokenizerToolStripMenuItem.Text = "Tokenizer to Clipboard...";
+            this.tokenizerToolStripMenuItem.Click += new System.EventHandler(this.tokenizerToolStripMenuItem_Click);
+            // 
             // tokenizerEditorBox
             // 
             this.tokenizerEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tokenizerEditorBox.HorizontalSmallChange = 1;
             this.tokenizerEditorBox.Location = new System.Drawing.Point(0, 0);
             this.tokenizerEditorBox.Name = "tokenizerEditorBox";
-            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 503);
+            this.tokenizerEditorBox.Size = new System.Drawing.Size(614, 464);
             this.tokenizerEditorBox.TabIndex = 0;
             this.tokenizerEditorBox.VerticalSmallChange = 1;
             // 
             // BuilderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 548);
+            this.ClientSize = new System.Drawing.Size(640, 506);
             this.Controls.Add(this.panelContainer);
             this.Controls.Add(this.menuStrip1);
             this.Name = "BuilderForm";
@@ -203,6 +212,7 @@
         private System.Windows.Forms.ToolStripMenuItem colorizerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog dialogExport;
+        private System.Windows.Forms.ToolStripMenuItem tokenizerToolStripMenuItem;
     }
 }
 
