@@ -24,6 +24,20 @@ namespace CodeBoxControl
             public object controlPanelData = null;
         }
 
+        #region Events
+
+        public event EventHandler SelectionChanged;
+
+        protected virtual void OnSelectionChanged(EventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, e);
+            }
+        }
+
+        #endregion
+
         #region Editing Processor Fields
 
         private TextProvider<LineInfo> textProvider = null;
@@ -617,6 +631,7 @@ namespace CodeBoxControl
                 this.ViewPosition = newViewPosition;
             }
             this.caretVisible = true;
+            OnSelectionChanged(new EventArgs());
         }
 
         bool ITextContentProvider.OnEdit(TextPosition start, TextPosition end, string[] lines)
@@ -647,12 +662,14 @@ namespace CodeBoxControl
                 if (this.textProvider[newEndRow].Tag.colorizerFinalState == lastFinalState)
                 {
                     this.colorizedLines = lastColorizedLines + newEndRow - end.row;
-                    return true;
+                    goto FINISH_COLORIZING;
                 }
             }
             this.colorizedLines = Math.Min(this.colorizedLines, start.row);
 
+        FINISH_COLORIZING:
             this.controlPanel.OnEdit(start, end, newEnd);
+            OnTextChanged(new EventArgs());
             return true;
         }
 
