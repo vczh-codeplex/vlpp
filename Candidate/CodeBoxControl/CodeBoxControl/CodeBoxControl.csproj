@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculationNotifier.cs" />
     <Compile Include="CodeProvider\CodeDomHelper.cs" />
     <Compile Include="CodeProvider\CodeNode.cs" />
     <Compile Include="CodeProvider\CodeNodeCollection.cs" />

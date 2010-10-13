@@ -229,6 +229,7 @@ namespace CodeBoxControl
             if (!this.updating)
             {
                 UpdateScrollBar();
+                panelContent.Refresh();
             }
         }
 

@@ -66,6 +66,8 @@
       <DependentUpon>Images.resx</DependentUpon>
     </Compile>
     <Compile Include="ITextEditorService.cs" />
+    <Compile Include="NativeX\NativeXCodeAnalyzer.cs" />
+    <Compile Include="NativeX\NativeXControlPanel.cs" />
     <Compile Include="NativeX\NativeXForm.cs">
       <SubType>Form</SubType>
     </Compile>
