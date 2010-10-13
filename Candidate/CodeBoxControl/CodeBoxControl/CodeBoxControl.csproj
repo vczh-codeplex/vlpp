@@ -49,6 +49,7 @@
     <Compile Include="CodeProvider\CodeDomHelper.cs" />
     <Compile Include="CodeProvider\CodeNode.cs" />
     <Compile Include="CodeProvider\CodeNodeCollection.cs" />
+    <Compile Include="CodeProvider\CodeTokenizer.cs" />
     <Compile Include="CodeProvider\ICodeScope.cs" />
     <Compile Include="Core\TextEditorController.cs" />
     <Compile Include="Core\TextLine.cs" />
