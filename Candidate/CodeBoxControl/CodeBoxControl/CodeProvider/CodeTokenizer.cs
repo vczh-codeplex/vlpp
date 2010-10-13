@@ -29,14 +29,17 @@ namespace CodeBoxControl.CodeProvider
                 TextPosition oldCurrentPosition = currentPosition;
                 int oldCurrentState = currentState;
                 char c = input[i];
-                if (c == '\n')
+                switch (c)
                 {
-                    currentPosition.row++;
-                    currentPosition.col = 0;
-                }
-                else
-                {
-                    currentPosition.col++;
+                    case '\n':
+                        currentPosition.row++;
+                        currentPosition.col = 0;
+                        break;
+                    case '\r':
+                        continue;
+                    default:
+                        currentPosition.col++;
+                        break;
                 }
                 currentState = this.transitions[currentState, this.charset[c]];
                 if (currentState == -1)

@@ -16,11 +16,14 @@ namespace CodeForm
     public partial class NativeXForm : Form
     {
         private ServiceHost serviceHost = null;
+        private NativeXControlPanel controlPanel = null;
 
         public NativeXForm()
         {
             InitializeComponent();
+            this.controlPanel = new NativeXControlPanel();
             textEditorBox.Colorizer = new NativeXColorizer();
+            textEditorBox.ControlPanel = this.controlPanel;
             TextEditorService.EditorControl = textEditorBox;
             this.serviceHost = new ServiceHost(typeof(TextEditorService));
             this.serviceHost.Open();
@@ -29,6 +32,7 @@ namespace CodeForm
         private void NativeXForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.serviceHost.Close();
+            this.controlPanel.Dispose();
         }
 
         private void NativeXForm_Shown(object sender, EventArgs e)
