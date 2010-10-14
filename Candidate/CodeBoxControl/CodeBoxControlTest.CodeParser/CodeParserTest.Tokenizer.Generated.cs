@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using CodeBoxControl.CodeProvider;
 
-namespace CodeBoxControlTest
+namespace CodeBoxControlTest.CodeParser
 {
-    partial class CodeParserTokenizer : CodeTokenizer
+    public partial class CodeParserTokenizer : CodeTokenizer
     {
         public const int NumberToken = 0;
         public const int IdToken = 1;

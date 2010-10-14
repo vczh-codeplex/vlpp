@@ -54,6 +54,16 @@
     <Compile Include="CodeProvider\CodeNodeList.cs" />
     <Compile Include="CodeProvider\CodeTokenizer.cs" />
     <Compile Include="CodeProvider\ICodeScope.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\ChoiceNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\LeftRecursionNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\ListNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\MemberNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\ParserNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\ReturnNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\RuleNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\SequenceNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\TokenContentNode.cs" />
+    <Compile Include="CodeProvider\ParserCodeGenerator\TokenNode.cs" />
     <Compile Include="Core\TextEditorController.cs" />
     <Compile Include="Core\TextLine.cs" />
     <Compile Include="Core\TextPosition.cs" />
