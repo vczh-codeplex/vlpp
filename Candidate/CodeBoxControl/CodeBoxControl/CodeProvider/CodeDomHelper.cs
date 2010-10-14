@@ -43,8 +43,9 @@ namespace CodeBoxControl.CodeProvider
                     options.IndentString = "    ";
                     options.VerbatimOrder = true;
                     provider.GenerateCodeFromCompileUnit(unit, writer, options);
+                    writer.Flush();
                     stream.Seek(0, SeekOrigin.Begin);
-                    message = writer.ToString();
+                    message += reader.ReadToEnd();
                 }
                 throw new InvalidOperationException(message);
             }
