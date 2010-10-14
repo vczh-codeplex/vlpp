@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeBoxControl.CodeProvider;
+using CodeBoxControlTest.CodeParser;
 
 namespace CodeBoxControlTest
 {
@@ -56,42 +57,5 @@ namespace CodeBoxControlTest
             Assert.IsTrue(powExpr.Nodes.SequenceEqual(new CodeNode[] { powExpr.Parameters }));
             Assert.IsTrue(powExpr.Parameters.Nodes.SequenceEqual(new CodeNode[] { mulExpr, n5 }));
         }
-    }
-
-    public abstract class Expression : CodeNode
-    {
-    }
-
-    public abstract class NumberExpression : Expression
-    {
-        public double Number { get; set; }
-    }
-
-    public abstract class BinaryExpression : Expression
-    {
-        public abstract Expression Left { get; set; }
-        public abstract Expression Right { get; set; }
-    }
-
-    public abstract class AddExpression : BinaryExpression
-    {
-    }
-
-    public abstract class SubExpression : BinaryExpression
-    {
-    }
-
-    public abstract class MulExpression : BinaryExpression
-    {
-    }
-
-    public abstract class DivExpression : BinaryExpression
-    {
-    }
-
-    public abstract class FunctionExpression : Expression
-    {
-        public string Name { get; set; }
-        public abstract CodeNodeList<Expression> Parameters { get; set; }
     }
 }
