@@ -17,7 +17,15 @@ namespace CodeBoxControl.CodeProvider
         public virtual TextPosition Start { get; protected internal set; }
         public virtual TextPosition End { get; protected internal set; }
         public virtual CodeNode ParentNode { get; protected internal set; }
-        public virtual CodeNodeCollection Nodes { get; private set; }
+        public virtual CodeNodeCollection NamedNodes { get; private set; }
+
+        public virtual IEnumerable<CodeNode> Nodes
+        {
+            get
+            {
+                return this.NamedNodes;
+            }
+        }
 
         public virtual ICodeScope OwningScope
         {
@@ -42,8 +50,8 @@ namespace CodeBoxControl.CodeProvider
 
         public CodeNode()
         {
-            this.Nodes = new CodeNodeCollection();
-            this.Nodes.Owner = this;
+            this.NamedNodes = new CodeNodeCollection();
+            this.NamedNodes.Owner = this;
         }
 
         public static T Create<T>()
@@ -82,7 +90,7 @@ namespace CodeBoxControl.CodeProvider
                                     new CodeIndexerExpression(
                                         new CodePropertyReferenceExpression(
                                             new CodeThisReferenceExpression(),
-                                            "Nodes"
+                                            "NamedNodes"
                                             ),
                                         new CodePrimitiveExpression(propertyInfo.Name)
                                         )
@@ -95,7 +103,7 @@ namespace CodeBoxControl.CodeProvider
                                 new CodeIndexerExpression(
                                     new CodePropertyReferenceExpression(
                                         new CodeThisReferenceExpression(),
-                                        "Nodes"
+                                        "NamedNodes"
                                         ),
                                         new CodePrimitiveExpression(propertyInfo.Name)
                                     ),
