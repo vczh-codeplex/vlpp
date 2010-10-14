@@ -9,7 +9,7 @@ namespace ParserBuilder
 {
     class CodeParserTestParserBuilder : Parser
     {
-        public static void Build()
+        public static string Build()
         {
             const int ID = CodeParserTokenizer.IdToken;
             const int Number = CodeParserTokenizer.NumberToken;
@@ -17,7 +17,7 @@ namespace ParserBuilder
             var NUMBER = rule<NumberExpression>("Number");
             var BRACKET = rule<Expression>("Bracket");
             var FACTOR = rule<Expression>("Factor");
-            var TERM = rule<Expression>("TerM");
+            var TERM = rule<Expression>("Term");
             var EXPRESSION = rule<Expression>("Expression");
 
             FUNCTION.Infer(
@@ -43,6 +43,8 @@ namespace ParserBuilder
             EXPRESSION.Infer(
               ret(leftrec<BinaryExpression>(TERM["Left"], (tok("+") | tok("-"))["Operator"] + TERM["Right"]))
             );
+
+            return ParserGenerator.GenerateCSharpCode(EXPRESSION, "CodeBoxControlTest.CodeParser", "CodeParserAnalyzer");
         }
     }
 }

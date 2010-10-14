@@ -9,5 +9,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
     {
         public ParserNode Content { get; set; }
         public string Member { get; set; }
+
+        public override void Accept(IParserNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
