@@ -8,5 +8,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
     public class ReturnNode : ParserNode
     {
         public ParserNode Content { get; set; }
+
+        public override void Accept(IParserNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

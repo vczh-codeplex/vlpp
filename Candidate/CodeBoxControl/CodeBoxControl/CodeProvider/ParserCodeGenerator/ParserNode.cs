@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 {
-    public class ParserNode
+    public abstract class ParserNode
     {
         public static ParserNode operator |(ParserNode left, ParserNode right)
         {
@@ -36,6 +36,21 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 };
             }
         }
+
+        public abstract void Accept(IParserNodeVisitor visitor);
+    }
+
+    public interface IParserNodeVisitor
+    {
+        void Visit(ChoiceNode node);
+        void Visit(LeftRecursionNode node);
+        void Visit(ListNode node);
+        void Visit(MemberNode node);
+        void Visit(ReturnNode node);
+        void Visit(RuleNode node);
+        void Visit(SequenceNode node);
+        void Visit(TokenNode node);
+        void Visit(TokenContentNode node);
     }
 
     public class Parser

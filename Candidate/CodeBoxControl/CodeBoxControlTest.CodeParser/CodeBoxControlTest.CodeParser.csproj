@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeParserTest.Analyzer.Generated.cs" />
     <Compile Include="CodeParserTest.Tokenizer.Generated.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

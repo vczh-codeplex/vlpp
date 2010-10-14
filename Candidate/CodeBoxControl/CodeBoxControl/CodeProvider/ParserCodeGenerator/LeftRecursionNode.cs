@@ -10,5 +10,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         public ParserNode First { get; set; }
         public ParserNode Next { get; set; }
         public Type NodeType { get; set; }
+
+        public override void Accept(IParserNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
