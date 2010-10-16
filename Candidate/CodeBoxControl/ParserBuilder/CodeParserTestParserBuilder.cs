@@ -33,15 +33,15 @@ namespace ParserBuilder
             );
 
             FACTOR.Infer(
-              ret(NUMBER | FUNCTION | BRACKET)
+              ret(NUMBER) | ret(FUNCTION) | ret(BRACKET)
             );
 
             TERM.Infer(
-              ret(leftrec<BinaryExpression>(FACTOR["Left"], (tok("*") | tok("/"))["Operator"] + FACTOR["Right"]))
+              ret(leftrec<BinaryExpression>(FACTOR["Left"], (tok("*")["Operator"] | tok("/")["Operator"]) + FACTOR["Right"]))
             );
 
             EXPRESSION.Infer(
-              ret(leftrec<BinaryExpression>(TERM["Left"], (tok("+") | tok("-"))["Operator"] + TERM["Right"]))
+              ret(leftrec<BinaryExpression>(TERM["Left"], (tok("+")["Operator"] | tok("-")["Operator"]) + TERM["Right"]))
             );
 
             return ParserGenerator.GenerateCSharpCode(EXPRESSION, "CodeBoxControlTest.CodeParser", "CodeParserAnalyzer");

@@ -29,11 +29,18 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         {
             get
             {
-                return new MemberNode()
+                if (this is RuleNode || this is TokenNode || this is TokenContentNode || this is LeftRecursionNode || this is ListNode)
                 {
-                    Content = this,
-                    Member = member
-                };
+                    return new MemberNode()
+                    {
+                        Content = this,
+                        Member = member
+                    };
+                }
+                else
+                {
+                    throw new ArgumentException("ParserNode.operator[] can only be applied to rule, token, list or leftrec.");
+                }
             }
         }
 
@@ -82,10 +89,17 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
         public static ParserNode ret(ParserNode node)
         {
-            return new ReturnNode()
+            if (node is RuleNode || node is TokenNode || node is TokenContentNode || node is LeftRecursionNode || node is ListNode)
             {
-                Content = node
-            };
+                return new ReturnNode()
+                {
+                    Content = node
+                };
+            }
+            else
+            {
+                throw new ArgumentException("Parser.ret can only be applied to rule, token, list or leftrec.");
+            }
         }
 
         public static ParserNode list<T>(ParserNode item)
