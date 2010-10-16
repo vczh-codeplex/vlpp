@@ -174,6 +174,45 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControl.CodeProvider.CodeNodeList<CodeBoxControlTest.CodeParser.Expression> result2 = default(CodeBoxControl.CodeProvider.CodeNodeList<CodeBoxControlTest.CodeParser.Expression>);
                     int currentIndex2 = currentIndex1;
+                    result2 = new CodeBoxControl.CodeProvider.CodeNodeList<CodeBoxControlTest.CodeParser.Expression>();
+                    {
+                        CodeBoxControlTest.CodeParser.Expression result3 = default(CodeBoxControlTest.CodeParser.Expression);
+                        int currentIndex3 = currentIndex2;
+                        result3 = ParseExpression(tokens, ref currentIndex3);
+                        if (currentIndex2 == currentIndex3)
+                        {
+                            currentIndex2 = currentIndex3;
+                            result2.Add(result3);
+                        }
+                        while (true)
+                        {
+                            int currentIndexCopy3 = currentIndex2;
+                            if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == ",")
+                            {
+                                currentIndex3++;
+                            }
+                            if (currentIndexCopy3 != currentIndex3)
+                            {
+                                currentIndexCopy3 = currentIndex3;
+                            }
+                            else
+                            {
+                                goto LABEL_1;
+                            }
+                            result3 = ParseExpression(tokens, ref currentIndex3);
+                            if (currentIndexCopy3 != currentIndex3)
+                            {
+                                currentIndexCopy3 = currentIndex3;
+                            }
+                            else
+                            {
+                                goto LABEL_1;
+                            }
+                            currentIndex2 = currentIndexCopy3;
+                            result2.Add(result3);
+                        }
+                    LABEL_1: ;
+                    }
                     if (currentIndex1 != currentIndex2)
                     {
                         currentIndex1 = currentIndex2;
