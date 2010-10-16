@@ -30,6 +30,20 @@ namespace CodeBoxControlTest.CodeParser
         {
             CodeBoxControlTest.CodeParser.NumberExpression result = default(CodeBoxControlTest.CodeParser.NumberExpression);
             System.Double NumberMember0 = default(System.Double);
+            {
+                CodeBoxControl.CodeProvider.CodeToken result1 = default(CodeBoxControl.CodeProvider.CodeToken);
+                int currentIndex1 = currentToken;
+                if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == 0)
+                {
+                    result1 = tokens[currentIndex1];
+                    currentIndex1++;
+                }
+                if (currentToken != currentIndex1)
+                {
+                    currentToken = currentIndex1;
+                    NumberMember0 = System.Double.Parse(result1.Value);
+                }
+            }
             return result;
         }
 
