@@ -29,7 +29,7 @@ namespace ParserBuilder
             );
 
             BRACKET.Infer(
-              tok(ID) + ret(EXPRESSION) + tok(ID)
+              tok("(") + ret(EXPRESSION) + tok(")")
             );
 
             FACTOR.Infer(
