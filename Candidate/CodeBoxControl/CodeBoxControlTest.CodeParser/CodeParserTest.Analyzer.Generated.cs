@@ -8,13 +8,13 @@ namespace CodeBoxControlTest.CodeParser
 {
     public static class CodeParserAnalyzer
     {
-        public static CodeBoxControlTest.CodeParser.Expression ParseExpression(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.Expression ParseExpression(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.BinaryExpression result1 = default(CodeBoxControlTest.CodeParser.BinaryExpression);
                 int currentIndex1 = currentToken;
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     result = result1;
@@ -24,13 +24,13 @@ namespace CodeBoxControlTest.CodeParser
             return result;
         }
 
-        public static CodeBoxControlTest.CodeParser.Expression ParseTerm(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.Expression ParseTerm(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.BinaryExpression result1 = default(CodeBoxControlTest.CodeParser.BinaryExpression);
                 int currentIndex1 = currentToken;
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     result = result1;
@@ -40,7 +40,7 @@ namespace CodeBoxControlTest.CodeParser
             return result;
         }
 
-        public static CodeBoxControlTest.CodeParser.Expression ParseFactor(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.Expression ParseFactor(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
@@ -50,14 +50,15 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControlTest.CodeParser.NumberExpression result2 = default(CodeBoxControlTest.CodeParser.NumberExpression);
                     int currentIndex2 = currentIndex1;
-                    result2 = ParseNumber(tokens, ref currentIndex2);
-                    if (currentIndex1 != currentIndex2)
+                    parseSuccess = false;
+                    result2 = ParseNumber(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         result1 = result2;
                     }
                 }
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     goto LABEL_SUCCESS_0;
@@ -66,14 +67,15 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControlTest.CodeParser.FunctionExpression result2 = default(CodeBoxControlTest.CodeParser.FunctionExpression);
                     int currentIndex2 = currentIndex1;
-                    result2 = ParseFunction(tokens, ref currentIndex2);
-                    if (currentIndex1 != currentIndex2)
+                    parseSuccess = false;
+                    result2 = ParseFunction(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         result1 = result2;
                     }
                 }
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     goto LABEL_SUCCESS_0;
@@ -82,14 +84,15 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControlTest.CodeParser.Expression result2 = default(CodeBoxControlTest.CodeParser.Expression);
                     int currentIndex2 = currentIndex1;
-                    result2 = ParseBracket(tokens, ref currentIndex2);
-                    if (currentIndex1 != currentIndex2)
+                    parseSuccess = false;
+                    result2 = ParseBracket(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         result1 = result2;
                     }
                 }
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     goto LABEL_SUCCESS_0;
@@ -103,19 +106,21 @@ namespace CodeBoxControlTest.CodeParser
             return result;
         }
 
-        public static CodeBoxControlTest.CodeParser.NumberExpression ParseNumber(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.NumberExpression ParseNumber(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.NumberExpression result = default(CodeBoxControlTest.CodeParser.NumberExpression);
             System.Double NumberMember0 = default(System.Double);
             {
                 CodeBoxControl.CodeProvider.CodeToken result1 = default(CodeBoxControl.CodeProvider.CodeToken);
                 int currentIndex1 = currentToken;
+                parseSuccess = false;
                 if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == 0)
                 {
                     result1 = tokens[currentIndex1];
                     currentIndex1++;
+                    parseSuccess = true;
                 }
-                if (currentToken != currentIndex1)
+                if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     NumberMember0 = System.Double.Parse(result1.Value);
@@ -126,7 +131,7 @@ namespace CodeBoxControlTest.CodeParser
             return result;
         }
 
-        public static CodeBoxControlTest.CodeParser.FunctionExpression ParseFunction(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.FunctionExpression ParseFunction(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.FunctionExpression result = default(CodeBoxControlTest.CodeParser.FunctionExpression);
             System.String NameMember0 = default(System.String);
@@ -138,19 +143,21 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControl.CodeProvider.CodeToken result2 = default(CodeBoxControl.CodeProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
+                    parseSuccess = false;
                     if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == 1)
                     {
                         result2 = tokens[currentIndex2];
                         currentIndex2++;
+                        parseSuccess = true;
                     }
-                    if (currentIndex1 != currentIndex2)
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         NameMember1 = result2.Value;
                     }
                 }
                 NameMember0 = NameMember1;
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -158,11 +165,13 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     goto LABEL_0;
                 }
+                parseSuccess = false;
                 if (currentIndex1 < tokens.Count && tokens[currentIndex1].Value == "(")
                 {
                     currentIndex1++;
+                    parseSuccess = true;
                 }
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -178,8 +187,9 @@ namespace CodeBoxControlTest.CodeParser
                     {
                         CodeBoxControlTest.CodeParser.Expression result3 = default(CodeBoxControlTest.CodeParser.Expression);
                         int currentIndex3 = currentIndex2;
-                        result3 = ParseExpression(tokens, ref currentIndex3);
-                        if (currentIndex2 == currentIndex3)
+                        parseSuccess = false;
+                        result3 = ParseExpression(tokens, ref currentIndex3, ref parseSuccess);
+                        if (parseSuccess)
                         {
                             currentIndex2 = currentIndex3;
                             result2.Add(result3);
@@ -187,11 +197,13 @@ namespace CodeBoxControlTest.CodeParser
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            parseSuccess = false;
                             if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == ",")
                             {
                                 currentIndex3++;
+                                parseSuccess = true;
                             }
-                            if (currentIndexCopy3 != currentIndex3)
+                            if (parseSuccess)
                             {
                                 currentIndexCopy3 = currentIndex3;
                             }
@@ -199,8 +211,9 @@ namespace CodeBoxControlTest.CodeParser
                             {
                                 goto LABEL_1;
                             }
-                            result3 = ParseExpression(tokens, ref currentIndex3);
-                            if (currentIndexCopy3 != currentIndex3)
+                            parseSuccess = false;
+                            result3 = ParseExpression(tokens, ref currentIndex3, ref parseSuccess);
+                            if (parseSuccess)
                             {
                                 currentIndexCopy3 = currentIndex3;
                             }
@@ -211,16 +224,16 @@ namespace CodeBoxControlTest.CodeParser
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
                         }
-                    LABEL_1: ;
+                    LABEL_1: ; parseSuccess = true;
                     }
-                    if (currentIndex1 != currentIndex2)
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         ParametersMember1 = result2;
                     }
                 }
                 ParametersMember0 = ParametersMember1;
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -228,11 +241,13 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     goto LABEL_0;
                 }
+                parseSuccess = false;
                 if (currentIndex1 < tokens.Count && tokens[currentIndex1].Value == ")")
                 {
                     currentIndex1++;
+                    parseSuccess = true;
                 }
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -248,18 +263,20 @@ namespace CodeBoxControlTest.CodeParser
             return result;
         }
 
-        public static CodeBoxControlTest.CodeParser.Expression ParseBracket(List<CodeToken> tokens, ref int currentToken)
+        public static CodeBoxControlTest.CodeParser.Expression ParseBracket(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
+                parseSuccess = false;
                 if (currentIndex1 < tokens.Count && tokens[currentIndex1].Value == "(")
                 {
                     currentIndex1++;
+                    parseSuccess = true;
                 }
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -270,14 +287,15 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     CodeBoxControlTest.CodeParser.Expression result2 = default(CodeBoxControlTest.CodeParser.Expression);
                     int currentIndex2 = currentIndex1;
-                    result2 = ParseExpression(tokens, ref currentIndex2);
-                    if (currentIndex1 != currentIndex2)
+                    parseSuccess = false;
+                    result2 = ParseExpression(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
                     {
                         currentIndex1 = currentIndex2;
                         result1 = result2;
                     }
                 }
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
@@ -285,11 +303,13 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     goto LABEL_0;
                 }
+                parseSuccess = false;
                 if (currentIndex1 < tokens.Count && tokens[currentIndex1].Value == ")")
                 {
                     currentIndex1++;
+                    parseSuccess = true;
                 }
-                if (currentIndexCopy1 != currentIndex1)
+                if (parseSuccess)
                 {
                     currentIndexCopy1 = currentIndex1;
                 }
