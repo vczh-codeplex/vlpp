@@ -43,6 +43,62 @@ namespace CodeBoxControlTest.CodeParser
         public static CodeBoxControlTest.CodeParser.Expression ParseFactor(List<CodeToken> tokens, ref int currentToken)
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
+            {
+                CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
+                int currentIndex1 = -1;
+                currentIndex1 = currentToken;
+                {
+                    CodeBoxControlTest.CodeParser.NumberExpression result2 = default(CodeBoxControlTest.CodeParser.NumberExpression);
+                    int currentIndex2 = currentIndex1;
+                    result2 = ParseNumber(tokens, ref currentIndex2);
+                    if (currentIndex1 != currentIndex2)
+                    {
+                        currentIndex1 = currentIndex2;
+                        result1 = result2;
+                    }
+                }
+                if (currentToken != currentIndex1)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    CodeBoxControlTest.CodeParser.FunctionExpression result2 = default(CodeBoxControlTest.CodeParser.FunctionExpression);
+                    int currentIndex2 = currentIndex1;
+                    result2 = ParseFunction(tokens, ref currentIndex2);
+                    if (currentIndex1 != currentIndex2)
+                    {
+                        currentIndex1 = currentIndex2;
+                        result1 = result2;
+                    }
+                }
+                if (currentToken != currentIndex1)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    CodeBoxControlTest.CodeParser.Expression result2 = default(CodeBoxControlTest.CodeParser.Expression);
+                    int currentIndex2 = currentIndex1;
+                    result2 = ParseBracket(tokens, ref currentIndex2);
+                    if (currentIndex1 != currentIndex2)
+                    {
+                        currentIndex1 = currentIndex2;
+                        result1 = result2;
+                    }
+                }
+                if (currentToken != currentIndex1)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                goto LABEL_FAIL_1;
+            LABEL_SUCCESS_0: ;
+                result = result1;
+            LABEL_FAIL_1: ;
+            }
             if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
             return result;
         }

@@ -540,6 +540,40 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(ChoiceNode node)
             {
+                List<ParserNode> branches = ChoiceNodeFlatter.Flat(node);
+                ReturnNode returnNode = ReturnNodeDetector.Discover(node);
+                Type returnElementNodeType = returnNode == null ? null : NodeElementTypeRetriver.GetNodeType(returnNode.Content);
+                Type returnResultNodeType = returnNode == null ? null : NodeResultTypeRetriver.GetNodeType(returnNode.Content);
+                int newLevel = this.level + 1;
+                string newReturnVariable = returnNode != null ? "result" + newLevel.ToString() : "";
+                string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string labelSuccessName = "LABEL_SUCCESS_" + (this.labelCounter++).ToString();
+                string labelFailName = "LABEL_FAIL_" + (this.labelCounter++).ToString();
+                sb.AppendLine(identation + "{");
+                if (returnNode != null)
+                {
+                    sb.AppendLine(identation + "    " + GetTypeFullName(returnResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnResultNodeType) + ");");
+                }
+                sb.AppendLine(identation + "    int " + newIndexVariable + " = -1;");
+                foreach (ParserNode branch in branches)
+                {
+                    bool branchHasReturnNode = ReturnNodeDetector.Discover(branch) != null;
+                    sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
+                    sb.Append(CodeGenerator.GenerateCode(this.nodeType, branch, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
+                    sb.AppendLine(identation + "    if (" + this.indexVariable + " != " + newIndexVariable + ")");
+                    sb.AppendLine(identation + "    {");
+                    sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                    sb.AppendLine(identation + "        goto " + labelSuccessName + ";");
+                    sb.AppendLine(identation + "    }");
+                }
+                sb.AppendLine(identation + "    goto " + labelFailName + ";");
+                sb.AppendLine(identation + "    " + labelSuccessName + ":;");
+                if (returnNode != null)
+                {
+                    GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);
+                }
+                sb.AppendLine(identation + "    " + labelFailName + ":;");
+                sb.AppendLine(identation + "}");
             }
 
             public void Visit(LeftRecursionNode node)
