@@ -71,11 +71,11 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             };
         }
 
-        public static ParserNode tok(int id)
+        public static ParserNode id(string code)
         {
             return new TokenNode()
             {
-                TokenId = id
+                Code = code
             };
         }
 
