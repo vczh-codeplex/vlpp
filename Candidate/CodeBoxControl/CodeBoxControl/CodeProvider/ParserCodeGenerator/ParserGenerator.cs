@@ -212,7 +212,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 foreach (MemberNode memberNode in RuleMemberCollector.GetMembers(node))
                 {
                     Type memberType = nodeType.GetProperty(memberNode.Member).PropertyType;
-                    generator.sb.AppendLine(identation + GetTypeFullName(memberType) + " " + memberNode.Member + "Member = default(" + GetTypeFullName(memberType) + ");");
+                    generator.sb.AppendLine(identation + GetTypeFullName(memberType) + " " + memberNode.Member + "Member" + level.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                 }
                 node.Accept(generator);
                 return generator.sb.ToString();
