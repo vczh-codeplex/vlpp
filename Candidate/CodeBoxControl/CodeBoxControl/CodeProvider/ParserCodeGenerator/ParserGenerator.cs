@@ -25,7 +25,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             foreach (RuleNode rule in rules)
             {
                 int labelCounter = 0;
-                sb.AppendLine("        public static " + rule.NodeType.FullName + " Parse" + rule.RuleName + "(List<CodeToken> tokens, ref int currentToken)");
+                sb.AppendLine("        public static " + rule.NodeType.FullName + " Parse" + rule.RuleName + "(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)");
                 sb.AppendLine("        {");
                 sb.AppendLine("            " + GetTypeFullName(rule.NodeType) + " result = default(" + GetTypeFullName(rule.NodeType) + ");");
                 sb.Append(CodeGenerator.GenerateCode(rule.NodeType, rule.Content, "            ", 0, 0, "result", "currentToken", ref labelCounter));
@@ -560,7 +560,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     bool branchHasReturnNode = ReturnNodeDetector.Discover(branch) != null;
                     sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
                     sb.Append(CodeGenerator.GenerateCode(this.nodeType, branch, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
-                    sb.AppendLine(identation + "    if (" + this.indexVariable + " != " + newIndexVariable + ")");
+                    sb.AppendLine(identation + "    if (parseSuccess)");
                     sb.AppendLine(identation + "    {");
                     sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                     sb.AppendLine(identation + "        goto " + labelSuccessName + ";");
@@ -599,7 +599,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 }
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
                 sb.Append(CodeGenerator.GenerateCode(node.NodeType, node.Item, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "    if (" + this.indexVariable + " == " + newIndexVariable + ")");
+                sb.AppendLine(identation + "    if (parseSuccess)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                 if (this.returnVariable != "")
@@ -611,7 +611,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
                 sb.Append(CodeGenerator.GenerateCode(NodeResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "        if (" + copiedIndexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "        if (parseSuccess)");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "        }");
@@ -620,7 +620,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "            goto " + labelName + ";");
                 sb.AppendLine(identation + "        }");
                 sb.Append(CodeGenerator.GenerateCode(node.NodeType, node.Item, identation + "        ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "        if (" + copiedIndexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "        if (parseSuccess)");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "        }");
@@ -635,6 +635,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 }
                 sb.AppendLine(identation + "    }");
                 sb.Append(identation + "    " + labelName + ":;");
+                sb.Append(identation + "    parseSuccess = true;");
                 sb.AppendLine(identation + "}");
             }
 
@@ -649,7 +650,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    " + GetTypeFullName(memberResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(memberResultNodeType) + ");");
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
                 sb.Append(CodeGenerator.GenerateCode(memberElementNodeType, node.Content, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "    if (" + this.indexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "    if (parseSuccess)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                 GenerateAssignCode(nodeType.GetProperty(node.Member).PropertyType, memberResultNodeType, node.Member + "Member" + this.level.ToString(), newReturnVariable);
@@ -668,7 +669,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    " + GetTypeFullName(memberResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(memberResultNodeType) + ");");
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
                 sb.Append(CodeGenerator.GenerateCode(memberElementNodeType, node.Content, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "    if (" + this.indexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "    if (parseSuccess)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                 GenerateAssignCode(null, memberResultNodeType, this.returnVariable, newReturnVariable);
@@ -678,13 +679,14 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(RuleNode node)
             {
+                sb.AppendLine(identation + "parseSuccess = false;");
                 if (this.returnVariable == "")
                 {
-                    sb.AppendLine(identation + "Parse" + node.RuleName + "(tokens, ref " + this.indexVariable + ");");
+                    sb.AppendLine(identation + "Parse" + node.RuleName + "(tokens, ref " + this.indexVariable + ", ref parseSuccess);");
                 }
                 else
                 {
-                    sb.AppendLine(identation + this.returnVariable + " = Parse" + node.RuleName + "(tokens, ref " + this.indexVariable + ");");
+                    sb.AppendLine(identation + this.returnVariable + " = Parse" + node.RuleName + "(tokens, ref " + this.indexVariable + ", ref parseSuccess);");
                 }
             }
 
@@ -710,7 +712,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 {
                     bool branchHasReturnNode = ReturnNodeDetector.Discover(branch) != null;
                     sb.Append(CodeGenerator.GenerateCode(this.nodeType, branch, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
-                    sb.AppendLine(identation + "    if (" + copiedIndexVariable + " != " + newIndexVariable + ")");
+                    sb.AppendLine(identation + "    if (parseSuccess)");
                     sb.AppendLine(identation + "    {");
                     sb.AppendLine(identation + "        " + copiedIndexVariable + " = " + newIndexVariable + ";");
                     sb.AppendLine(identation + "    }");
@@ -729,6 +731,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(TokenNode node)
             {
+                sb.AppendLine(identation + "parseSuccess = false;");
                 sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Id == " + node.TokenId.ToString() + ")");
                 sb.AppendLine(identation + "{");
                 if (this.returnVariable != "")
@@ -736,11 +739,13 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    " + this.returnVariable + " = tokens[" + this.indexVariable + "];");
                 }
                 sb.AppendLine(identation + "    " + this.indexVariable + "++;");
+                sb.AppendLine(identation + "    parseSuccess = true;");
                 sb.AppendLine(identation + "}");
             }
 
             public void Visit(TokenContentNode node)
             {
+                sb.AppendLine(identation + "parseSuccess = false;");
                 sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Value == \"" + node.TokenValue + "\")");
                 sb.AppendLine(identation + "{");
                 if (this.returnVariable != "")
@@ -748,6 +753,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    " + this.returnVariable + " = tokens[" + this.indexVariable + "];");
                 }
                 sb.AppendLine(identation + "    " + this.indexVariable + "++;");
+                sb.AppendLine(identation + "    parseSuccess = true;");
                 sb.AppendLine(identation + "}");
             }
         }
