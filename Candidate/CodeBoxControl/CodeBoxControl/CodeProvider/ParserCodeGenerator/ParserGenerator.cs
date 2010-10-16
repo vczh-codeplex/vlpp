@@ -582,6 +582,60 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(ListNode node)
             {
+                Type listType = typeof(CodeNodeList<>).MakeGenericType(node.NodeType);
+                if (this.returnVariable != "")
+                {
+                    sb.AppendLine(identation + this.returnVariable + " = new " + GetTypeFullName(listType) + "();");
+                }
+                int newLevel = this.level + 1;
+                string newReturnVariable = this.returnVariable != "" ? "result" + newLevel.ToString() : "";
+                string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string copiedIndexVariable = "currentIndexCopy" + newLevel.ToString();
+                string labelName = "LABEL_" + (this.labelCounter++).ToString();
+                sb.AppendLine(identation + "{");
+                if (this.returnVariable != "")
+                {
+                    sb.AppendLine(identation + "    " + GetTypeFullName(node.NodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(node.NodeType) + ");");
+                }
+                sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
+                sb.Append(CodeGenerator.GenerateCode(node.NodeType, node.Item, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
+                sb.AppendLine(identation + "    if (" + this.indexVariable + " == " + newIndexVariable + ")");
+                sb.AppendLine(identation + "    {");
+                sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                if (this.returnVariable != "")
+                {
+                    sb.AppendLine(identation + "        " + this.returnVariable + ".Add(" + newReturnVariable + ");");
+                }
+                sb.AppendLine(identation + "    }");
+                sb.AppendLine(identation + "    while (true)");
+                sb.AppendLine(identation + "    {");
+                sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
+                sb.Append(CodeGenerator.GenerateCode(NodeResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
+                sb.AppendLine(identation + "        if (" + copiedIndexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "        {");
+                sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
+                sb.AppendLine(identation + "        }");
+                sb.AppendLine(identation + "        else");
+                sb.AppendLine(identation + "        {");
+                sb.AppendLine(identation + "            goto " + labelName + ";");
+                sb.AppendLine(identation + "        }");
+                sb.Append(CodeGenerator.GenerateCode(node.NodeType, node.Item, identation + "        ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
+                sb.AppendLine(identation + "        if (" + copiedIndexVariable + " != " + newIndexVariable + ")");
+                sb.AppendLine(identation + "        {");
+                sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
+                sb.AppendLine(identation + "        }");
+                sb.AppendLine(identation + "        else");
+                sb.AppendLine(identation + "        {");
+                sb.AppendLine(identation + "            goto " + labelName + ";");
+                sb.AppendLine(identation + "        }");
+                sb.AppendLine(identation + "        " + this.indexVariable + " = " + copiedIndexVariable + ";");
+                if (this.returnVariable != "")
+                {
+                    sb.AppendLine(identation + "        " + this.returnVariable + ".Add(" + newReturnVariable + ");");
+                }
+                sb.AppendLine(identation + "    }");
+                sb.Append(identation + "    " + labelName + ":;");
+                sb.AppendLine(identation + "}");
             }
 
             public void Visit(MemberNode node)
