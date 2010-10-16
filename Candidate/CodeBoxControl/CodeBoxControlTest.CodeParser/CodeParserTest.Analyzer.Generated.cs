@@ -114,7 +114,7 @@ namespace CodeBoxControlTest.CodeParser
                 CodeBoxControl.CodeProvider.CodeToken result1 = default(CodeBoxControl.CodeProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 parseSuccess = false;
-                if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == 0)
+                if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == CodeBoxControlTest.CodeParser.CodeParserTokenizer.NumberToken)
                 {
                     result1 = tokens[currentIndex1];
                     currentIndex1++;
@@ -144,7 +144,7 @@ namespace CodeBoxControlTest.CodeParser
                     CodeBoxControl.CodeProvider.CodeToken result2 = default(CodeBoxControl.CodeProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
                     parseSuccess = false;
-                    if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == 1)
+                    if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == CodeBoxControlTest.CodeParser.CodeParserTokenizer.IdToken)
                     {
                         result2 = tokens[currentIndex2];
                         currentIndex2++;

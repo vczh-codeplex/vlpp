@@ -11,8 +11,8 @@ namespace ParserBuilder
     {
         public static string Build()
         {
-            const int ID = CodeParserTokenizer.IdToken;
-            const int Number = CodeParserTokenizer.NumberToken;
+            var ID = id("CodeBoxControlTest.CodeParser.CodeParserTokenizer.IdToken");
+            var Number = id("CodeBoxControlTest.CodeParser.CodeParserTokenizer.NumberToken");
             var FUNCTION = rule<FunctionExpression>("Function");
             var NUMBER = rule<NumberExpression>("Number");
             var BRACKET = rule<Expression>("Bracket");
@@ -21,11 +21,11 @@ namespace ParserBuilder
             var EXPRESSION = rule<Expression>("Expression");
 
             FUNCTION.Infer(
-              tok(ID)["Name"] + tok("(") + list<Expression>(tok(","), EXPRESSION)["Parameters"] + tok(")")
+              ID["Name"] + tok("(") + list<Expression>(tok(","), EXPRESSION)["Parameters"] + tok(")")
             );
 
             NUMBER.Infer(
-              tok(Number)["Number"]
+              Number["Number"]
             );
 
             BRACKET.Infer(

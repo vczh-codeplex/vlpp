@@ -732,7 +732,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             public void Visit(TokenNode node)
             {
                 sb.AppendLine(identation + "parseSuccess = false;");
-                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Id == " + node.TokenId.ToString() + ")");
+                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Id == " + node.Code + ")");
                 sb.AppendLine(identation + "{");
                 if (this.returnVariable != "")
                 {

@@ -7,7 +7,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 {
     public class TokenNode : ParserNode
     {
-        public int TokenId { get; set; }
+        public string Code { get; set; }
 
         public override void Accept(IParserNodeVisitor visitor)
         {
