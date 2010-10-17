@@ -140,5 +140,102 @@ namespace CodeBoxControlTest
             Assert.AreEqual(3, ((NumberExpression)c.Left).Number);
             Assert.AreEqual(4, ((NumberExpression)c.Right).Number);
         }
+
+        [TestMethod]
+        public void TestFunction1()
+        {
+            FunctionExpression a = (FunctionExpression)Parse("exp()");
+            Assert.AreEqual("exp", a.Name);
+            Assert.AreEqual(0, a.Parameters.Count);
+        }
+
+        [TestMethod]
+        public void TestFunction2()
+        {
+            FunctionExpression a = (FunctionExpression)Parse("exp(1+2)");
+            Assert.AreEqual("exp", a.Name);
+            Assert.AreEqual(1, a.Parameters.Count);
+
+            BinaryExpression b = (BinaryExpression)a.Parameters[0];
+            Assert.AreEqual("+", b.Operator);
+            Assert.AreEqual(1, ((NumberExpression)b.Left).Number);
+            Assert.AreEqual(2, ((NumberExpression)b.Right).Number);
+        }
+
+        [TestMethod]
+        public void TestFunction3()
+        {
+            FunctionExpression a = (FunctionExpression)Parse("exp(1+2,3/4)");
+            Assert.AreEqual("exp", a.Name);
+            Assert.AreEqual(2, a.Parameters.Count);
+
+            BinaryExpression b = (BinaryExpression)a.Parameters[0];
+            Assert.AreEqual("+", b.Operator);
+            Assert.AreEqual(1, ((NumberExpression)b.Left).Number);
+            Assert.AreEqual(2, ((NumberExpression)b.Right).Number);
+
+            BinaryExpression c = (BinaryExpression)a.Parameters[1];
+            Assert.AreEqual("/", c.Operator);
+            Assert.AreEqual(3, ((NumberExpression)c.Left).Number);
+            Assert.AreEqual(4, ((NumberExpression)c.Right).Number);
+        }
+
+        [TestMethod]
+        public void TestComplex()
+        {
+            string input = "sin(1+2)*cos(3/4)-567-890";
+            BinaryExpression a = (BinaryExpression)Parse(input);
+            Assert.AreEqual("-", a.Operator);
+            {
+                BinaryExpression b = (BinaryExpression)a.Left;
+                Assert.AreEqual("-", b.Operator);
+                {
+                    BinaryExpression c = (BinaryExpression)b.Left;
+                    Assert.AreEqual("*", c.Operator);
+                    {
+                        FunctionExpression d = (FunctionExpression)c.Left;
+                        Assert.AreEqual("sin", d.Name);
+                        Assert.AreEqual(1, d.Parameters.Count);
+                        {
+                            BinaryExpression e = (BinaryExpression)d.Parameters[0];
+                            Assert.AreEqual("+", e.Operator);
+                            {
+                                NumberExpression f = (NumberExpression)e.Left;
+                                Assert.AreEqual(1, f.Number);
+                            }
+                            {
+                                NumberExpression f = (NumberExpression)e.Right;
+                                Assert.AreEqual(2, f.Number);
+                            }
+                        }
+                    }
+                    {
+                        FunctionExpression d = (FunctionExpression)c.Right;
+                        Assert.AreEqual("cos", d.Name);
+                        Assert.AreEqual(1, d.Parameters.Count);
+                        {
+                            BinaryExpression e = (BinaryExpression)d.Parameters[0];
+                            Assert.AreEqual("/", e.Operator);
+                            {
+                                NumberExpression f = (NumberExpression)e.Left;
+                                Assert.AreEqual(3, f.Number);
+                            }
+                            {
+                                NumberExpression f = (NumberExpression)e.Right;
+                                Assert.AreEqual(4, f.Number);
+                            }
+                        }
+                    }
+                }
+                {
+                    NumberExpression c = (NumberExpression)b.Right;
+                    Assert.AreEqual(567, c.Number);
+                }
+            }
+            {
+                NumberExpression b = (NumberExpression)a.Right;
+                Assert.AreEqual(890, b.Number);
+            }
+        }
     }
 }
