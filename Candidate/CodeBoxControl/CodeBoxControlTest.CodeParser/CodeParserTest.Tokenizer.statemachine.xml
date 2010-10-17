@@ -12,4 +12,6 @@
   <ArrowShape Name="0-9" X="138" Y="210" R="5" Start="0" End="1" />
   <ArrowShape Name="." X="281" Y="136" R="5" Start="1" End="2" />
   <ArrowShape Name="0-9" X="416" Y="136" R="5" Start="2" End="3" />
+  <ArrowShape Name="0-9" X="209" Y="65" R="5" Start="1" End="1" />
+  <ArrowShape Name="0-9" X="479" Y="65" R="5" Start="3" End="3" />
 </ShapeManager>

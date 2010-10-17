@@ -780,6 +780,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "        goto " + labelName + ";");
                     sb.AppendLine(identation + "    }");
                 }
+                sb.AppendLine(identation + "    " + this.indexVariable + " = " + copiedIndexVariable + ";");
                 if (returnNode != null)
                 {
                     GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);

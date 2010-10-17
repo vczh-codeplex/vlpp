@@ -70,7 +70,7 @@ namespace CodeBoxControlTest.CodeParser
             transitions[0, 4] = -1;
             transitions[1, 0] = -1;
             transitions[1, 1] = 2;
-            transitions[1, 2] = -1;
+            transitions[1, 2] = 1;
             transitions[1, 3] = -1;
             transitions[1, 4] = -1;
             transitions[2, 0] = -1;
@@ -80,7 +80,7 @@ namespace CodeBoxControlTest.CodeParser
             transitions[2, 4] = -1;
             transitions[3, 0] = -1;
             transitions[3, 1] = -1;
-            transitions[3, 2] = -1;
+            transitions[3, 2] = 3;
             transitions[3, 3] = -1;
             transitions[3, 4] = -1;
             transitions[4, 0] = -1;

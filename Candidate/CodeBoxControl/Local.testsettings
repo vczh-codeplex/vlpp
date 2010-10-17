@@ -31,6 +31,7 @@
                 <CodeCoverageItem binaryFile="CodeBoxControl\bin\Debug\CodeBoxControl.dll" pdbFile="CodeBoxControl\bin\Debug\CodeBoxControl.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="CodeBoxControlTest\bin\Debug\CodeBoxControlTest.dll" pdbFile="CodeBoxControlTest\bin\Debug\CodeBoxControlTest.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="CodeForm\bin\Debug\CodeForm.exe" pdbFile="CodeForm\bin\Debug\CodeForm.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="CodeBoxControlTest.CodeParser\bin\Debug\CodeBoxControlTest.CodeParser.dll" pdbFile="CodeBoxControlTest.CodeParser\bin\Debug\CodeBoxControlTest.CodeParser.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
