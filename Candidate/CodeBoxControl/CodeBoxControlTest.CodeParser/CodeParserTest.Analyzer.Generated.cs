@@ -138,6 +138,7 @@ namespace CodeBoxControlTest.CodeParser
                                     {
                                         goto LABEL_1;
                                     }
+                                    currentIndex2 = currentIndexCopy4;
                                 LABEL_1: ;
                                 }
                                 OperatorMember2 = OperatorMember3;
@@ -301,6 +302,7 @@ namespace CodeBoxControlTest.CodeParser
                                     {
                                         goto LABEL_1;
                                     }
+                                    currentIndex2 = currentIndexCopy4;
                                 LABEL_1: ;
                                 }
                                 OperatorMember2 = OperatorMember3;
@@ -581,6 +583,7 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     goto LABEL_0;
                 }
+                currentToken = currentIndexCopy1;
             LABEL_0: ;
             }
             if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.FunctionExpression>();
@@ -651,6 +654,7 @@ namespace CodeBoxControlTest.CodeParser
                 {
                     goto LABEL_0;
                 }
+                currentToken = currentIndexCopy1;
                 result = result1;
             LABEL_0: ;
             }

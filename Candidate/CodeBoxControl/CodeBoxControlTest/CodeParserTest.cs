@@ -11,6 +11,22 @@ namespace CodeBoxControlTest
     [TestClass]
     public class CodeParserTest
     {
+        private Expression Parse(string input)
+        {
+            List<CodeToken> tokens = new CodeParserTokenizer().Tokenize(input.ToCharArray());
+            int currentToken = 0;
+            bool parseSuccess = false;
+            Expression result = CodeParserAnalyzer.ParseExpression(tokens, ref currentToken, ref parseSuccess);
+            if (parseSuccess && currentToken == tokens.Count && result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException("Parse error occured.");
+            }
+        }
+
         [TestMethod]
         public void TestExpressions()
         {
@@ -56,6 +72,73 @@ namespace CodeBoxControlTest
             Assert.AreEqual(powExpr.Parameters, powExpr.NamedNodes["Parameters"]);
             Assert.IsTrue(powExpr.Nodes.SequenceEqual(new CodeNode[] { powExpr.Parameters }));
             Assert.IsTrue(powExpr.Parameters.Nodes.SequenceEqual(new CodeNode[] { mulExpr, n5 }));
+        }
+
+        [TestMethod]
+        public void TestParseNumber()
+        {
+            NumberExpression numberExpression = (NumberExpression)Parse("123456");
+            Assert.AreEqual(123456, numberExpression.Number);
+        }
+
+        [TestMethod]
+        public void TestParseMuldiv()
+        {
+            BinaryExpression a = (BinaryExpression)Parse("123*456");
+            Assert.AreEqual("*", a.Operator);
+            NumberExpression b = (NumberExpression)a.Left;
+            Assert.AreEqual(123, b.Number);
+            NumberExpression c = (NumberExpression)a.Right;
+            Assert.AreEqual(456, c.Number);
+        }
+
+        [TestMethod]
+        public void TestParseMuldiv2()
+        {
+            BinaryExpression a = (BinaryExpression)Parse("123*456/789");
+            Assert.AreEqual("/", a.Operator);
+            BinaryExpression b = (BinaryExpression)a.Left;
+            Assert.AreEqual("*", b.Operator);
+            NumberExpression c = (NumberExpression)b.Left;
+            Assert.AreEqual(123, c.Number);
+            NumberExpression d = (NumberExpression)b.Right;
+            Assert.AreEqual(456, d.Number);
+            NumberExpression e = (NumberExpression)a.Right;
+            Assert.AreEqual(789, e.Number);
+        }
+
+        [TestMethod]
+        public void TestAddMul()
+        {
+            BinaryExpression a = (BinaryExpression)Parse("1*2+3*4");
+            Assert.AreEqual("+", a.Operator);
+
+            BinaryExpression b = (BinaryExpression)a.Left;
+            Assert.AreEqual("*", b.Operator);
+            Assert.AreEqual(1, ((NumberExpression)b.Left).Number);
+            Assert.AreEqual(2, ((NumberExpression)b.Right).Number);
+
+            BinaryExpression c = (BinaryExpression)a.Right;
+            Assert.AreEqual("*", c.Operator);
+            Assert.AreEqual(3, ((NumberExpression)c.Left).Number);
+            Assert.AreEqual(4, ((NumberExpression)c.Right).Number);
+        }
+
+        [TestMethod]
+        public void TestAddMul2()
+        {
+            BinaryExpression a = (BinaryExpression)Parse("(1+2)*(3+4)");
+            Assert.AreEqual("*", a.Operator);
+
+            BinaryExpression b = (BinaryExpression)a.Left;
+            Assert.AreEqual("+", b.Operator);
+            Assert.AreEqual(1, ((NumberExpression)b.Left).Number);
+            Assert.AreEqual(2, ((NumberExpression)b.Right).Number);
+
+            BinaryExpression c = (BinaryExpression)a.Right;
+            Assert.AreEqual("+", c.Operator);
+            Assert.AreEqual(3, ((NumberExpression)c.Left).Number);
+            Assert.AreEqual(4, ((NumberExpression)c.Right).Number);
         }
     }
 }
