@@ -10,6 +10,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         public ParserNode Left { get; set; }
         public ParserNode Right { get; set; }
 
+        internal ChoiceNode()
+        {
+        }
+
         public override void Accept(IParserNodeVisitor visitor)
         {
             visitor.Visit(this);

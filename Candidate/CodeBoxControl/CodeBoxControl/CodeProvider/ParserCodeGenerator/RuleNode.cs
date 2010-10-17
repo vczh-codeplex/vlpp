@@ -11,6 +11,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         public Type NodeType { get; set; }
         public string RuleName { get; set; }
 
+        internal RuleNode()
+        {
+        }
+
         public void Infer(ParserNode node)
         {
             this.Content = node;
