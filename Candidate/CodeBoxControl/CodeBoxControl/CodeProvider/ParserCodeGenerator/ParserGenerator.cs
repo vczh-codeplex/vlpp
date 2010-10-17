@@ -33,9 +33,9 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 {
                     sb.AppendLine("            if (result == null) result = CodeNode.Create<" + GetTypeFullName(rule.NodeType) + ">();");
                 }
-                foreach (MemberNode memberNode in MemberCollector.GetMembers(rule.Content))
+                foreach (string member in MemberCollector.GetMembers(rule.Content))
                 {
-                    sb.AppendLine("            result." + memberNode.Member + " = " + memberNode.Member + "Member0;");
+                    sb.AppendLine("            result." + member + " = " + member + "Member0;");
                 }
                 sb.AppendLine("            return result;");
                 sb.AppendLine("        }");
@@ -145,9 +145,9 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
         class MemberCollector : IParserNodeVisitor
         {
-            public List<MemberNode> members = new List<MemberNode>();
+            public List<string> members = new List<string>();
 
-            public static List<MemberNode> GetMembers(ParserNode parserNode)
+            public static List<string> GetMembers(ParserNode parserNode)
             {
                 MemberCollector collector = new MemberCollector();
                 parserNode.Accept(collector);
@@ -174,7 +174,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(MemberNode node)
             {
-                members.Add(node);
+                if (!members.Contains(node.Member))
+                {
+                    members.Add(node.Member);
+                }
                 node.Content.Accept(this);
             }
 
@@ -499,18 +502,27 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 generator.nodeType = nodeType;
                 generator.labelCounter = labelCounter;
 
-                foreach (MemberNode memberNode in MemberCollector.GetMembers(node))
+                if (level > 0)
                 {
-                    Type memberType = nodeType.GetProperty(memberNode.Member).PropertyType;
-                    generator.sb.AppendLine(identation + GetTypeFullName(memberType) + " " + memberNode.Member + "Member" + level.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
+                    generator.sb.AppendLine(identation + "{");
+                    generator.identation += "    ";
+                }
+                foreach (string member in MemberCollector.GetMembers(node))
+                {
+                    Type memberType = nodeType.GetProperty(member).PropertyType;
+                    generator.sb.AppendLine(identation + GetTypeFullName(memberType) + " " + member + "Member" + level.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                 }
                 node.Accept(generator);
                 if (previousLevel != level)
                 {
-                    foreach (MemberNode memberNode in MemberCollector.GetMembers(node))
+                    foreach (string member in MemberCollector.GetMembers(node))
                     {
-                        generator.sb.AppendLine(identation + memberNode.Member + "Member" + previousLevel.ToString() + " = " + memberNode.Member + "Member" + level.ToString() + ";");
+                        generator.sb.AppendLine(identation + member + "Member" + previousLevel.ToString() + " = " + member + "Member" + level.ToString() + ";");
                     }
+                }
+                if (level > 0)
+                {
+                    generator.sb.AppendLine(identation + "}");
                 }
                 labelCounter = generator.labelCounter;
                 return generator.sb.ToString();
@@ -567,7 +579,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    }");
                 }
                 sb.AppendLine(identation + "    goto " + labelFailName + ";");
-                sb.AppendLine(identation  + labelSuccessName + ":;");
+                sb.AppendLine(identation + labelSuccessName + ":;");
                 if (returnNode != null)
                 {
                     GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);
@@ -599,19 +611,19 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
                 sb.AppendLine(identation + "    while (true)");
                 sb.AppendLine(identation + "    {");
-                foreach (MemberNode memberNode in MemberCollector.GetMembers(node))
+                foreach (string member in MemberCollector.GetMembers(next))
                 {
-                    Type memberType = node.NodeType.GetProperty(memberNode.Member).PropertyType;
-                    sb.AppendLine(identation + "        " + GetTypeFullName(memberType) + " " + memberNode.Member + "Member" + newLevel.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
+                    Type memberType = node.NodeType.GetProperty(member).PropertyType;
+                    sb.AppendLine(identation + "        " + GetTypeFullName(memberType) + " " + member + "Member" + newLevel.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                 }
-                sb.Append(CodeGenerator.GenerateCode(node.NodeType, first.Content, identation + "        ", newLevel + 1, newLevel, "", newIndexVariable, ref this.labelCounter));
+                sb.Append(CodeGenerator.GenerateCode(node.NodeType, next, identation + "        ", newLevel + 1, newLevel, "", newIndexVariable, ref this.labelCounter));
                 sb.AppendLine(identation + "        if (parseSuccess)");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + this.indexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "            " + GetTypeFullName(node.NodeType) + " " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
-                foreach (MemberNode memberNode in MemberCollector.GetMembers(node))
+                foreach (string member in MemberCollector.GetMembers(next))
                 {
-                    sb.AppendLine(identation + "            " + newReturnVariable + "." + memberNode.Member + " = " + memberNode.Member + "Member" + newLevel.ToString() + ";");
+                    sb.AppendLine(identation + "            " + newReturnVariable + "." + member + " = " + member + "Member" + newLevel.ToString() + ";");
                 }
                 sb.AppendLine(identation + "            " + newReturnVariable + "." + first.Member + " = " + this.returnVariable + ";");
                 sb.AppendLine(identation + "            " + this.returnVariable + " = " + newReturnVariable + ";");
@@ -623,7 +635,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    }");
 
                 sb.AppendLine(identation + "    parseSuccess = true;");
-                sb.AppendLine(identation  + labelName + ":;");
+                sb.AppendLine(identation + labelName + ":;");
                 sb.AppendLine(identation + "}");
             }
 
@@ -681,7 +693,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "        " + this.returnVariable + ".Add(" + newReturnVariable + ");");
                 }
                 sb.AppendLine(identation + "    }");
-                sb.Append(identation  + labelName + ":;");
+                sb.Append(identation + labelName + ":;");
                 sb.Append(identation + "    parseSuccess = true;");
                 sb.AppendLine(identation + "}");
             }
@@ -772,7 +784,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 {
                     GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);
                 }
-                sb.AppendLine(identation  + labelName + ":;");
+                sb.AppendLine(identation + labelName + ":;");
                 sb.AppendLine(identation + "}");
             }
 
