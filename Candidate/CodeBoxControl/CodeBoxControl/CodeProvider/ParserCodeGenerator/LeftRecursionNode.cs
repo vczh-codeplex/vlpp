@@ -11,6 +11,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         public ParserNode Next { get; set; }
         public Type NodeType { get; set; }
 
+        internal LeftRecursionNode()
+        {
+        }
+
         public override void Accept(IParserNodeVisitor visitor)
         {
             visitor.Visit(this);

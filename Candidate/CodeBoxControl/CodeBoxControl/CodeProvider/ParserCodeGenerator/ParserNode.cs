@@ -123,12 +123,19 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
         public static ParserNode leftrec<T>(ParserNode first, ParserNode next)
         {
-            return new LeftRecursionNode()
+            if (first is MemberNode)
             {
-                First = first,
-                Next = next,
-                NodeType = typeof(T)
-            };
+                return new LeftRecursionNode()
+                {
+                    First = first,
+                    Next = next,
+                    NodeType = typeof(T)
+                };
+            }
+            else
+            {
+                throw new ArgumentException("The first argument for Parser.leftrec should be MemberNode.");
+            }
         }
     }
 }

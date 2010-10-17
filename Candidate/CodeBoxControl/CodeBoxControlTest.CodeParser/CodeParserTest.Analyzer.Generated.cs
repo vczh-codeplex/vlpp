@@ -12,8 +12,39 @@ namespace CodeBoxControlTest.CodeParser
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
-                CodeBoxControlTest.CodeParser.BinaryExpression result1 = default(CodeBoxControlTest.CodeParser.BinaryExpression);
+                CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
                 int currentIndex1 = currentToken;
+                {
+                    int currentIndex2 = currentIndex1;
+                    parseSuccess = false;
+                    result1 = ParseTerm(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
+                    {
+                        currentIndex1 = currentIndex2;
+                    }
+                    else
+                    {
+                        goto LABEL_0;
+                    }
+                    while (true)
+                    {
+                        parseSuccess = false;
+                        ParseTerm(tokens, ref currentIndex2, ref parseSuccess);
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            CodeBoxControlTest.CodeParser.BinaryExpression result2 = CodeNode.Create<CodeBoxControlTest.CodeParser.BinaryExpression>();
+                            result2.Left = result1;
+                            result1 = result2;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    parseSuccess = true;
+                LABEL_0: ;
+                }
                 if (parseSuccess)
                 {
                     currentToken = currentIndex1;
@@ -28,8 +59,39 @@ namespace CodeBoxControlTest.CodeParser
         {
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
-                CodeBoxControlTest.CodeParser.BinaryExpression result1 = default(CodeBoxControlTest.CodeParser.BinaryExpression);
+                CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
                 int currentIndex1 = currentToken;
+                {
+                    int currentIndex2 = currentIndex1;
+                    parseSuccess = false;
+                    result1 = ParseFactor(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess)
+                    {
+                        currentIndex1 = currentIndex2;
+                    }
+                    else
+                    {
+                        goto LABEL_0;
+                    }
+                    while (true)
+                    {
+                        parseSuccess = false;
+                        ParseFactor(tokens, ref currentIndex2, ref parseSuccess);
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            CodeBoxControlTest.CodeParser.BinaryExpression result2 = CodeNode.Create<CodeBoxControlTest.CodeParser.BinaryExpression>();
+                            result2.Left = result1;
+                            result1 = result2;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    parseSuccess = true;
+                LABEL_0: ;
+                }
                 if (parseSuccess)
                 {
                     currentToken = currentIndex1;

@@ -9,6 +9,10 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
     {
         public string Code { get; set; }
 
+        internal TokenNode()
+        {
+        }
+
         public override void Accept(IParserNodeVisitor visitor)
         {
             visitor.Visit(this);
