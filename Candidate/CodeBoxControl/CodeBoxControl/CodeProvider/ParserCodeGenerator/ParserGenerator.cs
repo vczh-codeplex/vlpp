@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CodeBoxControl.Core;
 
 namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 {
@@ -27,16 +28,22 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 int labelCounter = 0;
                 sb.AppendLine("        public static " + rule.NodeType.FullName + " Parse" + rule.RuleName + "(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)");
                 sb.AppendLine("        {");
+                sb.AppendLine("            " + GetTypeFullName(typeof(TextPosition)) + " start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, currentToken);");
                 sb.AppendLine("            " + GetTypeFullName(rule.NodeType) + " result = default(" + GetTypeFullName(rule.NodeType) + ");");
                 sb.Append(CodeGenerator.GenerateCode(rule.NodeType, rule.Content, "            ", 0, 0, "result", "currentToken", ref labelCounter));
+                sb.AppendLine("            if (parseSuccess)");
+                sb.AppendLine("            {");
                 if (typeof(CodeNode).IsAssignableFrom(rule.NodeType))
                 {
-                    sb.AppendLine("            if (result == null) result = CodeNode.Create<" + GetTypeFullName(rule.NodeType) + ">();");
+                    sb.AppendLine("                if (result == null) result = CodeNode.Create<" + GetTypeFullName(rule.NodeType) + ">();");
                 }
                 foreach (string member in MemberCollector.GetMembers(rule.Content))
                 {
-                    sb.AppendLine("            result." + member + " = " + member + "Member0;");
+                    sb.AppendLine("                result." + member + " = " + member + "Member0;");
                 }
+                sb.AppendLine("                result.Start = start;");
+                sb.AppendLine("                result.End = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetEndPosition(tokens, currentToken);");
+                sb.AppendLine("            }");
                 sb.AppendLine("            return result;");
                 sb.AppendLine("        }");
                 sb.AppendLine();
@@ -626,6 +633,8 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "            " + newReturnVariable + "." + member + " = " + member + "Member" + newLevel.ToString() + ";");
                 }
                 sb.AppendLine(identation + "            " + newReturnVariable + "." + first.Member + " = " + this.returnVariable + ";");
+                sb.AppendLine(identation + "            " + newReturnVariable + ".Start = " + this.returnVariable + ".Start;");
+                sb.AppendLine(identation + "            " + newReturnVariable + ".End = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetEndPosition(tokens, " + this.indexVariable + ");");
                 sb.AppendLine(identation + "            " + this.returnVariable + " = " + newReturnVariable + ";");
                 sb.AppendLine(identation + "        }");
                 sb.AppendLine(identation + "        else");
@@ -664,6 +673,8 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 if (this.returnVariable != "")
                 {
                     sb.AppendLine(identation + "        " + this.returnVariable + ".Add(" + newReturnVariable + ");");
+                    sb.AppendLine(identation + "        " + this.returnVariable + ".Start = " + newReturnVariable + ".Start;");
+                    sb.AppendLine(identation + "        " + this.returnVariable + ".End = " + newReturnVariable + ".End;");
                 }
                 sb.AppendLine(identation + "    }");
                 sb.AppendLine(identation + "    while (true)");
@@ -691,6 +702,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 if (this.returnVariable != "")
                 {
                     sb.AppendLine(identation + "        " + this.returnVariable + ".Add(" + newReturnVariable + ");");
+                    sb.AppendLine(identation + "        " + this.returnVariable + ".End = " + newReturnVariable + ".End;");
                 }
                 sb.AppendLine(identation + "    }");
                 sb.Append(identation + labelName + ":;");

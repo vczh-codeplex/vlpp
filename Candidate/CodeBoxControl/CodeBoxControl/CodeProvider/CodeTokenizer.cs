@@ -12,6 +12,46 @@ namespace CodeBoxControl.CodeProvider
         protected int[,] transitions = null;
         protected int[] finalStateTokenIds = null;
 
+        public static TextPosition GetStartPosition(List<CodeToken> tokens, int currentToken)
+        {
+            if (tokens.Count == 0)
+            {
+                return new TextPosition(-1, -1);
+            }
+            else if (currentToken < 0)
+            {
+                return tokens[0].Start;
+            }
+            else if (currentToken >= tokens.Count)
+            {
+                return tokens[tokens.Count - 1].End;
+            }
+            else
+            {
+                return tokens[currentToken].Start;
+            }
+        }
+
+        public static TextPosition GetEndPosition(List<CodeToken> tokens, int currentToken)
+        {
+            if (tokens.Count == 0)
+            {
+                return new TextPosition(-1, -1);
+            }
+            else if (currentToken < 1)
+            {
+                return tokens[0].Start;
+            }
+            else if (currentToken >= tokens.Count)
+            {
+                return tokens[tokens.Count - 1].End;
+            }
+            else
+            {
+                return tokens[currentToken - 1].End;
+            }
+        }
+
         public List<CodeToken> Tokenize(char[] input)
         {
             List<CodeToken> tokens = new List<CodeToken>();

@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeBoxControl.CodeProvider;
 using CodeBoxControlTest.CodeParser;
+using CodeBoxControl.Core;
 
 namespace CodeBoxControlTest
 {
@@ -185,43 +186,65 @@ namespace CodeBoxControlTest
         {
             string input = "sin(1+2)*cos(3/4)-567-890";
             BinaryExpression a = (BinaryExpression)Parse(input);
+            Assert.AreEqual(new TextPosition(0, 0), a.Start);
+            Assert.AreEqual(new TextPosition(0, 25), a.End);
             Assert.AreEqual("-", a.Operator);
             {
                 BinaryExpression b = (BinaryExpression)a.Left;
+                Assert.AreEqual(new TextPosition(0, 0), b.Start);
+                Assert.AreEqual(new TextPosition(0, 21), b.End);
                 Assert.AreEqual("-", b.Operator);
                 {
                     BinaryExpression c = (BinaryExpression)b.Left;
+                    Assert.AreEqual(new TextPosition(0, 0), c.Start);
+                    Assert.AreEqual(new TextPosition(0, 17), c.End);
                     Assert.AreEqual("*", c.Operator);
                     {
                         FunctionExpression d = (FunctionExpression)c.Left;
+                        Assert.AreEqual(new TextPosition(0, 0), d.Start);
+                        Assert.AreEqual(new TextPosition(0, 8), d.End);
                         Assert.AreEqual("sin", d.Name);
                         Assert.AreEqual(1, d.Parameters.Count);
                         {
                             BinaryExpression e = (BinaryExpression)d.Parameters[0];
+                            Assert.AreEqual(new TextPosition(0, 4), e.Start);
+                            Assert.AreEqual(new TextPosition(0, 7), e.End);
                             Assert.AreEqual("+", e.Operator);
                             {
                                 NumberExpression f = (NumberExpression)e.Left;
+                                Assert.AreEqual(new TextPosition(0, 4), f.Start);
+                                Assert.AreEqual(new TextPosition(0, 5), f.End);
                                 Assert.AreEqual(1, f.Number);
                             }
                             {
                                 NumberExpression f = (NumberExpression)e.Right;
+                                Assert.AreEqual(new TextPosition(0, 6), f.Start);
+                                Assert.AreEqual(new TextPosition(0, 7), f.End);
                                 Assert.AreEqual(2, f.Number);
                             }
                         }
                     }
                     {
                         FunctionExpression d = (FunctionExpression)c.Right;
+                        Assert.AreEqual(new TextPosition(0, 9), d.Start);
+                        Assert.AreEqual(new TextPosition(0, 17), d.End);
                         Assert.AreEqual("cos", d.Name);
                         Assert.AreEqual(1, d.Parameters.Count);
                         {
                             BinaryExpression e = (BinaryExpression)d.Parameters[0];
+                            Assert.AreEqual(new TextPosition(0, 13), e.Start);
+                            Assert.AreEqual(new TextPosition(0, 16), e.End);
                             Assert.AreEqual("/", e.Operator);
                             {
                                 NumberExpression f = (NumberExpression)e.Left;
+                                Assert.AreEqual(new TextPosition(0, 13), f.Start);
+                                Assert.AreEqual(new TextPosition(0, 14), f.End);
                                 Assert.AreEqual(3, f.Number);
                             }
                             {
                                 NumberExpression f = (NumberExpression)e.Right;
+                                Assert.AreEqual(new TextPosition(0, 15), f.Start);
+                                Assert.AreEqual(new TextPosition(0, 16), f.End);
                                 Assert.AreEqual(4, f.Number);
                             }
                         }
@@ -229,11 +252,15 @@ namespace CodeBoxControlTest
                 }
                 {
                     NumberExpression c = (NumberExpression)b.Right;
+                    Assert.AreEqual(new TextPosition(0, 18), c.Start);
+                    Assert.AreEqual(new TextPosition(0, 21), c.End);
                     Assert.AreEqual(567, c.Number);
                 }
             }
             {
                 NumberExpression b = (NumberExpression)a.Right;
+                Assert.AreEqual(new TextPosition(0, 22), b.Start);
+                Assert.AreEqual(new TextPosition(0, 25), b.End);
                 Assert.AreEqual(890, b.Number);
             }
         }
