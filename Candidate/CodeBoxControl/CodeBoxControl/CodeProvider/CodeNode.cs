@@ -14,8 +14,8 @@ namespace CodeBoxControl.CodeProvider
     {
         private static Dictionary<Type, Type> implementationTypes = new Dictionary<Type, Type>();
 
-        public virtual TextPosition Start { get; protected internal set; }
-        public virtual TextPosition End { get; protected internal set; }
+        public virtual TextPosition Start { get; set; }
+        public virtual TextPosition End { get; set; }
         public virtual CodeNode ParentNode { get; protected internal set; }
         public virtual CodeNodeCollection NamedNodes { get; private set; }
 

@@ -10,6 +10,7 @@ namespace CodeBoxControlTest.CodeParser
     {
         public static CodeBoxControlTest.CodeParser.Expression ParseExpression(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
@@ -151,6 +152,8 @@ namespace CodeBoxControlTest.CodeParser
                                 result2.Operator = OperatorMember2;
                                 result2.Right = RightMember2;
                                 result2.Left = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
                                 result1 = result2;
                             }
                             else
@@ -168,12 +171,18 @@ namespace CodeBoxControlTest.CodeParser
                     result = result1;
                 }
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
         public static CodeBoxControlTest.CodeParser.Expression ParseTerm(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
@@ -315,6 +324,8 @@ namespace CodeBoxControlTest.CodeParser
                                 result2.Operator = OperatorMember2;
                                 result2.Right = RightMember2;
                                 result2.Left = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
                                 result1 = result2;
                             }
                             else
@@ -332,12 +343,18 @@ namespace CodeBoxControlTest.CodeParser
                     result = result1;
                 }
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
         public static CodeBoxControlTest.CodeParser.Expression ParseFactor(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
@@ -410,12 +427,18 @@ namespace CodeBoxControlTest.CodeParser
                 result = result1;
             LABEL_FAIL_1: ;
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
         public static CodeBoxControlTest.CodeParser.NumberExpression ParseNumber(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.NumberExpression result = default(CodeBoxControlTest.CodeParser.NumberExpression);
             System.Double NumberMember0 = default(System.Double);
             {
@@ -436,13 +459,19 @@ namespace CodeBoxControlTest.CodeParser
                     NumberMember0 = System.Double.Parse(result1.Value);
                 }
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.NumberExpression>();
-            result.Number = NumberMember0;
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.NumberExpression>();
+                result.Number = NumberMember0;
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
         public static CodeBoxControlTest.CodeParser.FunctionExpression ParseFunction(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.FunctionExpression result = default(CodeBoxControlTest.CodeParser.FunctionExpression);
             System.String NameMember0 = default(System.String);
             CodeBoxControl.CodeProvider.CodeNodeList<CodeBoxControlTest.CodeParser.Expression> ParametersMember0 = default(CodeBoxControl.CodeProvider.CodeNodeList<CodeBoxControlTest.CodeParser.Expression>);
@@ -513,6 +542,8 @@ namespace CodeBoxControlTest.CodeParser
                                 {
                                     currentIndex2 = currentIndex3;
                                     result2.Add(result3);
+                                    result2.Start = result3.Start;
+                                    result2.End = result3.End;
                                 }
                                 while (true)
                                 {
@@ -547,6 +578,7 @@ namespace CodeBoxControlTest.CodeParser
                                     }
                                     currentIndex2 = currentIndexCopy3;
                                     result2.Add(result3);
+                                    result2.End = result3.End;
                                 }
                             LABEL_1: ; parseSuccess = true;
                             }
@@ -586,14 +618,20 @@ namespace CodeBoxControlTest.CodeParser
                 currentToken = currentIndexCopy1;
             LABEL_0: ;
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.FunctionExpression>();
-            result.Name = NameMember0;
-            result.Parameters = ParametersMember0;
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.FunctionExpression>();
+                result.Name = NameMember0;
+                result.Parameters = ParametersMember0;
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
         public static CodeBoxControlTest.CodeParser.Expression ParseBracket(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             CodeBoxControlTest.CodeParser.Expression result = default(CodeBoxControlTest.CodeParser.Expression);
             {
                 CodeBoxControlTest.CodeParser.Expression result1 = default(CodeBoxControlTest.CodeParser.Expression);
@@ -658,7 +696,12 @@ namespace CodeBoxControlTest.CodeParser
                 result = result1;
             LABEL_0: ;
             }
-            if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeBoxControlTest.CodeParser.Expression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
             return result;
         }
 
