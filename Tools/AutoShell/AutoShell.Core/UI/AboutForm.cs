@@ -79,7 +79,7 @@ namespace AutoShell.UI
             listViewProduct.Items[3].SubItems[1].Text = version;
             listViewProduct.Items[4].SubItems[1].Text = copyright;
             listViewProduct.Items[5].SubItems[1].Text = description;
-            labelProduct.Text = title;
+            labelProductTitle.Text = title;
 
             foreach (Package package in this.serviceContainer.GetInstalledPackages())
             {
