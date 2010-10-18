@@ -35,6 +35,9 @@ namespace vl
 可执行对象
 ***********************************************************************/
 
+		///	@Description
+		///		[English]A runtime structure that contains executable instructions and metadata
+		///		[Chinese]一个含有可执行指令与元数据的运行时结构
 		class LanguageAssembly : public Object, public IMetadataProvider
 		{
 			friend class LanguageHost;
@@ -46,11 +49,44 @@ namespace vl
 			Ptr<BasicLanguageMetadata>					basicLanguageMetadata;
 
 		public:
+			///	@Description
+			///		[English]Create a LanguageAssembly from a BasicIL
+			///		[Chinese]从BasicIL结构创建LanguageAssembly
+			///	@Parameter: _il
+			///		[English]a BasicIL object that contains raw executable instructions and raw metadata
+			///		[Chinese]一个存放着原始可执行指令与原始元数据的BasicIL对象
 			LanguageAssembly(Ptr<basicil::BasicIL> _il);
+			///	@Description
+			///		[English]Create a LanguageAssembly from an IStream
+			///		[Chinese]从IStream结构创建LanguageAssembly
+			///	@Parameter: stream
+			///		[English]An IStream that contains serialized LanguageAssembly data
+			///		[Chinese]一个存放着序列化后的LanguageAssembly对象的IStream
 			LanguageAssembly(stream::IStream& stream);
 
+			///	@Description
+			///		[English]Save LanguageAssembly to an IStream
+			///		[Chinese]将LanguageAssembly保存成IStream
+			///	@Parameter: stream
+			///		[English]Target IStream
+			///		[Chinese]目标IStream
 			void										SaveToStream(stream::IStream& stream);
+			///	@Description
+			///		[English]Log internal state to a TextWriter
+			///		[Chinese]将LanguageAssembly的内部状态保存到一个TextWriter里
+			///	@Parameter: writer
+			///		[English]Target TextWriter
+			///		[Chinese]目标TextWriter
+			///	@Parameter: commentProvider
+			///		[English]Comment provider for log data
+			///		[Chinese]为内部状态提供注释信息
 			void										LogInternalState(stream::TextWriter& writer, basicil::BasicIL::ICommentProvider* commentProvider=0);
+			///	@Description
+			///		[English]Get the LanguageHost object that run this LanguageAssembly
+			///		[Chinese]获得运行该LanguageAssembly的LanguageHost对象
+			/// @Result
+			///		[English]The LanguageHost object
+			///		[Chinese]返回的LanguageHost对象
 			LanguageHost*								GetHost();
 			const _ResourceMap&							GetResources();
 			Ptr<ResourceStream>							GetResource(const WString& name);
