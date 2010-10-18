@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{944b2784-7696-453d-8c52-3bda9251aaa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic">
+      <UniqueIdentifier>{3a53f974-90dc-4e75-a742-42aa46e35e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic\Header Files">
+      <UniqueIdentifier>{639e63e7-bcd5-4c3f-b87f-5be39fab5cf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic\Source Files">
+      <UniqueIdentifier>{af96329d-8f22-409f-a137-a75dbcffabf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections">
+      <UniqueIdentifier>{8e6d56be-9309-41ba-84da-626e54b47156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections\Header Files">
+      <UniqueIdentifier>{f0b5553c-fa78-4088-9983-5f9287668941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections\Source Files">
+      <UniqueIdentifier>{83f50a92-3ece-4431-a62f-8491d39de5e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream">
+      <UniqueIdentifier>{9fa2eb11-bc79-4f4b-8933-7cb8c9a6e446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream\Header Files">
+      <UniqueIdentifier>{f7f4a4be-a1c1-4b05-8ee2-18cffb6aa699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream\Source Files">
+      <UniqueIdentifier>{c8b4dbdc-7181-4288-99d9-75bd22ea2afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation">
+      <UniqueIdentifier>{09d0f7f9-caf3-4eaf-9229-5179bf6610b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\WindowsCore">
+      <UniqueIdentifier>{5d85dcd2-09f9-4a8c-9ed4-242027853bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\WindowsCore\Header Files">
+      <UniqueIdentifier>{70efe353-f876-4ada-9a0a-2fa5cecd140e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\WindowsCore\Source Files">
+      <UniqueIdentifier>{f81adb53-262c-4df3-abaf-de5d5b958791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Core">
+      <UniqueIdentifier>{f39909a5-8329-4458-9573-0b867ab6fb2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Core\Header Files">
+      <UniqueIdentifier>{5e5b4f30-329c-4d72-b232-66a2438e3cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Core\Source Files">
+      <UniqueIdentifier>{d2e71665-b0da-44ca-89bd-96c054a3f6da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Layout">
+      <UniqueIdentifier>{392e7b70-ae7c-41db-a232-6d8177920060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Layout\Header Files">
+      <UniqueIdentifier>{30edece1-8867-4a9d-b646-b43f2b4c4794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Layout\Source Files">
+      <UniqueIdentifier>{b715ca2b-e173-4406-982c-e22376626454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Framework">
+      <UniqueIdentifier>{d9720a0e-d456-4624-8b86-839663caa924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Framework\Header Files">
+      <UniqueIdentifier>{d42beb1a-b12f-482c-8ae8-a43b0ac2d216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Presentation\Framework\Source Files">
+      <UniqueIdentifier>{682d8ff5-1ee3-4e4e-a583-d32cecf1bd2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ControlFramework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LayoutVisualizerWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoWindows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Library\Basic.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Library\String.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Library\Stream\FileStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\WindowsCore\WinGDI.cpp">
+      <Filter>Presentation\WindowsCore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\WindowsCore\WinGdiApplication.cpp">
+      <Filter>Presentation\WindowsCore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\WindowsCore\WinNativeCanvas.cpp">
+      <Filter>Presentation\WindowsCore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\WindowsCore\WinNativeWindow.cpp">
+      <Filter>Presentation\WindowsCore\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Core\GuiNativeWindow.cpp">
+      <Filter>Presentation\Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Layout\DockLayout.cpp">
+      <Filter>Presentation\Layout\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Layout\FreeLayout.cpp">
+      <Filter>Presentation\Layout\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Layout\LayoutHost.cpp">
+      <Filter>Presentation\Layout\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Layout\StackLayout.cpp">
+      <Filter>Presentation\Layout\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Layout\TableLayout.cpp">
+      <Filter>Presentation\Layout\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Framework\Control.cpp">
+      <Filter>Presentation\Framework\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Presentation\Framework\Window.cpp">
+      <Filter>Presentation\Framework\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Library\Basic.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Event.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Function.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Pointer.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\String.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\Dictionary.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\DictionaryWrappers.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\Interfaces.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\List.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\ListWrappers.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Collections\Pair.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Stream\FileStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Library\Stream\Interfaces.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\WindowsCore\WinGDI.h">
+      <Filter>Presentation\WindowsCore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\WindowsCore\WinGdiApplication.h">
+      <Filter>Presentation\WindowsCore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\WindowsCore\WinNativeCanvas.h">
+      <Filter>Presentation\WindowsCore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\WindowsCore\WinNativeWindow.h">
+      <Filter>Presentation\WindowsCore\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Core\GuiNativeWindow.h">
+      <Filter>Presentation\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Core\GuiTypes.h">
+      <Filter>Presentation\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Layout\DockLayout.h">
+      <Filter>Presentation\Layout\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Layout\FreeLayout.h">
+      <Filter>Presentation\Layout\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Layout\LayoutHost.h">
+      <Filter>Presentation\Layout\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Layout\StackLayout.h">
+      <Filter>Presentation\Layout\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Layout\TableLayout.h">
+      <Filter>Presentation\Layout\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Framework\Control.h">
+      <Filter>Presentation\Framework\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Presentation\Framework\Window.h">
+      <Filter>Presentation\Framework\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
