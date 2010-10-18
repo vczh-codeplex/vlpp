@@ -1,6 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F996FD5C-7BAC-402A-B79D-192BBEA24FF8}"
+	ProjectSection(SolutionItems) = preProject
+		AutoShell.vsmdi = AutoShell.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShell.Core", "AutoShell.Core\AutoShell.Core.csproj", "{90F76B68-F734-47D2-A5D3-8906CED561BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsHost", "AsHost\AsHost.csproj", "{2C3FF296-2E4E-4B7F-8B78-ECEA66D4D7F1}"
@@ -11,12 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShell.Common", "AutoShe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsTest", "AsTest\AsTest.csproj", "{9647D9F2-B8F7-41B4-8209-BA8038866294}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F996FD5C-7BAC-402A-B79D-192BBEA24FF8}"
-	ProjectSection(SolutionItems) = preProject
-		AutoShell.vsmdi = AutoShell.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShell.TextEditor", "AutoShell.TextEditor\AutoShell.TextEditor.csproj", "{BB6E4D09-5588-43DA-870D-48ACE3F3D3A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShell.CodeEditor", "AutoShell.CodeEditor\AutoShell.CodeEditor.csproj", "{909257B3-EF3B-4035-9E16-8C05338988F8}"
@@ -25,7 +25,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs02.codeplex.com/
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = AsHost\\AsHost.csproj
 		SccProjectName1 = AsHost
