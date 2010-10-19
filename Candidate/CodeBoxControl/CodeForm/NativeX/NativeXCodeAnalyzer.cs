@@ -5,7 +5,7 @@ using System.Text;
 using CodeBoxControl;
 using CodeBoxControl.CodeProvider;
 
-namespace CodeForm
+namespace CodeForm.NativeX
 {
     class NativeXAnalyzingResult
     {

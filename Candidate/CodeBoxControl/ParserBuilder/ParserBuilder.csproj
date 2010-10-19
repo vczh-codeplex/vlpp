@@ -61,6 +61,10 @@
       <Project>{554B6A85-5CEB-4419-B345-8FC16B8F1ECD}</Project>
       <Name>CodeBoxControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeForm\CodeForm.csproj">
+      <Project>{3754C210-4B5B-46E6-9067-8EF7C5522891}</Project>
+      <Name>CodeForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

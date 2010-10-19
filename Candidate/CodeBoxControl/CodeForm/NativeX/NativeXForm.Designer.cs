@@ -1,4 +1,4 @@
-﻿namespace CodeForm
+﻿namespace CodeForm.NativeX
 {
     partial class NativeXForm
     {

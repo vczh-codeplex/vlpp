@@ -79,6 +79,7 @@
     <Compile Include="CodeNodeTest.cs" />
     <Compile Include="CodeParserTest.cs" />
     <Compile Include="CodeTokenizerTest.cs" />
+    <Compile Include="NativeXCodeParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\TextEditorServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>

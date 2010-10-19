@@ -11,7 +11,7 @@ using System.IO;
 using System.ServiceModel;
 using CodeBoxControl.Core;
 
-namespace CodeForm
+namespace CodeForm.NativeX
 {
     public partial class NativeXForm : Form
     {

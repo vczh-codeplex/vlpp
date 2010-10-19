@@ -8,7 +8,7 @@ using CodeBoxControl.Core;
 using CodeBoxControl.CodeProvider;
 using System.Drawing;
 
-namespace CodeForm
+namespace CodeForm.NativeX
 {
     class NativeXControlPanel
         : ITextEditorControlPanel

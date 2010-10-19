@@ -5,7 +5,7 @@ using System.Text;
 using CodeBoxControl;
 using System.Drawing;
 
-namespace CodeForm
+namespace CodeForm.NativeX
 {
     partial class NativeXColorizer : ITextEditorColorizer
     {
