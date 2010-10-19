@@ -20,7 +20,11 @@ namespace CodeForm.NativeX
             var INSTANCIATED_REFERENCE = rule<NativeXInstanciatedExpression>("InstanciatedReference");
             var IDENTIFIER_REFERENCE = rule<NativeXReferenceExpression>("IdentifierReference");
             var REFERENCE = rule<NativeXExpression>("Reference");
-            var EXPRESSION = rule<NativeXNode>("Expression");
+            var RESULT = rule<NativeXFunctionResultExpression>("Result");
+            var EXCEPTION = rule<NativeXExceptionExpression>("Exception");
+            var CAST = rule<NativeXCastingExpression>("Casting");
+            var EXP0 = rule<NativeXExpression>("EXP0");
+            var EXPRESSION = rule<NativeXExpression>("Expression");
 
             var REFERENCE_TYPE = rule<NativeXReferenceType>("ReferenceType");
             var TYPE = rule<NativeXType>("Type");
@@ -46,8 +50,24 @@ namespace CodeForm.NativeX
                     ret(INSTANCE_FUNCTION_REFERENCE) | ret(INSTANCIATED_REFERENCE) | ret(IDENTIFIER_REFERENCE)
                     );
 
+                RESULT.Infer(
+                    tok("result")["Code"]
+                    );
+
+                EXCEPTION.Infer(
+                    tok("exception")["Code"]
+                    );
+
+                CAST.Infer(
+                    tok("cast") + tok("<") + TYPE["Type"] + tok(">") + tok("(") + EXPRESSION["Operand"] + tok(")")
+                    );
+
+                EXP0.Infer(
+                    ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | tok("(") + ret(EXPRESSION) + tok(")")
+                    );
+
                 EXPRESSION.Infer(
-                    ret(PRIMITIVE) | ret(REFERENCE)
+                    ret(EXP0)
                     );
             }
             {
