@@ -214,68 +214,40 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             #endregion
         }
 
-        class NodeElementTypeRetriver : IParserNodeVisitor
+        class TypeRetriverBase
         {
             private Type nodeType = null;
 
-            public static Type GetNodeType(ParserNode node)
+            protected Type NodeType
             {
-                NodeElementTypeRetriver retriver = new NodeElementTypeRetriver();
-                node.Accept(retriver);
-                return retriver.nodeType;
-            }
-
-            public void Visit(ChoiceNode node)
-            {
-            }
-
-            public void Visit(LeftRecursionNode node)
-            {
-                (node.First as MemberNode).Content.Accept(this);
-            }
-
-            public void Visit(ListNode node)
-            {
-                nodeType = node.NodeType;
-            }
-
-            public void Visit(MemberNode node)
-            {
-            }
-
-            public void Visit(ReturnNode node)
-            {
-            }
-
-            public void Visit(RuleNode node)
-            {
-                nodeType = node.NodeType;
-            }
-
-            public void Visit(SequenceNode node)
-            {
-            }
-
-            public void Visit(TokenNode node)
-            {
-                nodeType = typeof(CodeToken);
-            }
-
-            public void Visit(TokenContentNode node)
-            {
-                nodeType = typeof(CodeToken);
+                get
+                {
+                    return this.nodeType;
+                }
+                set
+                {
+                    if (this.nodeType == null)
+                    {
+                        this.nodeType = value;
+                    }
+                    else
+                    {
+                        while (!this.nodeType.IsAssignableFrom(value))
+                        {
+                            this.nodeType = this.nodeType.BaseType;
+                        }
+                    }
+                }
             }
         }
 
-        class NodeResultTypeRetriver : IParserNodeVisitor
+        class ElementTypeRetriver : TypeRetriverBase, IParserNodeVisitor
         {
-            private Type nodeType = null;
-
             public static Type GetNodeType(ParserNode node)
             {
-                NodeResultTypeRetriver retriver = new NodeResultTypeRetriver();
+                ElementTypeRetriver retriver = new ElementTypeRetriver();
                 node.Accept(retriver);
-                return retriver.nodeType;
+                return retriver.NodeType;
             }
 
             public void Visit(ChoiceNode node)
@@ -289,7 +261,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(ListNode node)
             {
-                nodeType = typeof(CodeNodeList<>).MakeGenericType(node.NodeType);
+                NodeType = node.NodeType;
             }
 
             public void Visit(MemberNode node)
@@ -302,7 +274,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(RuleNode node)
             {
-                nodeType = node.NodeType;
+                NodeType = node.NodeType;
             }
 
             public void Visit(SequenceNode node)
@@ -311,12 +283,114 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(TokenNode node)
             {
-                nodeType = typeof(CodeToken);
+                NodeType = typeof(CodeToken);
             }
 
             public void Visit(TokenContentNode node)
             {
-                nodeType = typeof(CodeToken);
+                NodeType = typeof(CodeToken);
+            }
+        }
+
+        class ResultTypeRetriver : TypeRetriverBase, IParserNodeVisitor
+        {
+            public static Type GetNodeType(ParserNode node)
+            {
+                ResultTypeRetriver retriver = new ResultTypeRetriver();
+                node.Accept(retriver);
+                return retriver.NodeType;
+            }
+
+            public void Visit(ChoiceNode node)
+            {
+            }
+
+            public void Visit(LeftRecursionNode node)
+            {
+                (node.First as MemberNode).Content.Accept(this);
+            }
+
+            public void Visit(ListNode node)
+            {
+                NodeType = typeof(CodeNodeList<>).MakeGenericType(node.NodeType);
+            }
+
+            public void Visit(MemberNode node)
+            {
+            }
+
+            public void Visit(ReturnNode node)
+            {
+            }
+
+            public void Visit(RuleNode node)
+            {
+                NodeType = node.NodeType;
+            }
+
+            public void Visit(SequenceNode node)
+            {
+            }
+
+            public void Visit(TokenNode node)
+            {
+                NodeType = typeof(CodeToken);
+            }
+
+            public void Visit(TokenContentNode node)
+            {
+                NodeType = typeof(CodeToken);
+            }
+        }
+
+        class ReturnTypeRetriver : TypeRetriverBase, IParserNodeVisitor
+        {
+            public static Type GetNodeType(ParserNode node)
+            {
+                ReturnTypeRetriver retriver = new ReturnTypeRetriver();
+                node.Accept(retriver);
+                return retriver.NodeType;
+            }
+
+            public void Visit(ChoiceNode node)
+            {
+                node.Left.Accept(this);
+                node.Right.Accept(this);
+            }
+
+            public void Visit(LeftRecursionNode node)
+            {
+            }
+
+            public void Visit(ListNode node)
+            {
+            }
+
+            public void Visit(MemberNode node)
+            {
+            }
+
+            public void Visit(ReturnNode node)
+            {
+                this.NodeType = ResultTypeRetriver.GetNodeType(node.Content);
+            }
+
+            public void Visit(RuleNode node)
+            {
+            }
+
+            public void Visit(SequenceNode node)
+            {
+                node.Left.Accept(this);
+                node.Right.Accept(this);
+            }
+
+            public void Visit(TokenNode node)
+            {
+            }
+
+            public void Visit(TokenContentNode node)
+            {
             }
         }
 
@@ -436,59 +510,6 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             }
         }
 
-        class ReturnNodeDetector : IParserNodeVisitor
-        {
-            private ReturnNode discovered = null;
-
-            public static ReturnNode Discover(ParserNode node)
-            {
-                ReturnNodeDetector detector = new ReturnNodeDetector();
-                node.Accept(detector);
-                return detector.discovered;
-            }
-
-            public void Visit(ChoiceNode node)
-            {
-                node.Left.Accept(this);
-                node.Right.Accept(this);
-            }
-
-            public void Visit(LeftRecursionNode node)
-            {
-            }
-
-            public void Visit(ListNode node)
-            {
-            }
-
-            public void Visit(MemberNode node)
-            {
-            }
-
-            public void Visit(ReturnNode node)
-            {
-                this.discovered = node;
-            }
-
-            public void Visit(RuleNode node)
-            {
-            }
-
-            public void Visit(SequenceNode node)
-            {
-                node.Left.Accept(this);
-                node.Right.Accept(this);
-            }
-
-            public void Visit(TokenNode node)
-            {
-            }
-
-            public void Visit(TokenContentNode node)
-            {
-            }
-        }
-
         class CodeGenerator : IParserNodeVisitor
         {
             private string returnVariable = "";
@@ -560,23 +581,21 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             public void Visit(ChoiceNode node)
             {
                 List<ParserNode> branches = ChoiceNodeFlatter.Flat(node);
-                ReturnNode returnNode = ReturnNodeDetector.Discover(node);
-                Type returnElementNodeType = returnNode == null ? null : NodeElementTypeRetriver.GetNodeType(returnNode.Content);
-                Type returnResultNodeType = returnNode == null ? null : NodeResultTypeRetriver.GetNodeType(returnNode.Content);
+                Type returnNodeType = ReturnTypeRetriver.GetNodeType(node);
                 int newLevel = this.level + 1;
-                string newReturnVariable = returnNode != null ? "result" + newLevel.ToString() : "";
+                string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
                 string labelSuccessName = "LABEL_SUCCESS_" + (this.labelCounter++).ToString();
                 string labelFailName = "LABEL_FAIL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
-                if (returnNode != null)
+                if (returnNodeType != null)
                 {
-                    sb.AppendLine(identation + "    " + GetTypeFullName(returnResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnResultNodeType) + ");");
+                    sb.AppendLine(identation + "    " + GetTypeFullName(returnNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnNodeType) + ");");
                 }
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = -1;");
                 foreach (ParserNode branch in branches)
                 {
-                    bool branchHasReturnNode = ReturnNodeDetector.Discover(branch) != null;
+                    bool branchHasReturnNode = ReturnTypeRetriver.GetNodeType(branch) != null;
                     sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
                     sb.Append(CodeGenerator.GenerateCode(this.nodeType, branch, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
                     sb.AppendLine(identation + "    if (parseSuccess)");
@@ -587,9 +606,9 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 }
                 sb.AppendLine(identation + "    goto " + labelFailName + ";");
                 sb.AppendLine(identation + labelSuccessName + ":;");
-                if (returnNode != null)
+                if (returnNodeType != null)
                 {
-                    GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);
+                    GenerateAssignCode(null, returnNodeType, this.returnVariable, newReturnVariable);
                 }
                 sb.AppendLine(identation + labelFailName + ":;");
                 sb.AppendLine(identation + "}");
@@ -606,7 +625,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "{");
 
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
-                sb.Append(CodeGenerator.GenerateCode(NodeResultTypeRetriver.GetNodeType(first.Content), first.Content, identation + "    ", newLevel, this.level, this.returnVariable, newIndexVariable, ref this.labelCounter));
+                sb.Append(CodeGenerator.GenerateCode(ResultTypeRetriver.GetNodeType(first.Content), first.Content, identation + "    ", newLevel, this.level, this.returnVariable, newIndexVariable, ref this.labelCounter));
                 sb.AppendLine(identation + "    if (parseSuccess)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
@@ -680,7 +699,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    while (true)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
-                sb.Append(CodeGenerator.GenerateCode(NodeResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
+                sb.Append(CodeGenerator.GenerateCode(ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
                 sb.AppendLine(identation + "        if (parseSuccess)");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
@@ -712,8 +731,8 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(MemberNode node)
             {
-                Type memberElementNodeType = NodeElementTypeRetriver.GetNodeType(node.Content);
-                Type memberResultNodeType = NodeResultTypeRetriver.GetNodeType(node.Content);
+                Type memberElementNodeType = ElementTypeRetriver.GetNodeType(node.Content);
+                Type memberResultNodeType = ResultTypeRetriver.GetNodeType(node.Content);
                 int newLevel = this.level + 1;
                 string newReturnVariable = "result" + newLevel.ToString();
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
@@ -731,8 +750,8 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(ReturnNode node)
             {
-                Type memberElementNodeType = NodeElementTypeRetriver.GetNodeType(node.Content);
-                Type memberResultNodeType = NodeResultTypeRetriver.GetNodeType(node.Content);
+                Type memberElementNodeType = ElementTypeRetriver.GetNodeType(node.Content);
+                Type memberResultNodeType = ResultTypeRetriver.GetNodeType(node.Content);
                 int newLevel = this.level + 1;
                 string newReturnVariable = "result" + newLevel.ToString();
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
@@ -764,24 +783,22 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             public void Visit(SequenceNode node)
             {
                 List<ParserNode> branches = SequenceNodeFlatter.Flat(node);
-                ReturnNode returnNode = ReturnNodeDetector.Discover(node);
-                Type returnElementNodeType = returnNode == null ? null : NodeElementTypeRetriver.GetNodeType(returnNode.Content);
-                Type returnResultNodeType = returnNode == null ? null : NodeResultTypeRetriver.GetNodeType(returnNode.Content);
+                Type returnNodeType = ReturnTypeRetriver.GetNodeType(node);
                 int newLevel = this.level + 1;
-                string newReturnVariable = returnNode != null ? "result" + newLevel.ToString() : "";
+                string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
                 string copiedIndexVariable = "currentIndexCopy" + newLevel.ToString();
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
                 string labelName = "LABEL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
-                if (returnNode != null)
+                if (returnNodeType != null)
                 {
-                    sb.AppendLine(identation + "    " + GetTypeFullName(returnResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnResultNodeType) + ");");
+                    sb.AppendLine(identation + "    " + GetTypeFullName(returnNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnNodeType) + ");");
                 }
                 sb.AppendLine(identation + "    int " + copiedIndexVariable + " = " + this.indexVariable + ";");
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
                 foreach (ParserNode branch in branches)
                 {
-                    bool branchHasReturnNode = ReturnNodeDetector.Discover(branch) != null;
+                    bool branchHasReturnNode = ReturnTypeRetriver.GetNodeType(branch) != null;
                     sb.Append(CodeGenerator.GenerateCode(this.nodeType, branch, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
                     sb.AppendLine(identation + "    if (parseSuccess)");
                     sb.AppendLine(identation + "    {");
@@ -793,9 +810,9 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    }");
                 }
                 sb.AppendLine(identation + "    " + this.indexVariable + " = " + copiedIndexVariable + ";");
-                if (returnNode != null)
+                if (returnNodeType != null)
                 {
-                    GenerateAssignCode(null, returnResultNodeType, this.returnVariable, newReturnVariable);
+                    GenerateAssignCode(null, returnNodeType, this.returnVariable, newReturnVariable);
                 }
                 sb.AppendLine(identation + labelName + ":;");
                 sb.AppendLine(identation + "}");

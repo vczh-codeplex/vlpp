@@ -69,7 +69,7 @@ namespace CodeForm.NativeX.SyntaxTree
 
     public abstract class NativeXInstanciatedExpression : NativeXExpression
     {
-        public abstract NativeXReferenceExpression Reference { get; set; }
+        public string ReferencedName { get; set; }
         public abstract CodeNodeList<NativeXType> GenericArguments { get; set; }
     }
 

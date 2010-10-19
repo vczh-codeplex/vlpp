@@ -10,12 +10,6 @@ namespace CodeForm.NativeX.SyntaxTree
     {
     }
 
-    public abstract class NativeXPrimitiveType : NativeXType
-    {
-        public string Sign { get; set; }
-        public string Type { get; set; }
-    }
-
     public abstract class NativeXPointerType : NativeXType
     {
         public abstract NativeXType ElementType { get; set; }
