@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using CodeBoxControl.CodeProvider;
 
-namespace CodeForm
+namespace CodeForm.NativeX
 {
-    partial class NativeXTokenizer : CodeTokenizer
+    public partial class NativeXTokenizer : CodeTokenizer
     {
         public const int IdToken = 0;
         public const int StringToken = 1;
