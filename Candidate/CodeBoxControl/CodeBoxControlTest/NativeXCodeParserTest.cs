@@ -39,7 +39,6 @@ namespace CodeBoxControlTest
             Assert.AreEqual("L'abc'", parser("L'abc'").Code);
             Assert.AreEqual("true", parser("true").Code);
             Assert.AreEqual("false", parser("false").Code);
-            Assert.AreEqual("exception", parser("exception").Code);
             Assert.AreEqual("null", parser("null").Code);
         }
 
@@ -89,6 +88,30 @@ namespace CodeBoxControlTest
             }
         }
 
+        private void TestParseResultInternal(Func<string, NativeXFunctionResultExpression> parser)
+        {
+            Assert.AreEqual("result", parser("result").Code);
+        }
+
+        private void TestParseExceptionInternal(Func<string, NativeXExceptionExpression> parser)
+        {
+            Assert.AreEqual("exception", parser("exception").Code);
+        }
+
+        private void TestParseCastingInternal(Func<string, NativeXCastingExpression> parser)
+        {
+            {
+                var e = parser("cast<int>(1)");
+                Assert.AreEqual("int", ((NativeXReferenceType)e.Type).ReferencedName);
+                Assert.AreEqual("1", ((NativeXPrimitiveExpression)e.Operand).Code);
+            }
+            {
+                var e = parser("cast<double>(result)");
+                Assert.AreEqual("double", ((NativeXReferenceType)e.Type).ReferencedName);
+                Assert.AreEqual("result", ((NativeXFunctionResultExpression)e.Operand).Code);
+            }
+        }
+
         [TestMethod]
         public void TestParsePrimitive()
         {
@@ -111,6 +134,36 @@ namespace CodeBoxControlTest
         public void TestParseInstanciatedReference()
         {
             TestParseInstanciatedReferenceInternal(s => Parse(s, NativeXCodeParser.ParseInstanciatedReference));
+        }
+
+        [TestMethod]
+        public void TestParseResult()
+        {
+            TestParseResultInternal(s => Parse(s, NativeXCodeParser.ParseResult));
+        }
+
+        [TestMethod]
+        public void TestParseException()
+        {
+            TestParseExceptionInternal(s => Parse(s, NativeXCodeParser.ParseException));
+        }
+
+        [TestMethod]
+        public void TestParseCasting()
+        {
+            TestParseCastingInternal(s => Parse(s, NativeXCodeParser.ParseCasting));
+        }
+
+        [TestMethod]
+        public void TestExpression()
+        {
+            TestParsePrimitiveInternal(s => (NativeXPrimitiveExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseIdentifierReference(s => (NativeXReferenceExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseInstanceFunctionReferenceInternal(s => (NativeXInstanceFunctionExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseInstanciatedReferenceInternal(s => (NativeXInstanciatedExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseResultInternal(s => (NativeXFunctionResultExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseExceptionInternal(s => (NativeXExceptionExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseCastingInternal(s => (NativeXCastingExpression)Parse(s, NativeXCodeParser.ParseCasting));
         }
     }
 }
