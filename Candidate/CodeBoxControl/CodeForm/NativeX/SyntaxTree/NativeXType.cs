@@ -10,15 +10,10 @@ namespace CodeForm.NativeX.SyntaxTree
     {
     }
 
-    public abstract class NativeXPointerType : NativeXType
+    public abstract class NativeXDecoratedType : NativeXType
     {
         public abstract NativeXType ElementType { get; set; }
-    }
-
-    public abstract class NativeXArrayType : NativeXType
-    {
-        public abstract NativeXType ElementType { get; set; }
-        public int Size { get; set; }
+        public abstract NativeXPrimitiveExpression Size { get; set; }
     }
 
     public abstract class NativeXReferenceType : NativeXType
@@ -32,9 +27,9 @@ namespace CodeForm.NativeX.SyntaxTree
         public abstract CodeNodeList<NativeXType> Parameters { get; set; }
     }
 
-    public abstract class NativeXInstanciatedGenericType : NativeXType
+    public abstract class NativeXInstanciatedType : NativeXType
     {
-        public abstract NativeXType ElementType { get; set; }
+        public abstract NativeXReferenceType ElementType { get; set; }
         public abstract CodeNodeList<NativeXType> GenericArguments { get; set; }
     }
 }
