@@ -29,7 +29,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         {
             get
             {
-                if (this is RuleNode || this is TokenNode || this is TokenContentNode || this is LeftRecursionNode || this is ListNode)
+                if (this is RuleNode || this is TokenNode || this is TokenContentNode || this is LeftRecursionNode || this is LeftRecursionGroupNode || this is ListNode)
                 {
                     return new MemberNode()
                     {
@@ -51,6 +51,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
     {
         void Visit(ChoiceNode node);
         void Visit(LeftRecursionNode node);
+        void Visit(LeftRecursionGroupNode leftRecursionGroupNode);
         void Visit(ListNode node);
         void Visit(MemberNode node);
         void Visit(ReturnNode node);
@@ -89,7 +90,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
         public static ParserNode ret(ParserNode node)
         {
-            if (node is RuleNode || node is TokenNode || node is TokenContentNode || node is LeftRecursionNode || node is ListNode)
+            if (node is RuleNode || node is TokenNode || node is TokenContentNode || node is LeftRecursionNode || node is LeftRecursionGroupNode || node is ListNode)
             {
                 return new ReturnNode()
                 {
@@ -136,6 +137,26 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
             {
                 throw new ArgumentException("The first argument for Parser.leftrec should be MemberNode.");
             }
+        }
+
+        public static LeftRecursionGroupNode.Group g<T>(string member, ParserNode node)
+            where T : CodeNode
+        {
+            return new LeftRecursionGroupNode.Group()
+            {
+                FirstMember = member,
+                NextNode = node,
+                Type = typeof(T)
+            };
+        }
+
+        public static ParserNode leftrecg(ParserNode first, params LeftRecursionGroupNode.Group[] nexts)
+        {
+            return new LeftRecursionGroupNode()
+            {
+                FirstNode = first,
+                Groups = nexts.ToList()
+            };
         }
     }
 }

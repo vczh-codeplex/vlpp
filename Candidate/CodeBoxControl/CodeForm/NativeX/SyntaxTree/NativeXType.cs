@@ -10,7 +10,12 @@ namespace CodeForm.NativeX.SyntaxTree
     {
     }
 
-    public abstract class NativeXDecoratedType : NativeXType
+    public abstract class NativeXPointerType : NativeXType
+    {
+        public abstract NativeXType ElementType { get; set; }
+    }
+
+    public abstract class NativeXArrayType : NativeXType
     {
         public abstract NativeXType ElementType { get; set; }
         public abstract NativeXPrimitiveExpression Size { get; set; }
