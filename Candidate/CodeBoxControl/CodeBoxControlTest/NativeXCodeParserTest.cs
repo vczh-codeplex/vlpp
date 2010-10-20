@@ -188,14 +188,14 @@ namespace CodeBoxControlTest
                 NativeXFunctionType t = parser("function int(double*)");
                 Assert.AreEqual("int", ((NativeXReferenceType)t.ReturnType).ReferencedName);
                 Assert.AreEqual(1, t.Parameters.Count);
-                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[0]).ElementType).ReferencedName);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXPointerType)t.Parameters[0]).ElementType).ReferencedName);
             }
             {
                 NativeXFunctionType t = parser("function int(double*,string[1])");
                 Assert.AreEqual("int", ((NativeXReferenceType)t.ReturnType).ReferencedName);
                 Assert.AreEqual(2, t.Parameters.Count);
-                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[0]).ElementType).ReferencedName);
-                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[1]).ElementType).ReferencedName);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXPointerType)t.Parameters[0]).ElementType).ReferencedName);
+                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXArrayType)t.Parameters[1]).ElementType).ReferencedName);
             }
         }
 
@@ -210,29 +210,28 @@ namespace CodeBoxControlTest
                 NativeXInstanciatedType t = parser("int<double*>");
                 Assert.AreEqual("int", ((NativeXReferenceType)t.ElementType).ReferencedName);
                 Assert.AreEqual(1, t.GenericArguments.Count);
-                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[0]).ElementType).ReferencedName);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXPointerType)t.GenericArguments[0]).ElementType).ReferencedName);
             }
             {
                 NativeXInstanciatedType t = parser("int<double*,string[1]>");
                 Assert.AreEqual("int", ((NativeXReferenceType)t.ElementType).ReferencedName);
                 Assert.AreEqual(2, t.GenericArguments.Count);
-                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[0]).ElementType).ReferencedName);
-                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[1]).ElementType).ReferencedName);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXPointerType)t.GenericArguments[0]).ElementType).ReferencedName);
+                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXArrayType)t.GenericArguments[1]).ElementType).ReferencedName);
             }
         }
 
-        private void TestDecoratedTypeInternal(Func<string, NativeXDecoratedType> parser)
+        private void TestPointerTypeInternal(Func<string, NativeXPointerType> parser)
         {
-            {
-                NativeXDecoratedType t = parser("double*");
-                Assert.AreEqual("double", ((NativeXReferenceType)t.ElementType).ReferencedName);
-                Assert.IsNull(t.Size);
-            }
-            {
-                NativeXDecoratedType t = parser("string[1]");
-                Assert.AreEqual("string", ((NativeXReferenceType)t.ElementType).ReferencedName);
-                Assert.AreEqual("1", ((NativeXPrimitiveExpression)t.Size).Code);
-            }
+            NativeXPointerType t = parser("double*");
+            Assert.AreEqual("double", ((NativeXReferenceType)t.ElementType).ReferencedName);
+        }
+
+        private void TestArrayTypeInternal(Func<string, NativeXArrayType> parser)
+        {
+            NativeXArrayType t = parser("string[1]");
+            Assert.AreEqual("string", ((NativeXReferenceType)t.ElementType).ReferencedName);
+            Assert.AreEqual("1", ((NativeXPrimitiveExpression)t.Size).Code);
         }
 
         [TestMethod]
@@ -254,18 +253,13 @@ namespace CodeBoxControlTest
         }
 
         [TestMethod]
-        public void TestDecoratedType()
-        {
-            TestDecoratedTypeInternal(s => (NativeXDecoratedType)Parse(s, NativeXCodeParser.ParseType));
-        }
-
-        [TestMethod]
         public void TestType()
         {
             TestReferenceTypeInternal(s => (NativeXReferenceType)Parse(s, NativeXCodeParser.ParseType));
             TestFunctionTypeInternal(s => (NativeXFunctionType)Parse(s, NativeXCodeParser.ParseType));
             TestInstanciatedTypeInternal(s => (NativeXInstanciatedType)Parse(s, NativeXCodeParser.ParseType));
-            TestDecoratedTypeInternal(s => (NativeXDecoratedType)Parse(s, NativeXCodeParser.ParseType));
+            TestPointerTypeInternal(s => (NativeXPointerType)Parse(s, NativeXCodeParser.ParseType));
+            TestArrayTypeInternal(s => (NativeXArrayType)Parse(s, NativeXCodeParser.ParseType));
         }
 
         #endregion

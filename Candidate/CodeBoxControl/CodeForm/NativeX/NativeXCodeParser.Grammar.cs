@@ -91,7 +91,11 @@ namespace CodeForm.NativeX
                     );
 
                 TYPE.Infer(
-                    ret(leftrec<NativeXDecoratedType>(PRIMITIVE_TYPE["ElementType"], tok("*") | tok("[") + PRIMITIVE["Size"] + tok("]")))
+                    ret(leftrecg(
+                            PRIMITIVE_TYPE,
+                            g<NativeXPointerType>("ElementType", tok("*")),
+                            g<NativeXArrayType>("ElementType", tok("[") + PRIMITIVE["Size"] + tok("]"))
+                        ))
                     );
             }
 
