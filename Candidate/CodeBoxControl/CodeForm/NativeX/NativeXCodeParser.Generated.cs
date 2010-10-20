@@ -475,101 +475,105 @@ namespace CodeForm.NativeX
                         while (true)
                         {
                             {
-                                parseSuccess = false;
-                                if (currentIndex2 < tokens.Count && tokens[currentIndex2].Value == "*")
                                 {
-                                    currentIndex2++;
-                                    parseSuccess = true;
+                                    parseSuccess = false;
+                                    if (currentIndex2 < tokens.Count && tokens[currentIndex2].Value == "*")
+                                    {
+                                        currentIndex2++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex1 = currentIndex2;
+                                    CodeForm.NativeX.SyntaxTree.NativeXPointerType result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXPointerType>();
+                                    result2.ElementType = result1;
+                                    result2.Start = result1.Start;
+                                    result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                    result1 = result2;
+                                    continue;
                                 }
                             }
-                            if (parseSuccess)
                             {
-                                currentIndex1 = currentIndex2;
-                                CodeForm.NativeX.SyntaxTree.NativeXPointerType result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXPointerType>();
-                                result2.ElementType = result1;
-                                result2.Start = result1.Start;
-                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
-                                result1 = result2;
-                                continue;
-                            }
-                            CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                            {
-                                CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
                                 {
-                                    int currentIndexCopy4 = currentIndex2;
-                                    int currentIndex4 = currentIndex2;
+                                    CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex4 < tokens.Count && tokens[currentIndex4].Value == "[")
+                                        int currentIndexCopy4 = currentIndex2;
+                                        int currentIndex4 = currentIndex2;
                                         {
-                                            currentIndex4++;
-                                            parseSuccess = true;
-                                        }
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy4 = currentIndex4;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    {
-                                        CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                        {
-                                            CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                            int currentIndex5 = currentIndex4;
+                                            parseSuccess = false;
+                                            if (currentIndex4 < tokens.Count && tokens[currentIndex4].Value == "[")
                                             {
-                                                parseSuccess = false;
-                                                result5 = ParsePrimitive(tokens, ref currentIndex5, ref parseSuccess);
-                                            }
-                                            if (parseSuccess)
-                                            {
-                                                currentIndex4 = currentIndex5;
-                                                SizeMember4 = result5;
+                                                currentIndex4++;
+                                                parseSuccess = true;
                                             }
                                         }
-                                        SizeMember3 = SizeMember4;
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy4 = currentIndex4;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    {
-                                        parseSuccess = false;
-                                        if (currentIndex4 < tokens.Count && tokens[currentIndex4].Value == "]")
+                                        if (parseSuccess)
                                         {
-                                            currentIndex4++;
-                                            parseSuccess = true;
+                                            currentIndexCopy4 = currentIndex4;
                                         }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                            {
+                                                CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                                int currentIndex5 = currentIndex4;
+                                                {
+                                                    parseSuccess = false;
+                                                    result5 = ParsePrimitive(tokens, ref currentIndex5, ref parseSuccess);
+                                                }
+                                                if (parseSuccess)
+                                                {
+                                                    currentIndex4 = currentIndex5;
+                                                    SizeMember4 = result5;
+                                                }
+                                            }
+                                            SizeMember3 = SizeMember4;
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndexCopy4 = currentIndex4;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        {
+                                            parseSuccess = false;
+                                            if (currentIndex4 < tokens.Count && tokens[currentIndex4].Value == "]")
+                                            {
+                                                currentIndex4++;
+                                                parseSuccess = true;
+                                            }
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndexCopy4 = currentIndex4;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        currentIndex2 = currentIndexCopy4;
+                                    LABEL_1: ;
                                     }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy4 = currentIndex4;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    currentIndex2 = currentIndexCopy4;
-                                LABEL_1: ;
+                                    SizeMember2 = SizeMember3;
                                 }
-                                SizeMember2 = SizeMember3;
-                            }
-                            if (parseSuccess)
-                            {
-                                currentIndex1 = currentIndex2;
-                                CodeForm.NativeX.SyntaxTree.NativeXArrayType result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXArrayType>();
-                                result2.Size = SizeMember2;
-                                result2.ElementType = result1;
-                                result2.Start = result1.Start;
-                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
-                                result1 = result2;
-                                continue;
+                                if (parseSuccess)
+                                {
+                                    currentIndex1 = currentIndex2;
+                                    CodeForm.NativeX.SyntaxTree.NativeXArrayType result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXArrayType>();
+                                    result2.Size = SizeMember2;
+                                    result2.ElementType = result1;
+                                    result2.Start = result1.Start;
+                                    result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                    result1 = result2;
+                                    continue;
+                                }
                             }
                             break;
                         }
