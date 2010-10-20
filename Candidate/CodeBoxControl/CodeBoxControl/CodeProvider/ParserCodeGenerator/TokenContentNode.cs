@@ -7,7 +7,7 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 {
     public class TokenContentNode : ParserNode
     {
-        public string TokenValue { get; set; }
+        public string[] TokenValues { get; set; }
 
         internal TokenContentNode()
         {

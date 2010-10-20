@@ -38,7 +38,7 @@ namespace CodeForm.NativeX
 
             {
                 PRIMITIVE.Infer(
-                    STRING["Code"] | NUMBER["Code"] | tok("true")["Code"] | tok("false")["Code"] | tok("null")["Code"] | tok("exception")["Code"]
+                    STRING["Code"] | NUMBER["Code"] | toks("true", "false", "null")["Code"]
                     );
 
                 INSTANCE_FUNCTION_REFERENCE.Infer(
@@ -80,7 +80,7 @@ namespace CodeForm.NativeX
                             g<NativeXInvokeExpression>("Function", tok("(") + list<NativeXExpression>(tok(","), EXPRESSION)["Arguments"] + tok(")")),
                             g<NativeXMemberExpression>("Operand", tok(".") + ID["MemberName"]),
                             g<NativeXPointerMemberExpression>("Operand", tok("->") + ID["MemberName"]),
-                            g<NativeXPostUnaryExpression>("Operand", tok("++")["Operator"] | tok("--")["Operator"])
+                            g<NativeXPostUnaryExpression>("Operand", toks("++", "--")["Operator"])
                         ))
                     );
 
@@ -107,10 +107,7 @@ namespace CodeForm.NativeX
                         new string[]{"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "="}
                     };
                     ParserNode[] operatorNodes = binaryOperators
-                        .Select(ops => ops
-                            .Select(op => tok(op)["Operator"])
-                            .Aggregate((a, b) => a | b)
-                            )
+                        .Select(ops => toks(ops)["Operator"])
                         .ToArray();
                     ParserNode[] previousNode = new ParserNode[] { EXP2 }
                         .Concat(EXP_BINS.Take(EXP_BINS.Length - 1))

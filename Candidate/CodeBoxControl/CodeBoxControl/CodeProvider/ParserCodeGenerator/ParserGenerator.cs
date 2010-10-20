@@ -925,8 +925,11 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
 
             public void Visit(TokenContentNode node)
             {
+                string condition = node.TokenValues
+                    .Select(v => "tokens[" + this.indexVariable + "].Value == \"" + v + "\"")
+                    .Aggregate((a, b) => a + " || " + b);
                 sb.AppendLine(identation + "parseSuccess = false;");
-                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Value == \"" + node.TokenValue + "\")");
+                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && (" + condition + "))");
                 sb.AppendLine(identation + "{");
                 if (this.returnVariable != "")
                 {
