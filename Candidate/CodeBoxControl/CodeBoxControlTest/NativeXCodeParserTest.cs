@@ -146,10 +146,55 @@ namespace CodeBoxControlTest
 
         private void TestParseUnaryExp(Func<string, NativeXUnaryExpression> parser)
         {
+            {
+                NativeXExpression e = parser("++--&*-!~a++--");
+                {
+                    string[] operators = { "++", "--", "&", "*", "-", "!", "~" };
+                    foreach (string op in operators)
+                    {
+                        NativeXUnaryExpression unary = (NativeXUnaryExpression)e;
+                        Assert.AreEqual(op, unary.Operator);
+                        e = unary.Operand;
+                    }
+                }
+                {
+                    string[] operators = { "--", "++" };
+                    foreach (string op in operators)
+                    {
+                        NativeXPostUnaryExpression unary = (NativeXPostUnaryExpression)e;
+                        Assert.AreEqual(op, unary.Operator);
+                        e = unary.Operand;
+                    }
+                }
+                {
+                    Assert.AreEqual("a", ((NativeXReferenceExpression)e).ReferencedName);
+                }
+            }
         }
 
         private void TestParseBinaryExp(Func<string, NativeXBinaryExpression> parser)
         {
+            NativeXBinaryExpression a = parser("a=(1+2)+3*4");
+            Assert.AreEqual("=", a.Operator);
+            {
+                Assert.AreEqual("a", ((NativeXReferenceExpression)a.LeftOperand).ReferencedName);
+            }
+            {
+                NativeXBinaryExpression b = (NativeXBinaryExpression)a.RightOperand;
+                Assert.AreEqual("+", b.Operator);
+                {
+                    NativeXBinaryExpression c = (NativeXBinaryExpression)b.LeftOperand;
+                    Assert.AreEqual("+", c.Operator);
+                    Assert.AreEqual("1", ((NativeXPrimitiveExpression)c.LeftOperand).Code);
+                    Assert.AreEqual("2", ((NativeXPrimitiveExpression)c.RightOperand).Code);
+                }
+                {
+                    NativeXBinaryExpression c = (NativeXBinaryExpression)b.RightOperand;
+                    Assert.AreEqual("*", c.Operator);
+                    Assert.AreEqual("3", ((NativeXPrimitiveExpression)c.LeftOperand).Code);
+                    Assert.AreEqual("4", ((NativeXPrimitiveExpression)c.RightOperand).Code);
+                }
+            }
         }
 
         [TestMethod]

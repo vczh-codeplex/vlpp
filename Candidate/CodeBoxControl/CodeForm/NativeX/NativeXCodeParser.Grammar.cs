@@ -25,6 +25,9 @@ namespace CodeForm.NativeX
             var CAST = rule<NativeXCastingExpression>("Casting");
             var EXP0 = rule<NativeXExpression>("EXP0");
             var EXP1 = rule<NativeXExpression>("EXP1");
+            var UNARY = rule<NativeXUnaryExpression>("Unary");
+            var EXP2 = rule<NativeXExpression>("EXP2");
+            var EXP_BINS = Enumerable.Range(3, 11).Select(i => rule<NativeXExpression>("EXP" + i.ToString())).ToArray();
             var EXPRESSION = rule<NativeXExpression>("Expression");
 
             var REFERENCE_TYPE = rule<NativeXReferenceType>("ReferenceType");
@@ -77,12 +80,51 @@ namespace CodeForm.NativeX
                             g<NativeXInvokeExpression>("Function", tok("(") + list<NativeXExpression>(tok(","), EXPRESSION)["Arguments"] + tok(")")),
                             g<NativeXMemberExpression>("Operand", tok(".") + ID["MemberName"]),
                             g<NativeXPointerMemberExpression>("Operand", tok("->") + ID["MemberName"]),
-                            g<NativeXUnaryExpression>("Operand", tok("++")["Operator"] | tok("--")["Operator"])
+                            g<NativeXPostUnaryExpression>("Operand", tok("++")["Operator"] | tok("--")["Operator"])
                         ))
                     );
 
+                UNARY.Infer(
+                    ((tok("++")["Operator"] | tok("--")["Operator"] | tok("&")["Operator"] | tok("*")["Operator"] | tok("-")["Operator"] | tok("!")["Operator"] | tok("~")["Operator"])) + EXP2["Operand"]
+                    );
+
+                EXP2.Infer(
+                    ret(EXP1) | ret(UNARY)
+                    );
+
+                {
+                    string[][] binaryOperators = new string[][]{
+                        new string[]{"*", "/", "%"},
+                        new string[]{"+", "-"},
+                        new string[]{"<<", ">>"},
+                        new string[]{"<", "<=", ">", ">="},
+                        new string[]{"==", "!="},
+                        new string[]{"&"},
+                        new string[]{"^"},
+                        new string[]{"|"},
+                        new string[]{"&&"},
+                        new string[]{"||"},
+                        new string[]{"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "="}
+                    };
+                    ParserNode[] operatorNodes = binaryOperators
+                        .Select(ops => ops
+                            .Select(op => tok(op)["Operator"])
+                            .Aggregate((a, b) => a | b)
+                            )
+                        .ToArray();
+                    ParserNode[] previousNode = new ParserNode[] { EXP2 }
+                        .Concat(EXP_BINS.Take(EXP_BINS.Length - 1))
+                        .ToArray();
+                    for (int i = 0; i < EXP_BINS.Length; i++)
+                    {
+                        EXP_BINS[i].Infer(
+                            ret(leftrec<NativeXBinaryExpression>(previousNode[i]["LeftOperand"], operatorNodes[i] + previousNode[i]["RightOperand"]))
+                            );
+                    }
+                }
+
                 EXPRESSION.Infer(
-                    ret(EXP1)
+                    ret(EXP_BINS.Last())
                     );
             }
             {

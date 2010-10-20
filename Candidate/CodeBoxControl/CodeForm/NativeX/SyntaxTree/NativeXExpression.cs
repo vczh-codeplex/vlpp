@@ -21,6 +21,12 @@ namespace CodeForm.NativeX.SyntaxTree
         public abstract NativeXExpression Operand { get; set; }
     }
 
+    public abstract class NativeXPostUnaryExpression : NativeXExpression
+    {
+        public string Operator { get; set; }
+        public abstract NativeXExpression Operand { get; set; }
+    }
+
     public abstract class NativeXBinaryExpression : NativeXExpression
     {
         public string Operator { get; set; }
