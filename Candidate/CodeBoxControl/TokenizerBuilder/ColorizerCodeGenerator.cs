@@ -174,7 +174,7 @@ namespace TokenizerBuilder
             builder.AppendLine();
             builder.AppendLine("namespace " + namespaceName);
             builder.AppendLine("{");
-            builder.AppendLine("    partial class " + className + " : ITextEditorColorizer");
+            builder.AppendLine("    public partial class " + className + " : ITextEditorColorizer");
             builder.AppendLine("    {");
 
             // color ids

@@ -1101,7 +1101,7 @@ namespace CodeForm.NativeX
             transitions[26, 5] = -1;
             transitions[26, 6] = -1;
             transitions[26, 7] = -1;
-            transitions[26, 8] = 28;
+            transitions[26, 8] = -1;
             transitions[26, 9] = -1;
             transitions[26, 10] = 28;
             transitions[26, 11] = -1;
@@ -1115,7 +1115,7 @@ namespace CodeForm.NativeX
             transitions[26, 19] = -1;
             transitions[26, 20] = -1;
             transitions[26, 21] = 28;
-            transitions[26, 22] = -1;
+            transitions[26, 22] = 28;
             transitions[26, 23] = -1;
             transitions[26, 24] = -1;
             transitions[26, 25] = -1;

@@ -91,7 +91,7 @@
   <ArrowShape Name="+" X="405" Y="923" R="5" Start="27" End="28" />
   <ArrowShape Name="=" X="405" Y="899" R="5" Start="27" End="28" />
   <ArrowShape Name="-" X="384" Y="982" R="5" Start="26" End="28" />
-  <ArrowShape Name="*" X="396" Y="1012" R="5" Start="26" End="28" />
+  <ArrowShape Name="&gt;" X="396" Y="1012" R="5" Start="26" End="28" />
   <ArrowShape Name="=" X="371" Y="950" R="5" Start="26" End="28" />
   <ArrowShape Name="!" X="646" Y="792" R="5" Start="0" End="29" />
   <ArrowShape Name="=" X="372" Y="844" R="5" Start="29" End="28" />
