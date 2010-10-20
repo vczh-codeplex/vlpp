@@ -1332,7 +1332,7 @@ namespace vl
 													| ((DOT | POINTER) + ID[ToReference])
 													| ((INCREASE | DECREASE)[UpgradePostfix])
 													), ToPostUnary);
-					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp1)[ToPreUnary];
+					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp2)[ToPreUnary];
 					exp3			= lrec(exp2 + *((MUL | DIV | MOD) + exp2), ToBinary);
 					exp4			= lrec(exp3 + *((ADD | SUB) + exp3), ToBinary);
 					exp5			= lrec(exp4 + *((LT+LT | GT+GT) + exp4), ToBinary2);
