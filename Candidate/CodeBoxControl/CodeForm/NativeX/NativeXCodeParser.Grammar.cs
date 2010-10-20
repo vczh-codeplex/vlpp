@@ -27,6 +27,9 @@ namespace CodeForm.NativeX
             var EXPRESSION = rule<NativeXExpression>("Expression");
 
             var REFERENCE_TYPE = rule<NativeXReferenceType>("ReferenceType");
+            var FUNCTION_TYPE = rule<NativeXFunctionType>("FunctionType");
+            var INSTANCIATED_TYPE = rule<NativeXInstanciatedType>("InstanciatedType");
+            var PRIMITIVE_TYPE = rule<NativeXType>("PrimitiveType");
             var TYPE = rule<NativeXType>("Type");
 
             {
@@ -75,8 +78,20 @@ namespace CodeForm.NativeX
                     ID["ReferencedName"]
                     );
 
+                FUNCTION_TYPE.Infer(
+                    tok("function") + TYPE["ReturnType"] + tok("(") + list<NativeXType>(tok(","), TYPE)["Parameters"] + tok(")")
+                    );
+
+                INSTANCIATED_TYPE.Infer(
+                    REFERENCE_TYPE["ElementType"] + tok("<") + list<NativeXType>(tok(","), TYPE)["GenericArguments"] + tok(">")
+                    );
+
+                PRIMITIVE_TYPE.Infer(
+                    ret(FUNCTION_TYPE) | ret(INSTANCIATED_TYPE) | ret(REFERENCE_TYPE)
+                    );
+
                 TYPE.Infer(
-                    ret(REFERENCE_TYPE)
+                    ret(leftrec<NativeXDecoratedType>(PRIMITIVE_TYPE["ElementType"], tok("*") | tok("[") + PRIMITIVE["Size"] + tok("]")))
                     );
             }
 

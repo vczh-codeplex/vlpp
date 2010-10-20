@@ -29,6 +29,8 @@ namespace CodeBoxControlTest
             return parser(tokens, ref currentToken, ref parseSuccess);
         }
 
+        #region EXPRESSION
+
         private void TestParsePrimitiveInternal(Func<string, NativeXPrimitiveExpression> parser)
         {
             Assert.AreEqual("1", parser("1").Code);
@@ -165,5 +167,113 @@ namespace CodeBoxControlTest
             TestParseExceptionInternal(s => (NativeXExceptionExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseCastingInternal(s => (NativeXCastingExpression)Parse(s, NativeXCodeParser.ParseCasting));
         }
+
+        #endregion
+
+        #region TYPE
+
+        private void TestReferenceTypeInternal(Func<string, NativeXReferenceType> parser)
+        {
+            Assert.AreEqual("int", parser("int").ReferencedName);
+        }
+
+        private void TestFunctionTypeInternal(Func<string, NativeXFunctionType> parser)
+        {
+            {
+                NativeXFunctionType t = parser("function void()");
+                Assert.AreEqual("void", ((NativeXReferenceType)t.ReturnType).ReferencedName);
+                Assert.AreEqual(0, t.Parameters.Count);
+            }
+            {
+                NativeXFunctionType t = parser("function int(double*)");
+                Assert.AreEqual("int", ((NativeXReferenceType)t.ReturnType).ReferencedName);
+                Assert.AreEqual(1, t.Parameters.Count);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[0]).ElementType).ReferencedName);
+            }
+            {
+                NativeXFunctionType t = parser("function int(double*,string[1])");
+                Assert.AreEqual("int", ((NativeXReferenceType)t.ReturnType).ReferencedName);
+                Assert.AreEqual(2, t.Parameters.Count);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[0]).ElementType).ReferencedName);
+                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXDecoratedType)t.Parameters[1]).ElementType).ReferencedName);
+            }
+        }
+
+        private void TestInstanciatedTypeInternal(Func<string, NativeXInstanciatedType> parser)
+        {
+            {
+                NativeXInstanciatedType t = parser("void<>");
+                Assert.AreEqual("void", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.AreEqual(0, t.GenericArguments.Count);
+            }
+            {
+                NativeXInstanciatedType t = parser("int<double*>");
+                Assert.AreEqual("int", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.AreEqual(1, t.GenericArguments.Count);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[0]).ElementType).ReferencedName);
+            }
+            {
+                NativeXInstanciatedType t = parser("int<double*,string[1]>");
+                Assert.AreEqual("int", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.AreEqual(2, t.GenericArguments.Count);
+                Assert.AreEqual("double", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[0]).ElementType).ReferencedName);
+                Assert.AreEqual("string", ((NativeXReferenceType)((NativeXDecoratedType)t.GenericArguments[1]).ElementType).ReferencedName);
+            }
+        }
+
+        private void TestDecoratedTypeInternal(Func<string, NativeXDecoratedType> parser)
+        {
+            {
+                NativeXDecoratedType t = parser("double*");
+                Assert.AreEqual("double", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.IsNull(t.Size);
+            }
+            {
+                NativeXDecoratedType t = parser("string[1]");
+                Assert.AreEqual("string", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.AreEqual("1", ((NativeXPrimitiveExpression)t.Size).Code);
+            }
+        }
+
+        [TestMethod]
+        public void TestReferenceType()
+        {
+            TestReferenceTypeInternal(s => Parse(s, NativeXCodeParser.ParseReferenceType));
+        }
+
+        [TestMethod]
+        public void TestFunctionType()
+        {
+            TestFunctionTypeInternal(s => Parse(s, NativeXCodeParser.ParseFunctionType));
+        }
+
+        [TestMethod]
+        public void TestInstanciatedType()
+        {
+            TestInstanciatedTypeInternal(s => Parse(s, NativeXCodeParser.ParseInstanciatedType));
+        }
+
+        [TestMethod]
+        public void TestDecoratedType()
+        {
+            TestDecoratedTypeInternal(s => (NativeXDecoratedType)Parse(s, NativeXCodeParser.ParseType));
+        }
+
+        [TestMethod]
+        public void TestType()
+        {
+            TestReferenceTypeInternal(s => (NativeXReferenceType)Parse(s, NativeXCodeParser.ParseType));
+            TestFunctionTypeInternal(s => (NativeXFunctionType)Parse(s, NativeXCodeParser.ParseType));
+            TestInstanciatedTypeInternal(s => (NativeXInstanciatedType)Parse(s, NativeXCodeParser.ParseType));
+            TestDecoratedTypeInternal(s => (NativeXDecoratedType)Parse(s, NativeXCodeParser.ParseType));
+        }
+
+        #endregion
+
+        #region STATEMENT
+        #endregion
+
+        #region DECLARATION
+        #endregion
     }
 }
