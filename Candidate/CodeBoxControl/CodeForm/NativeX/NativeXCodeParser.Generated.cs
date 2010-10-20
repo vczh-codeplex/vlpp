@@ -17,13 +17,2112 @@ namespace CodeForm.NativeX
                 int currentIndex1 = currentToken;
                 {
                     parseSuccess = false;
-                    result1 = ParseEXP1(tokens, ref currentIndex1, ref parseSuccess);
+                    result1 = ParseEXP13(tokens, ref currentIndex1, ref parseSuccess);
                 }
                 if (parseSuccess)
                 {
                     currentToken = currentIndex1;
                     result = result1;
                 }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP13(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP12(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "+=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "-=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "*=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "/=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "%=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "<<=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == ">>=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "&=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "/=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "&&=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "||=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP12(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP12(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP11(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            CodeBoxControl.CodeProvider.CodeToken result5 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                if (currentIndex5 < tokens.Count && tokens[currentIndex5].Value == "||")
+                                                {
+                                                    result5 = tokens[currentIndex5];
+                                                    currentIndex5++;
+                                                    parseSuccess = true;
+                                                }
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                OperatorMember4 = result5.Value;
+                                            }
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP11(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP11(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP10(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            CodeBoxControl.CodeProvider.CodeToken result5 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                if (currentIndex5 < tokens.Count && tokens[currentIndex5].Value == "&&")
+                                                {
+                                                    result5 = tokens[currentIndex5];
+                                                    currentIndex5++;
+                                                    parseSuccess = true;
+                                                }
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                OperatorMember4 = result5.Value;
+                                            }
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP10(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP10(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP9(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            CodeBoxControl.CodeProvider.CodeToken result5 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                if (currentIndex5 < tokens.Count && tokens[currentIndex5].Value == "|")
+                                                {
+                                                    result5 = tokens[currentIndex5];
+                                                    currentIndex5++;
+                                                    parseSuccess = true;
+                                                }
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                OperatorMember4 = result5.Value;
+                                            }
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP9(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP9(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP8(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            CodeBoxControl.CodeProvider.CodeToken result5 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                if (currentIndex5 < tokens.Count && tokens[currentIndex5].Value == "^")
+                                                {
+                                                    result5 = tokens[currentIndex5];
+                                                    currentIndex5++;
+                                                    parseSuccess = true;
+                                                }
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                OperatorMember4 = result5.Value;
+                                            }
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP8(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP8(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP7(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            CodeBoxControl.CodeProvider.CodeToken result5 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                if (currentIndex5 < tokens.Count && tokens[currentIndex5].Value == "&")
+                                                {
+                                                    result5 = tokens[currentIndex5];
+                                                    currentIndex5++;
+                                                    parseSuccess = true;
+                                                }
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                OperatorMember4 = result5.Value;
+                                            }
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP7(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP7(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP6(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "==")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "!=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP6(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP6(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP5(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "<")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "<=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == ">")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == ">=")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP5(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP5(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP4(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "<<")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == ">>")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP4(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP4(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP3(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "+")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "-")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP3(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP3(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParseEXP2(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                System.String OperatorMember3 = default(System.String);
+                                CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember3 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                {
+                                    int currentIndexCopy4 = currentIndex2;
+                                    int currentIndex4 = currentIndex2;
+                                    {
+                                        System.String OperatorMember4 = default(System.String);
+                                        {
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "*")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "/")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    CodeBoxControl.CodeProvider.CodeToken result6 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        parseSuccess = false;
+                                                        if (currentIndex6 < tokens.Count && tokens[currentIndex6].Value == "%")
+                                                        {
+                                                            result6 = tokens[currentIndex6];
+                                                            currentIndex6++;
+                                                            parseSuccess = true;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = result6.Value;
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
+                                        }
+                                        OperatorMember3 = OperatorMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        CodeForm.NativeX.SyntaxTree.NativeXExpression RightOperandMember4 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                        {
+                                            CodeForm.NativeX.SyntaxTree.NativeXExpression result5 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                                            int currentIndex5 = currentIndex4;
+                                            {
+                                                parseSuccess = false;
+                                                result5 = ParseEXP2(tokens, ref currentIndex5, ref parseSuccess);
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                RightOperandMember4 = result5;
+                                            }
+                                        }
+                                        RightOperandMember3 = RightOperandMember4;
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy4 = currentIndex4;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy4;
+                                LABEL_1: ;
+                                }
+                                OperatorMember2 = OperatorMember3;
+                                RightOperandMember2 = RightOperandMember3;
+                            }
+                            if (parseSuccess)
+                            {
+                                currentIndex1 = currentIndex2;
+                                CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXBinaryExpression>();
+                                result2.Operator = OperatorMember2;
+                                result2.RightOperand = RightOperandMember2;
+                                result2.LeftOperand = result1;
+                                result2.Start = result1.Start;
+                                result2.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                result1 = result2;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXExpression>();
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXExpression ParseEXP2(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                CodeForm.NativeX.SyntaxTree.NativeXExpression result1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                int currentIndex1 = -1;
+                currentIndex1 = currentToken;
+                {
+                    {
+                        CodeForm.NativeX.SyntaxTree.NativeXExpression result2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseEXP1(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    {
+                        CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression result2 = default(CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseUnary(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                goto LABEL_FAIL_1;
+            LABEL_SUCCESS_0: ;
+                result = result1;
+            LABEL_FAIL_1: ;
             }
             if (parseSuccess)
             {
@@ -481,7 +2580,7 @@ namespace CodeForm.NativeX
                                 if (parseSuccess)
                                 {
                                     currentIndex1 = currentIndex2;
-                                    CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression>();
+                                    CodeForm.NativeX.SyntaxTree.NativeXPostUnaryExpression result2 = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXPostUnaryExpression>();
                                     result2.Operator = OperatorMember2;
                                     result2.Operand = result1;
                                     result2.Start = result1.Start;
@@ -2150,6 +4249,268 @@ namespace CodeForm.NativeX
             {
                 if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXReferenceExpression>();
                 result.ReferencedName = ReferencedNameMember0;
+                result.Start = start;
+                result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression ParseUnary(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            CodeBoxControl.Core.TextPosition start = CodeBoxControl.CodeProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression result = default(CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression);
+            System.String OperatorMember0 = default(System.String);
+            CodeForm.NativeX.SyntaxTree.NativeXExpression OperandMember0 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+            {
+                int currentIndexCopy1 = currentToken;
+                int currentIndex1 = currentToken;
+                {
+                    System.String OperatorMember1 = default(System.String);
+                    {
+                        int currentIndex2 = -1;
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "++")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "--")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "&")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "*")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "-")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "!")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        currentIndex2 = currentIndex1;
+                        {
+                            System.String OperatorMember2 = default(System.String);
+                            {
+                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && tokens[currentIndex3].Value == "~")
+                                    {
+                                        result3 = tokens[currentIndex3];
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    OperatorMember2 = result3.Value;
+                                }
+                            }
+                            OperatorMember1 = OperatorMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        goto LABEL_FAIL_2;
+                    LABEL_SUCCESS_1: ;
+                    LABEL_FAIL_2: ;
+                    }
+                    OperatorMember0 = OperatorMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    CodeForm.NativeX.SyntaxTree.NativeXExpression OperandMember1 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                    {
+                        CodeForm.NativeX.SyntaxTree.NativeXExpression result2 = default(CodeForm.NativeX.SyntaxTree.NativeXExpression);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseEXP2(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            OperandMember1 = result2;
+                        }
+                    }
+                    OperandMember0 = OperandMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                currentToken = currentIndexCopy1;
+            LABEL_0: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<CodeForm.NativeX.SyntaxTree.NativeXUnaryExpression>();
+                result.Operator = OperatorMember0;
+                result.Operand = OperandMember0;
                 result.Start = start;
                 result.End = CodeBoxControl.CodeProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
             }
