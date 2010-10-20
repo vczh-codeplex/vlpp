@@ -114,6 +114,44 @@ namespace CodeBoxControlTest
             }
         }
 
+        private void TestParseExp1(Func<string, NativeXExpression> parser)
+        {
+            {
+                NativeXSubscribeExpression e = (NativeXSubscribeExpression)parser("a[b][c]");
+                Assert.AreEqual("c", ((NativeXReferenceExpression)e.Subscribe).ReferencedName);
+                NativeXSubscribeExpression e2 = (NativeXSubscribeExpression)e.Operand;
+                Assert.AreEqual("b", ((NativeXReferenceExpression)e2.Subscribe).ReferencedName);
+                Assert.AreEqual("a", ((NativeXReferenceExpression)e2.Operand).ReferencedName);
+            }
+            {
+                NativeXInvokeExpression e = (NativeXInvokeExpression)parser("a()(b)(c,d)");
+                Assert.AreEqual(2, e.Arguments.Count);
+                Assert.AreEqual("c", ((NativeXReferenceExpression)e.Arguments[0]).ReferencedName);
+                Assert.AreEqual("d", ((NativeXReferenceExpression)e.Arguments[1]).ReferencedName);
+                NativeXInvokeExpression e2 = (NativeXInvokeExpression)e.Function;
+                Assert.AreEqual(1, e2.Arguments.Count);
+                Assert.AreEqual("b", ((NativeXReferenceExpression)e2.Arguments[0]).ReferencedName);
+                NativeXInvokeExpression e3 = (NativeXInvokeExpression)e2.Function;
+                Assert.AreEqual(0, e3.Arguments.Count);
+                Assert.AreEqual("a", ((NativeXReferenceExpression)e3.Function).ReferencedName);
+            }
+            {
+                NativeXPointerMemberExpression e = (NativeXPointerMemberExpression)parser("a.b->c");
+                Assert.AreEqual("c", e.MemberName);
+                NativeXMemberExpression e2 = (NativeXMemberExpression)e.Operand;
+                Assert.AreEqual("b", e2.MemberName);
+                Assert.AreEqual("a", ((NativeXReferenceExpression)e2.Operand).ReferencedName);
+            }
+        }
+
+        private void TestParseUnaryExp(Func<string, NativeXUnaryExpression> parser)
+        {
+        }
+
+        private void TestParseBinaryExp(Func<string, NativeXBinaryExpression> parser)
+        {
+        }
+
         [TestMethod]
         public void TestParsePrimitive()
         {
@@ -165,7 +203,10 @@ namespace CodeBoxControlTest
             TestParseInstanciatedReferenceInternal(s => (NativeXInstanciatedExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseResultInternal(s => (NativeXFunctionResultExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseExceptionInternal(s => (NativeXExceptionExpression)Parse(s, NativeXCodeParser.ParseExpression));
-            TestParseCastingInternal(s => (NativeXCastingExpression)Parse(s, NativeXCodeParser.ParseCasting));
+            TestParseCastingInternal(s => (NativeXCastingExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseExp1(s => Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseUnaryExp(s => (NativeXUnaryExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseBinaryExp(s => (NativeXBinaryExpression)Parse(s, NativeXCodeParser.ParseExpression));
         }
 
         #endregion

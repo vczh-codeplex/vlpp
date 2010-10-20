@@ -24,6 +24,7 @@ namespace CodeForm.NativeX
             var EXCEPTION = rule<NativeXExceptionExpression>("Exception");
             var CAST = rule<NativeXCastingExpression>("Casting");
             var EXP0 = rule<NativeXExpression>("EXP0");
+            var EXP1 = rule<NativeXExpression>("EXP1");
             var EXPRESSION = rule<NativeXExpression>("Expression");
 
             var REFERENCE_TYPE = rule<NativeXReferenceType>("ReferenceType");
@@ -69,8 +70,19 @@ namespace CodeForm.NativeX
                     ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | tok("(") + ret(EXPRESSION) + tok(")")
                     );
 
+                EXP1.Infer(
+                    ret(leftrecg(
+                            EXP0,
+                            g<NativeXSubscribeExpression>("Operand", tok("[") + EXPRESSION["Subscribe"] + tok("]")),
+                            g<NativeXInvokeExpression>("Function", tok("(") + list<NativeXExpression>(tok(","), EXPRESSION)["Arguments"] + tok(")")),
+                            g<NativeXMemberExpression>("Operand", tok(".") + ID["MemberName"]),
+                            g<NativeXPointerMemberExpression>("Operand", tok("->") + ID["MemberName"]),
+                            g<NativeXUnaryExpression>("Operand", tok("++")["Operator"] | tok("--")["Operator"])
+                        ))
+                    );
+
                 EXPRESSION.Infer(
-                    ret(EXP0)
+                    ret(EXP1)
                     );
             }
             {

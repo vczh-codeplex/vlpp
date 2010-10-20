@@ -98,7 +98,7 @@ namespace TokenizerBuilder
             builder.AppendLine();
             builder.AppendLine("namespace " + namespaceName);
             builder.AppendLine("{");
-            builder.AppendLine("    partial class " + className + " : CodeTokenizer");
+            builder.AppendLine("    public partial class " + className + " : CodeTokenizer");
             builder.AppendLine("    {");
 
             // color ids
