@@ -1329,7 +1329,7 @@ namespace vl
 					exp1			= lrec(exp0 +  *(
 													(OPEN_ARRAY + exp << CLOSE_ARRAY(NeedCloseArray))
 													| (OPEN_BRACE + list(opt(exp + *(COMMA >> exp)))[UpgradeArguments] << CLOSE_BRACE(NeedCloseBrace))
-													| ((DOT | POINTER) + reference)
+													| ((DOT | POINTER) + ID[ToReference])
 													| ((INCREASE | DECREASE)[UpgradePostfix])
 													), ToPostUnary);
 					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp1)[ToPreUnary];
