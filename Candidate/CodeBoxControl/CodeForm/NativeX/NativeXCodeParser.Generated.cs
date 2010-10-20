@@ -3511,206 +3511,22 @@ namespace CodeForm.NativeX
                 {
                     System.String OperatorMember1 = default(System.String);
                     {
-                        int currentIndex2 = -1;
-                        currentIndex2 = currentIndex1;
+                        CodeBoxControl.CodeProvider.CodeToken result2 = default(CodeBoxControl.CodeProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
                         {
-                            System.String OperatorMember2 = default(System.String);
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "++" || tokens[currentIndex2].Value == "--" || tokens[currentIndex2].Value == "&" || tokens[currentIndex2].Value == "*" || tokens[currentIndex2].Value == "-" || tokens[currentIndex2].Value == "!" || tokens[currentIndex2].Value == "~"))
                             {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "++"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
                             }
-                            OperatorMember1 = OperatorMember2;
                         }
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
+                            OperatorMember1 = result2.Value;
                         }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "--"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "&"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "*"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "-"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "!"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        currentIndex2 = currentIndex1;
-                        {
-                            System.String OperatorMember2 = default(System.String);
-                            {
-                                CodeBoxControl.CodeProvider.CodeToken result3 = default(CodeBoxControl.CodeProvider.CodeToken);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "~"))
-                                    {
-                                        result3 = tokens[currentIndex3];
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    OperatorMember2 = result3.Value;
-                                }
-                            }
-                            OperatorMember1 = OperatorMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
-                    LABEL_FAIL_2: ;
                     }
                     OperatorMember0 = OperatorMember1;
                 }

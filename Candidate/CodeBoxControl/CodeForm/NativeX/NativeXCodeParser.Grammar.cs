@@ -85,7 +85,7 @@ namespace CodeForm.NativeX
                     );
 
                 UNARY.Infer(
-                    ((tok("++")["Operator"] | tok("--")["Operator"] | tok("&")["Operator"] | tok("*")["Operator"] | tok("-")["Operator"] | tok("!")["Operator"] | tok("~")["Operator"])) + EXP2["Operand"]
+                    ((toks("++", "--", "&", "*", "-", "!", "~")["Operator"])) + EXP2["Operand"]
                     );
 
                 EXP2.Infer(
