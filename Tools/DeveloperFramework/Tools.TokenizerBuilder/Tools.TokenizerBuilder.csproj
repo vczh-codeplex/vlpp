@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1ACCB25F-B29A-4302-8EB4-88B04E674E5F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tools.TokenizerBuilder</RootNamespace>
+    <AssemblyName>Tools.TokenizerBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuilderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuilderForm.Designer.cs">
+      <DependentUpon>BuilderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneratorHelper.cs" />
+    <Compile Include="ColorizerCodeGenerator.cs" />
+    <Compile Include="GenerateColorizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateColorizerForm.Designer.cs">
+      <DependentUpon>GenerateColorizerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateTokenizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateTokenizerForm.Designer.cs">
+      <DependentUpon>GenerateTokenizerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shape\ArrowShape.cs" />
+    <Compile Include="Shape\ShapeBase.cs" />
+    <Compile Include="Shape\StateShape.cs" />
+    <Compile Include="StringEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StringEditorForm.Designer.cs">
+      <DependentUpon>StringEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TokenizerCodeGenerator.cs" />
+    <Compile Include="TokenizerEditorBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TokenizerEditorBox.Designer.cs">
+      <DependentUpon>TokenizerEditorBox.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BuilderForm.resx">
+      <DependentUpon>BuilderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateColorizerForm.resx">
+      <DependentUpon>GenerateColorizerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateTokenizerForm.resx">
+      <DependentUpon>GenerateTokenizerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="StringEditorForm.resx">
+      <DependentUpon>StringEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TokenizerEditorBox.resx">
+      <DependentUpon>TokenizerEditorBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sample.statemachine.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Developer.WinFormControls\Developer.WinFormControls.csproj">
+      <Project>{4B3A01F1-F870-4EF9-8C35-22C3D5A9FAEC}</Project>
+      <Name>Developer.WinFormControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
