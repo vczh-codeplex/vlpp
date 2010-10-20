@@ -84,7 +84,15 @@ namespace CodeBoxControl.CodeProvider.ParserCodeGenerator
         {
             return new TokenContentNode()
             {
-                TokenValue = id
+                TokenValues = new string[] { id }
+            };
+        }
+
+        public static ParserNode toks(params string[] ids)
+        {
+            return new TokenContentNode()
+            {
+                TokenValues = ids
             };
         }
 
