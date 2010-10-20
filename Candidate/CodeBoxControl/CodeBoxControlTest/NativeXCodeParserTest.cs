@@ -310,5 +310,11 @@ namespace CodeBoxControlTest
 
         #region DECLARATION
         #endregion
+
+        [TestMethod]
+        public void RunParserGenerator()
+        {
+            NativeXCodeParserGrammar.Build();
+        }
     }
 }
