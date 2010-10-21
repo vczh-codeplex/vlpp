@@ -5088,6 +5088,22 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
                     Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ConditionMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
                     {
                         Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
@@ -5103,6 +5119,22 @@ namespace Developer.LanguageServices.NativeX
                         }
                     }
                     ConditionMember0 = ConditionMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
                 }
                 if (parseSuccess)
                 {

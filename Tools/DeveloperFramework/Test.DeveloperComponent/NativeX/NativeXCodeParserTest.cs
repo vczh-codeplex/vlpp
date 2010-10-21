@@ -26,7 +26,9 @@ namespace Test.DeveloperComponent.NativeX
                 .ToList();
             int currentToken = 0;
             bool parseSuccess = false;
-            return parser(tokens, ref currentToken, ref parseSuccess);
+            T result = parser(tokens, ref currentToken, ref parseSuccess);
+            Assert.AreEqual(tokens.Count, currentToken);
+            return result;
         }
 
         #region EXPRESSION
@@ -474,6 +476,48 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseForStatementInternal(Func<string, NativeXForStatement> parser)
         {
+            NativeXForStatement s = parser("for variable int i = 0; variable int j = 0; when (i - j > 5) with i+=2; j+=1; do x();");
+            Assert.AreEqual(2, s.Initializer.Count);
+            {
+                NativeXVariableStatement s1 = (NativeXVariableStatement)s.Initializer[0];
+                Assert.AreEqual("i", s1.Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)s1.Type).ReferencedName);
+                Assert.AreEqual("0", ((NativeXPrimitiveExpression)s1.Initializer).Code);
+            }
+            {
+                NativeXVariableStatement s2 = (NativeXVariableStatement)s.Initializer[1];
+                Assert.AreEqual("j", s2.Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)s2.Type).ReferencedName);
+                Assert.AreEqual("0", ((NativeXPrimitiveExpression)s2.Initializer).Code);
+            }
+            Assert.AreEqual(2, s.SideEffect.Count);
+            {
+                NativeXBinaryExpression e1 = (NativeXBinaryExpression)((NativeXExpressionStatement)s.SideEffect[0]).Expression;
+                Assert.AreEqual("+=", e1.Operator);
+                Assert.AreEqual("i", ((NativeXReferenceExpression)e1.LeftOperand).ReferencedName);
+                Assert.AreEqual("2", ((NativeXPrimitiveExpression)e1.RightOperand).Code);
+            }
+            {
+                NativeXBinaryExpression e2 = (NativeXBinaryExpression)((NativeXExpressionStatement)s.SideEffect[1]).Expression;
+                Assert.AreEqual("+=", e2.Operator);
+                Assert.AreEqual("j", ((NativeXReferenceExpression)e2.LeftOperand).ReferencedName);
+                Assert.AreEqual("1", ((NativeXPrimitiveExpression)e2.RightOperand).Code);
+            }
+            {
+                NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.Statement).Expression;
+                Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+                Assert.AreEqual(0, a.Arguments.Count);
+            }
+            {
+                NativeXBinaryExpression e1 = (NativeXBinaryExpression)s.Condition;
+                Assert.AreEqual(">", e1.Operator);
+                Assert.AreEqual("5", ((NativeXPrimitiveExpression)e1.RightOperand).Code);
+
+                NativeXBinaryExpression e2 = (NativeXBinaryExpression)e1.LeftOperand;
+                Assert.AreEqual("-", e2.Operator);
+                Assert.AreEqual("i", ((NativeXReferenceExpression)e2.LeftOperand).ReferencedName);
+                Assert.AreEqual("j", ((NativeXReferenceExpression)e2.RightOperand).ReferencedName);
+            }
         }
 
         private void TestParseTryCatchStatementInternal(Func<string, NativeXTryCatchStatement> parser)
