@@ -351,6 +351,97 @@ namespace Test.DeveloperComponent.NativeX
         #endregion
 
         #region STATEMENT
+
+        private void TestParseEmptyStatementInternal(Func<string, NativeXEmptyStatement> parser)
+        {
+        }
+
+        private void TestParseVariableStatementInternal(Func<string, NativeXVariableStatement> parser)
+        {
+        }
+
+        private void TestParseIfStatementInternal(Func<string, NativeXIfStatement> parser)
+        {
+        }
+
+        private void TestParseBreakStatementInternal(Func<string, NativeXBreakStatement> parser)
+        {
+        }
+
+        private void TestParseContinueStatementInternal(Func<string, NativeXContinueStatement> parser)
+        {
+        }
+
+        private void TestParseExitStatementInternal(Func<string, NativeXReturnStatement> parser)
+        {
+        }
+
+        private void TestParseCompositeStatementInternal(Func<string, NativeXCompositeStatement> parser)
+        {
+        }
+
+        private void TestParseDoWhileStatementInternal(Func<string, NativeXWhileStatement> parser)
+        {
+        }
+
+        private void TestParseLoopStatementInternal(Func<string, NativeXWhileStatement> parser)
+        {
+        }
+
+        private void TestParseWhileDoStatementInternal(Func<string, NativeXWhileStatement> parser)
+        {
+        }
+
+        private void TestParseForStatementInternal(Func<string, NativeXForStatement> parser)
+        {
+        }
+
+        private void TestParseTryCatchStatementInternal(Func<string, NativeXTryCatchStatement> parser)
+        {
+        }
+
+        private void TestParseThrowStatementInternal(Func<string, NativeXThrowStatement> parser)
+        {
+        }
+
+        private void TestParseExpressionStatementInternal(Func<string, NativeXExpressionStatement> parser)
+        {
+        }
+
+        [TestMethod]
+        public void TestParseStatement()
+        {
+            TestParseEmptyStatementInternal(s => Parse(s, NativeXCodeParser.ParseEmptyStatement));
+            TestParseVariableStatementInternal(s => Parse(s, NativeXCodeParser.ParseVariableStatement));
+            TestParseIfStatementInternal(s => Parse(s, NativeXCodeParser.ParseIfStatement));
+            TestParseBreakStatementInternal(s => Parse(s, NativeXCodeParser.ParseBreakStatement));
+            TestParseContinueStatementInternal(s => Parse(s, NativeXCodeParser.ParseContinueStatement));
+            TestParseExitStatementInternal(s => Parse(s, NativeXCodeParser.ParseExitStatement));
+            TestParseCompositeStatementInternal(s => Parse(s, NativeXCodeParser.ParseCompositeStatement));
+            TestParseDoWhileStatementInternal(s => Parse(s, NativeXCodeParser.ParseDoWhileStatement));
+            TestParseLoopStatementInternal(s => Parse(s, NativeXCodeParser.ParseLoopStatement));
+            TestParseWhileDoStatementInternal(s => Parse(s, NativeXCodeParser.ParseWhileDoStatement));
+            TestParseForStatementInternal(s => Parse(s, NativeXCodeParser.ParseForStatement));
+            TestParseTryCatchStatementInternal(s => Parse(s, NativeXCodeParser.ParseTryCatchStatement));
+            TestParseThrowStatementInternal(s => Parse(s, NativeXCodeParser.ParseThrowStatement));
+            TestParseExpressionStatementInternal(s => Parse(s, NativeXCodeParser.ParseExpressionStatement));
+
+            TestParseEmptyStatementInternal(s => (NativeXEmptyStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseVariableStatementInternal(s => (NativeXVariableStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseIfStatementInternal(s => (NativeXIfStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseBreakStatementInternal(s => (NativeXBreakStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseContinueStatementInternal(s => (NativeXContinueStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseExitStatementInternal(s => (NativeXReturnStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseCompositeStatementInternal(s => (NativeXCompositeStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseDoWhileStatementInternal(s => (NativeXWhileStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseLoopStatementInternal(s => (NativeXWhileStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseWhileDoStatementInternal(s => (NativeXWhileStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseForStatementInternal(s => (NativeXForStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseTryCatchStatementInternal(s => (NativeXTryCatchStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseThrowStatementInternal(s => (NativeXThrowStatement)Parse(s, NativeXCodeParser.ParseStatement));
+            TestParseExpressionStatementInternal(s => (NativeXExpressionStatement)Parse(s, NativeXCodeParser.ParseStatement));
+        }
+
         #endregion
 
         #region DECLARATION
