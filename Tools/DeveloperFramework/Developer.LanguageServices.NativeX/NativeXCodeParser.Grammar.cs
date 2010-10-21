@@ -99,7 +99,7 @@ namespace Developer.LanguageServices.NativeX
 
                 FOR_STATEMENT.Infer(
                     tok("for") + list<NativeXStatement>(STATEMENT)["Initializer"]
-                    + tok("when") + EXPRESSION["Condition"]
+                    + tok("when") + tok("(") + EXPRESSION["Condition"] + tok(")")
                     + tok("with") + list<NativeXStatement>(STATEMENT)["SideEffect"]
                     + tok("do") + STATEMENT["Statement"]
                     );
