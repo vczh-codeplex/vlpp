@@ -60,12 +60,10 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXFunctionResultExpression : NativeXExpression
     {
-        public string Code { get; set; }
     }
 
     public abstract class NativeXExceptionExpression : NativeXExpression
     {
-        public string Code { get; set; }
     }
 
     public abstract class NativeXCastingExpression : NativeXExpression

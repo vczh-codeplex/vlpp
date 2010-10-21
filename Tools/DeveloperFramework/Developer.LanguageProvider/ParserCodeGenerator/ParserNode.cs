@@ -50,6 +50,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
     public interface IParserNodeVisitor
     {
         void Visit(ChoiceNode node);
+        void Visit(OptionalNode node);
         void Visit(LeftRecursionNode node);
         void Visit(LeftRecursionGroupNode leftRecursionGroupNode);
         void Visit(ListNode node);
@@ -164,6 +165,14 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
                 FirstNode = first,
                 Groups = nexts.ToList()
+            };
+        }
+
+        public static ParserNode opt(ParserNode node)
+        {
+            return new OptionalNode()
+            {
+                Content = node
             };
         }
     }

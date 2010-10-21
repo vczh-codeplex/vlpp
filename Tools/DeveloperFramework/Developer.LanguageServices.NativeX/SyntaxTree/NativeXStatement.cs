@@ -47,8 +47,8 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXForStatement : NativeXStatement
     {
-        public abstract NativeXStatement Initializer { get; set; }
-        public abstract NativeXStatement SideEffect { get; set; }
+        public abstract CodeNodeList<NativeXStatement> Initializer { get; set; }
+        public abstract CodeNodeList<NativeXStatement> SideEffect { get; set; }
         public abstract NativeXStatement Statement { get; set; }
         public abstract NativeXExpression Condition { get; set; }
     }
@@ -73,6 +73,6 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXThrowStatement : NativeXStatement
     {
-        public abstract NativeXExpression Exception { get; set; }
+        public abstract NativeXExpression ExceptionExpression { get; set; }
     }
 }
