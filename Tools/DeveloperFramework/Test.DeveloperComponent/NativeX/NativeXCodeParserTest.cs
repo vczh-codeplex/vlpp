@@ -359,10 +359,52 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseVariableStatementInternal(Func<string, NativeXVariableStatement> parser)
         {
+            {
+                NativeXVariableStatement s = parser("variable function int(double) converter;");
+                Assert.AreEqual("converter", s.Name);
+                Assert.IsNull(s.Initializer);
+                NativeXFunctionType t = (NativeXFunctionType)s.Type;
+                Assert.AreEqual("int", ((NativeXReferenceType)t.ReturnType).ReferencedName);
+                Assert.AreEqual(1, t.Parameters.Count);
+                Assert.AreEqual("double", ((NativeXReferenceType)t.Parameters[0]).ReferencedName);
+            }
+            {
+                NativeXVariableStatement s = parser("variable vector<string> list = null;");
+                Assert.AreEqual("list", s.Name);
+                Assert.AreEqual("null", ((NativeXPrimitiveExpression)s.Initializer).Code);
+                NativeXInstanciatedType t = (NativeXInstanciatedType)s.Type;
+                Assert.AreEqual("vector", ((NativeXReferenceType)t.ElementType).ReferencedName);
+                Assert.AreEqual(1, t.GenericArguments.Count);
+                Assert.AreEqual("string", ((NativeXReferenceType)t.GenericArguments[0]).ReferencedName);
+            }
         }
 
         private void TestParseIfStatementInternal(Func<string, NativeXIfStatement> parser)
         {
+            {
+                NativeXIfStatement s = parser("if(true)fuck();");
+                Assert.AreEqual("true", ((NativeXPrimitiveExpression)s.Condition).Code);
+                {
+                    NativeXInvokeExpression e = (NativeXInvokeExpression)((NativeXExpressionStatement)s.TrueStatement).Expression;
+                    Assert.AreEqual("fuck", ((NativeXReferenceExpression)e.Function).ReferencedName);
+                    Assert.AreEqual(0, e.Arguments.Count);
+                }
+                Assert.IsNull(s.FalseStatement);
+            }
+            {
+                NativeXIfStatement s = parser("if(true)fuck();else damn();");
+                Assert.AreEqual("true", ((NativeXPrimitiveExpression)s.Condition).Code);
+                {
+                    NativeXInvokeExpression e = (NativeXInvokeExpression)((NativeXExpressionStatement)s.TrueStatement).Expression;
+                    Assert.AreEqual("fuck", ((NativeXReferenceExpression)e.Function).ReferencedName);
+                    Assert.AreEqual(0, e.Arguments.Count);
+                }
+                {
+                    NativeXInvokeExpression e = (NativeXInvokeExpression)((NativeXExpressionStatement)s.FalseStatement).Expression;
+                    Assert.AreEqual("damn", ((NativeXReferenceExpression)e.Function).ReferencedName);
+                    Assert.AreEqual(0, e.Arguments.Count);
+                }
+            }
         }
 
         private void TestParseBreakStatementInternal(Func<string, NativeXBreakStatement> parser)
@@ -382,18 +424,52 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseCompositeStatementInternal(Func<string, NativeXCompositeStatement> parser)
         {
+            NativeXCompositeStatement s = parser("{_1();_2();_3();_4();}");
+            Assert.AreEqual(4, s.Statements.Count);
+            for (int i = 1; i >= 4; i++)
+            {
+                Assert.AreEqual(i.ToString(), ((NativeXReferenceExpression)((NativeXExpressionStatement)s.Statements[i - 1]).Expression).ReferencedName);
+            }
         }
 
         private void TestParseDoWhileStatementInternal(Func<string, NativeXWhileStatement> parser)
         {
+            NativeXWhileStatement s = parser("do x(); while(y);");
+            NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.Statement).Expression;
+            Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+            Assert.AreEqual(0, a.Arguments.Count);
+            Assert.IsNull(s.BeginCondition);
+            Assert.AreEqual("y", ((NativeXReferenceExpression)s.EndCondition).ReferencedName);
         }
 
         private void TestParseLoopStatementInternal(Func<string, NativeXWhileStatement> parser)
         {
+            NativeXWhileStatement s = parser("loop x();");
+            NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.Statement).Expression;
+            Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+            Assert.AreEqual(0, a.Arguments.Count);
+            Assert.IsNull(s.BeginCondition);
+            Assert.IsNull(s.EndCondition);
         }
 
         private void TestParseWhileDoStatementInternal(Func<string, NativeXWhileStatement> parser)
         {
+            {
+                NativeXWhileStatement s = parser("while(y) x();");
+                NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.Statement).Expression;
+                Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+                Assert.AreEqual(0, a.Arguments.Count);
+                Assert.AreEqual("y", ((NativeXReferenceExpression)s.BeginCondition).ReferencedName);
+                Assert.IsNull(s.EndCondition);
+            }
+            {
+                NativeXWhileStatement s = parser("while(y) x(); when(z);");
+                NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.Statement).Expression;
+                Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+                Assert.AreEqual(0, a.Arguments.Count);
+                Assert.AreEqual("y", ((NativeXReferenceExpression)s.BeginCondition).ReferencedName);
+                Assert.AreEqual("z", ((NativeXReferenceExpression)s.EndCondition).ReferencedName);
+            }
         }
 
         private void TestParseForStatementInternal(Func<string, NativeXForStatement> parser)
@@ -402,6 +478,13 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseTryCatchStatementInternal(Func<string, NativeXTryCatchStatement> parser)
         {
+            NativeXTryCatchStatement s = parser("try x(); catch y();");
+            NativeXInvokeExpression a = (NativeXInvokeExpression)((NativeXExpressionStatement)s.TryStatement).Expression;
+            Assert.AreEqual("x", ((NativeXReferenceExpression)a.Function).ReferencedName);
+            Assert.AreEqual(0, a.Arguments.Count);
+            NativeXInvokeExpression b = (NativeXInvokeExpression)((NativeXExpressionStatement)s.CatchStatement).Expression;
+            Assert.AreEqual("y", ((NativeXReferenceExpression)b.Function).ReferencedName);
+            Assert.AreEqual(0, b.Arguments.Count);
         }
 
         private void TestParseThrowStatementInternal(Func<string, NativeXThrowStatement> parser)
