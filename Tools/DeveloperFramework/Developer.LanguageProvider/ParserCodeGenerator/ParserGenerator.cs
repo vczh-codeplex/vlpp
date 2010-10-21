@@ -696,8 +696,6 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 int newLevel = this.level + 1;
                 string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
-                string labelSuccessName = "LABEL_SUCCESS_" + (this.labelCounter++).ToString();
-                string labelFailName = "LABEL_FAIL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
                 if (returnNodeType != null)
                 {
@@ -711,17 +709,13 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    if (parseSuccess)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
-                sb.AppendLine(identation + "        goto " + labelSuccessName + ";");
                 sb.AppendLine(identation + "    }");
 
-                sb.AppendLine(identation + "    goto " + labelFailName + ";");
-                sb.AppendLine(identation + labelSuccessName + ":;");
                 if (returnNodeType != null)
                 {
                     GenerateAssignCode(null, returnNodeType, this.returnVariable, newReturnVariable);
                 }
                 sb.Append(identation + "    parseSuccess = true;");
-                sb.AppendLine(identation + labelFailName + ":;");
                 sb.AppendLine(identation + "}");
             }
 

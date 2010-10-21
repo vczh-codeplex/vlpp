@@ -354,6 +354,7 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseEmptyStatementInternal(Func<string, NativeXEmptyStatement> parser)
         {
+            Assert.IsNotNull(parser(";"));
         }
 
         private void TestParseVariableStatementInternal(Func<string, NativeXVariableStatement> parser)
@@ -366,14 +367,17 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseBreakStatementInternal(Func<string, NativeXBreakStatement> parser)
         {
+            Assert.IsNotNull(parser("break;"));
         }
 
         private void TestParseContinueStatementInternal(Func<string, NativeXContinueStatement> parser)
         {
+            Assert.IsNotNull(parser("continue;"));
         }
 
         private void TestParseExitStatementInternal(Func<string, NativeXReturnStatement> parser)
         {
+            Assert.IsNotNull(parser("exit;"));
         }
 
         private void TestParseCompositeStatementInternal(Func<string, NativeXCompositeStatement> parser)
@@ -402,10 +406,17 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseThrowStatementInternal(Func<string, NativeXThrowStatement> parser)
         {
+            Assert.IsNotNull(parser("throw;"));
+            NativeXThrowStatement s = parser("throw 1;");
+            Assert.AreEqual("1", ((NativeXPrimitiveExpression)s.ExceptionExpression).Code);
         }
 
         private void TestParseExpressionStatementInternal(Func<string, NativeXExpressionStatement> parser)
         {
+            NativeXExpressionStatement s = parser("1+2;");
+            NativeXBinaryExpression a = (NativeXBinaryExpression)s.Expression;
+            Assert.AreEqual("1", ((NativeXPrimitiveExpression)a.LeftOperand).Code);
+            Assert.AreEqual("2", ((NativeXPrimitiveExpression)a.RightOperand).Code);
         }
 
         [TestMethod]

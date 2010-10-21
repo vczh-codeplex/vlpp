@@ -447,7 +447,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
@@ -472,22 +472,18 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 currentIndex2 = currentIndexCopy3;
-                            LABEL_3: ;
+                            LABEL_1: ;
                             }
                             InitializerMember1 = InitializerMember2;
                         }
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
                         }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
                         parseSuccess = true;
-                    LABEL_FAIL_2: ;
                     }
                     InitializerMember0 = InitializerMember1;
                 }
@@ -4203,7 +4199,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement FalseStatementMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement);
@@ -4228,22 +4224,18 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 currentIndex2 = currentIndexCopy3;
-                            LABEL_3: ;
+                            LABEL_1: ;
                             }
                             FalseStatementMember1 = FalseStatementMember2;
                         }
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
                         }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
                         parseSuccess = true;
-                    LABEL_FAIL_2: ;
                     }
                     FalseStatementMember0 = FalseStatementMember1;
                 }
@@ -4882,7 +4874,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     parseSuccess = false;
@@ -4898,7 +4890,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression EndConditionMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
@@ -4923,7 +4915,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     parseSuccess = false;
@@ -4939,7 +4931,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 {
                                     parseSuccess = false;
@@ -4955,22 +4947,18 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 else
                                 {
-                                    goto LABEL_3;
+                                    goto LABEL_1;
                                 }
                                 currentIndex2 = currentIndexCopy3;
-                            LABEL_3: ;
+                            LABEL_1: ;
                             }
                             EndConditionMember1 = EndConditionMember2;
                         }
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
                         }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
                         parseSuccess = true;
-                    LABEL_FAIL_2: ;
                     }
                     EndConditionMember0 = EndConditionMember1;
                 }
@@ -5410,12 +5398,8 @@ namespace Developer.LanguageServices.NativeX
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
                         }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
                         parseSuccess = true;
-                    LABEL_FAIL_2: ;
                     }
                     ExceptionExpressionMember0 = ExceptionExpressionMember1;
                 }
