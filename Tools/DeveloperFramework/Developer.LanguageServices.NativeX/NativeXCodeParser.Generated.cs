@@ -39,27 +39,6 @@ namespace Developer.LanguageServices.NativeX
                 currentIndex1 = currentToken;
                 {
                     {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseExpressionStatement(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            result1 = result2;
-                        }
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                currentIndex1 = currentToken;
-                {
-                    {
                         Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement);
                         int currentIndex2 = currentIndex1;
                         {
@@ -309,6 +288,27 @@ namespace Developer.LanguageServices.NativeX
                     currentToken = currentIndex1;
                     goto LABEL_SUCCESS_0;
                 }
+                currentIndex1 = currentToken;
+                {
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseExpressionStatement(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
                 goto LABEL_FAIL_1;
             LABEL_SUCCESS_0: ;
                 result = result1;
@@ -342,30 +342,154 @@ namespace Developer.LanguageServices.NativeX
             return result;
         }
 
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement ParseExpressionStatement(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement ParseVariableStatement(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ExpressionMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+            System.String NameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
             {
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ExpressionMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "variable"))
                     {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
                         int currentIndex2 = currentIndex1;
                         {
                             parseSuccess = false;
-                            result2 = ParseExpression(tokens, ref currentIndex2, ref parseSuccess);
+                            result2 = ParseType(tokens, ref currentIndex2, ref parseSuccess);
                         }
                         if (parseSuccess)
                         {
                             currentIndex1 = currentIndex2;
-                            ExpressionMember1 = result2;
+                            TypeMember1 = result2;
                         }
                     }
-                    ExpressionMember0 = ExpressionMember1;
+                    TypeMember0 = TypeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    System.String NameMember1 = default(System.String);
+                    {
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            NameMember1 = result2.Value;
+                        }
+                    }
+                    NameMember0 = NameMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                    {
+                        int currentIndex2 = -1;
+                        currentIndex2 = currentIndex1;
+                        {
+                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                            {
+                                int currentIndexCopy3 = currentIndex2;
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "="))
+                                    {
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndexCopy3 = currentIndex3;
+                                }
+                                else
+                                {
+                                    goto LABEL_3;
+                                }
+                                {
+                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                                    {
+                                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression result4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                                        int currentIndex4 = currentIndex3;
+                                        {
+                                            parseSuccess = false;
+                                            result4 = ParseExpression(tokens, ref currentIndex4, ref parseSuccess);
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndex3 = currentIndex4;
+                                            InitializerMember3 = result4;
+                                        }
+                                    }
+                                    InitializerMember2 = InitializerMember3;
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndexCopy3 = currentIndex3;
+                                }
+                                else
+                                {
+                                    goto LABEL_3;
+                                }
+                                currentIndex2 = currentIndexCopy3;
+                            LABEL_3: ;
+                            }
+                            InitializerMember1 = InitializerMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            goto LABEL_SUCCESS_1;
+                        }
+                        goto LABEL_FAIL_2;
+                    LABEL_SUCCESS_1: ;
+                        parseSuccess = true;
+                    LABEL_FAIL_2: ;
+                    }
+                    InitializerMember0 = InitializerMember1;
                 }
                 if (parseSuccess)
                 {
@@ -396,8 +520,704 @@ namespace Developer.LanguageServices.NativeX
             }
             if (parseSuccess)
             {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement>();
-                result.Expression = ExpressionMember0;
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement>();
+                result.Type = TypeMember0;
+                result.Name = NameMember0;
+                result.Initializer = InitializerMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ParseType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+            {
+                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                int currentIndex1 = currentToken;
+                {
+                    {
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result1 = ParsePrimitiveType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        else
+                        {
+                            goto LABEL_0;
+                        }
+                        while (true)
+                        {
+                            {
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "*"))
+                                    {
+                                        currentIndex2++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex1 = currentIndex2;
+                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXPointerType result2 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXPointerType>();
+                                    result2.ElementType = result1;
+                                    result2.Start = result1.Start;
+                                    result2.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                    result1 = result2;
+                                    continue;
+                                }
+                            }
+                            {
+                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                {
+                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                    {
+                                        int currentIndexCopy4 = currentIndex2;
+                                        int currentIndex4 = currentIndex2;
+                                        {
+                                            parseSuccess = false;
+                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "["))
+                                            {
+                                                currentIndex4++;
+                                                parseSuccess = true;
+                                            }
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndexCopy4 = currentIndex4;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        {
+                                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                            {
+                                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression result5 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+                                                int currentIndex5 = currentIndex4;
+                                                {
+                                                    parseSuccess = false;
+                                                    result5 = ParsePrimitive(tokens, ref currentIndex5, ref parseSuccess);
+                                                }
+                                                if (parseSuccess)
+                                                {
+                                                    currentIndex4 = currentIndex5;
+                                                    SizeMember4 = result5;
+                                                }
+                                            }
+                                            SizeMember3 = SizeMember4;
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndexCopy4 = currentIndex4;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        {
+                                            parseSuccess = false;
+                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "]"))
+                                            {
+                                                currentIndex4++;
+                                                parseSuccess = true;
+                                            }
+                                        }
+                                        if (parseSuccess)
+                                        {
+                                            currentIndexCopy4 = currentIndex4;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_1;
+                                        }
+                                        currentIndex2 = currentIndexCopy4;
+                                    LABEL_1: ;
+                                    }
+                                    SizeMember2 = SizeMember3;
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex1 = currentIndex2;
+                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXArrayType result2 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXArrayType>();
+                                    result2.Size = SizeMember2;
+                                    result2.ElementType = result1;
+                                    result2.Start = result1.Start;
+                                    result2.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
+                                    result1 = result2;
+                                    continue;
+                                }
+                            }
+                            break;
+                        }
+                        parseSuccess = true;
+                    LABEL_0: ;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    result = result1;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ParsePrimitiveType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+            {
+                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                int currentIndex1 = -1;
+                currentIndex1 = currentToken;
+                {
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseFunctionType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseInstanciatedType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseReferenceType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            result1 = result2;
+                        }
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                goto LABEL_FAIL_1;
+            LABEL_SUCCESS_0: ;
+                result = result1;
+            LABEL_FAIL_1: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType ParseFunctionType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ReturnTypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+            Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> ParametersMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+            {
+                int currentIndexCopy1 = currentToken;
+                int currentIndex1 = currentToken;
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "function"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ReturnTypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ReturnTypeMember1 = result2;
+                        }
+                    }
+                    ReturnTypeMember0 = ReturnTypeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> ParametersMember1 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+                    {
+                        Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> result2 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            result2 = new Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                            {
+                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    result2.Add(result3);
+                                    result2.Start = result3.Start;
+                                    result2.End = result3.End;
+                                }
+                                while (true)
+                                {
+                                    int currentIndexCopy3 = currentIndex2;
+                                    {
+                                        parseSuccess = false;
+                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
+                                        {
+                                            currentIndex3++;
+                                            parseSuccess = true;
+                                        }
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy3 = currentIndex3;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        parseSuccess = false;
+                                        result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy3 = currentIndex3;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy3;
+                                    result2.Add(result3);
+                                    result2.End = result3.End;
+                                }
+                            LABEL_1: ; parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ParametersMember1 = result2;
+                        }
+                    }
+                    ParametersMember0 = ParametersMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                currentToken = currentIndexCopy1;
+            LABEL_0: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType>();
+                result.ReturnType = ReturnTypeMember0;
+                result.Parameters = ParametersMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType ParseInstanciatedType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ElementTypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
+            Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> GenericArgumentsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+            {
+                int currentIndexCopy1 = currentToken;
+                int currentIndex1 = currentToken;
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ElementTypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseReferenceType(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ElementTypeMember1 = result2;
+                        }
+                    }
+                    ElementTypeMember0 = ElementTypeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> GenericArgumentsMember1 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+                    {
+                        Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> result2 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            result2 = new Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                            {
+                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    result2.Add(result3);
+                                    result2.Start = result3.Start;
+                                    result2.End = result3.End;
+                                }
+                                while (true)
+                                {
+                                    int currentIndexCopy3 = currentIndex2;
+                                    {
+                                        parseSuccess = false;
+                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
+                                        {
+                                            currentIndex3++;
+                                            parseSuccess = true;
+                                        }
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy3 = currentIndex3;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    {
+                                        parseSuccess = false;
+                                        result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
+                                    }
+                                    if (parseSuccess)
+                                    {
+                                        currentIndexCopy3 = currentIndex3;
+                                    }
+                                    else
+                                    {
+                                        goto LABEL_1;
+                                    }
+                                    currentIndex2 = currentIndexCopy3;
+                                    result2.Add(result3);
+                                    result2.End = result3.End;
+                                }
+                            LABEL_1: ; parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            GenericArgumentsMember1 = result2;
+                        }
+                    }
+                    GenericArgumentsMember0 = GenericArgumentsMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                currentToken = currentIndexCopy1;
+            LABEL_0: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType>();
+                result.ElementType = ElementTypeMember0;
+                result.GenericArguments = GenericArgumentsMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ParseReferenceType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
+            System.String ReferencedNameMember0 = default(System.String);
+            {
+                Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
+                int currentIndex1 = currentToken;
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
+                    {
+                        result1 = tokens[currentIndex1];
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    ReferencedNameMember0 = result1.Value;
+                }
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType>();
+                result.ReferencedName = ReferencedNameMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression ParsePrimitive(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
+            System.String CodeMember0 = default(System.String);
+            {
+                int currentIndex1 = -1;
+                currentIndex1 = currentToken;
+                {
+                    System.String CodeMember1 = default(System.String);
+                    {
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken)
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            CodeMember1 = result2.Value;
+                        }
+                    }
+                    CodeMember0 = CodeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    System.String CodeMember1 = default(System.String);
+                    {
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken)
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            CodeMember1 = result2.Value;
+                        }
+                    }
+                    CodeMember0 = CodeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                currentIndex1 = currentToken;
+                {
+                    System.String CodeMember1 = default(System.String);
+                    {
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "true" || tokens[currentIndex2].Value == "false" || tokens[currentIndex2].Value == "null"))
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            CodeMember1 = result2.Value;
+                        }
+                    }
+                    CodeMember0 = CodeMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                goto LABEL_FAIL_1;
+            LABEL_SUCCESS_0: ;
+            LABEL_FAIL_1: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression>();
+                result.Code = CodeMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
             }
@@ -2722,700 +3542,6 @@ namespace Developer.LanguageServices.NativeX
             return result;
         }
 
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ParseType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-            {
-                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                int currentIndex1 = currentToken;
-                {
-                    {
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result1 = ParsePrimitiveType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                        }
-                        else
-                        {
-                            goto LABEL_0;
-                        }
-                        while (true)
-                        {
-                            {
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "*"))
-                                    {
-                                        currentIndex2++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex1 = currentIndex2;
-                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXPointerType result2 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXPointerType>();
-                                    result2.ElementType = result1;
-                                    result2.Start = result1.Start;
-                                    result2.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
-                                    result1 = result2;
-                                    continue;
-                                }
-                            }
-                            {
-                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                {
-                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                    {
-                                        int currentIndexCopy4 = currentIndex2;
-                                        int currentIndex4 = currentIndex2;
-                                        {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "["))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
-                                        }
-                                        if (parseSuccess)
-                                        {
-                                            currentIndexCopy4 = currentIndex4;
-                                        }
-                                        else
-                                        {
-                                            goto LABEL_1;
-                                        }
-                                        {
-                                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression SizeMember4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                            {
-                                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression result5 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-                                                int currentIndex5 = currentIndex4;
-                                                {
-                                                    parseSuccess = false;
-                                                    result5 = ParsePrimitive(tokens, ref currentIndex5, ref parseSuccess);
-                                                }
-                                                if (parseSuccess)
-                                                {
-                                                    currentIndex4 = currentIndex5;
-                                                    SizeMember4 = result5;
-                                                }
-                                            }
-                                            SizeMember3 = SizeMember4;
-                                        }
-                                        if (parseSuccess)
-                                        {
-                                            currentIndexCopy4 = currentIndex4;
-                                        }
-                                        else
-                                        {
-                                            goto LABEL_1;
-                                        }
-                                        {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "]"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
-                                        }
-                                        if (parseSuccess)
-                                        {
-                                            currentIndexCopy4 = currentIndex4;
-                                        }
-                                        else
-                                        {
-                                            goto LABEL_1;
-                                        }
-                                        currentIndex2 = currentIndexCopy4;
-                                    LABEL_1: ;
-                                    }
-                                    SizeMember2 = SizeMember3;
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex1 = currentIndex2;
-                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXArrayType result2 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXArrayType>();
-                                    result2.Size = SizeMember2;
-                                    result2.ElementType = result1;
-                                    result2.Start = result1.Start;
-                                    result2.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentIndex1);
-                                    result1 = result2;
-                                    continue;
-                                }
-                            }
-                            break;
-                        }
-                        parseSuccess = true;
-                    LABEL_0: ;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    result = result1;
-                }
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ParsePrimitiveType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-            {
-                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                int currentIndex1 = -1;
-                currentIndex1 = currentToken;
-                {
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseFunctionType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            result1 = result2;
-                        }
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                currentIndex1 = currentToken;
-                {
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseInstanciatedType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            result1 = result2;
-                        }
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                currentIndex1 = currentToken;
-                {
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseReferenceType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            result1 = result2;
-                        }
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                goto LABEL_FAIL_1;
-            LABEL_SUCCESS_0: ;
-                result = result1;
-            LABEL_FAIL_1: ;
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType ParseFunctionType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ReturnTypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-            Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> ParametersMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-            {
-                int currentIndexCopy1 = currentToken;
-                int currentIndex1 = currentToken;
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "function"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXType ReturnTypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            ReturnTypeMember1 = result2;
-                        }
-                    }
-                    ReturnTypeMember0 = ReturnTypeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> ParametersMember1 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-                    {
-                        Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> result2 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            result2 = new Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
-                            {
-                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    result2.Add(result3);
-                                    result2.Start = result3.Start;
-                                    result2.End = result3.End;
-                                }
-                                while (true)
-                                {
-                                    int currentIndexCopy3 = currentIndex2;
-                                    {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy3 = currentIndex3;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    {
-                                        parseSuccess = false;
-                                        result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy3 = currentIndex3;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    currentIndex2 = currentIndexCopy3;
-                                    result2.Add(result3);
-                                    result2.End = result3.End;
-                                }
-                            LABEL_1: ; parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            ParametersMember1 = result2;
-                        }
-                    }
-                    ParametersMember0 = ParametersMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                currentToken = currentIndexCopy1;
-            LABEL_0: ;
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionType>();
-                result.ReturnType = ReturnTypeMember0;
-                result.Parameters = ParametersMember0;
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType ParseInstanciatedType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ElementTypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-            Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> GenericArgumentsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-            {
-                int currentIndexCopy1 = currentToken;
-                int currentIndex1 = currentToken;
-                {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ElementTypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseReferenceType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            ElementTypeMember1 = result2;
-                        }
-                    }
-                    ElementTypeMember0 = ElementTypeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> GenericArgumentsMember1 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-                    {
-                        Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType> result2 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            result2 = new Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
-                            {
-                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndex2 = currentIndex3;
-                                    result2.Add(result3);
-                                    result2.Start = result3.Start;
-                                    result2.End = result3.End;
-                                }
-                                while (true)
-                                {
-                                    int currentIndexCopy3 = currentIndex2;
-                                    {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy3 = currentIndex3;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    {
-                                        parseSuccess = false;
-                                        result3 = ParseType(tokens, ref currentIndex3, ref parseSuccess);
-                                    }
-                                    if (parseSuccess)
-                                    {
-                                        currentIndexCopy3 = currentIndex3;
-                                    }
-                                    else
-                                    {
-                                        goto LABEL_1;
-                                    }
-                                    currentIndex2 = currentIndexCopy3;
-                                    result2.Add(result3);
-                                    result2.End = result3.End;
-                                }
-                            LABEL_1: ; parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            GenericArgumentsMember1 = result2;
-                        }
-                    }
-                    GenericArgumentsMember0 = GenericArgumentsMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                currentToken = currentIndexCopy1;
-            LABEL_0: ;
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanciatedType>();
-                result.ElementType = ElementTypeMember0;
-                result.GenericArguments = GenericArgumentsMember0;
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType ParseReferenceType(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-            System.String ReferencedNameMember0 = default(System.String);
-            {
-                Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
-                int currentIndex1 = currentToken;
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                    {
-                        result1 = tokens[currentIndex1];
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    ReferencedNameMember0 = result1.Value;
-                }
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType>();
-                result.ReferencedName = ReferencedNameMember0;
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression ParsePrimitive(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression);
-            System.String CodeMember0 = default(System.String);
-            {
-                int currentIndex1 = -1;
-                currentIndex1 = currentToken;
-                {
-                    System.String CodeMember1 = default(System.String);
-                    {
-                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            CodeMember1 = result2.Value;
-                        }
-                    }
-                    CodeMember0 = CodeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                currentIndex1 = currentToken;
-                {
-                    System.String CodeMember1 = default(System.String);
-                    {
-                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            CodeMember1 = result2.Value;
-                        }
-                    }
-                    CodeMember0 = CodeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                currentIndex1 = currentToken;
-                {
-                    System.String CodeMember1 = default(System.String);
-                    {
-                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "true" || tokens[currentIndex2].Value == "false" || tokens[currentIndex2].Value == "null"))
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            CodeMember1 = result2.Value;
-                        }
-                    }
-                    CodeMember0 = CodeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentToken = currentIndex1;
-                    goto LABEL_SUCCESS_0;
-                }
-                goto LABEL_FAIL_1;
-            LABEL_SUCCESS_0: ;
-            LABEL_FAIL_1: ;
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXPrimitiveExpression>();
-                result.Code = CodeMember0;
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
         public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ParseReference(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
@@ -3939,194 +4065,6 @@ namespace Developer.LanguageServices.NativeX
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXUnaryExpression>();
                 result.Operator = OperatorMember0;
                 result.Operand = OperandMember0;
-                result.Start = start;
-                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
-            }
-            return result;
-        }
-
-        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement ParseVariableStatement(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
-        {
-            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-            System.String NameMember0 = default(System.String);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
-            {
-                int currentIndexCopy1 = currentToken;
-                int currentIndex1 = currentToken;
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "variable"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                    {
-                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            result2 = ParseType(tokens, ref currentIndex2, ref parseSuccess);
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            TypeMember1 = result2;
-                        }
-                    }
-                    TypeMember0 = TypeMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    System.String NameMember1 = default(System.String);
-                    {
-                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
-                        int currentIndex2 = currentIndex1;
-                        {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            NameMember1 = result2.Value;
-                        }
-                    }
-                    NameMember0 = NameMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
-                    {
-                        int currentIndex2 = -1;
-                        currentIndex2 = currentIndex1;
-                        {
-                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
-                            {
-                                int currentIndexCopy3 = currentIndex2;
-                                int currentIndex3 = currentIndex2;
-                                {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "="))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndexCopy3 = currentIndex3;
-                                }
-                                else
-                                {
-                                    goto LABEL_3;
-                                }
-                                {
-                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression InitializerMember3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
-                                    {
-                                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression result4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
-                                        int currentIndex4 = currentIndex3;
-                                        {
-                                            parseSuccess = false;
-                                            result4 = ParseExpression(tokens, ref currentIndex4, ref parseSuccess);
-                                        }
-                                        if (parseSuccess)
-                                        {
-                                            currentIndex3 = currentIndex4;
-                                            InitializerMember3 = result4;
-                                        }
-                                    }
-                                    InitializerMember2 = InitializerMember3;
-                                }
-                                if (parseSuccess)
-                                {
-                                    currentIndexCopy3 = currentIndex3;
-                                }
-                                else
-                                {
-                                    goto LABEL_3;
-                                }
-                                currentIndex2 = currentIndexCopy3;
-                            LABEL_3: ;
-                            }
-                            InitializerMember1 = InitializerMember2;
-                        }
-                        if (parseSuccess)
-                        {
-                            currentIndex1 = currentIndex2;
-                            goto LABEL_SUCCESS_1;
-                        }
-                        goto LABEL_FAIL_2;
-                    LABEL_SUCCESS_1: ;
-                        parseSuccess = true;
-                    LABEL_FAIL_2: ;
-                    }
-                    InitializerMember0 = InitializerMember1;
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
-                }
-                if (parseSuccess)
-                {
-                    currentIndexCopy1 = currentIndex1;
-                }
-                else
-                {
-                    goto LABEL_0;
-                }
-                currentToken = currentIndexCopy1;
-            LABEL_0: ;
-            }
-            if (parseSuccess)
-            {
-                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXVariableStatement>();
-                result.Type = TypeMember0;
-                result.Name = NameMember0;
-                result.Initializer = InitializerMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
             }
@@ -5512,6 +5450,68 @@ namespace Developer.LanguageServices.NativeX
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXThrowStatement>();
                 result.ExceptionExpression = ExceptionExpressionMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement ParseExpressionStatement(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ExpressionMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+            {
+                int currentIndexCopy1 = currentToken;
+                int currentIndex1 = currentToken;
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression ExpressionMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                    {
+                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            result2 = ParseExpression(tokens, ref currentIndex2, ref parseSuccess);
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ExpressionMember1 = result2;
+                        }
+                    }
+                    ExpressionMember0 = ExpressionMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
+                    parseSuccess = false;
+                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
+                    {
+                        currentIndex1++;
+                        parseSuccess = true;
+                    }
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                currentToken = currentIndexCopy1;
+            LABEL_0: ;
+            }
+            if (parseSuccess)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpressionStatement>();
+                result.Expression = ExpressionMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
             }

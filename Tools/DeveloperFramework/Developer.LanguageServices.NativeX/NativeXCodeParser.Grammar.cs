@@ -114,7 +114,6 @@ namespace Developer.LanguageServices.NativeX
 
                 STATEMENT.Infer(
                     ret(EMPTY_STATEMENT)
-                    | ret(EXPRESSION_STATEMENT)
                     | ret(VARIABLE_STATEMENT)
                     | ret(IF_STATEMENT)
                     | ret(BREAK_STATEMENT)
@@ -127,6 +126,7 @@ namespace Developer.LanguageServices.NativeX
                     | ret(FOR_STATEMENT)
                     | ret(TRY_CATCH_STATEMENT)
                     | ret(THROW_STATEMENT)
+                    | ret(EXPRESSION_STATEMENT)
                     );
             }
             {
