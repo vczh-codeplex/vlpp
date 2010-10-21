@@ -57,6 +57,7 @@
     <Compile Include="ParserCodeGenerator\LeftRecursionNode.cs" />
     <Compile Include="ParserCodeGenerator\ListNode.cs" />
     <Compile Include="ParserCodeGenerator\MemberNode.cs" />
+    <Compile Include="ParserCodeGenerator\OptionalNode.cs" />
     <Compile Include="ParserCodeGenerator\ParserGenerator.cs" />
     <Compile Include="ParserCodeGenerator\ParserNode.cs" />
     <Compile Include="ParserCodeGenerator\ReturnNode.cs" />

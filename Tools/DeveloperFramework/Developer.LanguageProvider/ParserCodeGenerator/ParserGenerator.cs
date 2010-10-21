@@ -25,11 +25,12 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             foreach (RuleNode rule in rules)
             {
                 int labelCounter = 0;
+                bool noReturn = MemberCollector.GetMembers(rule.Content).Count == 0 && ReturnTypeRetriver.GetNodeType(rule.Content) == null;
                 sb.AppendLine("        public static " + rule.NodeType.FullName + " Parse" + rule.RuleName + "(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)");
                 sb.AppendLine("        {");
                 sb.AppendLine("            " + GetTypeFullName(typeof(TextPosition)) + " start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, currentToken);");
                 sb.AppendLine("            " + GetTypeFullName(rule.NodeType) + " result = default(" + GetTypeFullName(rule.NodeType) + ");");
-                sb.Append(CodeGenerator.GenerateCode(rule.NodeType, rule.Content, "            ", 0, 0, "result", "currentToken", ref labelCounter));
+                sb.Append(CodeGenerator.GenerateCode(rule.NodeType, rule.Content, "            ", 0, 0, (noReturn ? "" : "result"), "currentToken", ref labelCounter));
                 sb.AppendLine("            if (parseSuccess)");
                 sb.AppendLine("            {");
                 if (typeof(CodeNode).IsAssignableFrom(rule.NodeType))
@@ -99,6 +100,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 node.Right.Accept(this);
             }
 
+            public void Visit(OptionalNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(LeftRecursionNode node)
             {
                 node.First.Accept(this);
@@ -116,7 +122,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
             public void Visit(ListNode node)
             {
-                node.Separator.Accept(this);
+                if (node.Separator != null)
+                {
+                    node.Separator.Accept(this);
+                }
                 node.Item.Accept(this);
             }
 
@@ -171,6 +180,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 node.Right.Accept(this);
             }
 
+            public void Visit(OptionalNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(LeftRecursionNode node)
             {
             }
@@ -181,7 +195,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
             public void Visit(ListNode node)
             {
-                node.Separator.Accept(this);
+                if (node.Separator != null)
+                {
+                    node.Separator.Accept(this);
+                }
                 node.Item.Accept(this);
             }
 
@@ -258,6 +275,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
             }
 
+            public void Visit(OptionalNode node)
+            {
+            }
+
             public void Visit(LeftRecursionNode node)
             {
                 (node.First as MemberNode).Content.Accept(this);
@@ -315,6 +336,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             }
 
             public void Visit(ChoiceNode node)
+            {
+            }
+
+            public void Visit(OptionalNode node)
             {
             }
 
@@ -380,6 +405,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 node.Right.Accept(this);
             }
 
+            public void Visit(OptionalNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(LeftRecursionNode node)
             {
             }
@@ -432,6 +462,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             }
 
             public void Visit(ChoiceNode node)
+            {
+                this.nodes.Add(node);
+            }
+
+            public void Visit(OptionalNode node)
             {
                 this.nodes.Add(node);
             }
@@ -498,6 +533,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
                 node.Left.Accept(this);
                 node.Right.Accept(this);
+            }
+
+            public void Visit(OptionalNode node)
+            {
+                this.nodes.Add(node);
             }
 
             public void Visit(LeftRecursionNode node)
@@ -650,6 +690,41 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "}");
             }
 
+            public void Visit(OptionalNode node)
+            {
+                Type returnNodeType = ReturnTypeRetriver.GetNodeType(node);
+                int newLevel = this.level + 1;
+                string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
+                string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string labelSuccessName = "LABEL_SUCCESS_" + (this.labelCounter++).ToString();
+                string labelFailName = "LABEL_FAIL_" + (this.labelCounter++).ToString();
+                sb.AppendLine(identation + "{");
+                if (returnNodeType != null)
+                {
+                    sb.AppendLine(identation + "    " + GetTypeFullName(returnNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnNodeType) + ");");
+                }
+                sb.AppendLine(identation + "    int " + newIndexVariable + " = -1;");
+
+                bool branchHasReturnNode = ReturnTypeRetriver.GetNodeType(node.Content) != null;
+                sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
+                sb.Append(CodeGenerator.GenerateCode(this.nodeType, node.Content, identation + "    ", newLevel, this.level, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, ref this.labelCounter));
+                sb.AppendLine(identation + "    if (parseSuccess)");
+                sb.AppendLine(identation + "    {");
+                sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                sb.AppendLine(identation + "        goto " + labelSuccessName + ";");
+                sb.AppendLine(identation + "    }");
+
+                sb.AppendLine(identation + "    goto " + labelFailName + ";");
+                sb.AppendLine(identation + labelSuccessName + ":;");
+                if (returnNodeType != null)
+                {
+                    GenerateAssignCode(null, returnNodeType, this.returnVariable, newReturnVariable);
+                }
+                sb.Append(identation + "    parseSuccess = true;");
+                sb.AppendLine(identation + labelFailName + ":;");
+                sb.AppendLine(identation + "}");
+            }
+
             public void Visit(LeftRecursionNode node)
             {
                 MemberNode first = (MemberNode)node.First;
@@ -789,15 +864,18 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    while (true)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
-                sb.Append(CodeGenerator.GenerateCode(ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "        if (parseSuccess)");
-                sb.AppendLine(identation + "        {");
-                sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
-                sb.AppendLine(identation + "        }");
-                sb.AppendLine(identation + "        else");
-                sb.AppendLine(identation + "        {");
-                sb.AppendLine(identation + "            goto " + labelName + ";");
-                sb.AppendLine(identation + "        }");
+                if (node.Separator != null)
+                {
+                    sb.Append(CodeGenerator.GenerateCode(ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
+                    sb.AppendLine(identation + "        if (parseSuccess)");
+                    sb.AppendLine(identation + "        {");
+                    sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
+                    sb.AppendLine(identation + "        }");
+                    sb.AppendLine(identation + "        else");
+                    sb.AppendLine(identation + "        {");
+                    sb.AppendLine(identation + "            goto " + labelName + ";");
+                    sb.AppendLine(identation + "        }");
+                }
                 sb.Append(CodeGenerator.GenerateCode(node.NodeType, node.Item, identation + "        ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
                 sb.AppendLine(identation + "        if (parseSuccess)");
                 sb.AppendLine(identation + "        {");

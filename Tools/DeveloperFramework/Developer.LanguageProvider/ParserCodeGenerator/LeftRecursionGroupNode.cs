@@ -17,6 +17,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
         public ParserNode FirstNode { get; set; }
         public List<LeftRecursionGroupNode.Group> Groups { get; set; }
 
+        internal LeftRecursionGroupNode()
+        {
+        }
+
         public override void Accept(IParserNodeVisitor visitor)
         {
             visitor.Visit(this);

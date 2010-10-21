@@ -92,12 +92,12 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseResultInternal(Func<string, NativeXFunctionResultExpression> parser)
         {
-            Assert.AreEqual("result", parser("result").Code);
+            Assert.IsNotNull(parser("result"));
         }
 
         private void TestParseExceptionInternal(Func<string, NativeXExceptionExpression> parser)
         {
-            Assert.AreEqual("exception", parser("exception").Code);
+            Assert.IsNotNull(parser("exception"));
         }
 
         private void TestParseCastingInternal(Func<string, NativeXCastingExpression> parser)
@@ -110,7 +110,7 @@ namespace Test.DeveloperComponent.NativeX
             {
                 var e = parser("cast<double>(result)");
                 Assert.AreEqual("double", ((NativeXReferenceType)e.Type).ReferencedName);
-                Assert.AreEqual("result", ((NativeXFunctionResultExpression)e.Operand).Code);
+                Assert.IsNotNull((NativeXFunctionResultExpression)e.Operand);
             }
         }
 

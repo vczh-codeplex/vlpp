@@ -36,6 +36,99 @@ namespace Developer.LanguageServices.NativeX
             var PRIMITIVE_TYPE = rule<NativeXType>("PrimitiveType");
             var TYPE = rule<NativeXType>("Type");
 
+            var EMPTY_STATEMENT = rule<NativeXEmptyStatement>("EmptyStatement");
+            var EXPRESSION_STATEMENT = rule<NativeXExpressionStatement>("ExpressionStatement");
+            var VARIABLE_STATEMENT = rule<NativeXVariableStatement>("VariableStatement");
+            var IF_STATEMENT = rule<NativeXIfStatement>("IfStatement");
+            var BREAK_STATEMENT = rule<NativeXBreakStatement>("BreakStatement");
+            var CONTINUE_STATEMENT = rule<NativeXContinueStatement>("ContinueStatement");
+            var EXIT_STATEMENT = rule<NativeXReturnStatement>("ExitStatement");
+            var COMPOSITE_STATEMENT = rule<NativeXCompositeStatement>("CompositeStatement");
+            var DO_WHILE_STATEMENT = rule<NativeXWhileStatement>("DoWhileStatement");
+            var LOOP_STATEMENT = rule<NativeXWhileStatement>("LoopStatement");
+            var WHILE_DO_STATEMENT = rule<NativeXWhileStatement>("WhileDoStatement");
+            var FOR_STATEMENT = rule<NativeXForStatement>("ForStatement");
+            var TRY_CATCH_STATEMENT = rule<NativeXTryCatchStatement>("TryCatchStatement");
+            var THROW_STATEMENT = rule<NativeXThrowStatement>("ThrowStatement");
+            var STATEMENT = rule<NativeXStatement>("Statement");
+
+            {
+                EMPTY_STATEMENT.Infer(
+                    tok(";")
+                    );
+
+                EXPRESSION_STATEMENT.Infer(
+                    EXPRESSION["Expression"] + tok(";")
+                    );
+
+                VARIABLE_STATEMENT.Infer(
+                    tok("variable") + TYPE["Type"] + ID["Name"] + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
+                    );
+
+                IF_STATEMENT.Infer(
+                    tok("if") + tok("(") + EXPRESSION["Condition"] + tok(")") + STATEMENT["TrueStatement"] + opt(tok("else") + STATEMENT["FalseStatement"])
+                    );
+
+                BREAK_STATEMENT.Infer(
+                    tok("break") + tok(";")
+                    );
+
+                CONTINUE_STATEMENT.Infer(
+                    tok("continue") + tok(";")
+                    );
+
+                EXIT_STATEMENT.Infer(
+                    tok("exit") + tok(";")
+                    );
+
+                COMPOSITE_STATEMENT.Infer(
+                    tok("{") + list<NativeXStatement>(STATEMENT)["Statements"] + tok("}")
+                    );
+
+                DO_WHILE_STATEMENT.Infer(
+                    tok("do") + STATEMENT["Statement"] + tok("while") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";")
+                    );
+
+                LOOP_STATEMENT.Infer(
+                    tok("loop") + STATEMENT["Statement"]
+                    );
+
+                WHILE_DO_STATEMENT.Infer(
+                    tok("while") + tok("(") + EXPRESSION["BeginCondition"] + tok(")") + STATEMENT["Statement"] + opt(tok("when") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";"))
+                    );
+
+                FOR_STATEMENT.Infer(
+                    tok("for") + list<NativeXStatement>(STATEMENT)["Initializer"]
+                    + tok("when") + EXPRESSION["Condition"]
+                    + tok("with") + list<NativeXStatement>(STATEMENT)["SideEffect"]
+                    + tok("do") + STATEMENT["Statement"]
+                    );
+
+                TRY_CATCH_STATEMENT.Infer(
+                    tok("try") + STATEMENT["TryStatement"] + tok("catch") + STATEMENT["CatchStatement"]
+                    );
+
+                THROW_STATEMENT.Infer(
+                    tok("throw") + opt(EXPRESSION["ExceptionExpression"]) + tok(";")
+                    );
+
+                STATEMENT.Infer(
+                    ret(EMPTY_STATEMENT)
+                    | ret(EXPRESSION_STATEMENT)
+                    | ret(VARIABLE_STATEMENT)
+                    | ret(IF_STATEMENT)
+                    | ret(BREAK_STATEMENT)
+                    | ret(CONTINUE_STATEMENT)
+                    | ret(EXIT_STATEMENT)
+                    | ret(COMPOSITE_STATEMENT)
+                    | ret(DO_WHILE_STATEMENT)
+                    | ret(LOOP_STATEMENT)
+                    | ret(WHILE_DO_STATEMENT)
+                    | ret(FOR_STATEMENT)
+                    | ret(TRY_CATCH_STATEMENT)
+                    | ret(THROW_STATEMENT)
+                    );
+            }
             {
                 PRIMITIVE.Infer(
                     STRING["Code"] | NUMBER["Code"] | toks("true", "false", "null")["Code"]
@@ -58,11 +151,11 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 RESULT.Infer(
-                    tok("result")["Code"]
+                    tok("result")
                     );
 
                 EXCEPTION.Infer(
-                    tok("exception")["Code"]
+                    tok("exception")
                     );
 
                 CAST.Infer(
@@ -150,7 +243,7 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
 
-            return ParserGenerator.GenerateCSharpCode(EXPRESSION, "Developer.LanguageServices.NativeX", "NativeXCodeParser");
+            return ParserGenerator.GenerateCSharpCode(STATEMENT, "Developer.LanguageServices.NativeX", "NativeXCodeParser");
         }
     }
 }
