@@ -9,6 +9,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
     {
         public ParserNode Content { get; set; }
         public string Member { get; set; }
+        public string ValueCode { get; set; }
 
         internal MemberNode()
         {

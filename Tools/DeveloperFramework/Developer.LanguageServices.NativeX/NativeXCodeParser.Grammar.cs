@@ -52,6 +52,60 @@ namespace Developer.LanguageServices.NativeX
             var THROW_STATEMENT = rule<NativeXThrowStatement>("ThrowStatement");
             var STATEMENT = rule<NativeXStatement>("Statement");
 
+            var NAME_TYPE_PAIR = rule<NativeXNameTypePair>("NameTypePair");
+            var NAME_EXPRESSION_PAIR = rule<NativeXNameExpressionPair>("NameExpressionPair");
+            var GENERIC_PARAMETER = rule<NativeXGenericParameter>("GenericParameter");
+            var GENERIC_CONSTRAINT = rule<NativeXGenericConstraint>("GenericConstraint");
+            var LINKING = rule<NativeXLinking>("Linking");
+            var FUNCTION_DECLARATION = rule<NativeXFunctionDeclaration>("FunctionDeclaration");
+            var GENERIC_DECLARATION = rule<NativeXDeclaration>("GenericDeclaration");
+            var NON_GENERIC_DECLARATION = rule<NativeXDeclaration>("NonGenericDeclaration");
+            var DECLARATION = rule<NativeXDeclaration>("Declaration");
+
+            {
+                NAME_TYPE_PAIR.Infer(
+                    TYPE["Type"] + ID["Name"]
+                    );
+
+                NAME_EXPRESSION_PAIR.Infer(
+                    ID["Name"] + tok("=") + EXPRESSION["Expression"]
+                    );
+
+                GENERIC_PARAMETER.Infer(
+                    ID["ParameterName"]
+                    );
+
+                GENERIC_CONSTRAINT.Infer(
+                    ID["ParameterName"] + tok(":") + ID["ConceptName"]
+                    );
+
+                LINKING.Infer(
+                    tok("alias") + ID["LinkingAssembly"] + tok(".") + ID["LinkingSymbol"]
+                    );
+            }
+            {
+                FUNCTION_DECLARATION.Infer(
+                    tok("foreign")["Foreign", "true"]
+                    + tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), NAME_TYPE_PAIR)["Parameters"] + tok(")")
+                    + opt(LINKING["Linking"])
+                    + (STATEMENT["Statement"] | tok(";"))
+                    );
+            }
+            {
+                NON_GENERIC_DECLARATION.Infer(
+                    ret(FUNCTION_DECLARATION)
+                    );
+
+                GENERIC_DECLARATION.Infer(
+                    tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
+                    + opt(tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
+                    + ret(NON_GENERIC_DECLARATION)
+                    );
+
+                DECLARATION.Infer(
+                    ret(GENERIC_DECLARATION) | ret(NON_GENERIC_DECLARATION)
+                    );
+            }
             {
                 EMPTY_STATEMENT.Infer(
                     tok(";")
@@ -243,7 +297,7 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
 
-            return ParserGenerator.GenerateCSharpCode(STATEMENT, "Developer.LanguageServices.NativeX", "NativeXCodeParser");
+            return ParserGenerator.GenerateCSharpCode(DECLARATION, "Developer.LanguageServices.NativeX", "NativeXCodeParser");
         }
     }
 }

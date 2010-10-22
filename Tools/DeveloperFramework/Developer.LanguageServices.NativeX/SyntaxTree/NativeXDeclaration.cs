@@ -11,8 +11,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string Name { get; set; }
         public abstract CodeNodeList<NativeXGenericParameter> GenericParameters { get; set; }
         public abstract CodeNodeList<NativeXGenericConstraint> GenericConstraints { get; set; }
-        public string LinkingAssembly { get; set; }
-        public string LinkingSymbol { get; set; }
+        public abstract NativeXLinking Linking { get; set; }
     }
 
     public abstract class NativeXNameTypePair : NativeXNode
@@ -38,11 +37,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string ConceptName { get; set; }
     }
 
+    public abstract class NativeXLinking : NativeXNode
+    {
+        public string LinkingAssembly { get; set; }
+        public string LinkingSymbol { get; set; }
+    }
+
     public abstract class NativeXFunctionDeclaration : NativeXDeclaration
     {
         public abstract NativeXType ReturnType { get; set; }
-        public abstract CodeNodeList<NativeXNameTypePair> Paramteres { get; set; }
+        public abstract CodeNodeList<NativeXNameTypePair> Parameters { get; set; }
         public abstract NativeXStatement Statement { get; set; }
+        public bool Foreign { get; set; }
     }
 
     public abstract class NativeXStructureDeclaration : NativeXDeclaration
