@@ -893,21 +893,38 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
             public void Visit(MemberNode node)
             {
-                Type memberElementNodeType = ElementTypeRetriver.GetNodeType(node.Content);
-                Type memberResultNodeType = ResultTypeRetriver.GetNodeType(node.Content);
-                int newLevel = this.level + 1;
-                string newReturnVariable = "result" + newLevel.ToString();
-                string newIndexVariable = "currentIndex" + newLevel.ToString();
-                sb.AppendLine(identation + "{");
-                sb.AppendLine(identation + "    " + GetTypeFullName(memberResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(memberResultNodeType) + ");");
-                sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
-                sb.Append(CodeGenerator.GenerateCode(memberElementNodeType, node.Content, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
-                sb.AppendLine(identation + "    if (parseSuccess)");
-                sb.AppendLine(identation + "    {");
-                sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
-                GenerateAssignCode(nodeType.GetProperty(node.Member).PropertyType, memberResultNodeType, node.Member + "Member" + this.level.ToString(), newReturnVariable);
-                sb.AppendLine(identation + "    }");
-                sb.AppendLine(identation + "}");
+                if (node.ValueCode != null)
+                {
+                    int newLevel = this.level + 1;
+                    string newIndexVariable = "currentIndex" + newLevel.ToString();
+                    sb.AppendLine(identation + "{");
+                    sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
+                    sb.Append(CodeGenerator.GenerateCode(null, node.Content, identation + "    ", newLevel, this.level, "", newIndexVariable, ref this.labelCounter));
+                    sb.AppendLine(identation + "    if (parseSuccess)");
+                    sb.AppendLine(identation + "    {");
+                    sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                    sb.AppendLine(identation + "        " + node.Member + "Member" + this.level.ToString() + " = " + node.ValueCode + ";");
+                    sb.AppendLine(identation + "    }");
+                    sb.AppendLine(identation + "}");
+                }
+                else
+                {
+                    Type memberElementNodeType = ElementTypeRetriver.GetNodeType(node.Content);
+                    Type memberResultNodeType = ResultTypeRetriver.GetNodeType(node.Content);
+                    int newLevel = this.level + 1;
+                    string newReturnVariable = "result" + newLevel.ToString();
+                    string newIndexVariable = "currentIndex" + newLevel.ToString();
+                    sb.AppendLine(identation + "{");
+                    sb.AppendLine(identation + "    " + GetTypeFullName(memberResultNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(memberResultNodeType) + ");");
+                    sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
+                    sb.Append(CodeGenerator.GenerateCode(memberElementNodeType, node.Content, identation + "    ", newLevel, this.level, newReturnVariable, newIndexVariable, ref this.labelCounter));
+                    sb.AppendLine(identation + "    if (parseSuccess)");
+                    sb.AppendLine(identation + "    {");
+                    sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                    GenerateAssignCode(nodeType.GetProperty(node.Member).PropertyType, memberResultNodeType, node.Member + "Member" + this.level.ToString(), newReturnVariable);
+                    sb.AppendLine(identation + "    }");
+                    sb.AppendLine(identation + "}");
+                }
             }
 
             public void Visit(ReturnNode node)

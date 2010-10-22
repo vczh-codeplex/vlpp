@@ -44,6 +44,19 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             }
         }
 
+        public ParserNode this[string member, string value]
+        {
+            get
+            {
+                return new MemberNode()
+                {
+                    Content = this,
+                    Member = member,
+                    ValueCode = value
+                };
+            }
+        }
+
         public abstract void Accept(IParserNodeVisitor visitor);
     }
 
