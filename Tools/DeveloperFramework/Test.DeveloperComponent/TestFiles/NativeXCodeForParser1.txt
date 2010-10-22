@@ -1,0 +1,104 @@
+﻿unit nativex_program_generated;
+function int32 main()
+    (result = (main1() + main2()));
+
+// 比较数字
+function int32 main1()
+{
+    variable Vector<int32> v1;
+    variable Vector<int32> v2;
+    (v1.X = 0s32);
+    (v1.Y = 1s32);
+    (v2.X = 2s32);
+    (v2.Y = 3s32);
+    if(Eq<Vector<int32>>::Equals(v1, v2))
+        (result = 1s32);
+    else
+        (result = 0s32);
+}
+
+// 比较向量
+function int32 main2()
+{
+    variable Vector<int32> v1;
+    variable Vector<int32> v2;
+    variable function bool(Vector<int32>, Vector<int32>) f = Eq<Vector<int32>>::NotEquals;
+    (v1.X = 0s32);
+    (v1.Y = 1s32);
+    (v2.X = 0s32);
+    (v2.Y = 1s32);
+    if(f(v1, v2))
+        (result = 1s32);
+    else
+        (result = 0s32);
+}
+
+// 相等概念
+concept T : Eq
+{
+    // 相等函数
+    Equals = function bool(T, T);
+	// 不等函数
+    NotEquals = function bool(T, T);
+}
+
+
+// 32位整数相等实例
+instance int32 : Eq
+{
+    Equals = IntEquals;
+    NotEquals = IntNotEquals;
+}
+
+// 判断数字相等
+function bool IntEquals(int32 a, int32 b)
+    (result = (a == b));
+
+// 判断数字不等
+function bool IntNotEquals(int32 a, int32 b)
+    (result = (a != b));
+
+// 向量模板类
+generic<U>
+structure Vector
+{
+    U X;
+    U Y;
+}
+
+// 向量相等实例
+generic<V> where
+  V : Eq
+instance Vector : Eq
+{
+    Equals = VectorEquals<V>;
+    NotEquals = VectorNotEquals<V>;
+}
+
+// 判断向量相等
+generic<W> where
+  W : Eq
+function bool VectorEquals(Vector<W> a, Vector<W> b)
+{
+    variable bool x_equals = Eq<W>::Equals(a.X, b.X);
+    variable bool y_equals = Eq<W>::Equals(a.Y, b.Y);
+    (result = (x_equals && y_equals));
+}
+
+// 判断向量不等
+generic<W> where
+  W : Eq
+function bool VectorNotEquals(Vector<W> a, Vector<W> b)
+    (result = ( ! VectorEquals<W>(a, b)));
+
+/*
+多行注释
+各种神奇记号
+*/
+function void FakeFunction()
+{
+    1;1u8;1s8;1u16;1s16;1u32;1s32;1u64;1s64;
+    'a';L'a';"a";L"a";'\'';L'\'';"\"";L"\"";
+    1.2;1.2f;1.2F;1.2;
+    FakeFunction;@FakeFunction;@"FakeFunction";
+}

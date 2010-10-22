@@ -181,6 +181,22 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     goto LABEL_1;
                                 }
+                                {
+                                    parseSuccess = false;
+                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ";"))
+                                    {
+                                        currentIndex3++;
+                                        parseSuccess = true;
+                                    }
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndexCopy3 = currentIndex3;
+                                }
+                                else
+                                {
+                                    goto LABEL_1;
+                                }
                                 currentIndex2 = currentIndexCopy3;
                             LABEL_1: ;
                             }
@@ -3777,22 +3793,126 @@ namespace Developer.LanguageServices.NativeX
                                     {
                                         System.String OperatorMember4 = default(System.String);
                                         {
-                                            Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
-                                            int currentIndex5 = currentIndex4;
+                                            int currentIndex5 = -1;
+                                            currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "<<" || tokens[currentIndex5].Value == ">>"))
+                                                System.String OperatorMember5 = default(System.String);
                                                 {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        {
+                                                            int currentIndexCopy7 = currentIndex6;
+                                                            int currentIndex7 = currentIndex6;
+                                                            {
+                                                                parseSuccess = false;
+                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == "<"))
+                                                                {
+                                                                    currentIndex7++;
+                                                                    parseSuccess = true;
+                                                                }
+                                                            }
+                                                            if (parseSuccess)
+                                                            {
+                                                                currentIndexCopy7 = currentIndex7;
+                                                            }
+                                                            else
+                                                            {
+                                                                goto LABEL_4;
+                                                            }
+                                                            {
+                                                                parseSuccess = false;
+                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == "<"))
+                                                                {
+                                                                    currentIndex7++;
+                                                                    parseSuccess = true;
+                                                                }
+                                                            }
+                                                            if (parseSuccess)
+                                                            {
+                                                                currentIndexCopy7 = currentIndex7;
+                                                            }
+                                                            else
+                                                            {
+                                                                goto LABEL_4;
+                                                            }
+                                                            currentIndex6 = currentIndexCopy7;
+                                                        LABEL_4: ;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = "<<";
+                                                    }
                                                 }
+                                                OperatorMember4 = OperatorMember5;
                                             }
                                             if (parseSuccess)
                                             {
                                                 currentIndex4 = currentIndex5;
-                                                OperatorMember4 = result5.Value;
+                                                goto LABEL_SUCCESS_2;
                                             }
+                                            currentIndex5 = currentIndex4;
+                                            {
+                                                System.String OperatorMember5 = default(System.String);
+                                                {
+                                                    int currentIndex6 = currentIndex5;
+                                                    {
+                                                        {
+                                                            int currentIndexCopy7 = currentIndex6;
+                                                            int currentIndex7 = currentIndex6;
+                                                            {
+                                                                parseSuccess = false;
+                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == ">"))
+                                                                {
+                                                                    currentIndex7++;
+                                                                    parseSuccess = true;
+                                                                }
+                                                            }
+                                                            if (parseSuccess)
+                                                            {
+                                                                currentIndexCopy7 = currentIndex7;
+                                                            }
+                                                            else
+                                                            {
+                                                                goto LABEL_5;
+                                                            }
+                                                            {
+                                                                parseSuccess = false;
+                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == ">"))
+                                                                {
+                                                                    currentIndex7++;
+                                                                    parseSuccess = true;
+                                                                }
+                                                            }
+                                                            if (parseSuccess)
+                                                            {
+                                                                currentIndexCopy7 = currentIndex7;
+                                                            }
+                                                            else
+                                                            {
+                                                                goto LABEL_5;
+                                                            }
+                                                            currentIndex6 = currentIndexCopy7;
+                                                        LABEL_5: ;
+                                                        }
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex5 = currentIndex6;
+                                                        OperatorMember5 = ">>";
+                                                    }
+                                                }
+                                                OperatorMember4 = OperatorMember5;
+                                            }
+                                            if (parseSuccess)
+                                            {
+                                                currentIndex4 = currentIndex5;
+                                                goto LABEL_SUCCESS_2;
+                                            }
+                                            goto LABEL_FAIL_3;
+                                        LABEL_SUCCESS_2: ;
+                                        LABEL_FAIL_3: ;
                                         }
                                         OperatorMember3 = OperatorMember4;
                                     }

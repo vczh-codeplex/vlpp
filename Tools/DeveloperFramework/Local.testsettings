@@ -2,6 +2,8 @@
 <TestSettings name="Local" id="7553b8c1-f3d5-4ca5-bce7-587d27d4d0b2" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
+    <DeploymentItem filename="Test.DeveloperComponent\TestFiles\NativeXCodeForParser1.txt" />
+    <DeploymentItem filename="Test.DeveloperComponent\TestFiles\NativeXCodeForParser2.txt" />
     <DeploymentItem filename="Test.Host.LanguageForms\bin\Debug\Test.Host.LanguageForms.exe.config" />
   </Deployment>
   <Execution>

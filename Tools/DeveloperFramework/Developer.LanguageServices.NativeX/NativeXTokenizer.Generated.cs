@@ -1317,7 +1317,7 @@ namespace Developer.LanguageServices.NativeX
             transitions[32, 17] = -1;
             transitions[32, 18] = -1;
             transitions[32, 19] = -1;
-            transitions[32, 20] = 36;
+            transitions[32, 20] = -1;
             transitions[32, 21] = 28;
             transitions[32, 22] = -1;
             transitions[32, 23] = -1;
@@ -1353,7 +1353,7 @@ namespace Developer.LanguageServices.NativeX
             transitions[33, 19] = -1;
             transitions[33, 20] = -1;
             transitions[33, 21] = 28;
-            transitions[33, 22] = 36;
+            transitions[33, 22] = -1;
             transitions[33, 23] = -1;
             transitions[33, 24] = -1;
             transitions[33, 25] = -1;

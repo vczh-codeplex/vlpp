@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Developer.LanguageServices.NativeX.SyntaxTree;
 using Developer.LanguageProvider;
 using Developer.LanguageServices.NativeX;
+using System.IO;
 
 namespace Test.DeveloperComponent.NativeX
 {
@@ -176,7 +177,7 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseBinaryExp(Func<string, NativeXBinaryExpression> parser)
         {
-            NativeXBinaryExpression a = parser("a=(1+2)+3*4");
+            NativeXBinaryExpression a = parser("a=(1<<2)+3*4");
             Assert.AreEqual("=", a.Operator);
             {
                 Assert.AreEqual("a", ((NativeXReferenceExpression)a.LeftOperand).ReferencedName);
@@ -186,7 +187,7 @@ namespace Test.DeveloperComponent.NativeX
                 Assert.AreEqual("+", b.Operator);
                 {
                     NativeXBinaryExpression c = (NativeXBinaryExpression)b.LeftOperand;
-                    Assert.AreEqual("+", c.Operator);
+                    Assert.AreEqual("<<", c.Operator);
                     Assert.AreEqual("1", ((NativeXPrimitiveExpression)c.LeftOperand).Code);
                     Assert.AreEqual("2", ((NativeXPrimitiveExpression)c.RightOperand).Code);
                 }
@@ -956,6 +957,45 @@ namespace Test.DeveloperComponent.NativeX
             TestParseStructureDeclarationInternal(s => (NativeXStructureDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
             TestParseInstanceDeclarationInternal(s => (NativeXInstanceDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
             TestParseConceptDeclarationInternal(s => (NativeXConceptDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+        }
+
+        #endregion
+
+        #region UNIT
+
+        private void AssertUnit(NativeXUnit unit)
+        {
+            Assert.AreEqual("nativex_program_generated", unit.Name);
+            Assert.AreEqual(12, unit.Declarations.Count);
+            Assert.AreEqual("main", (unit.Declarations[0] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("main1", (unit.Declarations[1] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("main2", (unit.Declarations[2] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("Eq", (unit.Declarations[3] as NativeXConceptDeclaration).Name);
+            Assert.AreEqual("Eq", (unit.Declarations[4] as NativeXInstanceDeclaration).ConceptName);
+            Assert.AreEqual("IntEquals", (unit.Declarations[5] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("IntNotEquals", (unit.Declarations[6] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("Vector", (unit.Declarations[7] as NativeXStructureDeclaration).Name);
+            Assert.AreEqual("Eq", (unit.Declarations[8] as NativeXInstanceDeclaration).ConceptName);
+            Assert.AreEqual("VectorEquals", (unit.Declarations[9] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("VectorNotEquals", (unit.Declarations[10] as NativeXFunctionDeclaration).Name);
+            Assert.AreEqual("FakeFunction", (unit.Declarations[11] as NativeXFunctionDeclaration).Name);
+        }
+
+        [TestMethod]
+        public void TestParseUnit()
+        {
+            {
+                string code = File.ReadAllText("NativeXCodeForParser1.txt");
+                NativeXUnit unit = Parse(code, NativeXCodeParser.ParseUnit);
+                AssertUnit(unit);
+                Assert.IsNull(unit.UsesUnits);
+            }
+            {
+                string code = File.ReadAllText("NativeXCodeForParser2.txt");
+                NativeXUnit unit = Parse(code, NativeXCodeParser.ParseUnit);
+                AssertUnit(unit);
+                Assert.IsTrue(unit.UsesUnits.Select(u => u.UnitName).SequenceEqual(new string[] { "Utility", "Prelude" }));
+            }
         }
 
         #endregion

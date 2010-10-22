@@ -80,7 +80,7 @@ namespace Developer.LanguageServices.NativeX
 
                 UNIT.Infer(
                     tok("unit") + ID["Name"] + tok(";")
-                    + opt(tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"])
+                    + opt(tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
             }
@@ -316,8 +316,9 @@ namespace Developer.LanguageServices.NativeX
                         new string[]{"||"},
                         new string[]{"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "="}
                     };
+                    ParserNode shiftNode = (tok("<") + tok("<"))["Operator", "\"<<\""] | (tok(">") + tok(">"))["Operator", "\">>\""];
                     ParserNode[] operatorNodes = binaryOperators
-                        .Select(ops => toks(ops)["Operator"])
+                        .Select(ops => ops.First() == "<<" ? shiftNode : toks(ops)["Operator"])
                         .ToArray();
                     ParserNode[] previousNode = new ParserNode[] { EXP2 }
                         .Concat(EXP_BINS.Take(EXP_BINS.Length - 1))
