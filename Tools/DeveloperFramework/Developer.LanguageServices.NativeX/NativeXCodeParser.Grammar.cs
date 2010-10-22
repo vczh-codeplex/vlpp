@@ -130,7 +130,7 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(STRUCTURE_MEMBER + tok(";"))["Members"] + tok("}")
+                            opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"))["Members"] + tok("}")
                           )
                        )
                     );
@@ -140,13 +140,13 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            tok("{") + list<NativeXNameExpressionPair>(INSTANCE_FUNCTION + tok(";"))["Functions"] + tok(")")
+                            tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"))["Functions"] + tok("}")
                           )
                       )
                     );
 
                 CONCEPT_DECLARATION.Infer(
-                    tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + tok("{") + list<NativeXNameTypePair>(CONCEPT_FUNCTION + tok(";"))["Functions"] + tok("}")
+                    tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"))["Functions"] + tok("}")
                     );
             }
             {

@@ -7504,11 +7504,23 @@ namespace Developer.LanguageServices.NativeX
                                                 int currentIndex5 = currentIndex4;
                                                 {
                                                     {
+                                                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                                         int currentIndexCopy6 = currentIndex5;
                                                         int currentIndex6 = currentIndex5;
                                                         {
-                                                            parseSuccess = false;
-                                                            ParseStructureMemberItem(tokens, ref currentIndex6, ref parseSuccess);
+                                                            {
+                                                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result7 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
+                                                                int currentIndex7 = currentIndex6;
+                                                                {
+                                                                    parseSuccess = false;
+                                                                    result7 = ParseStructureMemberItem(tokens, ref currentIndex7, ref parseSuccess);
+                                                                }
+                                                                if (parseSuccess)
+                                                                {
+                                                                    currentIndex6 = currentIndex7;
+                                                                    result6 = result7;
+                                                                }
+                                                            }
                                                         }
                                                         if (parseSuccess)
                                                         {
@@ -7535,6 +7547,7 @@ namespace Developer.LanguageServices.NativeX
                                                             goto LABEL_5;
                                                         }
                                                         currentIndex5 = currentIndexCopy6;
+                                                        result5 = result6;
                                                     LABEL_5: ;
                                                     }
                                                 }
@@ -7550,11 +7563,23 @@ namespace Developer.LanguageServices.NativeX
                                                     int currentIndexCopy5 = currentIndex4;
                                                     {
                                                         {
+                                                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                                             int currentIndexCopy6 = currentIndex5;
                                                             int currentIndex6 = currentIndex5;
                                                             {
-                                                                parseSuccess = false;
-                                                                ParseStructureMemberItem(tokens, ref currentIndex6, ref parseSuccess);
+                                                                {
+                                                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result7 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
+                                                                    int currentIndex7 = currentIndex6;
+                                                                    {
+                                                                        parseSuccess = false;
+                                                                        result7 = ParseStructureMemberItem(tokens, ref currentIndex7, ref parseSuccess);
+                                                                    }
+                                                                    if (parseSuccess)
+                                                                    {
+                                                                        currentIndex6 = currentIndex7;
+                                                                        result6 = result7;
+                                                                    }
+                                                                }
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -7581,6 +7606,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_6;
                                                             }
                                                             currentIndex5 = currentIndexCopy6;
+                                                            result5 = result6;
                                                         LABEL_6: ;
                                                         }
                                                     }
@@ -7676,7 +7702,7 @@ namespace Developer.LanguageServices.NativeX
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceDeclaration result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceDeclaration);
-            Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
             System.String ConceptNameMember0 = default(System.String);
             Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair> FunctionsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair>);
             {
@@ -7699,7 +7725,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType TypeMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
                     {
                         Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
                         int currentIndex2 = currentIndex1;
@@ -7821,11 +7847,23 @@ namespace Developer.LanguageServices.NativeX
                                                 int currentIndex5 = currentIndex4;
                                                 {
                                                     {
+                                                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair);
                                                         int currentIndexCopy6 = currentIndex5;
                                                         int currentIndex6 = currentIndex5;
                                                         {
-                                                            parseSuccess = false;
-                                                            ParseInstanceFunctionItem(tokens, ref currentIndex6, ref parseSuccess);
+                                                            {
+                                                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair result7 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair);
+                                                                int currentIndex7 = currentIndex6;
+                                                                {
+                                                                    parseSuccess = false;
+                                                                    result7 = ParseInstanceFunctionItem(tokens, ref currentIndex7, ref parseSuccess);
+                                                                }
+                                                                if (parseSuccess)
+                                                                {
+                                                                    currentIndex6 = currentIndex7;
+                                                                    result6 = result7;
+                                                                }
+                                                            }
                                                         }
                                                         if (parseSuccess)
                                                         {
@@ -7852,6 +7890,7 @@ namespace Developer.LanguageServices.NativeX
                                                             goto LABEL_5;
                                                         }
                                                         currentIndex5 = currentIndexCopy6;
+                                                        result5 = result6;
                                                     LABEL_5: ;
                                                     }
                                                 }
@@ -7867,11 +7906,23 @@ namespace Developer.LanguageServices.NativeX
                                                     int currentIndexCopy5 = currentIndex4;
                                                     {
                                                         {
+                                                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair);
                                                             int currentIndexCopy6 = currentIndex5;
                                                             int currentIndex6 = currentIndex5;
                                                             {
-                                                                parseSuccess = false;
-                                                                ParseInstanceFunctionItem(tokens, ref currentIndex6, ref parseSuccess);
+                                                                {
+                                                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair result7 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair);
+                                                                    int currentIndex7 = currentIndex6;
+                                                                    {
+                                                                        parseSuccess = false;
+                                                                        result7 = ParseInstanceFunctionItem(tokens, ref currentIndex7, ref parseSuccess);
+                                                                    }
+                                                                    if (parseSuccess)
+                                                                    {
+                                                                        currentIndex6 = currentIndex7;
+                                                                        result6 = result7;
+                                                                    }
+                                                                }
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -7898,6 +7949,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_6;
                                                             }
                                                             currentIndex5 = currentIndexCopy6;
+                                                            result5 = result6;
                                                         LABEL_6: ;
                                                         }
                                                     }
@@ -7934,7 +7986,7 @@ namespace Developer.LanguageServices.NativeX
                                 }
                                 {
                                     parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ")"))
+                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "}"))
                                     {
                                         currentIndex3++;
                                         parseSuccess = true;
@@ -8087,6 +8139,7 @@ namespace Developer.LanguageServices.NativeX
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptDeclaration result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptDeclaration);
             System.String ConceptTypeMember0 = default(System.String);
             System.String NameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking LinkingMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking);
             Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair> FunctionsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair>);
             {
                 int currentIndexCopy1 = currentToken;
@@ -8184,6 +8237,44 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking LinkingMember1 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking);
+                    {
+                        int currentIndex2 = -1;
+                        currentIndex2 = currentIndex1;
+                        {
+                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking LinkingMember2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking);
+                            {
+                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking result3 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXLinking);
+                                int currentIndex3 = currentIndex2;
+                                {
+                                    parseSuccess = false;
+                                    result3 = ParseLinking(tokens, ref currentIndex3, ref parseSuccess);
+                                }
+                                if (parseSuccess)
+                                {
+                                    currentIndex2 = currentIndex3;
+                                    LinkingMember2 = result3;
+                                }
+                            }
+                            LinkingMember1 = LinkingMember2;
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                        }
+                        parseSuccess = true;
+                    }
+                    LinkingMember0 = LinkingMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentIndexCopy1 = currentIndex1;
+                }
+                else
+                {
+                    goto LABEL_0;
+                }
+                {
                     parseSuccess = false;
                     if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "{"))
                     {
@@ -8211,11 +8302,23 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndex3 = currentIndex2;
                                 {
                                     {
+                                        Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                         int currentIndexCopy4 = currentIndex3;
                                         int currentIndex4 = currentIndex3;
                                         {
-                                            parseSuccess = false;
-                                            ParseConceptFunctionItem(tokens, ref currentIndex4, ref parseSuccess);
+                                            {
+                                                Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result5 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
+                                                int currentIndex5 = currentIndex4;
+                                                {
+                                                    parseSuccess = false;
+                                                    result5 = ParseConceptFunctionItem(tokens, ref currentIndex5, ref parseSuccess);
+                                                }
+                                                if (parseSuccess)
+                                                {
+                                                    currentIndex4 = currentIndex5;
+                                                    result4 = result5;
+                                                }
+                                            }
                                         }
                                         if (parseSuccess)
                                         {
@@ -8242,6 +8345,7 @@ namespace Developer.LanguageServices.NativeX
                                             goto LABEL_2;
                                         }
                                         currentIndex3 = currentIndexCopy4;
+                                        result3 = result4;
                                     LABEL_2: ;
                                     }
                                 }
@@ -8257,11 +8361,23 @@ namespace Developer.LanguageServices.NativeX
                                     int currentIndexCopy3 = currentIndex2;
                                     {
                                         {
+                                            Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                             int currentIndexCopy4 = currentIndex3;
                                             int currentIndex4 = currentIndex3;
                                             {
-                                                parseSuccess = false;
-                                                ParseConceptFunctionItem(tokens, ref currentIndex4, ref parseSuccess);
+                                                {
+                                                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result5 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
+                                                    int currentIndex5 = currentIndex4;
+                                                    {
+                                                        parseSuccess = false;
+                                                        result5 = ParseConceptFunctionItem(tokens, ref currentIndex5, ref parseSuccess);
+                                                    }
+                                                    if (parseSuccess)
+                                                    {
+                                                        currentIndex4 = currentIndex5;
+                                                        result4 = result5;
+                                                    }
+                                                }
                                             }
                                             if (parseSuccess)
                                             {
@@ -8288,6 +8404,7 @@ namespace Developer.LanguageServices.NativeX
                                                 goto LABEL_3;
                                             }
                                             currentIndex3 = currentIndexCopy4;
+                                            result3 = result4;
                                         LABEL_3: ;
                                         }
                                     }
@@ -8346,6 +8463,7 @@ namespace Developer.LanguageServices.NativeX
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptDeclaration>();
                 result.ConceptType = ConceptTypeMember0;
                 result.Name = NameMember0;
+                result.Linking = LinkingMember0;
                 result.Functions = FunctionsMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
