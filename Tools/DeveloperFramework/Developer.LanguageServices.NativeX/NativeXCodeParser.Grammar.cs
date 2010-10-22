@@ -111,10 +111,10 @@ namespace Developer.LanguageServices.NativeX
             }
             {
                 FUNCTION_DECLARATION.Infer(
-                    tok("foreign")["Foreign", "true"]
+                    opt(tok("foreign")["Foreign", "true"])
                     + tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), STRUCTURE_MEMBER)["Parameters"] + tok(")")
                     + opt(LINKING["Linking"])
-                    + (STATEMENT["Statement"] | tok(";"))
+                    + (tok(";") | STATEMENT["Statement"])
                     );
 
                 VARIABLE_DECLARATION.Infer(
@@ -156,12 +156,13 @@ namespace Developer.LanguageServices.NativeX
                     | ret(VARIABLE_DECLARATION)
                     | ret(STRUCTURE_DECLARATION)
                     | ret(INSTANCE_DECLARATION)
+                    | ret(CONCEPT_DECLARATION)
                     );
 
                 GENERIC_DECLARATION.Infer(
                     tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
                     + opt(tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
-                    + (ret(NON_GENERIC_DECLARATION) | ret(CONCEPT_DECLARATION))
+                    + ret(NON_GENERIC_DECLARATION)
                     );
 
                 DECLARATION.Infer(
