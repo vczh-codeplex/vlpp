@@ -583,6 +583,233 @@ namespace Test.DeveloperComponent.NativeX
         #endregion
 
         #region DECLARATION
+
+        private const string g1 = "generic<> ";
+        private const string g2 = "generic<U>where U:I1 ";
+        private const string g3 = "generic<U,V>where U:I1,V:I2 ";
+
+        private readonly Action<NativeXDeclaration> vg1 = d =>
+        {
+            Assert.AreEqual(0, d.GenericParameters.Count);
+            Assert.IsNull(d.GenericConstraints);
+        };
+
+        private readonly Action<NativeXDeclaration> vg2 = d =>
+        {
+            Assert.AreEqual(1, d.GenericParameters.Count);
+            Assert.AreEqual("U", d.GenericParameters[0].ParameterName);
+            Assert.AreEqual(1, d.GenericConstraints.Count);
+            Assert.AreEqual("U", d.GenericConstraints[0].ParameterName);
+            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName);
+        };
+
+        private readonly Action<NativeXDeclaration> vg3 = d =>
+        {
+            Assert.AreEqual(2, d.GenericParameters.Count);
+            Assert.AreEqual("U", d.GenericParameters[0].ParameterName);
+            Assert.AreEqual("V", d.GenericParameters[1].ParameterName);
+            Assert.AreEqual(2, d.GenericConstraints.Count);
+            Assert.AreEqual("U", d.GenericConstraints[0].ParameterName);
+            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName);
+            Assert.AreEqual("V", d.GenericConstraints[1].ParameterName);
+            Assert.AreEqual("I2", d.GenericConstraints[1].ConceptName);
+        };
+
+        private void TestParseFunctionDeclarationInternal(Func<string, NativeXFunctionDeclaration> parser)
+        {
+            Action<NativeXFunctionDeclaration> vd_common = d =>
+            {
+                Assert.AreEqual("Sum", d.Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)d.ReturnType).ReferencedName);
+                Assert.AreEqual(2, d.Parameters.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)((NativeXPointerType)d.Parameters[0].Type).ElementType).ReferencedName);
+                Assert.AreEqual("numbers", d.Parameters[0].Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)d.Parameters[1].Type).ReferencedName);
+                Assert.AreEqual("count", d.Parameters[1].Name);
+            };
+            Action<NativeXFunctionDeclaration> vd1 = d =>
+            {
+                Assert.IsFalse(d.Foreign);
+                Assert.IsNull(d.Linking);
+
+                NativeXCompositeStatement s = (NativeXCompositeStatement)d.Statement;
+                Assert.AreEqual(1, s.Statements.Count);
+                NativeXBinaryExpression e = (NativeXBinaryExpression)((NativeXExpressionStatement)s.Statements[0]).Expression;
+                Assert.IsNotNull((NativeXFunctionResultExpression)e.LeftOperand);
+                Assert.AreEqual("0", ((NativeXPrimitiveExpression)e.RightOperand).Code);
+            };
+            Action<NativeXFunctionDeclaration> vd2 = d =>
+            {
+                Assert.IsFalse(d.Foreign);
+                Assert.IsNull(d.Statement);
+                Assert.AreEqual("Utility", d.Linking.LinkingAssembly);
+                Assert.AreEqual("Sum", d.Linking.LinkingSymbol);
+            };
+            Action<NativeXFunctionDeclaration> vd3 = d =>
+            {
+                Assert.IsTrue(d.Foreign);
+                Assert.IsNull(d.Linking);
+                Assert.IsNull(d.Statement);
+            };
+            string d1 = "function int Sum(int* numbers, int count){result = 0;}";
+            string d2 = "function int Sum(int* numbers, int count) alias Utility.Sum;";
+            string d3 = "foreign function int Sum(int* numbers, int count);";
+            {
+                NativeXFunctionDeclaration d = parser(d1);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXFunctionDeclaration d = parser(d2);
+                vd_common(d);
+                vd2(d);
+            }
+            {
+                NativeXFunctionDeclaration d = parser(d3);
+                vd_common(d);
+                vd3(d);
+            }
+            {
+                NativeXFunctionDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXFunctionDeclaration d = parser(g2 + d2);
+                vg2(d);
+                vd_common(d);
+                vd2(d);
+            }
+            {
+                NativeXFunctionDeclaration d = parser(g3 + d3);
+                vg3(d);
+                vd_common(d);
+                vd3(d);
+            }
+        }
+
+        private void TestParseTypeRenameDeclarationInternal(Func<string, NativeXTypeRenameDeclaration> parser)
+        {
+            Action<NativeXTypeRenameDeclaration> vd1 = d =>
+            {
+                Assert.AreEqual("IntList", d.Name);
+                NativeXInstanciatedType t = (NativeXInstanciatedType)d.Type;
+                Assert.AreEqual("List", t.ElementType.ReferencedName);
+                Assert.AreEqual(1, t.GenericArguments.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)t.GenericArguments[0]).ReferencedName);
+            };
+            string d1 = "type IntList = List<int>;";
+            {
+                NativeXTypeRenameDeclaration d = parser(d1);
+                vd1(d);
+            }
+            {
+                NativeXTypeRenameDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd1(d);
+            }
+            {
+                NativeXTypeRenameDeclaration d = parser(g2 + d1);
+                vg2(d);
+                vd1(d);
+            }
+            {
+                NativeXTypeRenameDeclaration d = parser(g3 + d1);
+                vg3(d);
+                vd1(d);
+            }
+        }
+
+        private void TestParseVariableDeclarationInternal(Func<string, NativeXVariableDeclaration> parser)
+        {
+            Action<NativeXVariableDeclaration> vd_common = d =>
+            {
+                Assert.AreEqual("a", d.Name);
+                NativeXInstanciatedType t = (NativeXInstanciatedType)d.Type;
+                Assert.AreEqual("List", t.ElementType.ReferencedName);
+                Assert.AreEqual(1, t.GenericArguments.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)t.GenericArguments[0]).ReferencedName);
+            };
+            Action<NativeXVariableDeclaration> vd1 = d =>
+            {
+                Assert.IsNull(d.Initializer);
+                Assert.IsNull(d.Linking);
+            };
+            Action<NativeXVariableDeclaration> vd2 = d =>
+            {
+                Assert.IsNull(d.Initializer);
+                Assert.AreEqual("Utility", d.Linking.LinkingAssembly);
+                Assert.AreEqual("Sum", d.Linking.LinkingSymbol);
+            };
+            Action<NativeXVariableDeclaration> vd3 = d =>
+            {
+                Assert.IsNull(d.Linking);
+                NativeXBinaryExpression e = (NativeXBinaryExpression)d.Initializer;
+                Assert.AreEqual("1", ((NativeXPrimitiveExpression)e.LeftOperand).Code);
+                Assert.AreEqual("2", ((NativeXPrimitiveExpression)e.RightOperand).Code);
+            };
+            string d1 = "variable List<int> a;";
+            string d2 = "variable List<int> a alias Utility.Sum;";
+            string d3 = "variable List<int> a = 1+2;";
+            {
+                NativeXVariableDeclaration d = parser(d1);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXVariableDeclaration d = parser(d2);
+                vd_common(d);
+                vd2(d);
+            }
+            {
+                NativeXVariableDeclaration d = parser(d3);
+                vd_common(d);
+                vd3(d);
+            }
+            {
+                NativeXVariableDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXVariableDeclaration d = parser(g2 + d2);
+                vg2(d);
+                vd_common(d);
+                vd2(d);
+            }
+            {
+                NativeXVariableDeclaration d = parser(g3 + d3);
+                vg3(d);
+                vd_common(d);
+                vd3(d);
+            }
+        }
+
+        private void TestParseStructureDeclarationInternal(Func<string, NativeXStructureDeclaration> parser)
+        {
+        }
+
+        private void TestParseInstanceDeclarationInternal(Func<string, NativeXInstanceDeclaration> parser)
+        {
+        }
+
+        private void TestParseConceptDeclarationInternal(Func<string, NativeXConceptDeclaration> parser)
+        {
+        }
+
+        [TestMethod]
+        public void TestParseDeclaration()
+        {
+            TestParseFunctionDeclarationInternal(s => (NativeXFunctionDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+            TestParseTypeRenameDeclarationInternal(s => (NativeXTypeRenameDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+            TestParseVariableDeclarationInternal(s => (NativeXVariableDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+            TestParseStructureDeclarationInternal(s => (NativeXStructureDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+            TestParseInstanceDeclarationInternal(s => (NativeXInstanceDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+            TestParseConceptDeclarationInternal(s => (NativeXConceptDeclaration)Parse(s, NativeXCodeParser.ParseDeclaration));
+        }
+
         #endregion
 
         [TestMethod]
