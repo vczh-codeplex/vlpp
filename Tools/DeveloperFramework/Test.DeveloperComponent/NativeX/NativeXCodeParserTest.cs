@@ -789,14 +789,162 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseStructureDeclarationInternal(Func<string, NativeXStructureDeclaration> parser)
         {
+            Action<NativeXStructureDeclaration> vd1 = d =>
+            {
+                Assert.AreEqual("List", d.Name);
+                Assert.IsNull(d.Linking);
+                Assert.IsNull(d.Members);
+            };
+            Action<NativeXStructureDeclaration> vd2 = d =>
+            {
+                Assert.AreEqual("List", d.Name);
+                Assert.IsNull(d.Linking);
+                Assert.AreEqual(2, d.Members.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)d.Members[0].Type).ReferencedName);
+                Assert.AreEqual("count", d.Members[0].Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)((NativeXPointerType)d.Members[1].Type).ElementType).ReferencedName);
+                Assert.AreEqual("items", d.Members[1].Name);
+            };
+            Action<NativeXStructureDeclaration> vd3 = d =>
+            {
+                Assert.AreEqual("List", d.Name);
+                Assert.AreEqual("Utility", d.Linking.LinkingAssembly);
+                Assert.AreEqual("List", d.Linking.LinkingSymbol);
+                Assert.AreEqual(2, d.Members.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)d.Members[0].Type).ReferencedName);
+                Assert.AreEqual("count", d.Members[0].Name);
+                Assert.AreEqual("int", ((NativeXReferenceType)((NativeXPointerType)d.Members[1].Type).ElementType).ReferencedName);
+                Assert.AreEqual("items", d.Members[1].Name);
+            };
+            string d1 = "structure List;";
+            string d2 = "structure List{int count;int* items;}";
+            string d3 = "structure List alias Utility.List {int count;int* items;}";
+            {
+                NativeXStructureDeclaration d = parser(d1);
+                vd1(d);
+            }
+            {
+                NativeXStructureDeclaration d = parser(d2);
+                vd2(d);
+            }
+            {
+                NativeXStructureDeclaration d = parser(d3);
+                vd3(d);
+            }
+            {
+                NativeXStructureDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd1(d);
+            }
+            {
+                NativeXStructureDeclaration d = parser(g2 + d2);
+                vg2(d);
+                vd2(d);
+            }
+            {
+                NativeXStructureDeclaration d = parser(g3 + d3);
+                vg3(d);
+                vd3(d);
+            }
         }
 
         private void TestParseInstanceDeclarationInternal(Func<string, NativeXInstanceDeclaration> parser)
         {
+            Action<NativeXInstanceDeclaration> vd1 = d =>
+            {
+                Assert.IsNull(d.Name);
+                Assert.IsNull(d.Linking);
+                Assert.AreEqual("int", d.Type.ReferencedName);
+                Assert.AreEqual("Eq", d.ConceptName);
+                Assert.IsNull(d.Functions);
+            };
+            Action<NativeXInstanceDeclaration> vd2 = d =>
+            {
+                Assert.IsNull(d.Name);
+                Assert.IsNull(d.Linking);
+                Assert.AreEqual("int", d.Type.ReferencedName);
+                Assert.AreEqual("Eq", d.ConceptName);
+                Assert.AreEqual(2, d.Functions.Count);
+                Assert.AreEqual("Equal", d.Functions[0].Name);
+                Assert.AreEqual("IntEqual", ((NativeXReferenceExpression)d.Functions[0].Expression).ReferencedName);
+                Assert.AreEqual("NotEqual", d.Functions[1].Name);
+                Assert.AreEqual("IntNotEqual", ((NativeXReferenceExpression)d.Functions[1].Expression).ReferencedName);
+            };
+            string d1 = "instance int : Eq;";
+            string d2 = "instance int : Eq{Equal = IntEqual; NotEqual = IntNotEqual;}";
+            {
+                NativeXInstanceDeclaration d = parser(d1);
+                vd1(d);
+            }
+            {
+                NativeXInstanceDeclaration d = parser(d2);
+                vd2(d);
+            }
+            {
+                NativeXInstanceDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd1(d);
+            }
+            {
+                NativeXInstanceDeclaration d = parser(g2 + d2);
+                vg2(d);
+                vd2(d);
+            }
         }
 
         private void TestParseConceptDeclarationInternal(Func<string, NativeXConceptDeclaration> parser)
         {
+            Action<NativeXType> vt = t =>
+            {
+                NativeXFunctionType ft = (NativeXFunctionType)t;
+                Assert.AreEqual("bool", ((NativeXReferenceType)ft.ReturnType).ReferencedName);
+                Assert.AreEqual(2, ft.Parameters.Count);
+                Assert.AreEqual("int", ((NativeXReferenceType)ft.Parameters[0]).ReferencedName);
+                Assert.AreEqual("int", ((NativeXReferenceType)ft.Parameters[1]).ReferencedName);
+            };
+            Action<NativeXConceptDeclaration> vd_common = d =>
+            {
+                Assert.AreEqual("Eq", d.Name);
+                Assert.AreEqual("T", d.ConceptType);
+                Assert.AreEqual(2, d.Functions.Count);
+                Assert.AreEqual("Equal", d.Functions[0].Name);
+                vt(d.Functions[0].Type);
+                Assert.AreEqual("NotEqual", d.Functions[1].Name);
+                vt(d.Functions[1].Type);
+            };
+            Action<NativeXConceptDeclaration> vd1 = d =>
+            {
+                Assert.IsNull(d.Linking);
+            };
+            Action<NativeXConceptDeclaration> vd2 = d =>
+            {
+                Assert.AreEqual("Utility", d.Linking.LinkingAssembly);
+                Assert.AreEqual("Eq", d.Linking.LinkingSymbol);
+            };
+            string d1 = "concept T : Eq{Equal = function bool(int,int); NotEqual = function bool(int,int);}";
+            string d2 = "concept T : Eq alias Utility.Eq{Equal = function bool(int,int); NotEqual = function bool(int,int);}";
+            {
+                NativeXConceptDeclaration d = parser(d1);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXConceptDeclaration d = parser(d2);
+                vd_common(d);
+                vd2(d);
+            }
+            {
+                NativeXConceptDeclaration d = parser(g1 + d1);
+                vg1(d);
+                vd_common(d);
+                vd1(d);
+            }
+            {
+                NativeXConceptDeclaration d = parser(g2 + d2);
+                vg2(d);
+                vd_common(d);
+                vd2(d);
+            }
         }
 
         [TestMethod]
