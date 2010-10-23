@@ -52,6 +52,7 @@
     <Compile Include="NativeXColorizer.Configuration.cs" />
     <Compile Include="NativeXColorizer.Generated.cs" />
     <Compile Include="NativeXControlPanel.cs" />
+    <Compile Include="NativeXTokenizer.Configuration.cs" />
     <Compile Include="NativeXTokenizer.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTree\NativeXDeclaration.cs" />

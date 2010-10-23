@@ -51,6 +51,10 @@ namespace Developer.LanguageProvider
             }
         }
 
+        protected virtual void Inject(ref CodeToken token, int finalState)
+        {
+        }
+
         public List<CodeToken> Tokenize(char[] input)
         {
             List<CodeToken> tokens = new List<CodeToken>();
@@ -59,8 +63,9 @@ namespace Developer.LanguageProvider
             TextPosition currentPosition = new TextPosition(0, 0);
             int startIndex = 0;
             int endIndex = 0;
-            int currentState = 0;
             int endId = -1;
+            int endState = -1;
+            int currentState = 0;
 
             int length = input.Length;
             for (int i = 0; i < length; i++)
@@ -94,6 +99,7 @@ namespace Developer.LanguageProvider
                     token.Start = startPosition;
                     token.End = endPosition;
                     token.Value = new string(input, startIndex, endIndex - startIndex);
+                    Inject(ref token, -1);
                     tokens.Add(token);
 
                     startPosition = endPosition;
@@ -101,6 +107,7 @@ namespace Developer.LanguageProvider
                     startIndex = endIndex;
                     currentState = 0;
                     endId = -1;
+                    endState = -1;
                     i = startIndex - 1;
                 }
                 else
@@ -111,6 +118,7 @@ namespace Developer.LanguageProvider
                         endPosition = currentPosition;
                         endIndex = i + 1;
                         endId = stateTokenId;
+                        endState = currentState;
                     }
                 }
             }
@@ -120,6 +128,7 @@ namespace Developer.LanguageProvider
                 token.Start = startPosition;
                 token.End = currentPosition;
                 token.Value = new string(input, startIndex, length - startIndex);
+                Inject(ref token, -1);
                 tokens.Add(token);
             }
 

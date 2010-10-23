@@ -42,7 +42,7 @@ namespace Developer.LanguageServices.NativeX
 
         private bool IsValidId(string token)
         {
-            return Array.BinarySearch(keywords, token) >= 0;
+            return Array.BinarySearch(Keywords, token) >= 0;
         }
 
         private bool IsValidNativeId(string token)
@@ -50,7 +50,7 @@ namespace Developer.LanguageServices.NativeX
             return false;
         }
 
-        private static string[] keywords = new string[]{
+        internal static string[] Keywords = new string[]{
 			"true"
 			, "false"
 			, "null"
