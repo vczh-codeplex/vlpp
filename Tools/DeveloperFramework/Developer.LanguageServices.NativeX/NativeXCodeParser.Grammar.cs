@@ -12,6 +12,7 @@ namespace Developer.LanguageServices.NativeX
         public static string Build()
         {
             var ID = id("Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken");
+            var TYPE_KEYWORD = id("Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken");
             var STRING = id("Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken");
             var NUMBER = id("Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken");
 
@@ -337,7 +338,7 @@ namespace Developer.LanguageServices.NativeX
             }
             {
                 REFERENCE_TYPE.Infer(
-                    ID["ReferencedName"]
+                    (ID["ReferencedName"] | TYPE_KEYWORD["ReferencedName"])
                     );
 
                 FUNCTION_TYPE.Infer(

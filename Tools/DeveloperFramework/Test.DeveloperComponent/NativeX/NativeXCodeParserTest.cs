@@ -23,6 +23,8 @@ namespace Test.DeveloperComponent.NativeX
                     || t.Id == NativeXTokenizer.NumberToken
                     || t.Id == NativeXTokenizer.OperatorToken
                     || t.Id == NativeXTokenizer.StringToken
+                    || t.Id == NativeXTokenizer.NormalKeywordToken
+                    || t.Id == NativeXTokenizer.TypeKeywordToken
                     )
                 .ToList();
             int currentToken = 0;

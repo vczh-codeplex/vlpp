@@ -1865,22 +1865,66 @@ namespace Developer.LanguageServices.NativeX
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
             System.String ReferencedNameMember0 = default(System.String);
             {
-                Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
-                int currentIndex1 = currentToken;
+                int currentIndex1 = -1;
+                currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
+                    System.String ReferencedNameMember1 = default(System.String);
                     {
-                        result1 = tokens[currentIndex1];
-                        currentIndex1++;
-                        parseSuccess = true;
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ReferencedNameMember1 = result2.Value;
+                        }
                     }
+                    ReferencedNameMember0 = ReferencedNameMember1;
                 }
                 if (parseSuccess)
                 {
                     currentToken = currentIndex1;
-                    ReferencedNameMember0 = result1.Value;
+                    goto LABEL_SUCCESS_0;
                 }
+                currentIndex1 = currentToken;
+                {
+                    System.String ReferencedNameMember1 = default(System.String);
+                    {
+                        Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                        int currentIndex2 = currentIndex1;
+                        {
+                            parseSuccess = false;
+                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken)
+                            {
+                                result2 = tokens[currentIndex2];
+                                currentIndex2++;
+                                parseSuccess = true;
+                            }
+                        }
+                        if (parseSuccess)
+                        {
+                            currentIndex1 = currentIndex2;
+                            ReferencedNameMember1 = result2.Value;
+                        }
+                    }
+                    ReferencedNameMember0 = ReferencedNameMember1;
+                }
+                if (parseSuccess)
+                {
+                    currentToken = currentIndex1;
+                    goto LABEL_SUCCESS_0;
+                }
+                goto LABEL_FAIL_1;
+            LABEL_SUCCESS_0: ;
+            LABEL_FAIL_1: ;
             }
             if (parseSuccess)
             {
