@@ -11,18 +11,6 @@ namespace Developer.LanguageServices.NativeX
         public const int NormalKeywordToken = ColorizerCustomTokenStart + 0;
         public const int TypeKeywordToken = ColorizerCustomTokenStart + 1;
 
-        private void InjectNativeId(ref CodeToken token)
-        {
-            if (Array.BinarySearch(normalKeywords, token.Value) >= 0)
-            {
-                token.Id = NormalKeywordToken;
-            }
-            else if (Array.BinarySearch(typedKeywords, token.Value) >= 0)
-            {
-                token.Id = TypeKeywordToken;
-            }
-        }
-
         private void InjectId(ref CodeToken token)
         {
             if (Array.BinarySearch(normalKeywords, token.Value) >= 0)

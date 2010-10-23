@@ -63,10 +63,6 @@ namespace Developer.LanguageServices.NativeX
                     // You should write your own InjectId implementation.
                     InjectId(ref token);
                     break;
-                case NativeIdStateId:
-                    // You should write your own InjectNativeId implementation.
-                    InjectNativeId(ref token);
-                    break;
             }
         }
 
