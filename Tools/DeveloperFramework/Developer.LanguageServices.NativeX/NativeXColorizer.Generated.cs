@@ -131,10 +131,6 @@ namespace Developer.LanguageServices.NativeX
                             // You should write your own IsValidId implementation.
                             color = IsValidId(new string(items, itemStart, Math.Min(i, length) - itemStart)) ? stateColors[lastFinalState] : NormalColorId;
                             break;
-                        case NativeIdStateId:
-                            // You should write your own IsValidNativeId implementation.
-                            color = IsValidNativeId(new string(items, itemStart, Math.Min(i, length) - itemStart)) ? stateColors[lastFinalState] : NormalColorId;
-                            break;
                     }
                     for (int j = itemStart; j < i; j++)
                     {

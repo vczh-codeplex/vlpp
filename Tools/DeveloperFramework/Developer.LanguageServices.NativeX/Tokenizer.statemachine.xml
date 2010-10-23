@@ -2,7 +2,7 @@
 <ShapeManager>
   <StateShape Name="Start" Color="" X="798" Y="659" R="32" Type="Start" />
   <StateShape Name="Id*" Color="Id" X="1040" Y="215" R="32" Type="Finish" />
-  <StateShape Name="NativeId*" Color="Id" X="1200" Y="215" R="32" Type="Finish" />
+  <StateShape Name="NativeId" Color="Id" X="1200" Y="215" R="32" Type="Finish" />
   <StateShape Name="NativeIdStart" Color="" X="983" Y="84" R="32" Type="Normal" />
   <StateShape Name="NativeIdIn" Color="" X="1134" Y="94" R="32" Type="Normal" />
   <StateShape Name="NativeIdEscaping" Color="" X="1303" Y="98" R="32" Type="Normal" />

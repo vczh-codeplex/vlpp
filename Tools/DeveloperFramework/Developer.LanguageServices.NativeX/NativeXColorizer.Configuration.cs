@@ -45,11 +45,6 @@ namespace Developer.LanguageServices.NativeX
             return Array.BinarySearch(keywords, token) >= 0;
         }
 
-        private bool IsValidNativeId(string token)
-        {
-            return false;
-        }
-
         private static string[] keywords = new string[]{
 			"true"
 			, "false"
