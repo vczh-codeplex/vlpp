@@ -99,7 +99,7 @@ namespace Developer.LanguageProvider
                     token.Start = startPosition;
                     token.End = endPosition;
                     token.Value = new string(input, startIndex, endIndex - startIndex);
-                    Inject(ref token, -1);
+                    Inject(ref token, endState);
                     tokens.Add(token);
 
                     startPosition = endPosition;
