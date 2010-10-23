@@ -12,6 +12,7 @@ namespace Tools.TokenizerBuilder
         public static string GenerateCSharpCode(ShapeManager manager, string namespaceName, string className)
         {
             string[] colorIds = null;
+            bool[] partialStates = null;
             string[] stateIds = null;
             int[] charset = null;
             int[,] transitions = null;
@@ -42,6 +43,9 @@ namespace Tools.TokenizerBuilder
                 stateIds = states
                     .Select(s => s.Name)
                     .ToArray();
+
+                partialStates = stateIds.Select(c => c.EndsWith("*")).ToArray();
+                stateIds = stateIds.Select(s => s.EndsWith("*") ? s.Substring(0, s.Length - 1) : s).ToArray();
 
                 charset = CodeGeneratorHelper.MergeCharset(arrows.Select(a => CodeGeneratorHelper.GetCharsetFromArrow(a.Name)).ToArray());
 
@@ -83,10 +87,10 @@ namespace Tools.TokenizerBuilder
                     }
                 }
             }
-            return GenerateCSharpCodeInternal(namespaceName, className, colorIds, stateIds, charset, transitions, finalStateTokenIds);
+            return GenerateCSharpCodeInternal(namespaceName, className, colorIds, stateIds, partialStates, charset, transitions, finalStateTokenIds);
         }
 
-        private static string GenerateCSharpCodeInternal(string namespaceName, string className, string[] colorIds, string[] stateIds, int[] charset, int[,] transitions, int[] finalStateTokenIds)
+        private static string GenerateCSharpCodeInternal(string namespaceName, string className, string[] colorIds, string[] stateIds, bool[] partialState, int[] charset, int[,] transitions, int[] finalStateTokenIds)
         {
             StringBuilder builder = new StringBuilder();
             // header
@@ -106,6 +110,7 @@ namespace Tools.TokenizerBuilder
             {
                 builder.AppendLine("        public const int " + colorIds[i] + "Token = " + i.ToString() + ";");
             }
+            builder.AppendLine("        public const int ColorizerCustomTokenStart = " + colorIds.Length.ToString() + ";");
             builder.AppendLine();
 
             // state ids
@@ -114,6 +119,27 @@ namespace Tools.TokenizerBuilder
                 builder.AppendLine("        private const int " + stateIds[i] + "StateId = " + i.ToString() + ";");
             }
             builder.AppendLine();
+
+            if (partialState.Any(s => s))
+            {
+                builder.AppendLine("        protected override void Inject(ref CodeToken token, int finalState)");
+                builder.AppendLine("        {");
+                builder.AppendLine("            switch (finalState)");
+                builder.AppendLine("            {");
+                for (int i = 0; i < partialState.Length; i++)
+                {
+                    if (partialState[i])
+                    {
+                        builder.AppendLine("                case " + stateIds[i] + "StateId:");
+                        builder.AppendLine("                    // You should write your own Inject" + stateIds[i] + " implementation.");
+                        builder.AppendLine("                    Inject" + stateIds[i] + "(ref token);");
+                        builder.AppendLine("                    break;");
+                    }
+                }
+                builder.AppendLine("            }");
+                builder.AppendLine("        }");
+                builder.AppendLine();
+            }
 
             // state machine
             builder.AppendLine("        public " + className + "()");

@@ -13,6 +13,7 @@ namespace Developer.LanguageServices.NativeX
         public const int NumberToken = 2;
         public const int OperatorToken = 3;
         public const int CommentToken = 4;
+        public const int ColorizerCustomTokenStart = 5;
 
         private const int StartStateId = 0;
         private const int IdStateId = 1;
@@ -53,6 +54,21 @@ namespace Developer.LanguageServices.NativeX
         private const int Op_Double2StateId = 36;
         private const int Op_OrStateId = 37;
         private const int Op_XorStateId = 38;
+
+        protected override void Inject(ref CodeToken token, int finalState)
+        {
+            switch (finalState)
+            {
+                case IdStateId:
+                    // You should write your own InjectId implementation.
+                    InjectId(ref token);
+                    break;
+                case NativeIdStateId:
+                    // You should write your own InjectNativeId implementation.
+                    InjectNativeId(ref token);
+                    break;
+            }
+        }
 
         public NativeXTokenizer()
         {
