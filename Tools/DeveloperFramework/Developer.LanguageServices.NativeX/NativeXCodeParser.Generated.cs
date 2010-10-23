@@ -6,7 +6,7 @@ using Developer.LanguageProvider;
 
 namespace Developer.LanguageServices.NativeX
 {
-    public static class NativeXCodeParser
+    public static partial class NativeXCodeParser
     {
         public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXUnit ParseUnit(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
         {
