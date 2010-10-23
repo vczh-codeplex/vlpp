@@ -18,15 +18,7 @@ namespace Test.DeveloperComponent.NativeX
         private T Parse<T>(string input, ParserMethod<T> parser)
             where T : NativeXNode
         {
-            List<CodeToken> tokens = new NativeXTokenizer().Tokenize(input.ToCharArray())
-                .Where(t => t.Id == NativeXTokenizer.IdToken
-                    || t.Id == NativeXTokenizer.NumberToken
-                    || t.Id == NativeXTokenizer.OperatorToken
-                    || t.Id == NativeXTokenizer.StringToken
-                    || t.Id == NativeXTokenizer.NormalKeywordToken
-                    || t.Id == NativeXTokenizer.TypeKeywordToken
-                    )
-                .ToList();
+            List<CodeToken> tokens = NativeXCodeParser.Tokenize(input.ToCharArray());
             int currentToken = 0;
             bool parseSuccess = false;
             T result = parser(tokens, ref currentToken, ref parseSuccess);

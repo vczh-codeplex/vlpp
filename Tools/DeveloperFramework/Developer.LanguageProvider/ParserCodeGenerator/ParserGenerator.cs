@@ -20,7 +20,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             sb.AppendLine();
             sb.AppendLine("namespace " + namespaceName);
             sb.AppendLine("{");
-            sb.AppendLine("    public static class " + className);
+            sb.AppendLine("    public static partial class " + className);
             sb.AppendLine("    {");
             foreach (RuleNode rule in rules)
             {

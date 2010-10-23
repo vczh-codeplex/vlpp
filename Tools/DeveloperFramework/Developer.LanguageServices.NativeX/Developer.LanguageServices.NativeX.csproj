@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NativeXCodeAnalyzer.cs" />
+    <Compile Include="NativeXCodeParser.Configuration.cs" />
     <Compile Include="NativeXCodeParser.Generated.cs" />
     <Compile Include="NativeXCodeParser.Grammar.cs" />
     <Compile Include="NativeXColorizer.Configuration.cs" />
@@ -73,8 +74,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Colorizer.statemachine.xml" />
-    <Content Include="Tokenizer.statemachine.xml" />
+    <Content Include="NativeXColorizer.Grammar.statemachine.xml" />
+    <Content Include="NativeXTokenizer.Grammar.statemachine.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
