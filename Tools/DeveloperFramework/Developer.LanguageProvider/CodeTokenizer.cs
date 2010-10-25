@@ -51,6 +51,41 @@ namespace Developer.LanguageProvider
             }
         }
 
+        public static CodeToken ParseToken(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess, int id)
+        {
+            parseSuccess = false;
+            if (currentToken < tokens.Count)
+            {
+                CodeToken result = tokens[currentToken];
+                if (result.Id == id)
+                {
+                    currentToken++;
+                    parseSuccess = true;
+                    return result;
+                }
+            }
+            return default(CodeToken);
+        }
+
+        public static CodeToken ParseToken(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess, params string[] values)
+        {
+            parseSuccess = false;
+            if (currentToken < tokens.Count)
+            {
+                CodeToken result = tokens[currentToken];
+                foreach (string value in values)
+                {
+                    if (result.Value == value)
+                    {
+                        currentToken++;
+                        parseSuccess = true;
+                        return result;
+                    }
+                }
+            }
+            return default(CodeToken);
+        }
+
         protected virtual void Inject(ref CodeToken token, int finalState)
         {
         }

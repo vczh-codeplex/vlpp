@@ -19,12 +19,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "unit"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "unit");
                 }
                 if (parseSuccess)
                 {
@@ -40,13 +35,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -65,12 +54,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -91,12 +75,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "uses"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "uses");
                                 }
                                 if (parseSuccess)
                                 {
@@ -131,12 +110,7 @@ namespace Developer.LanguageServices.NativeX
                                                 {
                                                     int currentIndexCopy5 = currentIndex4;
                                                     {
-                                                        parseSuccess = false;
-                                                        if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == ","))
-                                                        {
-                                                            currentIndex5++;
-                                                            parseSuccess = true;
-                                                        }
+                                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, ",");
                                                     }
                                                     if (parseSuccess)
                                                     {
@@ -182,12 +156,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_1;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ";"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ";");
                                 }
                                 if (parseSuccess)
                                 {
@@ -301,13 +270,7 @@ namespace Developer.LanguageServices.NativeX
                 Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                    {
-                        result1 = tokens[currentIndex1];
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                 }
                 if (parseSuccess)
                 {
@@ -399,12 +362,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "generic"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "generic");
                 }
                 if (parseSuccess)
                 {
@@ -415,12 +373,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "<");
                 }
                 if (parseSuccess)
                 {
@@ -455,12 +408,7 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     int currentIndexCopy3 = currentIndex2;
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
+                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                                     }
                                     if (parseSuccess)
                                     {
@@ -506,12 +454,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ">");
                 }
                 if (parseSuccess)
                 {
@@ -532,12 +475,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "where"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "where");
                                 }
                                 if (parseSuccess)
                                 {
@@ -572,12 +510,7 @@ namespace Developer.LanguageServices.NativeX
                                                 {
                                                     int currentIndexCopy5 = currentIndex4;
                                                     {
-                                                        parseSuccess = false;
-                                                        if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == ","))
-                                                        {
-                                                            currentIndex5++;
-                                                            parseSuccess = true;
-                                                        }
+                                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, ",");
                                                     }
                                                     if (parseSuccess)
                                                     {
@@ -690,13 +623,7 @@ namespace Developer.LanguageServices.NativeX
                 Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                    {
-                        result1 = tokens[currentIndex1];
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                 }
                 if (parseSuccess)
                 {
@@ -729,13 +656,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -754,12 +675,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ":"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ":");
                 }
                 if (parseSuccess)
                 {
@@ -775,13 +691,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -983,12 +893,7 @@ namespace Developer.LanguageServices.NativeX
                             {
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "foreign"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "foreign");
                                 }
                                 if (parseSuccess)
                                 {
@@ -1015,12 +920,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "function"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "function");
                 }
                 if (parseSuccess)
                 {
@@ -1061,13 +961,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -1086,12 +980,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -1126,12 +1015,7 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     int currentIndexCopy3 = currentIndex2;
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
+                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                                     }
                                     if (parseSuccess)
                                     {
@@ -1177,12 +1061,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -1236,12 +1115,7 @@ namespace Developer.LanguageServices.NativeX
                         int currentIndex2 = -1;
                         currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == ";"))
-                            {
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, ";");
                         }
                         if (parseSuccess)
                         {
@@ -1329,12 +1203,7 @@ namespace Developer.LanguageServices.NativeX
                         {
                             {
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "*"))
-                                    {
-                                        currentIndex2++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, "*");
                                 }
                                 if (parseSuccess)
                                 {
@@ -1355,12 +1224,7 @@ namespace Developer.LanguageServices.NativeX
                                         int currentIndexCopy4 = currentIndex2;
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "["))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "[");
                                         }
                                         if (parseSuccess)
                                         {
@@ -1396,12 +1260,7 @@ namespace Developer.LanguageServices.NativeX
                                             goto LABEL_1;
                                         }
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "]"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "]");
                                         }
                                         if (parseSuccess)
                                         {
@@ -1543,12 +1402,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "function"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "function");
                 }
                 if (parseSuccess)
                 {
@@ -1584,12 +1438,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -1624,12 +1473,7 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     int currentIndexCopy3 = currentIndex2;
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
+                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                                     }
                                     if (parseSuccess)
                                     {
@@ -1675,12 +1519,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -1739,12 +1578,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "<");
                 }
                 if (parseSuccess)
                 {
@@ -1779,12 +1613,7 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     int currentIndexCopy3 = currentIndex2;
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
+                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                                     }
                                     if (parseSuccess)
                                     {
@@ -1830,12 +1659,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ">");
                 }
                 if (parseSuccess)
                 {
@@ -1873,13 +1697,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -1901,13 +1719,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken);
                         }
                         if (parseSuccess)
                         {
@@ -1950,13 +1762,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken);
                         }
                         if (parseSuccess)
                         {
@@ -1978,13 +1784,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken);
                         }
                         if (parseSuccess)
                         {
@@ -2006,13 +1806,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "true" || tokens[currentIndex2].Value == "false" || tokens[currentIndex2].Value == "null"))
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, "true", "false", "null");
                         }
                         if (parseSuccess)
                         {
@@ -2081,13 +1875,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -2129,12 +1917,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "alias"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "alias");
                 }
                 if (parseSuccess)
                 {
@@ -2150,13 +1933,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -2175,12 +1952,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "."))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ".");
                 }
                 if (parseSuccess)
                 {
@@ -2196,13 +1968,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -2553,12 +2319,7 @@ namespace Developer.LanguageServices.NativeX
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXEmptyStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXEmptyStatement);
-            parseSuccess = false;
-            if (currentToken < tokens.Count && (tokens[currentToken].Value == ";"))
-            {
-                currentToken++;
-                parseSuccess = true;
-            }
+            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentToken, ref parseSuccess, ";");
             if (parseSuccess)
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXEmptyStatement>();
@@ -2579,12 +2340,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "variable"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "variable");
                 }
                 if (parseSuccess)
                 {
@@ -2625,13 +2381,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -2660,12 +2410,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "="))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "=");
                                 }
                                 if (parseSuccess)
                                 {
@@ -2722,12 +2467,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -2816,13 +2556,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "+=" || tokens[currentIndex5].Value == "-=" || tokens[currentIndex5].Value == "*=" || tokens[currentIndex5].Value == "/=" || tokens[currentIndex5].Value == "%=" || tokens[currentIndex5].Value == "<<=" || tokens[currentIndex5].Value == ">>=" || tokens[currentIndex5].Value == "&=" || tokens[currentIndex5].Value == "/=" || tokens[currentIndex5].Value == "&&=" || tokens[currentIndex5].Value == "||=" || tokens[currentIndex5].Value == "="))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "=");
                                             }
                                             if (parseSuccess)
                                             {
@@ -2944,13 +2678,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "||"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "||");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3072,13 +2800,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "&&"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "&&");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3200,13 +2922,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "|"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "|");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3328,13 +3044,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "^"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "^");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3456,13 +3166,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "&"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "&");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3584,13 +3288,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "==" || tokens[currentIndex5].Value == "!="))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "==", "!=");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3712,13 +3410,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "<" || tokens[currentIndex5].Value == "<=" || tokens[currentIndex5].Value == ">" || tokens[currentIndex5].Value == ">="))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "<", "<=", ">", ">=");
                                             }
                                             if (parseSuccess)
                                             {
@@ -3848,12 +3540,7 @@ namespace Developer.LanguageServices.NativeX
                                                             int currentIndexCopy7 = currentIndex6;
                                                             int currentIndex7 = currentIndex6;
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == "<"))
-                                                                {
-                                                                    currentIndex7++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex7, ref parseSuccess, "<");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -3864,12 +3551,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_4;
                                                             }
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == "<"))
-                                                                {
-                                                                    currentIndex7++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex7, ref parseSuccess, "<");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -3906,12 +3588,7 @@ namespace Developer.LanguageServices.NativeX
                                                             int currentIndexCopy7 = currentIndex6;
                                                             int currentIndex7 = currentIndex6;
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == ">"))
-                                                                {
-                                                                    currentIndex7++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex7, ref parseSuccess, ">");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -3922,12 +3599,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_5;
                                                             }
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex7 < tokens.Count && (tokens[currentIndex7].Value == ">"))
-                                                                {
-                                                                    currentIndex7++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex7, ref parseSuccess, ">");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -4072,13 +3744,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "+" || tokens[currentIndex5].Value == "-"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "+", "-");
                                             }
                                             if (parseSuccess)
                                             {
@@ -4200,13 +3866,7 @@ namespace Developer.LanguageServices.NativeX
                                             Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                             int currentIndex5 = currentIndex4;
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex5 < tokens.Count && (tokens[currentIndex5].Value == "*" || tokens[currentIndex5].Value == "/" || tokens[currentIndex5].Value == "%"))
-                                                {
-                                                    result5 = tokens[currentIndex5];
-                                                    currentIndex5++;
-                                                    parseSuccess = true;
-                                                }
+                                                result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "*", "/", "%");
                                             }
                                             if (parseSuccess)
                                             {
@@ -4385,12 +4045,7 @@ namespace Developer.LanguageServices.NativeX
                                         int currentIndexCopy4 = currentIndex2;
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "["))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "[");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4426,12 +4081,7 @@ namespace Developer.LanguageServices.NativeX
                                             goto LABEL_1;
                                         }
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "]"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "]");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4466,12 +4116,7 @@ namespace Developer.LanguageServices.NativeX
                                         int currentIndexCopy4 = currentIndex2;
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "("))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "(");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4506,12 +4151,7 @@ namespace Developer.LanguageServices.NativeX
                                                         {
                                                             int currentIndexCopy6 = currentIndex5;
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex6 < tokens.Count && (tokens[currentIndex6].Value == ","))
-                                                                {
-                                                                    currentIndex6++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ",");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -4557,12 +4197,7 @@ namespace Developer.LanguageServices.NativeX
                                             goto LABEL_2;
                                         }
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == ")"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, ")");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4597,12 +4232,7 @@ namespace Developer.LanguageServices.NativeX
                                         int currentIndexCopy4 = currentIndex2;
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "."))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, ".");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4618,13 +4248,7 @@ namespace Developer.LanguageServices.NativeX
                                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                                 int currentIndex5 = currentIndex4;
                                                 {
-                                                    parseSuccess = false;
-                                                    if (currentIndex5 < tokens.Count && tokens[currentIndex5].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                                                    {
-                                                        result5 = tokens[currentIndex5];
-                                                        currentIndex5++;
-                                                        parseSuccess = true;
-                                                    }
+                                                    result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                                                 }
                                                 if (parseSuccess)
                                                 {
@@ -4667,12 +4291,7 @@ namespace Developer.LanguageServices.NativeX
                                         int currentIndexCopy4 = currentIndex2;
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "->"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "->");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4688,13 +4307,7 @@ namespace Developer.LanguageServices.NativeX
                                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                                 int currentIndex5 = currentIndex4;
                                                 {
-                                                    parseSuccess = false;
-                                                    if (currentIndex5 < tokens.Count && tokens[currentIndex5].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                                                    {
-                                                        result5 = tokens[currentIndex5];
-                                                        currentIndex5++;
-                                                        parseSuccess = true;
-                                                    }
+                                                    result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                                                 }
                                                 if (parseSuccess)
                                                 {
@@ -4737,13 +4350,7 @@ namespace Developer.LanguageServices.NativeX
                                         Developer.LanguageProvider.CodeToken result4 = default(Developer.LanguageProvider.CodeToken);
                                         int currentIndex4 = currentIndex2;
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == "++" || tokens[currentIndex4].Value == "--"))
-                                            {
-                                                result4 = tokens[currentIndex4];
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            result4 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "++", "--");
                                         }
                                         if (parseSuccess)
                                         {
@@ -4905,12 +4512,7 @@ namespace Developer.LanguageServices.NativeX
                         int currentIndexCopy2 = currentIndex1;
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "("))
-                            {
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, "(");
                         }
                         if (parseSuccess)
                         {
@@ -4944,12 +4546,7 @@ namespace Developer.LanguageServices.NativeX
                             goto LABEL_2;
                         }
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == ")"))
-                            {
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, ")");
                         }
                         if (parseSuccess)
                         {
@@ -4987,12 +4584,7 @@ namespace Developer.LanguageServices.NativeX
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionResultExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionResultExpression);
-            parseSuccess = false;
-            if (currentToken < tokens.Count && (tokens[currentToken].Value == "result"))
-            {
-                currentToken++;
-                parseSuccess = true;
-            }
+            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentToken, ref parseSuccess, "result");
             if (parseSuccess)
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXFunctionResultExpression>();
@@ -5006,12 +4598,7 @@ namespace Developer.LanguageServices.NativeX
         {
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXExceptionExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXExceptionExpression);
-            parseSuccess = false;
-            if (currentToken < tokens.Count && (tokens[currentToken].Value == "exception"))
-            {
-                currentToken++;
-                parseSuccess = true;
-            }
+            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentToken, ref parseSuccess, "exception");
             if (parseSuccess)
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXExceptionExpression>();
@@ -5031,12 +4618,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "cast"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "cast");
                 }
                 if (parseSuccess)
                 {
@@ -5047,12 +4629,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "<");
                 }
                 if (parseSuccess)
                 {
@@ -5088,12 +4665,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ">");
                 }
                 if (parseSuccess)
                 {
@@ -5104,12 +4676,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -5145,12 +4712,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -5274,13 +4836,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -5299,12 +4855,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "<");
                 }
                 if (parseSuccess)
                 {
@@ -5340,12 +4891,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ">");
                 }
                 if (parseSuccess)
                 {
@@ -5356,12 +4902,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ":"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ":");
                 }
                 if (parseSuccess)
                 {
@@ -5372,12 +4913,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ":"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ":");
                 }
                 if (parseSuccess)
                 {
@@ -5393,13 +4929,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -5447,13 +4977,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -5472,12 +4996,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "<"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "<");
                 }
                 if (parseSuccess)
                 {
@@ -5512,12 +5031,7 @@ namespace Developer.LanguageServices.NativeX
                                 {
                                     int currentIndexCopy3 = currentIndex2;
                                     {
-                                        parseSuccess = false;
-                                        if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ","))
-                                        {
-                                            currentIndex3++;
-                                            parseSuccess = true;
-                                        }
+                                        Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                                     }
                                     if (parseSuccess)
                                     {
@@ -5563,12 +5077,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ">"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ">");
                 }
                 if (parseSuccess)
                 {
@@ -5601,13 +5110,7 @@ namespace Developer.LanguageServices.NativeX
                 Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && tokens[currentIndex1].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                    {
-                        result1 = tokens[currentIndex1];
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                 }
                 if (parseSuccess)
                 {
@@ -5640,13 +5143,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == "++" || tokens[currentIndex2].Value == "--" || tokens[currentIndex2].Value == "&" || tokens[currentIndex2].Value == "*" || tokens[currentIndex2].Value == "-" || tokens[currentIndex2].Value == "!" || tokens[currentIndex2].Value == "~"))
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, "++", "--", "&", "*", "-", "!", "~");
                         }
                         if (parseSuccess)
                         {
@@ -5714,12 +5211,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "if"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "if");
                 }
                 if (parseSuccess)
                 {
@@ -5730,12 +5222,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -5771,12 +5258,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -5822,12 +5304,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "else"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "else");
                                 }
                                 if (parseSuccess)
                                 {
@@ -5906,12 +5383,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "break"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "break");
                 }
                 if (parseSuccess)
                 {
@@ -5922,12 +5394,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -5957,12 +5424,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "continue"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "continue");
                 }
                 if (parseSuccess)
                 {
@@ -5973,12 +5435,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -6008,12 +5465,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "exit"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "exit");
                 }
                 if (parseSuccess)
                 {
@@ -6024,12 +5476,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -6060,12 +5507,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "{"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "{");
                 }
                 if (parseSuccess)
                 {
@@ -6135,12 +5577,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "}"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "}");
                 }
                 if (parseSuccess)
                 {
@@ -6173,12 +5610,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "do"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "do");
                 }
                 if (parseSuccess)
                 {
@@ -6214,12 +5646,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "while"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "while");
                 }
                 if (parseSuccess)
                 {
@@ -6230,12 +5657,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -6271,12 +5693,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -6287,12 +5704,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -6325,12 +5737,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "loop"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "loop");
                 }
                 if (parseSuccess)
                 {
@@ -6389,12 +5796,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "while"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "while");
                 }
                 if (parseSuccess)
                 {
@@ -6405,12 +5807,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -6446,12 +5843,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -6497,12 +5889,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "when"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "when");
                                 }
                                 if (parseSuccess)
                                 {
@@ -6513,12 +5900,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_1;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "("))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "(");
                                 }
                                 if (parseSuccess)
                                 {
@@ -6554,12 +5936,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_1;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ")"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ")");
                                 }
                                 if (parseSuccess)
                                 {
@@ -6570,12 +5947,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_1;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == ";"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ";");
                                 }
                                 if (parseSuccess)
                                 {
@@ -6633,12 +6005,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "for"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "for");
                 }
                 if (parseSuccess)
                 {
@@ -6708,12 +6075,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "when"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "when");
                 }
                 if (parseSuccess)
                 {
@@ -6724,12 +6086,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "("))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "(");
                 }
                 if (parseSuccess)
                 {
@@ -6765,12 +6122,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ")"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ")");
                 }
                 if (parseSuccess)
                 {
@@ -6781,12 +6133,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "with"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "with");
                 }
                 if (parseSuccess)
                 {
@@ -6856,12 +6203,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "do"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "do");
                 }
                 if (parseSuccess)
                 {
@@ -6922,12 +6264,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "try"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "try");
                 }
                 if (parseSuccess)
                 {
@@ -6963,12 +6300,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "catch"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "catch");
                 }
                 if (parseSuccess)
                 {
@@ -7026,12 +6358,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "throw"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "throw");
                 }
                 if (parseSuccess)
                 {
@@ -7080,12 +6407,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -7142,12 +6464,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -7180,12 +6497,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "type"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "type");
                 }
                 if (parseSuccess)
                 {
@@ -7201,13 +6513,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -7226,12 +6532,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "="))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "=");
                 }
                 if (parseSuccess)
                 {
@@ -7267,12 +6568,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -7308,12 +6604,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "variable"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "variable");
                 }
                 if (parseSuccess)
                 {
@@ -7354,13 +6645,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -7427,12 +6712,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "="))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "=");
                                 }
                                 if (parseSuccess)
                                 {
@@ -7489,12 +6769,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ";"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ";");
                 }
                 if (parseSuccess)
                 {
@@ -7531,12 +6806,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "structure"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "structure");
                 }
                 if (parseSuccess)
                 {
@@ -7552,13 +6822,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -7583,12 +6847,7 @@ namespace Developer.LanguageServices.NativeX
                         int currentIndex2 = -1;
                         currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == ";"))
-                            {
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, ";");
                         }
                         if (parseSuccess)
                         {
@@ -7641,12 +6900,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_3;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "{"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "{");
                                 }
                                 if (parseSuccess)
                                 {
@@ -7695,12 +6949,7 @@ namespace Developer.LanguageServices.NativeX
                                                             goto LABEL_5;
                                                         }
                                                         {
-                                                            parseSuccess = false;
-                                                            if (currentIndex6 < tokens.Count && (tokens[currentIndex6].Value == ";"))
-                                                            {
-                                                                currentIndex6++;
-                                                                parseSuccess = true;
-                                                            }
+                                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ";");
                                                         }
                                                         if (parseSuccess)
                                                         {
@@ -7754,12 +7003,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_6;
                                                             }
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex6 < tokens.Count && (tokens[currentIndex6].Value == ";"))
-                                                                {
-                                                                    currentIndex6++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ";");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -7806,12 +7050,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_3;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "}"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "}");
                                 }
                                 if (parseSuccess)
                                 {
@@ -7873,12 +7112,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "instance"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "instance");
                 }
                 if (parseSuccess)
                 {
@@ -7914,12 +7148,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ":"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ":");
                 }
                 if (parseSuccess)
                 {
@@ -7935,13 +7164,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -7965,12 +7188,7 @@ namespace Developer.LanguageServices.NativeX
                         int currentIndex2 = -1;
                         currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && (tokens[currentIndex2].Value == ";"))
-                            {
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, ";");
                         }
                         if (parseSuccess)
                         {
@@ -7984,12 +7202,7 @@ namespace Developer.LanguageServices.NativeX
                                 int currentIndexCopy3 = currentIndex2;
                                 int currentIndex3 = currentIndex2;
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "{"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "{");
                                 }
                                 if (parseSuccess)
                                 {
@@ -8038,12 +7251,7 @@ namespace Developer.LanguageServices.NativeX
                                                             goto LABEL_5;
                                                         }
                                                         {
-                                                            parseSuccess = false;
-                                                            if (currentIndex6 < tokens.Count && (tokens[currentIndex6].Value == ";"))
-                                                            {
-                                                                currentIndex6++;
-                                                                parseSuccess = true;
-                                                            }
+                                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ";");
                                                         }
                                                         if (parseSuccess)
                                                         {
@@ -8097,12 +7305,7 @@ namespace Developer.LanguageServices.NativeX
                                                                 goto LABEL_6;
                                                             }
                                                             {
-                                                                parseSuccess = false;
-                                                                if (currentIndex6 < tokens.Count && (tokens[currentIndex6].Value == ";"))
-                                                                {
-                                                                    currentIndex6++;
-                                                                    parseSuccess = true;
-                                                                }
+                                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ";");
                                                             }
                                                             if (parseSuccess)
                                                             {
@@ -8149,12 +7352,7 @@ namespace Developer.LanguageServices.NativeX
                                     goto LABEL_3;
                                 }
                                 {
-                                    parseSuccess = false;
-                                    if (currentIndex3 < tokens.Count && (tokens[currentIndex3].Value == "}"))
-                                    {
-                                        currentIndex3++;
-                                        parseSuccess = true;
-                                    }
+                                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, "}");
                                 }
                                 if (parseSuccess)
                                 {
@@ -8218,13 +7416,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -8243,12 +7435,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "="))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "=");
                 }
                 if (parseSuccess)
                 {
@@ -8309,12 +7496,7 @@ namespace Developer.LanguageServices.NativeX
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "concept"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "concept");
                 }
                 if (parseSuccess)
                 {
@@ -8330,13 +7512,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -8355,12 +7531,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == ":"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, ":");
                 }
                 if (parseSuccess)
                 {
@@ -8376,13 +7547,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -8439,12 +7604,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "{"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "{");
                 }
                 if (parseSuccess)
                 {
@@ -8493,12 +7653,7 @@ namespace Developer.LanguageServices.NativeX
                                             goto LABEL_2;
                                         }
                                         {
-                                            parseSuccess = false;
-                                            if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == ";"))
-                                            {
-                                                currentIndex4++;
-                                                parseSuccess = true;
-                                            }
+                                            Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, ";");
                                         }
                                         if (parseSuccess)
                                         {
@@ -8552,12 +7707,7 @@ namespace Developer.LanguageServices.NativeX
                                                 goto LABEL_3;
                                             }
                                             {
-                                                parseSuccess = false;
-                                                if (currentIndex4 < tokens.Count && (tokens[currentIndex4].Value == ";"))
-                                                {
-                                                    currentIndex4++;
-                                                    parseSuccess = true;
-                                                }
+                                                Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, ";");
                                             }
                                             if (parseSuccess)
                                             {
@@ -8604,12 +7754,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "}"))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "}");
                 }
                 if (parseSuccess)
                 {
@@ -8650,13 +7795,7 @@ namespace Developer.LanguageServices.NativeX
                         Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                         int currentIndex2 = currentIndex1;
                         {
-                            parseSuccess = false;
-                            if (currentIndex2 < tokens.Count && tokens[currentIndex2].Id == Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken)
-                            {
-                                result2 = tokens[currentIndex2];
-                                currentIndex2++;
-                                parseSuccess = true;
-                            }
+                            result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
                         }
                         if (parseSuccess)
                         {
@@ -8675,12 +7814,7 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    parseSuccess = false;
-                    if (currentIndex1 < tokens.Count && (tokens[currentIndex1].Value == "="))
-                    {
-                        currentIndex1++;
-                        parseSuccess = true;
-                    }
+                    Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, "=");
                 }
                 if (parseSuccess)
                 {

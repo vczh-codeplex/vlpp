@@ -999,33 +999,29 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
             public void Visit(TokenNode node)
             {
-                sb.AppendLine(identation + "parseSuccess = false;");
-                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && tokens[" + this.indexVariable + "].Id == " + node.Code + ")");
-                sb.AppendLine(identation + "{");
+                string code = GetTypeFullName(typeof(CodeTokenizer)) + ".ParseToken(tokens, ref " + this.indexVariable + ", ref parseSuccess, " + node.Code + ");";
                 if (this.returnVariable != "")
                 {
-                    sb.AppendLine(identation + "    " + this.returnVariable + " = tokens[" + this.indexVariable + "];");
+                    sb.AppendLine(this.returnVariable + " = " + code);
                 }
-                sb.AppendLine(identation + "    " + this.indexVariable + "++;");
-                sb.AppendLine(identation + "    parseSuccess = true;");
-                sb.AppendLine(identation + "}");
+                else
+                {
+                    sb.AppendLine(identation + code);
+                }
             }
 
             public void Visit(TokenContentNode node)
             {
-                string condition = node.TokenValues
-                    .Select(v => "tokens[" + this.indexVariable + "].Value == \"" + v + "\"")
-                    .Aggregate((a, b) => a + " || " + b);
-                sb.AppendLine(identation + "parseSuccess = false;");
-                sb.AppendLine(identation + "if (" + this.indexVariable + " < tokens.Count && (" + condition + "))");
-                sb.AppendLine(identation + "{");
+                string condition = node.TokenValues.Select(v => ", \"" + v + "\"").Aggregate("", (a, b) => (a + b));
+                string code = GetTypeFullName(typeof(CodeTokenizer)) + ".ParseToken(tokens, ref " + this.indexVariable + ", ref parseSuccess" + condition + ");";
                 if (this.returnVariable != "")
                 {
-                    sb.AppendLine(identation + "    " + this.returnVariable + " = tokens[" + this.indexVariable + "];");
+                    sb.AppendLine(this.returnVariable + " = " + code);
                 }
-                sb.AppendLine(identation + "    " + this.indexVariable + "++;");
-                sb.AppendLine(identation + "    parseSuccess = true;");
-                sb.AppendLine(identation + "}");
+                else
+                {
+                    sb.AppendLine(identation + code);
+                }
             }
         }
     }
