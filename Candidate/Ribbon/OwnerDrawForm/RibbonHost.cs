@@ -112,9 +112,104 @@ namespace Developer.RibbonFramework
                     tab.Groups.Add(group);
                 }
                 {
-                    RibbonGroup group = new RibbonGroup();
+                    RibbonToolStripGroup group = new RibbonToolStripGroup();
                     group.Name = "段落";
                     tab.Groups.Add(group);
+                    {
+                        RibbonToolStrip tool = new RibbonToolStrip();
+                        tool.NormalLine = 0;
+                        tool.CompactLine = 0;
+                        group.ToolStrips.Add(tool);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.ItemNumber;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.ItemDot;
+                            tool.ToolItems.Add(button);
+                        }
+                    }
+                    {
+                        RibbonToolStrip tool = new RibbonToolStrip();
+                        tool.NormalLine = 0;
+                        tool.CompactLine = 0;
+                        group.ToolStrips.Add(tool);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.TabIn;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.TabOut;
+                            tool.ToolItems.Add(button);
+                        }
+                    }
+                    {
+                        RibbonToolStrip tool = new RibbonToolStrip();
+                        tool.NormalLine = 1;
+                        tool.CompactLine = 1;
+                        group.ToolStrips.Add(tool);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.AlignLeft;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.AlignCenter;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.AlignRight;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.AlignFull;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.AlignExpand;
+                            tool.ToolItems.Add(button);
+                        }
+                    }
+                    {
+                        RibbonToolStrip tool = new RibbonToolStrip();
+                        tool.NormalLine = 1;
+                        tool.CompactLine = 1;
+                        group.ToolStrips.Add(tool);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.LinePadding;
+                            tool.ToolItems.Add(button);
+                        }
+                    }
+                    {
+                        RibbonToolStrip tool = new RibbonToolStrip();
+                        tool.NormalLine = 0;
+                        tool.CompactLine = 2;
+                        group.ToolStrips.Add(tool);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.TableBorder;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.SortAscending;
+                            tool.ToolItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.Image = ToolImages.SortDescending;
+                            tool.ToolItems.Add(button);
+                        }
+                    }
                 }
                 {
                     RibbonGroup group = new RibbonGroup();

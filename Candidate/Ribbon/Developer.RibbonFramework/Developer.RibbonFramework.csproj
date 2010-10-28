@@ -70,6 +70,7 @@
     <Compile Include="RibbonElements\RibbonItemContainer.cs" />
     <Compile Include="RibbonElements\RibbonTab.cs" />
     <Compile Include="RibbonElements\RibbonTabGroup.cs" />
+    <Compile Include="RibbonElements\RibbonToolStripGroup.cs" />
     <Compile Include="ToolStripAeroForm.cs">
       <SubType>Form</SubType>
     </Compile>
