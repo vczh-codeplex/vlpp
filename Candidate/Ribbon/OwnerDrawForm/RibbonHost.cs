@@ -155,26 +155,37 @@ namespace Developer.RibbonFramework
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.AlignLeft;
+                            button.Toggled = true;
+                            button.ToggleGroup = 0;
+                            button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.AlignCenter;
+                            button.ToggleGroup = 0;
+                            button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.AlignRight;
+                            button.ToggleGroup = 0;
+                            button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.AlignFull;
+                            button.ToggleGroup = 0;
+                            button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.AlignExpand;
+                            button.ToggleGroup = 0;
+                            button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                     }
