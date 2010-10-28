@@ -66,6 +66,7 @@
     <Compile Include="RibbonElements\RibbonContainer.cs" />
     <Compile Include="RibbonElements\RibbonGroup.cs" />
     <Compile Include="RibbonElements\RibbonItem.cs" />
+    <Compile Include="RibbonElements\RibbonItemContainer.cs" />
     <Compile Include="RibbonElements\RibbonTab.cs" />
     <Compile Include="RibbonElements\RibbonTabGroup.cs" />
     <Compile Include="ToolStripAeroForm.cs">

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonGroup
+    public class RibbonGroup : RibbonItemContainer
     {
         public const int GroupPadding = 3;
         public const int GroupHeaderPadding = 3;
@@ -45,15 +45,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public virtual IEnumerable<RibbonItem> Items
-        {
-            get
-            {
-                return new RibbonItem[] { };
-            }
-        }
-
-        public virtual void Render(Graphics g, Rectangle groupBounds)
+        public override void Render(Graphics g, Rectangle groupBounds)
         {
             var settings = this.Tab.Container.Settings;
             Rectangle headerBounds = groupBounds;
@@ -67,63 +59,11 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawCarvedText(g, settings.LightText, settings.DarkText, headerBounds, this.Name, this.Tab.Container.Font);
         }
 
-        public virtual void Update(Graphics g)
+        public override void Update(Graphics g)
         {
             SizeF size = g.MeasureString(this.Name, this.Tab.Container.Font);
             this.HeaderMinWidth = (int)size.Width + 2 * GroupHeaderPadding;
             this.HeaderMinHeight = (int)size.Height + 2 * GroupHeaderPadding;
-        }
-
-        public virtual void UpdateWithSizeDecided(Graphics g)
-        {
-        }
-
-        public virtual RibbonItem GetItemFromPoint(Point location)
-        {
-            return null;
-        }
-
-        public virtual bool OnMouseDown(MouseEventArgs e)
-        {
-            RibbonItem item = GetItemFromPoint(e.Location);
-            if (item != null)
-            {
-                return item.OnMouseDown(e);
-            }
-            return false;
-        }
-
-        public virtual bool OnMouseMove(MouseEventArgs e)
-        {
-            RibbonItem item = GetItemFromPoint(e.Location);
-            bool result = false;
-            foreach (var ribbonItem in this.Items)
-            {
-                if (ribbonItem != item)
-                {
-                    result = ribbonItem.OnMouseLeave(new EventArgs()) || result;
-                }
-            }
-            if (item != null)
-            {
-                result = item.OnMouseMove(e) || result;
-            }
-            return result;
-        }
-
-        public virtual bool OnMouseUp(MouseEventArgs e)
-        {
-            RibbonItem item = GetItemFromPoint(e.Location);
-            if (item != null)
-            {
-                return item.OnMouseUp(e);
-            }
-            return false;
-        }
-
-        public virtual bool OnMouseLeave(EventArgs e)
-        {
-            return this.Items.Select(item => item.OnMouseLeave(e)).ToArray().Any();
         }
     }
 }
