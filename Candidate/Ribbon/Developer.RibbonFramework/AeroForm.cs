@@ -25,7 +25,12 @@ namespace Developer.RibbonFramework
         {
             if (this.IsAeroFullBorderControlEnabled)
             {
-                WindowsAPI.ExtendGlassIntoClientArea(this, this.AeroAreaPadding.Left, this.AeroAreaPadding.Top, this.AeroAreaPadding.Right, this.AeroAreaPadding.Bottom);
+                WindowsAPI.ExtendGlassIntoClientArea(this
+                    , this.AeroAreaPadding.Left
+                    , this.AeroAreaPadding.Top
+                    , this.AeroAreaPadding.Right
+                    , this.AeroAreaPadding.Bottom - 1   // TRICKY: Solve the flicker problem
+                    );
             }
         }
 
@@ -99,9 +104,9 @@ namespace Developer.RibbonFramework
                         if (m.WParam == (IntPtr)1)
                         {
                             WindowsAPI.NCCALCSIZE_PARAMS p = (WindowsAPI.NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(WindowsAPI.NCCALCSIZE_PARAMS));
+                            Padding padding = this.AeroAreaPadding;
+                            p.rgrc0.Bottom -= 1; // TRICKY: Solve the flicker problem
                             p.rgrc1 = p.rgrc0;
-                            p.rgrc1.Bottom = p.rgrc1.Top + this.AeroBorderPadding.Top + this.AeroBorderCaptionHeight;
-                            p.rgrc2.Bottom = p.rgrc2.Top + this.AeroBorderPadding.Top + this.AeroBorderCaptionHeight;
                             Marshal.StructureToPtr(p, m.LParam, false);
                             m.Result = (IntPtr)(WindowsAPI.WVR_REDRAW);
                         }
