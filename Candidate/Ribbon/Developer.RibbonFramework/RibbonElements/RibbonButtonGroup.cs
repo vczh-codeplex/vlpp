@@ -12,13 +12,13 @@ namespace Developer.RibbonFramework.RibbonElements
         private int[] smallWidth = null;
         private int[] smallCompactWidth = null;
 
-        public IList<RibbonItem> BigItems { get; private set; }
-        public IList<RibbonItem> SmallItems { get; private set; }
+        public IList<RibbonButtonGroupItem> BigItems { get; private set; }
+        public IList<RibbonButtonGroupItem> SmallItems { get; private set; }
 
         public RibbonButtonGroup()
         {
-            this.BigItems = new List<RibbonItem>();
-            this.SmallItems = new List<RibbonItem>();
+            this.BigItems = new List<RibbonButtonGroupItem>();
+            this.SmallItems = new List<RibbonButtonGroupItem>();
         }
 
         public override int WidthLevelCount
@@ -101,7 +101,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public Rectangle GetBigItemBounds(RibbonItem targetItem)
+        public Rectangle GetBigItemBounds(RibbonButtonGroupItem targetItem)
         {
             int index = this.BigItems.IndexOf(targetItem);
             if (index == -1)
@@ -119,7 +119,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public Rectangle GetSmallItemBounds(RibbonItem targetItem)
+        public Rectangle GetSmallItemBounds(RibbonButtonGroupItem targetItem)
         {
             int index = this.SmallItems.IndexOf(targetItem);
             if (index == -1)

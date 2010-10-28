@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonButton : RibbonItem
+    public class RibbonButton : RibbonButtonGroupItem
     {
         public const int ButtonSmallIconSize = 16;
         public const int ButtonBigIconSize = 32;
