@@ -77,7 +77,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 item.Update(g);
             }
 
-            this.bigWidth = this.BigItems.Select(item => item.GetBigSize(g)).ToArray();
+            this.bigWidth = this.BigItems.Select(item => item.GetBigWidth(g)).ToArray();
             int smallGroups = (this.SmallItems.Count + 2) / 3;
             this.smallWidth = new int[smallGroups];
             this.smallCompactWidth = new int[smallGroups];

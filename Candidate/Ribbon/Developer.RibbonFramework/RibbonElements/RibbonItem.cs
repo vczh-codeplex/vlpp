@@ -10,11 +10,12 @@ namespace Developer.RibbonFramework.RibbonElements
     public abstract class RibbonItem
     {
         public RibbonGroup Group { get; internal set; }
+        public RibbonToolStrip ToolStrip { get; internal set; }
         public RibbonItemSize ItemSize { get; internal set; }
         public Image Image { get; set; }
         public string Name { get; set; }
 
-        public abstract Size GetSize(Graphics g);
+        public abstract int GetSuggestedWidth(Graphics g);
         public abstract void Render(Graphics g, Rectangle itemBounds);
         public abstract void Update(Graphics g);
 
@@ -29,5 +30,6 @@ namespace Developer.RibbonFramework.RibbonElements
         Big,
         Small,
         SmallCompact,
+        ToolStrip,
     }
 }

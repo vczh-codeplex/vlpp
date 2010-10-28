@@ -12,6 +12,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int ButtonBigIconSize = 32;
         public const int ButtonBorder = 3;
         public const int ButtonTextPadding = 3;
+        public const int ButtonToolWidth = 23;
 
         public enum VisualState
         {
@@ -42,7 +43,7 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Toggled = false;
         }
 
-        public override int GetBigSize(Graphics g)
+        public override int GetBigWidth(Graphics g)
         {
             SizeF size = g.MeasureString(this.Name, this.Group.Tab.Container.Font);
             return Math.Max((int)size.Width + 2 * ButtonTextPadding, ButtonBigIconSize + 2 * ButtonBorder);
@@ -57,6 +58,18 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetSmallCompactWidth(Graphics g)
         {
             return ButtonSmallIconSize + 2 * ButtonBorder;
+        }
+
+        public override int GetSuggestedWidth(Graphics g)
+        {
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big: return GetBigWidth(g);
+                case RibbonItemSize.Small: return GetSmallWidth(g);
+                case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g);
+                case RibbonItemSize.ToolStrip: return ButtonToolWidth;
+                default: return 0;
+            }
         }
 
         public override void Render(Graphics g, Rectangle itemBounds)
