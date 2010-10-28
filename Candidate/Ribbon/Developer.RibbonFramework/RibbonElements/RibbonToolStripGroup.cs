@@ -109,12 +109,12 @@ namespace Developer.RibbonFramework.RibbonElements
             Rectangle groupBounds = this.Tab.GetGroupBounds(this);
             int totalHeight = groupBounds.Height - HeaderHeight - 2 * GroupBorder;
             int totalLines = this.placedToolStrips.Length;
-            int yPadding = (totalHeight - RibbonToolStrip.ToolStripHeight * totalLines) / (1 + totalLines);
+            int yPadding = Math.Max(1, (totalHeight - RibbonToolStrip.ToolStripHeight * totalLines) / (1 + totalLines));
 
             List<RibbonToolStrip> tools = this.placedToolStrips[tool.LineNumber];
             int index = tools.IndexOf(tool);
             int x = groupBounds.Left + GroupBorder + (index + 1) * GroupPadding + tools.Take(index).Select(t => t.SuggestedWidth).Sum();
-            int y = groupBounds.Top + (tool.LineNumber + 1) * yPadding + tool.LineNumber * RibbonToolStrip.ToolStripHeight;
+            int y = groupBounds.Top + GroupBorder + (tool.LineNumber + 1) * yPadding + tool.LineNumber * RibbonToolStrip.ToolStripHeight;
             int w = tool.SuggestedWidth;
             int h = RibbonToolStrip.ToolStripHeight;
             return new Rectangle(x, y, w, h);
@@ -123,8 +123,8 @@ namespace Developer.RibbonFramework.RibbonElements
 
     public class RibbonToolStrip
     {
-        public const int ToolStripHeight = 22;
-        public const int ToolStripBorder = 1;
+        public const int ToolStripHeight = 24;
+        public const int ToolStripBorder = 2;
         public const int ToolStripItemHeight = ToolStripHeight - 2 * ToolStripBorder;
 
         public RibbonToolStripGroup Group { get; internal set; }
@@ -150,10 +150,12 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void Render(Graphics g)
         {
+            var settings = this.Group.Tab.Container.Settings;
             foreach (var item in this.ToolItems)
             {
                 item.Render(g, GetItemBounds(item));
             }
+            settings.DrawCarvedBorder(g, settings.LightBorder, settings.DarkBorder, this.Group.GetToolStripBounds(this));
         }
 
         public void Update(Graphics g)
