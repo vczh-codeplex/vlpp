@@ -14,9 +14,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public Image Image { get; set; }
         public string Name { get; set; }
 
-        public abstract int GetBigSize(Graphics g);
-        public abstract int GetSmallWidth(Graphics g);
-        public abstract int GetSmallCompactWidth(Graphics g);
+        public abstract Size GetSize(Graphics g);
         public abstract void Render(Graphics g, Rectangle itemBounds);
         public abstract void Update(Graphics g);
 
