@@ -390,7 +390,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            this.Group.GlobalServices.Capture(this);
+            this.ItemContainer.GlobalServices.Capture(this);
             return UpdateVisualStyleToPressed();
         }
 
@@ -399,7 +399,7 @@ namespace Developer.RibbonFramework.RibbonElements
             HotState old = this.SplitButtonHotState;
             if (this.ButtonStyle == RibbonButtonStyle.SplitButton)
             {
-                Rectangle bounds = this.Group.GetItemBounds(this);
+                Rectangle bounds = this.ItemContainer.GetItemBounds(this);
                 if (GetMainButtonBounds(bounds).Contains(e.Location))
                 {
                     this.SplitButtonHotState = HotState.MainButton;
@@ -414,9 +414,9 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
             }
             bool result = old != this.SplitButtonHotState;
-            if (this.Group.GlobalServices.CapturedItem == this)
+            if (this.ItemContainer.GlobalServices.CapturedItem == this)
             {
-                if (this.Group.GetItemFromPoint(e.Location) == this)
+                if (this.ItemContainer.GetItemFromPoint(e.Location) == this)
                 {
                     return UpdateVisualStyleToPressed() || result;
                 }
@@ -433,8 +433,8 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            this.Group.GlobalServices.Capture(null);
-            if (this.Group.GetItemFromPoint(e.Location) == this)
+            this.ItemContainer.GlobalServices.Capture(null);
+            if (this.ItemContainer.GetItemFromPoint(e.Location) == this)
             {
                 Executed();
                 return UpdateVisualStyleToHot();
@@ -454,7 +454,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             if (this.DropDown != null)
             {
-                Rectangle bounds = this.Group.GetItemBounds(this);
+                Rectangle bounds = this.ItemContainer.GetItemBounds(this);
                 this.DropDown.Open(this, new Point(0, bounds.Height));
             }
         }
@@ -467,7 +467,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     {
                         if (!this.Toggled)
                         {
-                            foreach (var item in this.Group.Items)
+                            foreach (var item in this.ItemContainer.Items)
                             {
                                 RibbonButton button = item as RibbonButton;
                                 if (button.ButtonStyle == RibbonButtonStyle.GroupedToggleButton)
@@ -485,6 +485,10 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
                 case RibbonButtonStyle.DropDownButton:
+                    {
+                        DropDownExecuted();
+                    }
+                    break;
                 case RibbonButtonStyle.SplitButton:
                     {
                         if (this.SplitButtonHotState == HotState.DropDownButton)

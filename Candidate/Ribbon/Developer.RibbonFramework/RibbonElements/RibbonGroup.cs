@@ -68,6 +68,7 @@ namespace Developer.RibbonFramework.RibbonElements
             SizeF size = g.MeasureString(this.Name, settings.Font);
             this.HeaderMinWidth = (int)size.Width + 2 * GroupHeaderPadding;
             this.HeaderMinHeight = (int)size.Height + 2 * GroupHeaderPadding;
+            this.HeaderHeight = this.HeaderMinHeight;
         }
     }
 }

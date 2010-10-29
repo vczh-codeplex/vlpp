@@ -66,13 +66,13 @@ namespace Developer.RibbonFramework.RibbonElements
             base.Update(g, settings);
             foreach (var item in this.BigItems)
             {
-                item.Group = this;
+                item.ItemContainer = this;
                 item.ItemSize = RibbonItemSize.Big;
                 item.Update(g, settings);
             }
             foreach (var item in this.SmallItems)
             {
-                item.Group = this;
+                item.ItemContainer = this;
                 item.ItemSize = RibbonItemSize.Small;
                 item.Update(g, settings);
             }
@@ -111,7 +111,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             else
             {
-                Rectangle groupBounds = this.Tab.GetGroupBounds(this);
+                Rectangle groupBounds = this.GlobalServices.GetBounds(this);
                 int x = groupBounds.Left + GroupBorder + (index + 1) * GroupPadding + this.bigWidth.Take(index).Sum();
                 int y = groupBounds.Top + GroupBorder + GroupPadding;
                 int w = this.bigWidth[index];
@@ -143,7 +143,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     smallOffsets += this.smallWidth.Take(smalls).Sum() + this.smallCompactWidth.Skip(smalls).Take(compacts).Sum();
                 }
 
-                Rectangle groupBounds = this.Tab.GetGroupBounds(this);
+                Rectangle groupBounds = this.GlobalServices.GetBounds(this);
                 int w = targetItem.UpdatedWidth;
                 int h = (groupBounds.Height - HeaderHeight - GroupBorder - 4 * GroupPadding) / 3;
                 int x = groupBounds.Left + bigOffsets + smallOffsets;

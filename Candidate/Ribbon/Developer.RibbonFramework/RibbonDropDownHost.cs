@@ -30,14 +30,13 @@ namespace Developer.RibbonFramework
         public RibbonDropDownHost()
         {
             this.Settings = new RibbonThemaSettings();
+            this.Settings.Font = SystemFonts.CaptionFont;
             this.ribbonPanel = new DoubleBufferedPanel();
-            this.ribbonPanel.BackColor = Color.Yellow;
             this.host = new ToolStripControlHost(this.ribbonPanel);
             this.host.AutoSize = false;
             this.host.Margin = new Padding(0);
             this.Items.Add(host);
             this.Padding = new Padding(0);
-            this.BackColor = Color.Blue;
 
             this.ribbonPanel.Paint += new PaintEventHandler(ribbonPanel_Paint);
             this.ribbonPanel.MouseDown += new MouseEventHandler(ribbonPanel_MouseDown);
@@ -88,6 +87,7 @@ namespace Developer.RibbonFramework
                 this.ribbonBitmap = new Bitmap(this.ribbonPanel.Width, this.ribbonPanel.Height);
                 this.ribbonGraphics = Graphics.FromImage(this.ribbonBitmap);
                 this.RibbonItems.UpdateWithSizeDecided(this.ribbonGraphics, this.Settings);
+                Render();
             }
             base.OnOpening(e);
         }
@@ -118,9 +118,12 @@ namespace Developer.RibbonFramework
 
         private void Render()
         {
-            Rectangle bounds = new Rectangle(0, 0, this.ribbonBitmap.Width, this.ribbonBitmap.Height);
-            PaintBackground(this.ribbonGraphics, bounds);
-            this.RibbonItems.Render(this.ribbonGraphics, this.Settings, bounds);
+            if (this.ribbonBitmap != null)
+            {
+                Rectangle bounds = new Rectangle(0, 0, this.ribbonBitmap.Width, this.ribbonBitmap.Height);
+                PaintBackground(this.ribbonGraphics, bounds);
+                this.RibbonItems.Render(this.ribbonGraphics, this.Settings, bounds);
+            }
         }
 
         private void ribbonPanel_Paint(object sender, PaintEventArgs e)
