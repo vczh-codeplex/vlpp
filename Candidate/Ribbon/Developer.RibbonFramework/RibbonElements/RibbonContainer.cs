@@ -12,10 +12,9 @@ namespace Developer.RibbonFramework.RibbonElements
         public IRibbonInputCallback Callback { get; private set; }
         public RibbonItem CapturedItem { get; private set; }
 
-        public RibbonColorSettingsBase Settings { get; set; }
+        public RibbonThemaSettingsBase Settings { get; set; }
         public IList<RibbonTab> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
-        public Font Font { get; set; }
         public RibbonTab SelectedTab { get; private set; }
         public RibbonTab HotTab { get; private set; }
 
@@ -27,10 +26,10 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonContainer(IRibbonInputCallback callback)
         {
             this.Callback = callback;
-            this.Settings = new RibbonColorSettings();
+            this.Settings = new RibbonThemaSettings();
+            this.Settings.Font = SystemFonts.CaptionFont;
             this.Tabs = new List<RibbonTab>();
             this.TabGroups = new List<RibbonTabGroup>();
-            this.Font = SystemFonts.CaptionFont;
         }
 
         public void Dispose()
@@ -45,12 +44,12 @@ namespace Developer.RibbonFramework.RibbonElements
             int y = this.RibbonBounds.Top + RibbonTab.TabPadding;
             if (this.SelectedTab != null)
             {
-                this.SelectedTab.RenderPanel(g, GetTabPanelBounds());
+                this.SelectedTab.RenderPanel(g, this.Settings, GetTabPanelBounds());
             }
             foreach (var tab in this.Tabs)
             {
                 Rectangle bounds = new Rectangle(x, y, tab.TabWidth, this.TabTotalHeight);
-                tab.RenderTab(g, bounds);
+                tab.RenderTab(g, this.Settings, bounds);
                 x += tab.TabWidth + RibbonTab.TabPadding;
             }
         }
@@ -64,7 +63,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 int y1 = 0;
                 int y2 = panelBounds.Top;
                 Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
-                group.Render(g, groupBounds, drawOnAeroFrame);
+                group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
             }
         }
 
@@ -75,7 +74,7 @@ namespace Developer.RibbonFramework.RibbonElements
             foreach (var tab in this.Tabs)
             {
                 tab.Container = this;
-                tab.Update(g);
+                tab.Update(g, this.Settings);
             }
             foreach (var group in this.TabGroups)
             {

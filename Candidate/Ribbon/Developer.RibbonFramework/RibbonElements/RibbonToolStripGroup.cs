@@ -75,31 +75,31 @@ namespace Developer.RibbonFramework.RibbonElements
             return null;
         }
 
-        public override void Render(Graphics g, Rectangle groupBounds)
+        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
         {
-            base.Render(g, groupBounds);
+            base.Render(g, settings, groupBounds);
             foreach (var tool in this.ToolStrips)
             {
-                tool.Render(g);
+                tool.Render(g, settings);
             }
         }
 
-        public override void Update(System.Drawing.Graphics g)
+        public override void Update(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
         {
-            base.Update(g);
+            base.Update(g, settings);
             foreach (var tool in this.ToolStrips)
             {
                 tool.Group = this;
-                tool.Update(g);
+                tool.Update(g, settings);
             }
         }
 
-        public override void UpdateWithSizeDecided(Graphics g)
+        public override void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
-            base.UpdateWithSizeDecided(g);
+            base.UpdateWithSizeDecided(g, settings);
             foreach (var tool in this.ToolStrips)
             {
-                tool.UpdateWithSizeDecided(g);
+                tool.UpdateWithSizeDecided(g, settings);
             }
             int totalLines = this.WidthLevel == NormalWidthLevel ? 2 : 3;
             this.placedToolStrips = Enumerable.Range(0, totalLines)
@@ -151,17 +151,16 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public void Render(Graphics g)
+        public void Render(Graphics g, RibbonThemaSettingsBase settings)
         {
-            var settings = this.Group.Tab.Container.Settings;
             foreach (var item in this.ToolItems)
             {
-                item.Render(g, GetItemBounds(item));
+                item.Render(g, settings, GetItemBounds(item));
             }
             settings.DrawCarvedBorder(g, settings.LightBorder, settings.DarkBorder, this.Group.GetToolStripBounds(this));
         }
 
-        public void Update(Graphics g)
+        public void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
             foreach (var item in this.ToolItems)
             {
@@ -169,15 +168,15 @@ namespace Developer.RibbonFramework.RibbonElements
                 item.ToolStrip = this;
                 item.ItemSize = RibbonItemSize.ToolStrip;
             }
-            this.UpdatedWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g)).Sum() + 2 * ToolStripBorder;
-            this.toolItemWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g)).ToArray();
+            this.UpdatedWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g, settings)).Sum() + 2 * ToolStripBorder;
+            this.toolItemWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g, settings)).ToArray();
         }
 
-        public void UpdateWithSizeDecided(Graphics g)
+        public void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
             foreach (var item in this.ToolItems)
             {
-                item.UpdateWithSizeDecided(g);
+                item.UpdateWithSizeDecided(g, settings);
             }
         }
 

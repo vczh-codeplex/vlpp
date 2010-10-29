@@ -22,9 +22,8 @@ namespace Developer.RibbonFramework.RibbonElements
             this.LastIndex = -1;
         }
 
-        public void Render(Graphics g, Rectangle groupBounds, bool drawOnAeroFrame)
+        public void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds, bool drawOnAeroFrame)
         {
-            var settings = this.Container.Settings;
             Font font = SystemFonts.CaptionFont;
             SizeF size = g.MeasureString(this.Name, font);
             int x = groupBounds.Left + (int)(groupBounds.Width - size.Width) / 2;
@@ -59,7 +58,7 @@ namespace Developer.RibbonFramework.RibbonElements
             else
             {
                 g.FillRectangle(settings.TabGroupHighlight.Brush, groupBounds);
-                g.DrawString(this.Name, this.Container.Font, settings.TabGroupText.Brush, x, y);
+                g.DrawString(this.Name, settings.Font, settings.TabGroupText.Brush, x, y);
             }
         }
 

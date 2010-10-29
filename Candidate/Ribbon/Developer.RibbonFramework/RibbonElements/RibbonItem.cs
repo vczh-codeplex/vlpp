@@ -22,10 +22,10 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Enabled = true;
         }
 
-        public abstract int GetSuggestedWidth(Graphics g);
-        public abstract void Render(Graphics g, Rectangle itemBounds);
-        public abstract void Update(Graphics g);
-        public abstract void UpdateWithSizeDecided(Graphics g);
+        public abstract int GetSuggestedWidth(Graphics g, RibbonThemaSettingsBase settings);
+        public abstract void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds);
+        public abstract void Update(Graphics g, RibbonThemaSettingsBase settings);
+        public abstract void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings);
 
         public abstract bool OnMouseDown(MouseEventArgs e);
         public abstract bool OnMouseMove(MouseEventArgs e);
