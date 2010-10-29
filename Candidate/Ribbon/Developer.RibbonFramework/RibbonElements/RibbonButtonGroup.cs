@@ -98,6 +98,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 RibbonItem item = this.SmallItems[i];
                 int group = i / 3;
                 item.ItemSize = group < this.WidthLevel ? RibbonItemSize.Small : RibbonItemSize.SmallCompact;
+                item.UpdateWithSizeDecided(g);
             }
         }
 
@@ -143,7 +144,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
 
                 Rectangle groupBounds = this.Tab.GetGroupBounds(this);
-                int w = group < this.WidthLevel ? this.smallWidth[group] : this.smallCompactWidth[group];
+                int w = targetItem.UpdatedWidth;
                 int h = (groupBounds.Height - HeaderHeight - GroupBorder - 4 * GroupPadding) / 3;
                 int x = groupBounds.Left + bigOffsets + smallOffsets;
                 int y = groupBounds.Top + GroupBorder + (index % 3) * h + (index % 3 + 1) * GroupPadding;

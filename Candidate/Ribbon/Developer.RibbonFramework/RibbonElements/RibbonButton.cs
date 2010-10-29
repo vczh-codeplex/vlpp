@@ -252,6 +252,11 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public override void UpdateWithSizeDecided(Graphics g)
+        {
+            this.UpdatedWidth = GetSuggestedWidth(g);
+        }
+
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             this.Group.Tab.Container.Capture(this);
