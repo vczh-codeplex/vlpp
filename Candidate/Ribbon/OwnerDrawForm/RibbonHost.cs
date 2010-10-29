@@ -83,6 +83,10 @@ namespace Developer.RibbonFramework
                         button.Image = ButtonImages.Paste;
                         button.Name = "粘帖4";
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
+                        button.DropDown = new RibbonDropDownGroup()
+                        {
+                            Group = CreateDropDownGroup()
+                        };
                         group.BigItems.Add(button);
                     }
                     {
