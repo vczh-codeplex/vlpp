@@ -89,10 +89,9 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override void Render(Graphics g, Rectangle itemBounds)
+        private void RenderPanel(Graphics g, Rectangle itemBounds)
         {
             var settings = this.Group.Tab.Container.Settings;
-
             switch (this.PanelVisualState)
             {
                 case VisualState.Hot:
@@ -114,72 +113,11 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
             }
-            {
-                int iconSize = this.ItemSize == RibbonItemSize.Big ? ButtonBigIconSize : ButtonSmallIconSize;
-                int ix = itemBounds.Left + ButtonBorder;
-                int iy = itemBounds.Top + ButtonBorder;
-                switch (this.ItemSize)
-                {
-                    case RibbonItemSize.Big:
-                        {
-                            ix = itemBounds.Left + (itemBounds.Width - iconSize) / 2;
-                        }
-                        break;
-                    case RibbonItemSize.ToolStrip:
-                        {
-                            int width = iconSize + (this.EnabledDropDown ? ButtonDropDownWidth + ButtonTextPadding : 0);
-                            ix = itemBounds.Left + (itemBounds.Width - width) / 2;
-                            iy = itemBounds.Top + (itemBounds.Height - iconSize) / 2;
-                        }
-                        break;
-                }
-                Rectangle iconBounds = new Rectangle(ix, iy, iconSize, iconSize);
-                g.DrawImage(this.Image, iconBounds);
+        }
 
-                Font font = this.Group.Tab.Container.Font;
-                SizeF size = g.MeasureString(this.Name, font);
-                Brush textBrush = settings.TabText.Brush;
-                switch (this.ItemSize)
-                {
-                    case RibbonItemSize.Big:
-                        {
-                            int tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
-                            int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
-                            g.DrawString(this.Name, font, textBrush, tx, ty);
-                            if (this.EnabledDropDown)
-                            {
-                                int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
-                                int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
-                                Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
-                                settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
-                            }
-                        }
-                        break;
-                    case RibbonItemSize.Small:
-                        {
-                            int tx = iconBounds.Right + ButtonTextPadding;
-                            int ty = iconBounds.Top + (int)(iconBounds.Height - size.Height) / 2;
-                            g.DrawString(this.Name, font, textBrush, tx, ty);
-                        }
-                        break;
-                }
-                switch (this.ItemSize)
-                {
-                    case RibbonItemSize.Small:
-                    case RibbonItemSize.SmallCompact:
-                    case RibbonItemSize.ToolStrip:
-                        {
-                            if (this.EnabledDropDown)
-                            {
-                                int dx = itemBounds.Right - ButtonDropDownWidth - ButtonTextPadding;
-                                int dy = itemBounds.Top + (int)(itemBounds.Height - ButtonDropDownHeight) / 2;
-                                Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
-                                settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
-                            }
-                        }
-                        break;
-                }
-            }
+        private void RenderBorder(Graphics g, Rectangle itemBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
             switch (this.BorderVisualState)
             {
                 case VisualState.Hot:
@@ -201,6 +139,105 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
             }
+        }
+
+        private Rectangle GetIconBounds(Rectangle itemBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
+            int iconSize = this.ItemSize == RibbonItemSize.Big ? ButtonBigIconSize : ButtonSmallIconSize;
+            int ix = itemBounds.Left + ButtonBorder;
+            int iy = itemBounds.Top + ButtonBorder;
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        ix = itemBounds.Left + (itemBounds.Width - iconSize) / 2;
+                    }
+                    break;
+                case RibbonItemSize.ToolStrip:
+                    {
+                        int width = iconSize + (this.EnabledDropDown ? ButtonDropDownWidth + ButtonTextPadding : 0);
+                        ix = itemBounds.Left + (itemBounds.Width - width) / 2;
+                        iy = itemBounds.Top + (itemBounds.Height - iconSize) / 2;
+                    }
+                    break;
+            }
+            Rectangle iconBounds = new Rectangle(ix, iy, iconSize, iconSize);
+            return iconBounds;
+        }
+
+        private void RenderText(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
+            Font font = this.Group.Tab.Container.Font;
+            SizeF size = g.MeasureString(this.Name, font);
+            Brush textBrush = settings.TabText.Brush;
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        int tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
+                        int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
+                        g.DrawString(this.Name, font, textBrush, tx, ty);
+                        if (this.EnabledDropDown)
+                        {
+                            int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
+                            int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
+                            Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
+                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                        }
+                    }
+                    break;
+                case RibbonItemSize.Small:
+                    {
+                        int tx = iconBounds.Right + ButtonTextPadding;
+                        int ty = iconBounds.Top + (int)(iconBounds.Height - size.Height) / 2;
+                        g.DrawString(this.Name, font, textBrush, tx, ty);
+                    }
+                    break;
+            }
+        }
+
+        private void RenderDropDown(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        if (this.EnabledDropDown)
+                        {
+                            int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
+                            int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
+                            Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
+                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                        }
+                    }
+                    break;
+                case RibbonItemSize.Small:
+                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.ToolStrip:
+                    {
+                        if (this.EnabledDropDown)
+                        {
+                            int dx = itemBounds.Right - ButtonDropDownWidth - ButtonTextPadding;
+                            int dy = itemBounds.Top + (int)(itemBounds.Height - ButtonDropDownHeight) / 2;
+                            Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
+                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public override void Render(Graphics g, Rectangle itemBounds)
+        {
+            RenderPanel(g, itemBounds);
+            Rectangle iconBounds = GetIconBounds(itemBounds);
+            g.DrawImage(this.Image, iconBounds);
+            RenderText(g, itemBounds, iconBounds);
+            RenderDropDown(g, itemBounds, iconBounds);
+            RenderBorder(g, itemBounds);
         }
 
         public override void Update(Graphics g)

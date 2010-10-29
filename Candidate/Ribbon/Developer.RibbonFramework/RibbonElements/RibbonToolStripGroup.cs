@@ -28,7 +28,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override int GetWidth(int level)
+        public override int GetWidthInternal(int level)
         {
             int totalLines = level == NormalWidthLevel ? 2 : 3;
             RibbonToolStrip[][] tools = Enumerable.Range(0, totalLines)
