@@ -370,6 +370,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
+            HotState old = this.SplitButtonHotState;
             if (this.ButtonStyle == RibbonButtonStyle.SplitButton)
             {
                 Rectangle bounds = this.Group.GetItemBounds(this);
@@ -386,20 +387,21 @@ namespace Developer.RibbonFramework.RibbonElements
                     this.SplitButtonHotState = HotState.None;
                 }
             }
+            bool result = old != this.SplitButtonHotState;
             if (this.Group.Tab.Container.CapturedItem == this)
             {
                 if (this.Group.GetItemFromPoint(e.Location) == this)
                 {
-                    return UpdateVisualStyleToPressed();
+                    return UpdateVisualStyleToPressed() || result;
                 }
                 else
                 {
-                    return UpdateVisualStyleToNormal();
+                    return UpdateVisualStyleToNormal() || result;
                 }
             }
             else
             {
-                return UpdateVisualStyleToHot();
+                return UpdateVisualStyleToHot() || result;
             }
         }
 
@@ -420,6 +422,10 @@ namespace Developer.RibbonFramework.RibbonElements
         public override bool OnMouseLeave(EventArgs e)
         {
             return UpdateVisualStyleToNormal();
+        }
+
+        protected virtual void DropDownExecuted()
+        {
         }
 
         protected virtual void Executed()
@@ -445,6 +451,15 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonButtonStyle.ToggleButton:
                     {
                         this.Toggled = !this.Toggled;
+                    }
+                    break;
+                case RibbonButtonStyle.DropDownButton:
+                case RibbonButtonStyle.SplitButton:
+                    {
+                        if (this.SplitButtonHotState == HotState.DropDownButton)
+                        {
+                            DropDownExecuted();
+                        }
                     }
                     break;
             }
