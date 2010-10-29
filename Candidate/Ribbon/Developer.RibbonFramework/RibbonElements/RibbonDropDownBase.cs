@@ -57,6 +57,14 @@ namespace Developer.RibbonFramework.RibbonElements
         protected abstract DropDownControl CreateDropDownControl();
         protected abstract RibbonItemContainer RibbonItems { get; }
 
+        public RibbonDropDownHost DropDownHost
+        {
+            get
+            {
+                return this.dropDownControl;
+            }
+        }
+
         public void Open(RibbonItem item, Point relativeLocation)
         {
             Point p = item.ItemContainer.GlobalServices.GetLocationInScreen(item.ItemContainer);

@@ -43,6 +43,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public virtual bool OnMouseDown(MouseEventArgs e)
         {
+            OnMouseMove(e);
             RibbonItem item = GetItemFromPoint(e.Location);
             if (item != null && item.Enabled)
             {
@@ -71,6 +72,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public virtual bool OnMouseUp(MouseEventArgs e)
         {
+            OnMouseMove(e);
             RibbonItem item = GetItemFromPoint(e.Location);
             if (item != null && item.Enabled)
             {

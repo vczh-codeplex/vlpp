@@ -32,6 +32,8 @@ namespace Developer.RibbonFramework.RibbonElements
             DropDownButton,
         }
 
+        private bool dropDownOpening = false;
+
         public VisualState BorderVisualState { get; protected set; }
         public VisualState PanelVisualState { get; protected set; }
         public HotState SplitButtonHotState { get; protected set; }
@@ -175,7 +177,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             if (this.ButtonStyle == RibbonButtonStyle.SplitButton)
             {
-                switch (this.SplitButtonHotState)
+                switch (this.dropDownOpening ? HotState.DropDownButton : this.SplitButtonHotState)
                 {
                     case HotState.MainButton:
                         {
@@ -221,7 +223,7 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonColorItem i3 = null;
             RibbonColorItem i4 = null;
             double ratio = 0;
-            switch (this.PanelVisualState)
+            switch (this.dropDownOpening ? VisualState.Pressed : this.PanelVisualState)
             {
                 case VisualState.Hot:
                     {
@@ -257,7 +259,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
             }
-            switch (this.BorderVisualState)
+            switch (this.dropDownOpening ? VisualState.Pressed : this.PanelVisualState)
             {
                 case VisualState.Hot:
                     break;
@@ -456,7 +458,16 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 Rectangle bounds = this.ItemContainer.GetItemBounds(this);
                 this.DropDown.Open(this, new Point(0, bounds.Height));
+                this.dropDownOpening = true;
+                this.DropDown.DropDownHost.Closed += new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);
             }
+        }
+
+        void DropDownHost_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            RibbonDropDownHost host = (RibbonDropDownHost)sender;
+            host.Closed -= new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);
+            this.dropDownOpening = false;
         }
 
         protected virtual void Executed()
