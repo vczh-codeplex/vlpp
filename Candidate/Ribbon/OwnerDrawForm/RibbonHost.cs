@@ -37,20 +37,6 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
-                        button.Name = "粘帖2";
-                        button.ButtonStyle = RibbonButtonStyle.DropDownButton;
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
-                        button.Name = "粘帖3";
-                        button.ButtonStyle = RibbonButtonStyle.SplitButton;
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.CutHS;
                         button.Name = "剪切";
                         group.SmallItems.Add(button);
@@ -68,6 +54,25 @@ namespace Developer.RibbonFramework
                         button.Name = "格式刷";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         group.SmallItems.Add(button);
+                    }
+                }
+                {
+                    RibbonButtonGroup group = new RibbonButtonGroup();
+                    group.Name = "字体";
+                    tab.Groups.Add(group);
+                    {
+                        RibbonButton button = new RibbonButton();
+                        button.Image = ButtonImages.Paste;
+                        button.Name = "粘帖2";
+                        button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                        group.BigItems.Add(button);
+                    }
+                    {
+                        RibbonButton button = new RibbonButton();
+                        button.Image = ButtonImages.Paste;
+                        button.Name = "粘帖3";
+                        button.ButtonStyle = RibbonButtonStyle.SplitButton;
+                        group.BigItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
@@ -115,11 +120,6 @@ namespace Developer.RibbonFramework
                         button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                         group.SmallItems.Add(button);
                     }
-                }
-                {
-                    RibbonGroup group = new RibbonGroup();
-                    group.Name = "字体";
-                    tab.Groups.Add(group);
                 }
                 {
                     RibbonToolStripGroup group = new RibbonToolStripGroup();
