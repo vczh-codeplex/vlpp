@@ -87,10 +87,6 @@ namespace Developer.RibbonFramework.RibbonElements
                 tool.Group = this;
                 tool.Update(g);
             }
-            int totalLines = this.WidthLevel == NormalWidthLevel ? 2 : 3;
-            this.placedToolStrips = Enumerable.Range(0, totalLines)
-                .Select(l => this.ToolStrips.Where(t => t.LineNumber == l).ToList())
-                .ToArray();
         }
 
         public override void UpdateWithSizeDecided(Graphics g)
@@ -100,6 +96,10 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 tool.UpdateWithSizeDecided(g);
             }
+            int totalLines = this.WidthLevel == NormalWidthLevel ? 2 : 3;
+            this.placedToolStrips = Enumerable.Range(0, totalLines)
+                .Select(l => this.ToolStrips.Where(t => t.LineNumber == l).ToList())
+                .ToArray();
         }
 
         public Rectangle GetToolStripBounds(RibbonToolStrip tool)

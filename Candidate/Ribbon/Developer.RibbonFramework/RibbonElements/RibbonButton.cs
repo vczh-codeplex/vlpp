@@ -15,7 +15,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int ButtonToolWidth = 23;
         public const int ButtonDropDownWidth = 5;
         public const int ButtonDropDownHeight = 3;
-        public const int ButtonDropDownSpaceWidth = ButtonDropDownWidth + 2 * ButtonTextPadding;
+        public const int ButtonDropDownSpaceAdditionalWidth = ButtonDropDownWidth + ButtonTextPadding;
 
         public enum VisualState
         {
@@ -63,13 +63,13 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetSmallWidth(Graphics g)
         {
             SizeF size = g.MeasureString(this.Name, this.Group.Tab.Container.Font);
-            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
         }
 
         public override int GetSmallCompactWidth(Graphics g)
         {
-            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder;
         }
 
@@ -82,7 +82,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g);
                 case RibbonItemSize.ToolStrip:
                     {
-                        int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+                        int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
                         return ButtonToolWidth + dropDownWidth;
                     }
                 default: return 0;
