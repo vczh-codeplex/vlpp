@@ -62,6 +62,10 @@ namespace Developer.RibbonFramework.RibbonElements
             return tab.GetGroupBounds(group);
         }
 
+        void IRibbonGlobalServices.ItemExecuted(RibbonItem item)
+        {
+        }
+
         public void Dispose()
         {
             this.Settings.Dispose();

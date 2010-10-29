@@ -472,6 +472,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         protected virtual void Executed()
         {
+            bool dropDownExecuted = false;
             switch (this.ButtonStyle)
             {
                 case RibbonButtonStyle.GroupedToggleButton:
@@ -498,6 +499,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonButtonStyle.DropDownButton:
                     {
                         DropDownExecuted();
+                        dropDownExecuted = true;
                     }
                     break;
                 case RibbonButtonStyle.SplitButton:
@@ -505,9 +507,14 @@ namespace Developer.RibbonFramework.RibbonElements
                         if (this.SplitButtonHotState == HotState.DropDownButton)
                         {
                             DropDownExecuted();
+                            dropDownExecuted = true;
                         }
                     }
                     break;
+            }
+            if (!dropDownExecuted)
+            {
+                this.ItemContainer.GlobalServices.ItemExecuted(this);
             }
         }
 

@@ -12,5 +12,6 @@ namespace Developer.RibbonFramework.RibbonElements
         void Capture(RibbonItem item);
         Point GetLocationInScreen(RibbonItemContainer container);
         Rectangle GetBounds(RibbonItemContainer container);
+        void ItemExecuted(RibbonItem item);
     }
 }
