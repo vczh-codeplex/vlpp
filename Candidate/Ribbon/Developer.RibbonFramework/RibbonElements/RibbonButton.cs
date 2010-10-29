@@ -13,6 +13,9 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int ButtonBorder = 3;
         public const int ButtonTextPadding = 3;
         public const int ButtonToolWidth = 23;
+        public const int ButtonDropDownWidth = 5;
+        public const int ButtonDropDownHeight = 3;
+        public const int ButtonDropDownSpaceWidth = ButtonDropDownWidth + 2 * ButtonTextPadding;
 
         public enum VisualState
         {
@@ -36,6 +39,14 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public bool EnabledDropDown
+        {
+            get
+            {
+                return this.ButtonStyle == RibbonButtonStyle.DropDownButton || this.ButtonStyle == RibbonButtonStyle.SplitButton;
+            }
+        }
+
         public RibbonButton()
         {
             this.ButtonStyle = RibbonButtonStyle.PushButton;
@@ -52,12 +63,14 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetSmallWidth(Graphics g)
         {
             SizeF size = g.MeasureString(this.Name, this.Group.Tab.Container.Font);
-            return ButtonSmallIconSize + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
+            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+            return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
         }
 
         public override int GetSmallCompactWidth(Graphics g)
         {
-            return ButtonSmallIconSize + 2 * ButtonBorder;
+            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+            return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder;
         }
 
         public override int GetSuggestedWidth(Graphics g)
@@ -67,7 +80,11 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonItemSize.Big: return GetBigWidth(g);
                 case RibbonItemSize.Small: return GetSmallWidth(g);
                 case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g);
-                case RibbonItemSize.ToolStrip: return ButtonToolWidth;
+                case RibbonItemSize.ToolStrip:
+                    {
+                        int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceWidth : 0;
+                        return ButtonToolWidth + dropDownWidth;
+                    }
                 default: return 0;
             }
         }
@@ -101,9 +118,20 @@ namespace Developer.RibbonFramework.RibbonElements
                 int iconSize = this.ItemSize == RibbonItemSize.Big ? ButtonBigIconSize : ButtonSmallIconSize;
                 int ix = itemBounds.Left + ButtonBorder;
                 int iy = itemBounds.Top + ButtonBorder;
-                if (this.ItemSize == RibbonItemSize.Big)
+                switch (this.ItemSize)
                 {
-                    ix = itemBounds.Left + (itemBounds.Width - iconSize) / 2;
+                    case RibbonItemSize.Big:
+                        {
+                            ix = itemBounds.Left + (itemBounds.Width - iconSize) / 2;
+                        }
+                        break;
+                    case RibbonItemSize.ToolStrip:
+                        {
+                            int width = iconSize + (this.EnabledDropDown ? ButtonDropDownWidth + ButtonTextPadding : 0);
+                            ix = itemBounds.Left + (itemBounds.Width - width) / 2;
+                            iy = itemBounds.Top + (itemBounds.Height - iconSize) / 2;
+                        }
+                        break;
                 }
                 Rectangle iconBounds = new Rectangle(ix, iy, iconSize, iconSize);
                 g.DrawImage(this.Image, iconBounds);
@@ -116,8 +144,15 @@ namespace Developer.RibbonFramework.RibbonElements
                     case RibbonItemSize.Big:
                         {
                             int tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
-                            int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height) / 2;
+                            int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
                             g.DrawString(this.Name, font, textBrush, tx, ty);
+                            if (this.EnabledDropDown)
+                            {
+                                int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
+                                int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
+                                Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
+                                settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                            }
                         }
                         break;
                     case RibbonItemSize.Small:
@@ -125,6 +160,22 @@ namespace Developer.RibbonFramework.RibbonElements
                             int tx = iconBounds.Right + ButtonTextPadding;
                             int ty = iconBounds.Top + (int)(iconBounds.Height - size.Height) / 2;
                             g.DrawString(this.Name, font, textBrush, tx, ty);
+                        }
+                        break;
+                }
+                switch (this.ItemSize)
+                {
+                    case RibbonItemSize.Small:
+                    case RibbonItemSize.SmallCompact:
+                    case RibbonItemSize.ToolStrip:
+                        {
+                            if (this.EnabledDropDown)
+                            {
+                                int dx = itemBounds.Right - ButtonDropDownWidth - ButtonTextPadding;
+                                int dy = itemBounds.Top + (int)(itemBounds.Height - ButtonDropDownHeight) / 2;
+                                Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
+                                settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                            }
                         }
                         break;
                 }
@@ -291,5 +342,7 @@ namespace Developer.RibbonFramework.RibbonElements
         PushButton,
         ToggleButton,
         GroupedToggleButton,
+        DropDownButton,
+        SplitButton,
     }
 }
