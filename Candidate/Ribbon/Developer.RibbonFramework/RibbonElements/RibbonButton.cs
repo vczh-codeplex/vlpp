@@ -24,8 +24,16 @@ namespace Developer.RibbonFramework.RibbonElements
             Pressed
         }
 
+        public enum HotState
+        {
+            None,
+            MainButton,
+            DropDownButton,
+        }
+
         public VisualState BorderVisualState { get; protected set; }
         public VisualState PanelVisualState { get; protected set; }
+        public HotState SplitButtonHotState { get; protected set; }
 
         public RibbonButtonStyle ButtonStyle { get; set; }
         public int ToggleGroup { get; set; }
@@ -89,57 +97,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        private void RenderPanel(Graphics g, Rectangle itemBounds)
-        {
-            var settings = this.Group.Tab.Container.Settings;
-            switch (this.PanelVisualState)
-            {
-                case VisualState.Hot:
-                    {
-                        RibbonColorItem i1 = settings.ButtonReleasedBackground1;
-                        RibbonColorItem i2 = settings.ButtonReleasedBackground2;
-                        RibbonColorItem i3 = settings.ButtonReleasedBackground3;
-                        RibbonColorItem i4 = settings.ButtonReleasedBackground4;
-                        settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(itemBounds, 0, -1), (double)2 / 5);
-                    }
-                    break;
-                case VisualState.Pressed:
-                    {
-                        RibbonColorItem i1 = settings.ButtonPressedBackground1;
-                        RibbonColorItem i2 = settings.ButtonPressedBackground2;
-                        RibbonColorItem i3 = settings.ButtonPressedBackground3;
-                        RibbonColorItem i4 = settings.ButtonPressedBackground4;
-                        settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(itemBounds, 0, -1), (double)2.25 / 5);
-                    }
-                    break;
-            }
-        }
-
-        private void RenderBorder(Graphics g, Rectangle itemBounds)
-        {
-            var settings = this.Group.Tab.Container.Settings;
-            switch (this.BorderVisualState)
-            {
-                case VisualState.Hot:
-                    {
-                        RibbonColorItem outTop = settings.ButtonReleasedOuterBorderTop;
-                        RibbonColorItem outBottom = settings.ButtonReleasedOuterBorderBottom;
-                        RibbonColorItem inTop = settings.ButtonReleasedInnerBorderTop;
-                        RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
-                        settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
-                    }
-                    break;
-                case VisualState.Pressed:
-                    {
-                        RibbonColorItem outTop = settings.ButtonPressedOuterBorderTop;
-                        RibbonColorItem outBottom = settings.ButtonPressedOuterBorderBottom;
-                        RibbonColorItem inTop = settings.ButtonPressedInnerBorderTop;
-                        RibbonColorItem inBottom = settings.ButtonPressedInnerBorderBottom;
-                        settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
-                    }
-                    break;
-            }
-        }
+        #region Helper Bounding Functions
 
         private Rectangle GetIconBounds(Rectangle itemBounds)
         {
@@ -166,6 +124,143 @@ namespace Developer.RibbonFramework.RibbonElements
             return iconBounds;
         }
 
+        private Rectangle GetMainButtonBounds(Rectangle itemBounds)
+        {
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        int h = ButtonBigIconSize + 2 * ButtonBorder;
+                        itemBounds.Height = h;
+                    }
+                    break;
+                case RibbonItemSize.Small:
+                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.ToolStrip:
+                    {
+                        int w = ButtonDropDownWidth + 2 * ButtonBorder;
+                        itemBounds.Width -= w;
+                    }
+                    break;
+            }
+            return itemBounds;
+        }
+
+        private Rectangle GetDropDownButtonBounds(Rectangle itemBounds)
+        {
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        int h = ButtonBigIconSize + 2 * ButtonBorder;
+                        itemBounds.Y += h;
+                        itemBounds.Height -= h;
+                    }
+                    break;
+                case RibbonItemSize.Small:
+                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.ToolStrip:
+                    {
+                        int w = ButtonDropDownWidth + 2 * ButtonBorder;
+                        itemBounds.X = itemBounds.Right - w;
+                        itemBounds.Width = w;
+                    }
+                    break;
+            }
+            return itemBounds;
+        }
+
+        private Rectangle GetHotBoundsForRender(Rectangle itemBounds)
+        {
+            if (this.ButtonStyle == RibbonButtonStyle.SplitButton)
+            {
+                switch (this.SplitButtonHotState)
+                {
+                    case HotState.MainButton:
+                        {
+                            itemBounds = GetMainButtonBounds(itemBounds);
+                            itemBounds.Height += ButtonBorder / 2;
+                        }
+                        break;
+                    case HotState.DropDownButton:
+                        {
+                            itemBounds = GetDropDownButtonBounds(itemBounds);
+                            itemBounds.Y -= ButtonBorder / 2;
+                            itemBounds.Height += ButtonBorder / 2;
+                        }
+                        break;
+                }
+            }
+            return itemBounds;
+        }
+
+        #endregion
+
+        #region Helper Rendering Functions
+
+        private void RenderPanel(Graphics g, Rectangle itemBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
+            RibbonColorItem i1 = null;
+            RibbonColorItem i2 = null;
+            RibbonColorItem i3 = null;
+            RibbonColorItem i4 = null;
+            double ratio = 0;
+            switch (this.PanelVisualState)
+            {
+                case VisualState.Hot:
+                    {
+                        i1 = settings.ButtonReleasedBackground1;
+                        i2 = settings.ButtonReleasedBackground2;
+                        i3 = settings.ButtonReleasedBackground3;
+                        i4 = settings.ButtonReleasedBackground4;
+                        ratio = (double)2 / 5;
+                    }
+                    break;
+                case VisualState.Pressed:
+                    {
+                        i1 = settings.ButtonPressedBackground1;
+                        i2 = settings.ButtonPressedBackground2;
+                        i3 = settings.ButtonPressedBackground3;
+                        i4 = settings.ButtonPressedBackground4;
+                        ratio = (double)2.25 / 5;
+                    }
+                    break;
+                default:
+                    return;
+            }
+            settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(GetHotBoundsForRender(itemBounds), 0, -1), ratio);
+        }
+
+        private void RenderBorder(Graphics g, Rectangle itemBounds)
+        {
+            var settings = this.Group.Tab.Container.Settings;
+            RibbonColorItem outTop = settings.ButtonReleasedOuterBorderTop;
+            RibbonColorItem outBottom = settings.ButtonReleasedOuterBorderBottom;
+            RibbonColorItem inTop = settings.ButtonReleasedInnerBorderTop;
+            RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
+            if (this.ButtonStyle == RibbonButtonStyle.SplitButton && this.BorderVisualState != VisualState.Normal)
+            {
+                settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
+            }
+            switch (this.BorderVisualState)
+            {
+                case VisualState.Hot:
+                    break;
+                case VisualState.Pressed:
+                    {
+                        outTop = settings.ButtonPressedOuterBorderTop;
+                        outBottom = settings.ButtonPressedOuterBorderBottom;
+                        inTop = settings.ButtonPressedInnerBorderTop;
+                        inBottom = settings.ButtonPressedInnerBorderBottom;
+                    }
+                    break;
+                default:
+                    return;
+            }
+            settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, GetHotBoundsForRender(itemBounds));
+        }
+
         private void RenderText(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
         {
             var settings = this.Group.Tab.Container.Settings;
@@ -179,13 +274,6 @@ namespace Developer.RibbonFramework.RibbonElements
                         int tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
                         int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
                         g.DrawString(this.Name, font, textBrush, tx, ty);
-                        if (this.EnabledDropDown)
-                        {
-                            int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
-                            int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
-                            Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
-                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
-                        }
                     }
                     break;
                 case RibbonItemSize.Small:
@@ -230,6 +318,8 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        #endregion
+
         public override void Render(Graphics g, Rectangle itemBounds)
         {
             RenderPanel(g, itemBounds);
@@ -265,6 +355,22 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
+            if (this.ButtonStyle == RibbonButtonStyle.SplitButton)
+            {
+                Rectangle bounds = this.Group.GetItemBounds(this);
+                if (GetMainButtonBounds(bounds).Contains(e.Location))
+                {
+                    this.SplitButtonHotState = HotState.MainButton;
+                }
+                else if (GetDropDownButtonBounds(bounds).Contains(e.Location))
+                {
+                    this.SplitButtonHotState = HotState.DropDownButton;
+                }
+                else
+                {
+                    this.SplitButtonHotState = HotState.None;
+                }
+            }
             if (this.Group.Tab.Container.CapturedItem == this)
             {
                 if (this.Group.GetItemFromPoint(e.Location) == this)

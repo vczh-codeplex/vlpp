@@ -17,6 +17,11 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public virtual Rectangle GetItemBounds(RibbonItem item)
+        {
+            return Rectangle.Empty;
+        }
+
         public virtual RibbonItem GetItemFromPoint(Point location)
         {
             return null;
