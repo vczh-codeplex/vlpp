@@ -36,6 +36,11 @@ namespace Developer.RibbonFramework.RibbonElements
                 return new Rectangle(0, 0, this.RibbonContainerSize.Width, this.RibbonContainerSize.Height);
             }
 
+            void IRibbonGlobalServices.ItemExecuted(RibbonItem item)
+            {
+                this.Close();
+            }
+
             protected override void PrepareToOpen()
             {
                 base.PrepareToOpen();
