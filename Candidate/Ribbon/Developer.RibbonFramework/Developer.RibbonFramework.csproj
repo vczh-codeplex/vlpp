@@ -63,9 +63,11 @@
     <Compile Include="RibbonDropDownHost.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="RibbonElements\IRibbonGlobalServices.cs" />
     <Compile Include="RibbonElements\RibbonButton.cs" />
     <Compile Include="RibbonElements\RibbonButtonGroup.cs" />
     <Compile Include="RibbonElements\RibbonButtonGroupItem.cs" />
+    <Compile Include="RibbonElements\RibbonDropDownBase.cs" />
     <Compile Include="RibbonElements\RibbonThemaSettings.cs" />
     <Compile Include="RibbonElements\RibbonContainer.cs" />
     <Compile Include="RibbonElements\RibbonGroup.cs" />

@@ -46,6 +46,11 @@ namespace Developer.RibbonFramework
             this.ribbonPanel.MouseLeave += new EventHandler(ribbonPanel_MouseLeave);
         }
 
+        protected void CaptureMouse(bool capture)
+        {
+            this.ribbonPanel.Capture = capture;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -55,12 +60,21 @@ namespace Developer.RibbonFramework
             base.Dispose(disposing);
         }
 
+        protected Panel RibbonPanelControl
+        {
+            get
+            {
+                return this.ribbonPanel;
+            }
+        }
+
         protected virtual void PrepareToOpen()
         {
         }
 
         protected virtual void PaintBackground(Graphics g, Rectangle bounds)
         {
+            g.FillRectangle(this.Settings.Panel.Brush, bounds);
         }
 
         protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
@@ -104,7 +118,9 @@ namespace Developer.RibbonFramework
 
         private void Render()
         {
-            this.RibbonItems.Render(this.ribbonGraphics, this.Settings, new Rectangle(0, 0, this.ribbonBitmap.Width, this.ribbonBitmap.Height));
+            Rectangle bounds = new Rectangle(0, 0, this.ribbonBitmap.Width, this.ribbonBitmap.Height);
+            PaintBackground(this.ribbonGraphics, bounds);
+            this.RibbonItems.Render(this.ribbonGraphics, this.Settings, bounds);
         }
 
         private void ribbonPanel_Paint(object sender, PaintEventArgs e)
