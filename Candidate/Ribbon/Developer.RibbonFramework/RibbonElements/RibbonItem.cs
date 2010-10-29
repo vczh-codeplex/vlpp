@@ -9,7 +9,7 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public abstract class RibbonItem
     {
-        public RibbonGroup Group { get; internal set; }
+        public RibbonItemContainer ItemContainer { get; internal set; }
         public RibbonToolStrip ToolStrip { get; internal set; }
         public RibbonItemSize ItemSize { get; internal set; }
         public Image Image { get; set; }

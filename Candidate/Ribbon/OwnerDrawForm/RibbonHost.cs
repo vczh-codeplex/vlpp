@@ -72,6 +72,10 @@ namespace Developer.RibbonFramework
                         button.Image = ButtonImages.Paste;
                         button.Name = "粘帖3";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                        button.DropDown = new RibbonDropDownGroup()
+                        {
+                            Group = CreateDropDownGroup()
+                        };
                         group.BigItems.Add(button);
                     }
                     {
@@ -429,6 +433,74 @@ namespace Developer.RibbonFramework
                 this.Ribbon.TabGroups.Add(group);
             }
             UpdateRibbon(false);
+        }
+
+        private RibbonGroup CreateDropDownGroup()
+        {
+            RibbonButtonGroup group = new RibbonButtonGroup();
+            group.Name = "字体";
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Paste;
+                button.Name = "粘帖3";
+                button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                group.BigItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Paste;
+                button.Name = "粘帖4";
+                button.ButtonStyle = RibbonButtonStyle.SplitButton;
+                group.BigItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Window1;
+                button.Name = "一个窗口";
+                button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                button.ToggleGroup = 0;
+                button.Toggled = true;
+                group.SmallItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Window2;
+                button.Name = "两个窗口";
+                button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                button.ToggleGroup = 0;
+                group.SmallItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Window3;
+                button.Name = "三个窗口";
+                button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                button.ToggleGroup = 0;
+                button.Enabled = false;
+                group.SmallItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Arrow1;
+                button.Name = "第一箭头";
+                button.ButtonStyle = RibbonButtonStyle.ToggleButton;
+                group.SmallItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Arrow2;
+                button.Name = "第二箭头";
+                button.ButtonStyle = RibbonButtonStyle.ToggleButton;
+                group.SmallItems.Add(button);
+            }
+            {
+                RibbonButton button = new RibbonButton();
+                button.Image = ButtonImages.Arrow3;
+                button.Name = "第三箭头";
+                button.ButtonStyle = RibbonButtonStyle.ToggleButton;
+                group.SmallItems.Add(button);
+            }
+            return group;
         }
     }
 }

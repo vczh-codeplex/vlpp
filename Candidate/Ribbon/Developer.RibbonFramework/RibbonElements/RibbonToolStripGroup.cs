@@ -109,7 +109,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public Rectangle GetToolStripBounds(RibbonToolStrip tool)
         {
-            Rectangle groupBounds = this.Tab.GetGroupBounds(this);
+            Rectangle groupBounds = this.GlobalServices.GetBounds(this);
             int totalHeight = groupBounds.Height - HeaderHeight - 2 * GroupBorder;
             int totalLines = this.placedToolStrips.Length;
             int yPadding = Math.Max(1, (totalHeight - RibbonToolStrip.ToolStripHeight * totalLines) / (1 + totalLines));
@@ -164,7 +164,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             foreach (var item in this.ToolItems)
             {
-                item.Group = this.Group;
+                item.ItemContainer = this.Group;
                 item.ToolStrip = this;
                 item.ItemSize = RibbonItemSize.ToolStrip;
             }

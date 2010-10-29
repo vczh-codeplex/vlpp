@@ -52,7 +52,14 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonGroup group = (RibbonGroup)container;
             RibbonTab tab = group.Tab;
             Point pg = tab.GetGroupBounds(group).Location;
-            return new Point(pc.X + pc.X, pc.Y + pc.Y);
+            return new Point(pc.X + pg.X, pc.Y + pg.Y);
+        }
+
+        Rectangle IRibbonGlobalServices.GetBounds(RibbonItemContainer container)
+        {
+            RibbonGroup group = (RibbonGroup)container;
+            RibbonTab tab = group.Tab;
+            return tab.GetGroupBounds(group);
         }
 
         public void Dispose()

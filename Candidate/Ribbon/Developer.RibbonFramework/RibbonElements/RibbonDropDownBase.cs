@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public abstract class RibbonDropDownBase
+    public abstract class RibbonDropDownBase : IDisposable
     {
         protected class DropDownControl : RibbonDropDownHost, IRibbonGlobalServices
         {
@@ -31,24 +31,43 @@ namespace Developer.RibbonFramework.RibbonElements
                 return this.RibbonPanelControl.PointToScreen(new Point(0, 0));
             }
 
+            Rectangle IRibbonGlobalServices.GetBounds(RibbonItemContainer container)
+            {
+                return new Rectangle(0, 0, this.RibbonContainerSize.Width, this.RibbonContainerSize.Height);
+            }
+
             protected override void PrepareToOpen()
             {
                 base.PrepareToOpen();
+                this.RibbonPanelControl.BackColor = this.Settings.Panel.Color;
                 this.RibbonItems.GlobalServices = this;
-            }
-
-            protected override void OnClosed(System.Windows.Forms.ToolStripDropDownClosedEventArgs e)
-            {
-                base.OnClosed(e);
-                this.Dispose();
             }
         }
 
+        public void Dispose()
+        {
+            if (this.dropDownControl != null)
+            {
+                this.dropDownControl.Dispose();
+                this.dropDownControl = null;
+            }
+        }
+
+        private DropDownControl dropDownControl = null;
         protected abstract DropDownControl CreateDropDownControl();
         protected abstract RibbonItemContainer RibbonItems { get; }
 
         public void Open(RibbonItem item, Point relativeLocation)
         {
+            Point p = item.ItemContainer.GlobalServices.GetLocationInScreen(item.ItemContainer);
+            Point pg = item.ItemContainer.GlobalServices.GetBounds(item.ItemContainer).Location;
+            Point pi = item.ItemContainer.GetItemBounds(item).Location;
+            if (this.dropDownControl == null)
+            {
+                this.dropDownControl = CreateDropDownControl();
+            }
+            this.dropDownControl.RibbonItems = this.RibbonItems;
+            this.dropDownControl.Show(p.X + pi.X - pg.X + relativeLocation.X, p.Y + pi.Y - pg.Y + relativeLocation.Y);
         }
     }
 }
