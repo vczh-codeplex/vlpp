@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
@@ -276,28 +277,57 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, GetHotBoundsForRender(itemBounds));
         }
 
+        private void RenderImage(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        {
+            if (this.Image != null)
+            {
+                if (this.Enabled)
+                {
+                    g.DrawImage(this.Image, iconBounds);
+                }
+                else
+                {
+                    using (Bitmap image = new Bitmap(this.Image, iconBounds.Size))
+                    {
+                        ControlPaint.DrawImageDisabled(g, image, iconBounds.X, iconBounds.Y, Color.Transparent);
+                    }
+                }
+            }
+        }
+
         private void RenderText(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
         {
             var settings = this.Group.Tab.Container.Settings;
             Font font = this.Group.Tab.Container.Font;
             SizeF size = g.MeasureString(this.Name, font);
-            Brush textBrush = settings.TabText.Brush;
+            int tx = 0;
+            int ty = 0;
             switch (this.ItemSize)
             {
                 case RibbonItemSize.Big:
                     {
-                        int tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
-                        int ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
-                        g.DrawString(this.Name, font, textBrush, tx, ty);
+                        tx = itemBounds.Left + (int)(itemBounds.Width - size.Width) / 2;
+                        ty = iconBounds.Bottom + (int)(itemBounds.Bottom - iconBounds.Bottom - size.Height - ButtonDropDownHeight - ButtonTextPadding * 2) / 2;
                     }
                     break;
                 case RibbonItemSize.Small:
                     {
-                        int tx = iconBounds.Right + ButtonTextPadding;
-                        int ty = iconBounds.Top + (int)(iconBounds.Height - size.Height) / 2;
-                        g.DrawString(this.Name, font, textBrush, tx, ty);
+                        tx = iconBounds.Right + ButtonTextPadding;
+                        ty = iconBounds.Top + (int)(iconBounds.Height - size.Height) / 2;
                     }
                     break;
+                default:
+                    return;
+            }
+            if (this.Enabled)
+            {
+                Brush textBrush = settings.TabText.Brush;
+                g.DrawString(this.Name, font, textBrush, tx, ty);
+            }
+            else
+            {
+                Rectangle r = new Rectangle(tx, ty, (int)size.Width, (int)size.Height);
+                settings.DrawCarvedText(g, settings.LightBorder, settings.Border, r, this.Name, font);
             }
         }
 
@@ -339,7 +369,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             RenderPanel(g, itemBounds);
             Rectangle iconBounds = GetIconBounds(itemBounds);
-            g.DrawImage(this.Image, iconBounds);
+            RenderImage(g, itemBounds, iconBounds);
             RenderText(g, itemBounds, iconBounds);
             RenderDropDown(g, itemBounds, iconBounds);
             RenderBorder(g, itemBounds);

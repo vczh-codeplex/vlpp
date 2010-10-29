@@ -42,7 +42,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public virtual bool OnMouseDown(MouseEventArgs e)
         {
             RibbonItem item = GetItemFromPoint(e.Location);
-            if (item != null)
+            if (item != null && item.Enabled)
             {
                 return item.OnMouseDown(e);
             }
@@ -55,12 +55,12 @@ namespace Developer.RibbonFramework.RibbonElements
             bool result = false;
             foreach (var ribbonItem in this.Items)
             {
-                if (ribbonItem != item)
+                if (ribbonItem != item && ribbonItem.Enabled)
                 {
                     result = ribbonItem.OnMouseLeave(new EventArgs()) || result;
                 }
             }
-            if (item != null)
+            if (item != null && item.Enabled)
             {
                 result = item.OnMouseMove(e) || result;
             }
@@ -70,7 +70,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public virtual bool OnMouseUp(MouseEventArgs e)
         {
             RibbonItem item = GetItemFromPoint(e.Location);
-            if (item != null)
+            if (item != null && item.Enabled)
             {
                 return item.OnMouseUp(e);
             }

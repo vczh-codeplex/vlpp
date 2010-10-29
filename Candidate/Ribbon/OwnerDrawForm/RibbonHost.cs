@@ -37,6 +37,13 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
+                        button.Image = ButtonImages.Paste;
+                        button.Name = "粘帖2";
+                        button.Enabled = false;
+                        group.BigItems.Add(button);
+                    }
+                    {
+                        RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.CutHS;
                         button.Name = "剪切";
                         group.SmallItems.Add(button);
@@ -63,14 +70,14 @@ namespace Developer.RibbonFramework
                     {
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.Paste;
-                        button.Name = "粘帖2";
+                        button.Name = "粘帖3";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         group.BigItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.Paste;
-                        button.Name = "粘帖3";
+                        button.Name = "粘帖4";
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         group.BigItems.Add(button);
                     }
@@ -97,6 +104,7 @@ namespace Developer.RibbonFramework
                         button.Name = "三个窗口";
                         button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                         button.ToggleGroup = 0;
+                        button.Enabled = false;
                         group.SmallItems.Add(button);
                     }
                     {
@@ -138,6 +146,8 @@ namespace Developer.RibbonFramework
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.ItemDot;
+                            button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                            button.Enabled = false;
                             tool.ToolItems.Add(button);
                         }
                     }
@@ -196,6 +206,7 @@ namespace Developer.RibbonFramework
                             button.Image = ToolImages.AlignExpand;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                            button.Enabled = false;
                             tool.ToolItems.Add(button);
                         }
                     }

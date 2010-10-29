@@ -14,7 +14,13 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonItemSize ItemSize { get; internal set; }
         public Image Image { get; set; }
         public string Name { get; set; }
+        public bool Enabled { get; set; }
         public int UpdatedWidth { get; protected set; }
+
+        public RibbonItem()
+        {
+            this.Enabled = true;
+        }
 
         public abstract int GetSuggestedWidth(Graphics g);
         public abstract void Render(Graphics g, Rectangle itemBounds);
