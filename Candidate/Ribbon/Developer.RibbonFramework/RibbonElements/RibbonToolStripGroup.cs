@@ -47,6 +47,11 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public override Rectangle GetItemBounds(RibbonItem item)
+        {
+            return item.ToolStrip.GetItemBounds(item);
+        }
+
         public override RibbonItem GetItemFromPoint(Point location)
         {
             RibbonToolStrip targetTool = null;

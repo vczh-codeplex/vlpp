@@ -152,6 +152,26 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public override Rectangle GetItemBounds(RibbonItem item)
+        {
+            RibbonButtonGroupItem buttonItem = item as RibbonButtonGroupItem;
+            if (buttonItem == null)
+            {
+                return base.GetItemBounds(item);
+            }
+            else
+            {
+                if (buttonItem.ItemSize == RibbonItemSize.Big)
+                {
+                    return GetBigItemBounds(buttonItem);
+                }
+                else
+                {
+                    return GetSmallItemBounds(buttonItem);
+                }
+            }
+        }
+
         public override RibbonItem GetItemFromPoint(Point location)
         {
             foreach (var item in this.BigItems)
