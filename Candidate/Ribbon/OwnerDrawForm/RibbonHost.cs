@@ -32,13 +32,21 @@ namespace Developer.RibbonFramework
                     {
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.Paste;
-                        button.Name = "粘帖";
+                        button.Name = "粘帖1";
                         group.BigItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.Paste;
-                        button.Name = "我还要粘帖";
+                        button.Name = "粘帖2";
+                        button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                        group.BigItems.Add(button);
+                    }
+                    {
+                        RibbonButton button = new RibbonButton();
+                        button.Image = ButtonImages.Paste;
+                        button.Name = "粘帖3";
+                        button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         group.BigItems.Add(button);
                     }
                     {
@@ -51,12 +59,14 @@ namespace Developer.RibbonFramework
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.CopyHS;
                         button.Name = "复制";
+                        button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         group.SmallItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
                         button.Image = ButtonImages.Color_linecolor;
                         button.Name = "格式刷";
+                        button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         group.SmallItems.Add(button);
                     }
                     {
@@ -208,16 +218,13 @@ namespace Developer.RibbonFramework
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.TableBorder;
+                            button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.SortAscending;
-                            tool.ToolItems.Add(button);
-                        }
-                        {
-                            RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.SortDescending;
+                            button.ButtonStyle = RibbonButtonStyle.SplitButton;
                             tool.ToolItems.Add(button);
                         }
                     }

@@ -60,6 +60,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonColorItem ButtonPressedOuterBorderBottom { get; protected set; }
         public RibbonColorItem ButtonPressedInnerBorderTop { get; protected set; }
         public RibbonColorItem ButtonPressedInnerBorderBottom { get; protected set; }
+        public RibbonColorItem ButtonDropDownDark { get; protected set; }
+        public RibbonColorItem ButtonDropDownLight { get; protected set; }
 
         public void Dispose()
         {
@@ -157,6 +159,28 @@ namespace Developer.RibbonFramework.RibbonElements
             g.DrawString(text, font, dark.Brush, x, y);
         }
 
+        public virtual void DrawDropDown(Graphics g, RibbonColorItem light, RibbonColorItem dark, Rectangle bounds)
+        {
+            int x1 = bounds.Left;
+            int x2 = bounds.Left + bounds.Width / 2;
+            int x3 = bounds.Right;
+            int y1 = bounds.Top;
+            int y2 = bounds.Bottom;
+
+            Point[] points = new Point[3];
+            points[0].X = x1;
+            points[0].Y = y1;
+            points[1].X = x2;
+            points[1].Y = y2;
+            points[2].X = x3;
+            points[2].Y = y1;
+
+            using (LinearGradientBrush brush = new LinearGradientBrush(Rectangle.Inflate(bounds, 1, 1), light.Color, dark.Color, 180.0f))
+            {
+                g.FillPolygon(brush, points);
+            }
+        }
+
         #endregion
     }
 
@@ -225,6 +249,10 @@ namespace Developer.RibbonFramework.RibbonElements
                 = new RibbonColorItem(Color.FromArgb(172, 150, 116));
             this.ButtonPressedInnerBorderBottom
                 = new RibbonColorItem(Color.FromArgb(253, 173, 17));
+            this.ButtonDropDownDark
+                = new RibbonColorItem(Color.FromArgb(138, 141, 143));
+            this.ButtonDropDownLight
+                = new RibbonColorItem(Color.FromArgb(92, 95, 96));
         }
     }
 }
