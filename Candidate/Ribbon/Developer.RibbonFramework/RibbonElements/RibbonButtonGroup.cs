@@ -29,7 +29,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override int GetWidth(int level)
+        public override int GetWidthInternal(int level)
         {
             int totalBigWidth = this.bigWidth.Sum();
             int totalSmallWidth = this.smallWidth.Take(level).Sum();

@@ -33,7 +33,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public virtual int GetWidth(int level)
+        public virtual int GetWidthInternal(int level)
         {
             if (this.HeaderMinWidth >= 100 || level == 0)
             {
@@ -43,6 +43,11 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return 100;
             }
+        }
+
+        public virtual int GetWidth(int level)
+        {
+            return Math.Max(this.HeaderMinWidth, GetWidthInternal(level));
         }
 
         public override void Render(Graphics g, Rectangle groupBounds)

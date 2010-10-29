@@ -153,7 +153,7 @@ namespace Developer.RibbonFramework.RibbonElements
             int h = panelBounds.Height - RibbonGroup.GroupPadding * 2 - 2;
             foreach (RibbonGroup group in this.Groups)
             {
-                int w = Math.Max(group.GetWidth(group.WidthLevel), group.HeaderMinWidth);
+                int w = group.GetWidth(group.WidthLevel);
                 if (group == targetGroup)
                 {
                     return new Rectangle(x, y, w, h);
