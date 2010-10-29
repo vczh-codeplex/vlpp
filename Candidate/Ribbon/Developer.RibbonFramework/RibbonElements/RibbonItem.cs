@@ -14,10 +14,12 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonItemSize ItemSize { get; internal set; }
         public Image Image { get; set; }
         public string Name { get; set; }
+        public int UpdatedWidth { get; protected set; }
 
         public abstract int GetSuggestedWidth(Graphics g);
         public abstract void Render(Graphics g, Rectangle itemBounds);
         public abstract void Update(Graphics g);
+        public abstract void UpdateWithSizeDecided(Graphics g);
 
         public abstract bool OnMouseDown(MouseEventArgs e);
         public abstract bool OnMouseMove(MouseEventArgs e);

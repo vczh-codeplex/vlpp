@@ -35,7 +35,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 .Select(l => this.ToolStrips.Where(t => (level == NormalWidthLevel ? t.NormalLine : t.CompactLine) == l).ToArray())
                 .ToArray();
             return GroupBorder * 2 + tools
-                .Select(ts => (ts.Length + 1) * GroupPadding + ts.Select(t => t.SuggestedWidth).Sum())
+                .Select(ts => (ts.Length + 1) * GroupPadding + ts.Select(t => t.UpdatedWidth).Sum())
                 .Max();
         }
 
@@ -85,12 +85,6 @@ namespace Developer.RibbonFramework.RibbonElements
             foreach (var tool in this.ToolStrips)
             {
                 tool.Group = this;
-                foreach (var item in tool.ToolItems)
-                {
-                    item.Group = this;
-                    item.ToolStrip = tool;
-                    item.ItemSize = RibbonItemSize.ToolStrip;
-                }
                 tool.Update(g);
             }
             int totalLines = this.WidthLevel == NormalWidthLevel ? 2 : 3;
@@ -101,7 +95,11 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override void UpdateWithSizeDecided(Graphics g)
         {
-            Update(g);
+            base.UpdateWithSizeDecided(g);
+            foreach (var tool in this.ToolStrips)
+            {
+                tool.UpdateWithSizeDecided(g);
+            }
         }
 
         public Rectangle GetToolStripBounds(RibbonToolStrip tool)
@@ -113,9 +111,9 @@ namespace Developer.RibbonFramework.RibbonElements
 
             List<RibbonToolStrip> tools = this.placedToolStrips[tool.LineNumber];
             int index = tools.IndexOf(tool);
-            int x = groupBounds.Left + GroupBorder + (index + 1) * GroupPadding + tools.Take(index).Select(t => t.SuggestedWidth).Sum();
+            int x = groupBounds.Left + GroupBorder + (index + 1) * GroupPadding + tools.Take(index).Select(t => t.UpdatedWidth).Sum();
             int y = groupBounds.Top + GroupBorder + (tool.LineNumber + 1) * yPadding + tool.LineNumber * RibbonToolStrip.ToolStripHeight;
-            int w = tool.SuggestedWidth;
+            int w = tool.UpdatedWidth;
             int h = RibbonToolStrip.ToolStripHeight;
             return new Rectangle(x, y, w, h);
         }
@@ -131,7 +129,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public IList<RibbonItem> ToolItems { get; private set; }
         public int NormalLine { get; set; }
         public int CompactLine { get; set; }
-        public int SuggestedWidth { get; set; }
+        public int UpdatedWidth { get; protected set; }
 
         private int[] toolItemWidth = null;
 
@@ -160,8 +158,22 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void Update(Graphics g)
         {
-            this.SuggestedWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g)).Sum() + 2 * ToolStripBorder;
+            foreach (var item in this.ToolItems)
+            {
+                item.Group = this.Group;
+                item.ToolStrip = this;
+                item.ItemSize = RibbonItemSize.ToolStrip;
+            }
+            this.UpdatedWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g)).Sum() + 2 * ToolStripBorder;
             this.toolItemWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g)).ToArray();
+        }
+
+        public void UpdateWithSizeDecided(Graphics g)
+        {
+            foreach (var item in this.ToolItems)
+            {
+                item.UpdateWithSizeDecided(g);
+            }
         }
 
         public Rectangle GetItemBounds(RibbonItem item)
