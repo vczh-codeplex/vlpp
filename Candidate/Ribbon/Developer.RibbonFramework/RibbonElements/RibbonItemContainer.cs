@@ -9,6 +9,8 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public class RibbonItemContainer
     {
+        public IRibbonGlobalServices GlobalServices { get; set; }
+
         public virtual IEnumerable<RibbonItem> Items
         {
             get

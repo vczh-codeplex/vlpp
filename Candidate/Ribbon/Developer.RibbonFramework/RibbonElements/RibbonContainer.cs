@@ -7,10 +7,10 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonContainer : IDisposable
+    public class RibbonContainer : IDisposable, IRibbonGlobalServices
     {
-        public IRibbonInputCallback Callback { get; private set; }
-        public RibbonItem CapturedItem { get; private set; }
+        private IRibbonInputCallback callback;
+        private RibbonItem capturedItem;
 
         public RibbonThemaSettingsBase Settings { get; set; }
         public IList<RibbonTab> Tabs { get; private set; }
@@ -25,11 +25,34 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonContainer(IRibbonInputCallback callback)
         {
-            this.Callback = callback;
+            this.callback = callback;
             this.Settings = new RibbonThemaSettings();
             this.Settings.Font = SystemFonts.CaptionFont;
             this.Tabs = new List<RibbonTab>();
             this.TabGroups = new List<RibbonTabGroup>();
+        }
+
+        RibbonItem IRibbonGlobalServices.CapturedItem
+        {
+            get
+            {
+                return this.capturedItem;
+            }
+        }
+
+        void IRibbonGlobalServices.Capture(RibbonItem item)
+        {
+            this.capturedItem = item;
+            this.callback.CaptureMouse(item != null);
+        }
+
+        Point IRibbonGlobalServices.GetLocationInScreen(RibbonItemContainer container)
+        {
+            Point pc = this.callback.GetLocationInScreen(this);
+            RibbonGroup group = (RibbonGroup)container;
+            RibbonTab tab = group.Tab;
+            Point pg = tab.GetGroupBounds(group).Location;
+            return new Point(pc.X + pc.X, pc.Y + pc.Y);
         }
 
         public void Dispose()
@@ -147,17 +170,11 @@ namespace Developer.RibbonFramework.RibbonElements
             return panelBounds;
         }
 
-        public void Capture(RibbonItem item)
-        {
-            this.CapturedItem = item;
-            this.Callback.CaptureMouse(item != null);
-        }
-
         public bool OnMouseDown(MouseEventArgs e)
         {
-            if (this.CapturedItem != null)
+            if (this.capturedItem != null)
             {
-                return this.CapturedItem.OnMouseDown(e);
+                return this.capturedItem.OnMouseDown(e);
             }
             RibbonTab selectedTab = GetTabFromPoint(e.Location);
             if (selectedTab != null)
@@ -187,9 +204,9 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public bool OnMouseMove(MouseEventArgs e)
         {
-            if (this.CapturedItem != null)
+            if (this.capturedItem != null)
             {
-                return this.CapturedItem.OnMouseMove(e);
+                return this.capturedItem.OnMouseMove(e);
             }
             RibbonTab hotTab = GetTabFromPoint(e.Location);
             if (hotTab == this.SelectedTab)
@@ -234,9 +251,9 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public bool OnMouseUp(MouseEventArgs e)
         {
-            if (this.CapturedItem != null)
+            if (this.capturedItem != null)
             {
-                return this.CapturedItem.OnMouseUp(e);
+                return this.capturedItem.OnMouseUp(e);
             }
             if (this.SelectedTab != null)
             {
@@ -273,5 +290,6 @@ namespace Developer.RibbonFramework.RibbonElements
     public interface IRibbonInputCallback
     {
         void CaptureMouse(bool capture);
+        Point GetLocationInScreen(RibbonContainer ribbonContainer);
     }
 }

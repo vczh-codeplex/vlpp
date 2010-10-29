@@ -36,6 +36,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public VisualState PanelVisualState { get; protected set; }
         public HotState SplitButtonHotState { get; protected set; }
 
+        public RibbonDropDownBase DropDown { get; set; }
         public RibbonButtonStyle ButtonStyle { get; set; }
         public int ToggleGroup { get; set; }
         public bool Toggled { get; set; }
@@ -389,7 +390,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            this.Group.Tab.Container.Capture(this);
+            this.Group.GlobalServices.Capture(this);
             return UpdateVisualStyleToPressed();
         }
 
@@ -413,7 +414,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
             }
             bool result = old != this.SplitButtonHotState;
-            if (this.Group.Tab.Container.CapturedItem == this)
+            if (this.Group.GlobalServices.CapturedItem == this)
             {
                 if (this.Group.GetItemFromPoint(e.Location) == this)
                 {
@@ -432,7 +433,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            this.Group.Tab.Container.Capture(null);
+            this.Group.GlobalServices.Capture(null);
             if (this.Group.GetItemFromPoint(e.Location) == this)
             {
                 Executed();
@@ -451,6 +452,11 @@ namespace Developer.RibbonFramework.RibbonElements
 
         protected virtual void DropDownExecuted()
         {
+            if (this.DropDown != null)
+            {
+                Rectangle bounds = this.Group.GetItemBounds(this);
+                this.DropDown.Open(this, new Point(0, bounds.Height));
+            }
         }
 
         protected virtual void Executed()

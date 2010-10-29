@@ -21,6 +21,16 @@ namespace Developer.RibbonFramework
             InitializeComponent();
         }
 
+        void IRibbonInputCallback.CaptureMouse(bool capture)
+        {
+            this.AeroContainer.Capture = true;
+        }
+
+        Point IRibbonInputCallback.GetLocationInScreen(RibbonContainer ribbonContainer)
+        {
+            return this.AeroContainer.PointToScreen(new Point(0, 0));
+        }
+
         public RibbonContainer Ribbon
         {
             get
@@ -47,15 +57,6 @@ namespace Developer.RibbonFramework
                 this.Refresh();
             }
         }
-
-        #region IRibbonInputCallback Members
-
-        void IRibbonInputCallback.CaptureMouse(bool capture)
-        {
-            this.AeroContainer.Capture = true;
-        }
-
-        #endregion
 
         protected void InitializeRibbon(ToolStrip toolStripAero)
         {
