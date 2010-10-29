@@ -8,8 +8,8 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public abstract class RibbonButtonGroupItem : RibbonItem
     {
-        public abstract int GetBigWidth(Graphics g);
-        public abstract int GetSmallWidth(Graphics g);
-        public abstract int GetSmallCompactWidth(Graphics g);
+        public abstract int GetBigWidth(Graphics g, RibbonThemaSettingsBase settings);
+        public abstract int GetSmallWidth(Graphics g, RibbonThemaSettingsBase settings);
+        public abstract int GetSmallCompactWidth(Graphics g, RibbonThemaSettingsBase settings);
     }
 }

@@ -28,9 +28,8 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Groups = new List<RibbonGroup>();
         }
 
-        public virtual void RenderTab(Graphics g, Rectangle tabBounds)
+        public virtual void RenderTab(Graphics g, RibbonThemaSettingsBase settings, Rectangle tabBounds)
         {
-            var settings = this.Container.Settings;
             switch (this.State)
             {
                 case RibbonElementState.Normal:
@@ -69,15 +68,14 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
             }
-            SizeF size = g.MeasureString(this.Name, this.Container.Font);
+            SizeF size = g.MeasureString(this.Name, settings.Font);
             int tx = tabBounds.Left + (tabBounds.Width - (int)size.Width) / 2;
             int ty = tabBounds.Bottom - TabHeightOffset / 2 - (int)size.Height;
-            g.DrawString(this.Name, this.Container.Font, settings.TabText.Brush, tx, ty);
+            g.DrawString(this.Name, settings.Font, settings.TabText.Brush, tx, ty);
         }
 
-        public virtual void RenderPanel(Graphics g, Rectangle panelBounds)
+        public virtual void RenderPanel(Graphics g, RibbonThemaSettingsBase settings, Rectangle panelBounds)
         {
-            var settings = this.Container.Settings;
             RibbonColorItem i1 = settings.Panel1;
             RibbonColorItem i2 = settings.Panel2;
             RibbonColorItem i3 = settings.Panel3;
@@ -85,16 +83,16 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, panelBounds, (double)1 / 6);
             foreach (var group in this.Groups)
             {
-                group.Render(g, this.GetGroupBounds(group));
+                group.Render(g, settings, this.GetGroupBounds(group));
             }
             panelBounds.Width -= 1;
             panelBounds.Height -= 1;
             g.DrawRectangle(settings.Border.Pen, panelBounds);
         }
 
-        public virtual void Update(Graphics g)
+        public virtual void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
-            SizeF size = g.MeasureString(this.Name, this.Container.Font);
+            SizeF size = g.MeasureString(this.Name, settings.Font);
             this.TabWidth = (int)size.Width + TabWidthOffset;
             this.TabHeight = (int)size.Height + TabHeightOffset;
             this.State = RibbonElementState.Normal;
@@ -103,7 +101,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 foreach (var group in this.Groups)
                 {
                     group.Tab = this;
-                    group.Update(g);
+                    group.Update(g, settings);
                     group.WidthLevel = group.WidthLevelCount - 1;
                 }
                 int maxHeaderHeight = this.Groups.Select(group => group.HeaderMinHeight).Max();
@@ -140,7 +138,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
                 foreach (var group in this.Groups)
                 {
-                    group.UpdateWithSizeDecided(g);
+                    group.UpdateWithSizeDecided(g, settings);
                 }
             }
         }

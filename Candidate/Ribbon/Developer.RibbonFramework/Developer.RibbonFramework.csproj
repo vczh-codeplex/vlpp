@@ -60,10 +60,13 @@
     <Compile Include="RibbonAeroForm.Designer.cs">
       <DependentUpon>RibbonAeroForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RibbonDropDownHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RibbonElements\RibbonButton.cs" />
     <Compile Include="RibbonElements\RibbonButtonGroup.cs" />
     <Compile Include="RibbonElements\RibbonButtonGroupItem.cs" />
-    <Compile Include="RibbonElements\RibbonColorSettings.cs" />
+    <Compile Include="RibbonElements\RibbonThemaSettings.cs" />
     <Compile Include="RibbonElements\RibbonContainer.cs" />
     <Compile Include="RibbonElements\RibbonGroup.cs" />
     <Compile Include="RibbonElements\RibbonItem.cs" />

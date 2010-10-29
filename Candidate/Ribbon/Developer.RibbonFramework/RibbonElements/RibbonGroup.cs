@@ -50,9 +50,8 @@ namespace Developer.RibbonFramework.RibbonElements
             return Math.Max(this.HeaderMinWidth, GetWidthInternal(level));
         }
 
-        public override void Render(Graphics g, Rectangle groupBounds)
+        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
         {
-            var settings = this.Tab.Container.Settings;
             Rectangle headerBounds = groupBounds;
             {
                 headerBounds.Y += groupBounds.Height - HeaderHeight;
@@ -61,12 +60,12 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             g.FillRectangle(settings.Header.Brush, headerBounds);
             settings.DrawCarvedBorder(g, settings.LightBorder, settings.DarkBorder, groupBounds);
-            settings.DrawCarvedText(g, settings.LightText, settings.DarkText, headerBounds, this.Name, this.Tab.Container.Font);
+            settings.DrawCarvedText(g, settings.LightText, settings.DarkText, headerBounds, this.Name, settings.Font);
         }
 
-        public override void Update(Graphics g)
+        public override void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
-            SizeF size = g.MeasureString(this.Name, this.Tab.Container.Font);
+            SizeF size = g.MeasureString(this.Name, settings.Font);
             this.HeaderMinWidth = (int)size.Width + 2 * GroupHeaderPadding;
             this.HeaderMinHeight = (int)size.Height + 2 * GroupHeaderPadding;
         }

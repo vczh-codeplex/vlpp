@@ -63,32 +63,32 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Toggled = false;
         }
 
-        public override int GetBigWidth(Graphics g)
+        public override int GetBigWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
-            SizeF size = g.MeasureString(this.Name, this.Group.Tab.Container.Font);
+            SizeF size = g.MeasureString(this.Name, settings.Font);
             return Math.Max((int)size.Width + 2 * ButtonTextPadding, ButtonBigIconSize + 2 * ButtonBorder);
         }
 
-        public override int GetSmallWidth(Graphics g)
+        public override int GetSmallWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
-            SizeF size = g.MeasureString(this.Name, this.Group.Tab.Container.Font);
+            SizeF size = g.MeasureString(this.Name, settings.Font);
             int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
         }
 
-        public override int GetSmallCompactWidth(Graphics g)
+        public override int GetSmallCompactWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder;
         }
 
-        public override int GetSuggestedWidth(Graphics g)
+        public override int GetSuggestedWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             switch (this.ItemSize)
             {
-                case RibbonItemSize.Big: return GetBigWidth(g);
-                case RibbonItemSize.Small: return GetSmallWidth(g);
-                case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g);
+                case RibbonItemSize.Big: return GetBigWidth(g, settings);
+                case RibbonItemSize.Small: return GetSmallWidth(g, settings);
+                case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g, settings);
                 case RibbonItemSize.ToolStrip:
                     {
                         int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
@@ -102,7 +102,6 @@ namespace Developer.RibbonFramework.RibbonElements
 
         private Rectangle GetIconBounds(Rectangle itemBounds)
         {
-            var settings = this.Group.Tab.Container.Settings;
             int iconSize = this.ItemSize == RibbonItemSize.Big ? ButtonBigIconSize : ButtonSmallIconSize;
             int ix = itemBounds.Left + ButtonBorder;
             int iy = itemBounds.Top + ButtonBorder;
@@ -214,9 +213,8 @@ namespace Developer.RibbonFramework.RibbonElements
 
         #region Helper Rendering Functions
 
-        private void RenderPanel(Graphics g, Rectangle itemBounds)
+        private void RenderPanel(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            var settings = this.Group.Tab.Container.Settings;
             RibbonColorItem i1 = null;
             RibbonColorItem i2 = null;
             RibbonColorItem i3 = null;
@@ -248,9 +246,8 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(GetHotBoundsForRender(itemBounds), 0, -1), ratio);
         }
 
-        private void RenderBorder(Graphics g, Rectangle itemBounds)
+        private void RenderBorder(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            var settings = this.Group.Tab.Container.Settings;
             RibbonColorItem outTop = settings.ButtonReleasedOuterBorderTop;
             RibbonColorItem outBottom = settings.ButtonReleasedOuterBorderBottom;
             RibbonColorItem inTop = settings.ButtonReleasedInnerBorderTop;
@@ -277,7 +274,7 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, GetHotBoundsForRender(itemBounds));
         }
 
-        private void RenderImage(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        private void RenderImage(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds, Rectangle iconBounds)
         {
             if (this.Image != null)
             {
@@ -295,10 +292,9 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        private void RenderText(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        private void RenderText(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds, Rectangle iconBounds)
         {
-            var settings = this.Group.Tab.Container.Settings;
-            Font font = this.Group.Tab.Container.Font;
+            Font font = settings.Font;
             SizeF size = g.MeasureString(this.Name, font);
             int tx = 0;
             int ty = 0;
@@ -331,9 +327,8 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        private void RenderDropDown(Graphics g, Rectangle itemBounds, Rectangle iconBounds)
+        private void RenderDropDown(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds, Rectangle iconBounds)
         {
-            var settings = this.Group.Tab.Container.Settings;
             switch (this.ItemSize)
             {
                 case RibbonItemSize.Big:
@@ -365,17 +360,17 @@ namespace Developer.RibbonFramework.RibbonElements
 
         #endregion
 
-        public override void Render(Graphics g, Rectangle itemBounds)
+        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            RenderPanel(g, itemBounds);
+            RenderPanel(g, settings, itemBounds);
             Rectangle iconBounds = GetIconBounds(itemBounds);
-            RenderImage(g, itemBounds, iconBounds);
-            RenderText(g, itemBounds, iconBounds);
-            RenderDropDown(g, itemBounds, iconBounds);
-            RenderBorder(g, itemBounds);
+            RenderImage(g, settings, itemBounds, iconBounds);
+            RenderText(g, settings, itemBounds, iconBounds);
+            RenderDropDown(g, settings, itemBounds, iconBounds);
+            RenderBorder(g, settings, itemBounds);
         }
 
-        public override void Update(Graphics g)
+        public override void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
             if (this.Toggled && this.EnabledToggling)
             {
@@ -387,9 +382,9 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override void UpdateWithSizeDecided(Graphics g)
+        public override void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
-            this.UpdatedWidth = GetSuggestedWidth(g);
+            this.UpdatedWidth = GetSuggestedWidth(g, settings);
         }
 
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)

@@ -27,15 +27,15 @@ namespace Developer.RibbonFramework.RibbonElements
             return null;
         }
 
-        public virtual void Render(Graphics g, Rectangle groupBounds)
+        public virtual void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
         {
         }
 
-        public virtual void Update(Graphics g)
+        public virtual void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
         }
 
-        public virtual void UpdateWithSizeDecided(Graphics g)
+        public virtual void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
         }
 

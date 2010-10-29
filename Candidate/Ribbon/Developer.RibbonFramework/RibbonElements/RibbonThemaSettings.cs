@@ -27,7 +27,7 @@ namespace Developer.RibbonFramework.RibbonElements
         }
     }
 
-    public class RibbonColorSettingsBase : IDisposable
+    public class RibbonThemaSettingsBase : IDisposable
     {
         public RibbonColorItem Border { get; protected set; }
         public RibbonColorItem DarkBorder { get; protected set; }
@@ -62,6 +62,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonColorItem ButtonPressedInnerBorderBottom { get; protected set; }
         public RibbonColorItem ButtonDropDownDark { get; protected set; }
         public RibbonColorItem ButtonDropDownLight { get; protected set; }
+
+        public Font Font { get; set; }
 
         public void Dispose()
         {
@@ -184,9 +186,9 @@ namespace Developer.RibbonFramework.RibbonElements
         #endregion
     }
 
-    public class RibbonColorSettings : RibbonColorSettingsBase
+    public class RibbonThemaSettings : RibbonThemaSettingsBase
     {
-        public RibbonColorSettings()
+        public RibbonThemaSettings()
         {
             this.Border
                 = new RibbonColorItem(Color.FromArgb(141, 178, 227));

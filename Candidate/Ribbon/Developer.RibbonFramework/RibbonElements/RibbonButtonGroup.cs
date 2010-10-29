@@ -46,38 +46,38 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override void Render(Graphics g, Rectangle groupBounds)
+        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
         {
-            base.Render(g, groupBounds);
+            base.Render(g, settings, groupBounds);
             foreach (var item in this.BigItems)
             {
                 Rectangle bounds = this.GetBigItemBounds(item);
-                item.Render(g, bounds);
+                item.Render(g, settings, bounds);
             }
             foreach (var item in this.SmallItems)
             {
                 Rectangle bounds = this.GetSmallItemBounds(item);
-                item.Render(g, bounds);
+                item.Render(g, settings, bounds);
             }
         }
 
-        public override void Update(Graphics g)
+        public override void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
-            base.Update(g);
+            base.Update(g, settings);
             foreach (var item in this.BigItems)
             {
                 item.Group = this;
                 item.ItemSize = RibbonItemSize.Big;
-                item.Update(g);
+                item.Update(g, settings);
             }
             foreach (var item in this.SmallItems)
             {
                 item.Group = this;
                 item.ItemSize = RibbonItemSize.Small;
-                item.Update(g);
+                item.Update(g, settings);
             }
 
-            this.bigWidth = this.BigItems.Select(item => item.GetBigWidth(g)).ToArray();
+            this.bigWidth = this.BigItems.Select(item => item.GetBigWidth(g, settings)).ToArray();
             int smallGroups = (this.SmallItems.Count + 2) / 3;
             this.smallWidth = new int[smallGroups];
             this.smallCompactWidth = new int[smallGroups];
@@ -85,20 +85,20 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 int start = i * 3;
                 int end = Math.Min(i * 3 + 2, this.SmallItems.Count - 1);
-                this.smallWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallWidth(g)).Max();
-                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallCompactWidth(g)).Max();
+                this.smallWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallWidth(g, settings)).Max();
+                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallCompactWidth(g, settings)).Max();
             }
         }
 
-        public override void UpdateWithSizeDecided(Graphics g)
+        public override void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
-            base.UpdateWithSizeDecided(g);
+            base.UpdateWithSizeDecided(g, settings);
             for (int i = 0; i < this.SmallItems.Count; i++)
             {
                 RibbonItem item = this.SmallItems[i];
                 int group = i / 3;
                 item.ItemSize = group < this.WidthLevel ? RibbonItemSize.Small : RibbonItemSize.SmallCompact;
-                item.UpdateWithSizeDecided(g);
+                item.UpdateWithSizeDecided(g, settings);
             }
         }
 
