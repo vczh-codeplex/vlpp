@@ -179,14 +179,29 @@ namespace Developer.RibbonFramework.RibbonElements
                     case HotState.MainButton:
                         {
                             itemBounds = GetMainButtonBounds(itemBounds);
-                            itemBounds.Height += ButtonBorder / 2;
+                            if (this.ItemSize == RibbonItemSize.Big)
+                            {
+                                itemBounds.Height += ButtonBorder / 2;
+                            }
+                            else
+                            {
+                                itemBounds.Width += ButtonBorder / 2;
+                            }
                         }
                         break;
                     case HotState.DropDownButton:
                         {
                             itemBounds = GetDropDownButtonBounds(itemBounds);
-                            itemBounds.Y -= ButtonBorder / 2;
-                            itemBounds.Height += ButtonBorder / 2;
+                            if (this.ItemSize == RibbonItemSize.Big)
+                            {
+                                itemBounds.Y -= ButtonBorder / 2;
+                                itemBounds.Height += ButtonBorder / 2;
+                            }
+                            else
+                            {
+                                itemBounds.X -= ButtonBorder / 2;
+                                itemBounds.Width += ButtonBorder / 2;
+                            }
                         }
                         break;
                 }
