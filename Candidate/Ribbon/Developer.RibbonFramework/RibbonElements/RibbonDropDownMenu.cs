@@ -9,11 +9,10 @@ namespace Developer.RibbonFramework.RibbonElements
     {
         class MenuDropDownControl : DropDownControl
         {
-            protected override void PrepareToOpen()
+            protected override System.Drawing.Size GetSuggestedSize()
             {
-                base.PrepareToOpen();
                 RibbonMenu menu = (RibbonMenu)this.RibbonItems;
-                this.RibbonContainerSize = menu.TotalSize;
+                return menu.TotalSize;
             }
         }
 

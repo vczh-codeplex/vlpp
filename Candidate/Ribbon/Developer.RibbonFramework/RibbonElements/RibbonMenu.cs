@@ -82,15 +82,28 @@ namespace Developer.RibbonFramework.RibbonElements
         public override void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
             base.Update(g, settings);
+            int w = 0;
+            int h = 0;
             foreach (var item in this.MenuItems)
             {
                 item.ItemContainer = this;
                 item.ItemSize = RibbonItemSize.MenuItem;
                 item.Update(g, settings);
+                RibbonMenuItem menuItem = item as RibbonMenuItem;
+                if (menuItem != null)
+                {
+                    w = Math.Max(w, menuItem.UpdatedMenuIconAreaSize.Width);
+                    h = Math.Max(w, menuItem.UpdatedMenuIconAreaSize.Height);
+                }
             }
-            int w = MenuBorder * 2 + (this.MenuItems.Count == 0 ? 0 : this.MenuItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).Max());
-            int h = MenuBorder * 2 + this.MenuItems.Select(i => i.GetHeight(g, settings, i.ItemSize)).Sum();
-            this.TotalSize = new Size(w, h);
+            foreach (var item in this.MenuItems)
+            {
+                RibbonMenuItem menuItem = item as RibbonMenuItem;
+                if (menuItem != null)
+                {
+                    menuItem.UpdatedMenuIconAreaSize = new Size(w, h);
+                }
+            }
         }
 
         public override void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
@@ -100,6 +113,9 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 item.UpdateWithSizeDecided(g, settings);
             }
+            int w = MenuBorder * 2 + (this.MenuItems.Count == 0 ? 0 : this.MenuItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).Max());
+            int h = MenuBorder * 2 + this.MenuItems.Select(i => i.GetHeight(g, settings, i.ItemSize)).Sum();
+            this.TotalSize = new Size(w, h);
         }
     }
 }
