@@ -8,6 +8,9 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public abstract class RibbonMenuItem : RibbonItem
     {
+        public const int MenuIconAreaWidth = RibbonMenu.MenuIconAreaSize + 1;
+        public const int MenuIconAreaHeight = RibbonMenu.MenuIconAreaSize;
+
         public int UpdatedHeight { get; protected set; }
 
         public abstract int GetSuggestedHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings);
@@ -22,8 +25,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public Rectangle GetPanelBounds(Rectangle itemBounds)
         {
             Rectangle r = itemBounds;
-            r.X += RibbonMenu.MenuIconAreaSize + 1;
-            r.Width -= RibbonMenu.MenuIconAreaSize + 1;
+            r.X += MenuIconAreaWidth;
+            r.Width -= MenuIconAreaWidth;
             return r;
         }
 
