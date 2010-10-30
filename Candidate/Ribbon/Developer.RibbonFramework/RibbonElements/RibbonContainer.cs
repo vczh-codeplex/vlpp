@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonContainer : IDisposable, IRibbonGlobalServices
+    public class RibbonContainer : IDisposable, IRibbonItemContainerServices
     {
         private IRibbonInputCallback callback;
         private RibbonItem capturedItem;
@@ -32,7 +32,9 @@ namespace Developer.RibbonFramework.RibbonElements
             this.TabGroups = new List<RibbonTabGroup>();
         }
 
-        RibbonItem IRibbonGlobalServices.CapturedItem
+        #region IRibbonItemContainerServices Members
+
+        RibbonItem IRibbonItemContainerServices.CapturedItem
         {
             get
             {
@@ -40,13 +42,13 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        void IRibbonGlobalServices.Capture(RibbonItem item)
+        void IRibbonItemContainerServices.Capture(RibbonItem item)
         {
             this.capturedItem = item;
             this.callback.CaptureMouse(item != null);
         }
 
-        Point IRibbonGlobalServices.GetLocationInScreen(RibbonItemContainer container)
+        Point IRibbonItemContainerServices.GetLocationInScreen(RibbonItemContainer container)
         {
             Point pc = this.callback.GetLocationInScreen(this);
             RibbonGroup group = (RibbonGroup)container;
@@ -55,16 +57,26 @@ namespace Developer.RibbonFramework.RibbonElements
             return new Point(pc.X + pg.X, pc.Y + pg.Y);
         }
 
-        Rectangle IRibbonGlobalServices.GetBounds(RibbonItemContainer container)
+        Rectangle IRibbonItemContainerServices.GetBounds(RibbonItemContainer container)
         {
             RibbonGroup group = (RibbonGroup)container;
             RibbonTab tab = group.Tab;
             return tab.GetGroupBounds(group);
         }
 
-        void IRibbonGlobalServices.ItemExecuted(RibbonItem item)
+        void IRibbonItemContainerServices.ItemExecuted(RibbonItem item)
         {
         }
+
+        RibbonDropDownHost IRibbonItemContainerServices.Host
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        #endregion
 
         public void Dispose()
         {

@@ -67,6 +67,14 @@ namespace Developer.RibbonFramework
             }
         }
 
+        protected ToolStripItem HostingItem
+        {
+            get
+            {
+                return this.host;
+            }
+        }
+
         protected virtual void PrepareToOpen()
         {
         }

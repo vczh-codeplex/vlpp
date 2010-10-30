@@ -101,7 +101,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 foreach (var group in this.Groups)
                 {
                     group.Tab = this;
-                    group.GlobalServices = this.Container;
+                    group.Services = this.Container;
                     group.Update(g, settings);
                     group.WidthLevel = group.WidthLevelCount - 1;
                 }

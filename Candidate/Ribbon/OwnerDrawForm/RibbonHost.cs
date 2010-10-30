@@ -74,7 +74,7 @@ namespace Developer.RibbonFramework
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         button.DropDown = new RibbonDropDownGroup()
                         {
-                            Group = CreateDropDownGroup()
+                            Group = CreateDropDownGroup1()
                         };
                         group.BigItems.Add(button);
                     }
@@ -85,7 +85,7 @@ namespace Developer.RibbonFramework
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         button.DropDown = new RibbonDropDownGroup()
                         {
-                            Group = CreateDropDownGroup()
+                            Group = CreateDropDownGroup2()
                         };
                         group.BigItems.Add(button);
                     }
@@ -443,7 +443,7 @@ namespace Developer.RibbonFramework
             UpdateRibbon(false);
         }
 
-        private RibbonGroup CreateDropDownGroup()
+        private RibbonGroup CreateDropDownGroup1()
         {
             RibbonButtonGroup group = new RibbonButtonGroup();
             group.Name = "字体";
@@ -507,6 +507,123 @@ namespace Developer.RibbonFramework
                 button.Name = "第三箭头";
                 button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                 group.SmallItems.Add(button);
+            }
+            return group;
+        }
+
+        private RibbonGroup CreateDropDownGroup2()
+        {
+            RibbonToolStripGroup group = new RibbonToolStripGroup();
+            group.Name = "段落";
+            {
+                RibbonToolStrip tool = new RibbonToolStrip();
+                tool.NormalLine = 0;
+                tool.CompactLine = 0;
+                group.ToolStrips.Add(tool);
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.ItemNumber;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.ItemDot;
+                    button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                    button.Enabled = false;
+                    tool.ToolItems.Add(button);
+                }
+            }
+            {
+                RibbonToolStrip tool = new RibbonToolStrip();
+                tool.NormalLine = 0;
+                tool.CompactLine = 0;
+                group.ToolStrips.Add(tool);
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.TabIn;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.TabOut;
+                    tool.ToolItems.Add(button);
+                }
+            }
+            {
+                RibbonToolStrip tool = new RibbonToolStrip();
+                tool.NormalLine = 1;
+                tool.CompactLine = 1;
+                group.ToolStrips.Add(tool);
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.AlignLeft;
+                    button.Toggled = true;
+                    button.ToggleGroup = 0;
+                    button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.AlignCenter;
+                    button.ToggleGroup = 0;
+                    button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.AlignRight;
+                    button.ToggleGroup = 0;
+                    button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.AlignFull;
+                    button.ToggleGroup = 0;
+                    button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.AlignExpand;
+                    button.ToggleGroup = 0;
+                    button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
+                    button.Enabled = false;
+                    tool.ToolItems.Add(button);
+                }
+            }
+            {
+                RibbonToolStrip tool = new RibbonToolStrip();
+                tool.NormalLine = 1;
+                tool.CompactLine = 1;
+                group.ToolStrips.Add(tool);
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.LinePadding;
+                    tool.ToolItems.Add(button);
+                }
+            }
+            {
+                RibbonToolStrip tool = new RibbonToolStrip();
+                tool.NormalLine = 0;
+                tool.CompactLine = 2;
+                group.ToolStrips.Add(tool);
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.TableBorder;
+                    button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                    button.DropDown = new RibbonDropDownMenu()
+                    {
+                        Menu = CreateTableMenu()
+                    };
+                    tool.ToolItems.Add(button);
+                }
+                {
+                    RibbonButton button = new RibbonButton();
+                    button.Image = ToolImages.SortAscending;
+                    button.ButtonStyle = RibbonButtonStyle.SplitButton;
+                    tool.ToolItems.Add(button);
+                }
             }
             return group;
         }

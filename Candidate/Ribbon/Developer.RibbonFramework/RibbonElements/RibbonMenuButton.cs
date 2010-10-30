@@ -117,7 +117,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         protected virtual void Executed()
         {
-            this.ItemContainer.GlobalServices.ItemExecuted(this);
+            this.ItemContainer.Services.ItemExecuted(this);
         }
     }
 }
