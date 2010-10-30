@@ -458,7 +458,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        void DropDownHost_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        private void DropDownHost_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             RibbonDropDownHost host = (RibbonDropDownHost)sender;
             host.Closed -= new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);

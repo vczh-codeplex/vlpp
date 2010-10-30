@@ -8,7 +8,7 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public class RibbonMenuButton : RibbonMenuItem
     {
-        public int MenuButtonTextPadding = 5;
+        public int MenuButtonLeftPadding = 5;
 
         public bool Hot { get; protected set; }
 
@@ -25,7 +25,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetSuggestedWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
         {
             SizeF size = g.MeasureString(this.Name, settings.Font);
-            return MenuIconAreaWidth + 2 * MenuButtonTextPadding + (int)size.Width;
+            return MenuIconAreaWidth + 2 * MenuButtonLeftPadding + (int)size.Width;
         }
 
         public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
@@ -54,7 +54,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 Rectangle r = GetPanelBounds(itemBounds);
                 SizeF size = g.MeasureString(this.Name, settings.Font);
-                int x = r.Left + MenuButtonTextPadding;
+                int x = r.Left + MenuButtonLeftPadding;
                 int y = r.Top + (int)(r.Height - size.Height) / 2;
                 g.DrawString(this.Name, settings.Font, settings.TabText.Brush, x, y);
             }
@@ -80,6 +80,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
+            Executed();
             return false;
         }
 
@@ -94,6 +95,11 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return false;
             }
+        }
+
+        protected virtual void Executed()
+        {
+            this.ItemContainer.GlobalServices.ItemExecuted(this);
         }
     }
 }

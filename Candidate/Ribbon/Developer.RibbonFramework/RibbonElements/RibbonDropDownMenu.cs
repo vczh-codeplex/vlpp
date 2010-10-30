@@ -17,7 +17,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public RibbonMenu Group { get; set; }
+        public RibbonMenu Menu { get; set; }
 
         protected override RibbonDropDownBase.DropDownControl CreateDropDownControl()
         {
@@ -28,7 +28,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             get
             {
-                return this.Group;
+                return this.Menu;
             }
         }
     }
