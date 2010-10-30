@@ -13,21 +13,22 @@ namespace Developer.RibbonFramework.RibbonElements
         private RibbonItem capturedItem;
 
         public RibbonResourceManager ResourceManager { get; private set; }
-        public IList<RibbonTab> Tabs { get; private set; }
+        public IList<RibbonTabBase> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
-        public RibbonTab SelectedTab { get; private set; }
-        public RibbonTab HotTab { get; private set; }
+        public RibbonTabBase HotTab { get; private set; }
 
-        public RibbonThemaSettingsBase Settings { get; set; }
+        public RibbonThemaSettingsBase Settings { get; protected set; }
         public int TabTotalWidth { get; protected set; }
         public int TabTotalHeight { get; protected set; }
         public Rectangle RibbonBounds { get; protected set; }
         public int RibbonTabOffset { get; protected set; }
 
+        public RibbonTabPanel SelectedTabPanel { get; set; }
+
         public RibbonContainer(IRibbonInputCallback callback)
         {
             this.callback = callback;
-            this.Tabs = new List<RibbonTab>();
+            this.Tabs = new List<RibbonTabBase>();
             this.TabGroups = new List<RibbonTabGroup>();
 
             this.Settings = new RibbonThemaSettings();
@@ -55,16 +56,14 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             Point pc = this.callback.GetLocationInScreen(this);
             RibbonGroup group = (RibbonGroup)container;
-            RibbonTab tab = group.Tab;
-            Point pg = tab.GetGroupBounds(group).Location;
+            Point pg = group.TabPanel.GetGroupBounds(group).Location;
             return new Point(pc.X + pg.X, pc.Y + pg.Y);
         }
 
         Rectangle IRibbonItemContainerServices.GetBounds(RibbonItemContainer container)
         {
             RibbonGroup group = (RibbonGroup)container;
-            RibbonTab tab = group.Tab;
-            return tab.GetGroupBounds(group);
+            return group.TabPanel.GetGroupBounds(group);
         }
 
         void IRibbonItemContainerServices.ItemExecuted(RibbonItem item)
@@ -95,17 +94,14 @@ namespace Developer.RibbonFramework.RibbonElements
         public void RenderTabPanel(Graphics g, Rectangle graphicsBounds)
         {
             g.FillRectangle(this.Settings.Panel.Brush, graphicsBounds);
-            int x = this.RibbonBounds.Left + this.RibbonTabOffset + RibbonTab.TabPadding;
-            int y = this.RibbonBounds.Top + RibbonTab.TabPadding;
-            if (this.SelectedTab != null)
+            if (this.SelectedTabPanel != null)
             {
-                this.SelectedTab.RenderPanel(g, this.Settings, GetTabPanelBounds());
+                this.SelectedTabPanel.RenderPanel(g, this.Settings, GetTabPanelBounds());
             }
             foreach (var tab in this.Tabs)
             {
-                Rectangle bounds = new Rectangle(x, y, tab.TabWidth, this.TabTotalHeight);
+                Rectangle bounds = GetTabBounds(tab);
                 tab.RenderTab(g, this.Settings, bounds);
-                x += tab.TabWidth + RibbonTab.TabPadding;
             }
         }
 
@@ -120,6 +116,19 @@ namespace Developer.RibbonFramework.RibbonElements
                 Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
                 group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
             }
+        }
+
+        protected RibbonTabPanel FindFirstTabPanel()
+        {
+            foreach (var tab in this.Tabs)
+            {
+                RibbonTab ribbonTab = tab as RibbonTab;
+                if (ribbonTab != null)
+                {
+                    return ribbonTab.TabPanel;
+                }
+            }
+            return null;
         }
 
         public void Update(Graphics g, Rectangle ribbonBounds, int ribbonTabOffset)
@@ -138,24 +147,17 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             this.TabTotalWidth = this.Tabs.Select(t => t.TabWidth).Sum();
             this.TabTotalHeight = this.Tabs.Count > 0 ? this.Tabs.Select(t => t.TabHeight).Max() : 0;
-            if (!this.Tabs.Contains(this.SelectedTab))
+            if (this.SelectedTabPanel == null || !this.Tabs.Contains(this.SelectedTabPanel.Owner))
             {
-                if (this.Tabs.Count > 0)
-                {
-                    this.SelectedTab = this.Tabs[0];
-                }
-                else
-                {
-                    this.SelectedTab = null;
-                }
+                this.SelectedTabPanel = FindFirstTabPanel();
             }
-            if (this.SelectedTab != null)
+            if (this.SelectedTabPanel != null)
             {
-                this.SelectedTab.State = RibbonElementState.Selected;
+                this.SelectedTabPanel.Owner.State = RibbonElementState.Selected;
             }
             foreach (var tab in this.Tabs)
             {
-                if (tab != this.SelectedTab)
+                if (tab != this.SelectedTabPanel.Owner)
                 {
                     tab.State = RibbonElementState.Normal;
                 }
@@ -163,10 +165,10 @@ namespace Developer.RibbonFramework.RibbonElements
             this.HotTab = null;
         }
 
-        public Rectangle GetTabBounds(RibbonTab targetTab)
+        public Rectangle GetTabBounds(RibbonTabBase targetTab)
         {
-            int x = this.RibbonBounds.Left + this.RibbonTabOffset + RibbonTab.TabPadding;
-            int y = this.RibbonBounds.Top + RibbonTab.TabPadding;
+            int x = this.RibbonBounds.Left + this.RibbonTabOffset + RibbonTabBase.TabPadding;
+            int y = this.RibbonBounds.Top + RibbonTabBase.TabPadding;
             foreach (var tab in this.Tabs)
             {
                 if (tab == targetTab)
@@ -174,12 +176,12 @@ namespace Developer.RibbonFramework.RibbonElements
                     Rectangle bounds = new Rectangle(x, y, tab.TabWidth, this.TabTotalHeight);
                     return bounds;
                 }
-                x += tab.TabWidth + RibbonTab.TabPadding;
+                x += tab.TabWidth + RibbonTabBase.TabPadding;
             }
             return Rectangle.Empty;
         }
 
-        public RibbonTab GetTabFromPoint(Point location)
+        public RibbonTabBase GetTabFromPoint(Point location)
         {
             foreach (var tab in this.Tabs)
             {
@@ -195,9 +197,9 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             Rectangle panelBounds = new Rectangle(
                 this.RibbonBounds.Left,
-                this.RibbonBounds.Top + RibbonTab.TabPadding + this.TabTotalHeight,
+                this.RibbonBounds.Top + RibbonTabBase.TabPadding + this.TabTotalHeight,
                 this.RibbonBounds.Width,
-                this.RibbonBounds.Height - this.TabTotalHeight - RibbonTab.TabPadding
+                this.RibbonBounds.Height - this.TabTotalHeight - RibbonTabBase.TabPadding
                 );
             return panelBounds;
         }
@@ -208,24 +210,24 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return this.capturedItem.OnMouseDown(e);
             }
-            RibbonTab selectedTab = GetTabFromPoint(e.Location);
+            RibbonTabBase selectedTab = GetTabFromPoint(e.Location);
             if (selectedTab != null)
             {
-                if (selectedTab != this.SelectedTab)
+                if (selectedTab != this.SelectedTabPanel.Owner)
                 {
                     foreach (var tab in this.Tabs)
                     {
                         tab.State = RibbonElementState.Normal;
                     }
                     selectedTab.State = RibbonElementState.Selected;
-                    this.SelectedTab = selectedTab;
+                    selectedTab.Executed();
                     return true;
                 }
             }
 
-            if (this.SelectedTab != null)
+            if (this.SelectedTabPanel != null)
             {
-                RibbonGroup group = this.SelectedTab.GetGroupFromPoint(e.Location);
+                RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
                 if (group != null)
                 {
                     return group.OnMouseDown(e);
@@ -240,8 +242,8 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return this.capturedItem.OnMouseMove(e);
             }
-            RibbonTab hotTab = GetTabFromPoint(e.Location);
-            if (hotTab == this.SelectedTab)
+            RibbonTabBase hotTab = GetTabFromPoint(e.Location);
+            if (hotTab == this.SelectedTabPanel.Owner)
             {
                 hotTab = null;
             }
@@ -249,7 +251,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 foreach (var tab in this.Tabs)
                 {
-                    if (tab != this.SelectedTab)
+                    if (tab != this.SelectedTabPanel.Owner)
                     {
                         tab.State = RibbonElementState.Normal;
                     }
@@ -263,10 +265,10 @@ namespace Developer.RibbonFramework.RibbonElements
             }
 
             bool result = false;
-            if (this.SelectedTab != null)
+            if (this.SelectedTabPanel != null)
             {
-                RibbonGroup group = this.SelectedTab.GetGroupFromPoint(e.Location);
-                foreach (var ribbonGroup in this.SelectedTab.RealGroups)
+                RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
+                foreach (var ribbonGroup in this.SelectedTabPanel.RealGroups)
                 {
                     if (ribbonGroup != group)
                     {
@@ -287,9 +289,9 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return this.capturedItem.OnMouseUp(e);
             }
-            if (this.SelectedTab != null)
+            if (this.SelectedTabPanel != null)
             {
-                RibbonGroup group = this.SelectedTab.GetGroupFromPoint(e.Location);
+                RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
                 if (group != null)
                 {
                     return group.OnMouseUp(e);
@@ -300,13 +302,13 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public bool OnMouseLeave(EventArgs e)
         {
-            if (this.SelectedTab == null)
+            if (this.SelectedTabPanel == null)
             {
                 return false;
             }
             else
             {
-                return this.SelectedTab.RealGroups.Select(group => group.OnMouseLeave(e)).ToArray().Any();
+                return this.SelectedTabPanel.RealGroups.Select(group => group.OnMouseLeave(e)).ToArray().Any();
             }
         }
     }

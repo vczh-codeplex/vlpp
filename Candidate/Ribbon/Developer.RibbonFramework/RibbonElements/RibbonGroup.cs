@@ -15,7 +15,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         private RibbonCompactedGroup compactedGroup = null;
 
-        public RibbonTab Tab { get; internal set; }
+        public RibbonTabPanel TabPanel { get; internal set; }
         public string Name { get; set; }
         public int WidthLevel { get; set; }
         public int HeaderHeight { get; set; }
@@ -36,7 +36,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 if (this.compactedGroup == null)
                 {
-                    this.compactedGroup = new RibbonCompactedGroup(this.Tab.Container, this);
+                    this.compactedGroup = new RibbonCompactedGroup(this.TabPanel.Owner.Container, this);
                 }
                 return this.compactedGroup;
             }
