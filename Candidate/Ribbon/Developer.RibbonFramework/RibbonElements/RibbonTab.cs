@@ -20,7 +20,13 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             RibbonMenuButton button = new RibbonMenuButton();
             button.Name = this.Name;
+            button.Executed += new EventHandler(menuItem_Executed);
             return button;
+        }
+
+        private void menuItem_Executed(object sender, EventArgs e)
+        {
+            Executed();
         }
 
         public override bool Selectable

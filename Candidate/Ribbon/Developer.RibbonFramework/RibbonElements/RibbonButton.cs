@@ -43,6 +43,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public int ToggleGroup { get; set; }
         public bool Toggled { get; set; }
 
+        public event EventHandler Executed;
+
         public bool EnabledToggling
         {
             get
@@ -453,7 +455,7 @@ namespace Developer.RibbonFramework.RibbonElements
             this.ItemContainer.Services.Capture(null);
             if (this.ItemContainer.GetItemFromPoint(e.Location) == this)
             {
-                Executed();
+                OnExecuted();
                 return UpdateVisualStyleToHot();
             }
             else
@@ -467,7 +469,7 @@ namespace Developer.RibbonFramework.RibbonElements
             return UpdateVisualStyleToNormal();
         }
 
-        protected virtual void DropDownExecuted()
+        protected virtual void OnDropDownExecuted()
         {
             if (this.DropDown != null)
             {
@@ -487,7 +489,7 @@ namespace Developer.RibbonFramework.RibbonElements
             this.ItemContainer.Services.RefreshItemContainer();
         }
 
-        protected virtual void Executed()
+        protected virtual void OnExecuted()
         {
             bool dropDownExecuted = false;
             switch (this.ButtonStyle)
@@ -515,7 +517,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     break;
                 case RibbonButtonStyle.DropDownButton:
                     {
-                        DropDownExecuted();
+                        OnDropDownExecuted();
                         dropDownExecuted = true;
                     }
                     break;
@@ -523,7 +525,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     {
                         if (this.SplitButtonHotState == HotState.DropDownButton)
                         {
-                            DropDownExecuted();
+                            OnDropDownExecuted();
                             dropDownExecuted = true;
                         }
                     }
@@ -531,6 +533,10 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             if (!dropDownExecuted)
             {
+                if (this.Executed != null)
+                {
+                    this.Executed(this, new EventArgs());
+                }
                 this.ItemContainer.Services.ItemExecuted(this);
             }
         }

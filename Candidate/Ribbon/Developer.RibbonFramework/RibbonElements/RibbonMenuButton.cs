@@ -18,6 +18,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonDropDownBase DropDown { get; set; }
         public bool Hot { get; protected set; }
 
+        public event EventHandler Executed;
+
         public RibbonMenuButton()
         {
             this.Hot = false;
@@ -138,7 +140,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            Executed();
+            OnExecuted();
             return false;
         }
 
@@ -155,10 +157,14 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        protected virtual void Executed()
+        protected virtual void OnExecuted()
         {
             if (this.DropDown == null)
             {
+                if (this.Executed != null)
+                {
+                    this.Executed(this, new EventArgs());
+                }
                 this.ItemContainer.Services.ItemExecuted(this);
             }
         }
