@@ -29,7 +29,7 @@ namespace Developer.RibbonFramework.RibbonElements
             return null;
         }
 
-        public virtual void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
+        public virtual void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
         }
 
