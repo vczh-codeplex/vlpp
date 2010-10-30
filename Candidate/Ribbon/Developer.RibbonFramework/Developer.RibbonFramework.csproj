@@ -69,6 +69,9 @@
     <Compile Include="RibbonElements\RibbonButtonGroupItem.cs" />
     <Compile Include="RibbonElements\RibbonDropDownBase.cs" />
     <Compile Include="RibbonElements\RibbonDropDownGroup.cs" />
+    <Compile Include="RibbonElements\RibbonDropDownMenu.cs" />
+    <Compile Include="RibbonElements\RibbonMenu.cs" />
+    <Compile Include="RibbonElements\RibbonMenuItem.cs" />
     <Compile Include="RibbonElements\RibbonThemaSettings.cs" />
     <Compile Include="RibbonElements\RibbonContainer.cs" />
     <Compile Include="RibbonElements\RibbonGroup.cs" />

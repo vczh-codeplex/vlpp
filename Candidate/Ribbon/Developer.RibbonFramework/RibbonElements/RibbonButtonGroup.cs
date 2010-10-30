@@ -46,9 +46,9 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle groupBounds)
+        public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            base.Render(g, settings, groupBounds);
+            base.Render(g, settings, itemBounds);
             foreach (var item in this.BigItems)
             {
                 Rectangle bounds = this.GetBigItemBounds(item);
