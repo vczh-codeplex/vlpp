@@ -8,7 +8,7 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public class RibbonMenu : RibbonItemContainer
     {
-        public const int MenuBorder = 2;
+        public const int MenuBorder = 1;
         public const int MenuIconAreaSize = 24;
 
         public IList<RibbonMenuItem> MenuItems { get; private set; }
@@ -61,7 +61,12 @@ namespace Developer.RibbonFramework.RibbonElements
         public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
             base.Render(g, settings, itemBounds);
-            settings.DrawCarvedBorder(g, settings.LightBorder, settings.DarkBorder, itemBounds);
+            {
+                Rectangle r = itemBounds;
+                r.Width -= 1;
+                r.Height -= 1;
+                g.DrawRectangle(settings.MenuSeparator.Pen, r);
+            }
             int x = itemBounds.Left + MenuBorder;
             int y = itemBounds.Top + MenuBorder;
             int w = itemBounds.Width - 2 * MenuBorder;

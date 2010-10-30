@@ -50,6 +50,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
                 settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
             }
+            if (this.Image != null)
             {
                 Rectangle r = GetIconBounds(itemBounds);
                 int x = r.Left + (r.Width - this.Image.Width) / 2;
