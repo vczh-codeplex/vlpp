@@ -123,12 +123,7 @@ namespace Developer.RibbonFramework
             this.ribbonBitmap = null;
         }
 
-        private MouseEventArgs CopyForRibbon(MouseEventArgs e)
-        {
-            return new MouseEventArgs(e.Button, e.Clicks, e.X, e.Y, e.Delta);
-        }
-
-        private void Render()
+        protected void Render()
         {
             if (this.ribbonBitmap != null)
             {
@@ -141,6 +136,11 @@ namespace Developer.RibbonFramework
         private void ribbonPanel_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(this.ribbonBitmap, 0, 0);
+        }
+
+        private MouseEventArgs CopyForRibbon(MouseEventArgs e)
+        {
+            return new MouseEventArgs(e.Button, e.Clicks, e.X, e.Y, e.Delta);
         }
 
         private void ribbonPanel_MouseDown(object sender, MouseEventArgs e)

@@ -79,6 +79,11 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        void IRibbonItemContainerServices.RefreshItemContainer()
+        {
+            this.callback.RefreshRibbon();
+        }
+
         #endregion
 
         public void Dispose()
@@ -318,5 +323,6 @@ namespace Developer.RibbonFramework.RibbonElements
     {
         void CaptureMouse(bool capture);
         Point GetLocationInScreen(RibbonContainer ribbonContainer);
+        void RefreshRibbon();
     }
 }

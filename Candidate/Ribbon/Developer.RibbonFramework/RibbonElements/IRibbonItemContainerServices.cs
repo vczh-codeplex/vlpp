@@ -14,5 +14,6 @@ namespace Developer.RibbonFramework.RibbonElements
         Rectangle GetBounds(RibbonItemContainer container);
         void ItemExecuted(RibbonItem item);
         RibbonDropDownHost Host { get; }
+        void RefreshItemContainer();
     }
 }

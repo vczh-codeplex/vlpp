@@ -483,6 +483,8 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonDropDownHost host = (RibbonDropDownHost)sender;
             host.Closed -= new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);
             this.dropDownOpening = false;
+            UpdateVisualStyleToNormal();
+            this.ItemContainer.Services.RefreshItemContainer();
         }
 
         protected virtual void Executed()
