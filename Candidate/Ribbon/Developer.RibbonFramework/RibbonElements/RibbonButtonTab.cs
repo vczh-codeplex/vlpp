@@ -131,6 +131,13 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override void Executed()
         {
+            if (this.DropDown != null)
+            {
+                Rectangle bounds = this.Container.GetTabBounds(this);
+                int x = bounds.Left;
+                int y = bounds.Bottom;
+                this.DropDown.Open(this.Container, new Point(x, y));
+            }
         }
     }
 }

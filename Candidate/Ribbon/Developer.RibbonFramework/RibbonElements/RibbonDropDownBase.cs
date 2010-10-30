@@ -37,6 +37,11 @@ namespace Developer.RibbonFramework.RibbonElements
                 return this.RibbonPanelControl.PointToScreen(new Point(0, 0));
             }
 
+            Point IRibbonItemContainerServices.GetLocationInScreen()
+            {
+                return this.RibbonPanelControl.PointToScreen(new Point(0, 0));
+            }
+
             Rectangle IRibbonItemContainerServices.GetBounds(RibbonItemContainer container)
             {
                 return new Rectangle(0, 0, this.RibbonContainerSize.Width, this.RibbonContainerSize.Height);
@@ -158,6 +163,20 @@ namespace Developer.RibbonFramework.RibbonElements
             this.dropDownControl.RibbonItems = this.RibbonItems;
             this.dropDownControl.ParentDropDownControl = item.ItemContainer.Services.Host as DropDownControl;
             this.dropDownControl.Show(p.X + pi.X - pg.X + relativeLocation.X, p.Y + pi.Y - pg.Y + relativeLocation.Y);
+        }
+
+        public void Open(RibbonContainer ribbonContainer, Point relativeLocation)
+        {
+            Point p = (ribbonContainer as IRibbonItemContainerServices).GetLocationInScreen();
+            if (this.dropDownControl != null)
+            {
+                Close();
+            }
+            this.dropDownControl = this.ribbonContainer.ResourceManager.Allocate<DropDownControl>(GetDropDownControlType());
+            this.dropDownControl.Owner = this;
+            this.dropDownControl.RibbonItems = this.RibbonItems;
+            this.dropDownControl.ParentDropDownControl = null;
+            this.dropDownControl.Show(p.X + relativeLocation.X, p.Y + relativeLocation.Y);
         }
 
         public void Close()

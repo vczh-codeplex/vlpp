@@ -12,11 +12,11 @@ namespace Developer.RibbonFramework.RibbonElements
         private IRibbonInputCallback callback;
         private RibbonItem capturedItem;
         private List<RibbonTabBase> realTabs;
+        private bool pressing = false;
 
         public RibbonResourceManager ResourceManager { get; private set; }
         public IList<RibbonTabBase> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
-        public RibbonTabBase HotTab { get; private set; }
 
         public RibbonThemaSettingsBase Settings { get; protected set; }
         public int TabTotalWidth { get; protected set; }
@@ -61,6 +61,11 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonGroup group = (RibbonGroup)container;
             Point pg = group.TabPanel.GetGroupBounds(group).Location;
             return new Point(pc.X + pg.X, pc.Y + pg.Y);
+        }
+
+        Point IRibbonItemContainerServices.GetLocationInScreen()
+        {
+            return this.callback.GetLocationInScreen(this);
         }
 
         Rectangle IRibbonItemContainerServices.GetBounds(RibbonItemContainer container)
@@ -160,14 +165,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 this.SelectedTabPanel.Owner.State = RibbonElementState.Selected;
             }
-            foreach (var tab in this.realTabs)
-            {
-                if (tab != this.SelectedTabPanel.Owner)
-                {
-                    tab.State = RibbonElementState.Normal;
-                }
-            }
-            this.HotTab = null;
+            ClearTabStates(true);
         }
 
         public Rectangle GetTabBounds(RibbonTabBase targetTab)
@@ -209,26 +207,41 @@ namespace Developer.RibbonFramework.RibbonElements
             return panelBounds;
         }
 
+        private bool ClearTabStates(bool keepSelect)
+        {
+            bool result = false;
+            foreach (var tab in this.realTabs)
+            {
+                if (!keepSelect || tab.State != RibbonElementState.Selected)
+                {
+                    if (tab.State != RibbonElementState.Normal)
+                    {
+                        tab.State = RibbonElementState.Normal;
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
         public bool OnMouseDown(MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+            {
+                return false;
+            }
+            pressing = true;
             if (this.capturedItem != null)
             {
                 return this.capturedItem.OnMouseDown(e);
             }
+            bool result = ClearTabStates(true);
             RibbonTabBase selectedTab = GetTabFromPoint(e.Location);
             if (selectedTab != null)
             {
-                if (selectedTab != this.SelectedTabPanel.Owner)
+                if (selectedTab.State != RibbonElementState.Selected)
                 {
-                    if (selectedTab.Selectable)
-                    {
-                        foreach (var tab in this.realTabs)
-                        {
-                            tab.State = RibbonElementState.Normal;
-                        }
-                        selectedTab.State = RibbonElementState.Selected;
-                    }
-                    selectedTab.Executed();
+                    selectedTab.State = RibbonElementState.Pressed;
                     return true;
                 }
             }
@@ -238,10 +251,13 @@ namespace Developer.RibbonFramework.RibbonElements
                 RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
                 if (group != null)
                 {
-                    return group.OnMouseDown(e);
+                    if (group.OnMouseDown(e))
+                    {
+                        return true;
+                    }
                 }
             }
-            return false;
+            return result;
         }
 
         public bool OnMouseMove(MouseEventArgs e)
@@ -250,29 +266,18 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 return this.capturedItem.OnMouseMove(e);
             }
-            RibbonTabBase hotTab = GetTabFromPoint(e.Location);
-            if (hotTab == this.SelectedTabPanel.Owner)
+            bool result = ClearTabStates(true);
+            RibbonTabBase selectedTab = GetTabFromPoint(e.Location);
+            if (selectedTab != null)
             {
-                hotTab = null;
-            }
-            if (hotTab != this.HotTab)
-            {
-                foreach (var tab in this.realTabs)
+                RibbonElementState expectedState = this.pressing ? RibbonElementState.Pressed : RibbonElementState.Hot;
+                if (selectedTab.State != RibbonElementState.Selected && selectedTab.State != expectedState)
                 {
-                    if (tab != this.SelectedTabPanel.Owner)
-                    {
-                        tab.State = RibbonElementState.Normal;
-                    }
+                    selectedTab.State = expectedState;
+                    return true;
                 }
-                if (hotTab != null)
-                {
-                    hotTab.State = RibbonElementState.Hot;
-                }
-                this.HotTab = hotTab;
-                return true;
             }
 
-            bool result = false;
             if (this.SelectedTabPanel != null)
             {
                 RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
@@ -293,30 +298,62 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public bool OnMouseUp(MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+            {
+                return false;
+            }
+            this.pressing = false;
             if (this.capturedItem != null)
             {
                 return this.capturedItem.OnMouseUp(e);
             }
+
+            bool result = false;
+            RibbonTabBase selectedTab = GetTabFromPoint(e.Location);
+            if (selectedTab != null)
+            {
+                if (selectedTab.Selectable)
+                {
+                    result = ClearTabStates(false);
+                    selectedTab.State = RibbonElementState.Selected;
+                }
+                else
+                {
+                    selectedTab.State = RibbonElementState.Normal;
+                }
+                selectedTab.Executed();
+                if (selectedTab.Selectable)
+                {
+                    return result;
+                }
+            }
+            result = ClearTabStates(true);
+
             if (this.SelectedTabPanel != null)
             {
                 RibbonGroup group = this.SelectedTabPanel.GetGroupFromPoint(e.Location);
                 if (group != null)
                 {
-                    return group.OnMouseUp(e);
+                    if (group.OnMouseUp(e))
+                    {
+                        return true;
+                    }
                 }
             }
-            return false;
+            return result;
         }
 
         public bool OnMouseLeave(EventArgs e)
         {
+            bool result = ClearTabStates(true);
+            this.pressing = false;
             if (this.SelectedTabPanel == null)
             {
-                return false;
+                return result;
             }
             else
             {
-                return this.SelectedTabPanel.RealGroups.Select(group => group.OnMouseLeave(e)).ToArray().Any();
+                return this.SelectedTabPanel.RealGroups.Select(group => group.OnMouseLeave(e)).ToArray().Any() || result;
             }
         }
     }
