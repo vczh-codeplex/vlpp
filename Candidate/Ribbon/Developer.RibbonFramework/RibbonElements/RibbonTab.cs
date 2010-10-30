@@ -24,7 +24,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonTab()
         {
-            this.Name = "RibbonTab";
+            this.Name = "";
             this.Groups = new List<RibbonGroup>();
         }
 

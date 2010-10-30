@@ -20,6 +20,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonItem()
         {
+            this.Name = "";
             this.Enabled = true;
         }
 
