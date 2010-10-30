@@ -94,7 +94,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override void Executed()
         {
-            this.Container.SelectedTabPanel = this.TabPanel;
+            this.Container.SelectTabPanel(this.TabPanel);
         }
     }
 }
