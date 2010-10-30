@@ -66,6 +66,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonColorItem Menu { get; protected set; }
         public RibbonColorItem MenuSeparator { get; protected set; }
         public RibbonColorItem MenuIconBackground { get; protected set; }
+        public RibbonColorItem MenuLightText { get; protected set; }
+        public RibbonColorItem MenuDarkText { get; protected set; }
 
         public Font Font { get; set; }
 
@@ -266,6 +268,10 @@ namespace Developer.RibbonFramework.RibbonElements
                 = new RibbonColorItem(Color.FromArgb(197, 197, 197));
             this.MenuIconBackground
                 = new RibbonColorItem(Color.FromArgb(233, 238, 238));
+            this.MenuLightText
+                = new RibbonColorItem(Color.FromArgb(255, 255, 255));
+            this.MenuDarkText
+                = new RibbonColorItem(Color.FromArgb(154, 154, 154));
         }
     }
 }

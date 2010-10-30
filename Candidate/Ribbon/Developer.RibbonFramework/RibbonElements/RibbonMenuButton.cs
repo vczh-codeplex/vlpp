@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
@@ -49,14 +50,31 @@ namespace Developer.RibbonFramework.RibbonElements
                 Rectangle r = GetIconBounds(itemBounds);
                 int x = r.Left + (r.Width - this.Image.Width) / 2;
                 int y = r.Top + (r.Height - this.Image.Height) / 2;
-                g.DrawImage(this.Image, x, y);
+                if (this.Enabled)
+                {
+                    g.DrawImage(this.Image, x, y);
+                }
+                else
+                {
+                    ControlPaint.DrawImageDisabled(g, this.Image, x, y, Color.Transparent);
+                }
             }
             {
                 Rectangle r = GetPanelBounds(itemBounds);
                 SizeF size = g.MeasureString(this.Name, settings.Font);
-                int x = r.Left + MenuButtonLeftPadding;
-                int y = r.Top + (int)(r.Height - size.Height) / 2;
-                g.DrawString(this.Name, settings.Font, settings.TabText.Brush, x, y);
+                int tx = r.Left + MenuButtonLeftPadding;
+                int ty = r.Top + (int)(r.Height - size.Height) / 2;
+                Font font = settings.Font;
+
+                if (this.Enabled)
+                {
+                    g.DrawString(this.Name, font, settings.TabText.Brush, tx, ty);
+                }
+                else
+                {
+                    Rectangle tr = new Rectangle(tx, ty, (int)size.Width, (int)size.Height);
+                    settings.DrawCarvedText(g, settings.MenuLightText, settings.MenuDarkText, tr, this.Name, font);
+                }
             }
         }
 
