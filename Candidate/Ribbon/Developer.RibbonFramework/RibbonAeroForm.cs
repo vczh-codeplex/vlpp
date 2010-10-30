@@ -138,25 +138,3 @@ namespace Developer.RibbonFramework
         }
     }
 }
-
-/*
- * RibbonContainer (Tabs, TabGroups)
- * RibbonTab (Text)
- * RibbonTabGroup (Text, Tabs)
- * RibbonGroup (Text, DetailedButton)
- *      RibbonButtonGroup (BigButtons, SmallButtons)
- *      RibbonToolGroup
- * RibbonDropDown
- * 
- * RibbonItem (Image, Text, ShowInGallery)
- *      RibbonButton (Items, ToggleGroup=-1)
- *          #Normal
- *          #Toggle
- *          #DropDown
- *          #Split (Tab Only)
- *      RibbonGallery (UnitSize)
- *          #Tiled
- *          #List
- *      RibbonSpliter
- *      RibbonGroupHeader
-*/
