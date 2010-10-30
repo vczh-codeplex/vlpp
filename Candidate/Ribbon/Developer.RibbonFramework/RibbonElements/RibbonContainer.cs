@@ -130,10 +130,10 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 foreach (var group in this.TabGroups)
                 {
-                    if (group.FirstIndex >= 0 && group.FirstIndex < this.realTabs.Count && group.LastIndex >= 0 && group.LastIndex < this.realTabs.Count)
+                    if (group.FirstIndex >= 0 && group.FirstIndex < this.Tabs.Count && group.LastIndex >= 0 && group.LastIndex < this.Tabs.Count)
                     {
-                        int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
-                        int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
+                        int x1 = GetTabBounds(this.Tabs[group.FirstIndex]).Left + panelBounds.Left;
+                        int x2 = GetTabBounds(this.Tabs[group.LastIndex]).Right + panelBounds.Left;
                         int y1 = 0;
                         int y2 = panelBounds.Top;
                         Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);

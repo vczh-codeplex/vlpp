@@ -350,8 +350,8 @@ namespace Developer.RibbonFramework
             {
                 RibbonTabGroup group = new RibbonTabGroup();
                 group.Name = "表格工具";
-                group.FirstIndex = 4;
-                group.LastIndex = 5;
+                group.FirstIndex = 5;
+                group.LastIndex = 6;
                 this.Ribbon.TabGroups.Add(group);
             }
             UpdateRibbon(false);
