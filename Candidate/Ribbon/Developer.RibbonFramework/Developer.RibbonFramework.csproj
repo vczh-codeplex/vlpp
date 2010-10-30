@@ -71,6 +71,8 @@
     <Compile Include="RibbonElements\RibbonDropDownBase.cs" />
     <Compile Include="RibbonElements\RibbonDropDownGroup.cs" />
     <Compile Include="RibbonElements\RibbonDropDownMenu.cs" />
+    <Compile Include="RibbonElements\RibbonTabBase.cs" />
+    <Compile Include="RibbonElements\RibbonTabPanel.cs" />
     <Compile Include="RibbonElements\RibbonMenu.cs" />
     <Compile Include="RibbonElements\RibbonMenuButton.cs" />
     <Compile Include="RibbonElements\RibbonMenuItem.cs" />
