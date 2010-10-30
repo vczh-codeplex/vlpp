@@ -257,6 +257,74 @@ namespace Developer.RibbonFramework
                 RibbonTab tab = new RibbonTab();
                 tab.Name = "插入";
                 this.Ribbon.Tabs.Add(tab);
+                {
+                    RibbonControlGroup group = new RibbonControlGroup();
+                    group.Name = "好复杂啊";
+                    tab.Groups.Add(group);
+
+                    RibbonControlSizingPolicy[] policies = new RibbonControlSizingPolicy[]{
+                        RibbonControlSizingPolicy.Big,
+                        RibbonControlSizingPolicy.BigSmall,
+                        RibbonControlSizingPolicy.BigCompact,
+                        RibbonControlSizingPolicy.Small,
+                        RibbonControlSizingPolicy.SmallCompact,
+                        RibbonControlSizingPolicy.Compact
+                    };
+                    Image[] smalls = new Image[] { ControlImages.a1, ControlImages.b1, ControlImages.c1, ControlImages.d1, ControlImages.e1, ControlImages.f1 };
+                    Image[] bigs = new Image[] { ControlImages.a2, ControlImages.b2, ControlImages.c2, ControlImages.d2, ControlImages.e2, ControlImages.f2 };
+                    RibbonButtonStyle[] styles = new RibbonButtonStyle[] { RibbonButtonStyle.PushButton, RibbonButtonStyle.DropDownButton, RibbonButtonStyle.SplitButton };
+                    for (int i = 0; i < 6; i++)
+                    {
+                        RibbonControlGroupPanel panel = new RibbonControlGroupPanel();
+                        panel.Policy = policies[i];
+                        group.Panels.Add(panel);
+                        for (int j = 0; j < 3; j++)
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.SmallImage = smalls[i];
+                            button.BigImage = bigs[i];
+                            button.ButtonStyle = styles[j];
+                            button.Name = panel.Policy.ToString() + " " + (i + 1).ToString();
+                            panel.ControlItems.Add(button);
+                        }
+                    }
+                }
+                {
+                    RibbonControlGroup group = new RibbonControlGroup();
+                    group.Name = "好复杂啊";
+
+                    RibbonControlSizingPolicy[] policies = new RibbonControlSizingPolicy[]{
+                        RibbonControlSizingPolicy.Big,
+                        RibbonControlSizingPolicy.BigSmall,
+                        RibbonControlSizingPolicy.BigCompact,
+                        RibbonControlSizingPolicy.Small,
+                        RibbonControlSizingPolicy.SmallCompact,
+                        RibbonControlSizingPolicy.Compact
+                    };
+                    Image[] smalls = new Image[] { ControlImages.a1, ControlImages.b1, ControlImages.c1, ControlImages.d1, ControlImages.e1, ControlImages.f1 };
+                    Image[] bigs = new Image[] { ControlImages.a2, ControlImages.b2, ControlImages.c2, ControlImages.d2, ControlImages.e2, ControlImages.f2 };
+                    RibbonButtonStyle[] styles = new RibbonButtonStyle[] { RibbonButtonStyle.PushButton, RibbonButtonStyle.DropDownButton, RibbonButtonStyle.SplitButton };
+                    for (int i = 0; i < 6; i++)
+                    {
+                        RibbonControlGroupPanel panel = new RibbonControlGroupPanel();
+                        panel.Policy = policies[i];
+                        group.Panels.Add(panel);
+                        for (int j = 0; j < 3; j++)
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.SmallImage = smalls[i];
+                            button.BigImage = bigs[i];
+                            button.ButtonStyle = styles[j];
+                            button.Name = panel.Policy.ToString() + " " + (i + 1).ToString();
+                            panel.ControlItems.Add(button);
+                        }
+                    }
+
+                    ((tab.Groups[0] as RibbonControlGroup).Panels[0].ControlItems[1] as RibbonButton).DropDown = new RibbonDropDownGroup()
+                    {
+                        Group = group
+                    };
+                }
             }
             {
                 RibbonTab tab = new RibbonTab();

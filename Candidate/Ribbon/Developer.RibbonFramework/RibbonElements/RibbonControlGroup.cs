@@ -116,9 +116,9 @@ namespace Developer.RibbonFramework.RibbonElements
                 )
                 .ToArray();
             int currentLevel = this.WidthLevelCount - 1;
-            while (currentLevel >= level)
+            while (currentLevel > level)
             {
-                for (int i = 0; i < this.Panels.Count; i++)
+                for (int i = this.Panels.Count - 1; i >= 0; i--)
                 {
                     if (this.Panels[i].CanCompactTo(sizes[i], RibbonItemSize.Small))
                     {
@@ -126,11 +126,11 @@ namespace Developer.RibbonFramework.RibbonElements
                         goto FINISH_COMPACTING;
                     }
                 }
-                for (int i = 0; i < this.Panels.Count; i++)
+                for (int i = this.Panels.Count - 1; i >= 0; i--)
                 {
                     if (this.Panels[i].CanCompactTo(sizes[i], RibbonItemSize.Compact))
                     {
-                        sizes[i] = RibbonItemSize.Small;
+                        sizes[i] = RibbonItemSize.Compact;
                         goto FINISH_COMPACTING;
                     }
                 }
@@ -299,7 +299,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     {
                         int index = this.ControlItems.IndexOf(item);
                         int y = bounds.Top;
-                        int x = this.ControlItems.Take(index).Select(i => i.UpdatedSize.Width).Sum() + Math.Max(0, index - 1) * RibbonGroup.GroupPadding;
+                        int x = bounds.Left + this.ControlItems.Take(index).Select(i => i.UpdatedSize.Width).Sum() + Math.Max(0, index - 1) * RibbonGroup.GroupPadding;
                         int w = item.UpdatedSize.Width;
                         int h = bounds.Height;
                         return new Rectangle(x, y, w, h);
@@ -307,7 +307,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonItemSize.Small:
                 case RibbonItemSize.Compact:
                     {
-                        int x = 0;
+                        int x = bounds.Left;
                         int y = bounds.Top;
                         int w = item.UpdatedSize.Width;
                         int h = (bounds.Height - 2 * RibbonGroup.GroupPadding) / 3;
