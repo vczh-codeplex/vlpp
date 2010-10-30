@@ -12,7 +12,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonItemContainer ItemContainer { get; internal set; }
         public RibbonToolStrip ToolStrip { get; internal set; }
         public RibbonItemSize ItemSize { get; internal set; }
-        public Image Image { get; set; }
+        public Image BigImage { get; set; }
+        public Image SmallImage { get; set; }
         public string Name { get; set; }
         public bool Enabled { get; set; }
         public Size UpdatedSize { get; protected set; }
