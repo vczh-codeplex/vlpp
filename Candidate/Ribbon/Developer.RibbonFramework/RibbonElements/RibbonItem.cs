@@ -25,7 +25,11 @@ namespace Developer.RibbonFramework.RibbonElements
         public abstract int GetSuggestedWidth(Graphics g, RibbonThemaSettingsBase settings);
         public abstract void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds);
         public abstract void Update(Graphics g, RibbonThemaSettingsBase settings);
-        public abstract void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings);
+
+        public virtual void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
+        {
+            this.UpdatedWidth = GetSuggestedWidth(g, settings);
+        }
 
         public abstract bool OnMouseDown(MouseEventArgs e);
         public abstract bool OnMouseMove(MouseEventArgs e);
