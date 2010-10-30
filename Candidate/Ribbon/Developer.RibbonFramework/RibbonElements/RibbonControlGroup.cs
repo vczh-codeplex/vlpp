@@ -238,7 +238,7 @@ namespace Developer.RibbonFramework.RibbonElements
                         {
                             int start = i * 3;
                             int end = Math.Min(i * 3 + 2, this.ControlItems.Count - 1);
-                            width += Enumerable.Range(start, end - start + 1).Select(j => this.ControlItems[j].GetWidth(g, settings, size)).Sum();
+                            width += Enumerable.Range(start, end - start + 1).Select(j => this.ControlItems[j].GetWidth(g, settings, size)).Max();
                         }
                         return width + Math.Max(0, totalGroups - 1) * RibbonGroup.GroupPadding;
                     }
@@ -293,7 +293,40 @@ namespace Developer.RibbonFramework.RibbonElements
         public Rectangle GetItemBounds(RibbonItem item)
         {
             Rectangle bounds = this.Group.GetToolStripBounds(this);
-            return Rectangle.Empty;
+            switch (this.ItemSize)
+            {
+                case RibbonItemSize.Big:
+                    {
+                        int index = this.ControlItems.IndexOf(item);
+                        int y = bounds.Top;
+                        int x = this.ControlItems.Take(index).Select(i => i.UpdatedSize.Width).Sum() + Math.Max(0, index - 1) * RibbonGroup.GroupPadding;
+                        int w = item.UpdatedSize.Width;
+                        int h = bounds.Height;
+                        return new Rectangle(x, y, w, h);
+                    }
+                case RibbonItemSize.Small:
+                case RibbonItemSize.Compact:
+                    {
+                        int x = 0;
+                        int y = bounds.Top;
+                        int w = item.UpdatedSize.Width;
+                        int h = (bounds.Height - 2 * RibbonGroup.GroupPadding) / 3;
+
+                        int index = this.ControlItems.IndexOf(item);
+                        int currentGroup = index / 3;
+                        int currentPosition = index % 3;
+                        for (int i = 0; i < currentGroup; i++)
+                        {
+                            int start = i * 3;
+                            int end = Math.Min(i * 3 + 2, this.ControlItems.Count - 1);
+                            x += Enumerable.Range(start, end - start + 1).Select(j => this.ControlItems[j].UpdatedSize.Width).Max() + RibbonGroup.GroupPadding;
+                        }
+                        y += index * (h + RibbonGroup.GroupPadding);
+                        return new Rectangle(x, y, w, h);
+                    }
+                default:
+                    return Rectangle.Empty;
+            }
         }
     }
 
