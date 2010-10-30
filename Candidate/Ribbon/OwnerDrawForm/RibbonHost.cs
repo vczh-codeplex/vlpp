@@ -370,6 +370,7 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.SmallImage = StartImages.Open;
                 button.Name = "打开文档";
+                button.Enabled = false;
                 menu.MenuItems.Add(button);
             }
             {

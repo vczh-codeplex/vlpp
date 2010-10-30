@@ -15,7 +15,12 @@ namespace Developer.RibbonFramework.RibbonElements
                 base.PrepareToOpen();
                 RibbonGroup group = (RibbonGroup)this.RibbonItems;
                 group.WidthLevel = group.WidthLevelCount - 1;
-                this.RibbonContainerSize = new Size(group.GetWidth(group.WidthLevel), 102);
+            }
+
+            protected override System.Drawing.Size GetSuggestedSize()
+            {
+                RibbonGroup group = (RibbonGroup)this.RibbonItems;
+                return new Size(group.GetWidth(group.WidthLevel), 102);
             }
         }
 

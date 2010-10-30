@@ -8,7 +8,7 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public abstract class RibbonDropDownBase : IDisposable
     {
-        protected class DropDownControl : RibbonDropDownHost, IRibbonItemContainerServices
+        protected abstract class DropDownControl : RibbonDropDownHost, IRibbonItemContainerServices
         {
             private RibbonItem capturedItem;
 
@@ -79,7 +79,6 @@ namespace Developer.RibbonFramework.RibbonElements
 
             protected override void PrepareToOpen()
             {
-                base.PrepareToOpen();
                 this.RibbonPanelControl.BackColor = this.Settings.Panel.Color;
                 this.RibbonItems.Services = this;
             }

@@ -13,6 +13,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public int MenuDropDownArrowArea = 10;
         public const int MenuDropDownWidth = 3;
         public const int MenuDropDownHeight = 5;
+        public const int MenuIconPadding = 4;
 
         public RibbonDropDownBase DropDown { get; set; }
         public bool Hot { get; protected set; }
@@ -25,14 +26,14 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
             if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
-            return MenuIconAreaHeight;
+            return this.UpdatedMenuIconAreaSize.Height;
         }
 
         public override int GetWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
             if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
             SizeF size = g.MeasureString(this.Name, settings.Font);
-            return MenuIconAreaWidth + 2 * MenuButtonLeftPadding + (int)size.Width + (this.DropDown != null ? MenuDropDownArrowArea : 0);
+            return this.UpdatedMenuIconAreaSize.Width + 2 * MenuButtonLeftPadding + (int)size.Width + (this.DropDown != null ? MenuDropDownArrowArea : 0);
         }
 
         public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
@@ -59,7 +60,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 int y = r.Top + (r.Height - this.SmallImage.Height) / 2;
                 if (this.Enabled)
                 {
-                    g.DrawImage(this.SmallImage, x, y);
+                    g.DrawImage(this.SmallImage, new Rectangle(x, y, this.SmallImage.Width, this.SmallImage.Height));
                 }
                 else
                 {
@@ -89,6 +90,18 @@ namespace Developer.RibbonFramework.RibbonElements
                 int y = itemBounds.Top + (itemBounds.Height - MenuDropDownHeight) / 2;
                 Rectangle dr = new Rectangle(x, y, MenuDropDownWidth, MenuDropDownHeight);
                 settings.DrawRightDropDownTriangle(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+            }
+        }
+
+        public override void Update(Graphics g, RibbonThemaSettingsBase settings)
+        {
+            base.Update(g, settings);
+            if (this.SmallImage != null)
+            {
+                int w = this.SmallImage.Width + 2 * MenuIconPadding;
+                int h = this.SmallImage.Height + 2 * MenuIconPadding;
+                Size s = this.UpdatedMenuIconAreaSize;
+                this.UpdatedMenuIconAreaSize = new Size(Math.Max(s.Width, w), Math.Max(s.Height, h));
             }
         }
 

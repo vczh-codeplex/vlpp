@@ -8,7 +8,7 @@ using Developer.RibbonFramework.RibbonElements;
 
 namespace Developer.RibbonFramework
 {
-    public class RibbonDropDownHost : ToolStripDropDown
+    public abstract class RibbonDropDownHost : ToolStripDropDown
     {
         class DoubleBufferedPanel : Panel
         {
@@ -75,9 +75,8 @@ namespace Developer.RibbonFramework
             }
         }
 
-        protected virtual void PrepareToOpen()
-        {
-        }
+        protected abstract void PrepareToOpen();
+        protected abstract Size GetSuggestedSize();
 
         protected virtual void PaintBackground(Graphics g, Rectangle bounds)
         {
@@ -95,10 +94,12 @@ namespace Developer.RibbonFramework
             {
                 this.RibbonItems.Update(tempGraphics, this.Settings);
                 PrepareToOpen();
+                this.RibbonItems.UpdateWithSizeDecided(tempGraphics, this.Settings);
+                this.RibbonContainerSize = GetSuggestedSize();
                 this.ribbonPanel.Size = this.RibbonContainerSize;
+
                 this.ribbonBitmap = new Bitmap(this.ribbonPanel.Width, this.ribbonPanel.Height);
                 this.ribbonGraphics = Graphics.FromImage(this.ribbonBitmap);
-                this.RibbonItems.UpdateWithSizeDecided(this.ribbonGraphics, this.Settings);
                 Render();
             }
             base.OnOpening(e);
