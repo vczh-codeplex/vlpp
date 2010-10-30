@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonGroup : RibbonItemContainer
+    public abstract class RibbonGroup : RibbonItemContainer
     {
         public const int GroupPadding = 3;
         public const int GroupHeaderPadding = 3;
@@ -22,30 +22,13 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonGroup()
         {
-            this.Name = "RibbonGroup";
+            this.Name = "";
         }
 
-        public virtual int WidthLevelCount
-        {
-            get
-            {
-                return this.HeaderMinWidth < 100 ? 2 : 1;
-            }
-        }
+        public abstract int WidthLevelCount { get; }
+        public abstract int GetWidthInternal(int level);
 
-        public virtual int GetWidthInternal(int level)
-        {
-            if (this.HeaderMinWidth >= 100 || level == 0)
-            {
-                return this.HeaderMinWidth;
-            }
-            else
-            {
-                return 100;
-            }
-        }
-
-        public virtual int GetWidth(int level)
+        public int GetWidth(int level)
         {
             return Math.Max(this.HeaderMinWidth, GetWidthInternal(level));
         }

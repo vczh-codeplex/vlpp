@@ -17,7 +17,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonTabGroup()
         {
-            this.Name = "RibbonTabGroup";
+            this.Name = "";
             this.FirstIndex = -1;
             this.LastIndex = -1;
         }
