@@ -55,6 +55,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ButtonImages.resx</DependentUpon>
     </Compile>
+    <Compile Include="ControlImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlImages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RibbonHost.cs">
@@ -71,6 +76,10 @@
     <EmbeddedResource Include="ButtonImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ButtonImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ControlImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -188,6 +197,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\%2845,11%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Blue_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Blue_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Green_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Orange_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_Plus_Orange_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Blue_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Blue_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Green_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Orange_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Orange_32x32_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
