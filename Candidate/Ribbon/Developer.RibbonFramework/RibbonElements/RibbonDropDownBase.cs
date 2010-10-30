@@ -42,6 +42,10 @@ namespace Developer.RibbonFramework.RibbonElements
 
             void IRibbonItemContainerServices.ItemExecuted(RibbonItem item)
             {
+                if (this.ParentDropDownControl != null)
+                {
+                    this.ParentDropDownControl.Close();
+                }
                 this.Close();
             }
 
@@ -71,6 +75,7 @@ namespace Developer.RibbonFramework.RibbonElements
             protected override void OnClosing(System.Windows.Forms.ToolStripDropDownClosingEventArgs e)
             {
                 this.OwnerItem = null;
+                this.ParentDropDownControl = null;
                 base.OnClosing(e);
             }
         }
