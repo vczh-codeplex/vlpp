@@ -72,7 +72,7 @@ namespace Developer.RibbonFramework
                         button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖3";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
-                        button.DropDown = new RibbonDropDownGroup()
+                        button.DropDown = new RibbonDropDownGroup(this.Ribbon)
                         {
                             Group = CreateDropDownGroup1()
                         };
@@ -83,7 +83,7 @@ namespace Developer.RibbonFramework
                         button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖4";
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
-                        button.DropDown = new RibbonDropDownGroup()
+                        button.DropDown = new RibbonDropDownGroup(this.Ribbon)
                         {
                             Group = CreateDropDownGroup2()
                         };
@@ -238,7 +238,7 @@ namespace Developer.RibbonFramework
                             RibbonButton button = new RibbonButton();
                             button.SmallImage = ToolImages.TableBorder;
                             button.ButtonStyle = RibbonButtonStyle.DropDownButton;
-                            button.DropDown = new RibbonDropDownMenu()
+                            button.DropDown = new RibbonDropDownMenu(this.Ribbon)
                             {
                                 Menu = CreateTableMenu()
                             };
@@ -320,7 +320,7 @@ namespace Developer.RibbonFramework
                         }
                     }
 
-                    ((tab.Groups[0] as RibbonControlGroup).Panels[0].ControlItems[1] as RibbonButton).DropDown = new RibbonDropDownGroup()
+                    ((tab.Groups[0] as RibbonControlGroup).Panels[0].ControlItems[1] as RibbonButton).DropDown = new RibbonDropDownGroup(this.Ribbon)
                     {
                         Group = group
                     };
@@ -362,14 +362,14 @@ namespace Developer.RibbonFramework
             group.Name = "字体";
             {
                 RibbonButton button = new RibbonButton();
-                button.SmallImage = ButtonImages.Paste;
+                button.BigImage = ButtonImages.Paste;
                 button.Name = "粘帖3";
                 button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                 group.BigItems.Add(button);
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.SmallImage = ButtonImages.Paste;
+                button.BigImage = ButtonImages.Paste;
                 button.Name = "粘帖4";
                 button.ButtonStyle = RibbonButtonStyle.SplitButton;
                 group.BigItems.Add(button);
@@ -525,7 +525,7 @@ namespace Developer.RibbonFramework
                     RibbonButton button = new RibbonButton();
                     button.SmallImage = ToolImages.TableBorder;
                     button.ButtonStyle = RibbonButtonStyle.DropDownButton;
-                    button.DropDown = new RibbonDropDownMenu()
+                    button.DropDown = new RibbonDropDownMenu(this.Ribbon)
                     {
                         Menu = CreateTableMenu()
                     };
@@ -548,7 +548,7 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.SmallImage = ToolImages.TableNone;
                 button.Name = "没有边框";
-                button.DropDown = new RibbonDropDownMenu()
+                button.DropDown = new RibbonDropDownMenu(this.Ribbon)
                 {
                     Menu = CreateAlignMenu()
                 };
@@ -599,7 +599,7 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.SmallImage = ToolImages.SortDescending;
                 button.Name = "不知道为什么要反着排序";
-                button.DropDown = new RibbonDropDownMenu()
+                button.DropDown = new RibbonDropDownMenu(this.Ribbon)
                 {
                     Menu = CreateSortMenu()
                 };
@@ -621,7 +621,7 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.SmallImage = ToolImages.AlignCenter;
                 button.Name = "中间对齐";
-                button.DropDown = new RibbonDropDownMenu()
+                button.DropDown = new RibbonDropDownMenu(this.Ribbon)
                 {
                     Menu = CreateSortMenu()
                 };

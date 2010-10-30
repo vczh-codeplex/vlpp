@@ -12,6 +12,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             private RibbonItem capturedItem;
 
+            public RibbonDropDownBase Owner { get; set; }
             public DropDownControl ParentDropDownControl { get; set; }
             public DropDownControl ChildDropDownControl { get; set; }
 
@@ -62,7 +63,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 {
                     this.ParentDropDownControl.CloseToRoot();
                 }
-                Close();
+                this.Close();
             }
 
             protected override void PrepareToOpen()
@@ -100,6 +101,14 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
                 base.OnClosing(e);
             }
+
+            protected override void OnClosed(System.Windows.Forms.ToolStripDropDownClosedEventArgs e)
+            {
+                base.OnClosed(e);
+                this.Owner.ribbonContainer.ResourceManager.Free(this);
+                this.Owner.dropDownControl = null;
+                this.Owner = null;
+            }
         }
 
         public void Dispose()
@@ -112,8 +121,14 @@ namespace Developer.RibbonFramework.RibbonElements
         }
 
         private DropDownControl dropDownControl = null;
-        protected abstract DropDownControl CreateDropDownControl();
+        private RibbonContainer ribbonContainer;
+        protected abstract Type GetDropDownControlType();
         protected abstract RibbonItemContainer RibbonItems { get; }
+
+        public RibbonDropDownBase(RibbonContainer ribbonContainer)
+        {
+            this.ribbonContainer = ribbonContainer;
+        }
 
         public RibbonDropDownHost DropDownHost
         {
@@ -128,10 +143,12 @@ namespace Developer.RibbonFramework.RibbonElements
             Point p = item.ItemContainer.Services.GetLocationInScreen(item.ItemContainer);
             Point pg = item.ItemContainer.Services.GetBounds(item.ItemContainer).Location;
             Point pi = item.ItemContainer.GetItemBounds(item).Location;
-            if (this.dropDownControl == null)
+            if (this.dropDownControl != null)
             {
-                this.dropDownControl = CreateDropDownControl();
+                Close();
             }
+            this.dropDownControl = this.ribbonContainer.ResourceManager.Allocate<DropDownControl>(GetDropDownControlType());
+            this.dropDownControl.Owner = this;
             this.dropDownControl.RibbonItems = this.RibbonItems;
             this.dropDownControl.ParentDropDownControl = item.ItemContainer.Services.Host as DropDownControl;
             this.dropDownControl.Show(p.X + pi.X - pg.X + relativeLocation.X, p.Y + pi.Y - pg.Y + relativeLocation.Y);
@@ -142,6 +159,7 @@ namespace Developer.RibbonFramework.RibbonElements
             if (this.dropDownControl != null)
             {
                 this.dropDownControl.Close();
+                this.dropDownControl = null;
             }
         }
     }

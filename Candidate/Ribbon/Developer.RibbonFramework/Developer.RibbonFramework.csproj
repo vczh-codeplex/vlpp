@@ -74,6 +74,7 @@
     <Compile Include="RibbonElements\RibbonMenuButton.cs" />
     <Compile Include="RibbonElements\RibbonMenuItem.cs" />
     <Compile Include="RibbonElements\RibbonMenuSeparator.cs" />
+    <Compile Include="RibbonElements\RibbonResourceManager.cs" />
     <Compile Include="RibbonElements\RibbonThemaSettings.cs" />
     <Compile Include="RibbonElements\RibbonContainer.cs" />
     <Compile Include="RibbonElements\RibbonGroup.cs" />

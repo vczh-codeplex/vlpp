@@ -19,9 +19,14 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonMenu Menu { get; set; }
 
-        protected override RibbonDropDownBase.DropDownControl CreateDropDownControl()
+        public RibbonDropDownMenu(RibbonContainer ribbonContainer)
+            : base(ribbonContainer)
         {
-            return new MenuDropDownControl();
+        }
+
+        protected override Type GetDropDownControlType()
+        {
+            return typeof(MenuDropDownControl);
         }
 
         protected override RibbonItemContainer RibbonItems

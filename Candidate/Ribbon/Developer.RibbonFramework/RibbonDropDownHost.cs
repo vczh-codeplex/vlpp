@@ -81,7 +81,11 @@ namespace Developer.RibbonFramework
 
         protected virtual void PaintBackground(Graphics g, Rectangle bounds)
         {
-            g.FillRectangle(this.Settings.Panel.Brush, bounds);
+            RibbonColorItem i1 = this.Settings.Panel1;
+            RibbonColorItem i2 = this.Settings.Panel2;
+            RibbonColorItem i3 = this.Settings.Panel3;
+            RibbonColorItem i4 = this.Settings.Panel4;
+            this.Settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, bounds, (double)1 / 6);
         }
 
         protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
