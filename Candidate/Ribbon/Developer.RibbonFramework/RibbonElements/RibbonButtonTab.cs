@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
@@ -11,6 +12,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int ButtonDropDownPadding = 3;
         public const int ButtonDropDownWidth = 5;
         public const int ButtonDropDownHeight = 3;
+
+        private bool dropDownOpening = false;
 
         public RibbonDropDownBase DropDown { get; set; }
 
@@ -39,7 +42,7 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonColorItem i3 = null;
             RibbonColorItem i4 = null;
             double ratio = 0;
-            switch (this.State)
+            switch (this.dropDownOpening ? RibbonElementState.Pressed : this.State)
             {
                 case RibbonElementState.Hot:
                     {
@@ -72,7 +75,7 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonColorItem outBottom = null;
             RibbonColorItem inTop = null;
             RibbonColorItem inBottom = null;
-            switch (this.State)
+            switch (this.dropDownOpening ? RibbonElementState.Pressed : this.State)
             {
                 case RibbonElementState.Hot:
                     {
@@ -137,7 +140,17 @@ namespace Developer.RibbonFramework.RibbonElements
                 int x = bounds.Left;
                 int y = bounds.Bottom;
                 this.DropDown.Open(this.Container, new Point(x, y));
+                this.dropDownOpening = true;
+                this.DropDown.DropDownHost.Closed += new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);
             }
+        }
+
+        private void DropDownHost_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            RibbonDropDownHost host = (RibbonDropDownHost)sender;
+            host.Closed -= new ToolStripDropDownClosedEventHandler(DropDownHost_Closed);
+            this.dropDownOpening = false;
+            (this.Container as IRibbonItemContainerServices).RefreshItemContainer();
         }
     }
 }
