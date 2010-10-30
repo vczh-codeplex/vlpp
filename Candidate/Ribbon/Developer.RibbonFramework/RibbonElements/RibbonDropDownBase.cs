@@ -55,6 +55,12 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
             }
 
+            void IRibbonItemContainerServices.RefreshItemContainer()
+            {
+                Render();
+                this.RibbonPanelControl.Refresh();
+            }
+
             #endregion
 
             protected void CloseToRoot()

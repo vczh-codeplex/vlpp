@@ -21,6 +21,8 @@ namespace Developer.RibbonFramework
             InitializeComponent();
         }
 
+        #region IRibbonInputCallback Members
+
         void IRibbonInputCallback.CaptureMouse(bool capture)
         {
             this.AeroContainer.Capture = true;
@@ -30,6 +32,14 @@ namespace Developer.RibbonFramework
         {
             return this.AeroContainer.PointToScreen(new Point(0, 0));
         }
+
+        void IRibbonInputCallback.RefreshRibbon()
+        {
+            RenderAeroBitmap();
+            this.AeroContainer.Refresh();
+        }
+
+        #endregion
 
         public RibbonContainer Ribbon
         {
