@@ -167,7 +167,7 @@ namespace Developer.RibbonFramework.RibbonElements
             g.DrawString(text, font, dark.Brush, x, y);
         }
 
-        public virtual void DrawDropDown(Graphics g, RibbonColorItem light, RibbonColorItem dark, Rectangle bounds)
+        public virtual void DrawDownDropDownTriangle(Graphics g, RibbonColorItem light, RibbonColorItem dark, Rectangle bounds)
         {
             int x1 = bounds.Left;
             int x2 = bounds.Left + bounds.Width / 2;
@@ -184,6 +184,28 @@ namespace Developer.RibbonFramework.RibbonElements
             points[2].Y = y1;
 
             using (LinearGradientBrush brush = new LinearGradientBrush(Rectangle.Inflate(bounds, 1, 1), light.Color, dark.Color, 180.0f))
+            {
+                g.FillPolygon(brush, points);
+            }
+        }
+
+        public virtual void DrawRightDropDownTriangle(Graphics g, RibbonColorItem light, RibbonColorItem dark, Rectangle bounds)
+        {
+            int x1 = bounds.Left;
+            int x2 = bounds.Right;
+            int y1 = bounds.Top - 1;
+            int y2 = bounds.Top + bounds.Height / 2;
+            int y3 = bounds.Bottom;
+
+            Point[] points = new Point[3];
+            points[0].X = x1;
+            points[0].Y = y1;
+            points[1].X = x2;
+            points[1].Y = y2;
+            points[2].X = x1;
+            points[2].Y = y3;
+
+            using (LinearGradientBrush brush = new LinearGradientBrush(Rectangle.Inflate(bounds, 1, 1), light.Color, dark.Color, 270))
             {
                 g.FillPolygon(brush, points);
             }

@@ -635,6 +635,10 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.Image = ToolImages.TableNone;
                 button.Name = "没有边框";
+                button.DropDown = new RibbonDropDownMenu()
+                {
+                    Menu = CreateAlignMenu()
+                };
                 menu.MenuItems.Add(button);
             }
             {
@@ -682,6 +686,68 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.Image = ToolImages.SortDescending;
                 button.Name = "不知道为什么要反着排序";
+                button.DropDown = new RibbonDropDownMenu()
+                {
+                    Menu = CreateSortMenu()
+                };
+                menu.MenuItems.Add(button);
+            }
+            return menu;
+        }
+
+        private RibbonMenu CreateAlignMenu()
+        {
+            RibbonMenu menu = new RibbonMenu();
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.AlignLeft;
+                button.Name = "左对齐";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.AlignCenter;
+                button.Name = "中间对齐";
+                button.DropDown = new RibbonDropDownMenu()
+                {
+                    Menu = CreateSortMenu()
+                };
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.AlignRight;
+                button.Name = "右对齐";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.AlignFull;
+                button.Name = "全部对齐";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.AlignExpand;
+                button.Name = "不知道是什么对齐";
+                menu.MenuItems.Add(button);
+            }
+            return menu;
+        }
+
+        private RibbonMenu CreateSortMenu()
+        {
+            RibbonMenu menu = new RibbonMenu();
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.SortAscending;
+                button.Name = "我还是不知道为什么要排序";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.SortDescending;
+                button.Name = "我还是不知道为什么要反着排序";
                 menu.MenuItems.Add(button);
             }
             return menu;
