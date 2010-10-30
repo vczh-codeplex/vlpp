@@ -9,7 +9,7 @@ namespace Developer.RibbonFramework.RibbonElements
     public class RibbonMenu : RibbonItemContainer
     {
         public const int MenuBorder = 2;
-        public const int MenuIconAreaSize = 20;
+        public const int MenuIconAreaSize = 24;
 
         public IList<RibbonMenuItem> MenuItems { get; private set; }
         public Size TotalSize { get; protected set; }
@@ -17,6 +17,45 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonMenu()
         {
             this.MenuItems = new List<RibbonMenuItem>();
+        }
+
+        public override IEnumerable<RibbonItem> Items
+        {
+            get
+            {
+                return this.MenuItems;
+            }
+        }
+
+        public override Rectangle GetItemBounds(RibbonItem targetItem)
+        {
+            Rectangle itemBounds = this.GlobalServices.GetBounds(this);
+            int x = itemBounds.Left + MenuBorder;
+            int y = itemBounds.Top + MenuBorder;
+            int w = itemBounds.Width - 2 * MenuBorder;
+            foreach (var item in this.MenuItems)
+            {
+                int h = item.UpdatedHeight;
+                Rectangle r = new Rectangle(x, y, w, h);
+                if (item == targetItem)
+                {
+                    return r;
+                }
+                y += h;
+            }
+            return Rectangle.Empty;
+        }
+
+        public override RibbonItem GetItemFromPoint(Point location)
+        {
+            foreach (var item in this.Items)
+            {
+                if (GetItemBounds(item).Contains(location))
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
         public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)

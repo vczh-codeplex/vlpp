@@ -238,6 +238,10 @@ namespace Developer.RibbonFramework
                             RibbonButton button = new RibbonButton();
                             button.Image = ToolImages.TableBorder;
                             button.ButtonStyle = RibbonButtonStyle.DropDownButton;
+                            button.DropDown = new RibbonDropDownMenu()
+                            {
+                                Menu = CreateTableMenu()
+                            };
                             tool.ToolItems.Add(button);
                         }
                         {
@@ -505,6 +509,64 @@ namespace Developer.RibbonFramework
                 group.SmallItems.Add(button);
             }
             return group;
+        }
+
+        private RibbonMenu CreateTableMenu()
+        {
+            RibbonMenu menu = new RibbonMenu();
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableNone;
+                button.Name = "没有边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableLeft;
+                button.Name = "左边有边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableRight;
+                button.Name = "右边有边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableBottom;
+                button.Name = "下面有边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableBorder;
+                button.Name = "周围都是边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.TableAll;
+                button.Name = "连里面都是边框";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuSeparator separator = new RibbonMenuSeparator();
+                menu.MenuItems.Add(separator);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.SortAscending;
+                button.Name = "不知道为什么要排序";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Image = ToolImages.SortDescending;
+                button.Name = "不知道为什么要反着排序";
+                menu.MenuItems.Add(button);
+            }
+            return menu;
         }
     }
 }
