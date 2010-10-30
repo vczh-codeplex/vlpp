@@ -261,7 +261,7 @@ namespace Developer.RibbonFramework.RibbonElements
             if (this.SelectedTab != null)
             {
                 RibbonGroup group = this.SelectedTab.GetGroupFromPoint(e.Location);
-                foreach (var ribbonGroup in this.SelectedTab.Groups)
+                foreach (var ribbonGroup in this.SelectedTab.RealGroups)
                 {
                     if (ribbonGroup != group)
                     {
@@ -301,7 +301,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             else
             {
-                return this.SelectedTab.Groups.Select(group => group.OnMouseLeave(e)).ToArray().Any();
+                return this.SelectedTab.RealGroups.Select(group => group.OnMouseLeave(e)).ToArray().Any();
             }
         }
     }

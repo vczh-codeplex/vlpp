@@ -13,6 +13,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int GroupHeaderPadding = 3;
         public const int GroupBorder = 2;
 
+        private RibbonCompactedGroup compactedGroup = null;
+
         public RibbonTab Tab { get; internal set; }
         public string Name { get; set; }
         public int WidthLevel { get; set; }
@@ -27,6 +29,18 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public abstract int WidthLevelCount { get; }
         public abstract int GetWidthInternal(int level);
+
+        public virtual RibbonGroup CompactedGroup
+        {
+            get
+            {
+                if (this.compactedGroup == null)
+                {
+                    this.compactedGroup = new RibbonCompactedGroup(this.Tab.Container, this);
+                }
+                return this.compactedGroup;
+            }
+        }
 
         public int GetWidth(int level)
         {

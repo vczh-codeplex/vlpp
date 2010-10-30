@@ -14,6 +14,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int TabPadding = 3;
         public const int TabRoundRadius = 3;
 
+        private List<RibbonGroup> realGroups = new List<RibbonGroup>();
+
         public RibbonContainer Container { get; internal set; }
         public string Name { get; set; }
         public RibbonElementState State { get; protected internal set; }
@@ -21,6 +23,14 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public int TabWidth { get; protected set; }
         public int TabHeight { get; protected set; }
+
+        public IEnumerable<RibbonGroup> RealGroups
+        {
+            get
+            {
+                return this.realGroups;
+            }
+        }
 
         public RibbonTab()
         {
@@ -81,7 +91,7 @@ namespace Developer.RibbonFramework.RibbonElements
             RibbonColorItem i3 = settings.Panel3;
             RibbonColorItem i4 = settings.Panel4;
             settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, panelBounds, (double)1 / 6);
-            foreach (var group in this.Groups)
+            foreach (var group in this.realGroups)
             {
                 group.Render(g, settings, this.GetGroupBounds(group));
             }
@@ -96,17 +106,20 @@ namespace Developer.RibbonFramework.RibbonElements
             this.TabWidth = (int)size.Width + TabWidthOffset;
             this.TabHeight = (int)size.Height + TabHeightOffset;
             this.State = RibbonElementState.Normal;
-            if (this.Groups.Count > 0)
+            this.realGroups.Clear();
+            this.realGroups.AddRange(this.Groups);
+
+            if (this.realGroups.Count > 0)
             {
-                foreach (var group in this.Groups)
+                foreach (var group in this.realGroups)
                 {
                     group.Tab = this;
                     group.Services = this.Container;
                     group.Update(g, settings);
                     group.WidthLevel = group.WidthLevelCount - 1;
                 }
-                int maxHeaderHeight = this.Groups.Select(group => group.HeaderMinHeight).Max();
-                foreach (var group in this.Groups)
+                int maxHeaderHeight = this.realGroups.Select(group => group.HeaderMinHeight).Max();
+                foreach (var group in this.realGroups)
                 {
                     group.HeaderHeight = maxHeaderHeight;
                 }
@@ -114,11 +127,11 @@ namespace Developer.RibbonFramework.RibbonElements
                 int maxWidth = this.Container.GetTabPanelBounds().Width;
                 while (true)
                 {
-                    int currentWidth = (this.Groups.Count + 1) * RibbonGroup.GroupPadding + this.Groups.Select(group => group.GetWidth(group.WidthLevel)).Sum();
+                    int currentWidth = (this.realGroups.Count + 1) * RibbonGroup.GroupPadding + this.realGroups.Select(group => group.GetWidth(group.WidthLevel)).Sum();
                     if (currentWidth > maxWidth)
                     {
                         RibbonGroup longeastGroup = null;
-                        foreach (var group in this.Groups)
+                        foreach (var group in this.realGroups)
                         {
                             if (group.WidthLevel > 0)
                             {
@@ -136,8 +149,35 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
                 }
+                while (true)
+                {
+                    int currentWidth = (this.realGroups.Count + 1) * RibbonGroup.GroupPadding + this.realGroups.Select(group => group.GetWidth(group.WidthLevel)).Sum();
+                    if (currentWidth > maxWidth)
+                    {
+                        int index = -1;
+                        for (int i = this.realGroups.Count - 1; i >= 0; i--)
+                        {
+                            if (this.realGroups[i] == this.Groups[i])
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index != -1)
+                        {
+                            RibbonGroup group = this.Groups[index].CompactedGroup;
+                            this.realGroups[index] = group;
+                            group.Tab = this;
+                            group.Services = this.Container;
+                            group.Update(g, settings);
+                            group.WidthLevel = 0;
+                            continue;
+                        }
+                    }
+                    break;
+                }
 
-                foreach (var group in this.Groups)
+                foreach (var group in this.realGroups)
                 {
                     group.UpdateWithSizeDecided(g, settings);
                 }
@@ -150,7 +190,7 @@ namespace Developer.RibbonFramework.RibbonElements
             int x = panelBounds.X + RibbonGroup.GroupPadding + 1;
             int y = panelBounds.Y + RibbonGroup.GroupPadding + 1;
             int h = panelBounds.Height - RibbonGroup.GroupPadding * 2 - 2;
-            foreach (RibbonGroup group in this.Groups)
+            foreach (RibbonGroup group in this.realGroups)
             {
                 int w = group.GetWidth(group.WidthLevel);
                 if (group == targetGroup)
@@ -164,7 +204,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonGroup GetGroupFromPoint(Point location)
         {
-            foreach (var group in this.Groups)
+            foreach (var group in this.realGroups)
             {
                 if (GetGroupBounds(group).Contains(location))
                 {
