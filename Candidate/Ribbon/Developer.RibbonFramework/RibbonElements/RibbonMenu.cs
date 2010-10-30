@@ -29,7 +29,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override Rectangle GetItemBounds(RibbonItem targetItem)
         {
-            Rectangle itemBounds = this.GlobalServices.GetBounds(this);
+            Rectangle itemBounds = this.Services.GetBounds(this);
             int x = itemBounds.Left + MenuBorder;
             int y = itemBounds.Top + MenuBorder;
             int w = itemBounds.Width - 2 * MenuBorder;

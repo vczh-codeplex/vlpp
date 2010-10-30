@@ -387,7 +387,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
-            this.ItemContainer.GlobalServices.Capture(this);
+            this.ItemContainer.Services.Capture(this);
             return UpdateVisualStyleToPressed();
         }
 
@@ -411,7 +411,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
             }
             bool result = old != this.SplitButtonHotState;
-            if (this.ItemContainer.GlobalServices.CapturedItem == this)
+            if (this.ItemContainer.Services.CapturedItem == this)
             {
                 if (this.ItemContainer.GetItemFromPoint(e.Location) == this)
                 {
@@ -430,7 +430,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
         {
-            this.ItemContainer.GlobalServices.Capture(null);
+            this.ItemContainer.Services.Capture(null);
             if (this.ItemContainer.GetItemFromPoint(e.Location) == this)
             {
                 Executed();
@@ -509,7 +509,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             if (!dropDownExecuted)
             {
-                this.ItemContainer.GlobalServices.ItemExecuted(this);
+                this.ItemContainer.Services.ItemExecuted(this);
             }
         }
 
