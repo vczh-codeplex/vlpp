@@ -222,7 +222,7 @@ namespace Developer.RibbonFramework
                 this.aeroGraphics.Dispose();
                 this.aeroBitmap.Dispose();
             }
-            this.aeroBitmap = new Bitmap(size.Width, size.Height);
+            this.aeroBitmap = new Bitmap(Math.Max(1, size.Width), Math.Max(1, size.Height));
             this.aeroGraphics = Graphics.FromImage(this.AeroBitmap);
             this.aeroGraphics.CompositingQuality = CompositingQuality.HighQuality;
         }
