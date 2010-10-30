@@ -63,6 +63,10 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonColorItem ButtonDropDownDark { get; protected set; }
         public RibbonColorItem ButtonDropDownLight { get; protected set; }
 
+        public RibbonColorItem Menu { get; protected set; }
+        public RibbonColorItem MenuSeparator { get; protected set; }
+        public RibbonColorItem MenuIconBackground { get; protected set; }
+
         public Font Font { get; set; }
 
         public void Dispose()
@@ -255,6 +259,13 @@ namespace Developer.RibbonFramework.RibbonElements
                 = new RibbonColorItem(Color.FromArgb(138, 141, 143));
             this.ButtonDropDownLight
                 = new RibbonColorItem(Color.FromArgb(92, 95, 96));
+
+            this.Menu
+                = new RibbonColorItem(Color.FromArgb(250, 250, 250));
+            this.MenuSeparator
+                = new RibbonColorItem(Color.FromArgb(197, 197, 197));
+            this.MenuIconBackground
+                = new RibbonColorItem(Color.FromArgb(233, 238, 238));
         }
     }
 }

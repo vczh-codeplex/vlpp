@@ -9,6 +9,7 @@ namespace Developer.RibbonFramework.RibbonElements
     public class RibbonMenu : RibbonItemContainer
     {
         public const int MenuBorder = 2;
+        public const int MenuIconAreaSize = 20;
 
         public IList<RibbonMenuItem> MenuItems { get; private set; }
         public Size TotalSize { get; protected set; }
