@@ -15,6 +15,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int TabRoundRadius = 3;
 
         private List<RibbonGroup> realGroups = new List<RibbonGroup>();
+        private RibbonButtonGroup mostCompactGroup = null;
 
         public RibbonContainer Container { get; internal set; }
         public string Name { get; set; }
@@ -100,6 +101,14 @@ namespace Developer.RibbonFramework.RibbonElements
             g.DrawRectangle(settings.Border.Pen, panelBounds);
         }
 
+        protected void UpdateGroup(RibbonGroup group, Graphics g, RibbonThemaSettingsBase settings)
+        {
+            group.Tab = this;
+            group.Services = this.Container;
+            group.Update(g, settings);
+            group.WidthLevel = group.WidthLevelCount - 1;
+        }
+
         public virtual void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
             SizeF size = g.MeasureString(this.Name, settings.Font);
@@ -113,10 +122,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 foreach (var group in this.realGroups)
                 {
-                    group.Tab = this;
-                    group.Services = this.Container;
-                    group.Update(g, settings);
-                    group.WidthLevel = group.WidthLevelCount - 1;
+                    UpdateGroup(group, g, settings);
                 }
                 int maxHeaderHeight = this.realGroups.Select(group => group.HeaderMinHeight).Max();
                 foreach (var group in this.realGroups)
@@ -167,14 +173,30 @@ namespace Developer.RibbonFramework.RibbonElements
                         {
                             RibbonGroup group = this.Groups[index].CompactedGroup;
                             this.realGroups[index] = group;
-                            group.Tab = this;
-                            group.Services = this.Container;
-                            group.Update(g, settings);
-                            group.WidthLevel = 0;
+                            UpdateGroup(group, g, settings);
                             continue;
                         }
                     }
                     break;
+                }
+                {
+                    int currentWidth = (this.realGroups.Count + 1) * RibbonGroup.GroupPadding + this.realGroups.Select(group => group.GetWidth(group.WidthLevel)).Sum();
+                    if (currentWidth > maxWidth)
+                    {
+                        if (this.mostCompactGroup == null)
+                        {
+                            this.mostCompactGroup = new RibbonButtonGroup();
+                            this.mostCompactGroup.Name = this.Name;
+                            foreach (var item in this.realGroups.SelectMany(group => group.Items))
+                            {
+                                this.mostCompactGroup.BigItems.Add(item);
+                            }
+                            UpdateGroup(this.mostCompactGroup, g, settings);
+                        }
+                        this.realGroups.Clear();
+                        this.realGroups.Add(this.mostCompactGroup.CompactedGroup);
+                        UpdateGroup(mostCompactGroup.CompactedGroup, g, settings);
+                    }
                 }
 
                 foreach (var group in this.realGroups)
