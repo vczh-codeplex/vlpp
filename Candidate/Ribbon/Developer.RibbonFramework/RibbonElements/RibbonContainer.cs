@@ -12,12 +12,13 @@ namespace Developer.RibbonFramework.RibbonElements
         private IRibbonInputCallback callback;
         private RibbonItem capturedItem;
 
-        public RibbonThemaSettingsBase Settings { get; set; }
+        public RibbonResourceManager ResourceManager { get; private set; }
         public IList<RibbonTab> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
         public RibbonTab SelectedTab { get; private set; }
         public RibbonTab HotTab { get; private set; }
 
+        public RibbonThemaSettingsBase Settings { get; set; }
         public int TabTotalWidth { get; protected set; }
         public int TabTotalHeight { get; protected set; }
         public Rectangle RibbonBounds { get; protected set; }
@@ -26,10 +27,12 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonContainer(IRibbonInputCallback callback)
         {
             this.callback = callback;
-            this.Settings = new RibbonThemaSettings();
-            this.Settings.Font = SystemFonts.CaptionFont;
             this.Tabs = new List<RibbonTab>();
             this.TabGroups = new List<RibbonTabGroup>();
+
+            this.Settings = new RibbonThemaSettings();
+            this.Settings.Font = SystemFonts.CaptionFont;
+            this.ResourceManager = new RibbonResourceManager();
         }
 
         #region IRibbonItemContainerServices Members
@@ -80,6 +83,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void Dispose()
         {
+            this.ResourceManager.Dispose();
             this.Settings.Dispose();
         }
 

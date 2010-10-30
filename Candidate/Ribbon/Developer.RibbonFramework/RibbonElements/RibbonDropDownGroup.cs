@@ -21,9 +21,14 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonGroup Group { get; set; }
 
-        protected override RibbonDropDownBase.DropDownControl CreateDropDownControl()
+        public RibbonDropDownGroup(RibbonContainer ribbonContainer)
+            : base(ribbonContainer)
         {
-            return new GroupDropDownControl();
+        }
+
+        protected override Type GetDropDownControlType()
+        {
+            return typeof(GroupDropDownControl);
         }
 
         protected override RibbonItemContainer RibbonItems
