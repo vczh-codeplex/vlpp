@@ -11,12 +11,12 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int MenuBorder = 1;
         public const int MenuIconAreaSize = 24;
 
-        public IList<RibbonMenuItem> MenuItems { get; private set; }
+        public IList<RibbonItem> MenuItems { get; private set; }
         public Size TotalSize { get; protected set; }
 
         public RibbonMenu()
         {
-            this.MenuItems = new List<RibbonMenuItem>();
+            this.MenuItems = new List<RibbonItem>();
         }
 
         public override IEnumerable<RibbonItem> Items
@@ -35,7 +35,7 @@ namespace Developer.RibbonFramework.RibbonElements
             int w = itemBounds.Width - 2 * MenuBorder;
             foreach (var item in this.MenuItems)
             {
-                int h = item.UpdatedHeight;
+                int h = item.UpdatedSize.Height;
                 Rectangle r = new Rectangle(x, y, w, h);
                 if (item == targetItem)
                 {
@@ -72,7 +72,7 @@ namespace Developer.RibbonFramework.RibbonElements
             int w = itemBounds.Width - 2 * MenuBorder;
             foreach (var item in this.MenuItems)
             {
-                int h = item.UpdatedHeight;
+                int h = item.UpdatedSize.Height;
                 Rectangle r = new Rectangle(x, y, w, h);
                 item.Render(g, settings, r);
                 y += h;
@@ -85,10 +85,11 @@ namespace Developer.RibbonFramework.RibbonElements
             foreach (var item in this.MenuItems)
             {
                 item.ItemContainer = this;
+                item.ItemSize = RibbonItemSize.MenuItem;
                 item.Update(g, settings);
             }
-            int w = MenuBorder * 2 + (this.MenuItems.Count == 0 ? 0 : this.MenuItems.Select(i => i.GetSuggestedWidth(g, settings)).Max());
-            int h = MenuBorder * 2 + this.MenuItems.Select(i => i.GetSuggestedHeight(g, settings)).Sum();
+            int w = MenuBorder * 2 + (this.MenuItems.Count == 0 ? 0 : this.MenuItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).Max());
+            int h = MenuBorder * 2 + this.MenuItems.Select(i => i.GetHeight(g, settings, i.ItemSize)).Sum();
             this.TotalSize = new Size(w, h);
         }
 

@@ -8,14 +8,16 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public class RibbonMenuSeparator : RibbonMenuItem
     {
-        public override int GetSuggestedHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
+        public override int GetWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
-            return 3;
+            if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
+            return 10;
         }
 
-        public override int GetSuggestedWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
+        public override int GetHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
-            return 10;
+            if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
+            return 3;
         }
 
         public override void Render(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, System.Drawing.Rectangle itemBounds)

@@ -22,13 +22,15 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Hot = false;
         }
 
-        public override int GetSuggestedHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
+        public override int GetHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
+            if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
             return MenuIconAreaHeight;
         }
 
-        public override int GetSuggestedWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
+        public override int GetWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
         {
+            if (itemSize != RibbonItemSize.MenuItem) throw new NotSupportedException();
             SizeF size = g.MeasureString(this.Name, settings.Font);
             return MenuIconAreaWidth + 2 * MenuButtonLeftPadding + (int)size.Width + (this.DropDown != null ? MenuDropDownArrowArea : 0);
         }

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonButton : RibbonButtonGroupItem
+    public class RibbonButton : RibbonItem
     {
         public const int ButtonSmallIconSize = 16;
         public const int ButtonBigIconSize = 32;
@@ -66,38 +66,57 @@ namespace Developer.RibbonFramework.RibbonElements
             this.Toggled = false;
         }
 
-        public override int GetBigWidth(Graphics g, RibbonThemaSettingsBase settings)
+        #region Helper Sizing Functions
+
+        private int GetBigWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             SizeF size = g.MeasureString(this.Name, settings.Font);
             return Math.Max((int)size.Width + 2 * ButtonTextPadding, ButtonBigIconSize + 2 * ButtonBorder);
         }
 
-        public override int GetSmallWidth(Graphics g, RibbonThemaSettingsBase settings)
+        private int GetSmallWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             SizeF size = g.MeasureString(this.Name, settings.Font);
             int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
         }
 
-        public override int GetSmallCompactWidth(Graphics g, RibbonThemaSettingsBase settings)
+        private int GetSmallCompactWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder;
         }
 
-        public override int GetSuggestedWidth(Graphics g, RibbonThemaSettingsBase settings)
+        private int GetToolStripWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
-            switch (this.ItemSize)
+            int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
+            return ButtonToolWidth + dropDownWidth;
+        }
+
+        #endregion
+
+        public override int GetWidth(Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
+        {
+            switch (itemSize)
             {
                 case RibbonItemSize.Big: return GetBigWidth(g, settings);
                 case RibbonItemSize.Small: return GetSmallWidth(g, settings);
                 case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g, settings);
+                case RibbonItemSize.ToolStrip: return GetToolStripWidth(g, settings);
+                default: throw new NotSupportedException();
+            }
+        }
+
+        public override int GetHeight(Graphics g, RibbonThemaSettingsBase settings, RibbonItemSize itemSize)
+        {
+            switch (itemSize)
+            {
+                case RibbonItemSize.Big:
+                case RibbonItemSize.Small:
+                case RibbonItemSize.SmallCompact:
                 case RibbonItemSize.ToolStrip:
-                    {
-                        int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
-                        return ButtonToolWidth + dropDownWidth;
-                    }
-                default: return 0;
+                    return 0;
+                default: throw new NotSupportedException();
             }
         }
 
