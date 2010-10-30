@@ -169,8 +169,8 @@ namespace Developer.RibbonFramework.RibbonElements
                 item.ItemSize = RibbonItemSize.ToolStrip;
                 item.Update(g, settings);
             }
-            this.UpdatedWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g, settings)).Sum() + 2 * ToolStripBorder;
-            this.toolItemWidth = this.ToolItems.Select(i => i.GetSuggestedWidth(g, settings)).ToArray();
+            this.UpdatedWidth = this.ToolItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).Sum() + 2 * ToolStripBorder;
+            this.toolItemWidth = this.ToolItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).ToArray();
         }
 
         public void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)

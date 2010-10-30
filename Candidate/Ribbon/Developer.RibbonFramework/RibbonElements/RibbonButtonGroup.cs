@@ -12,13 +12,13 @@ namespace Developer.RibbonFramework.RibbonElements
         private int[] smallWidth = null;
         private int[] smallCompactWidth = null;
 
-        public IList<RibbonButtonGroupItem> BigItems { get; private set; }
-        public IList<RibbonButtonGroupItem> SmallItems { get; private set; }
+        public IList<RibbonItem> BigItems { get; private set; }
+        public IList<RibbonItem> SmallItems { get; private set; }
 
         public RibbonButtonGroup()
         {
-            this.BigItems = new List<RibbonButtonGroupItem>();
-            this.SmallItems = new List<RibbonButtonGroupItem>();
+            this.BigItems = new List<RibbonItem>();
+            this.SmallItems = new List<RibbonItem>();
         }
 
         public override int WidthLevelCount
@@ -77,7 +77,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 item.Update(g, settings);
             }
 
-            this.bigWidth = this.BigItems.Select(item => item.GetBigWidth(g, settings)).ToArray();
+            this.bigWidth = this.BigItems.Select(item => item.GetWidth(g, settings, RibbonItemSize.Big)).ToArray();
             int smallGroups = (this.SmallItems.Count + 2) / 3;
             this.smallWidth = new int[smallGroups];
             this.smallCompactWidth = new int[smallGroups];
@@ -85,8 +85,8 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 int start = i * 3;
                 int end = Math.Min(i * 3 + 2, this.SmallItems.Count - 1);
-                this.smallWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallWidth(g, settings)).Max();
-                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetSmallCompactWidth(g, settings)).Max();
+                this.smallWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetWidth(g, settings, RibbonItemSize.Small)).Max();
+                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetWidth(g, settings, RibbonItemSize.SmallCompact)).Max();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public Rectangle GetBigItemBounds(RibbonButtonGroupItem targetItem)
+        public Rectangle GetBigItemBounds(RibbonItem targetItem)
         {
             int index = this.BigItems.IndexOf(targetItem);
             if (index == -1)
@@ -120,7 +120,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public Rectangle GetSmallItemBounds(RibbonButtonGroupItem targetItem)
+        public Rectangle GetSmallItemBounds(RibbonItem targetItem)
         {
             int index = this.SmallItems.IndexOf(targetItem);
             if (index == -1)
@@ -144,7 +144,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 }
 
                 Rectangle groupBounds = this.Services.GetBounds(this);
-                int w = targetItem.UpdatedWidth;
+                int w = targetItem.UpdatedSize.Width;
                 int h = (groupBounds.Height - HeaderHeight - GroupBorder - 4 * GroupPadding) / 3;
                 int x = groupBounds.Left + bigOffsets + smallOffsets;
                 int y = groupBounds.Top + GroupBorder + (index % 3) * h + (index % 3 + 1) * GroupPadding;
@@ -154,20 +154,19 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override Rectangle GetItemBounds(RibbonItem item)
         {
-            RibbonButtonGroupItem buttonItem = item as RibbonButtonGroupItem;
-            if (buttonItem == null)
+            if (item == null)
             {
                 return base.GetItemBounds(item);
             }
             else
             {
-                if (buttonItem.ItemSize == RibbonItemSize.Big)
+                if (item.ItemSize == RibbonItemSize.Big)
                 {
-                    return GetBigItemBounds(buttonItem);
+                    return GetBigItemBounds(item);
                 }
                 else
                 {
-                    return GetSmallItemBounds(buttonItem);
+                    return GetSmallItemBounds(item);
                 }
             }
         }

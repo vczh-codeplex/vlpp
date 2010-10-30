@@ -11,10 +11,6 @@ namespace Developer.RibbonFramework.RibbonElements
         public const int MenuIconAreaWidth = RibbonMenu.MenuIconAreaSize + 1;
         public const int MenuIconAreaHeight = RibbonMenu.MenuIconAreaSize;
 
-        public int UpdatedHeight { get; protected set; }
-
-        public abstract int GetSuggestedHeight(System.Drawing.Graphics g, RibbonThemaSettingsBase settings);
-
         public Rectangle GetIconBounds(Rectangle itemBounds)
         {
             Rectangle r = itemBounds;
@@ -42,12 +38,6 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public override void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
-        }
-
-        public override void UpdateWithSizeDecided(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
-        {
-            base.UpdateWithSizeDecided(g, settings);
-            this.UpdatedHeight = GetSuggestedHeight(g, settings);
         }
     }
 }
