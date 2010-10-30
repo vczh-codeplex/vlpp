@@ -542,6 +542,7 @@ namespace Developer.RibbonFramework
                 RibbonMenuButton button = new RibbonMenuButton();
                 button.Image = ToolImages.TableBorder;
                 button.Name = "周围都是边框";
+                button.Enabled = false;
                 menu.MenuItems.Add(button);
             }
             {
