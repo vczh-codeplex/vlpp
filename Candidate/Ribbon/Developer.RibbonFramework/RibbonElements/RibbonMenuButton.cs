@@ -52,18 +52,18 @@ namespace Developer.RibbonFramework.RibbonElements
                 RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
                 settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
             }
-            if (this.Image != null)
+            if (this.SmallImage != null)
             {
                 Rectangle r = GetIconBounds(itemBounds);
-                int x = r.Left + (r.Width - this.Image.Width) / 2;
-                int y = r.Top + (r.Height - this.Image.Height) / 2;
+                int x = r.Left + (r.Width - this.SmallImage.Width) / 2;
+                int y = r.Top + (r.Height - this.SmallImage.Height) / 2;
                 if (this.Enabled)
                 {
-                    g.DrawImage(this.Image, x, y);
+                    g.DrawImage(this.SmallImage, x, y);
                 }
                 else
                 {
-                    ControlPaint.DrawImageDisabled(g, this.Image, x, y, Color.Transparent);
+                    ControlPaint.DrawImageDisabled(g, this.SmallImage, x, y, Color.Transparent);
                 }
             }
             {

@@ -31,33 +31,33 @@ namespace Developer.RibbonFramework
                     tab.Groups.Add(group);
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
+                        button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖1";
                         group.BigItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
+                        button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖2";
                         button.Enabled = false;
                         group.BigItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.CutHS;
+                        button.SmallImage = ButtonImages.CutHS;
                         button.Name = "剪切";
                         group.SmallItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.CopyHS;
+                        button.SmallImage = ButtonImages.CopyHS;
                         button.Name = "复制";
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         group.SmallItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Color_linecolor;
+                        button.SmallImage = ButtonImages.Color_linecolor;
                         button.Name = "格式刷";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         group.SmallItems.Add(button);
@@ -69,7 +69,7 @@ namespace Developer.RibbonFramework
                     tab.Groups.Add(group);
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
+                        button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖3";
                         button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                         button.DropDown = new RibbonDropDownGroup()
@@ -80,7 +80,7 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Paste;
+                        button.BigImage = ButtonImages.Paste;
                         button.Name = "粘帖4";
                         button.ButtonStyle = RibbonButtonStyle.SplitButton;
                         button.DropDown = new RibbonDropDownGroup()
@@ -91,7 +91,7 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Window1;
+                        button.SmallImage = ButtonImages.Window1;
                         button.Name = "一个窗口";
                         button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                         button.ToggleGroup = 0;
@@ -100,7 +100,7 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Window2;
+                        button.SmallImage = ButtonImages.Window2;
                         button.Name = "两个窗口";
                         button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                         button.ToggleGroup = 0;
@@ -108,7 +108,7 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Window3;
+                        button.SmallImage = ButtonImages.Window3;
                         button.Name = "三个窗口";
                         button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                         button.ToggleGroup = 0;
@@ -117,21 +117,21 @@ namespace Developer.RibbonFramework
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Arrow1;
+                        button.SmallImage = ButtonImages.Arrow1;
                         button.Name = "第一箭头";
                         button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                         group.SmallItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Arrow2;
+                        button.SmallImage = ButtonImages.Arrow2;
                         button.Name = "第二箭头";
                         button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                         group.SmallItems.Add(button);
                     }
                     {
                         RibbonButton button = new RibbonButton();
-                        button.Image = ButtonImages.Arrow3;
+                        button.SmallImage = ButtonImages.Arrow3;
                         button.Name = "第三箭头";
                         button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                         group.SmallItems.Add(button);
@@ -148,12 +148,12 @@ namespace Developer.RibbonFramework
                         group.ToolStrips.Add(tool);
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.ItemNumber;
+                            button.SmallImage = ToolImages.ItemNumber;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.ItemDot;
+                            button.SmallImage = ToolImages.ItemDot;
                             button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                             button.Enabled = false;
                             tool.ToolItems.Add(button);
@@ -166,12 +166,12 @@ namespace Developer.RibbonFramework
                         group.ToolStrips.Add(tool);
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.TabIn;
+                            button.SmallImage = ToolImages.TabIn;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.TabOut;
+                            button.SmallImage = ToolImages.TabOut;
                             tool.ToolItems.Add(button);
                         }
                     }
@@ -182,7 +182,7 @@ namespace Developer.RibbonFramework
                         group.ToolStrips.Add(tool);
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.AlignLeft;
+                            button.SmallImage = ToolImages.AlignLeft;
                             button.Toggled = true;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
@@ -190,28 +190,28 @@ namespace Developer.RibbonFramework
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.AlignCenter;
+                            button.SmallImage = ToolImages.AlignCenter;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.AlignRight;
+                            button.SmallImage = ToolImages.AlignRight;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.AlignFull;
+                            button.SmallImage = ToolImages.AlignFull;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             tool.ToolItems.Add(button);
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.AlignExpand;
+                            button.SmallImage = ToolImages.AlignExpand;
                             button.ToggleGroup = 0;
                             button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                             button.Enabled = false;
@@ -225,7 +225,7 @@ namespace Developer.RibbonFramework
                         group.ToolStrips.Add(tool);
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.LinePadding;
+                            button.SmallImage = ToolImages.LinePadding;
                             tool.ToolItems.Add(button);
                         }
                     }
@@ -236,7 +236,7 @@ namespace Developer.RibbonFramework
                         group.ToolStrips.Add(tool);
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.TableBorder;
+                            button.SmallImage = ToolImages.TableBorder;
                             button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                             button.DropDown = new RibbonDropDownMenu()
                             {
@@ -246,7 +246,7 @@ namespace Developer.RibbonFramework
                         }
                         {
                             RibbonButton button = new RibbonButton();
-                            button.Image = ToolImages.SortAscending;
+                            button.SmallImage = ToolImages.SortAscending;
                             button.ButtonStyle = RibbonButtonStyle.SplitButton;
                             tool.ToolItems.Add(button);
                         }
@@ -449,21 +449,21 @@ namespace Developer.RibbonFramework
             group.Name = "字体";
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Paste;
+                button.SmallImage = ButtonImages.Paste;
                 button.Name = "粘帖3";
                 button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                 group.BigItems.Add(button);
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Paste;
+                button.SmallImage = ButtonImages.Paste;
                 button.Name = "粘帖4";
                 button.ButtonStyle = RibbonButtonStyle.SplitButton;
                 group.BigItems.Add(button);
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Window1;
+                button.SmallImage = ButtonImages.Window1;
                 button.Name = "一个窗口";
                 button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                 button.ToggleGroup = 0;
@@ -472,7 +472,7 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Window2;
+                button.SmallImage = ButtonImages.Window2;
                 button.Name = "两个窗口";
                 button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                 button.ToggleGroup = 0;
@@ -480,7 +480,7 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Window3;
+                button.SmallImage = ButtonImages.Window3;
                 button.Name = "三个窗口";
                 button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                 button.ToggleGroup = 0;
@@ -489,21 +489,21 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Arrow1;
+                button.SmallImage = ButtonImages.Arrow1;
                 button.Name = "第一箭头";
                 button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                 group.SmallItems.Add(button);
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Arrow2;
+                button.SmallImage = ButtonImages.Arrow2;
                 button.Name = "第二箭头";
                 button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                 group.SmallItems.Add(button);
             }
             {
                 RibbonButton button = new RibbonButton();
-                button.Image = ButtonImages.Arrow3;
+                button.SmallImage = ButtonImages.Arrow3;
                 button.Name = "第三箭头";
                 button.ButtonStyle = RibbonButtonStyle.ToggleButton;
                 group.SmallItems.Add(button);
@@ -522,12 +522,12 @@ namespace Developer.RibbonFramework
                 group.ToolStrips.Add(tool);
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.ItemNumber;
+                    button.SmallImage = ToolImages.ItemNumber;
                     tool.ToolItems.Add(button);
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.ItemDot;
+                    button.SmallImage = ToolImages.ItemDot;
                     button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                     button.Enabled = false;
                     tool.ToolItems.Add(button);
@@ -540,12 +540,12 @@ namespace Developer.RibbonFramework
                 group.ToolStrips.Add(tool);
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.TabIn;
+                    button.SmallImage = ToolImages.TabIn;
                     tool.ToolItems.Add(button);
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.TabOut;
+                    button.SmallImage = ToolImages.TabOut;
                     tool.ToolItems.Add(button);
                 }
             }
@@ -556,7 +556,7 @@ namespace Developer.RibbonFramework
                 group.ToolStrips.Add(tool);
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.AlignLeft;
+                    button.SmallImage = ToolImages.AlignLeft;
                     button.Toggled = true;
                     button.ToggleGroup = 0;
                     button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
@@ -564,28 +564,28 @@ namespace Developer.RibbonFramework
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.AlignCenter;
+                    button.SmallImage = ToolImages.AlignCenter;
                     button.ToggleGroup = 0;
                     button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                     tool.ToolItems.Add(button);
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.AlignRight;
+                    button.SmallImage = ToolImages.AlignRight;
                     button.ToggleGroup = 0;
                     button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                     tool.ToolItems.Add(button);
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.AlignFull;
+                    button.SmallImage = ToolImages.AlignFull;
                     button.ToggleGroup = 0;
                     button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                     tool.ToolItems.Add(button);
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.AlignExpand;
+                    button.SmallImage = ToolImages.AlignExpand;
                     button.ToggleGroup = 0;
                     button.ButtonStyle = RibbonButtonStyle.GroupedToggleButton;
                     button.Enabled = false;
@@ -599,7 +599,7 @@ namespace Developer.RibbonFramework
                 group.ToolStrips.Add(tool);
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.LinePadding;
+                    button.SmallImage = ToolImages.LinePadding;
                     tool.ToolItems.Add(button);
                 }
             }
@@ -610,7 +610,7 @@ namespace Developer.RibbonFramework
                 group.ToolStrips.Add(tool);
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.TableBorder;
+                    button.SmallImage = ToolImages.TableBorder;
                     button.ButtonStyle = RibbonButtonStyle.DropDownButton;
                     button.DropDown = new RibbonDropDownMenu()
                     {
@@ -620,7 +620,7 @@ namespace Developer.RibbonFramework
                 }
                 {
                     RibbonButton button = new RibbonButton();
-                    button.Image = ToolImages.SortAscending;
+                    button.SmallImage = ToolImages.SortAscending;
                     button.ButtonStyle = RibbonButtonStyle.SplitButton;
                     tool.ToolItems.Add(button);
                 }
@@ -633,7 +633,7 @@ namespace Developer.RibbonFramework
             RibbonMenu menu = new RibbonMenu();
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableNone;
+                button.SmallImage = ToolImages.TableNone;
                 button.Name = "没有边框";
                 button.DropDown = new RibbonDropDownMenu()
                 {
@@ -643,32 +643,32 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableLeft;
+                button.SmallImage = ToolImages.TableLeft;
                 button.Name = "左边有边框";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableRight;
+                button.SmallImage = ToolImages.TableRight;
                 button.Name = "右边有边框";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableBottom;
+                button.SmallImage = ToolImages.TableBottom;
                 button.Name = "下面有边框";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableBorder;
+                button.SmallImage = ToolImages.TableBorder;
                 button.Name = "周围都是边框";
                 button.Enabled = false;
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.TableAll;
+                button.SmallImage = ToolImages.TableAll;
                 button.Name = "连里面都是边框";
                 menu.MenuItems.Add(button);
             }
@@ -678,13 +678,13 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.SortAscending;
+                button.SmallImage = ToolImages.SortAscending;
                 button.Name = "不知道为什么要排序";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.SortDescending;
+                button.SmallImage = ToolImages.SortDescending;
                 button.Name = "不知道为什么要反着排序";
                 button.DropDown = new RibbonDropDownMenu()
                 {
@@ -700,13 +700,13 @@ namespace Developer.RibbonFramework
             RibbonMenu menu = new RibbonMenu();
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.AlignLeft;
+                button.SmallImage = ToolImages.AlignLeft;
                 button.Name = "左对齐";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.AlignCenter;
+                button.SmallImage = ToolImages.AlignCenter;
                 button.Name = "中间对齐";
                 button.DropDown = new RibbonDropDownMenu()
                 {
@@ -716,19 +716,19 @@ namespace Developer.RibbonFramework
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.AlignRight;
+                button.SmallImage = ToolImages.AlignRight;
                 button.Name = "右对齐";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.AlignFull;
+                button.SmallImage = ToolImages.AlignFull;
                 button.Name = "全部对齐";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.AlignExpand;
+                button.SmallImage = ToolImages.AlignExpand;
                 button.Name = "不知道是什么对齐";
                 menu.MenuItems.Add(button);
             }
@@ -740,13 +740,13 @@ namespace Developer.RibbonFramework
             RibbonMenu menu = new RibbonMenu();
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.SortAscending;
+                button.SmallImage = ToolImages.SortAscending;
                 button.Name = "我还是不知道为什么要排序";
                 menu.MenuItems.Add(button);
             }
             {
                 RibbonMenuButton button = new RibbonMenuButton();
-                button.Image = ToolImages.SortDescending;
+                button.SmallImage = ToolImages.SortDescending;
                 button.Name = "我还是不知道为什么要反着排序";
                 menu.MenuItems.Add(button);
             }

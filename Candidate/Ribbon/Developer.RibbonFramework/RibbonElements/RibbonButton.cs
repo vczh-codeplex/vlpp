@@ -298,17 +298,18 @@ namespace Developer.RibbonFramework.RibbonElements
 
         private void RenderImage(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds, Rectangle iconBounds)
         {
-            if (this.Image != null)
+            Image image = this.ItemSize == RibbonItemSize.Big ? this.BigImage : this.SmallImage;
+            if (image != null)
             {
                 if (this.Enabled)
                 {
-                    g.DrawImage(this.Image, iconBounds);
+                    g.DrawImage(image, iconBounds);
                 }
                 else
                 {
-                    using (Bitmap image = new Bitmap(this.Image, iconBounds.Size))
+                    using (Bitmap tempImage = new Bitmap(image, iconBounds.Size))
                     {
-                        ControlPaint.DrawImageDisabled(g, image, iconBounds.X, iconBounds.Y, Color.Transparent);
+                        ControlPaint.DrawImageDisabled(g, tempImage, iconBounds.X, iconBounds.Y, Color.Transparent);
                     }
                 }
             }
