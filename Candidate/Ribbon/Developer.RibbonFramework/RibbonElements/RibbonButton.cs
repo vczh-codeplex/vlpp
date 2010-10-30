@@ -385,11 +385,6 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public override void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
-        {
-            this.UpdatedWidth = GetSuggestedWidth(g, settings);
-        }
-
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
         {
             this.ItemContainer.GlobalServices.Capture(this);
