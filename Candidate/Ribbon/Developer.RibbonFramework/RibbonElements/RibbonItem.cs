@@ -11,6 +11,8 @@ namespace Developer.RibbonFramework.RibbonElements
     {
         public RibbonItemContainer ItemContainer { get; internal set; }
         public RibbonToolStrip ToolStrip { get; internal set; }
+        public RibbonControlGroupPanel ControlGroupPanel { get; internal set; }
+
         public RibbonItemSize ItemSize { get; internal set; }
         public Image BigImage { get; set; }
         public Image SmallImage { get; set; }
@@ -46,7 +48,7 @@ namespace Developer.RibbonFramework.RibbonElements
     {
         Big,
         Small,
-        SmallCompact,
+        Compact,
         ToolStrip,
         MenuItem,
     }

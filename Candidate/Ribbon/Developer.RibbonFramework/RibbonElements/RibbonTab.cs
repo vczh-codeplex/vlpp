@@ -16,7 +16,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonContainer Container { get; internal set; }
         public string Name { get; set; }
-        public RibbonElementState State { get; internal set; }
+        public RibbonElementState State { get; protected internal set; }
         public IList<RibbonGroup> Groups { get; private set; }
 
         public int TabWidth { get; protected set; }

@@ -86,7 +86,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 int start = i * 3;
                 int end = Math.Min(i * 3 + 2, this.SmallItems.Count - 1);
                 this.smallWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetWidth(g, settings, RibbonItemSize.Small)).Max();
-                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetWidth(g, settings, RibbonItemSize.SmallCompact)).Max();
+                this.smallCompactWidth[i] = this.SmallItems.Skip(start).Take(end - start + 1).Select(item => item.GetWidth(g, settings, RibbonItemSize.Compact)).Max();
             }
         }
 
@@ -97,7 +97,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 RibbonItem item = this.SmallItems[i];
                 int group = i / 3;
-                item.ItemSize = group < this.WidthLevel ? RibbonItemSize.Small : RibbonItemSize.SmallCompact;
+                item.ItemSize = group < this.WidthLevel ? RibbonItemSize.Small : RibbonItemSize.Compact;
                 item.UpdateWithSizeDecided(g, settings);
             }
         }

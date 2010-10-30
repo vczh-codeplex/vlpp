@@ -151,7 +151,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public void Render(Graphics g, RibbonThemaSettingsBase settings)
+        public virtual void Render(Graphics g, RibbonThemaSettingsBase settings)
         {
             foreach (var item in this.ToolItems)
             {
@@ -160,7 +160,7 @@ namespace Developer.RibbonFramework.RibbonElements
             settings.DrawCarvedBorder(g, settings.LightBorder, settings.DarkBorder, this.Group.GetToolStripBounds(this));
         }
 
-        public void Update(Graphics g, RibbonThemaSettingsBase settings)
+        public virtual void Update(Graphics g, RibbonThemaSettingsBase settings)
         {
             foreach (var item in this.ToolItems)
             {
@@ -173,7 +173,7 @@ namespace Developer.RibbonFramework.RibbonElements
             this.toolItemWidth = this.ToolItems.Select(i => i.GetWidth(g, settings, i.ItemSize)).ToArray();
         }
 
-        public void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
+        public virtual void UpdateWithSizeDecided(Graphics g, RibbonThemaSettingsBase settings)
         {
             foreach (var item in this.ToolItems)
             {
@@ -181,7 +181,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
-        public Rectangle GetItemBounds(RibbonItem item)
+        public virtual Rectangle GetItemBounds(RibbonItem item)
         {
             Rectangle bounds = this.Group.GetToolStripBounds(this);
             int index = this.ToolItems.IndexOf(item);

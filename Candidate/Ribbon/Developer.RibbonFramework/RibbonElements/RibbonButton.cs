@@ -81,7 +81,7 @@ namespace Developer.RibbonFramework.RibbonElements
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder + 2 * ButtonTextPadding + (int)size.Width;
         }
 
-        private int GetSmallCompactWidth(Graphics g, RibbonThemaSettingsBase settings)
+        private int GetCompactWidth(Graphics g, RibbonThemaSettingsBase settings)
         {
             int dropDownWidth = this.EnabledDropDown ? ButtonDropDownSpaceAdditionalWidth : 0;
             return ButtonSmallIconSize + dropDownWidth + 2 * ButtonBorder;
@@ -101,7 +101,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 case RibbonItemSize.Big: return GetBigWidth(g, settings);
                 case RibbonItemSize.Small: return GetSmallWidth(g, settings);
-                case RibbonItemSize.SmallCompact: return GetSmallCompactWidth(g, settings);
+                case RibbonItemSize.Compact: return GetCompactWidth(g, settings);
                 case RibbonItemSize.ToolStrip: return GetToolStripWidth(g, settings);
                 default: throw new NotSupportedException();
             }
@@ -113,7 +113,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 case RibbonItemSize.Big:
                 case RibbonItemSize.Small:
-                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.Compact:
                 case RibbonItemSize.ToolStrip:
                     return 0;
                 default: throw new NotSupportedException();
@@ -157,7 +157,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
                 case RibbonItemSize.Small:
-                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.Compact:
                 case RibbonItemSize.ToolStrip:
                     {
                         int w = ButtonDropDownWidth + 2 * ButtonBorder;
@@ -180,7 +180,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
                 case RibbonItemSize.Small:
-                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.Compact:
                 case RibbonItemSize.ToolStrip:
                     {
                         int w = ButtonDropDownWidth + 2 * ButtonBorder;
@@ -366,7 +366,7 @@ namespace Developer.RibbonFramework.RibbonElements
                     }
                     break;
                 case RibbonItemSize.Small:
-                case RibbonItemSize.SmallCompact:
+                case RibbonItemSize.Compact:
                 case RibbonItemSize.ToolStrip:
                     {
                         if (this.EnabledDropDown)
