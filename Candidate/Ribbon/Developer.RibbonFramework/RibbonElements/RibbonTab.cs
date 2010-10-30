@@ -9,15 +9,26 @@ namespace Developer.RibbonFramework.RibbonElements
 {
     public class RibbonTab : RibbonTabBase
     {
-        public const int TabWidthOffset = 20;
-        public const int TabHeightOffset = 10;
-        public const int TabRoundRadius = 3;
-
         public RibbonTabPanel TabPanel { get; private set; }
 
         public RibbonTab()
         {
             this.TabPanel = new RibbonTabPanel(this);
+        }
+
+        protected override RibbonItem CreateMenuItem()
+        {
+            RibbonMenuButton button = new RibbonMenuButton();
+            button.Name = this.Name;
+            return button;
+        }
+
+        public override bool Selectable
+        {
+            get
+            {
+                return true;
+            }
         }
 
         public override void RenderTab(Graphics g, RibbonThemaSettingsBase settings, Rectangle tabBounds)

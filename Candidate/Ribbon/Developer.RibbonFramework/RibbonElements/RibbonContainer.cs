@@ -11,6 +11,7 @@ namespace Developer.RibbonFramework.RibbonElements
     {
         private IRibbonInputCallback callback;
         private RibbonItem capturedItem;
+        private List<RibbonTabBase> realTabs;
 
         public RibbonResourceManager ResourceManager { get; private set; }
         public IList<RibbonTabBase> Tabs { get; private set; }
@@ -28,6 +29,8 @@ namespace Developer.RibbonFramework.RibbonElements
         public RibbonContainer(IRibbonInputCallback callback)
         {
             this.callback = callback;
+            this.realTabs = new List<RibbonTabBase>();
+
             this.Tabs = new List<RibbonTabBase>();
             this.TabGroups = new List<RibbonTabGroup>();
 
@@ -98,7 +101,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 this.SelectedTabPanel.RenderPanel(g, this.Settings, GetTabPanelBounds());
             }
-            foreach (var tab in this.Tabs)
+            foreach (var tab in this.realTabs)
             {
                 Rectangle bounds = GetTabBounds(tab);
                 tab.RenderTab(g, this.Settings, bounds);
@@ -109,8 +112,8 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             foreach (var group in this.TabGroups)
             {
-                int x1 = GetTabBounds(this.Tabs[group.FirstIndex]).Left + panelBounds.Left;
-                int x2 = GetTabBounds(this.Tabs[group.LastIndex]).Right + panelBounds.Left;
+                int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
+                int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
                 int y1 = 0;
                 int y2 = panelBounds.Top;
                 Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
@@ -133,9 +136,11 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void Update(Graphics g, Rectangle ribbonBounds, int ribbonTabOffset)
         {
+            this.realTabs.Clear();
+            this.realTabs.AddRange(this.Tabs);
             this.RibbonBounds = ribbonBounds;
             this.RibbonTabOffset = ribbonTabOffset;
-            foreach (var tab in this.Tabs)
+            foreach (var tab in this.realTabs)
             {
                 tab.Container = this;
                 tab.Update(g, this.Settings);
@@ -145,9 +150,9 @@ namespace Developer.RibbonFramework.RibbonElements
                 group.Container = this;
                 group.Update(g);
             }
-            this.TabTotalWidth = this.Tabs.Select(t => t.TabWidth).Sum();
-            this.TabTotalHeight = this.Tabs.Count > 0 ? this.Tabs.Select(t => t.TabHeight).Max() : 0;
-            if (this.SelectedTabPanel == null || !this.Tabs.Contains(this.SelectedTabPanel.Owner))
+            this.TabTotalWidth = this.realTabs.Select(t => t.TabWidth).Sum();
+            this.TabTotalHeight = this.realTabs.Count > 0 ? this.realTabs.Select(t => t.TabHeight).Max() : 0;
+            if (this.SelectedTabPanel == null || !this.realTabs.Contains(this.SelectedTabPanel.Owner))
             {
                 this.SelectedTabPanel = FindFirstTabPanel();
             }
@@ -155,7 +160,7 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 this.SelectedTabPanel.Owner.State = RibbonElementState.Selected;
             }
-            foreach (var tab in this.Tabs)
+            foreach (var tab in this.realTabs)
             {
                 if (tab != this.SelectedTabPanel.Owner)
                 {
@@ -169,7 +174,7 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             int x = this.RibbonBounds.Left + this.RibbonTabOffset + RibbonTabBase.TabPadding;
             int y = this.RibbonBounds.Top + RibbonTabBase.TabPadding;
-            foreach (var tab in this.Tabs)
+            foreach (var tab in this.realTabs)
             {
                 if (tab == targetTab)
                 {
@@ -183,7 +188,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public RibbonTabBase GetTabFromPoint(Point location)
         {
-            foreach (var tab in this.Tabs)
+            foreach (var tab in this.realTabs)
             {
                 if (GetTabBounds(tab).Contains(location))
                 {
@@ -215,11 +220,14 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 if (selectedTab != this.SelectedTabPanel.Owner)
                 {
-                    foreach (var tab in this.Tabs)
+                    if (selectedTab.Selectable)
                     {
-                        tab.State = RibbonElementState.Normal;
+                        foreach (var tab in this.realTabs)
+                        {
+                            tab.State = RibbonElementState.Normal;
+                        }
+                        selectedTab.State = RibbonElementState.Selected;
                     }
-                    selectedTab.State = RibbonElementState.Selected;
                     selectedTab.Executed();
                     return true;
                 }
@@ -249,7 +257,7 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             if (hotTab != this.HotTab)
             {
-                foreach (var tab in this.Tabs)
+                foreach (var tab in this.realTabs)
                 {
                     if (tab != this.SelectedTabPanel.Owner)
                     {

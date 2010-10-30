@@ -22,8 +22,13 @@ namespace Developer.RibbonFramework
         private void CreateRibbon()
         {
             {
-                RibbonTab tab = new RibbonTab();
+                RibbonButtonTab tab = new RibbonButtonTab();
                 tab.Name = "开始";
+                this.Ribbon.Tabs.Add(tab);
+            }
+            {
+                RibbonTab tab = new RibbonTab();
+                tab.Name = "主页";
                 this.Ribbon.Tabs.Add(tab);
                 {
                     RibbonButtonGroup group = new RibbonButtonGroup();
