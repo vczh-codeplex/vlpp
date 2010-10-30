@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Developer.RibbonFramework.RibbonElements
 {
-    public class RibbonContainer : IDisposable, IRibbonItemContainerServices
+    public sealed class RibbonContainer : IDisposable, IRibbonItemContainerServices
     {
         private IRibbonInputCallback callback;
         private RibbonItem capturedItem;
@@ -16,18 +16,19 @@ namespace Developer.RibbonFramework.RibbonElements
 
         private RibbonButtonTab mostCompactButtonTab;
         private RibbonMenu mostCompactMenu;
+        private bool compactTabMode;
 
         public RibbonResourceManager ResourceManager { get; private set; }
         public IList<RibbonTabBase> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
 
-        public RibbonThemaSettingsBase Settings { get; protected set; }
-        public int TabTotalWidth { get; protected set; }
-        public int TabTotalHeight { get; protected set; }
-        public Rectangle RibbonBounds { get; protected set; }
-        public int RibbonTabOffset { get; protected set; }
+        public RibbonThemaSettingsBase Settings { get; private set; }
+        public int TabTotalWidth { get; private set; }
+        public int TabTotalHeight { get; private set; }
+        public Rectangle RibbonBounds { get; private set; }
+        public int RibbonTabOffset { get; private set; }
 
-        public RibbonTabPanel SelectedTabPanel { get; set; }
+        public RibbonTabPanel SelectedTabPanel { get; private set; }
 
         public RibbonContainer(IRibbonInputCallback callback)
         {
@@ -125,23 +126,24 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void RenderTabGroups(Graphics g, Rectangle panelBounds, bool drawOnAeroFrame)
         {
-            if (this.realTabs.Count == 1 && this.realTabs[0] == this.mostCompactButtonTab)
-                return;
-            foreach (var group in this.TabGroups)
+            if (!this.compactTabMode)
             {
-                if (group.FirstIndex >= 0 && group.FirstIndex < this.realTabs.Count && group.LastIndex >= 0 && group.LastIndex < this.realTabs.Count)
+                foreach (var group in this.TabGroups)
                 {
-                    int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
-                    int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
-                    int y1 = 0;
-                    int y2 = panelBounds.Top;
-                    Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
-                    group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
+                    if (group.FirstIndex >= 0 && group.FirstIndex < this.realTabs.Count && group.LastIndex >= 0 && group.LastIndex < this.realTabs.Count)
+                    {
+                        int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
+                        int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
+                        int y1 = 0;
+                        int y2 = panelBounds.Top;
+                        Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+                        group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
+                    }
                 }
             }
         }
 
-        protected RibbonTabPanel FindFirstTabPanel()
+        private RibbonTabPanel FindFirstTabPanel()
         {
             foreach (var tab in this.Tabs)
             {
@@ -154,8 +156,28 @@ namespace Developer.RibbonFramework.RibbonElements
             return null;
         }
 
+        public void SelectTabPanel(RibbonTabPanel tabPanel)
+        {
+            this.SelectedTabPanel = tabPanel;
+            ClearTabStates(false);
+            if (this.compactTabMode)
+            {
+                if (this.realTabs.Count == 1)
+                {
+                    this.realTabs.Add(tabPanel.Owner);
+                }
+                else
+                {
+                    this.realTabs[1] = tabPanel.Owner;
+                }
+            }
+            tabPanel.Owner.State = RibbonElementState.Selected;
+            (this as IRibbonItemContainerServices).RefreshItemContainer();
+        }
+
         public void Update(Graphics g, Rectangle ribbonBounds, int ribbonTabOffset)
         {
+            this.compactTabMode = false;
             this.realTabs.Clear();
             this.realTabs.AddRange(this.Tabs);
             this.RibbonBounds = ribbonBounds;
@@ -174,7 +196,7 @@ namespace Developer.RibbonFramework.RibbonElements
             this.TabTotalHeight = this.realTabs.Count > 0 ? this.realTabs.Select(t => t.TabHeight).Max() : 0;
             if (this.SelectedTabPanel == null || !this.realTabs.Contains(this.SelectedTabPanel.Owner))
             {
-                this.SelectedTabPanel = FindFirstTabPanel();
+                SelectTabPanel(FindFirstTabPanel());
             }
             if (this.SelectedTabPanel != null)
             {
@@ -185,10 +207,16 @@ namespace Developer.RibbonFramework.RibbonElements
             {
                 if (this.TabTotalWidth + ribbonTabOffset >= ribbonBounds.Width)
                 {
+                    this.compactTabMode = true;
                     this.realTabs.Clear();
                     this.realTabs.Add(this.mostCompactButtonTab);
                     this.mostCompactButtonTab.Name = this.Tabs[0].Name + " ...";
                     this.mostCompactButtonTab.Update(g, this.Settings);
+
+                    if (this.SelectedTabPanel != null)
+                    {
+                        this.realTabs.Add(this.SelectedTabPanel.Owner);
+                    }
 
                     this.mostCompactMenu.MenuItems.Clear();
                     foreach (var tab in this.Tabs)
