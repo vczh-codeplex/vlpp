@@ -14,6 +14,9 @@ namespace Developer.RibbonFramework.RibbonElements
         private List<RibbonTabBase> realTabs;
         private bool pressing = false;
 
+        private RibbonButtonTab mostCompactButtonTab;
+        private RibbonMenu mostCompactMenu;
+
         public RibbonResourceManager ResourceManager { get; private set; }
         public IList<RibbonTabBase> Tabs { get; private set; }
         public IList<RibbonTabGroup> TabGroups { get; private set; }
@@ -30,6 +33,13 @@ namespace Developer.RibbonFramework.RibbonElements
         {
             this.callback = callback;
             this.realTabs = new List<RibbonTabBase>();
+            this.mostCompactMenu = new RibbonMenu();
+            this.mostCompactButtonTab = new RibbonButtonTab();
+            this.mostCompactButtonTab.Container = this;
+            this.mostCompactButtonTab.DropDown = new RibbonDropDownMenu(this)
+            {
+                Menu = this.mostCompactMenu
+            };
 
             this.Tabs = new List<RibbonTabBase>();
             this.TabGroups = new List<RibbonTabGroup>();
@@ -115,14 +125,19 @@ namespace Developer.RibbonFramework.RibbonElements
 
         public void RenderTabGroups(Graphics g, Rectangle panelBounds, bool drawOnAeroFrame)
         {
+            if (this.realTabs.Count == 1 && this.realTabs[0] == this.mostCompactButtonTab)
+                return;
             foreach (var group in this.TabGroups)
             {
-                int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
-                int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
-                int y1 = 0;
-                int y2 = panelBounds.Top;
-                Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
-                group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
+                if (group.FirstIndex >= 0 && group.FirstIndex < this.realTabs.Count && group.LastIndex >= 0 && group.LastIndex < this.realTabs.Count)
+                {
+                    int x1 = GetTabBounds(this.realTabs[group.FirstIndex]).Left + panelBounds.Left;
+                    int x2 = GetTabBounds(this.realTabs[group.LastIndex]).Right + panelBounds.Left;
+                    int y1 = 0;
+                    int y2 = panelBounds.Top;
+                    Rectangle groupBounds = new Rectangle(x1, y1, x2 - x1, y2 - y1);
+                    group.Render(g, this.Settings, groupBounds, drawOnAeroFrame);
+                }
             }
         }
 
@@ -155,7 +170,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 group.Container = this;
                 group.Update(g);
             }
-            this.TabTotalWidth = this.realTabs.Select(t => t.TabWidth).Sum();
+            this.TabTotalWidth = this.realTabs.Select(t => t.TabWidth).Sum() + Math.Max(0, this.realTabs.Count - 1) * RibbonTabBase.TabPadding;
             this.TabTotalHeight = this.realTabs.Count > 0 ? this.realTabs.Select(t => t.TabHeight).Max() : 0;
             if (this.SelectedTabPanel == null || !this.realTabs.Contains(this.SelectedTabPanel.Owner))
             {
@@ -164,6 +179,23 @@ namespace Developer.RibbonFramework.RibbonElements
             if (this.SelectedTabPanel != null)
             {
                 this.SelectedTabPanel.Owner.State = RibbonElementState.Selected;
+            }
+
+            if (this.Tabs.Count > 0)
+            {
+                if (this.TabTotalWidth + ribbonTabOffset >= ribbonBounds.Width)
+                {
+                    this.realTabs.Clear();
+                    this.realTabs.Add(this.mostCompactButtonTab);
+                    this.mostCompactButtonTab.Name = this.Tabs[0].Name + " ...";
+                    this.mostCompactButtonTab.Update(g, this.Settings);
+
+                    this.mostCompactMenu.MenuItems.Clear();
+                    foreach (var tab in this.Tabs)
+                    {
+                        this.mostCompactMenu.MenuItems.Add(tab.MenuItem);
+                    }
+                }
             }
             ClearTabStates(true);
         }
