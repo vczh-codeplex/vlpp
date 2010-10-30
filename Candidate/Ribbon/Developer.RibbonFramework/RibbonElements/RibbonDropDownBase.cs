@@ -13,6 +13,7 @@ namespace Developer.RibbonFramework.RibbonElements
             private RibbonItem capturedItem;
 
             public DropDownControl ParentDropDownControl { get; set; }
+            public DropDownControl ChildDropDownControl { get; set; }
 
             #region IRibbonItemContainerServices Members
 
@@ -42,11 +43,7 @@ namespace Developer.RibbonFramework.RibbonElements
 
             void IRibbonItemContainerServices.ItemExecuted(RibbonItem item)
             {
-                if (this.ParentDropDownControl != null)
-                {
-                    this.ParentDropDownControl.Close();
-                }
-                this.Close();
+                CloseToRoot();
             }
 
             RibbonDropDownHost IRibbonItemContainerServices.Host
@@ -59,6 +56,15 @@ namespace Developer.RibbonFramework.RibbonElements
 
             #endregion
 
+            protected void CloseToRoot()
+            {
+                if (this.ParentDropDownControl != null)
+                {
+                    this.ParentDropDownControl.CloseToRoot();
+                }
+                Close();
+            }
+
             protected override void PrepareToOpen()
             {
                 base.PrepareToOpen();
@@ -68,14 +74,30 @@ namespace Developer.RibbonFramework.RibbonElements
 
             protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
             {
-                this.OwnerItem = this.ParentDropDownControl != null ? this.ParentDropDownControl.HostingItem : null;
+                if (this.ParentDropDownControl != null)
+                {
+                    this.OwnerItem = this.ParentDropDownControl.HostingItem;
+                    if (this.ParentDropDownControl.ChildDropDownControl != null)
+                    {
+                        this.ParentDropDownControl.ChildDropDownControl.Close();
+                    }
+                    this.ParentDropDownControl.ChildDropDownControl = this;
+                }
                 base.OnOpening(e);
             }
 
             protected override void OnClosing(System.Windows.Forms.ToolStripDropDownClosingEventArgs e)
             {
                 this.OwnerItem = null;
-                this.ParentDropDownControl = null;
+                if (this.ChildDropDownControl != null)
+                {
+                    this.ChildDropDownControl.Close();
+                }
+                if (this.ParentDropDownControl != null)
+                {
+                    this.ParentDropDownControl.ChildDropDownControl = null;
+                    this.ParentDropDownControl = null;
+                }
                 base.OnClosing(e);
             }
         }
@@ -113,6 +135,14 @@ namespace Developer.RibbonFramework.RibbonElements
             this.dropDownControl.RibbonItems = this.RibbonItems;
             this.dropDownControl.ParentDropDownControl = item.ItemContainer.Services.Host as DropDownControl;
             this.dropDownControl.Show(p.X + pi.X - pg.X + relativeLocation.X, p.Y + pi.Y - pg.Y + relativeLocation.Y);
+        }
+
+        public void Close()
+        {
+            if (this.dropDownControl != null)
+            {
+                this.dropDownControl.Close();
+            }
         }
     }
 }

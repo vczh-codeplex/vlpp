@@ -10,7 +10,11 @@ namespace Developer.RibbonFramework.RibbonElements
     public class RibbonMenuButton : RibbonMenuItem
     {
         public int MenuButtonLeftPadding = 5;
+        public int MenuDropDownArrowArea = 10;
+        public const int MenuDropDownWidth = 3;
+        public const int MenuDropDownHeight = 5;
 
+        public RibbonDropDownBase DropDown { get; set; }
         public bool Hot { get; protected set; }
 
         public RibbonMenuButton()
@@ -26,7 +30,7 @@ namespace Developer.RibbonFramework.RibbonElements
         public override int GetSuggestedWidth(System.Drawing.Graphics g, RibbonThemaSettingsBase settings)
         {
             SizeF size = g.MeasureString(this.Name, settings.Font);
-            return MenuIconAreaWidth + 2 * MenuButtonLeftPadding + (int)size.Width;
+            return MenuIconAreaWidth + 2 * MenuButtonLeftPadding + (int)size.Width + (this.DropDown != null ? MenuDropDownArrowArea : 0);
         }
 
         public override void Render(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
@@ -76,6 +80,13 @@ namespace Developer.RibbonFramework.RibbonElements
                     settings.DrawCarvedText(g, settings.MenuLightText, settings.MenuDarkText, tr, this.Name, font);
                 }
             }
+            if (this.DropDown != null)
+            {
+                int x = itemBounds.Right - MenuDropDownArrowArea + (MenuDropDownArrowArea - MenuDropDownWidth) / 2;
+                int y = itemBounds.Top + (itemBounds.Height - MenuDropDownHeight) / 2;
+                Rectangle dr = new Rectangle(x, y, MenuDropDownWidth, MenuDropDownHeight);
+                settings.DrawRightDropDownTriangle(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+            }
         }
 
         public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
@@ -88,6 +99,19 @@ namespace Developer.RibbonFramework.RibbonElements
             if (!this.Hot)
             {
                 this.Hot = true;
+                foreach (var item in this.ItemContainer.Items)
+                {
+                    RibbonMenuButton menuItem = item as RibbonMenuButton;
+                    if (menuItem != null && menuItem != this && menuItem.DropDown != null)
+                    {
+                        menuItem.DropDown.Close();
+                    }
+                }
+                if (this.DropDown != null)
+                {
+                    Rectangle itemBounds = this.ItemContainer.GetItemBounds(this);
+                    this.DropDown.Open(this, new Point(itemBounds.Width, 0));
+                }
                 return true;
             }
             else
@@ -117,7 +141,10 @@ namespace Developer.RibbonFramework.RibbonElements
 
         protected virtual void Executed()
         {
-            this.ItemContainer.Services.ItemExecuted(this);
+            if (this.DropDown == null)
+            {
+                this.ItemContainer.Services.ItemExecuted(this);
+            }
         }
     }
 }

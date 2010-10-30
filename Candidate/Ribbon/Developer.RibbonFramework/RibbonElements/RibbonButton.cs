@@ -341,7 +341,7 @@ namespace Developer.RibbonFramework.RibbonElements
                             int dx = itemBounds.Left + (int)(itemBounds.Width - ButtonDropDownWidth) / 2;
                             int dy = itemBounds.Bottom - ButtonDropDownHeight - ButtonTextPadding;
                             Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
-                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                            settings.DrawDownDropDownTriangle(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
                         }
                     }
                     break;
@@ -354,7 +354,7 @@ namespace Developer.RibbonFramework.RibbonElements
                             int dx = itemBounds.Right - ButtonDropDownWidth - ButtonTextPadding;
                             int dy = itemBounds.Top + (int)(itemBounds.Height - ButtonDropDownHeight) / 2;
                             Rectangle dr = new Rectangle(dx, dy, ButtonDropDownWidth, ButtonDropDownHeight);
-                            settings.DrawDropDown(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
+                            settings.DrawDownDropDownTriangle(g, settings.ButtonDropDownLight, settings.ButtonDropDownDark, dr);
                         }
                     }
                     break;
