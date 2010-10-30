@@ -24,6 +24,10 @@ namespace Developer.RibbonFramework
             {
                 RibbonButtonTab tab = new RibbonButtonTab();
                 tab.Name = "开始";
+                tab.DropDown = new RibbonDropDownMenu(this.Ribbon)
+                {
+                    Menu = CreateStartMenu()
+                };
                 this.Ribbon.Tabs.Add(tab);
             }
             {
@@ -351,6 +355,35 @@ namespace Developer.RibbonFramework
                 this.Ribbon.TabGroups.Add(group);
             }
             UpdateRibbon(false);
+        }
+
+        private RibbonMenu CreateStartMenu()
+        {
+            RibbonMenu menu = new RibbonMenu();
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.SmallImage = StartImages.New;
+                button.Name = "新建文档";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.SmallImage = StartImages.Open;
+                button.Name = "打开文档";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.SmallImage = StartImages.Save;
+                button.Name = "保存文档";
+                menu.MenuItems.Add(button);
+            }
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.Name = "关闭";
+                menu.MenuItems.Add(button);
+            }
+            return menu;
         }
 
         private RibbonMenu CreateTableMenu()

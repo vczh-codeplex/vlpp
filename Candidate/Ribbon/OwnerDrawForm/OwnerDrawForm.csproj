@@ -68,6 +68,11 @@
     <Compile Include="RibbonHost.Designer.cs">
       <DependentUpon>RibbonHost.cs</DependentUpon>
     </Compile>
+    <Compile Include="StartImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StartImages.resx</DependentUpon>
+    </Compile>
     <Compile Include="ToolImages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +98,10 @@
     </Compile>
     <EmbeddedResource Include="RibbonHost.resx">
       <DependentUpon>RibbonHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StartImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -233,6 +242,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\112_RightArrowLong_Orange_32x32_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\base_floppydisk_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDocument_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,6 +11,7 @@ namespace Developer.RibbonFramework.RibbonElements
         RibbonItem CapturedItem { get; }
         void Capture(RibbonItem item);
         Point GetLocationInScreen(RibbonItemContainer container);
+        Point GetLocationInScreen();
         Rectangle GetBounds(RibbonItemContainer container);
         void ItemExecuted(RibbonItem item);
         RibbonDropDownHost Host { get; }
