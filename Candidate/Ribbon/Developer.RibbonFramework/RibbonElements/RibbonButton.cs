@@ -262,6 +262,11 @@ namespace Developer.RibbonFramework.RibbonElements
             }
             switch (this.dropDownOpening ? VisualState.Pressed : this.PanelVisualState)
             {
+                case VisualState.Hot:
+                    {
+                        settings.DrawHotButtonBorder(g, GetHotBoundsForRender(itemBounds));
+                    }
+                    break;
                 case VisualState.Pressed:
                     {
                         settings.DrawPressedButtonBorder(g, GetHotBoundsForRender(itemBounds));
