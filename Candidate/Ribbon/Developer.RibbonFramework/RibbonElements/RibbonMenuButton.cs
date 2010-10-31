@@ -43,17 +43,8 @@ namespace Developer.RibbonFramework.RibbonElements
             base.Render(g, settings, itemBounds);
             if (this.Hot)
             {
-                RibbonColorItem i1 = settings.ButtonReleasedBackground1;
-                RibbonColorItem i2 = settings.ButtonReleasedBackground2;
-                RibbonColorItem i3 = settings.ButtonReleasedBackground3;
-                RibbonColorItem i4 = settings.ButtonReleasedBackground4;
-                settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(itemBounds, 0, -1), 0.5);
-
-                RibbonColorItem outTop = settings.ButtonReleasedOuterBorderTop;
-                RibbonColorItem outBottom = settings.ButtonReleasedOuterBorderBottom;
-                RibbonColorItem inTop = settings.ButtonReleasedInnerBorderTop;
-                RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
-                settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
+                settings.DrawHotButtonPanel(g, itemBounds, 0.5);
+                settings.DrawHotButtonBorder(g, itemBounds);
             }
             if (this.SmallImage != null)
             {

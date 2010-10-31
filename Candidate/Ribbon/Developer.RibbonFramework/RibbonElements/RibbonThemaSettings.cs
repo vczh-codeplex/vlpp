@@ -211,6 +211,42 @@ namespace Developer.RibbonFramework.RibbonElements
             }
         }
 
+        public virtual void DrawHotButtonBorder(Graphics g, Rectangle bounds)
+        {
+            RibbonColorItem outTop = this.ButtonReleasedOuterBorderTop;
+            RibbonColorItem outBottom = this.ButtonReleasedOuterBorderBottom;
+            RibbonColorItem inTop = this.ButtonReleasedInnerBorderTop;
+            RibbonColorItem inBottom = this.ButtonReleasedInnerBorderBottom;
+            this.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, bounds);
+        }
+
+        public virtual void DrawPressedButtonBorder(Graphics g, Rectangle bounds)
+        {
+            RibbonColorItem outTop = this.ButtonPressedOuterBorderTop;
+            RibbonColorItem outBottom = this.ButtonPressedOuterBorderBottom;
+            RibbonColorItem inTop = this.ButtonPressedInnerBorderTop;
+            RibbonColorItem inBottom = this.ButtonPressedInnerBorderBottom;
+            this.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, bounds);
+        }
+
+        public virtual void DrawHotButtonPanel(Graphics g, Rectangle bounds, double ratio)
+        {
+            RibbonColorItem i1 = this.ButtonReleasedBackground1;
+            RibbonColorItem i2 = this.ButtonReleasedBackground2;
+            RibbonColorItem i3 = this.ButtonReleasedBackground3;
+            RibbonColorItem i4 = this.ButtonReleasedBackground4;
+            this.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(bounds, 0, -1), ratio);
+        }
+
+        public virtual void DrawPressedButtonPanel(Graphics g, Rectangle bounds, double ratio)
+        {
+            RibbonColorItem i1 = this.ButtonPressedBackground1;
+            RibbonColorItem i2 = this.ButtonPressedBackground2;
+            RibbonColorItem i3 = this.ButtonPressedBackground3;
+            RibbonColorItem i4 = this.ButtonPressedBackground4;
+            this.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(bounds, 0, -1), ratio);
+        }
+
         #endregion
     }
 

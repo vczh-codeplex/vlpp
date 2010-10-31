@@ -239,63 +239,35 @@ namespace Developer.RibbonFramework.RibbonElements
 
         private void RenderPanel(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            RibbonColorItem i1 = null;
-            RibbonColorItem i2 = null;
-            RibbonColorItem i3 = null;
-            RibbonColorItem i4 = null;
-            double ratio = 0;
             switch (this.dropDownOpening ? VisualState.Pressed : this.PanelVisualState)
             {
                 case VisualState.Hot:
                     {
-                        i1 = settings.ButtonReleasedBackground1;
-                        i2 = settings.ButtonReleasedBackground2;
-                        i3 = settings.ButtonReleasedBackground3;
-                        i4 = settings.ButtonReleasedBackground4;
-                        ratio = (double)2 / 5;
+                        settings.DrawHotButtonPanel(g, GetHotBoundsForRender(itemBounds), (double)2 / 5);
                     }
                     break;
                 case VisualState.Pressed:
                     {
-                        i1 = settings.ButtonPressedBackground1;
-                        i2 = settings.ButtonPressedBackground2;
-                        i3 = settings.ButtonPressedBackground3;
-                        i4 = settings.ButtonPressedBackground4;
-                        ratio = (double)2.25 / 5;
+                        settings.DrawPressedButtonPanel(g, GetHotBoundsForRender(itemBounds), (double)2.25 / 5);
                     }
                     break;
-                default:
-                    return;
             }
-            settings.DrawDoubleGradientPanel(g, i1, i2, i3, i4, Rectangle.Inflate(GetHotBoundsForRender(itemBounds), 0, -1), ratio);
         }
 
         private void RenderBorder(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds)
         {
-            RibbonColorItem outTop = settings.ButtonReleasedOuterBorderTop;
-            RibbonColorItem outBottom = settings.ButtonReleasedOuterBorderBottom;
-            RibbonColorItem inTop = settings.ButtonReleasedInnerBorderTop;
-            RibbonColorItem inBottom = settings.ButtonReleasedInnerBorderBottom;
             if (this.ButtonStyle == RibbonButtonStyle.SplitButton && this.BorderVisualState != VisualState.Normal)
             {
-                settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, itemBounds);
+                settings.DrawHotButtonBorder(g, itemBounds);
             }
             switch (this.dropDownOpening ? VisualState.Pressed : this.PanelVisualState)
             {
-                case VisualState.Hot:
-                    break;
                 case VisualState.Pressed:
                     {
-                        outTop = settings.ButtonPressedOuterBorderTop;
-                        outBottom = settings.ButtonPressedOuterBorderBottom;
-                        inTop = settings.ButtonPressedInnerBorderTop;
-                        inBottom = settings.ButtonPressedInnerBorderBottom;
+                        settings.DrawPressedButtonBorder(g, GetHotBoundsForRender(itemBounds));
                     }
                     break;
-                default:
-                    return;
             }
-            settings.DrawDoubleGradientBorder(g, outTop, outBottom, inTop, inBottom, GetHotBoundsForRender(itemBounds));
         }
 
         private void RenderImage(Graphics g, RibbonThemaSettingsBase settings, Rectangle itemBounds, Rectangle iconBounds)
