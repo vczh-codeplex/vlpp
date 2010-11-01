@@ -81,7 +81,7 @@ namespace Developer.LanguageServices.NativeX
 
                 UNIT.Infer(
                     !tok("unit") + ID["Name"] + tok(";")
-                    + opt(tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
+                    + opt(!tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
             }
@@ -119,7 +119,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 VARIABLE_DECLARATION.Infer(
-                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(LINKING["Linking"]) + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
+                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(LINKING["Linking"]) + opt(!tok("=") + EXPRESSION["Initializer"]) + tok(";")
                     );
 
                 TYPE_RENAME_DECLARATION.Infer(
@@ -162,7 +162,7 @@ namespace Developer.LanguageServices.NativeX
 
                 GENERIC_DECLARATION.Infer(
                     !tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
-                    + opt(tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
+                    + opt(!tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
                     + ret(NON_GENERIC_DECLARATION)
                     );
 
@@ -180,11 +180,11 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 VARIABLE_STATEMENT.Infer(
-                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
+                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(!tok("=") + EXPRESSION["Initializer"]) + tok(";")
                     );
 
                 IF_STATEMENT.Infer(
-                    !tok("if") + tok("(") + EXPRESSION["Condition"] + tok(")") + STATEMENT["TrueStatement"] + opt(tok("else") + STATEMENT["FalseStatement"])
+                    !tok("if") + tok("(") + EXPRESSION["Condition"] + tok(")") + STATEMENT["TrueStatement"] + opt(!tok("else") + STATEMENT["FalseStatement"])
                     );
 
                 BREAK_STATEMENT.Infer(
@@ -212,7 +212,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 WHILE_DO_STATEMENT.Infer(
-                    !tok("while") + tok("(") + EXPRESSION["BeginCondition"] + tok(")") + STATEMENT["Statement"] + opt(tok("when") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";"))
+                    !tok("while") + tok("(") + EXPRESSION["BeginCondition"] + tok(")") + STATEMENT["Statement"] + opt(!tok("when") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";"))
                     );
 
                 FOR_STATEMENT.Infer(
