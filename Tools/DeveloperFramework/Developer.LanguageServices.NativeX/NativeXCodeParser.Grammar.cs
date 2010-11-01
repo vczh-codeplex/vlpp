@@ -131,7 +131,7 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"))["Members"] + tok("}")
+                            opt(LINKING["Linking"]) + !tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"))["Members"] + tok("}")
                           )
                        )
                     );
@@ -141,7 +141,7 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"))["Functions"] + tok("}")
+                            !tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"))["Functions"] + tok("}")
                           )
                       )
                     );
@@ -281,7 +281,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 EXP0.Infer(
-                    ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | tok("(") + ret(EXPRESSION) + tok(")")
+                    ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | !tok("(") + ret(EXPRESSION) + tok(")")
                     );
 
                 EXP1.Infer(
