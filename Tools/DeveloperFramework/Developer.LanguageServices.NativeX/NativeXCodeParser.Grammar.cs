@@ -80,54 +80,54 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 UNIT.Infer(
-                    tok("unit") + ID["Name"] + tok(";")
+                    !tok("unit") + ID["Name"] + tok(";")
                     + opt(tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
             }
             {
                 STRUCTURE_MEMBER.Infer(
-                    TYPE["Type"] + ID["Name"]
+                    !TYPE["Type"] + ID["Name"]
                     );
 
                 INSTANCE_FUNCTION.Infer(
-                    ID["Name"] + tok("=") + EXPRESSION["Expression"]
+                    !ID["Name"] + tok("=") + EXPRESSION["Expression"]
                     );
 
                 CONCEPT_FUNCTION.Infer(
-                    ID["Name"] + tok("=") + TYPE["Type"]
+                    !ID["Name"] + tok("=") + TYPE["Type"]
                     );
 
                 GENERIC_PARAMETER.Infer(
-                    ID["ParameterName"]
+                    !ID["ParameterName"]
                     );
 
                 GENERIC_CONSTRAINT.Infer(
-                    ID["ParameterName"] + tok(":") + ID["ConceptName"]
+                    !ID["ParameterName"] + tok(":") + ID["ConceptName"]
                     );
 
                 LINKING.Infer(
-                    tok("alias") + ID["LinkingAssembly"] + tok(".") + ID["LinkingSymbol"]
+                    !tok("alias") + ID["LinkingAssembly"] + tok(".") + ID["LinkingSymbol"]
                     );
             }
             {
                 FUNCTION_DECLARATION.Infer(
                     opt(tok("foreign")["Foreign", "true"])
-                    + tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), STRUCTURE_MEMBER)["Parameters"] + tok(")")
+                    + !tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), STRUCTURE_MEMBER)["Parameters"] + tok(")")
                     + opt(LINKING["Linking"])
                     + (tok(";") | STATEMENT["Statement"])
                     );
 
                 VARIABLE_DECLARATION.Infer(
-                    tok("variable") + TYPE["Type"] + ID["Name"] + opt(LINKING["Linking"]) + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
+                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(LINKING["Linking"]) + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
                     );
 
                 TYPE_RENAME_DECLARATION.Infer(
-                    tok("type") + ID["Name"] + tok("=") + TYPE["Type"] + tok(";")
+                    !tok("type") + ID["Name"] + tok("=") + TYPE["Type"] + tok(";")
                     );
 
                 STRUCTURE_DECLARATION.Infer(
-                    tok("structure") + ID["Name"]
+                    !tok("structure") + ID["Name"]
                     + (
                         tok(";")
                         | (
@@ -137,7 +137,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 INSTANCE_DECLARATION.Infer(
-                    tok("instance") + REFERENCE_TYPE["Type"] + tok(":") + ID["ConceptName"]
+                    !tok("instance") + REFERENCE_TYPE["Type"] + tok(":") + ID["ConceptName"]
                     + (
                         tok(";")
                         | (
@@ -147,7 +147,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 CONCEPT_DECLARATION.Infer(
-                    tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"))["Functions"] + tok("}")
+                    !tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"))["Functions"] + tok("}")
                     );
             }
             {
@@ -161,7 +161,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 GENERIC_DECLARATION.Infer(
-                    tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
+                    !tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
                     + opt(tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
                     + ret(NON_GENERIC_DECLARATION)
                     );
@@ -180,54 +180,54 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 VARIABLE_STATEMENT.Infer(
-                    tok("variable") + TYPE["Type"] + ID["Name"] + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
+                    !tok("variable") + TYPE["Type"] + ID["Name"] + opt(tok("=") + EXPRESSION["Initializer"]) + tok(";")
                     );
 
                 IF_STATEMENT.Infer(
-                    tok("if") + tok("(") + EXPRESSION["Condition"] + tok(")") + STATEMENT["TrueStatement"] + opt(tok("else") + STATEMENT["FalseStatement"])
+                    !tok("if") + tok("(") + EXPRESSION["Condition"] + tok(")") + STATEMENT["TrueStatement"] + opt(tok("else") + STATEMENT["FalseStatement"])
                     );
 
                 BREAK_STATEMENT.Infer(
-                    tok("break") + tok(";")
+                    !tok("break") + tok(";")
                     );
 
                 CONTINUE_STATEMENT.Infer(
-                    tok("continue") + tok(";")
+                    !tok("continue") + tok(";")
                     );
 
                 EXIT_STATEMENT.Infer(
-                    tok("exit") + tok(";")
+                    !tok("exit") + tok(";")
                     );
 
                 COMPOSITE_STATEMENT.Infer(
-                    tok("{") + list<NativeXStatement>(STATEMENT)["Statements"] + tok("}")
+                    !tok("{") + list<NativeXStatement>(STATEMENT)["Statements"] + tok("}")
                     );
 
                 DO_WHILE_STATEMENT.Infer(
-                    tok("do") + STATEMENT["Statement"] + tok("while") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";")
+                    !tok("do") + STATEMENT["Statement"] + tok("while") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";")
                     );
 
                 LOOP_STATEMENT.Infer(
-                    tok("loop") + STATEMENT["Statement"]
+                    !tok("loop") + STATEMENT["Statement"]
                     );
 
                 WHILE_DO_STATEMENT.Infer(
-                    tok("while") + tok("(") + EXPRESSION["BeginCondition"] + tok(")") + STATEMENT["Statement"] + opt(tok("when") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";"))
+                    !tok("while") + tok("(") + EXPRESSION["BeginCondition"] + tok(")") + STATEMENT["Statement"] + opt(tok("when") + tok("(") + EXPRESSION["EndCondition"] + tok(")") + tok(";"))
                     );
 
                 FOR_STATEMENT.Infer(
-                    tok("for") + list<NativeXStatement>(STATEMENT)["Initializer"]
+                    !tok("for") + list<NativeXStatement>(STATEMENT)["Initializer"]
                     + tok("when") + tok("(") + EXPRESSION["Condition"] + tok(")")
                     + tok("with") + list<NativeXStatement>(STATEMENT)["SideEffect"]
                     + tok("do") + STATEMENT["Statement"]
                     );
 
                 TRY_CATCH_STATEMENT.Infer(
-                    tok("try") + STATEMENT["TryStatement"] + tok("catch") + STATEMENT["CatchStatement"]
+                    !tok("try") + STATEMENT["TryStatement"] + tok("catch") + STATEMENT["CatchStatement"]
                     );
 
                 THROW_STATEMENT.Infer(
-                    tok("throw") + opt(EXPRESSION["ExceptionExpression"]) + tok(";")
+                    !tok("throw") + opt(EXPRESSION["ExceptionExpression"]) + tok(";")
                     );
 
                 STATEMENT.Infer(
@@ -253,7 +253,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 INSTANCE_FUNCTION_REFERENCE.Infer(
-                    ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + tok(":") + tok(":") + ID["FunctionName"]
+                    ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
                     );
 
                 INSTANCIATED_REFERENCE.Infer(
@@ -261,7 +261,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 IDENTIFIER_REFERENCE.Infer(
-                    ID["ReferencedName"]
+                    !ID["ReferencedName"]
                     );
 
                 REFERENCE.Infer(
@@ -269,15 +269,15 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 RESULT.Infer(
-                    tok("result")
+                    !tok("result")
                     );
 
                 EXCEPTION.Infer(
-                    tok("exception")
+                    !tok("exception")
                     );
 
                 CAST.Infer(
-                    tok("cast") + tok("<") + TYPE["Type"] + tok(">") + tok("(") + EXPRESSION["Operand"] + tok(")")
+                    !tok("cast") + tok("<") + TYPE["Type"] + tok(">") + tok("(") + EXPRESSION["Operand"] + tok(")")
                     );
 
                 EXP0.Infer(
@@ -287,16 +287,16 @@ namespace Developer.LanguageServices.NativeX
                 EXP1.Infer(
                     ret(leftrecg(
                             EXP0,
-                            g<NativeXSubscribeExpression>("Operand", tok("[") + EXPRESSION["Subscribe"] + tok("]")),
-                            g<NativeXInvokeExpression>("Function", tok("(") + list<NativeXExpression>(tok(","), EXPRESSION)["Arguments"] + tok(")")),
-                            g<NativeXMemberExpression>("Operand", tok(".") + ID["MemberName"]),
-                            g<NativeXPointerMemberExpression>("Operand", tok("->") + ID["MemberName"]),
-                            g<NativeXPostUnaryExpression>("Operand", toks("++", "--")["Operator"])
+                            g<NativeXSubscribeExpression>("Operand", !tok("[") + EXPRESSION["Subscribe"] + tok("]")),
+                            g<NativeXInvokeExpression>("Function", !tok("(") + list<NativeXExpression>(tok(","), EXPRESSION)["Arguments"] + tok(")")),
+                            g<NativeXMemberExpression>("Operand", !tok(".") + ID["MemberName"]),
+                            g<NativeXPointerMemberExpression>("Operand", !tok("->") + ID["MemberName"]),
+                            g<NativeXPostUnaryExpression>("Operand", !toks("++", "--")["Operator"])
                         ))
                     );
 
                 UNARY.Infer(
-                    ((toks("++", "--", "&", "*", "-", "!", "~")["Operator"])) + EXP2["Operand"]
+                    ((!toks("++", "--", "&", "*", "-", "!", "~")["Operator"])) + EXP2["Operand"]
                     );
 
                 EXP2.Infer(
@@ -317,9 +317,9 @@ namespace Developer.LanguageServices.NativeX
                         new string[]{"||"},
                         new string[]{"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "="}
                     };
-                    ParserNode shiftNode = (tok("<") + tok("<"))["Operator", "\"<<\""] | (tok(">") + tok(">"))["Operator", "\">>\""];
+                    ParserNode shiftNode = (!tok("<") + tok("<"))["Operator", "\"<<\""] | (!tok(">") + tok(">"))["Operator", "\">>\""];
                     ParserNode[] operatorNodes = binaryOperators
-                        .Select(ops => ops.First() == "<<" ? shiftNode : toks(ops)["Operator"])
+                        .Select(ops => ops.First() == "<<" ? shiftNode : !toks(ops)["Operator"])
                         .ToArray();
                     ParserNode[] previousNode = new ParserNode[] { EXP2 }
                         .Concat(EXP_BINS.Take(EXP_BINS.Length - 1))
@@ -342,11 +342,11 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 FUNCTION_TYPE.Infer(
-                    tok("function") + TYPE["ReturnType"] + tok("(") + list<NativeXType>(tok(","), TYPE)["Parameters"] + tok(")")
+                    !tok("function") + TYPE["ReturnType"] + tok("(") + list<NativeXType>(tok(","), TYPE)["Parameters"] + tok(")")
                     );
 
                 INSTANCIATED_TYPE.Infer(
-                    REFERENCE_TYPE["ElementType"] + tok("<") + list<NativeXType>(tok(","), TYPE)["GenericArguments"] + tok(">")
+                    REFERENCE_TYPE["ElementType"] + !tok("<") + list<NativeXType>(tok(","), TYPE)["GenericArguments"] + tok(">")
                     );
 
                 PRIMITIVE_TYPE.Infer(
@@ -357,7 +357,7 @@ namespace Developer.LanguageServices.NativeX
                     ret(leftrecg(
                             PRIMITIVE_TYPE,
                             g<NativeXPointerType>("ElementType", tok("*")),
-                            g<NativeXArrayType>("ElementType", tok("[") + PRIMITIVE["Size"] + tok("]"))
+                            g<NativeXArrayType>("ElementType", !tok("[") + PRIMITIVE["Size"] + tok("]"))
                         ))
                     );
             }

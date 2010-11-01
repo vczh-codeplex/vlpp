@@ -99,6 +99,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 return collector.rules;
             }
 
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(ChoiceNode node)
             {
                 node.Left.Accept(this);
@@ -177,6 +182,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 MemberCollector collector = new MemberCollector();
                 parserNode.Accept(collector);
                 return collector.members;
+            }
+
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
             }
 
             public void Visit(ChoiceNode node)
@@ -276,6 +286,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 return retriver.NodeType;
             }
 
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(ChoiceNode node)
             {
             }
@@ -338,6 +353,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 ResultTypeRetriver retriver = new ResultTypeRetriver();
                 node.Accept(retriver);
                 return retriver.NodeType;
+            }
+
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
             }
 
             public void Visit(ChoiceNode node)
@@ -404,6 +424,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 return retriver.NodeType;
             }
 
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
+            }
+
             public void Visit(ChoiceNode node)
             {
                 node.Left.Accept(this);
@@ -464,6 +489,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 SequenceNodeFlatter flatter = new SequenceNodeFlatter();
                 node.Accept(flatter);
                 return flatter.nodes;
+            }
+
+            public void Visit(KeyNode node)
+            {
+                this.nodes.Add(node);
             }
 
             public void Visit(ChoiceNode node)
@@ -532,6 +562,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 ChoiceNodeFlatter flatter = new ChoiceNodeFlatter();
                 node.Accept(flatter);
                 return flatter.nodes;
+            }
+
+            public void Visit(KeyNode node)
+            {
+                this.nodes.Add(node);
             }
 
             public void Visit(ChoiceNode node)
@@ -638,6 +673,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                         sb.AppendLine(identation + "        " + oldReturnVariable + " = " + newReturnVariable + ";");
                     }
                 }
+            }
+
+            public void Visit(KeyNode node)
+            {
+                node.Content.Accept(this);
             }
 
             public void Visit(ChoiceNode node)

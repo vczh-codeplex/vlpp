@@ -25,6 +25,14 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             };
         }
 
+        public static ParserNode operator !(ParserNode node)
+        {
+            return new KeyNode()
+            {
+                Content = node
+            };
+        }
+
         public ParserNode this[string member]
         {
             get
@@ -62,6 +70,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
     public interface IParserNodeVisitor
     {
+        void Visit(KeyNode node);
         void Visit(ChoiceNode node);
         void Visit(OptionalNode node);
         void Visit(LeftRecursionNode node);
