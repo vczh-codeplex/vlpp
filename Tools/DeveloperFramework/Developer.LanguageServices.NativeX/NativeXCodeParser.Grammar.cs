@@ -87,7 +87,7 @@ namespace Developer.LanguageServices.NativeX
             }
             {
                 STRUCTURE_MEMBER.Infer(
-                    !TYPE["Type"] + ID["Name"]
+                    TYPE["Type"] + ID["Name"]
                     );
 
                 INSTANCE_FUNCTION.Infer(
