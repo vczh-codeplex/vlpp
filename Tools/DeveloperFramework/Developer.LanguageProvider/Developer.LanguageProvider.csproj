@@ -53,6 +53,7 @@
     <Compile Include="CodeTokenizer.cs" />
     <Compile Include="ICodeScope.cs" />
     <Compile Include="ParserCodeGenerator\ChoiceNode.cs" />
+    <Compile Include="ParserCodeGenerator\KeyNode.cs" />
     <Compile Include="ParserCodeGenerator\LeftRecursionGroupNode.cs" />
     <Compile Include="ParserCodeGenerator\LeftRecursionNode.cs" />
     <Compile Include="ParserCodeGenerator\ListNode.cs" />
