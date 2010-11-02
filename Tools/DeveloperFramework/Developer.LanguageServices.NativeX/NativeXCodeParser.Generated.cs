@@ -108,7 +108,8 @@ namespace Developer.LanguageServices.NativeX
                                     }
                                     else
                                     {
-                                        goto LABEL_2;
+                                        result5 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXUses>();
+                                        result5.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex5);
                                     }
                                     currentIndex4 = currentIndexCopy5;
                                     result4.Add(result5);
@@ -188,7 +189,16 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_3;
+                                if (currentIndex3 < tokens.Count - 1)
+                                {
+                                    currentIndexCopy3 = currentIndex3 + 1;
+                                }
+                                else
+                                {
+                                    goto LABEL_3;
+                                }
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXDeclaration>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -379,7 +389,8 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericParameter>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -463,7 +474,8 @@ namespace Developer.LanguageServices.NativeX
                                     }
                                     else
                                     {
-                                        goto LABEL_3;
+                                        result5 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericConstraint>();
+                                        result5.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex5);
                                     }
                                     currentIndex4 = currentIndexCopy5;
                                     result4.Add(result5);
@@ -907,7 +919,8 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -1313,7 +1326,8 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -1434,7 +1448,8 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -3645,7 +3660,8 @@ namespace Developer.LanguageServices.NativeX
                                             }
                                             else
                                             {
-                                                goto LABEL_3;
+                                                result6 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXExpression>();
+                                                result6.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex6);
                                             }
                                             currentIndex5 = currentIndexCopy6;
                                             result5.Add(result6);
@@ -4409,7 +4425,8 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXType>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -4855,7 +4872,17 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                if (Developer.LanguageProvider.CodeTokenizer.TestToken(tokens, currentIndex2, "}")) goto LABEL_1;
+                                if (currentIndex3 < tokens.Count - 1)
+                                {
+                                    currentIndexCopy3 = currentIndex3 + 1;
+                                }
+                                else
+                                {
+                                    goto LABEL_1;
+                                }
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
@@ -6114,7 +6141,17 @@ namespace Developer.LanguageServices.NativeX
                                     }
                                     else
                                     {
-                                        goto LABEL_4;
+                                        if (Developer.LanguageProvider.CodeTokenizer.TestToken(tokens, currentIndex4, "}")) goto LABEL_4;
+                                        if (currentIndex5 < tokens.Count - 1)
+                                        {
+                                            currentIndexCopy5 = currentIndex5 + 1;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_4;
+                                        }
+                                        result5 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair>();
+                                        result5.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex5);
                                     }
                                     currentIndex4 = currentIndexCopy5;
                                     result4.Add(result5);
@@ -6374,7 +6411,17 @@ namespace Developer.LanguageServices.NativeX
                                     }
                                     else
                                     {
-                                        goto LABEL_4;
+                                        if (Developer.LanguageProvider.CodeTokenizer.TestToken(tokens, currentIndex4, "}")) goto LABEL_4;
+                                        if (currentIndex5 < tokens.Count - 1)
+                                        {
+                                            currentIndexCopy5 = currentIndex5 + 1;
+                                        }
+                                        else
+                                        {
+                                            goto LABEL_4;
+                                        }
+                                        result5 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair>();
+                                        result5.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex5);
                                     }
                                     currentIndex4 = currentIndexCopy5;
                                     result4.Add(result5);
@@ -6722,7 +6769,17 @@ namespace Developer.LanguageServices.NativeX
                             }
                             else
                             {
-                                goto LABEL_1;
+                                if (Developer.LanguageProvider.CodeTokenizer.TestToken(tokens, currentIndex2, "}")) goto LABEL_1;
+                                if (currentIndex3 < tokens.Count - 1)
+                                {
+                                    currentIndexCopy3 = currentIndex3 + 1;
+                                }
+                                else
+                                {
+                                    goto LABEL_1;
+                                }
+                                result3 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair>();
+                                result3.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex3);
                             }
                             currentIndex2 = currentIndexCopy3;
                             result2.Add(result3);
