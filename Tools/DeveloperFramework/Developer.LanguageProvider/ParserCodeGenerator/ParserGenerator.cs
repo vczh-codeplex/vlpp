@@ -956,7 +956,54 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "        }");
                 sb.AppendLine(identation + "        else");
                 sb.AppendLine(identation + "        {");
-                sb.AppendLine(identation + "            goto " + labelName + ";");
+                switch (node.ContinueType)
+                {
+                    case ListNodeContinueType.CreateNodeType:
+                        {
+                            if (this.returnVariable != "")
+                            {
+                                sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
+                                sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
+                            }
+                        }
+                        break;
+                    case ListNodeContinueType.KeepGoing:
+                    case ListNodeContinueType.StopByFinishTokens:
+                        {
+                            bool continueParsing = true;
+                            if (node.ContinueType == ListNodeContinueType.StopByFinishTokens)
+                            {
+                                if (node.FinishTokens.Length == 0)
+                                {
+                                    sb.AppendLine(identation + "            goto " + labelName + ";");
+                                    continueParsing = false;
+                                }
+                                else
+                                {
+                                    string condition = node.FinishTokens.Select(v => ", \"" + v + "\"").Aggregate("", (a, b) => (a + b));
+                                    string code = GetTypeFullName(typeof(CodeTokenizer)) + ".TestToken(tokens, " + this.indexVariable + condition + ")";
+                                    sb.AppendLine(identation + "            if (" + code + ") goto " + labelName + ";");
+                                }
+                            }
+                            if (continueParsing)
+                            {
+                                sb.AppendLine(identation + "            if (" + newIndexVariable + " < tokens.Count - 1)");
+                                sb.AppendLine(identation + "            {");
+                                sb.AppendLine(identation + "                " + copiedIndexVariable + " = " + newIndexVariable + " + 1;");
+                                sb.AppendLine(identation + "            }");
+                                sb.AppendLine(identation + "            else");
+                                sb.AppendLine(identation + "            {");
+                                sb.AppendLine(identation + "                goto " + labelName + ";");
+                                sb.AppendLine(identation + "            }");
+                                if (this.returnVariable != "")
+                                {
+                                    sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
+                                    sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
+                                }
+                            }
+                        }
+                        break;
+                }
                 sb.AppendLine(identation + "        }");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + copiedIndexVariable + ";");
                 if (this.returnVariable != "")
