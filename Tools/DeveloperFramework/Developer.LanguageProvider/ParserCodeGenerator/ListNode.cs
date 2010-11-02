@@ -10,6 +10,8 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
         public ParserNode Item { get; set; }
         public ParserNode Separator { get; set; }
         public Type NodeType { get; set; }
+        public string[] FinishTokens { get; set; }
+        public ListNodeContinueType ContinueType { get; set; }
 
         internal ListNode()
         {
@@ -19,5 +21,12 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
         {
             visitor.Visit(this);
         }
+    }
+
+    public enum ListNodeContinueType
+    {
+        CreateNodeType,
+        KeepGoing,
+        StopByFinishTokens,
     }
 }
