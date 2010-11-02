@@ -693,8 +693,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 List<ParserNode> branches = ChoiceNodeFlatter.Flat(node);
                 Type returnNodeType = ReturnTypeRetriver.GetNodeType(node);
                 int newLevel = this.level + 1;
+                int newForceSuccessLevel = this.forceSuccessLevel + 1;
                 string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string newForceSuccessVariable = "forceSuccess" + newForceSuccessLevel.ToString();
                 string labelSuccessName = "LABEL_SUCCESS_" + (this.labelCounter++).ToString();
                 string labelFailName = "LABEL_FAIL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
@@ -703,14 +705,16 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    " + GetTypeFullName(returnNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnNodeType) + ");");
                 }
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = -1;");
+                sb.AppendLine(identation + "    bool " + newForceSuccessVariable + " = false;");
                 foreach (ParserNode branch in branches)
                 {
                     bool branchHasReturnNode = ReturnTypeRetriver.GetNodeType(branch) != null;
                     sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
-                    CodeGenerator.GenerateCode(this.sb, this.nodeType, branch, identation + "    ", newLevel, this.memberLevel, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                    sb.AppendLine(identation + "    if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                    CodeGenerator.GenerateCode(this.sb, this.nodeType, branch, identation + "    ", newLevel, this.memberLevel, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                    sb.AppendLine(identation + "    if (parseSuccess || " + newForceSuccessVariable + ")");
                     sb.AppendLine(identation + "    {");
                     sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
+                    sb.AppendLine(identation + "        forceSuccess" + this.forceSuccessLevel.ToString() + " = " + newForceSuccessVariable + ";");
                     sb.AppendLine(identation + "        goto " + labelSuccessName + ";");
                     sb.AppendLine(identation + "    }");
 
@@ -724,6 +728,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                             Type memberType = this.nodeType.GetProperty(member).PropertyType;
                             sb.AppendLine(identation + "        " + member + "Member" + this.memberLevel.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                         }
+                        sb.AppendLine(identation + "        " + newForceSuccessVariable + " = false;");
                         sb.AppendLine(identation + "    }");
                     }
                 }
@@ -741,19 +746,22 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
                 Type returnNodeType = ReturnTypeRetriver.GetNodeType(node);
                 int newLevel = this.level + 1;
+                int newForceSuccessLevel = this.forceSuccessLevel + 1;
                 string newReturnVariable = returnNodeType != null ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string newForceSuccessVariable = "forceSuccess" + newForceSuccessLevel.ToString();
                 sb.AppendLine(identation + "{");
                 if (returnNodeType != null)
                 {
                     sb.AppendLine(identation + "    " + GetTypeFullName(returnNodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(returnNodeType) + ");");
                 }
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = -1;");
+                sb.AppendLine(identation + "    bool " + newForceSuccessVariable + " = false;");
 
                 bool branchHasReturnNode = ReturnTypeRetriver.GetNodeType(node.Content) != null;
                 sb.AppendLine(identation + "    " + newIndexVariable + " = " + this.indexVariable + ";");
-                CodeGenerator.GenerateCode(this.sb, this.nodeType, node.Content, identation + "    ", newLevel, this.memberLevel, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                sb.AppendLine(identation + "    if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                CodeGenerator.GenerateCode(this.sb, this.nodeType, node.Content, identation + "    ", newLevel, this.memberLevel, branchHasReturnNode ? newReturnVariable : "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                sb.AppendLine(identation + "    if (parseSuccess || " + newForceSuccessVariable + ")");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "    }");
@@ -785,8 +793,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 ParserNode next = node.Next;
                 int newLevel = this.level + 1;
                 int newMemberLevel = this.memberLevel + 1;
+                int newForceSuccessLevel = this.forceSuccessLevel + 1;
                 string newReturnVariable = this.returnVariable != "" ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string newForceSuccessVariable = "forceSuccess" + newForceSuccessLevel.ToString();
                 string labelName = "LABEL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
 
@@ -803,13 +813,14 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
                 sb.AppendLine(identation + "    while (true)");
                 sb.AppendLine(identation + "    {");
+                sb.AppendLine(identation + "        bool " + newForceSuccessVariable + " = false;");
                 foreach (string member in MemberCollector.GetMembers(next))
                 {
                     Type memberType = node.NodeType.GetProperty(member).PropertyType;
                     sb.AppendLine(identation + "        " + GetTypeFullName(memberType) + " " + member + "Member" + newMemberLevel.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                 }
-                CodeGenerator.GenerateCode(this.sb, node.NodeType, next, identation + "        ", newLevel + 1, newMemberLevel, "", newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                sb.AppendLine(identation + "        if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                CodeGenerator.GenerateCode(this.sb, node.NodeType, next, identation + "        ", newLevel + 1, newMemberLevel, "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                sb.AppendLine(identation + "        if (parseSuccess || " + newForceSuccessVariable + ")");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + this.indexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "            " + GetTypeFullName(node.NodeType) + " " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
@@ -837,8 +848,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
                 int newLevel = this.level + 1;
                 int newMemberLevel = this.memberLevel + 1;
+                int newForceSuccessLevel = this.forceSuccessLevel + 1;
                 string newReturnVariable = this.returnVariable != "" ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
+                string newForceSuccessVariable = "forceSuccess" + newForceSuccessLevel.ToString();
                 string labelName = "LABEL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
 
@@ -858,13 +871,14 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 foreach (var g in node.Groups)
                 {
                     sb.AppendLine(identation + "        {");
+                    sb.AppendLine(identation + "            bool " + newForceSuccessVariable + " = false;");
                     foreach (string member in MemberCollector.GetMembers(g.NextNode))
                     {
                         Type memberType = g.Type.GetProperty(member).PropertyType;
                         sb.AppendLine(identation + "            " + GetTypeFullName(memberType) + " " + member + "Member" + newMemberLevel.ToString() + " = default(" + GetTypeFullName(memberType) + ");");
                     }
-                    CodeGenerator.GenerateCode(this.sb, g.Type, g.NextNode, identation + "        ", newLevel + 1, newMemberLevel, "", newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                    sb.AppendLine(identation + "            if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                    CodeGenerator.GenerateCode(this.sb, g.Type, g.NextNode, identation + "        ", newLevel + 1, newMemberLevel, "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                    sb.AppendLine(identation + "            if (parseSuccess || " + newForceSuccessVariable + ")");
                     sb.AppendLine(identation + "            {");
                     sb.AppendLine(identation + "                " + this.indexVariable + " = " + newIndexVariable + ";");
                     sb.AppendLine(identation + "                " + GetTypeFullName(g.Type) + " " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(g.Type) + ">();");
@@ -896,9 +910,11 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                     sb.AppendLine(identation + this.returnVariable + " = new " + GetTypeFullName(listType) + "();");
                 }
                 int newLevel = this.level + 1;
+                int newForceSuccessLevel = this.forceSuccessLevel + 1;
                 string newReturnVariable = this.returnVariable != "" ? "result" + newLevel.ToString() : "";
                 string newIndexVariable = "currentIndex" + newLevel.ToString();
                 string copiedIndexVariable = "currentIndexCopy" + newLevel.ToString();
+                string newForceSuccessVariable = "forceSuccess" + newForceSuccessLevel.ToString();
                 string labelName = "LABEL_" + (this.labelCounter++).ToString();
                 sb.AppendLine(identation + "{");
                 if (this.returnVariable != "")
@@ -906,8 +922,9 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "    " + GetTypeFullName(node.NodeType) + " " + newReturnVariable + " = default(" + GetTypeFullName(node.NodeType) + ");");
                 }
                 sb.AppendLine(identation + "    int " + newIndexVariable + " = " + this.indexVariable + ";");
-                CodeGenerator.GenerateCode(this.sb, node.NodeType, node.Item, identation + "    ", newLevel, this.memberLevel, newReturnVariable, newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                sb.AppendLine(identation + "    if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                sb.AppendLine(identation + "    bool " + newForceSuccessVariable + " = false;");
+                CodeGenerator.GenerateCode(this.sb, node.NodeType, node.Item, identation + "    ", newLevel, this.memberLevel, newReturnVariable, newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                sb.AppendLine(identation + "    if (parseSuccess || " + newForceSuccessVariable + ")");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        " + this.indexVariable + " = " + newIndexVariable + ";");
                 if (this.returnVariable != "")
@@ -922,8 +939,8 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
                 if (node.Separator != null)
                 {
-                    CodeGenerator.GenerateCode(this.sb, ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.memberLevel, "", newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                    sb.AppendLine(identation + "        if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                    CodeGenerator.GenerateCode(this.sb, ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.memberLevel, "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                    sb.AppendLine(identation + "        if (parseSuccess || " + newForceSuccessVariable + ")");
                     sb.AppendLine(identation + "        {");
                     sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
                     sb.AppendLine(identation + "        }");
@@ -932,8 +949,8 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                     sb.AppendLine(identation + "            goto " + labelName + ";");
                     sb.AppendLine(identation + "        }");
                 }
-                CodeGenerator.GenerateCode(this.sb, node.NodeType, node.Item, identation + "        ", newLevel, this.memberLevel, newReturnVariable, newIndexVariable, this.forceSuccessLevel, ref this.labelCounter);
-                sb.AppendLine(identation + "        if (parseSuccess || forceSuccess" + this.forceSuccessLevel.ToString() + ")");
+                CodeGenerator.GenerateCode(this.sb, node.NodeType, node.Item, identation + "        ", newLevel, this.memberLevel, newReturnVariable, newIndexVariable, newForceSuccessLevel, ref this.labelCounter);
+                sb.AppendLine(identation + "        if (parseSuccess || " + newForceSuccessVariable + ")");
                 sb.AppendLine(identation + "        {");
                 sb.AppendLine(identation + "            " + copiedIndexVariable + " = " + newIndexVariable + ";");
                 sb.AppendLine(identation + "        }");
