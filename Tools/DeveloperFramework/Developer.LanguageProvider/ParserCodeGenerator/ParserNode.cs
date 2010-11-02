@@ -147,12 +147,24 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             }
         }
 
-        public static ParserNode list<T>(ParserNode item)
+        public static ParserNode list<T>(ParserNode item, params string[] finishTokens)
         {
             return new ListNode()
             {
                 NodeType = typeof(T),
-                Item = item
+                Item = item,
+                FinishTokens = finishTokens,
+                ContinueType = ListNodeContinueType.StopByFinishTokens
+            };
+        }
+
+        public static ParserNode list_hard<T>(ParserNode item)
+        {
+            return new ListNode()
+            {
+                NodeType = typeof(T),
+                Item = item,
+                ContinueType = ListNodeContinueType.KeepGoing
             };
         }
 
@@ -162,7 +174,8 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             {
                 NodeType = typeof(T),
                 Separator = separator,
-                Item = item
+                Item = item,
+                ContinueType = ListNodeContinueType.CreateNodeType
             };
         }
 
