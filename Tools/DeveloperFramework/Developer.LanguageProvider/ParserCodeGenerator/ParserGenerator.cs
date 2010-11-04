@@ -686,6 +686,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
             public void Visit(KeyNode node)
             {
                 node.Content.Accept(this);
+                sb.AppendLine(identation + "if (parseSuccess) forceSuccess" + this.forceSuccessLevel.ToString() + " = true;");
             }
 
             public void Visit(ChoiceNode node)
