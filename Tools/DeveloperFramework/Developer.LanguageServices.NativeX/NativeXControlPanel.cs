@@ -123,19 +123,31 @@ namespace Developer.LanguageServices.NativeX
         {
             NativeXAnalyzingResult result = this.analyzingResult;
             TextPosition pos = this.callback.TextEditorBox.SelectionCaret;
-            if (result != null)
+            this.grayStart = new TextPosition(0, 0);
+            this.grayEnd = new TextPosition(0, 0);
+
+            if (result != null && result.Unit != null)
             {
-                foreach (CodeToken token in result.Tokens)
+                CodeNode node = result.Unit;
+                while (true)
                 {
-                    if (token.Start < pos && pos < token.End)
+                    CodeNode subNode = node.Nodes
+                        .Where(n => n.Start < pos && pos < n.End)
+                        .FirstOrDefault();
+                    if (subNode == null)
                     {
-                        this.grayStart = token.Start;
-                        this.grayEnd = token.End;
-                        return;
+                        break;
+                    }
+                    else
+                    {
+                        node = subNode;
                     }
                 }
-                this.grayStart = new TextPosition(0, 0);
-                this.grayEnd = new TextPosition(0, 0);
+                if (node != result.Unit)
+                {
+                    this.grayStart = node.Start;
+                    this.grayEnd = node.End;
+                }
             }
         }
 
