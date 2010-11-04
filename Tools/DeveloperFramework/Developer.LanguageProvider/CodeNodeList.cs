@@ -31,6 +31,20 @@ namespace Developer.LanguageProvider
             }
         }
 
+        public override void ToString(StringBuilder sb, string prefix)
+        {
+            Type currentType = this.GetType();
+            sb.AppendLine(currentType.Name);
+            sb.AppendLine(prefix + "{");
+            CodeNode[] nodes = this.Nodes.ToArray();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                sb.Append(prefix + PrefixUnit + "[" + i.ToString() + "] = ");
+                nodes[i].ToString(sb, prefix + PrefixUnit);
+            }
+            sb.AppendLine(prefix + "}");
+        }
+
         #region IList<T> Members
 
         public int IndexOf(T item)

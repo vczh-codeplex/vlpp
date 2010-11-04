@@ -91,6 +91,7 @@ namespace Developer.LanguageServices.NativeX
                                 while (true)
                                 {
                                     int currentIndexCopy5 = currentIndex4;
+                                    currentIndex5 = currentIndex4;
                                     Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, ",");
                                     if (parseSuccess || forceSuccess2)
                                     {
@@ -181,6 +182,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             parseSuccess = false;
                             result3 = ParseDeclaration(tokens, ref currentIndex3, ref parseSuccess);
                             if (parseSuccess || forceSuccess1)
@@ -372,6 +374,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                             if (parseSuccess || forceSuccess1)
                             {
@@ -457,6 +460,7 @@ namespace Developer.LanguageServices.NativeX
                                 while (true)
                                 {
                                     int currentIndexCopy5 = currentIndex4;
+                                    currentIndex5 = currentIndex4;
                                     Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, ",");
                                     if (parseSuccess || forceSuccess2)
                                     {
@@ -902,6 +906,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                             if (parseSuccess || forceSuccess1)
                             {
@@ -1309,6 +1314,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                             if (parseSuccess || forceSuccess1)
                             {
@@ -1431,6 +1437,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                             if (parseSuccess || forceSuccess1)
                             {
@@ -3643,6 +3650,7 @@ namespace Developer.LanguageServices.NativeX
                                         while (true)
                                         {
                                             int currentIndexCopy6 = currentIndex5;
+                                            currentIndex6 = currentIndex5;
                                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex6, ref parseSuccess, ",");
                                             if (parseSuccess || forceSuccess2)
                                             {
@@ -4408,6 +4416,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex3, ref parseSuccess, ",");
                             if (parseSuccess || forceSuccess1)
                             {
@@ -4864,6 +4873,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             parseSuccess = false;
                             result3 = ParseStatement(tokens, ref currentIndex3, ref parseSuccess);
                             if (parseSuccess || forceSuccess1)
@@ -5302,6 +5312,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             parseSuccess = false;
                             result3 = ParseStatement(tokens, ref currentIndex3, ref parseSuccess);
                             if (parseSuccess || forceSuccess1)
@@ -5407,6 +5418,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             parseSuccess = false;
                             result3 = ParseStatement(tokens, ref currentIndex3, ref parseSuccess);
                             if (parseSuccess || forceSuccess1)
@@ -6099,6 +6111,7 @@ namespace Developer.LanguageServices.NativeX
                                 while (true)
                                 {
                                     int currentIndexCopy5 = currentIndex4;
+                                    currentIndex5 = currentIndex4;
                                     {
                                         Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                         int currentIndexCopy6 = currentIndex5;
@@ -6369,6 +6382,7 @@ namespace Developer.LanguageServices.NativeX
                                 while (true)
                                 {
                                     int currentIndexCopy5 = currentIndex4;
+                                    currentIndex5 = currentIndex4;
                                     {
                                         Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair result6 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair);
                                         int currentIndexCopy6 = currentIndex5;
@@ -6727,6 +6741,7 @@ namespace Developer.LanguageServices.NativeX
                         while (true)
                         {
                             int currentIndexCopy3 = currentIndex2;
+                            currentIndex3 = currentIndex2;
                             {
                                 Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair result4 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameTypePair);
                                 int currentIndexCopy4 = currentIndex3;

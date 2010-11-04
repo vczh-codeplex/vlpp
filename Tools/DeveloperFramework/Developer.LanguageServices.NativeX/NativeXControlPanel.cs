@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Drawing;
+using Developer.LanguageServices.NativeX.SyntaxTree;
 
 namespace Developer.LanguageServices.NativeX
 {
@@ -22,7 +23,7 @@ namespace Developer.LanguageServices.NativeX
         private TextPosition grayStart = new TextPosition(0, 0);
         private TextPosition grayEnd = new TextPosition(0, 0);
 
-        public int Width
+        public virtual int Width
         {
             get
             {
@@ -30,24 +31,24 @@ namespace Developer.LanguageServices.NativeX
             }
         }
 
-        public void InstallCallBack(ITextEditorControlPanelCallBack callback)
+        public virtual void InstallCallBack(ITextEditorControlPanelCallBack callback)
         {
             this.analyzer = new NativeXCodeAnalyzer(this);
             this.callback = callback;
             this.callback.TextEditorBox.SelectionChanged += new EventHandler(TextEditorBox_SelectionChanged);
         }
 
-        public void OnEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
+        public virtual void OnEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
         {
             this.analyzer.Analyze(this.callback.TextEditorBox.Text);
         }
 
-        public bool NeedColorLineForDisplay(int lineIndex)
+        public virtual bool NeedColorLineForDisplay(int lineIndex)
         {
             return this.grayStart != this.grayEnd && this.grayStart.row <= lineIndex && lineIndex <= this.grayEnd.row;
         }
 
-        public void ColorLineForDisplay(int lineIndex, int[] colors)
+        public virtual void ColorLineForDisplay(int lineIndex, int[] colors)
         {
             TextLine<TextEditorBox.LineInfo> line = this.callback.TextEditorBox.TextProvider[lineIndex];
             int length = line.CharCount;
@@ -60,11 +61,11 @@ namespace Developer.LanguageServices.NativeX
             }
         }
 
-        public void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        public virtual void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
         }
 
-        public void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        public virtual void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
             if (NeedColorLineForDisplay(lineIndex))
             {
@@ -79,41 +80,46 @@ namespace Developer.LanguageServices.NativeX
             }
         }
 
-        public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
+        public virtual void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
         {
         }
 
-        public void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
+        public virtual void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
         {
         }
 
-        public void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public virtual void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
-        public void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public virtual void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
-        public void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public virtual void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
-        public void Receive(NativeXAnalyzingResult result)
+        public virtual void Receive(NativeXAnalyzingResult result)
         {
             this.callback.TextEditorBox.Invoke(new MethodInvoker(() =>
             {
                 this.analyzingResult = result;
+                UpdateUnit(this.analyzingResult.Unit);
                 UpdateBlock();
             }));
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.analyzer.Dispose();
         }
 
-        private void UpdateBlock()
+        protected virtual void UpdateUnit(NativeXUnit unit)
+        {
+        }
+
+        protected virtual void UpdateBlock()
         {
             NativeXAnalyzingResult result = this.analyzingResult;
             TextPosition pos = this.callback.TextEditorBox.SelectionCaret;
