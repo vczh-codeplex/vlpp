@@ -53,6 +53,12 @@
   <ItemGroup>
     <Compile Include="Images.Designer.cs" />
     <Compile Include="ITextEditorService.cs" />
+    <Compile Include="LanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LanguageForm.Designer.cs">
+      <DependentUpon>LanguageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NativeX\NativeXForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,9 @@
     <Compile Include="TextEditorService.cs" />
     <EmbeddedResource Include="Images.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LanguageForm.resx">
+      <DependentUpon>LanguageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NativeX\NativeXForm.resx">
       <DependentUpon>NativeXForm.cs</DependentUpon>
@@ -108,6 +117,7 @@
       <Name>Developer.WinFormControls</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

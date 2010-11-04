@@ -3,47 +3,33 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Developer.WinFormControls;
-using System.IO;
-using System.ServiceModel;
-using Developer.WinFormControls.Core;
 using Developer.LanguageServices.NativeX;
 
 namespace Test.Host.LanguageForms.NativeX
 {
-    public partial class NativeXForm : Form
+    public partial class NativeXForm : Test.Host.LanguageForms.LanguageForm
     {
-        private ServiceHost serviceHost = null;
-        private NativeXControlPanel controlPanel = null;
-
         public NativeXForm()
         {
             InitializeComponent();
-            this.controlPanel = new NativeXControlPanel();
-            textEditorBox.Colorizer = new NativeXColorizer();
-            textEditorBox.ControlPanel = this.controlPanel;
-            TextEditorService.EditorControl = textEditorBox;
-            this.serviceHost = new ServiceHost(typeof(TextEditorService));
-            this.serviceHost.Open();
+            this.Colorizer = new NativeXColorizer();
+            this.ControlPanel = new NativeXControlPanel();
+            InitializeLanguageForm();
         }
 
-        private void NativeXForm_FormClosed(object sender, FormClosedEventArgs e)
+        protected override void OnClosed(EventArgs e)
         {
-            this.serviceHost.Close();
-            this.controlPanel.Dispose();
+            base.OnClosed(e);
+            (this.ControlPanel as NativeXControlPanel).Dispose();
         }
 
-        private void NativeXForm_Shown(object sender, EventArgs e)
+        protected override string CodeFileName
         {
-            if (File.Exists("NativeXCode.txt"))
+            get
             {
-                using (StreamReader reader = new StreamReader("NativeXCode.txt"))
-                {
-                    textEditorBox.Text = reader.ReadToEnd();
-                }
+                return "NativeXCode.txt";
             }
         }
     }
