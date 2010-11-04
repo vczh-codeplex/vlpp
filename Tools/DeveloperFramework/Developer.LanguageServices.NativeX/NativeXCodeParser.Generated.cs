@@ -571,13 +571,13 @@ namespace Developer.LanguageServices.NativeX
                 Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
-                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentToken = currentIndex1;
                     ParameterNameMember0 = result1.Value;
                 }
             }
+            if (parseSuccess) forceSuccess0 = true;
             if (parseSuccess || forceSuccess0)
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericParameter>();
@@ -603,13 +603,13 @@ namespace Developer.LanguageServices.NativeX
                     Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
                     result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
-                    if (parseSuccess) forceSuccess0 = true;
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
                         ParameterNameMember0 = result2.Value;
                     }
                 }
+                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentIndexCopy1 = currentIndex1;
@@ -2302,13 +2302,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "=");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2406,13 +2406,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "||");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2510,13 +2510,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "&&");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2614,13 +2614,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "|");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2718,13 +2718,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "^");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2822,13 +2822,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "&");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -2926,13 +2926,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "==", "!=");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -3030,13 +3030,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "<", "<=", ">", ">=");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -3324,13 +3324,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "+", "-");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -3428,13 +3428,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result5 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex5 = currentIndex4;
                                 result5 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex5, ref parseSuccess, "*", "/", "%");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex4 = currentIndex5;
                                     OperatorMember1 = result5.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndexCopy4 = currentIndex4;
@@ -3847,13 +3847,13 @@ namespace Developer.LanguageServices.NativeX
                                 Developer.LanguageProvider.CodeToken result4 = default(Developer.LanguageProvider.CodeToken);
                                 int currentIndex4 = currentIndex2;
                                 result4 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex4, ref parseSuccess, "++", "--");
-                                if (parseSuccess) forceSuccess1 = true;
                                 if (parseSuccess || forceSuccess1)
                                 {
                                     currentIndex2 = currentIndex4;
                                     OperatorMember1 = result4.Value;
                                 }
                             }
+                            if (parseSuccess) forceSuccess1 = true;
                             if (parseSuccess || forceSuccess1)
                             {
                                 currentIndex1 = currentIndex2;
@@ -4526,13 +4526,13 @@ namespace Developer.LanguageServices.NativeX
                 Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
                 int currentIndex1 = currentToken;
                 result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
-                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentToken = currentIndex1;
                     ReferencedNameMember0 = result1.Value;
                 }
             }
+            if (parseSuccess) forceSuccess0 = true;
             if (parseSuccess || forceSuccess0)
             {
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceExpression>();
@@ -4558,13 +4558,13 @@ namespace Developer.LanguageServices.NativeX
                     Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
                     result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, "++", "--", "&", "*", "-", "!", "~");
-                    if (parseSuccess) forceSuccess0 = true;
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
                         OperatorMember0 = result2.Value;
                     }
                 }
+                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentIndexCopy1 = currentIndex1;
@@ -5737,6 +5737,7 @@ namespace Developer.LanguageServices.NativeX
                         ExpressionMember0 = result2;
                     }
                 }
+                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentIndexCopy1 = currentIndex1;
@@ -6597,13 +6598,13 @@ namespace Developer.LanguageServices.NativeX
                     Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
                     result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
-                    if (parseSuccess) forceSuccess0 = true;
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
                         NameMember0 = result2.Value;
                     }
                 }
+                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentIndexCopy1 = currentIndex1;
@@ -6933,13 +6934,13 @@ namespace Developer.LanguageServices.NativeX
                     Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
                     int currentIndex2 = currentIndex1;
                     result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
-                    if (parseSuccess) forceSuccess0 = true;
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
                         NameMember0 = result2.Value;
                     }
                 }
+                if (parseSuccess) forceSuccess0 = true;
                 if (parseSuccess || forceSuccess0)
                 {
                     currentIndexCopy1 = currentIndex1;

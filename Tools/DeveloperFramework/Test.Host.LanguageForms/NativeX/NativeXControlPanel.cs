@@ -8,10 +8,11 @@ using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Drawing;
 using Developer.LanguageServices.NativeX.SyntaxTree;
+using Developer.LanguageServices.NativeX;
 
-namespace Developer.LanguageServices.NativeX
+namespace Test.Host.LanguageForms.NativeX
 {
-    public class NativeXControlPanel
+    class NativeXControlPanel
         : ITextEditorControlPanel
         , INativeXAnalyzingResultReceiver
         , IDisposable
@@ -22,6 +23,14 @@ namespace Developer.LanguageServices.NativeX
 
         private TextPosition grayStart = new TextPosition(0, 0);
         private TextPosition grayEnd = new TextPosition(0, 0);
+
+        private NativeXForm form = null;
+        private int counter = 0;
+
+        public NativeXControlPanel(NativeXForm form)
+        {
+            this.form = form;
+        }
 
         public virtual int Width
         {
@@ -102,11 +111,19 @@ namespace Developer.LanguageServices.NativeX
 
         public virtual void Receive(NativeXAnalyzingResult result)
         {
+            TextPosition start, end;
+            string treeText, statusText;
+            UpdateBlock(result, out start, out end);
+            UpdateUnit(result, out treeText, out statusText);
+
             this.callback.TextEditorBox.Invoke(new MethodInvoker(() =>
             {
                 this.analyzingResult = result;
-                UpdateUnit(this.analyzingResult.Unit);
-                UpdateBlock();
+                this.grayStart = start;
+                this.grayEnd = end;
+                this.form.TreeText = treeText;
+                this.form.StatusText = statusText;
+                this.callback.TextEditorBox.Refresh();
             }));
         }
 
@@ -115,16 +132,17 @@ namespace Developer.LanguageServices.NativeX
             this.analyzer.Dispose();
         }
 
-        protected virtual void UpdateUnit(NativeXUnit unit)
+        protected virtual void UpdateUnit(NativeXAnalyzingResult result, out string treeText, out string statusText)
         {
+            treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
+            statusText = (++this.counter).ToString();
         }
 
-        protected virtual void UpdateBlock()
+        protected virtual void UpdateBlock(NativeXAnalyzingResult result, out TextPosition start, out TextPosition end)
         {
-            NativeXAnalyzingResult result = this.analyzingResult;
             TextPosition pos = this.callback.TextEditorBox.SelectionCaret;
-            this.grayStart = new TextPosition(0, 0);
-            this.grayEnd = new TextPosition(0, 0);
+            start = new TextPosition(0, 0);
+            end = new TextPosition(0, 0);
 
             if (result != null && result.Unit != null)
             {
@@ -132,7 +150,7 @@ namespace Developer.LanguageServices.NativeX
                 while (true)
                 {
                     CodeNode subNode = node.Nodes
-                        .Where(n => n.Start < pos && pos < n.End)
+                        .Where(n => n.Start <= pos && pos <= n.End)
                         .FirstOrDefault();
                     if (subNode == null)
                     {
@@ -143,17 +161,31 @@ namespace Developer.LanguageServices.NativeX
                         node = subNode;
                     }
                 }
-                if (node != result.Unit)
+                while (node != null)
                 {
-                    this.grayStart = node.Start;
-                    this.grayEnd = node.End;
+                    if (node is NativeXStatement)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        node = node.ParentNode;
+                    }
+                }
+                if (node != null)
+                {
+                    start = node.Start;
+                    end = node.End;
                 }
             }
         }
 
         private void TextEditorBox_SelectionChanged(object sender, EventArgs e)
         {
-            UpdateBlock();
+            TextPosition start, end;
+            UpdateBlock(this.analyzingResult, out start, out end);
+            this.grayStart = start;
+            this.grayEnd = end;
         }
     }
 }
