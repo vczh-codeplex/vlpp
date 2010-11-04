@@ -12,36 +12,18 @@ namespace Test.Host.LanguageForms.NativeX
 {
     public partial class NativeXForm : Test.Host.LanguageForms.LanguageForm
     {
-        class NativeXFormControlPanel : NativeXControlPanel
-        {
-            private NativeXForm form = null;
-            private int counter = 0;
-
-            public NativeXFormControlPanel(NativeXForm form)
-            {
-                this.form = form;
-            }
-
-            protected override void UpdateUnit(NativeXUnit unit)
-            {
-                base.UpdateUnit(unit);
-                this.form.TreeText = unit == null ? "<NULL>" : unit.ToString();
-                this.form.StatusText = (++this.counter).ToString();
-            }
-        }
-
         public NativeXForm()
         {
             InitializeComponent();
             this.Colorizer = new NativeXColorizer();
-            this.ControlPanel = new NativeXFormControlPanel(this);
+            this.ControlPanel = new NativeXControlPanel(this);
             InitializeLanguageForm();
         }
 
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            (this.ControlPanel as NativeXFormControlPanel).Dispose();
+            (this.ControlPanel as NativeXControlPanel).Dispose();
         }
 
         protected override string CodeFileName

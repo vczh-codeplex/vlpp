@@ -52,7 +52,6 @@
     <Compile Include="NativeXCodeParser.Grammar.cs" />
     <Compile Include="NativeXColorizer.Configuration.cs" />
     <Compile Include="NativeXColorizer.Generated.cs" />
-    <Compile Include="NativeXControlPanel.cs" />
     <Compile Include="NativeXTokenizer.Configuration.cs" />
     <Compile Include="NativeXTokenizer.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -176,7 +176,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 EXPRESSION_STATEMENT.Infer(
-                    EXPRESSION["Expression"] + tok(";")
+                    !EXPRESSION["Expression"] + tok(";")
                     );
 
                 VARIABLE_STATEMENT.Infer(

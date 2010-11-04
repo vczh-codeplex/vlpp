@@ -27,23 +27,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 
         public static ParserNode operator !(ParserNode node)
         {
-            if (node is TokenNode || node is TokenContentNode)
+            return new KeyNode()
             {
-                return new KeyNode()
-                {
-                    Content = node
-                };
-            }
-            else if (node is MemberNode)
-            {
-                MemberNode member = (MemberNode)node;
-                member.Content = !member.Content;
-                return member;
-            }
-            else
-            {
-                throw new ArgumentException("ParserNode.operator! can only be applied to token.");
-            }
+                Content = node
+            };
         }
 
         public ParserNode this[string member]
