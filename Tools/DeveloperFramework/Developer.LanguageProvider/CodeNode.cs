@@ -95,67 +95,94 @@ namespace Developer.LanguageProvider
             this.NamedNodes.Owner = this;
         }
 
+        private static CodeNamespace GenerateImplementation(Type type, out string namespaceString, out string typeString)
+        {
+            namespaceString = "CodeBoxControl.CodeProvide.CodeNodeAutoImplementation.OfType" + type.FullName + "CodeNodeAutoNamespace";
+            typeString = type.Name + "Implementation";
+            CodeNamespace codeNamespace = new CodeNamespace(namespaceString);
+            CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(typeString);
+            codeNamespace.Types.Add(classDeclaration);
+            classDeclaration.Attributes = MemberAttributes.Public;
+            classDeclaration.BaseTypes.Add(type);
+
+            foreach (PropertyInfo propertyInfo in type.GetProperties()
+                .Where(p => typeof(CodeNode).IsAssignableFrom(p.PropertyType))
+                .Where(p => p.GetGetMethod() != null && p.GetGetMethod().IsAbstract && p.GetSetMethod() != null && p.GetSetMethod().IsAbstract)
+                )
+            {
+                CodeMemberProperty property = new CodeMemberProperty();
+                classDeclaration.Members.Add(property);
+                property.Attributes = MemberAttributes.Public | MemberAttributes.Override;
+                property.Name = propertyInfo.Name;
+                property.Type = new CodeTypeReference(propertyInfo.PropertyType);
+
+                property.GetStatements.Add(
+                    new CodeMethodReturnStatement(
+                        new CodeCastExpression(
+                            propertyInfo.PropertyType,
+                            new CodeIndexerExpression(
+                                new CodePropertyReferenceExpression(
+                                    new CodeThisReferenceExpression(),
+                                    "NamedNodes"
+                                    ),
+                                new CodePrimitiveExpression(propertyInfo.Name)
+                                )
+                            )
+                        )
+                    );
+
+                property.SetStatements.Add(
+                    new CodeAssignStatement(
+                        new CodeIndexerExpression(
+                            new CodePropertyReferenceExpression(
+                                new CodeThisReferenceExpression(),
+                                "NamedNodes"
+                                ),
+                                new CodePrimitiveExpression(propertyInfo.Name)
+                            ),
+                        new CodePropertySetValueReferenceExpression()
+                        )
+                    );
+            }
+            return codeNamespace;
+        }
+
+        public static void Preload(params Type[] types)
+        {
+            types = types.Where(t => !implementationTypes.Keys.Contains(t)).ToArray();
+            if (types.Length > 0)
+            {
+                string[] names = new string[types.Length];
+                CodeCompileUnit unit = new CodeCompileUnit();
+
+                for (int i = 0; i < types.Length; i++)
+                {
+                    Type type = types[i];
+                    string namespaceString, typeString;
+                    unit.Namespaces.Add(GenerateImplementation(type, out namespaceString, out typeString));
+
+                    string fullNameString = namespaceString + "." + typeString;
+                    names[i] = fullNameString;
+                }
+
+                string[] assemblies = new string[] { typeof(CodeNode).Assembly.Location }.Concat(types.Select(t => t.Assembly.Location).Distinct()).ToArray();
+                Assembly assembly = CodeDomHelper.Compile(unit, assemblies);
+                for (int i = 0; i < types.Length; i++)
+                {
+                    implementationTypes[types[i]] = assembly.GetType(names[i]);
+                }
+            }
+        }
+
+        public static void Preload(Assembly assembly)
+        {
+            Preload(assembly.GetTypes().Where(t => typeof(CodeNode).IsAssignableFrom(t)).ToArray());
+        }
+
         public static T Create<T>()
             where T : CodeNode
         {
-            if (!implementationTypes.Keys.Contains(typeof(T)))
-            {
-                CodeCompileUnit unit = new CodeCompileUnit();
-                string namespaceString = "CodeBoxControl.CodeProvide.CodeNodeAutoImplementation.OfType" + typeof(T).FullName + "CodeNodeAutoNamespace";
-                string typeString = typeof(T).Name + "Implementation";
-                string fullNameString = namespaceString + "." + typeString;
-                {
-                    CodeNamespace codeNamespace = new CodeNamespace(namespaceString);
-                    unit.Namespaces.Add(codeNamespace);
-
-                    CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration(typeString);
-                    codeNamespace.Types.Add(classDeclaration);
-                    classDeclaration.Attributes = MemberAttributes.Public;
-                    classDeclaration.BaseTypes.Add(typeof(T));
-
-                    foreach (PropertyInfo propertyInfo in typeof(T).GetProperties()
-                        .Where(p => typeof(CodeNode).IsAssignableFrom(p.PropertyType))
-                        .Where(p => p.GetGetMethod() != null && p.GetGetMethod().IsAbstract && p.GetSetMethod() != null && p.GetSetMethod().IsAbstract)
-                        )
-                    {
-                        CodeMemberProperty property = new CodeMemberProperty();
-                        classDeclaration.Members.Add(property);
-                        property.Attributes = MemberAttributes.Public | MemberAttributes.Override;
-                        property.Name = propertyInfo.Name;
-                        property.Type = new CodeTypeReference(propertyInfo.PropertyType);
-
-                        property.GetStatements.Add(
-                            new CodeMethodReturnStatement(
-                                new CodeCastExpression(
-                                    propertyInfo.PropertyType,
-                                    new CodeIndexerExpression(
-                                        new CodePropertyReferenceExpression(
-                                            new CodeThisReferenceExpression(),
-                                            "NamedNodes"
-                                            ),
-                                        new CodePrimitiveExpression(propertyInfo.Name)
-                                        )
-                                    )
-                                )
-                            );
-
-                        property.SetStatements.Add(
-                            new CodeAssignStatement(
-                                new CodeIndexerExpression(
-                                    new CodePropertyReferenceExpression(
-                                        new CodeThisReferenceExpression(),
-                                        "NamedNodes"
-                                        ),
-                                        new CodePrimitiveExpression(propertyInfo.Name)
-                                    ),
-                                new CodePropertySetValueReferenceExpression()
-                                )
-                            );
-                    }
-                }
-                Assembly assembly = CodeDomHelper.Compile(unit, typeof(CodeNode).Assembly.Location, typeof(T).Assembly.Location);
-                implementationTypes[typeof(T)] = assembly.GetType(fullNameString);
-            }
+            Preload(typeof(T));
             return (T)implementationTypes[typeof(T)].GetConstructor(new Type[] { }).Invoke(new object[] { });
         }
     }
