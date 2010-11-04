@@ -937,6 +937,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                 sb.AppendLine(identation + "    while (true)");
                 sb.AppendLine(identation + "    {");
                 sb.AppendLine(identation + "        int " + copiedIndexVariable + " = " + this.indexVariable + ";");
+                sb.AppendLine(identation + "        " + newIndexVariable + " = " + this.indexVariable + ";");
                 if (node.Separator != null)
                 {
                     CodeGenerator.GenerateCode(this.sb, ResultTypeRetriver.GetNodeType(node.Separator), node.Separator, identation + "        ", newLevel, this.memberLevel, "", newIndexVariable, newForceSuccessLevel, ref this.labelCounter);

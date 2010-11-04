@@ -8,9 +8,11 @@ namespace Developer.LanguageServices.NativeX
 {
     static partial class NativeXCodeParser
     {
+        private static NativeXTokenizer tokenizer = new NativeXTokenizer();
+
         public static List<CodeToken> Tokenize(char[] input)
         {
-            List<CodeToken> tokens = new NativeXTokenizer().Tokenize(input)
+            List<CodeToken> tokens = tokenizer.Tokenize(input)
                 .Where(t => t.Id == NativeXTokenizer.IdToken
                     || t.Id == NativeXTokenizer.NumberToken
                     || t.Id == NativeXTokenizer.OperatorToken

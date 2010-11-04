@@ -42,6 +42,30 @@ namespace Test.Host.LanguageForms
             }
         }
 
+        public string TreeText
+        {
+            get
+            {
+                return textTree.Text;
+            }
+            set
+            {
+                textTree.Text = value;
+            }
+        }
+
+        public string StatusText
+        {
+            get
+            {
+                return textStatus.Text;
+            }
+            set
+            {
+                textStatus.Text = value;
+            }
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);

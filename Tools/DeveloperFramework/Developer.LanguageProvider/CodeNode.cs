@@ -11,6 +11,8 @@ namespace Developer.LanguageProvider
 {
     public abstract class CodeNode
     {
+        public const string PrefixUnit = "    ";
+
         private static Dictionary<Type, Type> implementationTypes = new Dictionary<Type, Type>();
 
         public virtual TextPosition Start { get; set; }
@@ -45,6 +47,46 @@ namespace Developer.LanguageProvider
                 }
                 return parent == null ? null : parent.OwningScope;
             }
+        }
+
+        public virtual void ToString(StringBuilder sb, string prefix)
+        {
+            Type currentType = this.GetType();
+            if (currentType.FullName.EndsWith("." + currentType.BaseType.Name + "Implementation"))
+            {
+                currentType = currentType.BaseType;
+            }
+            sb.AppendLine(currentType.Name);
+            sb.AppendLine(prefix + "{");
+            while (currentType != typeof(CodeNode))
+            {
+                foreach (PropertyInfo property in currentType.GetProperties().Where(p => p.DeclaringType == currentType))
+                {
+                    sb.Append(prefix + PrefixUnit + property.Name + " = ");
+                    object value = property.GetValue(this, new object[] { });
+                    if (value == null)
+                    {
+                        sb.AppendLine("null");
+                    }
+                    else if (typeof(CodeNode).IsAssignableFrom(value.GetType()))
+                    {
+                        (value as CodeNode).ToString(sb, prefix + PrefixUnit);
+                    }
+                    else
+                    {
+                        sb.AppendLine(value.ToString());
+                    }
+                }
+                currentType = currentType.BaseType;
+            }
+            sb.AppendLine(prefix + "}");
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            ToString(sb, "");
+            return sb.ToString();
         }
 
         public CodeNode()
