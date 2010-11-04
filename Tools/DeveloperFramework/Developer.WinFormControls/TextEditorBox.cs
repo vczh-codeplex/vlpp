@@ -637,6 +637,7 @@ namespace Developer.WinFormControls
 
         bool ITextContentProvider.OnEdit(TextPosition start, TextPosition end, string[] lines)
         {
+            this.controlPanel.OnBeforeEdit(start, end, ref lines);
             bool optimizable = this.colorizedLines + 1 >= end.row;
             int lastFinalState = this.textProvider[end.row].Tag.colorizerFinalState;
             int lastColorizedLines = this.colorizedLines;
@@ -669,7 +670,7 @@ namespace Developer.WinFormControls
             this.colorizedLines = Math.Min(this.colorizedLines, start.row);
 
         FINISH_COLORIZING:
-            this.controlPanel.OnEdit(start, end, newEnd);
+            this.controlPanel.OnAfterEdit(start, end, newEnd);
             OnTextChanged(new EventArgs());
             return true;
         }

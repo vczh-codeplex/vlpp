@@ -14,7 +14,6 @@ namespace Test.Host.LanguageForms.NativeX
 {
     class NativeXControlPanel
         : ITextEditorControlPanel
-        , INativeXAnalyzingResultReceiver
         , IDisposable
     {
         private ITextEditorControlPanelCallBack callback = null;
@@ -32,6 +31,13 @@ namespace Test.Host.LanguageForms.NativeX
             this.form = form;
         }
 
+        public virtual void Dispose()
+        {
+            this.analyzer.Dispose();
+        }
+
+        #region ITextEditorControlPanel Members
+
         public virtual int Width
         {
             get
@@ -42,12 +48,17 @@ namespace Test.Host.LanguageForms.NativeX
 
         public virtual void InstallCallBack(ITextEditorControlPanelCallBack callback)
         {
-            this.analyzer = new NativeXCodeAnalyzer(this);
+            this.analyzer = new NativeXCodeAnalyzer();
+            this.analyzer.Received += new CalculationNotifierReceivedHandler<NativeXAnalyzingResult>(Analyzer_Received);
             this.callback = callback;
             this.callback.TextEditorBox.SelectionChanged += new EventHandler(TextEditorBox_SelectionChanged);
         }
 
-        public virtual void OnEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
+        public virtual void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
+        {
+        }
+
+        public virtual void OnAfterEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
         {
             this.analyzer.Analyze(this.callback.TextEditorBox.Text);
         }
@@ -109,7 +120,11 @@ namespace Test.Host.LanguageForms.NativeX
         {
         }
 
-        public virtual void Receive(NativeXAnalyzingResult result)
+        #endregion
+
+        #region Reaction Functions
+
+        public virtual void Analyzer_Received(NativeXAnalyzingResult result, int id)
         {
             TextPosition start, end;
             string treeText, statusText;
@@ -127,11 +142,6 @@ namespace Test.Host.LanguageForms.NativeX
             }));
         }
 
-        public virtual void Dispose()
-        {
-            this.analyzer.Dispose();
-        }
-
         protected virtual void UpdateUnit(NativeXAnalyzingResult result, out string treeText, out string statusText)
         {
             treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
@@ -146,36 +156,11 @@ namespace Test.Host.LanguageForms.NativeX
 
             if (result != null && result.Unit != null)
             {
-                CodeNode node = result.Unit;
-                while (true)
+                NativeXStatement statement = result.Unit.FindDeepest<NativeXStatement>(pos);
+                if (statement != null)
                 {
-                    CodeNode subNode = node.Nodes
-                        .Where(n => n.Start <= pos && pos <= n.End)
-                        .FirstOrDefault();
-                    if (subNode == null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        node = subNode;
-                    }
-                }
-                while (node != null)
-                {
-                    if (node is NativeXStatement)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        node = node.ParentNode;
-                    }
-                }
-                if (node != null)
-                {
-                    start = node.Start;
-                    end = node.End;
+                    start = statement.Start;
+                    end = statement.End;
                 }
             }
         }
@@ -187,5 +172,7 @@ namespace Test.Host.LanguageForms.NativeX
             this.grayStart = start;
             this.grayEnd = end;
         }
+
+        #endregion
     }
 }

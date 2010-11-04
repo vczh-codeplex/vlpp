@@ -14,20 +14,8 @@ namespace Developer.LanguageServices.NativeX
         public NativeXUnit Unit { get; set; }
     }
 
-    public interface INativeXAnalyzingResultReceiver
-    {
-        void Receive(NativeXAnalyzingResult result);
-    }
-
     public class NativeXCodeAnalyzer : CalculationNotifier<string, NativeXAnalyzingResult>
     {
-        private INativeXAnalyzingResultReceiver receiver = null;
-
-        public NativeXCodeAnalyzer(INativeXAnalyzingResultReceiver receiver)
-        {
-            this.receiver = receiver;
-        }
-
         protected override NativeXAnalyzingResult Calculate(string input)
         {
             NativeXAnalyzingResult result = new NativeXAnalyzingResult();
@@ -36,11 +24,6 @@ namespace Developer.LanguageServices.NativeX
             bool parseSuccess = false;
             result.Unit = NativeXCodeParser.ParseUnit(result.Tokens, ref currentToken, ref parseSuccess);
             return result;
-        }
-
-        protected override void Receive(NativeXAnalyzingResult output)
-        {
-            this.receiver.Receive(output);
         }
     }
 }

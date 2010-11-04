@@ -9,10 +9,16 @@ namespace Developer.LanguageProvider
     public abstract class CalculationNotifier<I, O> : IDisposable
     {
         private Thread workingThread = null;
-        private I analyzingInput = default(I);
-        private bool analyzingInputAvailable = false;
         private Semaphore codeSemaphore = null;
         private object locker = null;
+
+        private I analyzingInput = default(I);
+        private int analyzingId = 0;
+        private int analyzingCounter = 0;
+        private bool analyzingInputAvailable = false;
+
+        protected abstract O Calculate(I input);
+        public event CalculationNotifierReceivedHandler<O> Received;
 
         public CalculationNotifier()
         {
@@ -22,7 +28,7 @@ namespace Developer.LanguageProvider
             this.workingThread.Start();
         }
 
-        public void Analyze(I input)
+        public int Analyze(I input)
         {
             bool needRelease = false;
             lock (this.locker)
@@ -33,11 +39,13 @@ namespace Developer.LanguageProvider
                 }
                 this.analyzingInputAvailable = true;
                 this.analyzingInput = input;
+                this.analyzingId = this.analyzingCounter++;
             }
             if (needRelease)
             {
                 this.codeSemaphore.Release(1);
             }
+            return this.analyzingId;
         }
 
         public void Dispose()
@@ -46,23 +54,26 @@ namespace Developer.LanguageProvider
             this.codeSemaphore.Dispose();
         }
 
-        protected abstract O Calculate(I input);
-        protected abstract void Receive(O output);
-
         private void Run()
         {
             while (true)
             {
                 this.codeSemaphore.WaitOne();
                 I input = default(I);
+                int id = this.analyzingId;
                 lock (this.locker)
                 {
                     input = this.analyzingInput;
                     this.analyzingInputAvailable = false;
                 }
                 O output = Calculate(input);
-                Receive(output);
+                if (this.Received != null)
+                {
+                    this.Received(output, id);
+                }
             }
         }
     }
+
+    public delegate void CalculationNotifierReceivedHandler<T>(T result, int id);
 }
