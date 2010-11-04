@@ -11,9 +11,11 @@ namespace Developer.LanguageProvider
 {
     public abstract class CodeNode
     {
-        public const string PrefixUnit = "    ";
+        protected const string PrefixUnit = "    ";
 
         private static Dictionary<Type, Type> implementationTypes = new Dictionary<Type, Type>();
+
+        #region Interfaces
 
         public virtual TextPosition Start { get; set; }
         public virtual TextPosition End { get; set; }
@@ -48,6 +50,56 @@ namespace Developer.LanguageProvider
                 return parent == null ? null : parent.OwningScope;
             }
         }
+
+        #endregion
+
+        public CodeNode()
+        {
+            this.NamedNodes = new CodeNodeCollection();
+            this.NamedNodes.Owner = this;
+        }
+
+        #region Positioning
+
+        public T FindDeepest<T>(TextPosition position, bool allowFirstPosition = true, bool allowLastPosition = true)
+            where T : CodeNode
+        {
+            CodeNode node = this;
+            while (true)
+            {
+                CodeNode subNode = node.Nodes
+                    .Where(n =>
+                        (n.Start < position || (allowFirstPosition && n.Start == position)) &&
+                        (position < n.End || (allowLastPosition && position == n.End))
+                        )
+                    .FirstOrDefault();
+                if (subNode == null)
+                {
+                    break;
+                }
+                else
+                {
+                    node = subNode;
+                }
+            }
+            while (node != null)
+            {
+                T result = node as T;
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    node = node.ParentNode;
+                }
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region ToString
 
         public virtual void ToString(StringBuilder sb, string prefix)
         {
@@ -89,11 +141,9 @@ namespace Developer.LanguageProvider
             return sb.ToString();
         }
 
-        public CodeNode()
-        {
-            this.NamedNodes = new CodeNodeCollection();
-            this.NamedNodes.Owner = this;
-        }
+        #endregion
+
+        #region Implementation Class Generator
 
         private static CodeNamespace GenerateImplementation(Type type, out string namespaceString, out string typeString)
         {
@@ -185,5 +235,7 @@ namespace Developer.LanguageProvider
             Preload(typeof(T));
             return (T)implementationTypes[typeof(T)].GetConstructor(new Type[] { }).Invoke(new object[] { });
         }
+
+        #endregion
     }
 }

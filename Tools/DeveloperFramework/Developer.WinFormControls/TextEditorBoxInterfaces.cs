@@ -53,7 +53,8 @@ namespace Developer.WinFormControls
     {
         int Width { get; }
         void InstallCallBack(ITextEditorControlPanelCallBack callback);
-        void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
+        void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines);
+        void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
         bool NeedColorLineForDisplay(int lineIndex);
         void ColorLineForDisplay(int lineIndex, int[] colors);
 

@@ -56,7 +56,11 @@ namespace Developer.WinFormControls
         {
         }
 
-        public void OnEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
+        public void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
+        {
+        }
+
+        public void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
         }
 
