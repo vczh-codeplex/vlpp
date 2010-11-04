@@ -1364,7 +1364,7 @@ namespace vl
 									| (DO + statement + (WHILE(NeedWhile) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToDoWhileStat]
 									| (LOOP + statement)[ToLoopStat]
 									| (WHILE + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + statement + opt(WHEN >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace) << SEMICOLON(NeedSemicolon)))[ToWhileStat]
-									| (FOR + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (DO(NeedDo) >> statement))[ToForStat]
+									| ((FOR << OPEN_BRACE(NeedOpenBrace)) + list(*statement) + (WHEN(NeedWhen) >> OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)) + (WITH(NeedWith) >> list(*statement)) + (CLOSE_BRACE(NeedCloseBrace) >> DO(NeedDo) >> statement))[ToForStat]
 									| (TRY + (statement + (CATCH(NeedCatch) >> statement)))[ToTryCatch]
 									| (THROW + opt(exp) << SEMICOLON(NeedSemicolon))[ToThrow]
 									;
@@ -2373,7 +2373,7 @@ namespace vl
 					NXCGP newArgument(argument.writer, argument.indentation+1);
 
 					PrintIndentation(argument);
-					argument.writer.WriteLine(L"for");
+					argument.writer.WriteLine(L"for (");
 					NativeX_BasicStatement_GenerateCode(node->initializer, newArgument);
 					
 					PrintIndentation(argument);
@@ -2386,7 +2386,7 @@ namespace vl
 					NativeX_BasicStatement_GenerateCode(node->sideEffect, newArgument);
 					
 					PrintIndentation(argument);
-					argument.writer.WriteLine(L"do");
+					argument.writer.WriteLine(L") do");
 					NativeX_BasicStatement_GenerateCode(node->statement, newArgument);
 				}
 
