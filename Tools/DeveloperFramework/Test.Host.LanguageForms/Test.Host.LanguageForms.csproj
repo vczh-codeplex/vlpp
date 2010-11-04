@@ -59,6 +59,7 @@
     <Compile Include="LanguageForm.Designer.cs">
       <DependentUpon>LanguageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NativeX\NativeXCodeAnalyzer.cs" />
     <Compile Include="NativeX\NativeXControlPanel.cs" />
     <Compile Include="NativeX\NativeXForm.cs">
       <SubType>Form</SubType>

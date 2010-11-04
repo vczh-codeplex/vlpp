@@ -36,12 +36,14 @@
             this.tabPageTree = new System.Windows.Forms.TabPage();
             this.textTree = new System.Windows.Forms.TextBox();
             this.textStatus = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableEditor = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textContext = new System.Windows.Forms.TextBox();
             this.tabEditor.SuspendLayout();
             this.tabPageEditor.SuspendLayout();
             this.panelEditor.SuspendLayout();
             this.tabPageTree.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tableEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // textEditorBox
@@ -56,7 +58,7 @@
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
             this.textEditorBox.SelectedText = "";
-            this.textEditorBox.Size = new System.Drawing.Size(707, 656);
+            this.textEditorBox.Size = new System.Drawing.Size(679, 599);
             this.textEditorBox.TabIndex = 0;
             this.textEditorBox.VerticalSmallChange = 10;
             // 
@@ -67,8 +69,9 @@
             this.tabEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabEditor.Location = new System.Drawing.Point(3, 3);
             this.tabEditor.Name = "tabEditor";
+            this.tableEditor.SetRowSpan(this.tabEditor, 2);
             this.tabEditor.SelectedIndex = 0;
-            this.tabEditor.Size = new System.Drawing.Size(723, 690);
+            this.tabEditor.Size = new System.Drawing.Size(695, 633);
             this.tabEditor.TabIndex = 1;
             // 
             // tabPageEditor
@@ -77,7 +80,7 @@
             this.tabPageEditor.Location = new System.Drawing.Point(4, 22);
             this.tabPageEditor.Name = "tabPageEditor";
             this.tabPageEditor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEditor.Size = new System.Drawing.Size(715, 664);
+            this.tabPageEditor.Size = new System.Drawing.Size(687, 607);
             this.tabPageEditor.TabIndex = 0;
             this.tabPageEditor.Text = "Editor";
             this.tabPageEditor.UseVisualStyleBackColor = true;
@@ -89,7 +92,7 @@
             this.panelEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditor.Location = new System.Drawing.Point(3, 3);
             this.panelEditor.Name = "panelEditor";
-            this.panelEditor.Size = new System.Drawing.Size(709, 658);
+            this.panelEditor.Size = new System.Drawing.Size(681, 601);
             this.panelEditor.TabIndex = 0;
             // 
             // tabPageTree
@@ -98,7 +101,7 @@
             this.tabPageTree.Location = new System.Drawing.Point(4, 22);
             this.tabPageTree.Name = "tabPageTree";
             this.tabPageTree.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTree.Size = new System.Drawing.Size(599, 527);
+            this.tabPageTree.Size = new System.Drawing.Size(715, 610);
             this.tabPageTree.TabIndex = 1;
             this.tabPageTree.Text = "Tree";
             this.tabPageTree.UseVisualStyleBackColor = true;
@@ -110,39 +113,65 @@
             this.textTree.Multiline = true;
             this.textTree.Name = "textTree";
             this.textTree.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textTree.Size = new System.Drawing.Size(593, 547);
+            this.textTree.Size = new System.Drawing.Size(593, 481);
             this.textTree.TabIndex = 0;
             // 
             // textStatus
             // 
+            this.tableEditor.SetColumnSpan(this.textStatus, 2);
             this.textStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textStatus.Location = new System.Drawing.Point(3, 699);
+            this.textStatus.Location = new System.Drawing.Point(3, 642);
             this.textStatus.Name = "textStatus";
             this.textStatus.ReadOnly = true;
-            this.textStatus.Size = new System.Drawing.Size(723, 20);
+            this.textStatus.Size = new System.Drawing.Size(1039, 21);
             this.textStatus.TabIndex = 2;
             // 
-            // tableLayoutPanel1
+            // tableEditor
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.textStatus, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tabEditor, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(729, 722);
-            this.tableLayoutPanel1.TabIndex = 3;
+            this.tableEditor.ColumnCount = 2;
+            this.tableEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableEditor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 344F));
+            this.tableEditor.Controls.Add(this.textStatus, 0, 2);
+            this.tableEditor.Controls.Add(this.tabEditor, 0, 0);
+            this.tableEditor.Controls.Add(this.label1, 1, 0);
+            this.tableEditor.Controls.Add(this.textContext, 1, 1);
+            this.tableEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableEditor.Location = new System.Drawing.Point(0, 0);
+            this.tableEditor.Name = "tableEditor";
+            this.tableEditor.RowCount = 3;
+            this.tableEditor.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableEditor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableEditor.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableEditor.Size = new System.Drawing.Size(1045, 666);
+            this.tableEditor.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(704, 3);
+            this.label1.Margin = new System.Windows.Forms.Padding(3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Context Text";
+            // 
+            // textContext
+            // 
+            this.textContext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textContext.Location = new System.Drawing.Point(704, 21);
+            this.textContext.Multiline = true;
+            this.textContext.Name = "textContext";
+            this.textContext.ReadOnly = true;
+            this.textContext.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textContext.Size = new System.Drawing.Size(338, 615);
+            this.textContext.TabIndex = 4;
             // 
             // LanguageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 722);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(1045, 666);
+            this.Controls.Add(this.tableEditor);
             this.Name = "LanguageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LanguageForm";
@@ -151,8 +180,8 @@
             this.panelEditor.ResumeLayout(false);
             this.tabPageTree.ResumeLayout(false);
             this.tabPageTree.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tableEditor.ResumeLayout(false);
+            this.tableEditor.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -166,7 +195,9 @@
         private System.Windows.Forms.TabPage tabPageTree;
         private System.Windows.Forms.TextBox textTree;
         private System.Windows.Forms.TextBox textStatus;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableEditor;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textContext;
 
     }
 }

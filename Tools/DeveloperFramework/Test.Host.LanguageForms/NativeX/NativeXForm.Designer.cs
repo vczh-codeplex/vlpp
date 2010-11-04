@@ -33,7 +33,7 @@
             // NativeXForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(698, 674);
+            this.ClientSize = new System.Drawing.Size(1061, 704);
             this.Name = "NativeXForm";
             this.Text = "NativeX Form";
             this.ResumeLayout(false);
