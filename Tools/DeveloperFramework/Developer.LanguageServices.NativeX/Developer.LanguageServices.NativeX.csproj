@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NativeXCodeAnalyzer.cs" />
     <Compile Include="NativeXCodeParser.Configuration.cs" />
     <Compile Include="NativeXCodeParser.Generated.cs" />
     <Compile Include="NativeXCodeParser.Grammar.cs" />

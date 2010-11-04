@@ -66,6 +66,18 @@ namespace Test.Host.LanguageForms
             }
         }
 
+        public string ContextText
+        {
+            get
+            {
+                return textContext.Text;
+            }
+            set
+            {
+                textContext.Text = value;
+            }
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);

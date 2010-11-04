@@ -19,26 +19,29 @@ namespace Test.Host.LanguageForms.NativeX
         private ITextEditorControlPanelCallBack callback = null;
         private NativeXAnalyzingResult analyzingResult = null;
         private NativeXCodeAnalyzer analyzer = null;
+        private NativeXForm form = null;
 
+        private NativeXStatement editingStatement = null;
+        private string editingStatementCode = null;
         private TextPosition grayStart = new TextPosition(0, 0);
         private TextPosition grayEnd = new TextPosition(0, 0);
-
-        private NativeXForm form = null;
         private int counter = 0;
+        private int analyzingId = 0;
+        private int receivedId = 0;
 
         public NativeXControlPanel(NativeXForm form)
         {
             this.form = form;
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             this.analyzer.Dispose();
         }
 
         #region ITextEditorControlPanel Members
 
-        public virtual int Width
+        public int Width
         {
             get
             {
@@ -46,7 +49,7 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
-        public virtual void InstallCallBack(ITextEditorControlPanelCallBack callback)
+        public void InstallCallBack(ITextEditorControlPanelCallBack callback)
         {
             this.analyzer = new NativeXCodeAnalyzer();
             this.analyzer.Received += new CalculationNotifierReceivedHandler<NativeXAnalyzingResult>(Analyzer_Received);
@@ -54,21 +57,21 @@ namespace Test.Host.LanguageForms.NativeX
             this.callback.TextEditorBox.SelectionChanged += new EventHandler(TextEditorBox_SelectionChanged);
         }
 
-        public virtual void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
+        public void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
         {
         }
 
-        public virtual void OnAfterEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
+        public void OnAfterEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
         {
-            this.analyzer.Analyze(this.callback.TextEditorBox.Text);
+            this.analyzingId = this.analyzer.Analyze(this.callback.TextEditorBox.Text);
         }
 
-        public virtual bool NeedColorLineForDisplay(int lineIndex)
+        public bool NeedColorLineForDisplay(int lineIndex)
         {
             return this.grayStart != this.grayEnd && this.grayStart.row <= lineIndex && lineIndex <= this.grayEnd.row;
         }
 
-        public virtual void ColorLineForDisplay(int lineIndex, int[] colors)
+        public void ColorLineForDisplay(int lineIndex, int[] colors)
         {
             TextLine<TextEditorBox.LineInfo> line = this.callback.TextEditorBox.TextProvider[lineIndex];
             int length = line.CharCount;
@@ -81,11 +84,11 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
-        public virtual void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        public void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
         }
 
-        public virtual void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
+        public void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
         {
             if (NeedColorLineForDisplay(lineIndex))
             {
@@ -100,23 +103,23 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
-        public virtual void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
+        public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
         {
         }
 
-        public virtual void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
+        public void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
         {
         }
 
-        public virtual void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
-        public virtual void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
-        public virtual void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        public void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
         {
         }
 
@@ -124,53 +127,64 @@ namespace Test.Host.LanguageForms.NativeX
 
         #region Reaction Functions
 
-        public virtual void Analyzer_Received(NativeXAnalyzingResult result, int id)
+        private void Analyzer_Received(NativeXAnalyzingResult result, int id)
         {
-            TextPosition start, end;
-            string treeText, statusText;
-            UpdateBlock(result, out start, out end);
-            UpdateUnit(result, out treeText, out statusText);
+            NativeXStatement statement = null;
+            FindBlock(result, out statement);
+
+            string treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
+            string statusText = (++this.counter).ToString();
 
             this.callback.TextEditorBox.Invoke(new MethodInvoker(() =>
             {
+                this.receivedId = id;
                 this.analyzingResult = result;
-                this.grayStart = start;
-                this.grayEnd = end;
+
                 this.form.TreeText = treeText;
                 this.form.StatusText = statusText;
+                UpdateBlock(statement);
+
                 this.callback.TextEditorBox.Refresh();
             }));
         }
 
-        protected virtual void UpdateUnit(NativeXAnalyzingResult result, out string treeText, out string statusText)
-        {
-            treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
-            statusText = (++this.counter).ToString();
-        }
-
-        protected virtual void UpdateBlock(NativeXAnalyzingResult result, out TextPosition start, out TextPosition end)
+        private void FindBlock(NativeXAnalyzingResult result, out NativeXStatement statement)
         {
             TextPosition pos = this.callback.TextEditorBox.SelectionCaret;
-            start = new TextPosition(0, 0);
-            end = new TextPosition(0, 0);
+            statement = null;
 
             if (result != null && result.Unit != null)
             {
-                NativeXStatement statement = result.Unit.FindDeepest<NativeXStatement>(pos);
-                if (statement != null)
+                statement = result.Unit.FindDeepest<NativeXStatement>(pos);
+            }
+        }
+
+        private void UpdateBlock(NativeXStatement statement)
+        {
+            if (this.analyzingId == this.receivedId)
+            {
+                this.editingStatement = statement;
+                if (statement == null)
                 {
-                    start = statement.Start;
-                    end = statement.End;
+                    this.grayStart = new TextPosition(0, 0);
+                    this.grayEnd = new TextPosition(0, 0);
+                    this.editingStatementCode = "";
                 }
+                else
+                {
+                    this.grayStart = statement.Start;
+                    this.grayEnd = statement.End;
+                    this.editingStatementCode = this.callback.TextEditorBox.TextProvider.GetString(this.grayStart, this.grayEnd);
+                }
+                this.form.ContextText = this.editingStatementCode;
             }
         }
 
         private void TextEditorBox_SelectionChanged(object sender, EventArgs e)
         {
-            TextPosition start, end;
-            UpdateBlock(this.analyzingResult, out start, out end);
-            this.grayStart = start;
-            this.grayEnd = end;
+            NativeXStatement statement = null;
+            FindBlock(this.analyzingResult, out statement);
+            UpdateBlock(statement);
         }
 
         #endregion
