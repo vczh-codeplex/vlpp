@@ -473,7 +473,7 @@ namespace Test.DeveloperComponent.NativeX
 
         private void TestParseForStatementInternal(Func<string, NativeXForStatement> parser)
         {
-            NativeXForStatement s = parser("for variable int i = 0; variable int j = 0; when (i - j > 5) with i+=2; j+=1; do x();");
+            NativeXForStatement s = parser("for (variable int i = 0; variable int j = 0; when (i - j > 5) with i+=2; j+=1;) do x();");
             Assert.AreEqual(2, s.Initializer.Count);
             {
                 NativeXVariableStatement s1 = (NativeXVariableStatement)s.Initializer[0];

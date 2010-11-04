@@ -131,7 +131,7 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            opt(LINKING["Linking"]) + !tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"),"}")["Members"] + tok("}")
+                            opt(LINKING["Linking"]) + !tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"), "}")["Members"] + tok("}")
                           )
                        )
                     );
@@ -141,13 +141,13 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            !tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"),"}")["Functions"] + tok("}")
+                            !tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"), "}")["Functions"] + tok("}")
                           )
                       )
                     );
 
                 CONCEPT_DECLARATION.Infer(
-                    !tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"),"}")["Functions"] + tok("}")
+                    !tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"), "}")["Functions"] + tok("}")
                     );
             }
             {
@@ -200,7 +200,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 COMPOSITE_STATEMENT.Infer(
-                    !tok("{") + list<NativeXStatement>(STATEMENT,"}")["Statements"] + tok("}")
+                    !tok("{") + list<NativeXStatement>(STATEMENT, "}")["Statements"] + tok("}")
                     );
 
                 DO_WHILE_STATEMENT.Infer(
@@ -216,10 +216,10 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 FOR_STATEMENT.Infer(
-                    !tok("for") + list<NativeXStatement>(STATEMENT)["Initializer"]
+                    !tok("for") + tok("(") + list<NativeXStatement>(STATEMENT)["Initializer"]
                     + tok("when") + tok("(") + EXPRESSION["Condition"] + tok(")")
                     + tok("with") + list<NativeXStatement>(STATEMENT)["SideEffect"]
-                    + tok("do") + STATEMENT["Statement"]
+                    + tok(")") + tok("do") + STATEMENT["Statement"]
                     );
 
                 TRY_CATCH_STATEMENT.Infer(
@@ -317,7 +317,7 @@ namespace Developer.LanguageServices.NativeX
                         new string[]{"||"},
                         new string[]{"+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "/=", "&&=", "||=", "="}
                     };
-                    ParserNode shiftNode = (!tok("<") + tok("<"))["Operator", "\"<<\""] | (!tok(">") + tok(">"))["Operator", "\">>\""];
+                    ParserNode shiftNode = (tok("<") + !tok("<"))["Operator", "\"<<\""] | (tok(">") + !tok(">"))["Operator", "\">>\""];
                     ParserNode[] operatorNodes = binaryOperators
                         .Select(ops => ops.First() == "<<" ? shiftNode : !toks(ops)["Operator"])
                         .ToArray();
