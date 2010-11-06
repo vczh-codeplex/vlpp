@@ -123,11 +123,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 NativeXAbstractStructureType structure = new NativeXAbstractStructureType();
-                foreach (var pair in this.Members)
+                if (this.Members != null)
                 {
-                    if (pair.Name != null)
+                    foreach (var pair in this.Members)
                     {
-                        structure.Members[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                        if (pair.Name != null)
+                        {
+                            structure.Members[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                        }
                     }
                 }
                 return WrapGeneric(structure);
@@ -172,11 +175,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 NativeXAbstractConceptType concept = new NativeXAbstractConceptType();
-                foreach (var pair in this.Functions)
+                if (this.Functions != null)
                 {
-                    if (pair.Name != null)
+                    foreach (var pair in this.Functions)
                     {
-                        concept.Functions[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                        if (pair.Name != null)
+                        {
+                            concept.Functions[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                        }
                     }
                 }
 

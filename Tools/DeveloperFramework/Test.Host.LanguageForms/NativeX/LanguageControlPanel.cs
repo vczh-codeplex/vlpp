@@ -20,6 +20,7 @@ namespace Developer.WinFormControls
         protected CalculationNotifier<string, TResult> Analyzer { get; private set; }
 
         protected TEditingNode EditingNode { get; private set; }
+        protected CodeScope EditingNodeScope { get; private set; }
         protected TextProvider<object> EditingNodeCode { get; private set; }
         protected TextPosition EditingNodeStart { get; private set; }
         protected TextPosition EditingNodeEnd { get; private set; }
@@ -87,7 +88,7 @@ namespace Developer.WinFormControls
                     TEditingNodeContainer editingNodeContainer = ParseEditingNodeContainer(this.EditingNodeCode.Text);
                     if (editingNodeContainer != null)
                     {
-                        editingNodeContainer.BuildScope(null);
+                        editingNodeContainer.BuildScope(this.EditingNodeScope);
                         this.EditingNode = editingNodeContainer.FindDeepest<TEditingNode>(editingNewEnd);
                     }
                     else
@@ -177,12 +178,14 @@ namespace Developer.WinFormControls
                 {
                     this.EditingNodeStart = new TextPosition(0, 0);
                     this.EditingNodeEnd = new TextPosition(0, 0);
+                    this.EditingNodeScope = null;
                     this.EditingNodeCode.Text = "";
                 }
                 else
                 {
                     this.EditingNodeStart = editingNode.Start;
                     this.EditingNodeEnd = editingNode.End;
+                    this.EditingNodeScope = editingNode.Scope;
                     this.EditingNodeCode.Text = this.Callback.TextEditorBox.TextProvider.GetString(this.EditingNodeStart, this.EditingNodeEnd);
                 }
                 ResultUpdated();

@@ -98,12 +98,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract NativeXExpression Operand { get; set; }
         public string MemberName { get; set; }
 
+        public NativeXAbstractStructureType GetStructureType()
+        {
+            if (this.Operand == null) return null;
+            return this.Operand.GetUnwrapType<NativeXAbstractStructureType>();
+        }
+
         public override NativeXAbstractType AbstractType
         {
             get
             {
-                if (this.Operand == null || this.MemberName == null) return null;
-                NativeXAbstractStructureType type = this.Operand.GetUnwrapType<NativeXAbstractStructureType>();
+                if (this.MemberName == null) return null;
+                NativeXAbstractStructureType type = GetStructureType();
                 if (type == null) return null;
                 if (!type.Members.ContainsKey(this.MemberName)) return null;
                 return type.Members[this.MemberName];
@@ -116,14 +122,20 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract NativeXExpression Operand { get; set; }
         public string MemberName { get; set; }
 
+        public NativeXAbstractStructureType GetStructureType()
+        {
+            if (this.Operand == null) return null;
+            NativeXAbstractPointerType pointerType = this.Operand.GetUnwrapType<NativeXAbstractPointerType>();
+            if (pointerType == null || pointerType.ElementType == null) return null;
+            return pointerType.ElementType.Unwrap() as NativeXAbstractStructureType;
+        }
+
         public override NativeXAbstractType AbstractType
         {
             get
             {
-                if (this.Operand == null || this.MemberName == null) return null;
-                NativeXAbstractPointerType pointerType = this.Operand.GetUnwrapType<NativeXAbstractPointerType>();
-                if (pointerType == null || pointerType.ElementType == null) return null;
-                NativeXAbstractStructureType type = pointerType.ElementType.Unwrap() as NativeXAbstractStructureType;
+                if (this.MemberName == null) return null;
+                NativeXAbstractStructureType type = GetStructureType();
                 if (type == null) return null;
                 if (!type.Members.ContainsKey(this.MemberName)) return null;
                 return type.Members[this.MemberName];
