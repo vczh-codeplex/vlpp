@@ -81,9 +81,14 @@ namespace Test.Host.LanguageForms.NativeX
         {
             if (structureType != null)
             {
-                List<string> members = structureType.Members.Keys.ToList();
-                string message = members.Aggregate("", (a, b) => a + "\r\n" + b);
-                MessageBox.Show(message, this.form.Text);
+                Bitmap memberImage = Images.Member;
+                var members = structureType.Members
+                    .Select(s => new TextEditorPopupItem()
+                    {
+                        Image = memberImage,
+                        Text = s.Key
+                    });
+                this.Callback.TextEditorBox.PopupItems(members);
             }
         }
 

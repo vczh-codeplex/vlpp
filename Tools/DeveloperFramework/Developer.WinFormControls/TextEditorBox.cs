@@ -43,7 +43,8 @@ namespace Developer.WinFormControls
 
         private TextProvider<LineInfo> textProvider = null;
         private TextEditorController controller = null;
-        private TextEditorBoxKeyCommands keyCommands = new TextEditorBoxKeyCommands();
+        private TextEditorBoxKeyCommands keyCommands = null;
+        private TextEditorPopupList popupList = null;
 
         #endregion
 
@@ -81,14 +82,20 @@ namespace Developer.WinFormControls
         public TextEditorBox()
             : base(new TextContent())
         {
-            this.textProvider = new TextProvider<LineInfo>();
-            this.controller = new TextEditorController(this);
             this.ImeEnabled = true;
             this.EnableDefaultCommands = true;
-            this.colorizer = new TextEditorPlanTextColorizer(this);
+
+            this.textProvider = new TextProvider<LineInfo>();
             this.controlPanel = new TextEditorControlPanel();
+            this.keyCommands = new TextEditorBoxKeyCommands();
+            this.popupList = new TextEditorPopupList(this, this.host);
+
+            this.controller = new TextEditorController(this);
+            this.colorizer = new TextEditorPlanTextColorizer(this);
 
             InitializeComponent();
+            this.components.Add(this.textProvider);
+            this.components.Add(this.popupList);
             UpdateLineHeight();
 
             this.keyCommands.RegisterCommand(Keys.C, true, false, DoCopy);
@@ -220,7 +227,7 @@ namespace Developer.WinFormControls
 
         #endregion
 
-        #region Extension API
+        #region Callback Extension API
 
         public ITextEditorColorizer Colorizer
         {
@@ -295,6 +302,17 @@ namespace Developer.WinFormControls
             {
                 return false;
             }
+        }
+
+        #endregion
+
+        #region UI Extension API
+
+        public void PopupItems(IEnumerable<TextEditorPopupItem> items, int maxItems = 16)
+        {
+            Point position = TextPositionToViewPoint(this.SelectionCaret);
+            position.Y += this.lineHeight;
+            this.popupList.Open(this.host, position, items, maxItems);
         }
 
         #endregion
@@ -1117,7 +1135,7 @@ namespace Developer.WinFormControls
                             this.textEditorBox.controlPanel.DrawLineForeground(g, i, lineRectangle);
                         }
 
-                        if (this.textEditorBox.caretVisible && this.host.Focused)
+                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible))
                         {
                             Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
                             caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X;

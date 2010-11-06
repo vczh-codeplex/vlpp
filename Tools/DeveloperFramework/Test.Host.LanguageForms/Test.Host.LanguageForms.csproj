@@ -51,7 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images.Designer.cs" />
+    <Compile Include="Images.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
     <Compile Include="ITextEditorService.cs" />
     <Compile Include="LanguageForm.cs">
       <SubType>Form</SubType>
@@ -72,7 +76,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextEditorService.cs" />
     <EmbeddedResource Include="Images.resx">
-      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="LanguageForm.resx">
       <DependentUpon>LanguageForm.cs</DependentUpon>
@@ -105,6 +110,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Breakpoints.png" />
+    <None Include="Resources\VSObject_Template.bmp" />
+    <None Include="Resources\VSObject_Structure.bmp" />
+    <None Include="Resources\VSObject_Method.bmp" />
+    <None Include="Resources\VSObject_Field.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Developer.LanguageProvider\Developer.LanguageProvider.csproj">

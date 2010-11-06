@@ -66,6 +66,9 @@
     </Compile>
     <Compile Include="TextEditorBoxImpl.cs" />
     <Compile Include="TextEditorBoxInterfaces.cs" />
+    <Compile Include="TextEditorPopupList.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ScrollableContentControl.resx">

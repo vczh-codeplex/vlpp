@@ -344,12 +344,12 @@ namespace Developer.WinFormControls.Core
             FinishTask();
         }
 
-        private void StartTask()
+        public void StartTask()
         {
             this.refreshDisableCounter++;
         }
 
-        private void FinishTask()
+        public void FinishTask()
         {
             this.refreshDisableCounter--;
             if (this.refreshDisableCounter == 0)

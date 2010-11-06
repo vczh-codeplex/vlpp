@@ -39,7 +39,7 @@ namespace Test.Host.LanguageForms {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeForm.Images", typeof(Images).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Test.Host.LanguageForms.Images", typeof(Images).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,6 +63,34 @@ namespace Test.Host.LanguageForms {
         internal static System.Drawing.Bitmap Breakpoints {
             get {
                 object obj = ResourceManager.GetObject("Breakpoints", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Function {
+            get {
+                object obj = ResourceManager.GetObject("Function", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Member {
+            get {
+                object obj = ResourceManager.GetObject("Member", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Template {
+            get {
+                object obj = ResourceManager.GetObject("Template", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Type {
+            get {
+                object obj = ResourceManager.GetObject("Type", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

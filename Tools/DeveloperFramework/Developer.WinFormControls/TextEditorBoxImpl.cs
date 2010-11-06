@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
+using System.Windows.Forms;
 
 namespace Developer.WinFormControls
 {
@@ -98,6 +99,15 @@ namespace Developer.WinFormControls
         }
 
         public void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
+        {
+        }
+
+        public bool IsPopupListKeyAcceptable(KeyEventArgs e)
+        {
+            return false;
+        }
+
+        public void PopupListItemSelected(string searchingKey, string text)
         {
         }
     }
