@@ -11,6 +11,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string Name { get; set; }
         public abstract CodeNodeList<NativeXUses> UsesUnits { get; set; }
         public abstract CodeNodeList<NativeXDeclaration> Declarations { get; set; }
+
+        protected override bool ContainScope
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 
     public abstract class NativeXUses : NativeXNode

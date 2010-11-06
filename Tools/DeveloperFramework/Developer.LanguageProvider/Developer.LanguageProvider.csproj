@@ -51,7 +51,7 @@
     <Compile Include="CodeNodeCollectionNodeBase.cs" />
     <Compile Include="CodeNodeList.cs" />
     <Compile Include="CodeTokenizer.cs" />
-    <Compile Include="ICodeScope.cs" />
+    <Compile Include="CodeScope.cs" />
     <Compile Include="ParserCodeGenerator\ChoiceNode.cs" />
     <Compile Include="ParserCodeGenerator\KeyNode.cs" />
     <Compile Include="ParserCodeGenerator\LeftRecursionGroupNode.cs" />

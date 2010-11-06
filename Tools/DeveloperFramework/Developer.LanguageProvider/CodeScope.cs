@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Developer.LanguageProvider
+{
+    public class CodeScope
+    {
+        public CodeNodeCollection ScopeNodes { get; private set; }
+        public CodeScope ParentScope { get; private set; }
+        public CodeNode ScopeOwner { get; private set; }
+
+        internal CodeScope(CodeScope parentScope, CodeNode scopeOwner)
+        {
+            this.ParentScope = parentScope;
+            this.ScopeOwner = scopeOwner;
+            this.ScopeNodes = new CodeNodeCollection();
+        }
+    }
+}
