@@ -66,13 +66,19 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 if (typeRenameDeclaration != null)
                 {
                     NativeXAbstractReferenceType reference = typeRenameDeclaration.AbstractType as NativeXAbstractReferenceType;
-                    if (reference == null) break;
-                    scope = reference.Scope;
-                    name = reference.ReferenceName;
+                    if (reference != null)
+                    {
+                        scope = reference.Scope;
+                        name = reference.ReferenceName;
+                    }
                 }
 
                 NativeXDeclaration declaration = node as NativeXDeclaration;
-                if (declaration != null) return declaration.AbstractType;
+                if (declaration != null)
+                {
+                    NativeXAbstractType type = declaration.AbstractType; ;
+                    return type == null ? null : type.Unwrap();
+                }
 
                 NativeXGenericParameter genericParameter = node as NativeXGenericParameter;
                 if (genericParameter != null && genericParameter.ParameterName != null) return new NativeXAbstractGenericParameterType()
@@ -194,7 +200,8 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
         public override NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments)
         {
-            return arguments.Where(a => a.Item1 == this.ParameterName).FirstOrDefault().Item2;
+            var tuple = arguments.Where(a => a.Item1 == this.ParameterName).FirstOrDefault();
+            return tuple == null ? null : tuple.Item2;
         }
     }
 
