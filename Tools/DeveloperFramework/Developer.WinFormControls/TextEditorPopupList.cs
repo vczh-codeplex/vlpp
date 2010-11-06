@@ -289,6 +289,7 @@ namespace Developer.WinFormControls
         {
             base.OnClosed(e);
             this.PopupVisible = false;
+            this.popupList.UnfillList();
         }
 
         private void popupList_KeyDown(object sender, KeyEventArgs e)
