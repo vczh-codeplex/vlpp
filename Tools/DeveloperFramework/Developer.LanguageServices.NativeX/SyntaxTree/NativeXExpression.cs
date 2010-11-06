@@ -189,7 +189,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 if (this.Scope == null || this.ReferencedName == null) return null;
-                CodeNode node = this.Scope.ScopeNodes[this.ReferencedName];
+                CodeNode node = this.Scope.Find(this.ReferencedName);
 
                 NativeXDeclaration declaration = node as NativeXDeclaration;
                 if (declaration != null) return declaration.AbstractType;
@@ -245,7 +245,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 if (this.Scope == null || this.ConceptName == null || this.FunctionName == null || this.Type == null) return null;
-                NativeXConceptDeclaration declaration = this.Scope.ScopeNodes[this.ConceptName] as NativeXConceptDeclaration;
+                NativeXConceptDeclaration declaration = this.Scope.Find(this.ConceptName) as NativeXConceptDeclaration;
                 if (declaration == null) return null;
                 NativeXAbstractType conceptType = declaration.AbstractType;
                 if (conceptType == null) return null;

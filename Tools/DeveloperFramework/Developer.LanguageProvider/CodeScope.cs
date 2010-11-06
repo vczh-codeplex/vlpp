@@ -17,5 +17,23 @@ namespace Developer.LanguageProvider
             this.ScopeOwner = scopeOwner;
             this.ScopeNodes = new CodeNodeCollection();
         }
+
+        public CodeNode Find(string index)
+        {
+            CodeScope scope = this;
+            while (scope != null)
+            {
+                CodeNode node = scope.ScopeNodes[index];
+                if (node == null)
+                {
+                    scope = scope.ParentScope;
+                }
+                else
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
     }
 }

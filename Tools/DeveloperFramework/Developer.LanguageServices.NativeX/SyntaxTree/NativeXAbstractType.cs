@@ -8,6 +8,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 {
     public abstract class NativeXAbstractType
     {
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
+
         public abstract NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments);
 
         public virtual NativeXAbstractType Unwrap()
@@ -21,9 +26,29 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public CodeScope Scope { get; set; }
         public string ReferenceName { get; set; }
 
+        public override string ToString()
+        {
+            if (this.ReferenceName == null)
+            {
+                return base.ToString();
+            }
+            else
+            {
+                return "REFERENCE-TYPE: " + this.ReferenceName;
+            }
+        }
+
         public override NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments)
         {
-            return this;
+            NativeXAbstractType type = this.Unwrap();
+            if (type == null || type == this)
+            {
+                return this;
+            }
+            else
+            {
+                return type.Instanciate(arguments);
+            }
         }
 
         public override NativeXAbstractType Unwrap()
@@ -35,15 +60,25 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             {
                 if (scope == null || name == null || references.Contains(name)) break;
                 references.Add(name);
-                CodeNode node = this.Scope.ScopeNodes[name];
+                CodeNode node = this.Scope.Find(name);
 
-                NativeXTypeRenameDeclaration declaration = node as NativeXTypeRenameDeclaration;
-                if (declaration == null) break;
+                NativeXTypeRenameDeclaration typeRenameDeclaration = node as NativeXTypeRenameDeclaration;
+                if (typeRenameDeclaration != null)
+                {
+                    NativeXAbstractReferenceType reference = typeRenameDeclaration.AbstractType as NativeXAbstractReferenceType;
+                    if (reference == null) break;
+                    scope = reference.Scope;
+                    name = reference.ReferenceName;
+                }
 
-                NativeXAbstractReferenceType reference = declaration.AbstractType as NativeXAbstractReferenceType;
-                if (reference == null) break;
-                scope = reference.Scope;
-                name = reference.ReferenceName;
+                NativeXDeclaration declaration = node as NativeXDeclaration;
+                if (declaration != null) return declaration.AbstractType;
+
+                NativeXGenericParameter genericParameter = node as NativeXGenericParameter;
+                if (genericParameter != null && genericParameter.ParameterName != null) return new NativeXAbstractGenericParameterType()
+                {
+                    ParameterName = genericParameter.ParameterName
+                };
             }
             return base.Unwrap();
         }
@@ -52,6 +87,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public class NativeXAbstractPointerType : NativeXAbstractType
     {
         public NativeXAbstractType ElementType { get; set; }
+
+        public override string ToString()
+        {
+            if (this.ElementType == null)
+            {
+                return base.ToString();
+            }
+            else
+            {
+                return "POINTER-TYPE: " + this.ElementType.ToString();
+            }
+        }
 
         public override NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments)
         {
@@ -65,6 +112,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public class NativeXAbstractArrayType : NativeXAbstractType
     {
         public NativeXAbstractType ElementType { get; set; }
+
+        public override string ToString()
+        {
+            if (this.ElementType == null)
+            {
+                return base.ToString();
+            }
+            else
+            {
+                return "ARRAY-TYPE: " + this.ElementType.ToString();
+            }
+        }
 
         public override NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments)
         {
@@ -120,6 +179,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public class NativeXAbstractGenericParameterType : NativeXAbstractType
     {
         public string ParameterName { get; set; }
+
+        public override string ToString()
+        {
+            if (this.ParameterName == null)
+            {
+                return base.ToString();
+            }
+            else
+            {
+                return "GENERIC-PARAMETER-TYPE: " + this.ParameterName;
+            }
+        }
 
         public override NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments)
         {

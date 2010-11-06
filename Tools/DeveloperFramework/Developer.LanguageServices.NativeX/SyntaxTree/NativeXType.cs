@@ -97,8 +97,10 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 if (this.ElementType == null) return null;
+                NativeXAbstractType elementType = this.ElementType.AbstractType;
+                if (elementType == null) return null;
 
-                NativeXAbstractGenericType type = this.ElementType.AbstractType as NativeXAbstractGenericType;
+                NativeXAbstractGenericType type = elementType.Unwrap() as NativeXAbstractGenericType;
                 if (type == null || type.ElementType == null) return null;
                 List<NativeXAbstractType> types = this.GenericArguments == null ? new List<NativeXAbstractType>() : this.GenericArguments.Select(t => t == null ? null : t.AbstractType).ToList();
                 List<Tuple<string, NativeXAbstractType>> arguments = type.GenericParameters.Zip(types, Tuple.Create).ToList();
