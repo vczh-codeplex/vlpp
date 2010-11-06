@@ -2,6 +2,38 @@
 function int32 main()
     (result = (main1() + main2()));
 
+generic<T>
+structure LongVector
+{
+    T member0;
+    T member1;
+    T member2;
+    T member3;
+    T member4;
+    T Member5;
+    T Member6;
+    T Member7;
+    T Member8;
+    T Member9;
+    T item0;
+    T item1;
+    T item2;
+    T item3;
+    T item4;
+    T Item5;
+    T Item6;
+    T Item7;
+    T Item8;
+    T Item9;
+}
+
+function int hey()
+{
+    variable Vector<LongVector<Vector<int>*>*>* a;
+    variable LongVector<Vector<LongVector<int>*>*>* b;
+    
+}
+
 // 比较数字
 function int32 main1()
 {
