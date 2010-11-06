@@ -25,6 +25,10 @@ namespace Test.DeveloperComponent.NativeX
             Assert.AreEqual(tokens.Count, currentToken);
             Assert.AreEqual(tokens[0].Start, result.Start);
             Assert.AreEqual(tokens[tokens.Count - 1].End, result.End);
+            if (result != null)
+            {
+                result.BuildScope(null);
+            }
             return result;
         }
 
