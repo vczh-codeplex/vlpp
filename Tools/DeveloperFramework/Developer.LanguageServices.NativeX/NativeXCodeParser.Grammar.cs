@@ -73,6 +73,7 @@ namespace Developer.LanguageServices.NativeX
 
             var USE = rule<NativeXUses>("UseUnitItem");
             var UNIT = rule<NativeXUnit>("Unit");
+            var EDITING_STATEMENT = rule<NativeXEditingStatement>("EditingStatement");
 
             {
                 USE.Infer(
@@ -83,6 +84,9 @@ namespace Developer.LanguageServices.NativeX
                     !tok("unit") + ID["Name"] + tok(";")
                     + opt(!tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
+                    );
+                EDITING_STATEMENT.Infer(
+                    list_hard<NativeXStatement>(STATEMENT)["Statements"]
                     );
             }
             {
@@ -362,7 +366,7 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
 
-            return ParserGenerator.GenerateCSharpCode(UNIT, "Developer.LanguageServices.NativeX", "NativeXCodeParser");
+            return ParserGenerator.GenerateCSharpCode("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_STATEMENT);
         }
     }
 }

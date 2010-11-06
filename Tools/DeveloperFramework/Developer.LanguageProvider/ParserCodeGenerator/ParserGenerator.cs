@@ -7,10 +7,10 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 {
     public static class ParserGenerator
     {
-        public static string GenerateCSharpCode(RuleNode startRule, string namespaceName, string className)
+        public static string GenerateCSharpCode(string namespaceName, string className, params RuleNode[] startRules)
         {
             StringBuilder sb = new StringBuilder();
-            List<RuleNode> rules = RuleNodeCollector.GetRules(startRule);
+            List<RuleNode> rules = startRules.SelectMany(r => RuleNodeCollector.GetRules(r)).Distinct().ToList();
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Collections.Generic;");
