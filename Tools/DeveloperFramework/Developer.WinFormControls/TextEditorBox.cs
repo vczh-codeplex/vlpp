@@ -308,11 +308,11 @@ namespace Developer.WinFormControls
 
         #region UI Extension API
 
-        public void PopupItems(IEnumerable<TextEditorPopupItem> items, int maxItems = 16)
+        public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool needToDisposeImages = true, int maxItems = 16)
         {
             Point position = TextPositionToViewPoint(this.SelectionCaret);
             position.Y += this.lineHeight;
-            this.popupList.Open(this.host, position, items, maxItems);
+            this.popupList.Open(this.host, position, items, needToDisposeImages, maxItems);
         }
 
         #endregion
