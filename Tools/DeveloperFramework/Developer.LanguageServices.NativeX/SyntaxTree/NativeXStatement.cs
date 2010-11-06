@@ -17,6 +17,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public abstract class NativeXCompositeStatement : NativeXStatement
     {
         public abstract CodeNodeList<NativeXStatement> Statements { get; set; }
+
+        protected override bool ContainScope
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 
     public abstract class NativeXExpressionStatement : NativeXStatement
@@ -29,6 +37,12 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract NativeXType Type { get; set; }
         public string Name { get; set; }
         public abstract NativeXExpression Initializer { get; set; }
+
+        protected override void FillScope(CodeNodeCollection nodes)
+        {
+            base.FillScope(nodes);
+            nodes.AddIfNotExists(this.Name, this);
+        }
     }
 
     public abstract class NativeXIfStatement : NativeXStatement
@@ -51,6 +65,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract CodeNodeList<NativeXStatement> SideEffect { get; set; }
         public abstract NativeXStatement Statement { get; set; }
         public abstract NativeXExpression Condition { get; set; }
+
+        protected override bool ContainScope
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 
     public abstract class NativeXBreakStatement : NativeXStatement

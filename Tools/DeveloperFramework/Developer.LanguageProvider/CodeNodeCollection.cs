@@ -58,6 +58,14 @@ namespace Developer.LanguageProvider
             }
         }
 
+        public void AddIfNotExists(string index, CodeNode node)
+        {
+            if (index != null && this[index] == null)
+            {
+                this[index] = node;
+            }
+        }
+
         public IEnumerable<string> Keys
         {
             get

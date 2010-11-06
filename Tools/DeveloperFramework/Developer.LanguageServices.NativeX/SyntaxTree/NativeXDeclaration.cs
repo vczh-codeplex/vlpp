@@ -12,12 +12,32 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract CodeNodeList<NativeXGenericParameter> GenericParameters { get; set; }
         public abstract CodeNodeList<NativeXGenericConstraint> GenericConstraints { get; set; }
         public abstract NativeXLinking Linking { get; set; }
+
+        protected override bool ContainScope
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        protected override void FillScope(CodeNodeCollection nodes)
+        {
+            base.FillScope(nodes);
+            nodes.AddIfNotExists(this.Name, this);
+        }
     }
 
     public abstract class NativeXNameTypePair : NativeXNode
     {
         public abstract NativeXType Type { get; set; }
         public string Name { get; set; }
+
+        protected override void FillScope(CodeNodeCollection nodes)
+        {
+            base.FillScope(nodes);
+            nodes.AddIfNotExists(this.Name, this);
+        }
     }
 
     public abstract class NativeXNameExpressionPair : NativeXNode
@@ -29,6 +49,12 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public abstract class NativeXGenericParameter : NativeXNode
     {
         public string ParameterName { get; set; }
+
+        protected override void FillScope(CodeNodeCollection nodes)
+        {
+            base.FillScope(nodes);
+            nodes.AddIfNotExists(this.ParameterName, this);
+        }
     }
 
     public abstract class NativeXGenericConstraint : NativeXNode

@@ -22,32 +22,14 @@ namespace Developer.LanguageProvider
         public virtual CodeNode ParentNode { get; protected internal set; }
         public virtual CodeNodeCollection NamedNodes { get; private set; }
 
+        public virtual CodeScope OwningScope { get; private set; }
+        public virtual CodeScope Scope { get; private set; }
+
         public virtual IEnumerable<CodeNode> Nodes
         {
             get
             {
                 return this.NamedNodes;
-            }
-        }
-
-        public virtual ICodeScope OwningScope
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        public virtual ICodeScope Scope
-        {
-            get
-            {
-                CodeNode parent = this.ParentNode;
-                while (parent != null && parent.OwningScope != null)
-                {
-                    parent = parent.ParentNode;
-                }
-                return parent == null ? null : parent.OwningScope;
             }
         }
 
@@ -58,6 +40,54 @@ namespace Developer.LanguageProvider
             this.NamedNodes = new CodeNodeCollection();
             this.NamedNodes.Owner = this;
         }
+
+        #region Scoping
+
+        protected virtual bool ContainScope
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        protected virtual void FillScope(CodeNodeCollection nodes)
+        {
+        }
+
+        public void BuildScope(CodeScope scope)
+        {
+            if (scope != null)
+            {
+                this.Scope = scope;
+            }
+            else if (this.ParentNode != null)
+            {
+                this.Scope = this.ParentNode.OwningScope ?? this.ParentNode.Scope;
+            }
+            else
+            {
+                this.Scope = null;
+            }
+            if (this.ContainScope)
+            {
+                this.OwningScope = new CodeScope(this.Scope, this);
+            }
+            else
+            {
+                this.OwningScope = null;
+            }
+            if (this.Scope != null)
+            {
+                FillScope(this.Scope.ScopeNodes);
+            }
+            foreach (var node in this.Nodes)
+            {
+                node.BuildScope(null);
+            }
+        }
+
+        #endregion
 
         #region Positioning
 
