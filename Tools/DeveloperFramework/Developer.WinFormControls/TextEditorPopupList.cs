@@ -18,6 +18,7 @@ namespace Developer.WinFormControls
 
         private bool needToClose = false;
         private string searchingKey = null;
+        private string postfixKey = null;
 
         public bool PopupVisible { get; set; }
 
@@ -69,6 +70,7 @@ namespace Developer.WinFormControls
                 Show(control, location, ToolStripDropDownDirection.BelowRight);
                 this.needToClose = false;
                 this.searchingKey = "";
+                this.postfixKey = "";
                 this.listView.Focus();
                 this.listView.SelectedIndices.Add(0);
             }
@@ -89,7 +91,7 @@ namespace Developer.WinFormControls
         {
             if (this.listView.SelectedItems.Count == 1)
             {
-                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.listView.SelectedItems[0].Text);
+                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.listView.SelectedItems[0].Text + this.postfixKey);
             }
         }
 
@@ -133,6 +135,7 @@ namespace Developer.WinFormControls
                                 this.searchingKey = this.searchingKey.Substring(0, this.searchingKey.Length - 1);
                                 LocateSearching();
                             }
+                            e.SuppressKeyPress = true;
                         }
                         break;
                 }
@@ -147,7 +150,6 @@ namespace Developer.WinFormControls
                     case Keys.End:
                         break;
                     default:
-                        e.SuppressKeyPress = true;
                         this.needToClose = true;
                         break;
                 }
@@ -156,10 +158,19 @@ namespace Developer.WinFormControls
 
         private void listView_KeyPress(object sender, KeyPressEventArgs e)
         {
-            this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            this.searchingKey += e.KeyChar;
-            LocateSearching();
-            e.Handled = true;
+            if (this.needToClose)
+            {
+                this.postfixKey = e.KeyChar.ToString();
+                SelectItem();
+                Close();
+            }
+            else
+            {
+                this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+                this.searchingKey += e.KeyChar;
+                LocateSearching();
+                e.Handled = true;
+            }
         }
 
         private void listView_KeyUp(object sender, KeyEventArgs e)
@@ -178,6 +189,7 @@ namespace Developer.WinFormControls
         private void listView_DoubleClick(object sender, EventArgs e)
         {
             SelectItem();
+            Close();
         }
     }
 
