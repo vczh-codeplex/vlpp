@@ -254,9 +254,15 @@ namespace Tools.TokenizerBuilder
             builder.AppendLine("                if (i != length)");
             builder.AppendLine("                {");
             builder.AppendLine("                    state = transitions[state, charset[items[i]]];");
-            builder.AppendLine("                    if(state == StartState)");
+            builder.AppendLine("                    switch (state)");
             builder.AppendLine("                    {");
-            builder.AppendLine("                        state = transitions[state, charset[items[i]]];");
+            builder.AppendLine("                        case NormalState:");
+            builder.AppendLine("                            lastFinalState = NormalState;");
+            builder.AppendLine("                            state = transitions[StartState, charset[items[i]]];");
+            builder.AppendLine("                            break;");
+            builder.AppendLine("                        case StartState:");
+            builder.AppendLine("                            state = transitions[StartState, charset[items[i]]];");
+            builder.AppendLine("                            break;");
             builder.AppendLine("                    }");
             builder.AppendLine("                }");
             builder.AppendLine("                else");

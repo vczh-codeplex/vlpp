@@ -115,4 +115,5 @@
   <ArrowShape Name="=" X="367" Y="532" R="5" Start="38" End="28" />
   <ArrowShape Name="=" X="142" Y="774" R="5" Start="36" End="28" />
   <ArrowShape Name="|" X="293" Y="445" R="5" Start="37" End="36" />
+  <ArrowShape Name="*" X="1236" Y="1024" R="5" Start="23" End="23" />
 </ShapeManager>

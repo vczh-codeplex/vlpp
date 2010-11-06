@@ -1011,7 +1011,7 @@ namespace Developer.LanguageServices.NativeX
             transitions[23, 5] = 20;
             transitions[23, 6] = 20;
             transitions[23, 7] = 20;
-            transitions[23, 8] = 20;
+            transitions[23, 8] = 23;
             transitions[23, 9] = 20;
             transitions[23, 10] = 20;
             transitions[23, 11] = 20;

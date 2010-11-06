@@ -71,4 +71,5 @@
   <ArrowShape Name="^/" X="410" Y="1057" R="5" Start="23" End="20" />
   <ArrowShape Name="/" X="619" Y="1059" R="5" Start="23" End="24" />
   <ArrowShape Name="\." X="402" Y="508" R="5" Start="10" End="9" />
+  <ArrowShape Name="*" X="513" Y="1022" R="5" Start="23" End="23" />
 </ShapeManager>
