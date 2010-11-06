@@ -22,7 +22,7 @@ namespace Test.Host.LanguageForms.NativeX
         private NativeXForm form = null;
 
         private NativeXStatement editingStatement = null;
-        private string editingStatementCode = null;
+        private TextProvider<object> editingStatementCode = null;
         private TextPosition grayStart = new TextPosition(0, 0);
         private TextPosition grayEnd = new TextPosition(0, 0);
         private int counter = 0;
@@ -32,11 +32,14 @@ namespace Test.Host.LanguageForms.NativeX
         public NativeXControlPanel(NativeXForm form)
         {
             this.form = form;
+            this.editingStatementCode = new TextProvider<object>();
         }
 
         public void Dispose()
         {
             this.analyzer.Dispose();
+            this.editingStatementCode.Dispose();
+            this.editingStatementCode = null;
         }
 
         #region ITextEditorControlPanel Members
@@ -159,6 +162,11 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        private void UpdateContextText()
+        {
+            this.form.ContextText = this.editingStatementCode.Text;
+        }
+
         private void UpdateBlock(NativeXStatement statement)
         {
             if (this.analyzingId == this.receivedId)
@@ -168,15 +176,15 @@ namespace Test.Host.LanguageForms.NativeX
                 {
                     this.grayStart = new TextPosition(0, 0);
                     this.grayEnd = new TextPosition(0, 0);
-                    this.editingStatementCode = "";
+                    this.editingStatementCode.Text = "";
                 }
                 else
                 {
                     this.grayStart = statement.Start;
                     this.grayEnd = statement.End;
-                    this.editingStatementCode = this.callback.TextEditorBox.TextProvider.GetString(this.grayStart, this.grayEnd);
+                    this.editingStatementCode.Text = this.callback.TextEditorBox.TextProvider.GetString(this.grayStart, this.grayEnd);
                 }
-                this.form.ContextText = this.editingStatementCode;
+                UpdateContextText();
             }
         }
 
