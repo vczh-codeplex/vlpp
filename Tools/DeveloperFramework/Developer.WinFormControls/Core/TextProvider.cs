@@ -158,5 +158,10 @@ namespace Developer.WinFormControls.Core
                 return builder.ToString();
             }
         }
+
+        public bool Contains(TextPosition pos)
+        {
+            return pos.row >= 0 && pos.row < this.lines.Count && pos.col >= 0 && pos.col <= this.lines[pos.row].CharCount;
+        }
     }
 }

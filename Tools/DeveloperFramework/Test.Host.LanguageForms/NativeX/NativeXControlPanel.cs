@@ -72,20 +72,28 @@ namespace Test.Host.LanguageForms.NativeX
                 TextPosition editingStart = ConvertToEditingPosition(start);
                 TextPosition editingOldEnd = ConvertToEditingPosition(oldEnd);
                 TextPosition editingNewEnd = ConvertToEditingPosition(newEnd);
-                string editingText = this.callback.TextEditorBox.TextProvider.GetString(start, newEnd);
-                this.editingStatementCode.Edit(editingStart, editingOldEnd, editingText);
-
-                List<CodeToken> tokens = NativeXCodeParser.Tokenize(this.editingStatementCode.Text.ToCharArray());
-                int currentToken = 0;
-                bool parseSuccess = false;
-                NativeXEditingStatement editingCode = NativeXCodeParser.ParseEditingStatement(tokens, ref currentToken, ref parseSuccess);
-                if (editingCode != null)
+                if (this.editingStatementCode.Contains(editingStart) && this.editingStatementCode.Contains(editingOldEnd))
                 {
-                    this.editingStatement = editingCode.FindDeepest<NativeXStatement>(editingNewEnd);
+                    string editingText = this.callback.TextEditorBox.TextProvider.GetString(start, newEnd);
+                    this.editingStatementCode.Edit(editingStart, editingOldEnd, editingText);
+
+                    List<CodeToken> tokens = NativeXCodeParser.Tokenize(this.editingStatementCode.Text.ToCharArray());
+                    int currentToken = 0;
+                    bool parseSuccess = false;
+                    NativeXEditingStatement editingCode = NativeXCodeParser.ParseEditingStatement(tokens, ref currentToken, ref parseSuccess);
+                    if (editingCode != null)
+                    {
+                        this.editingStatement = editingCode.FindDeepest<NativeXStatement>(editingNewEnd);
+                    }
+                    else
+                    {
+                        this.editingStatement = null;
+                    }
                 }
                 else
                 {
                     this.editingStatement = null;
+                    this.editingStatementCode.Text = "";
                 }
                 UpdateContextText();
             }
@@ -196,7 +204,9 @@ namespace Test.Host.LanguageForms.NativeX
 
         private void UpdateContextText()
         {
-            this.form.ContextText = this.editingStatementCode.Text + "\r\n*********************\r\n" + (this.editingStatement == null ? "<NULL>" : this.editingStatement.ToString());
+            this.form.ContextText = this.editingStatementCode.Text
+                + "\r\n********************************\r\nSYNTAX TREE\r\n********************************\r\n"
+                + (this.editingStatement == null ? "<NULL>" : this.editingStatement.ToString());
         }
 
         private void UpdateBlock(NativeXStatement statement)

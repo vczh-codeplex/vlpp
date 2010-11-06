@@ -7052,6 +7052,7 @@ namespace Developer.LanguageServices.NativeX
             }
             if (parseSuccess || forceSuccess0)
             {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXEditingStatement>();
                 result.Statements = StatementsMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
