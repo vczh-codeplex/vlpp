@@ -83,6 +83,7 @@ namespace Test.Host.LanguageForms.NativeX
                     NativeXEditingStatement editingCode = NativeXCodeParser.ParseEditingStatement(tokens, ref currentToken, ref parseSuccess);
                     if (editingCode != null)
                     {
+                        editingCode.BuildScope(null);
                         this.editingStatement = editingCode.FindDeepest<NativeXStatement>(editingNewEnd);
                     }
                     else
