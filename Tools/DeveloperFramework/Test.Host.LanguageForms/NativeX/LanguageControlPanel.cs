@@ -142,6 +142,51 @@ namespace Developer.WinFormControls
         {
         }
 
+        public virtual bool IsPopupListKeyAcceptable(KeyEventArgs e)
+        {
+            if (e.Control || e.Alt)
+            {
+                return false;
+            }
+            else if (Keys.A <= e.KeyCode && e.KeyCode <= Keys.Z)
+            {
+                return true;
+            }
+            else if (Keys.NumPad0 <= e.KeyCode && e.KeyCode <= Keys.NumPad9)
+            {
+                return true;
+            }
+            else if (Keys.D0 <= e.KeyCode && e.KeyCode <= Keys.D9)
+            {
+                return true;
+            }
+            else if (e.KeyCode == Keys.OemMinus && e.Shift)
+            {
+                return true;
+            }
+            else
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Back: return true;
+                    case Keys.ShiftKey: return true;
+                    default: return false;
+                }
+            }
+        }
+
+        public virtual void PopupListItemSelected(string searchingKey, string text)
+        {
+            TextPosition end = this.Callback.TextEditorBox.SelectionCaret;
+            TextPosition start = new TextPosition(end.row, end.col - searchingKey.Length);
+            TextEditorController controller = this.Callback.TextEditorBox.Controller;
+            controller.StartTask();
+            controller.Move(start, false, false);
+            controller.Move(end, false, true);
+            controller.Input(text, false);
+            controller.FinishTask();
+        }
+
         #endregion
 
         #region Reaction Functions

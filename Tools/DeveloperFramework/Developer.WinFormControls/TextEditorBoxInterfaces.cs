@@ -65,5 +65,8 @@ namespace Developer.WinFormControls
         void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
         void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
         void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
+
+        bool IsPopupListKeyAcceptable(KeyEventArgs e);
+        void PopupListItemSelected(string searchingKey, string text);
     }
 }
