@@ -13,6 +13,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract CodeNodeList<NativeXGenericConstraint> GenericConstraints { get; set; }
         public abstract NativeXLinking Linking { get; set; }
 
+        public virtual NativeXAbstractType AbstractType
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         protected override bool ContainScope
         {
             get
@@ -25,6 +33,21 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         {
             base.FillScope(nodes);
             nodes.AddIfNotExists(this.Name, this);
+        }
+
+        protected virtual NativeXAbstractType WrapGeneric(NativeXAbstractType type)
+        {
+            if (type == null || this.GenericParameters == null) return null;
+            NativeXAbstractGenericType generic = new NativeXAbstractGenericType();
+            generic.ElementType = type;
+            foreach (var p in this.GenericParameters)
+            {
+                if (p.ParameterName != null)
+                {
+                    generic.GenericParameters.Add(p.ParameterName);
+                }
+            }
+            return generic;
         }
     }
 
@@ -75,28 +98,94 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public abstract CodeNodeList<NativeXNameTypePair> Parameters { get; set; }
         public abstract NativeXStatement Statement { get; set; }
         public bool Foreign { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                NativeXAbstractFunctionType function = new NativeXAbstractFunctionType();
+                function.ReturnType = this.ReturnType == null ? null : this.ReturnType.AbstractType;
+                foreach (var type in this.Parameters)
+                {
+                    function.Parameters.Add(type == null || type.Type == null ? null : type.Type.AbstractType);
+                }
+                return WrapGeneric(function);
+            }
+        }
     }
 
     public abstract class NativeXStructureDeclaration : NativeXDeclaration
     {
         public abstract CodeNodeList<NativeXNameTypePair> Members { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                NativeXAbstractStructureType structure = new NativeXAbstractStructureType();
+                foreach (var pair in this.Members)
+                {
+                    if (pair.Name != null)
+                    {
+                        structure.Members[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                    }
+                }
+                return WrapGeneric(structure);
+            }
+        }
     }
 
     public abstract class NativeXVariableDeclaration : NativeXDeclaration
     {
         public abstract NativeXType Type { get; set; }
         public abstract NativeXExpression Initializer { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                return this.Type == null ? null : WrapGeneric(this.Type.AbstractType);
+            }
+        }
     }
 
     public abstract class NativeXTypeRenameDeclaration : NativeXDeclaration
     {
         public abstract NativeXType Type { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                return this.Type == null ? null : WrapGeneric(this.Type.AbstractType);
+            }
+        }
     }
 
     public abstract class NativeXConceptDeclaration : NativeXDeclaration
     {
         public string ConceptType { get; set; }
         public abstract CodeNodeList<NativeXNameTypePair> Functions { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                NativeXAbstractConceptType concept = new NativeXAbstractConceptType();
+                foreach (var pair in this.Functions)
+                {
+                    if (pair.Name != null)
+                    {
+                        concept.Functions[pair.Name] = pair.Type == null ? null : pair.Type.AbstractType;
+                    }
+                }
+
+                NativeXAbstractGenericType generic = new NativeXAbstractGenericType();
+                generic.ElementType = concept;
+                generic.GenericParameters.Add(this.ConceptType);
+                return generic;
+            }
+        }
     }
 
     public abstract class NativeXInstanceDeclaration : NativeXDeclaration

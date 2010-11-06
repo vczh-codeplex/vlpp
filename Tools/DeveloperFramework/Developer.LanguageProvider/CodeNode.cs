@@ -91,6 +91,19 @@ namespace Developer.LanguageProvider
 
         #region Positioning
 
+        public T FindParent<T>()
+            where T : CodeNode
+        {
+            CodeNode node = this.ParentNode;
+            while (node != null)
+            {
+                T result = node as T;
+                if (result != null) return result;
+                node = node.ParentNode;
+            }
+            return null;
+        }
+
         public T FindDeepest<T>(TextPosition position, bool allowFirstPosition = true, bool allowLastPosition = true)
             where T : CodeNode
         {

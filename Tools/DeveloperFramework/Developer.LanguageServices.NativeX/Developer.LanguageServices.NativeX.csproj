@@ -54,6 +54,7 @@
     <Compile Include="NativeXTokenizer.Configuration.cs" />
     <Compile Include="NativeXTokenizer.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxTree\NativeXAbstractType.cs" />
     <Compile Include="SyntaxTree\NativeXDeclaration.cs" />
     <Compile Include="SyntaxTree\NativeXExpression.cs" />
     <Compile Include="SyntaxTree\NativeXNode.cs" />

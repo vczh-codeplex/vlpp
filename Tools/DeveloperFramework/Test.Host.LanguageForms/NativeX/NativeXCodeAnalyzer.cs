@@ -24,6 +24,10 @@ namespace Test.Host.LanguageForms.NativeX
             int currentToken = 0;
             bool parseSuccess = false;
             result.Unit = NativeXCodeParser.ParseUnit(result.Tokens, ref currentToken, ref parseSuccess);
+            if (result.Unit != null)
+            {
+                result.Unit.BuildScope(null);
+            }
             return result;
         }
     }
