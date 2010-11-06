@@ -149,6 +149,14 @@ namespace Developer.WinFormControls
                     case Keys.Home:
                     case Keys.End:
                         break;
+
+                    case Keys.Delete:
+                    case Keys.Enter:
+                    case Keys.Escape:
+                        e.SuppressKeyPress = true;
+                        this.needToClose = true;
+                        break;
+
                     default:
                         this.needToClose = true;
                         break;
