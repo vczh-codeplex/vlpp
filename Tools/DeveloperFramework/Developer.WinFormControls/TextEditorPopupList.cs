@@ -29,6 +29,7 @@ namespace Developer.WinFormControls
 
             this.imageList = new ImageList();
             this.imageList.ColorDepth = ColorDepth.Depth32Bit;
+            this.imageList.ImageSize = new Size(16, 16);
             this.listView = new ListView();
             this.listView.FullRowSelect = true;
             this.listView.SmallImageList = this.imageList;
@@ -58,7 +59,7 @@ namespace Developer.WinFormControls
                     this.imageList.TransparentColor = images[0].GetPixel(0, 0);
                 }
                 this.imageList.Images.AddRange(images.ToArray());
-                foreach (var item in items.OrderBy(i => i.Text))
+                foreach (var item in items.OrderBy(i => i.Text.ToUpper()))
                 {
                     ListViewItem listViewItem = new ListViewItem();
                     listViewItem.ImageIndex = images.IndexOf(item.Image);
