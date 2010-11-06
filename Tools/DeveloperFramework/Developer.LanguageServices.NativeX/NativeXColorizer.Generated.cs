@@ -112,9 +112,15 @@ namespace Developer.LanguageServices.NativeX
                 if (i != length)
                 {
                     state = transitions[state, charset[items[i]]];
-                    if (state == StartState)
+                    switch (state)
                     {
-                        state = transitions[state, charset[items[i]]];
+                        case NormalState:
+                            lastFinalState = NormalState;
+                            state = transitions[StartState, charset[items[i]]];
+                            break;
+                        case StartState:
+                            state = transitions[StartState, charset[items[i]]];
+                            break;
                     }
                 }
                 else
@@ -839,7 +845,7 @@ namespace Developer.LanguageServices.NativeX
             transitions[24, 1] = 21;
             transitions[24, 2] = 21;
             transitions[24, 3] = 21;
-            transitions[24, 4] = 21;
+            transitions[24, 4] = 24;
             transitions[24, 5] = 21;
             transitions[24, 6] = 25;
             transitions[24, 7] = 21;
