@@ -101,7 +101,7 @@
             this.tabPageTree.Location = new System.Drawing.Point(4, 22);
             this.tabPageTree.Name = "tabPageTree";
             this.tabPageTree.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTree.Size = new System.Drawing.Size(715, 610);
+            this.tabPageTree.Size = new System.Drawing.Size(687, 607);
             this.tabPageTree.TabIndex = 1;
             this.tabPageTree.Text = "Tree";
             this.tabPageTree.UseVisualStyleBackColor = true;
@@ -113,8 +113,9 @@
             this.textTree.Multiline = true;
             this.textTree.Name = "textTree";
             this.textTree.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textTree.Size = new System.Drawing.Size(593, 481);
+            this.textTree.Size = new System.Drawing.Size(681, 601);
             this.textTree.TabIndex = 0;
+            this.textTree.WordWrap = false;
             // 
             // textStatus
             // 
@@ -165,6 +166,7 @@
             this.textContext.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textContext.Size = new System.Drawing.Size(338, 615);
             this.textContext.TabIndex = 4;
+            this.textContext.WordWrap = false;
             // 
             // LanguageForm
             // 
