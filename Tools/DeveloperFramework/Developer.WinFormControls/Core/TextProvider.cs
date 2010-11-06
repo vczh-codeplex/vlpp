@@ -37,6 +37,14 @@ namespace Developer.WinFormControls.Core
                     new TextPosition(this.lines.Count - 1, this.lines[this.lines.Count - 1].CharCount)
                     );
             }
+            set
+            {
+                Edit(
+                    new TextPosition(0, 0),
+                    new TextPosition(this.lines.Count - 1, this.lines[this.lines.Count - 1].CharCount),
+                    value.Split(new string[] { "\r\n" }, StringSplitOptions.None)
+                    );
+            }
         }
 
         public TextProvider()
