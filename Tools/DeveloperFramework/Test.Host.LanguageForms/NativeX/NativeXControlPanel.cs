@@ -64,9 +64,31 @@ namespace Test.Host.LanguageForms.NativeX
         {
         }
 
-        public void OnAfterEdit(Developer.LanguageProvider.TextPosition start, Developer.LanguageProvider.TextPosition oldEnd, Developer.LanguageProvider.TextPosition newEnd)
+        public void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
             this.analyzingId = this.analyzer.Analyze(this.callback.TextEditorBox.Text);
+            if (this.editingStatement != null)
+            {
+                TextPosition editingStart = ConvertToEditingPosition(start);
+                TextPosition editingOldEnd = ConvertToEditingPosition(oldEnd);
+                TextPosition editingNewEnd = ConvertToEditingPosition(newEnd);
+                string editingText = this.callback.TextEditorBox.TextProvider.GetString(start, newEnd);
+                this.editingStatementCode.Edit(editingStart, editingOldEnd, editingText);
+
+                List<CodeToken> tokens = NativeXCodeParser.Tokenize(this.editingStatementCode.Text.ToCharArray());
+                int currentToken = 0;
+                bool parseSuccess = false;
+                NativeXEditingStatement editingCode = NativeXCodeParser.ParseEditingStatement(tokens, ref currentToken, ref parseSuccess);
+                if (editingCode != null)
+                {
+                    this.editingStatement = editingCode.FindDeepest<NativeXStatement>(editingNewEnd);
+                }
+                else
+                {
+                    this.editingStatement = null;
+                }
+                UpdateContextText();
+            }
         }
 
         public bool NeedColorLineForDisplay(int lineIndex)
@@ -151,6 +173,16 @@ namespace Test.Host.LanguageForms.NativeX
             }));
         }
 
+        private TextPosition ConvertToEditingPosition(TextPosition pos)
+        {
+            if (pos.row == this.grayStart.row)
+            {
+                pos.col -= this.grayStart.col;
+            }
+            pos.row -= this.grayStart.row;
+            return pos;
+        }
+
         private void FindBlock(NativeXAnalyzingResult result, out NativeXStatement statement)
         {
             TextPosition pos = this.callback.TextEditorBox.SelectionCaret;
@@ -164,7 +196,7 @@ namespace Test.Host.LanguageForms.NativeX
 
         private void UpdateContextText()
         {
-            this.form.ContextText = this.editingStatementCode.Text;
+            this.form.ContextText = this.editingStatementCode.Text + "\r\n*********************\r\n" + (this.editingStatement == null ? "<NULL>" : this.editingStatement.ToString());
         }
 
         private void UpdateBlock(NativeXStatement statement)

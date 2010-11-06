@@ -6992,5 +6992,73 @@ namespace Developer.LanguageServices.NativeX
             return result;
         }
 
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXEditingStatement ParseEditingStatement(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            bool forceSuccess0 = false;
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXEditingStatement result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXEditingStatement);
+            Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement> StatementsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement>);
+            {
+                Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement> result1 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement>);
+                int currentIndex1 = currentToken;
+                result1 = new Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement>();
+                {
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement);
+                    int currentIndex2 = currentIndex1;
+                    bool forceSuccess1 = false;
+                    parseSuccess = false;
+                    result2 = ParseStatement(tokens, ref currentIndex2, ref parseSuccess);
+                    if (parseSuccess || forceSuccess1)
+                    {
+                        currentIndex1 = currentIndex2;
+                        result1.Add(result2);
+                        result1.Start = result2.Start;
+                        result1.End = result2.End;
+                    }
+                    while (true)
+                    {
+                        int currentIndexCopy2 = currentIndex1;
+                        currentIndex2 = currentIndex1;
+                        parseSuccess = false;
+                        result2 = ParseStatement(tokens, ref currentIndex2, ref parseSuccess);
+                        if (parseSuccess || forceSuccess1)
+                        {
+                            currentIndexCopy2 = currentIndex2;
+                        }
+                        else
+                        {
+                            if (currentIndex2 < tokens.Count - 1)
+                            {
+                                currentIndexCopy2 = currentIndex2 + 1;
+                            }
+                            else
+                            {
+                                goto LABEL_0;
+                            }
+                            result2 = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXStatement>();
+                            result2.Start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentIndex2);
+                        }
+                        currentIndex1 = currentIndexCopy2;
+                        result1.Add(result2);
+                        result1.End = result2.End;
+                    }
+                LABEL_0: ; parseSuccess = true;
+                }
+                if (parseSuccess || forceSuccess0)
+                {
+                    currentToken = currentIndex1;
+                    StatementsMember0 = result1;
+                }
+            }
+            if (parseSuccess || forceSuccess0)
+            {
+                result.Statements = StatementsMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+                parseSuccess = true;
+            }
+            return result;
+        }
+
     }
 }
