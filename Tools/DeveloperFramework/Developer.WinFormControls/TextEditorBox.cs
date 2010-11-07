@@ -94,7 +94,7 @@ namespace Developer.WinFormControls
             this.colorizer = new TextEditorPlanTextColorizer(this);
 
             InitializeComponent();
-            this.components.Add(this.textProvider);
+            this.components.Add(new DisposableComponent(this.textProvider));
             this.components.Add(this.popupList);
             UpdateLineHeight();
 
@@ -105,11 +105,6 @@ namespace Developer.WinFormControls
         }
 
         public bool EnableDefaultCommands { get; set; }
-
-        public void RedrawEditor()
-        {
-            this.host.Refresh();
-        }
 
         #region Service API
 
@@ -239,7 +234,7 @@ namespace Developer.WinFormControls
             {
                 this.colorizer = value;
                 this.colorizedLines = 0;
-                this.host.Refresh();
+                RedrawContent();
             }
         }
 
@@ -282,7 +277,7 @@ namespace Developer.WinFormControls
         {
             if (this.textProvider[row].AddBlock(start, end))
             {
-                this.host.Refresh();
+                RedrawContent();
                 return true;
             }
             else
@@ -295,7 +290,7 @@ namespace Developer.WinFormControls
         {
             if (this.textProvider[row].RemoveBlock(start, end))
             {
-                this.host.Refresh();
+                RedrawContent();
                 return true;
             }
             else
@@ -458,19 +453,19 @@ namespace Developer.WinFormControls
         protected override void OnBackColorChanged(EventArgs e)
         {
             base.OnBackColorChanged(e);
-            this.host.Refresh();
+            RedrawContent();
         }
 
         protected override void OnForeColorChanged(EventArgs e)
         {
             base.OnForeColorChanged(e);
-            this.host.Refresh();
+            RedrawContent();
         }
 
         private void timerCaret_Tick(object sender, EventArgs e)
         {
             this.caretVisible = !this.caretVisible;
-            this.host.Refresh();
+            RedrawContent();
         }
 
         #endregion
@@ -722,7 +717,7 @@ namespace Developer.WinFormControls
 
         void ITextContentProvider.OnRefreshSuggestion()
         {
-            this.host.Refresh();
+            RedrawContent();
         }
 
         TextPosition ITextContentProvider.GetLeftWord(TextPosition caret)
@@ -793,6 +788,15 @@ namespace Developer.WinFormControls
             private Control host = null;
             private TextEditorBox textEditorBox = null;
             private MouseMode mouseMode = MouseMode.Normal;
+
+            #region Rendering Fields
+
+            //private Point oldViewPoint;
+            //private Size oldViewSize;
+            //private TextPosition oldAnchor;
+            //private TextPosition oldCaret;
+
+            #endregion
 
             #region Mouse Handlers
 
@@ -1008,18 +1012,22 @@ namespace Developer.WinFormControls
 
             private void host_LostFocus(object sender, EventArgs e)
             {
-                this.host.Refresh();
+                this.textEditorBox.RedrawContent();
             }
 
             private void host_GotFocus(object sender, EventArgs e)
             {
                 this.textEditorBox.caretVisible = true;
-                this.host.Refresh();
+                this.textEditorBox.RedrawContent();
             }
 
             #endregion
 
             #region IScrollableContent Members
+
+            public void Dispose()
+            {
+            }
 
             public void Initialize(Control host, ScrollableContentControl control)
             {
@@ -1041,6 +1049,37 @@ namespace Developer.WinFormControls
             {
                 int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
                 int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
+                RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
+                /*Point newViewPoint = viewVisibleBounds.Location;
+                Size newViewSize = viewAreaBounds.Size;
+                TextPosition newAnchor = this.textEditorBox.SelectionAnchor;
+                TextPosition newCaret = this.textEditorBox.SelectionCaret;
+                bool redrawAll = false;
+
+                if (this.oldViewSize != newViewSize || this.oldViewPoint != newViewPoint)
+                {
+                    redrawAll = true;
+                }
+                if (redrawAll)
+                {
+                    RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
+                }
+                else
+                {
+                    RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
+                }
+                this.oldViewPoint = newViewPoint;
+                this.oldViewSize = newViewSize;
+                this.oldAnchor = newAnchor;
+                this.oldCaret = newCaret;*/
+            }
+
+            #endregion
+
+            #region Rendering
+
+            private void RenderContentRange(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, int startLine, int endLine)
+            {
                 bool widthChanged = false;
 
                 int caretX = 0;
@@ -1064,7 +1103,6 @@ namespace Developer.WinFormControls
                 }
                 else
                 {
-
                     using (Brush backBrush = new SolidBrush(this.textEditorBox.BackColor))
                     using (Brush textBrush = new SolidBrush(this.textEditorBox.ForeColor))
                     {
@@ -1081,124 +1119,135 @@ namespace Developer.WinFormControls
                         int backgroundWidth = viewAreaBounds.Width - backgroundLeft;
                         for (int i = startLine; i <= endLine; i++)
                         {
-                            int backgroundTop = EditorMargin - viewVisibleBounds.Top + i * this.textEditorBox.lineHeight;
-                            Rectangle lineRectangle = new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight);
-                            this.textEditorBox.controlPanel.DrawLineBackground(g, i, lineRectangle);
-
-                            this.textEditorBox.EnsureLineColorized(i);
-                            TextLine<LineInfo> line = this.textEditorBox.textProvider[i];
-                            int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
-                            int y = backgroundTop + this.textEditorBox.textTopOffset;
-                            string text = line.Text;
-
-                            int coffset = this.textEditorBox.lineHeight * 2;
-                            int c0 = 0;
-                            int c3 = text.Length;
-                            int x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c0)).X;
-                            int x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c3)).X;
-
-                            if (x3 - x0 >= 32768)
-                            {
-                                c0 = this.textEditorBox.ViewPointToTextPosition(new Point(-coffset, y)).col;
-                                x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c0)).X;
-
-                                c3 = this.textEditorBox.ViewPointToTextPosition(new Point(viewAreaBounds.Width + coffset, y)).col;
-                                x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c3)).X;
-                            }
-
-                            int[] colors = null;
-                            if (this.textEditorBox.controlPanel.NeedColorLineForDisplay(i))
-                            {
-                                colors = new int[line.CharCount];
-                                Array.Copy(line.ColorArray, colors, line.CharCount);
-                                this.textEditorBox.controlPanel.ColorLineForDisplay(i, colors);
-                            }
-                            else
-                            {
-                                colors = line.ColorArray;
-                            }
-                            if (selectionStart.row <= i && i <= selectionEnd.row)
-                            {
-                                int c1 = selectionStart.row == i ? selectionStart.col : 0;
-                                int c2 = selectionEnd.row == i ? selectionEnd.col : text.Length;
-
-                                c1 = c1 < c0 ? c0 : c1 > c3 ? c3 : c1;
-                                c2 = c2 < c0 ? c0 : c2 > c3 ? c3 : c2;
-
-                                int x1 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c1)).X;
-                                int x2 = x + this.textEditorBox.CalculateOffset(new TextPosition(i, c2)).X;
-
-                                if (c0 < c1)
-                                {
-                                    RenderLine(g, i, c0, c1, new Point(x0, y), false, viewAreaBounds.Width, colors);
-                                }
-                                if (c1 < c2)
-                                {
-                                    RenderLine(g, i, c1, c2, new Point(x1, y), true, viewAreaBounds.Width, colors);
-                                }
-                                if (c2 < c3)
-                                {
-                                    RenderLine(g, i, c2, c3, new Point(x2, y), false, viewAreaBounds.Width, colors);
-                                }
-                                if (c2 == text.Length && selectionEnd.row > i)
-                                {
-                                    RenderSelectedCrLf(g, new Point(x2, y));
-                                }
-                            }
-                            else
-                            {
-                                RenderLine(g, i, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors);
-                            }
-
-                            this.textEditorBox.controlPanel.DrawLineForeground(g, i, lineRectangle);
+                            RenderWholeLine(g, ref viewVisibleBounds, ref viewAreaBounds, ref selectionStart, ref selectionEnd, backgroundLeft, backgroundWidth, i);
                         }
 
                         if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible))
                         {
-                            Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
-                            caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X;
-                            caretY1 = EditorMargin + caret.Y;
-                            caretY2 = caretY1 + this.textEditorBox.textHeight;
-
-                            using (Pen caretPen = new Pen(textBrush))
-                            {
-                                g.DrawLine(caretPen,
-                                    caretX - viewVisibleBounds.Left,
-                                    caretY1 - viewVisibleBounds.Top,
-                                    caretX - viewVisibleBounds.Left,
-                                    caretY2 - viewVisibleBounds.Top
-                                    );
-                            }
-
-                            Point caretPosition = new Point(caretX, caretY1);
-                            if (this.textEditorBox.CaretPosition != caretPosition)
-                            {
-                                this.textEditorBox.CaretPosition = caretPosition;
-                            }
+                            RenderCaret(g, ref viewVisibleBounds, ref caretX, ref caretY1, ref caretY2, textBrush);
                         }
 
                         if (this.textEditorBox.EditorControlPanel > 0)
                         {
-                            Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
-                            g.FillRectangle(backBrush, controlPanelArea);
-                            this.textEditorBox.controlPanel.DrawControlPanelBackground(g, controlPanelArea);
-                            int width = this.textEditorBox.EditorControlPanel;
-                            int height = this.textEditorBox.lineHeight;
-                            int y = EditorMargin - viewVisibleBounds.Top + startLine * height;
-                            for (int i = startLine; i <= endLine; i++)
-                            {
-                                Rectangle area = new Rectangle(0, y, width, height);
-                                y += height;
-                                this.textEditorBox.controlPanel.DrawControlPanel(g, i, area);
-                            }
+                            RenderControlPanel(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine, backBrush);
                         }
                     }
                 }
             }
 
-            #endregion
+            private void RenderControlPanel(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, int startLine, int endLine, Brush backBrush)
+            {
+                Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
+                g.FillRectangle(backBrush, controlPanelArea);
+                this.textEditorBox.controlPanel.DrawControlPanelBackground(g, controlPanelArea);
+                int width = this.textEditorBox.EditorControlPanel;
+                int height = this.textEditorBox.lineHeight;
+                int y = EditorMargin - viewVisibleBounds.Top + startLine * height;
+                for (int i = startLine; i <= endLine; i++)
+                {
+                    Rectangle area = new Rectangle(0, y, width, height);
+                    y += height;
+                    this.textEditorBox.controlPanel.DrawControlPanel(g, i, area);
+                }
+            }
 
-            #region Rendering
+            private void RenderCaret(Graphics g, ref Rectangle viewVisibleBounds, ref int caretX, ref int caretY1, ref int caretY2, Brush textBrush)
+            {
+                Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
+                caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X;
+                caretY1 = EditorMargin + caret.Y;
+                caretY2 = caretY1 + this.textEditorBox.textHeight;
+
+                using (Pen caretPen = new Pen(textBrush))
+                {
+                    g.DrawLine(caretPen,
+                        caretX - viewVisibleBounds.Left,
+                        caretY1 - viewVisibleBounds.Top,
+                        caretX - viewVisibleBounds.Left,
+                        caretY2 - viewVisibleBounds.Top
+                        );
+                }
+
+                Point caretPosition = new Point(caretX, caretY1);
+                if (this.textEditorBox.CaretPosition != caretPosition)
+                {
+                    this.textEditorBox.CaretPosition = caretPosition;
+                }
+            }
+
+            private void RenderWholeLine(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, ref TextPosition selectionStart, ref TextPosition selectionEnd, int backgroundLeft, int backgroundWidth, int lineIndex)
+            {
+                int backgroundTop = EditorMargin - viewVisibleBounds.Top + lineIndex * this.textEditorBox.lineHeight;
+                Rectangle lineRectangle = new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight);
+                this.textEditorBox.controlPanel.DrawLineBackground(g, lineIndex, lineRectangle);
+
+                this.textEditorBox.EnsureLineColorized(lineIndex);
+                TextLine<LineInfo> line = this.textEditorBox.textProvider[lineIndex];
+                int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
+                int y = backgroundTop + this.textEditorBox.textTopOffset;
+                string text = line.Text;
+
+                int coffset = this.textEditorBox.lineHeight * 2;
+                int c0 = 0;
+                int c3 = text.Length;
+                int x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c0)).X;
+                int x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c3)).X;
+
+                if (x3 - x0 >= 32768)
+                {
+                    c0 = this.textEditorBox.ViewPointToTextPosition(new Point(-coffset, y)).col;
+                    x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c0)).X;
+
+                    c3 = this.textEditorBox.ViewPointToTextPosition(new Point(viewAreaBounds.Width + coffset, y)).col;
+                    x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c3)).X;
+                }
+
+                int[] colors = null;
+                if (this.textEditorBox.controlPanel.NeedColorLineForDisplay(lineIndex))
+                {
+                    colors = new int[line.CharCount];
+                    Array.Copy(line.ColorArray, colors, line.CharCount);
+                    this.textEditorBox.controlPanel.ColorLineForDisplay(lineIndex, colors);
+                }
+                else
+                {
+                    colors = line.ColorArray;
+                }
+                if (selectionStart.row <= lineIndex && lineIndex <= selectionEnd.row)
+                {
+                    int c1 = selectionStart.row == lineIndex ? selectionStart.col : 0;
+                    int c2 = selectionEnd.row == lineIndex ? selectionEnd.col : text.Length;
+
+                    c1 = c1 < c0 ? c0 : c1 > c3 ? c3 : c1;
+                    c2 = c2 < c0 ? c0 : c2 > c3 ? c3 : c2;
+
+                    int x1 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c1)).X;
+                    int x2 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c2)).X;
+
+                    if (c0 < c1)
+                    {
+                        RenderLine(g, lineIndex, c0, c1, new Point(x0, y), false, viewAreaBounds.Width, colors);
+                    }
+                    if (c1 < c2)
+                    {
+                        RenderLine(g, lineIndex, c1, c2, new Point(x1, y), true, viewAreaBounds.Width, colors);
+                    }
+                    if (c2 < c3)
+                    {
+                        RenderLine(g, lineIndex, c2, c3, new Point(x2, y), false, viewAreaBounds.Width, colors);
+                    }
+                    if (c2 == text.Length && selectionEnd.row > lineIndex)
+                    {
+                        RenderSelectedCrLf(g, new Point(x2, y));
+                    }
+                }
+                else
+                {
+                    RenderLine(g, lineIndex, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors);
+                }
+
+                this.textEditorBox.controlPanel.DrawLineForeground(g, lineIndex, lineRectangle);
+            }
 
             private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth, int[] colors)
             {

@@ -91,6 +91,10 @@ namespace Tools.TokenizerBuilder
                 }
             }
 
+            public void Dispose()
+            {
+            }
+
             public void Initialize(Control host, ScrollableContentControl control)
             {
                 this.editor = (TokenizerEditorBox)control;
@@ -106,7 +110,7 @@ namespace Tools.TokenizerBuilder
                 this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
             }
 
-            void host_MouseWheel(object sender, MouseEventArgs e)
+            private void host_MouseWheel(object sender, MouseEventArgs e)
             {
                 int offset = -e.Delta / 3;
                 this.editor.ViewPosition = new Point(this.editor.ViewPosition.X, this.editor.ViewPosition.Y + offset);
