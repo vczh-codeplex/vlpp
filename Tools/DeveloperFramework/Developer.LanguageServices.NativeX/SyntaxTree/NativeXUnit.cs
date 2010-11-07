@@ -26,8 +26,8 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string UnitName { get; set; }
     }
 
-    public abstract class NativeXEditingStatement : NativeXNode
+    public abstract class NativeXEditingDeclarations : NativeXNode
     {
-        public abstract CodeNodeList<NativeXStatement> Statements { get; set; }
+        public abstract CodeNodeList<NativeXDeclaration> Declarations { get; set; }
     }
 }
