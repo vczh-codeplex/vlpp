@@ -651,7 +651,7 @@ namespace Developer.WinFormControls
             TextPosition caret = this.controller.SelectionCaret;
             Point caretPositionTop = Point.Add(CalculateOffset(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
             Point caretPositionBottom = new Point(caretPositionTop.X, caretPositionTop.Y + this.lineHeight);
-            Rectangle visibleBounds = new Rectangle(this.ViewPosition, this.ViewVisibleSize);
+            Rectangle visibleBounds = new Rectangle(this.ViewPosition, this.ViewAreaSize);
             if (!visibleBounds.Contains(caretPositionTop) || !visibleBounds.Contains(caretPositionBottom))
             {
                 Point oldViewPosition = this.ViewPosition;
@@ -788,15 +788,6 @@ namespace Developer.WinFormControls
             private Control host = null;
             private TextEditorBox textEditorBox = null;
             private MouseMode mouseMode = MouseMode.Normal;
-
-            #region Rendering Fields
-
-            //private Point oldViewPoint;
-            //private Size oldViewSize;
-            //private TextPosition oldAnchor;
-            //private TextPosition oldCaret;
-
-            #endregion
 
             #region Mouse Handlers
 
@@ -1050,28 +1041,6 @@ namespace Developer.WinFormControls
                 int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
                 int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
                 RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
-                /*Point newViewPoint = viewVisibleBounds.Location;
-                Size newViewSize = viewAreaBounds.Size;
-                TextPosition newAnchor = this.textEditorBox.SelectionAnchor;
-                TextPosition newCaret = this.textEditorBox.SelectionCaret;
-                bool redrawAll = false;
-
-                if (this.oldViewSize != newViewSize || this.oldViewPoint != newViewPoint)
-                {
-                    redrawAll = true;
-                }
-                if (redrawAll)
-                {
-                    RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
-                }
-                else
-                {
-                    RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
-                }
-                this.oldViewPoint = newViewPoint;
-                this.oldViewSize = newViewSize;
-                this.oldAnchor = newAnchor;
-                this.oldCaret = newCaret;*/
             }
 
             #endregion

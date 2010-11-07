@@ -52,7 +52,6 @@
             this.textEditorBox.ControlPanel = textEditorControlPanel1;
             this.textEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditorBox.EnableDefaultCommands = true;
-            this.textEditorBox.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.textEditorBox.HorizontalSmallChange = 7;
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
