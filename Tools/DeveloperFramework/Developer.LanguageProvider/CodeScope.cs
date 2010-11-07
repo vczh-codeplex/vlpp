@@ -35,5 +35,25 @@ namespace Developer.LanguageProvider
             }
             return null;
         }
+
+        public List<CodeNode> FindAllDistinct()
+        {
+            List<CodeNode> nodes = new List<CodeNode>();
+            HashSet<string> names = new HashSet<string>();
+            CodeScope scope = this;
+            while (scope != null)
+            {
+                foreach (string key in scope.ScopeNodes.Keys)
+                {
+                    if (!names.Contains(key))
+                    {
+                        names.Add(key);
+                        nodes.Add(scope.ScopeNodes[key]);
+                    }
+                }
+                scope = scope.ParentScope;
+            }
+            return nodes;
+        }
     }
 }

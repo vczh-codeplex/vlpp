@@ -81,6 +81,13 @@ namespace Test.Host.LanguageForms {
             }
         }
         
+        internal static System.Drawing.Bitmap Parameter {
+            get {
+                object obj = ResourceManager.GetObject("Parameter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Template {
             get {
                 object obj = ResourceManager.GetObject("Template", resourceCulture);
