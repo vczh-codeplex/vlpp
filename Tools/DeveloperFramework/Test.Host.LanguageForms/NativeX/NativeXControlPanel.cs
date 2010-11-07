@@ -305,6 +305,99 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        public override bool NeedColorLineForDisplay(int lineIndex)
+        {
+            return this.AnalyzingResult != null && this.AnalyzingResult.Unit != null && this.AnalyzingResult.IdTokens.ContainsKey(lineIndex);
+        }
+
+        public override void ColorLineForDisplay(int lineIndex, int[] colors)
+        {
+            TextLine<TextEditorBox.LineInfo> line = this.Callback.TextEditorBox.TextProvider[lineIndex];
+            foreach (var token in this.AnalyzingResult.IdTokens[lineIndex])
+            {
+                {
+                    var type = this.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(token.Start);
+                    if (type != null && type.ReferencedName == token.Value)
+                    {
+                        CodeScope scope = type.Scope;
+                        if (scope != null)
+                        {
+                            CodeNode node = type.Scope.Find(type.ReferencedName);
+                            if (node is NativeXTypeRenameDeclaration || node is NativeXStructureDeclaration)
+                            {
+                                int start = Math.Min(token.Start.col, line.CharCount - 1);
+                                int end = Math.Min(token.End.col, line.CharCount);
+                                for (int i = start; i < end; i++)
+                                {
+                                    colors[i] = NativeXColorizer.TypeColorId;
+                                }
+                            }
+                        }
+                    }
+                }
+                {
+                    var inst = this.AnalyzingResult.Unit.FindDeepest<NativeXInstanceFunctionExpression>(token.Start);
+                    if (inst != null && inst.ConceptName == token.Value)
+                    {
+                        CodeScope scope = inst.Scope;
+                        if (scope != null)
+                        {
+                            CodeNode node = inst.Scope.Find(inst.ConceptName);
+                            if (node is NativeXConceptDeclaration)
+                            {
+                                int start = Math.Min(token.Start.col, line.CharCount - 1);
+                                int end = Math.Min(token.End.col, line.CharCount);
+                                for (int i = start; i < end; i++)
+                                {
+                                    colors[i] = NativeXColorizer.TypeColorId;
+                                }
+                            }
+                        }
+                    }
+                }
+                {
+                    var genecons = this.AnalyzingResult.Unit.FindDeepest<NativeXGenericConstraint>(token.Start);
+                    if (genecons != null && genecons.ConceptName == token.Value)
+                    {
+                        CodeScope scope = genecons.Scope;
+                        if (scope != null)
+                        {
+                            CodeNode node = genecons.Scope.Find(genecons.ConceptName);
+                            if (node is NativeXConceptDeclaration)
+                            {
+                                int start = Math.Min(token.Start.col, line.CharCount - 1);
+                                int end = Math.Min(token.End.col, line.CharCount);
+                                for (int i = start; i < end; i++)
+                                {
+                                    colors[i] = NativeXColorizer.TypeColorId;
+                                }
+                            }
+                        }
+                    }
+                }
+                {
+                    var inst = this.AnalyzingResult.Unit.FindDeepest<NativeXInstanceDeclaration>(token.Start);
+                    if (inst != null && inst.ConceptName == token.Value)
+                    {
+                        CodeScope scope = inst.Scope;
+                        if (scope != null)
+                        {
+                            CodeNode node = inst.Scope.Find(inst.ConceptName);
+                            if (node is NativeXConceptDeclaration)
+                            {
+                                int start = Math.Min(token.Start.col, line.CharCount - 1);
+                                int end = Math.Min(token.End.col, line.CharCount);
+                                for (int i = start; i < end; i++)
+                                {
+                                    colors[i] = NativeXColorizer.TypeColorId;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }
