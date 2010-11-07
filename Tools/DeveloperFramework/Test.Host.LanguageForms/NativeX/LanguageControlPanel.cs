@@ -172,6 +172,7 @@ namespace Developer.WinFormControls
                 {
                     case Keys.Back: return true;
                     case Keys.ShiftKey: return true;
+                    case Keys.CapsLock: return true;
                     default: return false;
                 }
             }
