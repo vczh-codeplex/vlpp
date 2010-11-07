@@ -306,7 +306,8 @@ namespace Developer.WinFormControls.Core
             }
             else if (position.row >= this.provider.GetLineCount())
             {
-                position = new TextPosition(this.provider.GetLineCount() - 1, this.provider.GetLineLength(position.row));
+                int row = this.provider.GetLineCount() - 1;
+                position = new TextPosition(row, this.provider.GetLineLength(row));
             }
             else if (position.col < 0)
             {

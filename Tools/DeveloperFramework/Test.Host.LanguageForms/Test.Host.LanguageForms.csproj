@@ -72,6 +72,7 @@
     <Compile Include="NativeX\NativeXForm.Designer.cs">
       <DependentUpon>NativeXForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NativeX\NativeXPopupItemProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextEditorService.cs" />

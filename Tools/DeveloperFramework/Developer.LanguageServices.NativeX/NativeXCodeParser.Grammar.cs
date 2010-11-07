@@ -87,7 +87,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 UNIT.Infer(
-                    !tok("unit") + ID["Name"] + tok(";")
+                    opt(!tok("unit") + ID["Name"] + tok(";"))
                     + opt(!tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
