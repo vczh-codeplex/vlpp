@@ -109,6 +109,20 @@ namespace Test.Host.LanguageForms.NativeX
                 searchingKey: reference);
         }
 
+        private void PopupExpressionsAndTypes(string reference, CodeScope scope)
+        {
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupExpressions(scope).Concat(NativeXPopupItemProvider.PopupTypes(scope)),
+                searchingKey: reference);
+        }
+
+        private void PopupExpressionsAndStatements(string reference, CodeScope scope)
+        {
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupExpressions(scope).Concat(NativeXPopupItemProvider.PopupStatementKeywords()),
+                searchingKey: reference);
+        }
+
         private void PopupTypes(string reference, CodeScope scope)
         {
             this.Callback.TextEditorBox.PopupItems(
@@ -186,7 +200,20 @@ namespace Test.Host.LanguageForms.NativeX
                                 var node = this.EditingNode.FindDeepest<NativeXReferenceExpression>(ConvertToEditingPosition(newEnd));
                                 if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                                 {
-                                    PopupExpressions(node.ReferencedName, node.Scope);
+                                    if (node.FindParent<NativeXNameExpressionPair>() != null)
+                                    {
+                                        PopupExpressions(node.ReferencedName, node.Scope);
+                                        break;
+                                    }
+
+                                    var exprstat = node.FindParent<NativeXExpressionStatement>();
+                                    if (exprstat != null && exprstat.Expression == node)
+                                    {
+                                        PopupExpressionsAndStatements(node.ReferencedName, node.Scope);
+                                        break;
+                                    }
+
+                                    PopupExpressionsAndTypes(node.ReferencedName, node.Scope);
                                     break;
                                 }
                             }

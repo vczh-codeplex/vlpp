@@ -110,6 +110,15 @@ namespace Test.Host.LanguageForms.NativeX
                     }
                 }
             }
+
+            Bitmap keywordImage = Images.Keyword;
+            string[] keywords = new string[] { "result", "cast", "exception", "true", "false", "null" };
+            items.AddRange(
+                keywords.Select(k => new TextEditorPopupItem()
+                {
+                    Text = k,
+                    Image = keywordImage
+                }));
             return items;
         }
 
@@ -173,6 +182,18 @@ namespace Test.Host.LanguageForms.NativeX
                 Image = Images.Keyword
             });
             return items;
+        }
+
+        public static IEnumerable<TextEditorPopupItem> PopupStatementKeywords()
+        {
+            Bitmap keywordImage = Images.Keyword;
+            string[] keywords = new string[] { "variable", "if", "type", "break", "continue", "exit", "do", "while", "loop", "for", "when", "with", "try", "catch", "throw" };
+            return keywords
+                .Select(k => new TextEditorPopupItem()
+                {
+                    Text = k,
+                    Image = keywordImage
+                });
         }
 
         public static IEnumerable<TextEditorPopupItem> PopupDeclarationKeywords()
