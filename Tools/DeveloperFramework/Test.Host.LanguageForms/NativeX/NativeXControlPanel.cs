@@ -79,177 +79,40 @@ namespace Test.Host.LanguageForms.NativeX
 
         private void PopupStructureMembers(NativeXAbstractStructureType structureType)
         {
-            if (structureType != null && structureType.Members.Count > 0)
-            {
-                Bitmap memberImage = Images.Member;
-                var members = structureType.Members
-                    .Select(s => new TextEditorPopupItem()
-                    {
-                        Image = memberImage,
-                        Text = s.Key
-                    });
-                this.Callback.TextEditorBox.PopupItems(members, forceClosingPrevious: true);
-            }
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupStructureMembers(structureType),
+                forceClosingPrevious: true);
         }
 
         private void PopupInstanceFunctions(NativeXInstanceFunctionExpression function)
         {
-            if (function.ConceptName != null)
+            if (function.ConceptName != null && function.Scope != null)
             {
-                NativeXConceptDeclaration concept = function.Scope.Find(function.ConceptName) as NativeXConceptDeclaration;
-                if (concept != null && concept.Functions != null && concept.Functions.Count > 0)
-                {
-                    Bitmap functionImage = Images.Function;
-                    var members = concept.Functions
-                        .Select(f => new TextEditorPopupItem()
-                        {
-                            Image = functionImage,
-                            Text = f.Name
-                        });
-                    this.Callback.TextEditorBox.PopupItems(members, forceClosingPrevious: true);
-                }
+                this.Callback.TextEditorBox.PopupItems(
+                    NativeXPopupItemProvider.PopupInstanceFunctions(function.ConceptName, function.Scope),
+                    forceClosingPrevious: true);
             }
         }
 
         private void PopupExpressions(string reference, CodeScope scope)
         {
-            Bitmap functionImage = null;
-            Bitmap memberImage = null;
-            Bitmap templateImage = null;
-            Bitmap parameterImage = null;
-            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
-            foreach (CodeNode node in scope.FindAllDistinct())
-            {
-                {
-                    NativeXNameTypePair parameter = node as NativeXNameTypePair;
-                    if (parameter != null && parameter.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = parameter.Name,
-                            Image = (parameterImage ?? (parameterImage = Images.Parameter))
-                        });
-                    }
-                }
-                {
-                    NativeXVariableStatement varstat = node as NativeXVariableStatement;
-                    if (varstat != null && varstat.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = varstat.Name,
-                            Image = (memberImage ?? (memberImage = Images.Member))
-                        });
-                    }
-                }
-                {
-                    NativeXVariableDeclaration vardecl = node as NativeXVariableDeclaration;
-                    if (vardecl != null && vardecl.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = vardecl.Name,
-                            Image = (memberImage ?? (memberImage = Images.Member))
-                        });
-                    }
-                }
-                {
-                    NativeXFunctionDeclaration funcdecl = node as NativeXFunctionDeclaration;
-                    if (funcdecl != null && funcdecl.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = funcdecl.Name,
-                            Image = (functionImage ?? (functionImage = Images.Function))
-                        });
-                    }
-                }
-                {
-                    NativeXConceptDeclaration conceptdecl = node as NativeXConceptDeclaration;
-                    if (conceptdecl != null && conceptdecl.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = conceptdecl.Name,
-                            Image = (templateImage ?? (templateImage = Images.Template))
-                        });
-                    }
-                }
-            }
-            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference);
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupExpressions(scope),
+                searchingKey: reference);
         }
 
         private void PopupTypes(string reference, CodeScope scope)
         {
-            Bitmap typeImage = null;
-            Bitmap templateImage = null;
-            Bitmap parameterImage = null;
-            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
-            foreach (CodeNode node in scope.FindAllDistinct())
-            {
-                {
-                    NativeXStructureDeclaration structdecl = node as NativeXStructureDeclaration;
-                    if (structdecl != null && structdecl.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = structdecl.Name,
-                            Image = structdecl.GenericParameters == null
-                                ? (typeImage ?? (typeImage = Images.Type))
-                                : (templateImage ?? (templateImage = Images.Template))
-                        });
-                    }
-                }
-                {
-                    NativeXTypeRenameDeclaration typedecl = node as NativeXTypeRenameDeclaration;
-                    if (typedecl != null && typedecl.Name != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = typedecl.Name,
-                            Image = typedecl.GenericParameters == null
-                                ? (typeImage ?? (typeImage = Images.Type))
-                                : (templateImage ?? (templateImage = Images.Template))
-                        });
-                    }
-                }
-                {
-                    NativeXGenericParameter genparam = node as NativeXGenericParameter;
-                    if (genparam != null && genparam.ParameterName != null)
-                    {
-                        items.Add(new TextEditorPopupItem()
-                        {
-                            Text = genparam.ParameterName,
-                            Image = (parameterImage ?? (parameterImage = Images.Parameter))
-                        });
-                    }
-                }
-            }
-            foreach (string key in NativeXTokenizer.TypedKeywords)
-            {
-                items.Add(new TextEditorPopupItem()
-                {
-                    Text = key,
-                    Image = (typeImage ?? (typeImage = Images.Type))
-                });
-            }
-            items.Add(new TextEditorPopupItem()
-            {
-                Text = "function",
-                Image = Images.Keyword
-            });
-            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference);
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupTypes(scope),
+                searchingKey: reference);
         }
 
         private void PopupDeclarationKeywords(string reference)
         {
-            Bitmap keywordImage = Images.Keyword;
-            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance" };
-            this.Callback.TextEditorBox.PopupItems(keywords.Select(k => new TextEditorPopupItem()
-                {
-                    Text = k,
-                    Image = keywordImage
-                }), searchingKey: reference);
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupDeclarationKeywords(),
+                searchingKey: reference);
         }
 
         #endregion

@@ -324,7 +324,7 @@ namespace Developer.WinFormControls
                     return;
                 }
             }
-            Point position = TextPositionToViewPoint(this.SelectionCaret);
+            Point position = TextPositionToViewPoint(this.controller.Normalize(this.SelectionCaret));
             position.Y += this.lineHeight;
             this.popupList.Open(this.host, position, items, searchingKey, needToDisposeImages, maxItems);
         }
