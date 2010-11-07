@@ -989,19 +989,27 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                             }
                             if (continueParsing)
                             {
+                                if (this.returnVariable != "")
+                                {
+                                    sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
+                                    sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
+                                }
                                 sb.AppendLine(identation + "            if (" + newIndexVariable + " < tokens.Count - 1)");
                                 sb.AppendLine(identation + "            {");
                                 sb.AppendLine(identation + "                " + copiedIndexVariable + " = " + newIndexVariable + " + 1;");
                                 sb.AppendLine(identation + "            }");
                                 sb.AppendLine(identation + "            else");
                                 sb.AppendLine(identation + "            {");
+                                if (node.ContinueType == ListNodeContinueType.KeepGoing && this.returnVariable != "")
+                                {
+                                    sb.AppendLine(identation + "                if (" + newIndexVariable + " == tokens.Count - 1)");
+                                    sb.AppendLine(identation + "                {");
+                                    sb.AppendLine(identation + "                    " + this.returnVariable + ".Add(" + newReturnVariable + ");");
+                                    sb.AppendLine(identation + "                    " + this.returnVariable + ".End = " + newReturnVariable + ".End;");
+                                    sb.AppendLine(identation + "                }");
+                                }
                                 sb.AppendLine(identation + "                goto " + labelName + ";");
                                 sb.AppendLine(identation + "            }");
-                                if (this.returnVariable != "")
-                                {
-                                    sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
-                                    sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
-                                }
                             }
                         }
                         break;
