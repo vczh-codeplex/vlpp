@@ -94,6 +94,14 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        private void PopupInstanceFunctions(string reference, string conceptName, CodeScope scope)
+        {
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupInstanceFunctions(conceptName, scope),
+                searchingKey: reference,
+                forceClosingPrevious: true);
+        }
+
         private void PopupExpressions(string reference, CodeScope scope)
         {
             this.Callback.TextEditorBox.PopupItems(
@@ -188,6 +196,18 @@ namespace Test.Host.LanguageForms.NativeX
                                 {
                                     PopupTypes(node.ReferencedName, node.Scope);
                                     break;
+                                }
+                            }
+                            {
+                                var node = this.EditingNode.FindDeepest<NativeXNameExpressionPair>(ConvertToEditingPosition(newEnd));
+                                if (node != null && node.Scope != null && node.Name != null && node.Name == inputText)
+                                {
+                                    var instdecl = node.FindParent<NativeXInstanceDeclaration>();
+                                    if (instdecl != null && instdecl.ConceptName != null)
+                                    {
+                                        PopupInstanceFunctions(node.Name, instdecl.ConceptName, node.Scope);
+                                        break;
+                                    }
                                 }
                             }
                             break;
