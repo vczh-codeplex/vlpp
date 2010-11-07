@@ -187,7 +187,7 @@ namespace Test.Host.LanguageForms.NativeX
         public static IEnumerable<TextEditorPopupItem> PopupStatementKeywords()
         {
             Bitmap keywordImage = Images.Keyword;
-            string[] keywords = new string[] { "variable", "if", "type", "break", "continue", "exit", "do", "while", "loop", "for", "when", "with", "try", "catch", "throw" };
+            string[] keywords = new string[] { "variable", "if", "else", "type", "break", "continue", "exit", "do", "while", "loop", "for", "when", "with", "try", "catch", "throw" };
             return keywords
                 .Select(k => new TextEditorPopupItem()
                 {
