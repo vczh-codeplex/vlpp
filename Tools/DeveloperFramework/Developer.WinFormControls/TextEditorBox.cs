@@ -501,11 +501,36 @@ namespace Developer.WinFormControls
             return size.Width;
         }
 
+        private int CalculateOffset(TextLine<LineInfo> line, int start, int end)
+        {
+            int startOffset = 0;
+            int endOffset = 0;
+            if (start > 0)
+            {
+                startOffset = line.OffsetArray[start - 1];
+                if (startOffset == 0)
+                {
+                    startOffset = CalculateOffset(line.GetString(0, start));
+                    line.OffsetArray[start - 1] = startOffset;
+                }
+            }
+            if (end > 0)
+            {
+                endOffset = line.OffsetArray[end - 1];
+                if (endOffset == 0)
+                {
+                    endOffset = startOffset + CalculateOffset(line.GetString(start, end - start));
+                    line.OffsetArray[end - 1] = endOffset;
+                }
+            }
+            return endOffset - startOffset;
+        }
+
         private Point CalculateOffset(TextPosition position)
         {
             position = this.controller.Normalize(position);
-            string text = this.textProvider[position.row].GetString(0, position.col);
-            return new Point(CalculateOffset(text), position.row * this.lineHeight + this.textTopOffset);
+            TextLine<LineInfo> line = this.textProvider[position.row];
+            return new Point(CalculateOffset(line, 0, position.col), position.row * this.lineHeight + this.textTopOffset);
         }
 
         private TextPosition CalculatePosition(Point point)
@@ -1234,7 +1259,7 @@ namespace Developer.WinFormControls
                         {
                             string text = line.GetString(itemStart, i - itemStart);
                             TextEditorColorItem colorItem = colorItems[itemColor];
-                            int xEnd = xStart + this.textEditorBox.CalculateOffset(text);
+                            int xEnd = xStart + this.textEditorBox.CalculateOffset(line, itemStart, i);
                             if (xStart < visibleWidth && xEnd >= 0)
                             {
                                 Point p = new Point(xStart, position.Y);

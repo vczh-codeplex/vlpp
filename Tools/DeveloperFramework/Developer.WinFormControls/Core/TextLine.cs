@@ -12,6 +12,7 @@ namespace Developer.WinFormControls.Core
 
         private PinnedArray<char> charArray = null;
         private int[] colorArray = null;
+        private int[] offsetArray = null;
         private int availableCharCount = 0;
         private List<Tuple<int, int>> blocks = new List<Tuple<int, int>>();
         private T tag;
@@ -32,6 +33,7 @@ namespace Developer.WinFormControls.Core
         {
             this.charArray = new PinnedArray<char>(BufferBlock);
             this.colorArray = new int[BufferBlock];
+            this.offsetArray = new int[BufferBlock];
         }
 
         public void Dispose()
@@ -70,6 +72,14 @@ namespace Developer.WinFormControls.Core
             get
             {
                 return this.colorArray;
+            }
+        }
+
+        public int[] OffsetArray
+        {
+            get
+            {
+                return this.offsetArray;
             }
         }
 
@@ -122,6 +132,14 @@ namespace Developer.WinFormControls.Core
             if (this.colorArray.Length != this.charArray.Buffer.Length)
             {
                 this.colorArray = new int[this.charArray.Buffer.Length];
+                this.offsetArray = new int[this.charArray.Buffer.Length];
+            }
+            else
+            {
+                for (int i = start; i < this.charArray.Buffer.Length; i++)
+                {
+                    this.offsetArray[i] = 0;
+                }
             }
         }
 
