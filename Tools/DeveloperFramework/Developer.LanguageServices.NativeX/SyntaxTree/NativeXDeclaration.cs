@@ -37,17 +37,27 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
         protected virtual NativeXAbstractType WrapGeneric(NativeXAbstractType type)
         {
-            if (type == null || this.GenericParameters == null) return null;
-            NativeXAbstractGenericType generic = new NativeXAbstractGenericType();
-            generic.ElementType = type;
-            foreach (var p in this.GenericParameters)
+            if (type == null)
             {
-                if (p.ParameterName != null)
-                {
-                    generic.GenericParameters.Add(p.ParameterName);
-                }
+                return null;
             }
-            return generic;
+            else if (this.GenericParameters == null)
+            {
+                return type;
+            }
+            else
+            {
+                NativeXAbstractGenericType generic = new NativeXAbstractGenericType();
+                generic.ElementType = type;
+                foreach (var p in this.GenericParameters)
+                {
+                    if (p.ParameterName != null)
+                    {
+                        generic.GenericParameters.Add(p.ParameterName);
+                    }
+                }
+                return generic;
+            }
         }
     }
 
