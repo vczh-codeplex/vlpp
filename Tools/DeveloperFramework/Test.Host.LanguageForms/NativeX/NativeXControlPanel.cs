@@ -92,6 +92,131 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        private void PopupObjects(NativeXReferenceExpression reference)
+        {
+            Bitmap functionImage = null;
+            Bitmap memberImage = null;
+            Bitmap templateImage = null;
+            Bitmap parameterImage = null;
+            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
+            foreach (CodeNode node in reference.Scope.FindAllDistinct())
+            {
+                {
+                    NativeXNameTypePair parameter = node as NativeXNameTypePair;
+                    if (parameter != null && parameter.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = parameter.Name,
+                            Image = (parameterImage ?? (parameterImage = Images.Parameter))
+                        });
+                    }
+                }
+                {
+                    NativeXVariableStatement varstat = node as NativeXVariableStatement;
+                    if (varstat != null && varstat.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = varstat.Name,
+                            Image = (memberImage ?? (memberImage = Images.Member))
+                        });
+                    }
+                }
+                {
+                    NativeXVariableDeclaration vardecl = node as NativeXVariableDeclaration;
+                    if (vardecl != null && vardecl.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = vardecl.Name,
+                            Image = (memberImage ?? (memberImage = Images.Member))
+                        });
+                    }
+                }
+                {
+                    NativeXFunctionDeclaration funcdecl = node as NativeXFunctionDeclaration;
+                    if (funcdecl != null && funcdecl.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = funcdecl.Name,
+                            Image = (functionImage ?? (functionImage = Images.Function))
+                        });
+                    }
+                }
+                {
+                    NativeXConceptDeclaration conceptdecl = node as NativeXConceptDeclaration;
+                    if (conceptdecl != null && conceptdecl.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = conceptdecl.Name,
+                            Image = (templateImage ?? (templateImage = Images.Template))
+                        });
+                    }
+                }
+            }
+            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference.ReferencedName);
+        }
+
+        private void PopupObjects(NativeXReferenceType reference)
+        {
+            Bitmap typeImage = null;
+            Bitmap templateImage = null;
+            Bitmap parameterImage = null;
+            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
+            foreach (CodeNode node in reference.Scope.FindAllDistinct())
+            {
+                {
+                    NativeXStructureDeclaration structdecl = node as NativeXStructureDeclaration;
+                    if (structdecl != null && structdecl.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = structdecl.Name,
+                            Image = structdecl.GenericParameters == null
+                                ? (typeImage ?? (typeImage = Images.Type))
+                                : (templateImage ?? (templateImage = Images.Template))
+                        });
+                    }
+                }
+                {
+                    NativeXTypeRenameDeclaration typedecl = node as NativeXTypeRenameDeclaration;
+                    if (typedecl != null && typedecl.Name != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = typedecl.Name,
+                            Image = typedecl.GenericParameters == null
+                                ? (typeImage ?? (typeImage = Images.Type))
+                                : (templateImage ?? (templateImage = Images.Template))
+                        });
+                    }
+                }
+                {
+                    NativeXGenericParameter genparam = node as NativeXGenericParameter;
+                    if (genparam != null && genparam.ParameterName != null)
+                    {
+                        items.Add(new TextEditorPopupItem()
+                        {
+                            Text = genparam.ParameterName,
+                            Image = (parameterImage ?? (parameterImage = Images.Parameter))
+                        });
+                    }
+                }
+            }
+            foreach (string key in NativeXTokenizer.TypedKeywords)
+            {
+                items.Add(new TextEditorPopupItem()
+                {
+                    Text = key,
+                    Image = (typeImage ?? (typeImage = Images.Type))
+                });
+            }
+            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference.ReferencedName);
+        }
+
         public override void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
             base.OnAfterEdit(start, oldEnd, newEnd);
@@ -115,6 +240,24 @@ namespace Test.Host.LanguageForms.NativeX
                             if (node != null)
                             {
                                 PopupStructureMembers(node.GetStructureType());
+                            }
+                        }
+                        break;
+                    default:
+                        {
+                            var node = this.EditingNode.FindDeepest<NativeXReferenceExpression>(ConvertToEditingPosition(newEnd));
+                            if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
+                            {
+                                PopupObjects(node);
+                                break;
+                            }
+                        }
+                        {
+                            var node = this.EditingNode.FindDeepest<NativeXReferenceType>(ConvertToEditingPosition(newEnd));
+                            if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
+                            {
+                                PopupObjects(node);
+                                break;
                             }
                         }
                         break;

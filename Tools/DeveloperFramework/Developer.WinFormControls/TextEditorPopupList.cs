@@ -245,15 +245,16 @@ namespace Developer.WinFormControls
             this.Padding = new Padding(0);
         }
 
-        public void Open(Control control, Point location, IEnumerable<TextEditorPopupItem> items, bool needToDisposeImages, int maxItems)
+        public void Open(Control control, Point location, IEnumerable<TextEditorPopupItem> items, string searchingKey, bool needToDisposeImages, int maxItems)
         {
             if (items.Count() > 0)
             {
                 this.popupList.FillList(items.OrderBy(i => i.Text.ToUpper()).ToList(), needToDisposeImages, maxItems);
-                Show(control, location, ToolStripDropDownDirection.BelowRight);
                 this.needToClose = false;
-                this.searchingKey = "";
+                this.searchingKey = searchingKey;
                 this.postfixKey = "";
+                LocateSearching();
+                Show(control, location, ToolStripDropDownDirection.BelowRight);
                 this.popupList.Focus();
             }
         }

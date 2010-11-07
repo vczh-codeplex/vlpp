@@ -13,17 +13,17 @@ namespace Developer.LanguageServices.NativeX
 
         private void InjectId(ref CodeToken token)
         {
-            if (Array.BinarySearch(normalKeywords, token.Value) >= 0)
+            if (Array.BinarySearch(NormalKeywords, token.Value) >= 0)
             {
                 token.Id = NormalKeywordToken;
             }
-            else if (Array.BinarySearch(typedKeywords, token.Value) >= 0)
+            else if (Array.BinarySearch(TypedKeywords, token.Value) >= 0)
             {
                 token.Id = TypeKeywordToken;
             }
         }
 
-        private static string[] typedKeywords = new string[]{
+        public static readonly string[] TypedKeywords = new string[]{
 			"int"
 			, "int8"
 			, "int16"
@@ -42,7 +42,7 @@ namespace Developer.LanguageServices.NativeX
 			, "void"
         }.OrderBy(s => s).ToArray();
 
-        private static string[] normalKeywords = new string[]{
+        public static readonly string[] NormalKeywords = new string[]{
 			"true"
 			, "false"
 			, "null"
