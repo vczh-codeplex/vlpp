@@ -209,7 +209,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXInstanceDeclaration : NativeXDeclaration
     {
-        public NativeXReferenceType Type { get; set; }
+        public abstract NativeXReferenceType Type { get; set; }
         public string ConceptName { get; set; }
         public abstract CodeNodeList<NativeXNameExpressionPair> Functions { get; set; }
     }

@@ -966,6 +966,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                             {
                                 sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
                                 sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
+                                sb.AppendLine("            " + newReturnVariable + ".End = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetEndPosition(tokens, " + newIndexVariable + ");");
                             }
                         }
                         break;
@@ -993,6 +994,7 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
                                 {
                                     sb.AppendLine("            " + newReturnVariable + " = CodeNode.Create<" + GetTypeFullName(node.NodeType) + ">();");
                                     sb.AppendLine("            " + newReturnVariable + ".Start = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetStartPosition(tokens, " + newIndexVariable + ");");
+                                    sb.AppendLine("            " + newReturnVariable + ".End = " + GetTypeFullName(typeof(CodeTokenizer)) + ".GetEndPosition(tokens, " + newIndexVariable + ");");
                                 }
                                 sb.AppendLine(identation + "            if (" + newIndexVariable + " < tokens.Count - 1)");
                                 sb.AppendLine(identation + "            {");
