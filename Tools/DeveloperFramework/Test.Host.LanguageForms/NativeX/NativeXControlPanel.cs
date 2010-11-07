@@ -75,11 +75,11 @@ namespace Test.Host.LanguageForms.NativeX
 
         #endregion
 
-        #region ITextEditorControlPanel Members
+        #region Popups
 
         private void PopupStructureMembers(NativeXAbstractStructureType structureType)
         {
-            if (structureType != null)
+            if (structureType != null && structureType.Members.Count > 0)
             {
                 Bitmap memberImage = Images.Member;
                 var members = structureType.Members
@@ -88,18 +88,37 @@ namespace Test.Host.LanguageForms.NativeX
                         Image = memberImage,
                         Text = s.Key
                     });
-                this.Callback.TextEditorBox.PopupItems(members);
+                this.Callback.TextEditorBox.PopupItems(members, forceClosingPrevious: true);
             }
         }
 
-        private void PopupObjects(NativeXReferenceExpression reference)
+        private void PopupInstanceFunctions(NativeXInstanceFunctionExpression function)
+        {
+            if (function.ConceptName != null)
+            {
+                NativeXConceptDeclaration concept = function.Scope.Find(function.ConceptName) as NativeXConceptDeclaration;
+                if (concept != null && concept.Functions != null && concept.Functions.Count > 0)
+                {
+                    Bitmap functionImage = Images.Function;
+                    var members = concept.Functions
+                        .Select(f => new TextEditorPopupItem()
+                        {
+                            Image = functionImage,
+                            Text = f.Name
+                        });
+                    this.Callback.TextEditorBox.PopupItems(members, forceClosingPrevious: true);
+                }
+            }
+        }
+
+        private void PopupExpressions(string reference, CodeScope scope)
         {
             Bitmap functionImage = null;
             Bitmap memberImage = null;
             Bitmap templateImage = null;
             Bitmap parameterImage = null;
             List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
-            foreach (CodeNode node in reference.Scope.FindAllDistinct())
+            foreach (CodeNode node in scope.FindAllDistinct())
             {
                 {
                     NativeXNameTypePair parameter = node as NativeXNameTypePair;
@@ -157,16 +176,16 @@ namespace Test.Host.LanguageForms.NativeX
                     }
                 }
             }
-            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference.ReferencedName);
+            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference);
         }
 
-        private void PopupObjects(NativeXReferenceType reference)
+        private void PopupTypes(string reference, CodeScope scope)
         {
             Bitmap typeImage = null;
             Bitmap templateImage = null;
             Bitmap parameterImage = null;
             List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
-            foreach (CodeNode node in reference.Scope.FindAllDistinct())
+            foreach (CodeNode node in scope.FindAllDistinct())
             {
                 {
                     NativeXStructureDeclaration structdecl = node as NativeXStructureDeclaration;
@@ -214,13 +233,17 @@ namespace Test.Host.LanguageForms.NativeX
                     Image = (typeImage ?? (typeImage = Images.Type))
                 });
             }
-            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference.ReferencedName);
+            this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference);
         }
+
+        #endregion
+
+        #region ITextEditorControlPanel Members
 
         public override void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
             base.OnAfterEdit(start, oldEnd, newEnd);
-            if (this.EditingNode != null)
+            if (this.EditingNode != null && !this.PreventPopupList)
             {
                 string inputText = this.Callback.TextEditorBox.TextProvider.GetString(start, newEnd);
                 switch (inputText)
@@ -243,12 +266,28 @@ namespace Test.Host.LanguageForms.NativeX
                             }
                         }
                         break;
+                    case ":":
+                        {
+                            TextPosition end = ConvertToEditingPosition(newEnd);
+                            if (end.col >= 2)
+                            {
+                                if (this.EditingNodeCode.GetString(new TextPosition(end.row, end.col - 2), new TextPosition(end.row, end.col - 1)) == ":")
+                                {
+                                    var node = this.EditingNode.FindDeepest<NativeXInstanceFunctionExpression>(end);
+                                    if (node != null && node.Scope != null)
+                                    {
+                                        PopupInstanceFunctions(node);
+                                    }
+                                }
+                            }
+                        }
+                        break;
                     default:
                         {
                             var node = this.EditingNode.FindDeepest<NativeXReferenceExpression>(ConvertToEditingPosition(newEnd));
                             if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                             {
-                                PopupObjects(node);
+                                PopupExpressions(node.ReferencedName, node.Scope);
                                 break;
                             }
                         }
@@ -256,7 +295,7 @@ namespace Test.Host.LanguageForms.NativeX
                             var node = this.EditingNode.FindDeepest<NativeXReferenceType>(ConvertToEditingPosition(newEnd));
                             if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                             {
-                                PopupObjects(node);
+                                PopupTypes(node.ReferencedName, node.Scope);
                                 break;
                             }
                         }
