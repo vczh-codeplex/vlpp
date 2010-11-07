@@ -17,7 +17,7 @@ instance int : Eq
 
 generic<T>
 structure Vector
-{
+{//////////////////////////////////////////////////////////////////////////////////
     T x;
     T y;
 }
@@ -35,4 +35,43 @@ instance Vector:Eq
 {
     Equals=VectorEquals<T>;
     NotEquals=VectorNotEquals<T>;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+concept T : Eq2
+{
+    Equals = function bool(T,T);
+    NotEquals=function bool(T,T);
+}
+
+function bool IntEquals2(int a, int b) result=a==b;
+function bool IntNotEquals2(int a, int b) result=a!=b;
+
+instance int : Eq2
+{
+    Equals=IntEquals2;
+    NotEquals=IntNotEquals2;
+}
+
+generic<T>
+structure Vector2
+{
+    T x;
+    T y;
+}
+
+generic<T> where T:Eq2
+function bool VectorEquals2(Vector2<T> a, Vector2<T> b)
+    result=Eq2<T>::Equals(a.x, b.x) && Eq2<T>::Equals(a.y, b.y);
+
+generic<T> where T:Eq2
+function bool VectorNotEquals2(Vector2<T> a, Vector2<T> b)
+   result=!VectorEquals2<T>(a,b);
+
+generic<T> where T:Eq2
+instance Vector:Eq2
+{
+    Equals=VectorEquals2<T>;
+    NotEquals=VectorNotEquals2<T>;
 }
