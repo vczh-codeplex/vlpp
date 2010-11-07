@@ -110,6 +110,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Breakpoints.png" />
+    <None Include="Resources\VSObject_TypeDef.bmp" />
     <None Include="Resources\VSObject_Constant.bmp" />
     <None Include="Resources\VSObject_Template.bmp" />
     <None Include="Resources\VSObject_Structure.bmp" />

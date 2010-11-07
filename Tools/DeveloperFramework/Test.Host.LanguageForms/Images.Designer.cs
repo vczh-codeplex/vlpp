@@ -74,6 +74,13 @@ namespace Test.Host.LanguageForms {
             }
         }
         
+        internal static System.Drawing.Bitmap Keyword {
+            get {
+                object obj = ResourceManager.GetObject("Keyword", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Member {
             get {
                 object obj = ResourceManager.GetObject("Member", resourceCulture);

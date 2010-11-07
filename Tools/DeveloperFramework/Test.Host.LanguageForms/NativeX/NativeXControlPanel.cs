@@ -12,7 +12,7 @@ using Developer.LanguageServices.NativeX;
 
 namespace Test.Host.LanguageForms.NativeX
 {
-    class NativeXControlPanel : LanguageControlPanel<NativeXAnalyzingResult, NativeXStatement, NativeXEditingStatement>
+    class NativeXControlPanel : LanguageControlPanel<NativeXAnalyzingResult, NativeXDeclaration, NativeXEditingDeclarations>
     {
         private NativeXForm form = null;
         private int counter = 0;
@@ -29,19 +29,19 @@ namespace Test.Host.LanguageForms.NativeX
             return new NativeXCodeAnalyzer();
         }
 
-        protected override NativeXEditingStatement ParseEditingNodeContainer(string code)
+        protected override NativeXEditingDeclarations ParseEditingNodeContainer(string code)
         {
             List<CodeToken> tokens = NativeXCodeParser.Tokenize(code.ToCharArray());
             int currentToken = 0;
             bool parseSuccess = false;
-            return NativeXCodeParser.ParseEditingStatement(tokens, ref currentToken, ref parseSuccess);
+            return NativeXCodeParser.ParseEditingDeclarations(tokens, ref currentToken, ref parseSuccess);
         }
 
-        protected override NativeXStatement GetEditingNode(NativeXAnalyzingResult result, TextPosition pos)
+        protected override NativeXDeclaration GetEditingNode(NativeXAnalyzingResult result, TextPosition pos)
         {
             if (result != null && result.Unit != null)
             {
-                return result.Unit.FindDeepest<NativeXStatement>(pos);
+                return result.Unit.FindDeepest<NativeXDeclaration>(pos);
             }
             else
             {
@@ -233,7 +233,23 @@ namespace Test.Host.LanguageForms.NativeX
                     Image = (typeImage ?? (typeImage = Images.Type))
                 });
             }
+            items.Add(new TextEditorPopupItem()
+            {
+                Text = "function",
+                Image = Images.Keyword
+            });
             this.Callback.TextEditorBox.PopupItems(items, searchingKey: reference);
+        }
+
+        private void PopupDeclarationKeywords(string reference)
+        {
+            Bitmap keywordImage = Images.Keyword;
+            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance" };
+            this.Callback.TextEditorBox.PopupItems(keywords.Select(k => new TextEditorPopupItem()
+                {
+                    Text = k,
+                    Image = keywordImage
+                }), searchingKey: reference);
         }
 
         #endregion
@@ -243,63 +259,76 @@ namespace Test.Host.LanguageForms.NativeX
         public override void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
             base.OnAfterEdit(start, oldEnd, newEnd);
-            if (this.EditingNode != null && !this.PreventPopupList)
+            if (!this.PreventPopupList)
             {
                 string inputText = this.Callback.TextEditorBox.TextProvider.GetString(start, newEnd);
-                switch (inputText)
+                if (this.EditingNode == null)
                 {
-                    case ".":
+                    if (inputText.Length == 1)
+                    {
+                        if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z')
                         {
-                            var node = this.EditingNode.FindDeepest<NativeXMemberExpression>(ConvertToEditingPosition(newEnd));
-                            if (node != null)
-                            {
-                                PopupStructureMembers(node.GetStructureType());
-                            }
+                            PopupDeclarationKeywords(inputText);
                         }
-                        break;
-                    case ">":
-                        {
-                            var node = this.EditingNode.FindDeepest<NativeXPointerMemberExpression>(ConvertToEditingPosition(newEnd));
-                            if (node != null)
+                    }
+                }
+                else
+                {
+                    switch (inputText)
+                    {
+                        case ".":
                             {
-                                PopupStructureMembers(node.GetStructureType());
-                            }
-                        }
-                        break;
-                    case ":":
-                        {
-                            TextPosition end = ConvertToEditingPosition(newEnd);
-                            if (end.col >= 2)
-                            {
-                                if (this.EditingNodeCode.GetString(new TextPosition(end.row, end.col - 2), new TextPosition(end.row, end.col - 1)) == ":")
+                                var node = this.EditingNode.FindDeepest<NativeXMemberExpression>(ConvertToEditingPosition(newEnd));
+                                if (node != null)
                                 {
-                                    var node = this.EditingNode.FindDeepest<NativeXInstanceFunctionExpression>(end);
-                                    if (node != null && node.Scope != null)
+                                    PopupStructureMembers(node.GetStructureType());
+                                }
+                            }
+                            break;
+                        case ">":
+                            {
+                                var node = this.EditingNode.FindDeepest<NativeXPointerMemberExpression>(ConvertToEditingPosition(newEnd));
+                                if (node != null)
+                                {
+                                    PopupStructureMembers(node.GetStructureType());
+                                }
+                            }
+                            break;
+                        case ":":
+                            {
+                                TextPosition end = ConvertToEditingPosition(newEnd);
+                                if (end.col >= 2)
+                                {
+                                    if (this.EditingNodeCode.GetString(new TextPosition(end.row, end.col - 2), new TextPosition(end.row, end.col - 1)) == ":")
                                     {
-                                        PopupInstanceFunctions(node);
+                                        var node = this.EditingNode.FindDeepest<NativeXInstanceFunctionExpression>(end);
+                                        if (node != null && node.Scope != null)
+                                        {
+                                            PopupInstanceFunctions(node);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        break;
-                    default:
-                        {
-                            var node = this.EditingNode.FindDeepest<NativeXReferenceExpression>(ConvertToEditingPosition(newEnd));
-                            if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
+                            break;
+                        default:
                             {
-                                PopupExpressions(node.ReferencedName, node.Scope);
-                                break;
+                                var node = this.EditingNode.FindDeepest<NativeXReferenceExpression>(ConvertToEditingPosition(newEnd));
+                                if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
+                                {
+                                    PopupExpressions(node.ReferencedName, node.Scope);
+                                    break;
+                                }
                             }
-                        }
-                        {
-                            var node = this.EditingNode.FindDeepest<NativeXReferenceType>(ConvertToEditingPosition(newEnd));
-                            if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                             {
-                                PopupTypes(node.ReferencedName, node.Scope);
-                                break;
+                                var node = this.EditingNode.FindDeepest<NativeXReferenceType>(ConvertToEditingPosition(newEnd));
+                                if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
+                                {
+                                    PopupTypes(node.ReferencedName, node.Scope);
+                                    break;
+                                }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
         }

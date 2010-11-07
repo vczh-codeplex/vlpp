@@ -22,6 +22,11 @@ namespace Developer.LanguageServices.NativeX
             var PRIMITIVE_TYPE = rule<NativeXType>("PrimitiveType");
             var TYPE = rule<NativeXType>("Type");
 
+            var STRICT_INSTANCE_FUNCTION_REFERENCE = rule<NativeXInstanceFunctionExpression>("StrictInstanceFunctionReference");
+            var STRICT_INSTANCIATED_REFERENCE = rule<NativeXInstanciatedExpression>("StrictInstanciatedReference");
+            var STRICT_IDENTIFIER_REFERENCE = rule<NativeXReferenceExpression>("StrictIdentifierReference");
+            var STRICT_REFERENCE = rule<NativeXExpression>("StrictReference");
+
             var PRIMITIVE = rule<NativeXPrimitiveExpression>("Primitive");
             var INSTANCE_FUNCTION_REFERENCE = rule<NativeXInstanceFunctionExpression>("InstanceFunctionReference");
             var INSTANCIATED_REFERENCE = rule<NativeXInstanciatedExpression>("InstanciatedReference");
@@ -53,6 +58,7 @@ namespace Developer.LanguageServices.NativeX
             var THROW_STATEMENT = rule<NativeXThrowStatement>("ThrowStatement");
             var STATEMENT = rule<NativeXStatement>("Statement");
 
+            var FUNCTION_PARAMETER = rule<NativeXNameTypePair>("FunctionParameterItem");
             var STRUCTURE_MEMBER = rule<NativeXNameTypePair>("StructureMemberItem");
             var INSTANCE_FUNCTION = rule<NativeXNameExpressionPair>("InstanceFunctionItem");
             var CONCEPT_FUNCTION = rule<NativeXNameTypePair>("ConceptFunctionItem");
@@ -73,7 +79,7 @@ namespace Developer.LanguageServices.NativeX
 
             var USE = rule<NativeXUses>("UseUnitItem");
             var UNIT = rule<NativeXUnit>("Unit");
-            var EDITING_STATEMENT = rule<NativeXEditingStatement>("EditingStatement");
+            var EDITING_DECLARATION = rule<NativeXEditingDeclarations>("EditingDeclarations");
 
             {
                 USE.Infer(
@@ -85,21 +91,25 @@ namespace Developer.LanguageServices.NativeX
                     + opt(!tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
-                EDITING_STATEMENT.Infer(
-                    list_hard<NativeXStatement>(STATEMENT)["Statements"]
+                EDITING_DECLARATION.Infer(
+                    list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
             }
             {
+                FUNCTION_PARAMETER.Infer(
+                    !TYPE["Type"] + ID["Name"]
+                    );
+
                 STRUCTURE_MEMBER.Infer(
-                    TYPE["Type"] + ID["Name"]
+                    !TYPE["Type"] + ID["Name"] + tok(";")
                     );
 
                 INSTANCE_FUNCTION.Infer(
-                    !ID["Name"] + tok("=") + EXPRESSION["Expression"]
+                    !ID["Name"] + tok("=") + STRICT_REFERENCE["Expression"] + tok(";")
                     );
 
                 CONCEPT_FUNCTION.Infer(
-                    !ID["Name"] + tok("=") + TYPE["Type"]
+                    !ID["Name"] + tok("=") + TYPE["Type"] + tok(";")
                     );
 
                 GENERIC_PARAMETER.Infer(
@@ -117,7 +127,7 @@ namespace Developer.LanguageServices.NativeX
             {
                 FUNCTION_DECLARATION.Infer(
                     opt(tok("foreign")["Foreign", "true"])
-                    + !tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), STRUCTURE_MEMBER)["Parameters"] + tok(")")
+                    + !tok("function") + TYPE["ReturnType"] + ID["Name"] + tok("(") + list<NativeXNameTypePair>(tok(","), FUNCTION_PARAMETER)["Parameters"] + tok(")")
                     + opt(LINKING["Linking"])
                     + (tok(";") | STATEMENT["Statement"])
                     );
@@ -135,7 +145,7 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            opt(LINKING["Linking"]) + !tok("{") + list<NativeXNameTypePair>(ret(STRUCTURE_MEMBER) + tok(";"), "}")["Members"] + tok("}")
+                            opt(LINKING["Linking"]) + !tok("{") + list<NativeXNameTypePair>(STRUCTURE_MEMBER, "}")["Members"] + tok("}")
                           )
                        )
                     );
@@ -145,13 +155,13 @@ namespace Developer.LanguageServices.NativeX
                     + (
                         tok(";")
                         | (
-                            !tok("{") + list<NativeXNameExpressionPair>(ret(INSTANCE_FUNCTION) + tok(";"), "}")["Functions"] + tok("}")
+                            !tok("{") + list<NativeXNameExpressionPair>(INSTANCE_FUNCTION, "}")["Functions"] + tok("}")
                           )
                       )
                     );
 
                 CONCEPT_DECLARATION.Infer(
-                    !tok("concept") + ID["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(ret(CONCEPT_FUNCTION) + tok(";"), "}")["Functions"] + tok("}")
+                    !tok("concept") + GENERIC_PARAMETER["ConceptType"] + tok(":") + ID["Name"] + opt(LINKING["Linking"]) + tok("{") + list<NativeXNameTypePair>(CONCEPT_FUNCTION, "}")["Functions"] + tok("}")
                     );
             }
             {
@@ -252,10 +262,23 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
             {
-                PRIMITIVE.Infer(
-                    STRING["Code"] | NUMBER["Code"] | toks("true", "false", "null")["Code"]
+                STRICT_INSTANCE_FUNCTION_REFERENCE.Infer(
+                    ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
                     );
 
+                STRICT_INSTANCIATED_REFERENCE.Infer(
+                    ID["ReferencedName"] + !tok("<") + list<NativeXType>(tok(","), TYPE)["GenericArguments"] + tok(">")
+                    );
+
+                STRICT_IDENTIFIER_REFERENCE.Infer(
+                    !ID["ReferencedName"]
+                    );
+
+                STRICT_REFERENCE.Infer(
+                    ret(STRICT_INSTANCE_FUNCTION_REFERENCE) | ret(STRICT_INSTANCIATED_REFERENCE) | ret(STRICT_IDENTIFIER_REFERENCE)
+                    );
+            }
+            {
                 INSTANCE_FUNCTION_REFERENCE.Infer(
                     ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
                     );
@@ -270,6 +293,10 @@ namespace Developer.LanguageServices.NativeX
 
                 REFERENCE.Infer(
                     ret(INSTANCE_FUNCTION_REFERENCE) | ret(INSTANCIATED_REFERENCE) | ret(IDENTIFIER_REFERENCE)
+                    );
+
+                PRIMITIVE.Infer(
+                    STRING["Code"] | NUMBER["Code"] | toks("true", "false", "null")["Code"]
                     );
 
                 RESULT.Infer(
@@ -366,7 +393,7 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
 
-            return ParserGenerator.GenerateCSharpCode("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_STATEMENT);
+            return ParserGenerator.GenerateCSharpCode("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_DECLARATION);
         }
     }
 }

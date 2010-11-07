@@ -177,7 +177,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXConceptDeclaration : NativeXDeclaration
     {
-        public string ConceptType { get; set; }
+        public abstract NativeXGenericParameter ConceptType { get; set; }
         public abstract CodeNodeList<NativeXNameTypePair> Functions { get; set; }
 
         public override NativeXAbstractType AbstractType
@@ -198,7 +198,10 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
                 NativeXAbstractGenericType generic = new NativeXAbstractGenericType();
                 generic.ElementType = concept;
-                generic.GenericParameters.Add(this.ConceptType);
+                if (this.ConceptType != null && this.ConceptType.ParameterName != null)
+                {
+                    generic.GenericParameters.Add(this.ConceptType.ParameterName);
+                }
                 return generic;
             }
         }
