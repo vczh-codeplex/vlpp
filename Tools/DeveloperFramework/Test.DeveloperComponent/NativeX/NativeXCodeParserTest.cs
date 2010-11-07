@@ -906,7 +906,7 @@ namespace Test.DeveloperComponent.NativeX
             Action<NativeXConceptDeclaration> vd_common = d =>
             {
                 Assert.AreEqual("Eq", d.Name);
-                Assert.AreEqual("T", d.ConceptType);
+                Assert.AreEqual("T", d.ConceptType.ParameterName);
                 Assert.AreEqual(2, d.Functions.Count);
                 Assert.AreEqual("Equal", d.Functions[0].Name);
                 vt(d.Functions[0].Type);

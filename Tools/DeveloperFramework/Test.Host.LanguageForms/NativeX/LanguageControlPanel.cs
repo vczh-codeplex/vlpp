@@ -160,7 +160,7 @@ namespace Developer.WinFormControls
             }
             else if (Keys.D0 <= e.KeyCode && e.KeyCode <= Keys.D9)
             {
-                return true;
+                return !e.Shift;
             }
             else if (e.KeyCode == Keys.OemMinus && e.Shift)
             {

@@ -324,7 +324,9 @@ namespace Developer.WinFormControls
                     return;
                 }
             }
-            Point position = TextPositionToViewPoint(this.controller.Normalize(this.SelectionCaret));
+            Point position = TextPositionToViewPoint(this.SelectionCaret);
+            if (position.X <= 0) position.X = 0; else if (position.X > this.host.Width) position.X = this.host.Width;
+            if (position.Y <= 0) position.Y = 0; else if (position.Y > this.host.Height) position.Y = this.host.Height;
             position.Y += this.lineHeight;
             this.popupList.Open(this.host, position, items, searchingKey, needToDisposeImages, maxItems);
         }
@@ -506,6 +508,7 @@ namespace Developer.WinFormControls
 
         private Point CalculateOffset(TextPosition position)
         {
+            position = this.controller.Normalize(position);
             string text = this.textProvider[position.row].GetString(0, position.col);
             return new Point(CalculateOffset(text), position.row * this.lineHeight + this.textTopOffset);
         }

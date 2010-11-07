@@ -237,6 +237,17 @@ namespace Test.Host.LanguageForms.NativeX
                                     }
                                 }
                             }
+                            {
+                                var node = this.EditingNode.FindDeepest<NativeXNode>(ConvertToEditingPosition(newEnd));
+                                if (inputText.Length == 1 && node.GetType() == typeof(NativeXDeclaration))
+                                {
+                                    if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z')
+                                    {
+                                        PopupDeclarationKeywords(inputText);
+                                        break;
+                                    }
+                                }
+                            }
                             break;
                     }
                 }
