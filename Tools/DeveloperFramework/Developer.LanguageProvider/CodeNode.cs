@@ -33,6 +33,19 @@ namespace Developer.LanguageProvider
             }
         }
 
+        public CodeNode Root
+        {
+            get
+            {
+                CodeNode root = this;
+                while (root.ParentNode != null)
+                {
+                    root = root.ParentNode;
+                }
+                return root;
+            }
+        }
+
         #endregion
 
         public CodeNode()

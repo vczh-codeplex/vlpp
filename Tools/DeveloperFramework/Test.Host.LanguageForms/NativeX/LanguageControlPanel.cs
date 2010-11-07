@@ -236,7 +236,17 @@ namespace Developer.WinFormControls
                     this.EditingNodeStart = editingNode.Start;
                     this.EditingNodeEnd = editingNode.End;
                     this.EditingNodeScope = editingNode.Scope;
-                    this.EditingNodeCode.Text = this.Callback.TextEditorBox.TextProvider.GetString(this.EditingNodeStart, this.EditingNodeEnd);
+                    if (editingNode.End == editingNode.Root.End)
+                    {
+                        int row = this.Callback.TextEditorBox.TextProvider.Count - 1;
+                        int col = this.Callback.TextEditorBox.TextProvider[row].CharCount;
+                        TextPosition end = new TextPosition(row, col);
+                        this.EditingNodeCode.Text = this.Callback.TextEditorBox.TextProvider.GetString(this.EditingNodeStart, end);
+                    }
+                    else
+                    {
+                        this.EditingNodeCode.Text = this.Callback.TextEditorBox.TextProvider.GetString(this.EditingNodeStart, this.EditingNodeEnd);
+                    }
                 }
                 ResultUpdated();
             }
