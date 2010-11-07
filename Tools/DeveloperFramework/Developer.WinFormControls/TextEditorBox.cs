@@ -518,11 +518,12 @@ namespace Developer.WinFormControls
             int row = point.Y / this.lineHeight;
             if (row < 0)
             {
-                row = 0;
+                return new TextPosition(0, 0);
             }
             else if (row >= this.textProvider.Count)
             {
                 row = this.textProvider.Count - 1;
+                return new TextPosition(row, this.textProvider[row].CharCount);
             }
 
             int col1 = 0;
