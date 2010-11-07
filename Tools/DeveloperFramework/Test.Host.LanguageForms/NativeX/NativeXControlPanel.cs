@@ -101,6 +101,20 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        private void PopupConcepts(CodeScope scope)
+        {
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupConcepts(scope),
+                forceClosingPrevious: true);
+        }
+
+        private void PopupGenericParameters(string reference, CodeScope scope)
+        {
+            this.Callback.TextEditorBox.PopupItems(
+                NativeXPopupItemProvider.PopupGenericParameters(scope),
+                searchingKey: reference);
+        }
+
         private void PopupInstanceFunctions(string reference, string conceptName, CodeScope scope)
         {
             this.Callback.TextEditorBox.PopupItems(
@@ -174,6 +188,7 @@ namespace Test.Host.LanguageForms.NativeX
                                 if (node != null)
                                 {
                                     PopupStructureMembers(node.GetStructureType());
+                                    break;
                                 }
                             }
                             break;
@@ -183,6 +198,7 @@ namespace Test.Host.LanguageForms.NativeX
                                 if (node != null)
                                 {
                                     PopupStructureMembers(node.GetStructureType());
+                                    break;
                                 }
                             }
                             break;
@@ -197,6 +213,26 @@ namespace Test.Host.LanguageForms.NativeX
                                         if (node != null && node.Scope != null)
                                         {
                                             PopupInstanceFunctions(node);
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        {
+                                            var node = this.EditingNode.FindDeepest<NativeXGenericConstraint>(end);
+                                            if (node != null && node.Scope != null)
+                                            {
+                                                PopupConcepts(node.Scope);
+                                                break;
+                                            }
+                                        }
+                                        {
+                                            var node = this.EditingNode.FindDeepest<NativeXInstanceDeclaration>(end);
+                                            if (node != null && node.Scope != null)
+                                            {
+                                                PopupConcepts(node.Scope);
+                                                break;
+                                            }
                                         }
                                     }
                                 }
@@ -242,6 +278,14 @@ namespace Test.Host.LanguageForms.NativeX
                                         PopupInstanceFunctions(node.Name, instdecl.ConceptName, node.Scope);
                                         break;
                                     }
+                                }
+                            }
+                            {
+                                var node = this.EditingNode.FindDeepest<NativeXGenericConstraint>(ConvertToEditingPosition(newEnd));
+                                if (node != null && node.Scope != null && node.ParameterName != null && node.ParameterName == inputText)
+                                {
+                                    PopupGenericParameters(node.ParameterName, node.Scope);
+                                    break;
                                 }
                             }
                             {

@@ -199,13 +199,51 @@ namespace Test.Host.LanguageForms.NativeX
         public static IEnumerable<TextEditorPopupItem> PopupDeclarationKeywords()
         {
             Bitmap keywordImage = Images.Keyword;
-            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance" };
+            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance", "unit", "uses", "where" };
             return keywords
                 .Select(k => new TextEditorPopupItem()
                 {
                     Text = k,
                     Image = keywordImage
                 });
+        }
+
+        public static IEnumerable<TextEditorPopupItem> PopupConcepts(CodeScope scope)
+        {
+            Bitmap templateImage = null;
+            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
+            foreach (CodeNode node in scope.FindAllDistinct())
+            {
+                NativeXConceptDeclaration conceptdecl = node as NativeXConceptDeclaration;
+                if (conceptdecl != null && conceptdecl.Name != null)
+                {
+                    items.Add(new TextEditorPopupItem()
+                    {
+                        Text = conceptdecl.Name,
+                        Image = (templateImage ?? (templateImage = Images.Template))
+                    });
+                }
+            }
+            return items;
+        }
+
+        public static IEnumerable<TextEditorPopupItem> PopupGenericParameters(CodeScope scope)
+        {
+            Bitmap parameterImage = null;
+            List<TextEditorPopupItem> items = new List<TextEditorPopupItem>();
+            foreach (CodeNode node in scope.FindAllDistinct())
+            {
+                NativeXGenericParameter genparam = node as NativeXGenericParameter;
+                if (genparam != null && genparam.ParameterName != null)
+                {
+                    items.Add(new TextEditorPopupItem()
+                    {
+                        Text = genparam.ParameterName,
+                        Image = (parameterImage ?? (parameterImage = Images.Parameter))
+                    });
+                }
+            }
+            return items;
         }
     }
 }
