@@ -308,7 +308,7 @@ namespace Developer.WinFormControls
 
         #region UI Extension API
 
-        public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 16)
+        public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
             if (forceClosingPrevious)
             {
