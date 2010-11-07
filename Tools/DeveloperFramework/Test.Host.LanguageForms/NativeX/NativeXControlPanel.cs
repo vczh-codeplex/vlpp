@@ -315,6 +315,7 @@ namespace Test.Host.LanguageForms.NativeX
             TextLine<TextEditorBox.LineInfo> line = this.Callback.TextEditorBox.TextProvider[lineIndex];
             foreach (var token in this.AnalyzingResult.IdTokens[lineIndex])
             {
+                bool needColor = false;
                 {
                     var type = this.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(token.Start);
                     if (type != null && type.ReferencedName == token.Value)
@@ -325,12 +326,7 @@ namespace Test.Host.LanguageForms.NativeX
                             CodeNode node = type.Scope.Find(type.ReferencedName);
                             if (node is NativeXTypeRenameDeclaration || node is NativeXStructureDeclaration)
                             {
-                                int start = Math.Min(token.Start.col, line.CharCount - 1);
-                                int end = Math.Min(token.End.col, line.CharCount);
-                                for (int i = start; i < end; i++)
-                                {
-                                    colors[i] = NativeXColorizer.TypeColorId;
-                                }
+                                needColor = true;
                             }
                         }
                     }
@@ -345,12 +341,7 @@ namespace Test.Host.LanguageForms.NativeX
                             CodeNode node = inst.Scope.Find(inst.ConceptName);
                             if (node is NativeXConceptDeclaration)
                             {
-                                int start = Math.Min(token.Start.col, line.CharCount - 1);
-                                int end = Math.Min(token.End.col, line.CharCount);
-                                for (int i = start; i < end; i++)
-                                {
-                                    colors[i] = NativeXColorizer.TypeColorId;
-                                }
+                                needColor = true;
                             }
                         }
                     }
@@ -365,12 +356,7 @@ namespace Test.Host.LanguageForms.NativeX
                             CodeNode node = genecons.Scope.Find(genecons.ConceptName);
                             if (node is NativeXConceptDeclaration)
                             {
-                                int start = Math.Min(token.Start.col, line.CharCount - 1);
-                                int end = Math.Min(token.End.col, line.CharCount);
-                                for (int i = start; i < end; i++)
-                                {
-                                    colors[i] = NativeXColorizer.TypeColorId;
-                                }
+                                needColor = true;
                             }
                         }
                     }
@@ -385,14 +371,18 @@ namespace Test.Host.LanguageForms.NativeX
                             CodeNode node = inst.Scope.Find(inst.ConceptName);
                             if (node is NativeXConceptDeclaration)
                             {
-                                int start = Math.Min(token.Start.col, line.CharCount - 1);
-                                int end = Math.Min(token.End.col, line.CharCount);
-                                for (int i = start; i < end; i++)
-                                {
-                                    colors[i] = NativeXColorizer.TypeColorId;
-                                }
+                                needColor = true;
                             }
                         }
+                    }
+                }
+                if (needColor)
+                {
+                    int start = Math.Max(0, Math.Min(token.Start.col, line.CharCount - 1));
+                    int end = Math.Min(token.End.col, line.CharCount);
+                    for (int i = start; i < end; i++)
+                    {
+                        colors[i] = NativeXColorizer.TypeColorId;
                     }
                 }
             }
