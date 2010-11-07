@@ -26,7 +26,7 @@ namespace Developer.LanguageServices.NativeX
         private const int StringStateId = 8;
         private const int StringInStateId = 9;
         private const int StringEscapingStateId = 10;
-        private const int WStartStateId = 11;
+        private const int LIdStateId = 11;
         private const int IntegerStateId = 12;
         private const int FloatStateId = 13;
         private const int DoubleStateId = 14;
@@ -192,7 +192,7 @@ namespace Developer.LanguageServices.NativeX
             finalStateTokenIds[8] = 1;
             finalStateTokenIds[9] = -1;
             finalStateTokenIds[10] = -1;
-            finalStateTokenIds[11] = -1;
+            finalStateTokenIds[11] = 0;
             finalStateTokenIds[12] = 2;
             finalStateTokenIds[13] = 2;
             finalStateTokenIds[14] = 2;

@@ -30,7 +30,7 @@ structure LongVector
 function int hey()
 {
     variable Vector<LongVector<Vector<int>*>*>* a;
-    variable LongVector<Vector<LongVector<int>*>*>* b;
+    variable LongVector<Vector<LongVector<int>>> b;
     
 }
 

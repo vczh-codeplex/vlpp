@@ -11,7 +11,7 @@
   <StateShape Name="String" Color="String" X="1381" Y="445" R="32" Type="Finish" />
   <StateShape Name="StringIn" Color="" X="1028" Y="534" R="32" Type="Normal" />
   <StateShape Name="StringEscaping" Color="" X="1226" Y="528" R="32" Type="Normal" />
-  <StateShape Name="WStart" Color="" X="944" Y="451" R="32" Type="Partial" />
+  <StateShape Name="LId" Color="Id" X="944" Y="451" R="32" Type="Finish" />
   <StateShape Name="Integer" Color="Number" X="1013" Y="679" R="32" Type="Finish" />
   <StateShape Name="Float" Color="Number" X="1192" Y="699" R="32" Type="Finish" />
   <StateShape Name="Double" Color="Number" X="1335" Y="698" R="32" Type="Finish" />

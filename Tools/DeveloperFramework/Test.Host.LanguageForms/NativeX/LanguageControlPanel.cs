@@ -27,6 +27,8 @@ namespace Developer.WinFormControls
         protected int AnalyzingId { get; private set; }
         protected int ReceivedId { get; private set; }
 
+        protected bool PreventPopupList { get; private set; }
+
         public LanguageControlPanel()
         {
             this.EditingNodeCode = new TextProvider<object>();
@@ -175,7 +177,7 @@ namespace Developer.WinFormControls
             }
         }
 
-        public virtual void PopupListItemSelected(string searchingKey, string text)
+        public virtual void PopupListItemSelected(string searchingKey, string text, string postfixKey)
         {
             TextPosition end = this.Callback.TextEditorBox.SelectionCaret;
             TextPosition start = new TextPosition(end.row, end.col - searchingKey.Length);
@@ -183,7 +185,10 @@ namespace Developer.WinFormControls
             controller.StartTask();
             controller.Move(start, false, false);
             controller.Move(end, false, true);
+            this.PreventPopupList = true;
             controller.Input(text, false);
+            this.PreventPopupList = false;
+            controller.Input(postfixKey, false);
             controller.FinishTask();
         }
 

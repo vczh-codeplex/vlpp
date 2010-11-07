@@ -222,6 +222,7 @@ namespace Developer.WinFormControls
         private Control keyboardReceiver = null;
 
         private bool needToClose = false;
+        private bool needToComplete = true;
         private string searchingKey = null;
         private string postfixKey = null;
 
@@ -251,6 +252,7 @@ namespace Developer.WinFormControls
             {
                 this.popupList.FillList(items.OrderBy(i => i.Text.ToUpper()).ToList(), needToDisposeImages, maxItems);
                 this.needToClose = false;
+                this.needToComplete = true;
                 this.searchingKey = searchingKey;
                 this.postfixKey = "";
                 LocateSearching();
@@ -276,7 +278,11 @@ namespace Developer.WinFormControls
         {
             if (this.popupList.SelectedItem != null)
             {
-                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.popupList.SelectedItem.Text + this.postfixKey);
+                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.popupList.SelectedItem.Text, this.postfixKey);
+            }
+            else
+            {
+                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.searchingKey, this.postfixKey);
             }
         }
 
@@ -326,10 +332,15 @@ namespace Developer.WinFormControls
                     case Keys.End:
                         break;
 
-                    case Keys.Delete:
                     case Keys.Enter:
+                        e.SuppressKeyPress = true;
+                        this.needToClose = true;
+                        break;
+
+                    case Keys.Delete:
                     case Keys.Escape:
                         e.SuppressKeyPress = true;
+                        this.needToComplete = false;
                         this.needToClose = true;
                         break;
 
@@ -345,8 +356,8 @@ namespace Developer.WinFormControls
             if (this.needToClose)
             {
                 this.postfixKey = e.KeyChar.ToString();
-                SelectItem();
                 Close();
+                SelectItem();
             }
             else
             {
@@ -365,15 +376,18 @@ namespace Developer.WinFormControls
             }
             if (this.needToClose)
             {
-                SelectItem();
                 Close();
+                if (this.needToComplete)
+                {
+                    SelectItem();
+                }
             }
         }
 
         private void popupList_DoubleClick(object sender, EventArgs e)
         {
-            SelectItem();
             Close();
+            SelectItem();
         }
     }
 
