@@ -11,7 +11,8 @@ namespace Developer.LanguageServices.NativeX
     {
         public const int BreakPointColorId = 0;
         public const int BlockPointColorId = 1;
-        public const int NormalColorId = 2;
+        public const int TypeColorId = 2;
+        public const int NormalColorId = 3;
 
         private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
         private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
@@ -22,6 +23,7 @@ namespace Developer.LanguageServices.NativeX
 
         private readonly Color BreakPointColor = Color.FromArgb(255, 255, 255);
         private readonly Color BreakPointHighlightColor = Color.FromArgb(123, 119, 166);
+        private readonly Color TypeColor = Color.FromArgb(43, 145, 175);
         private readonly Color BlockPointColor = Color.Gray;
 
         private void CreateAdditionalColors()
@@ -36,6 +38,12 @@ namespace Developer.LanguageServices.NativeX
             {
                 Text = BlockPointColor,
                 HighlightText = BlockPointColor,
+                Highlight = HighlightColor
+            };
+            this.colorItems[TypeColorId] = new TextEditorColorItem()
+            {
+                Text = TypeColor,
+                HighlightText = TypeColor,
                 Highlight = HighlightColor
             };
         }
