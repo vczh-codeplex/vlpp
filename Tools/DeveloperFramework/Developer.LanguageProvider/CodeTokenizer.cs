@@ -21,13 +21,13 @@ namespace Developer.LanguageProvider
             {
                 return tokens[0].Start;
             }
-            else if (currentToken >= tokens.Count)
+            else if (currentToken < tokens.Count)
             {
-                return tokens[tokens.Count - 1].End;
+                return tokens[currentToken].Start;
             }
             else
             {
-                return tokens[currentToken].Start;
+                return tokens[tokens.Count - 1].End;
             }
         }
 
@@ -42,6 +42,10 @@ namespace Developer.LanguageProvider
                 return tokens[0].Start;
             }
             else if (currentToken < tokens.Count - 1)
+            {
+                return tokens[currentToken].Start;
+            }
+            else if (currentToken == tokens.Count - 1)
             {
                 return tokens[currentToken].Start;
             }
