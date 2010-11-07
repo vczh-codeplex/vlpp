@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+
             this.scrollHorizontal = new System.Windows.Forms.HScrollBar();
             this.scrollVertical = new System.Windows.Forms.VScrollBar();
             this.panelContent = new Developer.WinFormControls.ScrollableContentControl.ImePanel();

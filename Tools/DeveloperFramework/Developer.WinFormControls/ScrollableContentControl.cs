@@ -30,7 +30,7 @@ namespace Developer.WinFormControls
             {
                 this.viewSize = value;
                 UpdateScrollBar();
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -64,7 +64,7 @@ namespace Developer.WinFormControls
             {
                 this.viewPosition = value;
                 UpdateScrollBar();
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -78,7 +78,7 @@ namespace Developer.WinFormControls
             {
                 this.caretPosition = value;
                 panelContent.UpdateCompositionForContent();
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -118,6 +118,11 @@ namespace Developer.WinFormControls
             }
         }
 
+        public virtual void RedrawContent()
+        {
+            panelContent.Refresh();
+        }
+
         protected ScrollableContentControl()
         {
             this.updating = true;
@@ -133,6 +138,7 @@ namespace Developer.WinFormControls
         {
             this.content = content;
             this.content.Initialize(panelContent, this);
+            this.components.Add(new DisposableComponent(content));
         }
 
         protected override void OnBackColorChanged(EventArgs e)
@@ -202,7 +208,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 this.viewPosition.Y = scrollVertical.Value;
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -211,7 +217,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 this.viewPosition.X = scrollHorizontal.Value;
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -229,7 +235,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 UpdateScrollBar();
-                panelContent.Refresh();
+                RedrawContent();
             }
         }
 
@@ -319,7 +325,7 @@ namespace Developer.WinFormControls
         }
     }
 
-    public interface IScrollableContent
+    public interface IScrollableContent : IDisposable
     {
         void Initialize(Control host, ScrollableContentControl control);
         void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds);

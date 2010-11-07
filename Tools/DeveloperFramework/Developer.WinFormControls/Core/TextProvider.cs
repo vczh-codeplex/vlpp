@@ -8,13 +8,10 @@ using System.ComponentModel;
 
 namespace Developer.WinFormControls.Core
 {
-    public class TextProvider<T> : IComponent
+    public class TextProvider<T> : IDisposable
         where T : new()
     {
         private List<TextLine<T>> lines = null;
-
-        public event EventHandler Disposed;
-        public ISite Site { get; set; }
 
         public int Count
         {
@@ -59,10 +56,6 @@ namespace Developer.WinFormControls.Core
 
         public void Dispose()
         {
-            if (this.Disposed != null)
-            {
-                this.Disposed(this, new EventArgs());
-            }
             foreach (var line in this.lines)
             {
                 line.Dispose();
