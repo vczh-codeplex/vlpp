@@ -39,9 +39,16 @@ namespace Test.Host.LanguageForms.NativeX
 
         protected override NativeXDeclaration GetEditingNode(NativeXAnalyzingResult result, TextPosition pos)
         {
-            if (result != null && result.Unit != null)
+            if (result != null && result.Unit != null && result.Unit.Declarations != null)
             {
-                return result.Unit.FindDeepest<NativeXDeclaration>(pos);
+                if (pos >= result.Unit.End && result.Unit.Declarations.Count > 0)
+                {
+                    return result.Unit.Declarations.Last();
+                }
+                else
+                {
+                    return result.Unit.FindDeepest<NativeXDeclaration>(pos);
+                }
             }
             else
             {
