@@ -12,22 +12,47 @@ namespace Developer.WinFormControls
     public class TextEditorColorItem
     {
         private Color lastHighlight = Color.Empty;
+        private Color lastHighlightText = Color.Empty;
+        private Color lastText = Color.Empty;
         private SolidBrush lastHighlightBrush = null;
+        private SolidBrush lastHighlightTextBrush = null;
+        private SolidBrush lastTextBrush = null;
+
+        private SolidBrush GetBrush(ref Color lastColor, Color color, ref SolidBrush brush)
+        {
+            if (lastColor != color)
+            {
+                if (brush != null)
+                {
+                    brush.Dispose();
+                }
+                lastColor = color;
+                brush = new SolidBrush(lastColor);
+            }
+            return brush;
+        }
 
         public SolidBrush HighlightBrush
         {
             get
             {
-                if (this.lastHighlight != this.Highlight)
-                {
-                    if (this.lastHighlightBrush != null)
-                    {
-                        this.lastHighlightBrush.Dispose();
-                    }
-                    this.lastHighlight = this.Highlight;
-                    this.lastHighlightBrush = new SolidBrush(this.lastHighlight);
-                }
-                return this.lastHighlightBrush;
+                return GetBrush(ref this.lastHighlight, this.Highlight, ref this.lastHighlightBrush);
+            }
+        }
+
+        public SolidBrush HighlightTextBrush
+        {
+            get
+            {
+                return GetBrush(ref this.lastHighlightText, this.HighlightText, ref this.lastHighlightTextBrush);
+            }
+        }
+
+        public SolidBrush TextBrush
+        {
+            get
+            {
+                return GetBrush(ref this.lastText, this.Text, ref this.lastTextBrush);
             }
         }
 
