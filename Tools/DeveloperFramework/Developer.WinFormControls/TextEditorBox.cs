@@ -549,14 +549,22 @@ namespace Developer.WinFormControls
         //    format.SetTabStops(8, new float[] { });
         //}
 
-        private void RenderString(Graphics g, string text, int tabStart, Point position, SolidBrush foreColor)
+        private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
         {
             //using (StringFormat format = new StringFormat())
             //{
             //    SetFormat(format, tabStart);
             //    g.DrawString(text, this.Font, foreColor, position, format);
             //}
-            TextRenderer.DrawText(g, text, this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+
+            //int x0 = CalculateOffset(line, start);
+            //for (int i = start; i <= end; i++)
+            //{
+            //    string text = line.CharArray[i].ToString();
+            //    int x = CalculateOffset(line, i) - x0;
+            //    TextRenderer.DrawText(g, text, this.Font, new Point(position.X + x, position.Y), foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            //}
+            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
         }
 
         private int CalculateOffset(string text)
@@ -1325,7 +1333,6 @@ namespace Developer.WinFormControls
                     {
                         if (i == colEnd || itemColor != colors[i])
                         {
-                            string text = line.GetString(itemStart, i - itemStart);
                             TextEditorColorItem colorItem = colorItems[itemColor];
                             int xEnd = xStart + this.textEditorBox.CalculateOffset(line, itemStart, i);
                             if (xStart < visibleWidth && xEnd >= 0)
@@ -1334,11 +1341,11 @@ namespace Developer.WinFormControls
                                 if (selected)
                                 {
                                     RenderBackground(g, p, xEnd - xStart, colorItem.HighlightBrush);
-                                    this.textEditorBox.RenderString(g, text, tabStart, p, colorItem.HighlightTextBrush);
+                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.HighlightTextBrush);
                                 }
                                 else
                                 {
-                                    this.textEditorBox.RenderString(g, text, tabStart, p, colorItem.TextBrush);
+                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.TextBrush);
                                 }
                             }
                             if (xEnd >= visibleWidth)
