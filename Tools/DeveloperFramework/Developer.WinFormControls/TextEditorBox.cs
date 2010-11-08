@@ -112,6 +112,8 @@ namespace Developer.WinFormControls
 
         public bool EnableDefaultCommands { get; set; }
 
+        #region Rendering Area Calculation
+
         public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
             Point newPoint = this.ViewPosition;
@@ -149,6 +151,8 @@ namespace Developer.WinFormControls
             this.oldCaret = newCaret;
             this.oldLineHeight = this.lineHeight;
         }
+
+        #endregion
 
         #region Service API
 
@@ -535,39 +539,63 @@ namespace Developer.WinFormControls
             this.HorizontalSmallChange = CalculateOffset(" ");
         }
 
+        //private void SetFormat(StringFormat format, int tabStart)
+        //{
+        //    format.Alignment = StringAlignment.Near;
+        //    format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.NoWrap | StringFormatFlags.MeasureTrailingSpaces;
+        //    format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+        //    format.LineAlignment = StringAlignment.Near;
+        //    format.Trimming = StringTrimming.None;
+        //    format.SetTabStops(8, new float[] { });
+        //}
+
+        private void RenderString(Graphics g, string text, int tabStart, Point position, SolidBrush foreColor)
+        {
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    SetFormat(format, tabStart);
+            //    g.DrawString(text, this.Font, foreColor, position, format);
+            //}
+            TextRenderer.DrawText(g, text, this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+        }
+
         private int CalculateOffset(string text)
         {
             if (this.temporaryGraphics == null)
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    SetFormat(format, tabStart);
+            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
+            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
+            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
+            //    regions[0].Dispose();
+            //    return result;
+            //}
             Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
             return size.Width;
         }
 
-        private int CalculateOffset(TextLine<LineInfo> line, int start, int end)
+        private int CalculateOffset(TextLine<LineInfo> line, int start)
         {
             int startOffset = 0;
-            int endOffset = 0;
             if (start > 0)
             {
                 startOffset = line.OffsetArray[start - 1];
                 if (startOffset == 0)
                 {
-                    startOffset = CalculateOffset(line.GetString(0, start));
+                    startOffset = CalculateOffset("[" + line.GetString(0, start) + "]") - CalculateOffset("[]");
                     line.OffsetArray[start - 1] = startOffset;
                 }
             }
-            if (end > 0)
-            {
-                endOffset = line.OffsetArray[end - 1];
-                if (endOffset == 0)
-                {
-                    endOffset = startOffset + CalculateOffset(line.GetString(start, end - start));
-                    line.OffsetArray[end - 1] = endOffset;
-                }
-            }
-            return endOffset - startOffset;
+            return startOffset;
+        }
+
+        private int CalculateOffset(TextLine<LineInfo> line, int start, int end)
+        {
+            return CalculateOffset(line, end) - CalculateOffset(line, start);
         }
 
         private Point CalculateOffset(TextPosition position)
@@ -1221,6 +1249,7 @@ namespace Developer.WinFormControls
                 string text = line.Text;
 
                 int coffset = this.textEditorBox.lineHeight * 2;
+                int tabStart = EditorMargin - viewVisibleBounds.Left;
                 int c0 = 0;
                 int c3 = text.Length;
                 int x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c0)).X;
@@ -1259,15 +1288,15 @@ namespace Developer.WinFormControls
 
                     if (c0 < c1)
                     {
-                        RenderLine(g, lineIndex, c0, c1, new Point(x0, y), false, viewAreaBounds.Width, colors);
+                        RenderLine(g, lineIndex, c0, c1, new Point(x0, y), false, viewAreaBounds.Width, colors, tabStart);
                     }
                     if (c1 < c2)
                     {
-                        RenderLine(g, lineIndex, c1, c2, new Point(x1, y), true, viewAreaBounds.Width, colors);
+                        RenderLine(g, lineIndex, c1, c2, new Point(x1, y), true, viewAreaBounds.Width, colors, tabStart);
                     }
                     if (c2 < c3)
                     {
-                        RenderLine(g, lineIndex, c2, c3, new Point(x2, y), false, viewAreaBounds.Width, colors);
+                        RenderLine(g, lineIndex, c2, c3, new Point(x2, y), false, viewAreaBounds.Width, colors, tabStart);
                     }
                     if (c2 == text.Length && selectionEnd.row > lineIndex)
                     {
@@ -1276,13 +1305,13 @@ namespace Developer.WinFormControls
                 }
                 else
                 {
-                    RenderLine(g, lineIndex, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors);
+                    RenderLine(g, lineIndex, c0, c3, new Point(x0, y), false, viewAreaBounds.Width, colors, tabStart);
                 }
 
                 this.textEditorBox.controlPanel.DrawLineForeground(g, lineIndex, lineRectangle);
             }
 
-            private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth, int[] colors)
+            private void RenderLine(Graphics g, int row, int colStart, int colEnd, Point position, bool selected, int visibleWidth, int[] colors, int tabStart)
             {
                 if (colEnd > colStart)
                 {
@@ -1305,11 +1334,11 @@ namespace Developer.WinFormControls
                                 if (selected)
                                 {
                                     RenderBackground(g, p, xEnd - xStart, colorItem.HighlightBrush);
-                                    RenderString(g, text, p, colorItem.HighlightText);
+                                    this.textEditorBox.RenderString(g, text, tabStart, p, colorItem.HighlightTextBrush);
                                 }
                                 else
                                 {
-                                    RenderString(g, text, p, colorItem.Text);
+                                    this.textEditorBox.RenderString(g, text, tabStart, p, colorItem.TextBrush);
                                 }
                             }
                             if (xEnd >= visibleWidth)
@@ -1325,11 +1354,6 @@ namespace Developer.WinFormControls
                         }
                     }
                 }
-            }
-
-            private void RenderString(Graphics g, string text, Point position, Color foreColor)
-            {
-                TextRenderer.DrawText(g, text, this.textEditorBox.Font, position, foreColor, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
             }
 
             private void RenderBackground(Graphics g, Point position, int width, Brush brush)
