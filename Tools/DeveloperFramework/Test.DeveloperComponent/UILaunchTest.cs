@@ -20,7 +20,7 @@ namespace Test.DeveloperComponent
         public void Initialize()
         {
             Playback.Initialize();
-            window = new CodeFormWindow("", "NativeX Form");
+            window = new CodeFormWindow("PlanText", "Plan Text Form");
         }
 
         [TestCleanup]
