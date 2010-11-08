@@ -225,8 +225,12 @@ namespace Developer.WinFormControls
         {
             if (this.content != null)
             {
+                Rectangle bounds = panelContent.Bounds;
                 Rectangle area = new Rectangle(this.viewPosition, this.ViewVisibleSize);
-                this.content.RenderContent(e.Graphics, area, panelContent.Bounds);
+                area.X += e.ClipRectangle.Left - bounds.Left;
+                area.Y += e.ClipRectangle.Top - bounds.Top;
+                area.Size = e.ClipRectangle.Size;
+                this.content.RenderContent(e.Graphics, area, e.ClipRectangle);
             }
         }
 
