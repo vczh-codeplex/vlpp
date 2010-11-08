@@ -117,7 +117,7 @@ namespace Developer.WinFormControls
         public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
             Point newPoint = this.ViewPosition;
-            Size newSize = this.host.Size;
+            Size newSize = this.ViewAreaSize;
             TextPosition newAnchor = this.SelectionAnchor;
             TextPosition newCaret = this.SelectionCaret;
             if (refreshImmediately)
@@ -558,7 +558,7 @@ namespace Developer.WinFormControls
             //}
 
             //int x0 = CalculateOffset(line, start);
-            //for (int i = start; i <= end; i++)
+            //for (int i = start; i < start + count; i++)
             //{
             //    string text = line.CharArray[i].ToString();
             //    int x = CalculateOffset(line, i) - x0;

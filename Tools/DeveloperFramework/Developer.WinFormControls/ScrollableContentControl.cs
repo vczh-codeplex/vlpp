@@ -28,9 +28,12 @@ namespace Developer.WinFormControls
             }
             protected set
             {
-                this.viewSize = value;
-                UpdateScrollBar();
-                RedrawContent(true, false);
+                if (this.viewSize != value)
+                {
+                    this.viewSize = value;
+                    UpdateScrollBar();
+                    RedrawContent(true, false);
+                }
             }
         }
 
@@ -62,9 +65,12 @@ namespace Developer.WinFormControls
             }
             protected set
             {
-                this.viewPosition = value;
-                UpdateScrollBar();
-                RedrawContent(true, false);
+                if (this.viewPosition != value)
+                {
+                    this.viewPosition = value;
+                    UpdateScrollBar();
+                    RedrawContent(true, false);
+                }
             }
         }
 
