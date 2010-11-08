@@ -27,8 +27,8 @@ namespace Test.Host.LanguageForms
 
         protected void InitializeLanguageForm()
         {
-            textEditorBox.Colorizer = this.Colorizer;
-            textEditorBox.ControlPanel = this.ControlPanel;
+            if (this.Colorizer != null) textEditorBox.Colorizer = this.Colorizer;
+            if (this.ControlPanel != null) textEditorBox.ControlPanel = this.ControlPanel;
             TextEditorService.EditorControl = textEditorBox;
             this.ServiceHost = new ServiceHost(typeof(TextEditorService));
             this.ServiceHost.Open();

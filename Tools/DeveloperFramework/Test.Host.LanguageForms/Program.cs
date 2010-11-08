@@ -22,6 +22,10 @@ namespace Test.Host.LanguageForms
             {
                 Application.Run(new NativeXForm());
             }
+            else if (args.SequenceEqual(new string[] { "PlanText" }))
+            {
+                Application.Run(new PlanTextForm());
+            }
             else if (args.SequenceEqual(new string[] { "NativeX" }))
             {
                 Application.Run(new NativeXForm());
