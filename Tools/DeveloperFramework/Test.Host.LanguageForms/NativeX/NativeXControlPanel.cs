@@ -59,6 +59,7 @@ namespace Test.Host.LanguageForms.NativeX
         protected override void ResultUpdated()
         {
             TemporaryResultUpdated();
+            this.Callback.TextEditorBox.RedrawContent(true, false);
         }
 
         protected override void TemporaryResultUpdated()

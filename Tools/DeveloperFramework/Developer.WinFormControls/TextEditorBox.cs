@@ -77,6 +77,12 @@ namespace Developer.WinFormControls
         private Control host = null;
         private Graphics temporaryGraphics = null;
 
+        private TextPosition oldAnchor;
+        private TextPosition oldCaret;
+        private Point oldPoint;
+        private Size oldSize;
+        private int oldLineHeight = -1;
+
         #endregion
 
         public TextEditorBox()
@@ -106,10 +112,42 @@ namespace Developer.WinFormControls
 
         public bool EnableDefaultCommands { get; set; }
 
-        public override void RedrawContent()
+        public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
-            // use invalid rect here
-            this.host.Refresh();
+            Point newPoint = this.ViewPosition;
+            Size newSize = this.host.Size;
+            TextPosition newAnchor = this.SelectionAnchor;
+            TextPosition newCaret = this.SelectionCaret;
+            if (refreshImmediately)
+            {
+                this.host.Refresh();
+            }
+            else if (!totalRefresh
+                && this.oldPoint == newPoint
+                && this.oldSize == newSize
+                && this.oldAnchor == this.oldCaret
+                && newAnchor == newCaret
+                && this.oldAnchor.row == newAnchor.row
+                && this.oldCaret.row == newCaret.row
+                && this.oldLineHeight == this.lineHeight
+                )
+            {
+                int row = newCaret.row;
+                int x = 0;
+                int y = this.TextPositionToViewPoint(new TextPosition(row, 0)).Y;
+                int w = newSize.Width;
+                int h = this.lineHeight;
+                this.host.Invalidate(new Rectangle(x, y, w, h));
+            }
+            else
+            {
+                this.host.Invalidate();
+            }
+            this.oldPoint = newPoint;
+            this.oldSize = newSize;
+            this.oldAnchor = newAnchor;
+            this.oldCaret = newCaret;
+            this.oldLineHeight = this.lineHeight;
         }
 
         #region Service API
@@ -240,7 +278,7 @@ namespace Developer.WinFormControls
             {
                 this.colorizer = value;
                 this.colorizedLines = 0;
-                RedrawContent();
+                RedrawContent(true, false);
             }
         }
 
@@ -283,7 +321,7 @@ namespace Developer.WinFormControls
         {
             if (this.textProvider[row].AddBlock(start, end))
             {
-                RedrawContent();
+                RedrawContent(true, false);
                 return true;
             }
             else
@@ -296,7 +334,7 @@ namespace Developer.WinFormControls
         {
             if (this.textProvider[row].RemoveBlock(start, end))
             {
-                RedrawContent();
+                RedrawContent(true, false);
                 return true;
             }
             else
@@ -459,19 +497,19 @@ namespace Developer.WinFormControls
         protected override void OnBackColorChanged(EventArgs e)
         {
             base.OnBackColorChanged(e);
-            RedrawContent();
+            RedrawContent(true, false);
         }
 
         protected override void OnForeColorChanged(EventArgs e)
         {
             base.OnForeColorChanged(e);
-            RedrawContent();
+            RedrawContent(true, false);
         }
 
         private void timerCaret_Tick(object sender, EventArgs e)
         {
             this.caretVisible = !this.caretVisible;
-            RedrawContent();
+            RedrawContent(false, false);
         }
 
         #endregion
@@ -739,7 +777,7 @@ namespace Developer.WinFormControls
 
         void ITextContentProvider.OnFinishEdit()
         {
-            if (this.ViewSize.Height != this.textProvider.Count * this.lineHeight)
+            if (this.ViewSize.Height != this.textProvider.Count * this.lineHeight + EditorMargin * 2)
             {
                 UpdateLineHeight();
             }
@@ -748,7 +786,7 @@ namespace Developer.WinFormControls
 
         void ITextContentProvider.OnRefreshSuggestion()
         {
-            RedrawContent();
+            RedrawContent(false, false);
         }
 
         TextPosition ITextContentProvider.GetLeftWord(TextPosition caret)
@@ -1034,13 +1072,13 @@ namespace Developer.WinFormControls
 
             private void host_LostFocus(object sender, EventArgs e)
             {
-                this.textEditorBox.RedrawContent();
+                this.textEditorBox.RedrawContent(false, false);
             }
 
             private void host_GotFocus(object sender, EventArgs e)
             {
                 this.textEditorBox.caretVisible = true;
-                this.textEditorBox.RedrawContent();
+                this.textEditorBox.RedrawContent(false, false);
             }
 
             #endregion
