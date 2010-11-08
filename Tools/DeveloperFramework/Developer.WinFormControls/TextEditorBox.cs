@@ -106,6 +106,12 @@ namespace Developer.WinFormControls
 
         public bool EnableDefaultCommands { get; set; }
 
+        public override void RedrawContent()
+        {
+            // use invalid rect here
+            this.host.Refresh();
+        }
+
         #region Service API
 
         public TextProvider<LineInfo> TextProvider
@@ -1065,21 +1071,16 @@ namespace Developer.WinFormControls
             {
                 int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
                 int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
-                RenderContentRange(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine);
+                RenderContentRange(g, viewVisibleBounds, viewAreaBounds, startLine, endLine);
             }
 
             #endregion
 
             #region Rendering
 
-            private void RenderContentRange(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, int startLine, int endLine)
+            private void RenderContentRange(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds, int startLine, int endLine)
             {
                 bool widthChanged = false;
-
-                int caretX = 0;
-                int caretY1 = 0;
-                int caretY2 = 0;
-
                 for (int i = startLine; i <= endLine; i++)
                 {
                     int width = this.textEditorBox.GetLineWidth(i);
@@ -1113,23 +1114,23 @@ namespace Developer.WinFormControls
                         int backgroundWidth = viewAreaBounds.Width - backgroundLeft;
                         for (int i = startLine; i <= endLine; i++)
                         {
-                            RenderWholeLine(g, ref viewVisibleBounds, ref viewAreaBounds, ref selectionStart, ref selectionEnd, backgroundLeft, backgroundWidth, i);
+                            RenderWholeLine(g, viewVisibleBounds, viewAreaBounds, selectionStart, selectionEnd, backgroundLeft, backgroundWidth, i);
                         }
 
                         if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible))
                         {
-                            RenderCaret(g, ref viewVisibleBounds, ref caretX, ref caretY1, ref caretY2, textBrush);
+                            RenderCaret(g, viewVisibleBounds, viewAreaBounds, textBrush);
                         }
 
                         if (this.textEditorBox.EditorControlPanel > 0)
                         {
-                            RenderControlPanel(g, ref viewVisibleBounds, ref viewAreaBounds, startLine, endLine, backBrush);
+                            RenderControlPanel(g, viewVisibleBounds, viewAreaBounds, startLine, endLine, backBrush);
                         }
                     }
                 }
             }
 
-            private void RenderControlPanel(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, int startLine, int endLine, Brush backBrush)
+            private void RenderControlPanel(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds, int startLine, int endLine, Brush backBrush)
             {
                 Rectangle controlPanelArea = new Rectangle(viewAreaBounds.Left, viewAreaBounds.Top, this.textEditorBox.EditorControlPanel, viewAreaBounds.Height);
                 g.FillRectangle(backBrush, controlPanelArea);
@@ -1145,12 +1146,12 @@ namespace Developer.WinFormControls
                 }
             }
 
-            private void RenderCaret(Graphics g, ref Rectangle viewVisibleBounds, ref int caretX, ref int caretY1, ref int caretY2, Brush textBrush)
+            private void RenderCaret(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds, Brush textBrush)
             {
                 Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
-                caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X;
-                caretY1 = EditorMargin + caret.Y;
-                caretY2 = caretY1 + this.textEditorBox.textHeight;
+                int caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X + viewAreaBounds.Left;
+                int caretY1 = EditorMargin + caret.Y + viewAreaBounds.Top;
+                int caretY2 = caretY1 + this.textEditorBox.textHeight;
 
                 using (Pen caretPen = new Pen(textBrush))
                 {
@@ -1169,7 +1170,7 @@ namespace Developer.WinFormControls
                 }
             }
 
-            private void RenderWholeLine(Graphics g, ref Rectangle viewVisibleBounds, ref Rectangle viewAreaBounds, ref TextPosition selectionStart, ref TextPosition selectionEnd, int backgroundLeft, int backgroundWidth, int lineIndex)
+            private void RenderWholeLine(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds, TextPosition selectionStart, TextPosition selectionEnd, int backgroundLeft, int backgroundWidth, int lineIndex)
             {
                 int backgroundTop = EditorMargin - viewVisibleBounds.Top + lineIndex * this.textEditorBox.lineHeight;
                 Rectangle lineRectangle = new Rectangle(backgroundLeft, backgroundTop, backgroundWidth, this.textEditorBox.lineHeight);
@@ -1177,8 +1178,8 @@ namespace Developer.WinFormControls
 
                 this.textEditorBox.EnsureLineColorized(lineIndex);
                 TextLine<LineInfo> line = this.textEditorBox.textProvider[lineIndex];
-                int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left;
-                int y = backgroundTop + this.textEditorBox.textTopOffset;
+                int x = this.textEditorBox.EditorControlPanel + EditorMargin - viewVisibleBounds.Left + viewAreaBounds.Left;
+                int y = backgroundTop + this.textEditorBox.textTopOffset + viewAreaBounds.Top;
                 string text = line.Text;
 
                 int coffset = this.textEditorBox.lineHeight * 2;
