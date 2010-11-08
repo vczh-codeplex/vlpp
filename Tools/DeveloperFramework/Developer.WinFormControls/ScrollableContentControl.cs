@@ -30,7 +30,7 @@ namespace Developer.WinFormControls
             {
                 this.viewSize = value;
                 UpdateScrollBar();
-                RedrawContent();
+                RedrawContent(true, false);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Developer.WinFormControls
             {
                 this.viewPosition = value;
                 UpdateScrollBar();
-                RedrawContent();
+                RedrawContent(true, false);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Developer.WinFormControls
             {
                 this.caretPosition = value;
                 panelContent.UpdateCompositionForContent();
-                RedrawContent();
+                RedrawContent(false, false);
             }
         }
 
@@ -118,7 +118,7 @@ namespace Developer.WinFormControls
             }
         }
 
-        public virtual void RedrawContent()
+        public virtual void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
             panelContent.Refresh();
         }
@@ -208,7 +208,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 this.viewPosition.Y = scrollVertical.Value;
-                RedrawContent();
+                RedrawContent(true, true);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 this.viewPosition.X = scrollHorizontal.Value;
-                RedrawContent();
+                RedrawContent(true, true);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Developer.WinFormControls
             if (!this.updating)
             {
                 UpdateScrollBar();
-                RedrawContent();
+                RedrawContent(true, false);
             }
         }
 
