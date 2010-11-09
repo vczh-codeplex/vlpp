@@ -41,6 +41,11 @@ namespace Developer.WinFormControls.Core
             this.charArray.Dispose();
         }
 
+        public void ResetOffsets()
+        {
+            this.offsetArray = new int[this.charArray.Buffer.Length];
+        }
+
         #region Infomation
 
         public int CharCount
