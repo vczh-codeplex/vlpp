@@ -46,6 +46,7 @@ namespace Developer.WinFormControls
         protected abstract CalculationNotifier<string, TResult> CreateAnalyzer();
         protected abstract TEditingNodeContainer ParseEditingNodeContainer(string code);
         protected abstract TEditingNode GetEditingNode(TResult result, TextPosition pos);
+        protected abstract TEditingNode GetEditingNode(TEditingNodeContainer container, TextPosition pos);
         protected abstract void ResultUpdated();
         protected abstract void TemporaryResultUpdated();
         protected abstract void AnalyzerResultReceived(TResult result);
@@ -91,7 +92,7 @@ namespace Developer.WinFormControls
                     if (editingNodeContainer != null)
                     {
                         editingNodeContainer.BuildScope(this.EditingNodeScope);
-                        this.EditingNode = editingNodeContainer.FindDeepest<TEditingNode>(editingNewEnd);
+                        this.EditingNode = GetEditingNode(editingNodeContainer, editingNewEnd);
                     }
                     else
                     {
