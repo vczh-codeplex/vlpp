@@ -523,22 +523,28 @@ namespace Developer.WinFormControls
         private void SetFormat(StringFormat format, int tabStart)
         {
             format.Alignment = StringAlignment.Near;
-            format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
+            format.FormatFlags = StringFormatFlags.NoClip| StringFormatFlags.NoWrap | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
             format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
             format.LineAlignment = StringAlignment.Near;
             format.Trimming = StringTrimming.None;
-            format.SetTabStops((tabStart % 48 + 48) % 48, new float[] { 48 });
         }
 
         private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
         {
-            using (StringFormat format = new StringFormat())
-            {
-                SetFormat(format, tabStart);
-                string text = line.GetString(start, count);
-                g.DrawString(text, this.Font, foreColor, position, format);
-            }
-            //TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    SetFormat(format, tabStart);
+            //    float[] tabs = new float[count];
+            //    for (int i = 0; i < count; i++)
+            //    {
+            //        tabs[i] = 48;
+            //    }
+            //    format.SetTabStops((tabStart % 48 + 48) % 48, tabs);
+
+            //    string text = line.GetString(start, count);
+            //    g.DrawString(text, this.Font, foreColor, position, format);
+            //}
+            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
         }
 
         private int CalculateOffset(string text)
@@ -547,17 +553,19 @@ namespace Developer.WinFormControls
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            using (StringFormat format = new StringFormat())
-            {
-                SetFormat(format, 0);
-                format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
-                Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
-                int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
-                regions[0].Dispose();
-                return result;
-            }
-            //Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            //return size.Width;
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    SetFormat(format, 0);
+            //    format.SetTabStops(0, new float[] { 48 });
+
+            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
+            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
+            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
+            //    regions[0].Dispose();
+            //    return result;
+            //}
+            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            return size.Width;
         }
 
         #endregion
@@ -591,7 +599,7 @@ namespace Developer.WinFormControls
                 startOffset = line.OffsetArray[start - 1];
                 if (startOffset == 0)
                 {
-                    startOffset = CalculateOffset("[" + line.GetString(0, start) + "]") - CalculateOffset("[]");
+                    startOffset = CalculateOffset(line.GetString(0, start) + " ") - CalculateOffset(" ");
                     line.OffsetArray[start - 1] = startOffset;
                 }
             }
