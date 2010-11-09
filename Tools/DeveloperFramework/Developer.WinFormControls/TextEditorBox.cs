@@ -414,7 +414,7 @@ namespace Developer.WinFormControls
 
         public Point TextPositionToDocumentPoint(TextPosition position)
         {
-            return Point.Add(CalculateOffset(position), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
+            return Point.Add(CalculateOffsetFromPosition(position), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
         }
 
         public TextPosition DocumentPointToTextPosition(Point point)
@@ -523,7 +523,7 @@ namespace Developer.WinFormControls
         private void SetFormat(StringFormat format, int tabStart)
         {
             format.Alignment = StringAlignment.Near;
-            format.FormatFlags = StringFormatFlags.NoClip| StringFormatFlags.NoWrap | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
+            format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.MeasureTrailingSpaces;
             format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
             format.LineAlignment = StringAlignment.Near;
             format.Trimming = StringTrimming.None;
@@ -531,41 +531,41 @@ namespace Developer.WinFormControls
 
         private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
         {
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    SetFormat(format, tabStart);
-            //    float[] tabs = new float[count];
-            //    for (int i = 0; i < count; i++)
-            //    {
-            //        tabs[i] = 48;
-            //    }
-            //    format.SetTabStops((tabStart % 48 + 48) % 48, tabs);
+            using (StringFormat format = new StringFormat())
+            {
+                SetFormat(format, tabStart);
+                float[] tabs = new float[count];
+                for (int i = 0; i < count; i++)
+                {
+                    tabs[i] = 48;
+                }
+                format.SetTabStops((tabStart % 48 + 48) % 48, tabs);
 
-            //    string text = line.GetString(start, count);
-            //    g.DrawString(text, this.Font, foreColor, position, format);
-            //}
-            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+                string text = line.GetString(start, count);
+                g.DrawString(text, this.Font, foreColor, position, format);
+            }
+            //TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
         }
 
-        private int CalculateOffset(string text)
+        private int CalculateOffsetFromText(string text)
         {
             if (this.temporaryGraphics == null)
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    SetFormat(format, 0);
-            //    format.SetTabStops(0, new float[] { 48 });
+            using (StringFormat format = new StringFormat())
+            {
+                SetFormat(format, 0);
+                format.SetTabStops(0, new float[] { 48 });
 
-            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
-            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
-            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
-            //    regions[0].Dispose();
-            //    return result;
-            //}
-            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            return size.Width;
+                format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
+                Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
+                int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
+                regions[0].Dispose();
+                return result;
+            }
+            //Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            //return size.Width;
         }
 
         #endregion
@@ -588,10 +588,10 @@ namespace Developer.WinFormControls
             }
             UpdateViewSize();
             this.VerticalSmallChange = this.lineHeight;
-            this.HorizontalSmallChange = CalculateOffset(" ");
+            this.HorizontalSmallChange = CalculateOffsetFromText(" ");
         }
 
-        private int CalculateOffset(TextLine<LineInfo> line, int start)
+        private int CalculateOffsetFromLinePosition(TextLine<LineInfo> line, int start)
         {
             int startOffset = 0;
             if (start > 0)
@@ -599,23 +599,23 @@ namespace Developer.WinFormControls
                 startOffset = line.OffsetArray[start - 1];
                 if (startOffset == 0)
                 {
-                    startOffset = CalculateOffset(line.GetString(0, start) + " ") - CalculateOffset(" ");
+                    startOffset = CalculateOffsetFromText(line.GetString(0, start));
                     line.OffsetArray[start - 1] = startOffset;
                 }
             }
             return startOffset;
         }
 
-        private int CalculateOffset(TextLine<LineInfo> line, int start, int end)
+        private int CalculateOffsetFromLineSegment(TextLine<LineInfo> line, int start, int end)
         {
-            return CalculateOffset(line, end) - CalculateOffset(line, start);
+            return CalculateOffsetFromLinePosition(line, end) - CalculateOffsetFromLinePosition(line, start);
         }
 
-        private Point CalculateOffset(TextPosition position)
+        private Point CalculateOffsetFromPosition(TextPosition position)
         {
             position = this.controller.Normalize(position);
             TextLine<LineInfo> line = this.textProvider[position.row];
-            return new Point(CalculateOffset(line, 0, position.col), position.row * this.lineHeight + this.textTopOffset);
+            return new Point(CalculateOffsetFromLineSegment(line, 0, position.col), position.row * this.lineHeight + this.textTopOffset);
         }
 
         private TextPosition CalculatePosition(Point point)
@@ -634,12 +634,12 @@ namespace Developer.WinFormControls
             int col1 = 0;
             int col2 = this.textProvider[row].CharCount;
             int x1 = 0;
-            int x2 = CalculateOffset(new TextPosition(row, col2)).X;
+            int x2 = CalculateOffsetFromPosition(new TextPosition(row, col2)).X;
 
             while (col2 - col1 > 1)
             {
                 int col = (col2 + col1) / 2;
-                int x = CalculateOffset(new TextPosition(row, col)).X;
+                int x = CalculateOffsetFromPosition(new TextPosition(row, col)).X;
                 if (x < point.X)
                 {
                     col1 = col;
@@ -676,7 +676,7 @@ namespace Developer.WinFormControls
             TextLine<LineInfo> line = this.textProvider[index];
             if (!line.Tag.lineWidthAvailable)
             {
-                line.Tag.lineWidth = CalculateOffset(new TextPosition(index, line.CharCount)).X;
+                line.Tag.lineWidth = CalculateOffsetFromPosition(new TextPosition(index, line.CharCount)).X;
                 line.Tag.lineWidthAvailable = true;
             }
             return line.Tag.lineWidth;
@@ -759,7 +759,7 @@ namespace Developer.WinFormControls
         void ITextContentProvider.OnSelectionAreaChanged()
         {
             TextPosition caret = this.controller.SelectionCaret;
-            Point caretPositionTop = Point.Add(CalculateOffset(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
+            Point caretPositionTop = Point.Add(CalculateOffsetFromPosition(caret), new Size(this.EditorControlPanel + EditorMargin, EditorMargin));
             Point caretPositionBottom = new Point(caretPositionTop.X, caretPositionTop.Y + this.lineHeight);
             Rectangle visibleBounds = new Rectangle(this.ViewPosition, this.ViewAreaSize);
             if (!visibleBounds.Contains(caretPositionTop) || !visibleBounds.Contains(caretPositionBottom))
@@ -1227,7 +1227,7 @@ namespace Developer.WinFormControls
 
             private void RenderCaret(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds, Brush textBrush)
             {
-                Point caret = this.textEditorBox.CalculateOffset(this.textEditorBox.controller.SelectionCaret);
+                Point caret = this.textEditorBox.CalculateOffsetFromPosition(this.textEditorBox.controller.SelectionCaret);
                 int caretX = this.textEditorBox.EditorControlPanel + EditorMargin + caret.X + viewAreaBounds.Left;
                 int caretY1 = EditorMargin + caret.Y + viewAreaBounds.Top;
                 int caretY2 = caretY1 + this.textEditorBox.textHeight;
@@ -1265,16 +1265,16 @@ namespace Developer.WinFormControls
                 int tabStart = EditorMargin - viewVisibleBounds.Left;
                 int c0 = 0;
                 int c3 = text.Length;
-                int x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c0)).X;
-                int x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c3)).X;
+                int x0 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c0)).X;
+                int x3 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c3)).X;
 
                 if (x3 - x0 >= 32768)
                 {
                     c0 = this.textEditorBox.ViewPointToTextPosition(new Point(-coffset, y)).col;
-                    x0 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c0)).X;
+                    x0 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c0)).X;
 
                     c3 = this.textEditorBox.ViewPointToTextPosition(new Point(viewAreaBounds.Width + coffset, y)).col;
-                    x3 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c3)).X;
+                    x3 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c3)).X;
                 }
 
                 int[] colors = null;
@@ -1296,8 +1296,8 @@ namespace Developer.WinFormControls
                     c1 = c1 < c0 ? c0 : c1 > c3 ? c3 : c1;
                     c2 = c2 < c0 ? c0 : c2 > c3 ? c3 : c2;
 
-                    int x1 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c1)).X;
-                    int x2 = x + this.textEditorBox.CalculateOffset(new TextPosition(lineIndex, c2)).X;
+                    int x1 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c1)).X;
+                    int x2 = x + this.textEditorBox.CalculateOffsetFromPosition(new TextPosition(lineIndex, c2)).X;
 
                     if (c0 < c1)
                     {
@@ -1339,7 +1339,7 @@ namespace Developer.WinFormControls
                         if (i == colEnd || itemColor != colors[i])
                         {
                             TextEditorColorItem colorItem = colorItems[itemColor];
-                            int xEnd = xStart + this.textEditorBox.CalculateOffset(line, itemStart, i);
+                            int xEnd = xStart + this.textEditorBox.CalculateOffsetFromLineSegment(line, itemStart, i);
                             if (xStart < visibleWidth && xEnd >= 0)
                             {
                                 Point p = new Point(xStart, position.Y);
