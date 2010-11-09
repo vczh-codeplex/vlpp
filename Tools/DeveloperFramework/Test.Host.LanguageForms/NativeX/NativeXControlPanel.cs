@@ -377,6 +377,16 @@ namespace Test.Host.LanguageForms.NativeX
                         }
                     }
                 }
+                {
+                    var decl = this.AnalyzingResult.Unit.FindDeepest<NativeXDeclaration>(token.Start);
+                    if (decl != null && decl.Name == token.Value)
+                    {
+                        if (decl is NativeXStructureDeclaration || decl is NativeXTypeRenameDeclaration || decl is NativeXConceptDeclaration)
+                        {
+                            needColor = true;
+                        }
+                    }
+                }
                 if (needColor)
                 {
                     int start = Math.Max(0, Math.Min(token.Start.col, line.CharCount - 1));
