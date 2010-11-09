@@ -520,31 +520,32 @@ namespace Developer.WinFormControls
 
         #region Sizing Core Implementation
 
-        private void SetFormat(StringFormat format, int tabStart)
-        {
-            format.Alignment = StringAlignment.Near;
-            format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.MeasureTrailingSpaces;
-            format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            format.LineAlignment = StringAlignment.Near;
-            format.Trimming = StringTrimming.None;
-        }
+        //private void SetFormat(StringFormat format, int tabStart)
+        //{
+        //    format.Alignment = StringAlignment.Near;
+        //    format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
+        //    format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+        //    format.LineAlignment = StringAlignment.Near;
+        //    format.Trimming = StringTrimming.None;
+        //}
 
         private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
         {
-            using (StringFormat format = new StringFormat())
-            {
-                SetFormat(format, tabStart);
-                float[] tabs = new float[count];
-                for (int i = 0; i < count; i++)
-                {
-                    tabs[i] = 48;
-                }
-                format.SetTabStops((tabStart % 48 + 48) % 48, tabs);
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+            //    SetFormat(format, tabStart);
+            //    float[] tabs = new float[count];
+            //    for (int i = 0; i < count; i++)
+            //    {
+            //        tabs[i] = (i == 0 ? (tabStart % 48 + 48) % 48 : 48);
+            //    }
+            //    format.SetTabStops(0, tabs);
 
-                string text = line.GetString(start, count);
-                g.DrawString(text, this.Font, foreColor, position, format);
-            }
-            //TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            //    string text = line.GetString(start, count);
+            //    g.DrawString(text, this.Font, foreColor, position, format);
+            //}
+            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
         }
 
         private int CalculateOffsetFromText(string text)
@@ -553,19 +554,19 @@ namespace Developer.WinFormControls
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            using (StringFormat format = new StringFormat())
-            {
-                SetFormat(format, 0);
-                format.SetTabStops(0, new float[] { 48 });
+            //using (StringFormat format = new StringFormat())
+            //{
+            //    SetFormat(format, 0);
+            //    format.SetTabStops(0, new float[] { 48 });
 
-                format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
-                Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
-                int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
-                regions[0].Dispose();
-                return result;
-            }
-            //Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            //return size.Width;
+            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
+            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
+            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
+            //    regions[0].Dispose();
+            //    return result;
+            //}
+            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            return size.Width;
         }
 
         #endregion
