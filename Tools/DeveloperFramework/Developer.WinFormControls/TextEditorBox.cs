@@ -84,6 +84,7 @@ namespace Developer.WinFormControls
         private Size oldSize;
         private int oldLineHeight = -1;
         private int tabLength = 0;
+        private int oldLineFinalState = -1;
 
         #endregion
 
@@ -123,6 +124,7 @@ namespace Developer.WinFormControls
             Size newSize = this.ViewAreaSize;
             TextPosition newAnchor = this.SelectionAnchor;
             TextPosition newCaret = this.SelectionCaret;
+            int lineFinalState = this.textProvider[newCaret.row].Tag.colorizerFinalState;
             if (refreshImmediately)
             {
                 this.host.Refresh();
@@ -135,6 +137,7 @@ namespace Developer.WinFormControls
                 && this.oldAnchor.row == newAnchor.row
                 && this.oldCaret.row == newCaret.row
                 && this.oldLineHeight == this.lineHeight
+                && this.oldLineFinalState == lineFinalState
                 )
             {
                 int row = newCaret.row;
@@ -153,6 +156,7 @@ namespace Developer.WinFormControls
             this.oldAnchor = newAnchor;
             this.oldCaret = newCaret;
             this.oldLineHeight = this.lineHeight;
+            this.oldLineFinalState = lineFinalState;
         }
 
         #endregion
@@ -1053,6 +1057,12 @@ namespace Developer.WinFormControls
                 }
             }
 
+            private void host_MouseWheel(object sender, MouseEventArgs e)
+            {
+                int offset = -e.Delta / 2;
+                this.textEditorBox.ViewPosition = new Point(this.textEditorBox.ViewPosition.X, this.textEditorBox.ViewPosition.Y + offset);
+            }
+
             #endregion
 
             #region Key Handlers
@@ -1155,6 +1165,7 @@ namespace Developer.WinFormControls
                 this.host.MouseDown += new MouseEventHandler(host_MouseDown);
                 this.host.MouseMove += new MouseEventHandler(host_MouseMove);
                 this.host.MouseUp += new MouseEventHandler(host_MouseUp);
+                this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
 
                 this.textEditorBox = (TextEditorBox)control;
                 this.textEditorBox.host = this.host;
