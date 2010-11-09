@@ -56,6 +56,11 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        protected override NativeXDeclaration GetEditingNode(NativeXEditingDeclarations container, TextPosition pos)
+        {
+            return container.FindDeepest<NativeXDeclaration>(pos);
+        }
+
         protected override void ResultUpdated()
         {
             TemporaryResultUpdated();
