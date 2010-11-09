@@ -518,6 +518,50 @@ namespace Developer.WinFormControls
 
         #endregion
 
+        #region Sizing Core Implementation
+
+        private void SetFormat(StringFormat format, int tabStart)
+        {
+            format.Alignment = StringAlignment.Near;
+            format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
+            format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            format.LineAlignment = StringAlignment.Near;
+            format.Trimming = StringTrimming.None;
+            format.SetTabStops((tabStart % 48 + 48) % 48, new float[] { 48 });
+        }
+
+        private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
+        {
+            using (StringFormat format = new StringFormat())
+            {
+                SetFormat(format, tabStart);
+                string text = line.GetString(start, count);
+                g.DrawString(text, this.Font, foreColor, position, format);
+            }
+            //TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+        }
+
+        private int CalculateOffset(string text)
+        {
+            if (this.temporaryGraphics == null)
+            {
+                this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
+            }
+            using (StringFormat format = new StringFormat())
+            {
+                SetFormat(format, 0);
+                format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
+                Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
+                int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
+                regions[0].Dispose();
+                return result;
+            }
+            //Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            //return size.Width;
+        }
+
+        #endregion
+
         #region Implementation
 
         private void UpdateViewSize()
@@ -537,53 +581,6 @@ namespace Developer.WinFormControls
             UpdateViewSize();
             this.VerticalSmallChange = this.lineHeight;
             this.HorizontalSmallChange = CalculateOffset(" ");
-        }
-
-        //private void SetFormat(StringFormat format, int tabStart)
-        //{
-        //    format.Alignment = StringAlignment.Near;
-        //    format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.NoWrap | StringFormatFlags.MeasureTrailingSpaces;
-        //    format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-        //    format.LineAlignment = StringAlignment.Near;
-        //    format.Trimming = StringTrimming.None;
-        //    format.SetTabStops(8, new float[] { });
-        //}
-
-        private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
-        {
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    SetFormat(format, tabStart);
-            //    g.DrawString(text, this.Font, foreColor, position, format);
-            //}
-
-            //int x0 = CalculateOffset(line, start);
-            //for (int i = start; i < start + count; i++)
-            //{
-            //    string text = line.CharArray[i].ToString();
-            //    int x = CalculateOffset(line, i) - x0;
-            //    TextRenderer.DrawText(g, text, this.Font, new Point(position.X + x, position.Y), foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            //}
-            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-        }
-
-        private int CalculateOffset(string text)
-        {
-            if (this.temporaryGraphics == null)
-            {
-                this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
-            }
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    SetFormat(format, tabStart);
-            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
-            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
-            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
-            //    regions[0].Dispose();
-            //    return result;
-            //}
-            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            return size.Width;
         }
 
         private int CalculateOffset(TextLine<LineInfo> line, int start)
