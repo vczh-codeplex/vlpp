@@ -15,9 +15,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
         public abstract NativeXAbstractType Instanciate(List<Tuple<string, NativeXAbstractType>> arguments);
 
-        public virtual NativeXAbstractType Unwrap()
+        public virtual NativeXAbstractType Unwrap(List<string> unwrappedReferences)
         {
             return this;
+        }
+
+        public virtual NativeXAbstractType Unwrap()
+        {
+            return Unwrap(new List<string>());
         }
     }
 
@@ -51,15 +56,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             }
         }
 
-        public override NativeXAbstractType Unwrap()
+        public override NativeXAbstractType Unwrap(List<string> unwrappedReferences)
         {
-            List<string> references = new List<string>();
             CodeScope scope = this.Scope;
             string name = this.ReferenceName;
             while (true)
             {
-                if (scope == null || name == null || references.Contains(name)) break;
-                references.Add(name);
+                if (scope == null || name == null || unwrappedReferences.Contains(name)) break;
+                unwrappedReferences.Add(name);
                 CodeNode node = this.Scope.Find(name);
 
                 NativeXTypeRenameDeclaration typeRenameDeclaration = node as NativeXTypeRenameDeclaration;
@@ -76,8 +80,8 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 NativeXDeclaration declaration = node as NativeXDeclaration;
                 if (declaration != null)
                 {
-                    NativeXAbstractType type = declaration.AbstractType; ;
-                    return type == null ? null : type.Unwrap();
+                    NativeXAbstractType type = declaration.AbstractType;
+                    return type == null ? null : type.Unwrap(unwrappedReferences);
                 }
 
                 NativeXGenericParameter genericParameter = node as NativeXGenericParameter;
@@ -86,7 +90,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                     ParameterName = genericParameter.ParameterName
                 };
             }
-            return base.Unwrap();
+            return base.Unwrap(unwrappedReferences);
         }
     }
 
