@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
+using System.Runtime.InteropServices;
 
 namespace Developer.WinFormControls
 {
@@ -82,6 +83,7 @@ namespace Developer.WinFormControls
         private Point oldPoint;
         private Size oldSize;
         private int oldLineHeight = -1;
+        private int tabLength = 0;
 
         #endregion
 
@@ -90,6 +92,7 @@ namespace Developer.WinFormControls
         {
             this.ImeEnabled = true;
             this.EnableDefaultCommands = true;
+            this.TabSpaceCount = 4;
 
             this.textProvider = new TextProvider<LineInfo>();
             this.controlPanel = new TextEditorControlPanel();
@@ -351,6 +354,8 @@ namespace Developer.WinFormControls
 
         #region UI Extension API
 
+        public int TabSpaceCount { get; set; }
+
         public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
             if (forceClosingPrevious)
@@ -494,6 +499,11 @@ namespace Developer.WinFormControls
 
         protected override void OnFontChanged(EventArgs e)
         {
+            this.tabLength = 0;
+            for (int i = 0; i < this.textProvider.Count; i++)
+            {
+                this.textProvider[i].ResetOffsets();
+            }
             UpdateLineHeight();
             base.OnFontChanged(e);
         }
@@ -520,32 +530,36 @@ namespace Developer.WinFormControls
 
         #region Sizing Core Implementation
 
-        //private void SetFormat(StringFormat format, int tabStart)
-        //{
-        //    format.Alignment = StringAlignment.Near;
-        //    format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.FitBlackBox | StringFormatFlags.MeasureTrailingSpaces;
-        //    format.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-        //    format.LineAlignment = StringAlignment.Near;
-        //    format.Trimming = StringTrimming.None;
-        //}
+        [DllImport("User32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        public static extern int GetTabbedTextExtent(IntPtr hDC, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions);
 
-        private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, SolidBrush foreColor)
+        [DllImport("User32.dll", SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int TabbedTextOut(IntPtr hDC, int x, int y, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions, int nTabOrigin);
+
+        [DllImport("Gdi32.dll")]
+        private static extern IntPtr SelectObject(IntPtr hDC, IntPtr obj);
+
+        [DllImport("Gdi32.dll")]
+        private static extern int DeleteObject(IntPtr obj);
+
+        [DllImport("Gdi32.dll")]
+        private static extern int SetTextColor(IntPtr hDC, int color);
+
+        [DllImport("Gdi32.dll")]
+        private static extern int SetBkMode(IntPtr hDC, int mode);
+
+        private void RenderString(Graphics g, TextLine<LineInfo> line, int start, int count, int tabStart, Point position, Color foreColor)
         {
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
-            //    SetFormat(format, tabStart);
-            //    float[] tabs = new float[count];
-            //    for (int i = 0; i < count; i++)
-            //    {
-            //        tabs[i] = (i == 0 ? (tabStart % 48 + 48) % 48 : 48);
-            //    }
-            //    format.SetTabStops(0, tabs);
-
-            //    string text = line.GetString(start, count);
-            //    g.DrawString(text, this.Font, foreColor, position, format);
-            //}
-            TextRenderer.DrawText(g, line.GetString(start, count), this.Font, position, foreColor.Color, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+            IntPtr hdc = g.GetHdc();
+            IntPtr hFont = this.Font.ToHfont();
+            IntPtr hOldFont = SelectObject(hdc, hFont);
+            string text = line.GetString(start, count);
+            SetBkMode(hdc, 1);
+            SetTextColor(hdc, foreColor.R + (foreColor.G << 8) + (foreColor.B << 16));
+            TabbedTextOut(hdc, position.X, position.Y, text, count, 1, ref this.tabLength, tabStart);
+            SelectObject(hdc, hOldFont);
+            DeleteObject(hFont);
+            g.ReleaseHdc(hdc);
         }
 
         private int CalculateOffsetFromText(string text)
@@ -554,19 +568,18 @@ namespace Developer.WinFormControls
             {
                 this.temporaryGraphics = Graphics.FromHwnd(this.host.Handle);
             }
-            //using (StringFormat format = new StringFormat())
-            //{
-            //    SetFormat(format, 0);
-            //    format.SetTabStops(0, new float[] { 48 });
-
-            //    format.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, text.Length) });
-            //    Region[] regions = this.temporaryGraphics.MeasureCharacterRanges(text, this.Font, RectangleF.Empty, format);
-            //    int result = (int)regions[0].GetBounds(this.temporaryGraphics).Width;
-            //    regions[0].Dispose();
-            //    return result;
-            //}
-            Size size = TextRenderer.MeasureText(this.temporaryGraphics, text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-            return size.Width;
+            IntPtr hdc = this.temporaryGraphics.GetHdc();
+            IntPtr hFont = this.Font.ToHfont();
+            IntPtr hOldFont = SelectObject(hdc, hFont);
+            if (this.tabLength == 0)
+            {
+                tabLength = this.TabSpaceCount * (GetTabbedTextExtent(hdc, " ", 1, 0, ref tabLength) % 65536);
+            }
+            int result = GetTabbedTextExtent(hdc, text, text.Length, 1, ref tabLength);
+            SelectObject(hdc, hOldFont);
+            DeleteObject(hFont);
+            this.temporaryGraphics.ReleaseHdc(hdc);
+            return result % 65536;
         }
 
         #endregion
@@ -1347,11 +1360,11 @@ namespace Developer.WinFormControls
                                 if (selected)
                                 {
                                     RenderBackground(g, p, xEnd - xStart, colorItem.HighlightBrush);
-                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.HighlightTextBrush);
+                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.HighlightText);
                                 }
                                 else
                                 {
-                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.TextBrush);
+                                    this.textEditorBox.RenderString(g, line, itemStart, i - itemStart, tabStart, p, colorItem.Text);
                                 }
                             }
                             if (xEnd >= visibleWidth)
