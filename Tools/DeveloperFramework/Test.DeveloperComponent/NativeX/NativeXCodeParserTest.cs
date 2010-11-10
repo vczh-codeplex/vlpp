@@ -1003,7 +1003,7 @@ namespace Test.DeveloperComponent.NativeX
         [TestMethod]
         public void RunParserGenerator()
         {
-            NativeXCodeParserGrammar.Build();
+            NativeXCodeParserGrammar.Build(true);
         }
     }
 }

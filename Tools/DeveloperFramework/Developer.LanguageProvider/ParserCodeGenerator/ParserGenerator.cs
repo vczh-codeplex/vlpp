@@ -7,6 +7,35 @@ namespace Developer.LanguageProvider.ParserCodeGenerator
 {
     public static class ParserGenerator
     {
+        public static string GenerateCSharpCodeWithoutImplementation(string namespaceName, string className, params RuleNode[] startRules)
+        {
+            StringBuilder sb = new StringBuilder();
+            List<RuleNode> rules = startRules.SelectMany(r => RuleNodeCollector.GetRules(r)).Distinct().ToList();
+
+            sb.AppendLine("using System;");
+            sb.AppendLine("using System.Collections.Generic;");
+            sb.AppendLine("using System.Linq;");
+            sb.AppendLine("using System.Text;");
+            sb.AppendLine("using Developer.LanguageProvider;");
+            sb.AppendLine();
+            sb.AppendLine("namespace " + namespaceName);
+            sb.AppendLine("{");
+            sb.AppendLine("    public static partial class " + className);
+            sb.AppendLine("    {");
+            foreach (RuleNode rule in rules)
+            {
+                sb.AppendLine("        public static " + rule.NodeType.FullName + " Parse" + rule.RuleName + "(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            throw new NotImplementedException();");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+            }
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+
+            return sb.ToString();
+        }
+
         public static string GenerateCSharpCode(string namespaceName, string className, params RuleNode[] startRules)
         {
             StringBuilder sb = new StringBuilder();

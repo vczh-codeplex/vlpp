@@ -9,7 +9,7 @@ namespace Developer.LanguageServices.NativeX
 {
     public class NativeXCodeParserGrammar : Parser
     {
-        public static string Build()
+        public static string Build(bool generateImplementation)
         {
             var ID = id("Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken");
             var TYPE_KEYWORD = id("Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken");
@@ -393,7 +393,14 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
 
-            return ParserGenerator.GenerateCSharpCode("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_DECLARATION);
+            if (generateImplementation)
+            {
+                return ParserGenerator.GenerateCSharpCode("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_DECLARATION);
+            }
+            else
+            {
+                return ParserGenerator.GenerateCSharpCodeWithoutImplementation("Developer.LanguageServices.NativeX", "NativeXCodeParser", UNIT, EDITING_DECLARATION);
+            }
         }
     }
 }
