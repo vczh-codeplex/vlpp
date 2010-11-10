@@ -80,6 +80,7 @@ namespace Developer.WinFormControls
         void InstallCallBack(ITextEditorControlPanelCallBack callback);
         void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines);
         void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
+        void OnTextAreaMouseHover(TextPosition pos);
         bool NeedColorLineForDisplay(int lineIndex);
         void ColorLineForDisplay(int lineIndex, int[] colors);
 

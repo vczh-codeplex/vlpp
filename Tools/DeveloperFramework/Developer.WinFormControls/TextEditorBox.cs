@@ -83,8 +83,9 @@ namespace Developer.WinFormControls
         private Point oldPoint;
         private Size oldSize;
         private int oldLineHeight = -1;
-        private int tabLength = 0;
         private int oldLineFinalState = -1;
+        private int tabLength = 0;
+        private int tabSpaceCount = 4;
 
         #endregion
 
@@ -93,7 +94,6 @@ namespace Developer.WinFormControls
         {
             this.ImeEnabled = true;
             this.EnableDefaultCommands = true;
-            this.TabSpaceCount = 4;
 
             this.textProvider = new TextProvider<LineInfo>();
             this.controlPanel = new TextEditorControlPanel();
@@ -358,7 +358,18 @@ namespace Developer.WinFormControls
 
         #region UI Extension API
 
-        public int TabSpaceCount { get; set; }
+        public int TabSpaceCount
+        {
+            get
+            {
+                return this.tabSpaceCount;
+            }
+            set
+            {
+                this.tabSpaceCount = value;
+                ResetSizingData();
+            }
+        }
 
         public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
@@ -503,12 +514,7 @@ namespace Developer.WinFormControls
 
         protected override void OnFontChanged(EventArgs e)
         {
-            this.tabLength = 0;
-            for (int i = 0; i < this.textProvider.Count; i++)
-            {
-                this.textProvider[i].ResetOffsets();
-            }
-            UpdateLineHeight();
+            ResetSizingData();
             base.OnFontChanged(e);
         }
 
@@ -589,6 +595,16 @@ namespace Developer.WinFormControls
         #endregion
 
         #region Implementation
+
+        private void ResetSizingData()
+        {
+            this.tabLength = 0;
+            for (int i = 0; i < this.textProvider.Count; i++)
+            {
+                this.textProvider[i].ResetOffsets();
+            }
+            UpdateLineHeight();
+        }
 
         private void UpdateViewSize()
         {
@@ -1063,6 +1079,21 @@ namespace Developer.WinFormControls
                 this.textEditorBox.ViewPosition = new Point(this.textEditorBox.ViewPosition.X, this.textEditorBox.ViewPosition.Y + offset);
             }
 
+            private void host_MouseHover(object sender, EventArgs e)
+            {
+                Point point = this.host.PointToClient(Control.MousePosition);
+                TextPosition tp1 = this.textEditorBox.ViewPointToTextPosition(point);
+                TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
+                TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
+                Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
+                Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
+                Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
+                if (r.Contains(point))
+                {
+                    this.textEditorBox.controlPanel.OnTextAreaMouseHover(tp1);
+                }
+            }
+
             #endregion
 
             #region Key Handlers
@@ -1166,6 +1197,7 @@ namespace Developer.WinFormControls
                 this.host.MouseMove += new MouseEventHandler(host_MouseMove);
                 this.host.MouseUp += new MouseEventHandler(host_MouseUp);
                 this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
+                this.host.MouseHover += new EventHandler(host_MouseHover);
 
                 this.textEditorBox = (TextEditorBox)control;
                 this.textEditorBox.host = this.host;
