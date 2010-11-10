@@ -133,6 +133,8 @@ namespace Developer.WinFormControls
         {
             this.updating = true;
             InitializeComponent();
+            scrollHorizontal.Height = SystemInformation.HorizontalScrollBarHeight;
+            scrollVertical.Width = SystemInformation.VerticalScrollBarWidth;
             this.scrollHorizontalHeight = scrollHorizontal.Height;
             this.scrollVerticalWidth = scrollVertical.Width;
             this.updating = false;
@@ -144,6 +146,7 @@ namespace Developer.WinFormControls
         {
             this.content = content;
             this.content.Initialize(panelContent, this);
+            this.components = new Container();
             this.components.Add(new DisposableComponent(content));
         }
 

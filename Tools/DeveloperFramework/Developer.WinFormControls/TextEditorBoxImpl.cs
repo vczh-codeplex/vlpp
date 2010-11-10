@@ -65,6 +65,10 @@ namespace Developer.WinFormControls
         {
         }
 
+        public void OnTextAreaMouseHover(TextPosition pos)
+        {
+        }
+
         public bool NeedColorLineForDisplay(int lineIndex)
         {
             return false;
