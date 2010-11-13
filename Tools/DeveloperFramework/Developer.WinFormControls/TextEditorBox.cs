@@ -394,6 +394,11 @@ namespace Developer.WinFormControls
             this.popupList.Open(this.host, position, items, searchingKey, needToDisposeImages, maxItems);
         }
 
+        public void PopupTooltip(TextPosition pos, string text)
+        {
+            toolTipSimple.SetToolTip(this.host, text);
+        }
+
         #endregion
 
         #region View API
@@ -932,6 +937,7 @@ namespace Developer.WinFormControls
             private Control host = null;
             private TextEditorBox textEditorBox = null;
             private MouseMode mouseMode = MouseMode.Normal;
+            private string lastTooltip = null;
 
             #region Mouse Handlers
 
@@ -1013,44 +1019,64 @@ namespace Developer.WinFormControls
 
             private void host_MouseMove(object sender, MouseEventArgs e)
             {
-                switch (this.mouseMode)
                 {
-                    case MouseMode.Selecting:
-                        {
-                            TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                            this.textEditorBox.controller.Move(position, false, true);
-                        }
-                        break;
-                    case MouseMode.Normal:
-                    case MouseMode.ControlPanelDragging:
-                        {
-                            if (e.X < this.textEditorBox.EditorControlPanel)
+                    switch (this.mouseMode)
+                    {
+                        case MouseMode.Selecting:
                             {
-                                InvokeControlPanel(MouseAction.Move, e, this.mouseMode == MouseMode.ControlPanelDragging);
+                                TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                                this.textEditorBox.controller.Move(position, false, true);
                             }
-                        }
-                        break;
-                }
-                if (e.X < this.textEditorBox.EditorControlPanel)
-                {
-                    this.host.Cursor = Cursors.Default;
-                }
-                else if (this.mouseMode == MouseMode.Selecting)
-                {
-                    this.host.Cursor = Cursors.IBeam;
-                }
-                else
-                {
-                    TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                    Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
-                    if (block.Item1 != block.Item2)
+                            break;
+                        case MouseMode.Normal:
+                        case MouseMode.ControlPanelDragging:
+                            {
+                                if (e.X < this.textEditorBox.EditorControlPanel)
+                                {
+                                    InvokeControlPanel(MouseAction.Move, e, this.mouseMode == MouseMode.ControlPanelDragging);
+                                }
+                            }
+                            break;
+                    }
+                    if (e.X < this.textEditorBox.EditorControlPanel)
                     {
                         this.host.Cursor = Cursors.Default;
                     }
-                    else
+                    else if (this.mouseMode == MouseMode.Selecting)
                     {
                         this.host.Cursor = Cursors.IBeam;
                     }
+                    else
+                    {
+                        TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                        Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
+                        if (block.Item1 != block.Item2)
+                        {
+                            this.host.Cursor = Cursors.Default;
+                        }
+                        else
+                        {
+                            this.host.Cursor = Cursors.IBeam;
+                        }
+                    }
+                }
+                {
+                    TextPosition tp1 = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                    TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
+                    TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
+                    Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
+                    Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
+                    Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
+                    string tooltip = null;
+                    if (r.Contains(e.Location))
+                    {
+                        tooltip = this.textEditorBox.controlPanel.OnGetSimpleTooltip(tp1);
+                    }
+                    if (this.lastTooltip != tooltip)
+                    {
+                        this.textEditorBox.PopupTooltip(tp1, tooltip);
+                    }
+                    this.lastTooltip = tooltip;
                 }
             }
 
@@ -1079,19 +1105,10 @@ namespace Developer.WinFormControls
                 this.textEditorBox.ViewPosition = new Point(this.textEditorBox.ViewPosition.X, this.textEditorBox.ViewPosition.Y + offset);
             }
 
-            private void host_MouseHover(object sender, EventArgs e)
+            private void host_MouseLeave(object sender, EventArgs e)
             {
-                Point point = this.host.PointToClient(Control.MousePosition);
-                TextPosition tp1 = this.textEditorBox.ViewPointToTextPosition(point);
-                TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
-                TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
-                Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
-                Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
-                Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
-                if (r.Contains(point))
-                {
-                    this.textEditorBox.controlPanel.OnTextAreaMouseHover(tp1);
-                }
+                this.lastTooltip = null;
+                this.textEditorBox.PopupTooltip(new TextPosition(0, 0), null);
             }
 
             #endregion
@@ -1197,7 +1214,7 @@ namespace Developer.WinFormControls
                 this.host.MouseMove += new MouseEventHandler(host_MouseMove);
                 this.host.MouseUp += new MouseEventHandler(host_MouseUp);
                 this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
-                this.host.MouseHover += new EventHandler(host_MouseHover);
+                this.host.MouseLeave += new EventHandler(host_MouseLeave);
 
                 this.textEditorBox = (TextEditorBox)control;
                 this.textEditorBox.host = this.host;
