@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timerCaret = new System.Windows.Forms.Timer(this.components);
+            this.toolTipSimple = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // timerCaret
@@ -50,5 +51,6 @@
         #endregion
 
         private System.Windows.Forms.Timer timerCaret;
+        private System.Windows.Forms.ToolTip toolTipSimple;
     }
 }

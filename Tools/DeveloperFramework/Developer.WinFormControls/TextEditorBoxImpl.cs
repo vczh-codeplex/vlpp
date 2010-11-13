@@ -65,8 +65,9 @@ namespace Developer.WinFormControls
         {
         }
 
-        public void OnTextAreaMouseHover(TextPosition pos)
+        public string OnGetSimpleTooltip(TextPosition pos)
         {
+            return null;
         }
 
         public bool NeedColorLineForDisplay(int lineIndex)

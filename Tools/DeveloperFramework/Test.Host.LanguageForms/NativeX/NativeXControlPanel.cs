@@ -311,6 +311,103 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
+        public override string OnGetSimpleTooltip(TextPosition pos)
+        {
+            if (this.AnalyzingResult == null || this.AnalyzingResult.Unit == null)
+            {
+                return null;
+            }
+            NativeXNode node = this.AnalyzingResult.Unit.FindDeepest<NativeXNode>(pos);
+            NativeXNode hint = null;
+            {
+                NativeXReferenceExpression exp = node as NativeXReferenceExpression;
+                if (exp != null && exp.Scope != null)
+                {
+                    hint = (NativeXNode)exp.Scope.Find(exp.ReferencedName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
+                NativeXInstanciatedExpression exp = node as NativeXInstanciatedExpression;
+                if (exp != null && exp.Scope != null)
+                {
+                    hint = (NativeXNode)exp.Scope.Find(exp.ReferencedName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
+                NativeXInstanceFunctionExpression exp = node as NativeXInstanceFunctionExpression;
+                if (exp != null && exp.Scope != null)
+                {
+                    hint = (NativeXNode)exp.Scope.Find(exp.ConceptName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
+                NativeXReferenceType type = node as NativeXReferenceType;
+                if (type != null && type.Scope != null)
+                {
+                    hint = (NativeXNode)type.Scope.Find(type.ReferencedName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
+                NativeXInstanceDeclaration inst = node as NativeXInstanceDeclaration;
+                if (inst != null && inst.Scope != null)
+                {
+                    if (this.AnalyzingResult.IdTokens.ContainsKey(pos.row))
+                    {
+                        CodeToken token = this.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
+                        if (token.Value == inst.ConceptName)
+                        {
+                            hint = (NativeXNode)inst.Scope.Find(inst.ConceptName);
+                        }
+                    }
+                }
+            }
+            {
+                NativeXGenericConstraint genecons = node as NativeXGenericConstraint;
+                if (genecons != null && genecons.Scope != null)
+                {
+                    if (this.AnalyzingResult.IdTokens.ContainsKey(pos.row))
+                    {
+                        CodeToken token = this.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
+                        if (token.Value == genecons.ConceptName)
+                        {
+                            hint = (NativeXNode)genecons.Scope.Find(genecons.ConceptName);
+                        }
+                    }
+                }
+            }
+        SHOW_HINT:
+            if (hint != null)
+            {
+                NativeXFunctionDeclaration function = hint as NativeXFunctionDeclaration;
+                TextPosition start, end;
+                if (function == null)
+                {
+                    start = hint.Start;
+                    end = hint.End;
+                }
+                else
+                {
+                    start = hint.Start;
+                    end = function.Statement == null ? function.End : function.Statement.Start;
+                }
+                if (start < end)
+                {
+                    start = this.Callback.TextEditorBox.Controller.Normalize(start);
+                    end = this.Callback.TextEditorBox.Controller.Normalize(end);
+                    string text = this.Callback.TextEditorBox.TextProvider.GetString(start, end);
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        return text;
+                    }
+                }
+            }
+            return null;
+        }
+
         public override bool NeedColorLineForDisplay(int lineIndex)
         {
             return this.AnalyzingResult != null && this.AnalyzingResult.Unit != null && this.AnalyzingResult.IdTokens.ContainsKey(lineIndex);
@@ -318,6 +415,10 @@ namespace Test.Host.LanguageForms.NativeX
 
         public override void ColorLineForDisplay(int lineIndex, int[] colors)
         {
+            if (this.AnalyzingResult == null || this.AnalyzingResult.Unit == null)
+            {
+                return;
+            }
             TextLine<TextEditorBox.LineInfo> line = this.Callback.TextEditorBox.TextProvider[lineIndex];
             foreach (var token in this.AnalyzingResult.IdTokens[lineIndex])
             {
