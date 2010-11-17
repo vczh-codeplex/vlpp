@@ -324,6 +324,10 @@ namespace Developer.WinFormControls
             }
             else
             {
+                if (e.Control || e.KeyCode == Keys.Back)
+                {
+                    e.SuppressKeyPress = true;
+                }
                 switch (e.KeyCode)
                 {
                     case Keys.Up:

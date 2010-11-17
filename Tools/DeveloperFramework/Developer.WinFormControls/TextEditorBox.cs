@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Runtime.InteropServices;
@@ -17,14 +18,6 @@ namespace Developer.WinFormControls
         , ITextEditorControlPanelCallBack
     {
         private const int EditorMargin = 4;
-
-        public class LineInfo
-        {
-            public int lineWidth = 0;
-            public bool lineWidthAvailable = false;
-            public int colorizerFinalState = 0;
-            public object controlPanelData = null;
-        }
 
         #region Events
 
@@ -41,6 +34,14 @@ namespace Developer.WinFormControls
         #endregion
 
         #region Editing Processor Fields
+
+        public class LineInfo
+        {
+            public int lineWidth = 0;
+            public bool lineWidthAvailable = false;
+            public int colorizerFinalState = 0;
+            public object controlPanelData = null;
+        }
 
         private TextProvider<LineInfo> textProvider = null;
         private TextEditorController controller = null;
@@ -74,6 +75,7 @@ namespace Developer.WinFormControls
 
         #region Rendering Fields
 
+        private bool preventRedraw = false;
         private bool caretVisible = true;
         private Control host = null;
         private Graphics temporaryGraphics = null;
@@ -86,6 +88,25 @@ namespace Developer.WinFormControls
         private int oldLineFinalState = -1;
         private int tabLength = 0;
         private int tabSpaceCount = 4;
+
+        #endregion
+
+        #region Undo/Redo Fields
+
+        private class HistoryInfoItem
+        {
+            public TextPosition start;
+            public TextPosition oldEnd;
+            public TextPosition newEnd;
+            public string oldText;
+            public string newText;
+        }
+
+        private List<HistoryInfoItem[]> historyInfos = new List<HistoryInfoItem[]>();
+        private int currentHistory = 0;
+        private List<HistoryInfoItem> compactingHistoryInfoItems = new List<HistoryInfoItem>();
+        private bool compactingHistory = false;
+        private bool performingHistory = false;
 
         #endregion
 
@@ -112,51 +133,57 @@ namespace Developer.WinFormControls
             this.keyCommands.RegisterCommand(Keys.X, true, false, DoCut);
             this.keyCommands.RegisterCommand(Keys.V, true, false, DoPaste);
             this.keyCommands.RegisterCommand(Keys.A, true, false, DoSelectAll);
+            this.keyCommands.RegisterCommand(Keys.Z, true, false, DoUndo);
+            this.keyCommands.RegisterCommand(Keys.Y, true, false, DoRedo);
         }
 
         public bool EnableDefaultCommands { get; set; }
+        public bool PressingChar { get; set; }
 
         #region Rendering Area Calculation
 
         public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
-            Point newPoint = this.ViewPosition;
-            Size newSize = this.ViewAreaSize;
-            TextPosition newAnchor = this.SelectionAnchor;
-            TextPosition newCaret = this.SelectionCaret;
-            int lineFinalState = this.textProvider[newCaret.row].Tag.colorizerFinalState;
-            if (refreshImmediately)
+            if (!this.preventRedraw)
             {
-                this.host.Refresh();
+                Point newPoint = this.ViewPosition;
+                Size newSize = this.ViewAreaSize;
+                TextPosition newAnchor = this.SelectionAnchor;
+                TextPosition newCaret = this.SelectionCaret;
+                int lineFinalState = this.textProvider[newCaret.row].Tag.colorizerFinalState;
+                if (refreshImmediately)
+                {
+                    this.host.Refresh();
+                }
+                else if (!totalRefresh
+                    && this.oldPoint == newPoint
+                    && this.oldSize == newSize
+                    && this.oldAnchor == this.oldCaret
+                    && newAnchor == newCaret
+                    && this.oldAnchor.row == newAnchor.row
+                    && this.oldCaret.row == newCaret.row
+                    && this.oldLineHeight == this.lineHeight
+                    && this.oldLineFinalState == lineFinalState
+                    )
+                {
+                    int row = newCaret.row;
+                    int x = 0;
+                    int y = this.TextPositionToViewPoint(new TextPosition(row, 0)).Y;
+                    int w = newSize.Width;
+                    int h = this.lineHeight;
+                    this.host.Invalidate(new Rectangle(x, y, w, h));
+                }
+                else
+                {
+                    this.host.Invalidate();
+                }
+                this.oldPoint = newPoint;
+                this.oldSize = newSize;
+                this.oldAnchor = newAnchor;
+                this.oldCaret = newCaret;
+                this.oldLineHeight = this.lineHeight;
+                this.oldLineFinalState = lineFinalState;
             }
-            else if (!totalRefresh
-                && this.oldPoint == newPoint
-                && this.oldSize == newSize
-                && this.oldAnchor == this.oldCaret
-                && newAnchor == newCaret
-                && this.oldAnchor.row == newAnchor.row
-                && this.oldCaret.row == newCaret.row
-                && this.oldLineHeight == this.lineHeight
-                && this.oldLineFinalState == lineFinalState
-                )
-            {
-                int row = newCaret.row;
-                int x = 0;
-                int y = this.TextPositionToViewPoint(new TextPosition(row, 0)).Y;
-                int w = newSize.Width;
-                int h = this.lineHeight;
-                this.host.Invalidate(new Rectangle(x, y, w, h));
-            }
-            else
-            {
-                this.host.Invalidate();
-            }
-            this.oldPoint = newPoint;
-            this.oldSize = newSize;
-            this.oldAnchor = newAnchor;
-            this.oldCaret = newCaret;
-            this.oldLineHeight = this.lineHeight;
-            this.oldLineFinalState = lineFinalState;
         }
 
         #endregion
@@ -252,6 +279,7 @@ namespace Developer.WinFormControls
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedText
         {
             get
@@ -279,6 +307,7 @@ namespace Developer.WinFormControls
 
         #region Callback Extension API
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ITextEditorColorizer Colorizer
         {
             get
@@ -293,6 +322,7 @@ namespace Developer.WinFormControls
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ITextEditorControlPanel ControlPanel
         {
             get
@@ -511,6 +541,121 @@ namespace Developer.WinFormControls
                 this.SelectedText = Clipboard.GetText();
             }
             return this.CanPaste;
+        }
+
+        #endregion
+
+        #region Undo/Redo API
+
+        public bool CanUndo
+        {
+            get
+            {
+                return this.currentHistory > 0 && !this.compactingHistory;
+            }
+        }
+
+        public bool CanRedo
+        {
+            get
+            {
+                return this.currentHistory < this.historyInfos.Count && !this.compactingHistory;
+            }
+        }
+
+        public void ClearUndoRedoHistory()
+        {
+            if (this.compactingHistory)
+            {
+                throw new InvalidOperationException("Cannot clear undo redo history while compacting histories.");
+            }
+            else
+            {
+                this.historyInfos.Clear();
+                this.currentHistory = 0;
+            }
+        }
+
+        public void StartCompactUndoRedoTask()
+        {
+            this.compactingHistory = true;
+        }
+
+        public void FinishCompactUndoRedoTask()
+        {
+            if (this.compactingHistory)
+            {
+                this.compactingHistory = false;
+                SubmitHistory(null);
+            }
+        }
+
+        public void Undo()
+        {
+            if (this.CanUndo)
+            {
+                this.currentHistory--;
+                PerformHistory(this.historyInfos[this.currentHistory].Reverse(), UndoDescriptor);
+            }
+        }
+
+        public void Redo()
+        {
+            if (this.CanRedo)
+            {
+                PerformHistory(this.historyInfos[this.currentHistory], RedoDescriptor);
+                this.currentHistory++;
+            }
+        }
+
+        #endregion
+
+        #region Undo/Redo Implementation
+
+        private void SubmitHistory(HistoryInfoItem item)
+        {
+            if (item != null)
+            {
+                this.compactingHistoryInfoItems.Add(item);
+            }
+            if (!this.compactingHistory)
+            {
+                if (this.currentHistory < this.historyInfos.Count)
+                {
+                    this.historyInfos.RemoveRange(this.currentHistory, this.historyInfos.Count - this.currentHistory);
+                }
+                this.historyInfos.Add(this.compactingHistoryInfoItems.ToArray());
+                this.compactingHistoryInfoItems.Clear();
+                this.currentHistory++;
+            }
+        }
+
+        private void PerformHistory(IEnumerable<HistoryInfoItem> items, Func<HistoryInfoItem, Tuple<TextPosition, string>> itemDescriptor)
+        {
+            this.controller.StartTask();
+            this.performingHistory = true;
+            foreach (var item in items)
+            {
+                var result = itemDescriptor(item);
+                TextPosition start = item.start;
+                TextPosition end = result.Item1;
+                string text = result.Item2;
+                this.controller.Move(start, false, false);
+                this.controller.Move(end, false, true);
+                this.controller.Input(text, false);
+            }
+            this.performingHistory = false;
+            this.controller.FinishTask();
+        }
+
+        private Tuple<TextPosition, string> UndoDescriptor(HistoryInfoItem item)
+        {
+            return Tuple.Create(item.newEnd, item.oldText);
+        }
+
+        private Tuple<TextPosition, string> RedoDescriptor(HistoryInfoItem item)
+        {
+            return Tuple.Create(item.oldEnd, item.newText);
         }
 
         #endregion
@@ -776,6 +921,24 @@ namespace Developer.WinFormControls
             return this.EnableDefaultCommands;
         }
 
+        private bool DoUndo(TextEditorBox editor, KeyEventArgs e)
+        {
+            if (this.EnableDefaultCommands)
+            {
+                Undo();
+            }
+            return this.EnableDefaultCommands;
+        }
+
+        private bool DoRedo(TextEditorBox editor, KeyEventArgs e)
+        {
+            if (this.EnableDefaultCommands)
+            {
+                Redo();
+            }
+            return this.EnableDefaultCommands;
+        }
+
         #endregion
 
         #region ITextContentProvider Members
@@ -817,10 +980,24 @@ namespace Developer.WinFormControls
 
         bool ITextContentProvider.OnEdit(TextPosition start, TextPosition end, string[] lines)
         {
+            this.preventRedraw = true;
             this.controlPanel.OnBeforeEdit(start, end, ref lines);
             bool optimizable = this.colorizedLines + 1 >= end.row;
             int lastFinalState = this.textProvider[end.row].Tag.colorizerFinalState;
             int lastColorizedLines = this.colorizedLines;
+
+            HistoryInfoItem historyInfoItem = this.performingHistory ? null : new HistoryInfoItem();
+            if (!this.performingHistory)
+            {
+                historyInfoItem.start = start;
+                historyInfoItem.oldEnd = end;
+                historyInfoItem.oldText = this.textProvider.GetString(start, end);
+                historyInfoItem.newText = lines.Aggregate("", (a, b) => a + "\r\n" + b);
+                if (lines.Length != 0)
+                {
+                    historyInfoItem.newText = historyInfoItem.newText.Substring(2);
+                }
+            }
 
             for (int i = start.row; i <= end.row; i++)
             {
@@ -850,8 +1027,15 @@ namespace Developer.WinFormControls
             this.colorizedLines = Math.Min(this.colorizedLines, start.row);
 
         FINISH_COLORIZING:
+            if (!this.performingHistory)
+            {
+                historyInfoItem.newEnd = newEnd;
+                SubmitHistory(historyInfoItem);
+            }
+
             this.controlPanel.OnAfterEdit(start, end, newEnd);
             OnTextChanged(new EventArgs());
+            this.preventRedraw = false;
             return true;
         }
 
@@ -1118,7 +1302,9 @@ namespace Developer.WinFormControls
             private void host_KeyPress(object sender, KeyPressEventArgs e)
             {
                 e.Handled = true;
+                this.textEditorBox.PressingChar = true;
                 this.textEditorBox.controller.Input(e.KeyChar.ToString(), false);
+                this.textEditorBox.PressingChar = false;
             }
 
             private void host_KeyDown(object sender, KeyEventArgs e)

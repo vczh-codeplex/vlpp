@@ -27,7 +27,15 @@ namespace Developer.WinFormControls
         protected int AnalyzingId { get; private set; }
         protected int ReceivedId { get; private set; }
 
-        protected bool PreventPopupList { get; private set; }
+        private bool forcePopupList = false;
+
+        protected bool PreventPopupList
+        {
+            get
+            {
+                return !this.forcePopupList && !this.Callback.TextEditorBox.PressingChar;
+            }
+        }
 
         public LanguageControlPanel()
         {
@@ -192,10 +200,13 @@ namespace Developer.WinFormControls
             controller.StartTask();
             controller.Move(start, false, false);
             controller.Move(end, false, true);
-            this.PreventPopupList = true;
             controller.Input(text, false);
-            this.PreventPopupList = false;
-            controller.Input(postfixKey, false);
+            if (postfixKey != "")
+            {
+                this.forcePopupList = true;
+                controller.Input(postfixKey, false);
+                this.forcePopupList = false;
+            }
             controller.FinishTask();
         }
 
