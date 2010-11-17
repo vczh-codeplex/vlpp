@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Developer.WinFormControls.TextEditorControlPanel textEditorControlPanel1 = new Developer.WinFormControls.TextEditorControlPanel();
             this.textEditorBox = new Developer.WinFormControls.TextEditorBox();
             this.tabEditor = new System.Windows.Forms.TabControl();
             this.tabPageEditor = new System.Windows.Forms.TabPage();
@@ -49,17 +48,13 @@
             // textEditorBox
             // 
             this.textEditorBox.BackColor = System.Drawing.SystemColors.Window;
-            this.textEditorBox.ControlPanel = textEditorControlPanel1;
             this.textEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditorBox.EnableDefaultCommands = true;
             this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textEditorBox.HorizontalSmallChange = 7;
             this.textEditorBox.Location = new System.Drawing.Point(0, 0);
             this.textEditorBox.Name = "textEditorBox";
-            this.textEditorBox.SelectedText = "";
             this.textEditorBox.Size = new System.Drawing.Size(679, 599);
             this.textEditorBox.TabIndex = 0;
-            this.textEditorBox.VerticalSmallChange = 10;
             // 
             // tabEditor
             // 

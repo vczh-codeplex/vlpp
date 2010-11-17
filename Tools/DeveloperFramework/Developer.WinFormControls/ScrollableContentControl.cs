@@ -88,6 +88,7 @@ namespace Developer.WinFormControls
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int VerticalSmallChange
         {
             get
@@ -100,6 +101,7 @@ namespace Developer.WinFormControls
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int HorizontalSmallChange
         {
             get
