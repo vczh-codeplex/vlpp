@@ -46,7 +46,6 @@ namespace Test.Host.LanguageForms.NativeX
             }
         }
 
-        private LanguagePopupListExtension popupListExtension = null;
         private NativeXEditingObserverProvider editingObserverProvider = null;
         private NativeXContextSensitiveColorizerProvider colorizerProvider = null;
         private NativeXPopupItemProvider popupItemProvider = null;
@@ -54,13 +53,11 @@ namespace Test.Host.LanguageForms.NativeX
 
         public NativeXControlPanel(NativeXForm form)
         {
-            this.popupListExtension = new LanguagePopupListExtension();
             this.editingObserverProvider = new NativeXEditingObserverProvider(new LanguageFormNativeXProvider(form));
             this.colorizerProvider = new NativeXContextSensitiveColorizerProvider(this.editingObserverProvider);
-            this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider, this.popupListExtension);
+            this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider);
             this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
 
-            ExtendBeforeInstall(this.popupListExtension);
             ExtendBeforeInstall(this.editingObserverProvider);
             ExtendBeforeInstall(this.colorizerProvider);
             ExtendBeforeInstall(this.popupItemProvider);
