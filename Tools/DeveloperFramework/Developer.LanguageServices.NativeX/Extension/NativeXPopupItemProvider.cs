@@ -11,17 +11,14 @@ using Developer.WinFormControls.Extension;
 namespace Developer.LanguageServices.NativeX.Extension
 {
     public class NativeXPopupItemProvider
-        : ITextEditorBoxEditingObserverExtension
+        : LanguagePopupListExtension
+        , ITextEditorBoxEditingObserverExtension
     {
-        public ITextEditorControlPanelCallBack Callback { get; private set; }
-
         protected NativeXEditingObserverProvider EditingObserverExtension { get; private set; }
-        protected LanguagePopupListExtension PopupListExtension { get; private set; }
 
-        public NativeXPopupItemProvider(NativeXEditingObserverProvider editingObserverExtension, LanguagePopupListExtension popupListExtension)
+        public NativeXPopupItemProvider(NativeXEditingObserverProvider editingObserverExtension)
         {
             this.EditingObserverExtension = editingObserverExtension;
-            this.PopupListExtension = popupListExtension;
         }
 
         #region Popup Item Calculation
@@ -346,7 +343,7 @@ namespace Developer.LanguageServices.NativeX.Extension
 
         public virtual void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
         {
-            if (!this.PopupListExtension.PreventPopupList)
+            if (!this.PreventPopupList)
             {
                 string inputText = this.Callback.TextEditorBox.TextProvider.GetString(start, newEnd);
                 if (this.EditingObserverExtension.EditingNode == null)
@@ -484,15 +481,6 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
             }
-        }
-
-        public virtual void Attach(ITextEditorControlPanelCallBack callback)
-        {
-            this.Callback = callback;
-        }
-
-        public virtual void AnalyzerResultRecieved(NativeXAnalyzingResult result)
-        {
         }
     }
 }
