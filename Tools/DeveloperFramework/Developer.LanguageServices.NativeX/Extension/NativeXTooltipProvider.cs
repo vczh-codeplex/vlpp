@@ -13,20 +13,20 @@ namespace Developer.LanguageServices.NativeX.Extension
     {
         public ITextEditorControlPanelCallBack Callback { get; private set; }
 
-        protected NativeXEditingObserverProvider Extension { get; private set; }
+        protected NativeXEditingObserverProvider EditingObserverExtension { get; private set; }
 
-        public NativeXTooltipProvider(NativeXEditingObserverProvider extension)
+        public NativeXTooltipProvider(NativeXEditingObserverProvider editingObserverExtension)
         {
-            this.Extension = extension;
+            this.EditingObserverExtension = editingObserverExtension;
         }
 
         public virtual string OnGetSimpleTooltip(TextPosition pos)
         {
-            if (this.Extension.AnalyzingResult == null || this.Extension.AnalyzingResult.Unit == null)
+            if (this.EditingObserverExtension.AnalyzingResult == null || this.EditingObserverExtension.AnalyzingResult.Unit == null)
             {
                 return null;
             }
-            NativeXNode node = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXNode>(pos);
+            NativeXNode node = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXNode>(pos);
             NativeXNode hint = null;
             {
                 NativeXReferenceExpression exp = node as NativeXReferenceExpression;
@@ -64,9 +64,9 @@ namespace Developer.LanguageServices.NativeX.Extension
                 NativeXInstanceDeclaration inst = node as NativeXInstanceDeclaration;
                 if (inst != null && inst.Scope != null)
                 {
-                    if (this.Extension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
+                    if (this.EditingObserverExtension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
                     {
-                        CodeToken token = this.Extension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
+                        CodeToken token = this.EditingObserverExtension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
                         if (token.Value == inst.ConceptName)
                         {
                             hint = (NativeXNode)inst.Scope.Find(inst.ConceptName);
@@ -78,9 +78,9 @@ namespace Developer.LanguageServices.NativeX.Extension
                 NativeXGenericConstraint genecons = node as NativeXGenericConstraint;
                 if (genecons != null && genecons.Scope != null)
                 {
-                    if (this.Extension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
+                    if (this.EditingObserverExtension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
                     {
-                        CodeToken token = this.Extension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
+                        CodeToken token = this.EditingObserverExtension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
                         if (token.Value == genecons.ConceptName)
                         {
                             hint = (NativeXNode)genecons.Scope.Find(genecons.ConceptName);

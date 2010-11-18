@@ -14,30 +14,30 @@ namespace Developer.LanguageServices.NativeX.Extension
     {
         public ITextEditorControlPanelCallBack Callback { get; private set; }
 
-        protected NativeXEditingObserverProvider Extension { get; private set; }
+        protected NativeXEditingObserverProvider EditingObserverExtension { get; private set; }
 
-        public NativeXContextSensitiveColorizerProvider(NativeXEditingObserverProvider extension)
+        public NativeXContextSensitiveColorizerProvider(NativeXEditingObserverProvider editingObserverExtension)
         {
-            this.Extension = extension;
+            this.EditingObserverExtension = editingObserverExtension;
         }
 
         public virtual bool NeedColorLineForDisplay(int lineIndex)
         {
-            return this.Extension.AnalyzingResult != null && this.Extension.AnalyzingResult.Unit != null && this.Extension.AnalyzingResult.IdTokens.ContainsKey(lineIndex);
+            return this.EditingObserverExtension.AnalyzingResult != null && this.EditingObserverExtension.AnalyzingResult.Unit != null && this.EditingObserverExtension.AnalyzingResult.IdTokens.ContainsKey(lineIndex);
         }
 
         public virtual void ColorLineForDisplay(int lineIndex, int[] colors)
         {
-            if (this.Extension.AnalyzingResult == null || this.Extension.AnalyzingResult.Unit == null)
+            if (this.EditingObserverExtension.AnalyzingResult == null || this.EditingObserverExtension.AnalyzingResult.Unit == null)
             {
                 return;
             }
             TextLine<TextEditorBox.LineInfo> line = this.Callback.TextEditorBox.TextProvider[lineIndex];
-            foreach (var token in this.Extension.AnalyzingResult.IdTokens[lineIndex])
+            foreach (var token in this.EditingObserverExtension.AnalyzingResult.IdTokens[lineIndex])
             {
                 bool needColor = false;
                 {
-                    var type = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(token.Start);
+                    var type = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(token.Start);
                     if (type != null && type.ReferencedName == token.Value)
                     {
                         CodeScope scope = type.Scope;
@@ -52,7 +52,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var inst = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceFunctionExpression>(token.Start);
+                    var inst = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceFunctionExpression>(token.Start);
                     if (inst != null && inst.ConceptName == token.Value)
                     {
                         CodeScope scope = inst.Scope;
@@ -67,7 +67,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var genecons = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXGenericConstraint>(token.Start);
+                    var genecons = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXGenericConstraint>(token.Start);
                     if (genecons != null && genecons.ConceptName == token.Value)
                     {
                         CodeScope scope = genecons.Scope;
@@ -82,7 +82,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var inst = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceDeclaration>(token.Start);
+                    var inst = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceDeclaration>(token.Start);
                     if (inst != null && inst.ConceptName == token.Value)
                     {
                         CodeScope scope = inst.Scope;
@@ -97,7 +97,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var decl = this.Extension.AnalyzingResult.Unit.FindDeepest<NativeXDeclaration>(token.Start);
+                    var decl = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXDeclaration>(token.Start);
                     if (decl != null && decl.Name == token.Value)
                     {
                         if (decl is NativeXStructureDeclaration || decl is NativeXTypeRenameDeclaration || decl is NativeXConceptDeclaration)

@@ -57,7 +57,7 @@ namespace Test.Host.LanguageForms.NativeX
             this.popupListExtension = new LanguagePopupListExtension();
             this.editingObserverProvider = new NativeXEditingObserverProvider(new LanguageFormNativeXProvider(form));
             this.colorizerProvider = new NativeXContextSensitiveColorizerProvider(this.editingObserverProvider);
-            this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider);
+            this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider, this.popupListExtension);
             this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
 
             ExtendBeforeInstall(this.popupListExtension);
