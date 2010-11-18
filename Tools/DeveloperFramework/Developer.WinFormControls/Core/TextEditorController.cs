@@ -278,7 +278,10 @@ namespace Developer.WinFormControls.Core
                 }
             }
 
-            string[] lines = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            string[] lines = text
+                .Split(new string[] { "\r\n" }, StringSplitOptions.None)
+                .SelectMany(s => s.Split(new string[] { "\n", "\r" }, StringSplitOptions.None))
+                .ToArray();
             if (this.provider.OnEdit(start, end, lines))
             {
                 if (lines.Length == 1)
