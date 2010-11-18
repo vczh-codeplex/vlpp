@@ -5,9 +5,8 @@ using System.Text;
 using Developer.WinFormControls;
 using Developer.LanguageProvider;
 using Developer.LanguageServices.NativeX.SyntaxTree;
-using Developer.LanguageServices.NativeX;
 
-namespace Test.Host.LanguageForms.NativeX
+namespace Developer.LanguageServices.NativeX.Extension
 {
     public class NativeXAnalyzingResult
     {

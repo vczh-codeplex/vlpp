@@ -8,50 +8,6 @@ using System.Windows.Forms;
 
 namespace Developer.WinFormControls.Extension
 {
-    public interface ITextEditorBoxExtension
-    {
-        void Attach(ITextEditorControlPanelCallBack callback);
-    }
-
-    public interface ITextEditorBoxEditingObserverExtension : ITextEditorBoxExtension
-    {
-        void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines);
-        void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
-    }
-
-    public interface ITextEditorBoxHeaderExtension : ITextEditorBoxExtension
-    {
-        int Width { get; }
-        void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
-        void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea);
-        void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
-        void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
-        void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
-    }
-
-    public interface ITextEditorBoxLineExtension : ITextEditorBoxExtension
-    {
-        void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea);
-        void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea);
-    }
-
-    public interface ITextEditorBoxColorizerExtension : ITextEditorBoxExtension
-    {
-        bool NeedColorLineForDisplay(int lineIndex);
-        void ColorLineForDisplay(int lineIndex, int[] colors);
-    }
-
-    public interface ITextEditorBoxPopupListExtension : ITextEditorBoxExtension
-    {
-        bool IsPopupListKeyAcceptable(KeyEventArgs e);
-        void PopupListItemSelected(string searchingKey, string text, string postfixKey);
-    }
-
-    public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
-    {
-        string OnGetSimpleTooltip(TextPosition pos);
-    }
-
     public class TextEditorBoxExtensibleControlPanel : ITextEditorControlPanel
     {
         private int width = 0;
@@ -67,7 +23,7 @@ namespace Developer.WinFormControls.Extension
         {
         }
 
-        public void Extend(ITextEditorBoxExtension extension)
+        public void ExtendBeforeInstall(ITextEditorBoxExtension extension)
         {
             ITextEditorBoxEditingObserverExtension editingObserver = extension as ITextEditorBoxEditingObserverExtension;
             ITextEditorBoxHeaderExtension header = extension as ITextEditorBoxHeaderExtension;
@@ -233,5 +189,49 @@ namespace Developer.WinFormControls.Extension
                 ex.PopupListItemSelected(searchingKey, text, postfixKey);
             }
         }
+    }
+
+    public interface ITextEditorBoxExtension
+    {
+        void Attach(ITextEditorControlPanelCallBack callback);
+    }
+
+    public interface ITextEditorBoxEditingObserverExtension : ITextEditorBoxExtension
+    {
+        void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines);
+        void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
+    }
+
+    public interface ITextEditorBoxHeaderExtension : ITextEditorBoxExtension
+    {
+        int Width { get; }
+        void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea);
+        void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea);
+        void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
+        void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
+        void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
+    }
+
+    public interface ITextEditorBoxLineExtension : ITextEditorBoxExtension
+    {
+        void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea);
+        void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea);
+    }
+
+    public interface ITextEditorBoxColorizerExtension : ITextEditorBoxExtension
+    {
+        bool NeedColorLineForDisplay(int lineIndex);
+        void ColorLineForDisplay(int lineIndex, int[] colors);
+    }
+
+    public interface ITextEditorBoxPopupListExtension : ITextEditorBoxExtension
+    {
+        bool IsPopupListKeyAcceptable(KeyEventArgs e);
+        void PopupListItemSelected(string searchingKey, string text, string postfixKey);
+    }
+
+    public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
+    {
+        string OnGetSimpleTooltip(TextPosition pos);
     }
 }

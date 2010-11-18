@@ -46,6 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\NativeXCodeAnalyzer.cs" />
+    <Compile Include="Extension\NativeXContextSensitiveColorizerProvider.cs" />
+    <Compile Include="Extension\NativeXEditingObserverProvider.cs" />
+    <Compile Include="Extension\NativeXPopupItemProvider.cs" />
+    <Compile Include="Extension\NativeXTooltipProvider.cs" />
+    <Compile Include="Images.Designer.cs">
+      <DependentUpon>Images.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="NativeXCodeParser.Configuration.cs" />
     <Compile Include="NativeXCodeParser.Generated.cs" />
     <Compile Include="NativeXCodeParser.Grammar.cs" />
@@ -75,7 +85,21 @@
   <ItemGroup>
     <Content Include="NativeXColorizer.Grammar.statemachine.xml" />
     <Content Include="NativeXTokenizer.Grammar.statemachine.xml" />
+    <None Include="Resources\VSObject_TypeDef.bmp" />
+    <None Include="Resources\VSObject_Template.bmp" />
+    <None Include="Resources\VSObject_Structure.bmp" />
+    <None Include="Resources\VSObject_Method.bmp" />
+    <None Include="Resources\VSObject_Field.bmp" />
+    <None Include="Resources\VSObject_Constant.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
