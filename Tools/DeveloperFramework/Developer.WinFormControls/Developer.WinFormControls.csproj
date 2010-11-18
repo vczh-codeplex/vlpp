@@ -52,6 +52,7 @@
     <Compile Include="Core\TextProvider.cs" />
     <Compile Include="Core\UnsafeMethods.cs" />
     <Compile Include="DisposableComponent.cs" />
+    <Compile Include="Extension\TextEditorBoxExtensibleControlPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScrollableContentControl.cs">
       <SubType>UserControl</SubType>
