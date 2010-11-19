@@ -49,6 +49,7 @@ namespace Developer.WinFormControls.Extension
                 switch (e.KeyCode)
                 {
                     case Keys.Back: return true;
+                    case Keys.Delete: return true;
                     case Keys.ShiftKey: return true;
                     case Keys.CapsLock: return true;
                     default: return false;

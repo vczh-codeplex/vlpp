@@ -301,9 +301,10 @@ namespace Developer.WinFormControls
 
         private void popupList_KeyDown(object sender, KeyEventArgs e)
         {
+            bool sendKeyDownToTextBox = false;
             if (this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
             {
-                this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+                sendKeyDownToTextBox = true;
                 switch (e.KeyCode)
                 {
                     case Keys.Back:
@@ -341,17 +342,24 @@ namespace Developer.WinFormControls
                         this.needToClose = true;
                         break;
 
-                    case Keys.Delete:
+                    case Keys.Left:
+                    case Keys.Right:
                     case Keys.Escape:
                         e.SuppressKeyPress = true;
                         this.needToComplete = false;
                         this.needToClose = true;
+                        sendKeyDownToTextBox = true;
                         break;
 
                     default:
+                        sendKeyDownToTextBox = true;
                         this.needToClose = true;
                         break;
                 }
+            }
+            if (sendKeyDownToTextBox)
+            {
+                this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
             }
         }
 

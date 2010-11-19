@@ -767,7 +767,7 @@ namespace Developer.WinFormControls
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 this.textHeight = (int)(this.Font.SizeInPoints * g.DpiY / 75);
-                this.lineHeight = (int)(1.5 * this.textHeight);
+                this.lineHeight = (int)(1.3 * this.textHeight);
                 this.textTopOffset = (this.lineHeight - this.textHeight) / 2;
             }
             UpdateViewSize();
