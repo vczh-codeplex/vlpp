@@ -56,6 +56,9 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                                 ElementType = type
                             };
                         }
+                    case "++":
+                    case "--":
+                        return this.Operand == null ? null : this.Operand.AbstractType;
                     default:
                         return null;
                 }
@@ -67,6 +70,14 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     {
         public string Operator { get; set; }
         public abstract NativeXExpression Operand { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                return this.Operand == null ? null : this.Operand.AbstractType;
+            }
+        }
     }
 
     public abstract class NativeXBinaryExpression : NativeXExpression
@@ -74,6 +85,32 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string Operator { get; set; }
         public abstract NativeXExpression LeftOperand { get; set; }
         public abstract NativeXExpression RightOperand { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                if (this.LeftOperand != null && this.RightOperand != null)
+                {
+                    NativeXAbstractPointerType t1 = this.LeftOperand.AbstractType as NativeXAbstractPointerType;
+                    NativeXAbstractPointerType t2 = this.RightOperand.AbstractType as NativeXAbstractPointerType;
+                    switch (this.Operator)
+                    {
+                        case "+":
+                        case "-":
+                            if (t1 != null && t2 != null)
+                            {
+                                return null;
+                            }
+                            else
+                            {
+                                return t1 ?? t2;
+                            }
+                    }
+                }
+                return null;
+            }
+        }
     }
 
     public abstract class NativeXSubscribeExpression : NativeXExpression
@@ -85,10 +122,24 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         {
             get
             {
-                if (this.Operand == null) return null;
-                NativeXAbstractArrayType type = this.Operand.GetUnwrapType<NativeXAbstractArrayType>();
-                if (type == null) return null;
-                return type.ElementType;
+                if (this.Operand != null)
+                {
+                    {
+                        NativeXAbstractArrayType type = this.Operand.GetUnwrapType<NativeXAbstractArrayType>();
+                        if (type != null)
+                        {
+                            return type.ElementType;
+                        }
+                    }
+                    {
+                        NativeXAbstractPointerType type = this.Operand.GetUnwrapType<NativeXAbstractPointerType>();
+                        if (type != null)
+                        {
+                            return type.ElementType;
+                        }
+                    }
+                }
+                return null;
             }
         }
     }
