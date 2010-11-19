@@ -73,6 +73,12 @@
     <Compile Include="TextEditorPopupList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TextEditorTooltip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextEditorTooltip.Designer.cs">
+      <DependentUpon>TextEditorTooltip.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ScrollableContentControl.resx">
@@ -80,6 +86,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TextEditorBox.resx">
       <DependentUpon>TextEditorBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextEditorTooltip.resx">
+      <DependentUpon>TextEditorTooltip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

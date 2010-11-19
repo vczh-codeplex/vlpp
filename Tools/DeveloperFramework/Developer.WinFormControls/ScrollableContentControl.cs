@@ -236,6 +236,7 @@ namespace Developer.WinFormControls
         {
             if (this.content != null)
             {
+                RedrawContent(false, false);
                 Rectangle bounds = panelContent.Bounds;
                 Rectangle area = new Rectangle(this.viewPosition, this.ViewVisibleSize);
                 area.X += e.ClipRectangle.Left - bounds.Left;

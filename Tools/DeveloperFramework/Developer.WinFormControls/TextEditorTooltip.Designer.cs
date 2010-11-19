@@ -1,6 +1,6 @@
 ﻿namespace Developer.WinFormControls
 {
-    partial class TextEditorBox
+    partial class TextEditorTooltip
     {
         /// <summary>
         /// Required designer variable.
@@ -28,27 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timerCaret = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // timerCaret
+            // TextEditorTooltip
             // 
-            this.timerCaret.Enabled = true;
-            this.timerCaret.Interval = 500;
-            this.timerCaret.Tick += new System.EventHandler(this.timerCaret_Tick);
-            // 
-            // TextEditorBox
-            // 
-            this.BackColor = System.Drawing.SystemColors.Window;
-            this.Name = "TextEditorBox";
-            this.Size = new System.Drawing.Size(371, 368);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "TextEditorTooltip";
+            this.ShowInTaskbar = false;
+            this.Text = "TextEditorTooltip";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer timerCaret;
     }
 }
