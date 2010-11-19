@@ -47,6 +47,7 @@ namespace Developer.WinFormControls
         private TextEditorController controller = null;
         private TextEditorBoxKeyCommands keyCommands = null;
         private TextEditorPopupList popupList = null;
+        private TextEditorTooltip tooltip = null;
 
         #endregion
 
@@ -83,7 +84,8 @@ namespace Developer.WinFormControls
         private TextPosition oldAnchor;
         private TextPosition oldCaret;
         private Point oldPoint;
-        private Size oldSize;
+        private Point oldHostPoint;
+        private Size oldHostSize;
         private int oldLineHeight = -1;
         private int oldLineFinalState = -1;
         private int tabLength = 0;
@@ -120,6 +122,7 @@ namespace Developer.WinFormControls
             this.controlPanel = new TextEditorControlPanel();
             this.keyCommands = new TextEditorBoxKeyCommands();
             this.popupList = new TextEditorPopupList(this, this.host);
+            this.tooltip = new TextEditorTooltip();
 
             this.controller = new TextEditorController(this);
             this.colorizer = new TextEditorPlanTextColorizer(this);
@@ -127,6 +130,7 @@ namespace Developer.WinFormControls
             InitializeComponent();
             this.components.Add(new DisposableComponent(this.textProvider));
             this.components.Add(this.popupList);
+            this.components.Add(this.tooltip);
             UpdateLineHeight();
 
             this.keyCommands.RegisterCommand(Keys.C, true, false, DoCopy);
@@ -147,7 +151,8 @@ namespace Developer.WinFormControls
             if (!this.preventRedraw)
             {
                 Point newPoint = this.ViewPosition;
-                Size newSize = this.ViewAreaSize;
+                Point newHostPoint = this.host.PointToScreen(new Point(0, 0));
+                Size newHostSize = this.ViewAreaSize;
                 TextPosition newAnchor = this.SelectionAnchor;
                 TextPosition newCaret = this.SelectionCaret;
                 int lineFinalState = this.textProvider[newCaret.row].Tag.colorizerFinalState;
@@ -157,7 +162,8 @@ namespace Developer.WinFormControls
                 }
                 else if (!totalRefresh
                     && this.oldPoint == newPoint
-                    && this.oldSize == newSize
+                    && this.oldHostPoint == newHostPoint
+                    && this.oldHostSize == newHostSize
                     && this.oldAnchor == this.oldCaret
                     && newAnchor == newCaret
                     && this.oldAnchor.row == newAnchor.row
@@ -169,7 +175,7 @@ namespace Developer.WinFormControls
                     int row = newCaret.row;
                     int x = 0;
                     int y = this.TextPositionToViewPoint(new TextPosition(row, 0)).Y;
-                    int w = newSize.Width;
+                    int w = newHostSize.Width;
                     int h = this.lineHeight;
                     this.host.Invalidate(new Rectangle(x, y, w, h));
                 }
@@ -178,7 +184,8 @@ namespace Developer.WinFormControls
                     this.host.Invalidate();
                 }
                 this.oldPoint = newPoint;
-                this.oldSize = newSize;
+                this.oldHostPoint = newHostPoint;
+                this.oldHostSize = newHostSize;
                 this.oldAnchor = newAnchor;
                 this.oldCaret = newCaret;
                 this.oldLineHeight = this.lineHeight;
@@ -426,7 +433,17 @@ namespace Developer.WinFormControls
 
         public void PopupTooltip(TextPosition pos, string text)
         {
-            toolTipSimple.SetToolTip(this.host, text);
+            if (string.IsNullOrEmpty(text))
+            {
+                this.tooltip.Hide();
+            }
+            else
+            {
+                Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
+                Point locationBottom = locationTop;
+                locationBottom.Y += this.lineHeight;
+                this.tooltip.Show(this.FindForm(), locationTop, locationBottom, text);
+            }
         }
 
         #endregion
@@ -691,10 +708,10 @@ namespace Developer.WinFormControls
         #region Sizing Core Implementation
 
         [DllImport("User32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        public static extern int GetTabbedTextExtent(IntPtr hDC, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions);
+        private static extern int GetTabbedTextExtent(IntPtr hDC, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions);
 
         [DllImport("User32.dll", SetLastError = false, CharSet = CharSet.Auto)]
-        public static extern int TabbedTextOut(IntPtr hDC, int x, int y, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions, int nTabOrigin);
+        private static extern int TabbedTextOut(IntPtr hDC, int x, int y, string lpString, int nCount, int nTabPositions, ref int lpnTabStopPositions, int nTabOrigin);
 
         [DllImport("Gdi32.dll")]
         private static extern IntPtr SelectObject(IntPtr hDC, IntPtr obj);
@@ -1291,8 +1308,13 @@ namespace Developer.WinFormControls
 
             private void host_MouseLeave(object sender, EventArgs e)
             {
-                this.lastTooltip = null;
-                this.textEditorBox.PopupTooltip(new TextPosition(0, 0), null);
+                if (this.textEditorBox.tooltip.Visible &&
+                    !new Rectangle(this.textEditorBox.tooltip.Location, this.textEditorBox.tooltip.Size).Contains(Control.MousePosition)
+                    )
+                {
+                    this.lastTooltip = null;
+                    this.textEditorBox.PopupTooltip(new TextPosition(0, 0), null);
+                }
             }
 
             #endregion
@@ -1456,7 +1478,7 @@ namespace Developer.WinFormControls
                             RenderWholeLine(g, viewVisibleBounds, viewAreaBounds, selectionStart, selectionEnd, backgroundLeft, backgroundWidth, i);
                         }
 
-                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible))
+                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible || this.textEditorBox.tooltip.Visible))
                         {
                             RenderCaret(g, viewVisibleBounds, viewAreaBounds, textBrush);
                         }
