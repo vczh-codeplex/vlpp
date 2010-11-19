@@ -76,7 +76,7 @@ namespace Developer.WinFormControls
             this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
             if (this.Visible)
             {
-                Hide();
+                Refresh();
             }
             else
             {
