@@ -236,7 +236,6 @@ namespace Developer.WinFormControls
         {
             if (this.content != null)
             {
-                RedrawContent(false, false);
                 Rectangle bounds = panelContent.Bounds;
                 Rectangle area = new Rectangle(this.viewPosition, this.ViewVisibleSize);
                 area.X += e.ClipRectangle.Left - bounds.Left;
@@ -335,6 +334,10 @@ namespace Developer.WinFormControls
                 if (m.Msg == WM_IME_STARTCOMPOSITION)
                 {
                     UpdateCompositionForContent();
+                }
+                else if (m.Msg == 0xf)//WM_PAINT
+                {
+                    this.ParentControl.RedrawContent(false, false);
                 }
                 base.WndProc(ref m);
             }
