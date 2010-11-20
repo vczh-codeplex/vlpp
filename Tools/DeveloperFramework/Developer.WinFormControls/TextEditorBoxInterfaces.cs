@@ -93,6 +93,6 @@ namespace Developer.WinFormControls
         void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, MouseButtons buttons);
 
         bool IsPopupListKeyAcceptable(KeyEventArgs e);
-        void PopupListItemSelected(string searchingKey, string text, string postfixKey);
+        void PopupListItemSelected(string searchingKey, string text);
     }
 }

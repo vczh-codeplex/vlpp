@@ -46,7 +46,7 @@ namespace Developer.WinFormControls
         private TextProvider<LineInfo> textProvider = null;
         private TextEditorController controller = null;
         private TextEditorBoxKeyCommands keyCommands = null;
-        private TextEditorPopupList popupList = null;
+        private TextEditorPopup popupList = null;
         private TextEditorTooltip tooltip = null;
 
         #endregion
@@ -121,7 +121,7 @@ namespace Developer.WinFormControls
             this.textProvider = new TextProvider<LineInfo>();
             this.controlPanel = new TextEditorControlPanel();
             this.keyCommands = new TextEditorBoxKeyCommands();
-            this.popupList = new TextEditorPopupList(this, this.host);
+            this.popupList = new TextEditorPopup(this, this.host);
             this.tooltip = new TextEditorTooltip();
 
             this.controller = new TextEditorController(this);
@@ -412,23 +412,26 @@ namespace Developer.WinFormControls
         {
             if (forceClosingPrevious)
             {
-                if (this.popupList.PopupVisible)
+                if (this.popupList.Visible)
                 {
                     this.popupList.Close();
                 }
             }
             else
             {
-                if (this.popupList.PopupVisible)
+                if (this.popupList.Visible)
                 {
                     return;
                 }
             }
-            Point position = TextPositionToViewPoint(this.SelectionCaret);
-            if (position.X <= 0) position.X = 0; else if (position.X > this.host.Width) position.X = this.host.Width;
-            if (position.Y <= 0) position.Y = 0; else if (position.Y > this.host.Height) position.Y = this.host.Height;
-            position.Y += this.lineHeight;
-            this.popupList.Open(this.host, position, items, searchingKey, needToDisposeImages, maxItems);
+            Point locationTop = this.host.PointToScreen(TextPositionToViewPoint(this.SelectionCaret));
+            Point locationBottom = new Point(locationTop.X, locationTop.Y + this.lineHeight);
+            this.popupList.Show(this.host, locationTop, locationBottom, items, searchingKey, needToDisposeImages, maxItems);
+        }
+
+        public void ClosePopupItems()
+        {
+            this.popupList.Hide();
         }
 
         public void PopupTooltip(TextPosition pos, string text)
@@ -1139,6 +1142,7 @@ namespace Developer.WinFormControls
             private TextEditorBox textEditorBox = null;
             private MouseMode mouseMode = MouseMode.Normal;
             private string lastTooltip = null;
+            private bool needToClosePopupList = false;
 
             #region Mouse Handlers
 
@@ -1191,6 +1195,7 @@ namespace Developer.WinFormControls
 
             private void host_MouseDown(object sender, MouseEventArgs e)
             {
+                this.textEditorBox.ClosePopupItems();
                 if (e.X >= this.textEditorBox.EditorControlPanel)
                 {
                     if (e.Button == MouseButtons.Left)
@@ -1325,12 +1330,51 @@ namespace Developer.WinFormControls
             {
                 e.Handled = true;
                 this.textEditorBox.PressingChar = true;
+                if (this.textEditorBox.popupList.Visible)
+                {
+                    if (this.needToClosePopupList)
+                    {
+                        this.textEditorBox.popupList.SelectItem();
+                        this.textEditorBox.ClosePopupItems();
+                        this.needToClosePopupList = false;
+                    }
+                    else if (!this.textEditorBox.popupList.ProcessChar(e.KeyChar))
+                    {
+                        this.textEditorBox.ClosePopupItems();
+                    }
+                }
                 this.textEditorBox.controller.Input(e.KeyChar.ToString(), false);
                 this.textEditorBox.PressingChar = false;
             }
 
+            private void host_KeyUp(object sender, KeyEventArgs e)
+            {
+                if (this.needToClosePopupList)
+                {
+                    this.textEditorBox.ClosePopupItems();
+                    this.needToClosePopupList = false;
+                }
+            }
+
             private void host_KeyDown(object sender, KeyEventArgs e)
             {
+                this.needToClosePopupList = false;
+                if (this.textEditorBox.popupList.Visible)
+                {
+                    if (!this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
+                    {
+                        if (this.textEditorBox.popupList.ProcessKey(e))
+                        {
+                            e.Handled = true;
+                            e.SuppressKeyPress = true;
+                            return;
+                        }
+                        else
+                        {
+                            this.needToClosePopupList = true;
+                        }
+                    }
+                }
                 Func<TextEditorBox, KeyEventArgs, bool> action = this.textEditorBox.keyCommands.GetAction(e);
                 bool handled = false;
                 if (action != null)
@@ -1367,6 +1411,13 @@ namespace Developer.WinFormControls
                             break;
                         case Keys.Back:
                             this.textEditorBox.controller.PressBackspace(e.Control, e.Shift);
+                            if (this.textEditorBox.popupList.Visible)
+                            {
+                                if (!this.textEditorBox.popupList.ProcessBackspace())
+                                {
+                                    this.textEditorBox.ClosePopupItems();
+                                }
+                            }
                             break;
                         case Keys.Delete:
                             this.textEditorBox.controller.PressDelete(e.Control, e.Shift);
@@ -1416,6 +1467,7 @@ namespace Developer.WinFormControls
                 this.host.Cursor = Cursors.IBeam;
                 this.host.KeyDown += new KeyEventHandler(host_KeyDown);
                 this.host.KeyPress += new KeyPressEventHandler(host_KeyPress);
+                this.host.KeyUp += new KeyEventHandler(host_KeyUp);
                 this.host.GotFocus += new EventHandler(host_GotFocus);
                 this.host.LostFocus += new EventHandler(host_LostFocus);
                 this.host.MouseDown += new MouseEventHandler(host_MouseDown);
@@ -1478,7 +1530,7 @@ namespace Developer.WinFormControls
                             RenderWholeLine(g, viewVisibleBounds, viewAreaBounds, selectionStart, selectionEnd, backgroundLeft, backgroundWidth, i);
                         }
 
-                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.PopupVisible || this.textEditorBox.tooltip.Visible))
+                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.Visible || this.textEditorBox.tooltip.Visible))
                         {
                             RenderCaret(g, viewVisibleBounds, viewAreaBounds, textBrush);
                         }

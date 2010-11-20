@@ -57,7 +57,7 @@ namespace Developer.WinFormControls.Extension
             }
         }
 
-        public virtual void PopupListItemSelected(string searchingKey, string text, string postfixKey)
+        public virtual void PopupListItemSelected(string searchingKey, string text)
         {
             TextPosition end = this.Callback.TextEditorBox.SelectionCaret;
             TextPosition start = new TextPosition(end.row, end.col - searchingKey.Length);
@@ -66,12 +66,12 @@ namespace Developer.WinFormControls.Extension
             controller.Move(start, false, false);
             controller.Move(end, false, true);
             controller.Input(text, false);
-            if (postfixKey != "")
-            {
-                this.forcePopupList = true;
-                controller.Input(postfixKey, false);
-                this.forcePopupList = false;
-            }
+            //if (postfixKey != "")
+            //{
+            //    this.forcePopupList = true;
+            //    controller.Input(postfixKey, false);
+            //    this.forcePopupList = false;
+            //}
             controller.FinishTask();
         }
 

@@ -112,7 +112,7 @@ namespace Developer.WinFormControls
             return false;
         }
 
-        public void PopupListItemSelected(string searchingKey, string text, string postfixKey)
+        public void PopupListItemSelected(string searchingKey, string text)
         {
         }
     }
