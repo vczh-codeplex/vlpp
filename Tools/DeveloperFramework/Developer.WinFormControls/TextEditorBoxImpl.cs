@@ -112,6 +112,11 @@ namespace Developer.WinFormControls
             return false;
         }
 
+        public bool IsPopupListCharAcceptable(char c)
+        {
+            return false;
+        }
+
         public void PopupListItemSelected(string searchingKey, string text)
         {
         }

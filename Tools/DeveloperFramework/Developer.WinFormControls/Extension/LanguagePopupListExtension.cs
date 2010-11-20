@@ -57,6 +57,11 @@ namespace Developer.WinFormControls.Extension
             }
         }
 
+        public virtual bool IsPopupListCharAcceptable(char c)
+        {
+            return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '_';
+        }
+
         public virtual void PopupListItemSelected(string searchingKey, string text)
         {
             TextPosition end = this.Callback.TextEditorBox.SelectionCaret;
