@@ -120,5 +120,15 @@ namespace Developer.WinFormControls
         public void PopupListItemSelected(string searchingKey, string text)
         {
         }
+
+        public TextPosition GetLeftWord(TextPosition caret)
+        {
+            return caret;
+        }
+
+        public TextPosition GetRightWord(TextPosition caret)
+        {
+            return caret;
+        }
     }
 }
