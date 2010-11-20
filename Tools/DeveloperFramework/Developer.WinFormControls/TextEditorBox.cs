@@ -1209,6 +1209,30 @@ namespace Developer.WinFormControls
                 }
             }
 
+            private void host_MouseDoubleClick(object sender, MouseEventArgs e)
+            {
+                if (e.X >= this.textEditorBox.EditorControlPanel)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                        Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
+                        if (block.Item1 == block.Item2)
+                        {
+                            TextPosition p1 = this.textEditorBox.controlPanel.GetLeftWord(position);
+                            TextPosition p2 = this.textEditorBox.controlPanel.GetRightWord(p1);
+                            this.textEditorBox.controller.Select(p1, p2);
+                        }
+                        else
+                        {
+                            TextPosition p1 = new TextPosition(position.row, block.Item1);
+                            TextPosition p2 = new TextPosition(position.row, block.Item2);
+                            this.textEditorBox.controller.Select(p1, p2);
+                        }
+                    }
+                }
+            }
+
             private void host_MouseDown(object sender, MouseEventArgs e)
             {
                 if (e.X >= this.textEditorBox.EditorControlPanel)
@@ -1496,6 +1520,7 @@ namespace Developer.WinFormControls
                 this.host.MouseUp += new MouseEventHandler(host_MouseUp);
                 this.host.MouseWheel += new MouseEventHandler(host_MouseWheel);
                 this.host.MouseLeave += new EventHandler(host_MouseLeave);
+                this.host.MouseDoubleClick += new MouseEventHandler(host_MouseDoubleClick);
 
                 this.textEditorBox = (TextEditorBox)control;
                 this.textEditorBox.host = this.host;

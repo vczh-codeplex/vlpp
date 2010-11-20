@@ -71,12 +71,6 @@ namespace Developer.WinFormControls.Extension
             controller.Move(start, false, false);
             controller.Move(end, false, true);
             controller.Input(text, false);
-            //if (postfixKey != "")
-            //{
-            //    this.forcePopupList = true;
-            //    controller.Input(postfixKey, false);
-            //    this.forcePopupList = false;
-            //}
             controller.FinishTask();
         }
 

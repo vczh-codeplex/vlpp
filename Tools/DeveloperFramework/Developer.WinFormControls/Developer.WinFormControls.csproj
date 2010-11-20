@@ -54,6 +54,7 @@
     <Compile Include="DisposableComponent.cs" />
     <Compile Include="Extension\LanguageEditingObserverExtension.cs" />
     <Compile Include="Extension\LanguagePopupListExtension.cs" />
+    <Compile Include="Extension\LanguageWordingExtension.cs" />
     <Compile Include="Extension\TextEditorBoxExtensibleControlPanel.cs" />
     <Compile Include="GlobalHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
