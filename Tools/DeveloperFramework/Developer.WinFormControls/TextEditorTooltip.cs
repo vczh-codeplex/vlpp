@@ -13,7 +13,7 @@ namespace Developer.WinFormControls
     public partial class TextEditorTooltip : TextEditorPopupBase
     {
         private Bitmap bitmap = null;
-        private Form ownerForm = null;
+        private Control ownerControl = null;
 
         public TextEditorTooltip()
         {
@@ -22,10 +22,10 @@ namespace Developer.WinFormControls
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        public void Show(Form owner, Point locationTop, Point locationBottom, string text)
+        public void Show(Control control, Point locationTop, Point locationBottom, string text)
         {
-            if (owner == null) return;
-            this.ownerForm = owner;
+            if (control == null) return;
+            this.ownerControl = control;
             text = text.TrimEnd(' ', '\t', '\r', '\n');
 
             Size textSize;
@@ -48,7 +48,7 @@ namespace Developer.WinFormControls
                 g.DrawRectangle(SystemPens.InfoText, 0, 0, textSize.Width - 1, textSize.Height - 1);
             }
             this.ClientSize = textSize;
-            Show(owner, locationTop, locationBottom);
+            Show(control, locationTop, locationBottom);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -64,6 +64,12 @@ namespace Developer.WinFormControls
         {
             e.Graphics.DrawImage(this.bitmap, 0, 0);
             base.OnPaint(e);
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+            this.ownerControl.Focus();
         }
 
         [DllImport("User32.dll")]

@@ -55,6 +55,7 @@
     <Compile Include="Extension\LanguageEditingObserverExtension.cs" />
     <Compile Include="Extension\LanguagePopupListExtension.cs" />
     <Compile Include="Extension\TextEditorBoxExtensibleControlPanel.cs" />
+    <Compile Include="GlobalHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScrollableContentControl.cs">
       <SubType>UserControl</SubType>

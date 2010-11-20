@@ -461,7 +461,7 @@ namespace Developer.WinFormControls
                 Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
                 Point locationBottom = locationTop;
                 locationBottom.Y += this.lineHeight;
-                this.tooltip.Show(this.FindForm(), locationTop, locationBottom, text);
+                this.tooltip.Show(this, locationTop, locationBottom, text);
             }
         }
 
@@ -1211,7 +1211,6 @@ namespace Developer.WinFormControls
 
             private void host_MouseDown(object sender, MouseEventArgs e)
             {
-                this.textEditorBox.ClosePopupItems();
                 if (e.X >= this.textEditorBox.EditorControlPanel)
                 {
                     if (e.Button == MouseButtons.Left)
@@ -1461,10 +1460,6 @@ namespace Developer.WinFormControls
             private void host_LostFocus(object sender, EventArgs e)
             {
                 this.textEditorBox.RedrawContent(false, false);
-                if (!this.textEditorBox.popupList.Focused)
-                {
-                    this.textEditorBox.ClosePopupItems();
-                }
             }
 
             private void host_GotFocus(object sender, EventArgs e)
