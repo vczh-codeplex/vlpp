@@ -38,5 +38,11 @@ namespace Test.Host.LanguageForms
 
         [OperationContract]
         int[] GetColorsOfLine(int index);
+
+        [OperationContract]
+        string[] GetPopupedItems();
+
+        [OperationContract]
+        string GetSelectedPopupedItem();
     }
 }

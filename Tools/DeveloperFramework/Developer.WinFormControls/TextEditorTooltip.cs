@@ -106,10 +106,4 @@ namespace Developer.WinFormControls
         [DllImport("User32.dll")]
         private static extern int SetWindowPos(IntPtr hwnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
     }
-
-    public class TextEditorPopupItem
-    {
-        public Bitmap Image { get; set; }
-        public string Text { get; set; }
-    }
 }

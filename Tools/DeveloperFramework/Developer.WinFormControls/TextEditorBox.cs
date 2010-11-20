@@ -434,6 +434,22 @@ namespace Developer.WinFormControls
             this.popupList.Hide();
         }
 
+        public TextEditorPopupItem[] PopupedItems
+        {
+            get
+            {
+                return this.popupList.Items;
+            }
+        }
+
+        public TextEditorPopupItem SelectedPopupedItem
+        {
+            get
+            {
+                return this.popupList.SelectedItem;
+            }
+        }
+
         public void PopupTooltip(TextPosition pos, string text)
         {
             if (string.IsNullOrEmpty(text))
