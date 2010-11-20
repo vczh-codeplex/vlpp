@@ -51,6 +51,7 @@
     <Compile Include="Extension\NativeXEditingObserverProvider.cs" />
     <Compile Include="Extension\NativeXPopupItemProvider.cs" />
     <Compile Include="Extension\NativeXTooltipProvider.cs" />
+    <Compile Include="Extension\NativeXWordingProvider.cs" />
     <Compile Include="Images.Designer.cs">
       <DependentUpon>Images.resx</DependentUpon>
       <AutoGen>True</AutoGen>
