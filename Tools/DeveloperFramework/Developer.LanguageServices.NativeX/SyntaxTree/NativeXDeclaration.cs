@@ -93,7 +93,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public abstract class NativeXGenericConstraint : NativeXNode
     {
         public string ParameterName { get; set; }
-        public string ConceptName { get; set; }
+        public abstract NativeXConceptReference ConceptName { get; set; }
     }
 
     public abstract class NativeXLinking : NativeXNode
@@ -210,7 +210,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public abstract class NativeXInstanceDeclaration : NativeXDeclaration
     {
         public abstract NativeXReferenceType Type { get; set; }
-        public string ConceptName { get; set; }
+        public abstract NativeXConceptReference ConceptName { get; set; }
         public abstract CodeNodeList<NativeXNameExpressionPair> Functions { get; set; }
     }
 }

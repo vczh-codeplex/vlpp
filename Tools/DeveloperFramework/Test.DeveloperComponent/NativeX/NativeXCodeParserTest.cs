@@ -58,13 +58,13 @@ namespace Test.DeveloperComponent.NativeX
         {
             {
                 var e = parser("Eq<int>::Equal");
-                Assert.AreEqual("Eq", e.ConceptName);
+                Assert.AreEqual("Eq", e.ConceptName.ReferenceName);
                 Assert.AreEqual("Equal", e.FunctionName);
                 Assert.AreEqual("int", ((NativeXReferenceType)e.Type).ReferencedName);
             }
             {
                 var e = parser("Eq<int>::NotEqual");
-                Assert.AreEqual("Eq", e.ConceptName);
+                Assert.AreEqual("Eq", e.ConceptName.ReferenceName);
                 Assert.AreEqual("NotEqual", e.FunctionName);
                 Assert.AreEqual("int", ((NativeXReferenceType)e.Type).ReferencedName);
             }
@@ -601,7 +601,7 @@ namespace Test.DeveloperComponent.NativeX
             Assert.AreEqual("U", d.GenericParameters[0].ParameterName);
             Assert.AreEqual(1, d.GenericConstraints.Count);
             Assert.AreEqual("U", d.GenericConstraints[0].ParameterName);
-            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName);
+            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName.ReferenceName);
         };
 
         private readonly Action<NativeXDeclaration> vg3 = d =>
@@ -611,9 +611,9 @@ namespace Test.DeveloperComponent.NativeX
             Assert.AreEqual("V", d.GenericParameters[1].ParameterName);
             Assert.AreEqual(2, d.GenericConstraints.Count);
             Assert.AreEqual("U", d.GenericConstraints[0].ParameterName);
-            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName);
+            Assert.AreEqual("I1", d.GenericConstraints[0].ConceptName.ReferenceName);
             Assert.AreEqual("V", d.GenericConstraints[1].ParameterName);
-            Assert.AreEqual("I2", d.GenericConstraints[1].ConceptName);
+            Assert.AreEqual("I2", d.GenericConstraints[1].ConceptName.ReferenceName);
         };
 
         private void TestParseFunctionDeclarationInternal(Func<string, NativeXFunctionDeclaration> parser)
@@ -856,7 +856,7 @@ namespace Test.DeveloperComponent.NativeX
                 Assert.IsNull(d.Name);
                 Assert.IsNull(d.Linking);
                 Assert.AreEqual("int", d.Type.ReferencedName);
-                Assert.AreEqual("Eq", d.ConceptName);
+                Assert.AreEqual("Eq", d.ConceptName.ReferenceName);
                 Assert.IsNull(d.Functions);
             };
             Action<NativeXInstanceDeclaration> vd2 = d =>
@@ -864,7 +864,7 @@ namespace Test.DeveloperComponent.NativeX
                 Assert.IsNull(d.Name);
                 Assert.IsNull(d.Linking);
                 Assert.AreEqual("int", d.Type.ReferencedName);
-                Assert.AreEqual("Eq", d.ConceptName);
+                Assert.AreEqual("Eq", d.ConceptName.ReferenceName);
                 Assert.AreEqual(2, d.Functions.Count);
                 Assert.AreEqual("Equal", d.Functions[0].Name);
                 Assert.AreEqual("IntEqual", ((NativeXReferenceExpression)d.Functions[0].Expression).ReferencedName);
@@ -971,11 +971,11 @@ namespace Test.DeveloperComponent.NativeX
             Assert.AreEqual("main1", (unit.Declarations[1] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("main2", (unit.Declarations[2] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("Eq", (unit.Declarations[3] as NativeXConceptDeclaration).Name);
-            Assert.AreEqual("Eq", (unit.Declarations[4] as NativeXInstanceDeclaration).ConceptName);
+            Assert.AreEqual("Eq", (unit.Declarations[4] as NativeXInstanceDeclaration).ConceptName.ReferenceName);
             Assert.AreEqual("IntEquals", (unit.Declarations[5] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("IntNotEquals", (unit.Declarations[6] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("Vector", (unit.Declarations[7] as NativeXStructureDeclaration).Name);
-            Assert.AreEqual("Eq", (unit.Declarations[8] as NativeXInstanceDeclaration).ConceptName);
+            Assert.AreEqual("Eq", (unit.Declarations[8] as NativeXInstanceDeclaration).ConceptName.ReferenceName);
             Assert.AreEqual("VectorEquals", (unit.Declarations[9] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("VectorNotEquals", (unit.Declarations[10] as NativeXFunctionDeclaration).Name);
             Assert.AreEqual("FakeFunction", (unit.Declarations[11] as NativeXFunctionDeclaration).Name);

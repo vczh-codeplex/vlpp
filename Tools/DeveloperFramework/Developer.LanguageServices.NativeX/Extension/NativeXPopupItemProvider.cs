@@ -273,7 +273,7 @@ namespace Developer.LanguageServices.NativeX.Extension
             if (function.ConceptName != null && function.Scope != null)
             {
                 this.Callback.TextEditorBox.PopupItems(
-                    CreatePopupInstanceFunctions(function.ConceptName, function.Scope),
+                    CreatePopupInstanceFunctions(function.ConceptName.ReferenceName, function.Scope),
                     forceClosingPrevious: true);
             }
         }
@@ -453,7 +453,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                     var instdecl = node.FindParent<NativeXInstanceDeclaration>();
                                     if (instdecl != null && instdecl.ConceptName != null)
                                     {
-                                        PopupInstanceFunctions(node.Name, instdecl.ConceptName, node.Scope);
+                                        PopupInstanceFunctions(node.Name, instdecl.ConceptName.ReferenceName, node.Scope);
                                         break;
                                     }
                                 }

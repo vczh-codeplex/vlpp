@@ -79,6 +79,7 @@ namespace Developer.LanguageServices.NativeX
 
             var USE = rule<NativeXUses>("UseUnitItem");
             var UNIT = rule<NativeXUnit>("Unit");
+            var CONCEPT_REFERENCE = rule<NativeXConceptReference>("ConceptReference");
             var EDITING_DECLARATION = rule<NativeXEditingDeclarations>("EditingDeclarations");
 
             {
@@ -91,6 +92,11 @@ namespace Developer.LanguageServices.NativeX
                     + opt(!tok("uses") + list<NativeXUses>(tok(","), USE)["UsesUnits"] + tok(";"))
                     + list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
+
+                CONCEPT_REFERENCE.Infer(
+                    ID["ReferenceName"]
+                    );
+
                 EDITING_DECLARATION.Infer(
                     list_hard<NativeXDeclaration>(DECLARATION)["Declarations"]
                     );
@@ -117,7 +123,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 GENERIC_CONSTRAINT.Infer(
-                    !ID["ParameterName"] + tok(":") + ID["ConceptName"]
+                    !ID["ParameterName"] + tok(":") + CONCEPT_REFERENCE["ConceptName"]
                     );
 
                 LINKING.Infer(
@@ -151,7 +157,7 @@ namespace Developer.LanguageServices.NativeX
                     );
 
                 INSTANCE_DECLARATION.Infer(
-                    !tok("instance") + REFERENCE_TYPE["Type"] + tok(":") + ID["ConceptName"]
+                    !tok("instance") + REFERENCE_TYPE["Type"] + tok(":") + CONCEPT_REFERENCE["ConceptName"]
                     + (
                         tok(";")
                         | (
@@ -263,7 +269,7 @@ namespace Developer.LanguageServices.NativeX
             }
             {
                 STRICT_INSTANCE_FUNCTION_REFERENCE.Infer(
-                    ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
+                    CONCEPT_REFERENCE["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
                     );
 
                 STRICT_INSTANCIATED_REFERENCE.Infer(
@@ -280,7 +286,7 @@ namespace Developer.LanguageServices.NativeX
             }
             {
                 INSTANCE_FUNCTION_REFERENCE.Infer(
-                    ID["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
+                    CONCEPT_REFERENCE["ConceptName"] + tok("<") + TYPE["Type"] + tok(">") + !tok(":") + tok(":") + ID["FunctionName"]
                     );
 
                 INSTANCIATED_REFERENCE.Infer(

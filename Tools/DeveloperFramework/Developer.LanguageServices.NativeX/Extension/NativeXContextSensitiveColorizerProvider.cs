@@ -36,8 +36,9 @@ namespace Developer.LanguageServices.NativeX.Extension
             foreach (var token in this.EditingObserverExtension.AnalyzingResult.IdTokens[lineIndex])
             {
                 bool needColor = false;
+                TextPosition tokenPos = new TextPosition(token.Start.row, (token.Start.col + token.End.col) / 2);
                 {
-                    var type = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(token.Start);
+                    var type = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXReferenceType>(tokenPos);
                     if (type != null && type.ReferencedName == token.Value)
                     {
                         CodeScope scope = type.Scope;
@@ -52,13 +53,13 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var inst = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceFunctionExpression>(token.Start);
-                    if (inst != null && inst.ConceptName == token.Value)
+                    var conref = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXConceptReference>(tokenPos);
+                    if (conref != null && conref.ReferenceName == token.Value)
                     {
-                        CodeScope scope = inst.Scope;
+                        CodeScope scope = conref.Scope;
                         if (scope != null)
                         {
-                            CodeNode node = inst.Scope.Find(inst.ConceptName);
+                            CodeNode node = conref.Scope.Find(conref.ReferenceName);
                             if (node is NativeXConceptDeclaration)
                             {
                                 needColor = true;
@@ -67,37 +68,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
                 {
-                    var genecons = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXGenericConstraint>(token.Start);
-                    if (genecons != null && genecons.ConceptName == token.Value)
-                    {
-                        CodeScope scope = genecons.Scope;
-                        if (scope != null)
-                        {
-                            CodeNode node = genecons.Scope.Find(genecons.ConceptName);
-                            if (node is NativeXConceptDeclaration)
-                            {
-                                needColor = true;
-                            }
-                        }
-                    }
-                }
-                {
-                    var inst = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXInstanceDeclaration>(token.Start);
-                    if (inst != null && inst.ConceptName == token.Value)
-                    {
-                        CodeScope scope = inst.Scope;
-                        if (scope != null)
-                        {
-                            CodeNode node = inst.Scope.Find(inst.ConceptName);
-                            if (node is NativeXConceptDeclaration)
-                            {
-                                needColor = true;
-                            }
-                        }
-                    }
-                }
-                {
-                    var decl = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXDeclaration>(token.Start);
+                    var decl = this.EditingObserverExtension.AnalyzingResult.Unit.FindDeepest<NativeXNode>(tokenPos) as NativeXDeclaration;
                     if (decl != null && decl.Name == token.Value)
                     {
                         if (decl is NativeXStructureDeclaration || decl is NativeXTypeRenameDeclaration || decl is NativeXConceptDeclaration)

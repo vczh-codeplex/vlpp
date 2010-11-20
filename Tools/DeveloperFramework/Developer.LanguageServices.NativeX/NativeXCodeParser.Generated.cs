@@ -632,7 +632,7 @@ namespace Developer.LanguageServices.NativeX
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericConstraint result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericConstraint);
             System.String ParameterNameMember0 = default(System.String);
-            System.String ConceptNameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference ConceptNameMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
             {
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
@@ -665,13 +665,14 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
                     int currentIndex2 = currentIndex1;
-                    result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
+                    parseSuccess = false;
+                    result2 = ParseConceptReference(tokens, ref currentIndex2, ref parseSuccess);
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
-                        ConceptNameMember0 = result2.Value;
+                        ConceptNameMember0 = result2;
                     }
                 }
                 if (parseSuccess || forceSuccess0)
@@ -690,6 +691,33 @@ namespace Developer.LanguageServices.NativeX
                 if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXGenericConstraint>();
                 result.ParameterName = ParameterNameMember0;
                 result.ConceptName = ConceptNameMember0;
+                result.Start = start;
+                result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
+                parseSuccess = true;
+            }
+            return result;
+        }
+
+        public static Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference ParseConceptReference(List<CodeToken> tokens, ref int currentToken, ref bool parseSuccess)
+        {
+            bool forceSuccess0 = false;
+            Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
+            System.String ReferenceNameMember0 = default(System.String);
+            {
+                Developer.LanguageProvider.CodeToken result1 = default(Developer.LanguageProvider.CodeToken);
+                int currentIndex1 = currentToken;
+                result1 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex1, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
+                if (parseSuccess || forceSuccess0)
+                {
+                    currentToken = currentIndex1;
+                    ReferenceNameMember0 = result1.Value;
+                }
+            }
+            if (parseSuccess || forceSuccess0)
+            {
+                if (result == null) result = CodeNode.Create<Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference>();
+                result.ReferenceName = ReferenceNameMember0;
                 result.Start = start;
                 result.End = Developer.LanguageProvider.CodeTokenizer.GetEndPosition(tokens, currentToken);
                 parseSuccess = true;
@@ -4322,20 +4350,21 @@ namespace Developer.LanguageServices.NativeX
             bool forceSuccess0 = false;
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceFunctionExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceFunctionExpression);
-            System.String ConceptNameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference ConceptNameMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
             System.String FunctionNameMember0 = default(System.String);
             {
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
                     int currentIndex2 = currentIndex1;
-                    result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
+                    parseSuccess = false;
+                    result2 = ParseConceptReference(tokens, ref currentIndex2, ref parseSuccess);
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
-                        ConceptNameMember0 = result2.Value;
+                        ConceptNameMember0 = result2;
                     }
                 }
                 if (parseSuccess || forceSuccess0)
@@ -6367,7 +6396,7 @@ namespace Developer.LanguageServices.NativeX
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceDeclaration result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceDeclaration);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXReferenceType);
-            System.String ConceptNameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference ConceptNameMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
             Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair> FunctionsMember0 = default(Developer.LanguageProvider.CodeNodeList<Developer.LanguageServices.NativeX.SyntaxTree.NativeXNameExpressionPair>);
             {
                 int currentIndexCopy1 = currentToken;
@@ -6411,13 +6440,14 @@ namespace Developer.LanguageServices.NativeX
                     goto LABEL_0;
                 }
                 {
-                    Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
                     int currentIndex2 = currentIndex1;
-                    result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
+                    parseSuccess = false;
+                    result2 = ParseConceptReference(tokens, ref currentIndex2, ref parseSuccess);
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
-                        ConceptNameMember0 = result2.Value;
+                        ConceptNameMember0 = result2;
                     }
                 }
                 if (parseSuccess || forceSuccess0)
@@ -6730,20 +6760,21 @@ namespace Developer.LanguageServices.NativeX
             bool forceSuccess0 = false;
             Developer.LanguageProvider.TextPosition start = Developer.LanguageProvider.CodeTokenizer.GetStartPosition(tokens, currentToken);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceFunctionExpression result = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXInstanceFunctionExpression);
-            System.String ConceptNameMember0 = default(System.String);
+            Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference ConceptNameMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
             Developer.LanguageServices.NativeX.SyntaxTree.NativeXType TypeMember0 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXType);
             System.String FunctionNameMember0 = default(System.String);
             {
                 int currentIndexCopy1 = currentToken;
                 int currentIndex1 = currentToken;
                 {
-                    Developer.LanguageProvider.CodeToken result2 = default(Developer.LanguageProvider.CodeToken);
+                    Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference result2 = default(Developer.LanguageServices.NativeX.SyntaxTree.NativeXConceptReference);
                     int currentIndex2 = currentIndex1;
-                    result2 = Developer.LanguageProvider.CodeTokenizer.ParseToken(tokens, ref currentIndex2, ref parseSuccess, Developer.LanguageServices.NativeX.NativeXTokenizer.IdToken);
+                    parseSuccess = false;
+                    result2 = ParseConceptReference(tokens, ref currentIndex2, ref parseSuccess);
                     if (parseSuccess || forceSuccess0)
                     {
                         currentIndex1 = currentIndex2;
-                        ConceptNameMember0 = result2.Value;
+                        ConceptNameMember0 = result2;
                     }
                 }
                 if (parseSuccess || forceSuccess0)

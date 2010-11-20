@@ -299,7 +299,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
     public abstract class NativeXInstanceFunctionExpression : NativeXExpression
     {
-        public string ConceptName { get; set; }
+        public abstract NativeXConceptReference ConceptName { get; set; }
         public string FunctionName { get; set; }
         public abstract NativeXType Type { get; set; }
 
@@ -308,12 +308,12 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             get
             {
                 if (this.Scope == null || this.ConceptName == null || this.FunctionName == null || this.Type == null) return null;
-                NativeXConceptDeclaration declaration = this.Scope.Find(this.ConceptName) as NativeXConceptDeclaration;
+                NativeXConceptDeclaration declaration = this.Scope.Find(this.ConceptName.ReferenceName) as NativeXConceptDeclaration;
                 if (declaration == null) return null;
                 NativeXAbstractType conceptType = declaration.AbstractType;
                 if (conceptType == null) return null;
                 NativeXAbstractConceptType realConceptType = conceptType.Instanciate(
-                    new List<Tuple<string, NativeXAbstractType>>() { Tuple.Create(this.ConceptName, this.Type.AbstractType) }
+                    new List<Tuple<string, NativeXAbstractType>>() { Tuple.Create(this.ConceptName.ReferenceName, this.Type.AbstractType) }
                     ) as NativeXAbstractConceptType;
                 if (realConceptType == null || !realConceptType.Functions.ContainsKey(this.FunctionName)) return null;
                 return realConceptType.Functions[this.FunctionName];
