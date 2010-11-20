@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Reflection;
 
 namespace Developer.WinFormControls
 {
-    class TextEditorPopupList : ToolStripDropDown
+    public partial class TextEditorPopup : Form
     {
         class PopupList : Panel
         {
             private VScrollBar scrollBar = null;
             private ImageList imageList = null;
+            private Control keyboardReceiver = null;
 
             private List<TextEditorPopupItem> items = null;
             private List<Bitmap> images = null;
@@ -25,8 +29,9 @@ namespace Developer.WinFormControls
             private int itemHeight = 0;
             private int itemTextOffset = 0;
 
-            public PopupList()
+            public PopupList(Control keyboardReceiver)
             {
+                this.keyboardReceiver = keyboardReceiver;
                 this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
                 this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
@@ -81,7 +86,7 @@ namespace Developer.WinFormControls
                             this.scrollBar.Value = index - this.maxItems + 1;
                         }
                     }
-                    this.Refresh();
+                    Invalidate();
                 }
             }
 
@@ -137,15 +142,8 @@ namespace Developer.WinFormControls
                 }
             }
 
-            protected override void OnSizeChanged(EventArgs e)
+            public bool ProcessKey(KeyEventArgs e)
             {
-                base.OnSizeChanged(e);
-                this.scrollBar.SetBounds(this.ClientSize.Width - this.scrollBar.Width, 0, this.scrollBar.Width, this.ClientSize.Height);
-            }
-
-            protected override void OnKeyDown(KeyEventArgs e)
-            {
-                base.OnKeyDown(e);
                 switch (e.KeyCode)
                 {
                     case Keys.Up:
@@ -161,9 +159,34 @@ namespace Developer.WinFormControls
                         this.SelectedItem = this.items[this.items.Count - 1];
                         break;
                     default:
-                        return;
+                        return false;
                 }
-                this.Refresh();
+                Invalidate();
+                return true;
+            }
+
+            protected override void OnSizeChanged(EventArgs e)
+            {
+                base.OnSizeChanged(e);
+                this.scrollBar.SetBounds(this.ClientSize.Width - this.scrollBar.Width, 0, this.scrollBar.Width, this.ClientSize.Height);
+            }
+
+            protected override void OnKeyDown(KeyEventArgs e)
+            {
+                base.OnKeyDown(e);
+                this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+            }
+
+            protected override void OnKeyPress(KeyPressEventArgs e)
+            {
+                base.OnKeyPress(e);
+                this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+            }
+
+            protected override void OnKeyUp(KeyEventArgs e)
+            {
+                base.OnKeyUp(e);
+                this.keyboardReceiver.GetType().GetMethod("OnKeyUp", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
             }
 
             protected override bool IsInputKey(Keys keyData)
@@ -175,7 +198,7 @@ namespace Developer.WinFormControls
             {
                 base.OnMouseDown(e);
                 this.selectedItem = this.items[e.Y / this.itemHeight + this.scrollBar.Value];
-                this.Refresh();
+                Invalidate();
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -212,52 +235,123 @@ namespace Developer.WinFormControls
 
             private void scrollBar_ValueChanged(object sender, EventArgs e)
             {
-                Refresh();
+                Invalidate();
             }
         }
 
         private PopupList popupList = null;
-        private ToolStripControlHost host = null;
         private TextEditorBox textEditorBox = null;
         private Control keyboardReceiver = null;
 
-        private bool needToClose = false;
-        private bool needToComplete = true;
         private string searchingKey = null;
-        private string postfixKey = null;
 
-        public bool PopupVisible { get; set; }
-
-        public TextEditorPopupList(TextEditorBox textEditorBox, Control keyboardReceiver)
+        public TextEditorPopup(TextEditorBox textEditorBox, Control keyboardReceiver)
         {
+            InitializeComponent();
             this.textEditorBox = textEditorBox;
             this.keyboardReceiver = keyboardReceiver;
 
-            this.popupList = new PopupList();
-            this.popupList.KeyDown += new KeyEventHandler(popupList_KeyDown);
-            this.popupList.KeyPress += new KeyPressEventHandler(popupList_KeyPress);
-            this.popupList.KeyUp += new KeyEventHandler(popupList_KeyUp);
+            this.popupList = new PopupList(keyboardReceiver);
+            this.popupList.Location = new Point(0, 0);
+            this.Controls.Add(this.popupList);
             this.popupList.DoubleClick += new EventHandler(popupList_DoubleClick);
-
-            this.host = new ToolStripControlHost(this.popupList);
-            this.host.AutoSize = false;
-            this.host.Margin = new Padding(0);
-            this.Items.Add(host);
-            this.Padding = new Padding(0);
         }
 
-        public void Open(Control control, Point location, IEnumerable<TextEditorPopupItem> items, string searchingKey, bool needToDisposeImages, int maxItems)
+        public void Show(Control control, Point locationTop, Point locationBottom, IEnumerable<TextEditorPopupItem> items, string searchingKey, bool needToDisposeImages, int maxItems)
         {
             if (items.Count() > 0)
             {
                 this.popupList.FillList(items.OrderBy(i => i.Text.ToUpper()).ToList(), needToDisposeImages, maxItems);
-                this.needToClose = false;
-                this.needToComplete = true;
                 this.searchingKey = searchingKey;
-                this.postfixKey = "";
                 LocateSearching();
-                Show(control, location, ToolStripDropDownDirection.BelowRight);
-                this.popupList.Focus();
+                this.ClientSize = this.popupList.Size;
+
+                Point location;
+                Size textSize = this.Size;
+                Screen screen = Screen.FromControl(control);
+                if (locationBottom.Y + textSize.Height < screen.WorkingArea.Bottom)
+                {
+                    location = locationBottom;
+                }
+                else if (locationTop.Y - textSize.Height >= screen.WorkingArea.Top)
+                {
+                    location = new Point(locationTop.X, locationTop.Y - textSize.Height);
+                }
+                else
+                {
+                    location = new Point(locationTop.X, 0);
+                }
+                if (location.X + textSize.Width > screen.WorkingArea.Right)
+                {
+                    if (location.X - textSize.Width >= screen.WorkingArea.Left)
+                    {
+                        location.X -= textSize.Width;
+                    }
+                    else
+                    {
+                        location.X = 0;
+                    }
+                }
+                this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
+                if (this.Visible)
+                {
+                    Refresh();
+                }
+                else
+                {
+                    ShowWindow(this.Handle, 4);//SW_SHOWNOACTIVATE
+                }
+                SetWindowPos(this.Handle, -1, 0, 0, 0, 0, 19);//HWND_TOPMOST, SWP_NOMOVE | SWP_MOSIZE | SWP_NOACTIVATE
+                this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
+            }
+        }
+
+        public bool ProcessKey(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (this.popupList.SelectedItem != null)
+                {
+                    SelectItem();
+                    Hide();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return this.popupList.ProcessKey(e);
+            }
+        }
+
+        public bool ProcessChar(char c)
+        {
+            this.searchingKey += c;
+            LocateSearching();
+            return true;
+        }
+
+        public bool ProcessBackspace()
+        {
+            if (this.searchingKey != "")
+            {
+                this.searchingKey = this.searchingKey.Substring(0, this.searchingKey.Length - 1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void SelectItem()
+        {
+            if (this.popupList.SelectedItem != null)
+            {
+                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.popupList.SelectedItem.Text);
             }
         }
 
@@ -274,138 +368,23 @@ namespace Developer.WinFormControls
             }
         }
 
-        private void SelectItem()
+        protected override void OnClosing(CancelEventArgs e)
         {
-            if (this.popupList.SelectedItem != null)
-            {
-                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.popupList.SelectedItem.Text, this.postfixKey);
-            }
-            else
-            {
-                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.searchingKey, this.postfixKey);
-            }
-        }
-
-        protected override void OnOpened(EventArgs e)
-        {
-            base.OnOpened(e);
-            this.PopupVisible = true;
-        }
-
-        protected override void OnClosed(ToolStripDropDownClosedEventArgs e)
-        {
-            base.OnClosed(e);
-            this.PopupVisible = false;
-            this.popupList.UnfillList();
-        }
-
-        private void popupList_KeyDown(object sender, KeyEventArgs e)
-        {
-            bool sendKeyDownToTextBox = false;
-            if (this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
-            {
-                sendKeyDownToTextBox = true;
-                switch (e.KeyCode)
-                {
-                    case Keys.Back:
-                        {
-                            if (this.searchingKey == "")
-                            {
-                                this.needToClose = true;
-                            }
-                            else
-                            {
-                                this.searchingKey = this.searchingKey.Substring(0, this.searchingKey.Length - 1);
-                            }
-                            LocateSearching();
-                            e.SuppressKeyPress = true;
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                if (e.Control || e.KeyCode == Keys.Back)
-                {
-                    e.SuppressKeyPress = true;
-                }
-                switch (e.KeyCode)
-                {
-                    case Keys.Up:
-                    case Keys.Down:
-                    case Keys.Home:
-                    case Keys.End:
-                        break;
-
-                    case Keys.Enter:
-                        e.SuppressKeyPress = true;
-                        this.needToClose = true;
-                        break;
-
-                    case Keys.Left:
-                    case Keys.Right:
-                    case Keys.Escape:
-                        e.SuppressKeyPress = true;
-                        this.needToComplete = false;
-                        this.needToClose = true;
-                        sendKeyDownToTextBox = true;
-                        break;
-
-                    default:
-                        sendKeyDownToTextBox = true;
-                        this.needToClose = true;
-                        break;
-                }
-            }
-            if (sendKeyDownToTextBox)
-            {
-                this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            }
-        }
-
-        private void popupList_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (this.needToClose)
-            {
-                this.postfixKey = e.KeyChar.ToString();
-                Close();
-                SelectItem();
-            }
-            else
-            {
-                this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-                this.searchingKey += e.KeyChar;
-                LocateSearching();
-                e.Handled = true;
-            }
-        }
-
-        private void popupList_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
-            {
-                this.keyboardReceiver.GetType().GetMethod("OnKeyUp", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            }
-            if (this.needToClose)
-            {
-                Close();
-                if (this.needToComplete)
-                {
-                    SelectItem();
-                }
-            }
+            base.OnClosing(e);
+            e.Cancel = true;
+            Hide();
         }
 
         private void popupList_DoubleClick(object sender, EventArgs e)
         {
-            Close();
             SelectItem();
+            Hide();
         }
-    }
 
-    public class TextEditorPopupItem
-    {
-        public Bitmap Image { get; set; }
-        public string Text { get; set; }
+        [DllImport("User32.dll")]
+        private static extern int ShowWindow(IntPtr hwnd, int flag);
+
+        [DllImport("User32.dll")]
+        private static extern int SetWindowPos(IntPtr hwnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
     }
 }

@@ -182,11 +182,11 @@ namespace Developer.WinFormControls.Extension
             return false;
         }
 
-        public void PopupListItemSelected(string searchingKey, string text, string postfixKey)
+        public void PopupListItemSelected(string searchingKey, string text)
         {
             foreach (var ex in this.popupListExtensions)
             {
-                ex.PopupListItemSelected(searchingKey, text, postfixKey);
+                ex.PopupListItemSelected(searchingKey, text);
             }
         }
     }
@@ -227,7 +227,7 @@ namespace Developer.WinFormControls.Extension
     public interface ITextEditorBoxPopupListExtension : ITextEditorBoxExtension
     {
         bool IsPopupListKeyAcceptable(KeyEventArgs e);
-        void PopupListItemSelected(string searchingKey, string text, string postfixKey);
+        void PopupListItemSelected(string searchingKey, string text);
     }
 
     public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
