@@ -1,6 +1,6 @@
 ﻿namespace Developer.WinFormControls
 {
-    partial class TextEditorPopup
+    partial class TextEditorPopupBase
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,16 @@
         {
             this.SuspendLayout();
             // 
-            // TextEditorPopup
+            // TextEditorPopupBase
             // 
-            this.Name = "TextEditorPopup";
-            this.Text = "TextEditorPopup";
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
+            this.Name = "TextEditorPopupBase";
+            this.ShowInTaskbar = false;
+            this.Text = "TextEditorPopupBase";
             this.ResumeLayout(false);
 
         }
