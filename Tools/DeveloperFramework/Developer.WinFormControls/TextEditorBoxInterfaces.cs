@@ -95,5 +95,8 @@ namespace Developer.WinFormControls
         bool IsPopupListKeyAcceptable(KeyEventArgs e);
         bool IsPopupListCharAcceptable(char c);
         void PopupListItemSelected(string searchingKey, string text);
+
+        TextPosition GetLeftWord(TextPosition caret);
+        TextPosition GetRightWord(TextPosition caret);
     }
 }

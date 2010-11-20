@@ -17,6 +17,7 @@ namespace Developer.WinFormControls.Extension
         private List<ITextEditorBoxColorizerExtension> colorizerExtensions = new List<ITextEditorBoxColorizerExtension>();
         private List<ITextEditorBoxPopupListExtension> popupListExtensions = new List<ITextEditorBoxPopupListExtension>();
         private List<ITextEditorBoxTooltipExtension> tooltipExtensions = new List<ITextEditorBoxTooltipExtension>();
+        private List<ITextEditorBoxWordingExtension> wordingExtensions = new List<ITextEditorBoxWordingExtension>();
         private List<ITextEditorBoxExtension> extensions = new List<ITextEditorBoxExtension>();
 
         public TextEditorBoxExtensibleControlPanel()
@@ -31,6 +32,7 @@ namespace Developer.WinFormControls.Extension
             ITextEditorBoxColorizerExtension colorizer = extension as ITextEditorBoxColorizerExtension;
             ITextEditorBoxPopupListExtension popupList = extension as ITextEditorBoxPopupListExtension;
             ITextEditorBoxTooltipExtension tooltip = extension as ITextEditorBoxTooltipExtension;
+            ITextEditorBoxWordingExtension wording = extension as ITextEditorBoxWordingExtension;
 
             if (editingObserver != null) this.editingObserverExtensions.Add(editingObserver);
             if (header != null) this.headerExtensions.Add(header);
@@ -38,6 +40,7 @@ namespace Developer.WinFormControls.Extension
             if (colorizer != null) this.colorizerExtensions.Add(colorizer);
             if (popupList != null) this.popupListExtensions.Add(popupList);
             if (tooltip != null) this.tooltipExtensions.Add(tooltip);
+            if (wording != null) this.wordingExtensions.Add(wording);
 
             this.extensions.Add(extension);
             if (header != null)
@@ -201,6 +204,32 @@ namespace Developer.WinFormControls.Extension
                 ex.PopupListItemSelected(searchingKey, text);
             }
         }
+
+        public TextPosition GetLeftWord(TextPosition caret)
+        {
+            foreach (var ex in this.wordingExtensions)
+            {
+                TextPosition result = ex.GetLeftWord(caret);
+                if (result != caret)
+                {
+                    return result;
+                }
+            }
+            return caret;
+        }
+
+        public TextPosition GetRightWord(TextPosition caret)
+        {
+            foreach (var ex in this.wordingExtensions)
+            {
+                TextPosition result = ex.GetRightWord(caret);
+                if (result != caret)
+                {
+                    return result;
+                }
+            }
+            return caret;
+        }
     }
 
     public interface ITextEditorBoxExtension
@@ -246,5 +275,11 @@ namespace Developer.WinFormControls.Extension
     public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
     {
         string OnGetSimpleTooltip(TextPosition pos);
+    }
+
+    public interface ITextEditorBoxWordingExtension : ITextEditorBoxExtension
+    {
+        TextPosition GetLeftWord(TextPosition caret);
+        TextPosition GetRightWord(TextPosition caret);
     }
 }

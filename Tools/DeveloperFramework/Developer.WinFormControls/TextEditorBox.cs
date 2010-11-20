@@ -1091,12 +1091,12 @@ namespace Developer.WinFormControls
 
         TextPosition ITextContentProvider.GetLeftWord(TextPosition caret)
         {
-            return caret;
+            return this.controlPanel.GetLeftWord(caret);
         }
 
         TextPosition ITextContentProvider.GetRightWord(TextPosition caret)
         {
-            return caret;
+            return this.controlPanel.GetRightWord(caret);
         }
 
         int ITextContentProvider.GetLeftBlock(TextPosition caret)
