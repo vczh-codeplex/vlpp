@@ -438,6 +438,82 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ITextEditorService_GetPopupedItems_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ITextEditorService_GetPopupedItems_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ITextEditorService_GetSelectedPopupedItem_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSHttpBinding_ITextEditorService_GetSelectedPopupedItem_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8732/Design_Time_Addresses/CodeForm/TextEditorService/?xsd=xsd0" namespace="http://tempuri.org/" />
@@ -500,6 +576,18 @@
   <wsdl:message name="ITextEditorService_GetColorsOfLine_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetColorsOfLineResponse" />
   </wsdl:message>
+  <wsdl:message name="ITextEditorService_GetPopupedItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPopupedItems" />
+  </wsdl:message>
+  <wsdl:message name="ITextEditorService_GetPopupedItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPopupedItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITextEditorService_GetSelectedPopupedItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelectedPopupedItem" />
+  </wsdl:message>
+  <wsdl:message name="ITextEditorService_GetSelectedPopupedItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSelectedPopupedItemResponse" />
+  </wsdl:message>
   <wsdl:portType name="ITextEditorService">
     <wsdl:operation name="GetSelectionAnchor">
       <wsdl:input wsaw:Action="http://tempuri.org/ITextEditorService/GetSelectionAnchor" message="tns:ITextEditorService_GetSelectionAnchor_InputMessage" />
@@ -536,6 +624,14 @@
     <wsdl:operation name="GetColorsOfLine">
       <wsdl:input wsaw:Action="http://tempuri.org/ITextEditorService/GetColorsOfLine" message="tns:ITextEditorService_GetColorsOfLine_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ITextEditorService/GetColorsOfLineResponse" message="tns:ITextEditorService_GetColorsOfLine_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPopupedItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITextEditorService/GetPopupedItems" message="tns:ITextEditorService_GetPopupedItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITextEditorService/GetPopupedItemsResponse" message="tns:ITextEditorService_GetPopupedItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSelectedPopupedItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITextEditorService/GetSelectedPopupedItem" message="tns:ITextEditorService_GetSelectedPopupedItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITextEditorService/GetSelectedPopupedItemResponse" message="tns:ITextEditorService_GetSelectedPopupedItem_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_ITextEditorService" type="tns:ITextEditorService">
@@ -637,6 +733,28 @@
       </wsdl:input>
       <wsdl:output>
         <wsp:PolicyReference URI="#WSHttpBinding_ITextEditorService_GetColorsOfLine_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPopupedItems">
+      <soap12:operation soapAction="http://tempuri.org/ITextEditorService/GetPopupedItems" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_ITextEditorService_GetPopupedItems_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_ITextEditorService_GetPopupedItems_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSelectedPopupedItem">
+      <soap12:operation soapAction="http://tempuri.org/ITextEditorService/GetSelectedPopupedItem" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSHttpBinding_ITextEditorService_GetSelectedPopupedItem_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSHttpBinding_ITextEditorService_GetSelectedPopupedItem_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

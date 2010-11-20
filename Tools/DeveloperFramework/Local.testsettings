@@ -5,6 +5,7 @@
     <DeploymentItem filename="Test.DeveloperComponent\TestFiles\NativeXCodeForParser1.txt" />
     <DeploymentItem filename="Test.DeveloperComponent\TestFiles\NativeXCodeForParser2.txt" />
     <DeploymentItem filename="Test.Host.LanguageForms\bin\Debug\Test.Host.LanguageForms.exe.config" />
+    <DeploymentItem filename="Test.DeveloperComponent\TestFiles\NativeXIntellisenseInputCode.txt" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

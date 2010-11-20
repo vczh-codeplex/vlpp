@@ -1,0 +1,38 @@
+﻿$[unit] program;
+
+$[concept] T:Eq
+{
+	Equals=$[function] $[bool]($[T],$[T]);
+	NotEquals=$[function] $[bool]($[T],$[T]);
+}
+
+$[function] $[bool] IntEquals($[int] a, $[int] b) $[result]=$[a]==$[b];
+$[function] $[bool] IntNotEquals($[int] a, $[int] b) $[result]=$[a]!=$[b];
+
+$[instance] $[int]:#[Eq]
+{
+	$[Equals]=$[IntEquals];
+	$[NotEquals]=$[IntNotEquals];
+}
+
+$[generic]<T>
+$[structure] Vector
+{
+	$[T] x;
+	$[T] y;
+}
+
+$[generic]<T> $[where] $[T]:#[Eq]
+$[function] $[bool]  VectorEquals($[Vector]<$[T]> a, $[Vector]<$[T]> b)
+	$[result]=$[Eq]<$[T]>::#[Equals]($[a].#[x],$[b].#[x])&&$[Eq]<$[T]>::#[Equals]($[a].#[y],$[b].#[y]);
+	
+$[generic]<T> $[where] $[T]:#[Eq]
+$[function] $[bool] VectorNotEquals($[Vector]<$[T]> a, $[Vector]<$[T]> b)
+	$[result]=!$[VectorEquals]<$[T]>($[a],$[b]);
+	
+$[generic]<T> $[where] $[T]:#[Eq]
+$[instance] $[Vector]:#[Eq]
+{
+	$[Equals]=$[VectorEquals]<$[T]>;
+	$[NotEquals]=$[VectorNotEquals]<$[T]>;
+}

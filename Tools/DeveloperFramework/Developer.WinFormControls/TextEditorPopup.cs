@@ -327,6 +327,22 @@ namespace Developer.WinFormControls
             }
         }
 
+        public TextEditorPopupItem[] Items
+        {
+            get
+            {
+                return this.popupList.Items.ToArray();
+            }
+        }
+
+        public TextEditorPopupItem SelectedItem
+        {
+            get
+            {
+                return this.popupList.SelectedItem;
+            }
+        }
+
         public void SelectItem()
         {
             if (this.popupList.SelectedItem != null)
@@ -384,5 +400,11 @@ namespace Developer.WinFormControls
 
         [DllImport("User32.dll")]
         private static extern int SetWindowPos(IntPtr hwnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+    }
+
+    public class TextEditorPopupItem
+    {
+        public Bitmap Image { get; set; }
+        public string Text { get; set; }
     }
 }

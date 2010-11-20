@@ -8,6 +8,9 @@ using System.Windows.Input;
 using Developer.WinFormControls.Core;
 using System.Windows.Forms;
 using Developer.LanguageProvider;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Test.DeveloperComponent
 {
@@ -15,14 +18,11 @@ namespace Test.DeveloperComponent
     public class NativeXIntellisenseTest
     {
         private CodeFormWindow window;
-        private int sendKeysDelay = 0;
 
         [TestInitialize]
         public void Initialize()
         {
             Playback.Initialize();
-            sendKeysDelay = Keyboard.SendKeysDelay;
-            Keyboard.SendKeysDelay = 50;
             window = new CodeFormWindow("NativeX", "NativeX Form");
         }
 
@@ -30,53 +30,69 @@ namespace Test.DeveloperComponent
         public void Cleanup()
         {
             window.Close();
-            Keyboard.SendKeysDelay = sendKeysDelay;
             Playback.Cleanup();
         }
 
         [TestMethod]
         public void InputCode()
         {
-            window.Type(code);
-        }
+            string code = File.ReadAllText("NativeXIntellisenseInputCode.txt");
+            Regex regex = new Regex(@"(\$|\#)\[.*?\]");
+            var matches = regex.Matches(code);
+            int start = 0;
 
-        private const string code =
-            "unit program" + "\r\n" +
-            "concept T:Eq" + "\r\n" +
-            "{" + "\r\n" +
-            "	Equals=function bool(T,T);" + "\r\n" +
-            "	NotEquals=function bool(T,T);" + "\r\n" +
-            "}" + "\r\n" +
-            "" + "\r\n" +
-            "function bool IntEquals(int a, int b) result=a==b;" + "\r\n" +
-            "function bool IntNotEquals(int a, int b) result=a!=b;" + "\r\n" +
-            "" + "\r\n" +
-            "instance int:Eq" + "\r\n\r\n" +
-            "{" + "\r\n" +
-            "	Equals=IntEquals;" + "\r\n" +
-            "	NotEquals=IntNotEquals;" + "\r\n" +
-            "}" + "\r\n" +
-            "" + "\r\n" +
-            "generic<T>" + "\r\n" +
-            "structure Vector" + "\r\n" +
-            "{" + "\r\n" +
-            "	T x;" + "\r\n" +
-            "	T y;" + "\r\n" +
-            "}" + "\r\n" +
-            "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n\r\n" +
-            "function bool VectorEquals(Vector<T> a, Vector<T> b)" + "\r\n" +
-            "	result=Eq<T>::Equals(a.x,b.x)&&Eq<T>::Equals(a.y,b.y);" + "\r\n" +
-            "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n\r\n" +
-            "function bool VectorNotEquals(Vector<T> a, Vector<T> b)" + "\r\n" +
-            "	result=!VectorEquals<T>(a,b);" + "\r\n" +
-            "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n\r\n" +
-            "instance Vector:Eq" + "\r\n\r\n" +
-            "{" + "\r\n" +
-            "	Equals=VectorEquals<T>;" + "\r\n" +
-            "	NotEquals=VectorNotEquals<T>;" + "\r\n" +
-            "}";
+            foreach (Match match in matches)
+            {
+                string text = code.Substring(start, match.Index - start);
+                if (text != "")
+                {
+                    window.Type(text);
+                }
+                string intellisense = match.Value.Substring(2, match.Value.Length - 3);
+                if (match.Value[0] == '$')
+                {
+                    window.Type(intellisense.Substring(0, 1));
+                }
+                Thread.Sleep(100);
+
+                List<string> items = window.Service.GetPopupedItems().ToList();
+                Assert.IsTrue(items.Contains(intellisense));
+
+                string hitPrefix = Enumerable.Range(1, intellisense.Length)
+                    .Select(i => intellisense.Substring(0, i))
+                    .Where(s => items.Where(item => item.StartsWith(s)).Count() == 1)
+                    .Min();
+                if (hitPrefix == null)
+                {
+                    hitPrefix = intellisense;
+                }
+                if (match.Value[0] == '$')
+                {
+                    hitPrefix = hitPrefix.Substring(1);
+                }
+                if (hitPrefix != "")
+                {
+                    window.Type(hitPrefix);
+                }
+
+                start = match.Index + match.Length;
+                char nextChar = start == code.Length ? '\0' : code[start];
+                if (nextChar == '\0' || nextChar == '\r' || nextChar == '\n')
+                {
+                    window.PressEnter(false, false);
+                }
+                else
+                {
+                    window.Type(nextChar.ToString());
+                    start++;
+                }
+            }
+
+            if (start != code.Length)
+            {
+                string text = code.Substring(start, code.Length - start);
+                window.Type(text);
+            }
+        }
     }
 }

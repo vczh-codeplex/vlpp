@@ -71,5 +71,16 @@ namespace Test.Host.LanguageForms
         {
             return EditorControl.GetColorsOfLine(index);
         }
+
+
+        public string[] GetPopupedItems()
+        {
+            return EditorControl.PopupedItems.Select(i => i.Text).ToArray();
+        }
+
+        public string GetSelectedPopupedItem()
+        {
+            return EditorControl.SelectedPopupedItem == null ? null : EditorControl.SelectedPopupedItem.Text;
+        }
     }
 }

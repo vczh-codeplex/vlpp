@@ -41,6 +41,12 @@ namespace Test.DeveloperComponent.TextEditorServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetColorsOfLine", ReplyAction="http://tempuri.org/ITextEditorService/GetColorsOfLineResponse")]
         int[] GetColorsOfLine(int index);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetPopupedItems", ReplyAction="http://tempuri.org/ITextEditorService/GetPopupedItemsResponse")]
+        string[] GetPopupedItems();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITextEditorService/GetSelectedPopupedItem", ReplyAction="http://tempuri.org/ITextEditorService/GetSelectedPopupedItemResponse")]
+        string GetSelectedPopupedItem();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -104,6 +110,14 @@ namespace Test.DeveloperComponent.TextEditorServiceReference {
         
         public int[] GetColorsOfLine(int index) {
             return base.Channel.GetColorsOfLine(index);
+        }
+        
+        public string[] GetPopupedItems() {
+            return base.Channel.GetPopupedItems();
+        }
+        
+        public string GetSelectedPopupedItem() {
+            return base.Channel.GetSelectedPopupedItem();
         }
     }
 }
