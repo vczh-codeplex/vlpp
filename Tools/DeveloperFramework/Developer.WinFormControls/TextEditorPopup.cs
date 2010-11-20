@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Developer.WinFormControls
 {
-    public partial class TextEditorPopup : Form
+    public partial class TextEditorPopup : TextEditorPopupBase
     {
         class PopupList : Panel
         {
@@ -245,44 +245,7 @@ namespace Developer.WinFormControls
                 this.searchingKey = searchingKey;
                 LocateSearching();
                 this.ClientSize = this.popupList.Size;
-
-                Point location;
-                Size textSize = this.Size;
-                Screen screen = Screen.FromControl(control);
-                if (locationBottom.Y + textSize.Height < screen.WorkingArea.Bottom)
-                {
-                    location = locationBottom;
-                }
-                else if (locationTop.Y - textSize.Height >= screen.WorkingArea.Top)
-                {
-                    location = new Point(locationTop.X, locationTop.Y - textSize.Height);
-                }
-                else
-                {
-                    location = new Point(locationTop.X, 0);
-                }
-                if (location.X + textSize.Width > screen.WorkingArea.Right)
-                {
-                    if (location.X - textSize.Width >= screen.WorkingArea.Left)
-                    {
-                        location.X -= textSize.Width;
-                    }
-                    else
-                    {
-                        location.X = 0;
-                    }
-                }
-                this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
-                if (this.Visible)
-                {
-                    Refresh();
-                }
-                else
-                {
-                    ShowWindow(this.Handle, 4);//SW_SHOWNOACTIVATE
-                }
-                SetWindowPos(this.Handle, -1, 0, 0, 0, 0, 19);//HWND_TOPMOST, SWP_NOMOVE | SWP_MOSIZE | SWP_NOACTIVATE
-                this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
+                Show(control, locationTop, locationBottom);
             }
         }
 

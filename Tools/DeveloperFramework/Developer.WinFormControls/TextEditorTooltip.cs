@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace Developer.WinFormControls
 {
-    public partial class TextEditorTooltip : Form
+    public partial class TextEditorTooltip : TextEditorPopupBase
     {
         private Bitmap bitmap = null;
         private Form ownerForm = null;
@@ -28,7 +28,6 @@ namespace Developer.WinFormControls
             this.ownerForm = owner;
             text = text.TrimEnd(' ', '\t', '\r', '\n');
 
-            Point location;
             Size textSize;
             using (Graphics g = Graphics.FromHwnd(this.Handle))
             {
@@ -48,41 +47,8 @@ namespace Developer.WinFormControls
                 TextRenderer.DrawText(g, text, this.Font, new Point(5, 5), SystemColors.InfoText, TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
                 g.DrawRectangle(SystemPens.InfoText, 0, 0, textSize.Width - 1, textSize.Height - 1);
             }
-
-            Screen screen = Screen.FromControl(owner);
-            if (locationBottom.Y + textSize.Height < screen.WorkingArea.Bottom)
-            {
-                location = locationBottom;
-            }
-            else if (locationTop.Y - textSize.Height >= screen.WorkingArea.Top)
-            {
-                location = new Point(locationTop.X, locationTop.Y - textSize.Height);
-            }
-            else
-            {
-                location = new Point(locationTop.X, 0);
-            }
-            if (location.X + textSize.Width > screen.WorkingArea.Right)
-            {
-                if (location.X - textSize.Width >= screen.WorkingArea.Left)
-                {
-                    location.X -= textSize.Width;
-                }
-                else
-                {
-                    location.X = 0;
-                }
-            }
-            this.SetBounds(location.X, location.Y, textSize.Width, textSize.Height);
-            if (this.Visible)
-            {
-                Refresh();
-            }
-            else
-            {
-                ShowWindow(this.Handle, 4);//SW_SHOWNOACTIVATE
-            }
-            SetWindowPos(this.Handle, 0, 0, 0, 0, 0, 19);//HWND_TOP, SWP_NOMOVE | SWP_MOSIZE | SWP_NOACTIVATE
+            this.ClientSize = textSize;
+            Show(owner, locationTop, locationBottom);
         }
 
         protected override void OnClosing(CancelEventArgs e)
