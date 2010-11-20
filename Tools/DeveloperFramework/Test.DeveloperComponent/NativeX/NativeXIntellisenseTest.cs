@@ -22,7 +22,7 @@ namespace Test.DeveloperComponent
         {
             Playback.Initialize();
             sendKeysDelay = Keyboard.SendKeysDelay;
-            Keyboard.SendKeysDelay = 60;
+            Keyboard.SendKeysDelay = 50;
             window = new CodeFormWindow("NativeX", "NativeX Form");
         }
 
@@ -51,7 +51,7 @@ namespace Test.DeveloperComponent
             "function bool IntEquals(int a, int b) result=a==b;" + "\r\n" +
             "function bool IntNotEquals(int a, int b) result=a!=b;" + "\r\n" +
             "" + "\r\n" +
-            "instance int:Eq" + "\r\n" +
+            "instance int:Eq" + "\r\n\r\n" +
             "{" + "\r\n" +
             "	Equals=IntEquals;" + "\r\n" +
             "	NotEquals=IntNotEquals;" + "\r\n" +
@@ -64,16 +64,16 @@ namespace Test.DeveloperComponent
             "	T y;" + "\r\n" +
             "}" + "\r\n" +
             "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n" +
+            "generic<T> where T:Eq" + "\r\n\r\n" +
             "function bool VectorEquals(Vector<T> a, Vector<T> b)" + "\r\n" +
             "	result=Eq<T>::Equals(a.x,b.x)&&Eq<T>::Equals(a.y,b.y);" + "\r\n" +
             "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n" +
+            "generic<T> where T:Eq" + "\r\n\r\n" +
             "function bool VectorNotEquals(Vector<T> a, Vector<T> b)" + "\r\n" +
             "	result=!VectorEquals<T>(a,b);" + "\r\n" +
             "" + "\r\n" +
-            "generic<T> where T:Eq" + "\r\n" +
-            "instance Vector:Eq" + "\r\n" +
+            "generic<T> where T:Eq" + "\r\n\r\n" +
+            "instance Vector:Eq" + "\r\n\r\n" +
             "{" + "\r\n" +
             "	Equals=VectorEquals<T>;" + "\r\n" +
             "	NotEquals=VectorNotEquals<T>;" + "\r\n" +

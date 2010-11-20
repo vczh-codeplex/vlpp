@@ -182,6 +182,18 @@ namespace Developer.WinFormControls.Extension
             return false;
         }
 
+        public bool IsPopupListCharAcceptable(char c)
+        {
+            foreach (var ex in this.popupListExtensions)
+            {
+                if (ex.IsPopupListCharAcceptable(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void PopupListItemSelected(string searchingKey, string text)
         {
             foreach (var ex in this.popupListExtensions)
@@ -227,6 +239,7 @@ namespace Developer.WinFormControls.Extension
     public interface ITextEditorBoxPopupListExtension : ITextEditorBoxExtension
     {
         bool IsPopupListKeyAcceptable(KeyEventArgs e);
+        bool IsPopupListCharAcceptable(char c);
         void PopupListItemSelected(string searchingKey, string text);
     }
 

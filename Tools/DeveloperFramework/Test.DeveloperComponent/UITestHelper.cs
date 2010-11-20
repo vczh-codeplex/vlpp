@@ -84,6 +84,10 @@ namespace Test.DeveloperComponent
                 c == '{' ? "{{}" :
                 c == '}' ? "{}}" :
                 c == '.' ? "{.}" :
+                c == '^' ? "{^}" :
+                c == '+' ? "{+}" :
+                c == '%' ? "{%}" :
+                c == '#' ? "{#}" :
                 c.ToString()
                 ).Aggregate((a, b) => (a + b));
             Keyboard.SendKeys(this.Host, text);

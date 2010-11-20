@@ -17,7 +17,6 @@ namespace Developer.WinFormControls
         {
             private VScrollBar scrollBar = null;
             private ImageList imageList = null;
-            private Control keyboardReceiver = null;
 
             private List<TextEditorPopupItem> items = null;
             private List<Bitmap> images = null;
@@ -29,9 +28,8 @@ namespace Developer.WinFormControls
             private int itemHeight = 0;
             private int itemTextOffset = 0;
 
-            public PopupList(Control keyboardReceiver)
+            public PopupList()
             {
-                this.keyboardReceiver = keyboardReceiver;
                 this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
                 this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
@@ -171,24 +169,6 @@ namespace Developer.WinFormControls
                 this.scrollBar.SetBounds(this.ClientSize.Width - this.scrollBar.Width, 0, this.scrollBar.Width, this.ClientSize.Height);
             }
 
-            protected override void OnKeyDown(KeyEventArgs e)
-            {
-                base.OnKeyDown(e);
-                this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            }
-
-            protected override void OnKeyPress(KeyPressEventArgs e)
-            {
-                base.OnKeyPress(e);
-                this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            }
-
-            protected override void OnKeyUp(KeyEventArgs e)
-            {
-                base.OnKeyUp(e);
-                this.keyboardReceiver.GetType().GetMethod("OnKeyUp", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
-            }
-
             protected override bool IsInputKey(Keys keyData)
             {
                 return true;
@@ -251,7 +231,7 @@ namespace Developer.WinFormControls
             this.textEditorBox = textEditorBox;
             this.keyboardReceiver = keyboardReceiver;
 
-            this.popupList = new PopupList(keyboardReceiver);
+            this.popupList = new PopupList();
             this.popupList.Location = new Point(0, 0);
             this.Controls.Add(this.popupList);
             this.popupList.DoubleClick += new EventHandler(popupList_DoubleClick);
@@ -373,6 +353,24 @@ namespace Developer.WinFormControls
             base.OnClosing(e);
             e.Cancel = true;
             Hide();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            this.keyboardReceiver.GetType().GetMethod("OnKeyDown", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+        }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+            this.keyboardReceiver.GetType().GetMethod("OnKeyPress", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            this.keyboardReceiver.GetType().GetMethod("OnKeyUp", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
         }
 
         private void popupList_DoubleClick(object sender, EventArgs e)

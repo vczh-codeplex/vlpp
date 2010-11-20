@@ -1332,7 +1332,7 @@ namespace Developer.WinFormControls
                 this.textEditorBox.PressingChar = true;
                 if (this.textEditorBox.popupList.Visible)
                 {
-                    if (this.needToClosePopupList)
+                    if (this.needToClosePopupList || !this.textEditorBox.ControlPanel.IsPopupListCharAcceptable(e.KeyChar))
                     {
                         this.textEditorBox.popupList.SelectItem();
                         this.textEditorBox.ClosePopupItems();
@@ -1369,7 +1369,7 @@ namespace Developer.WinFormControls
                             e.SuppressKeyPress = true;
                             return;
                         }
-                        else
+                        else if (e.KeyCode != Keys.Packet)
                         {
                             this.needToClosePopupList = true;
                         }
@@ -1445,6 +1445,10 @@ namespace Developer.WinFormControls
             private void host_LostFocus(object sender, EventArgs e)
             {
                 this.textEditorBox.RedrawContent(false, false);
+                if (!this.textEditorBox.popupList.Focused)
+                {
+                    this.textEditorBox.ClosePopupItems();
+                }
             }
 
             private void host_GotFocus(object sender, EventArgs e)
