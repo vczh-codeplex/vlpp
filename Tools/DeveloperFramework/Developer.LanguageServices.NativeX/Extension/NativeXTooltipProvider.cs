@@ -46,9 +46,9 @@ namespace Developer.LanguageServices.NativeX.Extension
             }
             {
                 NativeXInstanceFunctionExpression exp = node as NativeXInstanceFunctionExpression;
-                if (exp != null && exp.Scope != null)
+                if (exp != null && exp.Scope != null && exp.ConceptName != null)
                 {
-                    hint = (NativeXNode)exp.Scope.Find(exp.ConceptName);
+                    hint = (NativeXNode)exp.Scope.Find(exp.ConceptName.ReferenceName);
                     goto SHOW_HINT;
                 }
             }
@@ -62,28 +62,28 @@ namespace Developer.LanguageServices.NativeX.Extension
             }
             {
                 NativeXInstanceDeclaration inst = node as NativeXInstanceDeclaration;
-                if (inst != null && inst.Scope != null)
+                if (inst != null && inst.Scope != null && inst.ConceptName != null)
                 {
                     if (this.EditingObserverExtension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
                     {
                         CodeToken token = this.EditingObserverExtension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
-                        if (token.Value == inst.ConceptName)
+                        if (token.Value == inst.ConceptName.ReferenceName)
                         {
-                            hint = (NativeXNode)inst.Scope.Find(inst.ConceptName);
+                            hint = (NativeXNode)inst.Scope.Find(inst.ConceptName.ReferenceName);
                         }
                     }
                 }
             }
             {
                 NativeXGenericConstraint genecons = node as NativeXGenericConstraint;
-                if (genecons != null && genecons.Scope != null)
+                if (genecons != null && genecons.Scope != null && genecons.ConceptName != null)
                 {
                     if (this.EditingObserverExtension.AnalyzingResult.IdTokens.ContainsKey(pos.row))
                     {
                         CodeToken token = this.EditingObserverExtension.AnalyzingResult.IdTokens[pos.row].Where(t => t.Start <= pos && pos <= t.End).FirstOrDefault();
-                        if (token.Value == genecons.ConceptName)
+                        if (token.Value == genecons.ConceptName.ReferenceName)
                         {
-                            hint = (NativeXNode)genecons.Scope.Find(genecons.ConceptName);
+                            hint = (NativeXNode)genecons.Scope.Find(genecons.ConceptName.ReferenceName);
                         }
                     }
                 }

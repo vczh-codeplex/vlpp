@@ -9,4 +9,9 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
     public abstract class NativeXNode : CodeNode
     {
     }
+
+    public abstract class NativeXConceptReference : NativeXNode
+    {
+        public string ReferenceName { get; set; }
+    }
 }
