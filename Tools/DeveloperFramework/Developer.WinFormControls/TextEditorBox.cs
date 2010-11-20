@@ -1228,6 +1228,12 @@ namespace Developer.WinFormControls
                             this.textEditorBox.controller.Select(new TextPosition(position.row, block.Item1), new TextPosition(position.row, block.Item2));
                         }
                     }
+                    else
+                    {
+                        TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                        Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
+                        this.textEditorBox.controller.Move(new TextPosition(position.row, block.Item1), false, false);
+                    }
                 }
                 else
                 {
