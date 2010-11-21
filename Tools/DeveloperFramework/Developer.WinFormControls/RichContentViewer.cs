@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Xml.Linq;
 
 namespace Developer.WinFormControls
 {
@@ -17,13 +18,12 @@ namespace Developer.WinFormControls
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        public void SetContent(string text, int maxWidth)
+        public void SetContent(XDocument content, int maxWidth)
         {
-            text = text.TrimEnd(' ', '\t', '\r', '\n');
             using (Graphics g = Graphics.FromHwnd(this.Handle))
             {
-                content = new RichContent(new RichContent.Content(new RichContent.Text(text)), this.Font, g);
-                this.ClientSize = new Size(content.ContentSize.Width + 10, content.ContentSize.Height + 10);
+                this.content = new RichContent(content, this.Font, g);
+                this.ClientSize = new Size(this.content.ContentSize.Width + 10, this.content.ContentSize.Height + 10);
             }
         }
 

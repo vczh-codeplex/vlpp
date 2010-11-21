@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace Developer.WinFormControls
 {
@@ -22,11 +23,11 @@ namespace Developer.WinFormControls
             this.Controls.Add(this.viewer);
         }
 
-        public void Show(Control control, Point locationTop, Point locationBottom, string text)
+        public void Show(Control control, Point locationTop, Point locationBottom, XDocument content)
         {
             if (control == null) return;
             this.ownerControl = control;
-            this.viewer.SetContent(text, Screen.FromControl(control).WorkingArea.Width);
+            this.viewer.SetContent(content, Screen.FromControl(control).WorkingArea.Width);
             this.viewer.Location = new Point(0, 0);
             this.ClientSize = this.viewer.Size;
             Show(control, locationTop, locationBottom);
@@ -46,11 +47,5 @@ namespace Developer.WinFormControls
             base.OnGotFocus(e);
             this.ownerControl.Focus();
         }
-
-        [DllImport("User32.dll")]
-        private static extern int ShowWindow(IntPtr hwnd, int flag);
-
-        [DllImport("User32.dll")]
-        private static extern int SetWindowPos(IntPtr hwnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
     }
 }
