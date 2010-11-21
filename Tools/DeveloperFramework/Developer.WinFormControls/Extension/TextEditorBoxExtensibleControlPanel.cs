@@ -5,6 +5,7 @@ using System.Text;
 using Developer.LanguageProvider;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Developer.WinFormControls.Extension
 {
@@ -87,6 +88,19 @@ namespace Developer.WinFormControls.Extension
             {
                 string result = ex.OnGetSimpleTooltip(pos);
                 if (!string.IsNullOrEmpty(result))
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        public XDocument OnGetQuickInfoTooltip()
+        {
+            foreach (var ex in this.tooltipExtensions)
+            {
+                XDocument result = ex.OnGetQuickInfoTooltip();
+                if (result != null)
                 {
                     return result;
                 }
@@ -275,6 +289,7 @@ namespace Developer.WinFormControls.Extension
     public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
     {
         string OnGetSimpleTooltip(TextPosition pos);
+        XDocument OnGetQuickInfoTooltip();
     }
 
     public interface ITextEditorBoxWordingExtension : ITextEditorBoxExtension

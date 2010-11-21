@@ -9,6 +9,7 @@ using System.Linq;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace Developer.WinFormControls
 {
@@ -123,6 +124,7 @@ namespace Developer.WinFormControls
             this.keyCommands = new TextEditorBoxKeyCommands();
             this.popupList = new TextEditorPopup(this, this.host);
             this.tooltip = new TextEditorTooltip();
+            this.tooltip.VisibleChanged += new EventHandler(tooltip_VisibleChanged);
 
             this.controller = new TextEditorController(this);
             this.colorizer = new TextEditorPlanTextColorizer(this);
@@ -408,6 +410,8 @@ namespace Developer.WinFormControls
             }
         }
 
+        public bool QuickInfoTooltipOpening { get; set; }
+
         public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
             if (forceClosingPrevious)
@@ -452,17 +456,53 @@ namespace Developer.WinFormControls
 
         public void PopupTooltip(TextPosition pos, string text)
         {
-            if (string.IsNullOrEmpty(text))
+            if (!this.QuickInfoTooltipOpening)
             {
-                this.tooltip.Hide();
+                if (string.IsNullOrEmpty(text))
+                {
+                    this.tooltip.Hide();
+                }
+                else
+                {
+                    Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
+                    Point locationBottom = locationTop;
+                    locationBottom.Y += this.lineHeight;
+                    text = text.TrimEnd(' ', '\t', '\r', '\n');
+                    this.tooltip.Show(this, locationTop, locationBottom, new RichContent.Content(new RichContent.Text(text)));
+                }
             }
-            else
+        }
+
+        public void PopupQuickInfoTooltip(TextPosition pos, XDocument content)
+        {
+            if (this.QuickInfoTooltipOpening)
             {
-                Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
-                Point locationBottom = locationTop;
-                locationBottom.Y += this.lineHeight;
-                this.tooltip.Show(this, locationTop, locationBottom, text);
+                if (content == null)
+                {
+                    this.tooltip.Hide();
+                }
+                else
+                {
+                    Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
+                    Point locationBottom = locationTop;
+                    locationBottom.Y += this.lineHeight;
+                    this.tooltip.Show(this, locationTop, locationBottom, content);
+                }
             }
+        }
+
+        public void OpenQuickInfoTooltip()
+        {
+            if (!this.QuickInfoTooltipOpening)
+            {
+                PopupTooltip(new TextPosition(0, 0), null);
+                this.QuickInfoTooltipOpening = true;
+            }
+        }
+
+        public void CloseQuickInfoTooltip()
+        {
+            this.QuickInfoTooltipOpening = false;
         }
 
         #endregion
@@ -917,6 +957,14 @@ namespace Developer.WinFormControls
             }
         }
 
+        private void tooltip_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.tooltip.Visible)
+            {
+                CloseQuickInfoTooltip();
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -1316,15 +1364,18 @@ namespace Developer.WinFormControls
                 }
                 {
                     TextPosition tp1 = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                    TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
-                    TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
-                    Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
-                    Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
-                    Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
                     string tooltip = null;
-                    if (r.Contains(e.Location))
+                    if (!this.textEditorBox.QuickInfoTooltipOpening)
                     {
-                        tooltip = this.textEditorBox.controlPanel.OnGetSimpleTooltip(tp1);
+                        TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
+                        TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
+                        Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
+                        Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
+                        Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
+                        if (r.Contains(e.Location))
+                        {
+                            tooltip = this.textEditorBox.controlPanel.OnGetSimpleTooltip(tp1);
+                        }
                     }
                     if (this.lastTooltip != tooltip)
                     {

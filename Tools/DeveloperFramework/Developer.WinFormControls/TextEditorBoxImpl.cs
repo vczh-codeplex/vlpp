@@ -6,6 +6,7 @@ using System.Drawing;
 using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Developer.WinFormControls
 {
@@ -66,6 +67,11 @@ namespace Developer.WinFormControls
         }
 
         public string OnGetSimpleTooltip(TextPosition pos)
+        {
+            return null;
+        }
+
+        public XDocument OnGetQuickInfoTooltip()
         {
             return null;
         }

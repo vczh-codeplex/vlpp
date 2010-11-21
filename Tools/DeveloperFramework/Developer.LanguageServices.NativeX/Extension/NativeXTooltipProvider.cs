@@ -6,6 +6,7 @@ using Developer.WinFormControls.Extension;
 using Developer.WinFormControls;
 using Developer.LanguageProvider;
 using Developer.LanguageServices.NativeX.SyntaxTree;
+using System.Xml.Linq;
 
 namespace Developer.LanguageServices.NativeX.Extension
 {
@@ -114,6 +115,11 @@ namespace Developer.LanguageServices.NativeX.Extension
                     }
                 }
             }
+            return null;
+        }
+
+        public XDocument OnGetQuickInfoTooltip()
+        {
             return null;
         }
 
