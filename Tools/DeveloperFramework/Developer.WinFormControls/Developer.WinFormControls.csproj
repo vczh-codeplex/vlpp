@@ -58,6 +58,7 @@
     <Compile Include="Extension\TextEditorBoxExtensibleControlPanel.cs" />
     <Compile Include="GlobalHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichContent.cs" />
     <Compile Include="RichContentViewer.cs">
       <SubType>Component</SubType>
     </Compile>
