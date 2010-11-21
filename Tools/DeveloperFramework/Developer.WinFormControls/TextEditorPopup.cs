@@ -20,6 +20,7 @@ namespace Developer.WinFormControls
 
             private List<TextEditorPopupItem> items = null;
             private List<Bitmap> images = null;
+            private TextEditorPopupItem previousSelectedItem = null;
             private TextEditorPopupItem selectedItem = null;
             private bool needToDisposeImages = false;
             private int maxItems = 0;
@@ -84,6 +85,10 @@ namespace Developer.WinFormControls
                             this.scrollBar.Value = index - this.maxItems + 1;
                         }
                     }
+                    if (value != null)
+                    {
+                        this.previousSelectedItem = value;
+                    }
                     Invalidate();
                 }
             }
@@ -142,6 +147,17 @@ namespace Developer.WinFormControls
 
             public bool ProcessKey(KeyEventArgs e)
             {
+                if (this.selectedItem == null)
+                {
+                    switch (e.KeyCode)
+                    {
+                        case Keys.Up:
+                        case Keys.Down:
+                            this.SelectedItem = this.previousSelectedItem;
+                            Invalidate();
+                            return true;
+                    }
+                }
                 switch (e.KeyCode)
                 {
                     case Keys.Up:
