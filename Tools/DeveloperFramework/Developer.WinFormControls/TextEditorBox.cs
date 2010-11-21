@@ -1434,6 +1434,9 @@ namespace Developer.WinFormControls
             {
                 int offset = -e.Delta / 2;
                 this.textEditorBox.ViewPosition = new Point(this.textEditorBox.ViewPosition.X, this.textEditorBox.ViewPosition.Y + offset);
+                this.textEditorBox.ClosePopupItems();
+                this.textEditorBox.CloseQuickInfoTooltip();
+                this.textEditorBox.PopupTooltip(new TextPosition(), null);
             }
 
             private void host_MouseLeave(object sender, EventArgs e)

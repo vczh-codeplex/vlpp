@@ -86,13 +86,16 @@ namespace Developer.WinFormControls
         {
             if (!new Rectangle(PointToScreen(new Point(0, 0)), this.Size).Contains(Control.MousePosition))
             {
-                Hide();
+                if (this.Visible)
+                {
+                    Hide();
+                }
             }
         }
 
         private void mouseHook_OnMouseActivity(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.None)
+            if (e.Button != MouseButtons.None || e.Delta != 0)
             {
                 if (this.InvokeRequired)
                 {
