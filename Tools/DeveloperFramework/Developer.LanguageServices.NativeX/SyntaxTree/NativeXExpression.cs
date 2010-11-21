@@ -314,6 +314,32 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 return type.ElementType.Instanciate(arguments);
             }
         }
+
+        public override Tuple<string, string, string> GetFormattedFunctionQuickInfo(int parameterIndex)
+        {
+            if (this.Scope != null)
+            {
+                CodeNode node = this.Scope.Find(this.ReferencedName);
+                NativeXFunctionDeclaration function = node as NativeXFunctionDeclaration;
+                if (function != null)
+                {
+                    Dictionary<string, string> genericArguments = new Dictionary<string, string>();
+                    if (function.GenericParameters != null && this.GenericArguments != null)
+                    {
+                        for (int i = 0; i < Math.Min(this.GenericArguments.Count, function.GenericParameters.Count); i++)
+                        {
+                            var gp = function.GenericParameters[i];
+                            if (gp.ParameterName != null)
+                            {
+                                genericArguments[gp.ParameterName] = NativeXType.GetFormattedString(this.GenericArguments[i], new Dictionary<string, string>());
+                            }
+                        }
+                    }
+                    return function.GetFormattedFunctionQuickInfo(parameterIndex, genericArguments);
+                }
+            }
+            return base.GetFormattedFunctionQuickInfo(parameterIndex);
+        }
     }
 
     public abstract class NativeXInstanceFunctionExpression : NativeXExpression
