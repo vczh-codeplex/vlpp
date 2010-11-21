@@ -338,7 +338,27 @@ namespace Developer.WinFormControls
             }
             else
             {
-                TextEditorPopupItem item = this.popupList.Items.Where(i => i.Text.ToUpper().StartsWith(this.searchingKey.ToUpper())).FirstOrDefault();
+                List<TextEditorPopupItem> items = this.popupList.Items;
+                int first = 0;
+                int last = items.Count - 1;
+                TextEditorPopupItem item = null;
+                while (first <= last)
+                {
+                    int mid = (first + last) / 2;
+                    string text = items[mid].Text;
+                    if (text.StartsWith(this.searchingKey, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        item = items[mid];
+                    }
+                    if (string.Compare(this.searchingKey, text, StringComparison.InvariantCultureIgnoreCase) <= 0)
+                    {
+                        last = mid - 1;
+                    }
+                    else
+                    {
+                        first = mid + 1;
+                    }
+                }
                 this.popupList.SelectedItem = item;
             }
         }
