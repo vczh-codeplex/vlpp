@@ -97,6 +97,18 @@ namespace Developer.WinFormControls.Extension
             return pos;
         }
 
+        public TextPosition ConvertToCodePosition(TextPosition pos)
+        {
+            if (pos.row == 0)
+            {
+                return new TextPosition(this.EditingNodeStart.row, this.EditingNodeStart.col + pos.col);
+            }
+            else
+            {
+                return new TextPosition(this.EditingNodeStart.row + pos.row, pos.col);
+            }
+        }
+
         protected void AnalyzerReceived(TResult result, int id)
         {
             this.Provider.AnalyzerResultReceived(result);

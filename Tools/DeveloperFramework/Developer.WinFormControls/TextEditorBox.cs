@@ -483,10 +483,15 @@ namespace Developer.WinFormControls
                 }
                 else
                 {
-                    Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
-                    Point locationBottom = locationTop;
-                    locationBottom.Y += this.lineHeight;
-                    this.tooltip.Show(this, locationTop, locationBottom, content);
+                    Point aTop = PointToScreen(TextPositionToViewPoint(pos));
+                    Point aBottom = new Point(aTop.X, aTop.Y + this.lineHeight);
+                    Point bTop = PointToScreen(TextPositionToViewPoint(this.SelectionCaret));
+                    Point bBottom = new Point(aTop.X, aTop.Y + this.lineHeight);
+
+                    int x = Math.Min(aTop.X, bTop.X);
+                    int y1 = Math.Min(aTop.Y, bTop.Y);
+                    int y2 = Math.Max(aBottom.Y, bBottom.Y);
+                    this.tooltip.Show(this, new Point(x, y1), new Point(x, y2), content);
                 }
             }
         }
@@ -497,10 +502,10 @@ namespace Developer.WinFormControls
             {
                 PopupTooltip(new TextPosition(0, 0), null);
                 this.QuickInfoTooltipOpening = true;
-                XDocument content = this.controlPanel.OnGetQuickInfoTooltip();
+                var content = this.controlPanel.OnGetQuickInfoTooltip();
                 if (content != null)
                 {
-                    PopupQuickInfoTooltip(this.SelectionCaret, content);
+                    PopupQuickInfoTooltip(content.Item2, content.Item1);
                 }
             }
         }
@@ -1140,7 +1145,15 @@ namespace Developer.WinFormControls
             }
             if (this.QuickInfoTooltipOpening)
             {
-                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
+                var content = this.controlPanel.OnGetQuickInfoTooltip();
+                if (content == null)
+                {
+                    PopupQuickInfoTooltip(new TextPosition(0, 0), null);
+                }
+                else
+                {
+                    PopupQuickInfoTooltip(content.Item2, content.Item1);
+                }
             }
             (this as ITextContentProvider).OnSelectionAreaChanged();
         }

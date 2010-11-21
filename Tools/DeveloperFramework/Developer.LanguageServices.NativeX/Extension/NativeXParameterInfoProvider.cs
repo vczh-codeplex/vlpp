@@ -66,7 +66,7 @@ namespace Developer.LanguageServices.NativeX.Extension
             return null;
         }
 
-        public XDocument OnGetQuickInfoTooltip()
+        public Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip()
         {
             if (this.EditingObserverExtension.EditingNode != null
                 && this.EditingObserverExtension.EditingNode.Scope != null
@@ -101,11 +101,12 @@ namespace Developer.LanguageServices.NativeX.Extension
                         Tuple<string, string, string> info = function.GetFormattedFunctionQuickInfo(index);
                         if (!string.IsNullOrEmpty(info.Item1) && !string.IsNullOrEmpty(info.Item2) && !string.IsNullOrEmpty(info.Item3))
                         {
-                            return new RichContent.Content(
+                            var content = new RichContent.Content(
                                 new RichContent.Text(info.Item1),
                                 new RichContent.Bold(new RichContent.Text(info.Item2)),
                                 new RichContent.Text(info.Item3)
                                 );
+                            return Tuple.Create<XDocument, TextPosition>(content, this.EditingObserverExtension.ConvertToCodePosition(invoke.Start));
                         }
                     }
                 }
