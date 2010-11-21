@@ -22,6 +22,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             NativeXAbstractType type = this.AbstractType;
             return type == null ? null : type.Unwrap() as T;
         }
+
+        public virtual Tuple<string, string, string> GetFormattedFunctionQuickInfo(int parameterIndex)
+        {
+            return Tuple.Create("", "", "");
+        }
     }
 
     public abstract class NativeXPrimitiveExpression : NativeXExpression
@@ -271,6 +276,20 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
 
                 return null;
             }
+        }
+
+        public override Tuple<string, string, string> GetFormattedFunctionQuickInfo(int parameterIndex)
+        {
+            if (this.Scope != null)
+            {
+                CodeNode node = this.Scope.Find(this.ReferencedName);
+                NativeXFunctionDeclaration function = node as NativeXFunctionDeclaration;
+                if (function != null)
+                {
+                    return function.GetFormattedFunctionQuickInfo(parameterIndex, new Dictionary<string, string>());
+                }
+            }
+            return base.GetFormattedFunctionQuickInfo(parameterIndex);
         }
     }
 

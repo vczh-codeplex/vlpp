@@ -496,7 +496,12 @@ namespace Developer.WinFormControls
             if (!this.QuickInfoTooltipOpening)
             {
                 PopupTooltip(new TextPosition(0, 0), null);
-                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
+                this.QuickInfoTooltipOpening = true;
+                XDocument content = this.controlPanel.OnGetQuickInfoTooltip();
+                if (content != null)
+                {
+                    PopupQuickInfoTooltip(this.SelectionCaret, content);
+                }
             }
         }
 
@@ -1122,10 +1127,6 @@ namespace Developer.WinFormControls
             }
 
             this.controlPanel.OnAfterEdit(start, end, newEnd);
-            if (this.QuickInfoTooltipOpening)
-            {
-                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
-            }
             OnTextChanged(new EventArgs());
             this.preventRedraw = false;
             return true;
@@ -1136,6 +1137,10 @@ namespace Developer.WinFormControls
             if (this.ViewSize.Height != this.textProvider.Count * this.lineHeight + EditorMargin * 2)
             {
                 UpdateLineHeight();
+            }
+            if (this.QuickInfoTooltipOpening)
+            {
+                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
             }
             (this as ITextContentProvider).OnSelectionAreaChanged();
         }

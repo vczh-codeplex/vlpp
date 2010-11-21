@@ -15,6 +15,16 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 return null;
             }
         }
+
+        public virtual string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            return "{?}";
+        }
+
+        public static string GetFormattedString(NativeXType type, Dictionary<string, string> genericArguments)
+        {
+            return type == null ? "{?}" : type.ToFormattedString(genericArguments);
+        }
     }
 
     public abstract class NativeXPointerType : NativeXType
@@ -30,6 +40,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                     ElementType = this.ElementType == null ? null : this.ElementType.AbstractType
                 };
             }
+        }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            return GetFormattedString(this.ElementType, genericArguments) + "*";
         }
     }
 
@@ -48,6 +63,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 };
             }
         }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            return GetFormattedString(this.ElementType, genericArguments) + "[]";
+        }
     }
 
     public abstract class NativeXReferenceType : NativeXType
@@ -63,6 +83,18 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                     Scope = this.Scope,
                     ReferenceName = this.ReferencedName
                 };
+            }
+        }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            if (this.ReferencedName != null && genericArguments.ContainsKey(this.ReferencedName))
+            {
+                return genericArguments[this.ReferencedName];
+            }
+            else
+            {
+                return this.ReferencedName;
             }
         }
     }
@@ -85,6 +117,21 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 return function;
             }
         }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            string result = GetFormattedString(this.ReturnType, genericArguments) + "(";
+            if (this.Parameters != null)
+            {
+                for (int i = 0; i < this.Parameters.Count; i++)
+                {
+                    if (i > 0) result += ", ";
+                    result += GetFormattedString(this.Parameters[i], genericArguments);
+                }
+            }
+            result += ")";
+            return result;
+        }
     }
 
     public abstract class NativeXInstanciatedType : NativeXType
@@ -106,6 +153,21 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 List<Tuple<string, NativeXAbstractType>> arguments = type.GenericParameters.Zip(types, Tuple.Create).ToList();
                 return type.ElementType.Instanciate(arguments);
             }
+        }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            string result = GetFormattedString(this.ElementType, genericArguments) + "<";
+            if (this.GenericArguments != null)
+            {
+                for (int i = 0; i < this.GenericArguments.Count; i++)
+                {
+                    if (i > 0) result += ", ";
+                    result += GetFormattedString(this.GenericArguments[i], genericArguments);
+                }
+            }
+            result += ">";
+            return result;
         }
     }
 }
