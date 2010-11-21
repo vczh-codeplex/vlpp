@@ -23,7 +23,7 @@ $[structure] Vector
 }
 
 $[generic]<T> $[where] $[T]:#[Eq]
-$[function] $[bool]  VectorEquals($[Vector]<$[T]> a, $[Vector]<$[T]> b)
+$[function] $[bool] VectorEquals($[Vector]<$[T]> a, $[Vector]<$[T]> b)
 	$[result]=$[Eq]<$[T]>::#[Equals]($[a].#[x],$[b].#[x])&&$[Eq]<$[T]>::#[Equals]($[a].#[y],$[b].#[y]);
 	
 $[generic]<T> $[where] $[T]:#[Eq]
