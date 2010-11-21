@@ -71,6 +71,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             base.FillScope(nodes);
             nodes.AddIfNotExists(this.Name, this);
         }
+
+        public static string GetFormattedFunctionQuickInfo(NativeXNameTypePair type, Dictionary<string, string> genericArguments)
+        {
+            return NativeXType.GetFormattedString(type.Type, genericArguments) + " " + (type.Name ?? "{?}");
+        }
     }
 
     public abstract class NativeXNameExpressionPair : NativeXNode
@@ -121,6 +126,37 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 }
                 return WrapGeneric(function);
             }
+        }
+
+        public Tuple<string, string, string> GetFormattedFunctionQuickInfo(int parameterIndex, Dictionary<string, string> genericArguments)
+        {
+            string a = "";
+            string b = "";
+            string c = "";
+            a = "function " + (this.Name ?? "{?}") + "(";
+            if (this.Parameters != null)
+            {
+                for (int i = 0; i < parameterIndex; i++)
+                {
+                    if (i > 0) a += ", ";
+                    a += NativeXNameTypePair.GetFormattedFunctionQuickInfo(this.Parameters[i], genericArguments);
+                }
+                if (0 <= parameterIndex && parameterIndex < this.Parameters.Count)
+                {
+                    if (parameterIndex > 0)
+                    {
+                        a += ", ";
+                    }
+                    b += NativeXNameTypePair.GetFormattedFunctionQuickInfo(this.Parameters[parameterIndex], genericArguments);
+                }
+                for (int i = parameterIndex + 1; i < this.Parameters.Count; i++)
+                {
+                    if (i > 0) c += ", ";
+                    c += NativeXNameTypePair.GetFormattedFunctionQuickInfo(this.Parameters[i], genericArguments);
+                }
+            }
+            c += ")";
+            return Tuple.Create(a, b, c);
         }
     }
 

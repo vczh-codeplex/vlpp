@@ -77,7 +77,7 @@ namespace Developer.WinFormControls
             {
                 using (Font font = CreateFont())
                 {
-                    TextRenderer.DrawText(g, this.Text, font, location, this.Color, TextFormatFlags.ExpandTabs | TextFormatFlags.NoClipping | TextFormatFlags.NoPrefix);
+                    TextRenderer.DrawText(g, this.Text, font, location, this.Color, TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Developer.WinFormControls
             {
                 using (Font font = CreateFont())
                 {
-                    this.BlockSize = TextRenderer.MeasureText(g, this.Text, font, new Size(0, 0), TextFormatFlags.ExpandTabs | TextFormatFlags.NoClipping | TextFormatFlags.NoPrefix);
+                    this.BlockSize = TextRenderer.MeasureText(g, this.Text, font, new Size(0, 0), TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
                 }
             }
 
