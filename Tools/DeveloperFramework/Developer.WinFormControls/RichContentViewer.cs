@@ -9,7 +9,7 @@ namespace Developer.WinFormControls
 {
     public class RichContentViewer : Panel
     {
-        private Bitmap bitmap = null;
+        private RichContent content = null;
 
         public RichContentViewer()
         {
@@ -20,52 +20,23 @@ namespace Developer.WinFormControls
         public void SetContent(string text, int maxWidth)
         {
             text = text.TrimEnd(' ', '\t', '\r', '\n');
-            Size textSize;
             using (Graphics g = Graphics.FromHwnd(this.Handle))
             {
-                textSize = TextRenderer.MeasureText(g, text, this.Font, new Size(0, 0), TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+                content = new RichContent(new RichContent.Content(new RichContent.Text(text)), this.Font, g);
+                this.ClientSize = new Size(content.ContentSize.Width + 10, content.ContentSize.Height + 10);
             }
-            textSize.Width += 10;
-            textSize.Height += 10;
-
-            if (this.bitmap != null)
-            {
-                this.bitmap.Dispose();
-            }
-            this.bitmap = new Bitmap(textSize.Width, textSize.Height);
-            using (Graphics g = Graphics.FromImage(this.bitmap))
-            {
-                g.FillRectangle(SystemBrushes.Info, 0, 0, textSize.Width, textSize.Height);
-                TextRenderer.DrawText(g, text, this.Font, new Point(5, 5), SystemColors.InfoText, TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
-                g.DrawRectangle(SystemPens.InfoText, 0, 0, textSize.Width - 1, textSize.Height - 1);
-            }
-            this.ClientSize = textSize;
         }
 
         public void ClearContent()
         {
-            if (this.bitmap != null)
-            {
-                this.bitmap.Dispose();
-                this.bitmap = null;
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this.bitmap != null)
-                {
-                    this.bitmap.Dispose();
-                }
-            }
-            base.Dispose(disposing);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.DrawImage(this.bitmap, 0, 0);
+            Size textSize = this.ClientSize;
+            e.Graphics.FillRectangle(SystemBrushes.Info, 0, 0, textSize.Width, textSize.Height);
+            this.content.Render(e.Graphics, new Size(5, 5));
+            e.Graphics.DrawRectangle(SystemPens.InfoText, 0, 0, textSize.Width - 1, textSize.Height - 1);
         }
     }
 }
