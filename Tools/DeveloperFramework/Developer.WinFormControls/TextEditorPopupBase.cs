@@ -75,6 +75,13 @@ namespace Developer.WinFormControls
             }
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Hide();
+            e.Cancel = true;
+        }
+
         private void GlobalMouseDown()
         {
             if (!new Rectangle(PointToScreen(new Point(0, 0)), this.Size).Contains(Control.MousePosition))
