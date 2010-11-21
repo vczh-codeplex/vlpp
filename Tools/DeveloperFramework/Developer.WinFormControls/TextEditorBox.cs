@@ -410,7 +410,7 @@ namespace Developer.WinFormControls
             }
         }
 
-        public bool QuickInfoTooltipOpening { get; set; }
+        public bool QuickInfoTooltipOpening { get; private set; }
 
         public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
@@ -479,7 +479,7 @@ namespace Developer.WinFormControls
             {
                 if (content == null)
                 {
-                    this.tooltip.Hide();
+                    CloseQuickInfoTooltip();
                 }
                 else
                 {
@@ -496,13 +496,17 @@ namespace Developer.WinFormControls
             if (!this.QuickInfoTooltipOpening)
             {
                 PopupTooltip(new TextPosition(0, 0), null);
-                this.QuickInfoTooltipOpening = true;
+                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
             }
         }
 
         public void CloseQuickInfoTooltip()
         {
-            this.QuickInfoTooltipOpening = false;
+            if (this.QuickInfoTooltipOpening)
+            {
+                this.tooltip.Hide();
+                this.QuickInfoTooltipOpening = false;
+            }
         }
 
         #endregion
@@ -1118,6 +1122,10 @@ namespace Developer.WinFormControls
             }
 
             this.controlPanel.OnAfterEdit(start, end, newEnd);
+            if (this.QuickInfoTooltipOpening)
+            {
+                PopupQuickInfoTooltip(this.SelectionCaret, this.controlPanel.OnGetQuickInfoTooltip());
+            }
             OnTextChanged(new EventArgs());
             this.preventRedraw = false;
             return true;
