@@ -82,7 +82,7 @@ namespace Developer.WinFormControls
         void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines);
         void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd);
         string OnGetSimpleTooltip(TextPosition pos);
-        XDocument OnGetQuickInfoTooltip();
+        Tuple<XDocument,TextPosition> OnGetQuickInfoTooltip();
         bool NeedColorLineForDisplay(int lineIndex);
         void ColorLineForDisplay(int lineIndex, int[] colors);
 

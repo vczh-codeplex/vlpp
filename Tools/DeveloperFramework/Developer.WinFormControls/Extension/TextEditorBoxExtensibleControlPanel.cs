@@ -95,11 +95,11 @@ namespace Developer.WinFormControls.Extension
             return null;
         }
 
-        public XDocument OnGetQuickInfoTooltip()
+        public Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip()
         {
             foreach (var ex in this.tooltipExtensions)
             {
-                XDocument result = ex.OnGetQuickInfoTooltip();
+                var result = ex.OnGetQuickInfoTooltip();
                 if (result != null)
                 {
                     return result;
@@ -289,7 +289,7 @@ namespace Developer.WinFormControls.Extension
     public interface ITextEditorBoxTooltipExtension : ITextEditorBoxExtension
     {
         string OnGetSimpleTooltip(TextPosition pos);
-        XDocument OnGetQuickInfoTooltip();
+        Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip();
     }
 
     public interface ITextEditorBoxWordingExtension : ITextEditorBoxExtension

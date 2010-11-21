@@ -118,7 +118,7 @@ namespace Developer.LanguageServices.NativeX.Extension
             return null;
         }
 
-        public XDocument OnGetQuickInfoTooltip()
+        public Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip()
         {
             return null;
         }

@@ -71,7 +71,7 @@ namespace Developer.WinFormControls
             return null;
         }
 
-        public XDocument OnGetQuickInfoTooltip()
+        public Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip()
         {
             return null;
         }
