@@ -50,6 +50,7 @@ namespace Test.Host.LanguageForms.NativeX
         private NativeXContextSensitiveColorizerProvider colorizerProvider = null;
         private NativeXPopupItemProvider popupItemProvider = null;
         private NativeXTooltipProvider tooltipProvider = null;
+        private NativeXParameterInfoProvider parameterInfoProvider = null;
         private NativeXWordingProvider wordingProvider = null;
 
         public NativeXControlPanel(NativeXForm form)
@@ -58,12 +59,14 @@ namespace Test.Host.LanguageForms.NativeX
             this.colorizerProvider = new NativeXContextSensitiveColorizerProvider(this.editingObserverProvider);
             this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider);
             this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
+            this.parameterInfoProvider = new NativeXParameterInfoProvider(this.editingObserverProvider);
             this.wordingProvider = new NativeXWordingProvider();
 
             ExtendBeforeInstall(this.editingObserverProvider);
             ExtendBeforeInstall(this.colorizerProvider);
             ExtendBeforeInstall(this.popupItemProvider);
             ExtendBeforeInstall(this.tooltipProvider);
+            ExtendBeforeInstall(this.parameterInfoProvider);
             ExtendBeforeInstall(this.wordingProvider);
         }
 

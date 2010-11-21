@@ -49,6 +49,7 @@
     <Compile Include="Extension\NativeXCodeAnalyzer.cs" />
     <Compile Include="Extension\NativeXContextSensitiveColorizerProvider.cs" />
     <Compile Include="Extension\NativeXEditingObserverProvider.cs" />
+    <Compile Include="Extension\NativeXParameterInfoProvider.cs" />
     <Compile Include="Extension\NativeXPopupItemProvider.cs" />
     <Compile Include="Extension\NativeXTooltipProvider.cs" />
     <Compile Include="Extension\NativeXWordingProvider.cs" />
