@@ -38,6 +38,22 @@ namespace Developer.LanguageServices.NativeX.Extension
                 }
             }
             {
+                NativeXReferenceType type = node as NativeXReferenceType;
+                if (type != null && type.Scope != null)
+                {
+                    hint = (NativeXNode)type.Scope.Find(type.ReferencedName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
+                NativeXConceptReference concept = node as NativeXConceptReference;
+                if (concept != null && concept.Scope != null)
+                {
+                    hint = (NativeXNode)concept.Scope.Find(concept.ReferenceName);
+                    goto SHOW_HINT;
+                }
+            }
+            {
                 NativeXInstanciatedExpression exp = node as NativeXInstanciatedExpression;
                 if (exp != null && exp.Scope != null)
                 {
@@ -50,14 +66,6 @@ namespace Developer.LanguageServices.NativeX.Extension
                 if (exp != null && exp.Scope != null && exp.ConceptName != null)
                 {
                     hint = (NativeXNode)exp.Scope.Find(exp.ConceptName.ReferenceName);
-                    goto SHOW_HINT;
-                }
-            }
-            {
-                NativeXReferenceType type = node as NativeXReferenceType;
-                if (type != null && type.Scope != null)
-                {
-                    hint = (NativeXNode)type.Scope.Find(type.ReferencedName);
                     goto SHOW_HINT;
                 }
             }
