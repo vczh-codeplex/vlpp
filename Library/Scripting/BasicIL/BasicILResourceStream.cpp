@@ -96,6 +96,11 @@ ResourceStream
 		}
 
 		// Serialization End
+		
+		vint ResourceStream::GetUsedSize()const
+		{
+			return usedSize;
+		}
 
 		ResourceString ResourceStream::CreateString(const WString& string)
 		{

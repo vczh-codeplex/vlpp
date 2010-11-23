@@ -279,6 +279,7 @@ namespace vl
 			{
 				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
 				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
+				CHECK_ERROR(pointer+(vint)(sizeof(vint)+sizeof(T)*(*buffer))<=resourceStream->GetUsedSize(), L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
 				return ResourceRecord<T>(resourceStream, buffer[index+1]);
 			}
 
@@ -286,6 +287,7 @@ namespace vl
 			{
 				vint* buffer=(vint*)resourceStream->GetPointer(pointer);
 				CHECK_ERROR(index>=0 && index<buffer[0], L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
+				CHECK_ERROR(pointer+(vint)(sizeof(vint)+sizeof(T)*(*buffer))<=resourceStream->GetUsedSize(), L"ResourceArrayRecord<T>::operator[](vint)#参数index越界。");
 				buffer[index+1]=handle.Pointer();
 			}
 
@@ -349,6 +351,7 @@ namespace vl
 
 			void							LoadFromStream(stream::IStream& stream);
 			void							SaveToStream(stream::IStream& stream);
+			vint							GetUsedSize()const;
 
 			ResourceString					CreateString(const WString& string);
 			WString							ReadString(ResourceString string)const;
@@ -364,7 +367,7 @@ namespace vl
 			template<typename T>
 			ResourceRecord<T> ReadRecord(vint pointer)const
 			{
-				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=resource.Count()), L"ResourceStream::ReadRecord<T>(vint)#参数pointer越界。");
+				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=usedSize), L"ResourceStream::ReadRecord<T>(vint)#参数pointer越界。");
 				return ResourceRecord<T>(this, pointer);
 			}
 
@@ -401,7 +404,7 @@ namespace vl
 			template<typename T>
 			ResourceArrayRecord<T> ReadArrayRecord(vint pointer)const
 			{
-				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=resource.Count()), L"ResourceStream::ReadArrayRecord<T>(vint)#参数pointer越界。");
+				CHECK_ERROR(pointer==-1 || (pointer>=0 && (pointer+(vint)sizeof(T))<=usedSize), L"ResourceStream::ReadArrayRecord<T>(vint)#参数pointer越界。");
 				return ResourceArrayRecord<T>(this, pointer);
 			}
 
