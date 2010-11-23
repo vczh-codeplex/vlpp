@@ -63,7 +63,7 @@ namespace vl
 				case BasicTypeRecord::Function:
 					return BasicIns::pointer_type;
 				}
-				CHECK_ERROR(false, L"Convert(BasicTypeRecord*)#不支持此操作。");
+				CHECK_FAIL(L"Convert(BasicTypeRecord*)#不支持此操作。");
 			}
 
 			BasicIns::Argument Convert(BasicPrimitiveValueEnum value)

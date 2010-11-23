@@ -204,7 +204,11 @@ BasicILInterpretor
 					for(vint j=0;j<factors.Count();j++)
 					{
 						vint factor=factors.Get(j)->factor;
-						value+=factor*environment->arguments[j]->size;
+
+						Array<Ptr<BasicILGenericArgument>>& arguments=environment->arguments;
+						Ptr<BasicILGenericArgument> argument=arguments[j];
+						vint size=argument->size;
+						value+=factor*size;
 					}
 				}
 				return value;

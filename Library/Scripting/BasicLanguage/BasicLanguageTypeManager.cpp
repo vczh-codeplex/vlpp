@@ -20,77 +20,77 @@ BasicTypeRecord
 
 			BasicTypeRecord::TypeRecordType BasicTypeRecord::GetType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::GetType()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::GetType()#不支持此操作。");
 			}
 
 			BasicPrimitiveTypeEnum BasicTypeRecord::PrimitiveType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::PrimitiveType()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::PrimitiveType()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ElementType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::ElementType()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::ElementType()#不支持此操作。");
 			}
 
 			vint BasicTypeRecord::ElementCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::ElementCount()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::ElementCount()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ReturnType()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::ReturnType()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::ReturnType()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::ParameterType(vint index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::ParameterType()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::ParameterType()#不支持此操作。");
 			}
 
 			vint BasicTypeRecord::ParameterCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::ParameterCount()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::ParameterCount()#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::MemberType(vint index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(vint)#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::MemberType(vint)#不支持此操作。");
 			}
 
 			BasicTypeRecord* BasicTypeRecord::MemberType(const WString& name)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberType(const WString&)#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::MemberType(const WString&)#不支持此操作。");
 			}
 
 			const WString& BasicTypeRecord::MemberName(vint index)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
 			}
 
 			vint BasicTypeRecord::MemberNameIndex(const WString& name)
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::MemberName(vint)#不支持此操作。");
 			}
 
 			vint BasicTypeRecord::MemberCount()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::MemberCount()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::MemberCount()#不支持此操作。");
 			}
 
 			bool BasicTypeRecord::Defined()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::Defined()#不支持此操作。");
 			}
 
 			BasicDeclaration* BasicTypeRecord::Declaration()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::Declaration()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::Declaration()#不支持此操作。");
 			}
 			
 			WString BasicTypeRecord::ArgumentName()
 			{
-				CHECK_ERROR(false, L"BasicTypeRecord::Defined()#不支持此操作。");
+				CHECK_FAIL(L"BasicTypeRecord::Defined()#不支持此操作。");
 			}
 
 /***********************************************************************

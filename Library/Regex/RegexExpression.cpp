@@ -781,7 +781,7 @@ EpsilonNfaAlgorithm
 
 			EpsilonNfa Apply(UsingExpression* expression, Automaton* target)
 			{
-				CHECK_ERROR(false, L"RegexExpression::GenerateEpsilonNfa()#UsingExpression不能产生状态机。");
+				CHECK_FAIL(L"RegexExpression::GenerateEpsilonNfa()#UsingExpression不能产生状态机。");
 			}
 		};
 

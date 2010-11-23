@@ -80,7 +80,15 @@ typedef signed __int64	pos_t;
 
 		wchar_t*			Description();
 	};
-#define CHECK_ERROR(CONDITION,DESCRIPTION) do{if(!(CONDITION))throw Error(DESCRIPTION);}while(0)
+
+#ifdef _DEBUG
+	#define CHECK_ERROR(CONDITION,DESCRIPTION) do{if(!(CONDITION))throw Error(DESCRIPTION);}while(0)
+#endif
+#ifdef NDEBUG
+	#define CHECK_ERROR(CONDITION,DESCRIPTION)
+#endif
+
+#define CHECK_FAIL(DESCRIPTION) do{throw Error(DESCRIPTION);}while(0)
 
 	class Object
 	{
