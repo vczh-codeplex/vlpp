@@ -1,21 +1,4 @@
-#include "..\..\Library\UnitTest\UnitTest.h"
-#include "..\..\Library\Function.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
-#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
-#include "..\..\Library\Stream\FileStream.h"
-#include "..\..\Library\Stream\CharFormat.h"
-
-using namespace vl;
-using namespace vl::collections;
-using namespace vl::scripting::basiclanguage;
-using namespace vl::scripting::basicil;
-using namespace vl::stream;
-
-extern WString GetPath();
+#include "UnitTestCompilingHelper.h"
 
 /***********************************************************************
 Size
@@ -77,96 +60,6 @@ TEST_CASE(TestBasicTypeInfo)
 	TEST_ASSERT(infoType->offsets[3]==(vint)6);
 	TEST_ASSERT(infoType->offsets[4]==(vint)8);
 	TEST_ASSERT(infoType->offsets[5]==(vint)16);
-}
-
-/***********************************************************************
-Runner
-***********************************************************************/
-
-//from TestScripting_BasicLanguage_Analyzer.cpp
-extern void SetConfiguration(BasicAlgorithmConfiguration& config);
-//from TestScripting_Languages_NativeX.cpp
-extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
-extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
-
-void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName)
-{
-	WString path=GetPath()+L"Codegen_"+fileName+L".txt";
-	FileStream fileStream(path, FileStream::WriteOnly);
-	BomEncoder encoder(BomEncoder::Utf16);
-	EncoderStream encoderStream(fileStream, encoder);
-	StreamWriter fileWriter(encoderStream);
-	interpretor.LogInternalState(fileWriter);
-}
-
-typedef void (*InterpretorInitializer)(BasicILInterpretor& interpretor);
-
-template<typename T>
-void RunBasicProgramInternal(Ptr<BasicProgram> program, T result, const WString& name, InterpretorInitializer initializer)
-{
-	BasicAlgorithmConfiguration configuration;
-	SetConfiguration(configuration);
-	BasicAnalyzer analyzer(program, 0, configuration);
-	analyzer.Analyze();
-	TEST_ASSERT(analyzer.GetErrors().Count()==0);
-	BasicCodeGenerator codegen(&analyzer, 0, L"assembly_generated");
-	codegen.GenerateCode();
-
-	if(name!=L"")
-	{
-		WString fileName=GetPath()+L"Codegen_"+name+L".txt";
-		FileStream fileStream(fileName, FileStream::WriteOnly);
-		BomEncoder encoder(BomEncoder::Utf16);
-		EncoderStream encoderStream(fileStream, encoder);
-		StreamWriter writer(encoderStream);
-
-		writer.WriteLine(L"/*NativeX Code*/");
-		PrintNativeXProgram(program, writer);
-		writer.WriteLine(L"");
-
-		BasicLanguageCommentProvider commentProvider;
-		TextWriter* commentProviderWriter=commentProvider.OpenWriter();
-		PrintNativeXProgram(program, *commentProviderWriter);
-		commentProvider.CloseWriter();
-
-		writer.WriteLine(L"/*Assembly*/");
-		codegen.GetIL()->SaveAsString(writer, &commentProvider);
-	}
-
-	BasicILInterpretor interpretor(65536);
-	if(initializer)
-	{
-		initializer(interpretor);
-	}
-	vint key=interpretor.LoadIL(codegen.GetIL().Obj());
-
-	BasicILStack stack(&interpretor);
-	stack.Reset(0, key, 0);
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	TEST_ASSERT(stack.GetEnv()->StackTop()==65536);
-	vint ins=codegen.GetIL()->labels[0].instructionIndex;
-	stack.Reset(ins, key, sizeof(T));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
-	TEST_ASSERT(stack.GetEnv()->StackTop()==65536-sizeof(T));
-	TEST_ASSERT(stack.GetEnv()->Pop<T>()==result);
-
-	if(name!=L"")
-	{
-		LogInterpretor(interpretor, name+L"[Interpretor]");
-	}
-}
-
-template<typename T>
-void RunBasicProgram(Ptr<BasicProgram> program, T result, const WString& name, InterpretorInitializer initializer=0)
-{
-	RunBasicProgramInternal(program, result, L"", initializer);
-	ConvertToNativeXProgram(program);
-	RunBasicProgramInternal(program, result, name, initializer);
-}
-
-void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name)
-{
-	RunBasicProgram<vint>(program, result, name, 0);
 }
 
 /***********************************************************************

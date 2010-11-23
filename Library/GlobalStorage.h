@@ -66,4 +66,7 @@ namespace vl
 		return __global_storage_##NAME;\
 	}\
 
+#define EXTERN_GLOBAL_STORAGE_CLASS(NAME)\
+	extern NAME& Get##NAME();
+
 #endif

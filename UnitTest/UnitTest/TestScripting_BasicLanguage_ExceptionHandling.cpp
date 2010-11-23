@@ -1,31 +1,4 @@
-#include "..\..\Library\UnitTest\UnitTest.h"
-#include "..\..\Library\Function.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
-#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
-#include "..\..\Library\Stream\FileStream.h"
-#include "..\..\Library\Stream\CharFormat.h"
-
-using namespace vl;
-using namespace vl::collections;
-using namespace vl::scripting::basiclanguage;
-using namespace vl::scripting::basicil;
-using namespace vl::stream;
-
-//from TestScripting_BasicLanguage_Codegen.cpp
-extern void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name);
-
-/*
-	programMain
-		.DefineFunction(L"main")
-		.ReturnType(t_int())
-		.Statement(
-			s_expr(e_result().Assign(e_prim(0)))
-			);
-*/
+#include "UnitTestCompilingHelper.h"
 
 /***********************************************************************
 Empty
@@ -41,7 +14,7 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionEmpty)
 			s_try_catch(s_empty(), s_empty())
 			<<s_expr(e_result().Assign(e_prim((vint)0)))
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_ExceptionEmpty");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_ExceptionEmpty");
 }
 
 /***********************************************************************
@@ -61,7 +34,7 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionSimpleThrow)
 				s_expr(e_result().Assign(e_prim((vint)20)))
 				)
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionSimpleThrow");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionSimpleThrow");
 }
 
 /***********************************************************************
@@ -81,7 +54,7 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionThrowInteger)
 				s_expr(e_result().Assign(*e_exception()[*t_int()]))
 				)
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInteger");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInteger");
 }
 
 /***********************************************************************
@@ -106,7 +79,7 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionThrowInFunction)
 		.Statement(
 			s_throw(e_prim((vint)20))
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInFunction");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionThrowInFunction");
 }
 
 /***********************************************************************
@@ -129,5 +102,5 @@ TEST_CASE(TestScripting_BasicLanguage_ExceptionDoubleTry)
 				s_expr(e_result().Assign(*e_exception()[*t_int()]))
 				)
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionDoubleTry");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 20, L"TestScripting_BasicLanguage_ExceptionDoubleTry");
 }

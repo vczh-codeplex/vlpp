@@ -381,6 +381,9 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_ExceptionHandling.cpp">
       <Filter>Source Files\Scripting\BasicLanguage</Filter>
     </ClCompile>
+    <ClCompile Include="..\UnitTest\UnitTestCompilingHelper.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -714,6 +717,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\Linear.h">
       <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UnitTest\UnitTestCompilingHelper.h">
+      <Filter>Source Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
