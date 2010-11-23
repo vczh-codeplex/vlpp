@@ -72,22 +72,22 @@ BroadcastStream
 
 		void BroadcastStream::Seek(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::Seek(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BroadcastStream::Seek(pos_t)#不支持此操作。");
 		}
 
 		void BroadcastStream::SeekFromBegin(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::SeekFromBegin(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BroadcastStream::SeekFromBegin(pos_t)#不支持此操作。");
 		}
 
 		void BroadcastStream::SeekFromEnd(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::SeekFromEnd(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BroadcastStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
 		vint BroadcastStream::Read(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::Read(void*, vint)#不支持此操作。");
+			CHECK_FAIL(L"BroadcastStream::Read(void*, vint)#不支持此操作。");
 		}
 
 		vint BroadcastStream::Write(void* _buffer, vint _size)
@@ -102,7 +102,7 @@ BroadcastStream
 
 		vint BroadcastStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BroadcastStream::Peek(void*, vint)#不支持此操作。");
+			CHECK_FAIL(L"BroadcastStream::Peek(void*, vint)#不支持此操作。");
 		}
 	}
 }

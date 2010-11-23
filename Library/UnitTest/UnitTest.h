@@ -25,9 +25,10 @@ namespace vl
 			static void PrintInfo(const WString& string);
 			static void PrintError(const WString& string);
 		};
-
-#define TEST_ASSERT(CONDITION) do{CHECK_ERROR(CONDITION,L"");}while(0)
-#define TEST_ERROR(CONDITION) do{try{CONDITION;throw UnitTestError();}catch(const Error&){}catch(const UnitTestError&){CHECK_ERROR(false,L"");}}while(0)
+		
+#define TEST_CHECK_ERROR(CONDITION,DESCRIPTION) do{if(!(CONDITION))throw Error(DESCRIPTION);}while(0)
+#define TEST_ASSERT(CONDITION) do{TEST_CHECK_ERROR(CONDITION,L"");}while(0)
+#define TEST_ERROR(CONDITION) do{try{CONDITION;throw UnitTestError();}catch(const Error&){}catch(const UnitTestError&){TEST_CHECK_ERROR(false,L"");}}while(0)
 #define TEST_CASE(NAME)\
 		extern void TESTCASE_##NAME();								\
 		namespace vl_unittest_executors								\

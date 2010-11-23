@@ -228,7 +228,7 @@ namespace vl
 					}
 					else
 					{
-						CHECK_ERROR(false, L"词法分析器有错。");
+						CHECK_FAIL(L"词法分析器有错。");
 					}
 				}
 			FINISHED_TYPE_RECOGNIZING:
@@ -251,7 +251,7 @@ namespace vl
 						expression->type=s64;
 						break;
 					default:
-						CHECK_ERROR(false, L"词法分析器有错。");
+						CHECK_FAIL(L"词法分析器有错。");
 					}
 				}
 				else
@@ -272,7 +272,7 @@ namespace vl
 						expression->type=u64;
 						break;
 					default:
-						CHECK_ERROR(false, L"词法分析器有错。");
+						CHECK_FAIL(L"词法分析器有错。");
 					}
 				}
 				return expression;
@@ -415,7 +415,7 @@ namespace vl
 				}
 				else
 				{
-					CHECK_ERROR(false, L"language_nativex::ToPostUnary()#错误的操作符。");
+					CHECK_FAIL(L"language_nativex::ToPostUnary()#错误的操作符。");
 				}
 			}
 
@@ -473,7 +473,7 @@ namespace vl
 				}
 				else
 				{
-					CHECK_ERROR(false, L"language_nativex::ToPreUnary()#错误的操作符。");
+					CHECK_FAIL(L"language_nativex::ToPreUnary()#错误的操作符。");
 				}
 			}
 
@@ -601,7 +601,7 @@ namespace vl
 				}
 				else
 				{
-					CHECK_ERROR(false, L"language_nativex::ToBinary()#错误的操作符。");
+					CHECK_FAIL(L"language_nativex::ToBinary()#错误的操作符。");
 				}
 				return expression;
 			}
@@ -622,7 +622,7 @@ namespace vl
 				}
 				else
 				{
-					CHECK_ERROR(false, L"language_nativex::ToBinary()#错误的操作符。");
+					CHECK_FAIL(L"language_nativex::ToBinary()#错误的操作符。");
 				}
 				if(binary.First().First().start+1!=binary.First().Second().start)
 				{

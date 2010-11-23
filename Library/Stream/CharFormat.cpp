@@ -406,17 +406,17 @@ BomDecoder
 
 		void BomDecoder::BomStream::Seek(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::Seek(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BomDecoder::BomStream::Seek(pos_t)#不支持此操作。");
 		}
 
 		void BomDecoder::BomStream::SeekFromBegin(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::SeekFromBegin(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BomDecoder::BomStream::SeekFromBegin(pos_t)#不支持此操作。");
 		}
 
 		void BomDecoder::BomStream::SeekFromEnd(pos_t _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::SeekFromEnd(pos_t)#不支持此操作。");
+			CHECK_FAIL(L"BomDecoder::BomStream::SeekFromEnd(pos_t)#不支持此操作。");
 		}
 
 		vint BomDecoder::BomStream::Read(void* _buffer, vint _size)
@@ -441,12 +441,12 @@ BomDecoder
 
 		vint BomDecoder::BomStream::Write(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::Write(void*, vint)#不支持此操作。");
+			CHECK_FAIL(L"BomDecoder::BomStream::Write(void*, vint)#不支持此操作。");
 		}
 
 		vint BomDecoder::BomStream::Peek(void* _buffer, vint _size)
 		{
-			CHECK_ERROR(false, L"BomDecoder::BomStream::Peek(void*, vint)#不支持此操作。");
+			CHECK_FAIL(L"BomDecoder::BomStream::Peek(void*, vint)#不支持此操作。");
 		}
 
 		BomDecoder::BomDecoder()
