@@ -1,22 +1,4 @@
-#include "..\..\Library\UnitTest\UnitTest.h"
-#include "..\..\Library\Function.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
-#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
-#include "..\..\Library\Stream\FileStream.h"
-#include "..\..\Library\Stream\CharFormat.h"
-
-using namespace vl;
-using namespace vl::collections;
-using namespace vl::scripting::basiclanguage;
-using namespace vl::scripting::basicil;
-using namespace vl::stream;
-
-//from TestScripting_BasicLanguage_Codegen.cpp
-extern void RunBasicProgramInt(Ptr<BasicProgram> program, vint result, const WString& name);
+#include "UnitTestCompilingHelper.h"
 
 /***********************************************************************
 Generic Structure
@@ -39,7 +21,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericStructure)
 			<<s_expr(e_name(L"v").Member(L"y").Assign(e_prim(20)))
 			<<s_expr(e_result().Assign(e_name(L"v").Member(L"x")+e_name(L"v").Member(L"y")))
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericStructure");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericStructure");
 }
 
 /***********************************************************************
@@ -66,7 +48,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericTypeRename)
 			<<s_expr(e_name(L"v").Member(L"y").Assign(e_prim(20)))
 			<<s_expr(e_result().Assign(e_name(L"v").Member(L"x")+e_name(L"v").Member(L"y")))
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericTypeRename");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericTypeRename");
 }
 
 /***********************************************************************
@@ -129,7 +111,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericFunction)
 					<<s_expr(e_name(L"items")++)
 				)
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 25, L"TestScripting_BasicLanguage_GenericFunction");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 25, L"TestScripting_BasicLanguage_GenericFunction");
 }
 
 /***********************************************************************
@@ -172,7 +154,7 @@ TEST_CASE(TestScripting_BasicLanguage_GenericVariable)
 		.Statement(
 			s_expr(e_name(L"storage", t_types()<<t_type(L"W")).Member(L"data").Assign(e_name(L"value")))
 			);
-	RunBasicProgramInt(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericVariable");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 30, L"TestScripting_BasicLanguage_GenericVariable");
 }
 
 /***********************************************************************
@@ -283,5 +265,5 @@ TEST_CASE(TestScripting_BasicLanguage_GenericConcept)
 			s_expr(e_result().Assign(!e_name(L"VectorEquals", t_types()<<t_type(L"W"))(e_exps()<<e_name(L"a")<<e_name(L"b"))))
 			);
 
-	RunBasicProgramInt(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");
+	RunBasicProgram<vint>(programMain.GetInternalValue(), 0, L"TestScripting_BasicLanguage_GenericConcept");
 }

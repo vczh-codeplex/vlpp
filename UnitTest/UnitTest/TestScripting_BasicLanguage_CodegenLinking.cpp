@@ -1,61 +1,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Function.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
-#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
-#include "..\..\Library\Stream\FileStream.h"
-#include "..\..\Library\Stream\CharFormat.h"
-
-using namespace vl;
-using namespace vl::collections;
-using namespace vl::scripting::basiclanguage;
-using namespace vl::scripting::basicil;
-using namespace vl::stream;
-
-extern WString GetPath();
-
-//from TestScripting_BasicLanguage_Analyzer.cpp
-extern void SetConfiguration(BasicAlgorithmConfiguration& config);
-//from TestScripting_Languages_NativeX.cpp
-extern void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer);
-extern void ConvertToNativeXProgram(Ptr<BasicProgram>& program);
-//from TestScripting_BasicLanguage_Codegen.cpp
-extern void LogInterpretor(BasicILInterpretor& interpretor, const WString& fileName);
-
-Ptr<BasicIL> Compile(Ptr<BasicProgram> program, const WString& name, const WString& fileName)
-{
-	ConvertToNativeXProgram(program);
-	BasicAlgorithmConfiguration configuration;
-	SetConfiguration(configuration);
-	BasicAnalyzer analyzer(program, 0, configuration);
-	analyzer.Analyze();
-	TEST_ASSERT(analyzer.GetErrors().Count()==0);
-	BasicCodeGenerator codegen(&analyzer, 0, name);
-	codegen.GenerateCode();
-	{
-		WString path=GetPath()+L"Codegen_"+fileName+L".txt";
-		FileStream fileStream(path, FileStream::WriteOnly);
-		BomEncoder encoder(BomEncoder::Utf16);
-		EncoderStream encoderStream(fileStream, encoder);
-		StreamWriter fileWriter(encoderStream);
-
-		fileWriter.WriteLine(L"/*NativeX Code*/");
-		PrintNativeXProgram(program, fileWriter);
-		fileWriter.WriteLine(L"");
-
-		BasicLanguageCommentProvider commentProvider;
-		TextWriter* commentProviderWriter=commentProvider.OpenWriter();
-		PrintNativeXProgram(program, *commentProviderWriter);
-		commentProvider.CloseWriter();
-
-		fileWriter.WriteLine(L"/*Assembly*/");
-		codegen.GetIL()->SaveAsString(fileWriter, &commentProvider);
-	}
-	return codegen.GetIL();
-}
+#include "UnitTestCompilingHelper.h"
 
 /***********************************************************************
 Simple Linking
