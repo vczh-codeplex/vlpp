@@ -1,0 +1,12 @@
+unit Main;
+
+function int main()
+{
+    variable wchar* a = L"ABCDE";
+    result = 0;
+    while(*a)
+    {
+        result += *a;
+        a++;
+    }
+}

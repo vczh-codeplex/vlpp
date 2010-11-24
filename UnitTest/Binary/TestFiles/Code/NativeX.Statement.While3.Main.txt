@@ -1,0 +1,13 @@
+unit Main;
+
+function int main()
+{
+    variable int i = 1;
+    result = 0;
+    while(i <= 10)
+    {
+        result += i;
+        i++;
+    }
+    when(i <= 10);
+}
