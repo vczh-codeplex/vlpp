@@ -1,0 +1,12 @@
+unit Main;
+
+function int main()
+{
+    variable function int(int, int) padd = add;
+    result = padd(1, 2);
+}
+
+function int add(int a, int b)
+{
+    result = a + b;
+}

@@ -1,0 +1,21 @@
+unit Main;
+
+function int main()
+{
+    result = 10;
+    try
+    {
+        try
+        {
+            throw 20;
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    catch
+    {
+        result = *cast<int*>(exception);
+    }
+}

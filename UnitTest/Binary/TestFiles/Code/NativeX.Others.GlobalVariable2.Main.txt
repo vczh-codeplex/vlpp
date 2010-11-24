@@ -1,0 +1,14 @@
+unit Main;
+
+variable int x = 100;
+
+function void add(int a, int b)
+{
+    x = a + b;
+}
+
+function int main()
+{
+    add(1, 2);
+    result = x;
+}

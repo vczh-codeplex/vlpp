@@ -1,0 +1,12 @@
+unit Main;
+
+function int main()
+{
+    result = 0;
+    for(
+        variable int i = 1; variable int j = 1;
+        when(i + j <= 20)
+        with i++; j++;)
+    do
+        result += i + j;
+}

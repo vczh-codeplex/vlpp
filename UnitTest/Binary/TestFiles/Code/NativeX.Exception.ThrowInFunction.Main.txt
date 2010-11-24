@@ -1,0 +1,19 @@
+unit Main;
+
+function int main()
+{
+    result = 10;
+    try
+    {
+        @"throw"();
+    }
+    catch
+    {
+        result = *cast<int*>(exception);
+    }
+}
+
+function void @"throw"()
+{
+    throw 20;
+}

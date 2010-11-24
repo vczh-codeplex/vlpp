@@ -22,6 +22,22 @@ using namespace vl::regex;
 
 extern WString GetPath();
 
+class Test_BasicLanguage_ForeignFunction_Summer : public Object, public ILanguageForeignFunction
+{
+public:
+	void Invoke(LanguageArguments& arguments)
+	{
+		vint* numbers=arguments.NextArgument<vint*>();
+		vint count=arguments.NextArgument<vint>();
+		vint result=0;
+		for(vint i=0;i<count;i++)
+		{
+			result+=numbers[i];
+		}
+		arguments.Result<vint>()=result;
+	}
+};
+
 TEST_CASE(TestCodeInIndex)
 {
 	vl::unittest::UnitTest::PrintInfo(L"Initializing NativeX Language Provider...");
@@ -127,6 +143,7 @@ TEST_CASE(TestCodeInIndex)
 		}
 
 		LanguageHost host(65536);
+		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
 		Ptr<LanguageState> state=host.CreateState();
 		for(vint i=0;i<assemblies.Count();i++)
 		{
