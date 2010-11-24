@@ -1,0 +1,6 @@
+unit Main;
+
+function bool main()
+{
+    result = main == null;
+}

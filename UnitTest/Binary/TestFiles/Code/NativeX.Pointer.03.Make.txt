@@ -1,0 +1,3 @@
+Language=NativeX
+Assembly=NativeX
+Compile=NativeX.Pointer.03.Main.txt

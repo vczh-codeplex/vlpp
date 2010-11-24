@@ -1,0 +1,16 @@
+unit Main;
+
+function int main()
+{
+    variable int[5] a;
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 3;
+    a[3] = 4;
+    a[4] = 5;
+    variable int* b = &a[0];
+    variable int* c = &a[4];
+    b += 4;
+    c -= 2;
+    result = b - c;
+}

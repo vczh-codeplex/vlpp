@@ -181,6 +181,9 @@
     <Filter Include="TestFiles\NativeX\ForeignFunction">
       <UniqueIdentifier>{b15c5153-2cff-43d3-8ef6-3e91c081e606}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\NativeX\Pointer">
+      <UniqueIdentifier>{dd1a7720-b58a-45cf-9c05-d17bec6e3360}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -961,6 +964,90 @@
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.Not.Make.txt">
       <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null1.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null1.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null2.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null2.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.PlusPlus3.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.PlusPlus3.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.01.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.02.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.03.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.04.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.05.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.06.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.07.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.08.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.09.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.10.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.11.Make.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.01.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.02.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.03.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.04.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.05.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.06.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.07.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.08.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.09.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.10.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.11.Main.txt">
+      <Filter>TestFiles\NativeX\Pointer</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
