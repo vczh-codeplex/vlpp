@@ -290,6 +290,18 @@
     <None Include="..\Binary\TestFiles\Baseline\RegexString.eNfa.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexString.Nfa.txt" />
     <None Include="..\Binary\TestFiles\Code\Index.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Eq2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Eq2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Ge2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Ge2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Gt2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Gt2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Le2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Le2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Lt2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Lt2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Ne2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Ne2.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shl3.Main.txt" />
@@ -316,6 +328,12 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.MinusMinus3.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.MinusMinus3.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.Neg.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.Neg.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.Not.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.Not.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssignRef.Main.txt" />
@@ -334,6 +352,14 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssign.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssignRef.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ModAssign.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ModAssign.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ModAssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ModAssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.MulAssign.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.MulAssign.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.MulAssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.MulAssignRef.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.Empty.Main.txt" />
@@ -346,6 +372,8 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.ThrowInteger.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.Sum.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.Sum.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.SumLight.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.SumLight.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Concept.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Concept.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Function.Main.txt" />
@@ -396,6 +424,14 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For2.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If1.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If1.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If3.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If3.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If4.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If4.Make.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h" />

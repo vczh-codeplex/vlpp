@@ -38,6 +38,18 @@ public:
 	}
 };
 
+void Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* arguments)
+{
+	vint* numbers=*(vint**)(arguments);
+	vint count=*(vint*)((char*)arguments+sizeof(vint*));
+	vint sum=0;
+	for(vint i=0;i<count;i++)
+	{
+		sum+=numbers[i];
+	}
+	*((vint*)result)=sum;
+}
+
 TEST_CASE(TestCodeInIndex)
 {
 	vl::unittest::UnitTest::PrintInfo(L"Initializing NativeX Language Provider...");
@@ -144,6 +156,7 @@ TEST_CASE(TestCodeInIndex)
 
 		LanguageHost host(65536);
 		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		host.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer, (vint)(sizeof(vint*)+sizeof(vint)));
 		Ptr<LanguageState> state=host.CreateState();
 		for(vint i=0;i<assemblies.Count();i++)
 		{
@@ -176,6 +189,16 @@ TEST_CASE(TestCodeInIndex)
 				vl::unittest::UnitTest::PrintError(L"Expect: "+resultValue+L", Actual: "+itow(result));
 			}
 			TEST_ASSERT(result==wtoi(resultValue));
+		}
+		else if(resultType==L"bool")
+		{
+			BasicFunctionExecutor<bool()> entry(entryInfo, state);
+			bool result=entry();
+			if((result?L"true":L"false")!=resultValue)
+			{
+				vl::unittest::UnitTest::PrintError(L"Expect: "+resultValue+L", Actual: "+(result?L"true":L"false"));
+			}
+			TEST_ASSERT(result==(resultValue==L"true"));
 		}
 		else
 		{

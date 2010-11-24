@@ -1,0 +1,8 @@
+unit Main;
+
+function int main()
+{
+    variable int a = 3;
+    variable int b = --a;
+    result = b * 100 + a;
+}
