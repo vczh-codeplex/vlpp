@@ -370,6 +370,10 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssign.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssignRef.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssign.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssign.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssignRef.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Exception.Empty.Main.txt" />
@@ -426,6 +430,8 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum5.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.WideString.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.WideString.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.01.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.01.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.02.Main.txt" />
@@ -482,6 +488,14 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If3.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If4.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Statement.If4.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While1.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While1.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While2.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While3.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While3.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While4.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While4.Make.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h" />

@@ -1115,6 +1115,48 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Make.txt">
       <Filter>TestFiles\NativeX\Others</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While1.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While2.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While3.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While4.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While4.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While3.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While2.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.While1.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.WideString.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.WideString.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
