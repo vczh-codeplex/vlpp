@@ -24,7 +24,9 @@ extern WString GetPath();
 
 TEST_CASE(TestCodeInIndex)
 {
+	vl::unittest::UnitTest::PrintInfo(L"Initializing NativeX Language Provider...");
 	Ptr<ILanguageProvider> naitvexProvider=CreateNativeXLanguageProvider();
+	vl::unittest::UnitTest::PrintInfo(L"Loading Cases Index File...");
 	Regex regexCase(L"(<make>[^=:]+)=(<type>[^=:]+):(<value>[^=:]+)");
 	Regex regexMake(L"(<key>[^=]+)=(<value>[^=]+)");
 
@@ -43,7 +45,7 @@ TEST_CASE(TestCodeInIndex)
 	for(vint i=0;i<cases.Count();i++)
 	{
 		WString singleCase=cases[i];
-		vl::unittest::UnitTest::PrintMessage(L"Running Code Case: "+singleCase);
+		vl::unittest::UnitTest::PrintInfo(L"Running Code Case: "+singleCase);
 		RegexMatch::Ref singleCaseMatch=regexCase.Match(singleCase);
 		WString makeFilePath=GetPath()+L"Code\\"+singleCaseMatch->Groups()[L"make"][0].Value();
 		WString resultType=singleCaseMatch->Groups()[L"type"][0].Value();
@@ -116,6 +118,10 @@ TEST_CASE(TestCodeInIndex)
 			List<Ptr<LanguageAssembly>> references;
 			List<Ptr<LanguageException>> errors;
 			Ptr<LanguageAssembly> assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap());
+			for(vint j=0;j<errors.Count();j++)
+			{
+				vl::unittest::UnitTest::PrintError(L"Line["+itow(errors[j]->LineIndex())+L"]: "+errors[j]->Message());
+			}
 			TEST_ASSERT(errors.Count()==0);
 			assemblies.Add(assembly);
 		}

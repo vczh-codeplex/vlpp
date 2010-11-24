@@ -1,0 +1,8 @@
+unit Main;
+
+function int main()
+{
+    variable int8 a = 3s8;
+    variable int8 b = ~a;
+    result = b * 100 + a;
+}

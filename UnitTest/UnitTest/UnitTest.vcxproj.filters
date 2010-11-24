@@ -151,8 +151,29 @@
     <Filter Include="TestFiles\Baseline">
       <UniqueIdentifier>{7deb7ed7-b2bd-457c-967b-2edacb542a7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TestFiles\Code">
+    <Filter Include="TestFiles\NativeX">
       <UniqueIdentifier>{faacf499-69e2-414d-93a7-a9cf77a50059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\ALU">
+      <UniqueIdentifier>{28385be4-4551-4948-880d-dcd5f1e85b3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Assignment">
+      <UniqueIdentifier>{c1396d40-1c3e-48cb-a99d-ce70719ed4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Statement">
+      <UniqueIdentifier>{8eda1f42-aea3-44ae-ac6e-9f38b09968d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Generic">
+      <UniqueIdentifier>{195fc94a-8784-488f-a260-bd5dce4a8e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Linking">
+      <UniqueIdentifier>{275b0c1b-f10f-4360-b8b2-2c8bbd635f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Exception">
+      <UniqueIdentifier>{289aa9b2-77ee-4ae9-8ab8-02e43966fb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\NativeX\Others">
+      <UniqueIdentifier>{24a0499f-e217-4ddd-b993-bd927c83e018}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -506,80 +527,122 @@
     <None Include="..\Binary\TestFiles\Baseline\RegexString.Nfa.txt">
       <Filter>TestFiles\Baseline</Filter>
     </None>
-    <None Include="..\Binary\TestFiles\Code\Index.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Main.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Main.txt">
-      <Filter>TestFiles\Code</Filter>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Make.txt">
-      <Filter>TestFiles\Code</Filter>
-    </None>
-    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Main.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Make.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shl3.Main.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shl3.Make.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shr3.Main.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shr3.Make.txt">
-      <Filter>TestFiles\Code</Filter>
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\Index.txt">
+      <Filter>TestFiles</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.AnsiString.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.AnsiString.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Main.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Make.txt">
+      <Filter>TestFiles\NativeX\ALU</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -314,6 +314,20 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssign.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AddAssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.AssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssign.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssign.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssignRef.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitAndAssignRef.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.AnsiString.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.AnsiString.Make.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h" />
