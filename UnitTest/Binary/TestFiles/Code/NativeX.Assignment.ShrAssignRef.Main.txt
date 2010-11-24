@@ -1,0 +1,7 @@
+unit Main;
+
+function int main()
+{
+    variable int a = 10;
+    result = ((a >>= 3) += 1);
+}

@@ -1,0 +1,18 @@
+unit Main;
+
+function int main()
+{
+    variable int[5] a;
+    a[0] = 1;
+    a[1] = 2;
+    a[2] = 3;
+    a[3] = 4;
+    a[4] = 5;
+    variable int* b = cast<int*>(&a);
+    result = 0;
+    result += b[0];
+    result += b[1];
+    result += b[2];
+    result += b[3];
+    result += b[4];
+}

@@ -1049,6 +1049,72 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Pointer.11.Main.txt">
       <Filter>TestFiles\NativeX\Pointer</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.Exit.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.Exit.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShlAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShlAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShlAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShlAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.ShrAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum1.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum2.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum3.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum4.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum5.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum1.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum2.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum3.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum4.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum5.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

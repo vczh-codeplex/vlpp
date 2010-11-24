@@ -1,0 +1,16 @@
+unit Main;
+
+function int main()
+{
+    variable int i = 1;
+    result = 0;
+    while(true)
+    {
+        result += i;
+        i++;
+        if(i > 10)
+        {
+            exit;
+        }
+    }
+}
