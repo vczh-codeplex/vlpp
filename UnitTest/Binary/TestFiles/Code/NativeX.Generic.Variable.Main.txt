@@ -1,0 +1,31 @@
+unit Main;
+
+generic<T>
+structure Storage
+{
+    T data;
+}
+
+generic<U>
+variable Storage<U> storage;
+
+generic<V>
+function V Get()
+{
+    result = storage<V>.data;
+}
+
+generic<W>
+function void Set(W value)
+{
+    storage<W>.data = value;
+}
+
+function int main()
+{
+    storage<int>.data = 10;
+    Set<char>('A');
+    variable int a = Get<int>();
+    variable int b = storage<char>.data;
+    result = a + b;
+}

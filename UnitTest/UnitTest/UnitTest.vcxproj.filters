@@ -178,6 +178,9 @@
     <Filter Include="TestFiles\NativeX\SideEffect">
       <UniqueIdentifier>{0877ca08-e1b5-43eb-b05c-a72cf196f20f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\NativeX\ForeignFunction">
+      <UniqueIdentifier>{b15c5153-2cff-43d3-8ef6-3e91c081e606}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -736,6 +739,120 @@
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect2.Main.txt">
       <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.DereferenceLeftValue.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.DereferenceLeftValue.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.DivAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Main.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.DoubleTry.Make.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.Empty.Main.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.Empty.Make.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.SimpleThrow.Main.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.SimpleThrow.Make.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.ThrowInFunction.Main.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.ThrowInFunction.Make.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.ThrowInteger.Main.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Exception.ThrowInteger.Make.txt">
+      <Filter>TestFiles\NativeX\Exception</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.Sum.Main.txt">
+      <Filter>TestFiles\NativeX\ForeignFunction</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ForeignFunction.Sum.Make.txt">
+      <Filter>TestFiles\NativeX\ForeignFunction</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For2.Main.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Statement.For2.Make.txt">
+      <Filter>TestFiles\NativeX\Statement</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.FunctionPointer.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.FunctionPointer.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Concept.Main.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Concept.Make.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Function.Main.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Function.Make.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Structure.Main.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Structure.Make.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.TypeRename.Main.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.TypeRename.Make.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Variable.Main.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Generic.Variable.Make.txt">
+      <Filter>TestFiles\NativeX\Generic</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.GlobalVariable1.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.GlobalVariable1.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.GlobalVariable2.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.GlobalVariable2.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

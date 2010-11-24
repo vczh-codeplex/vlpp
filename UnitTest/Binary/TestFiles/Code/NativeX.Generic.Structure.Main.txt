@@ -1,0 +1,16 @@
+unit Main;
+
+generic<T>
+structure Vector
+{
+    T x;
+    T y;
+}
+
+function int main()
+{
+    variable Vector<int> v;
+    v.x = 10;
+    v.y = 20;
+    result = v.x + v.y;
+}

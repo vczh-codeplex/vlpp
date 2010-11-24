@@ -1,0 +1,8 @@
+unit Main;
+
+function int main()
+{
+    variable uint8 a = 200u8;
+    variable uint8 b = 200u8;
+    *(&result) = a + b;
+}

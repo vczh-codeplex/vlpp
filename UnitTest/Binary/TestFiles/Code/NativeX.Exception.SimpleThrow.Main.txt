@@ -1,0 +1,14 @@
+unit Main;
+
+function int main()
+{
+    result = 10;
+    try
+    {
+        throw;
+    }
+    catch
+    {
+        result = 20;
+    }
+}

@@ -1,0 +1,7 @@
+unit Main;
+
+function int main()
+{
+    try;catch;
+    result = 0;
+}

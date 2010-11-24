@@ -1,0 +1,8 @@
+unit Main;
+
+variable int x = 100;
+
+function int main()
+{
+    result = x;
+}
