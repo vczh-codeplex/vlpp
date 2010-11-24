@@ -360,9 +360,6 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicIL.cpp">
       <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Generic.cpp">
-      <Filter>Source Files\Scripting\BasicLanguage</Filter>
-    </ClCompile>
     <ClCompile Include="..\UnitTest\TestEntity.cpp">
       <Filter>Source Files\Fundamental</Filter>
     </ClCompile>
@@ -377,9 +374,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp">
       <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_ExceptionHandling.cpp">
-      <Filter>Source Files\Scripting\BasicLanguage</Filter>
     </ClCompile>
     <ClCompile Include="..\UnitTest\UnitTestCompilingHelper.cpp">
       <Filter>Source Files\Scripting</Filter>
