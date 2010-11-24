@@ -1,0 +1,6 @@
+unit Main;
+
+function int main()
+{
+    result = 10 % 3;
+}

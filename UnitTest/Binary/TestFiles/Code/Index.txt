@@ -1,0 +1,12 @@
+NativeX.ALU.1plus1.Make.txt=int:2
+NativeX.ALU.2Minus3.Make.txt=int:-1
+NativeX.ALU.3MinusMinus.Make.txt=int:302
+NativeX.ALU.3PlusPlus.Make.txt=int:304
+NativeX.ALU.6And10.Make.txt=int:2
+NativeX.ALU.6Div3.Make.txt=int:2
+NativeX.ALU.6Or10.Make.txt=int:14
+NativeX.ALU.6Xor10.Make.txt=int:12
+NativeX.ALU.7Mul8.Make.txt=int:56
+NativeX.ALU.10Mod3.Make.txt=int:1
+NativeX.ALU.10Shl3.Make.txt=int:80
+NativeX.ALU.10Shr3.Make.txt=int:1

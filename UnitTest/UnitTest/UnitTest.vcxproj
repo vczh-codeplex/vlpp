@@ -246,6 +246,7 @@
     <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_ExceptionHandling.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Generic.cpp" />
+    <ClCompile Include="TestScripting_Languages_IndexTest.cpp" />
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />

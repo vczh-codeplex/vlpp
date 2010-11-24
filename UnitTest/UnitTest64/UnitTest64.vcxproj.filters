@@ -384,6 +384,9 @@
     <ClCompile Include="..\UnitTest\UnitTestCompilingHelper.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_Languages_IndexTest.cpp">
+      <Filter>Source Files\Scripting\Languages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
