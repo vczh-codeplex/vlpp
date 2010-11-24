@@ -1,0 +1,12 @@
+unit Main;
+
+function int main()
+{
+    variable char* a = "ABCDE";
+    result = 0;
+    while(*a)
+    {
+        result += *a;
+        a++;
+    }
+}
