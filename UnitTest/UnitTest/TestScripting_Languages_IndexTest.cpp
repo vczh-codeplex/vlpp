@@ -154,6 +154,10 @@ TEST_CASE(TestCodeInIndex)
 		{
 			BasicFunctionExecutor<vint()> entry(entryInfo, state);
 			vint result=entry();
+			if(result!=wtoi(resultValue))
+			{
+				vl::unittest::UnitTest::PrintError(L"Expect: "+resultValue+L", Actual: "+itow(result));
+			}
 			TEST_ASSERT(result==wtoi(resultValue));
 		}
 		else

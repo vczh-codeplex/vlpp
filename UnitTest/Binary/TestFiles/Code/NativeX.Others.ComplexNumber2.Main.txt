@@ -1,0 +1,24 @@
+unit Main;
+
+structure Complex
+{
+    int r;
+    int i;
+}
+
+function int main()
+{
+    variable Complex a;
+    variable Complex b;
+    variable Complex c;
+    variable Complex* pa = &a;
+    variable Complex* pb = &b;
+    variable Complex* pc = &c;
+    pa->r = 1;
+    pa->i = 2;
+    pb->r = 3;
+    pb->i = 4;
+    pc->r = pa->r + pb->r;
+    pc->i = pa->i + pb->i;
+    result = pc->r * 100 + pc->i;
+}

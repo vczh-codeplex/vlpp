@@ -1,0 +1,23 @@
+unit Main;
+
+structure PPair
+{
+    int* a;
+    int* b;
+}
+
+function int main()
+{
+    variable PPair[10] a;
+    variable int i = 3;
+    variable int j = 4;
+    variable int k = 5;
+    variable int l = 6;
+    i++ + j++;
+    ++i + ++j;
+    a[k--].a;
+    a[--l].b;
+    cast<uint>(i++);
+    -(++i);
+    result = i*1000 + j*100 + k*10 + l;
+}

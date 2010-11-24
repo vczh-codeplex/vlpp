@@ -1,0 +1,40 @@
+unit Main;
+
+structure PPair
+{
+    int a;
+    int b;
+    int c;
+}
+
+function int main()
+{
+    variable PPair c1;
+    variable PPair c2;
+    variable PPair* pc;
+    variable int[3] a;
+    c1.a = 3;
+    c1.b = 4;
+    c1.c = 5;
+    pc = &(c2 = copy(c1));
+    variable int n1 = ++pc->a;
+    variable int n2 = ++pc->b;
+    variable int n3 = ++pc->c;
+    result = n1 * 100 + n2 * 10 + n3;
+}
+
+function PPair copy(PPair i)
+{
+    variable PPair j;
+    result = i;
+    j = copy2(result);
+    j.a++;
+    j.b++;
+    j.c++;
+    result = j;
+}
+
+function PPair copy2(PPair i)
+{
+    result = i;
+}

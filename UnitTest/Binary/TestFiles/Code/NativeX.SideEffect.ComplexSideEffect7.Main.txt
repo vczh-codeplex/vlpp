@@ -1,0 +1,27 @@
+unit Main;
+
+structure PPair
+{
+    int a;
+    int b;
+    int c;
+}
+
+function int main()
+{
+    variable PPair c;
+    variable int[3] a;
+    a[0] = 0;
+    a[1] = 1;
+    a[2] = 2;
+    c.a = 3;
+    c.b = 4;
+    c.c = 5;
+    variable int n1 = ++a[0];
+    variable int n2 = ++a[1];
+    variable int n3 = ++a[2];
+    variable int n4 = ++c.a;
+    variable int n5 = ++c.b;
+    variable int n6 = ++c.c;
+    result = n1 * 100000 + n2 * 10000 + n3 * 1000 + n4 * 100 + n5 * 10 + n6;
+}
