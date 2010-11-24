@@ -115,9 +115,6 @@
     <Filter Include="Library3\Scripting\Languages\Header Files">
       <UniqueIdentifier>{4b2fd81b-ced5-4d40-ac95-2fdc08b23b1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Notes">
-      <UniqueIdentifier>{85a096ce-427a-447d-bf89-a78faddb9486}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library3\Scripting\Languages\NativeX\Header Files">
       <UniqueIdentifier>{e188fe6b-d53d-4d8b-b2ac-dc6201a3adf7}</UniqueIdentifier>
     </Filter>
@@ -147,6 +144,15 @@
     </Filter>
     <Filter Include="Library3\Entity\Source Files">
       <UniqueIdentifier>{1fb3a89a-f6cf-4463-9daf-5892f435e43d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles">
+      <UniqueIdentifier>{85a096ce-427a-447d-bf89-a78faddb9486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\Baseline">
+      <UniqueIdentifier>{7deb7ed7-b2bd-457c-967b-2edacb542a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\Code">
+      <UniqueIdentifier>{faacf499-69e2-414d-93a7-a9cf77a50059}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -428,8 +434,152 @@
     <None Include="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt">
       <Filter>Library3\Scripting\Languages</Filter>
     </None>
-    <None Include="DevelopmentNote.txt">
-      <Filter>Notes</Filter>
+    <None Include="..\Binary\TestFiles\Baseline\RegexComment.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexComment.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexComment.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexDuplicate.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexDuplicate.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexDuplicate.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFloat.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFloat.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFloat.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFullint.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFullint.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexFullint.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexInteger.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexInteger.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexInteger.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexIP.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexIP.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexIP.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexPrescan.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexPrescan.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexPrescan.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexString.Dfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexString.eNfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Baseline\RegexString.Nfa.txt">
+      <Filter>TestFiles\Baseline</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\Index.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.1plus1.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.2Minus3.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3MinusMinus.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.3PlusPlus.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6And10.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Div3.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Or10.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.6Xor10.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.7Mul8.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Mod3.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shl3.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shl3.Make.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shr3.Main.txt">
+      <Filter>TestFiles\Code</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.ALU.10Shr3.Make.txt">
+      <Filter>TestFiles\Code</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
