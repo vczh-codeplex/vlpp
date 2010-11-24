@@ -175,6 +175,9 @@
     <Filter Include="TestFiles\NativeX\Others">
       <UniqueIdentifier>{24a0499f-e217-4ddd-b993-bd927c83e018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\NativeX\SideEffect">
+      <UniqueIdentifier>{0877ca08-e1b5-43eb-b05c-a72cf196f20f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -643,6 +646,96 @@
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.BitNot.Make.txt">
       <Filter>TestFiles\NativeX\ALU</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitOrAssign.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitOrAssign.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitOrAssignRef.Main.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.BitOrAssignRef.Make.txt">
+      <Filter>TestFiles\NativeX\Assignment</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber1.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber1.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber2.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber2.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber3.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.ComplexNumber3.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect1.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect2.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect3.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect4.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect5.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect6.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect7.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect8.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect9.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect10.Make.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect1.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect3.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect4.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect5.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect6.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect7.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect8.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect9.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect10.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.SideEffect.ComplexSideEffect2.Main.txt">
+      <Filter>TestFiles\NativeX\SideEffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

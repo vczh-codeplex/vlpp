@@ -1,0 +1,19 @@
+unit Main;
+
+structure PPair
+{
+    int* a;
+    int* b;
+}
+
+function int main()
+{
+    variable PPair c;
+    variable int[10] a;
+    c.a = &a[5];
+    c.b = &a[6];
+    variable PPair* pc = &c;
+    pc->a += 3;
+    pc->b -= 4;
+    result = c.a - c.b;
+}

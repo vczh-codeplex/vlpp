@@ -1,0 +1,3 @@
+Language=NativeX
+Assembly=NativeX
+Compile=NativeX.SideEffect.ComplexSideEffect5.Main.txt
