@@ -1,0 +1,8 @@
+unit Main;
+
+function int main()
+{
+    variable int a = 1;
+    result = 0;
+    if(a) result = 100;
+}

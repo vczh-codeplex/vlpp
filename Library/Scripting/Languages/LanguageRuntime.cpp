@@ -175,6 +175,11 @@ LanguageHost
 			return interpretor->RegisterForeignFunction(category, name, proxy);
 		}
 
+		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
+		{
+			return interpretor->RegisterLightFunction(category, name, function, argumentSize);
+		}
+
 /***********************************************************************
 LanguageAssembly
 ***********************************************************************/

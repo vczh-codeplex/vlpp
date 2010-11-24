@@ -136,6 +136,7 @@ namespace vl
 			Ptr<LanguageState>							CreateState();
 			void										LogInternalState(stream::TextWriter& writer);
 			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
+			bool										RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize);
 		};
 
 /***********************************************************************
