@@ -1,0 +1,7 @@
+unit Main;
+
+function bool main()
+{
+    variable int* a = null;
+    result = a == null;
+}

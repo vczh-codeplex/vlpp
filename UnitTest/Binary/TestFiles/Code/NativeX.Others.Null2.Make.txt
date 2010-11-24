@@ -1,0 +1,3 @@
+Language=NativeX
+Assembly=NativeX
+Compile=NativeX.Others.Null2.Main.txt
