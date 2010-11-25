@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=Add
+Compile=NativeX.Linking.Pointer.Add.txt
+Language=NativeX
+Assembly=Main
+Compile=NativeX.Linking.Pointer.Main.txt

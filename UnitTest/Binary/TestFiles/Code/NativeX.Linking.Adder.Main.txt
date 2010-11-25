@@ -1,0 +1,10 @@
+unit Main;
+
+variable int adder alias Add.leftOperand;
+function int add(int offset) alias Add.add;
+
+function int main()
+{
+    adder = 1;
+    result = add(2);
+}

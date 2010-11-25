@@ -1,0 +1,28 @@
+unit Main;
+
+generic<T>
+structure Storage alias Storage.Storage
+{
+    T data;
+}
+
+generic<T>
+variable Storage<T> storage alias Storage.storage;
+
+generic<T>
+function T Get() alias Storage.Get;
+
+generic<T>
+function void Set(T value)
+{
+    storage<T>.data = value;
+}
+
+function int main()
+{
+    storage<int>.data = 10;
+    Set<char>('A');
+    variable int a = Get<int>();
+    variable int b = storage<char>.data;
+    result = a + b;
+}

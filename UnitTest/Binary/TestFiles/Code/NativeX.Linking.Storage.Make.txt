@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=Storage
+Compile=NativeX.Linking.Storage.Storage.txt
+Language=NativeX
+Assembly=Main
+Compile=NativeX.Linking.Storage.Main.txt

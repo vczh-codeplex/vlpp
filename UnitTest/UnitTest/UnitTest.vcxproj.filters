@@ -1151,6 +1151,51 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Assignment.XorAssignRef.Main.txt">
       <Filter>TestFiles\NativeX\Assignment</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Add.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.TryCatch.Throw.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.TryCatch.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.TryCatch.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Storage.Storage.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Storage.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Storage.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Pointer.Add.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Pointer.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Pointer.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Sum.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=Throw
+Compile=NativeX.Linking.TryCatch.Throw.txt
+Language=NativeX
+Assembly=Main
+Compile=NativeX.Linking.TryCatch.Main.txt

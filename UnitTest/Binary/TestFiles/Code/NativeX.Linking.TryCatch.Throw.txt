@@ -1,0 +1,6 @@
+unit Throw;
+
+function void Throw()
+{
+    throw 20;
+}

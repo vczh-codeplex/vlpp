@@ -1,0 +1,17 @@
+unit Main;
+
+function int add1(int a, int b) alias Add.add;
+
+function int add2(int a, int b)
+{
+    result = a + b;
+}
+
+function int main()
+{
+    variable function int(int, int) padd1 = add1;
+    variable function int(int, int) padd2 = add2;
+    variable int a = padd1(1, 2);
+    variable int b = padd2(3, 4);
+    result = a * 10 + b;
+}

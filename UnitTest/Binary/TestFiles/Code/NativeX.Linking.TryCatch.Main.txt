@@ -1,0 +1,16 @@
+unit Main;
+
+function void Throw() alias Throw.Throw;
+
+function int main()
+{
+    result = 10;
+    try
+    {
+        Throw();
+    }
+    catch
+    {
+        result = *cast<int*>(exception);
+    }
+}
