@@ -242,7 +242,6 @@
     <ClCompile Include="TestScripting_BasicIL_Generic.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Analyzer.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp" />
-    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp" />
     <ClCompile Include="TestScripting_BasicLanguage_Configuration.cpp" />
     <ClCompile Include="TestScripting_Languages_IndexTest.cpp" />
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
@@ -399,6 +398,10 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Add.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Adder.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Eq.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Vector.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Sum.txt" />

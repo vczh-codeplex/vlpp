@@ -1,4 +1,19 @@
-#include "UnitTestCompilingHelper.h"
+#include "..\..\Library\Function.h"
+#include "..\..\Library\UnitTest\UnitTest.h"
+#include "..\..\Library\Stream\FileStream.h"
+#include "..\..\Library\Stream\CharFormat.h"
+
+#include "..\..\Library\Scripting\BasicIL\BasicILInterpretor.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h"
+
+using namespace vl;
+using namespace vl::collections;
+using namespace vl::scripting::basiclanguage;
+using namespace vl::scripting::basicil;
+using namespace vl::stream;
 
 /***********************************************************************
 Size

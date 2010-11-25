@@ -354,9 +354,6 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Codegen.cpp">
       <Filter>Source Files\Scripting\BasicLanguage</Filter>
     </ClCompile>
-    <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_CodegenLinking.cpp">
-      <Filter>Source Files\Scripting\BasicLanguage</Filter>
-    </ClCompile>
     <ClCompile Include="..\UnitTest\TestScripting_BasicIL.cpp">
       <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
