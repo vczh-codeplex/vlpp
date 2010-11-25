@@ -55,7 +55,9 @@ namespace vl
 													const WString& assemblyName,
 													collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
 													collections::IReadonlyList<WString>& codes, 
-													collections::IList<Ptr<LanguageException>>& errors
+													collections::IList<Ptr<LanguageException>>& errors,
+													stream::TextWriter* assemblyLogTextWriter=0,
+													basicil::BasicIL::ICommentProvider* assemblyLogCommentProvider=0
 													)=0;
 		};
 	}

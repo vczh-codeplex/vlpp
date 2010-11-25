@@ -15,6 +15,7 @@ namespace vl
 				memoryStream=new MemoryStream();
 				streamWriter=0;
 				lastLine=-2;
+				lastCode=-2;
 			}
 
 			BasicLanguageCommentProvider::~BasicLanguageCommentProvider()
@@ -44,7 +45,7 @@ namespace vl
 					delete streamWriter;
 					streamWriter=0;
 
-					lines.Clear();
+					Ptr<List<WString>> lines=new List<WString>;
 					StreamReader reader(*memoryStream);
 					while(!reader.IsEnd())
 					{
@@ -61,9 +62,10 @@ namespace vl
 								break;
 							}
 						}
-						lines.Add(line.Right(line.Length()-spaceCount));
+						lines->Add(line.Right(line.Length()-spaceCount));
 					}
 
+					codes.Add(lines);
 					lastLine=-2;
 				}
 			}
@@ -76,6 +78,7 @@ namespace vl
 			void BasicLanguageCommentProvider::StartProvideComment()
 			{
 				lastLine=-2;
+				lastCode=-2;
 			}
 
 			void BasicLanguageCommentProvider::AppendComment(stream::TextWriter& writer, void* userData)
@@ -83,17 +86,22 @@ namespace vl
 				if(userData)
 				{
 					BasicLanguageElement* element=(BasicLanguageElement*)userData;
-					if(element->position.lineIndex!=lastLine)
+					if(element->position.lineIndex!=lastLine || element->position.codeIndex!=lastCode)
 					{
-						lastLine=element->position.lineIndex;
-						if(lastLine>=0 && lastLine<lines.Count())
+						if(0<=element->position.codeIndex && element->position.codeIndex<codes.Count())
 						{
-							writer.WriteString(L"// ");
-							writer.WriteLine(lines[lastLine]);
-						}
-						else
-						{
-							writer.WriteLine(L"// UNKNOWN LINE");
+							Ptr<List<WString>> lines=codes[element->position.codeIndex];
+							lastLine=element->position.lineIndex;
+							lastCode=element->position.codeIndex;
+							if(lastLine>=0 && lastLine<lines->Count())
+							{
+								writer.WriteString(L"// ");
+								writer.WriteLine(lines->Get(lastLine));
+							}
+							else
+							{
+								writer.WriteLine(L"// UNKNOWN LINE");
+							}
 						}
 					}
 				}

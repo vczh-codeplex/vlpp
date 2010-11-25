@@ -372,9 +372,6 @@
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp">
       <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\UnitTest\UnitTestCompilingHelper.cpp">
-      <Filter>Source Files\Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="..\UnitTest\TestScripting_Languages_IndexTest.cpp">
       <Filter>Source Files\Scripting\Languages</Filter>
     </ClCompile>
@@ -711,9 +708,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\Linear.h">
       <Filter>Library3\Entity\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\UnitTest\UnitTestCompilingHelper.h">
-      <Filter>Source Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

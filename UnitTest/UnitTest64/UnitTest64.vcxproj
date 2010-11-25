@@ -229,7 +229,6 @@
     <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="..\UnitTest\TestStream.cpp" />
     <ClCompile Include="..\UnitTest\TestString.cpp" />
-    <ClCompile Include="..\UnitTest\UnitTestCompilingHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\Common.fpm">
@@ -364,7 +363,6 @@
     <ClInclude Include="..\..\Library\String.h" />
     <ClInclude Include="..\..\Library\Tuple.h" />
     <ClInclude Include="..\..\Library\UnitTest\UnitTest.h" />
-    <ClInclude Include="..\UnitTest\UnitTestCompilingHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
