@@ -1,8 +1,9 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\NativeX\NativeX.h"
 #include "..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
-#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
 #include "..\..\Library\Scripting\Languages\LanguageProviderExtension.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
+#include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
 
 #include "..\..\Library\GlobalStorage.h"
 #include "..\..\Library\Stream\FileStream.h"
@@ -75,7 +76,8 @@ TEST_CASE(TestCodeInIndex)
 		WString singleCase=cases[i];
 		vl::unittest::UnitTest::PrintInfo(L"Running Code Case: "+singleCase);
 		RegexMatch::Ref singleCaseMatch=regexCase.Match(singleCase);
-		WString makeFilePath=GetPath()+L"Code\\"+singleCaseMatch->Groups()[L"make"][0].Value();
+		WString makeFileName=singleCaseMatch->Groups()[L"make"][0].Value();
+		WString makeFilePath=GetPath()+L"Code\\"+makeFileName;
 		WString resultType=singleCaseMatch->Groups()[L"type"][0].Value();
 		WString resultValue=singleCaseMatch->Groups()[L"value"][0].Value();
 
@@ -145,13 +147,34 @@ TEST_CASE(TestCodeInIndex)
 			}
 			List<Ptr<LanguageAssembly>> references;
 			List<Ptr<LanguageException>> errors;
-			Ptr<LanguageAssembly> assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap());
+			Ptr<LanguageAssembly> assembly;
+			{
+				WString logOutputPath=GetPath()+L"[Assembly][Compiled]["+makeFileName+L"]["+assemblyName+L"].txt";
+				FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+				BomEncoder encoder(BomEncoder::Utf16);
+				EncoderStream encoderStream(fileStream, encoder);
+				StreamWriter writer(encoderStream);
+
+				BasicLanguageCommentProvider commentProvider;
+				for(vint j=0;j<codes.Count();j++)
+				{
+					TextWriter* textWriter=commentProvider.OpenWriter();
+					textWriter->WriteString(codes[j]);
+					commentProvider.CloseWriter();
+				}
+				assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, &commentProvider);
+			}
 			for(vint j=0;j<errors.Count();j++)
 			{
 				vl::unittest::UnitTest::PrintError(L"Line["+itow(errors[j]->LineIndex())+L"]: "+errors[j]->Message());
 			}
 			TEST_ASSERT(errors.Count()==0);
 			assemblies.Add(assembly);
+			{
+				WString binaryOutputPath=GetPath()+L"[Assembly][Binary]["+makeFileName+L"]["+assemblyName+L"].assembly";
+				FileStream fileStream(binaryOutputPath, FileStream::WriteOnly);
+				assembly->SaveToStream(fileStream);
+			}
 		}
 
 		LanguageHost host(65536);

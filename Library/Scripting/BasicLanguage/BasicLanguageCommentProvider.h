@@ -21,11 +21,13 @@ namespace vl
 		{
 			class BasicLanguageCommentProvider : public basicil::BasicIL::ICommentProvider
 			{
+				typedef collections::List<Ptr<collections::List<WString>>> CodeFileList;
 			protected:
-				collections::List<WString>	lines;
+				CodeFileList				codes;
 				stream::MemoryStream*		memoryStream;
 				stream::StreamWriter*		streamWriter;
-				vint							lastLine;
+				vint						lastLine;
+				vint						lastCode;
 
 			public:
 				BasicLanguageCommentProvider();

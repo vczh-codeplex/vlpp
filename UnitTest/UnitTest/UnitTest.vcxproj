@@ -247,7 +247,6 @@
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />
-    <ClCompile Include="UnitTestCompilingHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat" />
@@ -612,7 +611,6 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageMetadata.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
-    <ClInclude Include="UnitTestCompilingHelper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

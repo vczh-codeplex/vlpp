@@ -1979,7 +1979,9 @@ namespace vl
 					const WString& assemblyName,
 					IReadonlyList<Ptr<LanguageAssembly>>& references,
 					IReadonlyList<WString>& codes, 
-					IList<Ptr<LanguageException>>& errors
+					IList<Ptr<LanguageException>>& errors,
+					TextWriter* assemblyLogTextWriter,
+					BasicIL::ICommentProvider* assemblyLogCommentProvider
 					)
 				{
 					Dictionary<WString, Ptr<NativeXUnit>> units;
@@ -2018,7 +2020,12 @@ namespace vl
 
 					BasicCodeGenerator codegen(&analyzer, 0, assemblyName);
 					codegen.GenerateCode();
-					return new LanguageAssembly(codegen.GetIL());
+					Ptr<LanguageAssembly> assembly=new LanguageAssembly(codegen.GetIL());
+					if(assemblyLogTextWriter)
+					{
+						assembly->LogInternalState(*assemblyLogTextWriter, assemblyLogCommentProvider);
+					}
+					return assembly;
 				}
 				
 				Ptr<BasicProgram> ParseProgram(const WString& code, IList<Ptr<LanguageException>>& errors)
