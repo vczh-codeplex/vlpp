@@ -393,9 +393,6 @@
     <ClCompile Include="TestScripting_BasicLanguage_Codegen.cpp">
       <Filter>Source Files\Scripting\BasicLanguage</Filter>
     </ClCompile>
-    <ClCompile Include="TestScripting_BasicLanguage_CodegenLinking.cpp">
-      <Filter>Source Files\Scripting\BasicLanguage</Filter>
-    </ClCompile>
     <ClCompile Include="TestScripting_BasicIL.cpp">
       <Filter>Source Files\Scripting\BasicIL</Filter>
     </ClCompile>
@@ -1194,6 +1191,18 @@
       <Filter>TestFiles\NativeX\Linking</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Generic.Make.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Eq.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Vector.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Main.txt">
+      <Filter>TestFiles\NativeX\Linking</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Make.txt">
       <Filter>TestFiles\NativeX\Linking</Filter>
     </None>
   </ItemGroup>

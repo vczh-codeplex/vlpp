@@ -1,0 +1,35 @@
+unit Vector;
+
+concept T : Eq alias Eq.Eq
+{
+    Equals = function bool(T, T);
+    NotEquals = function bool(T, T);
+}
+
+generic<T>
+structure Vector
+{
+    T X;
+    T Y;
+}
+
+generic<T> where T : Eq
+instance Vector : Eq
+{
+    Equals = VectorEquals<T>;
+    NotEquals = VectorNotEquals<T>;
+}
+
+generic<T> where T : Eq
+function bool VectorEquals(Vector<T> a, Vector<T> b)
+{
+    variable bool x_equals = Eq<T>::Equals(a.X, b.X);
+    variable bool y_equals = Eq<T>::Equals(a.Y, b.Y);
+    result = x_equals && y_equals;
+}
+
+generic<T> where T : Eq
+function bool VectorNotEquals(Vector<T> a, Vector<T> b)
+{
+    result = !VectorEquals<T>(a, b);
+}

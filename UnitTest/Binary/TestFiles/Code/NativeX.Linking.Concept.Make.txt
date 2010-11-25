@@ -1,0 +1,9 @@
+Language=NativeX
+Assembly=Eq
+Compile=NativeX.Linking.Concept.Eq.txt
+Language=NativeX
+Assembly=Vector
+Compile=NativeX.Linking.Concept.Vector.txt
+Language=NativeX
+Assembly=Main
+Compile=NativeX.Linking.Concept.Main.txt

@@ -1,0 +1,61 @@
+unit Main;
+
+generic<T>
+structure Vector alias Vector.Vector
+{
+    T X;
+    T Y;
+}
+
+concept T : Eq alias Eq.Eq
+{
+    Equals = function bool(T, T);
+    NotEquals = function bool(T, T);
+}
+
+instance int : Eq;
+
+generic<T> where T : Eq
+instance Vector : Eq;
+
+function int main1()
+{
+    variable Vector<int> v1;
+    variable Vector<int> v2;
+    v1.X = 0;
+    v1.Y = 1;
+    v2.X = 2;
+    v2.Y = 3;
+    if(Eq<Vector<int>>::Equals(v1, v2))
+    {
+        result = 1;
+    }
+    else
+    {
+        result = 0;
+    }
+}
+
+function int main2()
+{
+    variable Vector<int> v1;
+    variable Vector<int> v2;
+    variable function bool(Vector<int>, Vector<int>) f = Eq<Vector<int>>::NotEquals;
+    v1.X = 0;
+    v1.Y = 1;
+    v2.X = 2;
+    v2.Y = 3;
+    if(f(v1, v2))
+    {
+        result = 1;
+    }
+    else
+    {
+        result = 0;
+    }
+}
+
+function int main()
+{
+    result = main1() + main2();
+}
