@@ -1,0 +1,6 @@
+unit Add;
+
+function int add(int a, int b)
+{
+    result = a + b;
+}

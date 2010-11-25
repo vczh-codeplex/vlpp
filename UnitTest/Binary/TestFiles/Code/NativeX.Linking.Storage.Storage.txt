@@ -1,0 +1,16 @@
+unit Storage;
+
+generic<T>
+structure Storage
+{
+    T data;
+}
+
+generic<T>
+variable Storage<T> storage;
+
+generic<T>
+function T Get()
+{
+    result = storage<T>.data;
+}

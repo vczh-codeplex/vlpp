@@ -1,0 +1,19 @@
+unit Sum;
+
+generic<T>
+function T Apply2(function T(T, T) f, T a, T b)
+{
+    result = f(a, b);
+}
+
+generic<T>
+function T Sum(T* items, int count, T init, function T(T, T) f)
+{
+    result = init;
+    while(count > 0)
+    {
+        result = Apply2<T>(f, result, *items);
+        count--;
+        items++;
+    }
+}

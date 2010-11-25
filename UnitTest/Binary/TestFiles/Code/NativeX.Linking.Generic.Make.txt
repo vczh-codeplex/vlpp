@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=Sum
+Compile=NativeX.Linking.Generic.Sum.txt
+Language=NativeX
+Assembly=Main
+Compile=NativeX.Linking.Generic.Main.txt

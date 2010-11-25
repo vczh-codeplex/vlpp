@@ -1,0 +1,8 @@
+unit Add;
+
+variable int leftOperand = 0;
+
+function int add(int rightOperand)
+{
+    result = leftOperand + rightOperand;
+}
