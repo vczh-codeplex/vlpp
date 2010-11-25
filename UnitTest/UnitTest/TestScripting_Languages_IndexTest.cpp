@@ -108,6 +108,7 @@ TEST_CASE(TestCodeInIndex)
 		}
 
 		List<Ptr<LanguageAssembly>> assemblies;
+		List<WString> assemblyExecutedLogPaths;
 		for(vint i=0;i<assemblyStarts.Count()-1;i++)
 		{
 			vint start=assemblyStarts[i];
@@ -149,7 +150,7 @@ TEST_CASE(TestCodeInIndex)
 			List<Ptr<LanguageException>> errors;
 			Ptr<LanguageAssembly> assembly;
 			{
-				WString logOutputPath=GetPath()+L"[Assembly][Compiled]["+makeFileName+L"]["+assemblyName+L"].txt";
+				WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][Compiled].txt";
 				FileStream fileStream(logOutputPath, FileStream::WriteOnly);
 				BomEncoder encoder(BomEncoder::Utf16);
 				EncoderStream encoderStream(fileStream, encoder);
@@ -163,6 +164,17 @@ TEST_CASE(TestCodeInIndex)
 					commentProvider.CloseWriter();
 				}
 				assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, &commentProvider);
+				WString logExecutedPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][AfterExecuted].txt";
+				assemblyExecutedLogPaths.Add(logExecutedPath);
+			}
+			if(assembly)
+			{
+				WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][BeforeExecuted].txt";
+				FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+				BomEncoder encoder(BomEncoder::Utf16);
+				EncoderStream encoderStream(fileStream, encoder);
+				StreamWriter writer(encoderStream);
+				assembly->LogInternalState(writer);
 			}
 			for(vint j=0;j<errors.Count();j++)
 			{
@@ -226,6 +238,23 @@ TEST_CASE(TestCodeInIndex)
 		else
 		{
 			TEST_ASSERT(false);
+		}
+
+		for(vint i=0;i<assemblies.Count();i++)
+		{
+			FileStream fileStream(assemblyExecutedLogPaths[i], FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			assemblies[i]->LogInternalState(writer);
+		}
+		{
+			WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"][Host].txt";
+			FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			host.LogInternalState(writer);
 		}
 		TEST_ASSERT(state->GetStack()->StackTop()==state->GetStack()->StackSize());
 	}
