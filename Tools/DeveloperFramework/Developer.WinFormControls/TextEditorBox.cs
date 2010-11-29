@@ -150,7 +150,7 @@ namespace Developer.WinFormControls
 
         public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
-            if (!this.preventRedraw)
+            if (!this.preventRedraw && (!this.controller.PreventCustomGeneralRedraw || refreshImmediately))
             {
                 Point newPoint = this.ViewPosition;
                 Point newHostPoint = this.host.PointToScreen(new Point(0, 0));
@@ -836,6 +836,13 @@ namespace Developer.WinFormControls
 
         #region Implementation
 
+        private void ForceShowCaret()
+        {
+            this.caretVisible = true;
+            timerCaret.Stop();
+            timerCaret.Start();
+        }
+
         private void ResetSizingData()
         {
             this.tabLength = 0;
@@ -1072,7 +1079,7 @@ namespace Developer.WinFormControls
                 }
                 this.ViewPosition = newViewPosition;
             }
-            this.caretVisible = true;
+            ForceShowCaret();
             OnSelectionChanged(new EventArgs());
         }
 
@@ -1130,7 +1137,6 @@ namespace Developer.WinFormControls
                 historyInfoItem.newEnd = newEnd;
                 SubmitHistory(historyInfoItem);
             }
-
             this.controlPanel.OnAfterEdit(start, end, newEnd);
             OnTextChanged(new EventArgs());
             this.preventRedraw = false;
@@ -1316,7 +1322,7 @@ namespace Developer.WinFormControls
                         this.mouseMode = MouseMode.Selecting;
                         TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
                         Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
-                        this.textEditorBox.caretVisible = true;
+                        this.textEditorBox.ForceShowCaret();
                         if (Control.ModifierKeys == Keys.Shift)
                         {
                             this.textEditorBox.controller.Move(new TextPosition(position.row, block.Item1), false, true);
@@ -1577,7 +1583,7 @@ namespace Developer.WinFormControls
 
             private void host_GotFocus(object sender, EventArgs e)
             {
-                this.textEditorBox.caretVisible = true;
+                this.textEditorBox.ForceShowCaret();
                 this.textEditorBox.RedrawContent(false, false);
             }
 
