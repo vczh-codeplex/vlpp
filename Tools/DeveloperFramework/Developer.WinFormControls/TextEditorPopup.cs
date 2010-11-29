@@ -153,7 +153,7 @@ namespace Developer.WinFormControls
                     {
                         case Keys.Up:
                         case Keys.Down:
-                            this.SelectedItem = this.previousSelectedItem;
+                            this.SelectedItem = this.previousSelectedItem ?? this.items[0];
                             Invalidate();
                             return true;
                     }
