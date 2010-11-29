@@ -30,6 +30,14 @@ namespace Developer.WinFormControls.Core
         private ITextContentProvider provider = null;
         private int refreshDisableCounter = 0;
 
+        public bool PreventCustomGeneralRedraw
+        {
+            get
+            {
+                return refreshDisableCounter > 0;
+            }
+        }
+
         public TextEditorController(ITextContentProvider provider)
         {
             this.provider = provider;
