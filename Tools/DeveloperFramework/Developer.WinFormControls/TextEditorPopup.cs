@@ -98,18 +98,19 @@ namespace Developer.WinFormControls
                 this.items = items;
                 this.images = items.Select(i => i.Image).Distinct().ToList();
                 this.selectedItem = null;
+                this.previousSelectedItem = null;
                 this.needToDisposeImages = needToDisposeImages;
                 this.maxItems = maxItems;
 
-                SizeF[] sizes = null;
+                Size[] sizes = null;
                 using (Graphics g = Graphics.FromHwnd(this.Handle))
                 {
-                    sizes = this.items.Select(i => g.MeasureString(i.Text, this.Font)).ToArray();
+                    sizes = this.items.Select(i => TextRenderer.MeasureText(g, i.Text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix)).ToArray();
                 }
 
-                this.itemHeight = 2 + (int)Math.Max(sizes.Max(s => s.Height), this.images.Max(i => i.Height));
+                this.itemHeight = 2 + Math.Max(sizes.Max(s => s.Height), this.images.Max(i => i.Height));
                 this.itemTextOffset = 2 + this.images.Max(i => i.Width);
-                this.itemWidth = this.itemTextOffset + 2 + (int)sizes.Max(s => s.Width);
+                this.itemWidth = this.itemTextOffset + 2 + sizes.Max(s => s.Width);
                 if (items.Count <= maxItems)
                 {
                     this.scrollBar.Visible = false;
@@ -220,11 +221,11 @@ namespace Developer.WinFormControls
                     int ty = (int)(this.itemHeight - e.Graphics.MeasureString(item.Text, this.Font).Height) / 2;
                     if (item == this.selectedItem)
                     {
-                        e.Graphics.DrawString(item.Text, this.Font, SystemBrushes.HighlightText, tx, y + ty);
+                        TextRenderer.DrawText(e.Graphics, item.Text, this.Font, new Point(tx, y + ty), SystemColors.HighlightText, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
                     }
                     else
                     {
-                        e.Graphics.DrawString(item.Text, this.Font, SystemBrushes.ControlText, tx, y + ty);
+                        TextRenderer.DrawText(e.Graphics, item.Text, this.Font, new Point(tx, y + ty), SystemColors.ControlText, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
                     }
                 }
             }
