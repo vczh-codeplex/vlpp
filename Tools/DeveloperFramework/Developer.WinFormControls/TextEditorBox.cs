@@ -47,8 +47,8 @@ namespace Developer.WinFormControls
         private TextProvider<LineInfo> textProvider = null;
         private TextEditorController controller = null;
         private TextEditorBoxKeyCommands keyCommands = null;
-        private TextEditorPopup popupList = null;
-        private TextEditorTooltip tooltip = null;
+        private ITextEditorControlPanel controlPanel = null;
+        private TextEditorBoxUIExtensions uiExtensions = null;
 
         #endregion
 
@@ -66,12 +66,6 @@ namespace Developer.WinFormControls
 
         private ITextEditorColorizer colorizer = null;
         private int colorizedLines = 0;
-
-        #endregion
-
-        #region Control Panel Fields
-
-        private ITextEditorControlPanel controlPanel = null;
 
         #endregion
 
@@ -122,17 +116,14 @@ namespace Developer.WinFormControls
             this.textProvider = new TextProvider<LineInfo>();
             this.controlPanel = new TextEditorControlPanel();
             this.keyCommands = new TextEditorBoxKeyCommands();
-            this.popupList = new TextEditorPopup(this, this.host);
-            this.tooltip = new TextEditorTooltip();
-            this.tooltip.VisibleChanged += new EventHandler(tooltip_VisibleChanged);
+            this.uiExtensions = new TextEditorBoxUIExtensions(this, this.host);
 
             this.controller = new TextEditorController(this);
             this.colorizer = new TextEditorPlanTextColorizer(this);
 
             InitializeComponent();
             this.components.Add(new DisposableComponent(this.textProvider));
-            this.components.Add(this.popupList);
-            this.components.Add(this.tooltip);
+            this.components.Add(new DisposableComponent(this.uiExtensions));
             UpdateLineHeight();
 
             this.keyCommands.RegisterCommand(Keys.C, true, false, DoCopy);
@@ -220,6 +211,27 @@ namespace Developer.WinFormControls
             get
             {
                 return this.keyCommands;
+            }
+        }
+
+        public TextEditorBoxUIExtensions UIExtensions
+        {
+            get
+            {
+                return this.uiExtensions;
+            }
+        }
+
+        public int TabSpaceCount
+        {
+            get
+            {
+                return this.tabSpaceCount;
+            }
+            set
+            {
+                this.tabSpaceCount = value;
+                ResetSizingData();
             }
         }
 
@@ -390,132 +402,6 @@ namespace Developer.WinFormControls
             else
             {
                 return false;
-            }
-        }
-
-        #endregion
-
-        #region UI Extension API
-
-        public int TabSpaceCount
-        {
-            get
-            {
-                return this.tabSpaceCount;
-            }
-            set
-            {
-                this.tabSpaceCount = value;
-                ResetSizingData();
-            }
-        }
-
-        public bool QuickInfoTooltipOpening { get; private set; }
-
-        public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
-        {
-            if (forceClosingPrevious)
-            {
-                if (this.popupList.Visible)
-                {
-                    this.popupList.Close();
-                }
-            }
-            else
-            {
-                if (this.popupList.Visible)
-                {
-                    return;
-                }
-            }
-            Point locationTop = this.host.PointToScreen(TextPositionToViewPoint(this.SelectionCaret));
-            Point locationBottom = new Point(locationTop.X, locationTop.Y + this.lineHeight);
-            this.popupList.Show(this.host, locationTop, locationBottom, items, searchingKey, needToDisposeImages, maxItems);
-        }
-
-        public void ClosePopupItems()
-        {
-            this.popupList.Hide();
-        }
-
-        public TextEditorPopupItem[] PopupedItems
-        {
-            get
-            {
-                return this.popupList.Items;
-            }
-        }
-
-        public TextEditorPopupItem SelectedPopupedItem
-        {
-            get
-            {
-                return this.popupList.SelectedItem;
-            }
-        }
-
-        public void PopupTooltip(TextPosition pos, string text)
-        {
-            if (!this.QuickInfoTooltipOpening)
-            {
-                if (string.IsNullOrEmpty(text))
-                {
-                    this.tooltip.Hide();
-                }
-                else
-                {
-                    Point locationTop = PointToScreen(TextPositionToViewPoint(pos));
-                    Point locationBottom = locationTop;
-                    locationBottom.Y += this.lineHeight;
-                    text = text.TrimEnd(' ', '\t', '\r', '\n');
-                    this.tooltip.Show(this.host, locationTop, locationBottom, new RichContent.Content(new RichContent.Text(text)));
-                }
-            }
-        }
-
-        public void PopupQuickInfoTooltip(TextPosition pos, XDocument content)
-        {
-            if (this.QuickInfoTooltipOpening)
-            {
-                if (content == null)
-                {
-                    CloseQuickInfoTooltip();
-                }
-                else
-                {
-                    Point aTop = PointToScreen(TextPositionToViewPoint(pos));
-                    Point aBottom = new Point(aTop.X, aTop.Y + this.lineHeight);
-                    Point bTop = PointToScreen(TextPositionToViewPoint(this.SelectionCaret));
-                    Point bBottom = new Point(aTop.X, aTop.Y + this.lineHeight);
-
-                    int x = Math.Min(aTop.X, bTop.X);
-                    int y1 = Math.Min(aTop.Y, bTop.Y);
-                    int y2 = Math.Max(aBottom.Y, bBottom.Y);
-                    this.tooltip.Show(this.host, new Point(x, y1), new Point(x, y2), content);
-                }
-            }
-        }
-
-        public void OpenQuickInfoTooltip()
-        {
-            if (!this.QuickInfoTooltipOpening)
-            {
-                PopupTooltip(new TextPosition(0, 0), null);
-                this.QuickInfoTooltipOpening = true;
-                var content = this.controlPanel.OnGetQuickInfoTooltip();
-                if (content != null)
-                {
-                    PopupQuickInfoTooltip(content.Item2, content.Item1);
-                }
-            }
-        }
-
-        public void CloseQuickInfoTooltip()
-        {
-            if (this.QuickInfoTooltipOpening)
-            {
-                this.tooltip.Hide();
-                this.QuickInfoTooltipOpening = false;
             }
         }
 
@@ -978,14 +864,6 @@ namespace Developer.WinFormControls
             }
         }
 
-        private void tooltip_VisibleChanged(object sender, EventArgs e)
-        {
-            if (!this.tooltip.Visible)
-            {
-                CloseQuickInfoTooltip();
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -1149,18 +1027,7 @@ namespace Developer.WinFormControls
             {
                 UpdateLineHeight();
             }
-            if (this.QuickInfoTooltipOpening)
-            {
-                var content = this.controlPanel.OnGetQuickInfoTooltip();
-                if (content == null)
-                {
-                    PopupQuickInfoTooltip(new TextPosition(0, 0), null);
-                }
-                else
-                {
-                    PopupQuickInfoTooltip(content.Item2, content.Item1);
-                }
-            }
+            this.uiExtensions.HostHandleFinishEdit();
             (this as ITextContentProvider).OnSelectionAreaChanged();
         }
 
@@ -1237,8 +1104,6 @@ namespace Developer.WinFormControls
             private Control host = null;
             private TextEditorBox textEditorBox = null;
             private MouseMode mouseMode = MouseMode.Normal;
-            private string lastTooltip = null;
-            private bool needToClosePopupList = false;
 
             #region Mouse Handlers
 
@@ -1291,6 +1156,10 @@ namespace Developer.WinFormControls
 
             private void host_MouseDoubleClick(object sender, MouseEventArgs e)
             {
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseDoubleClick(sender, e))
+                {
+                    return;
+                }
                 if (e.X >= this.textEditorBox.EditorControlPanel)
                 {
                     if (e.Button == MouseButtons.Left)
@@ -1311,10 +1180,15 @@ namespace Developer.WinFormControls
                         }
                     }
                 }
+                this.textEditorBox.uiExtensions.HostAfterMouseDoubleClick(sender, e);
             }
 
             private void host_MouseDown(object sender, MouseEventArgs e)
             {
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseDown(sender, e))
+                {
+                    return;
+                }
                 if (e.X >= this.textEditorBox.EditorControlPanel)
                 {
                     if (e.Button == MouseButtons.Left)
@@ -1349,76 +1223,63 @@ namespace Developer.WinFormControls
                         this.mouseMode = MouseMode.ControlPanelDragging;
                     }
                 }
+                this.textEditorBox.uiExtensions.HostAfterMouseDown(sender, e);
             }
 
             private void host_MouseMove(object sender, MouseEventArgs e)
             {
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseMove(sender, e))
                 {
-                    switch (this.mouseMode)
-                    {
-                        case MouseMode.Selecting:
+                    return;
+                }
+                switch (this.mouseMode)
+                {
+                    case MouseMode.Selecting:
+                        {
+                            TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                            this.textEditorBox.controller.Move(position, false, true);
+                        }
+                        break;
+                    case MouseMode.Normal:
+                    case MouseMode.ControlPanelDragging:
+                        {
+                            if (e.X < this.textEditorBox.EditorControlPanel)
                             {
-                                TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                                this.textEditorBox.controller.Move(position, false, true);
+                                InvokeControlPanel(MouseAction.Move, e, this.mouseMode == MouseMode.ControlPanelDragging);
                             }
-                            break;
-                        case MouseMode.Normal:
-                        case MouseMode.ControlPanelDragging:
-                            {
-                                if (e.X < this.textEditorBox.EditorControlPanel)
-                                {
-                                    InvokeControlPanel(MouseAction.Move, e, this.mouseMode == MouseMode.ControlPanelDragging);
-                                }
-                            }
-                            break;
-                    }
-                    if (e.X < this.textEditorBox.EditorControlPanel)
+                        }
+                        break;
+                }
+                if (e.X < this.textEditorBox.EditorControlPanel)
+                {
+                    this.host.Cursor = Cursors.Default;
+                }
+                else if (this.mouseMode == MouseMode.Selecting)
+                {
+                    this.host.Cursor = Cursors.IBeam;
+                }
+                else
+                {
+                    TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
+                    Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
+                    if (block.Item1 != block.Item2)
                     {
                         this.host.Cursor = Cursors.Default;
                     }
-                    else if (this.mouseMode == MouseMode.Selecting)
+                    else
                     {
                         this.host.Cursor = Cursors.IBeam;
                     }
-                    else
-                    {
-                        TextPosition position = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                        Tuple<int, int> block = this.textEditorBox.textProvider[position.row].GetBlock(position.col);
-                        if (block.Item1 != block.Item2)
-                        {
-                            this.host.Cursor = Cursors.Default;
-                        }
-                        else
-                        {
-                            this.host.Cursor = Cursors.IBeam;
-                        }
-                    }
                 }
-                {
-                    TextPosition tp1 = this.textEditorBox.ViewPointToTextPosition(e.Location);
-                    string tooltip = null;
-                    if (!this.textEditorBox.QuickInfoTooltipOpening)
-                    {
-                        TextPosition tp0 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col - 1));
-                        TextPosition tp2 = this.textEditorBox.controller.Normalize(new TextPosition(tp1.row, tp1.col + 1));
-                        Point p0 = this.textEditorBox.TextPositionToViewPoint(tp0);
-                        Point p2 = this.textEditorBox.TextPositionToViewPoint(tp2);
-                        Rectangle r = new Rectangle(p0.X, p0.Y, p2.X - p0.X, this.textEditorBox.LineHeight);
-                        if (r.Contains(e.Location))
-                        {
-                            tooltip = this.textEditorBox.controlPanel.OnGetSimpleTooltip(tp1);
-                        }
-                    }
-                    if (this.lastTooltip != tooltip)
-                    {
-                        this.textEditorBox.PopupTooltip(tp1, tooltip);
-                    }
-                    this.lastTooltip = tooltip;
-                }
+                this.textEditorBox.uiExtensions.HostAfterMouseMove(sender, e);
             }
 
             private void host_MouseUp(object sender, MouseEventArgs e)
             {
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseUp(sender, e))
+                {
+                    return;
+                }
                 switch (this.mouseMode)
                 {
                     case MouseMode.Selecting:
@@ -1434,26 +1295,27 @@ namespace Developer.WinFormControls
                         this.mouseMode = MouseMode.Normal;
                         break;
                 }
+                this.textEditorBox.uiExtensions.HostAfterMouseUp(sender, e);
             }
 
             private void host_MouseWheel(object sender, MouseEventArgs e)
             {
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseWheel(sender, e))
+                {
+                    return;
+                }
                 int offset = -e.Delta / 2;
                 this.textEditorBox.ViewPosition = new Point(this.textEditorBox.ViewPosition.X, this.textEditorBox.ViewPosition.Y + offset);
-                this.textEditorBox.ClosePopupItems();
-                this.textEditorBox.CloseQuickInfoTooltip();
-                this.textEditorBox.PopupTooltip(new TextPosition(), null);
+                this.textEditorBox.uiExtensions.HostAfterMouseWheel(sender, e);
             }
 
             private void host_MouseLeave(object sender, EventArgs e)
             {
-                if (this.textEditorBox.tooltip.Visible &&
-                    !new Rectangle(this.textEditorBox.tooltip.Location, this.textEditorBox.tooltip.Size).Contains(Control.MousePosition)
-                    )
+                if (!this.textEditorBox.uiExtensions.HostBeforeMouseLeave(sender, e))
                 {
-                    this.lastTooltip = null;
-                    this.textEditorBox.PopupTooltip(new TextPosition(0, 0), null);
+                    return;
                 }
+                this.textEditorBox.uiExtensions.HostAfterMouseLeave(sender, e);
             }
 
             #endregion
@@ -1464,18 +1326,9 @@ namespace Developer.WinFormControls
             {
                 e.Handled = true;
                 this.textEditorBox.PressingChar = true;
-                if (this.textEditorBox.popupList.Visible)
+                if (!this.textEditorBox.uiExtensions.HostKeyPress(sender, e))
                 {
-                    if (this.needToClosePopupList || !this.textEditorBox.ControlPanel.IsPopupListCharAcceptable(e.KeyChar))
-                    {
-                        this.textEditorBox.popupList.SelectItem();
-                        this.textEditorBox.ClosePopupItems();
-                        this.needToClosePopupList = false;
-                    }
-                    else if (!this.textEditorBox.popupList.ProcessChar(e.KeyChar))
-                    {
-                        this.textEditorBox.ClosePopupItems();
-                    }
+                    return;
                 }
                 this.textEditorBox.controller.Input(e.KeyChar.ToString(), false);
                 this.textEditorBox.PressingChar = false;
@@ -1483,31 +1336,14 @@ namespace Developer.WinFormControls
 
             private void host_KeyUp(object sender, KeyEventArgs e)
             {
-                if (this.needToClosePopupList)
-                {
-                    this.textEditorBox.ClosePopupItems();
-                    this.needToClosePopupList = false;
-                }
+                this.textEditorBox.uiExtensions.HostKeyUp(sender, e);
             }
 
             private void host_KeyDown(object sender, KeyEventArgs e)
             {
-                this.needToClosePopupList = false;
-                if (this.textEditorBox.popupList.Visible)
+                if (!this.textEditorBox.uiExtensions.HostKeyDown(sender, e))
                 {
-                    if (!this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
-                    {
-                        if (this.textEditorBox.popupList.ProcessKey(e))
-                        {
-                            e.Handled = true;
-                            e.SuppressKeyPress = true;
-                            return;
-                        }
-                        else if (e.KeyCode != Keys.Packet)
-                        {
-                            this.needToClosePopupList = true;
-                        }
-                    }
+                    return;
                 }
                 Func<TextEditorBox, KeyEventArgs, bool> action = this.textEditorBox.keyCommands.GetAction(e);
                 bool handled = false;
@@ -1545,13 +1381,6 @@ namespace Developer.WinFormControls
                             break;
                         case Keys.Back:
                             this.textEditorBox.controller.PressBackspace(e.Control, e.Shift);
-                            if (this.textEditorBox.popupList.Visible)
-                            {
-                                if (!this.textEditorBox.popupList.ProcessBackspace())
-                                {
-                                    this.textEditorBox.ClosePopupItems();
-                                }
-                            }
                             break;
                         case Keys.Delete:
                             this.textEditorBox.controller.PressDelete(e.Control, e.Shift);
@@ -1568,6 +1397,7 @@ namespace Developer.WinFormControls
                             }
                             break;
                     }
+                    this.textEditorBox.uiExtensions.HostHandleKey(sender, e);
                 }
                 e.SuppressKeyPress = true;
             }
@@ -1665,7 +1495,7 @@ namespace Developer.WinFormControls
                             RenderWholeLine(g, viewVisibleBounds, viewAreaBounds, selectionStart, selectionEnd, backgroundLeft, backgroundWidth, i);
                         }
 
-                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.popupList.Visible || this.textEditorBox.tooltip.Visible))
+                        if (this.textEditorBox.caretVisible && (this.host.Focused || this.textEditorBox.uiExtensions.NeedToShowCaret))
                         {
                             RenderCaret(g, viewVisibleBounds, viewAreaBounds, textBrush);
                         }

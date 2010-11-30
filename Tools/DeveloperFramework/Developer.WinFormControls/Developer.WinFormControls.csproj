@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="TextEditorBoxImpl.cs" />
     <Compile Include="TextEditorBoxInterfaces.cs" />
+    <Compile Include="TextEditorBoxUIExtensions.cs" />
     <Compile Include="TextEditorPopup.cs">
       <SubType>Form</SubType>
     </Compile>

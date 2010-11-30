@@ -75,12 +75,12 @@ namespace Test.Host.LanguageForms
 
         public string[] GetPopupedItems()
         {
-            return EditorControl.PopupedItems.Select(i => i.Text).ToArray();
+            return EditorControl.UIExtensions.PopupedItems.Select(i => i.Text).ToArray();
         }
 
         public string GetSelectedPopupedItem()
         {
-            return EditorControl.SelectedPopupedItem == null ? null : EditorControl.SelectedPopupedItem.Text;
+            return EditorControl.UIExtensions.SelectedPopupedItem == null ? null : EditorControl.UIExtensions.SelectedPopupedItem.Text;
         }
     }
 }

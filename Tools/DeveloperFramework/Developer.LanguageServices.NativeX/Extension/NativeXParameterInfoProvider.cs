@@ -44,7 +44,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                         {
                             if (editingNode.FindDeepest<NativeXInvokeExpression>(pos) != null)
                             {
-                                this.Callback.TextEditorBox.OpenQuickInfoTooltip();
+                                this.Callback.TextEditorBox.UIExtensions.OpenQuickInfoTooltip();
                             }
                         }
                         break;
@@ -53,7 +53,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                             NativeXNode node = editingNode.FindDeepest<NativeXNode>(pos);
                             if (node == null || node.FindParent<NativeXInvokeExpression>() == null)
                             {
-                                this.Callback.TextEditorBox.CloseQuickInfoTooltip();
+                                this.Callback.TextEditorBox.UIExtensions.CloseQuickInfoTooltip();
                             }
                         }
                         break;
