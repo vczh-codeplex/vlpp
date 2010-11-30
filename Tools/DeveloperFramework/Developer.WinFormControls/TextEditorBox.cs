@@ -468,7 +468,7 @@ namespace Developer.WinFormControls
                     Point locationBottom = locationTop;
                     locationBottom.Y += this.lineHeight;
                     text = text.TrimEnd(' ', '\t', '\r', '\n');
-                    this.tooltip.Show(this, locationTop, locationBottom, new RichContent.Content(new RichContent.Text(text)));
+                    this.tooltip.Show(this.host, locationTop, locationBottom, new RichContent.Content(new RichContent.Text(text)));
                 }
             }
         }
@@ -491,7 +491,7 @@ namespace Developer.WinFormControls
                     int x = Math.Min(aTop.X, bTop.X);
                     int y1 = Math.Min(aTop.Y, bTop.Y);
                     int y2 = Math.Max(aBottom.Y, bBottom.Y);
-                    this.tooltip.Show(this, new Point(x, y1), new Point(x, y2), content);
+                    this.tooltip.Show(this.host, new Point(x, y1), new Point(x, y2), content);
                 }
             }
         }

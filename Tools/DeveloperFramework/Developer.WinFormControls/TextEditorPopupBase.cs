@@ -12,7 +12,10 @@ namespace Developer.WinFormControls
 {
     public partial class TextEditorPopupBase : Form
     {
+        private static List<TextEditorPopupBase> openedPopups = new List<TextEditorPopupBase>();
+
         private MouseHook mouseHook = new MouseHook();
+        private Control raisedControl = null;
 
         public TextEditorPopupBase()
         {
@@ -22,6 +25,18 @@ namespace Developer.WinFormControls
 
         public void Show(Control control, Point locationTop, Point locationBottom)
         {
+            this.raisedControl = control;
+            if (!this.Visible)
+            {
+                foreach (TextEditorPopupBase popup in openedPopups)
+                {
+                    if (popup != this && popup.raisedControl == this.raisedControl)
+                    {
+                        locationTop.Y = Math.Min(locationTop.Y, popup.Top);
+                        locationBottom.Y = Math.Max(locationBottom.Y, popup.Top + popup.Height);
+                    }
+                }
+            }
             Point location;
             Size size = this.Size;
             Screen screen = Screen.FromControl(control);
@@ -68,10 +83,15 @@ namespace Developer.WinFormControls
             if (this.Visible)
             {
                 this.mouseHook.Start();
+                if (!openedPopups.Contains(this))
+                {
+                    openedPopups.Add(this);
+                }
             }
             else
             {
                 this.mouseHook.Stop();
+                openedPopups.Remove(this);
             }
         }
 
