@@ -263,7 +263,7 @@ namespace Developer.LanguageServices.NativeX.Extension
 
         private void PopupStructureMembers(NativeXAbstractStructureType structureType)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupStructureMembers(structureType),
                 forceClosingPrevious: true);
         }
@@ -272,7 +272,7 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             if (function.ConceptName != null && function.Scope != null)
             {
-                this.Callback.TextEditorBox.PopupItems(
+                this.Callback.TextEditorBox.UIExtensions.PopupItems(
                     CreatePopupInstanceFunctions(function.ConceptName.ReferenceName, function.Scope),
                     forceClosingPrevious: true);
             }
@@ -280,21 +280,21 @@ namespace Developer.LanguageServices.NativeX.Extension
 
         private void PopupConcepts(CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupConcepts(scope),
                 forceClosingPrevious: true);
         }
 
         private void PopupGenericParameters(string reference, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 PopupGenericParameters(scope),
                 searchingKey: reference);
         }
 
         private void PopupInstanceFunctions(string reference, string conceptName, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupInstanceFunctions(conceptName, scope),
                 searchingKey: reference,
                 forceClosingPrevious: true);
@@ -302,35 +302,35 @@ namespace Developer.LanguageServices.NativeX.Extension
 
         private void PopupExpressions(string reference, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope),
                 searchingKey: reference);
         }
 
         private void PopupExpressionsAndTypes(string reference, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope).Concat(CreatePopupTypes(scope)),
                 searchingKey: reference);
         }
 
         private void PopupExpressionsAndStatements(string reference, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope).Concat(CreatePopupStatementKeywords()),
                 searchingKey: reference);
         }
 
         private void PopupTypes(string reference, CodeScope scope)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupTypes(scope),
                 searchingKey: reference);
         }
 
         private void PopupDeclarationKeywords(string reference)
         {
-            this.Callback.TextEditorBox.PopupItems(
+            this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupDeclarationKeywords(),
                 searchingKey: reference);
         }
