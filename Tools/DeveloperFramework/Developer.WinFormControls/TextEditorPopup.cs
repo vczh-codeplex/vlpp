@@ -15,6 +15,9 @@ namespace Developer.WinFormControls
     {
         class PopupList : Panel
         {
+            private const TextFormatFlags Flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+            private const string SnippetTail = " [TAB]";
+
             private VScrollBar scrollBar = null;
             private ImageList imageList = null;
 
@@ -95,6 +98,7 @@ namespace Developer.WinFormControls
 
             public void FillList(List<TextEditorPopupItem> items, bool needToDisposeImages, int maxItems)
             {
+                UnfillList();
                 this.items = items;
                 this.images = items.Select(i => i.Image).Distinct().ToList();
                 this.selectedItem = null;
@@ -105,7 +109,7 @@ namespace Developer.WinFormControls
                 Size[] sizes = null;
                 using (Graphics g = Graphics.FromHwnd(this.Handle))
                 {
-                    sizes = this.items.Select(i => TextRenderer.MeasureText(g, i.Text, this.Font, new Size(0, 0), TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix)).ToArray();
+                    sizes = this.items.Select(i => TextRenderer.MeasureText(g, i.Text + (i.Snippet == null ? "" : SnippetTail), this.Font, new Size(0, 0), Flags)).ToArray();
                 }
 
                 this.itemHeight = 2 + Math.Max(sizes.Max(s => s.Height), this.images.Max(i => i.Height));
@@ -131,18 +135,21 @@ namespace Developer.WinFormControls
                 this.imageList.ImageSize = new Size(items.Max(i => i.Image.Width), items.Max(i => i.Image.Height));
                 this.imageList.TransparentColor = items[0].Image.GetPixel(0, 0);
                 this.imageList.Images.AddRange(this.images.ToArray());
-
                 this.selectedItem = items[0];
             }
 
             public void UnfillList()
             {
-                if (this.needToDisposeImages)
+                if (this.images != null)
                 {
-                    foreach (Bitmap image in this.images)
+                    if (this.needToDisposeImages)
                     {
-                        image.Dispose();
+                        foreach (Bitmap image in this.images)
+                        {
+                            image.Dispose();
+                        }
                     }
+                    this.images.Clear();
                 }
             }
 
@@ -219,13 +226,24 @@ namespace Developer.WinFormControls
 
                     int tx = this.itemTextOffset + 1;
                     int ty = (int)(this.itemHeight - e.Graphics.MeasureString(item.Text, this.Font).Height) / 2;
+
+                    string tail = item.Snippet == null ? "" : SnippetTail;
                     if (item == this.selectedItem)
                     {
-                        TextRenderer.DrawText(e.Graphics, item.Text, this.Font, new Point(tx, y + ty), SystemColors.HighlightText, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+                        TextRenderer.DrawText(e.Graphics, item.Text + tail, this.Font, new Point(tx, y + ty), SystemColors.HighlightText, Flags);
                     }
                     else
                     {
-                        TextRenderer.DrawText(e.Graphics, item.Text, this.Font, new Point(tx, y + ty), SystemColors.ControlText, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+                        if (item.PureSnippet)
+                        {
+                            TextRenderer.DrawText(e.Graphics, item.Text + tail, this.Font, new Point(tx, y + ty), SystemColors.GrayText, Flags);
+                        }
+                        else
+                        {
+                            TextRenderer.DrawText(e.Graphics, item.Text, this.Font, new Point(tx, y + ty), SystemColors.ControlText, Flags);
+                            int offset = TextRenderer.MeasureText(e.Graphics, item.Text, this.Font, new Size(0, 0), Flags).Width;
+                            TextRenderer.DrawText(e.Graphics, tail, this.Font, new Point(tx + offset, y + ty), SystemColors.GrayText, Flags);
+                        }
                     }
                 }
             }
@@ -254,11 +272,37 @@ namespace Developer.WinFormControls
             this.popupList.DoubleClick += new EventHandler(popupList_DoubleClick);
         }
 
-        public void Show(Control control, Point locationTop, Point locationBottom, IEnumerable<TextEditorPopupItem> items, string searchingKey, bool needToDisposeImages, int maxItems)
+        public void Show(Control control, Point locationTop, Point locationBottom, IEnumerable<TextEditorPopupItem> items, IEnumerable<SnippetContent> snippets, Bitmap snippetImage, string searchingKey, bool needToDisposeImages, int maxItems)
         {
-            if (items.Count() > 0)
+            Dictionary<string, TextEditorPopupItem> itemMap = new Dictionary<string, TextEditorPopupItem>();
+            foreach (var item in items)
             {
-                this.popupList.FillList(items.OrderBy(i => i.Text.ToUpper()).ToList(), needToDisposeImages, maxItems);
+                item.Snippet = null;
+                item.PureSnippet = false;
+                itemMap[item.Text] = item;
+            }
+            foreach (var snippet in snippets)
+            {
+                TextEditorPopupItem item = null;
+                if (!itemMap.TryGetValue(snippet.Name, out item))
+                {
+                    item = new TextEditorPopupItem()
+                    {
+                        Image = snippetImage,
+                        Text = snippet.Name,
+                        PureSnippet = true
+                    };
+                    itemMap[item.Text] = item;
+                }
+                item.Snippet = snippet;
+            }
+            if (snippets.Count() == 0 && snippetImage != null && needToDisposeImages)
+            {
+                snippetImage.Dispose();
+            }
+            if (itemMap.Count > 0)
+            {
+                this.popupList.FillList(itemMap.Values.OrderBy(i => i.Text.ToUpper()).ToList(), needToDisposeImages, maxItems);
                 this.searchingKey = searchingKey;
                 LocateSearching();
                 this.ClientSize = this.popupList.Size;
@@ -389,6 +433,15 @@ namespace Developer.WinFormControls
             this.keyboardReceiver.GetType().GetMethod("OnKeyUp", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this.keyboardReceiver, new object[] { e });
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (!this.Visible)
+            {
+                this.popupList.UnfillList();
+            }
+        }
+
         private void popupList_DoubleClick(object sender, EventArgs e)
         {
             SelectItem();
@@ -400,5 +453,8 @@ namespace Developer.WinFormControls
     {
         public Bitmap Image { get; set; }
         public string Text { get; set; }
+
+        public SnippetContent Snippet { get; set; }
+        public bool PureSnippet { get; set; }
     }
 }

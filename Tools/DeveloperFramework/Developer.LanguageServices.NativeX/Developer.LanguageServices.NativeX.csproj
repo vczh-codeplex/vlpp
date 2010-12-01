@@ -87,6 +87,7 @@
   <ItemGroup>
     <Content Include="NativeXColorizer.Grammar.statemachine.xml" />
     <Content Include="NativeXTokenizer.Grammar.statemachine.xml" />
+    <None Include="Resources\VSObject_BSC.bmp" />
     <None Include="Resources\VSObject_TypeDef.bmp" />
     <None Include="Resources\VSObject_Template.bmp" />
     <None Include="Resources\VSObject_Structure.bmp" />

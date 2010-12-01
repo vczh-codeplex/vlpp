@@ -88,6 +88,13 @@ namespace Developer.LanguageServices.NativeX {
             }
         }
         
+        internal static System.Drawing.Bitmap Snippet {
+            get {
+                object obj = ResourceManager.GetObject("Snippet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Template {
             get {
                 object obj = ResourceManager.GetObject("Template", resourceCulture);

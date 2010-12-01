@@ -15,10 +15,47 @@ namespace Developer.LanguageServices.NativeX.Extension
         , ITextEditorBoxEditingObserverExtension
     {
         protected NativeXEditingObserverProvider EditingObserverExtension { get; private set; }
+        protected List<SnippetContent> Snippets { get; private set; }
 
         public NativeXPopupItemProvider(NativeXEditingObserverProvider editingObserverExtension)
         {
             this.EditingObserverExtension = editingObserverExtension;
+            this.Snippets = new List<SnippetContent>();
+            this.Snippets.Add(new SnippetContent(
+                new SnippetContent.Snippet("for",
+                        new SnippetContent.Text("for(variable int "),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text(" = 0; when("),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text(" < "),
+                        new SnippetContent.EditableItem("COUNT"),
+                        new SnippetContent.Text(") with "),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text("++) do\r\n"),
+
+                        new SnippetContent.Tab(), new SnippetContent.Text("{\r\n"),
+                        new SnippetContent.Tab(), new SnippetContent.Text("\t"), new SnippetContent.Stop(), new SnippetContent.Text("\r\n"),
+                        new SnippetContent.Tab(), new SnippetContent.Text("}")
+                    )
+                ));
+
+            this.Snippets.Add(new SnippetContent(
+                new SnippetContent.Snippet("forr",
+                        new SnippetContent.Text("for(variable int "),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text(" = "),
+                        new SnippetContent.EditableItem("COUNT"),
+                        new SnippetContent.Text(" - 1; when("),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text(" >=0 ) with "),
+                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.Text("--) do\r\n"),
+
+                        new SnippetContent.Tab(), new SnippetContent.Text("{\r\n"),
+                        new SnippetContent.Tab(), new SnippetContent.Text("\t"), new SnippetContent.Stop(), new SnippetContent.Text("\r\n"),
+                        new SnippetContent.Tab(), new SnippetContent.Text("}")
+                    )
+                ));
         }
 
         #region Popup Item Calculation
@@ -265,6 +302,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupStructureMembers(structureType),
+                this.Snippets,
+                Images.Snippet,
                 forceClosingPrevious: true);
         }
 
@@ -274,6 +313,8 @@ namespace Developer.LanguageServices.NativeX.Extension
             {
                 this.Callback.TextEditorBox.UIExtensions.PopupItems(
                     CreatePopupInstanceFunctions(function.ConceptName.ReferenceName, function.Scope),
+                    this.Snippets,
+                    Images.Snippet,
                     forceClosingPrevious: true);
             }
         }
@@ -282,6 +323,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupConcepts(scope),
+                this.Snippets,
+                Images.Snippet,
                 forceClosingPrevious: true);
         }
 
@@ -289,6 +332,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 PopupGenericParameters(scope),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
@@ -296,6 +341,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupInstanceFunctions(conceptName, scope),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference,
                 forceClosingPrevious: true);
         }
@@ -304,6 +351,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
@@ -311,6 +360,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope).Concat(CreatePopupTypes(scope)),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
@@ -318,6 +369,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope).Concat(CreatePopupStatementKeywords()),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
@@ -325,6 +378,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupTypes(scope),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
@@ -332,6 +387,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupDeclarationKeywords(),
+                this.Snippets,
+                Images.Snippet,
                 searchingKey: reference);
         }
 
