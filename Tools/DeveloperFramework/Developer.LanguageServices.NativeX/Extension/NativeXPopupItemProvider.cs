@@ -46,7 +46,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                         new SnippetContent.EditableItem("COUNT", "count"),
                         new SnippetContent.Text(" - 1; when("),
                         new SnippetContent.EditableItem("VARIABLE"),
-                        new SnippetContent.Text(" >=0 ) with "),
+                        new SnippetContent.Text(" >= 0) with "),
                         new SnippetContent.EditableItem("VARIABLE"),
                         new SnippetContent.Text("--;) do\r\n"),
 
