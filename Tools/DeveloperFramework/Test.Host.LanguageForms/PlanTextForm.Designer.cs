@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Developer.WinFormControls.TextEditorControlPanel textEditorControlPanel1 = new Developer.WinFormControls.TextEditorControlPanel();
             this.panelEditor = new System.Windows.Forms.Panel();
             this.textEditorBox = new Developer.WinFormControls.TextEditorBox();
             this.panelEditor.SuspendLayout();
@@ -47,7 +46,6 @@
             // textEditorBox
             // 
             this.textEditorBox.BackColor = System.Drawing.SystemColors.Window;
-            this.textEditorBox.ControlPanel = textEditorControlPanel1;
             this.textEditorBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textEditorBox.EnableDefaultCommands = true;
             this.textEditorBox.ForeColor = System.Drawing.SystemColors.ControlText;

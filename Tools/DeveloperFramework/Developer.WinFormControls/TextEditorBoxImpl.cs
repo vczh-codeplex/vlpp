@@ -7,29 +7,45 @@ using Developer.WinFormControls.Core;
 using Developer.LanguageProvider;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Developer.WinFormControls.Extension;
 
 namespace Developer.WinFormControls
 {
     public class TextEditorPlanTextColorizer : ITextEditorColorizer
     {
+        public const int BlockColorId = 0;
+        public const int NormalColorId = 1;
+
+        private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
+        private readonly Color BlockColor = Color.Gray;
+        private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
+
         private TextEditorBox textEditorBox = null;
+        private TextEditorColorItem[] colorItems = null;
 
         public TextEditorPlanTextColorizer(TextEditorBox textEditorBox)
         {
             this.textEditorBox = textEditorBox;
+            this.colorItems = new TextEditorColorItem[NormalColorId + 1];
+            this.colorItems[BlockColorId] = new TextEditorColorItem()
+            {
+                Text = BlockColor,
+                HighlightText = BlockColor,
+                Highlight = HighlightColor
+            };
+            this.colorItems[NormalColorId] = new TextEditorColorItem()
+            {
+                Text = NormalColor,
+                HighlightText = NormalColor,
+                Highlight = HighlightColor
+            };
         }
 
         public TextEditorColorItem[] ColorItems
         {
             get
             {
-                TextEditorColorItem item = new TextEditorColorItem()
-                {
-                    Text = this.textEditorBox.ForeColor,
-                    HighlightText = SystemColors.HighlightText,
-                    Highlight = SystemColors.Highlight
-                };
-                return new TextEditorColorItem[] { item };
+                return this.colorItems;
             }
         }
 
@@ -38,103 +54,17 @@ namespace Developer.WinFormControls
             int count = items.Length;
             for (int i = 0; i < length; i++)
             {
-                colors[i] = 0;
+                colors[i] = NormalColorId;
             }
             return initialState;
         }
     }
 
-    public class TextEditorControlPanel : ITextEditorControlPanel
+    public class TextEditorPlanTextControlPanel : TextEditorBoxExtensibleControlPanel
     {
-        public int Width
+        public TextEditorPlanTextControlPanel(int blockColorId)
         {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public void InstallCallBack(ITextEditorControlPanelCallBack callback)
-        {
-        }
-
-        public void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
-        {
-        }
-
-        public void OnAfterEdit(TextPosition start, TextPosition oldEnd, TextPosition newEnd)
-        {
-        }
-
-        public string OnGetSimpleTooltip(TextPosition pos)
-        {
-            return null;
-        }
-
-        public Tuple<XDocument, TextPosition> OnGetQuickInfoTooltip()
-        {
-            return null;
-        }
-
-        public bool NeedColorLineForDisplay(int lineIndex)
-        {
-            return false;
-        }
-
-        public void ColorLineForDisplay(int lineIndex, int[] colors)
-        {
-        }
-
-        public void DrawLineBackground(Graphics g, int lineIndex, Rectangle backgroundArea)
-        {
-        }
-
-        public void DrawLineForeground(Graphics g, int lineIndex, Rectangle backgroundArea)
-        {
-        }
-
-        public void DrawControlPanel(Graphics g, int lineIndex, Rectangle controlPanelArea)
-        {
-        }
-
-        public void DrawControlPanelBackground(Graphics g, Rectangle backgroundArea)
-        {
-        }
-
-        public void OnMouseDown(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
-        {
-        }
-
-        public void OnMouseMove(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
-        {
-        }
-
-        public void OnMouseUp(int lineIndex, Rectangle controlPanelArea, Point relativePosition, System.Windows.Forms.MouseButtons buttons)
-        {
-        }
-
-        public bool IsPopupListKeyAcceptable(KeyEventArgs e)
-        {
-            return false;
-        }
-
-        public bool IsPopupListCharAcceptable(char c)
-        {
-            return false;
-        }
-
-        public void PopupListItemSelected(string searchingKey, string text)
-        {
-        }
-
-        public TextPosition GetLeftWord(TextPosition caret)
-        {
-            return caret;
-        }
-
-        public TextPosition GetRightWord(TextPosition caret)
-        {
-            return caret;
+            ExtendBeforeInstall(new LanguageDefaultColorizerExtension(blockColorId));
         }
     }
 }

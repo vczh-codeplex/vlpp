@@ -1127,5 +1127,37 @@ namespace Test.DeveloperComponent
             this.window.Press("A", ModifierKeys.Control);
             AssertController("", "ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ", "");
         }
+
+        [TestMethod]
+        public void AddRemoveBlockTest()
+        {
+            this.window.Input("ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(1, 2), false, false);
+            this.window.Move(new TextPosition(1, 5), false, true);
+            this.window.Press("Q", ModifierKeys.Control);
+
+            this.window.Move(new TextPosition(1, 1), false, false);
+            AssertController("ABCDEFG\r\nH", "", "IJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressRight(false, false);
+            AssertController("ABCDEFG\r\nHI", "", "JKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressRight(false, false);
+            AssertController("ABCDEFG\r\nHIJKL", "", "MN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressLeft(false, false);
+            AssertController("ABCDEFG\r\nHI", "", "JKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(1, 3), false, false);
+            AssertController("ABCDEFG\r\nHI", "JKL", "MN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Press("W", ModifierKeys.Control);
+
+            this.window.Move(new TextPosition(1, 1), false, false);
+            AssertController("ABCDEFG\r\nH", "", "IJKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressRight(false, false);
+            AssertController("ABCDEFG\r\nHI", "", "JKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressRight(false, false);
+            AssertController("ABCDEFG\r\nHIJ", "", "KLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.PressLeft(false, false);
+            AssertController("ABCDEFG\r\nHI", "", "JKLMN\r\nOPQRST\r\nUVWXYZ");
+            this.window.Move(new TextPosition(1, 3), false, false);
+            AssertController("ABCDEFG\r\nHIJ", "", "KLMN\r\nOPQRST\r\nUVWXYZ");
+        }
     }
 }

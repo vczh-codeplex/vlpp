@@ -10,7 +10,7 @@ namespace Developer.LanguageServices.NativeX
     partial class NativeXColorizer
     {
         public const int BreakPointColorId = 0;
-        public const int BlockPointColorId = 1;
+        public const int BlockColorId = 1;
         public const int TypeColorId = 2;
         public const int NormalColorId = 3;
 
@@ -24,7 +24,7 @@ namespace Developer.LanguageServices.NativeX
         private readonly Color BreakPointColor = Color.FromArgb(255, 255, 255);
         private readonly Color BreakPointHighlightColor = Color.FromArgb(123, 119, 166);
         private readonly Color TypeColor = Color.FromArgb(43, 145, 175);
-        private readonly Color BlockPointColor = Color.Gray;
+        private readonly Color BlockColor = Color.Gray;
 
         private void CreateAdditionalColors()
         {
@@ -34,10 +34,10 @@ namespace Developer.LanguageServices.NativeX
                 HighlightText = BreakPointColor,
                 Highlight = BreakPointHighlightColor
             };
-            this.colorItems[BlockPointColorId] = new TextEditorColorItem()
+            this.colorItems[BlockColorId] = new TextEditorColorItem()
             {
-                Text = BlockPointColor,
-                HighlightText = BlockPointColor,
+                Text = BlockColor,
+                HighlightText = BlockColor,
                 Highlight = HighlightColor
             };
             this.colorItems[TypeColorId] = new TextEditorColorItem()
