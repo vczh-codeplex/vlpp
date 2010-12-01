@@ -31,7 +31,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                         new SnippetContent.EditableItem("COUNT", "count"),
                         new SnippetContent.Text(") with "),
                         new SnippetContent.EditableItem("VARIABLE"),
-                        new SnippetContent.Text("++) do\r\n"),
+                        new SnippetContent.Text("++;) do\r\n"),
 
                         new SnippetContent.Tab(), new SnippetContent.Text("{\r\n"),
                         new SnippetContent.Tab(), new SnippetContent.Text("\t"), new SnippetContent.Stop(), new SnippetContent.Text("\r\n"),
@@ -48,7 +48,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                         new SnippetContent.EditableItem("VARIABLE"),
                         new SnippetContent.Text(" >=0 ) with "),
                         new SnippetContent.EditableItem("VARIABLE"),
-                        new SnippetContent.Text("--) do\r\n"),
+                        new SnippetContent.Text("--;) do\r\n"),
 
                         new SnippetContent.Tab(), new SnippetContent.Text("{\r\n"),
                         new SnippetContent.Tab(), new SnippetContent.Text("\t"), new SnippetContent.Stop(), new SnippetContent.Text("\r\n"),
