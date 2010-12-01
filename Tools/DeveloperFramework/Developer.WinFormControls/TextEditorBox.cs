@@ -114,12 +114,12 @@ namespace Developer.WinFormControls
             this.EnableDefaultCommands = true;
 
             this.textProvider = new TextProvider<LineInfo>();
-            this.controlPanel = new TextEditorControlPanel();
+            this.controller = new TextEditorController(this);
             this.keyCommands = new TextEditorBoxKeyCommands();
             this.uiExtensions = new TextEditorBoxUIExtensions(this, this.host);
 
-            this.controller = new TextEditorController(this);
-            this.colorizer = new TextEditorPlanTextColorizer(this);
+            this.Colorizer = new TextEditorPlanTextColorizer(this);
+            this.ControlPanel = new TextEditorPlanTextControlPanel(TextEditorPlanTextColorizer.BlockColorId);
 
             InitializeComponent();
             this.components.Add(new DisposableComponent(this.textProvider));

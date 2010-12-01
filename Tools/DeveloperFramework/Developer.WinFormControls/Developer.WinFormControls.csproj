@@ -52,6 +52,7 @@
     <Compile Include="Core\TextProvider.cs" />
     <Compile Include="Core\UnsafeMethods.cs" />
     <Compile Include="DisposableComponent.cs" />
+    <Compile Include="Extension\LanguageDefaultColorizerExtension.cs" />
     <Compile Include="Extension\LanguageEditingObserverExtension.cs" />
     <Compile Include="Extension\LanguagePopupListExtension.cs" />
     <Compile Include="Extension\LanguageWordingExtension.cs" />
