@@ -45,7 +45,7 @@ namespace Developer.WinFormControls
 
         public bool QuickInfoTooltipOpening { get; private set; }
 
-        public void PopupItems(IEnumerable<TextEditorPopupItem> items, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
+        public void PopupItems(IEnumerable<TextEditorPopupItem> items, IEnumerable<SnippetContent> snippets, Bitmap snippetImage, bool forceClosingPrevious = false, string searchingKey = "", bool needToDisposeImages = true, int maxItems = 10)
         {
             if (forceClosingPrevious)
             {
@@ -63,7 +63,16 @@ namespace Developer.WinFormControls
             }
             Point locationTop = this.host.PointToScreen(this.textEditorBox.TextPositionToViewPoint(this.textEditorBox.SelectionCaret));
             Point locationBottom = new Point(locationTop.X, locationTop.Y + this.textEditorBox.LineHeight);
-            this.popupList.Show(this.host, locationTop, locationBottom, items, searchingKey, needToDisposeImages, maxItems);
+            this.popupList.Show(
+                this.host,
+                locationTop,
+                locationBottom,
+                items,
+                (snippets ?? new SnippetContent[] { }),
+                snippetImage,
+                searchingKey,
+                needToDisposeImages,
+                maxItems);
         }
 
         public void ClosePopupItems()
