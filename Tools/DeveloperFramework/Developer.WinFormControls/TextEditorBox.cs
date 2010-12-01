@@ -139,19 +139,29 @@ namespace Developer.WinFormControls
 
         #region Rendering Area Calculation
 
+        private const int RedrawNone = 0;
+        private const int RedrawLine = 1;
+        private const int RedrawInvalidate = 2;
+        private const int RedrawRefresh = 3;
+
+        private int redrawState = RedrawNone;
+        private Rectangle redrawLineBounds;
+
         public override void RedrawContent(bool totalRefresh, bool refreshImmediately)
         {
+            int newRedrawState = RedrawNone;
+            Rectangle newRedrawLineBounds = Rectangle.Empty;
             if (!this.preventRedraw && (!this.controller.PreventCustomGeneralRedraw || refreshImmediately))
             {
                 Point newPoint = this.ViewPosition;
                 Point newHostPoint = this.host.PointToScreen(new Point(0, 0));
-                Size newHostSize = this.ViewAreaSize;
+                Size newHostSize = new Size(this.ViewAreaSize.Width, Math.Min(this.ViewAreaSize.Height, this.ViewSize.Height));
                 TextPosition newAnchor = this.SelectionAnchor;
                 TextPosition newCaret = this.SelectionCaret;
                 int lineFinalState = this.textProvider[newCaret.row].Tag.colorizerFinalState;
                 if (refreshImmediately)
                 {
-                    this.host.Refresh();
+                    newRedrawState = RedrawRefresh;
                 }
                 else if (!totalRefresh
                     && this.oldPoint == newPoint
@@ -170,11 +180,12 @@ namespace Developer.WinFormControls
                     int y = this.TextPositionToViewPoint(new TextPosition(row, 0)).Y;
                     int w = newHostSize.Width;
                     int h = this.lineHeight;
-                    this.host.Invalidate(new Rectangle(x, y, w, h));
+                    newRedrawState = RedrawLine;
+                    newRedrawLineBounds = new Rectangle(x, y, w, h);
                 }
                 else
                 {
-                    this.host.Invalidate();
+                    newRedrawState = RedrawInvalidate;
                 }
                 this.oldPoint = newPoint;
                 this.oldHostPoint = newHostPoint;
@@ -183,6 +194,31 @@ namespace Developer.WinFormControls
                 this.oldCaret = newCaret;
                 this.oldLineHeight = this.lineHeight;
                 this.oldLineFinalState = lineFinalState;
+            }
+            if (this.redrawState == RedrawNone && newRedrawState == RedrawLine)
+            {
+                this.redrawLineBounds = newRedrawLineBounds;
+            }
+            else if (this.redrawState == RedrawLine && newRedrawState == RedrawLine)
+            {
+                this.redrawLineBounds = Rectangle.Union(this.redrawLineBounds, newRedrawLineBounds);
+            }
+            this.redrawState = Math.Max(this.redrawState, newRedrawState);
+            if (!this.controller.PreventCustomGeneralRedraw)
+            {
+                switch (this.redrawState)
+                {
+                    case RedrawLine:
+                        this.host.Invalidate(this.redrawLineBounds);
+                        break;
+                    case RedrawInvalidate:
+                        this.host.Invalidate();
+                        break;
+                    case RedrawRefresh:
+                        this.host.Refresh();
+                        break;
+                }
+                this.redrawState = RedrawNone;
             }
         }
 

@@ -13,12 +13,18 @@ namespace Developer.WinFormControls
 {
     public class TextEditorPlanTextColorizer : ITextEditorColorizer
     {
-        public const int BlockColorId = 0;
-        public const int NormalColorId = 1;
+        public const int SnippetColorId = 0;
+        public const int BlockColorId = 1;
+        public const int NormalColorId = 2;
 
         private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
-        private readonly Color BlockColor = Color.Gray;
         private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
+
+        private readonly Color SnippetColor = Color.FromArgb(0, 0, 0);
+        private readonly Color SnippetHighlightColor = Color.FromArgb(173, 200, 198);
+        private readonly Color BlockColor = Color.Gray;
+
+        public readonly Color SnippetBackgroundColor = Color.FromArgb(255, 231, 160);
 
         private TextEditorBox textEditorBox = null;
         private TextEditorColorItem[] colorItems = null;
@@ -32,6 +38,12 @@ namespace Developer.WinFormControls
                 Text = BlockColor,
                 HighlightText = BlockColor,
                 Highlight = HighlightColor
+            };
+            this.colorItems[SnippetColorId] = new TextEditorColorItem()
+            {
+                Text = SnippetColor,
+                HighlightText = SnippetColor,
+                Highlight = SnippetHighlightColor
             };
             this.colorItems[NormalColorId] = new TextEditorColorItem()
             {
