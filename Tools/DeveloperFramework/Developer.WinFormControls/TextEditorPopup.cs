@@ -312,22 +312,38 @@ namespace Developer.WinFormControls
 
         public bool ProcessKey(KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            switch (e.KeyCode)
             {
-                if (this.popupList.SelectedItem != null)
-                {
-                    SelectItem();
-                    Hide();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return this.popupList.ProcessKey(e);
+                case Keys.Enter:
+                    {
+                        if (this.popupList.SelectedItem != null)
+                        {
+                            SelectItem();
+                            Hide();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                case Keys.Tab:
+                    {
+                        TextEditorPopupItem selectedItem = this.popupList.SelectedItem;
+                        if (selectedItem != null && selectedItem.Snippet != null)
+                        {
+                            SelectItem("");
+                            Hide();
+                            this.textEditorBox.UIExtensions.InsertSnippet(selectedItem.Snippet);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                default:
+                    return this.popupList.ProcessKey(e);
             }
         }
 
@@ -367,11 +383,11 @@ namespace Developer.WinFormControls
             }
         }
 
-        public void SelectItem()
+        public void SelectItem(string text = null)
         {
             if (this.popupList.SelectedItem != null)
             {
-                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, this.popupList.SelectedItem.Text);
+                this.textEditorBox.ControlPanel.PopupListItemSelected(this.searchingKey, text ?? this.popupList.SelectedItem.Text);
             }
         }
 

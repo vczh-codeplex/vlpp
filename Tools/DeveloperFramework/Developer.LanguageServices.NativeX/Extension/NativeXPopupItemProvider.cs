@@ -24,11 +24,11 @@ namespace Developer.LanguageServices.NativeX.Extension
             this.Snippets.Add(new SnippetContent(
                 new SnippetContent.Snippet("for",
                         new SnippetContent.Text("for(variable int "),
-                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.EditableItem("VARIABLE", "i"),
                         new SnippetContent.Text(" = 0; when("),
                         new SnippetContent.EditableItem("VARIABLE"),
                         new SnippetContent.Text(" < "),
-                        new SnippetContent.EditableItem("COUNT"),
+                        new SnippetContent.EditableItem("COUNT", "count"),
                         new SnippetContent.Text(") with "),
                         new SnippetContent.EditableItem("VARIABLE"),
                         new SnippetContent.Text("++) do\r\n"),
@@ -38,13 +38,12 @@ namespace Developer.LanguageServices.NativeX.Extension
                         new SnippetContent.Tab(), new SnippetContent.Text("}")
                     )
                 ));
-
             this.Snippets.Add(new SnippetContent(
                 new SnippetContent.Snippet("forr",
                         new SnippetContent.Text("for(variable int "),
-                        new SnippetContent.EditableItem("VARIABLE"),
+                        new SnippetContent.EditableItem("VARIABLE", "i"),
                         new SnippetContent.Text(" = "),
-                        new SnippetContent.EditableItem("COUNT"),
+                        new SnippetContent.EditableItem("COUNT", "count"),
                         new SnippetContent.Text(" - 1; when("),
                         new SnippetContent.EditableItem("VARIABLE"),
                         new SnippetContent.Text(" >=0 ) with "),

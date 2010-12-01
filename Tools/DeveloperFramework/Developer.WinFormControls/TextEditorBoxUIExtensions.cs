@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using Developer.LanguageProvider;
 using System.Xml.Linq;
+using Developer.WinFormControls.Core;
 
 namespace Developer.WinFormControls
 {
@@ -17,6 +18,8 @@ namespace Developer.WinFormControls
         private TextEditorTooltip tooltip = null;
         private string lastTooltip = null;
         private bool needToClosePopupList = false;
+
+        private SnippetContent currentSnippet;
 
         public TextEditorBoxUIExtensions(TextEditorBox textEditorBox, Control host)
         {
@@ -158,6 +161,42 @@ namespace Developer.WinFormControls
             {
                 this.tooltip.Hide();
                 this.QuickInfoTooltipOpening = false;
+            }
+        }
+
+        public void InsertSnippet(SnippetContent snippet)
+        {
+            if (this.currentSnippet == null && snippet != null)
+            {
+                this.currentSnippet = snippet;
+                TextPosition caret = this.textEditorBox.SelectionCaret;
+                TextLine<TextEditorBox.LineInfo> line = this.textEditorBox.TextProvider[caret.row];
+                string prefix = line.GetString(0, caret.col);
+                if (!string.IsNullOrWhiteSpace(prefix))
+                {
+                    prefix = "";
+                }
+                List<List<SnippetContent.Segment>> segments = snippet.Compile(prefix);
+
+                string text = "";
+                for (int i = 0; i < segments.Count; i++)
+                {
+                    if (i > 0) text += "\r\n";
+                    foreach (var segment in segments[i])
+                    {
+                        switch (segment.Type)
+                        {
+                            case SnippetContent.SegmentType.Editable:
+                                text += (segment.AssociatedSegment == null ? segment.Value : segment.AssociatedSegment.Value);
+                                break;
+                            case SnippetContent.SegmentType.Text:
+                                text += segment.Value;
+                                break;
+                        }
+                    }
+                }
+                this.textEditorBox.Controller.Input(text, false);
+                this.currentSnippet = null;
             }
         }
 
