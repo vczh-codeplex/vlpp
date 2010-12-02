@@ -1,5 +1,17 @@
 ﻿$[unit] program;
 
+$[function] $[int] sum1($[int]* numbers, $[int] numberCount)
+{
+    $[result] = 0;
+    $[for]$&[TAB]index&[TAB]$[numberCount]$&[ENTER]&[ENTER]$[result] += $[numbers][index];&[DOWN]
+}
+
+$[function] $[int] sum2($[int]* numbers, $[int] numberCount)
+{
+    $[result] = 0;
+    $[forr]$&[TAB]index&[TAB]$[numberCount]$&[ENTER]&[ENTER]$[result] += $[numbers][index];&[DOWN]
+}
+
 $[concept] T:Eq
 {
 	Equals=$[function] $[bool]($[T],$[T]);

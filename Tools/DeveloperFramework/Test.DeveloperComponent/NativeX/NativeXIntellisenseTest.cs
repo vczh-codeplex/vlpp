@@ -37,7 +37,7 @@ namespace Test.DeveloperComponent
         public void InputCode()
         {
             string code = File.ReadAllText("NativeXIntellisenseInputCode.txt");
-            Regex regex = new Regex(@"(\$|\#)\[.*?\]");
+            Regex regex = new Regex(@"(\$|\#|\&)\[.*?\]");
             var matches = regex.Matches(code);
             int start = 0;
 
@@ -49,6 +49,12 @@ namespace Test.DeveloperComponent
                     window.Type(text);
                 }
                 string intellisense = match.Value.Substring(2, match.Value.Length - 3);
+                if (match.Value[0] == '&')
+                {
+                    Keyboard.SendKeys("{" + intellisense + "}");
+                    start = match.Index + match.Length;
+                    continue;
+                }
                 if (match.Value[0] == '$')
                 {
                     window.Type(intellisense.Substring(0, 1));
@@ -83,7 +89,10 @@ namespace Test.DeveloperComponent
                 }
                 else
                 {
-                    window.Type(nextChar.ToString());
+                    if (nextChar != '$')
+                    {
+                        window.Type(nextChar.ToString());
+                    }
                     start++;
                 }
             }
