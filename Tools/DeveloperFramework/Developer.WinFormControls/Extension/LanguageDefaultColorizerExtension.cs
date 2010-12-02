@@ -44,8 +44,8 @@ namespace Developer.WinFormControls.Extension
             }
             if (textEditorBox.Controller.LimitedMode && textEditorBox.Controller.LimitedStart.row == lineIndex)
             {
-                int start = textEditorBox.Controller.LimitedStart.col;
-                int end = textEditorBox.Controller.LimitedEnd.col;
+                int start = Math.Min(line.CharCount, textEditorBox.Controller.LimitedStart.col);
+                int end = Math.Min(line.CharCount, textEditorBox.Controller.LimitedEnd.col);
                 for (int i = start; i < end; i++)
                 {
                     colors[i] = this.Provider.SnippetColorId;

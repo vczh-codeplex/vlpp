@@ -19,7 +19,12 @@ namespace Developer.WinFormControls
         private string lastTooltip = null;
         private bool needToClosePopupList = false;
 
-        private SnippetContent currentSnippet;
+        private bool editingSnippet = false;
+        private List<List<SnippetContent.Segment>> currentSnippetSegments = null;
+        private SnippetContent.Segment currentEditingSegment = null;
+        private List<SnippetContent.Segment> currentEditableSegments = null;
+        private List<SnippetContent.Segment> currentAffectedSegments = null;
+        private TextPosition currentSnippetStart = new TextPosition(0, 0);
 
         public TextEditorBoxUIExtensions(TextEditorBox textEditorBox, Control host)
         {
@@ -164,11 +169,69 @@ namespace Developer.WinFormControls
             }
         }
 
+        public bool EditingSnippet
+        {
+            get
+            {
+                return this.editingSnippet;
+            }
+        }
+
+        public SnippetContent.Segment CurrentEditingSegment
+        {
+            get
+            {
+                return this.currentEditingSegment;
+            }
+        }
+
+        public SnippetContent.Segment[] CurrentAffectedSegment
+        {
+            get
+            {
+                return this.currentAffectedSegments.ToArray();
+            }
+        }
+
+        public string EditingSnippetText
+        {
+            get
+            {
+                return this.editingSnippet ? GetSnippetText(this.currentSnippetSegments) : "";
+            }
+        }
+
+        public TextPosition EditingSnippetStart
+        {
+            get
+            {
+                return this.editingSnippet ? this.currentSnippetStart : new TextPosition(-1, -1);
+            }
+        }
+
+        public TextPosition EditingSnippetEnd
+        {
+            get
+            {
+                if (this.editingSnippet)
+                {
+                    SnippetContent.Segment lastSegment = this.currentSnippetSegments.Last().Last();
+                    TextPosition pos = GetSegmentStart(lastSegment);
+                    pos.col += GetSegmentText(lastSegment).Length;
+                    return pos;
+                }
+                else
+                {
+                    return new TextPosition(-1, -1);
+                }
+            }
+        }
+
         public void InsertSnippet(SnippetContent snippet)
         {
-            if (this.currentSnippet == null && snippet != null)
+            if (!this.editingSnippet && snippet != null)
             {
-                this.currentSnippet = snippet;
+                this.editingSnippet = true;
                 TextPosition caret = this.textEditorBox.SelectionCaret;
                 TextLine<TextEditorBox.LineInfo> line = this.textEditorBox.TextProvider[caret.row];
                 string prefix = line.GetString(0, caret.col);
@@ -178,26 +241,160 @@ namespace Developer.WinFormControls
                 }
                 List<List<SnippetContent.Segment>> segments = snippet.Compile(prefix);
 
-                string text = "";
-                for (int i = 0; i < segments.Count; i++)
+                this.textEditorBox.Controller.Input(GetSnippetText(segments), false);
+
+                this.editingSnippet = true;
+                this.currentSnippetSegments = segments;
+                this.currentEditableSegments = segments
+                    .SelectMany(s => s)
+                    .Where(s => s.Type == SnippetContent.SegmentType.Editable && s.AssociatedSegment == null)
+                    .ToList();
+                this.currentSnippetStart = caret;
+                if (this.currentEditableSegments.Count == 0)
                 {
-                    if (i > 0) text += "\r\n";
-                    foreach (var segment in segments[i])
+                    FinishEditingSnippet();
+                }
+                else
+                {
+                    this.currentEditingSegment = this.currentEditableSegments[0];
+                    FillCurrentAffectedSegments();
+                    StartEditCurrentSegment();
+                }
+            }
+        }
+
+        public void FinishEditingSnippet()
+        {
+            if (this.editingSnippet)
+            {
+                SnippetContent.Segment stop = this.currentSnippetSegments
+                    .SelectMany(s => s)
+                    .Where(s => s.Type == SnippetContent.SegmentType.Stop)
+                    .FirstOrDefault();
+                TextPosition start = new TextPosition(0, 0);
+                if (stop != null)
+                {
+                    start = GetSegmentStart(stop);
+                }
+                FinishEditCurrentSegment();
+                this.editingSnippet = false;
+                this.currentSnippetSegments = null;
+                this.currentEditingSegment = null;
+                this.currentEditableSegments = null;
+                this.currentAffectedSegments = null;
+                this.textEditorBox.Controller.LeaveLimitedMode();
+                if (stop != null)
+                {
+                    this.textEditorBox.Controller.Move(start, false, false);
+                }
+                this.textEditorBox.RedrawContent(false, true);
+            }
+        }
+
+        public string GetSegmentText(SnippetContent.Segment segment)
+        {
+            if (segment == this.currentEditingSegment)
+            {
+                string text = this.textEditorBox.TextProvider.GetString(
+                    this.textEditorBox.Controller.LimitedStart,
+                    this.textEditorBox.Controller.LimitedEnd);
+                return text;
+            }
+            else if (segment.Type == SnippetContent.SegmentType.Editable)
+            {
+                return segment.AssociatedSegment == null ? segment.Value : GetSegmentText(segment.AssociatedSegment);
+            }
+            else
+            {
+                return segment.Value ?? "";
+            }
+        }
+
+        public TextPosition GetSegmentStart(SnippetContent.Segment segment)
+        {
+            int index = this.currentSnippetSegments
+                .Select((ss, i) => Tuple.Create(ss, i))
+                .Where(t => t.Item1.Contains(segment))
+                .Select(t => t.Item2)
+                .Concat(new int[] { -1 })
+                .First();
+            if (index == -1)
+            {
+                return new TextPosition(-1, -1);
+            }
+            else
+            {
+                int row = this.currentSnippetStart.row + index;
+                int col = index == 0 ? this.currentSnippetStart.col : 0;
+                foreach (var s in this.currentSnippetSegments[index])
+                {
+                    if (s == segment)
                     {
-                        switch (segment.Type)
-                        {
-                            case SnippetContent.SegmentType.Editable:
-                                text += (segment.AssociatedSegment == null ? segment.Value : segment.AssociatedSegment.Value);
-                                break;
-                            case SnippetContent.SegmentType.Text:
-                                text += segment.Value;
-                                break;
-                        }
+                        break;
+                    }
+                    else
+                    {
+                        col += GetSegmentText(s).Length;
                     }
                 }
-                this.textEditorBox.Controller.Input(text, false);
-                this.currentSnippet = null;
+                return new TextPosition(row, col);
             }
+        }
+
+        private string GetSnippetText(List<List<SnippetContent.Segment>> segments)
+        {
+            string text = "";
+            for (int i = 0; i < segments.Count; i++)
+            {
+                if (i > 0) text += "\r\n";
+                foreach (var segment in segments[i])
+                {
+                    text += GetSegmentText(segment);
+                }
+            }
+            return text;
+        }
+
+        private void FillCurrentAffectedSegments()
+        {
+            this.currentAffectedSegments = this.currentSnippetSegments
+                .SelectMany(s => s)
+                .Where(s => s.AssociatedSegment == this.currentEditingSegment)
+                .ToList();
+        }
+
+        private void MoveToNextEditableSegment()
+        {
+            string text = this.textEditorBox.TextProvider.GetString(
+                this.textEditorBox.Controller.LimitedStart,
+                this.textEditorBox.Controller.LimitedEnd);
+            this.currentEditingSegment.Value = text;
+            FinishEditCurrentSegment();
+
+            int index = this.currentEditableSegments.IndexOf(this.currentEditingSegment);
+            this.currentEditingSegment = this.currentEditableSegments[(index + 1) % this.currentEditableSegments.Count];
+            FillCurrentAffectedSegments();
+            StartEditCurrentSegment();
+        }
+
+        private void StartEditCurrentSegment()
+        {
+            TextPosition start = GetSegmentStart(this.currentEditingSegment);
+            TextPosition end = new TextPosition(start.row, start.col + this.currentEditingSegment.Value.Length);
+            this.textEditorBox.Controller.Select(start, end);
+            this.textEditorBox.Controller.EnterLimitedMode(start.row, start.col, end.col);
+        }
+
+        private void FinishEditCurrentSegment()
+        {
+            this.textEditorBox.Controller.StartTask();
+            this.textEditorBox.Controller.LeaveLimitedMode();
+            TextPosition start = this.EditingSnippetStart;
+            TextPosition end = this.EditingSnippetEnd;
+            string text = this.EditingSnippetText;
+            this.textEditorBox.Controller.Select(start, end);
+            this.textEditorBox.Controller.Input(text, false);
+            this.textEditorBox.Controller.FinishTask();
         }
 
         #endregion
@@ -275,6 +472,26 @@ namespace Developer.WinFormControls
         internal bool HostKeyDown(object sender, KeyEventArgs e)
         {
             this.needToClosePopupList = false;
+            if (this.editingSnippet)
+            {
+                if (!e.Control && !e.Shift && !e.Alt)
+                {
+                    switch (e.KeyCode)
+                    {
+                        case Keys.Enter:
+                            if (!this.popupList.Visible)
+                            {
+                                FinishEditingSnippet();
+                                e.Handled = true;
+                            }
+                            break;
+                        case Keys.Tab:
+                            MoveToNextEditableSegment();
+                            e.Handled = true;
+                            break;
+                    }
+                }
+            }
             if (this.popupList.Visible)
             {
                 if (!this.textEditorBox.ControlPanel.IsPopupListKeyAcceptable(e))
@@ -282,14 +499,17 @@ namespace Developer.WinFormControls
                     if (this.popupList.ProcessKey(e))
                     {
                         e.Handled = true;
-                        e.SuppressKeyPress = true;
-                        return false;
                     }
                     else if (e.KeyCode != Keys.Packet)
                     {
                         this.needToClosePopupList = true;
                     }
                 }
+            }
+            if (e.Handled)
+            {
+                e.SuppressKeyPress = true;
+                return false;
             }
             return true;
         }
