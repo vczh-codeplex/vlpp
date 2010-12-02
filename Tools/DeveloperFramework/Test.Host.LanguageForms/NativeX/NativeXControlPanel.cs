@@ -14,7 +14,10 @@ using Developer.LanguageServices.NativeX.Extension;
 
 namespace Test.Host.LanguageForms.NativeX
 {
-    class NativeXControlPanel : TextEditorBoxExtensibleControlPanel, IDisposable
+    class NativeXControlPanel
+        : TextEditorBoxExtensibleControlPanel
+        , ILanguageDefaultColorizerProvider
+        , IDisposable
     {
         class LanguageFormNativeXProvider : NativeXEditingObserverProvider.NativeXProvider
         {
@@ -52,6 +55,7 @@ namespace Test.Host.LanguageForms.NativeX
         private NativeXTooltipProvider tooltipProvider = null;
         private NativeXParameterInfoProvider parameterInfoProvider = null;
         private NativeXWordingProvider wordingProvider = null;
+        private LanguageDefaultColorizerExtension languageDefaultColorizer = null;
 
         public NativeXControlPanel(NativeXForm form)
         {
@@ -61,6 +65,7 @@ namespace Test.Host.LanguageForms.NativeX
             this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
             this.parameterInfoProvider = new NativeXParameterInfoProvider(this.editingObserverProvider);
             this.wordingProvider = new NativeXWordingProvider();
+            this.languageDefaultColorizer = new LanguageDefaultColorizerExtension(this);
 
             ExtendBeforeInstall(this.editingObserverProvider);
             ExtendBeforeInstall(this.colorizerProvider);
@@ -68,11 +73,36 @@ namespace Test.Host.LanguageForms.NativeX
             ExtendBeforeInstall(this.tooltipProvider);
             ExtendBeforeInstall(this.parameterInfoProvider);
             ExtendBeforeInstall(this.wordingProvider);
+            ExtendBeforeInstall(this.languageDefaultColorizer);
         }
 
         public void Dispose()
         {
             this.editingObserverProvider.Dispose();
+        }
+
+        int ILanguageDefaultColorizerProvider.BlockColorId
+        {
+            get
+            {
+                return NativeXColorizer.BlockColorId;
+            }
+        }
+
+        int ILanguageDefaultColorizerProvider.SnippetColorId
+        {
+            get
+            {
+                return NativeXColorizer.SnippetColorId;
+            }
+        }
+
+        Color ILanguageDefaultColorizerProvider.SnippetBackColor
+        {
+            get
+            {
+                return NativeXColorizer.SnippetBackgroundColor;
+            }
         }
     }
 }
