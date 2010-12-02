@@ -278,7 +278,7 @@ namespace Developer.WinFormControls
                 {
                     start = GetSegmentStart(stop);
                 }
-                FinishEditCurrentSegment();
+                MoveToNextEditableSegment();
                 this.editingSnippet = false;
                 this.currentSnippetSegments = null;
                 this.currentEditingSegment = null;
