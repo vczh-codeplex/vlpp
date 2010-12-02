@@ -301,8 +301,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupStructureMembers(structureType),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 forceClosingPrevious: true);
         }
 
@@ -312,8 +312,8 @@ namespace Developer.LanguageServices.NativeX.Extension
             {
                 this.Callback.TextEditorBox.UIExtensions.PopupItems(
                     CreatePopupInstanceFunctions(function.ConceptName.ReferenceName, function.Scope),
-                    this.Snippets,
-                    Images.Snippet,
+                    null,
+                    null,
                     forceClosingPrevious: true);
             }
         }
@@ -322,8 +322,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupConcepts(scope),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 forceClosingPrevious: true);
         }
 
@@ -331,8 +331,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 PopupGenericParameters(scope),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference);
         }
 
@@ -340,8 +340,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupInstanceFunctions(conceptName, scope),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference,
                 forceClosingPrevious: true);
         }
@@ -350,8 +350,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference);
         }
 
@@ -359,8 +359,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupExpressions(scope).Concat(CreatePopupTypes(scope)),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference);
         }
 
@@ -377,8 +377,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupTypes(scope),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference);
         }
 
@@ -386,8 +386,8 @@ namespace Developer.LanguageServices.NativeX.Extension
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
                 CreatePopupDeclarationKeywords(),
-                this.Snippets,
-                Images.Snippet,
+                null,
+                null,
                 searchingKey: reference);
         }
 
