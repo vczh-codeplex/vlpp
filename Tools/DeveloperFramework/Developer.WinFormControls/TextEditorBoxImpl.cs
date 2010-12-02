@@ -17,14 +17,14 @@ namespace Developer.WinFormControls
         public const int BlockColorId = 1;
         public const int NormalColorId = 2;
 
-        private readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
-        private readonly Color NormalColor = Color.FromArgb(0, 0, 0);
+        private static readonly Color HighlightColor = Color.FromArgb(173, 214, 255);
+        private static readonly Color NormalColor = Color.FromArgb(0, 0, 0);
 
-        private readonly Color SnippetColor = Color.FromArgb(0, 0, 0);
-        private readonly Color SnippetHighlightColor = Color.FromArgb(173, 200, 198);
-        private readonly Color BlockColor = Color.Gray;
+        private static readonly Color SnippetColor = Color.FromArgb(0, 0, 0);
+        private static readonly Color SnippetHighlightColor = Color.FromArgb(173, 200, 198);
+        private static readonly Color BlockColor = Color.Gray;
 
-        public readonly Color SnippetBackgroundColor = Color.FromArgb(255, 231, 160);
+        public static readonly Color SnippetBackgroundColor = Color.FromArgb(255, 231, 160);
 
         private TextEditorBox textEditorBox = null;
         private TextEditorColorItem[] colorItems = null;
@@ -74,9 +74,13 @@ namespace Developer.WinFormControls
 
     public class TextEditorPlanTextControlPanel : TextEditorBoxExtensibleControlPanel
     {
-        public TextEditorPlanTextControlPanel(int blockColorId)
+    }
+
+    public class TextEditorPlanTextColorizedControlPanel : TextEditorBoxExtensibleControlPanel
+    {
+        public TextEditorPlanTextColorizedControlPanel(ILanguageDefaultColorizerProvider provider)
         {
-            ExtendBeforeInstall(new LanguageDefaultColorizerExtension(blockColorId));
+            ExtendBeforeInstall(new LanguageDefaultColorizerExtension(provider));
         }
     }
 }
