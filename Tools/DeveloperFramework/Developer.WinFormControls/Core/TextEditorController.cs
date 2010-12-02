@@ -25,12 +25,16 @@ namespace Developer.WinFormControls.Core
 
     public class TextEditorController
     {
-        private TextPosition selectionAnchor = new TextPosition(0, 0);
-        private TextPosition selectionCaret = new TextPosition(0, 0);
         private ITextContentProvider provider = null;
         private int refreshDisableCounter = 0;
 
-        public bool PreventCustomGeneralRedraw
+        public TextPosition SelectionAnchor { get; private set; }
+        public TextPosition SelectionCaret { get; private set; }
+        public TextPosition LimitedStart { get; private set; }
+        public TextPosition LimitedEnd { get; private set; }
+        public bool LimitedMode { get; private set; }
+
+        public bool InTask
         {
             get
             {
@@ -43,56 +47,40 @@ namespace Developer.WinFormControls.Core
             this.provider = provider;
         }
 
-        public TextPosition SelectionAnchor
-        {
-            get
-            {
-                return this.selectionAnchor;
-            }
-        }
-
-        public TextPosition SelectionCaret
-        {
-            get
-            {
-                return this.selectionCaret;
-            }
-        }
-
         // SHIFT
         public void PressUp(bool control, bool shift)
         {
-            int newRow = Math.Max(0, this.selectionCaret.row - 1);
-            Move(new TextPosition(newRow, this.selectionCaret.col), false, shift);
+            int newRow = Math.Max(0, this.SelectionCaret.row - 1);
+            Move(new TextPosition(newRow, this.SelectionCaret.col), false, shift);
         }
 
         // SHIFT
         public void PressDown(bool control, bool shift)
         {
-            int newRow = Math.Min(this.provider.GetLineCount() - 1, this.selectionCaret.row + 1);
-            Move(new TextPosition(newRow, this.selectionCaret.col), false, shift);
+            int newRow = Math.Min(this.provider.GetLineCount() - 1, this.SelectionCaret.row + 1);
+            Move(new TextPosition(newRow, this.SelectionCaret.col), false, shift);
         }
 
         // CONTROL + SHIFT
         public void PressLeft(bool control, bool shift)
         {
-            if (this.selectionAnchor != this.selectionCaret && !control && !shift)
+            if (this.SelectionAnchor != this.SelectionCaret && !control && !shift)
             {
-                Move(this.selectionAnchor < this.selectionCaret ? this.selectionAnchor : this.selectionCaret, false, false);
+                Move(this.SelectionAnchor < this.SelectionCaret ? this.SelectionAnchor : this.SelectionCaret, false, false);
             }
             else
             {
-                int block = this.provider.GetLeftBlock(this.selectionCaret);
-                if (block != this.selectionCaret.col)
+                int block = this.provider.GetLeftBlock(this.SelectionCaret);
+                if (block != this.SelectionCaret.col)
                 {
-                    Move(new TextPosition(this.selectionCaret.row, block), false, shift);
+                    Move(new TextPosition(this.SelectionCaret.row, block), false, shift);
                 }
                 else
                 {
                     if (control)
                     {
-                        TextPosition newCaret = this.provider.GetLeftWord(this.selectionCaret);
-                        if (newCaret == this.selectionCaret)
+                        TextPosition newCaret = this.provider.GetLeftWord(this.SelectionCaret);
+                        if (newCaret == this.SelectionCaret)
                         {
                             control = false;
                         }
@@ -103,13 +91,13 @@ namespace Developer.WinFormControls.Core
                     }
                     if (!control)
                     {
-                        if (this.selectionCaret.col > 0)
+                        if (this.SelectionCaret.col > 0)
                         {
-                            Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col - 1), false, shift);
+                            Move(new TextPosition(this.SelectionCaret.row, this.SelectionCaret.col - 1), false, shift);
                         }
-                        else if (this.selectionCaret.row > 0)
+                        else if (this.SelectionCaret.row > 0)
                         {
-                            Move(new TextPosition(this.selectionCaret.row - 1, this.provider.GetLineLength(this.selectionCaret.row - 1)), false, shift);
+                            Move(new TextPosition(this.SelectionCaret.row - 1, this.provider.GetLineLength(this.SelectionCaret.row - 1)), false, shift);
                         }
                     }
                 }
@@ -119,23 +107,23 @@ namespace Developer.WinFormControls.Core
         // CONTROL + SHIFT
         public void PressRight(bool control, bool shift)
         {
-            if (this.selectionAnchor != this.selectionCaret && !control && !shift)
+            if (this.SelectionAnchor != this.SelectionCaret && !control && !shift)
             {
-                Move(this.selectionAnchor > this.selectionCaret ? this.selectionAnchor : this.selectionCaret, false, false);
+                Move(this.SelectionAnchor > this.SelectionCaret ? this.SelectionAnchor : this.SelectionCaret, false, false);
             }
             else
             {
-                int block = this.provider.GetRightBlock(this.selectionCaret);
-                if (block != this.selectionCaret.col)
+                int block = this.provider.GetRightBlock(this.SelectionCaret);
+                if (block != this.SelectionCaret.col)
                 {
-                    Move(new TextPosition(this.selectionCaret.row, block), false, shift);
+                    Move(new TextPosition(this.SelectionCaret.row, block), false, shift);
                 }
                 else
                 {
                     if (control)
                     {
-                        TextPosition newCaret = this.provider.GetRightWord(this.selectionCaret);
-                        if (newCaret == this.selectionCaret)
+                        TextPosition newCaret = this.provider.GetRightWord(this.SelectionCaret);
+                        if (newCaret == this.SelectionCaret)
                         {
                             control = false;
                         }
@@ -146,13 +134,13 @@ namespace Developer.WinFormControls.Core
                     }
                     if (!control)
                     {
-                        if (this.selectionCaret.col < this.provider.GetLineLength(this.selectionCaret.row))
+                        if (this.SelectionCaret.col < this.provider.GetLineLength(this.SelectionCaret.row))
                         {
-                            Move(new TextPosition(this.selectionCaret.row, this.selectionCaret.col + 1), false, shift);
+                            Move(new TextPosition(this.SelectionCaret.row, this.SelectionCaret.col + 1), false, shift);
                         }
-                        else if (this.selectionCaret.row < this.provider.GetLineCount() - 1)
+                        else if (this.SelectionCaret.row < this.provider.GetLineCount() - 1)
                         {
-                            Move(new TextPosition(this.selectionCaret.row + 1, 0), false, shift);
+                            Move(new TextPosition(this.SelectionCaret.row + 1, 0), false, shift);
                         }
                     }
                 }
@@ -168,7 +156,7 @@ namespace Developer.WinFormControls.Core
             }
             else
             {
-                Move(new TextPosition(this.selectionCaret.row, 0), false, shift);
+                Move(new TextPosition(this.SelectionCaret.row, 0), false, shift);
             }
         }
 
@@ -181,22 +169,22 @@ namespace Developer.WinFormControls.Core
             }
             else
             {
-                Move(new TextPosition(this.selectionCaret.row, this.provider.GetLineLength(this.selectionCaret.row)), false, shift);
+                Move(new TextPosition(this.SelectionCaret.row, this.provider.GetLineLength(this.SelectionCaret.row)), false, shift);
             }
         }
 
         // SHIFT
         public void PressPageUp(bool control, bool shift)
         {
-            int newRow = Math.Max(0, this.selectionCaret.row - this.provider.GetPageLineCount());
-            Move(new TextPosition(newRow, this.selectionCaret.col), false, shift);
+            int newRow = Math.Max(0, this.SelectionCaret.row - this.provider.GetPageLineCount());
+            Move(new TextPosition(newRow, this.SelectionCaret.col), false, shift);
         }
 
         // SHIFT
         public void PressPageDown(bool control, bool shift)
         {
-            int newRow = Math.Min(this.provider.GetLineCount() - 1, this.selectionCaret.row + this.provider.GetPageLineCount());
-            Move(new TextPosition(newRow, this.selectionCaret.col), false, shift);
+            int newRow = Math.Min(this.provider.GetLineCount() - 1, this.SelectionCaret.row + this.provider.GetPageLineCount());
+            Move(new TextPosition(newRow, this.SelectionCaret.col), false, shift);
         }
 
         // CONTROL + SHIFT
@@ -209,7 +197,7 @@ namespace Developer.WinFormControls.Core
             }
             else
             {
-                if (this.selectionAnchor == this.selectionCaret)
+                if (this.SelectionAnchor == this.SelectionCaret)
                 {
                     PressRight(control, true);
                 }
@@ -228,7 +216,7 @@ namespace Developer.WinFormControls.Core
             }
             else
             {
-                if (this.selectionAnchor == this.selectionCaret)
+                if (this.SelectionAnchor == this.SelectionCaret)
                 {
                     PressLeft(control, true);
                 }
@@ -264,12 +252,12 @@ namespace Developer.WinFormControls.Core
 
         public bool Input(string text, bool extendToWholeRow)
         {
-            TextPosition start = this.selectionAnchor;
-            TextPosition end = this.selectionCaret;
+            TextPosition start = this.SelectionAnchor;
+            TextPosition end = this.SelectionCaret;
             if (start > end)
             {
-                start = this.selectionCaret;
-                end = this.selectionAnchor;
+                start = this.SelectionCaret;
+                end = this.SelectionAnchor;
             }
 
             if (extendToWholeRow)
@@ -290,10 +278,15 @@ namespace Developer.WinFormControls.Core
                 .Split(new string[] { "\r\n" }, StringSplitOptions.None)
                 .SelectMany(s => s.Split(new string[] { "\n", "\r" }, StringSplitOptions.None))
                 .ToArray();
+            if (this.LimitedMode && lines.Length > 1)
+            {
+                lines = new string[] { lines[0] };
+            }
             if (this.provider.OnEdit(start, end, lines))
             {
                 if (lines.Length == 1)
                 {
+                    this.LimitedEnd = new TextPosition(this.LimitedEnd.row, this.LimitedEnd.col + lines[0].Length - (end.col - start.col));
                     Move(new TextPosition(start.row, start.col + lines[0].Length), false, false);
                 }
                 else
@@ -309,7 +302,7 @@ namespace Developer.WinFormControls.Core
             }
         }
 
-        public TextPosition Normalize(TextPosition position)
+        public TextPosition Normalize(TextPosition position, bool considerLimitedMode = false)
         {
             if (position.row < 0)
             {
@@ -328,6 +321,19 @@ namespace Developer.WinFormControls.Core
             {
                 position = new TextPosition(position.row, this.provider.GetLineLength(position.row));
             }
+
+            if (considerLimitedMode && this.LimitedMode)
+            {
+                if (position < this.LimitedStart)
+                {
+                    position = this.LimitedStart;
+                }
+                else if (position > this.LimitedEnd)
+                {
+                    position = this.LimitedEnd;
+                }
+            }
+
             Tuple<int, int> block = this.provider.GetBlock(position);
             position.col = Math.Abs(block.Item1 - position.col) < Math.Abs(block.Item2 - position.col) ? block.Item1 : block.Item2;
             return position;
@@ -337,11 +343,11 @@ namespace Developer.WinFormControls.Core
         public void Move(TextPosition position, bool control, bool shift)
         {
             StartTask();
-            position = Normalize(position);
-            this.selectionCaret = position;
+            position = Normalize(position, true);
+            this.SelectionCaret = position;
             if (!shift)
             {
-                this.selectionAnchor = position;
+                this.SelectionAnchor = position;
             }
             this.provider.OnSelectionAreaChanged();
             FinishTask();
@@ -350,10 +356,42 @@ namespace Developer.WinFormControls.Core
         public void Select(TextPosition anchor, TextPosition caret)
         {
             StartTask();
-            this.selectionAnchor = Normalize(anchor);
-            this.selectionCaret = Normalize(caret);
+            this.SelectionAnchor = Normalize(anchor, true);
+            this.SelectionCaret = Normalize(caret, true);
             this.provider.OnSelectionAreaChanged();
             FinishTask();
+        }
+
+        public bool EnterLimitedMode(int row, int start, int end)
+        {
+            if (!this.LimitedMode)
+            {
+                if (row >= 0 && row < this.provider.GetLineCount())
+                {
+                    int count = this.provider.GetLineLength(row);
+                    if (start <= end && 0 <= start && start <= end)
+                    {
+                        this.LimitedStart = new TextPosition(row, start);
+                        this.LimitedEnd = new TextPosition(row, end);
+                        this.LimitedMode = true;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool LeaveLimitedMode()
+        {
+            if (this.LimitedMode)
+            {
+                this.LimitedMode = false;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void StartTask()

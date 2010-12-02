@@ -119,7 +119,7 @@ namespace Developer.WinFormControls
             this.uiExtensions = new TextEditorBoxUIExtensions(this, this.host);
 
             this.Colorizer = new TextEditorPlanTextColorizer(this);
-            this.ControlPanel = new TextEditorPlanTextControlPanel(TextEditorPlanTextColorizer.BlockColorId);
+            this.ControlPanel = new TextEditorPlanTextControlPanel();
 
             InitializeComponent();
             this.components.Add(new DisposableComponent(this.textProvider));
@@ -151,7 +151,7 @@ namespace Developer.WinFormControls
         {
             int newRedrawState = RedrawNone;
             Rectangle newRedrawLineBounds = Rectangle.Empty;
-            if (!this.preventRedraw && (!this.controller.PreventCustomGeneralRedraw || refreshImmediately))
+            if (!this.preventRedraw || refreshImmediately)
             {
                 Point newPoint = this.ViewPosition;
                 Point newHostPoint = this.host.PointToScreen(new Point(0, 0));
@@ -204,7 +204,7 @@ namespace Developer.WinFormControls
                 this.redrawLineBounds = Rectangle.Union(this.redrawLineBounds, newRedrawLineBounds);
             }
             this.redrawState = Math.Max(this.redrawState, newRedrawState);
-            if (!this.controller.PreventCustomGeneralRedraw)
+            if (!this.controller.InTask)
             {
                 switch (this.redrawState)
                 {
