@@ -185,7 +185,7 @@ namespace Developer.WinFormControls
             }
         }
 
-        public SnippetContent.Segment[] CurrentAffectedSegment
+        public SnippetContent.Segment[] CurrentAffectedSegments
         {
             get
             {
@@ -383,6 +383,7 @@ namespace Developer.WinFormControls
             TextPosition end = new TextPosition(start.row, start.col + this.currentEditingSegment.Value.Length);
             this.textEditorBox.Controller.Select(start, end);
             this.textEditorBox.Controller.EnterLimitedMode(start.row, start.col, end.col);
+            this.textEditorBox.RedrawContent(false, true);
         }
 
         private void FinishEditCurrentSegment()

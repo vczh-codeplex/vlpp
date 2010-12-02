@@ -23,9 +23,12 @@ namespace Developer.WinFormControls.Extension
         public bool NeedColorLineForDisplay(int lineIndex)
         {
             TextEditorBox textEditorBox = this.Callback.TextEditorBox;
-            if (textEditorBox.Controller.LimitedMode && textEditorBox.Controller.LimitedStart.row == lineIndex)
+            if (textEditorBox.Controller.LimitedMode)
             {
-                return true;
+                if (textEditorBox.Controller.LimitedStart.row == lineIndex)
+                {
+                    return true;
+                }
             }
             TextLine<TextEditorBox.LineInfo> line = this.Callback.TextEditorBox.TextProvider[lineIndex];
             return line.BlockCount > 0;
@@ -73,7 +76,21 @@ namespace Developer.WinFormControls.Extension
         {
             TextEditorBox textEditorBox = this.Callback.TextEditorBox;
             TextLine<TextEditorBox.LineInfo> line = textEditorBox.TextProvider[lineIndex];
-            foreach (var block in line.Blocks)
+            foreach (var block in
+                !textEditorBox.UIExtensions.EditingSnippet
+                    ? line.Blocks
+                    : textEditorBox.UIExtensions.CurrentAffectedSegments
+                        .Select(s =>
+                            {
+                                TextPosition start = textEditorBox.UIExtensions.GetSegmentStart(s);
+                                string text = textEditorBox.UIExtensions.GetSegmentText(s);
+                                TextPosition end = new TextPosition(start.row, start.col + text.Length);
+                                return Tuple.Create(start, end);
+                            })
+                        .Where(t => t.Item1.row == lineIndex)
+                        .Select(t => Tuple.Create(t.Item1.col, t.Item2.col))
+                        .Concat(line.Blocks)
+                )
             {
                 Point p1 = textEditorBox.TextPositionToViewPoint(new TextPosition(lineIndex, block.Item1));
                 Point p2 = textEditorBox.TextPositionToViewPoint(new TextPosition(lineIndex, block.Item2));
