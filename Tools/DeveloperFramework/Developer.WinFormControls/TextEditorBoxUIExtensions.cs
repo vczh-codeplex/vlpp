@@ -241,8 +241,6 @@ namespace Developer.WinFormControls
                 }
                 List<List<SnippetContent.Segment>> segments = snippet.Compile(prefix);
 
-                this.textEditorBox.Controller.Input(GetSnippetText(segments), false);
-
                 this.editingSnippet = true;
                 this.currentSnippetSegments = segments;
                 this.currentEditableSegments = segments
@@ -250,14 +248,18 @@ namespace Developer.WinFormControls
                     .Where(s => s.Type == SnippetContent.SegmentType.Editable && s.AssociatedSegment == null)
                     .ToList();
                 this.currentSnippetStart = caret;
+
                 if (this.currentEditableSegments.Count == 0)
                 {
+                    this.textEditorBox.Controller.Input(GetSnippetText(segments), false);
                     FinishEditingSnippet();
                 }
                 else
                 {
                     this.currentEditingSegment = this.currentEditableSegments[0];
                     FillCurrentAffectedSegments();
+                    SynchronizeAffectedSegments();
+                    this.textEditorBox.Controller.Input(GetSnippetText(segments), false);
                     StartEditCurrentSegment();
                 }
             }
@@ -295,14 +297,17 @@ namespace Developer.WinFormControls
         {
             if (segment == this.currentEditingSegment)
             {
-                string text = this.textEditorBox.TextProvider.GetString(
-                    this.textEditorBox.Controller.LimitedStart,
-                    this.textEditorBox.Controller.LimitedEnd);
-                return text;
-            }
-            else if (segment.Type == SnippetContent.SegmentType.Editable)
-            {
-                return segment.AssociatedSegment == null ? segment.Value : GetSegmentText(segment.AssociatedSegment);
+                if (this.textEditorBox.Controller.LimitedMode)
+                {
+                    string text = this.textEditorBox.TextProvider.GetString(
+                        this.textEditorBox.Controller.LimitedStart,
+                        this.textEditorBox.Controller.LimitedEnd);
+                    return text;
+                }
+                else
+                {
+                    return segment.Value;
+                }
             }
             else
             {
@@ -355,6 +360,14 @@ namespace Developer.WinFormControls
             return text;
         }
 
+        private void SynchronizeAffectedSegments()
+        {
+            foreach (var segment in this.currentAffectedSegments)
+            {
+                segment.Value = this.currentEditingSegment.Value;
+            }
+        }
+
         private void FillCurrentAffectedSegments()
         {
             this.currentAffectedSegments = this.currentSnippetSegments
@@ -379,6 +392,7 @@ namespace Developer.WinFormControls
 
         private void StartEditCurrentSegment()
         {
+            SynchronizeAffectedSegments();
             TextPosition start = GetSegmentStart(this.currentEditingSegment);
             TextPosition end = new TextPosition(start.row, start.col + this.currentEditingSegment.Value.Length);
             this.textEditorBox.Controller.Select(start, end);
@@ -388,12 +402,13 @@ namespace Developer.WinFormControls
 
         private void FinishEditCurrentSegment()
         {
+            SynchronizeAffectedSegments();
             this.textEditorBox.Controller.StartTask();
             this.textEditorBox.Controller.LeaveLimitedMode();
             TextPosition start = this.EditingSnippetStart;
             TextPosition end = this.EditingSnippetEnd;
-            string text = this.EditingSnippetText;
             this.textEditorBox.Controller.Select(start, end);
+            string text = this.EditingSnippetText;
             this.textEditorBox.Controller.Input(text, false);
             this.textEditorBox.Controller.FinishTask();
         }
