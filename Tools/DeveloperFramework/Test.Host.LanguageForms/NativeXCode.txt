@@ -36,3 +36,66 @@ instance Vector:Eq
 	Equals=VectorEquals<T>;
 	NotEquals=VectorNotEquals<T>;
 }
+
+foreign function void* malloc(int size) alias Memory.Malloc;
+foreign function void free(void* pointer) alias Memory.Free;
+foreign function void memcpy(void* dst, void* src, int size) alias Memory.Copy;
+foreign function int strlen(char* buffer) alias Memory.Strlen;
+
+function int main()
+{
+	variable Student[2] students;
+	students[0].name=CreateString("vczh1");
+	students[0].id=CreateString("vczh1_id");
+	students[0].chinese=100;
+	students[0].mathematics=90;
+	students[0].english=80;
+	students[1].name=CreateString("vczh2");
+	students[1].id=CreateString("vczh2_id");
+	students[1].chinese=80;
+	students[1].mathematics=90;
+	students[1].english=100;
+
+	DisposeString(students[0].name);
+	DisposeString(students[0].id);
+	DisposeString(students[1].name);
+	DisposeString(students[1].id);
+
+	result=0;
+	for(variable int index = 0; when(index < 2) with index++;) do
+	{
+		result+=students[0].chinese+students[0].mathematics+students[0].english;
+	}
+}
+
+structure String
+{
+	char* buffer;
+	int length;
+}
+
+function String CreateString(char* buffer)
+{
+	variable String string;
+	variable int size=strlen(buffer)+1;
+	string.buffer=malloc(size);
+	memcpy(string.buffer, buffer, size);
+	string.length=size-1;
+	result=string;
+}
+
+function void DisposeString(String* string)
+{
+	free(string->buffer);
+	string->buffer=null;
+	string->length=0;
+}
+
+structure Student
+{
+	String name;
+	String id;
+	int chinese;
+	int mathematics;
+	int english;
+}

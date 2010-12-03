@@ -31,21 +31,21 @@ namespace Test.Host.LanguageForms.NativeX
 
             public override void TemporaryResultUpdated()
             {
-                this.form.ContextText = this.Extension.EditingNodeCode.Text
-                    + "\r\n********************************\r\nSYNTAX TREE\r\n********************************\r\n"
-                    + (this.Extension.EditingNode == null ? "<NULL>" : this.Extension.EditingNode.ToString());
+                //this.form.ContextText = this.Extension.EditingNodeCode.Text
+                //    + "\r\n********************************\r\nSYNTAX TREE\r\n********************************\r\n"
+                //    + (this.Extension.EditingNode == null ? "<NULL>" : this.Extension.EditingNode.ToString());
             }
 
             public override void AnalyzerResultReceived(NativeXAnalyzingResult result)
             {
-                string treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
-                string statusText = (++this.counter).ToString();
+                //string treeText = result.Unit == null ? "<NULL>" : result.Unit.ToString();
+                //string statusText = (++this.counter).ToString();
 
-                this.Extension.Callback.TextEditorBox.Invoke(new MethodInvoker(() =>
-                {
-                    this.form.TreeText = treeText;
-                    this.form.StatusText = statusText;
-                }));
+                //this.Extension.Callback.TextEditorBox.Invoke(new MethodInvoker(() =>
+                //{
+                //    this.form.TreeText = treeText;
+                //    this.form.StatusText = statusText;
+                //}));
             }
         }
 
