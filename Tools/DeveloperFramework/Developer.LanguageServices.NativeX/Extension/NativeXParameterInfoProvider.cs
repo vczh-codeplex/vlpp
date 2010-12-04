@@ -78,6 +78,21 @@ namespace Developer.LanguageServices.NativeX.Extension
                 if (node != null)
                 {
                     NativeXInvokeExpression invoke = (node as NativeXInvokeExpression) ?? node.FindParent<NativeXInvokeExpression>();
+                    while (invoke != null && invoke.Function != null)
+                    {
+                        TextPosition start = invoke.Function.End;
+                        string inside = this.EditingObserverExtension.EditingNodeCode.GetString(start, pos);
+                        int openCount = inside.Where(c => c == '(').Count();
+                        int closeCount = inside.Where(c => c == ')').Count();
+                        if (openCount > closeCount)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            invoke = invoke.FindParent<NativeXInvokeExpression>();
+                        }
+                    }
                     if (invoke != null && invoke.Function != null)
                     {
                         NativeXExpression function = invoke.Function;
@@ -99,7 +114,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                             }
                         }
                         Tuple<string, string, string> info = function.GetFormattedFunctionQuickInfo(index);
-                        if (!string.IsNullOrEmpty(info.Item1) && !string.IsNullOrEmpty(info.Item2) && !string.IsNullOrEmpty(info.Item3))
+                        if (!string.IsNullOrEmpty(info.Item1 + info.Item2 + info.Item3))
                         {
                             var content = new RichContent.Content(
                                 new RichContent.Text(info.Item1),

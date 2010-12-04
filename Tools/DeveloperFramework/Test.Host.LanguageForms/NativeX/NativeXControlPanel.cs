@@ -22,7 +22,7 @@ namespace Test.Host.LanguageForms.NativeX
         class LanguageFormNativeXProvider : NativeXEditingObserverProvider.NativeXProvider
         {
             private NativeXForm form = null;
-            private int counter = 0;
+            //private int counter = 0;
 
             public LanguageFormNativeXProvider(NativeXForm form)
             {
