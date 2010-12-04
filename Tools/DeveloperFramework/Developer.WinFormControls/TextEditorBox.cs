@@ -758,14 +758,14 @@ namespace Developer.WinFormControls
 
         #region Implementation
 
-        private void ForceShowCaret()
+        protected void ForceShowCaret()
         {
             this.caretVisible = true;
             timerCaret.Stop();
             timerCaret.Start();
         }
 
-        private void ResetSizingData()
+        protected void ResetSizingData()
         {
             this.tabLength = 0;
             for (int i = 0; i < this.textProvider.Count; i++)
@@ -885,7 +885,7 @@ namespace Developer.WinFormControls
             return line.Tag.lineWidth;
         }
 
-        private void EnsureLineColorized(int index)
+        protected void EnsureLineColorized(int index)
         {
             if (index >= this.colorizedLines)
             {
