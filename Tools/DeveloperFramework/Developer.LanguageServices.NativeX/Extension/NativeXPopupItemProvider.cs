@@ -364,10 +364,12 @@ namespace Developer.LanguageServices.NativeX.Extension
                 searchingKey: reference);
         }
 
-        private void PopupExpressionsAndStatements(string reference, CodeScope scope)
+        private void PopupExpressionsAndTypesAndStatements(string reference, CodeScope scope)
         {
             this.Callback.TextEditorBox.UIExtensions.PopupItems(
-                CreatePopupExpressions(scope).Concat(CreatePopupStatementKeywords()),
+                CreatePopupExpressions(scope)
+                    .Concat(CreatePopupStatementKeywords())
+                    .Concat(CreatePopupTypes(scope)),
                 this.Snippets,
                 Images.Snippet,
                 searchingKey: reference);
@@ -418,7 +420,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                     {
                         case ".":
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXMemberExpression>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXMemberExpression>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null)
                                 {
                                     PopupStructureMembers(node.GetStructureType());
@@ -428,7 +430,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                             break;
                         case ">":
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXPointerMemberExpression>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXPointerMemberExpression>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null)
                                 {
                                     PopupStructureMembers(node.GetStructureType());
@@ -438,7 +440,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                             break;
                         case ":":
                             {
-                                TextPosition end = this.EditingObserverExtension.ConvertToEditingPosition(newEnd);
+                                TextPosition end = this.EditingObserverExtension.NodePositionToEditing(newEnd);
                                 if (end.col >= 2)
                                 {
                                     if (this.EditingObserverExtension.EditingNodeCode.GetString(new TextPosition(end.row, end.col - 2), new TextPosition(end.row, end.col - 1)) == ":")
@@ -474,7 +476,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                             break;
                         default:
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXReferenceExpression>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXReferenceExpression>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                                 {
                                     if (node.FindParent<NativeXNameExpressionPair>() != null)
@@ -486,7 +488,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                     var exprstat = node.FindParent<NativeXExpressionStatement>();
                                     if (exprstat != null && exprstat.Expression == node)
                                     {
-                                        PopupExpressionsAndStatements(node.ReferencedName, node.Scope);
+                                        PopupExpressionsAndTypesAndStatements(node.ReferencedName, node.Scope);
                                         break;
                                     }
 
@@ -495,7 +497,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 }
                             }
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXReferenceType>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXReferenceType>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null && node.Scope != null && node.ReferencedName != null && node.ReferencedName == inputText)
                                 {
                                     PopupTypes(node.ReferencedName, node.Scope);
@@ -503,7 +505,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 }
                             }
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXNameExpressionPair>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXNameExpressionPair>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null && node.Scope != null && node.Name != null && node.Name == inputText)
                                 {
                                     var instdecl = node.FindParent<NativeXInstanceDeclaration>();
@@ -515,7 +517,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 }
                             }
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXGenericConstraint>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXGenericConstraint>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (node != null && node.Scope != null && node.ParameterName != null && node.ParameterName == inputText)
                                 {
                                     PopupGenericParameters(node.ParameterName, node.Scope);
@@ -523,7 +525,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 }
                             }
                             {
-                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXNode>(this.EditingObserverExtension.ConvertToEditingPosition(newEnd));
+                                var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXNode>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (inputText.Length == 1 && node.GetType() == typeof(NativeXDeclaration))
                                 {
                                     if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z')

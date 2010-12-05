@@ -44,9 +44,9 @@ namespace Developer.WinFormControls.Extension
             if (this.EditingNode != null)
             {
                 this.IsTemporaryEditingNode = true;
-                TextPosition editingStart = ConvertToEditingPosition(start);
-                TextPosition editingOldEnd = ConvertToEditingPosition(oldEnd);
-                TextPosition editingNewEnd = ConvertToEditingPosition(newEnd);
+                TextPosition editingStart = CodePositionToEditing(start);
+                TextPosition editingOldEnd = CodePositionToEditing(oldEnd);
+                TextPosition editingNewEnd = CodePositionToEditing(newEnd);
                 if (this.EditingNodeCode.Contains(editingStart) && this.EditingNodeCode.Contains(editingOldEnd))
                 {
                     string editingText = this.Callback.TextEditorBox.TextProvider.GetString(start, newEnd);
@@ -89,20 +89,17 @@ namespace Developer.WinFormControls.Extension
 
         #region Reaction Functions
 
-        public TextPosition ConvertToEditingPosition(TextPosition pos, bool editingNodeCodePosition = false)
+        public TextPosition CodePositionToEditing(TextPosition pos)
         {
-            if (this.IsTemporaryEditingNode || editingNodeCodePosition)
+            if (pos.row == this.EditingNodeStart.row)
             {
-                if (pos.row == this.EditingNodeStart.row)
-                {
-                    pos.col -= this.EditingNodeStart.col;
-                }
-                pos.row -= this.EditingNodeStart.row;
+                pos.col -= this.EditingNodeStart.col;
             }
+            pos.row -= this.EditingNodeStart.row;
             return pos;
         }
 
-        public TextPosition ConvertToCodePosition(TextPosition pos)
+        public TextPosition CodePositionToGlobal(TextPosition pos)
         {
             if (pos.row == 0)
             {
@@ -111,6 +108,30 @@ namespace Developer.WinFormControls.Extension
             else
             {
                 return new TextPosition(this.EditingNodeStart.row + pos.row, pos.col);
+            }
+        }
+
+        public TextPosition NodePositionToEditing(TextPosition pos)
+        {
+            if (this.IsTemporaryEditingNode)
+            {
+                return CodePositionToEditing(pos);
+            }
+            else
+            {
+                return pos;
+            }
+        }
+
+        public TextPosition NodePositionToGlobal(TextPosition pos)
+        {
+            if (this.IsTemporaryEditingNode)
+            {
+                return CodePositionToGlobal(pos);
+            }
+            else
+            {
+                return pos;
             }
         }
 

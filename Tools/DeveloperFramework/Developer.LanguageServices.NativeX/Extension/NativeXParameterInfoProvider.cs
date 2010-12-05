@@ -35,7 +35,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                 )
             {
                 var editingNode = this.EditingObserverExtension.EditingNode;
-                TextPosition pos = this.EditingObserverExtension.ConvertToEditingPosition(newEnd);
+                TextPosition pos = this.EditingObserverExtension.CodePositionToEditing(newEnd);
                 string inputText = this.Callback.TextEditorBox.TextProvider.GetString(start, newEnd);
                 switch (inputText)
                 {
@@ -73,7 +73,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                 )
             {
                 var editingNode = this.EditingObserverExtension.EditingNode;
-                TextPosition pos = this.EditingObserverExtension.ConvertToEditingPosition(this.Callback.TextEditorBox.SelectionCaret);
+                TextPosition pos = this.EditingObserverExtension.NodePositionToEditing(this.Callback.TextEditorBox.SelectionCaret);
                 NativeXNode node = editingNode.FindDeepest<NativeXNode>(pos);
                 if (node != null)
                 {
@@ -81,11 +81,10 @@ namespace Developer.LanguageServices.NativeX.Extension
                     while (invoke != null && invoke.Function != null)
                     {
                         TextPosition start = invoke.Function.End;
-                        TextPosition end = pos;
+                        TextPosition end = this.EditingObserverExtension.CodePositionToEditing(this.Callback.TextEditorBox.SelectionCaret);
                         if (!this.EditingObserverExtension.IsTemporaryEditingNode)
                         {
-                            start = this.EditingObserverExtension.ConvertToEditingPosition(start, editingNodeCodePosition: true);
-                            end = this.EditingObserverExtension.ConvertToEditingPosition(end, editingNodeCodePosition: true);
+                            start = this.EditingObserverExtension.CodePositionToEditing(start);
                         }
                         if (start < end)
                         {
@@ -127,7 +126,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 new RichContent.Bold(new RichContent.Text(info.Item2)),
                                 new RichContent.Text(info.Item3)
                                 );
-                            return Tuple.Create<XDocument, TextPosition>(content, this.EditingObserverExtension.ConvertToCodePosition(invoke.Start));
+                            return Tuple.Create<XDocument, TextPosition>(content, this.EditingObserverExtension.NodePositionToGlobal(invoke.Start));
                         }
                     }
                 }
