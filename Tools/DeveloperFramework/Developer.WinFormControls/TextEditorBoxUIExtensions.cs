@@ -444,7 +444,7 @@ namespace Developer.WinFormControls
 
         internal void HostHandleUpdateQuickInfo(bool fromCaretChanged)
         {
-            if (fromCaretChanged)// && this.lastCaret == this.textEditorBox.SelectionCaret)
+            if (fromCaretChanged && this.lastCaret == this.textEditorBox.SelectionCaret)
             {
                 return;
             }
