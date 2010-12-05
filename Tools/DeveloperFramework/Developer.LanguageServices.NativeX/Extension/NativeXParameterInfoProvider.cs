@@ -81,17 +81,23 @@ namespace Developer.LanguageServices.NativeX.Extension
                     while (invoke != null && invoke.Function != null)
                     {
                         TextPosition start = invoke.Function.End;
-                        string inside = this.EditingObserverExtension.EditingNodeCode.GetString(start, pos);
-                        int openCount = inside.Where(c => c == '(').Count();
-                        int closeCount = inside.Where(c => c == ')').Count();
-                        if (openCount > closeCount)
+                        TextPosition end = pos;
+                        if (!this.EditingObserverExtension.IsTemporaryEditingNode)
                         {
-                            break;
+                            start = this.EditingObserverExtension.ConvertToEditingPosition(start, editingNodeCodePosition: true);
+                            end = this.EditingObserverExtension.ConvertToEditingPosition(end, editingNodeCodePosition: true);
                         }
-                        else
+                        if (start < end)
                         {
-                            invoke = invoke.FindParent<NativeXInvokeExpression>();
+                            string inside = this.EditingObserverExtension.EditingNodeCode.GetString(start, end);
+                            int openCount = inside.Where(c => c == '(').Count();
+                            int closeCount = inside.Where(c => c == ')').Count();
+                            if (openCount > closeCount)
+                            {
+                                break;
+                            }
                         }
+                        invoke = invoke.FindParent<NativeXInvokeExpression>();
                     }
                     if (invoke != null && invoke.Function != null)
                     {

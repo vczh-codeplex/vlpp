@@ -18,6 +18,7 @@ namespace Developer.WinFormControls
         private TextEditorTooltip tooltip = null;
         private string lastTooltip = null;
         private bool needToClosePopupList = false;
+        private TextPosition lastCaret = new TextPosition(-1, -1);
 
         private bool editingSnippet = false;
         private List<List<SnippetContent.Segment>> currentSnippetSegments = null;
@@ -441,8 +442,12 @@ namespace Developer.WinFormControls
             }
         }
 
-        internal void HostHandleFinishEdit()
+        internal void HostHandleUpdateQuickInfo(bool fromCaretChanged)
         {
+            if (fromCaretChanged)// && this.lastCaret == this.textEditorBox.SelectionCaret)
+            {
+                return;
+            }
             if (this.QuickInfoTooltipOpening)
             {
                 var content = this.textEditorBox.ControlPanel.OnGetQuickInfoTooltip();
@@ -455,6 +460,7 @@ namespace Developer.WinFormControls
                     PopupQuickInfoTooltip(content.Item2, content.Item1);
                 }
             }
+            this.lastCaret = this.textEditorBox.SelectionCaret;
         }
 
         internal bool HostKeyPress(object sender, KeyPressEventArgs e)

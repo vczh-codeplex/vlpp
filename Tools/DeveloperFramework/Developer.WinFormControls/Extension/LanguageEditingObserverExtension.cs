@@ -25,6 +25,7 @@ namespace Developer.WinFormControls.Extension
         public TextProvider<object> EditingNodeCode { get; private set; }
         public TextPosition EditingNodeStart { get; private set; }
         public TextPosition EditingNodeEnd { get; private set; }
+        public bool IsTemporaryEditingNode { get; private set; }
 
         public LanguageEditingObserverExtension(ILanguageEditingObserverProvider<TResult, TEditingNode, TEditingNodeContainer> provider)
         {
@@ -42,6 +43,7 @@ namespace Developer.WinFormControls.Extension
             this.AnalyzingId = this.Analyzer.Analyze(this.Callback.TextEditorBox.Text);
             if (this.EditingNode != null)
             {
+                this.IsTemporaryEditingNode = true;
                 TextPosition editingStart = ConvertToEditingPosition(start);
                 TextPosition editingOldEnd = ConvertToEditingPosition(oldEnd);
                 TextPosition editingNewEnd = ConvertToEditingPosition(newEnd);
@@ -87,13 +89,16 @@ namespace Developer.WinFormControls.Extension
 
         #region Reaction Functions
 
-        public TextPosition ConvertToEditingPosition(TextPosition pos)
+        public TextPosition ConvertToEditingPosition(TextPosition pos, bool editingNodeCodePosition = false)
         {
-            if (pos.row == this.EditingNodeStart.row)
+            if (this.IsTemporaryEditingNode || editingNodeCodePosition)
             {
-                pos.col -= this.EditingNodeStart.col;
+                if (pos.row == this.EditingNodeStart.row)
+                {
+                    pos.col -= this.EditingNodeStart.col;
+                }
+                pos.row -= this.EditingNodeStart.row;
             }
-            pos.row -= this.EditingNodeStart.row;
             return pos;
         }
 
@@ -152,6 +157,7 @@ namespace Developer.WinFormControls.Extension
                     }
                 }
                 this.Provider.ResultUpdated();
+                this.IsTemporaryEditingNode = false;
             }
         }
 
