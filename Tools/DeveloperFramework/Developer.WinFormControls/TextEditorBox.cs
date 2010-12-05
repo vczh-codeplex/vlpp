@@ -994,6 +994,7 @@ namespace Developer.WinFormControls
                 this.ViewPosition = newViewPosition;
             }
             ForceShowCaret();
+            this.uiExtensions.HostHandleUpdateQuickInfo(true);
             OnSelectionChanged(new EventArgs());
         }
 
@@ -1063,7 +1064,7 @@ namespace Developer.WinFormControls
             {
                 UpdateLineHeight();
             }
-            this.uiExtensions.HostHandleFinishEdit();
+            this.uiExtensions.HostHandleUpdateQuickInfo(false);
             (this as ITextContentProvider).OnSelectionAreaChanged();
         }
 
