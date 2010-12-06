@@ -136,7 +136,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             a = "function " + (this.Name ?? "{?}") + "(";
             if (this.Parameters != null)
             {
-                for (int i = 0; i < parameterIndex; i++)
+                for (int i = 0; i < parameterIndex && i < this.Parameters.Count; i++)
                 {
                     if (i > 0) a += ", ";
                     a += NativeXNameTypePair.GetFormattedFunctionQuickInfo(this.Parameters[i], genericArguments);
