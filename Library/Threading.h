@@ -17,6 +17,7 @@ namespace vl
 {
 	namespace threading_internal
 	{
+		struct WaitableData;
 		struct ThreadData;
 		struct CriticalSectionData;
 		struct MutexData;
@@ -24,7 +25,24 @@ namespace vl
 		struct EventData;
 	}
 
-	class Thread : public Object, public NotCopyable
+	class WaitableObject : public Object, public NotCopyable
+	{
+	private:
+		threading_internal::WaitableData*			waitableData;
+	protected:
+
+		WaitableObject();
+		~WaitableObject();
+
+		void										SetData(threading_internal::WaitableData* data);
+	public:
+
+		bool										IsCreated();
+		bool										Wait();
+		bool										WaitForTime(vint ms);
+	};
+
+	class Thread : public WaitableObject
 	{
 		friend void InternalThreadProc(Thread* thread);
 	public:
@@ -55,8 +73,6 @@ namespace vl
 		bool										Pause();
 		bool										Resume();
 		bool										Stop();
-		bool										Wait();
-		bool										WaitForTime(vint ms);
 		ThreadState									GetState();
 	};
 
@@ -71,9 +87,19 @@ namespace vl
 		bool										TryEnter();
 		void										Enter();
 		void										Leave();
+
+	public:
+		class Scope : public Object, public NotCopyable
+		{
+		private:
+			CriticalSection*						criticalSection;
+		public:
+			Scope(CriticalSection& _criticalSection);
+			~Scope();
+		};
 	};
 
-	class Mutex : public Object, public NotCopyable
+	class Mutex : public WaitableObject
 	{
 	private:
 		threading_internal::MutexData*				internalData;
@@ -84,13 +110,10 @@ namespace vl
 		bool										Create(bool owned=false, const WString& name=L"");
 		bool										Open(bool inheritable, const WString& name);
 
-		bool										IsCreated();
-		bool										Wait();
-		bool										WaitForTime(vint ms);
 		bool										Release();
 	};
 
-	class Semaphore : public Object, public NotCopyable
+	class Semaphore : public WaitableObject
 	{
 	private:
 		threading_internal::SemaphoreData*			internalData;
@@ -101,20 +124,24 @@ namespace vl
 		bool										Create(vint initialCount, vint maxCount, const WString& name=L"");
 		bool										Open(bool inheritable, const WString& name);
 
-		bool										IsCreated();
-		bool										Wait();
-		bool										WaitForTime(vint ms);
 		bool										Release();
 		vint										Release(vint count);
 	};
 
-	class EventObject : public Object, public NotCopyable
+	class EventObject : public WaitableObject
 	{
 	private:
 		threading_internal::EventData*				internalData;
 	public:
 		EventObject();
 		~EventObject();
+
+		bool										CreateAuto(bool signaled, const WString& name=L"");
+		bool										CreateManual(bool signaled, const WString& name=L"");
+		bool										Open(bool inheritable, const WString& name);
+
+		bool										Signal();
+		bool										Unsignal();
 	};
 }
 

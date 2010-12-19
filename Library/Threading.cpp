@@ -6,20 +6,72 @@ namespace vl
 	using namespace threading_internal;
 
 /***********************************************************************
+WaitableObject
+***********************************************************************/
+
+	namespace threading_internal
+	{
+		struct WaitableData
+		{
+			HANDLE				handle;
+
+			WaitableData(HANDLE _handle)
+				:handle(_handle)
+			{
+			}
+		};
+	}
+
+	WaitableObject::WaitableObject()
+		:waitableData(0)
+	{
+	}
+
+	WaitableObject::~WaitableObject()
+	{
+	}
+
+	void WaitableObject::SetData(threading_internal::WaitableData* data)
+	{
+		waitableData=data;
+	}
+
+	bool WaitableObject::IsCreated()
+	{
+		return waitableData!=0;
+	}
+
+	bool WaitableObject::Wait()
+	{
+		return WaitForTime(INFINITE);
+	}
+
+	bool WaitableObject::WaitForTime(vint ms)
+	{
+		if(IsCreated())
+		{
+			if(WaitForSingleObject(waitableData->handle, (DWORD)ms)==WAIT_OBJECT_0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+/***********************************************************************
 Thread
 ***********************************************************************/
 
 	namespace threading_internal
 	{
-		struct ThreadData
+		struct ThreadData : public WaitableData
 		{
-			HANDLE		threadHandle;
-			DWORD		threadId;
+			DWORD		id;
 
 			ThreadData()
+				:WaitableData(NULL)
 			{
-				threadHandle=NULL;
-				threadId=-1;
+				id=-1;
 			}
 		};
 
@@ -64,14 +116,15 @@ Thread
 	Thread::Thread()
 	{
 		internalData=new ThreadData;
-		internalData->threadHandle=CreateThread(NULL, 0, InternalThreadProcWrapper, this, CREATE_SUSPENDED, &internalData->threadId);
+		internalData->handle=CreateThread(NULL, 0, InternalThreadProcWrapper, this, CREATE_SUSPENDED, &internalData->id);
 		threadState=Thread::NotStarted;
+		SetData(internalData);
 	}
 
 	Thread::~Thread()
 	{
 		Stop();
-		CloseHandle(internalData->threadHandle);
+		CloseHandle(internalData->handle);
 		delete internalData;
 	}
 
@@ -99,9 +152,9 @@ Thread
 
 	bool Thread::Start()
 	{
-		if(threadState==Thread::NotStarted && internalData->threadHandle!=NULL)
+		if(threadState==Thread::NotStarted && internalData->handle!=NULL)
 		{
-			if(ResumeThread(internalData->threadHandle)!=-1)
+			if(ResumeThread(internalData->handle)!=-1)
 			{
 				threadState=Thread::Running;
 				return true;
@@ -114,7 +167,7 @@ Thread
 	{
 		if(threadState==Thread::Running)
 		{
-			if(SuspendThread(internalData->threadHandle)!=-1)
+			if(SuspendThread(internalData->handle)!=-1)
 			{
 				threadState=Thread::Paused;
 				return true;
@@ -127,7 +180,7 @@ Thread
 	{
 		if(threadState==Thread::Paused)
 		{
-			if(ResumeThread(internalData->threadHandle)!=-1)
+			if(ResumeThread(internalData->handle)!=-1)
 			{
 				threadState=Thread::Running;
 				return true;
@@ -138,28 +191,11 @@ Thread
 
 	bool Thread::Stop()
 	{
-		if(internalData->threadHandle!=NULL)
+		if(internalData->handle!=NULL)
 		{
 			Pause();
 			threadState=Thread::Stopped;
 			return true;
-		}
-		return false;
-	}
-
-	bool Thread::Wait()
-	{
-		return WaitForTime(INFINITE);
-	}
-
-	bool Thread::WaitForTime(vint ms)
-	{
-		if(threadState==Thread::Running)
-		{
-			if(WaitForSingleObject(internalData->threadHandle, (DWORD)ms)==WAIT_OBJECT_0)
-			{
-				return true;
-			}
 		}
 		return false;
 	}
@@ -179,6 +215,17 @@ CriticalSection
 		{
 			CRITICAL_SECTION		criticalSection;
 		};
+	}
+
+	CriticalSection::Scope::Scope(CriticalSection& _criticalSection)
+		:criticalSection(&_criticalSection)
+	{
+		criticalSection->Enter();
+	}
+
+	CriticalSection::Scope::~Scope()
+	{
+		criticalSection->Leave();
 	}
 			
 	CriticalSection::CriticalSection()
@@ -214,12 +261,10 @@ Mutex
 
 	namespace threading_internal
 	{
-		struct MutexData
+		struct MutexData : public WaitableData
 		{
-			HANDLE				handle;
-
 			MutexData(HANDLE _handle)
-				:handle(_handle)
+				:WaitableData(_handle)
 			{
 			}
 		};
@@ -248,6 +293,7 @@ Mutex
 		if(handle)
 		{
 			internalData=new MutexData(handle);
+			SetData(internalData);
 		}
 		return IsCreated();
 	}
@@ -260,30 +306,9 @@ Mutex
 		if(handle)
 		{
 			internalData=new MutexData(handle);
+			SetData(internalData);
 		}
 		return IsCreated();
-	}
-
-	bool Mutex::IsCreated()
-	{
-		return internalData!=0;
-	}
-
-	bool Mutex::Wait()
-	{
-		return WaitForTime(INFINITE);
-	}
-
-	bool Mutex::WaitForTime(vint ms)
-	{
-		if(IsCreated())
-		{
-			if(WaitForSingleObject(internalData->handle, (DWORD)ms)==WAIT_OBJECT_0)
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 	bool Mutex::Release()
@@ -301,12 +326,10 @@ Semaphore
 
 	namespace threading_internal
 	{
-		struct SemaphoreData
+		struct SemaphoreData : public WaitableData
 		{
-			HANDLE				handle;
-
 			SemaphoreData(HANDLE _handle)
-				:handle(_handle)
+				:WaitableData(_handle)
 			{
 			}
 		};
@@ -336,6 +359,7 @@ Semaphore
 		if(handle)
 		{
 			internalData=new SemaphoreData(handle);
+			SetData(internalData);
 		}
 		return IsCreated();
 	}
@@ -348,30 +372,9 @@ Semaphore
 		if(handle)
 		{
 			internalData=new SemaphoreData(handle);
+			SetData(internalData);
 		}
 		return IsCreated();
-	}
-
-	bool Semaphore::IsCreated()
-	{
-		return internalData!=0;
-	}
-
-	bool Semaphore::Wait()
-	{
-		return WaitForTime(INFINITE);
-	}
-
-	bool Semaphore::WaitForTime(vint ms)
-	{
-		if(IsCreated())
-		{
-			if(WaitForSingleObject(internalData->handle, (DWORD)ms)==WAIT_OBJECT_0)
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 	bool Semaphore::Release()
@@ -402,8 +405,85 @@ EventObject
 
 	namespace threading_internal
 	{
-		struct EventData
+		struct EventData : public WaitableData
 		{
+			EventData(HANDLE _handle)
+				:WaitableData(_handle)
+			{
+			}
 		};
+	}
+
+	EventObject::EventObject()
+		:internalData(0)
+	{
+	}
+
+	EventObject::~EventObject()
+	{
+		if(internalData)
+		{
+			CloseHandle(internalData->handle);
+			delete internalData;
+		}
+	}
+
+	bool EventObject::CreateAuto(bool signaled, const WString& name)
+	{
+		if(IsCreated())return false;
+		BOOL aSignaled=signaled?TRUE:FALSE;
+		LPCTSTR aName=name==L""?NULL:name.Buffer();
+		HANDLE handle=CreateEvent(NULL, TRUE, aSignaled, aName);
+		if(handle)
+		{
+			internalData=new EventData(handle);
+			SetData(internalData);
+		}
+		return IsCreated();
+	}
+
+	bool EventObject::CreateManual(bool signaled, const WString& name)
+	{
+		if(IsCreated())return false;
+		BOOL aSignaled=signaled?TRUE:FALSE;
+		LPCTSTR aName=name==L""?NULL:name.Buffer();
+		HANDLE handle=CreateEvent(NULL, FALSE, aSignaled, aName);
+		if(handle)
+		{
+			internalData=new EventData(handle);
+			SetData(internalData);
+		}
+		return IsCreated();
+	}
+
+	bool EventObject::Open(bool inheritable, const WString& name)
+	{
+		if(IsCreated())return false;
+		BOOL aInteritable=inheritable?TRUE:FALSE;
+		HANDLE handle=OpenEvent(SYNCHRONIZE, aInteritable, name.Buffer());
+		if(handle)
+		{
+			internalData=new EventData(handle);
+			SetData(internalData);
+		}
+		return IsCreated();
+	}
+
+	bool EventObject::Signal()
+	{
+		if(IsCreated())
+		{
+			return SetEvent(internalData->handle)!=0;
+		}
+		return false;
+	}
+
+	bool EventObject::Unsignal()
+	{
+		if(IsCreated())
+		{
+			return ResetEvent(internalData->handle)!=0;
+		}
+		return false;
 	}
 }
