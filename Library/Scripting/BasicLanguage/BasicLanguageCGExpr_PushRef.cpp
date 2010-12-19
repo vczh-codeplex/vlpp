@@ -28,6 +28,11 @@ BasicLanguage_PushRef
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicExceptionAddressExpression*, const BCP&)#不支持此操作。");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicStackDataAddressExpression)
+				{
+					argument.Ins(BasicIns::stack_data);
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicNumericExpression*, const BCP&)#不支持此操作。");

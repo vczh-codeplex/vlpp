@@ -158,6 +158,12 @@ Primitive Expression
 				ALGORITHM_ACCEPT_DECLARATION
 			};
 
+			class BasicStackDataAddressExpression : public BasicPrimitiveExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+			};
+
 			class BasicNumericExpression : public BasicPrimitiveExpression
 			{
 			public:
@@ -576,6 +582,7 @@ Algorithms
 #define BASIC_EXPRESSION_TARGETS(F)\
 			F(BasicNullExpression)\
 			F(BasicExceptionAddressExpression)\
+			F(BasicStackDataAddressExpression)\
 			F(BasicNumericExpression)\
 			F(BasicMbcsStringExpression)\
 			F(BasicUnicodeStringExpression)\

@@ -306,6 +306,11 @@ namespace vl
 				return CreateNode<BasicExceptionAddressExpression>(input);
 			}
 
+			Ptr<BasicExpression> ToStackData(const RegexToken& input)
+			{
+				return CreateNode<BasicStackDataAddressExpression>(input);
+			}
+
 			Ptr<BasicExpression> ToReference(const RegexToken& input)
 			{
 				Ptr<BasicReferenceExpression> expression=CreateNode<BasicReferenceExpression>(input);
@@ -1185,7 +1190,7 @@ namespace vl
 				TokenType							ID;
 				TokenType							PRIM_TYPE;
 
-				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, RESULT, FUNCTION, CAST, VARIABLE;
+				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, STACK_DATA, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH, THROW;
 				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE, FOREIGN;
 
@@ -1227,6 +1232,7 @@ namespace vl
 					FALSE			= CreateToken(tokens, L"false");
 					NULL_VALUE		= CreateToken(tokens, L"null");
 					EXCEPTION_VALUE	= CreateToken(tokens, L"exception");
+					STACK_DATA		= CreateToken(tokens, L"stackdata");
 					RESULT			= CreateToken(tokens, L"result");
 					FUNCTION		= CreateToken(tokens, L"function");
 					CAST			= CreateToken(tokens, L"cast");
@@ -1311,6 +1317,7 @@ namespace vl
 									| FLOAT[ToFloat] | DOUBLE[ToDouble]
 									| NULL_VALUE[ToNull]
 									| EXCEPTION_VALUE[ToException]
+									| STACK_DATA[ToStackData]
 									| INTEGER[ToInteger]
 									;
 
@@ -1622,6 +1629,7 @@ namespace vl
 					, L"false"
 					, L"null"
 					, L"exception"
+					, L"stackdata"
 					, L"result"
 					, L"function"
 					, L"cast"
@@ -2144,6 +2152,11 @@ namespace vl
 				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
 				{
 					argument.writer.WriteString(L"exception");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStackDataAddressExpression)
+				{
+					argument.writer.WriteString(L"stackdata");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)

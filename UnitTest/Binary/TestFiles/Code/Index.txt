@@ -75,6 +75,7 @@ NativeX.Others.Sum4.Make.txt=int:15
 NativeX.Others.Sum5.Make.txt=int:15
 NativeX.Others.TypeUpgrade.Make.txt=int:400
 NativeX.Others.WideString.Make.txt=int:335
+NativeX.Others.StackData.Make.txt=int:10
 NativeX.Pointer.01.Make.txt=int:4
 NativeX.Pointer.02.Make.txt=int:4
 NativeX.Pointer.03.Make.txt=int:4

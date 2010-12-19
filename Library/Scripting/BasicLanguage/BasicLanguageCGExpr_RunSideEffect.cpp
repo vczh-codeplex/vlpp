@@ -24,6 +24,10 @@ BasicLanguage_RunSideEffect
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicStackDataAddressExpression)
+				{
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)
 				{
 				}

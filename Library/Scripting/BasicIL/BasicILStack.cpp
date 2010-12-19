@@ -362,6 +362,7 @@ BasicILStack
 				:interpretor(_interpretor)
 			{
 				env=new BasicILEnv(interpretor->stackSize);
+				env->ReserveTop(BasicILStack::StackDataSize);
 				instruction=-1;
 				insKey=-1;
 				userData=0;
@@ -727,6 +728,9 @@ BasicILStack
 						case BasicIns::stack_reserve:
 							env->Reserve(ins.argument.int_value);
 							break;
+						case BasicIns::stack_data:
+							env->Push<void*>(env->DereferenceStack(0));
+							break;
 						case BasicIns::resptr:
 							{
 								void* pointer=*(void**)(env->DereferenceStack(env->StackBase()+3*sizeof(void*)));
@@ -770,12 +774,12 @@ BasicILStack
 							break;
 						case BasicIns::exception_object_reserve:
 							{
-								env->ReserveTop(sizeof(BasicILExceptionHandler*)+ins.argument.int_value);
+								env->ReserveTop(BasicILStack::StackDataSize+sizeof(BasicILExceptionHandler*)+ins.argument.int_value);
 							}
 							break;
 						case BasicIns::exception_object_address:
 							{
-								void* buffer=env->DereferenceStack(sizeof(BasicILExceptionHandler*));
+								void* buffer=env->DereferenceStack(BasicILStack::StackDataSize+sizeof(BasicILExceptionHandler*));
 								env->Push<void*>(buffer);
 							}
 							break;

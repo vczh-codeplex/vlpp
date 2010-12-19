@@ -30,6 +30,13 @@ BasicLanguage_PushValueInternal
 					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicStackDataAddressExpression)
+				{
+					argument.Ins(BasicIns::stack_data);
+					argument.Ins(BasicIns::read, BasicIns::pointer_type);
+					return argument.info->GetEnv()->GetExpressionType(node);
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					argument.Ins(BasicIns::push, Convert(node->type), Convert(node->argument));

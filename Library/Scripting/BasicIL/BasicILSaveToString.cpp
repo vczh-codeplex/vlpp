@@ -234,6 +234,7 @@ BasicIL
 				CASE(stack_offset);
 				CASE(stack_top);
 				CASE(stack_reserve);
+				CASE(stack_data);
 				CASE(resptr);
 				CASE(ret);
 				CASE(link_pushdata);
@@ -372,6 +373,7 @@ BasicIL
 				CASE(stack_offset,					Constant);
 				CASE(stack_top,						Constant);
 				CASE(stack_reserve,					Constant);
+				CASE(stack_data,					Single);
 				CASE(resptr,						Single);
 				CASE(ret,							Constant);
 				CASE(link_pushdata,					Constant);

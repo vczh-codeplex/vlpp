@@ -1,0 +1,8 @@
+unit Main;
+
+function int main()
+{
+    variable int data = 10;
+    stackdata = &data;
+    result = *cast<int*>(stackdata);
+}
