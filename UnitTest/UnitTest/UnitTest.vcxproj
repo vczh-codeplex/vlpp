@@ -433,6 +433,8 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null1.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null2.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Null2.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.StackData.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.StackData.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum1.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum1.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum2.Main.txt" />

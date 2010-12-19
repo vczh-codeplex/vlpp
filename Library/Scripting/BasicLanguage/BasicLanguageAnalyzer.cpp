@@ -712,6 +712,11 @@ BasicLanguage_IsLeftValue
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicStackDataAddressExpression)
+				{
+					return true;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;
@@ -894,6 +899,11 @@ BasicLanguage_GetExpressionType
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExceptionAddressExpression)
+				{
+					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(void_type));
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicStackDataAddressExpression)
 				{
 					return argument.typeManager->GetPointerType(argument.typeManager->GetPrimitiveType(void_type));
 				}

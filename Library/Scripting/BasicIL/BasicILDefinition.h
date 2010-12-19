@@ -35,6 +35,7 @@ OpCode:
   stack_offset					BYTES(vint)								:*stack_top*									-> pointer
   stack_top						BYTES(vint)								:*stack_top*									-> pointer(old stack top pointer)
   stack_reserve					BYTES(vint)(+=push, -=pop)
+  stack_data                                                            :*stack_top*                                    -> pointer
   resptr																:*stack_top*									-> pointer
   ret							STACK_RESERVE_BYTES(vint)				:*stack_top* RETSTACK RETINS RETINSKEY RETPTR	->
 ------------------link time only---------------------
@@ -118,7 +119,7 @@ namespace vl
 					read,write,readmem,writemem,copymem,
 					jump,jumptrue,jumpfalse,call,call_indirect,
 					convert,
-					stack_offset,stack_top,stack_reserve,
+					stack_offset,stack_top,stack_reserve,stack_data,
 					resptr,
 					ret,
 

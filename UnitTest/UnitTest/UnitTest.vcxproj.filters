@@ -1202,6 +1202,12 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Linking.Concept.Make.txt">
       <Filter>TestFiles\NativeX\Linking</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.StackData.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.StackData.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

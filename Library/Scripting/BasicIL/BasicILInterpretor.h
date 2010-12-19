@@ -284,6 +284,8 @@ namespace vl
 			class BasicILStack : public Object
 			{
 			protected:
+				static const vint								StackDataSize=sizeof(void*);
+
 				BasicILEnv*										env;
 				BasicILInterpretor*								interpretor;
 				vint											instruction;

@@ -27,6 +27,11 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicStackDataAddressExpression)
+				{
+					return true;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;
@@ -163,6 +168,11 @@ BasicLanguage_PushRefWithoutSideEffect
 				ALGORITHM_PROCEDURE_MATCH(BasicExceptionAddressExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicExceptionAddressExpression*, const BCP&)#不支持此操作。");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStackDataAddressExpression)
+				{
+					argument.Ins(BasicIns::stack_data);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicNumericExpression)

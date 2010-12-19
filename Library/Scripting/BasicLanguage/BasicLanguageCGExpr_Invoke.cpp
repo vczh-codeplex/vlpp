@@ -40,6 +40,11 @@ BasicLanguage_InvokeInternal
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicStackDataAddressExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
 					return false;
