@@ -375,6 +375,12 @@
     <ClCompile Include="..\UnitTest\TestScripting_Languages_IndexTest.cpp">
       <Filter>Source Files\Scripting\Languages</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Threading.cpp">
+      <Filter>Library3\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestThread.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -708,6 +714,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\Linear.h">
       <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Threading.h">
+      <Filter>Library3\Basic\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -210,6 +210,7 @@
     <ClCompile Include="..\..\Library\Stream\MemoryWrapperStream.cpp" />
     <ClCompile Include="..\..\Library\Stream\RecorderStream.cpp" />
     <ClCompile Include="..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\Library\Threading.cpp" />
     <ClCompile Include="..\..\Library\UnitTest\UnitTest.cpp" />
     <ClCompile Include="..\UnitTest\Main.cpp" />
     <ClCompile Include="..\UnitTest\TestBasic.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="..\UnitTest\TestStream.cpp" />
     <ClCompile Include="..\UnitTest\TestString.cpp" />
+    <ClCompile Include="..\UnitTest\TestThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\Common.fpm">
@@ -361,6 +363,7 @@
     <ClInclude Include="..\..\Library\Stream\RecorderStream.h" />
     <ClInclude Include="..\..\Library\Stream\StreamSerialization.h" />
     <ClInclude Include="..\..\Library\String.h" />
+    <ClInclude Include="..\..\Library\Threading.h" />
     <ClInclude Include="..\..\Library\Tuple.h" />
     <ClInclude Include="..\..\Library\UnitTest\UnitTest.h" />
   </ItemGroup>
