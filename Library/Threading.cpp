@@ -70,6 +70,8 @@ Thread
 
 	Thread::~Thread()
 	{
+		Stop();
+		CloseHandle(internalData->threadHandle);
 		delete internalData;
 	}
 
@@ -130,6 +132,17 @@ Thread
 				threadState=Thread::Running;
 				return true;
 			}
+		}
+		return false;
+	}
+
+	bool Thread::Stop()
+	{
+		if(internalData->threadHandle!=NULL)
+		{
+			Pause();
+			threadState=Thread::Stopped;
+			return true;
 		}
 		return false;
 	}

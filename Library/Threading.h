@@ -49,6 +49,7 @@ namespace vl
 		bool									Start();
 		bool									Pause();
 		bool									Resume();
+		bool									Stop();
 		bool									Wait();
 		bool									WaitForTime(vint ms);
 		ThreadState								GetState();
