@@ -5,6 +5,10 @@ Framework::Threading
 
 Classes:
 	Thread										£ºÏß³Ì
+	CriticalSection
+	Mutex
+	Semaphore
+	EventObject
 ***********************************************************************/
 
 #ifndef VCZH_THREADING
@@ -136,8 +140,8 @@ namespace vl
 		EventObject();
 		~EventObject();
 
-		bool										CreateAuto(bool signaled, const WString& name=L"");
-		bool										CreateManual(bool signaled, const WString& name=L"");
+		bool										CreateAutoUnsignal(bool signaled, const WString& name=L"");
+		bool										CreateManualUnsignal(bool signaled, const WString& name=L"");
 		bool										Open(bool inheritable, const WString& name);
 
 		bool										Signal();

@@ -13,7 +13,7 @@ WaitableObject
 	{
 		struct WaitableData
 		{
-			HANDLE				handle;
+			HANDLE			handle;
 
 			WaitableData(HANDLE _handle)
 				:handle(_handle)
@@ -66,7 +66,7 @@ Thread
 	{
 		struct ThreadData : public WaitableData
 		{
-			DWORD		id;
+			DWORD						id;
 
 			ThreadData()
 				:WaitableData(NULL)
@@ -428,12 +428,12 @@ EventObject
 		}
 	}
 
-	bool EventObject::CreateAuto(bool signaled, const WString& name)
+	bool EventObject::CreateAutoUnsignal(bool signaled, const WString& name)
 	{
 		if(IsCreated())return false;
 		BOOL aSignaled=signaled?TRUE:FALSE;
 		LPCTSTR aName=name==L""?NULL:name.Buffer();
-		HANDLE handle=CreateEvent(NULL, TRUE, aSignaled, aName);
+		HANDLE handle=CreateEvent(NULL, FALSE, aSignaled, aName);
 		if(handle)
 		{
 			internalData=new EventData(handle);
@@ -442,12 +442,12 @@ EventObject
 		return IsCreated();
 	}
 
-	bool EventObject::CreateManual(bool signaled, const WString& name)
+	bool EventObject::CreateManualUnsignal(bool signaled, const WString& name)
 	{
 		if(IsCreated())return false;
 		BOOL aSignaled=signaled?TRUE:FALSE;
 		LPCTSTR aName=name==L""?NULL:name.Buffer();
-		HANDLE handle=CreateEvent(NULL, FALSE, aSignaled, aName);
+		HANDLE handle=CreateEvent(NULL, TRUE, aSignaled, aName);
 		if(handle)
 		{
 			internalData=new EventData(handle);
