@@ -22,6 +22,19 @@ namespace vl
 			collections::List<WString>		imports;
 		};
 
+		class NativeXHeaderExtra : public Object
+		{
+		public:
+			bool							publicOnly;
+			bool							currentAssemblyOnly;
+			WString							declarationPrefix;
+
+			bool							importReferencedAssemblies;
+			WString							assemblyPrefix;
+
+			NativeXHeaderExtra();
+		};
+
 		extern Ptr<ILanguageProvider>		CreateNativeXLanguageProvider();
 	}
 }
