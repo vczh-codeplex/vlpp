@@ -14,6 +14,18 @@ namespace vl
 {
 	namespace scripting
 	{
+
+/***********************************************************************
+Extra
+***********************************************************************/
+
+		NativeXHeaderExtra::NativeXHeaderExtra()
+			:publicOnly(true)
+			,currentAssemblyOnly(true)
+			,importReferencedAssemblies(true)
+		{
+		}
+
 		namespace language_nativex
 		{
 			using namespace basicil;
@@ -2082,13 +2094,36 @@ namespace vl
 					NativeX_BasicProgram_GenerateCode(program, writer);
 				}
 				
-				bool GenerateHeader(Ptr<LanguageAssembly> program, Ptr<Object> inputExtra, stream::TextWriter& writer)
+				bool GenerateHeader(Ptr<LanguageAssembly> assembly, Ptr<Object> inputExtra, stream::TextWriter& writer)
 				{
-					Ptr<ResourceStream> resource=program->GetResource(BasicILResourceNames::BasicLanguageInterfaces);
+					Ptr<ResourceStream> resource=assembly->GetResource(BasicILResourceNames::BasicLanguageInterfaces);
 					if(resource)
 					{
-						Ptr<BasicProgram> program=BasicLanguage_GenerateHeaderFile(resource);
-						GenerateCode(program, inputExtra, writer);
+						Ptr<NativeXHeaderExtra> headerExtra=inputExtra.Cast<NativeXHeaderExtra>();
+						if(!headerExtra)
+						{
+							headerExtra=new NativeXHeaderExtra();
+						}
+
+						List<WString> referencedAssemblies;
+						Ptr<BasicProgram> program=BasicLanguage_GenerateHeaderFile(
+							resource,
+							headerExtra->publicOnly,
+							headerExtra->currentAssemblyOnly,
+							headerExtra->declarationPrefix,
+							referencedAssemblies.Wrap()
+							);
+
+						Ptr<NativeXLanguageExtra> generateExtra=new NativeXLanguageExtra;
+						generateExtra->name=headerExtra->assemblyPrefix+assembly->GetAssemblyName();
+						if(headerExtra->importReferencedAssemblies)
+						{
+							for(vint i=0;i<referencedAssemblies.Count();i++)
+							{
+								generateExtra->imports.Add(headerExtra->assemblyPrefix+referencedAssemblies[i]);
+							}
+						}
+						GenerateCode(program, generateExtra, writer);
 						return true;
 					}
 					else

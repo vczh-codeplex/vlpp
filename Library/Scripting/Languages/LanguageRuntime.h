@@ -56,6 +56,7 @@ namespace vl
 			Ptr<ResourceStream>							GetResource(const WString& name);
 			vint										GetInstructionKey();
 
+			WString										GetAssemblyName();
 			BasicLanguageMetadata*						GetBasicLanguageMetadata();
 		};
 

@@ -570,7 +570,12 @@ BasicCodeGenerator
 Header File Generator
 ***********************************************************************/
 
-			Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(Ptr<ResourceStream> resource)
+			Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(
+				Ptr<ResourceStream> resource,
+				bool publicOnly,
+				bool currentAssemblyOnly,
+				const WString& prefix,
+				ICollection<WString>& referencedAssemblies)
 			{
 				return 0;
 			}

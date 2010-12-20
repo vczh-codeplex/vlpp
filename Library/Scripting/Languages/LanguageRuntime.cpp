@@ -74,6 +74,13 @@ LanguageAssembly
 			return instructionKey;
 		}
 
+		WString LanguageAssembly::GetAssemblyName()
+		{
+			Ptr<ResourceStream> exportedResource=GetResource(BasicILResourceNames::ExportedSymbols);
+			ResourceRecord<BasicILEntryRes> entry=exportedResource->ReadRootRecord<BasicILEntryRes>();
+			return exportedResource->ReadString(entry->assemblyName);
+		}
+
 		BasicLanguageMetadata* LanguageAssembly::GetBasicLanguageMetadata()
 		{
 			return basicLanguageMetadata.Obj();
