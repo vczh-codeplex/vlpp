@@ -15,6 +15,13 @@ namespace vl
 {
 	namespace scripting
 	{
+		class NativeXLanguageExtra : public Object
+		{
+		public:
+			WString							name;
+			collections::List<WString>		imports;
+		};
+
 		extern Ptr<ILanguageProvider>		CreateNativeXLanguageProvider();
 	}
 }
