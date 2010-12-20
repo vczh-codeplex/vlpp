@@ -2081,6 +2081,21 @@ namespace vl
 					}
 					NativeX_BasicProgram_GenerateCode(program, writer);
 				}
+				
+				bool GenerateHeader(Ptr<LanguageAssembly> program, Ptr<Object> inputExtra, stream::TextWriter& writer)
+				{
+					Ptr<ResourceStream> resource=program->GetResource(BasicILResourceNames::BasicLanguageInterfaces);
+					if(resource)
+					{
+						Ptr<BasicProgram> program=BasicLanguage_GenerateHeaderFile(resource);
+						GenerateCode(program, inputExtra, writer);
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
 			};
 
 /***********************************************************************

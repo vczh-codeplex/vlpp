@@ -31,6 +31,12 @@ namespace vl
 															Ptr<Object> inputExtra,
 															stream::TextWriter& writer
 															)=0;
+
+			virtual bool								GenerateHeader(
+															Ptr<LanguageAssembly> assembly,
+															Ptr<Object> inputExtra,
+															stream::TextWriter& writer
+															)=0;
 		};
 	}
 }
