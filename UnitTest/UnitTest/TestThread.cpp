@@ -219,7 +219,7 @@ TEST_CASE(TestSemaphore)
 	{
 		for(vint i=0;i<10;i++)
 		{
-			threads.Add(Thread::CreateAndStart(Semaphore_ThreadProc, &data));
+			threads.Add(Thread::CreateAndStart(Semaphore_ThreadProc, &data, false));
 		}
 		Thread::Sleep(1000);
 		TEST_ASSERT(data.counter==0);
@@ -241,6 +241,12 @@ TEST_CASE(TestSemaphore)
 		Thread::Sleep(100);
 		CriticalSection::Scope lock(data.cs);
 		TEST_ASSERT(data.counter==10);
+	}
+	FOREACH(Thread*, thread, threads.Wrap())
+	{
+		thread->Wait();
+		TEST_ASSERT(thread->GetState()==Thread::Stopped);
+		delete thread;
 	}
 }
 
