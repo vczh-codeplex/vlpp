@@ -22,11 +22,13 @@ namespace vl
 		public:
 			virtual Ptr<basiclanguage::BasicProgram>	ParseProgram(
 															const WString& code, 
+															Ptr<Object>& outputExtra,
 															collections::IList<Ptr<LanguageException>>& errors
 															)=0;
 
 			virtual void								GenerateCode(
 															Ptr<basiclanguage::BasicProgram> program,
+															Ptr<Object> inputExtra,
 															stream::TextWriter& writer
 															)=0;
 		};

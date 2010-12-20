@@ -29,7 +29,7 @@ namespace vl
 				WString				name;
 				List<WString>		imports;
 				Ptr<BasicProgram>	program;
-				vint					codeIndex;
+				vint				codeIndex;
 			};
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>				TokenType;
@@ -2036,21 +2036,49 @@ namespace vl
 					return assembly;
 				}
 				
-				Ptr<BasicProgram> ParseProgram(const WString& code, IList<Ptr<LanguageException>>& errors)
+				Ptr<BasicProgram> ParseProgram(const WString& code, Ptr<Object>& outputExtra, IList<Ptr<LanguageException>>& errors)
 				{
 					Ptr<NativeXUnit> unit=parser.Parse(code, 0, errors);
 					if(unit)
 					{
+						Ptr<NativeXLanguageExtra> extra=new NativeXLanguageExtra;
+						extra->name=unit->name;
+						CopyFrom(extra->imports.Wrap(), unit->imports.Wrap());
+						outputExtra=extra;
 						return unit->program;
 					}
 					else
 					{
+						outputExtra=0;
 						return 0;
 					}
 				}
 				
-				void GenerateCode(Ptr<basiclanguage::BasicProgram> program, stream::TextWriter& writer)
+				void GenerateCode(Ptr<basiclanguage::BasicProgram> program, Ptr<Object> inputExtra, stream::TextWriter& writer)
 				{
+					Ptr<NativeXLanguageExtra> extra=inputExtra.Cast<NativeXLanguageExtra>();
+					if(extra)
+					{
+						writer.WriteString(L"unit ");
+						writer.WriteString(extra->name);
+						writer.WriteLine(L";");
+						if(extra->imports.Count()>0)
+						{
+							writer.WriteString(L"uses ");
+							for(vint i=0;i<extra->imports.Count();i++)
+							{
+								if(i>0)writer.WriteString(L", ");
+								writer.WriteString(extra->imports[0]);
+							}
+							writer.WriteLine(L";");
+						}
+						writer.WriteLine(L"");
+					}
+					else
+					{
+						writer.WriteLine(L"unit nativex_program_generated;");
+						writer.WriteLine(L"");
+					}
 					NativeX_BasicProgram_GenerateCode(program, writer);
 				}
 			};
@@ -2696,7 +2724,6 @@ namespace vl
 			void NativeX_BasicProgram_GenerateCode(Ptr<BasicProgram> program, TextWriter& writer)
 			{
 				NXCGP argument(writer, 0);
-				writer.WriteLine(L"unit nativex_program_generated;");
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
 					NativeX_BasicDeclaration_GenerateCode(program->declarations[i], argument);

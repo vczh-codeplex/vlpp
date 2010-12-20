@@ -33,7 +33,7 @@ void PrintNativeXProgram(Ptr<BasicProgram> program, TextWriter& writer)
 {
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
 	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider.Cast<IBasicLanguageProvider>();
-	basicLanguageProvider->GenerateCode(program, writer);
+	basicLanguageProvider->GenerateCode(program, 0, writer);
 }
 
 void ConvertToNativeXProgram(Ptr<BasicProgram>& program)
@@ -49,7 +49,8 @@ void ConvertToNativeXProgram(Ptr<BasicProgram>& program)
 	Ptr<ILanguageProvider> provider=GetNativeXProvider().provider;
 	Ptr<IBasicLanguageProvider> basicLanguageProvider=provider.Cast<IBasicLanguageProvider>();
 	List<Ptr<LanguageException>> errors;
-	program=basicLanguageProvider->ParseProgram(code, errors.Wrap());
+	Ptr<Object> extra;
+	program=basicLanguageProvider->ParseProgram(code, extra, errors.Wrap());
 	TEST_ASSERT(errors.Count()==0);
 	TEST_ASSERT(program);
 }

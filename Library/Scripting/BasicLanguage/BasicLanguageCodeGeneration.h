@@ -264,6 +264,12 @@ BasicCodeGenerator
 				Ptr<basicil::BasicIL>										GetIL();
 				void														GenerateCode();
 			};
+
+/***********************************************************************
+Header File Generator
+***********************************************************************/
+
+			extern Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(Ptr<ResourceStream> resource);
 		}
 	}
 }

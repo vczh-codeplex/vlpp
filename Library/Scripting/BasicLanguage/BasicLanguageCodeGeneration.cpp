@@ -565,6 +565,15 @@ BasicCodeGenerator
 				BasicLanguage_GenerateCode(program, programName, argument);
 				argument.info->LeaveSemanticScope();
 			}
+
+/***********************************************************************
+Header File Generator
+***********************************************************************/
+
+			Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(Ptr<ResourceStream> resource)
+			{
+				return 0;
+			}
 		}
 	}
 }
