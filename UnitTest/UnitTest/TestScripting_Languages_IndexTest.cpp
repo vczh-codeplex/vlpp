@@ -58,14 +58,21 @@ void Test_BasicLanguage_PrintNativeXHeaderFile(Ptr<LanguageAssembly> assembly, P
 	StreamWriter memoryWriter(memoryStream);
 	if(printer->GenerateHeader(assembly, new NativeXHeaderExtra(), memoryWriter))
 	{
-		FileStream fileStream(filePath, FileStream::WriteOnly);
-		BomEncoder encoder(BomEncoder::Utf16);
-		EncoderStream encoderStream(fileStream, encoder);
-		StreamWriter writer(encoderStream);
-
 		memoryStream.SeekFromBegin(0);
 		StreamReader memoryReader(memoryStream);
-		writer.WriteString(memoryReader.ReadToEnd());
+		WString headerCode=memoryReader.ReadToEnd();
+		{
+			FileStream fileStream(filePath, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			writer.WriteString(headerCode);
+		}
+		Ptr<Object> outputExtra;
+		List<Ptr<LanguageException>> errors;
+		Ptr<BasicProgram> headerProgram=printer->ParseProgram(headerCode, outputExtra, errors.Wrap());
+		TEST_ASSERT(errors.Count()==0);
+		TEST_ASSERT(headerProgram);
 	}
 }
 

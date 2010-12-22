@@ -112,33 +112,62 @@ BasicLanguage_GenerateResource
 						break;
 					case BasicTypeRecord::Structure:
 						{
-							resource->type=BasicTypeRes::Structure;
-							resource->elementType=ResourceHandle<BasicTypeRes>::Null();
-							resource->elementCount=-1;
-							resource->primitiveType=BasicTypeRes::void_type;
-							
-							ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(type->MemberCount());
-							resource->subTypes=subTypes;
-							for(vint i=0;i<type->MemberCount();i++)
+							BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+							if(proxyType)
 							{
-								ResourceHandle<BasicTypeRes> memberType=GenerateResource(type->MemberType(i), argument);
-								ResourceString memberName=argument.resource->CreateString(type->MemberName(i));
-								ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
-								member->name=memberName;
-								member->type=memberType;
-								if(type->MemberType(i)->GetType()==BasicTypeRecord::GenericArgument)
+								IDictionary<BasicTypeRecord*, BasicTypeRecord*>& genericArguments=proxyType->GenericArgumentMap();
+								BasicTypeRecord* structureType=proxyType->UninstanciatedStructureType();
+								BasicTypeRecord* genericType=structureType->ElementType();
+								List<BasicTypeRecord*> genericParameters;
+								for(vint i=0;i<genericType->ParameterCount();i++)
 								{
-									member->offset=-1;
+									genericParameters.Add(genericType->ParameterType(i));
 								}
-								else if(typeInfo->offsets[i].IsConstant())
+
+								resource->type=BasicTypeRes::Instanciated;
+								resource->elementType=GenerateResource(structureType, argument);
+								resource->elementCount=-1;
+								ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(genericArguments.Count());
+								resource->subTypes=subTypes;
+								for(vint i=0;i<genericArguments.Count();i++)
 								{
-									member->offset=typeInfo->offsets[i].Constant();
+									ResourceRecord<BasicSubTypeRes> subType=argument.resource->CreateRecord<BasicSubTypeRes>();
+									subType->name=ResourceString::Null();
+									subType->offset=-1;
+									subType->type=GenerateResource(genericArguments.Values()[i], argument);
+									subTypes.Set(genericParameters.IndexOf(genericArguments.Keys()[i]), subType);
 								}
-								else
+							}
+							else
+							{
+								resource->type=BasicTypeRes::Structure;
+								resource->elementType=ResourceHandle<BasicTypeRes>::Null();
+								resource->elementCount=-1;
+								resource->primitiveType=BasicTypeRes::void_type;
+							
+								ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(type->MemberCount());
+								resource->subTypes=subTypes;
+								for(vint i=0;i<type->MemberCount();i++)
 								{
-									member->offset=-1;
+									ResourceHandle<BasicTypeRes> memberType=GenerateResource(type->MemberType(i), argument);
+									ResourceString memberName=argument.resource->CreateString(type->MemberName(i));
+									ResourceRecord<BasicSubTypeRes> member=argument.resource->CreateRecord<BasicSubTypeRes>();
+									member->name=memberName;
+									member->type=memberType;
+									if(type->MemberType(i)->GetType()==BasicTypeRecord::GenericArgument)
+									{
+										member->offset=-1;
+									}
+									else if(typeInfo->offsets[i].IsConstant())
+									{
+										member->offset=typeInfo->offsets[i].Constant();
+									}
+									else
+									{
+										member->offset=-1;
+									}
+									subTypes.Set(i, member);
 								}
-								subTypes.Set(i, member);
 							}
 						}
 						break;
@@ -151,11 +180,8 @@ BasicLanguage_GenerateResource
 							resource->genericArgumentName=argument.resource->CreateString(type->ArgumentName());
 						}
 						break;
-					case BasicTypeRecord::Generic:
-						{
-							CHECK_FAIL(L"vl::scripting::basiclanguage::GenerateResource(...)#遇到无法解释的类型。");
-						}
-						break;
+					default:
+						CHECK_FAIL(L"vl::scripting::basiclanguage::GenerateResource(...)#遇到无法解释的类型。");
 					}
 					return resource;
 				}
