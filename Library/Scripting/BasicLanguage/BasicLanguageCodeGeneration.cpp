@@ -726,6 +726,19 @@ Header File Generator
 						type=target;
 					}
 					break;
+				case BasicTypeRes::Instanciated:
+					{
+						Ptr<BasicInstanciatedGenericType> target=new BasicInstanciatedGenericType;
+						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap);
+						ResourceArrayRecord<BasicSubTypeRes> argumentTypesRes=resource->ReadArrayRecord(typeRes->subTypes);
+						for(vint j=0;j<argumentTypesRes.Count();j++)
+						{
+							ResourceRecord<BasicSubTypeRes> member=argumentTypesRes.Get(j);
+							target->argumentTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, declarationTypeMap));
+						}
+						type=target;
+					}
+					break;
 				default:
 					CHECK_FAIL(L"BasicLanguage_GenerateHeaderType(...)#遇到无法解释的资源类型。");
 				}

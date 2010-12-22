@@ -52,7 +52,7 @@ BasicTypeManager
 
 				virtual TypeRecordType					GetType()=0;
 				virtual BasicPrimitiveTypeEnum			PrimitiveType();						//primitive
-				virtual BasicTypeRecord*				ElementType();							//pointer array generic
+				virtual BasicTypeRecord*				ElementType();							//pointer array generic structure(back reference to generic)
 				virtual vint							ElementCount();							//array
 				virtual BasicTypeRecord*				ReturnType();							//function
 				virtual BasicTypeRecord*				ParameterType(vint index);				//function generic
@@ -162,11 +162,13 @@ BasicTypeManager
 				bool									defined;
 				_ProxyTable								proxyTable;
 				BasicDeclaration*						declaration;
+				BasicTypeRecord*						referencedGenericType;
 
 				BasicStructureTypeRecord(BasicDeclaration* _declaration);
 			public:
 
 				TypeRecordType							GetType();
+				BasicTypeRecord*						ElementType();
 				BasicTypeRecord*						MemberType(vint index);
 				BasicTypeRecord*						MemberType(const WString& name);
 				const WString&							MemberName(vint index);

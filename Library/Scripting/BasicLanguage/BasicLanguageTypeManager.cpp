@@ -233,12 +233,18 @@ BasicStructureTypeRecord
 
 			BasicStructureTypeRecord::BasicStructureTypeRecord(BasicDeclaration* _declaration)
 				:declaration(_declaration)
+				,referencedGenericType(0)
 			{
 			}
 
 			BasicTypeRecord::TypeRecordType BasicStructureTypeRecord::GetType()
 			{
 				return BasicTypeRecord::Structure;
+			}
+
+			BasicTypeRecord* BasicStructureTypeRecord::ElementType()
+			{
+				return referencedGenericType;
 			}
 
 			BasicTypeRecord* BasicStructureTypeRecord::MemberType(vint index)
@@ -610,6 +616,11 @@ BasicTypeManager
 				{
 					type->elementType=elementType;
 					CopyFrom(type->parameterTypes.Wrap(), parameters);
+					BasicStructureTypeRecord* structureType=dynamic_cast<BasicStructureTypeRecord*>(elementType);
+					if(structureType)
+					{
+						structureType->referencedGenericType=genericType;
+					}
 				}
 			}
 

@@ -41,6 +41,7 @@ namespace vl
 				Structure,
 				GenericArgument,
 				Concept,
+				Instanciated,
 			};
 
 			enum PrimitiveTypeEnum
@@ -63,16 +64,16 @@ namespace vl
 
 			TypeEnum									type;
 			PrimitiveTypeEnum							primitiveType;			//Primitive
-			ResourceHandle<BasicTypeRes>				elementType;			//Array, Pointer, Function(return type)
+			ResourceHandle<BasicTypeRes>				elementType;			//Array, Pointer, Function(return type), Generic(element)
 			vint										elementCount;
-			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member), Concept(member)
+			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member), Concept(member), Generic(arguments)
 			vint										size;
 			ResourceString								genericArgumentName;	//GenericArgument
 		};
 
 		struct BasicSubTypeRes
 		{
-			ResourceHandle<BasicTypeRes>				type;
+			ResourceHandle<BasicTypeRes>				type;					//Structure(member), Concept(member), Generic(arguments)
 			ResourceString								name;					//Structure(member), Concept(member)
 			vint										offset;					//Structure(member)
 		};
