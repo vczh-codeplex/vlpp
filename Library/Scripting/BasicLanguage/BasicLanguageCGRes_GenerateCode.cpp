@@ -21,6 +21,12 @@ BasicLanguage_GenerateResource
 				{
 					return typeResource;
 				}
+				else if(type->GetType()==BasicTypeRecord::Generic)
+				{
+					ResourceHandle<BasicTypeRes> resource=GenerateResource(type->ElementType(), argument);
+					argument.info->SetTypeResource(type, resource);
+					return resource;
+				}
 				else
 				{
 					ResourceRecord<BasicTypeRes> resource=argument.resource->CreateRecord<BasicTypeRes>();
@@ -147,7 +153,7 @@ BasicLanguage_GenerateResource
 						break;
 					case BasicTypeRecord::Generic:
 						{
-							return GenerateResource(type->ElementType(), argument);
+							CHECK_FAIL(L"vl::scripting::basiclanguage::GenerateResource(...)#遇到无法解释的类型。");
 						}
 						break;
 					}

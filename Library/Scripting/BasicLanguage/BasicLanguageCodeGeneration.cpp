@@ -605,16 +605,16 @@ Header File Generator
 				ResourceHandle<BasicTypeRes> typeResHandle,
 				Ptr<ResourceStream> resource,
 				const WString& prefix,
-				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& declarationTypeMap)
 			{
-				vint index=structureTypeMap.Keys().IndexOf(typeResHandle.Pointer());
+				vint index=declarationTypeMap.Keys().IndexOf(typeResHandle.Pointer());
 				if(index==-1)
 				{
 					return L"";
 				}
 				else
 				{
-					ResourceRecord<BasicDeclarationRes> declarationRes=structureTypeMap.Values()[index];
+					ResourceRecord<BasicDeclarationRes> declarationRes=declarationTypeMap.Values()[index];
 					WString linkingAssemblyName=resource->ReadString(declarationRes->linkingAssemblyName);
 					WString linkingSymbolName=resource->ReadString(declarationRes->linkingSymbolName);
 					WString declarationName=resource->ReadString(declarationRes->name);
@@ -670,7 +670,7 @@ Header File Generator
 				ResourceHandle<BasicTypeRes> typeResHandle,
 				Ptr<ResourceStream> resource,
 				const WString& prefix,
-				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& declarationTypeMap)
 			{
 				ResourceRecord<BasicTypeRes> typeRes=resource->ReadRecord(typeResHandle);
 				Ptr<BasicType> type;
@@ -679,43 +679,51 @@ Header File Generator
 				case BasicTypeRes::Primitive:
 					{
 						Ptr<BasicPrimitiveType> target=new BasicPrimitiveType;
+						target->type=BasicLanguage_GenerateHeaderPrimitiveType(typeRes->primitiveType);
+						type=target;
 					}
 					break;
 				case BasicTypeRes::Pointer:
 					{
 						Ptr<BasicPointerType> target=new BasicPointerType;
-						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap);
+						type=target;
 					}
 					break;
 				case BasicTypeRes::Array:
 					{
 						Ptr<BasicArrayType> target=new BasicArrayType;
-						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap);
 						target->size=typeRes->elementCount;
+						type=target;
 					}
 					break;
 				case BasicTypeRes::Function:
 					{
 						Ptr<BasicFunctionType> target=new BasicFunctionType;
-						target->returnType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+						target->returnType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap);
 						ResourceArrayRecord<BasicSubTypeRes> parameterTypesRes=resource->ReadArrayRecord(typeRes->subTypes);
 						for(vint j=0;j<parameterTypesRes.Count();j++)
 						{
 							ResourceRecord<BasicSubTypeRes> member=parameterTypesRes.Get(j);
-							target->parameterTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, structureTypeMap));
+							target->parameterTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, declarationTypeMap));
 						}
+						type=target;
 					}
 					break;
+				case BasicTypeRes::Concept:
 				case BasicTypeRes::Structure:
 					{
 						Ptr<BasicReferenceType> target=new BasicReferenceType;
-						target->name=BasicLanguage_GenerateHeaderReferenceName(typeResHandle, resource, prefix, structureTypeMap);
+						target->name=BasicLanguage_GenerateHeaderReferenceName(typeResHandle, resource, prefix, declarationTypeMap);
+						type=target;
 					}
 					break;
 				case BasicTypeRes::GenericArgument:
 					{
 						Ptr<BasicReferenceType> target=new BasicReferenceType;
 						target->name=resource->ReadString(typeRes->genericArgumentName);
+						type=target;
 					}
 					break;
 				default:
@@ -735,13 +743,13 @@ Header File Generator
 				Ptr<BasicProgram> program=new BasicProgram;
 				ResourceRecord<BasicEntryRes> entryRes=resource->ReadRootRecord<BasicEntryRes>();
 				ResourceArrayRecord<BasicDeclarationRes> declarationsRes=resource->ReadArrayRecord<BasicDeclarationRes>(entryRes->declarations);
-				Dictionary<vint, ResourceRecord<BasicDeclarationRes>> structureTypeMap;
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>> declarationTypeMap;
 				for(vint i=0;i<declarationsRes.Count();i++)
 				{
 					ResourceRecord<BasicDeclarationRes> declarationRes=declarationsRes.Get(i);
-					if(declarationRes->type==BasicDeclarationRes::Structure)
+					if(declarationRes->type==BasicDeclarationRes::Structure || declarationRes->type==BasicDeclarationRes::Concept)
 					{
-						structureTypeMap.Add(declarationRes->declarationType.Pointer(), declarationRes);
+						declarationTypeMap.Add(declarationRes->declarationType.Pointer(), declarationRes);
 					}
 				}
 
@@ -767,7 +775,7 @@ Header File Generator
 						case BasicDeclarationRes::Function:
 							{
 								Ptr<BasicFunctionDeclaration> target=new BasicFunctionDeclaration;
-								target->signatureType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, structureTypeMap).Cast<BasicFunctionType>();
+								target->signatureType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap).Cast<BasicFunctionType>();
 								ResourceArrayRecord<BasicParameterRes> parameterNamesRes=resource->ReadArrayRecord(declarationRes->parameterNames);
 								for(vint j=0;j<parameterNamesRes.Count();j++)
 								{
@@ -779,7 +787,7 @@ Header File Generator
 						case BasicDeclarationRes::Variable:
 							{
 								Ptr<BasicVariableDeclaration> target=new BasicVariableDeclaration;
-								target->type=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, structureTypeMap);
+								target->type=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap);
 								declaration=target;
 							}
 							break;
@@ -790,7 +798,7 @@ Header File Generator
 								for(vint j=0;j<parameterTypes.Count();j++)
 								{
 									ResourceRecord<BasicSubTypeRes> member=parameterTypes.Get(j);
-									target->memberTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, structureTypeMap));
+									target->memberTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, declarationTypeMap));
 									target->memberNames.Add(resource->ReadString(member->name));
 								}
 								declaration=target;
@@ -807,7 +815,7 @@ Header File Generator
 									ResourceRecord<BasicSubTypeRes> member=parameterTypes.Get(j);
 									Ptr<BasicConceptBaseDeclaration::FunctionConcept> function=new BasicConceptBaseDeclaration::FunctionConcept;
 									function->name=resource->ReadString(member->name);
-									function->signatureType=BasicLanguage_GenerateHeaderType(member->type, resource, prefix, structureTypeMap).Cast<BasicFunctionType>();
+									function->signatureType=BasicLanguage_GenerateHeaderType(member->type, resource, prefix, declarationTypeMap).Cast<BasicFunctionType>();
 									target->functions.Add(function);
 								}
 								declaration=target;
@@ -817,7 +825,7 @@ Header File Generator
 							{
 								Ptr<BasicConceptInstanceDeclaration> target=new BasicConceptInstanceDeclaration;
 								target->defined=false;
-								target->instanceType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, structureTypeMap);
+								target->instanceType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap);
 								declaration=target;
 							}
 							break;
