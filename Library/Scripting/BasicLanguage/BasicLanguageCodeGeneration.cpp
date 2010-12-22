@@ -570,14 +570,172 @@ BasicCodeGenerator
 Header File Generator
 ***********************************************************************/
 
+			bool BasicLanguage_GenerateHeaderDeclarationName(
+				ResourceRecord<BasicDeclarationRes> declarationRes,
+				WString assemblyName,
+				Ptr<ResourceStream> resource,
+				bool publicOnly,
+				bool currentAssemblyOnly,
+				const WString& prefix,
+				WString& linkingAssemblyName,
+				WString& linkingSymbolName,
+				WString& declarationName)
+			{
+				linkingAssemblyName=resource->ReadString(declarationRes->linkingAssemblyName);
+				linkingSymbolName=resource->ReadString(declarationRes->linkingSymbolName);
+				declarationName=resource->ReadString(declarationRes->name);
+				if(linkingAssemblyName==L"" && linkingSymbolName==L"")
+				{
+					linkingAssemblyName=assemblyName;
+					linkingSymbolName=declarationName;
+					declarationName=prefix+declarationName;
+				}
+				else
+				{
+					if(currentAssemblyOnly)
+					{
+						return false;
+					}
+					declarationName=prefix+linkingSymbolName;
+				}
+				return true;
+			}
+
+			WString BasicLanguage_GenerateHeaderReferenceName(
+				ResourceRecord<BasicTypeRes> typeRes,
+				Ptr<ResourceStream> resource,
+				const WString& prefix,
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
+			{
+				vint index=structureTypeMap.Keys().IndexOf(typeRes.Pointer());
+				if(index==-1)
+				{
+					return L"";
+				}
+				else
+				{
+					ResourceRecord<BasicDeclarationRes> declarationRes=structureTypeMap.Values()[index];
+					WString linkingAssemblyName=resource->ReadString(declarationRes->linkingAssemblyName);
+					WString linkingSymbolName=resource->ReadString(declarationRes->linkingSymbolName);
+					WString declarationName=resource->ReadString(declarationRes->name);
+					if(linkingAssemblyName==L"" && linkingSymbolName==L"")
+					{
+						return prefix+declarationName;
+					}
+					else
+					{
+						return prefix+linkingSymbolName;
+					}
+				}
+			}
+
+			Ptr<BasicType> BasicLanguage_GenerateHeaderType(
+				ResourceRecord<BasicTypeRes> typeRes,
+				Ptr<ResourceStream> resource,
+				const WString& prefix,
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
+			{
+				return 0;
+			}
+
 			Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(
+				WString assemblyName,
 				Ptr<ResourceStream> resource,
 				bool publicOnly,
 				bool currentAssemblyOnly,
 				const WString& prefix,
 				ICollection<WString>& referencedAssemblies)
 			{
-				return 0;
+				Ptr<BasicProgram> program=new BasicProgram;
+				ResourceRecord<BasicEntryRes> entryRes=resource->ReadRootRecord<BasicEntryRes>();
+				ResourceArrayRecord<BasicDeclarationRes> declarationsRes=resource->ReadArrayRecord<BasicDeclarationRes>(entryRes->declarations);
+				Dictionary<vint, ResourceRecord<BasicDeclarationRes>> structureTypeMap;
+				for(vint i=0;i<declarationsRes.Count();i++)
+				{
+					ResourceRecord<BasicDeclarationRes> declarationRes=declarationsRes.Get(i);
+					if(declarationRes->type==BasicDeclarationRes::Structure)
+					{
+						structureTypeMap.Add(declarationRes->declarationType.Pointer(), declarationRes);
+					}
+				}
+
+				for(vint i=0;i<declarationsRes.Count();i++)
+				{
+					ResourceRecord<BasicDeclarationRes> declarationRes=declarationsRes.Get(i);
+					WString linkingAssemblyName, linkingSymbolName, declarationName;
+					if(BasicLanguage_GenerateHeaderDeclarationName(
+						declarationRes,
+						assemblyName,
+						resource,
+						publicOnly,
+						currentAssemblyOnly,
+						prefix,
+						linkingAssemblyName,
+						linkingSymbolName,
+						declarationName))
+					{
+						Ptr<BasicDeclaration> declaration;
+						switch(declarationRes->type)
+						{
+						case BasicDeclarationRes::Function:
+							{
+								Ptr<BasicFunctionDeclaration> target=new BasicFunctionDeclaration;
+								declaration=target;
+							}
+							break;
+						case BasicDeclarationRes::Variable:
+							{
+								Ptr<BasicVariableDeclaration> target=new BasicVariableDeclaration;
+								declaration=target;
+							}
+							break;
+						case BasicDeclarationRes::Structure:
+							{
+								Ptr<BasicStructureDeclaration> target=new BasicStructureDeclaration;
+								declaration=target;
+							}
+							break;
+						case BasicDeclarationRes::Concept:
+							{
+								Ptr<BasicConceptBaseDeclaration> target=new BasicConceptBaseDeclaration;
+								declaration=target;
+							}
+							break;
+						case BasicDeclarationRes::Instance:
+							{
+								Ptr<BasicConceptInstanceDeclaration> target=new BasicConceptInstanceDeclaration;
+								declaration=target;
+							}
+							break;
+						default:
+							CHECK_FAIL(L"BasicLanguage_GenerateHeaderFile(...)#遇到无法解释的资源类型。");
+						}
+						declaration->name=declarationName;
+						declaration->linking.assemblyName=linkingAssemblyName;
+						declaration->linking.symbolName=linkingSymbolName;
+						if(declarationRes->genericArgumentNames)
+						{
+							ResourceArrayRecord<BasicParameterRes> argumentsRes=resource->ReadArrayRecord(declarationRes->genericArgumentNames);
+							for(vint j=0;j<argumentsRes.Count();j++)
+							{
+								declaration->genericDeclaration.arguments.Add(resource->ReadString(argumentsRes.Get(j)->name));
+							}
+							if(declarationRes->genericArgumentConstraints)
+							{
+								ResourceArrayRecord<BasicConstraintRes> constraintsRes=resource->ReadArrayRecord(declarationRes->genericArgumentConstraints);
+								for(vint j=0;j<constraintsRes.Count();j++)
+								{
+									ResourceRecord<BasicConstraintRes> constraintRes=constraintsRes.Get(j);
+									BasicGeneric::Constraint constraint;
+									constraint.argumentName=resource->ReadString(constraintRes->argumentName);
+									constraint.conceptName=prefix+resource->ReadString(constraintRes->conceptName);
+								}
+							}
+						}
+						program->declarations.Add(declaration);
+					}
+				}
+				return program;
 			}
 		}
 	}
