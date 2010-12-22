@@ -51,10 +51,28 @@ void Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* argument
 	*((vint*)result)=sum;
 }
 
+void Test_BasicLanguage_PrintNativeXHeaderFile(Ptr<LanguageAssembly> assembly, Ptr<ILanguageProvider> provider, const WString& filePath)
+{
+	Ptr<IBasicLanguageProvider> printer=provider.Cast<IBasicLanguageProvider>();
+	MemoryStream memoryStream;
+	StreamWriter memoryWriter(memoryStream);
+	if(printer->GenerateHeader(assembly, new NativeXHeaderExtra(), memoryWriter))
+	{
+		FileStream fileStream(filePath, FileStream::WriteOnly);
+		BomEncoder encoder(BomEncoder::Utf16);
+		EncoderStream encoderStream(fileStream, encoder);
+		StreamWriter writer(encoderStream);
+
+		memoryStream.SeekFromBegin(0);
+		StreamReader memoryReader(memoryStream);
+		writer.WriteString(memoryReader.ReadToEnd());
+	}
+}
+
 TEST_CASE(TestCodeInIndex)
 {
 	vl::unittest::UnitTest::PrintInfo(L"Initializing NativeX Language Provider...");
-	Ptr<ILanguageProvider> naitvexProvider=CreateNativeXLanguageProvider();
+	Ptr<ILanguageProvider> nativexProvider=CreateNativeXLanguageProvider();
 	vl::unittest::UnitTest::PrintInfo(L"Loading Cases Index File...");
 	Regex regexCase(L"(<make>[^=:]+)=(<type>[^=:]+):(<value>[^=:]+)");
 	Regex regexMake(L"(<key>[^=]+)=(<value>[^=]+)");
@@ -144,7 +162,7 @@ TEST_CASE(TestCodeInIndex)
 			Ptr<ILanguageProvider> provider;
 			if(languageName==L"NativeX")
 			{
-				provider=naitvexProvider;
+				provider=nativexProvider;
 			}
 			List<Ptr<LanguageAssembly>> references;
 			List<Ptr<LanguageException>> errors;
@@ -169,12 +187,18 @@ TEST_CASE(TestCodeInIndex)
 			}
 			if(assembly)
 			{
-				WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][BeforeExecuted].txt";
-				FileStream fileStream(logOutputPath, FileStream::WriteOnly);
-				BomEncoder encoder(BomEncoder::Utf16);
-				EncoderStream encoderStream(fileStream, encoder);
-				StreamWriter writer(encoderStream);
-				assembly->LogInternalState(writer);
+				{
+					WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][BeforeExecuted].txt";
+					FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+					BomEncoder encoder(BomEncoder::Utf16);
+					EncoderStream encoderStream(fileStream, encoder);
+					StreamWriter writer(encoderStream);
+					assembly->LogInternalState(writer);
+				}
+				{
+					WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][Header][NativeX].txt";
+					Test_BasicLanguage_PrintNativeXHeaderFile(assembly, nativexProvider, logOutputPath);
+				}
 			}
 			for(vint j=0;j<errors.Count();j++)
 			{
