@@ -73,7 +73,7 @@ namespace vl
 		struct BasicSubTypeRes
 		{
 			ResourceHandle<BasicTypeRes>				type;
-			ResourceString								name;					//Structure(member)
+			ResourceString								name;					//Structure(member), Concept(member)
 			vint										offset;					//Structure(member)
 		};
 
