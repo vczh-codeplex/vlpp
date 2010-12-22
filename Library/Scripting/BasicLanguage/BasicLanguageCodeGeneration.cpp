@@ -775,6 +775,7 @@ Header File Generator
 						case BasicDeclarationRes::Function:
 							{
 								Ptr<BasicFunctionDeclaration> target=new BasicFunctionDeclaration;
+								target->foreignFunction=false;
 								target->signatureType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap).Cast<BasicFunctionType>();
 								ResourceArrayRecord<BasicParameterRes> parameterNamesRes=resource->ReadArrayRecord(declarationRes->parameterNames);
 								for(vint j=0;j<parameterNamesRes.Count();j++)
@@ -794,6 +795,7 @@ Header File Generator
 						case BasicDeclarationRes::Structure:
 							{
 								Ptr<BasicStructureDeclaration> target=new BasicStructureDeclaration;
+								target->defined=true;
 								ResourceArrayRecord<BasicSubTypeRes> parameterTypes=resource->ReadArrayRecord(typeRes->subTypes);
 								for(vint j=0;j<parameterTypes.Count();j++)
 								{
@@ -848,9 +850,10 @@ Header File Generator
 								for(vint j=0;j<constraintsRes.Count();j++)
 								{
 									ResourceRecord<BasicConstraintRes> constraintRes=constraintsRes.Get(j);
-									BasicGeneric::Constraint constraint;
-									constraint.argumentName=resource->ReadString(constraintRes->argumentName);
-									constraint.conceptName=prefix+resource->ReadString(constraintRes->conceptName);
+									Ptr<BasicGeneric::Constraint> constraint=new BasicGeneric::Constraint;
+									constraint->argumentName=resource->ReadString(constraintRes->argumentName);
+									constraint->conceptName=prefix+resource->ReadString(constraintRes->conceptName);
+									declaration->genericDeclaration.constraints.Add(constraint);
 								}
 							}
 						}
