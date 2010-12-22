@@ -2107,6 +2107,7 @@ Extra
 
 						List<WString> referencedAssemblies;
 						Ptr<BasicProgram> program=BasicLanguage_GenerateHeaderFile(
+							assembly->GetAssemblyName(),
 							resource,
 							headerExtra->publicOnly,
 							headerExtra->currentAssemblyOnly,

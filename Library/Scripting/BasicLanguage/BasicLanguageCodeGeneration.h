@@ -270,6 +270,7 @@ Header File Generator
 ***********************************************************************/
 
 			extern Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(
+				WString assemblyName,
 				Ptr<ResourceStream> resource,
 				bool publicOnly,
 				bool currentAssemblyOnly,

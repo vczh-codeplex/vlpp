@@ -65,7 +65,7 @@ namespace vl
 			PrimitiveTypeEnum							primitiveType;			//Primitive
 			ResourceHandle<BasicTypeRes>				elementType;			//Array, Pointer, Function(return type)
 			vint										elementCount;
-			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member)
+			ResourceArrayHandle<BasicSubTypeRes>		subTypes;				//Function(parameter), Structure(member), Concept(member)
 			vint										size;
 			ResourceString								genericArgumentName;	//GenericArgument
 		};
@@ -104,7 +104,7 @@ namespace vl
 			};
 
 			TypeEnum									type;
-			ResourceHandle<BasicTypeRes>				declarationType;				//Function, Variable, Structure, Instance
+			ResourceHandle<BasicTypeRes>				declarationType;				//Function, Variable, Structure, Concept, Instance
 			ResourceString								name;
 			ResourceArrayHandle<BasicParameterRes>		parameterNames;					//Function(parameter)
 			vint										address;						//Function(ins index), Variable(data offset)
