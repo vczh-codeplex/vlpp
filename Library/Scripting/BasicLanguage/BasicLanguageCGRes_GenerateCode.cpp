@@ -375,37 +375,44 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicConceptInstanceDeclaration)
 				{
-					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-					BuildGenericResource(resource, node, argument);
-
-					BP bp(
-						argument.info->GetEnv(),
-						argument.info->GetEnv()->GlobalScope(),
-						argument.info->GetTypeManager(),
-						*(List<Ptr<BasicLanguageCodeException>>*)0,
-						*(SortedList<WString>*)0
-						);
-					BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, bp, true);
-					resource->declarationType=GenerateResource(instanceType, argument);
-					resource->type=BasicDeclarationRes::Instance;
-					resource->name=ResourceString::Null();
-					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
-					resource->address=-1;
-
-					if(node->linking.HasLink())
+					if(node->defined)
 					{
-						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						BuildGenericResource(resource, node, argument);
+
+						BP bp(
+							argument.info->GetEnv(),
+							argument.info->GetEnv()->GlobalScope(),
+							argument.info->GetTypeManager(),
+							*(List<Ptr<BasicLanguageCodeException>>*)0,
+							*(SortedList<WString>*)0
+							);
+						BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, bp, true);
+						resource->declarationType=GenerateResource(instanceType, argument);
+						resource->type=BasicDeclarationRes::Instance;
+						resource->name=argument.resource->CreateString(node->name);
+						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+						resource->address=-1;
+
+						if(node->linking.HasLink())
+						{
+							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+						}
+						else
+						{
+							resource->linkingAssemblyName=ResourceString::Null();
+							resource->linkingSymbolName=ResourceString::Null();
+						}
+						
+						resource->instanceConceptAssemblyName=ResourceString::Null();
+						resource->instanceConceptSymbolName=ResourceString::Null();
+						return resource;
 					}
 					else
 					{
-						resource->linkingAssemblyName=ResourceString::Null();
-						resource->linkingSymbolName=ResourceString::Null();
+						return ResourceHandle<BasicDeclarationRes>::Null();
 					}
-						
-					resource->instanceConceptAssemblyName=ResourceString::Null();
-					resource->instanceConceptSymbolName=ResourceString::Null();
-					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedDeclaration)
