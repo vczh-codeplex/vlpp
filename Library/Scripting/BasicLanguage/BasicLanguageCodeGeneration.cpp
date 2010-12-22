@@ -602,12 +602,12 @@ Header File Generator
 			}
 
 			WString BasicLanguage_GenerateHeaderReferenceName(
-				ResourceHandle<BasicTypeRes> typeRes,
+				ResourceHandle<BasicTypeRes> typeResHandle,
 				Ptr<ResourceStream> resource,
 				const WString& prefix,
 				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
 			{
-				vint index=structureTypeMap.Keys().IndexOf(typeRes.Pointer());
+				vint index=structureTypeMap.Keys().IndexOf(typeResHandle.Pointer());
 				if(index==-1)
 				{
 					return L"";
@@ -629,13 +629,99 @@ Header File Generator
 				}
 			}
 
+			BasicPrimitiveTypeEnum BasicLanguage_GenerateHeaderPrimitiveType(BasicTypeRes::PrimitiveTypeEnum inputType)
+			{
+				switch(inputType)
+				{
+				case BasicTypeRes::s8:
+					return s8;
+				case BasicTypeRes::s16:
+					return s16;
+				case BasicTypeRes::s32:
+					return s32;
+				case BasicTypeRes::s64:
+					return s64;
+				case BasicTypeRes::u8:
+					return u8;
+				case BasicTypeRes::u16:
+					return u16;
+				case BasicTypeRes::u32:
+					return u32;
+				case BasicTypeRes::u64:
+					return u64;
+				case BasicTypeRes::f32:
+					return f32;
+				case BasicTypeRes::f64:
+					return f64;
+				case BasicTypeRes::bool_type:
+					return bool_type;
+				case BasicTypeRes::void_type:
+					return void_type;
+				case BasicTypeRes::char_type:
+					return char_type;
+				case BasicTypeRes::wchar_type:
+					return wchar_type;
+				default:
+					CHECK_FAIL(L"BasicLanguage_GenerateHeaderPrimitiveType(...)#遇到无法解释的资源类型。");
+				}
+			}
+
 			Ptr<BasicType> BasicLanguage_GenerateHeaderType(
-				ResourceHandle<BasicTypeRes> typeRes,
+				ResourceHandle<BasicTypeRes> typeResHandle,
 				Ptr<ResourceStream> resource,
 				const WString& prefix,
 				Dictionary<vint, ResourceRecord<BasicDeclarationRes>>& structureTypeMap)
 			{
-				return 0;
+				ResourceRecord<BasicTypeRes> typeRes=resource->ReadRecord(typeResHandle);
+				Ptr<BasicType> type;
+				switch(typeRes->type)
+				{
+				case BasicTypeRes::Primitive:
+					{
+						Ptr<BasicPrimitiveType> target=new BasicPrimitiveType;
+					}
+					break;
+				case BasicTypeRes::Pointer:
+					{
+						Ptr<BasicPointerType> target=new BasicPointerType;
+						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+					}
+					break;
+				case BasicTypeRes::Array:
+					{
+						Ptr<BasicArrayType> target=new BasicArrayType;
+						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+						target->size=typeRes->elementCount;
+					}
+					break;
+				case BasicTypeRes::Function:
+					{
+						Ptr<BasicFunctionType> target=new BasicFunctionType;
+						target->returnType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
+						ResourceArrayRecord<BasicSubTypeRes> parameterTypesRes=resource->ReadArrayRecord(typeRes->subTypes);
+						for(vint j=0;j<parameterTypesRes.Count();j++)
+						{
+							ResourceRecord<BasicSubTypeRes> member=parameterTypesRes.Get(j);
+							target->parameterTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, structureTypeMap));
+						}
+					}
+					break;
+				case BasicTypeRes::Structure:
+					{
+						Ptr<BasicReferenceType> target=new BasicReferenceType;
+						target->name=BasicLanguage_GenerateHeaderReferenceName(typeResHandle, resource, prefix, structureTypeMap);
+					}
+					break;
+				case BasicTypeRes::GenericArgument:
+					{
+						Ptr<BasicReferenceType> target=new BasicReferenceType;
+						target->name=resource->ReadString(typeRes->genericArgumentName);
+					}
+					break;
+				default:
+					CHECK_FAIL(L"BasicLanguage_GenerateHeaderType(...)#遇到无法解释的资源类型。");
+				}
+				return type;
 			}
 
 			Ptr<BasicProgram> BasicLanguage_GenerateHeaderFile(
@@ -681,14 +767,7 @@ Header File Generator
 						case BasicDeclarationRes::Function:
 							{
 								Ptr<BasicFunctionDeclaration> target=new BasicFunctionDeclaration;
-								Ptr<BasicFunctionType> signatureType=new BasicFunctionType;
-								signatureType->returnType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, structureTypeMap);
-								ResourceArrayRecord<BasicSubTypeRes> parameterTypesRes=resource->ReadArrayRecord(typeRes->subTypes);
-								for(vint j=0;j<parameterTypesRes.Count();j++)
-								{
-									ResourceRecord<BasicSubTypeRes> member=parameterTypesRes.Get(j);
-									signatureType->parameterTypes.Add(BasicLanguage_GenerateHeaderType(member->type, resource, prefix, structureTypeMap));
-								}
+								target->signatureType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, structureTypeMap).Cast<BasicFunctionType>();
 								ResourceArrayRecord<BasicParameterRes> parameterNamesRes=resource->ReadArrayRecord(declarationRes->parameterNames);
 								for(vint j=0;j<parameterNamesRes.Count();j++)
 								{
