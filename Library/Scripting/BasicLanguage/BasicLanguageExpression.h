@@ -145,6 +145,13 @@ namespace vl
 			};
 
 /***********************************************************************
+Helper Functions
+***********************************************************************/
+
+			extern Ptr<BasicAttribute> BasicLanguage_FindFirstAttribute(const collections::ICollection<Ptr<BasicAttribute>>& attributes, const WString& name);
+			extern bool BasicLanguage_FindAllAttributes(const collections::ICollection<Ptr<BasicAttribute>>& attributes, const WString& name, collections::ICollection<Ptr<BasicAttribute>>& result);
+
+/***********************************************************************
 Primitive Expression
 ***********************************************************************/
 

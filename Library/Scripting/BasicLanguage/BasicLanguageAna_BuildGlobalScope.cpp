@@ -10,7 +10,7 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-BasicLanguage_BuildGlobalScopePass1
+Helper Functions
 ***********************************************************************/
 
 			BP BuildBasicGenericScope(BasicDeclaration* declaration, const BP& argument)
@@ -118,6 +118,10 @@ BasicLanguage_BuildGlobalScopePass1
 					return true;
 				}
 			}
+
+/***********************************************************************
+BasicLanguage_BuildGlobalScopePass1
+***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 
@@ -341,36 +345,112 @@ BasicLanguage_BuildGlobalScopePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					for(vint i=0;i<node->attributes.Count();i++)
+					{
+						Ptr<BasicAttribute> attribute=node->attributes[i];
+						if(attribute->attributeName==L"public")
+						{
+						}
+						else
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnFunctionDeclaration(node, attribute->attributeName));
+						}
+					}
 				}
 			
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
 					if(!node->defined)
 					{
+						for(vint i=0;i<node->attributes.Count();i++)
+						{
+							Ptr<BasicAttribute> attribute=node->attributes[i];
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnStructureDeclaration(node, attribute->attributeName));
+						}
 						BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
 						if(!structure->Defined())
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(node));
 						}
 					}
+					else
+					{
+						for(vint i=0;i<node->attributes.Count();i++)
+						{
+							Ptr<BasicAttribute> attribute=node->attributes[i];
+							if(attribute->attributeName==L"public")
+							{
+							}
+							else
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnStructureDeclaration(node, attribute->attributeName));
+							}
+						}
+					}
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					for(vint i=0;i<node->attributes.Count();i++)
+					{
+						Ptr<BasicAttribute> attribute=node->attributes[i];
+						if(attribute->attributeName==L"public")
+						{
+						}
+						else
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnVariableDeclaration(node, attribute->attributeName));
+						}
+					}
 				}
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+					for(vint i=0;i<node->attributes.Count();i++)
+					{
+						Ptr<BasicAttribute> attribute=node->attributes[i];
+						argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnTypeRenameDeclaration(node, attribute->attributeName));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
 				{
+					for(vint i=0;i<node->attributes.Count();i++)
+					{
+						Ptr<BasicAttribute> attribute=node->attributes[i];
+						if(attribute->attributeName==L"public")
+						{
+						}
+						else
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnConceptDeclaration(node, attribute->attributeName));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
-					if(node->defined)
+					if(!node->defined)
 					{
+						for(vint i=0;i<node->attributes.Count();i++)
+						{
+							Ptr<BasicAttribute> attribute=node->attributes[i];
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnInstanceDeclaration(node, attribute->attributeName));
+						}
+					}
+					else
+					{
+						for(vint i=0;i<node->attributes.Count();i++)
+						{
+							Ptr<BasicAttribute> attribute=node->attributes[i];
+							if(attribute->attributeName==L"public")
+							{
+							}
+							else
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnInstanceDeclaration(node, attribute->attributeName));
+							}
+						}
 						BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
 						Ptr<BasicScope::Instance> instanceObject=argument.scope->FindInstance(instanceType, node->name);
 						List<WString> conceptFunctions;

@@ -138,6 +138,53 @@ BasicLanguage_GetTypeRecord
 			{
 				return BasicLanguage_GetTypeRecord(type.Obj(), argument, acceptRawGenericType);
 			}
+
+/***********************************************************************
+IsPublicType
+***********************************************************************/
+			
+			bool IsPublicType(BasicTypeRecord* type, const BP& argument)
+			{
+				switch(type->GetType())
+				{
+				case BasicTypeRecord::Primitive:
+					return true;
+				case BasicTypeRecord::Pointer:
+					return IsPublicType(type->ElementType(), argument);
+				case BasicTypeRecord::Array:
+					return IsPublicType(type->ElementType(), argument);
+				case BasicTypeRecord::Function:
+					{
+						if(!IsPublicType(type->ReturnType(), argument))return false;
+						for(vint i=0;i<type->ParameterCount();i++)
+						{
+							if(!IsPublicType(type->ParameterType(i), argument))return false;
+						}
+						return true;
+					}
+				case BasicTypeRecord::Structure:
+					{
+						BasicDeclaration* declaration=type->Declaration();
+						if(!BasicLanguage_FindFirstAttribute(declaration->attributes.Wrap(), L"public"))return false;
+						BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+						if(proxyType)
+						{
+							const IReadonlyList<BasicTypeRecord*>& arguments=proxyType->GenericArgumentMap().Values();
+							for(vint i=0;i<arguments.Count();i++)
+							{
+								if(!IsPublicType(arguments[i], argument))return false;
+							}
+						}
+						return true;
+					}
+				case BasicTypeRecord::GenericArgument:
+					return true;
+				case BasicTypeRecord::Generic:
+					return IsPublicType(type->ElementType(), argument);
+				default:
+					return false;
+				}
+			}
 		}
 	}
 }

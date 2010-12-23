@@ -211,6 +211,7 @@ BasicTypeManager
 				vint									MemberNameIndex(const WString& name);
 				vint									MemberCount();
 				bool									Defined();
+				BasicDeclaration*						Declaration();
 
 				BasicTypeRecord*						UninstanciatedStructureType();
 				_IGenericInstanciatingTypeTable&		GenericArgumentMap();

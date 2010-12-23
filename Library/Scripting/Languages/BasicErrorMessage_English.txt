@@ -52,6 +52,13 @@ InstanceShouldBeDeclaredOnType(type,conceptName)=An instance of concept {concept
 CannotThrowVoidValue=Cannot throw an expression that returns no value.
 ForeignFunctionCannotBeGeneric(name)=Foreign function {name} cannot be generic.
 
+AttributeCannotApplyOnFunctionDeclaration(attribute,name)=Attribute {attribute} cannot apply on function declaration {name}.
+AttributeCannotApplyOnStructureDeclaration(attribute,name)=Attribute {attribute} cannot apply on structure declaration {name}.
+AttributeCannotApplyOnVariableDeclaration(attribute,name)=Attribute {attribute} cannot apply on variable declaration {name}.
+AttributeCannotApplyOnTypeRenameDeclaration(attribute,name)=Attribute {attribute} cannot apply on type rename declaration {name}.
+AttributeCannotApplyOnConceptDeclaration(attribute,name)=Attribute {attribute} cannot apply on concept declaration {name}.
+AttributeCannotApplyOnInstanceDeclaration(attribute,name)=Attribute {attribute} cannot apply on instance declaration {name}.
+
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.
 ILExceptionAccessViolation=Access violation.

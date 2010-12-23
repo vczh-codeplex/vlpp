@@ -70,6 +70,7 @@ Algorithms
 			extern void CheckRequiredInstance(BasicTypeRecord* type, BasicType* typeExpression, const WString& conceptName, const BP& argument);
 			extern BasicTypeRecord* BasicLanguage_GetTypeRecord(BasicType* type, const BP& argument, bool acceptRawGenericType);
 			extern BasicTypeRecord* BasicLanguage_GetTypeRecord(Ptr<BasicType> type, const BP& argument, bool acceptRawGenericType);
+			extern bool IsPublicType(BasicTypeRecord* type, const BP& argument);
 
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1, BasicDeclaration, BP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2, BasicDeclaration, BP)
