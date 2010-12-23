@@ -350,7 +350,7 @@ BasicLanguage_BuildGlobalScopePass2
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
-							BasicTypeRecord* type=argument.env->GetFunctionType(node, false);
+							BasicTypeRecord* type=argument.env->GetFunctionType(node, true);
 							if(type)
 							{
 								if(!IsPublicType(type->ReturnType(), argument))
