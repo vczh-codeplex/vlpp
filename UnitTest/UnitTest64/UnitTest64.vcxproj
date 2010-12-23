@@ -175,6 +175,12 @@
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILStack.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildGlobalScope.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_CheckStatement.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetExpressionType.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetTypeRecord.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_IsLeftValue.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGCommon_GenerateCode.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGDecl_GenerateCode.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_Invoke.cpp" />
