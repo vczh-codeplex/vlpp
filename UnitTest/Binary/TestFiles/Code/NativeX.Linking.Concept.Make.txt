@@ -1,9 +1,12 @@
 Language=NativeX
 Assembly=Eq
+Header=PublicOnly
 Compile=NativeX.Linking.Concept.Eq.txt
 Language=NativeX
 Assembly=Vector
+Header=PublicOnly
 Compile=NativeX.Linking.Concept.Vector.txt
 Language=NativeX
 Assembly=Main
+Header=PublicOnly
 Compile=NativeX.Linking.Concept.Main.txt

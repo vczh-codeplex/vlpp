@@ -582,6 +582,24 @@ Header File Generator
 				WString& declarationName,
 				ICollection<WString>& referencedAssemblies)
 			{
+				if(publicOnly)
+				{
+					bool containsPublicAttribute=false;
+					ResourceArrayRecord<BasicAttributeRes> attributesRes=resource->ReadArrayRecord(declarationRes->attributes);
+					for(vint i=0;i<attributesRes.Count();i++)
+					{
+						WString attribute=resource->ReadString(attributesRes.Get(i)->attributeName);
+						if(attribute==L"public")
+						{
+							containsPublicAttribute=true;
+							break;
+						}
+					}
+					if(!containsPublicAttribute)
+					{
+						return false;
+					}
+				}
 				linkingAssemblyName=resource->ReadString(declarationRes->linkingAssemblyName);
 				linkingSymbolName=resource->ReadString(declarationRes->linkingSymbolName);
 				declarationName=resource->ReadString(declarationRes->name);
