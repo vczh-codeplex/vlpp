@@ -468,6 +468,27 @@ BasicLanguageCodeException
 				parameters[1]=declaration->name;
 				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnInstanceDeclaration, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(BasicDeclaration* declaration, BasicTypeRecord* type)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnInstanceDeclaration, parameters.Wrap(), type);
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceDeclaredOnPublicConceptShouldBePublic(BasicConceptInstanceDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, InstanceDeclaredOnPublicConceptShouldBePublic, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceDeclaredOnNonPublicConceptShouldBeNonPublic(BasicConceptInstanceDeclaration* declaration)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=declaration->name;
+				return new BasicLanguageCodeException(declaration, InstanceDeclaredOnNonPublicConceptShouldBeNonPublic, parameters.Wrap());
+			}
 		}
 	}
 }

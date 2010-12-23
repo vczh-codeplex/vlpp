@@ -291,6 +291,21 @@ namespace vl
 				return L"Attribute "+attribute+L" cannot apply on instance declaration "+name+L".";
 			}
 
+			WString BasicErrorMessage::PublicDeclarationCannotUseNonPublicType(const WString& name, const WString& type)
+			{
+				return L"Public declaration "+name+L" cannot use non public type "+type+L".";
+			}
+
+			WString BasicErrorMessage::InstanceDeclaredOnPublicConceptShouldBePublic(const WString& concept)
+			{
+				return L"Instance declared on public concept "+concept+L" should be public.";
+			}
+
+			WString BasicErrorMessage::InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(const WString& concept)
+			{
+				return L"Instance declared on non public concept "+concept+L" should be non public.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

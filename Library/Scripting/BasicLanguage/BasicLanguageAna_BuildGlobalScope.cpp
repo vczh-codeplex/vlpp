@@ -350,6 +350,21 @@ BasicLanguage_BuildGlobalScopePass2
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
+							BasicTypeRecord* type=argument.env->GetFunctionType(node, false);
+							if(type)
+							{
+								if(!IsPublicType(type->ReturnType(), argument))
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, type->ReturnType()));
+								}
+								for(vint i=0;i<type->ParameterCount();i++)
+								{
+									if(!IsPublicType(type->ParameterType(i), argument))
+									{
+										argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, type->ParameterType(i)));
+									}
+								}
+							}
 						}
 						else
 						{
@@ -362,15 +377,16 @@ BasicLanguage_BuildGlobalScopePass2
 				{
 					if(!node->defined)
 					{
-						for(vint i=0;i<node->attributes.Count();i++)
-						{
-							Ptr<BasicAttribute> attribute=node->attributes[i];
-							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnStructureDeclaration(node, attribute->attributeName));
-						}
 						BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
 						if(!structure->Defined())
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetPredeclaredStructureShouldBeDefined(node));
+						}
+
+						for(vint i=0;i<node->attributes.Count();i++)
+						{
+							Ptr<BasicAttribute> attribute=node->attributes[i];
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnStructureDeclaration(node, attribute->attributeName));
 						}
 					}
 					else
@@ -380,6 +396,17 @@ BasicLanguage_BuildGlobalScopePass2
 							Ptr<BasicAttribute> attribute=node->attributes[i];
 							if(attribute->attributeName==L"public")
 							{
+								BasicTypeRecord* type=argument.env->GetStructureType(node);
+								if(type)
+								{
+									for(vint i=0;i<type->MemberCount();i++)
+									{
+										if(!IsPublicType(type->MemberType(i), argument))
+										{
+											argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, type->MemberType(i)));
+										}
+									}
+								}
 							}
 							else
 							{
@@ -396,6 +423,14 @@ BasicLanguage_BuildGlobalScopePass2
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
+							BasicScope::Variable variable=argument.scope->variables.Find(node->name);
+							if(variable.globalVariable && variable.type)
+							{
+								if(!IsPublicType(variable.type, argument))
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, variable.type));
+								}
+							}
 						}
 						else
 						{
@@ -420,6 +455,18 @@ BasicLanguage_BuildGlobalScopePass2
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
+							Ptr<BasicScope::Concept> concept=argument.scope->concepts.Find(node->name);
+							if(concept)
+							{
+								for(vint i=0;i<concept->functions.Count();i++)
+								{
+									BasicTypeRecord* type=concept->functions.Values()[i];
+									if(!IsPublicType(type, argument))
+									{
+										argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, type));
+									}
+								}
+							}
 						}
 						else
 						{
@@ -440,19 +487,55 @@ BasicLanguage_BuildGlobalScopePass2
 					}
 					else
 					{
+						BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
+						Ptr<BasicScope::Instance> instanceObject=argument.scope->FindInstance(instanceType, node->name);
+						bool publicInstanceType=true;
+						bool publicConcept=false;
+						bool publicInstance=false;
+						{
+							if(!IsPublicType(instanceType, argument))
+							{
+								publicInstanceType=false;
+							}
+							Ptr<BasicScope::Concept> concept=argument.scope->concepts.Find(node->name);
+							if(concept && concept->conceptDeclaration)
+							{
+								if(concept->conceptDeclaration->linking.HasLink())
+								{
+									publicConcept=true;
+								}
+								else
+								{
+									publicConcept=BasicLanguage_FindFirstAttribute(concept->conceptDeclaration->attributes.Wrap(), L"public");
+								}
+							}
+						}
+
 						for(vint i=0;i<node->attributes.Count();i++)
 						{
 							Ptr<BasicAttribute> attribute=node->attributes[i];
 							if(attribute->attributeName==L"public")
 							{
+								publicInstance=true;
+								if(!publicInstanceType)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, instanceType));
+								}
+								if(!publicConcept)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetInstanceDeclaredOnNonPublicConceptShouldBeNonPublic(node));
+								}
 							}
 							else
 							{
 								argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnInstanceDeclaration(node, attribute->attributeName));
 							}
 						}
-						BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
-						Ptr<BasicScope::Instance> instanceObject=argument.scope->FindInstance(instanceType, node->name);
+						if(!publicInstance && publicConcept)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetInstanceDeclaredOnPublicConceptShouldBePublic(node));
+						}
+
 						List<WString> conceptFunctions;
 						CopyFrom(conceptFunctions.Wrap(), instanceObject->targetConcept->functions.Keys());
 						BP newArgument(argument, instanceObject->instanceScope);

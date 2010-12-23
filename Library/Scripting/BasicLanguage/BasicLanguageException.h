@@ -25,19 +25,19 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					TypeNameNotExists,									//name
-					FunctionAlreadyExists,								//name
-					VariableAlreadyExists,								//name
-					TypeAlreadyExists,									//name
-					StructureMemberAlreadyExists,						//member name
-					VariableNotExists,									//name
+					TypeNameNotExists,										//name
+					FunctionAlreadyExists,									//name
+					VariableAlreadyExists,									//name
+					TypeAlreadyExists,										//name
+					StructureMemberAlreadyExists,							//member name
+					VariableNotExists,										//name
 					FailToCast,
 					VoidFunctionNotHaveResult,
 					GlobalNotHaveResult,
 					CannotInvokeNonFunctionValue,
 					ArgumentNumberNotMatch,
-					ArgumentTypeNotMatch,								//parameter index
-					StructureMemberNotExists,							//member name
+					ArgumentTypeNotMatch,									//parameter index
+					StructureMemberNotExists,								//member name
 					CannotConvertIndexToInt,
 					CannotSubscribe,
 					UnaryOperandShouldBeLeftValue,
@@ -49,39 +49,42 @@ namespace vl
 					ContinueShouldBeInLooping,
 					InitializerTypeNotMatch,
 					ParameterCountNotMatch,
-					ParameterAlreadyExists,								//parameter index
-					StructureMemberCannotBeUndefinedType,				//member name
+					ParameterAlreadyExists,									//parameter index
+					StructureMemberCannotBeUndefinedType,					//member name
 					LeftOperandShouldBeStructure,
 					LeftOperandShouldBePointerToStructure,
 					PredeclaredStructureShouldBeDefined,
-					ExternalFunctionCannotHaveStatement,				//name
-					LocalFunctionShouldHaveStatement,					//name
-					ExternalVariableCannotHaveInitializer,				//name
-					ExternalStructureShouldBeDefined,					//name
-					GenericArgumentAlreadyExists,						//name
-					GenericArgumentNotExists,							//name
+					ExternalFunctionCannotHaveStatement,					//name
+					LocalFunctionShouldHaveStatement,						//name
+					ExternalVariableCannotHaveInitializer,					//name
+					ExternalStructureShouldBeDefined,						//name
+					GenericArgumentAlreadyExists,							//name
+					GenericArgumentNotExists,								//name
 					CannotUseUninstanciatedGenericType,
-					CannotUseUninstanciatedGenericVariable,				//name
-					CannotUseUninstanciatedGenericFunction,				//name
+					CannotUseUninstanciatedGenericVariable,					//name
+					CannotUseUninstanciatedGenericFunction,					//name
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
-					ConceptFunctionAlreadyExists,						//name
-					ConceptFunctionNotExists,							//conceptName, functionName
-					ConceptAlreadyExists,								//name
-					ConceptNotExists,									//name
+					ConceptFunctionAlreadyExists,							//name
+					ConceptFunctionNotExists,								//conceptName, functionName
+					ConceptAlreadyExists,									//name
+					ConceptNotExists,										//name
 					InstanceTypeNotCorrect,
-					ConceptFunctionTypeNotMatches,						//name
-					InstanceShouldHaveFunction,							//name
-					InstanceShouldNotHaveFunction,						//name
-					InstanceShouldBeDeclaredOnType,						//concept-name, [typeParameter for type information]
+					ConceptFunctionTypeNotMatches,							//name
+					InstanceShouldHaveFunction,								//name
+					InstanceShouldNotHaveFunction,							//name
+					InstanceShouldBeDeclaredOnType,							//concept-name, [typeParameter for type information]
 					CannotThrowVoidValue,
-					ForeignFunctionCannotBeGeneric,						//name
-					AttributeCannotApplyOnFunctionDeclaration,			//attribute-name, declaration-name
-					AttributeCannotApplyOnStructureDeclaration,			//attribute-name, declaration-name
-					AttributeCannotApplyOnVariableDeclaration,			//attribute-name, declaration-name
-					AttributeCannotApplyOnTypeRenameDeclaration,		//attribute-name, declaration-name
-					AttributeCannotApplyOnConceptDeclaration,			//attribute-name, declaration-name
-					AttributeCannotApplyOnInstanceDeclaration,			//attribute-name, declaration-name
+					ForeignFunctionCannotBeGeneric,							//name
+					AttributeCannotApplyOnFunctionDeclaration,				//attribute-name, declaration-name
+					AttributeCannotApplyOnStructureDeclaration,				//attribute-name, declaration-name
+					AttributeCannotApplyOnVariableDeclaration,				//attribute-name, declaration-name
+					AttributeCannotApplyOnTypeRenameDeclaration,			//attribute-name, declaration-name
+					AttributeCannotApplyOnConceptDeclaration,				//attribute-name, declaration-name
+					AttributeCannotApplyOnInstanceDeclaration,				//attribute-name, declaration-name
+					PublicDeclarationCannotUseNonPublicType,				//declaration-name, [typeParameter for type information]
+					InstanceDeclaredOnPublicConceptShouldBePublic,			//concept-name
+					InstanceDeclaredOnNonPublicConceptShouldBeNonPublic,	//concept-name
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -160,6 +163,9 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetAttributeCannotApplyOnTypeRenameDeclaration(BasicTypeRenameDeclaration* declaration, const WString& attributeName);
 				static Ptr<BasicLanguageCodeException>							GetAttributeCannotApplyOnConceptDeclaration(BasicConceptBaseDeclaration* declaration, const WString& attributeName);
 				static Ptr<BasicLanguageCodeException>							GetAttributeCannotApplyOnInstanceDeclaration(BasicConceptInstanceDeclaration* declaration, const WString& attributeName);
+				static Ptr<BasicLanguageCodeException>							GetPublicDeclarationCannotUseNonPublicType(BasicDeclaration* declaration, BasicTypeRecord* type);
+				static Ptr<BasicLanguageCodeException>							GetInstanceDeclaredOnPublicConceptShouldBePublic(BasicConceptInstanceDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetInstanceDeclaredOnNonPublicConceptShouldBeNonPublic(BasicConceptInstanceDeclaration* declaration);
 			};
 		}
 	}
