@@ -391,6 +391,11 @@ BasicGenericStructureProxyTypeRecord
 				return structureType->Defined();
 			}
 
+			BasicDeclaration* BasicGenericStructureProxyTypeRecord::Declaration()
+			{
+				return structureType->Declaration();
+			}
+
 			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::UninstanciatedStructureType()
 			{
 				return structureType;

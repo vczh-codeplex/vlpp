@@ -261,6 +261,36 @@ namespace vl
 				return L"Foreign function "+name+L" cannot be generic.";
 			}
 
+			WString BasicErrorMessage::AttributeCannotApplyOnFunctionDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on function declaration "+name+L".";
+			}
+
+			WString BasicErrorMessage::AttributeCannotApplyOnStructureDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on structure declaration "+name+L".";
+			}
+
+			WString BasicErrorMessage::AttributeCannotApplyOnVariableDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on variable declaration "+name+L".";
+			}
+
+			WString BasicErrorMessage::AttributeCannotApplyOnTypeRenameDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on type rename declaration "+name+L".";
+			}
+
+			WString BasicErrorMessage::AttributeCannotApplyOnConceptDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on concept declaration "+name+L".";
+			}
+
+			WString BasicErrorMessage::AttributeCannotApplyOnInstanceDeclaration(const WString& attribute, const WString& name)
+			{
+				return L"Attribute "+attribute+L" cannot apply on instance declaration "+name+L".";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

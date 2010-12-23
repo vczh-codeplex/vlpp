@@ -76,6 +76,12 @@ namespace vl
 				static WString InstanceShouldBeDeclaredOnType(const WString& type, const WString& conceptName);
 				static WString CannotThrowVoidValue();
 				static WString ForeignFunctionCannotBeGeneric(const WString& name);
+				static WString AttributeCannotApplyOnFunctionDeclaration(const WString& attribute, const WString& name);
+				static WString AttributeCannotApplyOnStructureDeclaration(const WString& attribute, const WString& name);
+				static WString AttributeCannotApplyOnVariableDeclaration(const WString& attribute, const WString& name);
+				static WString AttributeCannotApplyOnTypeRenameDeclaration(const WString& attribute, const WString& name);
+				static WString AttributeCannotApplyOnConceptDeclaration(const WString& attribute, const WString& name);
+				static WString AttributeCannotApplyOnInstanceDeclaration(const WString& attribute, const WString& name);
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();

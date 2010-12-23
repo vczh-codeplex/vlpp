@@ -311,6 +311,36 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ForeignFunctionCannotBeGeneric(declaration->name);
 					}
 					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnFunctionDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnFunctionDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnStructureDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnStructureDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnVariableDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnVariableDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnTypeRenameDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnTypeRenameDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnConceptDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnConceptDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
+				case BasicLanguageCodeException::AttributeCannotApplyOnInstanceDeclaration:
+					{
+						message=BasicErrorMessage::AttributeCannotApplyOnInstanceDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
+					}
+					break;
 				default:
 					return 0;
 				}

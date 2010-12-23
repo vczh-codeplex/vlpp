@@ -6,6 +6,8 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+			using namespace collections;
+
 			DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(BASIC_EXPRESSION_TARGETS)
 			DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(BASIC_STATEMENT_TARGETS)
 			DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(BASIC_TYPE_TARGETS)
@@ -42,6 +44,36 @@ namespace vl
 			bool BasicGeneric::HasGeneric()const
 			{
 				return arguments.Count()>0;
+			}
+
+/***********************************************************************
+Helper Functions
+***********************************************************************/
+
+			Ptr<BasicAttribute> BasicLanguage_FindFirstAttribute(const ICollection<Ptr<BasicAttribute>>& attributes, const WString& name)
+			{
+				for(vint i=0;i<attributes.Count();i++)
+				{
+					if(attributes[i]->attributeName==name)
+					{
+						return attributes[i];
+					}
+				}
+				return 0;
+			}
+
+			bool BasicLanguage_FindAllAttributes(const ICollection<Ptr<BasicAttribute>>& attributes, const WString& name, ICollection<Ptr<BasicAttribute>>& result)
+			{
+				bool found=false;
+				for(vint i=0;i<attributes.Count();i++)
+				{
+					if(attributes[i]->attributeName==name)
+					{
+						result.Add(attributes[i]);
+						found=true;
+					}
+				}
+				return found;
 			}
 		}
 	}

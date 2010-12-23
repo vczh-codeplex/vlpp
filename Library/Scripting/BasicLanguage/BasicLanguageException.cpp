@@ -420,6 +420,54 @@ BasicLanguageCodeException
 				parameters[0]=declaration->name;
 				return new BasicLanguageCodeException(declaration, ForeignFunctionCannotBeGeneric, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnFunctionDeclaration(BasicFunctionDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnFunctionDeclaration, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnStructureDeclaration(BasicStructureDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnStructureDeclaration, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnVariableDeclaration(BasicVariableDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnVariableDeclaration, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnTypeRenameDeclaration(BasicTypeRenameDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnTypeRenameDeclaration, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnConceptDeclaration(BasicConceptBaseDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnConceptDeclaration, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetAttributeCannotApplyOnInstanceDeclaration(BasicConceptInstanceDeclaration* declaration, const WString& attributeName)
+			{
+				Array<WString> parameters(2);
+				parameters[0]=attributeName;
+				parameters[1]=declaration->name;
+				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnInstanceDeclaration, parameters.Wrap());
+			}
 		}
 	}
 }
