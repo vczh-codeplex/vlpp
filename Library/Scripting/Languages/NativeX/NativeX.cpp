@@ -1118,6 +1118,20 @@ Extra
 				return declaration;
 			}
 
+			Ptr<BasicAttribute> ToAttribute(const RegexToken& input)
+			{
+				Ptr<BasicAttribute> attribute=new BasicAttribute;
+				attribute->attributeName=WString(input.reading+1, input.length-1);
+				return attribute;
+			}
+
+			Ptr<BasicDeclaration> ToAttributedDeclaration(const ParsingPair<ParsingList<Ptr<BasicAttribute>>, Ptr<BasicDeclaration>>& input)
+			{
+				Ptr<BasicDeclaration> declaration=input.Second();
+				CopyFrom(declaration->attributes.Wrap(), input.First());
+				return declaration;
+			}
+
 /***********************************************************************
 语义函数：主程序
 ***********************************************************************/
@@ -1200,6 +1214,7 @@ Extra
 				TokenType							FLOAT;
 				TokenType							DOUBLE;
 				TokenType							ID;
+				TokenType							ATTRIBUTE_NAME;
 				TokenType							PRIM_TYPE;
 
 				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, STACK_DATA, RESULT, FUNCTION, CAST, VARIABLE;
@@ -1231,7 +1246,7 @@ Extra
 				ExpressionRule						exp;
 				TypeRule							primType, functionType, type, instanceType;
 				StatementRule						statement;
-				DeclarationNode						nonGenericDeclaration, functionDeclaration;
+				DeclarationNode						nonGenericDeclaration, functionDeclaration, rawDeclaration;
 				DeclarationRule						declaration;
 				UnitRule							unit;
 			public:
@@ -1283,6 +1298,7 @@ Extra
 					FLOAT			= CreateToken(tokens, L"[+/-]?/d+(./d+)[fF]");
 					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
+					ATTRIBUTE_NAME	= CreateToken(tokens, L"#[a-zA-Z_]/w*");
 
 					OPEN_ARRAY		= CreateToken(tokens, L"/[");
 					CLOSE_ARRAY		= CreateToken(tokens, L"/]");
@@ -1415,9 +1431,16 @@ Extra
 					Node<TokenInput<RegexToken>, ParsingList<ParsingPair<RegexToken, RegexToken>>> genericConstraint
 									= WHERE >> (plist(genericConstraintClause + *(COMMA >> genericConstraintClause)))
 									;
-					declaration		= nonGenericDeclaration
+					rawDeclaration	= nonGenericDeclaration
 									| (CONCEPT>>ID(NeedID)+(COLON(NeedColon)>>ID(NeedID))+opt(linking)+(OPEN_STAT(NeedOpenConcept)>>*((ID(NeedID)+(ASSIGN(NeedAssign)>>functionType)<<SEMICOLON(NeedSemicolon)))[ToFunctionConcept]<<CLOSE_STAT(NeedCloseConcept)))[ToConceptDecl]
 									| (genericHead+opt(genericConstraint)+nonGenericDeclaration(NeedDeclaration))[ToGeneric]
+									;
+
+					Node<TokenInput<RegexToken>, Ptr<BasicAttribute>> attribute
+									= (ATTRIBUTE_NAME)[ToAttribute]
+									;
+
+					declaration		= (*attribute + rawDeclaration)[ToAttributedDeclaration]
 									;
 
 					unit			= ((UNIT(NeedUnit) >> ID(NeedID) << SEMICOLON(NeedSemicolon)) + list(opt(USES >> (ID(NeedID) + *(COMMA >> ID(NeedID))) << SEMICOLON(NeedSemicolon))) + list(*declaration))[ToUnit];
@@ -2568,10 +2591,21 @@ Extra
 				}
 			}
 
+			void PrintAttribute(BasicDeclaration* node, const NXCGP& argument)
+			{
+				for(vint i=0;i<node->attributes.Count();i++)
+				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"#");
+					argument.writer.WriteLine(node->attributes[i]->attributeName);
+				}
+			}
+
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode, BasicDeclaration, NXCGP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					if(node->foreignFunction)
@@ -2618,6 +2652,7 @@ Extra
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"variable ");
@@ -2641,6 +2676,7 @@ Extra
 
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"type ");
@@ -2652,6 +2688,7 @@ Extra
 
 				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					if(node->defined)
 					{
@@ -2694,6 +2731,7 @@ Extra
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"concept ");
 					IdentifierToString(node->conceptType, argument.writer);
@@ -2727,6 +2765,7 @@ Extra
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
+					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					argument.writer.WriteString(L"instance ");
 					NativeX_BasicType_GenerateCode(node->instanceType, argument);
