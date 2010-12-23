@@ -381,6 +381,24 @@
     <ClCompile Include="..\UnitTest\TestThread.cpp">
       <Filter>Source Files\Fundamental</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildGlobalScope.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_CheckStatement.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetExpressionType.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetTypeRecord.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_IsLeftValue.cpp">
+      <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
