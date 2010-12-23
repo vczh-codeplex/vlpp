@@ -1,11 +1,13 @@
 unit Eq;
 
+#public
 concept T : Eq
 {
     Equals = function bool(T, T);
     NotEquals = function bool(T, T);
 }
 
+#public
 instance int : Eq
 {
     Equals = IntEquals;

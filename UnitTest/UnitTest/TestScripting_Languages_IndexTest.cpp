@@ -51,12 +51,15 @@ void Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* argument
 	*((vint*)result)=sum;
 }
 
-void Test_BasicLanguage_PrintNativeXHeaderFile(Ptr<LanguageAssembly> assembly, Ptr<ILanguageProvider> provider, const WString& filePath)
+void Test_BasicLanguage_PrintNativeXHeaderFile(Ptr<LanguageAssembly> assembly, Ptr<ILanguageProvider> provider, const WString& filePath, bool publicOnly)
 {
 	Ptr<IBasicLanguageProvider> printer=provider.Cast<IBasicLanguageProvider>();
 	MemoryStream memoryStream;
 	StreamWriter memoryWriter(memoryStream);
-	if(printer->GenerateHeader(assembly, new NativeXHeaderExtra(), memoryWriter))
+
+	Ptr<NativeXHeaderExtra> headerExtra=new NativeXHeaderExtra;
+	headerExtra->publicOnly=publicOnly;
+	if(printer->GenerateHeader(assembly, headerExtra, memoryWriter))
 	{
 		memoryStream.SeekFromBegin(0);
 		StreamReader memoryReader(memoryStream);
@@ -140,6 +143,7 @@ TEST_CASE(TestCodeInIndex)
 			vint end=assemblyStarts[i+1];
 
 			WString languageName, assemblyName;
+			bool headerPublicOnly=false;
 			List<WString> codes;
 			for(vint j=start;j<end;j++)
 			{
@@ -159,6 +163,17 @@ TEST_CASE(TestCodeInIndex)
 					DecoderStream decoderStream(fileStream, decoder);
 					StreamReader streamReader(decoderStream);
 					codes.Add(streamReader.ReadToEnd());
+				}
+				else if(makeKeys[j]==L"Header")
+				{
+					if(makeValues[j]==L"PublicOnly")
+					{
+						headerPublicOnly=true;
+					}
+					else
+					{
+						TEST_ASSERT(false);
+					}
 				}
 				else
 				{
@@ -204,7 +219,7 @@ TEST_CASE(TestCodeInIndex)
 				}
 				{
 					WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][Header][NativeX].txt";
-					Test_BasicLanguage_PrintNativeXHeaderFile(assembly, nativexProvider, logOutputPath);
+					Test_BasicLanguage_PrintNativeXHeaderFile(assembly, nativexProvider, logOutputPath, headerPublicOnly);
 				}
 			}
 			for(vint j=0;j<errors.Count();j++)

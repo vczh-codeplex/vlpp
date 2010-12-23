@@ -6,6 +6,7 @@ concept T : Eq alias Eq.Eq
     NotEquals = function bool(T, T);
 }
 
+#public
 generic<T>
 structure Vector
 {
@@ -13,6 +14,7 @@ structure Vector
     T Y;
 }
 
+#public
 generic<T> where T : Eq
 instance Vector : Eq
 {

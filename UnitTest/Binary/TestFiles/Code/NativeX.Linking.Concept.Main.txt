@@ -55,6 +55,7 @@ function int main2()
     }
 }
 
+#public
 function int main()
 {
     result = main1() + main2();
