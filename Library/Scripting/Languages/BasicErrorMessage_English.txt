@@ -58,6 +58,9 @@ AttributeCannotApplyOnVariableDeclaration(attribute,name)=Attribute {attribute} 
 AttributeCannotApplyOnTypeRenameDeclaration(attribute,name)=Attribute {attribute} cannot apply on type rename declaration {name}.
 AttributeCannotApplyOnConceptDeclaration(attribute,name)=Attribute {attribute} cannot apply on concept declaration {name}.
 AttributeCannotApplyOnInstanceDeclaration(attribute,name)=Attribute {attribute} cannot apply on instance declaration {name}.
+PublicDeclarationCannotUseNonPublicType(name,type)=Public declaration {name} cannot use non public type {type}.
+InstanceDeclaredOnPublicConceptShouldBePublic(concept)=Instance declared on public concept {concept} should be public.
+InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(concept)=Instance declared on non public concept {concept} should be non public.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

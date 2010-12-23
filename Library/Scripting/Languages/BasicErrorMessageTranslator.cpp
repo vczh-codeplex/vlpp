@@ -341,6 +341,23 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::AttributeCannotApplyOnInstanceDeclaration(error->GetParameters()[0], error->GetParameters()[1]);
 					}
 					break;
+				case BasicLanguageCodeException::PublicDeclarationCannotUseNonPublicType:
+					{
+						WString attribute=error->GetParameters()[0];
+						WString type=ToString(error->GetTypeParameter());
+						message=BasicErrorMessage::PublicDeclarationCannotUseNonPublicType(attribute, type);
+					}
+					break;
+				case BasicLanguageCodeException::InstanceDeclaredOnPublicConceptShouldBePublic:
+					{
+						message=BasicErrorMessage::InstanceDeclaredOnPublicConceptShouldBePublic(error->GetParameters()[0]);
+					}
+					break;
+				case BasicLanguageCodeException::InstanceDeclaredOnNonPublicConceptShouldBeNonPublic:
+					{
+						message=BasicErrorMessage::InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(error->GetParameters()[0]);
+					}
+					break;
 				default:
 					return 0;
 				}
