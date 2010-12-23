@@ -98,6 +98,11 @@ namespace vl
 				bool										HasGeneric()const;
 			};
 
+			struct BasicAttribute
+			{
+				WString										attributeName;
+			};
+
 			class BasicLanguageElement : public Object, private NotCopyable
 			{
 			public:
@@ -129,6 +134,7 @@ namespace vl
 
 				BasicGeneric								genericDeclaration;
 				BasicLinking								linking;
+				collections::List<Ptr<BasicAttribute>>		attributes;
 				WString										name;
 			};
 

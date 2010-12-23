@@ -209,6 +209,35 @@ BasicLanguage_GenerateResource
 				}
 			}
 
+			void BuildAttributeResource(ResourceRecord<BasicDeclarationRes> resource, BasicDeclaration* node, const BCP& argument)
+			{
+				ResourceArrayRecord<BasicAttributeRes> attributesRes=argument.resource->CreateArrayRecord<BasicAttributeRes>(node->attributes.Count());
+				for(vint i=0;i<node->attributes.Count();i++)
+				{
+					ResourceRecord<BasicAttributeRes> attributeRes=argument.resource->CreateRecord<BasicAttributeRes>();
+					attributeRes->attributeName=argument.resource->CreateString(node->attributes[i]->attributeName);
+					attributesRes.Set(i, attributeRes);
+				}
+				resource->attributes=attributesRes;
+			}
+
+			void BuildLinkingResource(ResourceRecord<BasicDeclarationRes> resource, BasicDeclaration* node, const BCP& argument)
+			{
+				if(node->linking.HasLink())
+				{
+					resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
+					resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
+				}
+				else
+				{
+					resource->linkingAssemblyName=ResourceString::Null();
+					resource->linkingSymbolName=ResourceString::Null();
+				}
+						
+				resource->instanceConceptAssemblyName=ResourceString::Null();
+				resource->instanceConceptSymbolName=ResourceString::Null();
+			}
+
 			BEGIN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>)
 				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 			
@@ -222,6 +251,9 @@ BasicLanguage_GenerateResource
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 						BuildGenericResource(resource, node, argument);
+						BuildAttributeResource(resource, node, argument);
+						BuildLinkingResource(resource, node, argument);
+
 						ResourceString name=argument.resource->CreateString(node->name);
 						BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node, true);
 						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
@@ -248,19 +280,6 @@ BasicLanguage_GenerateResource
 							parameters.Set(i, parameter);
 						}
 
-						if(node->linking.HasLink())
-						{
-							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-						}
-						else
-						{
-							resource->linkingAssemblyName=ResourceString::Null();
-							resource->linkingSymbolName=ResourceString::Null();
-						}
-						
-						resource->instanceConceptAssemblyName=ResourceString::Null();
-						resource->instanceConceptSymbolName=ResourceString::Null();
 						return resource;
 					}
 				}
@@ -269,6 +288,9 @@ BasicLanguage_GenerateResource
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 					BuildGenericResource(resource, node, argument);
+					BuildAttributeResource(resource, node, argument);
+					BuildLinkingResource(resource, node, argument);
+
 					ResourceString name=argument.resource->CreateString(node->name);
 					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
 					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
@@ -285,20 +307,6 @@ BasicLanguage_GenerateResource
 					{
 						resource->address=argument.info->GetGlobalVariableOffsets()[node];
 					}
-
-					if(node->linking.HasLink())
-					{
-						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-					}
-					else
-					{
-						resource->linkingAssemblyName=ResourceString::Null();
-						resource->linkingSymbolName=ResourceString::Null();
-					}
-						
-					resource->instanceConceptAssemblyName=ResourceString::Null();
-					resource->instanceConceptSymbolName=ResourceString::Null();
 					return resource;
 				}
 
@@ -313,6 +321,9 @@ BasicLanguage_GenerateResource
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 						BuildGenericResource(resource, node, argument);
+						BuildAttributeResource(resource, node, argument);
+						BuildLinkingResource(resource, node, argument);
+
 						ResourceString name=argument.resource->CreateString(node->name);
 						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->types.Find(node->name);
 						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
@@ -322,20 +333,6 @@ BasicLanguage_GenerateResource
 						resource->name=name;
 						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
 						resource->address=-1;
-
-						if(node->linking.HasLink())
-						{
-							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-						}
-						else
-						{
-							resource->linkingAssemblyName=ResourceString::Null();
-							resource->linkingSymbolName=ResourceString::Null();
-						}
-						
-						resource->instanceConceptAssemblyName=ResourceString::Null();
-						resource->instanceConceptSymbolName=ResourceString::Null();
 						return resource;
 					}
 					else
@@ -347,6 +344,8 @@ BasicLanguage_GenerateResource
 				ALGORITHM_FUNCTION_MATCH(BasicConceptBaseDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildAttributeResource(resource, node, argument);
+					BuildLinkingResource(resource, node, argument);
 					{
 						ResourceArrayRecord<BasicParameterRes> genericArguments=argument.resource->CreateArrayRecord<BasicParameterRes>(1);
 						ResourceRecord<BasicParameterRes> genericArgument=argument.resource->CreateRecord<BasicParameterRes>();
@@ -382,20 +381,6 @@ BasicLanguage_GenerateResource
 					resource->name=argument.resource->CreateString(node->name);
 					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
 					resource->address=-1;
-
-					if(node->linking.HasLink())
-					{
-						resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-						resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-					}
-					else
-					{
-						resource->linkingAssemblyName=ResourceString::Null();
-						resource->linkingSymbolName=ResourceString::Null();
-					}
-						
-					resource->instanceConceptAssemblyName=ResourceString::Null();
-					resource->instanceConceptSymbolName=ResourceString::Null();
 					return resource;
 				}
 
@@ -405,6 +390,8 @@ BasicLanguage_GenerateResource
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
 						BuildGenericResource(resource, node, argument);
+						BuildAttributeResource(resource, node, argument);
+						BuildLinkingResource(resource, node, argument);
 
 						BP bp(
 							argument.info->GetEnv(),
@@ -419,20 +406,6 @@ BasicLanguage_GenerateResource
 						resource->name=argument.resource->CreateString(node->name);
 						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
 						resource->address=-1;
-
-						if(node->linking.HasLink())
-						{
-							resource->linkingAssemblyName=argument.resource->CreateString(node->linking.assemblyName);
-							resource->linkingSymbolName=argument.resource->CreateString(node->linking.symbolName);
-						}
-						else
-						{
-							resource->linkingAssemblyName=ResourceString::Null();
-							resource->linkingSymbolName=ResourceString::Null();
-						}
-						
-						resource->instanceConceptAssemblyName=ResourceString::Null();
-						resource->instanceConceptSymbolName=ResourceString::Null();
 						return resource;
 					}
 					else
