@@ -473,7 +473,7 @@ BasicLanguageCodeException
 			{
 				Array<WString> parameters(1);
 				parameters[0]=declaration->name;
-				return new BasicLanguageCodeException(declaration, AttributeCannotApplyOnInstanceDeclaration, parameters.Wrap(), type);
+				return new BasicLanguageCodeException(declaration, PublicDeclarationCannotUseNonPublicType, parameters.Wrap(), type);
 			}
 
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetInstanceDeclaredOnPublicConceptShouldBePublic(BasicConceptInstanceDeclaration* declaration)

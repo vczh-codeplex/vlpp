@@ -165,14 +165,17 @@ IsPublicType
 				case BasicTypeRecord::Structure:
 					{
 						BasicDeclaration* declaration=type->Declaration();
-						if(!BasicLanguage_FindFirstAttribute(declaration->attributes.Wrap(), L"public"))return false;
-						BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
-						if(proxyType)
+						if(!declaration->linking.HasLink())
 						{
-							const IReadonlyList<BasicTypeRecord*>& arguments=proxyType->GenericArgumentMap().Values();
-							for(vint i=0;i<arguments.Count();i++)
+							if(!BasicLanguage_FindFirstAttribute(declaration->attributes.Wrap(), L"public"))return false;
+							BasicGenericStructureProxyTypeRecord* proxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
+							if(proxyType)
 							{
-								if(!IsPublicType(arguments[i], argument))return false;
+								const IReadonlyList<BasicTypeRecord*>& arguments=proxyType->GenericArgumentMap().Values();
+								for(vint i=0;i<arguments.Count();i++)
+								{
+									if(!IsPublicType(arguments[i], argument))return false;
+								}
 							}
 						}
 						return true;
