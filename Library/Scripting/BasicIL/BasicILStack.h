@@ -4,8 +4,7 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicIL
 
 Classes:
-  BasicILEnv						：指令执行环境
-  BasicILInterpretor				：指令虚拟机
+  BasicILStack						：调用堆栈
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILSTACK

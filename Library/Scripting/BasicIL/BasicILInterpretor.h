@@ -4,8 +4,8 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicIL
 
 Classes:
-  BasicILEnv						：指令执行环境
-  BasicILInterpretor				：指令虚拟机
+  IBasicILForeignFunction			：外接函数
+  BasicILInterpretor				：虚拟机运行时环境
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
