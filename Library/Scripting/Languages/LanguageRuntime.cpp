@@ -120,12 +120,12 @@ LanguageHost
 			stack->ResetBuffer(instructionIndex, assembly->GetInstructionKey(), returnPointer);
 		}
 
-		basicil::BasicILStack::RunningResult LanguageState::Run()
+		basicil::ILException::RunningResult LanguageState::Run()
 		{
 			return stack->Run();
 		}
 
-		basicil::BasicILStack::RunningResult LanguageState::RunInitialization(Ptr<LanguageAssembly> assembly)
+		basicil::ILException::RunningResult LanguageState::RunInitialization(Ptr<LanguageAssembly> assembly)
 		{
 			PrepareToRun(assembly, 0, 0);
 			return stack->Run();

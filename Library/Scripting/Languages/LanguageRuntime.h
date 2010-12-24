@@ -84,8 +84,8 @@ namespace vl
 
 			bool										PrepareToRun(const BasicDeclarationInfo& function, void* returnPointer);
 			void										PrepareToRun(Ptr<LanguageAssembly> assembly, vint instructionIndex, void* returnPointer);
-			basicil::BasicILStack::RunningResult		Run();
-			basicil::BasicILStack::RunningResult		RunInitialization(Ptr<LanguageAssembly> assembly);
+			basicil::ILException::RunningResult			Run();
+			basicil::ILException::RunningResult			RunInitialization(Ptr<LanguageAssembly> assembly);
 			basicil::BasicILEnv*						GetStack();
 		};
 
