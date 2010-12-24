@@ -11,8 +11,6 @@ Classes:
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 #define VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 
-#include "BasicILDefinition.h"
-#include "BasicILSymbolResource.h"
 #include "BasicILEnv.h"
 #include "BasicILException.h"
 #include "BasicILStack.h"
@@ -53,30 +51,6 @@ namespace vl
 			};
 
 /***********************************************************************
-外接函数
-***********************************************************************/
-
-			class BasicILInterpretor;
-			class BasicILStack;
-
-			class IBasicILForeignFunction : public Interface
-			{
-			public:
-				virtual void									Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)=0;
-			};
-
-			typedef void(*BasicILLightFunction)(void* result, void* arguments);
-
-			struct BasicILLightFunctionInfo
-			{
-				BasicILLightFunction							function;
-				vint											argumentSize;
-
-				bool											operator==(const BasicILLightFunctionInfo& info)const;
-				bool											operator!=(const BasicILLightFunctionInfo& info)const;
-			};
-
-/***********************************************************************
 虚拟机
 ***********************************************************************/
 
@@ -114,27 +88,12 @@ namespace vl
 				};
 			protected:
 				vint											stackSize;
-				collections::List<BasicIL*>						ils;
-				_BasicILMap										ilMap;
-				collections::List<BasicILLabel>					labels;
-				_SymbolMap										symbolMap;
+				BasicILRuntimeSymbol							runtimeSymbol;
 
-				_SymbolMap										foreignFunctionLabelMap;
-				_ForeignFunctionList							foreignFunctionList;
-				_LightFunctionList								lightFunctionList;
-
-				BasicILGenericFunctionEntry::MapType			genericFunctionEntries;
-				BasicILGenericVariableEntry::MapType			genericVariableEntries;
 				BasicILGenericTarget::ListType					genericTargets;
-				_SymbolList										genericConcepts;
-				BasicILGenericInstanceEntry::MapType			genericInstances;
-
 				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
 				VariableManager									instanciatedGenericVariables;
-				Ptr<BasicIL>									genericFunctionSitingIL;
 				
-				void											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
-				void											LinkILSymbol(BasicIL* il, vint index, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
 				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction);
@@ -146,11 +105,8 @@ namespace vl
 				~BasicILInterpretor();
 
 				vint											LoadIL(BasicIL* il);
-				void											UnloadIL(BasicIL* il);
-				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
-				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize);
-				collections::IList<BasicILLabel>&				GetLabels();
 				void											LogInternalState(stream::TextWriter& writer);
+				BasicILRuntimeSymbol*							Symbols();
 			};
 		}
 	}

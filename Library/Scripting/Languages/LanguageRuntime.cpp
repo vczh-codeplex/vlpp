@@ -179,12 +179,12 @@ LanguageHost
 			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
 			proxy->host=this;
 			proxy->function=function;
-			return interpretor->RegisterForeignFunction(category, name, proxy);
+			return interpretor->Symbols()->RegisterForeignFunction(category, name, proxy);
 		}
 
 		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
 		{
-			return interpretor->RegisterLightFunction(category, name, function, argumentSize);
+			return interpretor->Symbols()->RegisterLightFunction(category, name, function, argumentSize);
 		}
 
 /***********************************************************************
