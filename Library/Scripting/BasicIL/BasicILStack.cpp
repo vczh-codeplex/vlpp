@@ -424,17 +424,18 @@ BasicILStack
 				{
 					while(instruction!=-1)
 					{
-						if(insKey<0 || insKey>=interpretor->ils.Count() || interpretor->ils[insKey]==0)
+						if(!interpretor->Symbols()->IsValidILIndex(insKey))
 						{
 							return ILException::InstructionIndexOutOfRange;
 						}
-						if(instruction<0||instruction>=interpretor->ils[insKey]->instructions.Count())
+						BasicIL* il=interpretor->Symbols()->GetIL(insKey);
+						if(instruction<0||instruction>=il->instructions.Count())
 						{
 							return ILException::InstructionIndexOutOfRange;
 						}
 						vint nextInstruction=instruction+1;
 						vint nextInsKey=insKey;
-						BasicIns& ins=interpretor->ils[insKey]->instructions[instruction];
+						BasicIns& ins=il->instructions[instruction];
 						switch(ins.opcode)
 						{
 						case BasicIns::generic_pushdata:
@@ -442,7 +443,7 @@ BasicILStack
 								ins.opcode=BasicIns::push;
 								ins.type1=BasicIns::pointer_type;
 
-								vint index=interpretor->RegisterTarget(0, interpretor->ils[ins.insKey], ins.argument.int_value);
+								vint index=interpretor->RegisterTarget(0, interpretor->Symbols()->GetIL(ins.insKey), ins.argument.int_value);
 								BasicILGenericTarget* target=interpretor->genericTargets[index].Obj();
 								ins.argument.pointer_value=interpretor->InstanciateGenericVariable(target);
 
@@ -452,14 +453,14 @@ BasicILStack
 						case BasicIns::generic_callfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								ins.argument.int_value=interpretor->RegisterTarget(0, il, ins.argument.int_value);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_instance_callfunc:
 							{
-								interpretor->RewriteInstanceFunctionInstruction(0, ins, interpretor->ils[insKey], BasicIns::generic_callfunc_vm, BasicIns::call);
+								interpretor->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
@@ -469,8 +470,8 @@ BasicILStack
 								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
 								vint labelIndex=interpretor->InstanciateGenericFunction(target);
 
-								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
-								BasicILLabel& label=interpretor->labels[labelIndex];
+								BasicIns& theIns=il->instructions[instruction];
+								const BasicILLabel& label=interpretor->Symbols()->GetLabel(labelIndex);
 								theIns.opcode=BasicIns::call;
 								theIns.insKey=label.key;
 								theIns.argument.int_value=label.instruction;
@@ -481,14 +482,14 @@ BasicILStack
 						case BasicIns::generic_pushfunc:
 							{
 								ins.opcode=BasicIns::generic_pushfunc_vm;
-								ins.argument.int_value=interpretor->RegisterTarget(0, interpretor->ils[insKey], ins.argument.int_value);
+								ins.argument.int_value=interpretor->RegisterTarget(0, il, ins.argument.int_value);
 								
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_instance_pushfunc:
 							{
-								interpretor->RewriteInstanceFunctionInstruction(0, ins, interpretor->ils[insKey], BasicIns::generic_pushfunc_vm, BasicIns::pushins);
+								interpretor->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
@@ -498,7 +499,7 @@ BasicILStack
 								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
 								vint labelIndex=interpretor->InstanciateGenericFunction(target);
 
-								BasicIns& theIns=interpretor->ils[insKey]->instructions[instruction];
+								BasicIns& theIns=il->instructions[instruction];
 								theIns.opcode=BasicIns::pushlabel;
 								theIns.argument.int_value=labelIndex;
 								
@@ -552,9 +553,9 @@ BasicILStack
 						case BasicIns::label:
 							{
 								vint index=env->Pop<vint>();
-								if(index>=0 && index<interpretor->labels.Count())
+								if(interpretor->Symbols()->IsValidLabelIndex(index))
 								{
-									BasicILLabel label=interpretor->labels[index];
+									BasicILLabel label=interpretor->Symbols()->GetLabel(index);
 									env->Push<vint>(label.key);
 									env->Push<vint>(label.instruction);
 								}
@@ -828,7 +829,7 @@ BasicILStack
 				void* stackTop=env->DereferenceStack(env->StackTop());
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
-				interpretor->foreignFunctionList[index]->Invoke(interpretor, this, result, arguments);
+				interpretor->Symbols()->GetForeignFunction(index)->Invoke(interpretor, this, result, arguments);
 			}
 
 			void BasicILStack::InvokeLightFunction(vint index)
@@ -836,7 +837,7 @@ BasicILStack
 				void* stackTop=env->DereferenceStack(env->StackTop());
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
-				BasicILLightFunctionInfo& info=interpretor->lightFunctionList[index];
+				const BasicILLightFunctionInfo& info=interpretor->Symbols()->GetLightFunction(index);
 				info.function(result, arguments);
 				env->Reserve(-(vint)(sizeof(void*)+info.argumentSize));
 			}

@@ -44,7 +44,17 @@ BasicILInterpretor
 				}
 			}
 
-			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			IBasicILForeignFunction* BasicILRuntimeSymbol::GetForeignFunction(vint index)
+			{
+				return foreignFunctionList[index].Obj();
+			}
+
+			const BasicILLightFunctionInfo& BasicILRuntimeSymbol::GetLightFunction(vint index)
+			{
+				return lightFunctionList[index];
+			}
+
+			void BasicILRuntimeSymbol::LogInternalState(stream::TextWriter& writer)
 			{
 				for(vint i=0;i<ils.Count();i++)
 				{
@@ -127,6 +137,41 @@ BasicILInterpretor
 				writer.WriteLine(L"");
 
 				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Concept Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericConcepts.Count();i++)
+				{
+					Pair<WString, WString> key=genericConcepts[i];
+					writer.WriteLine(key.key+L"."+key.value);
+				}
+				writer.WriteLine(L"");
+
+				writer.WriteLine(L"-----------------------------------------------");
+				writer.WriteLine(L"Generic Instance Map");
+				writer.WriteLine(L"-----------------------------------------------");
+				for(vint i=0;i<genericInstances.Count();i++)
+				{
+					BasicILGenericInstanceEntry::Key key=genericInstances.Keys()[i];
+					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
+					writer.WriteLine(key.assemblyName+L"."+key.symbolName+L"<"+key.typeUniqueName+L">");
+					writer.WriteLine(L"  Generic Argument Count = "+itow(instance->argumentCount));
+					writer.WriteLine(L"  Resource Index = "+itow(instance->instanceIndex));
+					writer.WriteLine(L"  Declared Assembly = "+instance->assemblyName);
+
+					for(vint j=0;j<instance->functions.Count();j++)
+					{
+						WString key=instance->functions.Keys()[j];
+						writer.WriteLine(L"  Function "+key+L" = "+itow(instance->functions.Values()[j]));
+					}
+				}
+				writer.WriteLine(L"");
+			}
+
+			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			{
+				runtimeSymbol.LogInternalState(writer);
+
+				writer.WriteLine(L"-----------------------------------------------");
 				writer.WriteLine(L"Instanciated Generic Function Map");
 				writer.WriteLine(L"-----------------------------------------------");
 				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
@@ -157,36 +202,6 @@ BasicILInterpretor
 					writer.WriteLine(L"Assembly Name = "+target->assemblyName);
 					writer.WriteLine(L"Symbol Name = "+target->symbolName);
 					WriteGenericArgumentArray(writer, L"Arguments", L"", target->arguments);
-				}
-				writer.WriteLine(L"");
-
-				writer.WriteLine(L"-----------------------------------------------");
-				writer.WriteLine(L"Generic Concept Map");
-				writer.WriteLine(L"-----------------------------------------------");
-				for(vint i=0;i<genericConcepts.Count();i++)
-				{
-					Pair<WString, WString> key=genericConcepts[i];
-					writer.WriteLine(key.key+L"."+key.value);
-				}
-				writer.WriteLine(L"");
-
-				writer.WriteLine(L"-----------------------------------------------");
-				writer.WriteLine(L"Generic Instance Map");
-				writer.WriteLine(L"-----------------------------------------------");
-				for(vint i=0;i<genericInstances.Count();i++)
-				{
-					BasicILGenericInstanceEntry::Key key=genericInstances.Keys()[i];
-					BasicILGenericInstanceEntry* instance=genericInstances.Values()[i].Obj();
-					writer.WriteLine(key.assemblyName+L"."+key.symbolName+L"<"+key.typeUniqueName+L">");
-					writer.WriteLine(L"  Generic Argument Count = "+itow(instance->argumentCount));
-					writer.WriteLine(L"  Resource Index = "+itow(instance->instanceIndex));
-					writer.WriteLine(L"  Declared Assembly = "+instance->assemblyName);
-
-					for(vint j=0;j<instance->functions.Count();j++)
-					{
-						WString key=instance->functions.Keys()[j];
-						writer.WriteLine(L"  Function "+key+L" = "+itow(instance->functions.Values()[j]));
-					}
 				}
 				writer.WriteLine(L"");
 			}
