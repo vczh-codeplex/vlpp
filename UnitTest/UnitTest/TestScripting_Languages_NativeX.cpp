@@ -331,7 +331,7 @@ TEST_CASE(Test_NativeX_SimpleFunction)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
-		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);
 		BasicFunctionExecutor<vint(vint,vint)> addFunc(add, state);
 		BasicFunctionExecutor<vint(vint,vint)> subFunc(sub, state);
 
@@ -406,7 +406,7 @@ TEST_CASE(Test_NativeX_BubbleSort)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
-		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);
 		BasicFunctionExecutor<void(vint*,vint)> sortFunc(sort, state);
 		{
 			sortFunc(0, 0);
@@ -550,7 +550,7 @@ TEST_CASE(Test_NativeX_Sum)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
-		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);
 
 		List<BasicDeclarationInfo> sums;
 		sums.Add(metadata->GetDeclaration(0));
@@ -641,7 +641,7 @@ TEST_CASE(Test_NativeX_GenericStructure)
 		LanguageHost host(65536);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
-		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);
 		BasicFunctionExecutor<vint()> mainFunction(main, state);
 		TEST_ASSERT(mainFunction()==30);
 	}
@@ -687,7 +687,7 @@ TEST_CASE(Test_NativeX_ForeignFunction)
 		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_NativeX_ForeignFunction_Summer);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
-		TEST_ASSERT(state->RunInitialization(assembly)==basicil::BasicILStack::Finished);
+		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);
 		BasicFunctionExecutor<vint()> mainFunction(main, state);
 		TEST_ASSERT(mainFunction()==15);
 	}

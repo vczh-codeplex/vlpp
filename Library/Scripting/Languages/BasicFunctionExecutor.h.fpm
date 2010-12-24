@@ -38,8 +38,8 @@ $( )
 $$end
 $loop($count,0,$PUSH_ARGUMENT)
 				state->PrepareToRun(declaration, $if($function,(void*)&resultValue,0));
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}

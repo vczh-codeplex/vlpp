@@ -43,7 +43,7 @@ Instructions
 				T right=env->Pop<T>();
 				if(right==0)
 				{
-					throw ILException(BasicILStack::DividByZero);
+					throw ILException(ILException::DividByZero);
 				}
 				else
 				{
@@ -221,7 +221,7 @@ BasicILStack Helper Macros
 				METHOD<double>(env);\
 				break;\
 			default:\
-				return BasicILStack::BadInstructionArgument;\
+				return ILException::BadInstructionArgument;\
 			}
 
 #define SIGNED_NUMERIC_INSTRUCTION(METHOD)\
@@ -246,7 +246,7 @@ BasicILStack Helper Macros
 				METHOD<double>(env);\
 				break;\
 			default:\
-				return BasicILStack::BadInstructionArgument;\
+				return ILException::BadInstructionArgument;\
 			}
 
 #define INTEGER_INSTRUCTION(METHOD)\
@@ -277,7 +277,7 @@ BasicILStack Helper Macros
 				METHOD<unsigned __int64>(env);\
 				break;\
 			default:\
-				return BasicILStack::BadInstructionArgument;\
+				return ILException::BadInstructionArgument;\
 			}
 
 #define CONVERT_2_INSTRUCTION(DSTTYPE)\
@@ -314,7 +314,7 @@ BasicILStack Helper Macros
 				Convert_<DSTTYPE, double>(env);\
 				break;\
 			default:\
-				return BasicILStack::BadInstructionArgument;\
+				return ILException::BadInstructionArgument;\
 			}
 
 #define CONVERT_INSTRUCTION\
@@ -351,7 +351,7 @@ BasicILStack Helper Macros
 				CONVERT_2_INSTRUCTION(double)\
 				break;\
 			default:\
-				return BasicILStack::BadInstructionArgument;\
+				return ILException::BadInstructionArgument;\
 			}
 
 /***********************************************************************
@@ -418,7 +418,7 @@ BasicILStack
 			nextInstruction=instruction;	\
 			nextInsKey=insKey;
 
-			BasicILStack::RunningResult BasicILStack::Run()
+			ILException::RunningResult BasicILStack::Run()
 			{
 				try
 				{
@@ -426,11 +426,11 @@ BasicILStack
 					{
 						if(insKey<0 || insKey>=interpretor->ils.Count() || interpretor->ils[insKey]==0)
 						{
-							return BasicILStack::InstructionIndexOutOfRange;
+							return ILException::InstructionIndexOutOfRange;
 						}
 						if(instruction<0||instruction>=interpretor->ils[insKey]->instructions.Count())
 						{
-							return BasicILStack::InstructionIndexOutOfRange;
+							return ILException::InstructionIndexOutOfRange;
 						}
 						vint nextInstruction=instruction+1;
 						vint nextInsKey=insKey;
@@ -539,7 +539,7 @@ BasicILStack
 								env->Push<double>(ins.argument.f64);
 								break;
 							default:
-								return BasicILStack::BadInstructionArgument;
+								return ILException::BadInstructionArgument;
 							}
 							break;
 						case BasicIns::pushins:
@@ -560,7 +560,7 @@ BasicILStack
 								}
 								else
 								{
-									return BasicILStack::BadInstructionArgument;
+									return ILException::BadInstructionArgument;
 								}
 							}
 							break;
@@ -766,7 +766,7 @@ BasicILStack
 								BasicILExceptionHandler* registeredHandler=GetExceptionHandler();
 								if(stackHandler!=registeredHandler)
 								{
-									return BasicILStack::BadInstructionArgument;
+									return ILException::BadInstructionArgument;
 								}
 								SetExceptionHandler(registeredHandler->previous);
 								env->Reserve(-(vint)sizeof(BasicILExceptionHandler));
@@ -795,17 +795,17 @@ BasicILStack
 								}
 								else
 								{
-									return BasicILStack::UnhandledException;
+									return ILException::UnhandledException;
 								}
 							}
 							break;
 						default:
-							return BasicILStack::UnknownInstruction;
+							return ILException::UnknownInstruction;
 						}
 						instruction=nextInstruction;
 						insKey=nextInsKey;
 					}
-					return BasicILStack::Finished;
+					return ILException::Finished;
 				}
 				catch(const ILException& e)
 				{

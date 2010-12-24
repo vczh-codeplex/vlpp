@@ -11,10 +11,12 @@ Classes:
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 #define VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 
-#include "BasicILDefinition.h"
-#include "..\..\Exception.h"
 #include "..\..\Entity\Linear.h"
-#include "..\BasicIL\BasicILSymbolResource.h"
+#include "BasicILDefinition.h"
+#include "BasicILSymbolResource.h"
+#include "BasicILEnv.h"
+#include "BasicILException.h"
+#include "BasicILStack.h"
 
 namespace vl
 {
@@ -22,48 +24,6 @@ namespace vl
 	{
 		namespace basicil
 		{
-
-/***********************************************************************
-运行时存储环境
-***********************************************************************/
-
-			class BasicILEnv : public Object
-			{
-			protected:
-				vint											stackBase;
-				vint											stackSize;
-				vint											stackTop;
-				unsigned char*									stack;
-				vint											stackReserveTopSize;
-			public:
-				BasicILEnv(vint _stackSize);
-				~BasicILEnv();
-
-				vint											StackBase()const;
-				vint											StackSize()const;
-				vint											StackTop()const;
-				void*											DereferenceStack(vint stackPosition)const;
-				void*											Reserve(vint size);
-				void											ReserveTop(vint size);
-				vint											GetReserveTopSize();
-				void											Reset();
-				void											SetBase(vint stackPosition);
-				void											SetTop(vint stackPosition);
-
-				template<typename T>
-				void Push(const T& value)
-				{
-					(*(T*)Reserve(sizeof(T)))=value;
-				}
-
-				template<typename T>
-				T Pop()
-				{
-					T result=*(T*)DereferenceStack(stackTop);
-					Reserve(-(vint)sizeof(T));
-					return result;
-				}
-			};
 
 /***********************************************************************
 模板符号表
@@ -195,15 +155,6 @@ namespace vl
 				bool											operator!=(const BasicILLabel& label)const;
 			};
 
-			struct BasicILExceptionHandler
-			{
-				vint											instruction;
-				vint											key;
-				vint											stackBase;
-				vint											stackTop;
-				BasicILExceptionHandler*						previous;
-			};
-
 			class BasicILInterpretor : public Object
 			{
 				friend class BasicILStack;
@@ -275,99 +226,6 @@ namespace vl
 				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize);
 				collections::IList<BasicILLabel>&				GetLabels();
 				void											LogInternalState(stream::TextWriter& writer);
-			};
-
-/***********************************************************************
-调用堆栈
-***********************************************************************/
-
-			class BasicILStack : public Object
-			{
-			protected:
-				static const vint								StackDataSize=sizeof(void*);
-
-				BasicILEnv*										env;
-				BasicILInterpretor*								interpretor;
-				vint											instruction;
-				vint											insKey;
-				void*											userData;
-
-			public:
-				enum RunningResult
-				{
-					Finished,
-					StackOverflow,
-					DividByZero,
-					AccessViolation,
-					InstructionIndexOutOfRange,
-					UnknownInstruction,
-					BadInstructionArgument,
-					UnhandledException,
-				};
-
-				BasicILStack(BasicILInterpretor* _interpretor);
-				~BasicILStack();
-
-				BasicILEnv*										GetEnv();
-				void											Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
-				void											ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
-				vint											GetInstruction();
-				vint											GetInsKey();
-				RunningResult									Run();
-
-				BasicILExceptionHandler*						GetExceptionHandler();
-				void											SetExceptionHandler(BasicILExceptionHandler* handler);
-				void											InvokeForeignFunction(vint index);
-				void											InvokeLightFunction(vint index);
-				void*											GetUserData();
-				void											SetUserData(void* data);
-			};
-
-/***********************************************************************
-异常
-***********************************************************************/
-
-			class ILException : public Exception
-			{
-			private:
-				static WString				GetExceptionMessage(BasicILStack::RunningResult result);
-			public:
-				BasicILStack::RunningResult result;
-
-				ILException(BasicILStack::RunningResult _result)
-					:Exception(GetExceptionMessage(_result))
-					,result(_result)
-				{
-				}
-			};
-
-			class ILLinkerException : public Exception
-			{
-			public:
-				enum ErrorType
-				{
-					DuplicatedAssemblyName,
-					AssemblyNotExists,
-					DuplicatedSymbolName,
-					SymbolNotExists,
-					SymbolNotALabel,
-					DuplicatedInstance,
-					ForeignFunctionNotExists,
-				};
-			private:
-				static WString				GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName);
-			public:
-				ErrorType					errorType;
-				WString						assemblyName;
-				WString						symbolName;
-
-				ILLinkerException(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName)
-					:Exception(GetExceptionMessage(_errorType, _assemblyName, _symbolName))
-					,errorType(_errorType)
-					,assemblyName(_assemblyName)
-					,symbolName(_symbolName)
-				{
-				}
 			};
 		}
 	}

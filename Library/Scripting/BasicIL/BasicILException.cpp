@@ -1,4 +1,4 @@
-#include "BasicILInterpretor.h"
+#include "BasicILException.h"
 #include "..\Languages\BasicErrorMessage.h"
 
 namespace vl
@@ -12,23 +12,23 @@ namespace vl
 ILException
 ***********************************************************************/
 			
-			WString ILException::GetExceptionMessage(BasicILStack::RunningResult result)
+			WString ILException::GetExceptionMessage(RunningResult result)
 			{
 				switch(result)
 				{
-				case BasicILStack::StackOverflow:
+				case StackOverflow:
 					return basiclanguage::BasicErrorMessage::ILExceptionStackOverflow();
-				case BasicILStack::DividByZero:
+				case DividByZero:
 					return basiclanguage::BasicErrorMessage::ILExceptionDividByZero();
-				case BasicILStack::AccessViolation:
+				case AccessViolation:
 					return basiclanguage::BasicErrorMessage::ILExceptionAccessViolation();
-				case BasicILStack::InstructionIndexOutOfRange:
+				case InstructionIndexOutOfRange:
 					return basiclanguage::BasicErrorMessage::ILExceptionInstructionIndexOutOfRange();
-				case BasicILStack::UnknownInstruction:
+				case UnknownInstruction:
 					return basiclanguage::BasicErrorMessage::ILExceptionUnknownInstruction();
-				case BasicILStack::BadInstructionArgument:
+				case BadInstructionArgument:
 					return basiclanguage::BasicErrorMessage::ILExceptionBadInstructionArgument();
-				case BasicILStack::UnhandledException:
+				case UnhandledException:
 					return basiclanguage::BasicErrorMessage::ILExceptionUnhandledException();
 				default:
 					return L"";

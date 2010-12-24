@@ -242,7 +242,7 @@ TEST_CASE(TestCodeInIndex)
 		for(vint i=0;i<assemblies.Count();i++)
 		{
 			host.LoadAssembly(assemblies[i]);
-			TEST_ASSERT(state->RunInitialization(assemblies[i])==BasicILStack::Finished);
+			TEST_ASSERT(state->RunInitialization(assemblies[i])==ILException::Finished);
 			TEST_ASSERT(state->GetStack()->StackTop()==state->GetStack()->StackSize());
 		}
 

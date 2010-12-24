@@ -48,8 +48,8 @@ vl::Func<R()>
 				R resultValue;
 
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -91,8 +91,8 @@ vl::Func<void()>
 				 
 
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -135,8 +135,8 @@ vl::Func<R(T0)>
 				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -179,8 +179,8 @@ vl::Func<void(T0)>
 				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -224,8 +224,8 @@ vl::Func<R(T0,T1)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -269,8 +269,8 @@ vl::Func<void(T0,T1)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -315,8 +315,8 @@ vl::Func<R(T0,T1,T2)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -361,8 +361,8 @@ vl::Func<void(T0,T1,T2)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -408,8 +408,8 @@ vl::Func<R(T0,T1,T2,T3)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -455,8 +455,8 @@ vl::Func<void(T0,T1,T2,T3)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -503,8 +503,8 @@ vl::Func<R(T0,T1,T2,T3,T4)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -551,8 +551,8 @@ vl::Func<void(T0,T1,T2,T3,T4)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -600,8 +600,8 @@ vl::Func<R(T0,T1,T2,T3,T4,T5)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -649,8 +649,8 @@ vl::Func<void(T0,T1,T2,T3,T4,T5)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -699,8 +699,8 @@ vl::Func<R(T0,T1,T2,T3,T4,T5,T6)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -749,8 +749,8 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -800,8 +800,8 @@ vl::Func<R(T0,T1,T2,T3,T4,T5,T6,T7)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -851,8 +851,8 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6,T7)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -903,8 +903,8 @@ vl::Func<R(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -955,8 +955,8 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -1008,8 +1008,8 @@ vl::Func<R(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, (void*)&resultValue);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}
@@ -1061,8 +1061,8 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
  				state->Push<T0>(p0);
  
 				state->PrepareToRun(declaration, 0);
-				basicil::BasicILStack::RunningResult result=state->Run();
-				if(result!=basicil::BasicILStack::Finished)
+				basicil::ILException::RunningResult result=state->Run();
+				if(result!=basicil::ILException::Finished)
 				{
 					throw basicil::ILException(result);
 				}

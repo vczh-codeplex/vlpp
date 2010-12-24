@@ -1,4 +1,5 @@
-#include "BasicILInterpretor.h"
+#include "BasicILEnv.h"
+#include "BasicILException.h"
 
 namespace vl
 {
@@ -44,7 +45,7 @@ BasicILEnv
 			{
 				if(stackPosition<0 || stackPosition>=stackSize)
 				{
-					throw ILException(BasicILStack::StackOverflow);
+					throw ILException(ILException::StackOverflow);
 				}
 				else
 				{
@@ -57,7 +58,7 @@ BasicILEnv
 				vint newStackTop=stackTop-size;
 				if(newStackTop<stackReserveTopSize || newStackTop>stackSize)
 				{
-					throw ILException(BasicILStack::StackOverflow);
+					throw ILException(ILException::StackOverflow);
 				}
 				else
 				{
@@ -70,7 +71,7 @@ BasicILEnv
 			{
 				if(size<0 || size>stackTop)
 				{
-					throw ILException(BasicILStack::StackOverflow);
+					throw ILException(ILException::StackOverflow);
 				}
 				stackReserveTopSize=size;
 			}

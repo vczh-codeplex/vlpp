@@ -96,7 +96,7 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -122,7 +122,7 @@ TEST_CASE(TestBasicILInstruction_AddSubMulDiv_Double)
 	
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(double));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	double result=stack.GetEnv()->Pop<double>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -290,7 +290,7 @@ TEST_CASE(TestBasicILInstruction_Comparision_Shift_Convert)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	vint baseline=0;
 	baseline+=1<<17;
@@ -353,7 +353,7 @@ TEST_CASE(TestBasicILInstruction_Jump_Variable)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==55);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -417,7 +417,7 @@ TEST_CASE(TestBasicILInstruction_Recursion)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==55);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -466,7 +466,7 @@ TEST_CASE(TestBasicILInstruction_FunctionPointer)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -521,7 +521,7 @@ TEST_CASE(TestBasicILInstruction_FunctionPointerInLabel)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==(10+20)*(30+40));
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -600,7 +600,7 @@ TEST_CASE(TestBasicILInstruction_Linking)
 
 	BasicILStack stack(&interpretor);
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==3);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());

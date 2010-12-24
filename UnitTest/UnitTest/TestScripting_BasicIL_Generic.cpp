@@ -228,42 +228,42 @@ TEST_CASE(TestBasicILInstruction_Generic_Function)
 	BasicILStack stack(&interpretor);
 	{
 		stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		double result=stack.GetEnv()->Pop<double>();
 		TEST_ASSERT(result==90);
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 	{
 		stack.Reset(il.labels[0].instructionIndex, key, sizeof(double));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		double result=stack.GetEnv()->Pop<double>();
 		TEST_ASSERT(result==90);
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 	{
 		stack.Reset(il.labels[1].instructionIndex, key, sizeof(char));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		char result=stack.GetEnv()->Pop<char>();
 		TEST_ASSERT(result=='B');
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 	{
 		stack.Reset(il.labels[1].instructionIndex, key, sizeof(char));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		char result=stack.GetEnv()->Pop<char>();
 		TEST_ASSERT(result=='B');
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 	{
 		stack.Reset(il.labels[2].instructionIndex, key, sizeof(bool));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		bool result=stack.GetEnv()->Pop<bool>();
 		TEST_ASSERT(result==true);
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
 	}
 	{
 		stack.Reset(il.labels[2].instructionIndex, key, sizeof(bool));
-		TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+		TEST_ASSERT(stack.Run()==ILException::Finished);
 		bool result=stack.GetEnv()->Pop<bool>();
 		TEST_ASSERT(result==true);
 		TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());
@@ -392,7 +392,7 @@ TEST_CASE(TestBasicILInstruction_Generic_GlobalVariable)
 	BasicILStack stack(&interpretor);
 	
 	stack.Reset(0, key, sizeof(vint));
-	TEST_ASSERT(stack.Run()==BasicILStack::Finished);
+	TEST_ASSERT(stack.Run()==ILException::Finished);
 	vint result=stack.GetEnv()->Pop<vint>();
 	TEST_ASSERT(result==30);
 	TEST_ASSERT(stack.GetEnv()->StackTop()==stack.GetEnv()->StackSize());

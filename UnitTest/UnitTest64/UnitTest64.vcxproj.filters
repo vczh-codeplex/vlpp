@@ -742,5 +742,14 @@
     <ClInclude Include="..\..\Library\Threading.h">
       <Filter>Library3\Basic\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILEnv.h">
+      <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILException.h">
+      <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILStack.h">
+      <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
