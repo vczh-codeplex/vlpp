@@ -1,6 +1,5 @@
 #include "BasicILInterpretor.h"
 #include "BasicILSymbolResource.h"
-#include "..\Languages\BasicErrorMessage.h"
 
 namespace vl
 {
@@ -9,96 +8,6 @@ namespace vl
 		namespace basicil
 		{
 			using namespace collections;
-
-/***********************************************************************
-BasicILEnv
-***********************************************************************/
-
-			BasicILEnv::BasicILEnv(vint _stackSize)
-				:stackBase(_stackSize)
-				,stackTop(_stackSize)
-				,stackSize(_stackSize)
-				,stackReserveTopSize(0)
-			{
-				stack=new unsigned char[_stackSize];
-			}
-
-			BasicILEnv::~BasicILEnv()
-			{
-				delete[] stack;
-			}
-
-			vint BasicILEnv::StackBase()const
-			{
-				return stackBase;
-			}
-
-			vint BasicILEnv::StackSize()const
-			{
-				return stackSize;
-			}
-
-			vint BasicILEnv::StackTop()const
-			{
-				return stackTop;
-			}
-
-			void* BasicILEnv::DereferenceStack(vint stackPosition)const
-			{
-				if(stackPosition<0 || stackPosition>=stackSize)
-				{
-					throw ILException(BasicILStack::StackOverflow);
-				}
-				else
-				{
-					return &stack[stackPosition];
-				}
-			}
-
-			void* BasicILEnv::Reserve(vint size)
-			{
-				vint newStackTop=stackTop-size;
-				if(newStackTop<stackReserveTopSize || newStackTop>stackSize)
-				{
-					throw ILException(BasicILStack::StackOverflow);
-				}
-				else
-				{
-					stackTop=newStackTop;
-					return &stack[stackTop];
-				}
-			}
-
-			void BasicILEnv::ReserveTop(vint size)
-			{
-				if(size<0 || size>stackTop)
-				{
-					throw ILException(BasicILStack::StackOverflow);
-				}
-				stackReserveTopSize=size;
-			}
-
-			vint BasicILEnv::GetReserveTopSize()
-			{
-				return stackReserveTopSize;
-			}
-
-			void BasicILEnv::Reset()
-			{
-				stackBase=stackSize;
-				stackTop=stackSize;
-				stackReserveTopSize=0;
-			}
-
-			void BasicILEnv::SetBase(vint stackPosition)
-			{
-				stackBase=stackPosition;
-			}
-
-			void BasicILEnv::SetTop(vint stackPosition)
-			{
-				stackTop=stackPosition;
-			}
 
 /***********************************************************************
 BasicILGenericArgument
@@ -921,60 +830,6 @@ BasicILInterpretor
 			collections::IList<BasicILLabel>& BasicILInterpretor::GetLabels()
 			{
 				return labels.Wrap();
-			}
-
-/***********************************************************************
-ILException
-***********************************************************************/
-			
-			WString ILException::GetExceptionMessage(BasicILStack::RunningResult result)
-			{
-				switch(result)
-				{
-				case BasicILStack::StackOverflow:
-					return basiclanguage::BasicErrorMessage::ILExceptionStackOverflow();
-				case BasicILStack::DividByZero:
-					return basiclanguage::BasicErrorMessage::ILExceptionDividByZero();
-				case BasicILStack::AccessViolation:
-					return basiclanguage::BasicErrorMessage::ILExceptionAccessViolation();
-				case BasicILStack::InstructionIndexOutOfRange:
-					return basiclanguage::BasicErrorMessage::ILExceptionInstructionIndexOutOfRange();
-				case BasicILStack::UnknownInstruction:
-					return basiclanguage::BasicErrorMessage::ILExceptionUnknownInstruction();
-				case BasicILStack::BadInstructionArgument:
-					return basiclanguage::BasicErrorMessage::ILExceptionBadInstructionArgument();
-				case BasicILStack::UnhandledException:
-					return basiclanguage::BasicErrorMessage::ILExceptionUnhandledException();
-				default:
-					return L"";
-				}
-			}
-
-/***********************************************************************
-ILLinkerException
-***********************************************************************/
-			
-			WString ILLinkerException::GetExceptionMessage(ErrorType _errorType, const WString& _assemblyName, const WString& _symbolName)
-			{
-				switch(_errorType)
-				{
-				case DuplicatedAssemblyName:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedAssemblyName(_assemblyName);
-				case AssemblyNotExists:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionAssemblyNotExists(_assemblyName);
-				case DuplicatedSymbolName:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedSymbolName(_assemblyName, _symbolName);
-				case SymbolNotExists:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotExists(_assemblyName, _symbolName);
-				case SymbolNotALabel:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionSymbolNotALabel(_assemblyName, _symbolName);
-				case DuplicatedInstance:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionDuplicatedInstance(_assemblyName);
-				case ForeignFunctionNotExists:
-					return basiclanguage::BasicErrorMessage::ILLinkerExceptionForeignFunctionNotExists(_assemblyName, _symbolName);
-				default:
-					return L"";
-				}
 			}
 		}
 	}

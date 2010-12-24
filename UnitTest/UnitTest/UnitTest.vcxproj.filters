@@ -438,6 +438,12 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp">
       <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILEnv.cpp">
+      <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILException.cpp">
+      <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
