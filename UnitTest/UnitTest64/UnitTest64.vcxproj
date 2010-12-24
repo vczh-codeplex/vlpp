@@ -170,6 +170,8 @@
     <ClCompile Include="..\..\Library\Regex\RegexRich.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexWriter.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILDefinition.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILEnv.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILException.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILInterpretor.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILResourceStream.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp" />

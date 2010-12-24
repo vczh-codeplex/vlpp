@@ -171,6 +171,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILEnv.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILException.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILStack.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp" />
