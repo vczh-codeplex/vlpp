@@ -38,20 +38,6 @@ BasicILLightFunctionInfo
 			}
 
 /***********************************************************************
-BasicILLabel
-***********************************************************************/
-
-			bool BasicILLabel::operator==(const BasicILLabel& label)const
-			{
-				return key==label.key && instruction==label.instruction;
-			}
-
-			bool BasicILLabel::operator!=(const BasicILLabel& label)const
-			{
-				return key!=label.key || instruction!=label.instruction;
-			}
-
-/***********************************************************************
 BasicILInterpretor
 ***********************************************************************/
 

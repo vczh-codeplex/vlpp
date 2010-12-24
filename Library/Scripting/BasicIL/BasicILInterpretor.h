@@ -11,12 +11,12 @@ Classes:
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 #define VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
 
-#include "..\..\Entity\Linear.h"
 #include "BasicILDefinition.h"
 #include "BasicILSymbolResource.h"
 #include "BasicILEnv.h"
 #include "BasicILException.h"
 #include "BasicILStack.h"
+#include "BasicILRuntimeSymbol.h"
 
 namespace vl
 {
@@ -26,7 +26,7 @@ namespace vl
 		{
 
 /***********************************************************************
-模板符号表
+模板符号特化表
 ***********************************************************************/
 
 			struct BasicILGenericArgument
@@ -37,28 +37,6 @@ namespace vl
 
 				bool											operator==(const BasicILGenericArgument& value)const;
 				bool											operator!=(const BasicILGenericArgument& value)const;
-			};
-
-			//----------------------------------------------------------------------------------------------------
-
-			struct BasicILGenericFunctionEntry
-			{
-				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericFunctionEntry>>	MapType;
-
-				vint											instruction;
-				vint											key;
-				vint											count;
-				vint											argumentCount;
-				WString											uniqueEntryID;
-			};
-
-			struct BasicILGenericVariableEntry
-			{
-				typedef collections::Dictionary<collections::Pair<WString, WString>, Ptr<BasicILGenericVariableEntry>>	MapType;
-
-				vint											argumentCount;
-				Linear<vint, vint>								size;
-				WString											uniqueEntryID;
 			};
 
 			struct BasicILGenericArgumentEnvironment
@@ -72,50 +50,6 @@ namespace vl
 
 				WString											symbolName;
 				WString											assemblyName;
-			};
-
-			struct BasicILGenericInstanceEntry
-			{
-				struct Key
-				{
-					WString										symbolName;
-					WString										assemblyName;
-					WString										typeUniqueName;
-
-					int Compare(const Key& k)const
-					{
-						if(symbolName<k.symbolName)return -1;
-						if(symbolName>k.symbolName)return 1;
-						if(assemblyName<k.assemblyName)return -1;
-						if(assemblyName>k.assemblyName)return 1;
-						if(typeUniqueName<k.typeUniqueName)return -1;
-						if(typeUniqueName>k.typeUniqueName)return 1;
-						return 0;
-					}
-
-					bool operator<(const Key& k)const
-					{
-						return Compare(k)<0;
-					}
-
-					bool operator>(const Key& k)const
-					{
-						return Compare(k)>0;
-					}
-
-					bool operator==(const Key& k)const
-					{
-						return Compare(k)==0;
-					}
-				};
-
-				typedef collections::Dictionary<Key, Ptr<BasicILGenericInstanceEntry>>									MapType;
-				typedef collections::Dictionary<WString, vint>															FunctionMap;
-
-				vint											argumentCount;
-				vint											instanceIndex;
-				WString											assemblyName;
-				FunctionMap										functions;
 			};
 
 /***********************************************************************
@@ -145,15 +79,6 @@ namespace vl
 /***********************************************************************
 虚拟机
 ***********************************************************************/
-
-			struct BasicILLabel
-			{
-				vint											instruction;
-				vint											key;
-
-				bool											operator==(const BasicILLabel& label)const;
-				bool											operator!=(const BasicILLabel& label)const;
-			};
 
 			class BasicILInterpretor : public Object
 			{
