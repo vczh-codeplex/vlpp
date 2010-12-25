@@ -486,11 +486,6 @@ BasicILRuntimeSymbol::SymbolManagement
 							ins.argument.int_value=label.instruction;
 						}
 						break;
-					case BasicIns::generic_pushdata:
-						{
-							ins.insKey=index;
-						}
-						break;
 					}
 					if(ins.insKey==-1)
 					{
