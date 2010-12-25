@@ -65,11 +65,24 @@ namespace vl
 					bool										operator!=(const LinkedFunctionInfo& info);
 				};
 
+				struct LinkedVariableInfo
+				{
+					WString										assemblyName;
+					WString										symbolName;
+					BasicIL*									originalIL;
+					vint										originalOffset;
+					vint										offset;
+
+					bool										operator==(const LinkedVariableInfo& info);
+					bool										operator!=(const LinkedVariableInfo& info);
+				};
+
 			protected:
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
 
 				collections::List<LinkedFunctionInfo>			linkedFunctions;
+				collections::List<LinkedVariableInfo>			linkedVariables;
 				Ptr<BasicIL>									linkedIL;
 
 				void											ExpandIns(BasicIL* il, vint index);
@@ -81,7 +94,10 @@ namespace vl
 				void											CopyAssemblyInitializers();
 				void											CopyInstanciatedGenericFunctions();
 				void											CopyAssemblyExportedFunctions();
-				void											CopyGlobalData();
+				
+				void											CopyInstanciatedGenericVariables();
+				void											CopyAssemblyExportedGlobalVariables();
+
 				void											LinkInstructions();
 				void											BuildExportedResource();
 			public:

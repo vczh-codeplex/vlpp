@@ -47,7 +47,7 @@ BasicILInterpretor
 			}
 
 /***********************************************************************
-BasicILLinker
+BasicILLinker::LinkedFunctionInfo
 ***********************************************************************/
 
 			bool BasicILLinker::LinkedFunctionInfo::operator==(const LinkedFunctionInfo& info)
@@ -57,7 +57,8 @@ BasicILLinker
 					symbolName==info.symbolName &&
 					originalIL==info.originalIL &&
 					originalOffset==info.originalOffset &&
-					offset==info.offset;
+					offset==info.offset &&
+					count==info.count;
 			}
 
 			bool BasicILLinker::LinkedFunctionInfo::operator!=(const LinkedFunctionInfo& info)
@@ -67,8 +68,37 @@ BasicILLinker
 					symbolName!=info.symbolName ||
 					originalIL!=info.originalIL ||
 					originalOffset!=info.originalOffset ||
+					offset!=info.offset ||
+					count!=info.count;
+			}
+
+/***********************************************************************
+BasicILLinker::LinkedVariableInfo
+***********************************************************************/
+
+			bool BasicILLinker::LinkedVariableInfo::operator==(const LinkedVariableInfo& info)
+			{
+				return
+					assemblyName==info.assemblyName &&
+					symbolName==info.symbolName &&
+					originalIL==info.originalIL &&
+					originalOffset==info.originalOffset &&
+					offset==info.offset;
+			}
+
+			bool BasicILLinker::LinkedVariableInfo::operator!=(const LinkedVariableInfo& info)
+			{
+				return
+					assemblyName!=info.assemblyName ||
+					symbolName!=info.symbolName ||
+					originalIL!=info.originalIL ||
+					originalOffset!=info.originalOffset ||
 					offset!=info.offset;
 			}
+
+/***********************************************************************
+BasicILLinker
+***********************************************************************/
 
 			void BasicILLinker::ExpandIns(BasicIL* il, vint index)
 			{
@@ -155,7 +185,6 @@ BasicILLinker
 					info.originalOffset=0;
 					info.offset=initOffset;
 					info.count=0;
-					linkedFunctions.Add(info);
 
 					for(vint j=0;j<il->instructions.Count();j++)
 					{
@@ -169,6 +198,7 @@ BasicILLinker
 
 					linkedIL->Ins(BasicIns::push, BasicIns::pointer_type, BasicIns::MakePointer(0));
 					linkedIL->Ins(BasicIns::call, BasicIns::MakeInt(info.offset));
+					linkedFunctions.Add(info);
 				}
 				linkedIL->Ins(BasicIns::ret, BasicIns::MakeInt(0));
 
@@ -250,8 +280,65 @@ BasicILLinker
 				}
 			}
 
-			void BasicILLinker::CopyGlobalData()
+			void BasicILLinker::CopyInstanciatedGenericVariables()
 			{
+				BasicIL* sitingIL=symbols.GetGenericFunctionSitingIL();
+				const Dictionary<WString, Pair<char*, vint>>& variables=expander.GetInstanciatedGenericVariables();
+
+				for(vint i=0;i<variables.Count();i++)
+				{
+					LinkedVariableInfo info;
+					info.assemblyName=L"[SITING]";
+					info.symbolName=variables.Keys()[i];
+					info.originalIL=sitingIL;
+					info.originalOffset=variables.Values()[i].value;
+					info.offset=info.originalOffset;
+					linkedVariables.Add(info);
+				}
+			}
+
+			void BasicILLinker::CopyAssemblyExportedGlobalVariables()
+			{
+				vint totalSize=expander.GetInstanciatedGenericVariableSize();
+				for(vint i=BasicILRuntimeSymbol::GenericFunctionSitingAssemblyKey+1;i<symbols.GetILCount();i++)
+				{
+					totalSize+=symbols.GetIL(i)->globalData.Count();
+				}
+				linkedIL->globalData.Resize(totalSize);
+				if(totalSize>0)
+				{
+					memset(&linkedIL->globalData[0], 0, (vint)(linkedIL->globalData.Count()*sizeof(linkedIL->globalData[0])));
+					vint offset=expander.GetInstanciatedGenericVariableSize();
+					
+					for(vint i=BasicILRuntimeSymbol::GenericFunctionSitingAssemblyKey+1;i<symbols.GetILCount();i++)
+					{
+						BasicIL* il=symbols.GetIL(i);
+						if(il->globalData.Count()>0)
+						{
+							Ptr<ResourceStream> resource=il->resources[BasicILResourceNames::ExportedSymbols];
+							ResourceRecord<BasicILEntryRes> entry=resource->ReadRootRecord<BasicILEntryRes>();
+							WString assemblyName=resource->ReadString(entry->assemblyName);
+
+							ResourceArrayRecord<BasicILExportRes> variables=resource->ReadArrayRecord(entry->exports);
+							for(vint i=0;i<variables.Count();i++)
+							{
+								ResourceRecord<BasicILExportRes> variable=variables.Get(i);
+								if(variable->type==BasicILExportRes::Variable)
+								{
+									LinkedVariableInfo info;
+									info.assemblyName=L"[ASSEMBLY]"+assemblyName;
+									info.symbolName=resource->ReadString(variable->name);
+									info.originalIL=il;
+									info.originalOffset=variable->address;
+									info.offset=offset+info.originalOffset;
+									linkedVariables.Add(info);
+								}
+							}
+							memcpy(&linkedIL->globalData[offset], &il->globalData[0], (vint)(il->globalData.Count()*sizeof(il->globalData[0])));
+							offset+=il->globalData.Count();
+						}
+					}
+				}
 			}
 
 			void BasicILLinker::LinkInstructions()
@@ -273,7 +360,7 @@ BasicILLinker
 				entry->genericSymbols=ResourceHandle<BasicILGenericRes>::Null();
 				entry->linkings=ResourceArrayHandle<BasicILLinkingRes>::Null();
 
-				ResourceArrayRecord<BasicILExportRes> exports=resource->CreateArrayRecord<BasicILExportRes>(linkedFunctions.Count());
+				ResourceArrayRecord<BasicILExportRes> exports=resource->CreateArrayRecord<BasicILExportRes>(linkedFunctions.Count()+linkedVariables.Count());
 				entry->exports=exports;
 				for(vint i=0;i<linkedFunctions.Count();i++)
 				{
@@ -285,6 +372,17 @@ BasicILLinker
 					exportRes->name=resource->CreateString(info.assemblyName+L"::"+info.symbolName);
 					exportRes->address=info.offset;
 					exportRes->instructionCount=info.count;
+				}
+				for(vint i=0;i<linkedVariables.Count();i++)
+				{
+					LinkedVariableInfo& info=linkedVariables[i];
+					ResourceRecord<BasicILExportRes> exportRes=resource->CreateRecord<BasicILExportRes>();
+					exports.Set(linkedFunctions.Count()+i, exportRes);
+
+					exportRes->type=BasicILExportRes::Variable;
+					exportRes->name=resource->CreateString(info.assemblyName+L"::"+info.symbolName);
+					exportRes->address=info.offset;
+					exportRes->instructionCount=-1;
 				}
 			}
 
@@ -316,7 +414,8 @@ BasicILLinker
 					CopyAssemblyInitializers();
 					CopyInstanciatedGenericFunctions();
 					CopyAssemblyExportedFunctions();
-					CopyGlobalData();
+					CopyInstanciatedGenericVariables();
+					CopyAssemblyExportedGlobalVariables();
 					LinkInstructions();
 					BuildExportedResource();
 				}
