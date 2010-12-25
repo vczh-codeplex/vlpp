@@ -59,6 +59,7 @@ namespace vl
 					BasicIL*									originalIL;
 					vint										originalOffset;
 					vint										offset;
+					vint										count;
 
 					bool										operator==(const LinkedFunctionInfo& info);
 					bool										operator!=(const LinkedFunctionInfo& info);
@@ -69,7 +70,6 @@ namespace vl
 				BasicILCodeExpander								expander;
 
 				collections::List<LinkedFunctionInfo>			linkedFunctions;
-				collections::List<LinkedFunctionInfo>			linkedAssemblyInitializers;
 				Ptr<BasicIL>									linkedIL;
 
 				void											ExpandIns(BasicIL* il, vint index);
@@ -77,9 +77,13 @@ namespace vl
 				void											ExpandSitingIL(BasicIL* il);
 				void											ExpandAll();
 
+				void											CopyInstructions(BasicIL* dst, BasicIL* src, vint start, vint count);
 				void											CopyAssemblyInitializers();
 				void											CopyInstanciatedGenericFunctions();
 				void											CopyAssemblyExportedFunctions();
+				void											CopyGlobalData();
+				void											LinkInstructions();
+				void											BuildExportedResource();
 			public:
 				BasicILLinker();
 				~BasicILLinker();

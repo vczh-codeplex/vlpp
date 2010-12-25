@@ -367,7 +367,7 @@ namespace TestCodeInIndexHelper
 			FileStream stream(assemblies[i]->binPath, FileStream::ReadOnly);
 			linker.LoadAssembly(stream);
 		}
-		linker.Link();
+		Ptr<LanguageAssembly> linkedAssembly=linker.Link();
 		{
 			WString logLinkerPath=GetPath()+L"[MergedAssembly][Log]["+makeFileName+L"][Linker].txt";
 			FileStream fileStream(logLinkerPath, FileStream::WriteOnly);
@@ -375,6 +375,19 @@ namespace TestCodeInIndexHelper
 			EncoderStream encoderStream(fileStream, encoder);
 			StreamWriter writer(encoderStream);
 			linker.LogInternalState(writer);
+		}
+		{
+			WString logLinkerPath=GetPath()+L"[MergedAssembly][Log]["+makeFileName+L"][Assembly].txt";
+			FileStream fileStream(logLinkerPath, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			linkedAssembly->LogInternalState(writer);
+		}
+		{
+			WString logLinkerPath=GetPath()+L"[MergedAssembly][Binary]["+makeFileName+L"]["+linkedAssembly->GetAssemblyName()+L"].assembly";
+			FileStream fileStream(logLinkerPath, FileStream::WriteOnly);
+			linkedAssembly->SaveToStream(fileStream);
 		}
 	}
 }

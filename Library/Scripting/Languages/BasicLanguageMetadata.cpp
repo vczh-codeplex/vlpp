@@ -266,7 +266,10 @@ BasicLanguageMetadata
 		BasicLanguageMetadata::BasicLanguageMetadata(IMetadataProvider* metadataProvider)
 			:LanguageMetadata(metadataProvider, basicil::BasicILResourceNames::BasicLanguageInterfaces)
 		{
-			entry=resources->ReadRootRecord<BasicEntryRes>();
+			if(resources)
+			{
+				entry=resources->ReadRootRecord<BasicEntryRes>();
+			}
 		}
 
 		vint BasicLanguageMetadata::GetDeclarationCount()const

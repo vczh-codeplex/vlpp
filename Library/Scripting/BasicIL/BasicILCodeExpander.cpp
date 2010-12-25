@@ -483,6 +483,11 @@ BasicILCodeExpander
 					break;
 				}
 			}
+
+			const BasicILCodeExpander::_InstanciatedGenericFunctionMap& BasicILCodeExpander::GetInstanciatedGenericFunctions()
+			{
+				return instanciatedGenericFunctions;
+			}
 		}
 	}
 }
