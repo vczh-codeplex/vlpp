@@ -76,10 +76,6 @@ namespace vl
 				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
 				VariableManager									instanciatedGenericVariables;
 				BasicILRuntimeSymbol*							symbols;
-
-			public:
-				BasicILCodeExpander(BasicILRuntimeSymbol* _symbols);
-				~BasicILCodeExpander();
 				
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex);
@@ -87,9 +83,13 @@ namespace vl
 
 				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction);
 				void											RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp);
-				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
 				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
+			public:
+				BasicILCodeExpander(BasicILRuntimeSymbol* _symbols);
+				~BasicILCodeExpander();
+
+				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
 				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}
