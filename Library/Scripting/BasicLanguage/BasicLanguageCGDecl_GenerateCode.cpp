@@ -190,6 +190,7 @@ BasicLanguage_GenerateCodePass2
 
 						BasicILLocalLabel label;
 						label.instructionIndex=functionStart;
+						label.instructionCount=argument.il->instructions.Count()-functionStart;
 						argument.il->labels.Add(label);
 						argument.info->LeaveSemanticScope();
 					}

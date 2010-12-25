@@ -436,9 +436,12 @@ BasicLanguage_GenerateExport
 					}
 					else
 					{
+						BasicILLocalLabel& label=argument.il->labels[argument.info->GetFunctions()[node]];
 						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
-						exportRes->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
+						exportRes->type=BasicILExportRes::Function;
+						exportRes->address=label.instructionIndex;
 						exportRes->name=argument.exportResource->CreateString(node->name);
+						exportRes->instructionCount=label.instructionCount;
 						return exportRes;
 					}
 				}
@@ -452,8 +455,10 @@ BasicLanguage_GenerateExport
 					else
 					{
 						ResourceRecord<BasicILExportRes> exportRes=argument.exportResource->CreateRecord<BasicILExportRes>();
+						exportRes->type=BasicILExportRes::Variable;
 						exportRes->address=argument.info->GetGlobalVariableOffsets()[node];
 						exportRes->name=argument.exportResource->CreateString(node->name);
+						exportRes->instructionCount=-1;
 						return exportRes;
 					}
 				}
