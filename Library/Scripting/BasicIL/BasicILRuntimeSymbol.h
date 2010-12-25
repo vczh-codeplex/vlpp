@@ -4,6 +4,8 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicIL
 
 Classes:
+  IBasicILForeignFunction				：外接函数
+  BasicILLightFunctionInfo				：轻量级外接函数
   BasicILRuntimeSymbol					：符号管理器
 ***********************************************************************/
 

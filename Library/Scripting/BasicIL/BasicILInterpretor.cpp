@@ -15,7 +15,7 @@ BasicILInterpretor
 
 			BasicILInterpretor::BasicILInterpretor(vint _stackSize)
 				:stackSize(_stackSize)
-				,expander(&symbols)
+				,expander(&symbols, true)
 			{
 			}
 
@@ -44,6 +44,28 @@ BasicILInterpretor
 			BasicILCodeExpander* BasicILInterpretor::Expander()
 			{
 				return &expander;
+			}
+
+/***********************************************************************
+BasicILLinker
+***********************************************************************/
+
+			BasicILLinker::BasicILLinker()
+				:expander(&symbols, false)
+			{
+			}
+
+			BasicILLinker::~BasicILLinker()
+			{
+			}
+
+			void BasicILLinker::LoadIL(BasicIL* il)
+			{
+			}
+
+			Ptr<BasicIL> BasicILLinker::Link()
+			{
+				return 0;
 			}
 		}
 	}

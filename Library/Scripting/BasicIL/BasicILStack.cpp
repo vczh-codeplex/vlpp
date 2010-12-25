@@ -719,12 +719,12 @@ BasicILStack
 							break;
 						case BasicIns::exception_object_reserve:
 							{
-								env->ReserveTop(BasicILStack::StackDataSize+sizeof(BasicILExceptionHandler*)+ins.argument.int_value);
+								env->ReserveTop(BasicILStack::ExceptionObjectOffset+ins.argument.int_value);
 							}
 							break;
 						case BasicIns::exception_object_address:
 							{
-								void* buffer=env->DereferenceStack(BasicILStack::StackDataSize+sizeof(BasicILExceptionHandler*));
+								void* buffer=env->DereferenceStack(BasicILStack::ExceptionObjectOffset);
 								env->Push<void*>(buffer);
 							}
 							break;
@@ -760,12 +760,12 @@ BasicILStack
 
 			BasicILExceptionHandler* BasicILStack::GetExceptionHandler()
 			{
-				return *(BasicILExceptionHandler**)env->DereferenceStack(0);
+				return *(BasicILExceptionHandler**)env->DereferenceStack(BasicILStack::ExceptionHandlerOffset);
 			}
 
 			void BasicILStack::SetExceptionHandler(BasicILExceptionHandler* handler)
 			{
-				*((BasicILExceptionHandler**)env->DereferenceStack(0))=handler;
+				*((BasicILExceptionHandler**)env->DereferenceStack(BasicILStack::ExceptionHandlerOffset))=handler;
 			}
 
 			void BasicILStack::InvokeForeignFunction(vint index)
