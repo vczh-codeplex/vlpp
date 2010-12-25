@@ -79,15 +79,31 @@ void Test_BasicLanguage_PrintNativeXHeaderFile(Ptr<LanguageAssembly> assembly, P
 	}
 }
 
-TEST_CASE(TestCodeInIndex)
+namespace TestCodeInIndexHelper
 {
-	vl::unittest::UnitTest::PrintInfo(L"Initializing NativeX Language Provider...");
-	Ptr<ILanguageProvider> nativexProvider=CreateNativeXLanguageProvider();
-	vl::unittest::UnitTest::PrintInfo(L"Loading Cases Index File...");
-	Regex regexCase(L"(<make>[^=:]+)=(<type>[^=:]+):(<value>[^=:]+)");
-	Regex regexMake(L"(<key>[^=]+)=(<value>[^=]+)");
+	struct CompiledAssembly
+	{
+		Ptr<LanguageAssembly>				assembly;
+		WString								logPathPrefix;
+		WString								binPath;
+		bool								headerPublicOnly;
+	};
 
-	List<WString> cases;
+	struct CompilerInfo
+	{
+		Regex								regexCase;
+		Regex								regexMake;
+		Ptr<ILanguageProvider>				nativexProvider;
+
+		CompilerInfo()
+			:regexCase(L"(<make>[^=:]+)=(<type>[^=:]+):(<value>[^=:]+)")
+			,regexMake(L"(<key>[^=]+)=(<value>[^=]+)")
+			,nativexProvider(CreateNativeXLanguageProvider())
+		{
+		}
+	};
+
+	void LoadCases(List<WString>& cases)
 	{
 		WString indexFilePath=GetPath()+L"Code\\Index.txt";
 		FileStream fileStream(indexFilePath, FileStream::ReadOnly);
@@ -99,15 +115,14 @@ TEST_CASE(TestCodeInIndex)
 			cases.Add(streamReader.ReadLine());
 		}
 	}
-	for(vint i=0;i<cases.Count();i++)
+
+	void CompileCase(CompilerInfo& info, const WString& testCase, List<Ptr<CompiledAssembly>>& assemblies, WString& makeFileName, WString& resultType, WString& resultValue)
 	{
-		WString singleCase=cases[i];
-		vl::unittest::UnitTest::PrintInfo(L"Running Code Case: "+singleCase);
-		RegexMatch::Ref singleCaseMatch=regexCase.Match(singleCase);
-		WString makeFileName=singleCaseMatch->Groups()[L"make"][0].Value();
+		RegexMatch::Ref singleCaseMatch=info.regexCase.Match(testCase);
+		makeFileName=singleCaseMatch->Groups()[L"make"][0].Value();
 		WString makeFilePath=GetPath()+L"Code\\"+makeFileName;
-		WString resultType=singleCaseMatch->Groups()[L"type"][0].Value();
-		WString resultValue=singleCaseMatch->Groups()[L"value"][0].Value();
+		resultType=singleCaseMatch->Groups()[L"type"][0].Value();
+		resultValue=singleCaseMatch->Groups()[L"value"][0].Value();
 
 		List<WString> makeKeys, makeValues;
 		{
@@ -118,11 +133,12 @@ TEST_CASE(TestCodeInIndex)
 			while(!streamReader.IsEnd())
 			{
 				WString pair=streamReader.ReadLine();
-				RegexMatch::Ref pairMatch=regexMake.Match(pair);
+				RegexMatch::Ref pairMatch=info.regexMake.Match(pair);
 				makeKeys.Add(pairMatch->Groups()[L"key"][0].Value());
 				makeValues.Add(pairMatch->Groups()[L"value"][0].Value());
 			}
 		}
+
 		List<vint> assemblyStarts;
 		{
 			for(vint i=0;i<makeKeys.Count();i++)
@@ -135,8 +151,6 @@ TEST_CASE(TestCodeInIndex)
 			assemblyStarts.Add(makeKeys.Count());
 		}
 
-		List<Ptr<LanguageAssembly>> assemblies;
-		List<WString> assemblyExecutedLogPaths;
 		for(vint i=0;i<assemblyStarts.Count()-1;i++)
 		{
 			vint start=assemblyStarts[i];
@@ -184,13 +198,17 @@ TEST_CASE(TestCodeInIndex)
 			Ptr<ILanguageProvider> provider;
 			if(languageName==L"NativeX")
 			{
-				provider=nativexProvider;
+				provider=info.nativexProvider;
 			}
 			List<Ptr<LanguageAssembly>> references;
 			List<Ptr<LanguageException>> errors;
-			Ptr<LanguageAssembly> assembly;
+			Ptr<CompiledAssembly> assembly=new CompiledAssembly;
 			{
-				WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][Compiled].txt";
+				assembly->logPathPrefix=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"]";
+				assembly->binPath=GetPath()+L"[Assembly][Binary]["+makeFileName+L"]["+assemblyName+L"].assembly";
+				assembly->headerPublicOnly=headerPublicOnly;
+
+				WString logOutputPath=assembly->logPathPrefix+L"[Compiled].txt";
 				FileStream fileStream(logOutputPath, FileStream::WriteOnly);
 				BomEncoder encoder(BomEncoder::Utf16);
 				EncoderStream encoderStream(fileStream, encoder);
@@ -203,24 +221,7 @@ TEST_CASE(TestCodeInIndex)
 					textWriter->WriteString(codes[j]);
 					commentProvider.CloseWriter();
 				}
-				assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, &commentProvider);
-				WString logExecutedPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][AfterExecuted].txt";
-				assemblyExecutedLogPaths.Add(logExecutedPath);
-			}
-			if(assembly)
-			{
-				{
-					WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][BeforeExecuted].txt";
-					FileStream fileStream(logOutputPath, FileStream::WriteOnly);
-					BomEncoder encoder(BomEncoder::Utf16);
-					EncoderStream encoderStream(fileStream, encoder);
-					StreamWriter writer(encoderStream);
-					assembly->LogInternalState(writer);
-				}
-				{
-					WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"]["+assemblyName+L"][Header][NativeX].txt";
-					Test_BasicLanguage_PrintNativeXHeaderFile(assembly, nativexProvider, logOutputPath, headerPublicOnly);
-				}
+				assembly->assembly=provider->Compile(assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, &commentProvider);
 			}
 			for(vint j=0;j<errors.Count();j++)
 			{
@@ -228,31 +229,74 @@ TEST_CASE(TestCodeInIndex)
 			}
 			TEST_ASSERT(errors.Count()==0);
 			assemblies.Add(assembly);
-			{
-				WString binaryOutputPath=GetPath()+L"[Assembly][Binary]["+makeFileName+L"]["+assemblyName+L"].assembly";
-				FileStream fileStream(binaryOutputPath, FileStream::WriteOnly);
-				assembly->SaveToStream(fileStream);
-			}
 		}
+	}
 
-		LanguageHost host(65536);
+	void SaveAssembly(CompilerInfo& info, Ptr<CompiledAssembly> assembly)
+	{
+		WString binaryOutputPath=assembly->binPath;
+		FileStream fileStream(binaryOutputPath, FileStream::WriteOnly);
+		assembly->assembly->SaveToStream(fileStream);
+	}
+
+	void LogBeforeExecuting(CompilerInfo& info, Ptr<CompiledAssembly> assembly)
+	{
+		{
+			WString logOutputPath=assembly->logPathPrefix+L"[BeforeExecuted].txt";
+			FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			assembly->assembly->LogInternalState(writer);
+		}
+		{
+			WString logOutputPath=assembly->logPathPrefix+L"[Header][NativeX].txt";
+			Test_BasicLanguage_PrintNativeXHeaderFile(assembly->assembly, info.nativexProvider, logOutputPath, assembly->headerPublicOnly);
+		}
+	}
+
+	void LogAfterExecuting(CompilerInfo& info, Ptr<CompiledAssembly> assembly)
+	{
+		FileStream fileStream(assembly->logPathPrefix+L"[AfterExecuted].txt", FileStream::WriteOnly);
+		BomEncoder encoder(BomEncoder::Utf16);
+		EncoderStream encoderStream(fileStream, encoder);
+		StreamWriter writer(encoderStream);
+		assembly->assembly->LogInternalState(writer);
+	}
+
+	void LogHost(CompilerInfo& info, LanguageHost& host, const WString& makeFileName)
+	{
+		WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"][Host].txt";
+		FileStream fileStream(logOutputPath, FileStream::WriteOnly);
+		BomEncoder encoder(BomEncoder::Utf16);
+		EncoderStream encoderStream(fileStream, encoder);
+		StreamWriter writer(encoderStream);
+		host.LogInternalState(writer);
+	}
+
+	Ptr<LanguageState> InitializeHost(CompilerInfo& info, LanguageHost& host, List<Ptr<CompiledAssembly>>& assemblies)
+	{
 		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
 		host.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer, (vint)(sizeof(vint*)+sizeof(vint)));
 		Ptr<LanguageState> state=host.CreateState();
-		for(vint i=0;i<assemblies.Count();i++)
+		for(vint j=0;j<assemblies.Count();j++)
 		{
-			host.LoadAssembly(assemblies[i]);
-			TEST_ASSERT(state->RunInitialization(assemblies[i])==ILException::Finished);
+			host.LoadAssembly(assemblies[j]->assembly);
+			TEST_ASSERT(state->RunInitialization(assemblies[j]->assembly)==ILException::Finished);
 			TEST_ASSERT(state->GetStack()->StackTop()==state->GetStack()->StackSize());
 		}
+		return state;
+	}
 
+	BasicDeclarationInfo FindMainFunction(CompilerInfo& info, List<Ptr<CompiledAssembly>>& assemblies)
+	{
 		BasicDeclarationInfo entryInfo;
-		for(vint i=0;i<assemblies.Count() && !entryInfo;i++)
+		for(vint j=0;j<assemblies.Count() && !entryInfo;j++)
 		{
-			Ptr<LanguageAssembly> assembly=assemblies[i];
-			for(vint j=0;j<assembly->GetBasicLanguageMetadata()->GetDeclarationCount() && !entryInfo;j++)
+			Ptr<LanguageAssembly> assembly=assemblies[j]->assembly;
+			for(vint k=0;k<assembly->GetBasicLanguageMetadata()->GetDeclarationCount() && !entryInfo;k++)
 			{
-				BasicDeclarationInfo info=assembly->GetBasicLanguageMetadata()->GetDeclaration(j);
+				BasicDeclarationInfo info=assembly->GetBasicLanguageMetadata()->GetDeclaration(k);
 				if(info.GetName()==L"main")
 				{
 					entryInfo=info;
@@ -260,7 +304,11 @@ TEST_CASE(TestCodeInIndex)
 			}
 		}
 		TEST_ASSERT(entryInfo);
+		return entryInfo;
+	}
 
+	void RunMainFunction(CompilerInfo& info, Ptr<LanguageState> state, BasicDeclarationInfo entryInfo, const WString& resultType, const WString& resultValue)
+	{
 		if(resultType==L"int")
 		{
 			BasicFunctionExecutor<vint()> entry(entryInfo, state);
@@ -285,23 +333,46 @@ TEST_CASE(TestCodeInIndex)
 		{
 			TEST_ASSERT(false);
 		}
+	}
 
-		for(vint i=0;i<assemblies.Count();i++)
+	void LogAndRunCase(CompilerInfo& info, List<Ptr<CompiledAssembly>>& assemblies, const WString& makeFileName, const WString& resultType, const WString& resultValue)
+	{
+		for(vint j=0;j<assemblies.Count();j++)
 		{
-			FileStream fileStream(assemblyExecutedLogPaths[i], FileStream::WriteOnly);
-			BomEncoder encoder(BomEncoder::Utf16);
-			EncoderStream encoderStream(fileStream, encoder);
-			StreamWriter writer(encoderStream);
-			assemblies[i]->LogInternalState(writer);
+			Ptr<CompiledAssembly> assembly=assemblies[j];
+			SaveAssembly(info, assembly);
+			LogBeforeExecuting(info, assembly);
 		}
+
+		LanguageHost host(65536);
+		Ptr<LanguageState> state=InitializeHost(info, host, assemblies);
+		BasicDeclarationInfo entryInfo=FindMainFunction(info, assemblies);
+		RunMainFunction(info, state, entryInfo, resultType, resultValue);
+
+		for(vint j=0;j<assemblies.Count();j++)
 		{
-			WString logOutputPath=GetPath()+L"[Assembly][Log]["+makeFileName+L"][Host].txt";
-			FileStream fileStream(logOutputPath, FileStream::WriteOnly);
-			BomEncoder encoder(BomEncoder::Utf16);
-			EncoderStream encoderStream(fileStream, encoder);
-			StreamWriter writer(encoderStream);
-			host.LogInternalState(writer);
+			LogAfterExecuting(info, assemblies[j]);
 		}
+		LogHost(info, host, makeFileName);
 		TEST_ASSERT(state->GetStack()->StackTop()==state->GetStack()->StackSize());
+	}
+}
+using namespace TestCodeInIndexHelper;
+
+TEST_CASE(TestCodeInIndex)
+{
+	vl::unittest::UnitTest::PrintInfo(L"Initializing Case Maker...");
+	CompilerInfo info;
+	List<WString> cases;
+	LoadCases(cases);
+
+	for(vint i=0;i<cases.Count();i++)
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Running Code Case: "+cases[i]);
+
+		List<Ptr<CompiledAssembly>> assemblies;
+		WString makeFileName, resultType, resultValue;
+		CompileCase(info, cases[i], assemblies, makeFileName, resultType, resultValue);
+		LogAndRunCase(info, assemblies, makeFileName, resultType, resultValue);
 	}
 }
