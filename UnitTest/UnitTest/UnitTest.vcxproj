@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILEnv.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILException.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.cpp" />
@@ -565,6 +566,7 @@
     <ClInclude Include="..\..\Library\Regex\RegexPure.h" />
     <ClInclude Include="..\..\Library\Regex\RegexRich.h" />
     <ClInclude Include="..\..\Library\Regex\RegexWriter.h" />
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILEnv.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILException.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.h" />

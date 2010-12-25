@@ -167,10 +167,8 @@ BasicILInterpretor
 				writer.WriteLine(L"");
 			}
 
-			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			void BasicILCodeExpander::LogInternalState(stream::TextWriter& writer)
 			{
-				runtimeSymbol.LogInternalState(writer);
-
 				writer.WriteLine(L"-----------------------------------------------");
 				writer.WriteLine(L"Instanciated Generic Function Map");
 				writer.WriteLine(L"-----------------------------------------------");
@@ -204,6 +202,12 @@ BasicILInterpretor
 					WriteGenericArgumentArray(writer, L"Arguments", L"", target->arguments);
 				}
 				writer.WriteLine(L"");
+			}
+
+			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			{
+				symbols.LogInternalState(writer);
+				expander.LogInternalState(writer);
 			}
 
 /***********************************************************************

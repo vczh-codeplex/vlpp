@@ -361,7 +361,7 @@ BasicILStack
 			BasicILStack::BasicILStack(BasicILInterpretor* _interpretor)
 				:interpretor(_interpretor)
 			{
-				env=new BasicILEnv(interpretor->stackSize);
+				env=new BasicILEnv(interpretor->GetStackSize());
 				env->ReserveTop(BasicILStack::StackDataSize);
 				instruction=-1;
 				insKey=-1;
@@ -443,9 +443,9 @@ BasicILStack
 								ins.opcode=BasicIns::push;
 								ins.type1=BasicIns::pointer_type;
 
-								vint index=interpretor->RegisterTarget(0, interpretor->Symbols()->GetIL(ins.insKey), ins.argument.int_value);
-								BasicILGenericTarget* target=interpretor->genericTargets[index].Obj();
-								ins.argument.pointer_value=interpretor->InstanciateGenericVariable(target);
+								vint index=interpretor->Expander()->RegisterTarget(0, interpretor->Symbols()->GetIL(ins.insKey), ins.argument.int_value);
+								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(index);
+								ins.argument.pointer_value=interpretor->Expander()->InstanciateGenericVariable(target);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
@@ -453,22 +453,22 @@ BasicILStack
 						case BasicIns::generic_callfunc:
 							{
 								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=interpretor->RegisterTarget(0, il, ins.argument.int_value);
+								ins.argument.int_value=interpretor->Expander()->RegisterTarget(0, il, ins.argument.int_value);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_instance_callfunc:
 							{
-								interpretor->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
+								interpretor->Expander()->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_callfunc_vm:
 							{
-								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
-								vint labelIndex=interpretor->InstanciateGenericFunction(target);
+								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(ins.argument.int_value);
+								vint labelIndex=interpretor->Expander()->InstanciateGenericFunction(target);
 
 								BasicIns& theIns=il->instructions[instruction];
 								const BasicILLabel& label=interpretor->Symbols()->GetLabel(labelIndex);
@@ -482,22 +482,22 @@ BasicILStack
 						case BasicIns::generic_pushfunc:
 							{
 								ins.opcode=BasicIns::generic_pushfunc_vm;
-								ins.argument.int_value=interpretor->RegisterTarget(0, il, ins.argument.int_value);
+								ins.argument.int_value=interpretor->Expander()->RegisterTarget(0, il, ins.argument.int_value);
 								
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_instance_pushfunc:
 							{
-								interpretor->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
+								interpretor->Expander()->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
 
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
 						case BasicIns::generic_pushfunc_vm:
 							{
-								BasicILGenericTarget* target=interpretor->genericTargets[ins.argument.int_value].Obj();
-								vint labelIndex=interpretor->InstanciateGenericFunction(target);
+								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(ins.argument.int_value);
+								vint labelIndex=interpretor->Expander()->InstanciateGenericFunction(target);
 
 								BasicIns& theIns=il->instructions[instruction];
 								theIns.opcode=BasicIns::pushlabel;
@@ -673,10 +673,10 @@ BasicILStack
 							{
 								switch(ins.insKey)
 								{
-								case BasicILInterpretor::ForeignFunctionSitingAssemblyKey:
+								case BasicILRuntimeSymbol::ForeignFunctionSitingAssemblyKey:
 									InvokeForeignFunction(ins.argument.int_value);
 									break;
-								case BasicILInterpretor::LightFunctionSitingAssemblyKey:
+								case BasicILRuntimeSymbol::LightFunctionSitingAssemblyKey:
 									InvokeLightFunction(ins.argument.int_value);
 									break;
 								default:
@@ -695,10 +695,10 @@ BasicILStack
 								vint pushkey=env->Pop<vint>();
 								switch(pushkey)
 								{
-								case BasicILInterpretor::ForeignFunctionSitingAssemblyKey:
+								case BasicILRuntimeSymbol::ForeignFunctionSitingAssemblyKey:
 									InvokeForeignFunction(pushins);
 									break;
-								case BasicILInterpretor::LightFunctionSitingAssemblyKey:
+								case BasicILRuntimeSymbol::LightFunctionSitingAssemblyKey:
 									InvokeLightFunction(pushins);
 									break;
 								default:
