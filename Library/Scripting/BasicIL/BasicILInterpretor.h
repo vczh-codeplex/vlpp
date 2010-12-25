@@ -4,8 +4,8 @@ Developer: 陈梓瀚(vczh)
 Scripting::BasicIL
 
 Classes:
-  IBasicILForeignFunction			：外接函数
   BasicILInterpretor				：虚拟机运行时环境
+  BasicILLinker						：链接器
 ***********************************************************************/
 
 #ifndef VCZH_SCRIPTING_BASICIL_BASICILINTERPRETOR
@@ -43,6 +43,23 @@ namespace vl
 				BasicILRuntimeSymbol*							Symbols();
 				BasicILCodeExpander*							Expander();
 				void											LogInternalState(stream::TextWriter& writer);
+			};
+
+/***********************************************************************
+链接器
+***********************************************************************/
+
+			class BasicILLinker : public Object
+			{
+			protected:
+				BasicILRuntimeSymbol							symbols;
+				BasicILCodeExpander								expander;
+			public:
+				BasicILLinker();
+				~BasicILLinker();
+
+				void											LoadIL(BasicIL* il);
+				Ptr<BasicIL>									Link();
 			};
 		}
 	}

@@ -161,15 +161,6 @@ BasicILCodeExpander::VariablePackage
 BasicILCodeExpander
 ***********************************************************************/
 
-			BasicILCodeExpander::BasicILCodeExpander(BasicILRuntimeSymbol* _symbols)
-				:symbols(_symbols)
-			{
-			}
-
-			BasicILCodeExpander::~BasicILCodeExpander()
-			{
-			}
-
 			vint BasicILCodeExpander::RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle)
 			{
 				Ptr<ResourceStream> exportedSymbols=il->resources[BasicILResourceNames::ExportedSymbols];
@@ -367,6 +358,16 @@ BasicILCodeExpander
 					instanciatedGenericFunctions.Add(uniqueName, genericFunctionLabelIndex);
 					return genericFunctionLabelIndex;
 				}
+			}
+
+			BasicILCodeExpander::BasicILCodeExpander(BasicILRuntimeSymbol* _symbols, bool _autoLink)
+				:symbols(_symbols)
+				,autoLink(_autoLink)
+			{
+			}
+
+			BasicILCodeExpander::~BasicILCodeExpander()
+			{
 			}
 
 			void BasicILCodeExpander::RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex)

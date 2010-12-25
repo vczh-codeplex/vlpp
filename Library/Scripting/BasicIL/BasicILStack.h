@@ -38,6 +38,9 @@ namespace vl
 			{
 			protected:
 				static const vint								StackDataSize=sizeof(void*);
+				static const vint								StackDataOffset=0;
+				static const vint								ExceptionHandlerOffset=sizeof(void*);
+				static const vint								ExceptionObjectOffset=sizeof(void*)+sizeof(BasicILExceptionHandler*);
 
 				BasicILEnv*										env;
 				BasicILInterpretor*								interpretor;

@@ -72,6 +72,7 @@ namespace vl
 					char*										Allocate(const WString& name, vint size);
 				};
 			protected:
+				bool											autoLink;
 				BasicILGenericTarget::ListType					genericTargets;
 				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
 				VariableManager									instanciatedGenericVariables;
@@ -86,7 +87,7 @@ namespace vl
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
 				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:
-				BasicILCodeExpander(BasicILRuntimeSymbol* _symbols);
+				BasicILCodeExpander(BasicILRuntimeSymbol* _symbols, bool _autoLink);
 				~BasicILCodeExpander();
 
 				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
