@@ -408,6 +408,9 @@
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.cpp">
       <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp">
+      <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -755,6 +758,9 @@
       <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.h">
+      <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.h">
       <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

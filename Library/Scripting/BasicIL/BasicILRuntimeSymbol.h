@@ -138,9 +138,11 @@ namespace vl
 				typedef collections::List<Ptr<IBasicILForeignFunction>>						_ForeignFunctionList;
 				typedef collections::List<BasicILLightFunctionInfo>							_LightFunctionList;
 
+			public:
 				static const vint								GenericFunctionSitingAssemblyKey=0;
 				static const vint								ForeignFunctionSitingAssemblyKey=-2;
 				static const vint								LightFunctionSitingAssemblyKey=-3;
+
 			private:
 				collections::List<BasicIL*>						ils;
 				_BasicILMap										ilMap;
