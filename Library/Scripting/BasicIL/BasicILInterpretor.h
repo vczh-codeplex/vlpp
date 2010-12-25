@@ -54,12 +54,19 @@ namespace vl
 			protected:
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
+
+				void											ExpandIns(BasicIL* il, vint index);
+				void											ExpandLoadedIL(BasicIL* il);
+				void											ExpandSitingIL(BasicIL* il);
+				void											ExpandAll();
 			public:
 				BasicILLinker();
 				~BasicILLinker();
 
 				void											LoadIL(BasicIL* il);
 				Ptr<BasicIL>									Link();
+				BasicILRuntimeSymbol*							Symbols();
+				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}
 	}

@@ -169,11 +169,6 @@ LanguageHost
 			return new LanguageState(new BasicILStack(interpretor.Obj()));
 		}
 
-		void LanguageHost::LogInternalState(stream::TextWriter& writer)
-		{
-			interpretor->LogInternalState(writer);
-		}
-
 		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)
 		{
 			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
@@ -185,6 +180,50 @@ LanguageHost
 		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
 		{
 			return interpretor->Symbols()->RegisterLightFunction(category, name, function, argumentSize);
+		}
+
+		void LanguageHost::LogInternalState(stream::TextWriter& writer)
+		{
+			interpretor->LogInternalState(writer);
+		}
+
+/***********************************************************************
+LanguageLinker
+***********************************************************************/
+
+		LanguageLinker::LanguageLinker()
+		{
+			linker=new BasicILLinker();
+		}
+
+		void LanguageLinker::LoadAssembly(stream::IStream& stream)
+		{
+			Ptr<LanguageAssembly> assembly=new LanguageAssembly(stream);
+			linker->LoadIL(assembly->il.Obj());
+			loadedAssemblies.Add(assembly);
+		}
+
+		void LanguageLinker::Link()
+		{
+			linker->Link();
+		}
+
+		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)
+		{
+			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
+			proxy->host=0;
+			proxy->function=function;
+			return linker->Symbols()->RegisterForeignFunction(category, name, proxy);
+		}
+
+		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
+		{
+			return linker->Symbols()->RegisterLightFunction(category, name, function, argumentSize);
+		}
+
+		void LanguageLinker::LogInternalState(stream::TextWriter& writer)
+		{
+			linker->LogInternalState(writer);
 		}
 
 /***********************************************************************

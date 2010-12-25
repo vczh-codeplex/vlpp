@@ -356,6 +356,27 @@ namespace TestCodeInIndexHelper
 		LogHost(info, host, makeFileName);
 		TEST_ASSERT(state->GetStack()->StackTop()==state->GetStack()->StackSize());
 	}
+
+	void MergeAndRunCase(CompilerInfo& info, List<Ptr<CompiledAssembly>>& assemblies, const WString& makeFileName, const WString& resultType, const WString& resultValue)
+	{
+		LanguageLinker linker;
+		linker.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		linker.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer, (vint)(sizeof(vint*)+sizeof(vint)));
+		for(vint i=0;i<assemblies.Count();i++)
+		{
+			FileStream stream(assemblies[i]->binPath, FileStream::ReadOnly);
+			linker.LoadAssembly(stream);
+		}
+		linker.Link();
+		{
+			WString logLinkerPath=GetPath()+L"[MergedAssembly][Log]["+makeFileName+L"][Linker].txt";
+			FileStream fileStream(logLinkerPath, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			linker.LogInternalState(writer);
+		}
+	}
 }
 using namespace TestCodeInIndexHelper;
 
@@ -374,5 +395,6 @@ TEST_CASE(TestCodeInIndex)
 		WString makeFileName, resultType, resultValue;
 		CompileCase(info, cases[i], assemblies, makeFileName, resultType, resultValue);
 		LogAndRunCase(info, assemblies, makeFileName, resultType, resultValue);
+		MergeAndRunCase(info, assemblies, makeFileName, resultType, resultValue);
 	}
 }

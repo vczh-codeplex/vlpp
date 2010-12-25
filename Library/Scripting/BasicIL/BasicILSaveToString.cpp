@@ -186,8 +186,8 @@ BasicILInterpretor
 				for(vint i=0;i<instanciatedGenericVariables.variables.Count();i++)
 				{
 					WString key=instanciatedGenericVariables.variables.Keys()[i];
-					char* value=instanciatedGenericVariables.variables.Values()[i];
-					writer.WriteLine(key+L" = "+itow((vint)value));
+					Pair<char*, vint> value=instanciatedGenericVariables.variables.Values()[i];
+					writer.WriteLine(key+L" = Offset("+itow(value.value)+L"), Pointer("+itow((vint)value.key)+L")");
 				}
 				writer.WriteLine(L"");
 
@@ -205,6 +205,12 @@ BasicILInterpretor
 			}
 
 			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
+			{
+				symbols.LogInternalState(writer);
+				expander.LogInternalState(writer);
+			}
+
+			void BasicILLinker::LogInternalState(stream::TextWriter& writer)
 			{
 				symbols.LogInternalState(writer);
 				expander.LogInternalState(writer);
@@ -256,13 +262,11 @@ BasicIL
 				CASE(stack_data);
 				CASE(resptr);
 				CASE(ret);
-				CASE(link_pushdata);
-				CASE(link_pushfunc);
-				CASE(link_pushfardata);
-				CASE(link_pushfarfunc);
-				CASE(link_callfarfunc);
-				CASE(link_pushforeignfunc);
-				CASE(link_callforeignfunc);
+				CASE(exception_handler_push);
+				CASE(exception_handler_pop);
+				CASE(exception_object_reserve);
+				CASE(exception_object_address);
+				CASE(exception_raise);
 				CASE(generic_pushdata);
 				CASE(generic_callfunc);
 				CASE(generic_pushfunc);
@@ -270,12 +274,15 @@ BasicIL
 				CASE(generic_pushfunc_vm);
 				CASE(generic_instance_pushfunc);
 				CASE(generic_instance_callfunc);
+				CASE(link_pushdata);
+				CASE(link_pushfunc);
+				CASE(link_pushfardata);
+				CASE(link_pushfarfunc);
+				CASE(link_callfarfunc);
+				CASE(link_pushforeignfunc);
+				CASE(link_callforeignfunc);
 				CASE(codegen_callfunc);
-				CASE(exception_handler_push);
-				CASE(exception_handler_pop);
-				CASE(exception_object_reserve);
-				CASE(exception_object_address);
-				CASE(exception_raise);
+				CASE(codegen_pushdata_siting);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
 			}
@@ -395,13 +402,11 @@ BasicIL
 				CASE(stack_data,					Single);
 				CASE(resptr,						Single);
 				CASE(ret,							Constant);
-				CASE(link_pushdata,					Constant);
-				CASE(link_pushfunc,					Constant);
-				CASE(link_pushfardata,				Constant);
-				CASE(link_pushfarfunc,				Constant);
-				CASE(link_callfarfunc,				Constant);
-				CASE(link_pushforeignfunc,			Constant);
-				CASE(link_callforeignfunc,			Constant);
+				CASE(exception_handler_push,		Constant);
+				CASE(exception_handler_pop,			Single);
+				CASE(exception_object_reserve,		Constant);
+				CASE(exception_object_address,		Single);
+				CASE(exception_raise,				Single);
 				CASE(generic_pushdata,				Constant);
 				CASE(generic_callfunc,				Constant);
 				CASE(generic_pushfunc,				Constant);
@@ -409,12 +414,15 @@ BasicIL
 				CASE(generic_pushfunc_vm,			Constant);
 				CASE(generic_instance_pushfunc,		Constant);
 				CASE(generic_instance_callfunc,		Constant);
+				CASE(link_pushdata,					Constant);
+				CASE(link_pushfunc,					Constant);
+				CASE(link_pushfardata,				Constant);
+				CASE(link_pushfarfunc,				Constant);
+				CASE(link_callfarfunc,				Constant);
+				CASE(link_pushforeignfunc,			Constant);
+				CASE(link_callforeignfunc,			Constant);
 				CASE(codegen_callfunc,				Constant);
-				CASE(exception_handler_push,		Constant);
-				CASE(exception_handler_pop,			Single);
-				CASE(exception_object_reserve,		Constant);
-				CASE(exception_object_address,		Single);
-				CASE(exception_raise,				Single);
+				CASE(codegen_pushdata_siting,		Constant);
 				return L"<UNKNOWN-OPCODE>";
 #undef CASE
 			}

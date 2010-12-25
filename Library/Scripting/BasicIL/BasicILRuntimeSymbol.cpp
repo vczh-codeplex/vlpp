@@ -102,6 +102,11 @@ BasicILRuntimeSymbol
 				return ils.IndexOf(ilMap[name]);
 			}
 
+			vint BasicILRuntimeSymbol::GetILCount()
+			{
+				return ils.Count();
+			}
+
 			bool BasicILRuntimeSymbol::IsValidILIndex(vint index)
 			{
 				return index>=0 && index<ils.Count() && ils[index]!=0;
@@ -489,6 +494,36 @@ BasicILRuntimeSymbol::SymbolManagement
 					}
 					if(ins.insKey==-1)
 					{
+						ins.insKey=index;
+					}
+				}
+			}
+
+			void BasicILRuntimeSymbol::LinkILFixInstructionKeyOnly(BasicIL* il)
+			{
+				vint functionPointerOffset=labels.Count();
+				vint index=ils.IndexOf(il);
+				for(vint i=0;i<il->labels.Count();i++)
+				{
+					BasicILLabel label;
+					label.key=index;
+					label.instruction=il->labels[i].instructionIndex;
+					labels.Add(label);
+				}
+				for(vint i=0;i<il->instructions.Count();i++)
+				{
+					BasicIns& ins=il->instructions[i];
+					switch(ins.opcode)
+					{
+					case BasicIns::link_pushdata:
+					case BasicIns::link_pushfunc:
+					case BasicIns::link_pushfardata:
+					case BasicIns::link_pushfarfunc:
+					case BasicIns::link_callfarfunc:
+					case BasicIns::link_pushforeignfunc:
+					case BasicIns::link_callforeignfunc:
+						break;
+					default:
 						ins.insKey=index;
 					}
 				}

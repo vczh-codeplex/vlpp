@@ -128,7 +128,13 @@ BasicILCodeExpander::VariablePackage
 				}
 			}
 
-			char* BasicILCodeExpander::VariableManager::Allocate(const WString& name, vint size)
+			BasicILCodeExpander::VariableManager::VariableManager(bool _autoLink)
+				:autoLink(_autoLink)
+				,instanciatedGenericVariableSize(0)
+			{
+			}
+
+			Pair<char*, vint> BasicILCodeExpander::VariableManager::Allocate(const WString& name, vint size)
 			{
 				vint index=variables.Keys().IndexOf(name);
 				if(index!=-1)
@@ -137,22 +143,28 @@ BasicILCodeExpander::VariablePackage
 				}
 				else
 				{
-					char* result=0;
-					for(vint i=0;i<packages.Count();i++)
+					char* pointer=0;
+					vint offset=instanciatedGenericVariableSize;
+					instanciatedGenericVariableSize+=size;
+					if(autoLink)
 					{
-						if(result=packages[i]->Allocate(size))
+						for(vint i=0;i<packages.Count();i++)
 						{
-							break;
+							if(pointer=packages[i]->Allocate(size))
+							{
+								break;
+							}
+						}
+						if(!pointer)
+						{
+							vint minSize=size>65536?size:65536;
+							VariablePackage* package=new VariablePackage(minSize);
+							packages.Add(package);
+							pointer=package->Allocate(size);
 						}
 					}
-					if(!result)
-					{
-						vint minSize=size>65536?size:65536;
-						VariablePackage* package=new VariablePackage(minSize);
-						packages.Add(package);
-						result=package->Allocate(size);
-					}
-					variables.Add(name, result);
+					Pair<char*, vint> result(pointer, offset);
+					variables.Add(name,result);
 					return result;
 				}
 			}
@@ -298,12 +310,24 @@ BasicILCodeExpander
 						{
 						case BasicIns::generic_pushdata:
 							{
-								ins.opcode=BasicIns::push;
-								ins.type1=BasicIns::pointer_type;
+								if(instanciatedGenericVariables.autoLink)
+								{
+									ins.opcode=BasicIns::push;
+									ins.type1=BasicIns::pointer_type;
 
-								vint index=RegisterTarget(target, il, ins.argument.int_value);
-								BasicILGenericTarget* target=genericTargets[index].Obj();
-								ins.argument.pointer_value=InstanciateGenericVariable(target);
+									vint index=RegisterTarget(target, il, ins.argument.int_value);
+									BasicILGenericTarget* target=genericTargets[index].Obj();
+									ins.argument.pointer_value=InstanciateGenericVariable(target).key;
+								}
+								else
+								{
+									ins.opcode=BasicIns::codegen_pushdata_siting;
+									ins.type1=BasicIns::int_type;
+									
+									vint index=RegisterTarget(target, il, ins.argument.int_value);
+									BasicILGenericTarget* target=genericTargets[index].Obj();
+									ins.argument.int_value=InstanciateGenericVariable(target).value;
+								}
 							}
 							break;
 						case BasicIns::generic_callfunc:
@@ -360,9 +384,26 @@ BasicILCodeExpander
 				}
 			}
 
+			Pair<char*, vint> BasicILCodeExpander::InstanciateGenericVariable(BasicILGenericTarget* target)
+			{
+				Pair<WString, WString> symbol;
+				symbol.key=target->assemblyName;
+				symbol.value=target->symbolName;
+				BasicILGenericVariableEntry* variableEntry=symbols->GetGenericVariableEntry(symbol).Obj();
+				WString uniqueName=CalculateUniqueName(variableEntry->uniqueEntryID, target);
+
+				vint size=variableEntry->size.Constant();
+				for(vint i=0;i<target->arguments.Count();i++)
+				{
+					size+=variableEntry->size.Factor(i)*target->arguments[i]->size;
+				}
+
+				return instanciatedGenericVariables.Allocate(uniqueName, size);
+			}
+
 			BasicILCodeExpander::BasicILCodeExpander(BasicILRuntimeSymbol* _symbols, bool _autoLink)
 				:symbols(_symbols)
-				,autoLink(_autoLink)
+				,instanciatedGenericVariables(_autoLink)
 			{
 			}
 
@@ -376,12 +417,24 @@ BasicILCodeExpander
 				{
 				case BasicIns::generic_pushdata:
 					{
-						ins.opcode=BasicIns::push;
-						ins.type1=BasicIns::pointer_type;
+						if(instanciatedGenericVariables.autoLink)
+						{
+							ins.opcode=BasicIns::push;
+							ins.type1=BasicIns::pointer_type;
 
-						vint index=RegisterTarget(0, symbols->GetIL(ins.insKey), ins.argument.int_value);
-						BasicILGenericTarget* target=GetTarget(index);
-						ins.argument.pointer_value=InstanciateGenericVariable(target);
+							vint index=RegisterTarget(0, symbols->GetIL(ins.insKey), ins.argument.int_value);
+							BasicILGenericTarget* target=GetTarget(index);
+							ins.argument.pointer_value=InstanciateGenericVariable(target).key;
+						}
+						else
+						{
+							ins.opcode=BasicIns::codegen_pushdata_siting;
+							ins.type1=BasicIns::int_type;
+
+							vint index=RegisterTarget(0, symbols->GetIL(ins.insKey), ins.argument.int_value);
+							BasicILGenericTarget* target=GetTarget(index);
+							ins.argument.int_value=InstanciateGenericVariable(target).value;
+						}
 					}
 					break;
 				case BasicIns::generic_callfunc:
@@ -429,23 +482,6 @@ BasicILCodeExpander
 					}
 					break;
 				}
-			}
-
-			char* BasicILCodeExpander::InstanciateGenericVariable(BasicILGenericTarget* target)
-			{
-				Pair<WString, WString> symbol;
-				symbol.key=target->assemblyName;
-				symbol.value=target->symbolName;
-				BasicILGenericVariableEntry* variableEntry=symbols->GetGenericVariableEntry(symbol).Obj();
-				WString uniqueName=CalculateUniqueName(variableEntry->uniqueEntryID, target);
-
-				vint size=variableEntry->size.Constant();
-				for(vint i=0;i<target->arguments.Count();i++)
-				{
-					size+=variableEntry->size.Factor(i)*target->arguments[i]->size;
-				}
-
-				return instanciatedGenericVariables.Allocate(uniqueName, size);
 			}
 		}
 	}
