@@ -66,7 +66,8 @@ LanguageAssembly
 
 		Ptr<ResourceStream> LanguageAssembly::GetResource(const WString& name)
 		{
-			return il->resources[name];
+			vint index=il->resources.Keys().IndexOf(name);
+			return index==-1?0:il->resources.Values()[index];
 		}
 
 		vint LanguageAssembly::GetInstructionKey()
@@ -203,9 +204,9 @@ LanguageLinker
 			loadedAssemblies.Add(assembly);
 		}
 
-		void LanguageLinker::Link()
+		Ptr<LanguageAssembly> LanguageLinker::Link()
 		{
-			linker->Link();
+			return new LanguageAssembly(linker->Link());
 		}
 
 		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)

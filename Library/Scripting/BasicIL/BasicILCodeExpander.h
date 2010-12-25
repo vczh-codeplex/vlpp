@@ -98,6 +98,7 @@ namespace vl
 				~BasicILCodeExpander();
 
 				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
+				const _InstanciatedGenericFunctionMap&			GetInstanciatedGenericFunctions();
 				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}
