@@ -99,6 +99,8 @@ namespace vl
 
 				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
 				const _InstanciatedGenericFunctionMap&			GetInstanciatedGenericFunctions();
+				const VariableManager::_VariableMap&			GetInstanciatedGenericVariables();
+				vint											GetInstanciatedGenericVariableSize();
 				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}

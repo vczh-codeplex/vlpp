@@ -488,6 +488,16 @@ BasicILCodeExpander
 			{
 				return instanciatedGenericFunctions;
 			}
+
+			const BasicILCodeExpander::VariableManager::_VariableMap& BasicILCodeExpander::GetInstanciatedGenericVariables()
+			{
+				return instanciatedGenericVariables.variables;
+			}
+
+			vint BasicILCodeExpander::GetInstanciatedGenericVariableSize()
+			{
+				return instanciatedGenericVariables.instanciatedGenericVariableSize;
+			}				
 		}
 	}
 }
