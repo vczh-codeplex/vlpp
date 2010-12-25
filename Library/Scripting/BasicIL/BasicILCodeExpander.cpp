@@ -104,24 +104,6 @@ Helper Functions
 				return uniqueEntryID+CalculateArgumentsName(target->arguments);
 			}
 
-			void BasicILCodeExpander::RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp)
-			{
-				bool isGenericFunction=false;
-				vint index=RegisterInstanceFunction(environment, originIL, ins.argument.int_value, isGenericFunction);
-				if(isGenericFunction)
-				{
-					ins.opcode=genericOp;
-					ins.argument.int_value=index;
-				}
-				else
-				{
-					ins.opcode=normalOp;
-					const BasicILLabel& label=symbols->GetLabel(index);
-					ins.insKey=label.key;
-					ins.argument.int_value=label.instruction;
-				}
-			}
-
 /***********************************************************************
 BasicILCodeExpander::VariablePackage
 ***********************************************************************/
@@ -269,6 +251,85 @@ BasicILCodeExpander
 						isGenericFunction=true;
 						return RegisterTarget(&instanceEnvironment, instanceIL, instanceFunctionRes->functionTarget);
 					}
+				}
+			}
+
+			void BasicILCodeExpander::RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp)
+			{
+				bool isGenericFunction=false;
+				vint index=RegisterInstanceFunction(environment, originIL, ins.argument.int_value, isGenericFunction);
+				if(isGenericFunction)
+				{
+					ins.opcode=genericOp;
+					ins.argument.int_value=index;
+				}
+				else
+				{
+					ins.opcode=normalOp;
+					const BasicILLabel& label=symbols->GetLabel(index);
+					ins.insKey=label.key;
+					ins.argument.int_value=label.instruction;
+				}
+			}
+
+			void BasicILCodeExpander::RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex)
+			{
+				switch(ins.opcode)
+				{
+				case BasicIns::generic_pushdata:
+					{
+						ins.opcode=BasicIns::push;
+						ins.type1=BasicIns::pointer_type;
+
+						vint index=RegisterTarget(0, symbols->GetIL(ins.insKey), ins.argument.int_value);
+						BasicILGenericTarget* target=GetTarget(index);
+						ins.argument.pointer_value=InstanciateGenericVariable(target);
+					}
+					break;
+				case BasicIns::generic_callfunc:
+					{
+						ins.opcode=BasicIns::generic_callfunc_vm;
+						ins.argument.int_value=RegisterTarget(0, il, ins.argument.int_value);
+					}
+					break;
+				case BasicIns::generic_instance_callfunc:
+					{
+						RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
+					}
+					break;
+				case BasicIns::generic_callfunc_vm:
+					{
+						BasicILGenericTarget* target=GetTarget(ins.argument.int_value);
+						vint labelIndex=InstanciateGenericFunction(target);
+
+						BasicIns& theIns=il->instructions[insIndex];
+						const BasicILLabel& label=symbols->GetLabel(labelIndex);
+						theIns.opcode=BasicIns::call;
+						theIns.insKey=label.key;
+						theIns.argument.int_value=label.instruction;
+					}
+					break;
+				case BasicIns::generic_pushfunc:
+					{
+						ins.opcode=BasicIns::generic_pushfunc_vm;
+						ins.argument.int_value=RegisterTarget(0, il, ins.argument.int_value);
+					}
+					break;
+				case BasicIns::generic_instance_pushfunc:
+					{
+						RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
+					}
+					break;
+				case BasicIns::generic_pushfunc_vm:
+					{
+						BasicILGenericTarget* target=GetTarget(ins.argument.int_value);
+						vint labelIndex=InstanciateGenericFunction(target);
+
+						BasicIns& theIns=il->instructions[insIndex];
+						theIns.opcode=BasicIns::pushlabel;
+						theIns.argument.int_value=labelIndex;
+					}
+					break;
 				}
 			}
 

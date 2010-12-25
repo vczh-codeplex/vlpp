@@ -439,70 +439,14 @@ BasicILStack
 						switch(ins.opcode)
 						{
 						case BasicIns::generic_pushdata:
-							{
-								ins.opcode=BasicIns::push;
-								ins.type1=BasicIns::pointer_type;
-
-								vint index=interpretor->Expander()->RegisterTarget(0, interpretor->Symbols()->GetIL(ins.insKey), ins.argument.int_value);
-								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(index);
-								ins.argument.pointer_value=interpretor->Expander()->InstanciateGenericVariable(target);
-
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
 						case BasicIns::generic_callfunc:
-							{
-								ins.opcode=BasicIns::generic_callfunc_vm;
-								ins.argument.int_value=interpretor->Expander()->RegisterTarget(0, il, ins.argument.int_value);
-
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
-						case BasicIns::generic_instance_callfunc:
-							{
-								interpretor->Expander()->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_callfunc_vm, BasicIns::call);
-
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
-						case BasicIns::generic_callfunc_vm:
-							{
-								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(ins.argument.int_value);
-								vint labelIndex=interpretor->Expander()->InstanciateGenericFunction(target);
-
-								BasicIns& theIns=il->instructions[instruction];
-								const BasicILLabel& label=interpretor->Symbols()->GetLabel(labelIndex);
-								theIns.opcode=BasicIns::call;
-								theIns.insKey=label.key;
-								theIns.argument.int_value=label.instruction;
-								
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
 						case BasicIns::generic_pushfunc:
-							{
-								ins.opcode=BasicIns::generic_pushfunc_vm;
-								ins.argument.int_value=interpretor->Expander()->RegisterTarget(0, il, ins.argument.int_value);
-								
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
+						case BasicIns::generic_instance_callfunc:
 						case BasicIns::generic_instance_pushfunc:
-							{
-								interpretor->Expander()->RewriteInstanceFunctionInstruction(0, ins, il, BasicIns::generic_pushfunc_vm, BasicIns::pushins);
-
-								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
-							}
-							break;
+						case BasicIns::generic_callfunc_vm:
 						case BasicIns::generic_pushfunc_vm:
 							{
-								BasicILGenericTarget* target=interpretor->Expander()->GetTarget(ins.argument.int_value);
-								vint labelIndex=interpretor->Expander()->InstanciateGenericFunction(target);
-
-								BasicIns& theIns=il->instructions[instruction];
-								theIns.opcode=BasicIns::pushlabel;
-								theIns.argument.int_value=labelIndex;
-								
+								interpretor->Expander()->RewriteExecutingGenericInstruction(ins, il, instruction);
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
 							break;
