@@ -50,6 +50,26 @@ BasicILInterpretor
 BasicILLinker
 ***********************************************************************/
 
+			bool BasicILLinker::LinkedFunctionInfo::operator==(const LinkedFunctionInfo& info)
+			{
+				return
+					assemblyName==info.assemblyName &&
+					symbolName==info.symbolName &&
+					originalIL==info.originalIL &&
+					originalOffset==info.originalOffset &&
+					offset==info.offset;
+			}
+
+			bool BasicILLinker::LinkedFunctionInfo::operator!=(const LinkedFunctionInfo& info)
+			{
+				return
+					assemblyName!=info.assemblyName ||
+					symbolName!=info.symbolName ||
+					originalIL!=info.originalIL ||
+					originalOffset!=info.originalOffset ||
+					offset!=info.offset;
+			}
+
 			void BasicILLinker::ExpandIns(BasicIL* il, vint index)
 			{
 				while(true)
@@ -109,6 +129,18 @@ BasicILLinker
 				ExpandSitingIL(symbols.GetGenericFunctionSitingIL());
 			}
 
+			void BasicILLinker::CopyAssemblyInitializers()
+			{
+			}
+
+			void BasicILLinker::CopyInstanciatedGenericFunctions()
+			{
+			}
+
+			void BasicILLinker::CopyAssemblyExportedFunctions()
+			{
+			}
+
 			BasicILLinker::BasicILLinker()
 				:expander(&symbols, false)
 			{
@@ -120,15 +152,25 @@ BasicILLinker
 
 			void BasicILLinker::LoadIL(BasicIL* il)
 			{
-				List<Pair<WString, WString>> linkingSymbols, foreignFunctions;
-				symbols.LoadILSymbol(il, linkingSymbols, foreignFunctions);
-				symbols.LinkILFixInstructionKeyOnly(il);
+				if(!linkedIL)
+				{
+					List<Pair<WString, WString>> linkingSymbols, foreignFunctions;
+					symbols.LoadILSymbol(il, linkingSymbols, foreignFunctions);
+					symbols.LinkILFixInstructionKeyOnly(il);
+				}
 			}
 
 			Ptr<BasicIL> BasicILLinker::Link()
 			{
-				ExpandAll();
-				return 0;
+				if(!linkedIL)
+				{
+					ExpandAll();
+					linkedIL=new BasicIL;
+					CopyAssemblyInitializers();
+					CopyInstanciatedGenericFunctions();
+					CopyAssemblyExportedFunctions();
+				}
+				return linkedIL;
 			}
 
 			BasicILRuntimeSymbol* BasicILLinker::Symbols()
