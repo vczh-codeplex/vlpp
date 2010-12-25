@@ -38,6 +38,8 @@ namespace vl
 		class LanguageAssembly : public Object, public IMetadataProvider
 		{
 			friend class LanguageHost;
+			friend class LanguageLinker;
+
 			typedef collections::IReadonlyDictionary<WString, Ptr<ResourceStream>>	_ResourceMap;
 		protected:
 			Ptr<basicil::BasicIL>						il;
@@ -99,9 +101,24 @@ namespace vl
 
 			bool										LoadAssembly(Ptr<LanguageAssembly> assembly);
 			Ptr<LanguageState>							CreateState();
-			void										LogInternalState(stream::TextWriter& writer);
 			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
 			bool										RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize);
+			void										LogInternalState(stream::TextWriter& writer);
+		};
+
+		class LanguageLinker : public Object
+		{
+		protected:
+			Ptr<basicil::BasicILLinker>					linker;
+			collections::List<Ptr<LanguageAssembly>>	loadedAssemblies;
+		public:
+			LanguageLinker();
+
+			void										LoadAssembly(stream::IStream& stream);
+			void										Link();
+			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
+			bool										RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize);
+			void										LogInternalState(stream::TextWriter& writer);
 		};
 
 /***********************************************************************

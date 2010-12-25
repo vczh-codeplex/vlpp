@@ -56,6 +56,7 @@ OpCode:
   generic_instance_callfunc		INTERPRETOR-INSTANCE-TARGET-INDEX(int)	:*stack_top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
 ------------------compile time only------------------
   codegen_callfunc				LABEL-INDEX(vint)						:*stack top* RETPTR								-> *stack_offset_zero* RETSTACK RETINS RETINSKEY RETPTR
+  codegen_pushdata_siting		DATA-OFFSET(vint)						:*stack_top*									-> pointer
 ------------------exception only---------------------
   exception_handler_push		INSTRUCTION_INDEX(vint)					:*stack_top*									-> *stack_top* RETINS RETINSKEY PREVIOUS
   exception_handler_pop													:*stack_top* RETINS RETINSKEY PREVIOUS			->
@@ -123,13 +124,11 @@ namespace vl
 					resptr,
 					ret,
 
-					link_pushdata,
-					link_pushfunc,
-					link_pushfardata,
-					link_pushfarfunc,
-					link_callfarfunc,
-					link_pushforeignfunc,
-					link_callforeignfunc,
+					exception_handler_push,
+					exception_handler_pop,
+					exception_object_reserve,
+					exception_object_address,
+					exception_raise,
 
 					generic_pushdata,
 					generic_pushfunc,
@@ -139,13 +138,16 @@ namespace vl
 					generic_instance_pushfunc,
 					generic_instance_callfunc,
 
-					codegen_callfunc,
+					link_pushdata,
+					link_pushfunc,
+					link_pushfardata,
+					link_pushfarfunc,
+					link_callfarfunc,
+					link_pushforeignfunc,
+					link_callforeignfunc,
 
-					exception_handler_push,
-					exception_handler_pop,
-					exception_object_reserve,
-					exception_object_address,
-					exception_raise,
+					codegen_callfunc,
+					codegen_pushdata_siting,
 				};
 
 				OpCode							opcode;

@@ -52,7 +52,7 @@ namespace vl
 
 			class BasicILCodeExpander : public Object
 			{
-				typedef collections::Dictionary<WString, vint>								_InstanciatedGenericFunctionMap;
+				typedef collections::Dictionary<WString, vint>									_InstanciatedGenericFunctionMap;
 
 			public:
 				struct VariablePackage
@@ -66,13 +66,20 @@ namespace vl
 
 				struct VariableManager
 				{
-					collections::List<Ptr<VariablePackage>>	packages;
-					collections::Dictionary<WString, char*>	variables;
+					typedef collections::List<Ptr<VariablePackage>>								_PackageList;
+					typedef collections::Dictionary<WString, collections::Pair<char*, vint>>	_VariableMap;
 
-					char*										Allocate(const WString& name, vint size);
+					_PackageList								packages;
+					_VariableMap								variables;
+					bool										autoLink;
+					vint										instanciatedGenericVariableSize;
+
+					VariableManager(bool _autoLink);
+
+					collections::Pair<char*, vint>				Allocate(const WString& name, vint size);
 				};
 			protected:
-				bool											autoLink;
+
 				BasicILGenericTarget::ListType					genericTargets;
 				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
 				VariableManager									instanciatedGenericVariables;
@@ -85,7 +92,7 @@ namespace vl
 				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction);
 				void											RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp);
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
-				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
+				collections::Pair<char*, vint>					InstanciateGenericVariable(BasicILGenericTarget* target);
 			public:
 				BasicILCodeExpander(BasicILRuntimeSymbol* _symbols, bool _autoLink);
 				~BasicILCodeExpander();

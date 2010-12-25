@@ -171,6 +171,7 @@ namespace vl
 				BasicIL*										GetIL(const WString& name);
 				vint											GetILIndex(BasicIL* il);
 				vint											GetILIndex(const WString& name);
+				vint											GetILCount();
 				bool											IsValidILIndex(vint index);
 				vint											GetSymbol(const collections::Pair<WString, WString>& key);
 
@@ -186,6 +187,7 @@ namespace vl
 				
 				vint											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				void											LinkILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
+				void											LinkILFixInstructionKeyOnly(BasicIL* il);
 				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
 				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize);
 				IBasicILForeignFunction*						GetForeignFunction(vint index);
