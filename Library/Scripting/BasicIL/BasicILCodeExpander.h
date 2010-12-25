@@ -87,6 +87,7 @@ namespace vl
 
 				vint											RegisterInstanceFunction(BasicILGenericArgumentEnvironment* environment, BasicIL* il, vint targetIndex, bool& isGenericFunction);
 				void											RewriteInstanceFunctionInstruction(BasicILGenericArgumentEnvironment* environment, BasicIns& ins, BasicIL* originIL, BasicIns::OpCode genericOp, BasicIns::OpCode normalOp);
+				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
 				vint											InstanciateGenericFunction(BasicILGenericTarget* target);
 				char*											InstanciateGenericVariable(BasicILGenericTarget* target);
 				void											LogInternalState(stream::TextWriter& writer);
