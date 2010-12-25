@@ -26,8 +26,16 @@ namespace vl
 		//可见符号
 		struct BasicILExportRes
 		{
+			enum TypeEnum
+			{
+				Variable,
+				Function,
+			};
+
+			TypeEnum												type;					//类型
 			vint													address;				//地址
 			ResourceString											name;					//符号
+			vint													instructionCount;		//指令数量，仅对函数有效
 		};
 
 /***********************************************************************

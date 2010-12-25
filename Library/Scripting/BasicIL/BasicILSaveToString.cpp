@@ -523,7 +523,15 @@ BasicIL
 					for(vint i=0;i<exportsRes.Count();i++)
 					{
 						ResourceRecord<BasicILExportRes> exportRes=exportsRes.Get(i);
-						writer.WriteLine(L"Exports["+itow(i)+L"] = ("+itow(exportRes->address)+L", "+exportedSymbols->ReadString(exportRes->name)+L")");
+						switch(exportRes->type)
+						{
+						case BasicILExportRes::Function:
+							writer.WriteLine(L"Exports["+itow(i)+L"] = Function("+itow(exportRes->address)+L", "+itow(exportRes->instructionCount)+L", "+exportedSymbols->ReadString(exportRes->name)+L")");
+							break;
+						case BasicILExportRes::Variable:
+							writer.WriteLine(L"Exports["+itow(i)+L"] = Variable("+itow(exportRes->address)+L", "+exportedSymbols->ReadString(exportRes->name)+L")");
+							break;
+						}
 					}
 				}
 

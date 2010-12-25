@@ -214,6 +214,7 @@ namespace vl
 			struct BasicILLocalLabel
 			{
 				vint						instructionIndex;
+				vint						instructionCount;
 
 				bool						operator==(const BasicILLocalLabel& label);
 			};
