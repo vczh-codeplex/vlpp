@@ -51,14 +51,35 @@ namespace vl
 
 			class BasicILLinker : public Object
 			{
+			public:
+				struct LinkedFunctionInfo
+				{
+					WString										assemblyName;
+					WString										symbolName;
+					BasicIL*									originalIL;
+					vint										originalOffset;
+					vint										offset;
+
+					bool										operator==(const LinkedFunctionInfo& info);
+					bool										operator!=(const LinkedFunctionInfo& info);
+				};
+
 			protected:
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
+
+				collections::List<LinkedFunctionInfo>			linkedFunctions;
+				collections::List<LinkedFunctionInfo>			linkedAssemblyInitializers;
+				Ptr<BasicIL>									linkedIL;
 
 				void											ExpandIns(BasicIL* il, vint index);
 				void											ExpandLoadedIL(BasicIL* il);
 				void											ExpandSitingIL(BasicIL* il);
 				void											ExpandAll();
+
+				void											CopyAssemblyInitializers();
+				void											CopyInstanciatedGenericFunctions();
+				void											CopyAssemblyExportedFunctions();
 			public:
 				BasicILLinker();
 				~BasicILLinker();
