@@ -389,6 +389,55 @@ namespace TestCodeInIndexHelper
 			FileStream fileStream(logLinkerPath, FileStream::WriteOnly);
 			linkedAssembly->SaveToStream(fileStream);
 		}
+
+		vint mainFunctionIndex=-1;
+		{
+			Ptr<ResourceStream> resource=linkedAssembly->GetResource(BasicILResourceNames::ExportedSymbols);
+			ResourceArrayRecord<BasicILExportRes> exportsRes=resource->ReadArrayRecord(resource->ReadRootRecord<BasicILEntryRes>()->exports);
+			for(vint i=0;i<exportsRes.Count();i++)
+			{
+				ResourceRecord<BasicILExportRes> exportRes=exportsRes.Get(i);
+				WString symbolName=resource->ReadString(exportRes->name);
+				if(symbolName.Left(10)==L"[ASSEMBLY]" && symbolName.Right(6)==L"::main")
+				{
+					mainFunctionIndex=exportRes->address;
+				}
+			}
+		}
+		TEST_ASSERT(mainFunctionIndex!=-1);
+		LanguageHost host(65536);
+		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		host.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer, (vint)(sizeof(vint*)+sizeof(vint)));
+		host.LoadAssembly(linkedAssembly);
+		Ptr<LanguageState> state=host.CreateState();
+		state->RunInitialization(linkedAssembly);
+
+		if(resultType==L"int")
+		{
+			vint result=0;
+			state->PrepareToRun(linkedAssembly, mainFunctionIndex, &result);
+			TEST_ASSERT(state->Run()==ILException::Finished);
+			if(result!=wtoi(resultValue))
+			{
+				vl::unittest::UnitTest::PrintError(L"Expect: "+resultValue+L", Actual: "+itow(result));
+			}
+			TEST_ASSERT(result==wtoi(resultValue));
+		}
+		else if(resultType==L"bool")
+		{
+			bool result=false;
+			state->PrepareToRun(linkedAssembly, mainFunctionIndex, &result);
+			TEST_ASSERT(state->Run()==ILException::Finished);
+			if((result?L"true":L"false")!=resultValue)
+			{
+				vl::unittest::UnitTest::PrintError(L"Expect: "+resultValue+L", Actual: "+(result?L"true":L"false"));
+			}
+			TEST_ASSERT(result==(resultValue==L"true"));
+		}
+		else
+		{
+			TEST_ASSERT(false);
+		}
 	}
 }
 using namespace TestCodeInIndexHelper;
