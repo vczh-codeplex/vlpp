@@ -11,15 +11,6 @@ Classes:
   ResourceArrayRecord<T>				：数组资源引用
   ResourceStream						：POD资源流
 
-警告：
-假设
-struct Node
-{
-	ResourceString name;
-};
-ResourceRecord<node> node=resourceStream.CreateRecord<Node>();
-使用node->name=resourceStream.CreateString(L"vczh")会因为operator->比CreateString先执行导致ResourceString对象被写进一个野指针。
-
 使用方法：
 
 如果想存放以下类型：
@@ -336,8 +327,20 @@ namespace vl
 			friend class ResourceRecord;
 			template<typename T>
 			friend class ResourceArrayRecord;
+		public:
+			struct BufferFragment
+			{
+				typedef collections::List<Ptr<BufferFragment>> List;
+
+				collections::Array<char>	buffer;
+				vint						usedSize;
+
+				BufferFragment(vint size);
+			};
 		protected:
-			collections::Array<char>		resource;
+
+			BufferFragment::List			fragments;
+			BufferFragment*					currentFragment;
 			vint							usedSize;
 
 			vint							CreateRecord(vint size);

@@ -10,21 +10,40 @@ namespace vl
 ResourceStream
 ***********************************************************************/
 
+		ResourceStream::BufferFragment::BufferFragment(vint size)
+			:buffer(size)
+			,usedSize(0)
+		{
+		}
+
 		vint ResourceStream::CreateRecord(vint size)
 		{
-			vint pointer=usedSize;
-			usedSize+=size;
-			vint extendedSize=(usedSize/65536+1)*65536;
-			if(resource.Count()!=extendedSize)
+			if(!currentFragment || currentFragment->buffer.Count()-currentFragment->usedSize<size)
 			{
-				resource.Resize(extendedSize);
+				vint extendedSize=(usedSize/65536+1)*65536;
+				Ptr<BufferFragment> fragment=new BufferFragment(extendedSize);
+				fragments.Add(fragment);
+				currentFragment=fragment.Obj();
 			}
+			vint pointer=usedSize;
+			currentFragment->usedSize+=size;
+			usedSize+=size;
 			return pointer;
 		}
 
 		const char* ResourceStream::GetPointer(vint pointer)const
 		{
-			return &resource[pointer];
+			vint offset=0;
+			for(vint i=0;i<fragments.Count();i++)
+			{
+				BufferFragment* fragment=fragments.Get(i).Obj();
+				if(offset<=pointer && pointer<offset+fragment->usedSize)
+				{
+					return &fragment->buffer[pointer-offset];
+				}
+				offset+=fragment->usedSize;
+			}
+			return 0;
 		}
 
 		WString ResourceStream::GetString(vint pointer)const
@@ -39,6 +58,7 @@ ResourceStream
 
 		ResourceStream::ResourceStream()
 			:usedSize(0)
+			,currentFragment(0)
 		{
 		}
 
@@ -46,56 +66,34 @@ ResourceStream
 		{
 		}
 
-		// Deserialization Begin
-
-		vint ReadInt(stream::IStream& stream)
-		{
-			vint result=0;
-			stream.Read(&result, sizeof(result));
-			return result;
-		}
-
-		template<typename T>
-		void ReadArray(stream::IStream& stream, Array<T>& collection)
-		{
-			collection.Resize(ReadInt(stream));
-			if(collection.Count()>0)
-			{
-				stream.Read(&collection[0], sizeof(T)*collection.Count());
-			}
-		}
-
 		void ResourceStream::LoadFromStream(stream::IStream& stream)
 		{
-			ReadArray(stream, resource);
-			usedSize=resource.Count();
-		}
-
-		// Deserialization End
-
-		// Serialization Begin
-
-		void WriteInt(stream::IStream& stream, vint i)
-		{
-			stream.Write(&i, sizeof(i));
-		}
-
-		template<typename T>
-		void WriteArray(stream::IStream& stream, T& collection, vint count)
-		{
-			WriteInt(stream, count);
-			if(count>0)
+			fragments.Clear();
+			currentFragment=0;
+			stream.Read(&usedSize, sizeof(usedSize));
+			if(usedSize>0)
 			{
-				stream.Write(&collection[0], sizeof(collection[0])*count);
+				vint extendedSize=(usedSize/65536+1)*65536;
+				Ptr<BufferFragment> fragment=new BufferFragment(extendedSize);
+				fragment->usedSize=usedSize;
+				Array<char>& buffer=fragment->buffer;
+				stream.Read(&buffer[0], sizeof(buffer[0])*usedSize);
+
+				fragments.Add(fragment);
+				currentFragment=fragment.Obj();
 			}
 		}
 
 		void ResourceStream::SaveToStream(stream::IStream& stream)
 		{
-			WriteArray(stream, resource, usedSize);
+			stream.Write(&usedSize, sizeof(usedSize));
+			for(vint i=0;i<fragments.Count();i++)
+			{
+				BufferFragment* fragment=fragments[i].Obj();
+				Array<char>& buffer=fragment->buffer;
+				stream.Write(&buffer[0], sizeof(buffer[0])*fragment->usedSize);
+			}
 		}
-
-		// Serialization End
 		
 		vint ResourceStream::GetUsedSize()const
 		{
