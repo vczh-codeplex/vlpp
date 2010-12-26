@@ -1,13 +1,9 @@
 Language=NativeX
-
-Compiles
-  System.CoreNative.ForeignFunctions.NativeX.txt
-  System.CoreNative.MemoryManager.NativeX.txt
-
 AssemblyName=syscrnat
-AssemblyOutput=Binary\Assembly.syscrnat.assembly
-
 HeaderLanguage=NativeX
-HeaderOutput=Header.syscrnat.NativeX.txt
-
+AssemblyOutput=Binary\Assembly.syscrnat.assembly
+HeaderOutput=Binary\Header.syscrnat.NativeX.txt
 DebugAssemblyOutput=Binary\Debug.syscrnat.txt
+
+Compile=System.CoreNative.ForeignFunctions.NativeX.txt
+Compile=System.CoreNative.MemoryManager.NativeX.txt

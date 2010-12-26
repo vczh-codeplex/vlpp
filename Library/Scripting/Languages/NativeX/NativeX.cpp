@@ -1922,7 +1922,7 @@ Extra
 					for(vint i=0;i<units.Count();i++)
 					{
 						Ptr<NativeXUnit> unit=units.Values()[i];
-						for(vint j=0;j<unit->imports.Count();i++)
+						for(vint j=0;j<unit->imports.Count();j++)
 						{
 							if(!units.Keys().Contains(unit->imports[j]))
 							{
@@ -1978,10 +1978,11 @@ Extra
 						for(vint i=0;i<units.Count();i++)
 						{
 							WString name=units.Keys()[i];
+							Ptr<NativeXUnit> unit=units.Values()[i];
 							vint count=0;
 							for(vint j=0;j<units.Count();j++)
 							{
-								if(units.Values()[j]->imports.Contains(name))
+								if(unit->imports.Contains(units.Values()[j]->name))
 								{
 									count++;
 								}

@@ -138,6 +138,7 @@ Extension
 				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
 				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
 				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);
+				virtual void												GenerateCodePass3(BasicExtendedDeclaration* statement, const BCP& argument);
 				virtual ResourceHandle<BasicDeclarationRes>					GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument);
 			};
 
@@ -220,6 +221,7 @@ Code Generation
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateLinkingSymbolTable, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1, BasicDeclaration, BCP)
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass3, BasicDeclaration, BCP)
 
 			extern ResourceHandle<BasicTypeRes> GenerateResource(BasicTypeRecord* type, const BCP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);

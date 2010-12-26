@@ -365,6 +365,11 @@ BasicCodegenExtension
 				CHECK_FAIL(L"BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
 			}
 
+			void BasicCodegenExtension::GenerateCodePass3(BasicExtendedDeclaration* statement, const BCP& argument)
+			{
+				CHECK_FAIL(L"BasicCodegenExtension::GenerateCodePass3(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
+			}
+
 			ResourceHandle<BasicDeclarationRes> BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument)
 			{
 				CHECK_FAIL(L"BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
@@ -465,6 +470,10 @@ BasicLanguage_GenerateCode
 				{
 					BasicLanguage_GenerateCodePass1(program->declarations[i], argument);
 				}
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					BasicLanguage_GenerateCodePass2(program->declarations[i], argument);
+				}
 
 				argument.info->EndFunction(argument.il->instructions.Count(), argument.il, 2);
 				{
@@ -486,7 +495,7 @@ BasicLanguage_GenerateCode
 
 				for(vint i=0;i<program->declarations.Count();i++)
 				{
-					BasicLanguage_GenerateCodePass2(program->declarations[i], argument);
+					BasicLanguage_GenerateCodePass3(program->declarations[i], argument);
 				}
 
 				for(vint i=0;i<argument.il->instructions.Count();i++)
