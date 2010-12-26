@@ -247,6 +247,13 @@ BasicILLinker
 					info.offset=linkedIL->instructions.Count();
 					info.count=counts[i];
 					linkedFunctions.Add(info);
+					{
+						BasicILLocalLabel label;
+						label.instructionIndex=info.offset;
+						label.instructionCount=info.count;
+						vint labelIndex=linkedIL->labels.Add(label);
+						assemblyLabelMap.Add(Pair<vint, vint>(symbols.GetILIndex(info.originalIL), info.originalOffset), labelIndex);
+					}
 					CopyInstructions(linkedIL.Obj(), info.originalIL, info.originalOffset, info.count);
 				}
 			}
@@ -273,7 +280,15 @@ BasicILLinker
 							info.originalOffset=function->address;
 							info.offset=linkedIL->instructions.Count();
 							info.count=function->instructionCount;
-							linkedFunctions.Add(info);
+							vint symbolIndex=linkedFunctions.Add(info);
+							{
+								BasicILLocalLabel label;
+								label.instructionIndex=info.offset;
+								label.instructionCount=info.count;
+								vint labelIndex=linkedIL->labels.Add(label);
+								assemblyFunctionMap.Add(Pair<WString, WString>(assemblyName, info.symbolName), symbolIndex);
+								assemblyLabelMap.Add(Pair<vint, vint>(symbols.GetILIndex(info.originalIL), info.originalOffset), labelIndex);
+							}
 							CopyInstructions(linkedIL.Obj(), info.originalIL, info.originalOffset, info.count);
 						}
 					}
@@ -283,6 +298,7 @@ BasicILLinker
 			void BasicILLinker::CopyInstanciatedGenericVariables()
 			{
 				BasicIL* sitingIL=symbols.GetGenericFunctionSitingIL();
+				assemblyGlobalData.Add(sitingIL, 0);
 				const Dictionary<WString, Pair<char*, vint>>& variables=expander.GetInstanciatedGenericVariables();
 
 				for(vint i=0;i<variables.Count();i++)
@@ -313,6 +329,7 @@ BasicILLinker
 					for(vint i=BasicILRuntimeSymbol::GenericFunctionSitingAssemblyKey+1;i<symbols.GetILCount();i++)
 					{
 						BasicIL* il=symbols.GetIL(i);
+						assemblyGlobalData.Add(il, offset);
 						if(il->globalData.Count()>0)
 						{
 							Ptr<ResourceStream> resource=il->resources[BasicILResourceNames::ExportedSymbols];
@@ -331,7 +348,8 @@ BasicILLinker
 									info.originalIL=il;
 									info.originalOffset=variable->address;
 									info.offset=offset+info.originalOffset;
-									linkedVariables.Add(info);
+									vint symbolIndex=linkedVariables.Add(info);
+									assemblyVariableMap.Add(Pair<WString, WString>(assemblyName, info.symbolName), symbolIndex);
 								}
 							}
 							memcpy(&linkedIL->globalData[offset], &il->globalData[0], (vint)(il->globalData.Count()*sizeof(il->globalData[0])));
@@ -383,6 +401,16 @@ BasicILLinker
 					exportRes->name=resource->CreateString(info.assemblyName+L"::"+info.symbolName);
 					exportRes->address=info.offset;
 					exportRes->instructionCount=-1;
+				}
+
+				ResourceArrayRecord<BasicILLinkingRes> foreigns=resource->CreateArrayRecord<BasicILLinkingRes>(foreignFunctions.Count());
+				entry->foreigns=foreigns;
+				for(vint i=0;i<foreignFunctions.Count();i++)
+				{
+					ResourceRecord<BasicILLinkingRes> foreign=resource->CreateRecord<BasicILLinkingRes>();
+					foreigns.Set(i, foreign);
+					foreign->assemblyName=resource->CreateString(foreignFunctions[i].key);
+					foreign->symbolName=resource->CreateString(foreignFunctions[i].value);
 				}
 			}
 
