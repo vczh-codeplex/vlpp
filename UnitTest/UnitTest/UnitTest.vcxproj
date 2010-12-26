@@ -196,6 +196,8 @@
     <ClCompile Include="..\..\Library\Regex\RegexPure.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexRich.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexWriter.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp" />
     <ClCompile Include="..\..\Library\Stream\Accessor.cpp" />
     <ClCompile Include="..\..\Library\Stream\BroadcastStream.cpp" />
     <ClCompile Include="..\..\Library\Stream\CacheStream.cpp" />
@@ -273,6 +275,10 @@
     <None Include="..\..\Library\Scripting\Languages\BasicErrorMessage_English.txt" />
     <None Include="..\..\Library\Scripting\Languages\BasicFunctionExecutor.h.fpm" />
     <None Include="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.MemoryManager.NativeX.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.Dfa.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.eNfa.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.Nfa.txt" />
@@ -574,6 +580,8 @@
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.h" />
     <ClInclude Include="..\..\Library\Stream\Accessor.h" />
     <ClInclude Include="..\..\Library\Stream\BroadcastStream.h" />
     <ClInclude Include="..\..\Library\Stream\CacheStream.h" />

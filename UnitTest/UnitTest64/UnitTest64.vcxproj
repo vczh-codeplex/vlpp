@@ -211,6 +211,8 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp" />
     <ClCompile Include="..\..\Library\Stream\Accessor.cpp" />
     <ClCompile Include="..\..\Library\Stream\BroadcastStream.cpp" />
     <ClCompile Include="..\..\Library\Stream\CacheStream.cpp" />
@@ -367,6 +369,8 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h" />
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.h" />
     <ClInclude Include="..\..\Library\Stream\Accessor.h" />
     <ClInclude Include="..\..\Library\Stream\BroadcastStream.h" />
     <ClInclude Include="..\..\Library\Stream\CacheStream.h" />

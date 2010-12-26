@@ -145,6 +145,15 @@
     <Filter Include="Library3\Entity\Source Files">
       <UniqueIdentifier>{856997f4-af84-46ad-8e8a-d5653208e353}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Scripting\Utility">
+      <UniqueIdentifier>{2324b22d-f16f-408d-a0f1-2da14c4329b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Utility\Header Files">
+      <UniqueIdentifier>{13e1f4d7-36d8-406a-b267-08206a0d2587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Utility\Source Files">
+      <UniqueIdentifier>{1c5f03df-b4a5-48ab-b306-43566b9198c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -410,6 +419,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp">
       <Filter>Library3\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp">
+      <Filter>Library3\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp">
+      <Filter>Library3\Scripting\Utility\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -762,6 +777,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.h">
       <Filter>Library3\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h">
+      <Filter>Library3\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.h">
+      <Filter>Library3\Scripting\Utility\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
