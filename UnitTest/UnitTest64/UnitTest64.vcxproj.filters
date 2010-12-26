@@ -154,6 +154,9 @@
     <Filter Include="Library3\Scripting\Utility\Source Files">
       <UniqueIdentifier>{1c5f03df-b4a5-48ab-b306-43566b9198c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scripting\Utility">
+      <UniqueIdentifier>{2b126fdb-44a8-4380-90e3-9d6b0360be00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -425,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp">
       <Filter>Library3\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_Utility_System_CoreNative.cpp">
+      <Filter>Source Files\Scripting\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

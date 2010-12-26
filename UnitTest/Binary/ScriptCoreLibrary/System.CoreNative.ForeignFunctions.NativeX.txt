@@ -7,17 +7,17 @@ structure __ForeignHandle
 foreign function __ForeignHandle* __MemCreate()
     alias SystemCoreForeignFunctions.MemCreate;
 
-foreign function void* __MemAlloc(ForeignHandle* mm, int size)
+foreign function void* __MemAlloc(__ForeignHandle* mm, int size)
     alias SystemCoreForeignFunctions.MemAlloc;
 
-foreign function bool __MemFree(ForeignHandle* mm, void* handle)
+foreign function bool __MemFree(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemFree;
 
-foreign function bool __MemIsValidHandle(ForeignHandle* mm, void* handle)
+foreign function bool __MemIsValidHandle(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemIsValidHandle;
 
-foreign function int __MemGetHandleSize(ForeignHandle* mm, void* handle)
+foreign function int __MemGetHandleSize(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemGetHandleSize;
 
-foreign function void* __MemGetOwnerHandle(ForeignHandle* mm, void* handle)
+foreign function void* __MemGetOwnerHandle(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemGetOwnerHandle;

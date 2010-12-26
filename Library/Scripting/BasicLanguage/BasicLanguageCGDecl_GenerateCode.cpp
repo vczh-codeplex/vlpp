@@ -97,6 +97,44 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicStructureDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptBaseDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
+				{
+					argument.codegenExtension->GenerateCodePass1(node, argument);
+				}
+
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1)
+
+/***********************************************************************
+BasicLanguage_GenerateCodePass2
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
+
+				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
+				{
 					if(!node->genericDeclaration.HasGeneric())
 					{
 						BasicOffset offset=-1;
@@ -140,16 +178,16 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
-					argument.codegenExtension->GenerateCodePass1(node, argument);
+					argument.codegenExtension->GenerateCodePass2(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2)
 
 /***********************************************************************
-BasicLanguage_GenerateCodePass2
+BasicLanguage_GenerateCodePass3
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2, BasicDeclaration, BCP)
+			BEGIN_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass3, BasicDeclaration, BCP)
 				BASIC_LANGUAGE_ALGORITHM_INITIALIZER
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
@@ -218,10 +256,10 @@ BasicLanguage_GenerateCodePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
 				{
-					argument.codegenExtension->GenerateCodePass2(node, argument);
+					argument.codegenExtension->GenerateCodePass3(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2)
+			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass3)
 		}
 	}
 }
