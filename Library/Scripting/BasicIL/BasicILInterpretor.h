@@ -51,6 +51,9 @@ namespace vl
 
 			class BasicILLinker : public Object
 			{
+				typedef collections::Dictionary<collections::Pair<WString, WString>, vint>	_SymbolMap;
+				typedef collections::Dictionary<collections::Pair<vint, vint>, vint>		_LabelMap;
+				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 			public:
 				struct LinkedFunctionInfo
 				{
@@ -80,10 +83,18 @@ namespace vl
 			protected:
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
+				Ptr<BasicIL>									linkedIL;
 
 				collections::List<LinkedFunctionInfo>			linkedFunctions;
 				collections::List<LinkedVariableInfo>			linkedVariables;
-				Ptr<BasicIL>									linkedIL;
+
+				collections::Dictionary<BasicIL*, vint>			assemblyGlobalData;
+				_SymbolMap										assemblyFunctionMap;
+				_SymbolMap										assemblyVariableMap;
+				_LabelMap										assemblyLabelMap;
+
+				_SymbolList										foreignFunctions;
+				_SymbolMap										foreignMap;
 
 				void											ExpandIns(BasicIL* il, vint index);
 				void											ExpandLoadedIL(BasicIL* il);
