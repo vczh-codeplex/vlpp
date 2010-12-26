@@ -425,6 +425,7 @@ BasicILLinker
 							{
 								const BasicILLabel& label=symbols.GetLabel(srcIns.argument.int_value);
 								vint labelIndex=assemblyLabelMap[Pair<vint, vint>(label.key, label.instruction)];
+								dstIns.opcode=BasicIns::link_pushfunc;
 								dstIns.argument.int_value=labelIndex;
 							}
 							break;
