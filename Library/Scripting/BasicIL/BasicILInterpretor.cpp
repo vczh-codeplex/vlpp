@@ -361,9 +361,151 @@ BasicILLinker
 
 			void BasicILLinker::LinkInstructions()
 			{
-				//link_
-				//codegen_
-				//foreign function
+				BasicIL* currentIL=0;
+				vint currentILIndex=-1;
+				Ptr<ResourceStream> resource;
+				ResourceRecord<BasicILEntryRes> entryRes;
+				ResourceArrayRecord<BasicILLinkingRes> linkingsRes;
+				ResourceArrayRecord<BasicILLinkingRes> foreignsRes;
+
+				for(vint i=0;i<linkedFunctions.Count();i++)
+				{
+					LinkedFunctionInfo& info=linkedFunctions[i];
+					if(currentIL!=info.originalIL)
+					{
+						currentIL=info.originalIL;
+						currentILIndex=symbols.GetILIndex(currentIL);
+						vint resourceIndex=info.originalIL->resources.Keys().IndexOf(BasicILResourceNames::ExportedSymbols);
+						if(resourceIndex!=-1)
+						{
+							resource=info.originalIL->resources.Values()[resourceIndex];
+							entryRes=resource->ReadRootRecord<BasicILEntryRes>();
+							linkingsRes=resource->ReadArrayRecord(entryRes->linkings);
+							foreignsRes=resource->ReadArrayRecord(entryRes->foreigns);
+						}
+					}
+					for(vint j=0;j<info.count;j++)
+					{
+						BasicIns& srcIns=info.originalIL->instructions[j+info.originalOffset];
+						BasicIns& dstIns=linkedIL->instructions[j+info.offset];
+						dstIns.insKey=-1;
+						dstIns.userData=0;
+
+						switch(srcIns.opcode)
+						{
+						case BasicIns::pushins:
+						case BasicIns::jump:
+						case BasicIns::jumptrue:
+						case BasicIns::jumpfalse:
+						case BasicIns::call:
+							{
+								vint insIndex=srcIns.argument.int_value;
+								vint labelMapIndex=assemblyLabelMap.Keys().IndexOf(Pair<vint, vint>(srcIns.insKey, insIndex));
+								if(labelMapIndex==-1)
+								{
+									CHECK_ERROR(srcIns.insKey==currentILIndex, L"BasicILLinker::LinkInstructions()#内部错误。");
+									CHECK_ERROR(info.originalOffset<=insIndex && insIndex<info.originalOffset+info.count, L"BasicILLinker::LinkInstructions()#内部错误。");
+									dstIns.argument.int_value=insIndex-info.originalOffset+info.offset;
+								}
+								else
+								{
+									dstIns.argument.int_value=linkedIL->labels[assemblyLabelMap.Values()[labelMapIndex]].instructionIndex;
+								}
+							}
+							break;
+						case BasicIns::exception_handler_push:
+							{
+								vint insIndex=srcIns.argument.int_value;
+								CHECK_ERROR(srcIns.insKey==currentILIndex, L"BasicILLinker::LinkInstructions()#内部错误。");
+								CHECK_ERROR(info.originalOffset<=insIndex && insIndex<info.originalOffset+info.count, L"BasicILLinker::LinkInstructions()#内部错误。");
+								dstIns.argument.int_value=insIndex-info.originalOffset+info.offset;
+							}
+							break;
+						case BasicIns::pushlabel:
+							{
+								const BasicILLabel& label=symbols.GetLabel(srcIns.argument.int_value);
+								vint labelIndex=assemblyLabelMap[Pair<vint, vint>(label.key, label.instruction)];
+								dstIns.argument.int_value=labelIndex;
+							}
+							break;
+						case BasicIns::codegen_pushdata_siting:
+							{
+								dstIns.opcode=BasicIns::link_pushdata;
+								dstIns.argument.int_value=assemblyGlobalData[symbols.GetGenericFunctionSitingIL()]+srcIns.argument.int_value;
+							}
+							break;
+						case BasicIns::link_pushdata:
+							{
+								dstIns.argument.int_value=assemblyGlobalData[currentIL]+srcIns.argument.int_value;
+							}
+							break;
+						case BasicIns::link_pushfunc:
+							{
+								BasicILLocalLabel& label=currentIL->labels[srcIns.argument.int_value];
+								dstIns.argument.int_value=assemblyLabelMap[Pair<vint, vint>(currentILIndex, label.instructionIndex)];
+							}
+							break;
+						case BasicIns::link_pushfardata:
+							{
+								ResourceRecord<BasicILLinkingRes> linkingRes=linkingsRes.Get(srcIns.argument.int_value);
+								WString assemblyName=resource->ReadString(linkingRes->assemblyName);
+								WString symbolName=resource->ReadString(linkingRes->symbolName);
+								vint variableIndex=assemblyVariableMap[Pair<WString, WString>(assemblyName, symbolName)];
+								LinkedVariableInfo& variable=linkedVariables[variableIndex];
+
+								dstIns.opcode=BasicIns::link_pushdata;
+								dstIns.argument.int_value=variable.offset;
+							}
+							break;
+						case BasicIns::link_pushfarfunc:
+							{
+								ResourceRecord<BasicILLinkingRes> linkingRes=linkingsRes.Get(srcIns.argument.int_value);
+								WString assemblyName=resource->ReadString(linkingRes->assemblyName);
+								WString symbolName=resource->ReadString(linkingRes->symbolName);
+								vint functionIndex=assemblyFunctionMap[Pair<WString, WString>(assemblyName, symbolName)];
+								LinkedFunctionInfo& function=linkedFunctions[functionIndex];
+
+								vint ilIndex=symbols.GetILIndex(function.originalIL);
+								vint insIndex=function.originalOffset;
+								dstIns.opcode=BasicIns::link_pushfunc;
+								dstIns.argument.int_value=assemblyLabelMap[Pair<vint, vint>(ilIndex, insIndex)];
+							}
+							break;
+						case BasicIns::link_callfarfunc:
+							{
+								ResourceRecord<BasicILLinkingRes> linkingRes=linkingsRes.Get(srcIns.argument.int_value);
+								WString assemblyName=resource->ReadString(linkingRes->assemblyName);
+								WString symbolName=resource->ReadString(linkingRes->symbolName);
+								vint functionIndex=assemblyFunctionMap[Pair<WString, WString>(assemblyName, symbolName)];
+								LinkedFunctionInfo& function=linkedFunctions[functionIndex];
+
+								dstIns.opcode=BasicIns::call;
+								dstIns.argument.int_value=function.offset;
+							}
+							break;
+						case BasicIns::link_pushforeignfunc:
+						case BasicIns::link_callforeignfunc:
+							{
+								ResourceRecord<BasicILLinkingRes> foreignRes=foreignsRes.Get(srcIns.argument.int_value);
+								WString assemblyName=resource->ReadString(foreignRes->assemblyName);
+								WString symbolName=resource->ReadString(foreignRes->symbolName);
+								Pair<WString, WString> key(assemblyName, symbolName);
+								vint foreignIndex=foreignMap.Keys().IndexOf(key);
+								if(foreignIndex==-1)
+								{
+									vint index=foreignFunctions.Add(key);
+									foreignMap.Add(key, index);
+									dstIns.argument.int_value=index;
+								}
+								else
+								{
+									dstIns.argument.int_value=foreignMap.Values()[foreignIndex];
+								}
+							}
+							break;
+						}
+					}
+				}
 			}
 
 			void BasicILLinker::BuildExportedResource()
