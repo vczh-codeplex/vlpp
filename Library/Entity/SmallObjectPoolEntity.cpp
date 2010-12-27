@@ -69,9 +69,10 @@ SmallObjectPool
 				if(marks[markIndex]&mark)
 				{
 					vint groupIndex=GROUP_INDEX(objectIndex);
-					marks[markIndex]|=~mark;
+					marks[markIndex]&=~mark;
 					groups[groupIndex]--;
 					usedCount--;
+					return true;
 				}
 			}
 			return false;

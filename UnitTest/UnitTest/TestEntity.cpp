@@ -101,4 +101,36 @@ TEST_CASE(TestEntity_SmallObjectPool)
 		TEST_ASSERT(object-start==i*8);
 		TEST_ASSERT(pool.GetUsedCount()==i+1);
 	}
+
+	for(vint i=0;i<pool.GetMaxCount()*pool.GetObjectSize();i++)
+	{
+		if(i%pool.GetObjectSize()==0)
+		{
+			TEST_ASSERT(pool.IsValid(start+i)==true);
+			TEST_ASSERT(pool.GetHandle(start+i)==start+i);
+		}
+		else
+		{
+			TEST_ASSERT(pool.Free(start+i)==false);
+			TEST_ASSERT(pool.IsValid(start+i)==false);
+			TEST_ASSERT(pool.GetHandle(start+i)==start+i-i%pool.GetObjectSize());
+		}
+	}
+	TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount());
+
+	for(vint i=pool.GetMaxCount()-1;i>=0;i--)
+	{
+		char* object=start+i*pool.GetObjectSize();
+		TEST_ASSERT(pool.Free(object)==true);
+		TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount()-1);
+		TEST_ASSERT(pool.Alloc()==object);
+		TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount());
+	}
+
+	for(vint i=pool.GetMaxCount()-1;i>=0;i--)
+	{
+		char* object=start+i*pool.GetObjectSize();
+		TEST_ASSERT(pool.Free(object)==true);
+		TEST_ASSERT(pool.GetUsedCount()==i);
+	}
 }
