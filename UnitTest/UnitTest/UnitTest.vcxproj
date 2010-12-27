@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILEnv.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILException.cpp" />
@@ -566,6 +567,7 @@
     <ClInclude Include="..\..\Library\Combinator\StringCombinator.h" />
     <ClInclude Include="..\..\Library\Combinator\TokenCombinator.h" />
     <ClInclude Include="..\..\Library\Entity\Linear.h" />
+    <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Regex\Regex.h" />
     <ClInclude Include="..\..\Library\Regex\RegexAutomaton.h" />
     <ClInclude Include="..\..\Library\Regex\RegexData.h" />
