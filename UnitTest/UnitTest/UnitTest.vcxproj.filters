@@ -477,6 +477,9 @@
     <ClCompile Include="TestScripting_Utility_System_CoreNative.cpp">
       <Filter>Source Files\Scripting\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1602,6 +1605,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h">
       <Filter>Library3\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h">
+      <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

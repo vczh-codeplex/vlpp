@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\Library\Combinator\StringCombinator.cpp" />
     <ClCompile Include="..\..\Library\Combinator\TokenCombinator.cpp" />
     <ClCompile Include="..\..\Library\Console.cpp" />
+    <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Exception.cpp" />
     <ClCompile Include="..\..\Library\GlobalStorage.cpp" />
     <ClCompile Include="..\..\Library\ObjectModel\ObjectType.cpp" />
@@ -314,6 +315,7 @@
     <ClInclude Include="..\..\Library\Combinator\_Using.h" />
     <ClInclude Include="..\..\Library\Console.h" />
     <ClInclude Include="..\..\Library\Entity\Linear.h" />
+    <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Event.h" />
     <ClInclude Include="..\..\Library\Exception.h" />
     <ClInclude Include="..\..\Library\Function.h" />
