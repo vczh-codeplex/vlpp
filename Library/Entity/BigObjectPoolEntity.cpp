@@ -36,7 +36,15 @@ BigObjectPool
 			{
 				handle->next->prev=prev;
 			}
-			DisposeBlockHandle(handle->next);
+			if(currentBlock==handle)
+			{
+				currentBlock=handle->next;
+				if(!currentBlock)
+				{
+					currentBlock=firstBlock;
+				}
+			}
+			DisposeBlockHandle(handle);
 			return prev;
 		}
 
@@ -95,6 +103,11 @@ BigObjectPool
 					BlockReference* reference=(BlockReference*)block->start;
 					reference->handle=block;
 					reference->checksum=((vint)block)^CHECKSUM_TOKEN;
+					currentBlock=block->next;
+					if(!currentBlock)
+					{
+						currentBlock=firstBlock;
+					}
 					return block->start+BlockHeaderSize;
 				}
 				block=block->next;
@@ -110,6 +123,7 @@ BigObjectPool
 			{
 				BlockReference* reference=(BlockReference*)(handle-BlockHeaderSize);
 				BlockHandle* block=reference->handle;
+				block->used=false;
 				vint size=block->size;
 				if(block->prev && !block->prev->used)
 				{
