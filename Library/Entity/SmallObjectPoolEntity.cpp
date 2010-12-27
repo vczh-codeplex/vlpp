@@ -9,10 +9,10 @@ namespace vl
 SmallObjectPool
 ***********************************************************************/
 
-#define GROUP_MAX 256
-#define MARK_INDEX(OBJECT_INDEX) ((OBJECT_INDEX)/8)
-#define MARK(OBJECT_INDEX) (((unsigned char)1)<<((OBJECT_INDEX)%8))
-#define GROUP_INDEX(OBJECT_INDEX) ((OBJECT_INDEX)/GROUP_MAX)
+#define GROUP_MAX						256
+#define MARK_INDEX(OBJECT_INDEX)		((OBJECT_INDEX)/8)
+#define MARK(OBJECT_INDEX)				(((unsigned char)1)<<((OBJECT_INDEX)%8))
+#define GROUP_INDEX(OBJECT_INDEX)		((OBJECT_INDEX)/GROUP_MAX)
 
 		SmallObjectPool::SmallObjectPool(vint _objectSize, vint _maxCount)
 			:objectSize(_objectSize)

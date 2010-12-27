@@ -100,6 +100,7 @@ void TestEntity_SmallObjectPool_Assertion(SmallObjectPool& pool)
 		TEST_ASSERT(object-start==i*8);
 		TEST_ASSERT(pool.GetUsedCount()==i+1);
 	}
+	TEST_ASSERT(pool.Alloc()==0);
 
 	for(vint i=0;i<pool.GetMaxCount()*pool.GetObjectSize();i++)
 	{
