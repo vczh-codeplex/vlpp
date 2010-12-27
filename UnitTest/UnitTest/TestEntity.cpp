@@ -1,8 +1,10 @@
 #include <string.h>
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Entity\Linear.h"
+#include "..\..\Library\Entity\SmallObjectPoolEntity.h"
 
 using namespace vl;
+using namespace vl::entities;
 
 /***********************************************************************
 线性值
@@ -77,5 +79,26 @@ TEST_CASE(TestEntity_Linear)
 	{
 		TEST_ASSERT(F(6)%4==F(2));
 		TEST_ASSERT(F(4)('x', 6)('y', 8)%4==F(0)('x', 2));
+	}
+}
+
+/***********************************************************************
+对想池
+***********************************************************************/
+
+TEST_CASE(TestEntity_SmallObjectPool)
+{
+	SmallObjectPool pool(8, 512);
+	char* start=pool.GetStartAddress();
+	TEST_ASSERT(pool.GetObjectSize()==8);
+	TEST_ASSERT(pool.GetMaxCount()==512);
+	TEST_ASSERT(pool.GetEndAddress()-start==4096);
+
+	for(vint i=0;i<pool.GetMaxCount();i++)
+	{
+		char* object=pool.Alloc();
+		TEST_ASSERT(object);
+		TEST_ASSERT(object-start==i*8);
+		TEST_ASSERT(pool.GetUsedCount()==i+1);
 	}
 }
