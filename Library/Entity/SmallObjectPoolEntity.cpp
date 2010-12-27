@@ -48,15 +48,15 @@ SmallObjectPool
 			vint markIndex=groupIndex*(GROUP_MAX/8);
 			while(marks[markIndex]==255)markIndex++;
 
-			vint markBitIndex=1;
+			vint markBitIndex=0;
 			unsigned __int8 markNumber=marks[markIndex];
 			while(markNumber&(1<<markBitIndex))markBitIndex++;
 
-			marks[markIndex]|=~(1<<markBitIndex);
+			marks[markIndex]|=(1<<markBitIndex);
 			groups[groupIndex]++;
 			usedCount++;
-			lastObjectIndex=groupIndex*GROUP_MAX + markIndex*8 + (markBitIndex-1);
-			return &items[lastObjectIndex];
+			lastObjectIndex=groupIndex*GROUP_MAX + (markIndex%(GROUP_MAX/8))*8 + markBitIndex;
+			return &items[lastObjectIndex*objectSize];
 		}
 
 		bool SmallObjectPool::Free(char* handle)
