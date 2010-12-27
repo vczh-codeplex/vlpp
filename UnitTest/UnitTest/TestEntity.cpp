@@ -87,71 +87,107 @@ TEST_CASE(TestEntity_Linear)
 小对象池
 ***********************************************************************/
 
-void TestEntity_SmallObjectPool_Assertion(SmallObjectPool& pool)
+namespace TestEntityHelper
 {
-	char* start=pool.GetStartAddress();
-	TEST_ASSERT(pool.GetObjectSize()==8);
-	TEST_ASSERT(pool.GetMaxCount()==512);
-	TEST_ASSERT(pool.GetUsedCount()==0);
-	TEST_ASSERT(pool.GetEndAddress()-start==pool.GetObjectSize()*pool.GetMaxCount());
-
-	for(vint i=0;i<pool.GetMaxCount();i++)
+	void SmallObjectPoolAssertion(SmallObjectPool& pool)
 	{
-		char* object=pool.Alloc();
-		TEST_ASSERT(object);
-		TEST_ASSERT(object-start==i*8);
-		TEST_ASSERT(pool.GetUsedCount()==i+1);
-	}
-	TEST_ASSERT(pool.Alloc()==0);
+		char* start=pool.GetStartAddress();
+		TEST_ASSERT(pool.GetObjectSize()==8);
+		TEST_ASSERT(pool.GetMaxCount()==512);
+		TEST_ASSERT(pool.GetUsedCount()==0);
+		TEST_ASSERT(pool.GetEndAddress()-start==pool.GetObjectSize()*pool.GetMaxCount());
 
-	for(vint i=0;i<pool.GetMaxCount()*pool.GetObjectSize();i++)
-	{
-		if(i%pool.GetObjectSize()==0)
+		for(vint i=0;i<pool.GetMaxCount();i++)
 		{
-			TEST_ASSERT(pool.IsValid(start+i)==true);
-			TEST_ASSERT(pool.GetHandle(start+i)==start+i);
+			char* object=pool.Alloc();
+			TEST_ASSERT(object);
+			TEST_ASSERT(object-start==i*8);
+			TEST_ASSERT(pool.GetUsedCount()==i+1);
 		}
-		else
-		{
-			TEST_ASSERT(pool.Free(start+i)==false);
-			TEST_ASSERT(pool.IsValid(start+i)==false);
-			TEST_ASSERT(pool.GetHandle(start+i)==start+i-i%pool.GetObjectSize());
-		}
-	}
-	TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount());
+		TEST_ASSERT(pool.Alloc()==0);
 
-	for(vint i=pool.GetMaxCount()-1;i>=0;i--)
-	{
-		char* object=start+i*pool.GetObjectSize();
-		TEST_ASSERT(pool.Free(object)==true);
-		TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount()-1);
-		TEST_ASSERT(pool.Alloc()==object);
+		for(vint i=0;i<pool.GetMaxCount()*pool.GetObjectSize();i++)
+		{
+			if(i%pool.GetObjectSize()==0)
+			{
+				TEST_ASSERT(pool.IsValid(start+i)==true);
+				TEST_ASSERT(pool.GetHandle(start+i)==start+i);
+			}
+			else
+			{
+				TEST_ASSERT(pool.Free(start+i)==false);
+				TEST_ASSERT(pool.IsValid(start+i)==false);
+				TEST_ASSERT(pool.GetHandle(start+i)==start+i-i%pool.GetObjectSize());
+			}
+		}
 		TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount());
-	}
 
-	for(vint i=pool.GetMaxCount()-1;i>=0;i--)
-	{
-		char* object=start+i*pool.GetObjectSize();
-		TEST_ASSERT(pool.Free(object)==true);
-		TEST_ASSERT(pool.GetUsedCount()==i);
+		for(vint i=pool.GetMaxCount()-1;i>=0;i--)
+		{
+			char* object=start+i*pool.GetObjectSize();
+			TEST_ASSERT(pool.Free(object)==true);
+			TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount()-1);
+			TEST_ASSERT(pool.Alloc()==object);
+			TEST_ASSERT(pool.GetUsedCount()==pool.GetMaxCount());
+		}
+
+		for(vint i=pool.GetMaxCount()-1;i>=0;i--)
+		{
+			char* object=start+i*pool.GetObjectSize();
+			TEST_ASSERT(pool.Free(object)==true);
+			TEST_ASSERT(pool.GetUsedCount()==i);
+		}
 	}
 }
+using namespace TestEntityHelper;
 
 TEST_CASE(TestEntity_SmallObjectPool)
 {
 	{
 		SmallObjectPool pool(8, 512);
-		TestEntity_SmallObjectPool_Assertion(pool);
+		SmallObjectPoolAssertion(pool);
 	}
 	{
 		SmallObjectPool pool(8, 384);
-		TestEntity_SmallObjectPool_Assertion(pool);
+		SmallObjectPoolAssertion(pool);
 	}
 }
 
 /***********************************************************************
 大对象池
 ***********************************************************************/
+
+namespace TestEntityHelper
+{
+	void BigObjectPoolAssertHandleIndex(BigObjectPool& pool, char* object, vint index)
+	{
+		char* start=pool.GetStartAddress();
+		TEST_ASSERT(object==start+index*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize);
+		TEST_ASSERT(pool.IsValid(object)==true);
+		TEST_ASSERT(pool.GetHandle(object)==object);
+		TEST_ASSERT(pool.GetSize(object)==pool.GetMinObjectSize()-BigObjectPool::BlockHeaderSize);
+	}
+
+	void BigObjectPoolAssertPointerIndex(BigObjectPool& pool, char* pointer, vint index)
+	{
+		char* start=pool.GetStartAddress();
+		char* object=pointer-(pointer-start)%pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize;
+		TEST_ASSERT(pool.IsValid(pointer)==false);
+		TEST_ASSERT(pool.GetHandle(pointer)==object);
+		TEST_ASSERT(pool.GetSize(pointer)==-1);
+		BigObjectPoolAssertHandleIndex(pool, object, index);
+	}
+
+	void BigObjectPoolAssertFreeIndex(BigObjectPool& pool, vint index)
+	{
+		char* start=pool.GetStartAddress();
+		char* object=start+index*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize;
+		TEST_ASSERT(pool.Free(object)==true);
+		TEST_ASSERT(pool.IsValid(object)==false);
+		TEST_ASSERT(pool.GetHandle(object)==0);
+	}
+}
+using namespace TestEntityHelper;
 
 TEST_CASE(TestEntity_BigObjectPool)
 {
@@ -166,66 +202,57 @@ TEST_CASE(TestEntity_BigObjectPool)
 
 	for(vint i=0;i<count;i++)
 	{
-		char* object=pool.Alloc(16);
-		TEST_ASSERT(object==start+i*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize);
-		TEST_ASSERT(pool.GetUsedSize()==(i+1)*pool.GetMinObjectSize());
+		BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), i);
 	}
 	TEST_ASSERT(pool.GetUsedSize()==pool.GetTotalSize()-count*pool.GetMinObjectSize());
 
 	for(vint i=0;i<count*pool.GetMinObjectSize();i++)
 	{
 		char* object=start+i;
+		vint index=i/pool.GetMinObjectSize();
 		if(i%pool.GetMinObjectSize()==BigObjectPool::BlockHeaderSize)
 		{
-			TEST_ASSERT(pool.IsValid(object)==true);
-			TEST_ASSERT(pool.GetHandle(object)==object);
-			TEST_ASSERT(pool.GetSize(object)==pool.GetMinObjectSize()-BigObjectPool::BlockHeaderSize);
+			BigObjectPoolAssertHandleIndex(pool, object, index);
 		}
 		else
 		{
-			TEST_ASSERT(pool.IsValid(object)==false);
-			TEST_ASSERT(pool.GetHandle(object)==object-i%pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize);
-			TEST_ASSERT(pool.GetSize(object)==-1);
+			BigObjectPoolAssertPointerIndex(pool, object, index);
 		}
 	}
 
-	char* os[]=
-	{
-		start+1*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize,
-		start+3*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize,
-		start+5*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize,
-		start+4*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize,
-	};
-	char* os2[]=
-	{
-		os[0],
-		os[1],
-		os[3],
-		os[2],
-	};
-	for(vint i=0;i<sizeof(os)/sizeof(*os);i++)
-	{
-		TEST_ASSERT(pool.Free(os[i])==true);
-		TEST_ASSERT(pool.IsValid(os[i])==false);
-		TEST_ASSERT(pool.GetHandle(os[i])==0);
-	}
+	BigObjectPoolAssertFreeIndex(pool, 1);
+	BigObjectPoolAssertFreeIndex(pool, 3);
+	BigObjectPoolAssertFreeIndex(pool, 5);
+	BigObjectPoolAssertFreeIndex(pool, 4);
 
 	for(vint i=0;i<tailCount;i++)
 	{
-		char* object=pool.Alloc(16);
-		TEST_ASSERT(object==start+(i+count)*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize);
-		TEST_ASSERT(pool.GetUsedSize()==(i+1+count-sizeof(os)/sizeof(*os))*pool.GetMinObjectSize());
-		TEST_ASSERT(pool.IsValid(object)==true);
-		TEST_ASSERT(pool.GetHandle(object)==object);
-		TEST_ASSERT(pool.GetSize(object)==pool.GetMinObjectSize()-BigObjectPool::BlockHeaderSize);
+		BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), i+count);
 	}
-	for(vint i=0;i<sizeof(os2)/sizeof(*os2);i++)
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), 1);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), 3);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), 4);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), 5);
+
+	BigObjectPoolAssertFreeIndex(pool, count+tailCount-2);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), count+tailCount-2);
+	BigObjectPoolAssertFreeIndex(pool, count+tailCount-3);
+	BigObjectPoolAssertFreeIndex(pool, count+tailCount-1);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), count+tailCount-1);
+	BigObjectPoolAssertHandleIndex(pool, pool.Alloc(16), count+tailCount-3);
+
+	for(vint i=count+tailCount-1;i>=0;i--)
 	{
-		char* object=pool.Alloc(16);
-		TEST_ASSERT(object==os2[i]);
-		TEST_ASSERT(pool.GetUsedSize()==(count+tailCount-(sizeof(os2)/sizeof(*os2)-i-1))*pool.GetMinObjectSize());
-		TEST_ASSERT(pool.IsValid(object)==true);
-		TEST_ASSERT(pool.GetHandle(object)==object);
-		TEST_ASSERT(pool.GetSize(object)==pool.GetMinObjectSize()-BigObjectPool::BlockHeaderSize);
+		if(i%2==0)
+		{
+			BigObjectPoolAssertFreeIndex(pool, i);
+		}
+	}
+	for(vint i=count+tailCount-1;i>=0;i--)
+	{
+		if(i%2==1)
+		{
+			BigObjectPoolAssertFreeIndex(pool, i);
+		}
 	}
 }
