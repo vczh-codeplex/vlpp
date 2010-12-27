@@ -2,6 +2,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Entity\Linear.h"
 #include "..\..\Library\Entity\SmallObjectPoolEntity.h"
+#include "..\..\Library\Entity\BigObjectPoolEntity.h"
 
 using namespace vl;
 using namespace vl::entities;
@@ -83,7 +84,7 @@ TEST_CASE(TestEntity_Linear)
 }
 
 /***********************************************************************
-对想池
+小对象池
 ***********************************************************************/
 
 void TestEntity_SmallObjectPool_Assertion(SmallObjectPool& pool)
@@ -91,7 +92,8 @@ void TestEntity_SmallObjectPool_Assertion(SmallObjectPool& pool)
 	char* start=pool.GetStartAddress();
 	TEST_ASSERT(pool.GetObjectSize()==8);
 	TEST_ASSERT(pool.GetMaxCount()==512);
-	TEST_ASSERT(pool.GetEndAddress()-start==4096);
+	TEST_ASSERT(pool.GetUsedCount()==0);
+	TEST_ASSERT(pool.GetEndAddress()-start==pool.GetObjectSize()*pool.GetMaxCount());
 
 	for(vint i=0;i<pool.GetMaxCount();i++)
 	{
@@ -145,4 +147,30 @@ TEST_CASE(TestEntity_SmallObjectPool)
 		SmallObjectPool pool(8, 384);
 		TestEntity_SmallObjectPool_Assertion(pool);
 	}
+}
+
+/***********************************************************************
+大对象池
+***********************************************************************/
+
+TEST_CASE(TestEntity_BigObjectPool)
+{
+	BigObjectPool pool(512, 16);
+	char* start=pool.GetStartAddress();
+	TEST_ASSERT(pool.GetMinObjectSize()==32);
+	TEST_ASSERT(pool.GetTotalSize()==512);
+	TEST_ASSERT(pool.GetUsedSize()==0);
+	TEST_ASSERT(pool.GetEndAddress()==start+pool.GetTotalSize());
+	vint count=8;
+
+	for(vint i=0;i<count;i++)
+	{
+		char* object=pool.Alloc(16);
+		TEST_ASSERT(object==start+i*pool.GetMinObjectSize()+BigObjectPool::BlockHeaderSize);
+		TEST_ASSERT(pool.IsValid(object)==true);
+		TEST_ASSERT(pool.GetHandle(object)==object);
+		TEST_ASSERT(pool.GetSize(object)==pool.GetMinObjectSize()-BigObjectPool::BlockHeaderSize);
+		TEST_ASSERT(pool.GetUsedSize()==(i+1)*pool.GetMinObjectSize());
+	}
+	TEST_ASSERT(pool.GetUsedSize()==pool.GetTotalSize()-count*pool.GetMinObjectSize());
 }
