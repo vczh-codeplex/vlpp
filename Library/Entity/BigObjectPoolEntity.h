@@ -44,9 +44,13 @@ namespace vl
 			BlockHandle*			firstBlock;
 			BlockHandle*			currentBlock;
 
-			BlockHandle*			CreateFreeHandle();
-			void					DisposeFreeHandle(BlockHandle* handle);
+			BlockHandle*			CreateBlockHandle();
+			void					DisposeBlockHandle(BlockHandle* handle);
+			BlockHandle*			MergePrev(BlockHandle* handle);
+			BlockHandle*			SplitBlock(BlockHandle* handle, vint size);
 		public:
+			static const vint		BlockHeaderSize=sizeof(BlockReference);
+
 			BigObjectPool(vint _totalSize, vint _minObjectSize);
 			~BigObjectPool();
 

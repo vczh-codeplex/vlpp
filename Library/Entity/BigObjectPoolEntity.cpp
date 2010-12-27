@@ -11,7 +11,7 @@ BigObjectPool
 #define MAX(A, B)			((A)>(B)?(A):(B))
 #define MIN_OBJECT_SIZE(S)	MAX(32, (S))
 
-		BigObjectPool::BlockHandle* BigObjectPool::CreateFreeHandle()
+		BigObjectPool::BlockHandle* BigObjectPool::CreateBlockHandle()
 		{
 			BlockHandle* free=(BlockHandle*)blockPool.Alloc();
 			free->start=0;
@@ -22,9 +22,42 @@ BigObjectPool
 			return free;
 		}
 
-		void BigObjectPool::DisposeFreeHandle(BlockHandle* handle)
+		void BigObjectPool::DisposeBlockHandle(BlockHandle* handle)
 		{
 			blockPool.Free((char*)handle);
+		}
+
+		BigObjectPool::BlockHandle* BigObjectPool::MergePrev(BlockHandle* handle)
+		{
+			BlockHandle* prev=handle->prev;
+			prev->next=handle->next;
+			prev->size+=handle->size;
+			if(handle->next)
+			{
+				handle->next->prev=prev;
+			}
+			DisposeBlockHandle(handle->next);
+			return prev;
+		}
+
+		BigObjectPool::BlockHandle* BigObjectPool::SplitBlock(BlockHandle* handle, vint size)
+		{
+			if(size<handle->size)
+			{
+				BlockHandle* next=CreateBlockHandle();
+				next->prev=handle;
+				next->next=handle->next;
+				next->start=handle->start+size;
+				next->size=handle->size-size;
+				next->used=handle->used;
+				if(handle->next)
+				{
+					handle->next->prev=next;
+				}
+				handle->next=next;
+				handle->size=size;
+			}
+			return handle;
 		}
 		
 		BigObjectPool::BigObjectPool(vint _totalSize, vint _minObjectSize)
@@ -34,7 +67,7 @@ BigObjectPool
 			,blockPool(sizeof(BlockHandle), 1+_totalSize/MIN_OBJECT_SIZE(_minObjectSize))
 		{
 			buffer=new char[totalSize];
-			firstBlock=CreateFreeHandle();
+			firstBlock=CreateBlockHandle();
 			firstBlock->start=buffer;
 			firstBlock->size=totalSize;
 			currentBlock=firstBlock;
@@ -47,20 +80,61 @@ BigObjectPool
 
 		char* BigObjectPool::Alloc(vint size)
 		{
-			throw 0;
+			if(usedSize==totalSize)return 0;
+			size=MAX(size+(vint)BlockHeaderSize, minObjectSize);
+
+			BlockHandle* block=currentBlock;
+			while(true)
+			{
+				if(!block->used && block->size>=size)
+				{
+					block=SplitBlock(block, size);
+					block->used=true;
+					usedSize+=size;
+
+					BlockReference* reference=(BlockReference*)block->start;
+					reference->handle=block;
+					reference->checksum=((vint)block)^CHECKSUM_TOKEN;
+					return block->start+BlockHeaderSize;
+				}
+				block=block->next;
+				if(!block)block=firstBlock;
+				if(block==currentBlock)break;
+			}
+			return 0;
 		}
 
 		bool BigObjectPool::Free(char* handle)
 		{
-			throw 0;
+			if(IsValid(handle))
+			{
+				BlockReference* reference=(BlockReference*)(handle-BlockHeaderSize);
+				BlockHandle* block=reference->handle;
+				vint size=block->size;
+				if(block->prev && !block->prev->used)
+				{
+					block=MergePrev(block);
+				}
+				if(block->next && !block->next->used)
+				{
+					MergePrev(block->next);
+				}
+				usedSize-=size;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool BigObjectPool::IsValid(char* handle)
 		{
-			BlockReference* reference=(BlockReference*)(handle-sizeof(BlockReference));
+			BlockReference* reference=(BlockReference*)(handle-BlockHeaderSize);
 			return
 				(reference->checksum==((vint)reference->handle^CHECKSUM_TOKEN)) &&
 				blockPool.IsValid((char*)reference->handle) &&
+				reference->handle->start==(char*)reference &&
 				reference->handle->used;
 		}
 
@@ -71,7 +145,7 @@ BigObjectPool
 			{
 				if(block->used && block->start<=pointer && pointer<block->start+block->size)
 				{
-					return block->start;
+					return block->start+BlockHeaderSize;
 				}
 				block=block->next;
 			}
@@ -82,8 +156,8 @@ BigObjectPool
 		{
 			if(IsValid(handle))
 			{
-				BlockReference* reference=(BlockReference*)(handle-sizeof(BlockReference));
-				return reference->handle->size;
+				BlockReference* reference=(BlockReference*)(handle-BlockHeaderSize);
+				return reference->handle->size-BlockHeaderSize;
 			}
 			else
 			{
