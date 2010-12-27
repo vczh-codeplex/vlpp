@@ -8,6 +8,7 @@ namespace vl
 /***********************************************************************
 SmallObjectPool
 ***********************************************************************/
+
 #define GROUP_MAX 256
 #define MARK_INDEX(OBJECT_INDEX) ((OBJECT_INDEX)/8)
 #define MARK(OBJECT_INDEX) (((unsigned char)1)<<((OBJECT_INDEX)%8))
@@ -15,13 +16,14 @@ SmallObjectPool
 
 		SmallObjectPool::SmallObjectPool(vint _objectSize, vint _maxCount)
 			:objectSize(_objectSize)
-			,maxCount(_maxCount)
-			,poolSize(_objectSize*_maxCount)
-			,markCount((_maxCount+7)/8)
-			,groupCount((_maxCount+(GROUP_MAX-1))/GROUP_MAX)
 			,usedCount(0)
 			,lastObjectIndex(0)
 		{
+			maxCount=(_maxCount+(GROUP_MAX-1))/GROUP_MAX*GROUP_MAX;
+			poolSize=objectSize*maxCount;
+			markCount=maxCount/8;
+			groupCount=maxCount/GROUP_MAX;
+
 			items=new char[poolSize];
 			marks=new unsigned __int8[markCount];
 			groups=new unsigned __int32[groupCount];
