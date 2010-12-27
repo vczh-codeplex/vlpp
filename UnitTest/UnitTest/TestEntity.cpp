@@ -86,9 +86,8 @@ TEST_CASE(TestEntity_Linear)
 ∂‘œÎ≥ÿ
 ***********************************************************************/
 
-TEST_CASE(TestEntity_SmallObjectPool)
+void TestEntity_SmallObjectPool_Assertion(SmallObjectPool& pool)
 {
-	SmallObjectPool pool(8, 512);
 	char* start=pool.GetStartAddress();
 	TEST_ASSERT(pool.GetObjectSize()==8);
 	TEST_ASSERT(pool.GetMaxCount()==512);
@@ -132,5 +131,17 @@ TEST_CASE(TestEntity_SmallObjectPool)
 		char* object=start+i*pool.GetObjectSize();
 		TEST_ASSERT(pool.Free(object)==true);
 		TEST_ASSERT(pool.GetUsedCount()==i);
+	}
+}
+
+TEST_CASE(TestEntity_SmallObjectPool)
+{
+	{
+		SmallObjectPool pool(8, 512);
+		TestEntity_SmallObjectPool_Assertion(pool);
+	}
+	{
+		SmallObjectPool pool(8, 384);
+		TestEntity_SmallObjectPool_Assertion(pool);
 	}
 }

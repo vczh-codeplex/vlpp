@@ -4,7 +4,7 @@ Developer: 陈梓瀚(vczh)
 Framework::SmallObjectPoolEntity
 
 Classes:
-	SmallObjectPoolEntity							：小对象池
+	SmallObjectPool									：小对象池
 ***********************************************************************/
 
 #ifndef VCZH_ENTITY_SMALLOBJECTPOOLENTITY
