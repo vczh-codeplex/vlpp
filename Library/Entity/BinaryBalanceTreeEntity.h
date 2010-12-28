@@ -29,6 +29,11 @@ namespace vl
 				Node*			parent;
 				Node*			left;
 				Node*			right;
+
+				inline vint Depth()
+				{
+					return this?depth:0;
+				}
 			};
 		protected:
 
@@ -59,19 +64,135 @@ namespace vl
 				}
 			}
 
+			void UpdateDepthWithoutParent(Node* node)
+			{
+				vint leftDepth=node->left->Depth();
+				vint rightDepth=node->right->Depth();
+				node->depth=1+(leftDepth>rightDepth?leftDepth:rightDepth);
+			}
+
 			void UpdateDepth(Node* node)
 			{
 				while(node)
 				{
-					vint leftDepth=node->left?node->left->depth:0;
-					vint rightDepth=node->right?node->right->depth:0;
-					node->depth=1+(leftDepth>rightDepth?leftDepth:rightDepth);
+					UpdateDepthWithoutParent(node);
 					node=node->parent;
 				}
 			}
 
 			void Balance(Node* node)
 			{
+				while(node)
+				{
+					UpdateDepthWithoutParent(node);
+					Node* parent=node->parent;
+					Node** parentSlot=0;
+					if(!parent)
+					{
+						parentSlot=&root;
+					}
+					else if(node==parent->left)
+					{
+						parentSlot=&parent->left;
+					}
+					else
+					{
+						parentSlot=&parent->right;
+					}
+
+					vint leftDepth=node->left->Depth();
+					vint rightDepth=node->right->Depth();
+					vint dDepth=leftDepth-rightDepth;
+					if(dDepth>1)
+					{
+						Node* a=node;
+						Node* b=node->left;
+						leftDepth=b->left->Depth();
+						rightDepth=b->right->Depth();
+						vint dDepth=leftDepth-rightDepth;
+						if(dDepth>=0)
+						{
+							Node* x=b->right;
+							b->right=a;
+							a->left=x;
+							a->parent=b;
+							if(x)x->parent=a;
+
+							*parentSlot=b;
+							b->parent=parent;
+							node=b;
+							UpdateDepthWithoutParent(a);
+							UpdateDepthWithoutParent(b);
+						}
+						else
+						{
+							Node* c=b->right;
+							Node* x=c->left;
+							Node* y=c->right;
+
+							c->left=b;
+							c->right=a;
+							b->parent=c;
+							a->parent=c;
+							b->right=x;
+							a->left=y;
+							if(x)x->parent=b;
+							if(y)y->parent=a;
+
+							*parentSlot=c;
+							c->parent=parent;
+							node=c;
+							UpdateDepthWithoutParent(a);
+							UpdateDepthWithoutParent(b);
+							UpdateDepthWithoutParent(c);
+						}
+					}
+					else if(dDepth<-1)
+					{
+						Node* a=node;
+						Node* b=node->right;
+						leftDepth=b->left->Depth();
+						rightDepth=b->right->Depth();
+						vint dDepth=leftDepth-rightDepth;
+						if(dDepth<=0)
+						{
+							Node* x=b->left;
+							b->left=a;
+							a->right=x;
+							a->parent=b;
+							if(x)x->parent=a;
+
+							*parentSlot=b;
+							b->parent=parent;
+							node=b;
+							UpdateDepthWithoutParent(a);
+							UpdateDepthWithoutParent(b);
+						}
+						else
+						{
+							Node* c=b->left;
+							Node* x=c->right;
+							Node* y=c->left;
+
+							c->right=b;
+							c->left=a;
+							b->parent=c;
+							a->parent=c;
+							b->left=x;
+							a->right=y;
+							if(x)x->parent=b;
+							if(y)y->parent=a;
+
+							*parentSlot=c;
+							c->parent=parent;
+							node=c;
+							UpdateDepthWithoutParent(a);
+							UpdateDepthWithoutParent(b);
+							UpdateDepthWithoutParent(c);
+						}
+					}
+					node=parent;
+				}
 			}
 
 			void InsertNode(Node* node)
