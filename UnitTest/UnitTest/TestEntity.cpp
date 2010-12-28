@@ -287,6 +287,8 @@ namespace TestEntityHelper
 			CompareTree(node->right, values, index);
 		}
 		TEST_ASSERT(node->depth==1+(leftDepth>rightDepth?leftDepth:rightDepth));
+		vint dDepth=leftDepth-rightDepth;
+		TEST_ASSERT(-1<=dDepth && dDepth<=1);
 	}
 
 	template<typename T>
@@ -323,6 +325,27 @@ namespace TestEntityHelper
 			CompareTree(tree.root, values.Wrap());
 		}
 	}
+
+	void AssertTreeWithPermutation(BinValueTree<vint>& tree, vint* numbers, vint count, bool* marks, vint index)
+	{
+		if(index==count)
+		{
+			AssertTree(tree, numbers, count);
+		}
+		else
+		{
+			for(vint i=0;i<count;i++)
+			{
+				if(!marks[i])
+				{
+					marks[i]=true;
+					numbers[index]=i;
+					AssertTreeWithPermutation(tree, numbers, count, marks, index+1);
+					marks[i]=false;
+				}
+			}
+		}
+	}
 }
 using namespace TestEntityHelper;
 
@@ -336,5 +359,15 @@ TEST_CASE(TestEntity_BinaryBalanceTree)
 	{
 		vint numbers[]={7,1,12,2,8,3,11,4,9,5,13,6,10};
 		AssertTree(tree, numbers, sizeof(numbers)/sizeof(*numbers));
+	}
+	{
+		const vint count=8;
+		vint numbers[count];
+		bool marks[count];
+		for(vint i=0;i<count;i++)
+		{
+			marks[i]=false;
+		}
+		AssertTreeWithPermutation(tree, numbers, count, marks, 0);
 	}
 }
