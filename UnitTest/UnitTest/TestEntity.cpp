@@ -470,7 +470,7 @@ namespace TestEntityHelper
 	void AssertLargeObject(GeneralObjectPool& pool, bool needFree)
 	{
 		const vint count=1024;
-		char* objs[count]={0};
+		Array<char*> objs(count);
 		for(vint i=0;i<count;i++)
 		{
 			char* objLarge=pool.Alloc(400);
@@ -511,7 +511,7 @@ namespace TestEntityHelper
 	void AssertSmallObject(GeneralObjectPool& pool, bool needFree)
 	{
 		const vint count=131072;
-		char* objs[count]={0};
+		Array<char*> objs(count);
 		for(vint i=0;i<count;i++)
 		{
 			char* objLarge=pool.Alloc(64);
@@ -567,15 +567,12 @@ TEST_CASE(TestEntity_GeneralObjectPool)
 	}
 	{
 		GeneralObjectPool pool(1024, 512);
-		AssertLargeObject(pool, true);
-		AssertLargeObject(pool, true);
-	}
-	{
-		GeneralObjectPool pool(1024, 512);
 		AssertSmallObject(pool, false);
 	}
 	{
 		GeneralObjectPool pool(1024, 512);
+		AssertLargeObject(pool, true);
+		AssertLargeObject(pool, true);
 		AssertSmallObject(pool, true);
 		AssertSmallObject(pool, true);
 	}
