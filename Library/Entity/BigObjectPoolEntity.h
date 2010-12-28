@@ -17,7 +17,7 @@ namespace vl
 {
 	namespace entities
 	{
-		class BigObjectPool : public Object
+		class BigObjectPool : public Object, public NotCopyable
 		{
 		protected:
 			struct BlockHandle

@@ -3,6 +3,7 @@
 #include "..\..\Library\Entity\Linear.h"
 #include "..\..\Library\Entity\SmallObjectPoolEntity.h"
 #include "..\..\Library\Entity\BigObjectPoolEntity.h"
+#include "..\..\Library\Entity\BinaryBalanceTreeEntity.h"
 
 using namespace vl;
 using namespace vl::entities;
@@ -255,4 +256,13 @@ TEST_CASE(TestEntity_BigObjectPool)
 			BigObjectPoolAssertFreeIndex(pool, i);
 		}
 	}
+}
+
+/***********************************************************************
+¥Û∂‘œÛ≥ÿ
+***********************************************************************/
+
+TEST_CASE(TestEntity_BinaryBalanceTree)
+{
+	BinValueTree<vint> tree;
 }

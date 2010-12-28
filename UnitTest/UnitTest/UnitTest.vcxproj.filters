@@ -1615,5 +1615,8 @@
     <ClInclude Include="..\..\Library\Entity\BigObjectPoolEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\BinaryBalanceTreeEntity.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

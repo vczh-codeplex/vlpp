@@ -16,7 +16,7 @@ namespace vl
 {
 	namespace entities
 	{
-		class SmallObjectPool : public Object
+		class SmallObjectPool : public Object, public NotCopyable
 		{
 		protected:
 			vint					objectSize;
