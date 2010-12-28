@@ -159,7 +159,7 @@
     <ClCompile Include="..\..\Library\Combinator\TokenCombinator.cpp" />
     <ClCompile Include="..\..\Library\Console.cpp" />
     <ClCompile Include="..\..\Library\Entity\BigObjectPoolEntity.cpp" />
-    <ClCompile Include="..\..\Library\Entity\GeneralObjectPool.cpp" />
+    <ClCompile Include="..\..\Library\Entity\GeneralObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Exception.cpp" />
     <ClCompile Include="..\..\Library\GlobalStorage.cpp" />

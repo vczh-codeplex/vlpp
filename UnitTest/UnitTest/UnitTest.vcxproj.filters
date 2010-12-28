@@ -483,7 +483,7 @@
     <ClCompile Include="..\..\Library\Entity\BigObjectPoolEntity.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Library\Entity\GeneralObjectPool.cpp">
+    <ClCompile Include="..\..\Library\Entity\GeneralObjectPoolEntity.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
