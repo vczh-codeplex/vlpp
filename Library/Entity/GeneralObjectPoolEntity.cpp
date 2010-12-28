@@ -244,7 +244,7 @@ GeneralObjectPool
 			}
 			else
 			{
-				content.poolContainer.pools.bigObjectPool=new BigObjectPool(poolUnitSize, 96);
+				content.poolContainer.pools.bigObjectPool=new BigObjectPool(poolUnitSize, 32);
 			}
 
 			PoolNode* node=poolTree.Insert(content);

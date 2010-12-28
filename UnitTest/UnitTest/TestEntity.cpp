@@ -374,7 +374,103 @@ TEST_CASE(TestEntity_BinaryBalanceTree)
 通用对象池
 ***********************************************************************/
 
+namespace TestEntityHelper
+{
+	void AssertGeneralObjectAllocAndFree(GeneralObjectPool& pool, bool needFree)
+	{
+		char* obj8=pool.Alloc(8);
+		char* obj16=pool.Alloc(16);
+		char* obj32=pool.Alloc(32);
+		char* obj64=pool.Alloc(64);
+		char* obj96=pool.Alloc(96);
+		char* objLarge=pool.Alloc(512);
+
+		TEST_ASSERT(pool.IsValid(obj8)==true);
+		TEST_ASSERT(pool.GetHandle(obj8)==obj8);
+		TEST_ASSERT(pool.GetSize(obj8)==8);
+		TEST_ASSERT(pool.IsValid(obj8+4)==false);
+		TEST_ASSERT(pool.GetHandle(obj8+4)==obj8);
+		TEST_ASSERT(pool.GetSize(obj8+4)==-1);
+
+		TEST_ASSERT(pool.IsValid(obj16)==true);
+		TEST_ASSERT(pool.GetHandle(obj16)==obj16);
+		TEST_ASSERT(pool.GetSize(obj16)==16);
+		TEST_ASSERT(pool.IsValid(obj16+4)==false);
+		TEST_ASSERT(pool.GetHandle(obj16+4)==obj16);
+		TEST_ASSERT(pool.GetSize(obj16+4)==-1);
+
+		TEST_ASSERT(pool.IsValid(obj32)==true);
+		TEST_ASSERT(pool.GetHandle(obj32)==obj32);
+		TEST_ASSERT(pool.GetSize(obj32)==32);
+		TEST_ASSERT(pool.IsValid(obj32+4)==false);
+		TEST_ASSERT(pool.GetHandle(obj32+4)==obj32);
+		TEST_ASSERT(pool.GetSize(obj32+4)==-1);
+
+		TEST_ASSERT(pool.IsValid(obj64)==true);
+		TEST_ASSERT(pool.GetHandle(obj64)==obj64);
+		TEST_ASSERT(pool.GetSize(obj64)==64);
+		TEST_ASSERT(pool.IsValid(obj64+4)==false);
+		TEST_ASSERT(pool.GetHandle(obj64+4)==obj64);
+		TEST_ASSERT(pool.GetSize(obj64+4)==-1);
+
+		TEST_ASSERT(pool.IsValid(obj96)==true);
+		TEST_ASSERT(pool.GetHandle(obj96)==obj96);
+		TEST_ASSERT(pool.GetSize(obj96)==96);
+		TEST_ASSERT(pool.IsValid(obj96+4)==false);
+		TEST_ASSERT(pool.GetHandle(obj96+4)==obj96);
+		TEST_ASSERT(pool.GetSize(obj96+4)==-1);
+
+		TEST_ASSERT(pool.IsValid(objLarge)==true);
+		TEST_ASSERT(pool.GetHandle(objLarge)==objLarge);
+		TEST_ASSERT(pool.GetSize(objLarge)==512);
+		TEST_ASSERT(pool.IsValid(objLarge+4)==false);
+		TEST_ASSERT(pool.GetHandle(objLarge+4)==objLarge);
+		TEST_ASSERT(pool.GetSize(objLarge+4)==-1);
+
+		if(needFree)
+		{
+			TEST_ASSERT(pool.Free(obj8)==true);
+			TEST_ASSERT(pool.IsValid(obj8)==false);
+			TEST_ASSERT(pool.GetHandle(obj8)==0);
+			TEST_ASSERT(pool.GetSize(obj8)==-1);
+			
+			TEST_ASSERT(pool.Free(obj16)==true);
+			TEST_ASSERT(pool.IsValid(obj16)==false);
+			TEST_ASSERT(pool.GetHandle(obj16)==0);
+			TEST_ASSERT(pool.GetSize(obj16)==-1);
+			
+			TEST_ASSERT(pool.Free(obj32)==true);
+			TEST_ASSERT(pool.IsValid(obj32)==false);
+			TEST_ASSERT(pool.GetHandle(obj32)==0);
+			TEST_ASSERT(pool.GetSize(obj32)==-1);
+			
+			TEST_ASSERT(pool.Free(obj64)==true);
+			TEST_ASSERT(pool.IsValid(obj64)==false);
+			TEST_ASSERT(pool.GetHandle(obj64)==0);
+			TEST_ASSERT(pool.GetSize(obj64)==-1);
+			
+			TEST_ASSERT(pool.Free(obj96)==true);
+			TEST_ASSERT(pool.IsValid(obj96)==false);
+			TEST_ASSERT(pool.GetHandle(obj96)==0);
+			TEST_ASSERT(pool.GetSize(obj96)==-1);
+			
+			TEST_ASSERT(pool.Free(objLarge)==true);
+			TEST_ASSERT(pool.IsValid(objLarge)==false);
+			TEST_ASSERT(pool.GetHandle(objLarge)==0);
+			TEST_ASSERT(pool.GetSize(objLarge)==-1);
+		}
+	}
+}
+using namespace TestEntityHelper;
+
 TEST_CASE(TestEntity_GeneralObjectPool)
 {
-	GeneralObjectPool pool(1024, 16);
+	{
+		GeneralObjectPool pool(1024, 16);
+		AssertGeneralObjectAllocAndFree(pool, false);
+	}
+	{
+		GeneralObjectPool pool(1024, 16);
+		AssertGeneralObjectAllocAndFree(pool, true);
+	}
 }
