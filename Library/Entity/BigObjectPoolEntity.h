@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: ³Âè÷å«(vczh)
-Framework::SmallObjectPoolEntity
+Framework::BigObjectPoolEntity
 
 Classes:
 	BigObjectPool									£º´ó¶ÔÏó³Ø
