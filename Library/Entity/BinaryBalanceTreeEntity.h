@@ -25,6 +25,7 @@ namespace vl
 			struct Node
 			{
 				T				value;
+				vint			depth;
 				Node*			parent;
 				Node*			left;
 				Node*			right;
@@ -39,6 +40,7 @@ namespace vl
 				node->parent=0;
 				node->left=0;
 				node->right=0;
+				node->depth=1;
 				return node;
 			}
 
@@ -54,6 +56,17 @@ namespace vl
 					DisposeTree(node->left);
 					DisposeTree(node->right);
 					DisposeNode(node);
+				}
+			}
+
+			void UpdateDepth(Node* node)
+			{
+				while(node)
+				{
+					vint leftDepth=node->left?node->left->depth:0;
+					vint rightDepth=node->right?node->right->depth:0;
+					node->depth=1+(leftDepth>rightDepth?leftDepth:rightDepth);
+					node=node->parent;
 				}
 			}
 
@@ -99,6 +112,7 @@ namespace vl
 							}
 						}
 					}
+					UpdateDepth(node);
 					Balance(node);
 				}
 			}
@@ -127,6 +141,8 @@ namespace vl
 					{
 						node->left->parent=parent;
 					}
+					UpdateDepth(parent);
+					Balance(parent);
 				}
 				else if(!node->right->left)
 				{
@@ -138,6 +154,8 @@ namespace vl
 
 					*parentSlot=node->right;
 					node->right->parent=parent;
+					UpdateDepth(node->right);
+					Balance(node->right);
 				}
 				else
 				{
@@ -146,6 +164,7 @@ namespace vl
 					{
 						current=current->left;
 					}
+					Node* balanceNode=current->parent;
 
 					current->parent->left=current->right;
 					if(current->right)
@@ -164,17 +183,11 @@ namespace vl
 
 					current->right=node->right;
 					node->right->parent=current;
+
+					UpdateDepth(balanceNode);
+					Balance(balanceNode);
 				}
 				DisposeNode(node);
-
-				if(*parentSlot)
-				{
-					Balance(*parentSlot);
-				}
-				else if(parent)
-				{
-					Balance(parent);
-				}
 			}
 		public:
 			Node*				root;

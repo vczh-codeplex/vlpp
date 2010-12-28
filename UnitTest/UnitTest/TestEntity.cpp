@@ -269,19 +269,24 @@ namespace TestEntityHelper
 	template<typename T>
 	void CompareTree(typename BinValueTree<T>::Node* node, const IReadonlyList<T>& values, vint& index)
 	{
+		vint leftDepth=0;
 		if(node->left)
 		{
+			leftDepth=node->left->depth;
 			TEST_ASSERT(node->left->parent==node);
 			CompareTree(node->left, values, index);
 		}
 		TEST_ASSERT(index<values.Count());
 		TEST_ASSERT(node->value==values[index]);
 		index++;
+		vint rightDepth=0;
 		if(node->right)
 		{
+			rightDepth=node->right->depth;
 			TEST_ASSERT(node->right->parent==node);
 			CompareTree(node->right, values, index);
 		}
+		TEST_ASSERT(node->depth==1+(leftDepth>rightDepth?leftDepth:rightDepth));
 	}
 
 	template<typename T>
@@ -295,9 +300,8 @@ namespace TestEntityHelper
 		TEST_ASSERT(index==values.Count());
 	}
 
-	void AssertTree(vint* numbers, vint count)
+	void AssertTree(BinValueTree<vint>& tree, vint* numbers, vint count)
 	{
-		BinValueTree<vint> tree;
 		SortedList<vint> values;
 		for(vint i=0;i<count;i++)
 		{
@@ -324,12 +328,13 @@ using namespace TestEntityHelper;
 
 TEST_CASE(TestEntity_BinaryBalanceTree)
 {
+	BinValueTree<vint> tree;
 	{
 		vint numbers[]={1,2,3,4,5,6,7,8,9,10};
-		AssertTree(numbers, sizeof(numbers)/sizeof(*numbers));
+		AssertTree(tree, numbers, sizeof(numbers)/sizeof(*numbers));
 	}
 	{
 		vint numbers[]={7,1,12,2,8,3,11,4,9,5,13,6,10};
-		AssertTree(numbers, sizeof(numbers)/sizeof(*numbers));
+		AssertTree(tree, numbers, sizeof(numbers)/sizeof(*numbers));
 	}
 }
