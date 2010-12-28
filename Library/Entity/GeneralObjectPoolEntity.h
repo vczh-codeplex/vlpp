@@ -64,6 +64,7 @@ namespace vl
 				void								Finalize();
 
 				char*								GetStartAddress()const;
+				char*								GetEndAddress()const;
 				bool								operator<(const PoolNodeContent& node)const;
 				bool								operator<=(const PoolNodeContent& node)const;
 				bool								operator>(const PoolNodeContent& node)const;
@@ -93,9 +94,20 @@ namespace vl
 			PoolNodeEntry							pool64;
 			PoolNodeEntry							pool96;
 			PoolNodeEntry							poolLarge;
+
+			PoolNode*								CreatePoolNode(PoolNodeEntry* entry);
+			void									DisposePoolNode(PoolNodeEntry* entry, PoolNode* node);
+			PoolNodeEntry*							FindEntry(vint size);
+			PoolNode*								FindNode(char* pointer);
 		public:
 			GeneralObjectPool(vint _poolUnitSize, vint _poolUnitCount);
 			~GeneralObjectPool();
+
+			char*									Alloc(vint size);
+			bool									Free(char* handle);
+			bool									IsValid(char* handle);
+			char*									GetHandle(char* pointer);
+			vint									GetSize(char* handle);
 		};
 	}
 }
