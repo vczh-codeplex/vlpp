@@ -33,6 +33,22 @@ namespace vl
 
 			_Allocator*			allocator;
 
+			inline vint Compare(Node* a, Node* b)
+			{
+				if(a->value < b->value)
+				{
+					return -1;
+				}
+				else if(a->value > b->value)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
 			inline Node* CreateNode()
 			{
 				Node* node=allocator->CreateNode();
@@ -55,6 +71,14 @@ namespace vl
 					DisposeTree(node->right);
 					DisposeNode(node);
 				}
+			}
+
+			void InsertNode(Node* node)
+			{
+			}
+
+			void RemoveAndDisposeNode(Node* node)
+			{
 			}
 		public:
 			Node*				root;
@@ -94,7 +118,7 @@ namespace vl
 		};
 
 		template<typename T>
-		class BinValueTree : BinTree<T, BinTreeDefaultAllocator<T>>
+		class BinValueTree : public BinTree<T, BinTreeDefaultAllocator<T>>
 		{
 		protected:
 			BinTreeDefaultAllocator<T>		allocator;
@@ -103,6 +127,57 @@ namespace vl
 			BinValueTree()
 				:BinTree(&allocator)
 			{
+			}
+
+			Node* Insert(const T& value)
+			{
+				Node* node=CreateNode();
+				if(node)
+				{
+					node->value=value;
+					InsertNode(node);
+				}
+				return node;
+			}
+
+			Node* Find(const T& value)
+			{
+				Node* current=root;
+				while(current)
+				{
+					if(value < current->value)
+					{
+						current=current->left;
+					}
+					else if(value > current->value)
+					{
+						current=current->right;
+					}
+					else
+					{
+						return current;
+					}
+				}
+				return 0;
+			}
+
+			bool Remove(const T& value)
+			{
+				Node* node=Find(value);
+				return RemoveNode(node);
+			}
+
+			bool RemoveNode(Node* node)
+			{
+				if(node)
+				{
+					RemoveAndDisposeNode(node);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		};
 	}

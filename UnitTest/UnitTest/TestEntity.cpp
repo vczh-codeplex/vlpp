@@ -4,9 +4,11 @@
 #include "..\..\Library\Entity\SmallObjectPoolEntity.h"
 #include "..\..\Library\Entity\BigObjectPoolEntity.h"
 #include "..\..\Library\Entity\BinaryBalanceTreeEntity.h"
+#include "..\..\Library\Collections\List.h"
 
 using namespace vl;
 using namespace vl::entities;
+using namespace vl::collections;
 
 /***********************************************************************
 线性值
@@ -262,7 +264,54 @@ TEST_CASE(TestEntity_BigObjectPool)
 大对象池
 ***********************************************************************/
 
+namespace TestEntityHelper
+{
+	template<typename T>
+	void CompareTree(typename BinValueTree<T>::Node* node, const IReadonlyList<T>& values, vint& index)
+	{
+		if(node)
+		{
+			CompareTree(node->left, values, index);
+			TEST_ASSERT(index<values.Count());
+			TEST_ASSERT(node->value==values[index]);
+			index++;
+			CompareTree(node->right, values, index);
+		}
+	}
+
+	template<typename T>
+	void CompareTree(typename BinValueTree<T>::Node* node, const IReadonlyList<T>& values)
+	{
+		vint index=0;
+		CompareTree(node, values, index);
+		TEST_ASSERT(index==values.Count());
+	}
+}
+using namespace TestEntityHelper;
+
 TEST_CASE(TestEntity_BinaryBalanceTree)
 {
-	BinValueTree<vint> tree;
+	{
+		BinValueTree<vint> tree;
+		List<vint> values;
+		for(vint i=0;i<10;i++)
+		{
+			values.Add(i);
+			tree.Insert(i);
+		}
+		CompareTree(tree.root, values.Wrap());
+		for(vint i=0;i<10;i++)
+		{
+			BinValueTree<vint>::Node* node=tree.Find(i);
+			TEST_ASSERT(node);
+			TEST_ASSERT(node->value==i);
+		}
+		while(tree.root)
+		{
+			vint value=tree.root->value;
+			tree.Remove(tree.root->value);
+			values.Remove(value);
+			CompareTree(tree.root, values.Wrap());
+		}
+	}
 }
