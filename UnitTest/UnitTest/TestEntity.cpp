@@ -1,9 +1,7 @@
 #include <string.h>
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Entity\Linear.h"
-#include "..\..\Library\Entity\SmallObjectPoolEntity.h"
-#include "..\..\Library\Entity\BigObjectPoolEntity.h"
-#include "..\..\Library\Entity\BinaryBalanceTreeEntity.h"
+#include "..\..\Library\Entity\GeneralObjectPoolEntity.h"
 #include "..\..\Library\Collections\List.h"
 
 using namespace vl;

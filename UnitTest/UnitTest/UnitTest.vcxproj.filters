@@ -483,6 +483,9 @@
     <ClCompile Include="..\..\Library\Entity\BigObjectPoolEntity.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\GeneralObjectPool.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1616,6 +1619,9 @@
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\BinaryBalanceTreeEntity.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\GeneralObjectPoolEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
