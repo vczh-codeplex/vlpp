@@ -577,3 +577,77 @@ TEST_CASE(TestEntity_GeneralObjectPool)
 		AssertSmallObject(pool, true);
 	}
 }
+
+TEST_CASE(TestEntity_LargeObjectSpeed)
+{
+#ifdef _DEBUG
+	vl::unittest::UnitTest::PrintInfo(L"Pass TestEntity_LargeObjectSpeed under Debug mode");
+#endif
+#ifdef NDEBUG
+	vl::unittest::UnitTest::PrintInfo(L"Start TestEntity_LargeObjectSpeed under Release mode");
+	const vint count=1024;
+	const vint times=1024;
+	GeneralObjectPool pool(1024, 512);
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Allocate and test 1024 objects for 1024 times(total 1M)...");
+		for(vint i=0;i<times;i++)
+		{
+			AssertLargeObject(pool, true);
+		}
+	}
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Allocate and free 1024 objects for 1024 times(total 1M)...");
+		Array<char*> objs(count);
+		for(vint i=0;i<times;i++)
+		{
+			for(vint j=0;j<count;j++)
+			{
+				objs[j]=pool.Alloc(400);
+				TEST_ASSERT(objs[j]);
+			}
+			for(vint j=0;j<count;j++)
+			{
+				TEST_ASSERT(pool.Free(objs[j]));
+			}
+		}
+	}
+	vl::unittest::UnitTest::PrintInfo(L"Finish TestEntity_LargeObjectSpeed under Release mode");
+#endif
+}
+
+TEST_CASE(TestEntity_SmallObjectSpeed)
+{
+#ifdef _DEBUG
+	vl::unittest::UnitTest::PrintInfo(L"Pass TestEntity_SmallObjectSpeed under Debug mode");
+#endif
+#ifdef NDEBUG
+	vl::unittest::UnitTest::PrintInfo(L"Start TestEntity_SmallObjectSpeed under Release mode");
+	const vint count=131072;
+	const vint times=128;
+	GeneralObjectPool pool(1024, 512);
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Allocate and test 131072 objects for 128 times(total 16M)...");
+		for(vint i=0;i<times;i++)
+		{
+			AssertSmallObject(pool, true);
+		}
+	}
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Allocate and free 131072 objects for 128 times(total 16M)...");
+		Array<char*> objs(count);
+		for(vint i=0;i<times;i++)
+		{
+			for(vint j=0;j<count;j++)
+			{
+				objs[j]=pool.Alloc(64);
+				TEST_ASSERT(objs[j]);
+			}
+			for(vint j=0;j<count;j++)
+			{
+				TEST_ASSERT(pool.Free(objs[j]));
+			}
+		}
+	}
+	vl::unittest::UnitTest::PrintInfo(L"Finish TestEntity_SmallObjectSpeed under Release mode");
+#endif
+}
