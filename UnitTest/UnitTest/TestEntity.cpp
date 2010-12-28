@@ -269,12 +269,17 @@ namespace TestEntityHelper
 	template<typename T>
 	void CompareTree(typename BinValueTree<T>::Node* node, const IReadonlyList<T>& values, vint& index)
 	{
-		if(node)
+		if(node->left)
 		{
+			TEST_ASSERT(node->left->parent==node);
 			CompareTree(node->left, values, index);
-			TEST_ASSERT(index<values.Count());
-			TEST_ASSERT(node->value==values[index]);
-			index++;
+		}
+		TEST_ASSERT(index<values.Count());
+		TEST_ASSERT(node->value==values[index]);
+		index++;
+		if(node->right)
+		{
+			TEST_ASSERT(node->right->parent==node);
 			CompareTree(node->right, values, index);
 		}
 	}
@@ -283,28 +288,28 @@ namespace TestEntityHelper
 	void CompareTree(typename BinValueTree<T>::Node* node, const IReadonlyList<T>& values)
 	{
 		vint index=0;
-		CompareTree(node, values, index);
+		if(node)
+		{
+			CompareTree(node, values, index);
+		}
 		TEST_ASSERT(index==values.Count());
 	}
-}
-using namespace TestEntityHelper;
 
-TEST_CASE(TestEntity_BinaryBalanceTree)
-{
+	void AssertTree(vint* numbers, vint count)
 	{
 		BinValueTree<vint> tree;
-		List<vint> values;
-		for(vint i=0;i<10;i++)
+		SortedList<vint> values;
+		for(vint i=0;i<count;i++)
 		{
-			values.Add(i);
-			tree.Insert(i);
+			values.Add(numbers[i]);
+			tree.Insert(numbers[i]);
 		}
 		CompareTree(tree.root, values.Wrap());
-		for(vint i=0;i<10;i++)
+		for(vint i=0;i<count;i++)
 		{
-			BinValueTree<vint>::Node* node=tree.Find(i);
+			BinValueTree<vint>::Node* node=tree.Find(numbers[i]);
 			TEST_ASSERT(node);
-			TEST_ASSERT(node->value==i);
+			TEST_ASSERT(node->value==numbers[i]);
 		}
 		while(tree.root)
 		{
@@ -313,5 +318,18 @@ TEST_CASE(TestEntity_BinaryBalanceTree)
 			values.Remove(value);
 			CompareTree(tree.root, values.Wrap());
 		}
+	}
+}
+using namespace TestEntityHelper;
+
+TEST_CASE(TestEntity_BinaryBalanceTree)
+{
+	{
+		vint numbers[]={1,2,3,4,5,6,7,8,9,10};
+		AssertTree(numbers, sizeof(numbers)/sizeof(*numbers));
+	}
+	{
+		vint numbers[]={7,1,12,2,8,3,11,4,9,5,13,6,10};
+		AssertTree(numbers, sizeof(numbers)/sizeof(*numbers));
 	}
 }

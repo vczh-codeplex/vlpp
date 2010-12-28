@@ -33,22 +33,6 @@ namespace vl
 
 			_Allocator*			allocator;
 
-			inline vint Compare(Node* a, Node* b)
-			{
-				if(a->value < b->value)
-				{
-					return -1;
-				}
-				else if(a->value > b->value)
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-			}
-
 			inline Node* CreateNode()
 			{
 				Node* node=allocator->CreateNode();
@@ -73,12 +57,124 @@ namespace vl
 				}
 			}
 
+			void Balance(Node* node)
+			{
+			}
+
 			void InsertNode(Node* node)
 			{
+				if(root==0)
+				{
+					root=node;
+				}
+				else
+				{
+					Node* current=root;
+					while(true)
+					{
+						if(node->value < current->value)
+						{
+							if(current->left)
+							{
+								current=current->left;
+							}
+							else
+							{
+								current->left=node;
+								node->parent=current;
+								break;
+							}
+						}
+						else
+						{
+							if(current->right)
+							{
+								current=current->right;
+							}
+							else
+							{
+								current->right=node;
+								node->parent=current;
+								break;
+							}
+						}
+					}
+					Balance(node);
+				}
 			}
 
 			void RemoveAndDisposeNode(Node* node)
 			{
+				Node* parent=node->parent;
+				Node** parentSlot=0;
+				if(!parent)
+				{
+					parentSlot=&root;
+				}
+				else if(node==parent->left)
+				{
+					parentSlot=&parent->left;
+				}
+				else
+				{
+					parentSlot=&parent->right;
+				}
+
+				if(!node->right)
+				{
+					*parentSlot=node->left;
+					if(node->left)
+					{
+						node->left->parent=parent;
+					}
+				}
+				else if(!node->right->left)
+				{
+					node->right->left=node->left;
+					if(node->left)
+					{
+						node->left->parent=node->right;
+					}
+
+					*parentSlot=node->right;
+					node->right->parent=parent;
+				}
+				else
+				{
+					Node* current=node->right->left;
+					while(current->left)
+					{
+						current=current->left;
+					}
+
+					current->parent->left=current->right;
+					if(current->right)
+					{
+						current->right->parent=current->parent;
+					}
+
+					*parentSlot=current;
+					current->parent=node->parent;
+
+					current->left=node->left;
+					if(node->left)
+					{
+						node->left->parent=current;
+					}
+
+					current->right=node->right;
+					node->right->parent=current;
+				}
+				DisposeNode(node);
+
+				if(*parentSlot)
+				{
+					Balance(*parentSlot);
+				}
+				else if(parent)
+				{
+					Balance(parent);
+				}
 			}
 		public:
 			Node*				root;
