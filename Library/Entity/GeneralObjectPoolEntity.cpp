@@ -5,6 +5,35 @@ namespace vl
 {
 	namespace entities
 	{
+		using namespace collections;
+/***********************************************************************
+GeneralObjectPool::PoolTree
+***********************************************************************/
+
+		GeneralObjectPool::PoolTree::PoolTree(PoolNodeAllocator* allocator)
+			:BinTree(allocator)
+		{
+		}
+
+		GeneralObjectPool::PoolTree::~PoolTree()
+		{
+		}
+
+		GeneralObjectPool::PoolTree::Node* GeneralObjectPool::PoolTree::Insert(const PoolNodeContent& content)
+		{
+			Node* node=CreateNode();
+			node->value=content;
+			InsertNode(node);
+			return node;
+		}
+
+		GeneralObjectPool::PoolNodeContent GeneralObjectPool::PoolTree::Remove(Node* node)
+		{
+			PoolNodeContent content=node->value;
+			RemoveAndDisposeNode(node);
+			return content;
+		}
+
 /***********************************************************************
 GeneralObjectPool::PoolNodeAllocator
 ***********************************************************************/
@@ -62,6 +91,19 @@ GeneralObjectPool::PoolContainer
 			}
 		}
 
+		bool GeneralObjectPool::PoolContainer::IsAvailable()
+		{
+			if(size!=-1 && pools.smallObjectPool)
+			{
+				return pools.smallObjectPool!=0;
+			}
+			if(size==-1 && pools.bigObjectPool)
+			{
+				return pools.bigObjectPool!=0;
+			}
+			return false;
+		}
+
 /***********************************************************************
 GeneralObjectPool::PoolNodeContent
 ***********************************************************************/
@@ -85,7 +127,7 @@ GeneralObjectPool::PoolNodeContent
 
 		void GeneralObjectPool::PoolNodeContent::Finalize()
 		{
-			poolContainer.Finalize(true);
+			poolContainer.Finalize(false);
 		}
 		
 		char* GeneralObjectPool::PoolNodeContent::GetStartAddress()const
@@ -159,18 +201,107 @@ GeneralObjectPool::PoolNodeEntry
 			free.Finalize(true);
 		}
 
+		void GeneralObjectPool::PoolNodeEntry::Collect(List<SmallObjectPool*>& smallPools, List<BigObjectPool*>& bigPools)
+		{
+			if(free.size!=-1)
+			{
+				PoolNode* node=first;
+				while(node)
+				{
+					smallPools.Add(node->value.poolContainer.pools.smallObjectPool);
+					node=node->value.next;
+				}
+			}
+			else
+			{
+				PoolNode* node=first;
+				while(node)
+				{
+					bigPools.Add(node->value.poolContainer.pools.bigObjectPool);
+					node=node->value.next;
+				}
+			}
+		}
+
 /***********************************************************************
 GeneralObjectPool
 ***********************************************************************/
 
-		GeneralObjectPool::PoolNode* GeneralObjectPool::CreatePoolNode(PoolNodeEntry* entry)
+		GeneralObjectPool::PoolNode* GeneralObjectPool::CreatePoolNode(PoolNodeEntry* entry, vint poolUnitSize)
 		{
-			throw 0;
+			PoolNodeContent content;
+			content.prev=0;
+			content.next=0;
+			content.poolContainer=entry->free;
+			bool getFromFree=entry->free.IsAvailable();
+			if(entry->free.IsAvailable())
+			{
+				entry->free.Finalize(false);
+			}
+			else if(entry->free.size!=-1)
+			{
+				content.poolContainer.pools.smallObjectPool=new SmallObjectPool(entry->free.size, poolUnitSize/entry->free.size);
+			}
+			else
+			{
+				content.poolContainer.pools.bigObjectPool=new BigObjectPool(poolUnitSize, 96);
+			}
+
+			PoolNode* node=poolTree.Insert(content);
+			if(node)
+			{
+				if(entry->first)
+				{
+					node->value.next=entry->first;
+					entry->first->value.prev=node;
+					entry->first=node;
+				}
+				else
+				{
+					entry->first=node;
+					entry->last=node;
+				}
+				return node;
+			}
+			else
+			{
+				if(getFromFree)
+				{
+					entry->free=content.poolContainer;
+				}
+				else
+				{
+					content.poolContainer.Finalize(true);
+				}
+				return 0;
+			}
 		}
 
 		void GeneralObjectPool::DisposePoolNode(PoolNodeEntry* entry, PoolNode* node)
 		{
-			throw 0;
+			if(node->value.next)
+			{
+				node->value.next->value.prev=node->value.prev;
+			}
+			if(node->value.prev)
+			{
+				node->value.prev->value.next=node->value.next;
+			}
+			if(entry->first==node)
+			{
+				entry->first=node->value.next;
+			}
+			if(entry->last==node)
+			{
+				entry->last=node->value.prev;
+			}
+
+			if(entry->free.IsAvailable())
+			{
+				entry->free.Finalize(true);
+			}
+			entry->free=node->value.poolContainer;
+			poolTree.Remove(node);
 		}
 
 		GeneralObjectPool::PoolNodeEntry* GeneralObjectPool::FindEntry(vint size)
@@ -220,16 +351,111 @@ GeneralObjectPool
 
 		GeneralObjectPool::~GeneralObjectPool()
 		{
+			List<SmallObjectPool*> smalls;
+			List<BigObjectPool*> bigs;
+			pool8.Collect(smalls, bigs);
+			pool16.Collect(smalls, bigs);
+			pool32.Collect(smalls, bigs);
+			pool64.Collect(smalls, bigs);
+			pool96.Collect(smalls, bigs);
+			poolLarge.Collect(smalls, bigs);
+			poolTree.Clear();
+
+			for(vint i=0;i<smalls.Count();i++)
+			{
+				delete smalls[i];
+			}
+			for(vint i=0;i<bigs.Count();i++)
+			{
+				delete bigs[i];
+			}
 		}
 
 		char* GeneralObjectPool::Alloc(vint size)
 		{
-			throw 0;
+			PoolNodeEntry* entry=FindEntry(size);
+			if(entry->first)
+			{
+				PoolNode* first=entry->first;
+				do
+				{
+					char* object=0;
+					if(entry->first->value.poolContainer.size!=-1)
+					{
+						object=entry->first->value.poolContainer.pools.smallObjectPool->Alloc();
+					}
+					else
+					{
+						object=entry->first->value.poolContainer.pools.bigObjectPool->Alloc(size);
+					}
+					if(object)
+					{
+						return object;
+					}
+					if(entry->first==entry->last)
+					{
+						break;
+					}
+					else
+					{
+						entry->last->value.next=entry->first;
+						entry->first->value.prev=entry->last;
+
+						entry->last=entry->first;
+						entry->first=first->value.next;
+
+						entry->last->value.next=0;
+						entry->first->value.prev=0;
+					}
+				}while(entry->first=first);
+			}
+
+			PoolNode* node=CreatePoolNode(entry, poolUnitSize);
+			if(entry->first->value.poolContainer.size!=-1)
+			{
+				return entry->first->value.poolContainer.pools.smallObjectPool->Alloc();
+			}
+			else
+			{
+				return entry->first->value.poolContainer.pools.bigObjectPool->Alloc(size);
+			}
 		}
 
 		bool GeneralObjectPool::Free(char* handle)
 		{
-			throw 0;
+			PoolNode* node=FindNode(handle);
+			if(node)
+			{
+				if(node->value.poolContainer.size!=-1)
+				{
+					if(!node->value.poolContainer.pools.smallObjectPool->Free(handle))
+					{
+						return false;
+					}
+					else if(node->value.poolContainer.pools.smallObjectPool->GetUsedCount()!=0)
+					{
+						return true;
+					}
+				}
+				else
+				{
+					if(!node->value.poolContainer.pools.bigObjectPool->Free(handle))
+					{
+						return false;
+					}
+					else if(node->value.poolContainer.pools.bigObjectPool->GetUsedSize()!=0)
+					{
+						return true;
+					}
+				}
+				PoolNodeEntry* entry=FindEntry(node->value.poolContainer.size);
+				DisposePoolNode(entry, node);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool GeneralObjectPool::IsValid(char* handle)

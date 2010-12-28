@@ -259,7 +259,7 @@ TEST_CASE(TestEntity_BigObjectPool)
 }
 
 /***********************************************************************
-大对象池
+平衡树
 ***********************************************************************/
 
 namespace TestEntityHelper
@@ -368,4 +368,13 @@ TEST_CASE(TestEntity_BinaryBalanceTree)
 		}
 		AssertTreeWithPermutation(tree, numbers, count, marks, 0);
 	}
+}
+
+/***********************************************************************
+通用对象池
+***********************************************************************/
+
+TEST_CASE(TestEntity_GeneralObjectPool)
+{
+	GeneralObjectPool pool(1024, 16);
 }

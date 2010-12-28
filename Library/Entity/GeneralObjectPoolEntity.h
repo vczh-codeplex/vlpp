@@ -13,6 +13,7 @@ Classes:
 #include "SmallObjectPoolEntity.h"
 #include "BigObjectPoolEntity.h"
 #include "BinaryBalanceTreeEntity.h"
+#include "..\Collections\List.h"
 
 namespace vl
 {
@@ -23,8 +24,18 @@ namespace vl
 		protected:
 			struct PoolNodeContent;
 			class PoolNodeAllocator;
-			typedef BinTree<PoolNodeContent, PoolNodeAllocator>		PoolTree;
-			typedef PoolTree::Node									PoolNode;
+
+			class PoolTree : public BinTree<PoolNodeContent, PoolNodeAllocator>
+			{
+			public:
+				PoolTree(PoolNodeAllocator* allocator);
+				~PoolTree();
+
+				Node*								Insert(const PoolNodeContent& content);
+				PoolNodeContent						Remove(Node* node);
+			};
+
+			typedef PoolTree::Node					PoolNode;
 
 			class PoolNodeAllocator
 			{
@@ -49,6 +60,7 @@ namespace vl
 
 				void								Initialize();
 				void								Finalize(bool deletePool);
+				bool								IsAvailable();
 			};
 
 			struct PoolNodeContent
@@ -81,6 +93,8 @@ namespace vl
 
 				PoolNodeEntry(vint _size);
 				~PoolNodeEntry();
+
+				void								Collect(collections::List<SmallObjectPool*>& smallPools, collections::List<BigObjectPool*>& bigPools);
 			};
 		protected:
 			vint									poolUnitSize;
@@ -95,7 +109,7 @@ namespace vl
 			PoolNodeEntry							pool96;
 			PoolNodeEntry							poolLarge;
 
-			PoolNode*								CreatePoolNode(PoolNodeEntry* entry);
+			PoolNode*								CreatePoolNode(PoolNodeEntry* entry, vint poolUnitSize);
 			void									DisposePoolNode(PoolNodeEntry* entry, PoolNode* node);
 			PoolNodeEntry*							FindEntry(vint size);
 			PoolNode*								FindNode(char* pointer);
