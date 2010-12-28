@@ -316,6 +316,7 @@
     <ClInclude Include="..\..\Library\Combinator\_Using.h" />
     <ClInclude Include="..\..\Library\Console.h" />
     <ClInclude Include="..\..\Library\Entity\BigObjectPoolEntity.h" />
+    <ClInclude Include="..\..\Library\Entity\BinaryBalanceTreeEntity.h" />
     <ClInclude Include="..\..\Library\Entity\Linear.h" />
     <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Event.h" />
