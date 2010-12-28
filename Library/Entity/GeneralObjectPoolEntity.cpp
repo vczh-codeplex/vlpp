@@ -22,8 +22,11 @@ GeneralObjectPool::PoolTree
 		GeneralObjectPool::PoolTree::Node* GeneralObjectPool::PoolTree::Insert(const PoolNodeContent& content)
 		{
 			Node* node=CreateNode();
-			node->value=content;
-			InsertNode(node);
+			if(node)
+			{
+				node->value=content;
+				InsertNode(node);
+			}
 			return node;
 		}
 
@@ -50,7 +53,10 @@ GeneralObjectPool::PoolNodeAllocator
 		GeneralObjectPool::PoolNode* GeneralObjectPool::PoolNodeAllocator::CreateNode()
 		{
 			PoolNode* node=(PoolNode*)nodePool.Alloc();
-			node->value.Initialize();
+			if(node)
+			{
+				node->value.Initialize();
+			}
 			return node;
 		}
 
@@ -306,6 +312,8 @@ GeneralObjectPool
 
 		GeneralObjectPool::PoolNodeEntry* GeneralObjectPool::FindEntry(vint size)
 		{
+			if(size<-1)return 0;
+			if(size==-1)return &poolLarge;
 			if(size<=8)return &pool8;
 			if(size<=16)return &pool16;
 			if(size<=32)return &pool32;
@@ -407,7 +415,7 @@ GeneralObjectPool
 						entry->last->value.next=0;
 						entry->first->value.prev=0;
 					}
-				}while(entry->first=first);
+				}while(entry->first==first);
 			}
 
 			PoolNode* node=CreatePoolNode(entry, poolUnitSize);
