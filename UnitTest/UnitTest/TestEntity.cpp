@@ -385,6 +385,7 @@ namespace TestEntityHelper
 		char* obj96=pool.Alloc(96);
 		char* objLarge=pool.Alloc(512);
 
+		TEST_ASSERT(obj8);
 		TEST_ASSERT(pool.IsValid(obj8)==true);
 		TEST_ASSERT(pool.GetHandle(obj8)==obj8);
 		TEST_ASSERT(pool.GetSize(obj8)==8);
@@ -392,6 +393,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(pool.GetHandle(obj8+4)==obj8);
 		TEST_ASSERT(pool.GetSize(obj8+4)==-1);
 
+		TEST_ASSERT(obj16);
 		TEST_ASSERT(pool.IsValid(obj16)==true);
 		TEST_ASSERT(pool.GetHandle(obj16)==obj16);
 		TEST_ASSERT(pool.GetSize(obj16)==16);
@@ -399,6 +401,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(pool.GetHandle(obj16+4)==obj16);
 		TEST_ASSERT(pool.GetSize(obj16+4)==-1);
 
+		TEST_ASSERT(obj32);
 		TEST_ASSERT(pool.IsValid(obj32)==true);
 		TEST_ASSERT(pool.GetHandle(obj32)==obj32);
 		TEST_ASSERT(pool.GetSize(obj32)==32);
@@ -406,6 +409,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(pool.GetHandle(obj32+4)==obj32);
 		TEST_ASSERT(pool.GetSize(obj32+4)==-1);
 
+		TEST_ASSERT(obj64);
 		TEST_ASSERT(pool.IsValid(obj64)==true);
 		TEST_ASSERT(pool.GetHandle(obj64)==obj64);
 		TEST_ASSERT(pool.GetSize(obj64)==64);
@@ -413,6 +417,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(pool.GetHandle(obj64+4)==obj64);
 		TEST_ASSERT(pool.GetSize(obj64+4)==-1);
 
+		TEST_ASSERT(obj96);
 		TEST_ASSERT(pool.IsValid(obj96)==true);
 		TEST_ASSERT(pool.GetHandle(obj96)==obj96);
 		TEST_ASSERT(pool.GetSize(obj96)==96);
@@ -420,6 +425,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(pool.GetHandle(obj96+4)==obj96);
 		TEST_ASSERT(pool.GetSize(obj96+4)==-1);
 
+		TEST_ASSERT(objLarge);
 		TEST_ASSERT(pool.IsValid(objLarge)==true);
 		TEST_ASSERT(pool.GetHandle(objLarge)==objLarge);
 		TEST_ASSERT(pool.GetSize(objLarge)==512);
@@ -460,17 +466,117 @@ namespace TestEntityHelper
 			TEST_ASSERT(pool.GetSize(objLarge)==-1);
 		}
 	}
+
+	void AssertLargeObject(GeneralObjectPool& pool, bool needFree)
+	{
+		const vint count=1024;
+		char* objs[count]={0};
+		for(vint i=0;i<count;i++)
+		{
+			char* objLarge=pool.Alloc(400);
+			TEST_ASSERT(objLarge);
+			objs[i]=objLarge;
+		}
+		for(vint i=0;i<count;i++)
+		{
+			char* objLarge=objs[i];
+			TEST_ASSERT(pool.IsValid(objLarge)==true);
+			TEST_ASSERT(pool.GetHandle(objLarge)==objLarge);
+			TEST_ASSERT(pool.GetSize(objLarge)==400);
+			TEST_ASSERT(pool.IsValid(objLarge+4)==false);
+			TEST_ASSERT(pool.GetHandle(objLarge+4)==objLarge);
+			TEST_ASSERT(pool.GetSize(objLarge+4)==-1);
+		}
+		if(needFree)
+		{
+			for(vint i=0;i<count;i++)
+			{
+				char* objLarge=objs[i];
+				TEST_ASSERT(pool.Free(objLarge)==true);
+			}
+			for(vint i=0;i<count;i++)
+			{
+				char* objLarge=objs[i];
+				TEST_ASSERT(pool.IsValid(objLarge)==false);
+				TEST_ASSERT(pool.GetHandle(objLarge)==0);
+				TEST_ASSERT(pool.GetSize(objLarge)==-1);
+			}
+		}
+		else
+		{
+			TEST_ASSERT(pool.Alloc(400)==0);
+		}
+	}
+
+	void AssertSmallObject(GeneralObjectPool& pool, bool needFree)
+	{
+		const vint count=131072;
+		char* objs[count]={0};
+		for(vint i=0;i<count;i++)
+		{
+			char* objLarge=pool.Alloc(64);
+			TEST_ASSERT(objLarge);
+			objs[i]=objLarge;
+		}
+		for(vint i=0;i<count;i++)
+		{
+			char* objLarge=objs[i];
+			TEST_ASSERT(pool.IsValid(objLarge)==true);
+			TEST_ASSERT(pool.GetHandle(objLarge)==objLarge);
+			TEST_ASSERT(pool.GetSize(objLarge)==64);
+			TEST_ASSERT(pool.IsValid(objLarge+4)==false);
+			TEST_ASSERT(pool.GetHandle(objLarge+4)==objLarge);
+			TEST_ASSERT(pool.GetSize(objLarge+4)==-1);
+		}
+		if(needFree)
+		{
+			for(vint i=0;i<count;i++)
+			{
+				char* objLarge=objs[i];
+				TEST_ASSERT(pool.Free(objLarge)==true);
+			}
+			for(vint i=0;i<count;i++)
+			{
+				char* objLarge=objs[i];
+				TEST_ASSERT(pool.IsValid(objLarge)==false);
+				TEST_ASSERT(pool.GetHandle(objLarge)==0);
+				TEST_ASSERT(pool.GetSize(objLarge)==-1);
+			}
+		}
+		else
+		{
+			TEST_ASSERT(pool.Alloc(64)==0);
+		}
+	}
 }
 using namespace TestEntityHelper;
 
 TEST_CASE(TestEntity_GeneralObjectPool)
 {
 	{
-		GeneralObjectPool pool(1024, 16);
+		GeneralObjectPool pool(1024, 512);
 		AssertGeneralObjectAllocAndFree(pool, false);
 	}
 	{
-		GeneralObjectPool pool(1024, 16);
+		GeneralObjectPool pool(1024, 512);
 		AssertGeneralObjectAllocAndFree(pool, true);
+	}
+	{
+		GeneralObjectPool pool(1024, 512);
+		AssertLargeObject(pool, false);
+	}
+	{
+		GeneralObjectPool pool(1024, 512);
+		AssertLargeObject(pool, true);
+		AssertLargeObject(pool, true);
+	}
+	{
+		GeneralObjectPool pool(1024, 512);
+		AssertSmallObject(pool, false);
+	}
+	{
+		GeneralObjectPool pool(1024, 512);
+		AssertSmallObject(pool, true);
+		AssertSmallObject(pool, true);
 	}
 }

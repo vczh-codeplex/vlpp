@@ -42,10 +42,13 @@ namespace vl
 			inline Node* CreateNode()
 			{
 				Node* node=allocator->CreateNode();
-				node->parent=0;
-				node->left=0;
-				node->right=0;
-				node->depth=1;
+				if(node)
+				{
+					node->parent=0;
+					node->left=0;
+					node->right=0;
+					node->depth=1;
+				}
 				return node;
 			}
 
