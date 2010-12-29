@@ -202,6 +202,9 @@
     <Filter Include="Source Files\Scripting\Utility">
       <UniqueIdentifier>{948bd7e0-ba7a-4db4-833a-5ef29a874d63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCoreLibrary\System.UnitTest">
+      <UniqueIdentifier>{92e8ee52-ea38-4035-98fd-b221219f581e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -487,6 +490,9 @@
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp">
+      <Filter>Library3\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityUnitTest.cpp">
       <Filter>Library3\Scripting\Utility\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1294,6 +1300,12 @@
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt">
       <Filter>ScriptCoreLibrary</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.UnitTest.NativeX.txt">
+      <Filter>ScriptCoreLibrary\System.UnitTest</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt">
+      <Filter>ScriptCoreLibrary\System.UnitTest</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

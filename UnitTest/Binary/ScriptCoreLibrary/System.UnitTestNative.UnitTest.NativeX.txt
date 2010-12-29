@@ -1,0 +1,19 @@
+unit UnitTest;
+
+foreign function void __Assert(bool condition, wchar* description)
+    alias UnitTest.Assert;
+
+foreign function void __Print(wchar* description)
+    alias UnitTest.Assert;
+
+#public
+function void Assert(bool condition, wchar* description)
+{
+    __Assert(condition, description);
+}
+
+#public
+function void Print(wchar* description)
+{
+    __Print(description);
+}

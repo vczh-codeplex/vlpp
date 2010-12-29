@@ -16,18 +16,29 @@ using namespace vl::stream;
 
 extern WString GetPath();
 
-TEST_CASE(TestScriptingUtility_System_CoreNative)
+namespace TestScriptingUtilityHelper
 {
-	WString basePath=GetPath()+L"..\\ScriptCoreLibrary\\";
-	LanguageMakeFile makeFile;
+	void CompileAssembly(LanguageMaker& maker, LanguageMakeFile& makeFile, const WString& basePath, const WString& fileName)
 	{
-		WString path=basePath+L"System.CoreNative.Make.txt";
+		WString path=basePath+fileName;
 		FileStream fileStream(path, FileStream::ReadOnly);
 		BomDecoder decoder;
 		DecoderStream decoderStream(fileStream, decoder);
 		StreamReader reader(decoderStream);
 		makeFile.Load(basePath, reader);
+		maker.Execute(makeFile);
 	}
+};
+using namespace TestScriptingUtilityHelper;
+
+TEST_CASE(TestScriptingUtility_System_CoreNative)
+{
+	WString basePath=GetPath()+L"..\\ScriptCoreLibrary\\";
 	LanguageMaker maker;
-	maker.Execute(makeFile);
+
+	LanguageMakeFile syscrnat;
+	CompileAssembly(maker, syscrnat, basePath, L"System.CoreNative.Make.txt");
+
+	LanguageMakeFile sysutnat;
+	CompileAssembly(maker, sysutnat, basePath, L"System.UnitTestNative.Make.txt");
 }
