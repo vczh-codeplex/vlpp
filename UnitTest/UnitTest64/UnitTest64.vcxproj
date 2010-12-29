@@ -214,6 +214,7 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp" />
     <ClCompile Include="..\..\Library\Stream\Accessor.cpp" />

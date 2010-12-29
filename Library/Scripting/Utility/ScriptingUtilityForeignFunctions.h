@@ -20,6 +20,19 @@ namespace vl
 		{
 			class LanguagePlugin : public Object
 			{
+			protected:
+				basicil::BasicILInterpretor*	ownerInterpretor;
+				basicil::BasicILLinker*			ownerLinker;
+
+				virtual bool					RegisterForeignFunctions(basicil::BasicILRuntimeSymbol* symbol)=0;
+			public:
+				LanguagePlugin();
+				~LanguagePlugin();
+
+				basicil::BasicILInterpretor*	GetOwnerInterpretor();
+				basicil::BasicILLinker*			GetOwnerLinker();
+				bool							Install(basicil::BasicILInterpretor* interpretor);
+				bool							Install(basicil::BasicILLinker* linker);
 			};
 
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
