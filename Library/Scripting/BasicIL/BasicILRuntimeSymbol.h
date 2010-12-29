@@ -117,16 +117,7 @@ namespace vl
 				virtual void									Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)=0;
 			};
 
-			typedef void(*BasicILLightFunction)(void* result, void* arguments);
-
-			struct BasicILLightFunctionInfo
-			{
-				BasicILLightFunction							function;
-				vint											argumentSize;
-
-				bool											operator==(const BasicILLightFunctionInfo& info)const;
-				bool											operator!=(const BasicILLightFunctionInfo& info)const;
-			};
+			typedef vint(*BasicILLightFunction)(void* result, void* arguments);
 
 /***********************************************************************
 ·ûºÅ¹ÜÀíÆ÷
@@ -138,7 +129,7 @@ namespace vl
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
 				typedef collections::List<Ptr<IBasicILForeignFunction>>						_ForeignFunctionList;
-				typedef collections::List<BasicILLightFunctionInfo>							_LightFunctionList;
+				typedef collections::List<BasicILLightFunction>								_LightFunctionList;
 
 			public:
 				static const vint								GenericFunctionSitingAssemblyKey=0;
@@ -189,9 +180,9 @@ namespace vl
 				void											LinkILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				void											LinkILFixInstructionKeyOnly(BasicIL* il);
 				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
-				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize);
+				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function);
 				IBasicILForeignFunction*						GetForeignFunction(vint index);
-				const BasicILLightFunctionInfo&					GetLightFunction(vint index);
+				BasicILLightFunction							GetLightFunction(vint index);
 				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}

@@ -25,20 +25,6 @@ BasicILLabel
 			}
 
 /***********************************************************************
-BasicILLightFunctionInfo
-***********************************************************************/
-
-			bool BasicILLightFunctionInfo::operator==(const BasicILLightFunctionInfo& info)const
-			{
-				return function==info.function && argumentSize==info.argumentSize;
-			}
-
-			bool BasicILLightFunctionInfo::operator!=(const BasicILLightFunctionInfo& info)const
-			{
-				return function!=info.function || argumentSize!=info.argumentSize;
-			}
-
-/***********************************************************************
 Helper Functions
 ***********************************************************************/
 
@@ -549,7 +535,7 @@ BasicILRuntimeSymbol::SymbolManagement
 				}
 			}
 
-			bool BasicILRuntimeSymbol::RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function, vint argumentSize)
+			bool BasicILRuntimeSymbol::RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function)
 			{
 				Pair<WString, WString> symbol(category, name);
 				if(foreignFunctionLabelMap.Keys().Contains(symbol))
@@ -563,10 +549,7 @@ BasicILRuntimeSymbol::SymbolManagement
 					label.instruction=lightFunctionList.Count();
 					foreignFunctionLabelMap.Add(symbol, labels.Count());
 
-					BasicILLightFunctionInfo info;
-					info.function=function;
-					info.argumentSize=argumentSize;
-					lightFunctionList.Add(info);
+					lightFunctionList.Add(function);
 					labels.Add(label);
 					return true;
 				}

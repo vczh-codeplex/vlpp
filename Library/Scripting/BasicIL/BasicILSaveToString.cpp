@@ -49,7 +49,7 @@ BasicILInterpretor
 				return foreignFunctionList[index].Obj();
 			}
 
-			const BasicILLightFunctionInfo& BasicILRuntimeSymbol::GetLightFunction(vint index)
+			BasicILLightFunction BasicILRuntimeSymbol::GetLightFunction(vint index)
 			{
 				return lightFunctionList[index];
 			}

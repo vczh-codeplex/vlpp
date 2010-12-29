@@ -35,6 +35,41 @@ namespace vl
 				bool							Install(basicil::BasicILLinker* linker);
 			};
 
+			class LanguageArgumentReader : public Object
+			{
+			protected:
+				char*							result;
+				char*							arguments;
+				char*							currentArgument;
+				basicil::BasicILStack*			stack;
+			public:
+				LanguageArgumentReader(void* _result, void* _arguments);
+				LanguageArgumentReader(void* _result, void* _arguments, basicil::BasicILStack* stack);
+				~LanguageArgumentReader();
+
+				vint							BytesToPop();
+
+				template<typename T>
+				T NextArgument()
+				{
+					return NextArgumentRef<T>();
+				}
+
+				template<typename T>
+				T& NextArgumentRef()
+				{
+					T& argument=*(T*)currentArgument;
+					currentArgument+=sizeof(T);
+					return argument;
+				}
+
+				template<typename T>
+				T& Result()
+				{
+					return *(T*)result;
+				}
+			};
+
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
 		}
 	}
