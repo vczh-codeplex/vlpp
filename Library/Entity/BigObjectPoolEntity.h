@@ -38,6 +38,8 @@ namespace vl
 			vint					totalSize;
 			vint					minObjectSize;
 			vint					usedSize;
+			vint					usedCount;
+			vint					totalHeaderReserve;
 			char*					buffer;
 
 			SmallObjectPool			blockPool;
@@ -67,12 +69,22 @@ namespace vl
 
 			inline vint GetTotalSize()
 			{
-				return totalSize;
+				return totalSize-totalHeaderReserve;
+			}
+
+			inline vint GetTotalHeaderReserve()
+			{
+				return totalHeaderReserve;
 			}
 
 			inline vint GetUsedSize()
 			{
-				return usedSize;
+				return usedSize-BlockHeaderSize*usedCount;
+			}
+
+			inline vint GetUsedCount()
+			{
+				return usedCount;
 			}
 
 			inline char* GetStartAddress()

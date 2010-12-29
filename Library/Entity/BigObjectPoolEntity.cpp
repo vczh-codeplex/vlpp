@@ -72,8 +72,11 @@ BigObjectPool
 			:totalSize(_totalSize)
 			,minObjectSize(MIN_OBJECT_SIZE(_minObjectSize))
 			,usedSize(0)
+			,usedCount(0)
+			,totalHeaderReserve(BlockHeaderSize*(1+_totalSize/MIN_OBJECT_SIZE(_minObjectSize)))
 			,blockPool(sizeof(BlockHandle), 1+_totalSize/MIN_OBJECT_SIZE(_minObjectSize))
 		{
+			totalSize+=totalHeaderReserve;
 			buffer=new char[totalSize];
 			firstBlock=CreateBlockHandle();
 			firstBlock->start=buffer;
@@ -89,7 +92,7 @@ BigObjectPool
 		char* BigObjectPool::Alloc(vint size)
 		{
 			if(usedSize==totalSize)return 0;
-			size=MAX(size+(vint)BlockHeaderSize, minObjectSize);
+			size=MAX(size, minObjectSize)+(vint)BlockHeaderSize;
 
 			BlockHandle* block=currentBlock;
 			while(true)
@@ -99,6 +102,7 @@ BigObjectPool
 					block=SplitBlock(block, size);
 					block->used=true;
 					usedSize+=size;
+					usedCount++;
 
 					BlockReference* reference=(BlockReference*)block->start;
 					reference->handle=block;
@@ -134,6 +138,7 @@ BigObjectPool
 					MergePrev(block->next);
 				}
 				usedSize-=size;
+				usedCount--;
 				return true;
 			}
 			else
