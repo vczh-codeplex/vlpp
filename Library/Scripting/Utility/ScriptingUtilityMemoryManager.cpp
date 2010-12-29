@@ -1,4 +1,5 @@
 #include "ScriptingUtilityForeignFunctions.h"
+#include "..\Languages\LanguageRuntime.h"
 #include "..\..\Entity\GeneralObjectPoolEntity.h"
 
 namespace vl

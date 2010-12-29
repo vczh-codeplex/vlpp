@@ -183,6 +183,12 @@ LanguageHost
 			return interpretor->Symbols()->RegisterLightFunction(category, name, function);
 		}
 
+		bool LanguageHost::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)
+		{
+			plugins.Add(plugin);
+			return plugin->Install(interpretor.Obj());
+		}
+
 		void LanguageHost::LogInternalState(stream::TextWriter& writer)
 		{
 			interpretor->LogInternalState(writer);
@@ -220,6 +226,12 @@ LanguageLinker
 		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
 		{
 			return linker->Symbols()->RegisterLightFunction(category, name, function);
+		}
+
+		bool LanguageLinker::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)
+		{
+			plugins.Add(plugin);
+			return plugin->Install(linker.Obj());
 		}
 
 		void LanguageLinker::LogInternalState(stream::TextWriter& writer)

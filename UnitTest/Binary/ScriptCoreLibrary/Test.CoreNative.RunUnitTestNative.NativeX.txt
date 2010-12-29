@@ -1,0 +1,9 @@
+unit RunUnitTestNative;
+
+uses sysutnat;
+
+function void TestCase_AssertAndPrint()
+{
+    Assert(1==1, L"AssertAndPrint: 1==1");
+    Print(L"AssertAndPrint: This is a message.");
+}

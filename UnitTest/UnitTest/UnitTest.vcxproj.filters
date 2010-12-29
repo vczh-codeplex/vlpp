@@ -205,6 +205,9 @@
     <Filter Include="ScriptCoreLibrary\System.UnitTest">
       <UniqueIdentifier>{92e8ee52-ea38-4035-98fd-b221219f581e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCoreLibrary\Test.CoreNative">
+      <UniqueIdentifier>{2dd75145-8a97-4e95-872f-d95fabe8c858}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -1306,6 +1309,12 @@
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt">
       <Filter>ScriptCoreLibrary\System.UnitTest</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.Make.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunUnitTestNative.NativeX.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

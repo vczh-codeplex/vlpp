@@ -1,4 +1,5 @@
 #include "ScriptingUtilityForeignFunctions.h"
+#include "..\Languages\LanguageRuntime.h"
 
 namespace vl
 {

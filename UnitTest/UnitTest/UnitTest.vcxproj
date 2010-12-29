@@ -287,6 +287,8 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.MemoryManager.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.UnitTest.NativeX.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunUnitTestNative.NativeX.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.Dfa.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.eNfa.txt" />
     <None Include="..\Binary\TestFiles\Baseline\RegexComment.Nfa.txt" />
