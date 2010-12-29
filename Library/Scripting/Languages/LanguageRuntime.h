@@ -102,7 +102,7 @@ namespace vl
 			bool										LoadAssembly(Ptr<LanguageAssembly> assembly);
 			Ptr<LanguageState>							CreateState();
 			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
-			bool										RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize);
+			bool										RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*));
 			void										LogInternalState(stream::TextWriter& writer);
 		};
 
@@ -117,7 +117,7 @@ namespace vl
 			void										LoadAssembly(stream::IStream& stream);
 			Ptr<LanguageAssembly>						Link();
 			bool										RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function);
-			bool										RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize);
+			bool										RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*));
 			void										LogInternalState(stream::TextWriter& writer);
 		};
 

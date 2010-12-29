@@ -178,9 +178,9 @@ LanguageHost
 			return interpretor->Symbols()->RegisterForeignFunction(category, name, proxy);
 		}
 
-		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
+		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
 		{
-			return interpretor->Symbols()->RegisterLightFunction(category, name, function, argumentSize);
+			return interpretor->Symbols()->RegisterLightFunction(category, name, function);
 		}
 
 		void LanguageHost::LogInternalState(stream::TextWriter& writer)
@@ -217,9 +217,9 @@ LanguageLinker
 			return linker->Symbols()->RegisterForeignFunction(category, name, proxy);
 		}
 
-		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, void(*function)(void*, void*), vint argumentSize)
+		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
 		{
-			return linker->Symbols()->RegisterLightFunction(category, name, function, argumentSize);
+			return linker->Symbols()->RegisterLightFunction(category, name, function);
 		}
 
 		void LanguageLinker::LogInternalState(stream::TextWriter& writer)

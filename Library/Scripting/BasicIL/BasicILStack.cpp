@@ -781,9 +781,9 @@ BasicILStack
 				void* stackTop=env->DereferenceStack(env->StackTop());
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
-				const BasicILLightFunctionInfo& info=interpretor->Symbols()->GetLightFunction(index);
-				info.function(result, arguments);
-				env->Reserve(-(vint)(sizeof(void*)+info.argumentSize));
+				BasicILLightFunction function=interpretor->Symbols()->GetLightFunction(index);
+				vint argumentSize=function(result, arguments);
+				env->Reserve(-(vint)(sizeof(void*)+argumentSize));
 			}
 
 			void* BasicILStack::GetUserData()
