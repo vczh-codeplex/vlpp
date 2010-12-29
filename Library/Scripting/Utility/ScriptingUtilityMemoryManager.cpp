@@ -35,13 +35,23 @@ namespace vl
 					}
 				};
 
-				static vint MemFree(void* result, void* arguments)
+				static vint MemAlloc(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
 					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
 					vint size=reader.NextArgument<vint>();
 
 					reader.Result<char*>()=pool->Alloc(size);
+					return reader.BytesToPop();
+				}
+
+				static vint MemFree(void* result, void* arguments)
+				{
+					LanguageArgumentReader reader(result, arguments);
+					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					char* pointer=reader.NextArgument<char*>();
+
+					reader.Result<bool>()=pool->Free(pointer);
 					return reader.BytesToPop();
 				}
 
@@ -79,6 +89,7 @@ namespace vl
 				{
 					return
 						symbol->RegisterForeignFunction(L"SystemCoreForeignFunctions", L"MemCreate", new MemCreate(this)) &&
+						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemAlloc", MemAlloc) &&
 						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemFree", MemFree) &&
 						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemIsValidHandle", MemIsValidHandle) &&
 						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemGetHandleSize", MemGetHandleSize) &&

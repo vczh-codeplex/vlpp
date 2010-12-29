@@ -70,7 +70,14 @@ namespace vl
 				}
 			};
 
+			class LanguagePluginException : public Exception
+			{
+			public:
+				LanguagePluginException(const WString& message);
+			};
+
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
+			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(*printer)(bool, wchar_t*));
 		}
 	}
 }

@@ -217,6 +217,7 @@
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityUnitTest.cpp" />
     <ClCompile Include="..\..\Library\Stream\Accessor.cpp" />
     <ClCompile Include="..\..\Library\Stream\BroadcastStream.cpp" />
     <ClCompile Include="..\..\Library\Stream\CacheStream.cpp" />

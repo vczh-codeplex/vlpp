@@ -90,6 +90,15 @@ LanguageArgumentReader
 			{
 				return currentArgument-arguments;
 			}
+
+/***********************************************************************
+LanguagePluginException
+***********************************************************************/
+
+			LanguagePluginException::LanguagePluginException(const WString& message)
+				:Exception(message)
+			{
+			}
 		}
 	}
 }

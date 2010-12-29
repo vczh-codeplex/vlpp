@@ -1,0 +1,8 @@
+Language=NativeX
+AssemblyName=sysutnat
+HeaderLanguage=NativeX
+AssemblyOutput=Binary\Assembly.sysutnat.assembly
+HeaderOutput=Binary\Header.sysutnat.NativeX.txt
+DebugAssemblyOutput=Binary\Debug.sysutnat.txt
+
+Compile=System.UnitTestNative.UnitTest.NativeX.txt
