@@ -441,6 +441,9 @@
     <ClCompile Include="..\..\Library\Entity\GeneralObjectPoolEntity.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp">
+      <Filter>Library3\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

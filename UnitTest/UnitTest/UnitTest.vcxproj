@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\Library\Regex\RegexPure.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexRich.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexWriter.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp" />
     <ClCompile Include="..\..\Library\Stream\Accessor.cpp" />
