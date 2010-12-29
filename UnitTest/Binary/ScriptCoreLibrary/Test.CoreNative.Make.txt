@@ -1,0 +1,8 @@
+Language=NativeX
+AssemblyName=Test.CoreNative
+AssemblyOutput=Binary\Assembly.Test.CoreNative.assembly
+DebugAssemblyOutput=Binary\Debug.Test.CoreNative.txt
+
+Compile=Binary\Header.syscrnat.NativeX.txt
+Compile=Binary\Header.sysutnat.NativeX.txt
+Compile=Test.CoreNative.RunUnitTestNative.NativeX.txt

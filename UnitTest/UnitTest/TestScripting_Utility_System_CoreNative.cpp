@@ -28,6 +28,18 @@ namespace TestScriptingUtilityHelper
 		makeFile.Load(basePath, reader);
 		maker.Execute(makeFile);
 	}
+
+	Ptr<LanguageAssembly> LoadAssembly(LanguageHost& host, const WString& fileName)
+	{
+		FileStream stream(fileName, FileStream::ReadOnly);
+		Ptr<LanguageAssembly> assembly=new LanguageAssembly(stream);
+		TEST_ASSERT(host.LoadAssembly(assembly));
+		return assembly;
+	}
+
+	void UnitTestPluginPrinter(bool condition, wchar_t* description)
+	{
+	}
 };
 using namespace TestScriptingUtilityHelper;
 
@@ -41,4 +53,21 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 
 	LanguageMakeFile sysutnat;
 	CompileAssembly(maker, sysutnat, basePath, L"System.UnitTestNative.Make.txt");
+
+	LanguageMakeFile testCoreNative;
+	CompileAssembly(maker, testCoreNative, basePath, L"Test.CoreNative.Make.txt");
+
+	{
+		LanguageHost host(65536);
+		host.RegisterPlugin(CreateMemoryManagerPlugin());
+		host.RegisterPlugin(CreateUnitTestPlugin(UnitTestPluginPrinter));
+		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assemblyOutput);
+		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assemblyOutput);
+		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assemblyOutput);
+
+		Ptr<LanguageState> state=host.CreateState();
+		TEST_ASSERT(state->RunInitialization(syscrnatAssembly)==ILException::Finished);
+		TEST_ASSERT(state->RunInitialization(sysutnatAssembly)==ILException::Finished);
+		TEST_ASSERT(state->RunInitialization(unitTestAssembly)==ILException::Finished);
+	}
 }

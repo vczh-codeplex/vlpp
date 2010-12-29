@@ -10,12 +10,22 @@ Classes:
 #ifndef VCZH_SCIPRTING_UTILITY_SCRIPTINGUTILITYFOREIGNFUNCTIONS
 #define VCZH_SCIPRTING_UTILITY_SCRIPTINGUTILITYFOREIGNFUNCTIONS
 
-#include "..\Languages\LanguageProvider.h"
+#include "..\..\Basic.h"
+#include "..\..\Exception.h"
+#include "..\..\Pointer.h"
 
 namespace vl
 {
 	namespace scripting
 	{
+		namespace basicil
+		{
+			class BasicILInterpretor;
+			class BasicILLinker;
+			class BasicILStack;
+			class BasicILRuntimeSymbol;
+		}
+
 		namespace utility
 		{
 			class LanguagePlugin : public Object
