@@ -4,7 +4,7 @@ foreign function void __Assert(bool condition, wchar* description)
     alias UnitTest.Assert;
 
 foreign function void __Print(wchar* description)
-    alias UnitTest.Assert;
+    alias UnitTest.Print;
 
 #public
 function void Assert(bool condition, wchar* description)

@@ -39,6 +39,14 @@ namespace TestScriptingUtilityHelper
 
 	void UnitTestPluginPrinter(bool condition, wchar_t* description)
 	{
+		if(condition)
+		{
+			vl::unittest::UnitTest::PrintInfo(L"        PASS: "+WString(description));
+		}
+		else
+		{
+			vl::unittest::UnitTest::PrintInfo(L"        FAIL: "+WString(description));
+		}
 	}
 };
 using namespace TestScriptingUtilityHelper;
@@ -69,5 +77,17 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 		TEST_ASSERT(state->RunInitialization(syscrnatAssembly)==ILException::Finished);
 		TEST_ASSERT(state->RunInitialization(sysutnatAssembly)==ILException::Finished);
 		TEST_ASSERT(state->RunInitialization(unitTestAssembly)==ILException::Finished);
+
+		BasicLanguageMetadata* metadata=unitTestAssembly->GetBasicLanguageMetadata();
+		for(vint i=0;i<metadata->GetDeclarationCount();i++)
+		{
+			BasicDeclarationInfo declaration=metadata->GetDeclaration(i);
+			if(declaration.IsFunction() && declaration.GetName().Length()>9 && declaration.GetName().Left(9)==L"TestCase_")
+			{
+				vl::unittest::UnitTest::PrintInfo(L"    "+declaration.GetName());
+				BasicFunctionExecutor<void()> function(declaration, state);
+				function();
+			}
+		}
 	}
 }
