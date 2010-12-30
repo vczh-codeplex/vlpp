@@ -34,9 +34,6 @@ namespace vl
 						wchar_t* description=reader.NextArgument<wchar_t*>();
 					
 						plugin->printer(condition, description);
-						if(condition)
-						{
-						}
 					}
 				};
 

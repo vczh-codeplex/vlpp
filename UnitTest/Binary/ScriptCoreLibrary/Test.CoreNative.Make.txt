@@ -6,3 +6,4 @@ DebugAssemblyOutput=Binary\Debug.Test.CoreNative.txt
 Compile=Binary\Header.syscrnat.NativeX.txt
 Compile=Binary\Header.sysutnat.NativeX.txt
 Compile=Test.CoreNative.RunUnitTestNative.NativeX.txt
+Compile=Test.CoreNative.RunMemoryManager.txt

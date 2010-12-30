@@ -45,7 +45,8 @@ namespace TestScriptingUtilityHelper
 		}
 		else
 		{
-			vl::unittest::UnitTest::PrintInfo(L"        FAIL: "+WString(description));
+			vl::unittest::UnitTest::PrintError(L"        FAIL: "+WString(description));
+			throw 0;
 		}
 	}
 };
