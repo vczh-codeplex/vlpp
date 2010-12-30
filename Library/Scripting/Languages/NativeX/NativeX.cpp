@@ -313,6 +313,10 @@ Extra
 				return CreateNode<BasicNullExpression>(input);
 			}
 
+/***********************************************************************
+语义函数：基本表达式
+***********************************************************************/
+
 			Ptr<BasicExpression> ToException(const RegexToken& input)
 			{
 				return CreateNode<BasicExceptionAddressExpression>(input);
@@ -355,8 +359,23 @@ Extra
 				return CreateNode<BasicFunctionResultExpression>(input);
 			}
 
+			Ptr<BasicExpression> ToSizeof(const ParsingPair<RegexToken, Ptr<BasicType>>& input)
+			{
+				Ptr<BasicSizeofExpression> expression=CreateNode<BasicSizeofExpression>(input.First());
+				expression->type=input.Second();
+				return expression;
+			}
+
+			Ptr<BasicExpression> ToOffsetof(const ParsingPair<RegexToken, ParsingPair<Ptr<BasicType>, RegexToken>>& input)
+			{
+				Ptr<BasicOffsetofExpression> expression=CreateNode<BasicOffsetofExpression>(input.First());
+				expression->type=input.Second().First();
+				expression->member=WString(input.Second().Second().reading, input.Second().Second().length);
+				return expression;
+			}
+
 /***********************************************************************
-语义函数：表达式
+语义函数：复合表达式
 ***********************************************************************/
 
 			class NativeXArguments : public BasicExtendedExpression
@@ -804,6 +823,21 @@ Extra
 				return type;
 			}
 
+			Ptr<BasicType> ToTypeofExpression(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicTypeofExpressionType> type=CreateNode<BasicTypeofExpressionType>(input.First());
+				type->expression=input.Second();
+				return type;
+			}
+
+			Ptr<BasicType> ToTypeofMember(const ParsingPair<RegexToken, ParsingPair<Ptr<BasicType>, RegexToken>>& input)
+			{
+				Ptr<BasicTypeofMemberType> type=CreateNode<BasicTypeofMemberType>(input.First());
+				type->type=input.Second().First();
+				type->member=WString(input.Second().Second().reading, input.Second().Second().length);
+				return type;
+			}
+
 /***********************************************************************
 语义函数：语句
 ***********************************************************************/
@@ -1216,7 +1250,8 @@ Extra
 				TokenType							ID;
 				TokenType							ATTRIBUTE_NAME;
 				TokenType							PRIM_TYPE;
-
+				
+				TokenType							SIZEOF, OFFSETOF, TYPEOF;
 				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, STACK_DATA, RESULT, FUNCTION, CAST, VARIABLE;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH, THROW;
 				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE, FOREIGN;
@@ -1255,6 +1290,9 @@ Extra
 					List<WString> tokens;
 					tokens.Add(L"/s+");
 										
+					SIZEOF			= CreateToken(tokens, L"sizeof");
+					OFFSETOF		= CreateToken(tokens, L"offsetof");
+					TYPEOF			= CreateToken(tokens, L"typeof");
 					TRUE			= CreateToken(tokens, L"true");
 					FALSE			= CreateToken(tokens, L"false");
 					NULL_VALUE		= CreateToken(tokens, L"null");
@@ -1357,6 +1395,8 @@ Extra
 					exp0			= primitive(NeedExpression)
 									| reference
 									| RESULT[ToResult]
+									| (OFFSETOF + (LT(NeedLt) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << GT(NeedGt)))[ToOffsetof]
+									| (SIZEOF + (LT(NeedLt) >> type << GT(NeedGt)))[ToSizeof]
 									| (CAST + (LT(NeedLt) >> type << GT(NeedGt)) + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToCastExpression]
 									| (OPEN_BRACE >> exp << CLOSE_BRACE(NeedCloseBrace))
 									;
@@ -1384,6 +1424,8 @@ Extra
 					primType		= functionType
 									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
+									| (TYPEOF + (LT(NeedLt) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << GT(NeedGt)))[ToTypeofMember]
+									| (TYPEOF + (LT(NeedLt) >> exp << GT(NeedGt)))[ToTypeofExpression]
 									;
 
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
