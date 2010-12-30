@@ -363,12 +363,28 @@ BasicGenericStructureProxyTypeRecord
 
 			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(vint index)
 			{
-				return manager->Instanciate(structureType->MemberType(index), typeTable);
+				BasicTypeRecord* type=structureType->MemberType(index);
+				if(type)
+				{
+					return manager->Instanciate(type, typeTable);
+				}
+				else
+				{
+					return 0;
+				}
 			}
 
 			BasicTypeRecord* BasicGenericStructureProxyTypeRecord::MemberType(const WString& name)
 			{
-				return manager->Instanciate(structureType->MemberType(name), typeTable);
+				BasicTypeRecord* type=structureType->MemberType(name);
+				if(type)
+				{
+					return manager->Instanciate(type, typeTable);
+				}
+				else
+				{
+					return 0;
+				}
 			}
 
 			const WString& BasicGenericStructureProxyTypeRecord::MemberName(vint index)
