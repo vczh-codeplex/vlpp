@@ -117,6 +117,32 @@ BasicLanguage_GetTypeRecord
 					}
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicTypeofExpressionType)
+				{
+					return BasicLanguage_GetExpressionType(node->expression, argument);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicTypeofMemberType)
+				{
+					BasicTypeRecord* structure=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					if(structure && structure->GetType()==BasicTypeRecord::Structure)
+					{
+						BasicTypeRecord* member=structure->MemberType(node->member);
+						if(!member)
+						{
+							throw BasicLanguageCodeException::GetStructureMemberNotExists(node);
+						}
+						else
+						{
+							return member;
+						}
+					}
+					else
+					{
+						throw BasicLanguageCodeException::GetLeftOperandShouldBeStructure(node);
+					}
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
 				{
 					return argument.semanticExtension->GetTypeRecord(node, argument);

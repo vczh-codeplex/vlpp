@@ -44,9 +44,19 @@ BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, vint, vint)
 		return 5;
 	}
 
-	ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
+	ALGORITHM_FUNCTION_MATCH(BasicTypeofExpressionType)
 	{
 		return 6;
+	}
+
+	ALGORITHM_FUNCTION_MATCH(BasicTypeofMemberType)
+	{
+		return 7;
+	}
+
+	ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
+	{
+		return 8;
 	}
 
 END_ALGORITHM_FUNCTION(GetTypeID)
@@ -87,9 +97,19 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, vint*)
 		*argument=5;
 	}
 
-	ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
+	ALGORITHM_PROCEDURE_MATCH(BasicTypeofExpressionType)
 	{
 		*argument=6;
+	}
+
+	ALGORITHM_PROCEDURE_MATCH(BasicTypeofMemberType)
+	{
+		*argument=7;
+	}
+
+	ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
+	{
+		*argument=8;
 	}
 
 END_ALGORITHM_PROCEDURE(TestTypeID)

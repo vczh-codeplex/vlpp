@@ -115,6 +115,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetArgumentNumberNotMatch(BasicInvokeExpression* invoke);
 				static Ptr<BasicLanguageCodeException>							GetArgumentTypeNotMatch(BasicInvokeExpression* invoke, vint parameterIndex);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberNotExists(BasicMemberExpression* member);
+				static Ptr<BasicLanguageCodeException>							GetStructureMemberNotExists(BasicOffsetofExpression* member);
+				static Ptr<BasicLanguageCodeException>							GetStructureMemberNotExists(BasicTypeofMemberType* member);
 				static Ptr<BasicLanguageCodeException>							GetCannotConvertIndexToInt(BasicSubscribeExpression* subscribe);
 				static Ptr<BasicLanguageCodeException>							GetCannotSubscribe(BasicSubscribeExpression* subscribe);
 				static Ptr<BasicLanguageCodeException>							GetUnaryOperandShouldBeLeftValue(BasicUnaryExpression* unary);
@@ -130,6 +132,8 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetParameterAlreadyExists(BasicFunctionDeclaration* declaration, vint parameterIndex);
 				static Ptr<BasicLanguageCodeException>							GetStructureMemberCannotBeUndefinedType(BasicStructureDeclaration* declaration, vint memberIndex);
 				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBeStructure(BasicMemberExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBeStructure(BasicOffsetofExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBeStructure(BasicTypeofMemberType* type);
 				static Ptr<BasicLanguageCodeException>							GetLeftOperandShouldBePointerToStructure(BasicMemberExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetPredeclaredStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetExternalFunctionCannotHaveStatement(BasicFunctionDeclaration* declaration);

@@ -228,6 +228,14 @@ BasicLanguage_RunSideEffect
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicSizeofExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicOffsetofExpression)
+				{
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
 				{
 					BasicLanguage_RunSideEffect(node->operand, argument);

@@ -429,6 +429,37 @@ BasicLanguage_PushValueInternal
 					return type;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
+				{
+					BP bp(
+						argument.info->GetEnv(),
+						0,
+						argument.info->GetTypeManager(),
+						*(List<Ptr<BasicLanguageCodeException>>*)0,
+						*(SortedList<WString>*)0
+						);
+					BasicTypeRecord* nodeType=BasicLanguage_GetTypeRecord(node->type, bp, false);
+					BasicOffset size=argument.info->GetTypeInfo(nodeType)->size;
+					argument.Ins(BasicIns::push, BasicIns::int_type, size);
+					return argument.info->GetEnv()->GetExpressionType(node);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
+				{
+					BP bp(
+						argument.info->GetEnv(),
+						0,
+						argument.info->GetTypeManager(),
+						*(List<Ptr<BasicLanguageCodeException>>*)0,
+						*(SortedList<WString>*)0
+						);
+					BasicTypeRecord* structureType=BasicLanguage_GetTypeRecord(node->type, bp, false);
+					BasicTypeInfo* structureInfo=argument.info->GetTypeInfo(structureType);
+					BasicOffset offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
+					argument.Ins(BasicIns::push, BasicIns::int_type, offset);
+					return argument.info->GetEnv()->GetExpressionType(node);
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);

@@ -522,6 +522,30 @@ BasicLanguage_GetExpressionType
 					}
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
+				{
+					BasicLanguage_GetTypeRecord(node->type, argument, false);
+					return argument.typeManager->GetPrimitiveType(int_type);
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
+				{
+					BasicTypeRecord* structure=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					if(structure && structure->GetType()==BasicTypeRecord::Structure)
+					{
+						BasicTypeRecord* member=structure->MemberType(node->member);
+						if(!member)
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetStructureMemberNotExists(node));
+						}
+					}
+					else
+					{
+						argument.errors.Add(BasicLanguageCodeException::GetLeftOperandShouldBeStructure(node));
+					}
+					return argument.typeManager->GetPrimitiveType(int_type);
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
 					try

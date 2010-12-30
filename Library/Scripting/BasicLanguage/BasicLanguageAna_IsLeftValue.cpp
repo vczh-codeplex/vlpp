@@ -102,6 +102,16 @@ BasicLanguage_IsLeftValue
 					return true;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
 					return false;

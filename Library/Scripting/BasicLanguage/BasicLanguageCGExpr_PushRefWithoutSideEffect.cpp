@@ -110,6 +110,16 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					return false;
 				}
 
+				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
+				{
+					return false;
+				}
+
+				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
+				{
+					return false;
+				}
+
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
 					return false;
@@ -240,6 +250,16 @@ BasicLanguage_PushRefWithoutSideEffect
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicFunctionResultExpression*, const BCP&)#不支持此操作。");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicSizeofExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicSizeofExpression*, const BCP&)#不支持此操作。");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicOffsetofExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicOffsetofExpression*, const BCP&)#不支持此操作。");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)

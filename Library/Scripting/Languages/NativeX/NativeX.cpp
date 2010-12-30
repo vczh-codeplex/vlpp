@@ -2182,6 +2182,11 @@ Extra
 				}
 			}
 
+			EXTERN_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode, BasicType, NXCGP)
+			EXTERN_ALGORITHM_PROCEDURE(NativeX_BasicExpression_GenerateCode, BasicExpression, NXCGP)
+			EXTERN_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode, BasicStatement, NXCGP)
+			EXTERN_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode, BasicDeclaration, NXCGP)
+
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode, BasicType, NXCGP)
 
 				ALGORITHM_PROCEDURE_MATCH(BasicPrimitiveType)
@@ -2237,6 +2242,22 @@ Extra
 						NativeX_BasicType_GenerateCode(node->argumentTypes[i], argument);
 					}
 					argument.writer.WriteString(L">");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeofExpressionType)
+				{
+					argument.writer.WriteString(L"typeof((");
+					NativeX_BasicExpression_GenerateCode(node->expression, argument);
+					argument.writer.WriteString(L"))");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicTypeofMemberType)
+				{
+					argument.writer.WriteString(L"typeof(");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L"::");
+					argument.writer.WriteString(node->member);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
@@ -2366,6 +2387,22 @@ Extra
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionResultExpression)
 				{
 					argument.writer.WriteString(L"result");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicSizeofExpression)
+				{
+					argument.writer.WriteString(L"sizeof(");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L")");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicOffsetofExpression)
+				{
+					argument.writer.WriteString(L"offsetof(");
+					NativeX_BasicType_GenerateCode(node->type, argument);
+					argument.writer.WriteString(L"::");
+					argument.writer.WriteString(node->member);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
