@@ -433,7 +433,7 @@ BasicLanguage_PushValueInternal
 				{
 					BP bp(
 						argument.info->GetEnv(),
-						0,
+						argument.info->GetSemanticScope(),
 						argument.info->GetTypeManager(),
 						*(List<Ptr<BasicLanguageCodeException>>*)0,
 						*(SortedList<WString>*)0
@@ -448,7 +448,7 @@ BasicLanguage_PushValueInternal
 				{
 					BP bp(
 						argument.info->GetEnv(),
-						0,
+						argument.info->GetSemanticScope(),
 						argument.info->GetTypeManager(),
 						*(List<Ptr<BasicLanguageCodeException>>*)0,
 						*(SortedList<WString>*)0

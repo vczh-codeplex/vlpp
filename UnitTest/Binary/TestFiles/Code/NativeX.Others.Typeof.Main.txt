@@ -1,0 +1,25 @@
+unit Main;
+
+structure Struct
+{
+    int8 a;
+    int16 b;
+    int32 c;
+}
+
+function int main()
+{
+    variable Struct[2] s;
+    s[0].a = 9s8;
+    s[0].b = 9s8;
+    s[0].c = 9s8;
+    s[1].a = 1s8;
+    s[1].b = 2s8;
+    s[1].c = 3s8;
+
+    variable typeof(s[1].a)* pa = cast<typeof(Struct::a)*>(cast<char*>(&s) + offsetof(Struct::a) + sizeof(Struct));
+    variable typeof(s[1].b)* pb = cast<typeof(Struct::b)*>(cast<char*>(&s) + offsetof(Struct::b) + sizeof(Struct));
+    variable typeof(s[1].c)* pc = cast<typeof(Struct::c)*>(cast<char*>(&s) + offsetof(Struct::c) + sizeof(Struct));
+
+    result = *pa * 100 + *pb * 10 + *pc;
+}

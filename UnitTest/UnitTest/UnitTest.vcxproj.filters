@@ -1319,6 +1319,12 @@
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunMemoryManager.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Main.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Make.txt">
+      <Filter>TestFiles\NativeX\Others</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
