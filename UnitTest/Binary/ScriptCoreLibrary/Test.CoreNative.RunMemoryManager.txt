@@ -62,8 +62,66 @@ function void TestCase_AllocAndTest()
 
 function void TestCase_Array()
 {
+    variable int* numbers = cast<int*>(MemAlloc(sizeof(int[10])));
+    for(variable int i = 0; when(i < 10) with i++;) do
+    {
+        numbers[i] = i + 1;
+    }
+
+    variable int sum = 0;
+    for(variable int i = 0; when(i < 10) with i++;) do
+    {
+        sum += numbers[i];
+    }
+    Assert(sum == 55, L"Sum from 1 to 10 should be 55.");
+    Assert(MemFree(numbers)==true, L"MemFree should succeed.");
+}
+
+generic<T>
+structure Node
+{
+    T data;
+    Node<T>* next;
+}
+
+generic<T>
+function Node<T>* CreateNode(T value)
+{
+    result = cast<typeof(result)>(MemAlloc(sizeof(Node<T>)));
+    result->data=value;
+    result->next=null;
+}
+
+generic<T>
+function int FreeNode(Node<T>* node)
+{
+    result=0;
+    while(node!=null)
+    {
+        variable Node<T>* next=node->next;
+        Assert(MemFree(node)==true, L"MemFree should succeed.");
+        node=node->next;
+        result++;
+    }
 }
 
 function void TestCase_LinkedList()
 {
+    variable Node<int>* node=CreateNode<int>(10);
+    for(variable int i = 9; when(i > 0) with i--;) do
+    {
+        variable Node<int>* prev=CreateNode<int>(i);
+        prev->next=node;
+        node=prev;
+    }
+
+    variable int sum=0;
+    variable Node<int>* current=node;
+    while(current!=null)
+    {
+        sum+=current->data;
+        current=current->next;
+    }
+    Assert(sum==55, L"Sum from 1 to 10 should be 55.");
+    Assert(FreeNode<int>(node)==10, L"MemFree should be called 10 times.");
 }
