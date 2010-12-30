@@ -474,6 +474,8 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum4.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum5.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Sum5.Make.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Main.txt" />
+    <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.TypeUpgrade.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.WideString.Main.txt" />

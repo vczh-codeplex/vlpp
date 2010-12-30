@@ -1395,8 +1395,8 @@ Extra
 					exp0			= primitive(NeedExpression)
 									| reference
 									| RESULT[ToResult]
-									| (OFFSETOF + (LT(NeedLt) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << GT(NeedGt)))[ToOffsetof]
-									| (SIZEOF + (LT(NeedLt) >> type << GT(NeedGt)))[ToSizeof]
+									| (OFFSETOF + (OPEN_BRACE(NeedOpenBrace) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) <<CLOSE_BRACE(NeedCloseBrace)))[ToOffsetof]
+									| (SIZEOF + (OPEN_BRACE(NeedOpenBrace) >> type << CLOSE_BRACE(NeedCloseBrace)))[ToSizeof]
 									| (CAST + (LT(NeedLt) >> type << GT(NeedGt)) + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToCastExpression]
 									| (OPEN_BRACE >> exp << CLOSE_BRACE(NeedCloseBrace))
 									;
@@ -1424,8 +1424,8 @@ Extra
 					primType		= functionType
 									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
-									| (TYPEOF + (LT(NeedLt) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << GT(NeedGt)))[ToTypeofMember]
-									| (TYPEOF + (LT(NeedLt) >> exp << GT(NeedGt)))[ToTypeofExpression]
+									| (TYPEOF + (OPEN_BRACE(NeedOpenBrace) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << CLOSE_BRACE(NeedCloseBrace)))[ToTypeofMember]
+									| (TYPEOF + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToTypeofExpression]
 									;
 
 					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
