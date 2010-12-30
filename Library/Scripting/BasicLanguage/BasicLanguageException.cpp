@@ -148,6 +148,20 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(member, StructureMemberNotExists, parameters.Wrap());
 			}
 
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberNotExists(BasicOffsetofExpression* member)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=member->member;
+				return new BasicLanguageCodeException(member, StructureMemberNotExists, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetStructureMemberNotExists(BasicTypeofMemberType* member)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=member->member;
+				return new BasicLanguageCodeException(member, StructureMemberNotExists, parameters.Wrap());
+			}
+
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotConvertIndexToInt(BasicSubscribeExpression* subscribe)
 			{
 				Array<WString> parameters(0);
@@ -234,10 +248,22 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, StructureMemberCannotBeUndefinedType, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBeStructure(BasicMemberExpression* declaration)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBeStructure(BasicMemberExpression* expression)
 			{
 				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(declaration, LeftOperandShouldBeStructure, parameters.Wrap());
+				return new BasicLanguageCodeException(expression, LeftOperandShouldBeStructure, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBeStructure(BasicOffsetofExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, LeftOperandShouldBeStructure, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBeStructure(BasicTypeofMemberType* type)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(type, LeftOperandShouldBeStructure, parameters.Wrap());
 			}
 
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetLeftOperandShouldBePointerToStructure(BasicMemberExpression* expression)

@@ -243,6 +243,16 @@ BasicLanguage_PushRef
 					argument.Ins(BasicIns::resptr);
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(BasicSizeofExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicSizeofExpression*, const BCP&)#不支持此操作。");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(BasicOffsetofExpression)
+				{
+					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicOffsetofExpression*, const BCP&)#不支持此操作。");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(BasicCastingExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicCastingExpression*, const BCP&)#不支持此操作。");

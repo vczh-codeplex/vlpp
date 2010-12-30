@@ -296,6 +296,23 @@ Other Expression
 
 			};
 
+			class BasicSizeofExpression : public BasicExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicType>								type;
+			};
+
+			class BasicOffsetofExpression : public BasicExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicType>								type;
+				WString										member;
+			};
+
 			class BasicCastingExpression : public BasicExpression
 			{
 			public:
@@ -490,6 +507,23 @@ Type
 				collections::List<Ptr<BasicType>>			argumentTypes;
 			};
 
+			class BasicTypeofExpressionType : public BasicType
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicExpression>						expression;
+			};
+
+			class BasicTypeofMemberType : public BasicType
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION
+
+				Ptr<BasicType>								type;
+				WString										member;
+			};
+
 /***********************************************************************
 Declaration
 ***********************************************************************/
@@ -605,6 +639,8 @@ Algorithms
 			F(BasicMemberExpression)\
 			F(BasicInvokeExpression)\
 			F(BasicFunctionResultExpression)\
+			F(BasicSizeofExpression)\
+			F(BasicOffsetofExpression)\
 			F(BasicCastingExpression)\
 			F(BasicReferenceExpression)\
 			F(BasicInstanciatedExpression)\
@@ -637,6 +673,8 @@ Algorithms
 			F(BasicReferenceType)\
 			F(BasicFunctionType)\
 			F(BasicInstanciatedGenericType)\
+			F(BasicTypeofExpressionType)\
+			F(BasicTypeofMemberType)\
 			F(BasicExtendedType)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicType, BASIC_TYPE_TARGETS)

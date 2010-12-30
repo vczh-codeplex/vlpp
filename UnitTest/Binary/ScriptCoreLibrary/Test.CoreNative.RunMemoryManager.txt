@@ -59,3 +59,11 @@ function void TestCase_AllocAndTest()
         Assert(MemGetHandleSize(objects[i])==-1, L"MemGetHandleSize on a disposed object should return -1.");
     }
 }
+
+function void TestCase_Array()
+{
+}
+
+function void TestCase_LinkedList()
+{
+}
