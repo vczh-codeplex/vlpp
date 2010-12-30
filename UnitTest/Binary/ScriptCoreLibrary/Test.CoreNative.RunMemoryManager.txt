@@ -1,0 +1,61 @@
+unit RunMemoryManager;
+
+uses syscrnat, sysutnat;
+
+function void TestCase_AllocAndTest()
+{
+    variable int[12] sizes;
+    variable int[12] expecteds;
+    variable char*[12] objects;
+
+    sizes[0]=4;
+    sizes[1]=8;
+    sizes[2]=12;
+    sizes[3]=16;
+    sizes[4]=24;
+    sizes[5]=32;
+    sizes[6]=48;
+    sizes[7]=64;
+    sizes[8]=72;
+    sizes[9]=96;
+    sizes[10]=128;
+    sizes[11]=512;
+
+    expecteds[0]=8;
+    expecteds[1]=8;
+    expecteds[2]=16;
+    expecteds[3]=16;
+    expecteds[4]=32;
+    expecteds[5]=32;
+    expecteds[6]=64;
+    expecteds[7]=64;
+    expecteds[8]=96;
+    expecteds[9]=96;
+    expecteds[10]=128;
+    expecteds[11]=512;
+
+    for(variable int i=0; when(i<12) with i++;) do
+    {
+        objects[i]=cast<char*>(MemAlloc(sizes[i]));
+        Assert(objects[i]!=null, L"AllocAndTest: MemAlloc should succeed.");
+    }
+
+    for(variable int i=0; when(i<12) with i++;) do
+    {
+        variable char* object=objects[i];
+        Assert(MemIsValidHandle(object)==true, L"MemIsValidHandle on a allocated object should return true.");
+        Assert(cast<char*>(MemGetOwnerHandle(object))==object, L"MemGetOwnerHandle on a allocated object should return itself.");
+        Assert(MemGetHandleSize(object)==expecteds[i], L"MemGetHandleSize on a allocated object should return aligned size in the pool.");
+        Assert(MemIsValidHandle(object+1)==false, L"MemIsValidHandle on a non-allocated object should return false.");
+        Assert(cast<char*>(MemGetOwnerHandle(object+1))==object, L"MemGetOwnerHandle on a non-allocated boject should return the owned handle.");
+        Assert(MemGetHandleSize(object+1)==-1, L"MemGetHandleSize on a non-allocated object should return -1.");
+    }
+
+    for(variable int i=0; when(i<12) with i++;) do
+    {
+        Assert(MemFree(objects[i])==true, L"MemFree should succeed.");
+        Assert(MemIsValidHandle(objects[i])==false, L"MemIsValidHandle on a disposed object should return false.");
+        Assert(MemGetOwnerHandle(objects[i])==null, L"MemGetOwnerHandle on a disposed object should return null.");
+        Assert(MemGetHandleSize(objects[i])==-1, L"MemGetHandleSize on a disposed object should return -1.");
+    }
+}

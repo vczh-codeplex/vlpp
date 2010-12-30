@@ -83,7 +83,17 @@ SmallObjectPool
 		bool SmallObjectPool::IsValid(char* handle)
 		{
 			vint index=handle-items;
-			return index>=0 && index<poolSize && index%objectSize==0;
+			if(index>=0 && index<poolSize && index%objectSize==0)
+			{
+				vint objectIndex=(handle-items)/objectSize;
+				vint markIndex=MARK_INDEX(objectIndex);
+				unsigned char mark=MARK(objectIndex);
+				return (marks[markIndex]&mark)!=0;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		char* SmallObjectPool::GetHandle(char* pointer)
@@ -91,7 +101,8 @@ SmallObjectPool
 			vint index=pointer-items;
 			if(index>=0 && index<poolSize)
 			{
-				return &items[index-index%objectSize];
+				char* object=&items[index-index%objectSize];
+				return IsValid(object)?object:0;
 			}
 			else
 			{

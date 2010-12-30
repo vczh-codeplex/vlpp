@@ -1294,9 +1294,9 @@ Extra
 					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
 					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
 					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
-					INTEGER			= CreateToken(tokens, L"[+/-]?/d+([su](8|16|32|64))?");
-					FLOAT			= CreateToken(tokens, L"[+/-]?/d+(./d+)[fF]");
-					DOUBLE			= CreateToken(tokens, L"[+/-]?/d+./d+");
+					INTEGER			= CreateToken(tokens, L"/d+([su](8|16|32|64))?");
+					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
+					DOUBLE			= CreateToken(tokens, L"/d+./d+");
 					ID				= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
 					ATTRIBUTE_NAME	= CreateToken(tokens, L"#[a-zA-Z_]/w*");
 
