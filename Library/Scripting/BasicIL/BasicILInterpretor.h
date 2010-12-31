@@ -16,6 +16,7 @@ Classes:
 #include "BasicILStack.h"
 #include "BasicILRuntimeSymbol.h"
 #include "BasicILCodeExpander.h"
+#include "..\..\Threading.h"
 
 namespace vl
 {
@@ -34,10 +35,12 @@ namespace vl
 				vint											stackSize;
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
+				CriticalSection									cs;
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
 
+				CriticalSection&								GetCriticalSection();
 				vint											GetStackSize();
 				vint											LoadIL(BasicIL* il);
 				BasicILRuntimeSymbol*							Symbols();
