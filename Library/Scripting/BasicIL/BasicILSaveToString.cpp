@@ -206,6 +206,7 @@ BasicILInterpretor
 
 			void BasicILInterpretor::LogInternalState(stream::TextWriter& writer)
 			{
+				CriticalSection::Scope scope(cs);
 				symbols.LogInternalState(writer);
 				expander.LogInternalState(writer);
 			}

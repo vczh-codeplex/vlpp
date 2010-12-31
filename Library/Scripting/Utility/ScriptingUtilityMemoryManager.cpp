@@ -1,6 +1,7 @@
 #include "ScriptingUtilityForeignFunctions.h"
 #include "..\Languages\LanguageRuntime.h"
 #include "..\..\Entity\GeneralObjectPoolEntity.h"
+#include "..\..\Threading.h"
 
 namespace vl
 {
@@ -14,8 +15,20 @@ namespace vl
 
 			class SystemCoreMemoryManagerPlugin : public LanguagePlugin
 			{
-			protected:
-				List<Ptr<GeneralObjectPool>>			pools;
+			public:
+				struct PoolPackage
+				{
+					GeneralObjectPool					pool;
+					CriticalSection						cs;
+
+					PoolPackage(vint poolUnitSize, vint poolUnitCount)
+						:pool(poolUnitSize, poolUnitCount)
+					{
+					}
+				};
+
+				List<Ptr<PoolPackage>>					pools;
+				CriticalSection							pluginCs;
 
 				class MemCreate : public Object, public IBasicILForeignFunction
 				{
@@ -30,59 +43,66 @@ namespace vl
 					void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)
 					{
 						LanguageArgumentReader reader(result, arguments, stack);
-						Ptr<GeneralObjectPool> pool=new GeneralObjectPool(1048576, 256);
+						Ptr<PoolPackage> pool=new PoolPackage(1048576, 256);
+
+						CriticalSection::Scope scope(plugin->pluginCs);
 						plugin->pools.Add(pool);
-						reader.Result<GeneralObjectPool*>()=pool.Obj();
+						reader.Result<PoolPackage*>()=pool.Obj();
 					}
 				};
 
 				static vint MemAlloc(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
-					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
 					vint size=reader.NextArgument<vint>();
 
-					reader.Result<char*>()=pool->Alloc(size);
+					CriticalSection::Scope scope(pool->cs);
+					reader.Result<char*>()=pool->pool.Alloc(size);
 					return reader.BytesToPop();
 				}
 
 				static vint MemFree(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
-					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
 					char* pointer=reader.NextArgument<char*>();
-
-					reader.Result<bool>()=pool->Free(pointer);
+					
+					CriticalSection::Scope scope(pool->cs);
+					reader.Result<bool>()=pool->pool.Free(pointer);
 					return reader.BytesToPop();
 				}
 
 				static vint MemIsValidHandle(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
-					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
 					char* pointer=reader.NextArgument<char*>();
-
-					reader.Result<bool>()=pool->IsValid(pointer);
+					
+					CriticalSection::Scope scope(pool->cs);
+					reader.Result<bool>()=pool->pool.IsValid(pointer);
 					return reader.BytesToPop();
 				}
 
 				static vint MemGetHandleSize(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
-					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
 					char* pointer=reader.NextArgument<char*>();
-
-					reader.Result<vint>()=pool->GetSize(pointer);
+					
+					CriticalSection::Scope scope(pool->cs);
+					reader.Result<vint>()=pool->pool.GetSize(pointer);
 					return reader.BytesToPop();
 				}
 
 				static vint MemGetOwnerHandle(void* result, void* arguments)
 				{
 					LanguageArgumentReader reader(result, arguments);
-					GeneralObjectPool* pool=reader.NextArgument<GeneralObjectPool*>();
+					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
 					char* pointer=reader.NextArgument<char*>();
-
-					reader.Result<char*>()=pool->GetHandle(pointer);
+					
+					CriticalSection::Scope scope(pool->cs);
+					reader.Result<char*>()=pool->pool.GetHandle(pointer);
 					return reader.BytesToPop();
 				}
 			protected:

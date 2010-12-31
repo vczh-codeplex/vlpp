@@ -23,6 +23,11 @@ BasicILInterpretor
 			{
 			}
 
+			CriticalSection& BasicILInterpretor::GetCriticalSection()
+			{
+				return cs;
+			}
+
 			vint BasicILInterpretor::GetStackSize()
 			{
 				return stackSize;
@@ -30,6 +35,7 @@ BasicILInterpretor
 
 			vint BasicILInterpretor::LoadIL(BasicIL* il)
 			{
+				CriticalSection::Scope scope(cs);
 				List<Pair<WString, WString>> linkingSymbols, foreignFunctions;
 				vint index=symbols.LoadILSymbol(il, linkingSymbols, foreignFunctions);
 				symbols.LinkILSymbol(il, linkingSymbols, foreignFunctions);
