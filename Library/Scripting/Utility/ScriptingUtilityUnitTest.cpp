@@ -1,6 +1,5 @@
 #include "ScriptingUtilityForeignFunctions.h"
 #include "..\Languages\LanguageRuntime.h"
-#include "..\..\Entity\GeneralObjectPoolEntity.h"
 
 namespace vl
 {
@@ -9,7 +8,6 @@ namespace vl
 		namespace utility
 		{
 			using namespace basicil;
-			using namespace entities;
 			using namespace collections;
 
 			class SystemCoreUnitTestPlugin : public LanguagePlugin

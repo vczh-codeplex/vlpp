@@ -27,10 +27,6 @@ WaitableObject
 	{
 	}
 
-	WaitableObject::~WaitableObject()
-	{
-	}
-
 	void WaitableObject::SetData(threading_internal::WaitableData* data)
 	{
 		waitableData=data;
@@ -396,7 +392,7 @@ Semaphore
 				return (vint)previous;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 /***********************************************************************

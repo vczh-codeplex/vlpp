@@ -70,6 +70,7 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 		LanguageHost host(65536);
 		host.RegisterPlugin(CreateMemoryManagerPlugin());
 		host.RegisterPlugin(CreateUnitTestPlugin(UnitTestPluginPrinter));
+		host.RegisterPlugin(CreateThreadingPlugin());
 		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assemblyOutput);
 		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assemblyOutput);
 		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assemblyOutput);
