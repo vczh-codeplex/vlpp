@@ -30,6 +30,7 @@ namespace vl
 				enum RunningResult
 				{
 					Finished,
+					Paused,
 					StackOverflow,
 					DividByZero,
 					AccessViolation,

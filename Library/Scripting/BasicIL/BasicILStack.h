@@ -47,16 +47,19 @@ namespace vl
 				vint											instruction;
 				vint											insKey;
 				void*											userData;
+				volatile bool									needToPause;
 
 			public:
 				BasicILStack(BasicILInterpretor* _interpretor);
 				~BasicILStack();
 
 				BasicILEnv*										GetEnv();
-				void											Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
-				void											ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
+				BasicILInterpretor*								GetInterpretor();
 				vint											GetInstruction();
 				vint											GetInsKey();
+				void											Reset(vint entryInstruction, vint entryInsKey, vint returnSize);
+				void											ResetBuffer(vint entryInstruction, vint entryInsKey, void* returnPointer);
+				void											Pause();
 				ILException::RunningResult						Run();
 
 				BasicILExceptionHandler*						GetExceptionHandler();
