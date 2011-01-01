@@ -34,7 +34,7 @@ namespace Developer.WinFormControls
 
             public PopupList()
             {
-                this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                this.DoubleBuffered = true;
                 this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                 this.scrollBar = new VScrollBar();

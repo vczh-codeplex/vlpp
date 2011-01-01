@@ -15,7 +15,7 @@ namespace Developer.WinFormControls
         public RichContentViewer()
         {
             this.SetStyle(ControlStyles.Opaque, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.DoubleBuffered = true;
         }
 
         public void SetContent(XDocument content, int maxWidth)
