@@ -1,0 +1,99 @@
+unit Synchronization;
+
+uses ForeignFunctions;
+
+#public
+function SynCriticalSection* SynCreateCriticalSection()
+{
+    result = __SynCreateCriticalSection();
+}
+
+#public
+function bool SynDisposeCriticalSection(SynCriticalSection* cs)
+{
+    result = __SynDisposeCriticalSection(cs);
+}
+
+#public
+function bool SynTryEnterCriticalSection(SynCriticalSection* cs)
+{
+    result = __SynTryEnterCriticalSection(cs);
+}
+
+#public
+function bool SynEnterCriticalSection(SynCriticalSection* cs)
+{
+    result = __SynEnterCriticalSection(cs);
+}
+
+#public
+function bool SynLeaveCriticalSection(SynCriticalSection* cs)
+{
+    result = __SynLeaveCriticalSection(cs);
+}
+
+#public
+function SynWaitable* SynCreateMutex(bool owned)
+{
+    result = __SynCreateMutex(owned);
+}
+
+#public
+function bool SynReleaseMutex(SynWaitable* w)
+{
+    result = __SynReleaseMutex(w);
+}
+
+#public
+function SynWaitable* SynCreateSemaphore(int init, int max)
+{
+    result = __SynCreateSemaphore(init, max);
+}
+
+#public
+function bool SynReleaseSemaphore(SynWaitable* w, int count)
+{
+    result = __SynReleaseSemaphore(w, count);
+}
+
+#public
+function SynWaitable* SynCreateAutoEvent(bool signaled)
+{
+    result = __SynCreateAutoEvent(signaled);
+}
+
+#public
+function SynWaitable* SynCreateManualEvent(bool signaled)
+{
+    result = __SynCreateManualEvent(signaled);
+}
+
+#public
+function bool SynSignalEvent(SynWaitable* w)
+{
+    result = __SynSignalEvent(w);
+}
+
+#public
+function bool SynUnsignalEvent(SynWaitable* w)
+{
+    result = __SynUnsignalEvent(w);
+}
+
+#public
+function bool SynDisposeWaitable(SynWaitable* w)
+{
+   result = __SynDisposeWaitable(w);
+}
+
+#public
+function bool SynWait(SynWaitable* w)
+{
+   result = __SynWait(w);
+}
+
+#public
+function bool SynWaitForTime(SynWaitable* w, int ms)
+{
+   result = __SynWaitForTime(w, ms);
+}

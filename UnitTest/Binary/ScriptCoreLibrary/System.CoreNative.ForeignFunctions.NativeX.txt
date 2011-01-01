@@ -21,3 +21,61 @@ foreign function int __MemGetHandleSize(__ForeignHandle* mm, void* handle)
 
 foreign function void* __MemGetOwnerHandle(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemGetOwnerHandle;
+
+#public
+structure SynCriticalSection
+{
+}
+
+#public
+structure SynWaitable
+{
+}
+
+foreign function SynCriticalSection* __SynCreateCriticalSection()
+    alias SystemCoreForeignFunctions.SynCreateCriticalSection;
+
+foreign function bool __SynDisposeCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynDisposeCriticalSection;
+
+foreign function bool __SynTryEnterCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynTryEnterCriticalSection;
+
+foreign function bool __SynEnterCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynEnterCriticalSection;
+
+foreign function bool __SynLeaveCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynLeaveCriticalSection;
+
+foreign function SynWaitable* __SynCreateMutex(bool owned)
+    alias SystemCoreForeignFunctions.SynCreateMutex;
+
+foreign function bool __SynReleaseMutex(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynReleaseMutex;
+
+foreign function SynWaitable* __SynCreateSemaphore(int init, int max)
+    alias SystemCoreForeignFunctions.SynCreateSemaphore;
+
+foreign function bool __SynReleaseSemaphore(SynWaitable* w, int count)
+    alias SystemCoreForeignFunctions.SynReleaseSemaphore;
+
+foreign function SynWaitable* __SynCreateAutoEvent(bool signaled)
+    alias SystemCoreForeignFunctions.SynCreateAutoEvent;
+
+foreign function SynWaitable* __SynCreateManualEvent(bool signaled)
+    alias SystemCoreForeignFunctions.SynCreateManualEvent;
+
+foreign function bool __SynSignalEvent(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynSignalEvent;
+
+foreign function bool __SynUnsignalEvent(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynUnsignalEvent;
+
+foreign function bool __SynDisposeWaitable(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynDisposeWaitable;
+
+foreign function bool __SynWait(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynWait;
+
+foreign function bool __SynWaitForTime(SynWaitable* w, int ms)
+    alias SystemCoreForeignFunctions.SynWaitForTime;
