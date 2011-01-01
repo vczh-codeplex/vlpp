@@ -24,6 +24,14 @@ structure ThreadProcArguments
     Thread* thread;
 }
 
+variable ThreadLocalData mainThreadLocalData = InitializeMainThreadLocalData();
+
+function ThreadLocalData InitializeMainThreadLocalData()
+{
+    result.thread=null;
+    stackdata=&mainThreadLocalData;
+}
+
 function void ThreadProc(void* arguments)
 {
     variable ThreadProcArguments* tpa=cast<ThreadProcArguments*>(arguments);
@@ -103,7 +111,7 @@ function bool SynWaitThread(SynThread* thread)
 }
 
 #public
-function bool SynWaitThreadForTIme(SynThread* thread, int ms)
+function bool SynWaitThreadForTime(SynThread* thread, int ms)
 {
     result=__SynWaitForTime(cast<Thread*>(thread)->thread, ms);
 }
