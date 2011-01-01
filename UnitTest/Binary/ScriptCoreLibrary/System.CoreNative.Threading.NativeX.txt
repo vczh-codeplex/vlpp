@@ -1,0 +1,123 @@
+unit Threading;
+
+uses ForeignFunctions, MemoryManager;
+
+#public
+structure SynThread
+{
+}
+
+structure Thread
+{
+    SynWaitable* thread;
+}
+
+structure ThreadLocalData
+{
+    Thread* thread;
+}
+
+structure ThreadProcArguments
+{
+    function void(void*) procedure;
+    void* arguments;
+    Thread* thread;
+}
+
+function void ThreadProc(void* arguments)
+{
+    variable ThreadProcArguments* tpa=cast<ThreadProcArguments*>(arguments);
+    variable ThreadLocalData localData;
+    localData.thread=tpa->thread;
+    stackdata=&localData;
+    tpa->procedure(tpa->arguments);
+    MemFree(tpa);
+}
+
+#public
+function SynThread* SynCreateThread(function void(void*) procedure, void* arguments)
+{
+    variable ThreadProcArguments* tpa=cast<ThreadProcArguments*>(MemAlloc(sizeof(ThreadProcArguments)));
+    variable Thread* thread=cast<Thread*>(MemAlloc(sizeof(Thread)));
+    tpa->procedure=procedure;
+    tpa->arguments=arguments;
+    tpa->thread=thread;
+
+    thread->thread=__SynCreateThread(ThreadProc, tpa);
+    if(thread->thread==null)
+    {
+        MemFree(tpa);
+        MemFree(thread);
+        result=null;
+    }
+    else if(!__SynStartThread(thread->thread))
+    {
+        __SynDisposeWaitable(thread->thread);
+        MemFree(tpa);
+        MemFree(thread);
+        result=null;
+    }
+    else
+    {
+        result=cast<SynThread*>(thread);
+    }
+}
+
+#public
+function bool SynPauseAndWaitThread(SynThread* thread)
+{
+    result=__SynPauseAndWaitThread(cast<Thread*>(thread)->thread);
+}
+
+#public
+function bool SynResumeThread(SynThread* thread)
+{
+    result=__SynResumeThread(cast<Thread*>(thread)->thread);
+}
+
+#public
+function bool SynStopAndWaitThread(SynThread* thread)
+{
+    result=__SynStopAndWaitThread(cast<Thread*>(thread)->thread);
+}
+
+#public
+function bool SynDisposeThread(SynThread* thread)
+{
+    variable Thread* info=cast<Thread*>(thread);
+    if(__SynDisposeWaitable(info->thread))
+    {
+        MemFree(info);
+        result=true;
+    }
+    else
+    {
+        result=false;
+    }
+}
+
+#public
+function bool SynWaitThread(SynThread* thread)
+{
+    result=__SynWait(cast<Thread*>(thread)->thread);
+}
+
+#public
+function bool SynWaitThreadForTIme(SynThread* thread, int ms)
+{
+    result=__SynWaitForTime(cast<Thread*>(thread)->thread, ms);
+}
+
+#public
+function SynThread* SynGetCurrentThread()
+{
+    if(stackdata==null)
+    {
+        result=null;
+    }
+    else
+    {
+        variable ThreadLocalData* localData=cast<ThreadLocalData*>(stackdata);
+        result=cast<SynThread*>(localData->thread);
+    }
+}

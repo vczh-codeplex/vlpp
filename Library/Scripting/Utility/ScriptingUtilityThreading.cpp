@@ -271,20 +271,28 @@ namespace vl
 					if(interpretor->Symbols()->IsValidILIndex(stack->GetInterpretor()->Symbols()->GetLabel(label).key))
 					{
 						SynThread* thread=new SynThread(stack->GetInterpretor(), label, arguments);
-						if(thread->Start())
-						{
-							vint handle=plugin->waitables.Alloc(thread);
-							reader.Result<vint>()=handle;
-						}
-						else
-						{
-							delete thread;
-							reader.Result<vint>()=0;
-						}
+						vint handle=plugin->waitables.Alloc(thread);
+						thread->SetPlugin(handle, plugin);
+						reader.Result<vint>()=handle;
 					}
 					else
 					{
 						reader.Result<vint>()=0;
+					}
+				}
+				END_FOREIGN_FUNCTION
+
+				BEGIN_FOREIGN_FUNCTION(SynStartThread, SystemCoreThreadingPlugin)
+				{
+					vint handle=reader.NextArgument<vint>();
+					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
+					if(thread)
+					{
+						reader.Result<bool>()=thread->Start();
+					}
+					else
+					{
+						reader.Result<bool>()=false;
 					}
 				}
 				END_FOREIGN_FUNCTION
@@ -347,6 +355,9 @@ namespace vl
 					Ptr<BasicILStack>			stack;
 					vint						procedureLabel;
 					void*						procedureArguments;
+
+					vint						handle;
+					SystemCoreThreadingPlugin*	plugin;
 
 					volatile bool				finished;
 					volatile bool				running;
@@ -413,9 +424,17 @@ namespace vl
 						,finished(false)
 						,running(false)
 						,runningResult(ILException::Finished)
+						,handle(0)
+						,plugin(0)
 					{
 						eventPausing.CreateManualUnsignal(true);
 						stack=new BasicILStack(interpretor);
+					}
+
+					void SetPlugin(vint _handle, SystemCoreThreadingPlugin* _plugin)
+					{
+						handle=_handle;
+						plugin=_plugin;
 					}
 
 					EventObject* GetPausingEvent()
@@ -487,6 +506,7 @@ namespace vl
 						REGISTER_FOREIGN_FUNCTION(SynWait) &&
 						REGISTER_FOREIGN_FUNCTION(SynWaitForTime) &&
 						REGISTER_FOREIGN_FUNCTION(SynCreateThread) &&
+						REGISTER_FOREIGN_FUNCTION(SynStartThread) &&
 						REGISTER_FOREIGN_FUNCTION(SynPauseAndWaitThread) &&
 						REGISTER_FOREIGN_FUNCTION(SynResumeThread) &&
 						REGISTER_FOREIGN_FUNCTION(SynStopAndWaitThread);

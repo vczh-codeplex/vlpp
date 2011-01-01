@@ -594,8 +594,8 @@ BasicLanguage_GetExpressionType
 									}
 								}
 							}
+							argument.errors.Add(BasicLanguageCodeException::GetFailToCast(node));
 						}
-						argument.errors.Add(BasicLanguageCodeException::GetFailToCast(node));
 						return 0;
 					}
 					catch(Ptr<BasicLanguageCodeException> e)
