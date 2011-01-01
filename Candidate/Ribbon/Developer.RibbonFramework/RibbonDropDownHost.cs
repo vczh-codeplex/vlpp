@@ -14,7 +14,7 @@ namespace Developer.RibbonFramework
         {
             public DoubleBufferedPanel()
             {
-                this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                this.DoubleBuffered = true;
             }
         }
 
