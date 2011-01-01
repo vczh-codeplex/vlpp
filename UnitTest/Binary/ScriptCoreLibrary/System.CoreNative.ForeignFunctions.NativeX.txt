@@ -79,3 +79,15 @@ foreign function bool __SynWait(SynWaitable* w)
 
 foreign function bool __SynWaitForTime(SynWaitable* w, int ms)
     alias SystemCoreForeignFunctions.SynWaitForTime;
+
+foreign function SynWaitable* __SynCreateThread(function void(void*) procedure, void* arguments)
+    alias SystemCoreForeignFunctions.SynCreateThread;
+
+foreign function bool __SynPauseAndWaitThread(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynPauseAndWaitThread;
+
+foreign function bool __SynResumeThread(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynResumeThread;
+
+foreign function bool __SynStopAndWaitThread(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynStopAndWaitThread;

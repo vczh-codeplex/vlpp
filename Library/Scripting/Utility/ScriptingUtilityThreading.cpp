@@ -95,7 +95,7 @@ namespace vl
 					else
 					{
 						delete mutex;
-						reader.Result<vint>()=-1;
+						reader.Result<vint>()=0;
 					}
 				}
 				END_FOREIGN_FUNCTION
@@ -128,7 +128,7 @@ namespace vl
 					else
 					{
 						delete semaphore;
-						reader.Result<vint>()=-1;
+						reader.Result<vint>()=0;
 					}
 				}
 				END_FOREIGN_FUNCTION
@@ -161,7 +161,7 @@ namespace vl
 					else
 					{
 						delete eventObject;
-						reader.Result<vint>()=-1;
+						reader.Result<vint>()=0;
 					}
 				}
 				END_FOREIGN_FUNCTION
@@ -178,7 +178,7 @@ namespace vl
 					else
 					{
 						delete eventObject;
-						reader.Result<vint>()=-1;
+						reader.Result<vint>()=0;
 					}
 				}
 				END_FOREIGN_FUNCTION
@@ -262,6 +262,211 @@ namespace vl
 
 				/*----------------------------------------------------------------------*/
 
+				BEGIN_FOREIGN_FUNCTION(SynCreateThread, SystemCoreThreadingPlugin)
+				{
+					vint label=reader.NextArgument<vint>();
+					void* arguments=reader.NextArgument<void*>();
+					CriticalSection::Scope scope(stack->GetInterpretor()->GetCriticalSection());
+					
+					if(interpretor->Symbols()->IsValidILIndex(stack->GetInterpretor()->Symbols()->GetLabel(label).key))
+					{
+						SynThread* thread=new SynThread(stack->GetInterpretor(), label, arguments);
+						if(thread->Start())
+						{
+							vint handle=plugin->waitables.Alloc(thread);
+							reader.Result<vint>()=handle;
+						}
+						else
+						{
+							delete thread;
+							reader.Result<vint>()=0;
+						}
+					}
+					else
+					{
+						reader.Result<vint>()=0;
+					}
+				}
+				END_FOREIGN_FUNCTION
+
+				BEGIN_FOREIGN_FUNCTION(SynPauseAndWaitThread, SystemCoreThreadingPlugin)
+				{
+					vint handle=reader.NextArgument<vint>();
+					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
+					if(thread && thread->IsRunning())
+					{
+						thread->SetPauseSignal();
+						thread->GetPausingEvent()->Wait();
+						reader.Result<bool>()=true;
+					}
+					else
+					{
+						reader.Result<bool>()=false;
+					}
+				}
+				END_FOREIGN_FUNCTION
+
+				BEGIN_FOREIGN_FUNCTION(SynResumeThread, SystemCoreThreadingPlugin)
+				{
+					vint handle=reader.NextArgument<vint>();
+					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
+					if(thread && !thread->IsRunning())
+					{
+						thread->SetResumeSignal();
+						reader.Result<bool>()=true;
+					}
+					else
+					{
+						reader.Result<bool>()=false;
+					}
+				}
+				END_FOREIGN_FUNCTION
+
+				BEGIN_FOREIGN_FUNCTION(SynStopAndWaitThread, SystemCoreThreadingPlugin)
+				{
+					vint handle=reader.NextArgument<vint>();
+					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
+					if(thread && thread->IsRunning())
+					{
+						thread->SetStopSignal();
+						thread->GetPausingEvent()->Wait();
+						reader.Result<bool>()=true;
+					}
+					else
+					{
+						reader.Result<bool>()=false;
+					}
+				}
+				END_FOREIGN_FUNCTION
+
+				class SynThread : public Thread
+				{
+				protected:
+					EventObject					eventPausing;
+					BasicILInterpretor*			interpretor;
+					Ptr<BasicILStack>			stack;
+					vint						procedureLabel;
+					void*						procedureArguments;
+
+					volatile bool				finished;
+					volatile bool				running;
+					volatile bool				needToStop;
+					ILException::RunningResult	runningResult;
+
+					void Run()
+					{
+						BasicILLabel label;
+						{
+							CriticalSection::Scope scope(interpretor->GetCriticalSection());
+							label=interpretor->Symbols()->GetLabel(procedureLabel);
+						}
+						if(interpretor->Symbols()->IsValidILIndex(label.key))
+						{
+							stack->GetEnv()->Push<void*>(procedureArguments);
+							stack->ResetBuffer(label.instruction, label.key, 0);
+							while(true)
+							{
+								eventPausing.Unsignal();
+								running=true;
+								bool needToPause=false;
+
+								ILException::RunningResult result=stack->Run();
+								switch(result)
+								{
+								case ILException::Paused:
+									if(!needToStop)
+									{
+										needToPause=true;
+										break;
+									}
+								default:
+									{
+										finished=true;
+										running=false;
+										runningResult=result;
+									}
+								}
+
+								running=false;
+								eventPausing.Signal();
+								if(needToPause)
+								{
+									Pause();
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+						else
+						{
+							running=false;
+							runningResult=ILException::UnknownInstruction;
+						}
+					}
+				public:
+					SynThread(BasicILInterpretor* _interpretor, vint _label, void* _arguments)
+						:interpretor(_interpretor)
+						,procedureLabel(_label)
+						,procedureArguments(_arguments)
+						,finished(false)
+						,running(false)
+						,runningResult(ILException::Finished)
+					{
+						eventPausing.CreateManualUnsignal(true);
+						stack=new BasicILStack(interpretor);
+					}
+
+					EventObject* GetPausingEvent()
+					{
+						return &eventPausing;
+					}
+
+					BasicILInterpretor* GetInterpretor()
+					{
+						return interpretor;
+					}
+
+					BasicILStack* GetStack()
+					{
+						return stack.Obj();
+					}
+
+					bool IsFinished()
+					{
+						return finished;
+					}
+
+					bool IsRunning()
+					{
+						return running;
+					}
+
+					ILException::RunningResult GetRunningResult()
+					{
+						return runningResult;
+					}
+
+					void SetPauseSignal()
+					{
+						stack->Pause();
+					}
+
+					void SetStopSignal()
+					{
+						needToStop=true;
+						stack->Pause();
+					}
+
+					void SetResumeSignal()
+					{
+						Resume();
+					}
+				};
+
+				/*----------------------------------------------------------------------*/
+
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
@@ -280,7 +485,11 @@ namespace vl
 						REGISTER_FOREIGN_FUNCTION(SynUnsignalEvent) &&
 						REGISTER_FOREIGN_FUNCTION(SynDisposeWaitable) &&
 						REGISTER_FOREIGN_FUNCTION(SynWait) &&
-						REGISTER_FOREIGN_FUNCTION(SynWaitForTime);
+						REGISTER_FOREIGN_FUNCTION(SynWaitForTime) &&
+						REGISTER_FOREIGN_FUNCTION(SynCreateThread) &&
+						REGISTER_FOREIGN_FUNCTION(SynPauseAndWaitThread) &&
+						REGISTER_FOREIGN_FUNCTION(SynResumeThread) &&
+						REGISTER_FOREIGN_FUNCTION(SynStopAndWaitThread);
 				}
 			public:
 				SystemCoreThreadingPlugin()

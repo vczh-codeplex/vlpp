@@ -360,6 +360,7 @@ BasicILStack
 			
 			BasicILStack::BasicILStack(BasicILInterpretor* _interpretor)
 				:interpretor(_interpretor)
+				,needToPause(false)
 			{
 				env=new BasicILEnv(interpretor->GetStackSize());
 				env->ReserveTop(BasicILStack::StackDataSize);
@@ -376,6 +377,21 @@ BasicILStack
 			BasicILEnv* BasicILStack::GetEnv()
 			{
 				return env;
+			}
+
+			BasicILInterpretor* BasicILStack::GetInterpretor()
+			{
+				return interpretor;
+			}
+
+			vint BasicILStack::GetInstruction()
+			{
+				return instruction;
+			}
+
+			vint BasicILStack::GetInsKey()
+			{
+				return insKey;
 			}
 
 			void BasicILStack::Reset(vint entryInstruction, vint entryInsKey, vint returnSize)
@@ -404,14 +420,9 @@ BasicILStack
 				insKey=entryInsKey;
 			}
 
-			vint BasicILStack::GetInstruction()
+			void BasicILStack::Pause()
 			{
-				return instruction;
-			}
-
-			vint BasicILStack::GetInsKey()
-			{
-				return insKey;
+				needToPause=true;
 			}
 
 #define DO_NOT_MOVE_TO_NEXT_INSTRUCTION		\
@@ -420,11 +431,16 @@ BasicILStack
 
 			ILException::RunningResult BasicILStack::Run()
 			{
+				needToPause=false;
 				try
 				{
 					while(instruction!=-1)
 					{
-						if(!interpretor->Symbols()->IsValidILIndex(insKey))
+						if(needToPause)
+						{
+							return ILException::Paused;
+						}
+						else if(!interpretor->Symbols()->IsValidILIndex(insKey))
 						{
 							return ILException::InstructionIndexOutOfRange;
 						}
