@@ -1328,11 +1328,11 @@
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Make.txt">
       <Filter>TestFiles\NativeX\Others</Filter>
     </None>
-    <None Include="..\Binary\ScriptCoreLibrary\Header.CoreNative.Synchronization.NativeX.txt">
-      <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
-    </None>
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunSynchronizationSingleThread.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Synchronization.NativeX.txt">
+      <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

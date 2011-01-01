@@ -283,7 +283,7 @@
     <None Include="..\..\Library\Scripting\Languages\BasicFunctionExecutor.h.fpm" />
     <None Include="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt" />
-    <None Include="..\Binary\ScriptCoreLibrary\Header.CoreNative.Synchronization.NativeX.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Synchronization.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.MemoryManager.NativeX.txt" />

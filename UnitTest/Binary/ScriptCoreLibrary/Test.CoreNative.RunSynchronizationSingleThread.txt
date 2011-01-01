@@ -1,6 +1,6 @@
 unit RunSynchronizationSingleThread;
 
-uses synchronization, sysutnat;
+uses syscrnat, sysutnat;
 
 function void TestCase_RunCriticalSectionSingleThread()
 {
