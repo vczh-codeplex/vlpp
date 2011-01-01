@@ -36,8 +36,6 @@ namespace vl
 	protected:
 
 		WaitableObject();
-		~WaitableObject();
-
 		void										SetData(threading_internal::WaitableData* data);
 	public:
 

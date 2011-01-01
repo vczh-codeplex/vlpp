@@ -13,6 +13,8 @@ Classes:
 #include "..\..\Basic.h"
 #include "..\..\Exception.h"
 #include "..\..\Pointer.h"
+#include "..\..\Threading.h"
+#include "..\..\Collections\List.h"
 
 namespace vl
 {
@@ -28,6 +30,11 @@ namespace vl
 
 		namespace utility
 		{
+
+/***********************************************************************
+LanguagePlugin
+***********************************************************************/
+
 			class LanguagePlugin : public Object
 			{
 			protected:
@@ -44,6 +51,10 @@ namespace vl
 				bool							Install(basicil::BasicILInterpretor* interpretor);
 				bool							Install(basicil::BasicILLinker* linker);
 			};
+
+/***********************************************************************
+LanguageArgumentReader
+***********************************************************************/
 
 			class LanguageArgumentReader : public Object
 			{
@@ -80,14 +91,124 @@ namespace vl
 				}
 			};
 
+/***********************************************************************
+LanguagePluginException
+***********************************************************************/
+
 			class LanguagePluginException : public Exception
 			{
 			public:
 				LanguagePluginException(const WString& message);
 			};
 
+/***********************************************************************
+LanguageHandleList
+***********************************************************************/
+
+			template<typename T>
+			class LanguageHandleList : public Object
+			{
+			protected:
+				collections::List<T*>		handles;
+				collections::List<vint>		freeList;
+				CriticalSection				cs;
+			public:
+				LanguageHandleList()
+				{
+				}
+
+				~LanguageHandleList()
+				{
+					for(vint i=0;i<handles.Count();i++)
+					{
+						if(handles[i])
+						{
+							delete handles[i];
+						}
+					}
+				}
+
+				T* GetHandle(vint index)
+				{
+					index--;
+					if(index>=0 && index<handles.Count())
+					{
+						return handles[index];
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				vint Alloc(T* handle)
+				{
+					CriticalSection::Scope scope(cs);
+					if(freeList.Count()>0)
+					{
+						vint index=freeList[freeList.Count()-1];
+						freeList.RemoveAt(freeList.Count()-1);
+						handles[index]=handle;
+						return index+1;
+					}
+					else
+					{
+						handles.Add(handle);
+						return handles.Count();
+					}
+				}
+
+				bool Free(vint index)
+				{
+					index--;
+					CriticalSection::Scope scope(cs);
+					if(index>=0 && index<handles.Count() && handles[index])
+					{
+						delete handles[index];
+						handles[index]=0;
+						freeList.Add(index);
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+			};
+
+/***********************************************************************
+¸¨Öúºê
+***********************************************************************/
+
+#define BEGIN_FOREIGN_FUNCTION(NAME, PLUGIN)\
+			class NAME : public Object, public IBasicILForeignFunction\
+			{\
+			protected:\
+				PLUGIN*			plugin;\
+			public:\
+				NAME(PLUGIN* _plugin)\
+					:plugin(_plugin)\
+				{\
+				}\
+				\
+				void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)\
+				{\
+					LanguageArgumentReader reader(result, arguments, stack);
+
+#define END_FOREIGN_FUNCTION\
+				}\
+			};
+
+#define REGISTER_FOREIGN_FUNCTION(NAME)\
+			symbol->RegisterForeignFunction(L"SystemCoreForeignFunctions", L#NAME, new NAME(this))
+
+/***********************************************************************
+¸¨Öúº¯Êý
+***********************************************************************/
+
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
 			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(*printer)(bool, wchar_t*));
+			extern Ptr<LanguagePlugin>		CreateThreadingPlugin();
 		}
 	}
 }

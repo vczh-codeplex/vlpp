@@ -1,0 +1,57 @@
+unit synchronization;
+
+structure SynCriticalSection
+{
+}
+
+structure SynWaitable
+{
+}
+
+foreign function SynCriticalSection* SynCreateCriticalSection()
+    alias SystemCoreForeignFunctions.SynCreateCriticalSection;
+
+foreign function bool SynDisposeCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynDisposeCriticalSection;
+
+foreign function bool SynTryEnterCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynTryEnterCriticalSection;
+
+foreign function bool SynEnterCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynEnterCriticalSection;
+
+foreign function bool SynLeaveCriticalSection(SynCriticalSection* cs)
+    alias SystemCoreForeignFunctions.SynLeaveCriticalSection;
+
+foreign function SynWaitable* SynCreateMutex(bool owned)
+    alias SystemCoreForeignFunctions.SynCreateMutex;
+
+foreign function bool SynReleaseMutex(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynReleaseMutex;
+
+foreign function SynWaitable* SynCreateSemaphore(int init, int max)
+    alias SystemCoreForeignFunctions.SynCreateSemaphore;
+
+foreign function bool SynReleaseSemaphore(SynWaitable* w, int count)
+    alias SystemCoreForeignFunctions.SynReleaseSemaphore;
+
+foreign function SynWaitable* SynCreateAutoEvent(bool signaled)
+    alias SystemCoreForeignFunctions.SynCreateAutoEvent;
+
+foreign function SynWaitable* SynCreateManualEvent(bool signaled)
+    alias SystemCoreForeignFunctions.SynCreateManualEvent;
+
+foreign function bool SynSignalEvent(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynSignalEvent;
+
+foreign function bool SynUnsignalEvent(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynUnsignalEvent;
+
+foreign function bool SynDisposeWaitable(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynDisposeWaitable;
+
+foreign function bool SynWait(SynWaitable* w)
+    alias SystemCoreForeignFunctions.SynWait;
+
+foreign function bool SynWaitForTime(SynWaitable* w, int ms)
+    alias SystemCoreForeignFunctions.SynWaitForTime;

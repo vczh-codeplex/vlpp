@@ -7,3 +7,4 @@ DebugAssemblyOutput=Binary\Debug.syscrnat.txt
 
 Compile=System.CoreNative.ForeignFunctions.NativeX.txt
 Compile=System.CoreNative.MemoryManager.NativeX.txt
+Compile=Header.CoreNative.Synchronization.NativeX.txt

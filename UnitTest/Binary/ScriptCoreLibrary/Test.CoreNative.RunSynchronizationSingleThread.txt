@@ -1,0 +1,89 @@
+unit RunSynchronizationSingleThread;
+
+uses synchronization, sysutnat;
+
+function void TestCase_RunCriticalSectionSingleThread()
+{
+    variable SynCriticalSection* cs=SynCreateCriticalSection();
+    Assert(cs!=null, L"SynCreateCriticalSection should succeed");
+
+    Assert(SynEnterCriticalSection(cs), L"SynEnterCriticalSection should succeed");
+    Assert(SynLeaveCriticalSection(cs), L"SynLeaveCriticalSection should succeed");
+    Assert(SynTryEnterCriticalSection(cs), L"SynTryEnterCriticalSection should succeed");
+    Assert(SynLeaveCriticalSection(cs), L"SynLeaveCriticalSection should succeed");
+    Assert(SynDisposeCriticalSection(cs), L"SynDisposeCriticalSection should succeed");
+
+    Assert(!SynEnterCriticalSection(cs), L"SynEnterCriticalSection on disposed object should fail");
+    Assert(!SynLeaveCriticalSection(cs), L"SynLeaveCriticalSection on disposed object should fail");
+    Assert(!SynTryEnterCriticalSection(cs), L"SynTryEnterCriticalSection on disposed object should fail");
+    Assert(!SynLeaveCriticalSection(cs), L"SynLeaveCriticalSection on disposed object should fail");
+    Assert(!SynDisposeCriticalSection(cs), L"SynDisposeCriticalSection on disposed object should fail");
+}
+
+function void TestCase_RunMutexSingleThread()
+{
+    variable SynWaitable* w=SynCreateMutex(true);
+    Assert(w!=null, L"SynCreateMutex should succeed");
+
+    Assert(SynReleaseMutex(w), L"SynReleaseMutex should succeed");
+    Assert(SynWait(w), L"SynWait should succeed");
+    Assert(SynReleaseMutex(w), L"SynReleaseMutex should succeed");
+    Assert(SynWaitForTime(w, 100), L"SynWaitForTime should succeed");
+    Assert(SynDisposeWaitable(w), L"SynDisposeWaitable should succeed");
+
+    Assert(!SynReleaseMutex(w), L"SynReleaseMutex on disposed object should fail");
+    Assert(!SynWait(w), L"SynWait on disposed object should fail");
+    Assert(!SynReleaseMutex(w), L"SynReleaseMutex on disposed object should fail");
+    Assert(!SynWaitForTime(w, 100), L"SynWaitForTime on disposed object should fail");
+    Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
+}
+
+function void TestCase_RunSemaphoreSingleThread()
+{
+    variable SynWaitable* w=SynCreateSemaphore(0, 1);
+    Assert(w!=null, L"SynCreateSemaphore should succeed");
+
+    Assert(SynReleaseSemaphore(w, 1), L"SynReleaseSemaphore should succeed");
+    Assert(SynWait(w), L"SynWait should succeed");
+    Assert(SynReleaseSemaphore(w, 1), L"SynReleaseSemaphore should succeed");
+    Assert(SynWaitForTime(w, 100), L"SynWaitForTime should succeed");
+    Assert(SynDisposeWaitable(w), L"SynDisposeWaitable should succeed");
+
+    Assert(!SynReleaseSemaphore(w, 1), L"SynReleaseSemaphore on disposed object should fail");
+    Assert(!SynWait(w), L"SynWait on disposed object should fail");
+    Assert(!SynReleaseSemaphore(w, 1), L"SynReleaseSemaphore on disposed object should fail");
+    Assert(!SynWaitForTime(w, 100), L"SynWaitForTime on disposed object should fail");
+    Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
+}
+
+function void TestCase_RunAutoEventSingleThread()
+{
+    variable SynWaitable* w=SynCreateAutoEvent(false);
+    Assert(w!=null, L"SynCreateAutoEvent should succeed");
+
+    Assert(SynSignalEvent(w), L"SynSignalEvent should succeed");
+    Assert(SynWait(w), L"SynWait should succeed");
+    Assert(SynUnsignalEvent(w), L"SynUnsignalEvent should succeed");
+    Assert(SynDisposeWaitable(w), L"SynDisposeWaitable should succeed");
+
+    Assert(!SynSignalEvent(w), L"SynSignalEvent on disposed object should fail");
+    Assert(!SynWait(w), L"SynWait on disposed object should fail");
+    Assert(!SynUnsignalEvent(w), L"SynUnsignalEvent on disposed object should fail");
+    Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
+}
+
+function void TestCase_RunManualEventSingleThread()
+{
+    variable SynWaitable* w=SynCreateManualEvent(false);
+    Assert(w!=null, L"SynCreateManualEvent should succeed");
+
+    Assert(SynSignalEvent(w), L"SynSignalEvent should succeed");
+    Assert(SynWait(w), L"SynWait should succeed");
+    Assert(SynUnsignalEvent(w), L"SynUnsignalEvent should succeed");
+    Assert(SynDisposeWaitable(w), L"SynDisposeWaitable should succeed");
+
+    Assert(!SynSignalEvent(w), L"SynSignalEvent on disposed object should fail");
+    Assert(!SynWait(w), L"SynWait on disposed object should fail");
+    Assert(!SynUnsignalEvent(w), L"SynUnsignalEvent on disposed object should fail");
+    Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
+}
