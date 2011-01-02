@@ -153,11 +153,6 @@ namespace Developer.WinFormControls
             {
                 PopupTooltip(new TextPosition(0, 0), null);
                 this.QuickInfoTooltipOpening = true;
-                var content = this.textEditorBox.ControlPanel.OnGetQuickInfoTooltip();
-                if (content != null)
-                {
-                    PopupQuickInfoTooltip(content.Item2, content.Item1);
-                }
             }
         }
 
