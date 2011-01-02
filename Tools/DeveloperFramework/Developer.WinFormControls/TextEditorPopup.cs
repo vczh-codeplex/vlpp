@@ -20,6 +20,7 @@ namespace Developer.WinFormControls
 
             private VScrollBar scrollBar = null;
             private ImageList imageList = null;
+            private Size[] cachedLetterSizes = null;
 
             private List<TextEditorPopupItem> items = null;
             private List<Bitmap> images = null;
@@ -106,15 +107,64 @@ namespace Developer.WinFormControls
                 this.needToDisposeImages = needToDisposeImages;
                 this.maxItems = maxItems;
 
-                Size[] sizes = null;
-                using (Graphics g = Graphics.FromHwnd(this.Handle))
                 {
-                    sizes = this.items.Select(i => TextRenderer.MeasureText(g, i.Text + (i.Snippet == null ? "" : SnippetTail), this.Font, new Size(0, 0), Flags)).ToArray();
+                    bool nonLetter = false;
+                    foreach (var item in items)
+                    {
+                        foreach (var c in item.Text)
+                        {
+                            if (!('A' <= c && c <= 'Z' || 'a' <= c || c <= 'z' || '0' <= c || c <= '9' || c == '_'))
+                            {
+                                nonLetter = true;
+                                break;
+                            }
+                        }
+                        if (nonLetter)
+                        {
+                            break;
+                        }
+                    }
+                    string[] itemTexts = this.items.Select(i => i.Text + (i.Snippet == null ? "" : SnippetTail)).ToArray();
+
+                    int maxHeight = 0;
+                    int maxWidth = 0;
+                    if (nonLetter)
+                    {
+                        string longestText = itemTexts.Aggregate("", (a, b) => (a.Length > b.Length ? a : b));
+                        Size sizeChar = TextRenderer.MeasureText("我", this.Font);
+                        Size longestSize = TextRenderer.MeasureText(longestText, this.Font);
+                        maxHeight = Math.Max(sizeChar.Height, longestSize.Height);
+                        maxWidth = longestText.Length * sizeChar.Width;
+                    }
+                    else
+                    {
+                        if (this.cachedLetterSizes == null)
+                        {
+                            string letters = "abcdefghijklmnopqrstuvwxyz";
+                            letters = letters + letters.ToUpper() + "_0123456789";
+                            int count = (int)letters.Max();
+                            this.cachedLetterSizes = new Size[count + 1];
+                            using (Graphics g = Graphics.FromHwnd(this.Handle))
+                            {
+                                foreach (var c in letters)
+                                {
+                                    this.cachedLetterSizes[(int)c] = TextRenderer.MeasureText(g, c.ToString(), this.Font, new Size(0, 0), TextFormatFlags.ExpandTabs | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
+                                }
+                            }
+                        }
+                        Size[] sizes = itemTexts.Select(i =>
+                            i.Select(c => this.cachedLetterSizes[(int)c])
+                            .Aggregate(new Size(0, 0), (a, b) => new Size(a.Width + b.Width, Math.Max(a.Height, b.Height)))
+                            ).ToArray();
+                        maxHeight = sizes.Select(s => s.Height).Max();
+                        maxWidth = (int)(sizes.Select(s => s.Width).Max() * 1.2);
+                    }
+
+                    this.itemHeight = 2 + Math.Max(maxHeight, this.images.Max(i => i.Height));
+                    this.itemTextOffset = 2 + this.images.Max(i => i.Width);
+                    this.itemWidth = this.itemTextOffset + 2 + maxWidth;
                 }
 
-                this.itemHeight = 2 + Math.Max(sizes.Max(s => s.Height), this.images.Max(i => i.Height));
-                this.itemTextOffset = 2 + this.images.Max(i => i.Width);
-                this.itemWidth = this.itemTextOffset + 2 + sizes.Max(s => s.Width);
                 if (items.Count <= maxItems)
                 {
                     this.scrollBar.Visible = false;
