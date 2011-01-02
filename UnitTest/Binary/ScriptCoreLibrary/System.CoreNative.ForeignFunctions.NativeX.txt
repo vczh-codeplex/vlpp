@@ -94,3 +94,6 @@ foreign function bool __SynResumeThread(SynWaitable* w)
 
 foreign function bool __SynStopAndWaitThread(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynStopAndWaitThread;
+
+foreign function void __SynSleep(int ms)
+    alias SystemCoreForeignFunctions.SynSleep;
