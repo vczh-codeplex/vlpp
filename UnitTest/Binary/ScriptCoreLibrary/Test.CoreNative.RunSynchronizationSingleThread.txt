@@ -87,3 +87,21 @@ function void TestCase_RunManualEventSingleThread()
     Assert(!SynUnsignalEvent(w), L"SynUnsignalEvent on disposed object should fail");
     Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
 }
+
+function void ThreadProcReturnThreadObject(void* arguments)
+{
+    SynSleep(1000);
+    variable SynThread** threadPointer=cast<SynThread**>(arguments);
+    *threadPointer=SynGetCurrentThread();
+}
+
+function void TestCase_RunThreadAndGetThreadObject()
+{
+    variable SynThread* threadPointer=null;
+    variable SynThread* thread=SynCreateThread(ThreadProcReturnThreadObject, &threadPointer);
+    Assert(thread!=null, L"SynCreateThread should succeed");
+    Assert(SynWaitThread(thread), L"SynWaitThread should succeed");
+    Assert(SynGetCurrentThread()==null, L"SynGetCurrentThread in main thread should return null");
+    Assert(thread==threadPointer, L"SynGetCurrentThread should succeed");
+    Assert(SynDisposeThread(thread), L"SynDisposeThread should succeed");
+}

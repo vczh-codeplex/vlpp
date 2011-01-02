@@ -347,6 +347,13 @@ namespace vl
 				}
 				END_FOREIGN_FUNCTION
 
+				BEGIN_FOREIGN_FUNCTION(SynSleep, SystemCoreThreadingPlugin)
+				{
+					vint ms=reader.NextArgument<vint>();
+					Thread::Sleep(ms);
+				}
+				END_FOREIGN_FUNCTION
+
 				class SynThread : public Thread
 				{
 				protected:
@@ -509,7 +516,8 @@ namespace vl
 						REGISTER_FOREIGN_FUNCTION(SynStartThread) &&
 						REGISTER_FOREIGN_FUNCTION(SynPauseAndWaitThread) &&
 						REGISTER_FOREIGN_FUNCTION(SynResumeThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynStopAndWaitThread);
+						REGISTER_FOREIGN_FUNCTION(SynStopAndWaitThread) &&
+						REGISTER_FOREIGN_FUNCTION(SynSleep);
 				}
 			public:
 				SystemCoreThreadingPlugin()

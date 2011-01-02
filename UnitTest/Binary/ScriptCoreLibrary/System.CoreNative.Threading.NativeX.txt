@@ -90,6 +90,12 @@ function bool SynStopAndWaitThread(SynThread* thread)
 }
 
 #public
+function void SynSleep(int ms)
+{
+    __SynSleep(ms);
+}
+
+#public
 function bool SynDisposeThread(SynThread* thread)
 {
     variable Thread* info=cast<Thread*>(thread);
