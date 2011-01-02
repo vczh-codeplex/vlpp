@@ -1191,6 +1191,11 @@ namespace Test.DeveloperComponent
             }
         }
 
+        public int GetFirstVisibleChar(int line)
+        {
+            return 0;
+        }
+
         public void Dispose()
         {
             this.provider.Dispose();

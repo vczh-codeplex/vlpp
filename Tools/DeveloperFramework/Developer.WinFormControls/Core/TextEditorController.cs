@@ -18,6 +18,7 @@ namespace Developer.WinFormControls.Core
 
         TextPosition GetLeftWord(TextPosition caret);
         TextPosition GetRightWord(TextPosition caret);
+        int GetFirstVisibleChar(int line);
         int GetLeftBlock(TextPosition caret);
         int GetRightBlock(TextPosition caret);
         Tuple<int, int> GetBlock(TextPosition caret);
@@ -156,7 +157,12 @@ namespace Developer.WinFormControls.Core
             }
             else
             {
-                Move(new TextPosition(this.SelectionCaret.row, 0), false, shift);
+                int col = this.provider.GetFirstVisibleChar(this.SelectionCaret.row);
+                if (this.SelectionCaret.col == col)
+                {
+                    col = 0;
+                }
+                Move(new TextPosition(this.SelectionCaret.row, col), false, shift);
             }
         }
 

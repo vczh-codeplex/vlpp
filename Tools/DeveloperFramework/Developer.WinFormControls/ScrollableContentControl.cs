@@ -238,10 +238,11 @@ namespace Developer.WinFormControls
             {
                 Rectangle bounds = panelContent.Bounds;
                 Rectangle area = new Rectangle(this.viewPosition, this.ViewVisibleSize);
-                area.X += e.ClipRectangle.Left - bounds.Left;
-                area.Y += e.ClipRectangle.Top - bounds.Top;
-                area.Size = e.ClipRectangle.Size;
-                this.content.RenderContent(e.Graphics, area, e.ClipRectangle);
+                Rectangle clip = area;
+                clip.X += e.ClipRectangle.Left - bounds.Left;
+                clip.Y += e.ClipRectangle.Top - bounds.Top;
+                clip.Size = e.ClipRectangle.Size;
+                this.content.RenderContent(e.Graphics, area, clip, panelContent.Bounds);
             }
         }
 
@@ -347,6 +348,6 @@ namespace Developer.WinFormControls
     public interface IScrollableContent : IDisposable
     {
         void Initialize(Control host, ScrollableContentControl control);
-        void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds);
+        void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle clippedViewVisibleBounds, Rectangle viewAreaBounds);
     }
 }
