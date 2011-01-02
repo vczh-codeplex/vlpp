@@ -290,7 +290,7 @@ namespace Tools.TokenizerBuilder
                 }
             }
 
-            public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds)
+            public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle clippedViewVisibleBounds, Rectangle viewAreaBounds)
             {
                 g.FillRectangle(Brushes.White, viewAreaBounds);
                 this.Manager.Draw(g, this.editor.Font, new Size(-viewVisibleBounds.X, -viewVisibleBounds.Y));

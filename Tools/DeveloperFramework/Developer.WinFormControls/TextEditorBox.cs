@@ -210,6 +210,7 @@ namespace Developer.WinFormControls
                 {
                     case RedrawLine:
                         this.host.Invalidate(this.redrawLineBounds);
+                        this.Update();
                         break;
                     case RedrawInvalidate:
                         this.host.Invalidate();
@@ -1083,6 +1084,22 @@ namespace Developer.WinFormControls
             return this.controlPanel.GetRightWord(caret);
         }
 
+        int ITextContentProvider.GetFirstVisibleChar(int row)
+        {
+            if (row >= 0 && row < this.textProvider.Count)
+            {
+                var line = this.textProvider[row];
+                for (int i = 0; i < line.CharCount; i++)
+                {
+                    if (!char.IsWhiteSpace(line.CharArray[i]))
+                    {
+                        return i;
+                    }
+                }
+            }
+            return 0;
+        }
+
         int ITextContentProvider.GetLeftBlock(TextPosition caret)
         {
             return this.textProvider[caret.row].GetLeftBlock(caret.col);
@@ -1482,10 +1499,10 @@ namespace Developer.WinFormControls
                 this.textEditorBox.host = this.host;
             }
 
-            public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle viewAreaBounds)
+            public void RenderContent(Graphics g, Rectangle viewVisibleBounds, Rectangle clippedViewVisibleBounds, Rectangle viewAreaBounds)
             {
-                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
-                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (viewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
+                int startLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (clippedViewVisibleBounds.Top - EditorMargin) / this.textEditorBox.lineHeight);
+                int endLine = Math.Min(this.textEditorBox.textProvider.Count - 1, (clippedViewVisibleBounds.Bottom - EditorMargin) / this.textEditorBox.lineHeight);
                 RenderContentRange(g, viewVisibleBounds, viewAreaBounds, startLine, endLine);
             }
 
