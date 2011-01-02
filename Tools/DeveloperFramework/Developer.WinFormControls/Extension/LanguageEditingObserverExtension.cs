@@ -89,6 +89,7 @@ namespace Developer.WinFormControls.Extension
 
         #region Reaction Functions
 
+        // TextBox position to EditingNodeCode position
         public TextPosition CodePositionToEditing(TextPosition pos)
         {
             if (pos.row == this.EditingNodeStart.row)
@@ -99,6 +100,7 @@ namespace Developer.WinFormControls.Extension
             return pos;
         }
 
+        // EditingNodeCode position to TextBox position
         public TextPosition CodePositionToGlobal(TextPosition pos)
         {
             if (pos.row == 0)
@@ -111,6 +113,7 @@ namespace Developer.WinFormControls.Extension
             }
         }
 
+        // TextBox position to EditingNode position
         public TextPosition NodePositionToEditing(TextPosition pos)
         {
             if (this.IsTemporaryEditingNode)
@@ -123,6 +126,7 @@ namespace Developer.WinFormControls.Extension
             }
         }
 
+        // EditingNode position to TextBox position
         public TextPosition NodePositionToGlobal(TextPosition pos)
         {
             if (this.IsTemporaryEditingNode)
