@@ -32,51 +32,67 @@ structure SynWaitable
 {
 }
 
+#public
 foreign function SynCriticalSection* __SynCreateCriticalSection()
     alias SystemCoreForeignFunctions.SynCreateCriticalSection;
-
+    
+#public
 foreign function bool __SynDisposeCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynDisposeCriticalSection;
-
+    
+#public
 foreign function bool __SynTryEnterCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynTryEnterCriticalSection;
-
+    
+#public
 foreign function bool __SynEnterCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynEnterCriticalSection;
-
+    
+#public
 foreign function bool __SynLeaveCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynLeaveCriticalSection;
-
+    
+#public
 foreign function SynWaitable* __SynCreateMutex(bool owned)
     alias SystemCoreForeignFunctions.SynCreateMutex;
-
+    
+#public
 foreign function bool __SynReleaseMutex(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynReleaseMutex;
-
+    
+#public
 foreign function SynWaitable* __SynCreateSemaphore(int init, int max)
     alias SystemCoreForeignFunctions.SynCreateSemaphore;
-
+    
+#public
 foreign function bool __SynReleaseSemaphore(SynWaitable* w, int count)
     alias SystemCoreForeignFunctions.SynReleaseSemaphore;
-
+    
+#public
 foreign function SynWaitable* __SynCreateAutoEvent(bool signaled)
     alias SystemCoreForeignFunctions.SynCreateAutoEvent;
-
+    
+#public
 foreign function SynWaitable* __SynCreateManualEvent(bool signaled)
     alias SystemCoreForeignFunctions.SynCreateManualEvent;
-
+    
+#public
 foreign function bool __SynSignalEvent(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynSignalEvent;
-
+    
+#public
 foreign function bool __SynUnsignalEvent(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynUnsignalEvent;
-
+    
+#public
 foreign function bool __SynDisposeWaitable(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynDisposeWaitable;
-
+    
+#public
 foreign function bool __SynWait(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynWait;
-
+    
+#public
 foreign function bool __SynWaitForTime(SynWaitable* w, int ms)
     alias SystemCoreForeignFunctions.SynWaitForTime;
 
@@ -94,6 +110,7 @@ foreign function bool __SynResumeThread(SynWaitable* w)
 
 foreign function bool __SynStopAndWaitThread(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynStopAndWaitThread;
-
+    
+#public
 foreign function void __SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
