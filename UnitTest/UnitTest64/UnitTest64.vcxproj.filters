@@ -450,6 +450,9 @@
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityThreading.cpp">
       <Filter>Library3\Scripting\Utility\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityStdlib.cpp">
+      <Filter>Library3\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

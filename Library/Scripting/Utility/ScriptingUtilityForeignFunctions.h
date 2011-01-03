@@ -177,6 +177,54 @@ LanguageHandleList
 			};
 
 /***********************************************************************
+¸¨Öúº¯Êý
+***********************************************************************/
+
+			template<typename T>
+			struct LightFunctionMaker
+			{
+			};
+
+			template<typename P1, typename R>
+			struct LightFunctionMaker<R(P1)>
+			{
+				template<R(f)(P1)>
+				static vint Function(void* result, void* argument)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					*(R*)(result)=f(a1);
+					return sizeof(P1);
+				}
+			};
+
+			template<typename P1, typename P2, typename R>
+			struct LightFunctionMaker<R(P1, P2)>
+			{
+				template<R(f)(P1, P2)>
+				static vint Function(void* result, void* argument)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					*(R*)(result)=f(a1, a2);
+					return sizeof(P1);
+				}
+			};
+
+			template<typename P1, typename P2, typename P3, typename R>
+			struct LightFunctionMaker<R(P1, P2, P3)>
+			{
+				template<R(f)(P1, P2, P3)>
+				static vint Function(void* result, void* argument)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					*(R*)(result)=f(a1, a2, a3);
+					return sizeof(P1);
+				}
+			};
+
+/***********************************************************************
 ¸¨Öúºê
 ***********************************************************************/
 
@@ -202,13 +250,17 @@ LanguageHandleList
 #define REGISTER_FOREIGN_FUNCTION(NAME)\
 			symbol->RegisterForeignFunction(L"SystemCoreForeignFunctions", L#NAME, new NAME(this))
 
+#define REGISTER_LIGHT_FUNCTION(NAME, TYPE, FUNC)\
+			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, &LightFunctionMaker<TYPE>::Function<FUNC>)
+
 /***********************************************************************
-¸¨Öúº¯Êý
+²å¼þº¯Êý
 ***********************************************************************/
 
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
 			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(*printer)(bool, wchar_t*));
 			extern Ptr<LanguagePlugin>		CreateThreadingPlugin();
+			extern Ptr<LanguagePlugin>		CreateStdlibPlugin();
 		}
 	}
 }
