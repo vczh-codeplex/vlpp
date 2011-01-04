@@ -250,7 +250,7 @@ GeneralObjectPool
 			}
 			else
 			{
-				content.poolContainer.pools.bigObjectPool=new BigObjectPool(poolUnitSize, 32);
+				content.poolContainer.pools.bigObjectPool=new BigObjectPool(poolUnitSize, 96);
 			}
 
 			PoolNode* node=poolTree.Insert(content);
@@ -343,43 +343,11 @@ GeneralObjectPool
 			return 0;
 		}
 
-		GeneralObjectPool::GeneralObjectPool(vint _poolUnitSize, vint _poolUnitCount)
-			:poolUnitSize(_poolUnitSize)
-			,poolUnitCount(_poolUnitCount)
-			,poolNodeAllocator(_poolUnitCount)
-			,poolTree(&poolNodeAllocator)
-			,pool8(8)
-			,pool16(16)
-			,pool32(32)
-			,pool64(64)
-			,pool96(96)
-			,poolLarge(-1)
-		{
-		}
+/***********************************************************************
+GeneralObjectPool::PooledAllocation
+***********************************************************************/
 
-		GeneralObjectPool::~GeneralObjectPool()
-		{
-			List<SmallObjectPool*> smalls;
-			List<BigObjectPool*> bigs;
-			pool8.Collect(smalls, bigs);
-			pool16.Collect(smalls, bigs);
-			pool32.Collect(smalls, bigs);
-			pool64.Collect(smalls, bigs);
-			pool96.Collect(smalls, bigs);
-			poolLarge.Collect(smalls, bigs);
-			poolTree.Clear();
-
-			for(vint i=0;i<smalls.Count();i++)
-			{
-				delete smalls[i];
-			}
-			for(vint i=0;i<bigs.Count();i++)
-			{
-				delete bigs[i];
-			}
-		}
-
-		char* GeneralObjectPool::Alloc(vint size)
+		char* GeneralObjectPool::PooledAlloc(vint size)
 		{
 			PoolNodeEntry* entry=FindEntry(size);
 			if(entry->first)
@@ -429,7 +397,7 @@ GeneralObjectPool
 			}
 		}
 
-		bool GeneralObjectPool::Free(char* handle)
+		bool GeneralObjectPool::PooledFree(char* handle)
 		{
 			PoolNode* node=FindNode(handle);
 			if(node)
@@ -466,7 +434,7 @@ GeneralObjectPool
 			}
 		}
 
-		bool GeneralObjectPool::IsValid(char* handle)
+		bool GeneralObjectPool::PooledIsValid(char* handle)
 		{
 			PoolNode* node=FindNode(handle);
 			if(node)
@@ -486,7 +454,7 @@ GeneralObjectPool
 			}
 		}
 
-		char* GeneralObjectPool::GetHandle(char* pointer)
+		char* GeneralObjectPool::PooledGetHandle(char* pointer)
 		{
 			PoolNode* node=FindNode(pointer);
 			if(node)
@@ -506,7 +474,7 @@ GeneralObjectPool
 			}
 		}
 
-		vint GeneralObjectPool::GetSize(char* handle)
+		vint GeneralObjectPool::PooledGetSize(char* handle)
 		{
 			PoolNode* node=FindNode(handle);
 			if(node)
@@ -526,6 +494,149 @@ GeneralObjectPool
 			{
 				return -1;
 			}
+		}
+
+/***********************************************************************
+GeneralObjectPool::LargeAllocation
+***********************************************************************/
+
+		void GeneralObjectPool::DisposeLargeNode(LargeNode* node)
+		{
+			if(node)
+			{
+				delete[] node->value.key;
+				DisposeLargeNode(node->left);
+				DisposeLargeNode(node->right);
+			}
+		}
+
+		GeneralObjectPool::LargeNode* GeneralObjectPool::FindLargeNode(char* pointer)
+		{
+			LargeNode* root=largeTree.root;
+			while(root)
+			{
+				if(pointer<root->value.key)
+				{
+					root=root->left;
+				}
+				else if(pointer>=root->value.key+root->value.value)
+				{
+					root=root->right;
+				}
+				else
+				{
+					break;
+				}
+			}
+			return root;
+		}
+
+		char* GeneralObjectPool::LargeAlloc(vint size)
+		{
+			LargeContent content(new char[size], size);
+			largeTree.Insert(content);
+			return content.key;
+		}
+
+		bool GeneralObjectPool::LargeFree(char* handle)
+		{
+			LargeNode* node=FindLargeNode(handle);
+			if(node && node->value.key==handle)
+			{
+				delete[] node->value.key;
+				largeTree.RemoveNode(node);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool GeneralObjectPool::LargeIsValid(char* handle)
+		{
+			LargeNode* node=FindLargeNode(handle);
+			return node && node->value.key==handle;
+		}
+
+		char* GeneralObjectPool::LargeGetHandle(char* pointer)
+		{
+			LargeNode* node=FindLargeNode(pointer);
+			return node?node->value.key:0;
+		}
+
+		vint GeneralObjectPool::LargeGetSize(char* handle)
+		{
+			LargeNode* node=FindLargeNode(handle);
+			return (node && node->value.key==handle)?node->value.value:-1;
+		}
+
+/***********************************************************************
+GeneralObjectPool::Interface
+***********************************************************************/
+
+		GeneralObjectPool::GeneralObjectPool(vint _poolUnitSize, vint _poolUnitCount)
+			:poolUnitSize(_poolUnitSize)
+			,poolUnitCount(_poolUnitCount)
+			,poolNodeAllocator(_poolUnitCount)
+			,poolTree(&poolNodeAllocator)
+			,pool8(8)
+			,pool16(16)
+			,pool32(32)
+			,pool64(64)
+			,pool96(96)
+			,poolLarge(-1)
+		{
+		}
+
+		GeneralObjectPool::~GeneralObjectPool()
+		{
+			List<SmallObjectPool*> smalls;
+			List<BigObjectPool*> bigs;
+			pool8.Collect(smalls, bigs);
+			pool16.Collect(smalls, bigs);
+			pool32.Collect(smalls, bigs);
+			pool64.Collect(smalls, bigs);
+			pool96.Collect(smalls, bigs);
+			poolLarge.Collect(smalls, bigs);
+			poolTree.Clear();
+
+			for(vint i=0;i<smalls.Count();i++)
+			{
+				delete smalls[i];
+			}
+			for(vint i=0;i<bigs.Count();i++)
+			{
+				delete bigs[i];
+			}
+			DisposeLargeNode(largeTree.root);
+		}
+
+		char* GeneralObjectPool::Alloc(vint size)
+		{
+			return size<=poolUnitSize?PooledAlloc(size):LargeAlloc(size);
+		}
+
+		bool GeneralObjectPool::Free(char* handle)
+		{
+			return PooledFree(handle)||LargeFree(handle);
+		}
+
+		bool GeneralObjectPool::IsValid(char* handle)
+		{
+			return PooledIsValid(handle)||LargeIsValid(handle);
+		}
+
+		char* GeneralObjectPool::GetHandle(char* pointer)
+		{
+			char* result=PooledGetHandle(pointer);
+			return result?result:LargeGetHandle(pointer);
+		}
+
+		vint GeneralObjectPool::GetSize(char* handle)
+		{
+			vint result=PooledGetSize(handle);
+			return result!=-1?result:LargeGetSize(handle);
 		}
 	}
 }

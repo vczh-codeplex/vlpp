@@ -556,6 +556,39 @@ namespace TestEntityHelper
 			TEST_ASSERT(pool.Alloc(64)==0);
 		}
 	}
+
+	void AssertVeryLargeObject(GeneralObjectPool& pool, bool needFree)
+	{
+		const vint size=1024*1024*2;
+		char* objs[]={pool.Alloc(size), pool.Alloc(size), pool.Alloc(size)};
+		for(vint i=0;i<sizeof(objs)/sizeof(*objs);i++)
+		{
+			TEST_ASSERT(objs[i]!=0);
+
+			TEST_ASSERT(pool.IsValid(objs[i])==true);
+			TEST_ASSERT(pool.GetHandle(objs[i])==objs[i]);
+			TEST_ASSERT(pool.GetSize(objs[i])==size);
+			
+			TEST_ASSERT(pool.IsValid(objs[i]+size/2)==false);
+			TEST_ASSERT(pool.GetHandle(objs[i]+size/2)==objs[i]);
+			TEST_ASSERT(pool.GetSize(objs[i]+size/2)==-1);
+		}
+		if(needFree)
+		{
+			for(vint i=0;i<sizeof(objs)/sizeof(*objs);i++)
+			{
+				TEST_ASSERT(pool.Free(objs[i]));
+
+				TEST_ASSERT(pool.IsValid(objs[i])==false);
+				TEST_ASSERT(pool.GetHandle(objs[i])==0);
+				TEST_ASSERT(pool.GetSize(objs[i])==-1);
+			
+				TEST_ASSERT(pool.IsValid(objs[i]+size/2)==false);
+				TEST_ASSERT(pool.GetHandle(objs[i]+size/2)==0);
+				TEST_ASSERT(pool.GetSize(objs[i]+size/2)==-1);
+			}
+		}
+	}
 }
 using namespace TestEntityHelper;
 
@@ -571,6 +604,10 @@ TEST_CASE(TestEntity_GeneralObjectPool)
 	}
 	{
 		GeneralObjectPool pool(1024, 512);
+		AssertVeryLargeObject(pool, false);
+	}
+	{
+		GeneralObjectPool pool(1024, 512);
 		AssertLargeObject(pool, false);
 	}
 	{
@@ -579,6 +616,8 @@ TEST_CASE(TestEntity_GeneralObjectPool)
 	}
 	{
 		GeneralObjectPool pool(1024, 512);
+		AssertVeryLargeObject(pool, true);
+		AssertVeryLargeObject(pool, true);
 		AssertLargeObject(pool, true);
 		AssertLargeObject(pool, true);
 		AssertSmallObject(pool, true);

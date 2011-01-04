@@ -22,6 +22,9 @@ namespace vl
 		class GeneralObjectPool : public Object, public NotCopyable
 		{
 		protected:
+
+			/*-----------------------------------------------------------------------*/
+
 			struct PoolNodeContent;
 			class PoolNodeAllocator;
 
@@ -35,7 +38,7 @@ namespace vl
 				PoolNodeContent						Remove(Node* node);
 			};
 
-			typedef PoolTree::Node					PoolNode;
+			typedef PoolTree::Node									PoolNode;
 
 			class PoolNodeAllocator
 			{
@@ -48,6 +51,8 @@ namespace vl
 				PoolNode*							CreateNode();
 				void								DisposeNode(PoolNode* node);
 			};
+
+			/*-----------------------------------------------------------------------*/
 
 			struct PoolContainer
 			{
@@ -96,11 +101,19 @@ namespace vl
 
 				void								Collect(collections::List<SmallObjectPool*>& smallPools, collections::List<BigObjectPool*>& bigPools);
 			};
+
+			/*-----------------------------------------------------------------------*/
+
+			typedef collections::Pair<char*, vint>	LargeContent;
+			typedef BinValueTree<LargeContent>		LargeTree;
+			typedef LargeTree::Node					LargeNode;
+
 		protected:
 			vint									poolUnitSize;
 			vint									poolUnitCount;
 			PoolNodeAllocator						poolNodeAllocator;
 			PoolTree								poolTree;
+			LargeTree								largeTree;
 
 			PoolNodeEntry							pool8;
 			PoolNodeEntry							pool16;
@@ -113,6 +126,20 @@ namespace vl
 			void									DisposePoolNode(PoolNodeEntry* entry, PoolNode* node);
 			PoolNodeEntry*							FindEntry(vint size);
 			PoolNode*								FindNode(char* pointer);
+
+			char*									PooledAlloc(vint size);
+			bool									PooledFree(char* handle);
+			bool									PooledIsValid(char* handle);
+			char*									PooledGetHandle(char* pointer);
+			vint									PooledGetSize(char* handle);
+
+			void									DisposeLargeNode(LargeNode* node);
+			LargeNode*								FindLargeNode(char* pointer);
+			char*									LargeAlloc(vint size);
+			bool									LargeFree(char* handle);
+			bool									LargeIsValid(char* handle);
+			char*									LargeGetHandle(char* pointer);
+			vint									LargeGetSize(char* handle);
 		public:
 			GeneralObjectPool(vint _poolUnitSize, vint _poolUnitCount);
 			~GeneralObjectPool();
