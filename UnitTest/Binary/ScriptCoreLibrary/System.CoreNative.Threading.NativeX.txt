@@ -60,7 +60,7 @@ function SynThread* SynCreateThread(function void(void*) procedure, void* argume
     }
     else if(!__SynStartThread(thread->thread))
     {
-        __SynDisposeWaitable(thread->thread);
+        SynDisposeWaitable(thread->thread);
         MemFree(tpa);
         MemFree(thread);
         result=null;
@@ -90,16 +90,10 @@ function bool SynStopAndWaitThread(SynThread* thread)
 }
 
 #public
-function void SynSleep(int ms)
-{
-    __SynSleep(ms);
-}
-
-#public
 function bool SynDisposeThread(SynThread* thread)
 {
     variable Thread* info=cast<Thread*>(thread);
-    if(__SynDisposeWaitable(info->thread))
+    if(SynDisposeWaitable(info->thread))
     {
         MemFree(info);
         result=true;
@@ -113,13 +107,13 @@ function bool SynDisposeThread(SynThread* thread)
 #public
 function bool SynWaitThread(SynThread* thread)
 {
-    result=__SynWait(cast<Thread*>(thread)->thread);
+    result=SynWait(cast<Thread*>(thread)->thread);
 }
 
 #public
 function bool SynWaitThreadForTime(SynThread* thread, int ms)
 {
-    result=__SynWaitForTime(cast<Thread*>(thread)->thread, ms);
+    result=SynWaitForTime(cast<Thread*>(thread)->thread, ms);
 }
 
 #public

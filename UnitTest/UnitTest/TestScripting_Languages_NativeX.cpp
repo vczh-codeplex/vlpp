@@ -681,7 +681,7 @@ TEST_CASE(Test_NativeX_ForeignFunction)
 		);
 	{
 		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
-		BasicDeclarationInfo main=metadata->GetDeclaration(0);
+		BasicDeclarationInfo main=metadata->GetDeclaration(1);
 
 		LanguageHost host(65536);
 		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_NativeX_ForeignFunction_Summer);

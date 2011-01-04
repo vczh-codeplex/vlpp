@@ -156,6 +156,11 @@ BasicDeclarationInfo
 			return declaration.Pointer()==declarationInfo.declaration.Pointer() && metadata==declarationInfo.metadata;
 		}
 
+		bool BasicDeclarationInfo::IsForeignFunction()const
+		{
+			return declaration->type==BasicDeclarationRes::ForeignFunction;
+		}
+
 		bool BasicDeclarationInfo::IsFunction()const
 		{
 			return declaration->type==BasicDeclarationRes::Function;

@@ -243,45 +243,38 @@ BasicLanguage_GenerateResource
 			
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
-					if(node->foreignFunction)
+					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildGenericResource(resource, node, argument);
+					BuildAttributeResource(resource, node, argument);
+					BuildLinkingResource(resource, node, argument);
+
+					ResourceString name=argument.resource->CreateString(node->name);
+					BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node, true);
+					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
+
+					resource->type=node->foreignFunction?BasicDeclarationRes::ForeignFunction:BasicDeclarationRes::Function;
+					resource->declarationType=declarationType;
+					resource->name=name;
+					if(node->linking.HasLink())
 					{
-						return ResourceHandle<BasicDeclarationRes>::Null();
+						resource->address=-1;
 					}
 					else
 					{
-						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-						BuildGenericResource(resource, node, argument);
-						BuildAttributeResource(resource, node, argument);
-						BuildLinkingResource(resource, node, argument);
-
-						ResourceString name=argument.resource->CreateString(node->name);
-						BasicTypeRecord* type=argument.info->GetEnv()->GetFunctionType(node, true);
-						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
-
-						resource->type=BasicDeclarationRes::Function;
-						resource->declarationType=declarationType;
-						resource->name=name;
-						if(node->linking.HasLink())
-						{
-							resource->address=-1;
-						}
-						else
-						{
-							resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
-						}
-
-						ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->parameterNames.Count());
-						resource->parameterNames=parameters;
-						for(vint i=0;i<node->parameterNames.Count();i++)
-						{
-							ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
-							ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
-							parameter->name=name;
-							parameters.Set(i, parameter);
-						}
-
-						return resource;
+						resource->address=argument.il->labels[argument.info->GetFunctions()[node]].instructionIndex;
 					}
+
+					ResourceArrayRecord<BasicParameterRes> parameters=argument.resource->CreateArrayRecord<BasicParameterRes>(node->parameterNames.Count());
+					resource->parameterNames=parameters;
+					for(vint i=0;i<node->parameterNames.Count();i++)
+					{
+						ResourceString name=argument.resource->CreateString(node->parameterNames[i]);
+						ResourceRecord<BasicParameterRes> parameter=argument.resource->CreateRecord<BasicParameterRes>();
+						parameter->name=name;
+						parameters.Set(i, parameter);
+					}
+
+					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)

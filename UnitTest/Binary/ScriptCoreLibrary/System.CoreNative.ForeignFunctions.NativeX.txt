@@ -33,67 +33,67 @@ structure SynWaitable
 }
 
 #public
-foreign function SynCriticalSection* __SynCreateCriticalSection()
+foreign function SynCriticalSection* SynCreateCriticalSection()
     alias SystemCoreForeignFunctions.SynCreateCriticalSection;
     
 #public
-foreign function bool __SynDisposeCriticalSection(SynCriticalSection* cs)
+foreign function bool SynDisposeCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynDisposeCriticalSection;
     
 #public
-foreign function bool __SynTryEnterCriticalSection(SynCriticalSection* cs)
+foreign function bool SynTryEnterCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynTryEnterCriticalSection;
     
 #public
-foreign function bool __SynEnterCriticalSection(SynCriticalSection* cs)
+foreign function bool SynEnterCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynEnterCriticalSection;
     
 #public
-foreign function bool __SynLeaveCriticalSection(SynCriticalSection* cs)
+foreign function bool SynLeaveCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynLeaveCriticalSection;
     
 #public
-foreign function SynWaitable* __SynCreateMutex(bool owned)
+foreign function SynWaitable* SynCreateMutex(bool owned)
     alias SystemCoreForeignFunctions.SynCreateMutex;
     
 #public
-foreign function bool __SynReleaseMutex(SynWaitable* w)
+foreign function bool SynReleaseMutex(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynReleaseMutex;
     
 #public
-foreign function SynWaitable* __SynCreateSemaphore(int init, int max)
+foreign function SynWaitable* SynCreateSemaphore(int init, int max)
     alias SystemCoreForeignFunctions.SynCreateSemaphore;
     
 #public
-foreign function bool __SynReleaseSemaphore(SynWaitable* w, int count)
+foreign function bool SynReleaseSemaphore(SynWaitable* w, int count)
     alias SystemCoreForeignFunctions.SynReleaseSemaphore;
     
 #public
-foreign function SynWaitable* __SynCreateAutoEvent(bool signaled)
+foreign function SynWaitable* SynCreateAutoEvent(bool signaled)
     alias SystemCoreForeignFunctions.SynCreateAutoEvent;
     
 #public
-foreign function SynWaitable* __SynCreateManualEvent(bool signaled)
+foreign function SynWaitable* SynCreateManualEvent(bool signaled)
     alias SystemCoreForeignFunctions.SynCreateManualEvent;
     
 #public
-foreign function bool __SynSignalEvent(SynWaitable* w)
+foreign function bool SynSignalEvent(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynSignalEvent;
     
 #public
-foreign function bool __SynUnsignalEvent(SynWaitable* w)
+foreign function bool SynUnsignalEvent(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynUnsignalEvent;
     
 #public
-foreign function bool __SynDisposeWaitable(SynWaitable* w)
+foreign function bool SynDisposeWaitable(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynDisposeWaitable;
     
 #public
-foreign function bool __SynWait(SynWaitable* w)
+foreign function bool SynWait(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynWait;
     
 #public
-foreign function bool __SynWaitForTime(SynWaitable* w, int ms)
+foreign function bool SynWaitForTime(SynWaitable* w, int ms)
     alias SystemCoreForeignFunctions.SynWaitForTime;
 
 foreign function SynWaitable* __SynCreateThread(function void(void*) procedure, void* arguments)
@@ -112,5 +112,181 @@ foreign function bool __SynStopAndWaitThread(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynStopAndWaitThread;
     
 #public
-foreign function void __SynSleep(int ms)
+foreign function void SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
+
+#public
+foreign function char* strcpy(char* dst, char* src)
+    alias SystemCoreForeignFunctions.strcpy;
+
+#public
+foreign function char* strncpy(char* dst, char* src, int size)
+    alias SystemCoreForeignFunctions.strncpy;
+
+#public
+foreign function char* strcat(char* dst, char* src)
+    alias SystemCoreForeignFunctions.strcat;
+
+#public
+foreign function char* strncat(char* dst, char* src, int size)
+    alias SystemCoreForeignFunctions.strncat;
+
+#public
+foreign function int strcmp(char* a, char* b)
+    alias SystemCoreForeignFunctions.strcmp;
+
+#public
+foreign function int strncmp(char* a, char* b)
+    alias SystemCoreForeignFunctions.strncmp;
+
+#public
+foreign function int stricmp(char* a, char* b)
+    alias SystemCoreForeignFunctions.stricmp;
+
+#public
+foreign function int strnicmp(char* a, char* b)
+    alias SystemCoreForeignFunctions.strnicmp;
+
+#public
+foreign function char* strstr(char* a, char* b)
+    alias SystemCoreForeignFunctions.strstr;
+
+#public
+foreign function int strlen(char* s)
+    alias SystemCoreForeignFunctions.strlen;
+
+#public
+foreign function wchar* wcscpy(wchar* dst, wchar* src)
+    alias SystemCoreForeignFunctions.wcscpy;
+
+#public
+foreign function wchar* wcsncpy(wchar* dst, wchar* src, int size)
+    alias SystemCoreForeignFunctions.wcsncpy;
+
+#public
+foreign function wchar* wcscat(wchar* dst, wchar* src)
+    alias SystemCoreForeignFunctions.wcscat;
+
+#public
+foreign function wchar* wcsncat(wchar* dst, wchar* src, int size)
+    alias SystemCoreForeignFunctions.wcsncat;
+
+#public
+foreign function int wcscmp(wchar* a, wchar* b)
+    alias SystemCoreForeignFunctions.wcscmp;
+
+#public
+foreign function int wcsncmp(wchar* a, wchar* b)
+    alias SystemCoreForeignFunctions.wcsncmp;
+
+#public
+foreign function int wcsicmp(wchar* a, wchar* b)
+    alias SystemCoreForeignFunctions.wcsicmp;
+
+#public
+foreign function int wcsnicmp(wchar* a, wchar* b)
+    alias SystemCoreForeignFunctions.wcsnicmp;
+
+#public
+foreign function wchar* wcsstr(wchar* a, wchar* b)
+    alias SystemCoreForeignFunctions.wcsstr;
+
+#public
+foreign function int wcslen(wchar* s)
+    alias SystemCoreForeignFunctions.wcslen;
+
+#public
+foreign function void* memcpy(void* dst, void* src, int size)
+    alias SystemCoreForeignFunctions.memcpy;
+
+#public
+foreign function int memcmp(void* dst, void* src, int size)
+    alias SystemCoreForeignFunctions.memcmp;
+
+#public
+foreign function f64 sin(f64 i)
+    alias SystemCoreForeignFunctions.sin;
+
+#public
+foreign function f64 cos(f64 i)
+    alias SystemCoreForeignFunctions.cos;
+
+#public
+foreign function f64 tan(f64 i)
+    alias SystemCoreForeignFunctions.tan;
+
+#public
+foreign function f64 asin(f64 i)
+    alias SystemCoreForeignFunctions.asin;
+
+#public
+foreign function f64 acos(f64 i)
+    alias SystemCoreForeignFunctions.acos;
+
+#public
+foreign function f64 atan(f64 i)
+    alias SystemCoreForeignFunctions.atan;
+
+#public
+foreign function f64 exp(f64 i)
+    alias SystemCoreForeignFunctions.exp;
+
+#public
+foreign function f64 log2(f64 i)
+    alias SystemCoreForeignFunctions.log2;
+
+#public
+foreign function f64 log10(f64 i)
+    alias SystemCoreForeignFunctions.log10;
+
+#public
+foreign function f64 floor(f64 i)
+    alias SystemCoreForeignFunctions.floor;
+
+#public
+foreign function f64 ceil(f64 i)
+    alias SystemCoreForeignFunctions.ceil;
+    
+#public
+foreign function f32 sinf(f32 i)
+    alias SystemCoreForeignFunctions.sinf;
+
+#public
+foreign function f32 cosf(f32 i)
+    alias SystemCoreForeignFunctions.cosf;
+
+#public
+foreign function f32 tanf(f32 i)
+    alias SystemCoreForeignFunctions.tanf;
+
+#public
+foreign function f32 asinf(f32 i)
+    alias SystemCoreForeignFunctions.asinf;
+
+#public
+foreign function f32 acosf(f32 i)
+    alias SystemCoreForeignFunctions.acosf;
+
+#public
+foreign function f32 atanf(f32 i)
+    alias SystemCoreForeignFunctions.atanf;
+
+#public
+foreign function f32 expf(f32 i)
+    alias SystemCoreForeignFunctions.expf;
+
+#public
+foreign function f32 log2f(f32 i)
+    alias SystemCoreForeignFunctions.log2f;
+
+#public
+foreign function f32 log10f(f32 i)
+    alias SystemCoreForeignFunctions.log10f;
+
+#public
+foreign function f32 floorf(f32 i)
+    alias SystemCoreForeignFunctions.floorf;
+
+#public
+foreign function f32 ceilf(f32 i)
+    alias SystemCoreForeignFunctions.ceilf;

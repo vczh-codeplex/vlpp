@@ -75,6 +75,7 @@ Metadata
 			operator bool()const;
 			bool									IsSameRecord(const BasicDeclarationInfo& declarationInfo)const;
 
+			bool									IsForeignFunction()const;
 			bool									IsFunction()const;
 			bool									IsVariable()const;
 			bool									IsStructure()const;

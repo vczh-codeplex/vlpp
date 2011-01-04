@@ -102,6 +102,7 @@ namespace vl
 		{
 			enum TypeEnum
 			{
+				ForeignFunction,
 				Function,
 				Variable,
 				Structure,
