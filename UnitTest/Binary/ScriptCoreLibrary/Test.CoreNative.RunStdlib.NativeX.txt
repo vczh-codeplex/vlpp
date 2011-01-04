@@ -42,7 +42,18 @@ function void AssertStringW(wchar* a, wchar* b, int size)
     }
 }
 
-function void TestCase_RunStdlib()
+function void TestCase_RunAdders()
+{
+    variable int sum=0;
+    Print(L"sum++ for 1048576 times...");
+    for(variable int i=0; when(i<1048576) with i++;) do
+    {
+        sum++;
+    }
+    Assert(sum==1048576, L"Just add it!");
+}
+
+function void TestCase_RunStdlibStringFunctions()
 {
     variable char[100] bufferA1;
     variable char[100] bufferA2;
