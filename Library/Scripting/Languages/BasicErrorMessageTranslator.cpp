@@ -77,8 +77,8 @@ BasicErrorMessageTranslator
 					{
 						BasicInvokeExpression* expression=dynamic_cast<BasicInvokeExpression*>(error->GetBasicLanguageElement());
 						vint index=wtoi(error->GetParameters()[0]);
-						WString from=ToString(GetExpressionType(expression->function.Obj())->ParameterType(index));
-						WString to=ToString(GetExpressionType(expression->arguments[index].Obj()));
+						WString to=ToString(GetExpressionType(expression->function.Obj())->ParameterType(index));
+						WString from=ToString(GetExpressionType(expression->arguments[index].Obj()));
 						message=BasicErrorMessage::ArgumentTypeNotMatch(itow(index+1), from, to);
 					}
 					break;

@@ -130,3 +130,29 @@ function void TestCase_RunStdlibStringFunctions()
     AssertStringW(wcsstr(L"abcdefg", L"de"), L"defg", 4);
     Assert(wcsstr(L"abcdefg", L"DE")==null, L"wcsstr should succeed");
 }
+
+function void TestCase_RunStdlibMathFunctions()
+{
+    sin(0.0);
+    cos(0.0);
+    tan(0.0);
+    asin(0.0);
+    acos(0.0);
+    atan(0.0);
+    exp(0.0);
+    log2(0.0);
+    log10(0.0);
+    floor(0.0);
+    ceil(0.0);
+    sinf(0.0f);
+    cosf(0.0f);
+    tanf(0.0f);
+    asinf(0.0f);
+    acosf(0.0f);
+    atanf(0.0f);
+    expf(0.0f);
+    log2f(0.0f);
+    log10f(0.0f);
+    floorf(0.0f);
+    ceilf(0.0f);
+}
