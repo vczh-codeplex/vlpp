@@ -136,7 +136,7 @@ foreign function int strcmp(char* a, char* b)
     alias SystemCoreForeignFunctions.strcmp;
 
 #public
-foreign function int strncmp(char* a, char* b)
+foreign function int strncmp(char* a, char* b, int size)
     alias SystemCoreForeignFunctions.strncmp;
 
 #public
@@ -144,7 +144,7 @@ foreign function int stricmp(char* a, char* b)
     alias SystemCoreForeignFunctions.stricmp;
 
 #public
-foreign function int strnicmp(char* a, char* b)
+foreign function int strnicmp(char* a, char* b, int size)
     alias SystemCoreForeignFunctions.strnicmp;
 
 #public
@@ -176,7 +176,7 @@ foreign function int wcscmp(wchar* a, wchar* b)
     alias SystemCoreForeignFunctions.wcscmp;
 
 #public
-foreign function int wcsncmp(wchar* a, wchar* b)
+foreign function int wcsncmp(wchar* a, wchar* b, int size)
     alias SystemCoreForeignFunctions.wcsncmp;
 
 #public
@@ -184,7 +184,7 @@ foreign function int wcsicmp(wchar* a, wchar* b)
     alias SystemCoreForeignFunctions.wcsicmp;
 
 #public
-foreign function int wcsnicmp(wchar* a, wchar* b)
+foreign function int wcsnicmp(wchar* a, wchar* b, int size)
     alias SystemCoreForeignFunctions.wcsnicmp;
 
 #public

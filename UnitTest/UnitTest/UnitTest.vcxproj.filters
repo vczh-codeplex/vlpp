@@ -1322,20 +1322,23 @@
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunUnitTestNative.NativeX.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
-    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunMemoryManager.txt">
-      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
-    </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Main.txt">
       <Filter>TestFiles\NativeX\Others</Filter>
     </None>
     <None Include="..\Binary\TestFiles\Code\NativeX.Others.Typeof.Make.txt">
       <Filter>TestFiles\NativeX\Others</Filter>
     </None>
-    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunSynchronizationSingleThread.txt">
-      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
-    </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Threading.NativeX.txt">
       <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunStdlib.NativeX.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunMemoryManager.NativeX.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunSynchronizationSingleThread.NativeX.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

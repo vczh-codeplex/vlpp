@@ -1,0 +1,121 @@
+unit RunStdlib;
+
+uses syscrnat;
+
+function void ClearA(char* str)
+{
+    str[0]=cast<char>(0);
+}
+
+function void ClearW(wchar* str)
+{
+    str[0]=cast<wchar>(0);
+}
+
+function void AssertStringA(char* a, char* b, int size)
+{
+    Assert(strlen(a)==size, L"strlen should succeed");
+    Assert(strlen(b)==size, L"strlen should succeed");
+    Assert(strcmp(a, b)==0, L"strcmp should succeed");
+    for(variable int i=0; when(i<=size) with i++;) do
+    {
+        Assert(a[i]==b[i], L"Chars in two equal string should be the same");
+        if(i==size)
+        {
+            Assert(a[i]==0, L"String should end by 0");
+        }
+    }
+}
+
+function void AssertStringW(wchar* a, wchar* b, int size)
+{
+    Assert(wcslen(a)==size, L"wcslen should succeed");
+    Assert(wcslen(b)==size, L"wcslen should succeed");
+    Assert(wcscmp(a, b)==0, L"wcscmp should succeed");
+    for(variable int i=0; when(i<=size) with i++;) do
+    {
+        Assert(a[i]==b[i], L"Chars in two equal string should be the same");
+        if(i==size)
+        {
+            Assert(a[i]==0, L"String should end by 0");
+        }
+    }
+}
+
+function void TestCase_RunStdlib()
+{
+    variable char[100] bufferA1;
+    variable char[100] bufferA2;
+    variable char[100] bufferA3;
+    variable wchar[100] bufferW1;
+    variable wchar[100] bufferW2;
+    variable wchar[100] bufferW3;
+    variable char* a1=cast<char*>(&bufferA1);
+    variable char* a2=cast<char*>(&bufferA2);
+    variable char* a3=cast<char*>(&bufferA3);
+    variable wchar* w1=cast<wchar*>(&bufferW1);
+    variable wchar* w2=cast<wchar*>(&bufferW2);
+    variable wchar* w3=cast<wchar*>(&bufferW3);
+    ClearA(a1);
+    ClearA(a2);
+    ClearW(w1);
+    ClearW(w2);
+
+    AssertStringA(strcpy(a1, "abcdefg"), "abcdefg", 7);
+    AssertStringA(strcpy(a2, "ABCDEFG"), "ABCDEFG", 7);
+    AssertStringA(a1, "abcdefg", 7);
+    AssertStringA(a2, "ABCDEFG", 7);
+    strncpy(a3, a1, 3)[3]=cast<char>(0);
+    AssertStringA(a3, "abc", 3);
+    AssertStringA(strcat(a3, a2), "abcABCDEFG", 10);
+    AssertStringA(a3, "abcABCDEFG", 10);
+    strncat(a3, a1, 3)[13]=cast<char>(0);
+    AssertStringA(a3, "abcABCDEFGabc", 13);
+    Assert(strcmp("ABC", "abc")<0, L"strcmp should succeed");
+    Assert(strcmp("abc", "abc")==0, L"strcmp should succeed");
+    Assert(strcmp("ABC", "ABC")==0, L"strcmp should succeed");
+    Assert(strcmp("abc", "ABC")>0, L"strcmp should succeed");
+    Assert(stricmp("ABC", "abc")==0, L"stricmp should succeed");
+    Assert(stricmp("abc", "abc")==0, L"stricmp should succeed");
+    Assert(stricmp("ABC", "ABC")==0, L"stricmp should succeed");
+    Assert(stricmp("abc", "ABC")==0, L"stricmp should succeed");
+    Assert(strncmp("ABC", "abd", 2)<0, L"strncmp should succeed");
+    Assert(strncmp("abc", "abd", 2)==0, L"strncmp should succeed");
+    Assert(strncmp("ABC", "ABD", 2)==0, L"strncmp should succeed");
+    Assert(strncmp("abc", "ABD", 2)>0, L"strncmp should succeed");
+    Assert(strnicmp("ABC", "abd", 2)==0, L"strnicmp should succeed");
+    Assert(strnicmp("abc", "abd", 2)==0, L"strnicmp should succeed");
+    Assert(strnicmp("ABC", "ABD", 2)==0, L"strnicmp should succeed");
+    Assert(strnicmp("abc", "ABD", 2)==0, L"strnicmp should succeed");
+    AssertStringA(strstr("abcdefg", "de"), "defg", 4);
+    Assert(strstr("abcdefg", "DE")==null, L"strstr should succeed");
+
+    AssertStringW(wcscpy(w1, L"abcdefg"), L"abcdefg", 7);
+    AssertStringW(wcscpy(w2, L"ABCDEFG"), L"ABCDEFG", 7);
+    AssertStringW(w1, L"abcdefg", 7);
+    AssertStringW(w2, L"ABCDEFG", 7);
+    wcsncpy(w3, w1, 3)[3]=cast<wchar>(0);
+    AssertStringW(w3, L"abc", 3);
+    AssertStringW(wcscat(w3, w2), L"abcABCDEFG", 10);
+    AssertStringW(w3, L"abcABCDEFG", 10);
+    wcsncat(w3, w1, 3)[13]=cast<wchar>(0);
+    AssertStringW(w3, L"abcABCDEFGabc", 13);
+    Assert(wcscmp(L"ABC", L"abc")<0, L"wcscmp should succeed");
+    Assert(wcscmp(L"abc", L"abc")==0, L"wcscmp should succeed");
+    Assert(wcscmp(L"ABC", L"ABC")==0, L"wcscmp should succeed");
+    Assert(wcscmp(L"abc", L"ABC")>0, L"wcscmp should succeed");
+    Assert(wcsicmp(L"ABC", L"abc")==0, L"wcsicmp should succeed");
+    Assert(wcsicmp(L"abc", L"abc")==0, L"wcsicmp should succeed");
+    Assert(wcsicmp(L"ABC", L"ABC")==0, L"wcsicmp should succeed");
+    Assert(wcsicmp(L"abc", L"ABC")==0, L"wcsicmp should succeed");
+    Assert(wcsncmp(L"ABC", L"abd", 2)<0, L"wcsncmp should succeed");
+    Assert(wcsncmp(L"abc", L"abd", 2)==0, L"wcsncmp should succeed");
+    Assert(wcsncmp(L"ABC", L"ABD", 2)==0, L"wcsncmp should succeed");
+    Assert(wcsncmp(L"abc", L"ABD", 2)>0, L"wcsncmp should succeed");
+    Assert(wcsnicmp(L"ABC", L"abd", 2)==0, L"wcsnicmp should succeed");
+    Assert(wcsnicmp(L"abc", L"abd", 2)==0, L"wcsnicmp should succeed");
+    Assert(wcsnicmp(L"ABC", L"ABD", 2)==0, L"wcsnicmp should succeed");
+    Assert(wcsnicmp(L"abc", L"ABD", 2)==0, L"wcsnicmp should succeed");
+    AssertStringW(wcsstr(L"abcdefg", L"de"), L"defg", 4);
+    Assert(wcsstr(L"abcdefg", L"DE")==null, L"wcsstr should succeed");
+}

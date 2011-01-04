@@ -206,7 +206,7 @@ LanguageHandleList
 					P1 a1=*(P1*)((char*)argument+0);
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
 					*(R*)(result)=f(a1, a2);
-					return sizeof(P1);
+					return sizeof(P1)+sizeof(P2);
 				}
 			};
 
@@ -220,7 +220,7 @@ LanguageHandleList
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
 					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
 					*(R*)(result)=f(a1, a2, a3);
-					return sizeof(P1);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3);
 				}
 			};
 
