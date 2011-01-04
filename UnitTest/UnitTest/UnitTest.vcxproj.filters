@@ -1334,9 +1334,6 @@
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunSynchronizationSingleThread.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
-    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Synchronization.NativeX.txt">
-      <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
-    </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Threading.NativeX.txt">
       <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
     </None>

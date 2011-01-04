@@ -618,7 +618,7 @@ Header File Generator
 					linkingSymbolName=declarationName;
 					declarationName=prefix+declarationName;
 				}
-				else
+				else if(declarationRes->type!=BasicDeclarationRes::ForeignFunction)
 				{
 					if(currentAssemblyOnly)
 					{
@@ -846,10 +846,11 @@ Header File Generator
 						ResourceRecord<BasicTypeRes> typeRes=resource->ReadRecord(declarationRes->declarationType);
 						switch(declarationRes->type)
 						{
+						case BasicDeclarationRes::ForeignFunction:
 						case BasicDeclarationRes::Function:
 							{
 								Ptr<BasicFunctionDeclaration> target=new BasicFunctionDeclaration;
-								target->foreignFunction=false;
+								target->foreignFunction=declarationRes->type==BasicDeclarationRes::ForeignFunction;
 								target->signatureType=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap, referencedAssemblies).Cast<BasicFunctionType>();
 								ResourceArrayRecord<BasicParameterRes> parameterNamesRes=resource->ReadArrayRecord(declarationRes->parameterNames);
 								for(vint j=0;j<parameterNamesRes.Count();j++)
