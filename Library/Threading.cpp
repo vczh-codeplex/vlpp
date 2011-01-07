@@ -145,6 +145,13 @@ Thread
 	{
 		::Sleep((DWORD)ms);
 	}
+	
+	vint Thread::GetCPUCount()
+	{
+		SYSTEM_INFO info;
+		GetSystemInfo(&info);
+		return info.dwNumberOfProcessors;
+	}
 
 	bool Thread::Start()
 	{
@@ -199,6 +206,11 @@ Thread
 	Thread::ThreadState Thread::GetState()
 	{
 		return threadState;
+	}
+
+	void Thread::SetCPU(vint index)
+	{
+		SetThreadAffinityMask(internalData->handle, (1<<index));
 	}
 
 /***********************************************************************
