@@ -70,12 +70,14 @@ namespace vl
 
 		static Thread*								CreateAndStart(ThreadProcedure procedure, void* argument=0, bool deleteAfterStopped=true);
 		static void									Sleep(vint ms);
+		static vint									GetCPUCount();
 
 		bool										Start();
 		bool										Pause();
 		bool										Resume();
 		bool										Stop();
 		ThreadState									GetState();
+		void										SetCPU(vint index);
 	};
 
 	class CriticalSection : public Object, public NotCopyable
