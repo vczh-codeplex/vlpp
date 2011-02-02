@@ -312,15 +312,10 @@ LanguageHandleList
 					vint*					subHandles;
 				};
 
-				struct GcMetaDescriptor
+				struct GcMeta
 				{
 					GcMetaSegment			mainSegment;
 					GcMetaSegment			repeatSegment;
-				};
-
-				struct GcMeta
-				{
-					GcMetaDescriptor*		descriptor;
 				};
 
 				struct GcHandle
@@ -333,9 +328,6 @@ LanguageHandleList
 					return 
 						REGISTER_LIGHT_FUNCTION(GcCreate, Gc*(), __GcImpl::GcCreate) &&
 						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(Gc*), __GcImpl::GcIsMultipleThreadingSupported) &&
-						REGISTER_LIGHT_FUNCTION(GcCreateMeta, GcMeta*(Gc*, GcMetaDescriptor*), __GcImpl::GcCreateMeta) &&
-						REGISTER_LIGHT_FUNCTION(GcGetDescriptorMeta, GcMeta*(Gc*, GcMetaDescriptor*), __GcImpl::GcGetDescriptorMeta) &&
-						REGISTER_LIGHT_FUNCTION(GcIsValidMeta, bool(Gc*, GcMeta*), __GcImpl::GcIsValidMeta) &&
 						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(Gc*, GcMeta*, vint), __GcImpl::GcCreateHandle) &&
 						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(Gc*, GcHandle*), __GcImpl::GcGetHandleMeta) &&
 						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(Gc*, GcHandle*), __GcImpl::GcIsValidHandle) &&

@@ -28,21 +28,6 @@ namespace vl
 					return false;
 				}
 
-				inline static GcMeta* GcCreateMeta(GcSingleThread* gc, GcMetaDescriptor* descriptor)
-				{
-					CHECK_FAIL(L"NotImplemented");
-				}
-
-				inline static GcMeta* GcGetDescriptorMeta(GcSingleThread* gc, GcMetaDescriptor* descriptor)
-				{
-					CHECK_FAIL(L"NotImplemented");
-				}
-
-				inline static bool GcIsValidMeta(GcSingleThread* gc, GcMeta* meta)
-				{
-					CHECK_FAIL(L"NotImplemented");
-				}
-
 				inline static GcHandle* GcCreateHandle(GcSingleThread* gc, GcMeta* meta, vint repeat)
 				{
 					CHECK_FAIL(L"NotImplemented");
