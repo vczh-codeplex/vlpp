@@ -23,6 +23,88 @@ foreign function void* __MemGetOwnerHandle(__ForeignHandle* mm, void* handle)
     alias SystemCoreForeignFunctions.MemGetOwnerHandle;
 
 #public
+structure GcMetaSegment
+{
+    int size;
+	int subHandleCount;
+	int* subHandles;
+}
+
+#public
+structure GcMetaDescriptor
+{
+    GcMetaSegment mainSegment;
+	GcMetaSegment repeatSegment;
+}
+
+#public
+structure GcMeta
+{
+}
+
+#public
+structure GcHandle
+{
+}
+
+foreign function __ForeignHandle* __GcCreate()
+    alias SystemCoreForeignFunctions.GcCreate;
+
+foreign function bool __GcIsMultipleThreadingSupported()
+    alias SystemCoreForeignFunctions.GcIsMultipleThreadingSupported;
+
+foreign function GcMeta* __GcCreateMeta(__ForeignHandle* gc, GcMetaDescriptor* descriptor)
+    alias SystemCoreForeignFunctions.GcCreateMeta;
+
+foreign function GcMeta* __GcGetDescriptorMeta(__ForeignHandle* gc, GcMetaDescriptor* descriptor)
+    alias SystemCoreForeignFunctions.GcGetDescriptorMeta;
+
+foreign function bool __GcIsValidMeta(__ForeignHandle* gc, GcMeta* meta)
+    alias SystemCoreForeignFunctions.GcIsValidMeta;
+
+foreign function GcHandle* __GcCreateHandle(__ForeignHandle* gc, GcMeta* meta, int repeat)
+    alias SystemCoreForeignFunctions.GcCreateHandle;
+
+foreign function GcMeta* __GcGetHandleMeta(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcGetHandleMeta;
+
+foreign function bool __GcIsValidHandle(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcIsValidHandle;
+
+foreign function bool __GcIncreaseHandleRef(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcIncreaseHandleRef;
+
+foreign function bool __GcDecreaseHandleRef(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcDecreaseHandleRef;
+
+foreign function void* __GcIncreaseHandlePin(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcIncreaseHandlePin;
+
+foreign function bool __GcDecreaseHandlePin(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcDecreaseHandleRef;
+
+foreign function bool __GcDisposeHandle(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcDisposeHandle;
+
+foreign function bool __GcIsHandleDisposed(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcIsHandleDisposed;
+
+foreign function int __GcGetHandleSize(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcGetHandleSize;
+
+foreign function int __GcGetHandleRepeat(__ForeignHandle* gc, GcHandle* handle)
+    alias SystemCoreForeignFunctions.GcGetHandleRepeat;
+
+foreign function bool __GcReadHandle(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    alias SystemCoreForeignFunctions.GcReadHandle;
+
+foreign function bool __GcWriteHandle(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    alias SystemCoreForeignFunctions.GcWriteHandle;
+
+foreign function bool __GcCollect(__ForeignHandle* gc, function void(__ForeignHandle*, GcHandle*) dtor)
+    alias SystemCoreForeignFunctions.GcCollect;
+
+#public
 structure SynCriticalSection
 {
 }
