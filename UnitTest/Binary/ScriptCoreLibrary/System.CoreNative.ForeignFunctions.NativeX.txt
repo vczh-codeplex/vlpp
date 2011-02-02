@@ -31,15 +31,10 @@ structure GcMetaSegment
 }
 
 #public
-structure GcMetaDescriptor
+structure GcMeta
 {
     GcMetaSegment mainSegment;
 	GcMetaSegment repeatSegment;
-}
-
-#public
-structure GcMeta
-{
 }
 
 #public
@@ -52,15 +47,6 @@ foreign function __ForeignHandle* __GcCreate()
 
 foreign function bool __GcIsMultipleThreadingSupported()
     alias SystemCoreForeignFunctions.GcIsMultipleThreadingSupported;
-
-foreign function GcMeta* __GcCreateMeta(__ForeignHandle* gc, GcMetaDescriptor* descriptor)
-    alias SystemCoreForeignFunctions.GcCreateMeta;
-
-foreign function GcMeta* __GcGetDescriptorMeta(__ForeignHandle* gc, GcMetaDescriptor* descriptor)
-    alias SystemCoreForeignFunctions.GcGetDescriptorMeta;
-
-foreign function bool __GcIsValidMeta(__ForeignHandle* gc, GcMeta* meta)
-    alias SystemCoreForeignFunctions.GcIsValidMeta;
 
 foreign function GcHandle* __GcCreateHandle(__ForeignHandle* gc, GcMeta* meta, int repeat)
     alias SystemCoreForeignFunctions.GcCreateHandle;

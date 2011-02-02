@@ -162,6 +162,7 @@ BasicILCodeExpander::VariablePackage
 							packages.Add(package);
 							pointer=package->Allocate(size);
 						}
+						memset(pointer, 0, size);
 					}
 					Pair<char*, vint> result(pointer, offset);
 					variables.Add(name,result);
