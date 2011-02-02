@@ -42,7 +42,7 @@ structure GcHandle
 {
 }
 
-foreign function __ForeignHandle* __GcCreate()
+foreign function __ForeignHandle* __GcCreate(function void(__ForeignHandle*, GcHandle*) dtor)
     alias SystemCoreForeignFunctions.GcCreate;
 
 foreign function bool __GcIsMultipleThreadingSupported()
@@ -87,7 +87,7 @@ foreign function bool __GcReadHandle(__ForeignHandle* gc, GcHandle* handle, int 
 foreign function bool __GcWriteHandle(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
     alias SystemCoreForeignFunctions.GcWriteHandle;
 
-foreign function bool __GcCollect(__ForeignHandle* gc, function void(__ForeignHandle*, GcHandle*) dtor)
+foreign function bool __GcCollect(__ForeignHandle* gc)
     alias SystemCoreForeignFunctions.GcCollect;
 
 #public

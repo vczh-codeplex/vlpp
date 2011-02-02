@@ -2,6 +2,7 @@
 #include "..\Languages\LanguageRuntime.h"
 #include "..\..\Entity\GeneralObjectPoolEntity.h"
 #include "..\..\Threading.h"
+#include "..\..\Entity\GcSingleThreadEntity.h"
 
 namespace vl
 {
@@ -13,89 +14,112 @@ namespace vl
 			using namespace entities;
 			using namespace collections;
 
-			struct GcSingleThread{};
+			struct GcSingleThreadCallbackStruct
+			{
+				BasicILInterpretor*			interpretor;
+				BasicILStack*				stack;
+				vint						label;
+				GcSingleThread::Callback	callback;
+			};
 
-			class SystemCoreGcSingleThreadPlugin : public SystemCoreGcPluginBase<SystemCoreGcSingleThreadPlugin, GcSingleThread>
+			class SystemCoreGcSingleThreadPlugin : public SystemCoreGcPluginBase<SystemCoreGcSingleThreadPlugin, GcSingleThread, GcSingleThreadCallbackStruct, false>
 			{
 			public:
-				inline static GcSingleThread* GcCreate()
-				{
-					CHECK_FAIL(L"NotImplemented");
-				}
-
-				inline static bool GcIsMultipleThreadingSupported(GcSingleThread* gc)
-				{
-					return false;
-				}
-
 				inline static GcHandle* GcCreateHandle(GcSingleThread* gc, GcMeta* meta, vint repeat)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->CreateHandle(meta, repeat);
 				}
 
 				inline static GcMeta* GcGetHandleMeta(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->GetHandleMeta(handle);
 				}
 
 				inline static bool GcIsValidHandle(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->IsValidHandle(handle);
 				}
 
 				inline static bool GcIncreaseHandleRef(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->IncreaseHandleRef(handle);
 				}
 
 				inline static bool GcDecreaseHandleRef(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->DecreaseHandleRef(handle);
 				}
 
 				inline static char* GcIncreaseHandlePin(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->IncreaseHandlePin(handle);
 				}
 
 				inline static bool GcDecreaseHandlePin(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->DecreaseHandlePin(handle);
 				}
 
 				inline static bool GcDisposeHandle(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->DisposeHandle(handle);
 				}
 
 				inline static bool GcIsHandleDisposed(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->IsHandleDisposed(handle);
 				}
 
 				inline static vint GcGetHandleSize(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->GetHandleSize(handle);
 				}
 
 				inline static vint GcGetHandleRepeat(GcSingleThread* gc, GcHandle* handle)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->GetHandleRepeat(handle);
 				}
 
 				inline static bool GcReadHandle(GcSingleThread* gc, GcHandle* handle, vint offset, vint length, char* buffer)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->ReadHandle(handle, offset, length, buffer);
 				}
 
 				inline static bool GcWriteHandle(GcSingleThread* gc, GcHandle* handle, vint offset, vint length, char* buffer)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->WriteHandle(handle, offset, length, buffer);
 				}
 
-				inline static bool GcCollect(GcSingleThread* gc, vint label)
+				inline static bool GcCollect(GcSingleThread* gc)
 				{
-					CHECK_FAIL(L"NotImplemented");
+					return gc->Collect();
+				}
+
+				inline static GcSingleThreadCallbackStruct GcInitCallback(BasicILInterpretor* interpretor, BasicILStack* stack, vint label)
+				{
+					GcSingleThreadCallbackStruct callback={interpretor, stack, label, &GcCallback};
+					return callback;
+				}
+
+				inline static void GcCallback(GcSingleThread* gc, GcHandle* handle, void* userData)
+				{
+					GcSingleThreadCallbackStruct* callback=(GcSingleThreadCallbackStruct*)userData;
+					
+					BasicILLabel label;
+					{
+						CriticalSection::Scope scope(callback->interpretor->GetCriticalSection());
+						label=callback->interpretor->Symbols()->GetLabel(callback->label);
+						if(callback->interpretor->Symbols()->IsValidILIndex(label.key))
+						{
+							callback->stack->GetEnv()->Push<GcSingleThread*>(gc);
+							callback->stack->GetEnv()->Push<GcHandle*>(handle);
+							ILException::RunningResult result=callback->stack->Run();
+							if(result!=ILException::Finished)
+							{
+								CHECK_FAIL(L"TODO");
+							}
+						}
+					}
 				}
 			};
 
