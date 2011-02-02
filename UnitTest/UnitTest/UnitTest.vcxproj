@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Entity\BigObjectPoolEntity.cpp" />
+    <ClCompile Include="..\..\Library\Entity\GcSingleThreadEntity.cpp" />
     <ClCompile Include="..\..\Library\Entity\GeneralObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp" />
@@ -585,6 +586,8 @@
     <ClInclude Include="..\..\Library\Combinator\TokenCombinator.h" />
     <ClInclude Include="..\..\Library\Entity\BigObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Entity\BinaryBalanceTreeEntity.h" />
+    <ClInclude Include="..\..\Library\Entity\GcEntityCommon.h" />
+    <ClInclude Include="..\..\Library\Entity\GcSingleThreadEntity.h" />
     <ClInclude Include="..\..\Library\Entity\GeneralObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Entity\Linear.h" />
     <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h" />

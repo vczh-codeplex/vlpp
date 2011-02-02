@@ -507,6 +507,9 @@
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcSingleThread.cpp">
       <Filter>Library3\Scripting\Utility\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\GcSingleThreadEntity.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1673,6 +1676,12 @@
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\GeneralObjectPoolEntity.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\GcEntityCommon.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\GcSingleThreadEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

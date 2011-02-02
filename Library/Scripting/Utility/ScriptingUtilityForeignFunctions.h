@@ -15,6 +15,8 @@ Classes:
 #include "..\..\Pointer.h"
 #include "..\..\Threading.h"
 #include "..\..\Collections\List.h"
+#include "..\..\Entity\GcEntityCommon.h"
+#include "..\BasicIL\BasicILRuntimeSymbol.h"
 
 namespace vl
 {
@@ -281,7 +283,7 @@ LanguageHandleList
 				{\
 				}\
 				\
-				void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)\
+				void Invoke(vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* result, void* arguments)\
 				{\
 					LanguageArgumentReader reader(result, arguments, stack);
 
@@ -299,49 +301,51 @@ LanguageHandleList
 垃圾收集器统一接口
 ***********************************************************************/
 
-			template<typename __GcImpl, typename __Gc>
+			template<typename _GcImpl, typename _Gc, typename _Callback, bool _MultipleThreading>
 			class SystemCoreGcPluginBase : public LanguagePlugin
 			{
+			private:
+				collections::List<Ptr<Object>>		gcs;
+				_Callback							callback;
 			public:
-				typedef __Gc Gc;
 
-				struct GcMetaSegment
+				BEGIN_FOREIGN_FUNCTION(GcCreate, SystemCoreGcPluginBase)
+					vint label=reader.NextArgument<vint>();
+					plugin->callback=_GcImpl::GcInitCallback(interpretor, stack, label);
+					_Gc* gc=new _Gc(&_GcImpl::GcCallback, &plugin->callback);
+					plugin->gcs.Add(gc);
+					reader.Result<_Gc*>()=gc;
+				END_FOREIGN_FUNCTION
+
+				inline static bool GcIsMultipleThreadingSupported(_Gc* gc)
 				{
-					vint					size;
-					vint					subHandleCount;
-					vint*					subHandles;
-				};
-
-				struct GcMeta
-				{
-					GcMetaSegment			mainSegment;
-					GcMetaSegment			repeatSegment;
-				};
-
-				struct GcHandle
-				{
-				};
-
+					return _MultipleThreading;
+				}
 			protected:
 				bool RegisterForeignFunctions(vl::scripting::basicil::BasicILRuntimeSymbol* symbol)
 				{
+					typedef vl::entities::GcMetaSegment GcMetaSegment;
+					typedef vl::entities::GcMeta GcMeta;
+					typedef vl::entities::GcHandle GcHandle;
+
 					return 
-						REGISTER_LIGHT_FUNCTION(GcCreate, Gc*(), __GcImpl::GcCreate) &&
-						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(Gc*), __GcImpl::GcIsMultipleThreadingSupported) &&
-						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(Gc*, GcMeta*, vint), __GcImpl::GcCreateHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(Gc*, GcHandle*), __GcImpl::GcGetHandleMeta) &&
-						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(Gc*, GcHandle*), __GcImpl::GcIsValidHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandleRef, bool(Gc*, GcHandle*), __GcImpl::GcIncreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandleRef, bool(Gc*, GcHandle*), __GcImpl::GcDecreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandlePin, char*(Gc*, GcHandle*), __GcImpl::GcIncreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandlePin, bool(Gc*, GcHandle*), __GcImpl::GcDecreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDisposeHandle, bool(Gc*, GcHandle*), __GcImpl::GcDisposeHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(Gc*, GcHandle*), __GcImpl::GcIsHandleDisposed) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(Gc*, GcHandle*), __GcImpl::GcGetHandleSize) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(Gc*, GcHandle*), __GcImpl::GcGetHandleRepeat) &&
-						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(Gc*, GcHandle*, vint, vint, char*), __GcImpl::GcReadHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(Gc*, GcHandle*, vint, vint, char*),__GcImpl:: GcWriteHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcCollect, bool(Gc*, vint), __GcImpl::GcCollect);
+						REGISTER_FOREIGN_FUNCTION(GcCreate) &&
+						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), GcIsMultipleThreadingSupported) &&
+
+						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(_Gc*, GcMeta*, vint), _GcImpl::GcCreateHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(_Gc*, GcHandle*), _GcImpl::GcGetHandleMeta) &&
+						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(_Gc*, GcHandle*), _GcImpl::GcIsValidHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcIncreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION(GcDecreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION(GcIncreaseHandlePin, char*(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION(GcDecreaseHandlePin, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION(GcDisposeHandle, bool(_Gc*, GcHandle*), _GcImpl::GcDisposeHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(_Gc*, GcHandle*), _GcImpl::GcIsHandleDisposed) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleSize) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleRepeat) &&
+						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(_Gc*, GcHandle*, vint, vint, char*), _GcImpl::GcReadHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(_Gc*, GcHandle*, vint, vint, char*),_GcImpl::GcWriteHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcCollect, bool(_Gc*), _GcImpl::GcCollect);
 				}
 			};
 

@@ -363,7 +363,7 @@ BasicILStack
 				,needToPause(false)
 			{
 				env=new BasicILEnv(interpretor->GetStackSize());
-				env->ReserveTop(BasicILStack::StackDataSize);
+				env->ReserveTop(BasicILStack::ExceptionObjectOffset);
 				instruction=-1;
 				insKey=-1;
 				userData=0;
@@ -412,8 +412,6 @@ BasicILStack
 				env->Push<vint>(-1);
 				env->Push<vint>(env->StackSize());
 				env->SetBase(env->StackTop());
-				
-				env->ReserveTop(sizeof(BasicILExceptionHandler*));
 				SetExceptionHandler(0);
 
 				instruction=entryInstruction;
