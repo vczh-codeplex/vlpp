@@ -185,6 +185,17 @@ LanguageHandleList
 			{
 			};
 
+			template<typename R>
+			struct LightFunctionMaker<R()>
+			{
+				template<R(f)()>
+				static vint Function(void* result, void* argument)
+				{
+					*(R*)(result)=f();
+					return 0;
+				}
+			};
+
 			template<typename P1, typename R>
 			struct LightFunctionMaker<R(P1)>
 			{
@@ -224,6 +235,37 @@ LanguageHandleList
 				}
 			};
 
+			template<typename P1, typename P2, typename P3, typename P4, typename R>
+			struct LightFunctionMaker<R(P1, P2, P3, P4)>
+			{
+				template<R(f)(P1, P2, P3, P4)>
+				static vint Function(void* result, void* argument)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					*(R*)(result)=f(a1, a2, a3, a4);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4);
+				}
+			};
+
+			template<typename P1, typename P2, typename P3, typename P4, typename P5, typename R>
+			struct LightFunctionMaker<R(P1, P2, P3, P4, P5)>
+			{
+				template<R(f)(P1, P2, P3, P4, P5)>
+				static vint Function(void* result, void* argument)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					*(R*)(result)=f(a1, a2, a3, a4, a5);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5);
+				}
+			};
+
 /***********************************************************************
 辅助宏
 ***********************************************************************/
@@ -254,6 +296,64 @@ LanguageHandleList
 			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, &LightFunctionMaker<TYPE>::Function<FUNC>)
 
 /***********************************************************************
+垃圾收集器统一接口
+***********************************************************************/
+
+			template<typename __GcImpl, typename __Gc>
+			class SystemCoreGcPluginBase : public LanguagePlugin
+			{
+			public:
+				typedef __Gc Gc;
+
+				struct GcMetaSegment
+				{
+					vint					size;
+					vint					subHandleCount;
+					vint*					subHandles;
+				};
+
+				struct GcMetaDescriptor
+				{
+					GcMetaSegment			mainSegment;
+					GcMetaSegment			repeatSegment;
+				};
+
+				struct GcMeta
+				{
+					GcMetaDescriptor*		descriptor;
+				};
+
+				struct GcHandle
+				{
+				};
+
+			protected:
+				bool RegisterForeignFunctions(vl::scripting::basicil::BasicILRuntimeSymbol* symbol)
+				{
+					return 
+						REGISTER_LIGHT_FUNCTION(GcCreate, Gc*(), __GcImpl::GcCreate) &&
+						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(Gc*), __GcImpl::GcIsMultipleThreadingSupported) &&
+						REGISTER_LIGHT_FUNCTION(GcCreateMeta, GcMeta*(Gc*, GcMetaDescriptor*), __GcImpl::GcCreateMeta) &&
+						REGISTER_LIGHT_FUNCTION(GcGetDescriptorMeta, GcMeta*(Gc*, GcMetaDescriptor*), __GcImpl::GcGetDescriptorMeta) &&
+						REGISTER_LIGHT_FUNCTION(GcIsValidMeta, bool(Gc*, GcMeta*), __GcImpl::GcIsValidMeta) &&
+						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(Gc*, GcMeta*, vint), __GcImpl::GcCreateHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(Gc*, GcHandle*), __GcImpl::GcGetHandleMeta) &&
+						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(Gc*, GcHandle*), __GcImpl::GcIsValidHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcIncreaseHandleRef, bool(Gc*, GcHandle*), __GcImpl::GcIncreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION(GcDecreaseHandleRef, bool(Gc*, GcHandle*), __GcImpl::GcDecreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION(GcIncreaseHandlePin, char*(Gc*, GcHandle*), __GcImpl::GcIncreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION(GcDecreaseHandlePin, bool(Gc*, GcHandle*), __GcImpl::GcDecreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION(GcDisposeHandle, bool(Gc*, GcHandle*), __GcImpl::GcDisposeHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(Gc*, GcHandle*), __GcImpl::GcIsHandleDisposed) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(Gc*, GcHandle*), __GcImpl::GcGetHandleSize) &&
+						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(Gc*, GcHandle*), __GcImpl::GcGetHandleRepeat) &&
+						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(Gc*, GcHandle*, vint, vint, char*), __GcImpl::GcReadHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(Gc*, GcHandle*, vint, vint, char*),__GcImpl:: GcWriteHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcCollect, bool(Gc*, vint), __GcImpl::GcCollect);
+				}
+			};
+
+/***********************************************************************
 插件函数
 ***********************************************************************/
 
@@ -261,6 +361,7 @@ LanguageHandleList
 			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(*printer)(bool, wchar_t*));
 			extern Ptr<LanguagePlugin>		CreateThreadingPlugin();
 			extern Ptr<LanguagePlugin>		CreateStdlibPlugin();
+			extern Ptr<LanguagePlugin>		CreateGcSingleThreadPlugin();
 		}
 	}
 }
