@@ -19,340 +19,264 @@ namespace vl
 
 				/*----------------------------------------------------------------------*/
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateCriticalSection, SystemCoreThreadingPlugin)
+				static vint SynCreateCriticalSection(void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					CriticalSection* cs=new CriticalSection;
 					vint handle=plugin->criticalSections.Alloc(cs);
-					reader.Result<vint>()=handle;
+					return handle;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynDisposeCriticalSection, SystemCoreThreadingPlugin)
+				static bool SynDisposeCriticalSection(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
-					reader.Result<bool>()=plugin->criticalSections.Free(handle);
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					return plugin->criticalSections.Free(handle);
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynTryEnterCriticalSection, SystemCoreThreadingPlugin)
+				static bool SynTryEnterCriticalSection(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					CriticalSection* cs=plugin->criticalSections.GetHandle(handle);
-					if(cs)
-					{
-						reader.Result<bool>()=cs->TryEnter();
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return cs?cs->TryEnter():false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynEnterCriticalSection, SystemCoreThreadingPlugin)
+				static bool SynEnterCriticalSection(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					CriticalSection* cs=plugin->criticalSections.GetHandle(handle);
 					if(cs)
 					{
 						cs->Enter();
-						reader.Result<bool>()=true;
+						return true;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynLeaveCriticalSection, SystemCoreThreadingPlugin)
+				static bool SynLeaveCriticalSection(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					CriticalSection* cs=plugin->criticalSections.GetHandle(handle);
 					if(cs)
 					{
 						cs->Leave();
-						reader.Result<bool>()=true;
+						return true;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
 				/*----------------------------------------------------------------------*/
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateMutex, SystemCoreThreadingPlugin)
+				static vint SynCreateMutex(bool owned, void* userData)
 				{
-					bool owned=reader.NextArgument<bool>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					Mutex* mutex=new Mutex;
 					if(mutex->Create(owned))
 					{
 						vint handle=plugin->waitables.Alloc(mutex);
-						reader.Result<vint>()=handle;
+						return handle;
 					}
 					else
 					{
 						delete mutex;
-						reader.Result<vint>()=0;
+						return 0;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynReleaseMutex, SystemCoreThreadingPlugin)
+				static bool SynReleaseMutex(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					Mutex* mutex=dynamic_cast<Mutex*>(plugin->waitables.GetHandle(handle));
 					if(mutex)
 					{
-						reader.Result<bool>()=mutex->Release();
+						return mutex->Release();
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateSemaphore, SystemCoreThreadingPlugin)
+				static vint SynCreateSemaphore(vint init, vint max, void* userData)
 				{
-					vint init=reader.NextArgument<vint>();
-					vint max=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					Semaphore* semaphore=new Semaphore;
 					if(semaphore->Create(init, max))
 					{
 						vint handle=plugin->waitables.Alloc(semaphore);
-						reader.Result<vint>()=handle;
+						return handle;
 					}
 					else
 					{
 						delete semaphore;
-						reader.Result<vint>()=0;
+						return 0;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynReleaseSemaphore, SystemCoreThreadingPlugin)
+				static bool SynReleaseSemaphore(vint handle, vint count, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
-					vint count=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					Semaphore* semaphore=dynamic_cast<Semaphore*>(plugin->waitables.GetHandle(handle));
 					if(semaphore)
 					{
-						reader.Result<bool>()=semaphore->Release(count)!=-1;
+						return semaphore->Release(count)!=-1;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateAutoEvent, SystemCoreThreadingPlugin)
+				static vint SynCreateAutoEvent(bool signaled, void* userData)
 				{
-					bool signaled=reader.NextArgument<bool>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					EventObject* eventObject=new EventObject;
 					if(eventObject->CreateAutoUnsignal(signaled))
 					{
 						vint handle=plugin->waitables.Alloc(eventObject);
-						reader.Result<vint>()=handle;
+						return handle;
 					}
 					else
 					{
 						delete eventObject;
-						reader.Result<vint>()=0;
+						return 0;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateManualEvent, SystemCoreThreadingPlugin)
+				static vint SynCreateManualEvent(bool signaled, void* userData)
 				{
-					bool signaled=reader.NextArgument<bool>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					EventObject* eventObject=new EventObject;
 					if(eventObject->CreateManualUnsignal(signaled))
 					{
 						vint handle=plugin->waitables.Alloc(eventObject);
-						reader.Result<vint>()=handle;
+						return handle;
 					}
 					else
 					{
 						delete eventObject;
-						reader.Result<vint>()=0;
+						return 0;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynSignalEvent, SystemCoreThreadingPlugin)
+				static bool SynSignalEvent(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					EventObject* eventObject=dynamic_cast<EventObject*>(plugin->waitables.GetHandle(handle));
-					if(eventObject)
-					{
-						reader.Result<bool>()=eventObject->Signal();
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return eventObject?eventObject->Signal():false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynUnsignalEvent, SystemCoreThreadingPlugin)
+				static bool SynUnsignalEvent(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					EventObject* eventObject=dynamic_cast<EventObject*>(plugin->waitables.GetHandle(handle));
-					if(eventObject)
-					{
-						reader.Result<bool>()=eventObject->Unsignal();
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return eventObject?eventObject->Unsignal():false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynDisposeWaitable, SystemCoreThreadingPlugin)
+				static bool SynDisposeWaitable(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					WaitableObject* waitable=plugin->waitables.GetHandle(handle);
-					if(waitable)
-					{
-						plugin->waitables.Free(handle);
-						reader.Result<bool>()=true;
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return waitable?plugin->waitables.Free(handle):false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynWait, SystemCoreThreadingPlugin)
+				static bool SynWait(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					WaitableObject* waitable=plugin->waitables.GetHandle(handle);
-					if(waitable)
-					{
-						reader.Result<bool>()=waitable->Wait();
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return waitable?waitable->Wait():false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynWaitForTime, SystemCoreThreadingPlugin)
+				static bool SynWaitForTime(vint handle, vint ms, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
-					vint ms=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					WaitableObject* waitable=plugin->waitables.GetHandle(handle);
-					if(waitable)
-					{
-						reader.Result<bool>()=waitable->WaitForTime(ms);
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return waitable?waitable->WaitForTime(ms):false;
 				}
-				END_FOREIGN_FUNCTION
 
 				/*----------------------------------------------------------------------*/
 
-				BEGIN_FOREIGN_FUNCTION(SynCreateThread, SystemCoreThreadingPlugin)
+				static vint SynCreateThread(vint label, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
 				{
-					vint label=reader.NextArgument<vint>();
-					void* arguments=reader.NextArgument<void*>();
-					CriticalSection::Scope scope(stack->GetInterpretor()->GetCriticalSection());
-					
-					if(interpretor->Symbols()->IsValidILIndex(stack->GetInterpretor()->Symbols()->GetLabel(label).key))
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					CriticalSection::Scope scope(interpretor->GetCriticalSection());
+					if(interpretor->Symbols()->IsValidILIndex(interpretor->Symbols()->GetLabel(label).key))
 					{
-						SynThread* thread=new SynThread(stack->GetInterpretor(), label, arguments);
+						SynThread* thread=new SynThread(interpretor, label, arguments);
 						vint handle=plugin->waitables.Alloc(thread);
 						thread->SetPlugin(handle, plugin);
-						reader.Result<vint>()=handle;
+						return handle;
 					}
 					else
 					{
-						reader.Result<vint>()=0;
+						return 0;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynStartThread, SystemCoreThreadingPlugin)
+				static bool SynStartThread(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
-					if(thread)
-					{
-						reader.Result<bool>()=thread->Start();
-					}
-					else
-					{
-						reader.Result<bool>()=false;
-					}
+					return thread?thread->Start():false;
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynPauseAndWaitThread, SystemCoreThreadingPlugin)
+				static bool SynPauseAndWaitThread(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
 					if(thread && thread->IsRunning())
 					{
 						thread->SetPauseSignal();
 						thread->GetPausingEvent()->Wait();
-						reader.Result<bool>()=true;
+						return true;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynResumeThread, SystemCoreThreadingPlugin)
+				static bool SynResumeThread(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
 					if(thread && !thread->IsRunning())
 					{
 						thread->SetResumeSignal();
-						reader.Result<bool>()=true;
+						return true;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynStopAndWaitThread, SystemCoreThreadingPlugin)
+				static bool SynStopAndWaitThread(vint handle, void* userData)
 				{
-					vint handle=reader.NextArgument<vint>();
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
 					SynThread* thread=dynamic_cast<SynThread*>(plugin->waitables.GetHandle(handle));
 					if(thread && thread->IsRunning())
 					{
 						thread->SetStopSignal();
 						thread->GetPausingEvent()->Wait();
-						reader.Result<bool>()=true;
+						return true;
 					}
 					else
 					{
-						reader.Result<bool>()=false;
+						return false;
 					}
 				}
-				END_FOREIGN_FUNCTION
 
-				BEGIN_FOREIGN_FUNCTION(SynSleep, SystemCoreThreadingPlugin)
+				static bool SynSleep(vint ms)
 				{
-					vint ms=reader.NextArgument<vint>();
 					Thread::Sleep(ms);
+					return true;
 				}
-				END_FOREIGN_FUNCTION
 
 				class SynThread : public Thread
 				{
@@ -496,28 +420,28 @@ namespace vl
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
-						REGISTER_FOREIGN_FUNCTION(SynCreateCriticalSection) &&
-						REGISTER_FOREIGN_FUNCTION(SynDisposeCriticalSection) &&
-						REGISTER_FOREIGN_FUNCTION(SynTryEnterCriticalSection) &&
-						REGISTER_FOREIGN_FUNCTION(SynEnterCriticalSection) &&
-						REGISTER_FOREIGN_FUNCTION(SynLeaveCriticalSection) &&
-						REGISTER_FOREIGN_FUNCTION(SynCreateMutex) &&
-						REGISTER_FOREIGN_FUNCTION(SynReleaseMutex) &&
-						REGISTER_FOREIGN_FUNCTION(SynCreateSemaphore) &&
-						REGISTER_FOREIGN_FUNCTION(SynReleaseSemaphore) &&
-						REGISTER_FOREIGN_FUNCTION(SynCreateAutoEvent) &&
-						REGISTER_FOREIGN_FUNCTION(SynCreateManualEvent) &&
-						REGISTER_FOREIGN_FUNCTION(SynSignalEvent) &&
-						REGISTER_FOREIGN_FUNCTION(SynUnsignalEvent) &&
-						REGISTER_FOREIGN_FUNCTION(SynDisposeWaitable) &&
-						REGISTER_FOREIGN_FUNCTION(SynWait) &&
-						REGISTER_FOREIGN_FUNCTION(SynWaitForTime) &&
-						REGISTER_FOREIGN_FUNCTION(SynCreateThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynStartThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynPauseAndWaitThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynResumeThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynStopAndWaitThread) &&
-						REGISTER_FOREIGN_FUNCTION(SynSleep);
+						REGISTER_LIGHT_FUNCTION2(SynCreateCriticalSection, vint(), SynCreateCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynDisposeCriticalSection, bool(vint), SynDisposeCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynTryEnterCriticalSection, bool(vint), SynTryEnterCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynEnterCriticalSection, bool(vint), SynEnterCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynLeaveCriticalSection, bool(vint), SynLeaveCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynCreateMutex, vint(bool), SynCreateMutex) &&
+						REGISTER_LIGHT_FUNCTION2(SynReleaseMutex, bool(vint), SynReleaseMutex) &&
+						REGISTER_LIGHT_FUNCTION2(SynCreateSemaphore, vint(vint, vint), SynCreateSemaphore) &&
+						REGISTER_LIGHT_FUNCTION2(SynReleaseSemaphore, bool(vint, vint), SynReleaseSemaphore) &&
+						REGISTER_LIGHT_FUNCTION2(SynCreateAutoEvent, vint(bool), SynCreateAutoEvent) &&
+						REGISTER_LIGHT_FUNCTION2(SynCreateManualEvent, vint(bool), SynCreateManualEvent) &&
+						REGISTER_LIGHT_FUNCTION2(SynSignalEvent, bool(vint), SynSignalEvent) &&
+						REGISTER_LIGHT_FUNCTION2(SynUnsignalEvent, bool(vint), SynUnsignalEvent) &&
+						REGISTER_LIGHT_FUNCTION2(SynDisposeWaitable, bool(vint), SynDisposeWaitable) &&
+						REGISTER_LIGHT_FUNCTION2(SynWait, bool(vint), SynWait) &&
+						REGISTER_LIGHT_FUNCTION2(SynWaitForTime, bool(vint, vint), SynWaitForTime) &&
+						REGISTER_LIGHT_FUNCTION3(SynCreateThread, vint(vint, void*), SynCreateThread) &&
+						REGISTER_LIGHT_FUNCTION2(SynStartThread, bool(vint), SynStartThread) &&
+						REGISTER_LIGHT_FUNCTION2(SynPauseAndWaitThread, bool(vint), SynPauseAndWaitThread) &&
+						REGISTER_LIGHT_FUNCTION2(SynResumeThread, bool(vint), SynResumeThread) &&
+						REGISTER_LIGHT_FUNCTION2(SynStopAndWaitThread, bool(vint), SynStopAndWaitThread) &&
+						REGISTER_LIGHT_FUNCTION(SynSleep, bool(vint), SynSleep);
 				}
 			public:
 				SystemCoreThreadingPlugin()

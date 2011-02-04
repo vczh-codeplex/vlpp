@@ -64,7 +64,6 @@ namespace vl
 
 				BasicILExceptionHandler*						GetExceptionHandler();
 				void											SetExceptionHandler(BasicILExceptionHandler* handler);
-				void											InvokeForeignFunction(vint index);
 				void											InvokeLightFunction(vint index);
 				void*											GetUserData();
 				void											SetUserData(void* data);

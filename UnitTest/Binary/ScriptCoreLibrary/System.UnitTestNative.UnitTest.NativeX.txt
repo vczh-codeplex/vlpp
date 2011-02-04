@@ -1,9 +1,9 @@
 unit UnitTest;
 
-foreign function void __Assert(bool condition, wchar* description)
+foreign function bool __Assert(bool condition, wchar* description)
     alias UnitTest.Assert;
 
-foreign function void __Print(wchar* description)
+foreign function bool __Print(wchar* description)
     alias UnitTest.Print;
 
 #public

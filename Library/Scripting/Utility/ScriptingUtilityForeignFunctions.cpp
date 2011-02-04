@@ -60,39 +60,6 @@ LanguagePlugin
 			}
 
 /***********************************************************************
-LanguageArgumentReader
-***********************************************************************/
-
-			LanguageArgumentReader::LanguageArgumentReader(void* _result, void* _arguments)
-				:result((char*)_result)
-				,arguments((char*)_arguments)
-				,currentArgument((char*)_arguments)
-				,stack(0)
-			{
-			}
-
-			LanguageArgumentReader::LanguageArgumentReader(void* _result, void* _arguments, BasicILStack* _stack)
-				:result((char*)_result)
-				,arguments((char*)_arguments)
-				,currentArgument((char*)_arguments)
-				,stack(_stack)
-			{
-			}
-
-			LanguageArgumentReader::~LanguageArgumentReader()
-			{
-				if(stack)
-				{
-					stack->GetEnv()->Reserve(-(vint)(sizeof(result)+BytesToPop()));
-				}
-			}
-
-			vint LanguageArgumentReader::BytesToPop()
-			{
-				return currentArgument-arguments;
-			}
-
-/***********************************************************************
 LanguagePluginException
 ***********************************************************************/
 
