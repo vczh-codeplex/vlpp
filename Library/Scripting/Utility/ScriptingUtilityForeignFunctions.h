@@ -55,45 +55,6 @@ LanguagePlugin
 			};
 
 /***********************************************************************
-LanguageArgumentReader
-***********************************************************************/
-
-			class LanguageArgumentReader : public Object
-			{
-			protected:
-				char*							result;
-				char*							arguments;
-				char*							currentArgument;
-				basicil::BasicILStack*			stack;
-			public:
-				LanguageArgumentReader(void* _result, void* _arguments);
-				LanguageArgumentReader(void* _result, void* _arguments, basicil::BasicILStack* stack);
-				~LanguageArgumentReader();
-
-				vint							BytesToPop();
-
-				template<typename T>
-				T NextArgument()
-				{
-					return NextArgumentRef<T>();
-				}
-
-				template<typename T>
-				T& NextArgumentRef()
-				{
-					T& argument=*(T*)currentArgument;
-					currentArgument+=sizeof(T);
-					return argument;
-				}
-
-				template<typename T>
-				T& Result()
-				{
-					return *(T*)result;
-				}
-			};
-
-/***********************************************************************
 LanguagePluginException
 ***********************************************************************/
 
@@ -182,6 +143,10 @@ LanguageHandleList
 辅助函数
 ***********************************************************************/
 
+#define EXTRA_ARGUMENTS_DEFINITIONS vl::scripting::basicil::BasicILInterpretor*, vl::scripting::basicil::BasicILStack*, void*
+#define EXTRA_ARGUMENTS vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData
+#define EXTRA_PASS interpretor, stack, userData
+
 			template<typename T>
 			struct LightFunctionMaker
 			{
@@ -191,9 +156,23 @@ LanguageHandleList
 			struct LightFunctionMaker<R()>
 			{
 				template<R(f)()>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					*(R*)(result)=f();
+					return 0;
+				}
+
+				template<R(f)(void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					*(R*)(result)=f(userData);
+					return 0;
+				}
+
+				template<R(f)(EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					*(R*)(result)=f(EXTRA_PASS);
 					return 0;
 				}
 			};
@@ -202,10 +181,26 @@ LanguageHandleList
 			struct LightFunctionMaker<R(P1)>
 			{
 				template<R(f)(P1)>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					P1 a1=*(P1*)((char*)argument+0);
 					*(R*)(result)=f(a1);
+					return sizeof(P1);
+				}
+				
+				template<R(f)(P1, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					*(R*)(result)=f(a1, userData);
+					return sizeof(P1);
+				}
+				
+				template<R(f)(P1, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					*(R*)(result)=f(a1, EXTRA_PASS);
 					return sizeof(P1);
 				}
 			};
@@ -214,11 +209,29 @@ LanguageHandleList
 			struct LightFunctionMaker<R(P1, P2)>
 			{
 				template<R(f)(P1, P2)>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					P1 a1=*(P1*)((char*)argument+0);
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
 					*(R*)(result)=f(a1, a2);
+					return sizeof(P1)+sizeof(P2);
+				}
+				
+				template<R(f)(P1, P2, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					*(R*)(result)=f(a1, a2, userData);
+					return sizeof(P1)+sizeof(P2);
+				}
+				
+				template<R(f)(P1, P2, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					*(R*)(result)=f(a1, a2, EXTRA_PASS);
 					return sizeof(P1)+sizeof(P2);
 				}
 			};
@@ -227,12 +240,32 @@ LanguageHandleList
 			struct LightFunctionMaker<R(P1, P2, P3)>
 			{
 				template<R(f)(P1, P2, P3)>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					P1 a1=*(P1*)((char*)argument+0);
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
 					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
 					*(R*)(result)=f(a1, a2, a3);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3);
+				}
+				
+				template<R(f)(P1, P2, P3, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					*(R*)(result)=f(a1, a2, a3, userData);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3);
+				}
+				
+				template<R(f)(P1, P2, P3, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					*(R*)(result)=f(a1, a2, a3, EXTRA_PASS);
 					return sizeof(P1)+sizeof(P2)+sizeof(P3);
 				}
 			};
@@ -241,7 +274,7 @@ LanguageHandleList
 			struct LightFunctionMaker<R(P1, P2, P3, P4)>
 			{
 				template<R(f)(P1, P2, P3, P4)>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					P1 a1=*(P1*)((char*)argument+0);
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
@@ -250,13 +283,35 @@ LanguageHandleList
 					*(R*)(result)=f(a1, a2, a3, a4);
 					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4);
 				}
+				
+				template<R(f)(P1, P2, P3, P4, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					*(R*)(result)=f(a1, a2, a3, a4, userData);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4);
+				}
+				
+				template<R(f)(P1, P2, P3, P4, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					*(R*)(result)=f(a1, a2, a3, a4, EXTRA_PASS);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4);
+				}
 			};
 
 			template<typename P1, typename P2, typename P3, typename P4, typename P5, typename R>
 			struct LightFunctionMaker<R(P1, P2, P3, P4, P5)>
 			{
 				template<R(f)(P1, P2, P3, P4, P5)>
-				static vint Function(void* result, void* argument)
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					P1 a1=*(P1*)((char*)argument+0);
 					P2 a2=*(P2*)((char*)argument+sizeof(P1));
@@ -266,36 +321,50 @@ LanguageHandleList
 					*(R*)(result)=f(a1, a2, a3, a4, a5);
 					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5);
 				}
+				
+				template<R(f)(P1, P2, P3, P4, P5, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					*(R*)(result)=f(a1, a2, a3, a4, a5, userData);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5);
+				}
+				
+				template<R(f)(P1, P2, P3, P4, P5, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					*(R*)(result)=f(a1, a2, a3, a4, a5, EXTRA_PASS);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5);
+				}
 			};
+
+#undef EXTRA_ARGUMENTS_DEFINITIONS
+#undef EXTRA_ARGUMENTS
+#undef EXTRA_PASS
 
 /***********************************************************************
 辅助宏
 ***********************************************************************/
 
-#define BEGIN_FOREIGN_FUNCTION(NAME, PLUGIN)\
-			class NAME : public Object, public IBasicILForeignFunction\
-			{\
-			protected:\
-				PLUGIN*			plugin;\
-			public:\
-				NAME(PLUGIN* _plugin)\
-					:plugin(_plugin)\
-				{\
-				}\
-				\
-				void Invoke(vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* result, void* arguments)\
-				{\
-					LanguageArgumentReader reader(result, arguments, stack);
-
-#define END_FOREIGN_FUNCTION\
-				}\
-			};
-
-#define REGISTER_FOREIGN_FUNCTION(NAME)\
-			symbol->RegisterForeignFunction(L"SystemCoreForeignFunctions", L#NAME, new NAME(this))
-
 #define REGISTER_LIGHT_FUNCTION(NAME, TYPE, FUNC)\
-			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, &LightFunctionMaker<TYPE>::Function<FUNC>)
+			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, BasicILLightFunction(&LightFunctionMaker<TYPE>::Function<FUNC>, this))
+
+#define REGISTER_LIGHT_FUNCTION2(NAME, TYPE, FUNC)\
+			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, BasicILLightFunction(&LightFunctionMaker<TYPE>::Function2<FUNC>, this))
+
+#define REGISTER_LIGHT_FUNCTION3(NAME, TYPE, FUNC)\
+			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, BasicILLightFunction(&LightFunctionMaker<TYPE>::Function3<FUNC>, this))
+
+#define LANGUAGE_PLUGIN(TYPE) TYPE* plugin=(TYPE*)userData
 
 /***********************************************************************
 垃圾收集器统一接口
@@ -308,14 +377,14 @@ LanguageHandleList
 				collections::List<Ptr<Object>>		gcs;
 				_Callback							callback;
 			public:
-
-				BEGIN_FOREIGN_FUNCTION(GcCreate, SystemCoreGcPluginBase)
-					vint label=reader.NextArgument<vint>();
+				inline static _Gc* GcCreate(vint label, vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData)
+				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
 					plugin->callback=_GcImpl::GcInitCallback(interpretor, stack, label);
 					_Gc* gc=new _Gc(&_GcImpl::GcCallback, &plugin->callback);
 					plugin->gcs.Add(gc);
-					reader.Result<_Gc*>()=gc;
-				END_FOREIGN_FUNCTION
+					return gc;
+				}
 
 				inline static bool GcIsMultipleThreadingSupported(_Gc* gc)
 				{
@@ -329,7 +398,7 @@ LanguageHandleList
 					typedef vl::entities::GcHandle GcHandle;
 
 					return 
-						REGISTER_FOREIGN_FUNCTION(GcCreate) &&
+						REGISTER_LIGHT_FUNCTION3(GcCreate, _Gc*(vint), GcCreate) &&
 						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), GcIsMultipleThreadingSupported) &&
 
 						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(_Gc*, GcMeta*, vint), _GcImpl::GcCreateHandle) &&

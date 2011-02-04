@@ -647,21 +647,18 @@ TEST_CASE(Test_NativeX_GenericStructure)
 	}
 }
 
-class Test_NativeX_ForeignFunction_Summer : public Object, public ILanguageForeignFunction
+vint Test_NativeX_ForeignFunction_Summer(void* result, void* arguments)
 {
-public:
-	void Invoke(LanguageArguments& arguments)
+	vint* numbers=*(vint**)(arguments);
+	vint count=*(vint*)((char*)arguments+sizeof(vint*));
+	vint sum=0;
+	for(vint i=0;i<count;i++)
 	{
-		vint* numbers=arguments.NextArgument<vint*>();
-		vint count=arguments.NextArgument<vint>();
-		vint result=0;
-		for(vint i=0;i<count;i++)
-		{
-			result+=numbers[i];
-		}
-		arguments.Result<vint>()=result;
+		sum+=numbers[i];
 	}
-};
+	*((vint*)result)=sum;
+	return sizeof(vint*)+sizeof(vint);
+}
 
 TEST_CASE(Test_NativeX_ForeignFunction)
 {
@@ -684,7 +681,7 @@ TEST_CASE(Test_NativeX_ForeignFunction)
 		BasicDeclarationInfo main=metadata->GetDeclaration(1);
 
 		LanguageHost host(65536);
-		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_NativeX_ForeignFunction_Summer);
+		host.RegisterForeignFunction(L"Foreign", L"Sum", Test_NativeX_ForeignFunction_Summer);
 		host.LoadAssembly(assembly);
 		Ptr<LanguageState> state=host.CreateState();
 		TEST_ASSERT(state->RunInitialization(assembly)==basicil::ILException::Finished);

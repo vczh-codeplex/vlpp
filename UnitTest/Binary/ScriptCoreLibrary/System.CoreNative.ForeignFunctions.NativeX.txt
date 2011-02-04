@@ -180,7 +180,7 @@ foreign function bool __SynStopAndWaitThread(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynStopAndWaitThread;
     
 #public
-foreign function void SynSleep(int ms)
+foreign function bool SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
 
 #public

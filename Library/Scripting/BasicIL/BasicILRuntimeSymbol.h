@@ -111,13 +111,28 @@ namespace vl
 			class BasicILInterpretor;
 			class BasicILStack;
 
-			class IBasicILForeignFunction : public Interface
+			struct BasicILLightFunction
 			{
-			public:
-				virtual void									Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)=0;
-			};
+				typedef vint(*Handler)(void* result, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData);
 
-			typedef vint(*BasicILLightFunction)(void* result, void* arguments);
+				Handler											handler;
+				void*											userData;
+
+				BasicILLightFunction()
+					:handler(0)
+					,userData(0)
+				{
+				}
+
+				BasicILLightFunction(Handler _handler, void* _userData)
+					:handler(_handler)
+					,userData(_userData)
+				{
+				}
+
+				bool operator==(const BasicILLightFunction&){return false;}
+				bool operator!=(const BasicILLightFunction&){return true;}
+			};
 
 /***********************************************************************
 ·ûºÅ¹ÜÀíÆ÷
@@ -128,13 +143,11 @@ namespace vl
 				typedef collections::Dictionary<collections::Pair<WString, WString>, vint>	_SymbolMap;
 				typedef collections::List<collections::Pair<WString, WString>>				_SymbolList;
 				typedef collections::Dictionary<WString, BasicIL*>							_BasicILMap;
-				typedef collections::List<Ptr<IBasicILForeignFunction>>						_ForeignFunctionList;
 				typedef collections::List<BasicILLightFunction>								_LightFunctionList;
 
 			public:
 				static const vint								GenericFunctionSitingAssemblyKey=0;
-				static const vint								ForeignFunctionSitingAssemblyKey=-2;
-				static const vint								LightFunctionSitingAssemblyKey=-3;
+				static const vint								LightFunctionSitingAssemblyKey=-2;
 
 			private:
 				collections::List<BasicIL*>						ils;
@@ -149,7 +162,6 @@ namespace vl
 				BasicILGenericInstanceEntry::MapType			genericInstances;
 
 				_SymbolMap										foreignFunctionLabelMap;
-				_ForeignFunctionList							foreignFunctionList;
 				_LightFunctionList								lightFunctionList;
 
 			public:
@@ -179,9 +191,7 @@ namespace vl
 				vint											LoadILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				void											LinkILSymbol(BasicIL* il, _SymbolList& linkingSymbols, _SymbolList& foreignFunctions);
 				void											LinkILFixInstructionKeyOnly(BasicIL* il);
-				bool											RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function);
 				bool											RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function);
-				IBasicILForeignFunction*						GetForeignFunction(vint index);
 				BasicILLightFunction							GetLightFunction(vint index);
 				void											LogInternalState(stream::TextWriter& writer);
 			};

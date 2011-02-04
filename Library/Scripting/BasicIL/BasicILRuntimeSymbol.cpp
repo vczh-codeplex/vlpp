@@ -514,26 +514,6 @@ BasicILRuntimeSymbol::SymbolManagement
 					}
 				}
 			}
-			
-			bool BasicILRuntimeSymbol::RegisterForeignFunction(const WString& category, const WString& name, Ptr<IBasicILForeignFunction> function)
-			{
-				Pair<WString, WString> symbol(category, name);
-				if(foreignFunctionLabelMap.Keys().Contains(symbol))
-				{
-					return false;
-				}
-				else
-				{
-					BasicILLabel label;
-					label.key=ForeignFunctionSitingAssemblyKey;
-					label.instruction=foreignFunctionList.Count();
-					foreignFunctionLabelMap.Add(symbol, labels.Count());
-
-					foreignFunctionList.Add(function);
-					labels.Add(label);
-					return true;
-				}
-			}
 
 			bool BasicILRuntimeSymbol::RegisterLightFunction(const WString& category, const WString& name, BasicILLightFunction function)
 			{
@@ -553,6 +533,11 @@ BasicILRuntimeSymbol::SymbolManagement
 					labels.Add(label);
 					return true;
 				}
+			}
+
+			BasicILLightFunction BasicILRuntimeSymbol::GetLightFunction(vint index)
+			{
+				return lightFunctionList[index];
 			}
 		}
 	}

@@ -10,23 +10,6 @@ namespace vl
 LanguageAssembly
 ***********************************************************************/
 
-		class LanguageForeignFunction : public Object, public IBasicILForeignFunction
-		{
-		public:
-			Ptr<ILanguageForeignFunction>		function;
-			LanguageHost*						host;
-
-			void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)
-			{
-				LanguageArguments args(host, (LanguageState*)stack->GetUserData(), result, arguments);
-				function->Invoke(args);
-			}
-		};
-
-/***********************************************************************
-LanguageAssembly
-***********************************************************************/
-
 		LanguageAssembly::LanguageAssembly(Ptr<basicil::BasicIL> _il)
 			:il(_il)
 			,host(0)
@@ -141,6 +124,17 @@ LanguageHost
 LanguageHost
 ***********************************************************************/
 
+		vint LanguageLightFunctionCallback(void* result, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
+		{
+			typedef vint(*Callback)(void*, void*);
+			Callback callback=(Callback)userData;
+			return callback(result, arguments);
+		}
+
+/***********************************************************************
+LanguageHost
+***********************************************************************/
+
 		LanguageHost::LanguageHost(vint stackSize)
 		{
 			interpretor=new BasicILInterpretor(stackSize);
@@ -170,17 +164,9 @@ LanguageHost
 			return new LanguageState(new BasicILStack(interpretor.Obj()));
 		}
 
-		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)
-		{
-			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
-			proxy->host=this;
-			proxy->function=function;
-			return interpretor->Symbols()->RegisterForeignFunction(category, name, proxy);
-		}
-
 		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
 		{
-			return interpretor->Symbols()->RegisterLightFunction(category, name, function);
+			return interpretor->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback, (void*)function));
 		}
 
 		bool LanguageHost::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)
@@ -215,17 +201,9 @@ LanguageLinker
 			return new LanguageAssembly(linker->Link());
 		}
 
-		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, Ptr<ILanguageForeignFunction> function)
-		{
-			Ptr<LanguageForeignFunction> proxy=new LanguageForeignFunction;
-			proxy->host=0;
-			proxy->function=function;
-			return linker->Symbols()->RegisterForeignFunction(category, name, proxy);
-		}
-
 		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
 		{
-			return linker->Symbols()->RegisterLightFunction(category, name, function);
+			return linker->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback, (void*)function));
 		}
 
 		bool LanguageLinker::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)
@@ -237,24 +215,6 @@ LanguageLinker
 		void LanguageLinker::LogInternalState(stream::TextWriter& writer)
 		{
 			linker->LogInternalState(writer);
-		}
-
-/***********************************************************************
-LanguageAssembly
-***********************************************************************/
-
-		LanguageArguments::LanguageArguments(LanguageHost* _host, LanguageState* _state, void* _result, void* _arguments)
-			:host(_host)
-			,state(_state)
-			,result((char*)_result)
-			,arguments((char*)_arguments)
-			,currentArgument((char*)_arguments)
-		{
-		}
-
-		LanguageArguments::~LanguageArguments()
-		{
-			state->GetStack()->Reserve(-(vint)(sizeof(result)+(currentArgument-arguments)));
 		}
 	}
 }

@@ -30,91 +30,54 @@ namespace vl
 				List<Ptr<PoolPackage>>					pools;
 				CriticalSection							pluginCs;
 
-				class MemCreate : public Object, public IBasicILForeignFunction
+				static PoolPackage* MemCreate(void* userData)
 				{
-				protected:
-					SystemCoreMemoryManagerPlugin*		plugin;
-				public:
-					MemCreate(SystemCoreMemoryManagerPlugin* _plugin)
-						:plugin(_plugin)
-					{
-					}
-
-					void Invoke(BasicILInterpretor* interpretor, BasicILStack* stack, void* result, void* arguments)
-					{
-						LanguageArgumentReader reader(result, arguments, stack);
-						Ptr<PoolPackage> pool=new PoolPackage(1048576, 256);
-
-						CriticalSection::Scope scope(plugin->pluginCs);
-						plugin->pools.Add(pool);
-						reader.Result<PoolPackage*>()=pool.Obj();
-					}
-				};
-
-				static vint MemAlloc(void* result, void* arguments)
-				{
-					LanguageArgumentReader reader(result, arguments);
-					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
-					vint size=reader.NextArgument<vint>();
-
-					CriticalSection::Scope scope(pool->cs);
-					reader.Result<char*>()=pool->pool.Alloc(size);
-					return reader.BytesToPop();
+					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
+					Ptr<PoolPackage> pool=new PoolPackage(1048576, 256);
+					CriticalSection::Scope scope(plugin->pluginCs);
+					plugin->pools.Add(pool);
+					return pool.Obj();
 				}
 
-				static vint MemFree(void* result, void* arguments)
+				static char* MemAlloc(PoolPackage* pool, vint size)
 				{
-					LanguageArgumentReader reader(result, arguments);
-					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
-					char* pointer=reader.NextArgument<char*>();
-					
 					CriticalSection::Scope scope(pool->cs);
-					reader.Result<bool>()=pool->pool.Free(pointer);
-					return reader.BytesToPop();
+					return pool->pool.Alloc(size);
 				}
 
-				static vint MemIsValidHandle(void* result, void* arguments)
+				static bool MemFree(PoolPackage* pool, char* pointer)
 				{
-					LanguageArgumentReader reader(result, arguments);
-					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
-					char* pointer=reader.NextArgument<char*>();
-					
 					CriticalSection::Scope scope(pool->cs);
-					reader.Result<bool>()=pool->pool.IsValid(pointer);
-					return reader.BytesToPop();
+					return pool->pool.Free(pointer);
 				}
 
-				static vint MemGetHandleSize(void* result, void* arguments)
+				static bool MemIsValidHandle(PoolPackage* pool, char* pointer)
 				{
-					LanguageArgumentReader reader(result, arguments);
-					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
-					char* pointer=reader.NextArgument<char*>();
-					
 					CriticalSection::Scope scope(pool->cs);
-					reader.Result<vint>()=pool->pool.GetSize(pointer);
-					return reader.BytesToPop();
+					return pool->pool.IsValid(pointer);
 				}
 
-				static vint MemGetOwnerHandle(void* result, void* arguments)
+				static vint MemGetHandleSize(PoolPackage* pool, char* pointer)
 				{
-					LanguageArgumentReader reader(result, arguments);
-					PoolPackage* pool=reader.NextArgument<PoolPackage*>();
-					char* pointer=reader.NextArgument<char*>();
-					
 					CriticalSection::Scope scope(pool->cs);
-					reader.Result<char*>()=pool->pool.GetHandle(pointer);
-					return reader.BytesToPop();
+					return pool->pool.GetSize(pointer);
+				}
+
+				static char* MemGetOwnerHandle(PoolPackage* pool, char* pointer)
+				{
+					CriticalSection::Scope scope(pool->cs);
+					return pool->pool.GetHandle(pointer);
 				}
 			protected:
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
-						symbol->RegisterForeignFunction(L"SystemCoreForeignFunctions", L"MemCreate", new MemCreate(this)) &&
-						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemAlloc", MemAlloc) &&
-						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemFree", MemFree) &&
-						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemIsValidHandle", MemIsValidHandle) &&
-						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemGetHandleSize", MemGetHandleSize) &&
-						symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L"MemGetOwnerHandle", MemGetOwnerHandle);
+						REGISTER_LIGHT_FUNCTION2(MemCreate, PoolPackage*(), MemCreate) &&
+						REGISTER_LIGHT_FUNCTION(MemAlloc, char*(PoolPackage*, vint), MemAlloc) &&
+						REGISTER_LIGHT_FUNCTION(MemFree, bool(PoolPackage*, char*), MemFree) &&
+						REGISTER_LIGHT_FUNCTION(MemIsValidHandle, bool(PoolPackage*, char*), MemIsValidHandle) &&
+						REGISTER_LIGHT_FUNCTION(MemGetHandleSize, vint(PoolPackage*, char*), MemGetHandleSize) &&
+						REGISTER_LIGHT_FUNCTION(MemGetOwnerHandle, char*(PoolPackage*, char*), MemGetOwnerHandle);
 				}
 			};
 

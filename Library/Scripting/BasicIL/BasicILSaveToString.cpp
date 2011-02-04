@@ -44,16 +44,6 @@ BasicILInterpretor
 				}
 			}
 
-			IBasicILForeignFunction* BasicILRuntimeSymbol::GetForeignFunction(vint index)
-			{
-				return foreignFunctionList[index].Obj();
-			}
-
-			BasicILLightFunction BasicILRuntimeSymbol::GetLightFunction(vint index)
-			{
-				return lightFunctionList[index];
-			}
-
 			void BasicILRuntimeSymbol::LogInternalState(stream::TextWriter& writer)
 			{
 				for(vint i=0;i<ils.Count();i++)

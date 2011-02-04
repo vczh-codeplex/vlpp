@@ -633,9 +633,6 @@ BasicILStack
 							{
 								switch(ins.insKey)
 								{
-								case BasicILRuntimeSymbol::ForeignFunctionSitingAssemblyKey:
-									InvokeForeignFunction(ins.argument.int_value);
-									break;
 								case BasicILRuntimeSymbol::LightFunctionSitingAssemblyKey:
 									InvokeLightFunction(ins.argument.int_value);
 									break;
@@ -655,9 +652,6 @@ BasicILStack
 								vint pushkey=env->Pop<vint>();
 								switch(pushkey)
 								{
-								case BasicILRuntimeSymbol::ForeignFunctionSitingAssemblyKey:
-									InvokeForeignFunction(pushins);
-									break;
 								case BasicILRuntimeSymbol::LightFunctionSitingAssemblyKey:
 									InvokeLightFunction(pushins);
 									break;
@@ -784,21 +778,13 @@ BasicILStack
 				*((BasicILExceptionHandler**)env->DereferenceStack(BasicILStack::ExceptionHandlerOffset))=handler;
 			}
 
-			void BasicILStack::InvokeForeignFunction(vint index)
-			{
-				void* stackTop=env->DereferenceStack(env->StackTop());
-				void* result=((void**)stackTop)[0];
-				void* arguments=&((void**)stackTop)[1];
-				interpretor->Symbols()->GetForeignFunction(index)->Invoke(interpretor, this, result, arguments);
-			}
-
 			void BasicILStack::InvokeLightFunction(vint index)
 			{
 				void* stackTop=env->DereferenceStack(env->StackTop());
 				void* result=((void**)stackTop)[0];
 				void* arguments=&((void**)stackTop)[1];
 				BasicILLightFunction function=interpretor->Symbols()->GetLightFunction(index);
-				vint argumentSize=function(result, arguments);
+				vint argumentSize=function.handler(result, arguments, interpretor, this, function.userData);
 				env->Reserve(-(vint)(sizeof(void*)+argumentSize));
 			}
 

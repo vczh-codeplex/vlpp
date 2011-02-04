@@ -23,22 +23,6 @@ using namespace vl::regex;
 
 extern WString GetPath();
 
-class Test_BasicLanguage_ForeignFunction_Summer : public Object, public ILanguageForeignFunction
-{
-public:
-	void Invoke(LanguageArguments& arguments)
-	{
-		vint* numbers=arguments.NextArgument<vint*>();
-		vint count=arguments.NextArgument<vint>();
-		vint result=0;
-		for(vint i=0;i<count;i++)
-		{
-			result+=numbers[i];
-		}
-		arguments.Result<vint>()=result;
-	}
-};
-
 vint Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* arguments)
 {
 	vint* numbers=*(vint**)(arguments);
@@ -277,7 +261,7 @@ namespace TestCodeInIndexHelper
 
 	Ptr<LanguageState> InitializeHost(CompilerInfo& info, LanguageHost& host, List<Ptr<CompiledAssembly>>& assemblies)
 	{
-		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		host.RegisterForeignFunction(L"Foreign", L"Sum", Test_BasicLanguage_ForeignFunction_LightSummer);
 		host.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer);
 		Ptr<LanguageState> state=host.CreateState();
 		for(vint j=0;j<assemblies.Count();j++)
@@ -361,7 +345,7 @@ namespace TestCodeInIndexHelper
 	void MergeAndRunCase(CompilerInfo& info, List<Ptr<CompiledAssembly>>& assemblies, const WString& makeFileName, const WString& resultType, const WString& resultValue)
 	{
 		LanguageLinker linker;
-		linker.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		linker.RegisterForeignFunction(L"Foreign", L"Sum", Test_BasicLanguage_ForeignFunction_LightSummer);
 		linker.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer);
 		for(vint i=0;i<assemblies.Count();i++)
 		{
@@ -407,7 +391,7 @@ namespace TestCodeInIndexHelper
 		}
 		TEST_ASSERT(mainFunctionIndex!=-1);
 		LanguageHost host(65536);
-		host.RegisterForeignFunction(L"Foreign", L"Sum", new Test_BasicLanguage_ForeignFunction_Summer);
+		host.RegisterForeignFunction(L"Foreign", L"Sum", Test_BasicLanguage_ForeignFunction_LightSummer);
 		host.RegisterForeignFunction(L"Foreign", L"SumLight", Test_BasicLanguage_ForeignFunction_LightSummer);
 		host.LoadAssembly(linkedAssembly);
 		Ptr<LanguageState> state=host.CreateState();
