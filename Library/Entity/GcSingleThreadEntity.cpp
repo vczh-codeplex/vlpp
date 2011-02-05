@@ -37,10 +37,10 @@ GcSingleThread
 
 		bool GcSingleThread::IncreaseHandleRef(GcHandle* handle)
 		{
-			HandleHead* h=GetHandleHead(handle);
-			if(h&&h->ref!=MaxRef)
+			ObjectHead* o=GetObjectHead(handle);
+			if(o&&o->ref!=MaxRef)
 			{
-				h->ref++;
+				o->ref++;
 				return true;
 			}
 			else
@@ -51,10 +51,10 @@ GcSingleThread
 
 		bool GcSingleThread::DecreaseHandleRef(GcHandle* handle)
 		{
-			HandleHead* h=GetHandleHead(handle);
-			if(h&&h->ref)
+			ObjectHead* o=GetObjectHead(handle);
+			if(o&&o->ref)
 			{
-				h->ref--;
+				o->ref--;
 				return true;
 			}
 			else
@@ -66,36 +66,21 @@ GcSingleThread
 		char* GcSingleThread::IncreaseHandlePin(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			if(o&&o->pin!=MaxPin)
-			{
-				o->pin++;
-				return GetObjectAddress(o);
-			}
-			else
-			{
-				return 0;
-			}
+			return o&&o->meta?GetObjectAddress(o):0;
 		}
 
 		bool GcSingleThread::DecreaseHandlePin(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			if(o&&o->pin)
-			{
-				o->pin--;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return o&&o->meta;
 		}
 
 		bool GcSingleThread::DisposeHandle(GcHandle* handle)
 		{
-			HandleHead* h=GetHandleHead(handle);
-			if(h)
+			ObjectHead* o=GetObjectHead(handle);
+			if(o&&o->meta)
 			{
+				o->meta=0;
 				CHECK_FAIL(L"NotImplemented");
 				return true;
 			}
@@ -107,26 +92,26 @@ GcSingleThread
 
 		bool GcSingleThread::IsHandleDisposed(GcHandle* handle)
 		{
-			HandleHead* h=GetHandleHead(handle);
-			return h?!h->object:false;
+			ObjectHead* o=GetObjectHead(handle);
+			return !(&o->meta);
 		}
 
 		vint GcSingleThread::GetHandleSize(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			return GetObjectSize(o);
+			return o&&o->meta?GetObjectSize(o):-1;
 		}
 
 		vint GcSingleThread::GetHandleRepeat(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			return o?o->repeat:-1;
+			return o&&o->meta?o->repeat:-1;
 		}
 
 		bool GcSingleThread::ReadHandle(GcHandle* handle, vint offset, vint length, char* buffer)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			if(o)
+			if(o&&o->meta)
 			{
 				char* source=GetObjectAddress(o);
 				vint size=GetObjectSize(o);
@@ -142,7 +127,7 @@ GcSingleThread
 		bool GcSingleThread::WriteHandle(GcHandle* handle, vint offset, vint length, char* buffer)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			if(o)
+			if(o&&o->meta)
 			{
 				char* source=GetObjectAddress(o);
 				vint size=GetObjectSize(o);
