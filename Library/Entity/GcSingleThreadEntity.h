@@ -22,15 +22,58 @@ namespace vl
 			typedef void(*Callback)(GcSingleThread* gc, GcHandle* handle, void* userData);
 
 		protected:
+			struct ObjectHead
+			{
+				GcMeta*				meta;
+				__int32				repeat;
+				__int32				pin;
+			};
+
+			struct HandleHead
+			{
+				ObjectHead*			object;
+				__int32				ref;
+			};
+
+			static const __int32	MaxPin=2147483647;
+			static const __int32	MaxRef=2147483647;
+
 			Callback				callback;
 			void*					userData;
+
+			__forceinline ObjectHead* GetObjectHead(GcHandle* handle)
+			{
+				if(IsValidHandle(handle))
+				{
+					return ((HandleHead*)handle)->object;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
+			__forceinline HandleHead* GetHandleHead(GcHandle* handle)
+			{
+				return IsValidHandle(handle)?(HandleHead*)handle:0;
+			}
+
+			__forceinline char* GetObjectAddress(ObjectHead* o)
+			{
+				return (char*)o+sizeof(ObjectHead);
+			}
+
+			__forceinline vint GetObjectSize(ObjectHead* o)
+			{
+				return o->meta->mainSegment.size+o->repeat*o->meta->repeatSegment.size;
+			}
 		public:
 			GcSingleThread(Callback _callback, void* _userData);
 			~GcSingleThread();
 
 			GcHandle*				CreateHandle(GcMeta* meta, vint repeat);
-			GcMeta*					GetHandleMeta(GcHandle* handle);
 			bool					IsValidHandle(GcHandle* handle);
+			GcMeta*					GetHandleMeta(GcHandle* handle);
 			bool					IncreaseHandleRef(GcHandle* handle);
 			bool					DecreaseHandleRef(GcHandle* handle);
 			char*					IncreaseHandlePin(GcHandle* handle);
