@@ -11,6 +11,7 @@ Classes:
 #define VCZH_ENTITY_GCSINGLETHREADENTITY
 
 #include "GcEntityCommon.h"
+#include "GeneralObjectPoolEntity.h"
 
 namespace vl
 {
@@ -25,14 +26,14 @@ namespace vl
 			struct ObjectHead
 			{
 				GcMeta*				meta;
+				ObjectHead*			prev;
+				ObjectHead*			next;
 				__int32				repeat;
 				__int32				ref;
+				bool				mark;
 			};
 
 			static const __int32	MaxRef=2147483647;
-
-			Callback				callback;
-			void*					userData;
 
 			__forceinline ObjectHead* GetObjectHead(GcHandle* handle)
 			{
@@ -55,8 +56,17 @@ namespace vl
 			{
 				return o->meta->mainSegment.size+o->repeat*o->meta->repeatSegment.size;
 			}
+		protected:
+
+			Callback				callback;
+			void*					userData;
+			GeneralObjectPool		pool;
+			vint					maxSize;
+			vint					usedSize;
+			ObjectHead*				firstObject;
+			ObjectHead*				lastObject;
 		public:
-			GcSingleThread(Callback _callback, void* _userData);
+			GcSingleThread(Callback _callback, void* _userData, vint poolUnitSize, vint poolUnitCount);
 			~GcSingleThread();
 
 			GcHandle*				CreateHandle(GcMeta* meta, vint repeat);

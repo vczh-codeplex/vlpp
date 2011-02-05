@@ -9,9 +9,14 @@ namespace vl
 GcSingleThread
 ***********************************************************************/
 
-		GcSingleThread::GcSingleThread(Callback _callback, void* _userData)
+		GcSingleThread::GcSingleThread(Callback _callback, void* _userData, vint poolUnitSize, vint poolUnitCount)
 			:callback(_callback)
 			,userData(_userData)
+			,pool(poolUnitSize, poolUnitCount)
+			,maxSize(poolUnitSize*poolUnitCount)
+			,usedSize(0)
+			,firstObject(0)
+			,lastObject(0)
 		{
 		}
 
@@ -21,12 +26,41 @@ GcSingleThread
 
 		GcHandle* GcSingleThread::CreateHandle(GcMeta* meta, vint repeat)
 		{
-			CHECK_FAIL(L"NotImplemented");
+			if(repeat<0)repeat=0;
+			vint size=sizeof(ObjectHead)+meta->mainSegment.size+repeat*meta->repeatSegment.size;
+			if(usedSize+size>maxSize)
+			{
+				Collect();
+			}
+			ObjectHead* o=(ObjectHead*)pool.Alloc(size);
+			if(o)
+			{
+				o->meta=meta;
+				o->prev=0;
+				o->next=0;
+				o->ref=0;
+				o->repeat=repeat;
+				o->mark=false;
+				usedSize+=size;
+
+				if(firstObject&&lastObject)
+				{
+					lastObject->next=o;
+					o->prev=lastObject;
+					lastObject=o;
+				}
+				else
+				{
+					firstObject=o;
+					lastObject=o;
+				}
+			}
+			return (GcHandle*)o;
 		}
 
 		bool GcSingleThread::IsValidHandle(GcHandle* handle)
 		{
-			CHECK_FAIL(L"NotImplemented");
+			return pool.IsValid((char*)handle);
 		}
 
 		GcMeta* GcSingleThread::GetHandleMeta(GcHandle* handle)
@@ -81,7 +115,6 @@ GcSingleThread
 			if(o&&o->meta)
 			{
 				o->meta=0;
-				CHECK_FAIL(L"NotImplemented");
 				return true;
 			}
 			else

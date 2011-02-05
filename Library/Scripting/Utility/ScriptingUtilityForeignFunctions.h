@@ -370,26 +370,9 @@ LanguageHandleList
 垃圾收集器统一接口
 ***********************************************************************/
 
-			template<typename _GcImpl, typename _Gc, typename _Callback, bool _MultipleThreading>
+			template<typename _GcImpl, typename _Gc>
 			class SystemCoreGcPluginBase : public LanguagePlugin
 			{
-			private:
-				collections::List<Ptr<Object>>		gcs;
-				_Callback							callback;
-			public:
-				inline static _Gc* GcCreate(vint label, vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData)
-				{
-					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
-					plugin->callback=_GcImpl::GcInitCallback(interpretor, stack, label);
-					_Gc* gc=new _Gc(&_GcImpl::GcCallback, &plugin->callback);
-					plugin->gcs.Add(gc);
-					return gc;
-				}
-
-				inline static bool GcIsMultipleThreadingSupported(_Gc* gc)
-				{
-					return _MultipleThreading;
-				}
 			protected:
 				bool RegisterForeignFunctions(vl::scripting::basicil::BasicILRuntimeSymbol* symbol)
 				{
@@ -398,9 +381,8 @@ LanguageHandleList
 					typedef vl::entities::GcHandle GcHandle;
 
 					return 
-						REGISTER_LIGHT_FUNCTION3(GcCreate, _Gc*(vint), GcCreate) &&
-						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), GcIsMultipleThreadingSupported) &&
-
+						REGISTER_LIGHT_FUNCTION3(GcCreate, _Gc*(vint), _GcImpl::GcCreate) &&
+						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), _GcImpl::GcIsMultipleThreadingSupported) &&
 						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(_Gc*, GcMeta*, vint), _GcImpl::GcCreateHandle) &&
 						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(_Gc*, GcHandle*), _GcImpl::GcGetHandleMeta) &&
 						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(_Gc*, GcHandle*), _GcImpl::GcIsValidHandle) &&
