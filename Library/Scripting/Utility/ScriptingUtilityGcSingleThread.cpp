@@ -19,7 +19,6 @@ namespace vl
 				BasicILInterpretor*			interpretor;
 				BasicILStack*				stack;
 				vint						label;
-				GcSingleThread::Callback	callback;
 			};
 
 			class SystemCoreGcSingleThreadPlugin : public SystemCoreGcPluginBase<SystemCoreGcSingleThreadPlugin, GcSingleThread, GcSingleThreadCallbackStruct, false>
@@ -97,7 +96,7 @@ namespace vl
 
 				inline static GcSingleThreadCallbackStruct GcInitCallback(BasicILInterpretor* interpretor, BasicILStack* stack, vint label)
 				{
-					GcSingleThreadCallbackStruct callback={interpretor, stack, label, &GcCallback};
+					GcSingleThreadCallbackStruct callback={interpretor, stack, label};
 					return callback;
 				}
 
