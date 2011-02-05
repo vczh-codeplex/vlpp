@@ -26,16 +26,9 @@ namespace vl
 			{
 				GcMeta*				meta;
 				__int32				repeat;
-				__int32				pin;
-			};
-
-			struct HandleHead
-			{
-				ObjectHead*			object;
 				__int32				ref;
 			};
 
-			static const __int32	MaxPin=2147483647;
 			static const __int32	MaxRef=2147483647;
 
 			Callback				callback;
@@ -45,17 +38,12 @@ namespace vl
 			{
 				if(IsValidHandle(handle))
 				{
-					return ((HandleHead*)handle)->object;
+					return (ObjectHead*)handle;
 				}
 				else
 				{
 					return 0;
 				}
-			}
-
-			__forceinline HandleHead* GetHandleHead(GcHandle* handle)
-			{
-				return IsValidHandle(handle)?(HandleHead*)handle:0;
 			}
 
 			__forceinline char* GetObjectAddress(ObjectHead* o)
