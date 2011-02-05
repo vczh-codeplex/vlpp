@@ -14,16 +14,35 @@ namespace vl
 			using namespace entities;
 			using namespace collections;
 
-			struct GcSingleThreadCallbackStruct
+			class SystemCoreGcSingleThreadPlugin : public SystemCoreGcPluginBase<SystemCoreGcSingleThreadPlugin, GcSingleThread>
 			{
-				BasicILInterpretor*			interpretor;
-				BasicILStack*				stack;
-				vint						label;
-			};
+			private:
+				struct GcSingleThreadCallbackStruct
+				{
+					BasicILInterpretor*				interpretor;
+					BasicILStack*					stack;
+					vint							label;
+				};
 
-			class SystemCoreGcSingleThreadPlugin : public SystemCoreGcPluginBase<SystemCoreGcSingleThreadPlugin, GcSingleThread, GcSingleThreadCallbackStruct, false>
-			{
+				GcSingleThreadCallbackStruct		callback;
+				List<Ptr<GcSingleThread>>			gcs;
 			public:
+				inline static GcSingleThread* GcCreate(vint label, vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData)
+				{
+					LANGUAGE_PLUGIN(SystemCoreGcSingleThreadPlugin);
+					plugin->callback.interpretor=interpretor;
+					plugin->callback.stack=stack;
+					plugin->callback.label=label;
+					GcSingleThread* gc=new GcSingleThread(&GcCallback, &plugin->callback, 1048576, 256);
+					plugin->gcs.Add(gc);
+					return gc;
+				}
+
+				inline static bool GcIsMultipleThreadingSupported(GcSingleThread* gc)
+				{
+					return false;
+				}
+
 				inline static GcHandle* GcCreateHandle(GcSingleThread* gc, GcMeta* meta, vint repeat)
 				{
 					return gc->CreateHandle(meta, repeat);
@@ -92,12 +111,6 @@ namespace vl
 				inline static bool GcCollect(GcSingleThread* gc)
 				{
 					return gc->Collect();
-				}
-
-				inline static GcSingleThreadCallbackStruct GcInitCallback(BasicILInterpretor* interpretor, BasicILStack* stack, vint label)
-				{
-					GcSingleThreadCallbackStruct callback={interpretor, stack, label};
-					return callback;
 				}
 
 				inline static void GcCallback(GcSingleThread* gc, GcHandle* handle, void* userData)
