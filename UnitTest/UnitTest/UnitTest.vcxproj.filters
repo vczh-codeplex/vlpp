@@ -1684,5 +1684,8 @@
     <ClInclude Include="..\..\Library\Entity\GcSingleThreadEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h">
+      <Filter>Library3\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
