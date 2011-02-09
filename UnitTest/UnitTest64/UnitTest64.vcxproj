@@ -386,6 +386,7 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />
+    <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.h" />
     <ClInclude Include="..\..\Library\Stream\Accessor.h" />
     <ClInclude Include="..\..\Library\Stream\BroadcastStream.h" />

@@ -16,7 +16,6 @@ Classes:
 #include "..\..\Threading.h"
 #include "..\..\Collections\List.h"
 #include "..\..\Entity\GcEntityCommon.h"
-#include "..\BasicIL\BasicILRuntimeSymbol.h"
 
 namespace vl
 {
@@ -365,40 +364,6 @@ LanguageHandleList
 			symbol->RegisterLightFunction(L"SystemCoreForeignFunctions", L#NAME, BasicILLightFunction(&LightFunctionMaker<TYPE>::Function3<FUNC>, this))
 
 #define LANGUAGE_PLUGIN(TYPE) TYPE* plugin=(TYPE*)userData
-
-/***********************************************************************
-垃圾收集器统一接口
-***********************************************************************/
-
-			template<typename _GcImpl, typename _Gc>
-			class SystemCoreGcPluginBase : public LanguagePlugin
-			{
-			protected:
-				bool RegisterForeignFunctions(vl::scripting::basicil::BasicILRuntimeSymbol* symbol)
-				{
-					typedef vl::entities::GcMetaSegment GcMetaSegment;
-					typedef vl::entities::GcMeta GcMeta;
-					typedef vl::entities::GcHandle GcHandle;
-
-					return 
-						REGISTER_LIGHT_FUNCTION3(GcCreate, _Gc*(vint), _GcImpl::GcCreate) &&
-						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), _GcImpl::GcIsMultipleThreadingSupported) &&
-						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(_Gc*, GcMeta*, vint), _GcImpl::GcCreateHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(_Gc*, GcHandle*), _GcImpl::GcGetHandleMeta) &&
-						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(_Gc*, GcHandle*), _GcImpl::GcIsValidHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandlePin, char*(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandlePin, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDisposeHandle, bool(_Gc*, GcHandle*), _GcImpl::GcDisposeHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(_Gc*, GcHandle*), _GcImpl::GcIsHandleDisposed) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleSize) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleRepeat) &&
-						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(_Gc*, GcHandle*, vint, vint, char*), _GcImpl::GcReadHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(_Gc*, GcHandle*, vint, vint, char*),_GcImpl::GcWriteHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcCollect, bool(_Gc*), _GcImpl::GcCollect);
-				}
-			};
 
 /***********************************************************************
 插件函数
