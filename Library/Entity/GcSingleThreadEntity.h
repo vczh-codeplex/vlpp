@@ -70,6 +70,8 @@ namespace vl
 
 			void					MarkSegment(GcMetaSegment* segment, char* address, collections::List<ObjectHead*>& roots);
 		public:
+			static const vint		ObjectAddressOffset=sizeof(ObjectHead);
+
 			GcSingleThread(Callback _callback, void* _userData, vint poolUnitSize, vint poolUnitCount);
 			~GcSingleThread();
 
