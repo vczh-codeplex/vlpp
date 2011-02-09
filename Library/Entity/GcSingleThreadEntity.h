@@ -33,6 +33,8 @@ namespace vl
 				bool				mark;
 			};
 
+			friend class collections::ReadonlyListEnumerator<ObjectHead*>;
+
 			static const __int32	MaxRef=2147483647;
 
 			__forceinline ObjectHead* GetObjectHead(GcHandle* handle)
@@ -65,6 +67,8 @@ namespace vl
 			vint					usedSize;
 			ObjectHead*				firstObject;
 			ObjectHead*				lastObject;
+
+			void					MarkSegment(GcMetaSegment* segment, char* address, collections::List<ObjectHead*>& roots);
 		public:
 			GcSingleThread(Callback _callback, void* _userData, vint poolUnitSize, vint poolUnitCount);
 			~GcSingleThread();

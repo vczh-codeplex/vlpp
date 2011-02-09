@@ -1,10 +1,13 @@
 #include "GcSingleThreadEntity.h"
+#include "..\Collections\List.h"
 #include <memory.h>
 
 namespace vl
 {
 	namespace entities
 	{
+		using namespace collections;
+
 /***********************************************************************
 GcSingleThread
 ***********************************************************************/
@@ -173,9 +176,68 @@ GcSingleThread
 			return false;
 		}
 
+		void GcSingleThread::MarkSegment(GcMetaSegment* segment, char* address, collections::List<ObjectHead*>& roots)
+		{
+			for(vint i=0;i<segment->subHandleCount;i++)
+			{
+				GcHandle* h=*(GcHandle**)(address+segment->subHandles[i]);
+				ObjectHead* o=GetObjectHead(h);
+				if(o)roots.Add(o);
+			}
+		}
+
 		bool GcSingleThread::Collect()
 		{
-			CHECK_FAIL(L"NotImplemented");
+			ObjectHead* o=firstObject;
+			while(o)
+			{
+				o->mark=false;
+				o=o->next;
+			}
+
+			List<ObjectHead*> roots;
+			o=firstObject;
+			while(o)
+			{
+				if(o->ref)roots.Add(o);
+				o=o->next;
+			}
+
+			while(roots.Count())
+			{
+				ObjectHead* current=roots[roots.Count()-1];
+				roots.RemoveAt(roots.Count()-1);
+				if(current->meta)
+				{
+					char* address=GetObjectAddress(current);
+					MarkSegment(&current->meta->mainSegment, address, roots);
+
+					address+=current->meta->mainSegment.size;
+					for(vint i=0;i<current->repeat;i++)
+					{
+						MarkSegment(&current->meta->repeatSegment, address, roots);
+						address+=current->meta->repeatSegment.size;
+					}
+				}
+			}
+			
+			o=firstObject;
+			while(o)
+			{
+				ObjectHead* n=o->next;
+				if(!o->mark)
+				{
+					if(o->prev)o->prev->next=o->next;
+					if(o->next)o->next->prev=o->prev;
+					if(!o->prev)firstObject=o->next;
+					if(!o->next)lastObject=o->prev;
+					usedSize-=GetObjectSize(o);
+					pool.Free((char*)n);
+				}
+				o=n;
+			}
+
+			return true;
 		}
 	}
 }
