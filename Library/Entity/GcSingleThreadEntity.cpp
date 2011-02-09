@@ -45,6 +45,7 @@ GcSingleThread
 				o->repeat=repeat;
 				o->mark=false;
 				usedSize+=size;
+				memset(GetObjectAddress(o), 0, GetObjectSize(o));
 
 				if(firstObject&&lastObject)
 				{
@@ -182,7 +183,7 @@ GcSingleThread
 			{
 				GcHandle* h=*(GcHandle**)(address+segment->subHandles[i]);
 				ObjectHead* o=GetObjectHead(h);
-				if(o)roots.Add(o);
+				if(o && !o->mark)roots.Add(o);
 			}
 		}
 
@@ -207,16 +208,20 @@ GcSingleThread
 			{
 				ObjectHead* current=roots[roots.Count()-1];
 				roots.RemoveAt(roots.Count()-1);
-				if(current->meta)
+				if(!current->mark)
 				{
-					char* address=GetObjectAddress(current);
-					MarkSegment(&current->meta->mainSegment, address, roots);
-
-					address+=current->meta->mainSegment.size;
-					for(vint i=0;i<current->repeat;i++)
+					current->mark=true;
+					if(current->meta)
 					{
-						MarkSegment(&current->meta->repeatSegment, address, roots);
-						address+=current->meta->repeatSegment.size;
+						char* address=GetObjectAddress(current);
+						MarkSegment(&current->meta->mainSegment, address, roots);
+
+						address+=current->meta->mainSegment.size;
+						for(vint i=0;i<current->repeat;i++)
+						{
+							MarkSegment(&current->meta->repeatSegment, address, roots);
+							address+=current->meta->repeatSegment.size;
+						}
 					}
 				}
 			}
@@ -231,8 +236,9 @@ GcSingleThread
 					if(o->next)o->next->prev=o->prev;
 					if(!o->prev)firstObject=o->next;
 					if(!o->next)lastObject=o->prev;
+					callback(this, (GcHandle*)o, userData);
 					usedSize-=GetObjectSize(o);
-					pool.Free((char*)n);
+					pool.Free((char*)o);
 				}
 				o=n;
 			}

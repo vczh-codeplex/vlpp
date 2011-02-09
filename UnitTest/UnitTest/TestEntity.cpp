@@ -2,6 +2,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Entity\Linear.h"
 #include "..\..\Library\Entity\GeneralObjectPoolEntity.h"
+#include "..\..\Library\Entity\GcSingleThreadEntity.h"
 #include "..\..\Library\Collections\List.h"
 
 using namespace vl;
@@ -697,4 +698,140 @@ TEST_CASE(TestEntity_SmallObjectSpeed)
 	}
 	vl::unittest::UnitTest::PrintInfo(L"Finish TestEntity_SmallObjectSpeed under Release mode");
 #endif
+}
+
+/***********************************************************************
+单线程垃圾收集器
+***********************************************************************/
+
+namespace TestEntityHelper
+{
+	int mainSegmentHandles[2]={0, sizeof(GcHandle*)};
+	GcMeta objectMeta={{2*sizeof(GcHandle*), 2, mainSegmentHandles}, {0, 0, 0}};
+	
+	int repeatSegmentHandles[2]={0};
+	GcMeta arrayMeta={{sizeof(vint), 0, 0}, {sizeof(GcHandle*), 1, repeatSegmentHandles}};
+
+	void SingleAssign(GcSingleThread* gc, GcHandle* h, vint repeat, vint index, GcHandle* v)
+	{
+		GcMeta* m=gc->GetHandleMeta(h);
+		vint offset=0;
+		if(repeat>=0)
+		{
+			offset=m->mainSegment.size+repeat*m->repeatSegment.size+m->repeatSegment.subHandles[index];
+		}
+		else
+		{
+			offset=m->mainSegment.subHandles[index];
+		}
+		TEST_ASSERT(gc->WriteHandle(h, offset, sizeof(GcHandle*), (char*)&v));
+	}
+
+	void SingleCallback(GcSingleThread* gc, GcHandle* handle, void* userData)
+	{
+	}
+
+	void SingleAssertObject(GcSingleThread* gc, GcHandle* h)
+	{
+		TEST_ASSERT(gc->IsValidHandle(h));
+		TEST_ASSERT(gc->GetHandleMeta(h)==&objectMeta);
+		TEST_ASSERT(gc->IncreaseHandlePin(h)==(char*)h+GcSingleThread::ObjectAddressOffset);
+		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(gc->IncreaseHandleRef(h));
+		TEST_ASSERT(gc->DecreaseHandleRef(h));
+		TEST_ASSERT(!gc->DecreaseHandleRef(h));
+		TEST_ASSERT(!gc->IsHandleDisposed(h));
+		TEST_ASSERT(gc->GetHandleSize(h)==2*sizeof(GcHandle*));
+		TEST_ASSERT(gc->GetHandleRepeat(h)==0);
+	}
+
+	void SingleAssertArray(GcSingleThread* gc, GcHandle* h, vint repeat)
+	{
+		TEST_ASSERT(gc->IsValidHandle(h));
+		TEST_ASSERT(gc->GetHandleMeta(h)==&arrayMeta);
+		TEST_ASSERT(gc->IncreaseHandlePin(h)==(char*)h+GcSingleThread::ObjectAddressOffset);
+		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(gc->IncreaseHandleRef(h));
+		TEST_ASSERT(gc->DecreaseHandleRef(h));
+		TEST_ASSERT(!gc->DecreaseHandleRef(h));
+		TEST_ASSERT(!gc->IsHandleDisposed(h));
+		TEST_ASSERT(gc->GetHandleSize(h)==sizeof(vint)+repeat*sizeof(GcHandle*));
+		TEST_ASSERT(gc->GetHandleRepeat(h)==repeat);
+	}
+}
+using namespace TestEntityHelper;
+
+TEST_CASE(TestEntity_GcSingleThread)
+{
+	GcSingleThread gc(&SingleCallback, 0, 1024, 4);
+	{
+		GcHandle* o1=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* o2=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* arr=gc.CreateHandle(&arrayMeta, 2);
+		SingleAssertObject(&gc, o1);
+		SingleAssertObject(&gc, o2);
+		SingleAssertArray(&gc, arr, 2);
+		TEST_ASSERT(gc.IncreaseHandleRef(arr));
+
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(!gc.IsValidHandle(o1));
+		TEST_ASSERT(!gc.IsValidHandle(o2));
+		TEST_ASSERT(gc.IsValidHandle(arr));
+
+		TEST_ASSERT(gc.DecreaseHandleRef(arr));
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(!gc.IsValidHandle(o1));
+		TEST_ASSERT(!gc.IsValidHandle(o2));
+		TEST_ASSERT(!gc.IsValidHandle(arr));
+	}
+	{
+		GcHandle* o1=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* o2=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* arr=gc.CreateHandle(&arrayMeta, 2);
+		SingleAssertObject(&gc, o1);
+		SingleAssertObject(&gc, o2);
+		SingleAssertArray(&gc, arr, 2);
+		TEST_ASSERT(gc.IncreaseHandleRef(arr));
+		SingleAssign(&gc, arr, 0, 0, o1);
+		SingleAssign(&gc, arr, 1, 0, o2);
+
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(gc.IsValidHandle(o1));
+		TEST_ASSERT(gc.IsValidHandle(o2));
+		TEST_ASSERT(gc.IsValidHandle(arr));
+
+		TEST_ASSERT(gc.DecreaseHandleRef(arr));
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(!gc.IsValidHandle(o1));
+		TEST_ASSERT(!gc.IsValidHandle(o2));
+		TEST_ASSERT(!gc.IsValidHandle(arr));
+	}
+	{
+		GcHandle* o1=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* o2=gc.CreateHandle(&objectMeta, 0);
+		GcHandle* arr=gc.CreateHandle(&arrayMeta, 2);
+		SingleAssertObject(&gc, o1);
+		SingleAssertObject(&gc, o2);
+		SingleAssertArray(&gc, arr, 2);
+		TEST_ASSERT(gc.IncreaseHandleRef(arr));
+		SingleAssign(&gc, arr, 0, 0, o1);
+		SingleAssign(&gc, arr, 1, 0, o2);
+		SingleAssign(&gc, o1, -1, 0, o2);
+		SingleAssign(&gc, o1, -1, 1, arr);
+		SingleAssign(&gc, o2, -1, 0, o1);
+		SingleAssign(&gc, o2, -1, 1, arr);
+
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(gc.IsValidHandle(o1));
+		TEST_ASSERT(gc.IsValidHandle(o2));
+		TEST_ASSERT(gc.IsValidHandle(arr));
+
+		TEST_ASSERT(gc.DecreaseHandleRef(arr));
+		TEST_ASSERT(gc.Collect());
+		TEST_ASSERT(!gc.IsValidHandle(o1));
+		TEST_ASSERT(!gc.IsValidHandle(o2));
+		TEST_ASSERT(!gc.IsValidHandle(arr));
+	}
 }
