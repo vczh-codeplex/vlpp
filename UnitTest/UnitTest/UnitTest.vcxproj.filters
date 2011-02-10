@@ -1346,6 +1346,12 @@
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunSynchronizationSingleThread.NativeX.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunGc.NativeX.txt">
+      <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt">
+      <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

@@ -45,7 +45,8 @@ structure GcHandle
 foreign function __ForeignHandle* __GcCreate(function void(__ForeignHandle*, GcHandle*) dtor)
     alias SystemCoreForeignFunctions.GcCreate;
 
-foreign function bool __GcIsMultipleThreadingSupported()
+#public
+foreign function bool GcIsMultipleThreadingSupported()
     alias SystemCoreForeignFunctions.GcIsMultipleThreadingSupported;
 
 foreign function GcHandle* __GcCreateHandle(__ForeignHandle* gc, GcMeta* meta, int repeat)

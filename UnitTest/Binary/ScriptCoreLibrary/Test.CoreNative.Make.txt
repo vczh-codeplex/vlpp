@@ -9,3 +9,4 @@ Compile=Test.CoreNative.RunUnitTestNative.NativeX.txt
 Compile=Test.CoreNative.RunMemoryManager.NativeX.txt
 Compile=Test.CoreNative.RunSynchronizationSingleThread.NativeX.txt
 Compile=Test.CoreNative.RunStdlib.NativeX.txt
+Compile=Test.CoreNative.RunGc.NativeX.txt
