@@ -1,0 +1,103 @@
+unit Gc;
+
+uses ForeignFunctions;
+
+structure GlobalGc
+{
+    __ForeignHandle* gc;
+}
+
+variable GlobalGc globalGc = InitializeGlobalGc();
+
+function GlobalGc InitializeGlobalGc()
+{
+    result.gc = __GcCreate(GcCallback);
+}
+
+function void GcCallback(__ForeignHandle* gc, GcHandle* handle)
+{
+}
+
+#public
+function GcHandle* GcCreateHandle(GcMeta* meta, int repeat)
+{
+    result = __GcCreateHandle(globalGc.gc, meta, repeat);
+}
+
+#public
+function GcMeta* GcGetHandleMeta(GcHandle* handle)
+{
+    result = __GcGetHandleMeta(globalGc.gc, handle);
+}
+
+#public
+function bool GcIsValidHandle(GcHandle* handle)
+{
+    result = __GcIsValidHandle(globalGc.gc, handle);
+}
+
+#public
+function bool GcIncreaseHandleRef(GcHandle* handle)
+{
+    result = __GcIncreaseHandleRef(globalGc.gc, handle);
+}
+
+#public
+function bool GcDecreaseHandleRef(GcHandle* handle)
+{
+    result = __GcDecreaseHandleRef(globalGc.gc, handle);
+}
+
+#public
+function void* GcIncreaseHandlePin(GcHandle* handle)
+{
+    result = __GcIncreaseHandlePin(globalGc.gc, handle);
+}
+
+#public
+function bool GcDecreaseHandlePin(GcHandle* handle)
+{
+    result = __GcDecreaseHandlePin(globalGc.gc, handle);
+}
+
+#public
+function bool GcDisposeHandle(GcHandle* handle)
+{
+    result = __GcDisposeHandle(globalGc.gc, handle);
+}
+
+#public
+function bool GcIsHandleDisposed(GcHandle* handle)
+{
+    result = __GcIsHandleDisposed(globalGc.gc, handle);
+}
+
+#public
+function int GcGetHandleSize(GcHandle* handle)
+{
+    result = __GcGetHandleSize(globalGc.gc, handle);
+}
+
+#public
+function int GcGetHandleRepeat(GcHandle* handle)
+{
+    result = __GcGetHandleRepeat(globalGc.gc, handle);
+}
+
+#public
+function bool GcReadHandle(GcHandle* handle, int offset, int length, void* buffer)
+{
+    result = __GcReadHandle(globalGc.gc, handle, offset, length, buffer);
+}
+
+#public
+function bool GcWriteHandle(GcHandle* handle, int offset, int length, void* buffer)
+{
+    result = __GcWriteHandle(globalGc.gc, handle, offset, length, buffer);
+}
+
+#public
+function bool GcCollect()
+{
+    result = __GcCollect(globalGc.gc);
+}
