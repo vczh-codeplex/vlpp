@@ -104,13 +104,29 @@ GcSingleThread
 		char* GcSingleThread::IncreaseHandlePin(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			return o&&o->meta?GetObjectAddress(o):0;
+			if(o&&o->meta&&o->pin!=MaxPin)
+			{
+				o->pin++;
+				return GetObjectAddress(o);
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		bool GcSingleThread::DecreaseHandlePin(GcHandle* handle)
 		{
 			ObjectHead* o=GetObjectHead(handle);
-			return o&&o->meta;
+			if(o&&o->meta&&o->pin)
+			{
+				o->pin--;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		bool GcSingleThread::DisposeHandle(GcHandle* handle)

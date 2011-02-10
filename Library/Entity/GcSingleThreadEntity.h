@@ -30,12 +30,14 @@ namespace vl
 				ObjectHead*			next;
 				__int32				repeat;
 				__int32				ref;
+				__int32				pin;
 				bool				mark;
 			};
 
 			friend class collections::ReadonlyListEnumerator<ObjectHead*>;
 
 			static const __int32	MaxRef=2147483647;
+			static const __int32	MaxPin=2147483647;
 
 			__forceinline ObjectHead* GetObjectHead(GcHandle* handle)
 			{
