@@ -735,12 +735,14 @@ namespace TestEntityHelper
 	{
 		TEST_ASSERT(gc->IsValidHandle(h));
 		TEST_ASSERT(gc->GetHandleMeta(h)==&objectMeta);
+
 		TEST_ASSERT(gc->IncreaseHandlePin(h)==(char*)h+GcSingleThread::ObjectAddressOffset);
 		TEST_ASSERT(gc->DecreaseHandlePin(h));
-		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(!gc->DecreaseHandlePin(h));
 		TEST_ASSERT(gc->IncreaseHandleRef(h));
 		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(!gc->DecreaseHandleRef(h));
+
 		TEST_ASSERT(!gc->IsHandleDisposed(h));
 		TEST_ASSERT(gc->GetHandleSize(h)==2*sizeof(GcHandle*));
 		TEST_ASSERT(gc->GetHandleRepeat(h)==0);
@@ -750,12 +752,14 @@ namespace TestEntityHelper
 	{
 		TEST_ASSERT(gc->IsValidHandle(h));
 		TEST_ASSERT(gc->GetHandleMeta(h)==&arrayMeta);
+
 		TEST_ASSERT(gc->IncreaseHandlePin(h)==(char*)h+GcSingleThread::ObjectAddressOffset);
 		TEST_ASSERT(gc->DecreaseHandlePin(h));
-		TEST_ASSERT(gc->DecreaseHandlePin(h));
+		TEST_ASSERT(!gc->DecreaseHandlePin(h));
 		TEST_ASSERT(gc->IncreaseHandleRef(h));
 		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(!gc->DecreaseHandleRef(h));
+
 		TEST_ASSERT(!gc->IsHandleDisposed(h));
 		TEST_ASSERT(gc->GetHandleSize(h)==sizeof(vint)+repeat*sizeof(GcHandle*));
 		TEST_ASSERT(gc->GetHandleRepeat(h)==repeat);
