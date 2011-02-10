@@ -709,7 +709,7 @@ namespace TestEntityHelper
 	int mainSegmentHandles[2]={0, sizeof(GcHandle*)};
 	GcMeta objectMeta={{2*sizeof(GcHandle*), 2, mainSegmentHandles}, {0, 0, 0}};
 	
-	int repeatSegmentHandles[2]={0};
+	int repeatSegmentHandles[1]={0};
 	GcMeta arrayMeta={{sizeof(vint), 0, 0}, {sizeof(GcHandle*), 1, repeatSegmentHandles}};
 
 	void SingleAssign(GcSingleThread* gc, GcHandle* h, vint repeat, vint index, GcHandle* v)

@@ -41,15 +41,16 @@ namespace vl
 					{
 						CriticalSection::Scope scope(callback->interpretor->GetCriticalSection());
 						label=callback->interpretor->Symbols()->GetLabel(callback->label);
-						if(callback->interpretor->Symbols()->IsValidILIndex(label.key))
+					}
+					if(callback->interpretor->Symbols()->IsValidILIndex(label.key))
+					{
+						callback->stack->GetEnv()->Push<GcSingleThread*>(gc);
+						callback->stack->GetEnv()->Push<GcHandle*>(handle);
+						callback->stack->ResetBuffer(label.instruction, label.key, 0);
+						ILException::RunningResult result=callback->stack->Run();
+						if(result!=ILException::Finished)
 						{
-							callback->stack->GetEnv()->Push<GcSingleThread*>(gc);
-							callback->stack->GetEnv()->Push<GcHandle*>(handle);
-							ILException::RunningResult result=callback->stack->Run();
-							if(result!=ILException::Finished)
-							{
-								CHECK_FAIL(L"TODO");
-							}
+							CHECK_FAIL(L"TODO");
 						}
 					}
 				}

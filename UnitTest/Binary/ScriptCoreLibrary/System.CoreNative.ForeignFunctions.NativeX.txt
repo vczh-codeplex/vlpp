@@ -68,7 +68,7 @@ foreign function void* __GcIncreaseHandlePin(__ForeignHandle* gc, GcHandle* hand
     alias SystemCoreForeignFunctions.GcIncreaseHandlePin;
 
 foreign function bool __GcDecreaseHandlePin(__ForeignHandle* gc, GcHandle* handle)
-    alias SystemCoreForeignFunctions.GcDecreaseHandleRef;
+    alias SystemCoreForeignFunctions.GcDecreaseHandlePin;
 
 foreign function bool __GcDisposeHandle(__ForeignHandle* gc, GcHandle* handle)
     alias SystemCoreForeignFunctions.GcDisposeHandle;
