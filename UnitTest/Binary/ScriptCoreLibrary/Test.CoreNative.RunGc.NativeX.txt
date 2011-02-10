@@ -1,3 +1,106 @@
 unit RunGc;
 
 uses syscrnat, sysutnat;
+
+variable int[2] gc_mainSegmentHandles;
+variable GcMeta gc_objectMeta;
+variable int[1] gc_repeatSegmentHandles;
+variable GcMeta gc_arrayMeta;
+
+function void gc_Init()
+{
+    gc_mainSegmentHandles[0] = 0;
+	gc_mainSegmentHandles[1] = sizeof(GcHandle*);
+	gc_objectMeta.mainSegment.size=2*sizeof(GcHandle*);
+	gc_objectMeta.mainSegment.subHandleCount=2;
+	gc_objectMeta.mainSegment.subHandles=cast<int*>(&gc_mainSegmentHandles);
+	gc_objectMeta.repeatSegment.size=0;
+	gc_objectMeta.repeatSegment.subHandleCount=0;
+	gc_objectMeta.repeatSegment.subHandles=null;
+	
+    gc_repeatSegmentHandles[0] = 0;
+	gc_arrayMeta.mainSegment.size=sizeof(int);
+	gc_arrayMeta.mainSegment.subHandleCount=0;
+	gc_arrayMeta.mainSegment.subHandles=null;
+	gc_arrayMeta.repeatSegment.size=sizeof(GcHandle*);
+	gc_arrayMeta.repeatSegment.subHandleCount=1;
+	gc_arrayMeta.repeatSegment.subHandles=cast<int*>(&gc_repeatSegmentHandles);
+}
+
+function void gc_AssertObject(GcHandle* h)
+{
+    Assert(GcIsValidHandle(h), L"AssertObject:GcIsValidHandle should succeed.");
+	Assert(GcGetHandleMeta(h)==&gc_objectMeta, L"AssertObject:GcGetHandleMeta should succeed.");
+
+	Assert(GcIncreaseHandlePin(h)!=null, L"AssertObject:GcIncreaseHandlePin should succeed.");
+	Assert(GcDecreaseHandlePin(h), L"AssertObject:GcDecreaseHandlePin should succeed.");
+	Assert(!GcDecreaseHandlePin(h), L"AssertObject:GcDecreaseHandlePin should fail.");
+	Assert(GcIncreaseHandleRef(h), L"AssertObject:GcIncreaseHandleRef should succeed.");
+	Assert(GcDecreaseHandleRef(h), L"AssertObject:GcDecreaseHandleRef should succeed.");
+	Assert(!GcDecreaseHandleRef(h), L"AssertObject:GcDecreaseHandleRef should fail.");
+
+	Assert(!GcIsHandleDisposed(h), L"AssertObject:GcIsHandleDisposed should succeed.");
+	Assert(GcGetHandleSize(h)==2*sizeof(GcHandle*), L"AssertObject:GcGetHandleSize should succeed.");
+	Assert(GcGetHandleRepeat(h)==0, L"AssertObject:GcGetHandleRepeat should succeed.");
+}
+
+function void gc_AssertArray(GcHandle* h, int repeat)
+{
+    Assert(GcIsValidHandle(h), L"AssertArray:GcIsValidHandle should succeed.");
+	Assert(GcGetHandleMeta(h)==&gc_arrayMeta, L"AssertArray:GcGetHandleMeta should succeed.");
+
+	Assert(GcIncreaseHandlePin(h)!=null, L"AssertArray:GcIncreaseHandlePin should succeed.");
+	Assert(GcDecreaseHandlePin(h), L"AssertArray:GcDecreaseHandlePin should succeed.");
+	Assert(!GcDecreaseHandlePin(h), L"AssertArray:GcDecreaseHandlePin should fail.");
+	Assert(GcIncreaseHandleRef(h), L"AssertArray:GcIncreaseHandleRef should succeed.");
+	Assert(GcDecreaseHandleRef(h), L"AssertArray:GcDecreaseHandleRef should succeed.");
+	Assert(!GcDecreaseHandleRef(h), L"AssertArray:GcDecreaseHandleRef should fail.");
+
+	Assert(!GcIsHandleDisposed(h), L"AssertArray:GcIsHandleDisposed should succeed.");
+	Assert(GcGetHandleSize(h)==sizeof(int)+repeat*sizeof(GcHandle*), L"AssertArray:GcGetHandleSize should succeed.");
+	Assert(GcGetHandleRepeat(h)==repeat, L"AssertArray:GcGetHandleRepeat should succeed.");
+}
+
+function void gc_Assign(GcHandle* h, int repeat, int index, GcHandle* v)
+{
+    variable GcMeta* m = GcGetHandleMeta(h);
+	variable int offset=0;
+	if(repeat>=0)
+	{
+	    offset=m->mainSegment.size+repeat*m->repeatSegment.size+m->repeatSegment.subHandles[index];
+	}
+	else
+	{
+	    offset=m->mainSegment.subHandles[index];
+	}
+	Assert(GcWriteHandle(h, offset, sizeof(GcHandle*), &v), L"AssertGc:GcWriteHandle should succeed.");
+}
+
+function void TestCase_GarbageCollector()
+{
+    gc_Init();
+	variable GcHandle* o1 = GcCreateHandle(&gc_objectMeta, 0);
+	variable GcHandle* o2 = GcCreateHandle(&gc_objectMeta, 0);
+	variable GcHandle* arr = GcCreateHandle(&gc_arrayMeta, 2);
+	gc_AssertObject(o1);
+	gc_AssertObject(o2);
+	gc_AssertArray(arr, 2);
+	Assert(GcIncreaseHandleRef(arr), L"AssertGc:GcIncreaseHandleRef should succeed.");
+	gc_Assign(arr, 0, 0, o1);
+	gc_Assign(arr, 1, 0, o2);
+	gc_Assign(o1, -1, 0, o2);
+	gc_Assign(o1, -1, 1, arr);
+	gc_Assign(o2, -1, 0, o1);
+	gc_Assign(o2, -1, 1, arr);
+
+	Assert(GcCollect(), L"AssertGc:GcCollect should succeed.");
+	Assert(GcIsValidHandle(o1), L"AssertGc:GcIsValidHandle should succeed.");
+	Assert(GcIsValidHandle(o2), L"AssertGc:GcIsValidHandle should succeed.");
+	Assert(GcIsValidHandle(arr), L"AssertGc:GcIsValidHandle should succeed.");
+
+	Assert(GcDecreaseHandleRef(arr), L"AssertGc:GcDecreaseHandleRef should succeed.");
+	Assert(GcCollect(), L"AssertGc:GcCollect should succeed.");
+	Assert(!GcIsValidHandle(o1), L"AssertGc:GcIsValidHandle should succeed.");
+	Assert(!GcIsValidHandle(o2), L"AssertGc:GcIsValidHandle should succeed.");
+	Assert(!GcIsValidHandle(arr), L"AssertGc:GcIsValidHandle should succeed.");
+}
