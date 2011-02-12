@@ -42,7 +42,7 @@ GcSingleThread
 				o->prev=0;
 				o->next=0;
 				o->ref=0;
-				o->repeat=repeat;
+				o->repeat=(__int32)repeat;
 				o->mark=false;
 				usedSize+=size;
 				memset(GetObjectAddress(o), 0, GetObjectSize(o));
