@@ -41,7 +41,7 @@ GcSingleThread
 				o->meta=meta;
 				o->prev=0;
 				o->next=0;
-				o->ref=0;
+				o->ref=1;
 				o->pin=0;
 				o->repeat=(__int32)repeat;
 				o->mark=false;
@@ -162,7 +162,65 @@ GcSingleThread
 			return o&&o->meta?o->repeat:-1;
 		}
 
-		bool GcSingleThread::ReadHandle(GcHandle* handle, vint offset, vint length, char* buffer)
+		GcHandle** GcSingleThread::GetHandleAddress(GcHandle* handle, vint repeat, vint index)
+		{
+			ObjectHead* o=GetObjectHead(handle);
+			if(o&&o->meta)
+			{
+				GcMetaSegment* segment=0;
+				vint segmentOffset=0;
+				if(repeat<0)
+				{
+					segment=&o->meta->mainSegment;
+				}
+				else if(repeat<o->repeat)
+				{
+					segment=&o->meta->repeatSegment;
+					segmentOffset=o->meta->mainSegment.size+repeat*o->meta->repeatSegment.size;
+				}
+				if(segment&&0<=index&&index<segment->subHandleCount)
+				{
+					vint offset=segmentOffset+segment->subHandles[index];
+					if(0<=offset&&(vint)(offset+sizeof(GcHandle*))<=GetObjectSize(o))
+					{
+						return (GcHandle**)(GetObjectAddress(o)+offset);
+					}
+				}
+			}
+			return 0;
+		}
+
+		bool GcSingleThread::ReadHandle(GcHandle* handle, vint repeat, vint index, GcHandle** value, bool increaseRef)
+		{
+			GcHandle** address=GetHandleAddress(handle, repeat, index);
+			if(address)
+			{
+				*value=*address;
+				if(increaseRef&&*value&&!IncreaseHandleRef(*value))return false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool GcSingleThread::WriteHandle(GcHandle* handle, vint repeat, vint index, GcHandle* value, bool decreaseRef)
+		{
+			GcHandle** address=GetHandleAddress(handle, repeat, index);
+			if(address)
+			{
+				*address=value;
+				if(decreaseRef&&value&&!DecreaseHandleRef(value))return false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool GcSingleThread::Read(GcHandle* handle, vint offset, vint length, char* buffer)
 		{
 			ObjectHead* o=GetObjectHead(handle);
 			if(o&&o->meta)
@@ -178,7 +236,7 @@ GcSingleThread
 			return false;
 		}
 
-		bool GcSingleThread::WriteHandle(GcHandle* handle, vint offset, vint length, char* buffer)
+		bool GcSingleThread::Write(GcHandle* handle, vint offset, vint length, char* buffer)
 		{
 			ObjectHead* o=GetObjectHead(handle);
 			if(o&&o->meta)
@@ -194,7 +252,7 @@ GcSingleThread
 			return false;
 		}
 
-		bool GcSingleThread::CopyHandle(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
+		bool GcSingleThread::Copy(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
 		{
 			ObjectHead* w=GetObjectHead(hDst);
 			ObjectHead* r=GetObjectHead(hSrc);
@@ -236,7 +294,7 @@ GcSingleThread
 			o=firstObject;
 			while(o)
 			{
-				if(o->ref)roots.Add(o);
+				if(o->ref||o->pin)roots.Add(o);
 				o=o->next;
 			}
 

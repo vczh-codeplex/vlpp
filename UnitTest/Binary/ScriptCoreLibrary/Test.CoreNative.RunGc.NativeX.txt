@@ -37,6 +37,7 @@ function void gc_AssertObject(GcHandle* h)
 	Assert(!GcDecreaseHandlePin(h), L"AssertObject:GcDecreaseHandlePin should fail.");
 	Assert(GcIncreaseHandleRef(h), L"AssertObject:GcIncreaseHandleRef should succeed.");
 	Assert(GcDecreaseHandleRef(h), L"AssertObject:GcDecreaseHandleRef should succeed.");
+	Assert(GcDecreaseHandleRef(h), L"AssertObject:GcDecreaseHandleRef should succeed.");
 	Assert(!GcDecreaseHandleRef(h), L"AssertObject:GcDecreaseHandleRef should fail.");
 
 	Assert(!GcIsHandleDisposed(h), L"AssertObject:GcIsHandleDisposed should succeed.");
@@ -54,6 +55,7 @@ function void gc_AssertArray(GcHandle* h, int repeat)
 	Assert(!GcDecreaseHandlePin(h), L"AssertArray:GcDecreaseHandlePin should fail.");
 	Assert(GcIncreaseHandleRef(h), L"AssertArray:GcIncreaseHandleRef should succeed.");
 	Assert(GcDecreaseHandleRef(h), L"AssertArray:GcDecreaseHandleRef should succeed.");
+	Assert(GcDecreaseHandleRef(h), L"AssertArray:GcDecreaseHandleRef should succeed.");
 	Assert(!GcDecreaseHandleRef(h), L"AssertArray:GcDecreaseHandleRef should fail.");
 
 	Assert(!GcIsHandleDisposed(h), L"AssertArray:GcIsHandleDisposed should succeed.");
@@ -63,27 +65,22 @@ function void gc_AssertArray(GcHandle* h, int repeat)
 
 function void gc_Assign(GcHandle* h, int repeat, int index, GcHandle* v)
 {
-    variable GcMeta* m = GcGetHandleMeta(h);
-	variable int offset=0;
-	if(repeat>=0)
-	{
-	    offset=m->mainSegment.size+repeat*m->repeatSegment.size+m->repeatSegment.subHandles[index];
-	}
-	else
-	{
-	    offset=m->mainSegment.subHandles[index];
-	}
-	Assert(GcWriteHandle(h, offset, sizeof(GcHandle*), &v), L"AssertGc:GcWriteHandle should succeed.");
+    Assert(GcWriteHandle(h, repeat, index, v, false), L"AssertGc:GcWriteHandle should succeed.");
+}
+
+function GcHandle* gc_Read(GcHandle* h, int repeat, int index)
+{
+    Assert(GcReadHandle(h, repeat, index, &result, false), L"AssertGc:GcReadHandle should succeed.");
 }
 
 function int gc_ReadInt(GcHandle* h)
 {
-    Assert(GcReadHandle(h, 0, sizeof(int), &result), L"AssertGc:GcReadHandle should succeed.");
+    Assert(GcRead(h, 0, sizeof(int), &result), L"AssertGc:GcRead should succeed.");
 }
 
 function void gc_WriteInt(GcHandle* h, int i)
 {
-    Assert(GcWriteHandle(h, 0, sizeof(int), &i), L"AssertGc:GcWriteHandle should succeed.");
+    Assert(GcWrite(h, 0, sizeof(int), &i), L"AssertGc:GcWrite should succeed.");
 }
 
 function void TestCase_GarbageCollector()
@@ -96,12 +93,19 @@ function void TestCase_GarbageCollector()
 	gc_AssertObject(o2);
 	gc_AssertArray(arr, 2);
 	Assert(GcIncreaseHandleRef(arr), L"AssertGc:GcIncreaseHandleRef should succeed.");
+
 	gc_Assign(arr, 0, 0, o1);
 	gc_Assign(arr, 1, 0, o2);
 	gc_Assign(o1, -1, 0, o2);
 	gc_Assign(o1, -1, 1, arr);
 	gc_Assign(o2, -1, 0, o1);
 	gc_Assign(o2, -1, 1, arr);
+    Assert(gc_Read(arr, 0, 0)==o1, L"AssertGc:gc_Read should succeed.");
+    Assert(gc_Read(arr, 1, 0)==o2, L"AssertGc:gc_Read should succeed.");
+    Assert(gc_Read(o1, -1, 0)==o2, L"AssertGc:gc_Read should succeed.");
+    Assert(gc_Read(o1, -1, 1)==arr, L"AssertGc:gc_Read should succeed.");
+    Assert(gc_Read(o2, -1, 0)==o1, L"AssertGc:gc_Read should succeed.");
+    Assert(gc_Read(o2, -1, 1)==arr, L"AssertGc:gc_Read should succeed.");
 
 	Assert(GcCollect(), L"AssertGc:GcCollect should succeed.");
 	Assert(GcIsValidHandle(o1), L"AssertGc:GcIsValidHandle should succeed.");
@@ -120,7 +124,7 @@ function void TestCase_GarbageCollector()
     gc_WriteInt(arr2, 2);
     Assert(gc_ReadInt(arr1)==1, L"AssertGc:gc_ReadInt should succeed.");
     Assert(gc_ReadInt(arr2)==2, L"AssertGc:gc_ReadInt should succeed.");
-    GcCopyHandle(arr1, 0, arr2, 0, sizeof(int));
+    Assert(GcCopy(arr1, 0, arr2, 0, sizeof(int)), L"AssertGc:GcCopy should succeed.");
     Assert(gc_ReadInt(arr1)==2, L"AssertGc:gc_ReadInt should succeed.");
     Assert(gc_ReadInt(arr2)==2, L"AssertGc:gc_ReadInt should succeed.");
 }
