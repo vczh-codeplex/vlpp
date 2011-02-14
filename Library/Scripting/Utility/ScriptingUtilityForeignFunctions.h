@@ -346,6 +346,49 @@ LanguageHandleList
 				}
 			};
 
+			template<typename P1, typename P2, typename P3, typename P4, typename P5, typename P6, typename R>
+			struct LightFunctionMaker<R(P1, P2, P3, P4, P5, P6)>
+			{
+				template<R(f)(P1, P2, P3, P4, P5, P6)>
+				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					P6 a6=*(P6*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5));
+					*(R*)(result)=f(a1, a2, a3, a4, a5, a6);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5)+sizeof(P6);
+				}
+				
+				template<R(f)(P1, P2, P3, P4, P5, P6, void*)>
+				static vint Function2(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					P6 a6=*(P6*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5));
+					*(R*)(result)=f(a1, a2, a3, a4, a5, a6, userData);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5)+sizeof(P6);
+				}
+				
+				template<R(f)(P1, P2, P3, P4, P5, P6, EXTRA_ARGUMENTS_DEFINITIONS)>
+				static vint Function3(void* result, void* argument, EXTRA_ARGUMENTS)
+				{
+					P1 a1=*(P1*)((char*)argument+0);
+					P2 a2=*(P2*)((char*)argument+sizeof(P1));
+					P3 a3=*(P3*)((char*)argument+sizeof(P1)+sizeof(P2));
+					P4 a4=*(P4*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3));
+					P5 a5=*(P5*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4));
+					P6 a6=*(P6*)((char*)argument+sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5));
+					*(R*)(result)=f(a1, a2, a3, a4, a5, a6, EXTRA_PASS);
+					return sizeof(P1)+sizeof(P2)+sizeof(P3)+sizeof(P4)+sizeof(P5)+sizeof(P6);
+				}
+			};
+
 #undef EXTRA_ARGUMENTS_DEFINITIONS
 #undef EXTRA_ARGUMENTS
 #undef EXTRA_PASS
