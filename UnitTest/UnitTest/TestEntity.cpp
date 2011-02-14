@@ -714,17 +714,14 @@ namespace TestEntityHelper
 
 	void SingleAssign(GcSingleThread* gc, GcHandle* h, vint repeat, vint index, GcHandle* v)
 	{
-		GcMeta* m=gc->GetHandleMeta(h);
-		vint offset=0;
-		if(repeat>=0)
-		{
-			offset=m->mainSegment.size+repeat*m->repeatSegment.size+m->repeatSegment.subHandles[index];
-		}
-		else
-		{
-			offset=m->mainSegment.subHandles[index];
-		}
-		TEST_ASSERT(gc->WriteHandle(h, offset, sizeof(GcHandle*), (char*)&v));
+		TEST_ASSERT(gc->WriteHandle(h, repeat, index, v, false));
+	}
+
+	GcHandle* SingleRead(GcSingleThread* gc, GcHandle* h, vint repeat, vint index)
+	{
+		GcHandle* v=0;
+		TEST_ASSERT(gc->ReadHandle(h, repeat, index, &v, false));
+		return v;
 	}
 
 	void SingleCallback(GcSingleThread* gc, GcHandle* handle, void* userData)
@@ -740,6 +737,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(gc->DecreaseHandlePin(h));
 		TEST_ASSERT(!gc->DecreaseHandlePin(h));
 		TEST_ASSERT(gc->IncreaseHandleRef(h));
+		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(!gc->DecreaseHandleRef(h));
 
@@ -757,6 +755,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(gc->DecreaseHandlePin(h));
 		TEST_ASSERT(!gc->DecreaseHandlePin(h));
 		TEST_ASSERT(gc->IncreaseHandleRef(h));
+		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(gc->DecreaseHandleRef(h));
 		TEST_ASSERT(!gc->DecreaseHandleRef(h));
 
@@ -820,12 +819,19 @@ TEST_CASE(TestEntity_GcSingleThread)
 		SingleAssertObject(&gc, o2);
 		SingleAssertArray(&gc, arr, 2);
 		TEST_ASSERT(gc.IncreaseHandleRef(arr));
+
 		SingleAssign(&gc, arr, 0, 0, o1);
 		SingleAssign(&gc, arr, 1, 0, o2);
 		SingleAssign(&gc, o1, -1, 0, o2);
 		SingleAssign(&gc, o1, -1, 1, arr);
 		SingleAssign(&gc, o2, -1, 0, o1);
 		SingleAssign(&gc, o2, -1, 1, arr);
+		TEST_ASSERT(SingleRead(&gc, arr, 0, 0)==o1);
+		TEST_ASSERT(SingleRead(&gc, arr, 1, 0)==o2);
+		TEST_ASSERT(SingleRead(&gc, o1, -1, 0)==o2);
+		TEST_ASSERT(SingleRead(&gc, o1, -1, 1)==arr);
+		TEST_ASSERT(SingleRead(&gc, o2, -1, 0)==o1);
+		TEST_ASSERT(SingleRead(&gc, o2, -1, 1)==arr);
 
 		TEST_ASSERT(gc.Collect());
 		TEST_ASSERT(gc.IsValidHandle(o1));
@@ -843,34 +849,34 @@ TEST_CASE(TestEntity_GcSingleThread)
 		GcHandle* arr2=gc.CreateHandle(&arrayMeta, 2);
 		{
 			vint i=1;
-			gc.WriteHandle(arr1, 0, sizeof(i), (char*)&i);
+			gc.Write(arr1, 0, sizeof(i), (char*)&i);
 		}
 		{
 			vint i=2;
-			gc.WriteHandle(arr2, 0, sizeof(i), (char*)&i);
+			gc.Write(arr2, 0, sizeof(i), (char*)&i);
 		}
 		{
 			vint i=0;
-			gc.ReadHandle(arr1, 0, sizeof(i), (char*)&i);
+			gc.Read(arr1, 0, sizeof(i), (char*)&i);
 			TEST_ASSERT(i==1);
 		}
 		{
 			vint i=0;
-			gc.ReadHandle(arr2, 0, sizeof(i), (char*)&i);
+			gc.Read(arr2, 0, sizeof(i), (char*)&i);
 			TEST_ASSERT(i==2);
 		}
 
 		{
-			gc.CopyHandle(arr1, 0, arr2, 0, sizeof(vint));
+			gc.Copy(arr1, 0, arr2, 0, sizeof(vint));
 		}
 		{
 			vint i=0;
-			gc.ReadHandle(arr1, 0, sizeof(i), (char*)&i);
+			gc.Read(arr1, 0, sizeof(i), (char*)&i);
 			TEST_ASSERT(i==2);
 		}
 		{
 			vint i=0;
-			gc.ReadHandle(arr2, 0, sizeof(i), (char*)&i);
+			gc.Read(arr2, 0, sizeof(i), (char*)&i);
 			TEST_ASSERT(i==2);
 		}
 	}

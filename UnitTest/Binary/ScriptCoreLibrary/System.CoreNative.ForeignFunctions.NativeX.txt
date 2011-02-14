@@ -82,14 +82,20 @@ foreign function int __GcGetHandleSize(__ForeignHandle* gc, GcHandle* handle)
 foreign function int __GcGetHandleRepeat(__ForeignHandle* gc, GcHandle* handle)
     alias SystemCoreForeignFunctions.GcGetHandleRepeat;
 
-foreign function bool __GcReadHandle(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+foreign function bool __GcReadHandle(__ForeignHandle* gc, GcHandle* handle, int repeat, int offset, GcHandle** value, bool increaseRef)
     alias SystemCoreForeignFunctions.GcReadHandle;
 
-foreign function bool __GcWriteHandle(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+foreign function bool __GcWriteHandle(__ForeignHandle* gc, GcHandle* handle, int repeat, int offset, GcHandle* value, bool decreaseRef)
     alias SystemCoreForeignFunctions.GcWriteHandle;
 
-foreign function bool __GcCopyHandle(__ForeignHandle* gc, GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
-    alias SystemCoreForeignFunctions.GcCopyHandle;
+foreign function bool __GcRead(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    alias SystemCoreForeignFunctions.GcRead;
+
+foreign function bool __GcWrite(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    alias SystemCoreForeignFunctions.GcWrite;
+
+foreign function bool __GcCopy(__ForeignHandle* gc, GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
+    alias SystemCoreForeignFunctions.GcCopy;
 
 foreign function bool __GcCollect(__ForeignHandle* gc)
     alias SystemCoreForeignFunctions.GcCollect;

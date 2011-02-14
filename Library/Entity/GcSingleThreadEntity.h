@@ -70,6 +70,7 @@ namespace vl
 			ObjectHead*				firstObject;
 			ObjectHead*				lastObject;
 
+			GcHandle**				GetHandleAddress(GcHandle* handle, vint repeat, vint index);
 			void					MarkSegment(GcMetaSegment* segment, char* address, collections::List<ObjectHead*>& roots);
 		public:
 			static const vint		ObjectAddressOffset=sizeof(ObjectHead);
@@ -88,9 +89,11 @@ namespace vl
 			bool					IsHandleDisposed(GcHandle* handle);
 			vint					GetHandleSize(GcHandle* handle);
 			vint					GetHandleRepeat(GcHandle* handle);
-			bool					ReadHandle(GcHandle* handle, vint offset, vint length, char* buffer);
-			bool					WriteHandle(GcHandle* handle, vint offset, vint length, char* buffer);
-			bool					CopyHandle(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length);
+			bool					ReadHandle(GcHandle* handle, vint repeat, vint index, GcHandle** value, bool increaseRef);
+			bool					WriteHandle(GcHandle* handle, vint repeat, vint index, GcHandle* value, bool decreaseRef);
+			bool					Read(GcHandle* handle, vint offset, vint length, char* buffer);
+			bool					Write(GcHandle* handle, vint offset, vint length, char* buffer);
+			bool					Copy(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length);
 			bool					Collect();
 		};
 	}

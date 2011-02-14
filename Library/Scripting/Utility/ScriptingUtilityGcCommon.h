@@ -76,19 +76,29 @@ namespace vl
 					return gc->GetHandleRepeat(handle);
 				}
 
-				inline static bool GcReadHandle(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
+				inline static bool GcReadHandle(_Gc* gc, GcHandle* handle, vint repeat, vint index, GcHandle** value, bool increaseRef)
 				{
-					return gc->ReadHandle(handle, offset, length, buffer);
+					return gc->ReadHandle(handle, repeat, index, value, increaseRef);
 				}
 
-				inline static bool GcWriteHandle(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
+				inline static bool GcWriteHandle(_Gc* gc, GcHandle* handle, vint repeat, vint index, GcHandle* value, bool decreaseRef)
 				{
-					return gc->WriteHandle(handle, offset, length, buffer);
+					return gc->WriteHandle(handle, repeat, index, value, decreaseRef);
 				}
 
-				inline static bool GcCopyHandle(_Gc* gc, GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
+				inline static bool GcRead(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
 				{
-					return gc->CopyHandle(hDst, oDst, hSrc, oSrc, length);
+					return gc->Read(handle, offset, length, buffer);
+				}
+
+				inline static bool GcWrite(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
+				{
+					return gc->Write(handle, offset, length, buffer);
+				}
+
+				inline static bool GcCopy(_Gc* gc, GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
+				{
+					return gc->Copy(hDst, oDst, hSrc, oSrc, length);
 				}
 
 				inline static bool GcCollect(_Gc* gc)
@@ -116,9 +126,11 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(_Gc*, GcHandle*), _GcImpl::GcIsHandleDisposed) &&
 						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleSize) &&
 						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleRepeat) &&
-						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(_Gc*, GcHandle*, vint, vint, char*), _GcImpl::GcReadHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(_Gc*, GcHandle*, vint, vint, char*),_GcImpl::GcWriteHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcCopyHandle, bool(_Gc*, GcHandle*, vint, GcHandle*, vint, vint),_GcImpl::GcCopyHandle) &&
+						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(_Gc*, GcHandle*, vint, vint, GcHandle**, bool), _GcImpl::GcReadHandle)&&
+						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(_Gc*, GcHandle*, vint, vint, GcHandle*, bool), _GcImpl::GcWriteHandle)&&
+						REGISTER_LIGHT_FUNCTION(GcRead, bool(_Gc*, GcHandle*, vint, vint, char*), _GcImpl::GcRead) &&
+						REGISTER_LIGHT_FUNCTION(GcWrite, bool(_Gc*, GcHandle*, vint, vint, char*),_GcImpl::GcWrite) &&
+						REGISTER_LIGHT_FUNCTION(GcCopy, bool(_Gc*, GcHandle*, vint, GcHandle*, vint, vint),_GcImpl::GcCopy) &&
 						REGISTER_LIGHT_FUNCTION(GcCollect, bool(_Gc*), _GcImpl::GcCollect);
 				}
 			};

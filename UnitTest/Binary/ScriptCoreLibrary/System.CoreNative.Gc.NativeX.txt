@@ -85,21 +85,33 @@ function int GcGetHandleRepeat(GcHandle* handle)
 }
 
 #public
-function bool GcReadHandle(GcHandle* handle, int offset, int length, void* buffer)
+function bool GcReadHandle(GcHandle* handle, int repeat, int offset, GcHandle** value, bool increaseRef)
 {
-    result = __GcReadHandle(globalGc.gc, handle, offset, length, buffer);
+    result = __GcReadHandle(globalGc.gc, handle, repeat, offset, value, increaseRef);
 }
 
 #public
-function bool GcWriteHandle(GcHandle* handle, int offset, int length, void* buffer)
+function bool GcWriteHandle(GcHandle* handle, int repeat, int offset, GcHandle* value, bool decreaseRef)
 {
-    result = __GcWriteHandle(globalGc.gc, handle, offset, length, buffer);
+    result = __GcWriteHandle(globalGc.gc, handle, repeat, offset, value, decreaseRef);
 }
 
 #public
-function bool GcCopyHandle(GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
+function bool GcRead(GcHandle* handle, int offset, int length, void* buffer)
 {
-    result = __GcCopyHandle(globalGc.gc, hDst, oDst, hSrc, oSrc, length);
+    result = __GcRead(globalGc.gc, handle, offset, length, buffer);
+}
+
+#public
+function bool GcWrite(GcHandle* handle, int offset, int length, void* buffer)
+{
+    result = __GcWrite(globalGc.gc, handle, offset, length, buffer);
+}
+
+#public
+function bool GcCopy(GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
+{
+    result = __GcCopy(globalGc.gc, hDst, oDst, hSrc, oSrc, length);
 }
 
 #public
