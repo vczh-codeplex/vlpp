@@ -90,6 +90,7 @@ namespace vl
 			vint					GetHandleRepeat(GcHandle* handle);
 			bool					ReadHandle(GcHandle* handle, vint offset, vint length, char* buffer);
 			bool					WriteHandle(GcHandle* handle, vint offset, vint length, char* buffer);
+			bool					CopyHandle(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length);
 			bool					Collect();
 		};
 	}

@@ -97,6 +97,12 @@ function bool GcWriteHandle(GcHandle* handle, int offset, int length, void* buff
 }
 
 #public
+function bool GcCopyHandle(GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
+{
+    result = __GcCopyHandle(globalGc.gc, hDst, oDst, hSrc, oSrc, length);
+}
+
+#public
 function bool GcCollect()
 {
     result = __GcCollect(globalGc.gc);

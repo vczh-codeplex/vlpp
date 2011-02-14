@@ -838,4 +838,40 @@ TEST_CASE(TestEntity_GcSingleThread)
 		TEST_ASSERT(!gc.IsValidHandle(o2));
 		TEST_ASSERT(!gc.IsValidHandle(arr));
 	}
+	{
+		GcHandle* arr1=gc.CreateHandle(&arrayMeta, 2);
+		GcHandle* arr2=gc.CreateHandle(&arrayMeta, 2);
+		{
+			vint i=1;
+			gc.WriteHandle(arr1, 0, sizeof(i), (char*)&i);
+		}
+		{
+			vint i=2;
+			gc.WriteHandle(arr2, 0, sizeof(i), (char*)&i);
+		}
+		{
+			vint i=0;
+			gc.ReadHandle(arr1, 0, sizeof(i), (char*)&i);
+			TEST_ASSERT(i==1);
+		}
+		{
+			vint i=0;
+			gc.ReadHandle(arr2, 0, sizeof(i), (char*)&i);
+			TEST_ASSERT(i==2);
+		}
+
+		{
+			gc.CopyHandle(arr1, 0, arr2, 0, sizeof(vint));
+		}
+		{
+			vint i=0;
+			gc.ReadHandle(arr1, 0, sizeof(i), (char*)&i);
+			TEST_ASSERT(i==2);
+		}
+		{
+			vint i=0;
+			gc.ReadHandle(arr2, 0, sizeof(i), (char*)&i);
+			TEST_ASSERT(i==2);
+		}
+	}
 }

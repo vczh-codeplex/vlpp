@@ -42,6 +42,7 @@ GcSingleThread
 				o->prev=0;
 				o->next=0;
 				o->ref=0;
+				o->pin=0;
 				o->repeat=(__int32)repeat;
 				o->mark=false;
 				usedSize+=size;
@@ -166,11 +167,11 @@ GcSingleThread
 			ObjectHead* o=GetObjectHead(handle);
 			if(o&&o->meta)
 			{
-				char* source=GetObjectAddress(o);
 				vint size=GetObjectSize(o);
 				if(offset>=0 && length>=0 && offset+length<=size)
 				{
-					memcpy(buffer, source+offset, length);
+					char* source=GetObjectAddress(o);
+					memmove(buffer, source+offset, length);
 					return true;
 				}
 			}
@@ -182,11 +183,30 @@ GcSingleThread
 			ObjectHead* o=GetObjectHead(handle);
 			if(o&&o->meta)
 			{
-				char* source=GetObjectAddress(o);
 				vint size=GetObjectSize(o);
 				if(offset>=0 && length>=0 && offset+length<=size)
 				{
-					memcpy(source+offset, buffer, length);
+					char* source=GetObjectAddress(o);
+					memmove(source+offset, buffer, length);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		bool GcSingleThread::CopyHandle(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
+		{
+			ObjectHead* w=GetObjectHead(hDst);
+			ObjectHead* r=GetObjectHead(hSrc);
+			if(w&&w->meta&&r&&r->meta)
+			{
+				vint sw=GetObjectSize(w);
+				vint sr=GetObjectSize(r);
+				if(length>=0 && oDst>=0 && oDst+length<=sw && oSrc>=0 && oSrc+length<=sr)
+				{
+					char* aw=GetObjectAddress(w);
+					char* ar=GetObjectAddress(r);
+					memmove(aw+oDst, ar+oSrc, length);
 					return true;
 				}
 			}

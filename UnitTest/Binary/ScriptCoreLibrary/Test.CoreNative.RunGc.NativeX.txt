@@ -76,6 +76,16 @@ function void gc_Assign(GcHandle* h, int repeat, int index, GcHandle* v)
 	Assert(GcWriteHandle(h, offset, sizeof(GcHandle*), &v), L"AssertGc:GcWriteHandle should succeed.");
 }
 
+function int gc_ReadInt(GcHandle* h)
+{
+    Assert(GcReadHandle(h, 0, sizeof(int), &result), L"AssertGc:GcReadHandle should succeed.");
+}
+
+function void gc_WriteInt(GcHandle* h, int i)
+{
+    Assert(GcWriteHandle(h, 0, sizeof(int), &i), L"AssertGc:GcWriteHandle should succeed.");
+}
+
 function void TestCase_GarbageCollector()
 {
     gc_Init();
@@ -103,4 +113,14 @@ function void TestCase_GarbageCollector()
 	Assert(!GcIsValidHandle(o1), L"AssertGc:GcIsValidHandle should succeed.");
 	Assert(!GcIsValidHandle(o2), L"AssertGc:GcIsValidHandle should succeed.");
 	Assert(!GcIsValidHandle(arr), L"AssertGc:GcIsValidHandle should succeed.");
+
+    variable GcHandle* arr1=GcCreateHandle(&gc_arrayMeta, 2);
+    variable GcHandle* arr2=GcCreateHandle(&gc_arrayMeta, 2);
+    gc_WriteInt(arr1, 1);
+    gc_WriteInt(arr2, 2);
+    Assert(gc_ReadInt(arr1)==1, L"AssertGc:gc_ReadInt should succeed.");
+    Assert(gc_ReadInt(arr2)==2, L"AssertGc:gc_ReadInt should succeed.");
+    GcCopyHandle(arr1, 0, arr2, 0, sizeof(int));
+    Assert(gc_ReadInt(arr1)==2, L"AssertGc:gc_ReadInt should succeed.");
+    Assert(gc_ReadInt(arr2)==2, L"AssertGc:gc_ReadInt should succeed.");
 }
