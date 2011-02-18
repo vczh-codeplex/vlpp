@@ -366,6 +366,21 @@ BasicLanguage_BuildGlobalScopePass2
 								}
 							}
 						}
+						else if(attribute->attributeName==L"assembly_initialization")
+						{
+							BasicTypeRecord* type=argument.env->GetFunctionType(node, true);
+							if(type)
+							{
+								if(type->ReturnType()!=argument.typeManager->GetPrimitiveType(void_type)
+									|| type->ParameterCount()>0
+									|| node->genericDeclaration.HasGeneric()
+									|| node->linking.HasLink()
+									)
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnFunctionDeclaration(node, attribute->attributeName));
+								}
+							}
+						}
 						else
 						{
 							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnFunctionDeclaration(node, attribute->attributeName));

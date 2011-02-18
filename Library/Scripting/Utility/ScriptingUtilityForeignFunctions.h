@@ -152,9 +152,9 @@ LanguageHandleList
 			};
 
 			template<typename R>
-			struct LightFunctionMaker<R()>
+			struct LightFunctionMaker<R(void)>
 			{
-				template<R(f)()>
+				template<R(f)(void)>
 				static vint Function(void* result, void* argument, EXTRA_ARGUMENTS)
 				{
 					*(R*)(result)=f();

@@ -1,6 +1,6 @@
 unit Threading;
 
-uses ForeignFunctions, MemoryManager;
+uses ForeignFunctions;
 
 #public
 structure SynThread

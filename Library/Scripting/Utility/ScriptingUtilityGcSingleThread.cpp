@@ -20,22 +20,31 @@ namespace vl
 				};
 
 				GcSingleThreadCallbackStruct		callback;
-				List<Ptr<GcSingleThread>>			gcs;
 			public:
-				inline static GcSingleThread* GcCreate(vint label, vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData)
+				SystemCoreGcSingleThreadPlugin()
+				{
+					callback.interpretor=0;
+					callback.stack=0;
+					callback.label=0;
+					gc=new GcSingleThread(&GcCallback, &callback, 1048576, 256);
+				}
+
+				inline static bool GcInit(vint label, vl::scripting::basicil::BasicILInterpretor* interpretor, vl::scripting::basicil::BasicILStack* stack, void* userData)
 				{
 					LANGUAGE_PLUGIN(SystemCoreGcSingleThreadPlugin);
 					plugin->callback.interpretor=interpretor;
 					plugin->callback.stack=stack;
 					plugin->callback.label=label;
-					GcSingleThread* gc=new GcSingleThread(&GcCallback, &plugin->callback, 1048576, 256);
-					plugin->gcs.Add(gc);
-					return gc;
+					return true;
 				}
 
 				inline static void GcCallback(GcSingleThread* gc, GcHandle* handle, void* userData)
 				{
 					GcSingleThreadCallbackStruct* callback=(GcSingleThreadCallbackStruct*)userData;
+					if(!callback->interpretor)
+					{
+						return;
+					}
 					
 					BasicILLabel label;
 					{
@@ -44,7 +53,6 @@ namespace vl
 					}
 					if(callback->interpretor->Symbols()->IsValidILIndex(label.key))
 					{
-						callback->stack->GetEnv()->Push<GcSingleThread*>(gc);
 						callback->stack->GetEnv()->Push<GcHandle*>(handle);
 						callback->stack->ResetBuffer(label.instruction, label.key, 0);
 						ILException::RunningResult result=callback->stack->Run();

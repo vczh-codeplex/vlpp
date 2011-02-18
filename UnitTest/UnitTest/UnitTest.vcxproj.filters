@@ -1307,9 +1307,6 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt">
       <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
     </None>
-    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.MemoryManager.NativeX.txt">
-      <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
-    </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt">
       <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
     </None>

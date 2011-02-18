@@ -289,7 +289,6 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt" />
-    <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.MemoryManager.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Threading.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.UnitTest.NativeX.txt" />

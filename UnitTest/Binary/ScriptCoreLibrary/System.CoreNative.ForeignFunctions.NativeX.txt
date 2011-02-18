@@ -4,22 +4,24 @@ structure __ForeignHandle
 {
 }
 
-foreign function __ForeignHandle* __MemCreate()
-    alias SystemCoreForeignFunctions.MemCreate;
-
-foreign function void* __MemAlloc(__ForeignHandle* mm, int size)
+#public
+foreign function void* MemAlloc(int size)
     alias SystemCoreForeignFunctions.MemAlloc;
-
-foreign function bool __MemFree(__ForeignHandle* mm, void* handle)
+    
+#public
+foreign function bool MemFree(void* handle)
     alias SystemCoreForeignFunctions.MemFree;
-
-foreign function bool __MemIsValidHandle(__ForeignHandle* mm, void* handle)
+    
+#public
+foreign function bool MemIsValidHandle(void* handle)
     alias SystemCoreForeignFunctions.MemIsValidHandle;
-
-foreign function int __MemGetHandleSize(__ForeignHandle* mm, void* handle)
+    
+#public
+foreign function int MemGetHandleSize(void* handle)
     alias SystemCoreForeignFunctions.MemGetHandleSize;
-
-foreign function void* __MemGetOwnerHandle(__ForeignHandle* mm, void* handle)
+    
+#public
+foreign function void* MemGetOwnerHandle(void* handle)
     alias SystemCoreForeignFunctions.MemGetOwnerHandle;
 
 #public
@@ -42,62 +44,79 @@ structure GcHandle
 {
 }
 
-foreign function __ForeignHandle* __GcCreate(function void(__ForeignHandle*, GcHandle*) dtor)
-    alias SystemCoreForeignFunctions.GcCreate;
+foreign function bool __GcInit(function void(GcHandle*) dtor)
+    alias SystemCoreForeignFunctions.GcInit;
 
 #public
 foreign function bool GcIsMultipleThreadingSupported()
     alias SystemCoreForeignFunctions.GcIsMultipleThreadingSupported;
-
-foreign function GcHandle* __GcCreateHandle(__ForeignHandle* gc, GcMeta* meta, int repeat)
+    
+#public
+foreign function GcHandle* GcCreateHandle(GcMeta* meta, int repeat)
     alias SystemCoreForeignFunctions.GcCreateHandle;
-
-foreign function GcMeta* __GcGetHandleMeta(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function GcMeta* GcGetHandleMeta(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcGetHandleMeta;
-
-foreign function bool __GcIsValidHandle(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcIsValidHandle(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcIsValidHandle;
-
-foreign function bool __GcIncreaseHandleRef(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcIncreaseHandleRef(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcIncreaseHandleRef;
-
-foreign function bool __GcDecreaseHandleRef(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcDecreaseHandleRef(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcDecreaseHandleRef;
-
-foreign function void* __GcIncreaseHandlePin(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function void* GcIncreaseHandlePin(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcIncreaseHandlePin;
-
-foreign function bool __GcDecreaseHandlePin(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcDecreaseHandlePin(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcDecreaseHandlePin;
-
-foreign function bool __GcDisposeHandle(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcDisposeHandle(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcDisposeHandle;
-
-foreign function bool __GcIsHandleDisposed(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function bool GcIsHandleDisposed(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcIsHandleDisposed;
-
-foreign function int __GcGetHandleSize(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function int GcGetHandleSize(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcGetHandleSize;
-
-foreign function int __GcGetHandleRepeat(__ForeignHandle* gc, GcHandle* handle)
+    
+#public
+foreign function int GcGetHandleRepeat(GcHandle* handle)
     alias SystemCoreForeignFunctions.GcGetHandleRepeat;
-
-foreign function bool __GcReadHandle(__ForeignHandle* gc, GcHandle* handle, int repeat, int offset, GcHandle** value, bool increaseRef)
+    
+#public
+foreign function bool GcReadHandle(GcHandle* handle, int repeat, int offset, GcHandle** value, bool increaseRef)
     alias SystemCoreForeignFunctions.GcReadHandle;
-
-foreign function bool __GcWriteHandle(__ForeignHandle* gc, GcHandle* handle, int repeat, int offset, GcHandle* value, bool decreaseRef)
+    
+#public
+foreign function bool GcWriteHandle(GcHandle* handle, int repeat, int offset, GcHandle* value, bool decreaseRef)
     alias SystemCoreForeignFunctions.GcWriteHandle;
-
-foreign function bool __GcRead(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    
+#public
+foreign function bool GcRead(GcHandle* handle, int offset, int length, void* buffer)
     alias SystemCoreForeignFunctions.GcRead;
-
-foreign function bool __GcWrite(__ForeignHandle* gc, GcHandle* handle, int offset, int length, void* buffer)
+    
+#public
+foreign function bool GcWrite(GcHandle* handle, int offset, int length, void* buffer)
     alias SystemCoreForeignFunctions.GcWrite;
-
-foreign function bool __GcCopy(__ForeignHandle* gc, GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
+    
+#public
+foreign function bool GcCopy(GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc, int length)
     alias SystemCoreForeignFunctions.GcCopy;
-
-foreign function bool __GcCollect(__ForeignHandle* gc)
+    
+#public
+foreign function bool GcCollect()
     alias SystemCoreForeignFunctions.GcCollect;
 
 #public

@@ -131,6 +131,12 @@ BasicLanguage_GenerateCodePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					if(BasicLanguage_FindFirstAttribute(node->attributes.Wrap(), L"assembly_initialization"))
+					{
+						argument.Ins(BasicIns::push, BasicIns::pointer_type, BasicIns::MakePointer(0));
+						vint index=argument.info->GetFunctions()[node];
+						argument.Ins(BasicIns::codegen_callfunc, BasicIns::MakeInt(index));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)

@@ -15,94 +15,130 @@ namespace vl
 			template<typename _GcImpl, typename _Gc>
 			class SystemCoreGcPluginBase : public LanguagePlugin
 			{
+			protected:
+				Ptr<_Gc>				gc;
 			public:
-				inline static bool GcIsMultipleThreadingSupported(_Gc* gc)
+				inline static bool GcIsMultipleThreadingSupported()
 				{
 					return false;
 				}
 
-				inline static GcHandle* GcCreateHandle(_Gc* gc, GcMeta* meta, vint repeat)
+				inline static GcHandle* GcCreateHandle(GcMeta* meta, vint repeat, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->CreateHandle(meta, repeat);
 				}
 
-				inline static GcMeta* GcGetHandleMeta(_Gc* gc, GcHandle* handle)
+				inline static GcMeta* GcGetHandleMeta(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->GetHandleMeta(handle);
 				}
 
-				inline static bool GcIsValidHandle(_Gc* gc, GcHandle* handle)
+				inline static bool GcIsValidHandle(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->IsValidHandle(handle);
 				}
 
-				inline static bool GcIncreaseHandleRef(_Gc* gc, GcHandle* handle)
+				inline static bool GcIncreaseHandleRef(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->IncreaseHandleRef(handle);
 				}
 
-				inline static bool GcDecreaseHandleRef(_Gc* gc, GcHandle* handle)
+				inline static bool GcDecreaseHandleRef(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->DecreaseHandleRef(handle);
 				}
 
-				inline static char* GcIncreaseHandlePin(_Gc* gc, GcHandle* handle)
+				inline static char* GcIncreaseHandlePin(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->IncreaseHandlePin(handle);
 				}
 
-				inline static bool GcDecreaseHandlePin(_Gc* gc, GcHandle* handle)
+				inline static bool GcDecreaseHandlePin(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->DecreaseHandlePin(handle);
 				}
 
-				inline static bool GcDisposeHandle(_Gc* gc, GcHandle* handle)
+				inline static bool GcDisposeHandle(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->DisposeHandle(handle);
 				}
 
-				inline static bool GcIsHandleDisposed(_Gc* gc, GcHandle* handle)
+				inline static bool GcIsHandleDisposed(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->IsHandleDisposed(handle);
 				}
 
-				inline static vint GcGetHandleSize(_Gc* gc, GcHandle* handle)
+				inline static vint GcGetHandleSize(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->GetHandleSize(handle);
 				}
 
-				inline static vint GcGetHandleRepeat(_Gc* gc, GcHandle* handle)
+				inline static vint GcGetHandleRepeat(GcHandle* handle, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->GetHandleRepeat(handle);
 				}
 
-				inline static bool GcReadHandle(_Gc* gc, GcHandle* handle, vint repeat, vint index, GcHandle** value, bool increaseRef)
+				inline static bool GcReadHandle(GcHandle* handle, vint repeat, vint index, GcHandle** value, bool increaseRef, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->ReadHandle(handle, repeat, index, value, increaseRef);
 				}
 
-				inline static bool GcWriteHandle(_Gc* gc, GcHandle* handle, vint repeat, vint index, GcHandle* value, bool decreaseRef)
+				inline static bool GcWriteHandle(GcHandle* handle, vint repeat, vint index, GcHandle* value, bool decreaseRef, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->WriteHandle(handle, repeat, index, value, decreaseRef);
 				}
 
-				inline static bool GcRead(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
+				inline static bool GcRead(GcHandle* handle, vint offset, vint length, char* buffer, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->Read(handle, offset, length, buffer);
 				}
 
-				inline static bool GcWrite(_Gc* gc, GcHandle* handle, vint offset, vint length, char* buffer)
+				inline static bool GcWrite(GcHandle* handle, vint offset, vint length, char* buffer, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->Write(handle, offset, length, buffer);
 				}
 
-				inline static bool GcCopy(_Gc* gc, GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length)
+				inline static bool GcCopy(GcHandle* hDst, vint oDst, GcHandle* hSrc, vint oSrc, vint length, void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->Copy(hDst, oDst, hSrc, oSrc, length);
 				}
 
-				inline static bool GcCollect(_Gc* gc)
+				inline static bool GcCollect(void* userData)
 				{
+					LANGUAGE_PLUGIN(SystemCoreGcPluginBase);
+					_Gc* gc=plugin->gc.Obj();
 					return gc->Collect();
 				}
 			protected:
@@ -113,25 +149,25 @@ namespace vl
 					typedef vl::entities::GcHandle GcHandle;
 
 					return 
-						REGISTER_LIGHT_FUNCTION3(GcCreate, _Gc*(vint), _GcImpl::GcCreate) &&
-						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(_Gc*), _GcImpl::GcIsMultipleThreadingSupported) &&
-						REGISTER_LIGHT_FUNCTION(GcCreateHandle, GcHandle*(_Gc*, GcMeta*, vint), _GcImpl::GcCreateHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleMeta, GcMeta*(_Gc*, GcHandle*), _GcImpl::GcGetHandleMeta) &&
-						REGISTER_LIGHT_FUNCTION(GcIsValidHandle, bool(_Gc*, GcHandle*), _GcImpl::GcIsValidHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandleRef, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandleRef) &&
-						REGISTER_LIGHT_FUNCTION(GcIncreaseHandlePin, char*(_Gc*, GcHandle*), _GcImpl::GcIncreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDecreaseHandlePin, bool(_Gc*, GcHandle*), _GcImpl::GcDecreaseHandlePin) &&
-						REGISTER_LIGHT_FUNCTION(GcDisposeHandle, bool(_Gc*, GcHandle*), _GcImpl::GcDisposeHandle) &&
-						REGISTER_LIGHT_FUNCTION(GcIsHandleDisposed, bool(_Gc*, GcHandle*), _GcImpl::GcIsHandleDisposed) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleSize, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleSize) &&
-						REGISTER_LIGHT_FUNCTION(GcGetHandleRepeat, vint(_Gc*, GcHandle*), _GcImpl::GcGetHandleRepeat) &&
-						REGISTER_LIGHT_FUNCTION(GcReadHandle, bool(_Gc*, GcHandle*, vint, vint, GcHandle**, bool), _GcImpl::GcReadHandle)&&
-						REGISTER_LIGHT_FUNCTION(GcWriteHandle, bool(_Gc*, GcHandle*, vint, vint, GcHandle*, bool), _GcImpl::GcWriteHandle)&&
-						REGISTER_LIGHT_FUNCTION(GcRead, bool(_Gc*, GcHandle*, vint, vint, char*), _GcImpl::GcRead) &&
-						REGISTER_LIGHT_FUNCTION(GcWrite, bool(_Gc*, GcHandle*, vint, vint, char*),_GcImpl::GcWrite) &&
-						REGISTER_LIGHT_FUNCTION(GcCopy, bool(_Gc*, GcHandle*, vint, GcHandle*, vint, vint),_GcImpl::GcCopy) &&
-						REGISTER_LIGHT_FUNCTION(GcCollect, bool(_Gc*), _GcImpl::GcCollect);
+						REGISTER_LIGHT_FUNCTION3(GcInit, bool(vint), _GcImpl::GcInit) &&
+						REGISTER_LIGHT_FUNCTION(GcIsMultipleThreadingSupported, bool(void), _GcImpl::GcIsMultipleThreadingSupported) &&
+						REGISTER_LIGHT_FUNCTION2(GcCreateHandle, GcHandle*(GcMeta*, vint), _GcImpl::GcCreateHandle) &&
+						REGISTER_LIGHT_FUNCTION2(GcGetHandleMeta, GcMeta*(GcHandle*), _GcImpl::GcGetHandleMeta) &&
+						REGISTER_LIGHT_FUNCTION2(GcIsValidHandle, bool(GcHandle*), _GcImpl::GcIsValidHandle) &&
+						REGISTER_LIGHT_FUNCTION2(GcIncreaseHandleRef, bool(GcHandle*), _GcImpl::GcIncreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION2(GcDecreaseHandleRef, bool(GcHandle*), _GcImpl::GcDecreaseHandleRef) &&
+						REGISTER_LIGHT_FUNCTION2(GcIncreaseHandlePin, char*(GcHandle*), _GcImpl::GcIncreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION2(GcDecreaseHandlePin, bool(GcHandle*), _GcImpl::GcDecreaseHandlePin) &&
+						REGISTER_LIGHT_FUNCTION2(GcDisposeHandle, bool(GcHandle*), _GcImpl::GcDisposeHandle) &&
+						REGISTER_LIGHT_FUNCTION2(GcIsHandleDisposed, bool(GcHandle*), _GcImpl::GcIsHandleDisposed) &&
+						REGISTER_LIGHT_FUNCTION2(GcGetHandleSize, vint(GcHandle*), _GcImpl::GcGetHandleSize) &&
+						REGISTER_LIGHT_FUNCTION2(GcGetHandleRepeat, vint(GcHandle*), _GcImpl::GcGetHandleRepeat) &&
+						REGISTER_LIGHT_FUNCTION2(GcReadHandle, bool(GcHandle*, vint, vint, GcHandle**, bool), _GcImpl::GcReadHandle)&&
+						REGISTER_LIGHT_FUNCTION2(GcWriteHandle, bool(GcHandle*, vint, vint, GcHandle*, bool), _GcImpl::GcWriteHandle)&&
+						REGISTER_LIGHT_FUNCTION2(GcRead, bool(GcHandle*, vint, vint, char*), _GcImpl::GcRead) &&
+						REGISTER_LIGHT_FUNCTION2(GcWrite, bool(GcHandle*, vint, vint, char*),_GcImpl::GcWrite) &&
+						REGISTER_LIGHT_FUNCTION2(GcCopy, bool(GcHandle*, vint, GcHandle*, vint, vint),_GcImpl::GcCopy) &&
+						REGISTER_LIGHT_FUNCTION2(GcCollect, bool(void), _GcImpl::GcCollect);
 				}
 			};
 		}
