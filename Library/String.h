@@ -22,8 +22,8 @@ namespace vl
 	private:
 		static const T	zero=0;
 
-		mutable T*				buffer;
-		mutable vint*			reference;
+		mutable T*					buffer;
+		mutable vint*				reference;
 		mutable vint				start;
 		mutable vint				length;
 		mutable vint				realLength;
@@ -323,6 +323,17 @@ namespace vl
 		vint Length()const
 		{
 			return length;
+		}
+
+		vint IndexOf(T c)const
+		{
+			const T* reading=buffer+start;
+			for(vint i=0;i<length;i++)
+			{
+				if(reading[i]==c)
+					return i;
+			}
+			return -1;
 		}
 
 		ObjectString<T> Left(vint count)const

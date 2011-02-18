@@ -35,6 +35,62 @@ LanguageMakerException
 /***********************************************************************
 LanguageMakeFile
 ***********************************************************************/
+			
+			bool LanguageMakeFile::Read(const WString& line, const WString& name, WString& result)
+			{
+				if(line.Left(name.Length()+1)==name+L"=")
+				{
+					result=line.Right(line.Length()-name.Length()-1);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool LanguageMakeFile::Read(const WString& line, const WString& name, Pair& result)
+			{
+				WString temp;
+				bool successful=false;
+				if(successful=Read(line, name, temp))
+				{
+					vint index=temp.IndexOf(L';');
+					if(index==-1)
+					{
+						result.name=L"";
+						result.value=temp;
+					}
+					else
+					{
+						result.name=temp.Left(index);
+						result.value=temp.Right(temp.Length()-index-1);
+					}
+				}
+				return successful;
+			}
+
+			bool LanguageMakeFile::Read(const WString& line, const WString& name, collections::List<WString>& result)
+			{
+				WString temp;
+				bool successful=false;
+				if(successful=Read(line, name, temp))
+				{
+					result.Add(temp);
+				}
+				return successful;
+			}
+
+			bool LanguageMakeFile::Read(const WString& line, const WString& name, collections::List<Pair>& result)
+			{
+				Pair temp;
+				bool successful=false;
+				if(successful=Read(line, name, temp))
+				{
+					result.Add(temp);
+				}
+				return successful;
+			}
 
 			LanguageMakeFile::LanguageMakeFile()
 			{
@@ -48,41 +104,12 @@ LanguageMakeFile
 					WString line=reader.ReadLine();
 					if(line!=L"")
 					{
-						if(line.Left(9)==L"Language=")
-						{
-							language
-								=line.Right(line.Length()-9);
-						}
-						else if(line.Left(13)==L"AssemblyName=")
-						{
-							assemblyName
-								=line.Right(line.Length()-13);
-						}
-						else if(line.Left(15)==L"AssemblyOutput=")
-						{
-							assemblyOutput
-								=line.Right(line.Length()-15);
-						}
-						else if(line.Left(15)==L"HeaderLanguage=")
-						{
-							headerLanguage
-								=line.Right(line.Length()-15);
-						}
-						else if(line.Left(13)==L"HeaderOutput=")
-						{
-							headerOutput
-								=line.Right(line.Length()-13);
-						}
-						else if(line.Left(20)==L"DebugAssemblyOutput=")
-						{
-							debugAssemblyOutput
-								=line.Right(line.Length()-20);
-						}
-						else if(line.Left(8)==L"Compile=")
-						{
-							compiles.Add(line.Right(line.Length()-8));
-						}
-						else
+						if(!(
+							Read(line, L"Language", language) ||
+							Read(line, L"DebugAssemblyOutput", debugAssemblyOutput) ||
+							Read(line, L"Assembly", assembly) ||
+							Read(line, L"Header", headers) ||
+							Read(line, L"Compile", compiles)))
 						{
 							throw LanguageMakerException(L"Don't know how to do: \""+line+L"\".");
 						}
@@ -145,7 +172,7 @@ LanguageMaker
 				Ptr<LanguageAssembly> assembly;
 				if(makeFile.debugAssemblyOutput==L"")
 				{
-					assembly=provider->Compile(makeFile.assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap());
+					assembly=provider->Compile(makeFile.assembly.name, references.Wrap(), codes.Wrap(), errors.Wrap());
 				}
 				else
 				{
@@ -174,7 +201,7 @@ LanguageMaker
 					BomEncoder encoder(BomEncoder::Utf16);
 					EncoderStream encoderStream(fileStream, encoder);
 					StreamWriter writer(encoderStream);
-					assembly=provider->Compile(makeFile.assemblyName, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, commentProvider.Obj());
+					assembly=provider->Compile(makeFile.assembly.name, references.Wrap(), codes.Wrap(), errors.Wrap(), &writer, commentProvider.Obj());
 				}
 
 				if(errors.Count()>0)
@@ -182,36 +209,40 @@ LanguageMaker
 					throw LanguageMakerException(L"Errors.", errors.Wrap());
 				}
 
-				if(makeFile.assemblyOutput!=L"")
+				if(makeFile.assembly.value!=L"")
 				{
-					WString path=makeFile.baseLocation+makeFile.assemblyOutput;
+					WString path=makeFile.baseLocation+makeFile.assembly.value;
 					FileStream fileStream(path, FileStream::WriteOnly);
 					assembly->SaveToStream(fileStream);
 				}
 
-				if(makeFile.headerLanguage!=L"" && makeFile.headerOutput!=L"")
+				for(vint i=0;i<makeFile.headers.Count();i++)
 				{
-					WString path=makeFile.baseLocation+makeFile.headerOutput;
-					FileStream fileStream(path, FileStream::WriteOnly);
-					if(!fileStream.IsAvailable())
+					const LanguageMakeFile::Pair& header=makeFile.headers.Get(i);
+					if(header.name!=L"" && header.value!=L"")
 					{
-						throw LanguageMakerException(L"Cannot open file to write: \""+path+L"\".");
-					}
-					BomEncoder encoder(BomEncoder::Utf16);
-					EncoderStream encoderStream(fileStream, encoder);
-					StreamWriter writer(encoderStream);
-
-					Ptr<ILanguageProvider> headerProvider=GetProvider(makeFile.headerLanguage);
-					switch(headerProvider->LanguageType())
-					{
-					case ILanguageProvider::Native:
+						WString path=makeFile.baseLocation+header.value;
+						FileStream fileStream(path, FileStream::WriteOnly);
+						if(!fileStream.IsAvailable())
 						{
-							Ptr<IBasicLanguageProvider> basicProvider=headerProvider.Cast<IBasicLanguageProvider>();
-							basicProvider->GenerateHeader(assembly, 0, writer);
+							throw LanguageMakerException(L"Cannot open file to write: \""+path+L"\".");
 						}
-						break;
-					default:
-						throw LanguageMakerException(L"Don't know how to generate header file in language: \""+makeFile.headerLanguage+L"\".");
+						BomEncoder encoder(BomEncoder::Utf16);
+						EncoderStream encoderStream(fileStream, encoder);
+						StreamWriter writer(encoderStream);
+
+						Ptr<ILanguageProvider> headerProvider=GetProvider(header.name);
+						switch(headerProvider->LanguageType())
+						{
+						case ILanguageProvider::Native:
+							{
+								Ptr<IBasicLanguageProvider> basicProvider=headerProvider.Cast<IBasicLanguageProvider>();
+								basicProvider->GenerateHeader(assembly, 0, writer);
+							}
+							break;
+						default:
+							throw LanguageMakerException(L"Don't know how to generate header file in language: \""+header.value+L"\".");
+						}
 					}
 				}
 			}
