@@ -73,9 +73,9 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 		host.RegisterPlugin(CreateThreadingPlugin());
 		host.RegisterPlugin(CreateStdlibPlugin());
 		host.RegisterPlugin(CreateGcSingleThreadPlugin());
-		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assemblyOutput);
-		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assemblyOutput);
-		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assemblyOutput);
+		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assembly.value);
+		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assembly.value);
+		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assembly.value);
 
 		Ptr<LanguageState> state=host.CreateState();
 		TEST_ASSERT(state->RunInitialization(syscrnatAssembly)==ILException::Finished);

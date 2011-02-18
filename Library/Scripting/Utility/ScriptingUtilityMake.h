@@ -30,15 +30,29 @@ namespace vl
 			class LanguageMakeFile : public Object
 			{
 			public:
+				struct Pair
+				{
+					WString							name;
+					WString							value;
+
+					bool operator==(const Pair&){return false;}
+					bool operator!=(const Pair&){return true;}
+				};
+
 				WString								baseLocation;
 				WString								language;
-				WString								assemblyName;
-				WString								assemblyOutput;
-				WString								headerLanguage;
-				WString								headerOutput;
 				WString								debugAssemblyOutput;
+				Pair								assembly;
+				collections::List<Pair>				headers;
 				collections::List<WString>			compiles;
 
+			protected:
+
+				bool								Read(const WString& line, const WString& name, WString& result);
+				bool								Read(const WString& line, const WString& name, Pair& result);
+				bool								Read(const WString& line, const WString& name, collections::List<WString>& result);
+				bool								Read(const WString& line, const WString& name, collections::List<Pair>& result);
+			public:
 				LanguageMakeFile();
 				
 				void								Load(const WString& _baseLocation, stream::TextReader& reader);

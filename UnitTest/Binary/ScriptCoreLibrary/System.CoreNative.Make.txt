@@ -1,8 +1,6 @@
 Language=NativeX
-AssemblyName=syscrnat
-HeaderLanguage=NativeX
-AssemblyOutput=Binary\Assembly.syscrnat.assembly
-HeaderOutput=Binary\Header.syscrnat.NativeX.txt
+Assembly=syscrnat;Binary\Assembly.syscrnat.assembly
+Header=NativeX;Binary\Header.syscrnat.NativeX.txt
 DebugAssemblyOutput=Binary\Debug.syscrnat.txt
 
 Compile=System.CoreNative.ForeignFunctions.NativeX.txt
