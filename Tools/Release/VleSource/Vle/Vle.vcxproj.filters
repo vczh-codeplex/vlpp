@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{f260bf6b-7c10-4ce4-8696-10c885abec1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic">
+      <UniqueIdentifier>{5b91fda5-9770-4008-bc0f-e64065022ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections">
+      <UniqueIdentifier>{93a56887-e19c-4044-8bf9-055ab3b3f1cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream">
+      <UniqueIdentifier>{0d685ec3-a641-4080-847a-0bb29c2f9fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting">
+      <UniqueIdentifier>{3a16f8f9-62e3-4d45-8506-a0f0e9917fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Regex">
+      <UniqueIdentifier>{766b3565-60c0-4226-b22f-76ed93f34ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Combinator">
+      <UniqueIdentifier>{f2e0d3ac-b10c-44c8-bc7d-0962400846d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic\Source Files">
+      <UniqueIdentifier>{a19adcae-fbf7-4430-be19-ba3a8f2e880e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic\Header Files">
+      <UniqueIdentifier>{02f65293-b091-4fa9-b693-0b7f4c88adba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections\Source Files">
+      <UniqueIdentifier>{1b6540f8-d9f1-4725-b764-22fe5cd75d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections\Header Files">
+      <UniqueIdentifier>{e0157a13-6de5-400a-836f-f7169228aee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Combinator\Source Files">
+      <UniqueIdentifier>{b23d97bf-6100-48d4-bd26-562f57d6ef52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Combinator\Header Files">
+      <UniqueIdentifier>{ea2252d9-d2f0-44cb-91b7-a63cec4b4b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Regex\Source Files">
+      <UniqueIdentifier>{80177cd9-7f7f-453f-bd08-f769fa124084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Regex\Header Files">
+      <UniqueIdentifier>{f637dcf6-e489-407a-9af1-18e3130a410b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream\Source Files">
+      <UniqueIdentifier>{d2e27037-7f13-4651-afa5-7c827b0c6285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream\Header Files">
+      <UniqueIdentifier>{f1776dbd-2fef-4b19-928e-e39f81293114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicIL">
+      <UniqueIdentifier>{b492acec-b922-4f9f-95c1-1702f767230e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicLanguage">
+      <UniqueIdentifier>{e20eb4e5-bbb5-4ee8-85fd-af5e5036937f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Common">
+      <UniqueIdentifier>{91583a5c-5456-492e-9530-e9b0d62bf892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages">
+      <UniqueIdentifier>{6fb42dd5-9e8c-45db-b9ad-bfe75003cfc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Utility">
+      <UniqueIdentifier>{f9f78c97-1f9f-4536-9282-53efabbdb3a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\NativeX">
+      <UniqueIdentifier>{af199a86-5273-48fc-9658-c318928e98df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicIL\Source Files">
+      <UniqueIdentifier>{6a6485b4-ed7f-4f59-8a93-777590e9e7f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicIL\Header Files">
+      <UniqueIdentifier>{72af216f-14d1-45e4-95c9-50bf4c6d334b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicLanguage\Source Files">
+      <UniqueIdentifier>{caa4c4af-dd54-486d-b426-aac6943d2d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\BasicLanguage\Header Files">
+      <UniqueIdentifier>{6c6a7695-4847-443b-b8d4-5036ae7a9633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\Source Files">
+      <UniqueIdentifier>{16295e1c-880c-4b1d-9119-297fd310e436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\Header Files">
+      <UniqueIdentifier>{13775faf-58eb-4bce-b2e4-f7ea3ed8362b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\NativeX\Source Files">
+      <UniqueIdentifier>{20219a24-1d6a-4163-b3f8-d4e6361de3ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\NativeX\Header Files">
+      <UniqueIdentifier>{06021e02-04ee-4380-a6d9-d8c16c9f03e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Utility\Source Files">
+      <UniqueIdentifier>{76aadaeb-5868-4d1a-85d4-d730e5a8e986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Utility\Header Files">
+      <UniqueIdentifier>{ee7b5782-383a-4286-8a2a-fb5c1585b4d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Entity">
+      <UniqueIdentifier>{1e6e54bb-b730-4074-ad83-d71eff33b152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Entity\Source Files">
+      <UniqueIdentifier>{71c0a028-0693-4c5a-bd06-d7650802a3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Entity\Header Files">
+      <UniqueIdentifier>{d79328c8-d407-4a41-8f04-167fff1d7c4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Library\Basic.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Console.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Exception.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\GlobalStorage.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\String.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Threading.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Collections\Operation.cpp">
+      <Filter>Library\Collections\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Combinator\StringCombinator.cpp">
+      <Filter>Library\Combinator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Combinator\TokenCombinator.cpp">
+      <Filter>Library\Combinator\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\Regex.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexAutomaton.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexExpression.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexParser.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexPure.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexRich.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexWriter.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Regex\RegexData.cpp">
+      <Filter>Library\Regex\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\Accessor.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\BroadcastStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\MemoryStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\MemoryWrapperStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\RecorderStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILCodeExpander.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILDefinition.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILEnv.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILException.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILInterpretor.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILResourceStream.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILSaveToString.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicIL\BasicILStack.cpp">
+      <Filter>Library\Scripting\BasicIL\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildGlobalScope.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_CheckStatement.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetExpressionType.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetTypeRecord.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_IsLeftValue.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGCommon_GenerateCode.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGDecl_GenerateCode.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_Invoke.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRef.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushRefWithoutSideEffect.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_PushValue.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_RunSideEffect.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGExpr_StoreToAddress.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGRes_GenerateCode.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCGStat_GenerateCode.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageConfiguration.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageException.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageScopeManager.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityGcSingleThread.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityMemoryManager.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityStdlib.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityThreading.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityUnitTest.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp">
+      <Filter>Library\Scripting\Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessage.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicLanguageMetadata.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageMetadata.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageProvider.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageRuntime.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeX.cpp">
+      <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp">
+      <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VleMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\BigObjectPoolEntity.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\GcSingleThreadEntity.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\GeneralObjectPoolEntity.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\SmallObjectPoolEntity.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Library\Basic.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Console.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Event.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Exception.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Function.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\GlobalStorage.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Lazy.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Pointer.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\String.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Threading.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Tuple.h">
+      <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Dictionary.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\DictionaryWrappers.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Interfaces.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\List.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\ListWrappers.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Operation.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationAggregate.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationConcat.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationCopyFrom.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationEnumerable.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationForEach.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationPair.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSelect.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSequence.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSet.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationString.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationWhere.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Pair.h">
+      <Filter>Library\Collections\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Alt.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Error.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Loop.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Pred.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Ref.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Seq.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Unit.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\_Using.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\Combinator.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\Expression.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\ParserInput.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\StringCombinator.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Combinator\TokenCombinator.h">
+      <Filter>Library\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\Regex.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexAutomaton.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexData.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexExpression.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexPure.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexRich.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Regex\RegexWriter.h">
+      <Filter>Library\Regex\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\Accessor.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\BroadcastStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\CharFormat.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\MemoryStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\MemoryWrapperStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\RecorderStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\StreamSerialization.h">
+      <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILCodeExpander.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILDefinition.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILEnv.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILException.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILInterpretor.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILResourceStream.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILRuntimeSymbol.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILStack.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h">
+      <Filter>Library\Scripting\BasicIL\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAnalyzer.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCodeGeneration.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageConfiguration.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageException.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageExpression.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageScopeManager.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageTypeManager.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.h">
+      <Filter>Library\Scripting\BasicLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Common\AlgorithmDeclaration.h">
+      <Filter>Library\Scripting\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Common\CommonScopeManager.h">
+      <Filter>Library\Scripting\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Common\CommonTypeManager.h">
+      <Filter>Library\Scripting\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h">
+      <Filter>Library\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h">
+      <Filter>Library\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityMake.h">
+      <Filter>Library\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessage.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicFunctionExecutor.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicLanguageMetadata.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageMetadata.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProvider.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageRuntime.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeX.h">
+      <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
+      <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\BigObjectPoolEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\BinaryBalanceTreeEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\GcEntityCommon.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\GcSingleThreadEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\GeneralObjectPoolEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\Linear.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\SmallObjectPoolEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
