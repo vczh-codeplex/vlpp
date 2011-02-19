@@ -158,6 +158,12 @@
     <ClCompile Include="..\..\..\..\Library\Stream\RecorderStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\..\..\Library\Threading.cpp" />
+    <ClCompile Include="ProcHeader.cpp" />
+    <ClCompile Include="ProcInteract.cpp" />
+    <ClCompile Include="ProcLink.cpp" />
+    <ClCompile Include="ProcMake.cpp" />
+    <ClCompile Include="ProcSimulate.cpp" />
+    <ClCompile Include="ProcTest.cpp" />
     <ClCompile Include="VleMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +268,10 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\..\..\Library\Threading.h" />
     <ClInclude Include="..\..\..\..\Library\Tuple.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Test Files\Make\Make.txt" />
+    <None Include="..\Test Files\Make\NativeX.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

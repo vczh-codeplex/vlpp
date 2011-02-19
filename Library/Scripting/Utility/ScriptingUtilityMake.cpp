@@ -38,7 +38,7 @@ LanguageMakeFile
 			
 			bool LanguageMakeFile::Read(const WString& line, const WString& name, WString& result)
 			{
-				if(line.Left(name.Length()+1)==name+L"=")
+				if(line.Length()>name.Length()+1 && line.Left(name.Length()+1)==name+L"=")
 				{
 					result=line.Right(line.Length()-name.Length()-1);
 					return true;

@@ -29,7 +29,7 @@ Error
 		description=_description;
 	}
 
-	wchar_t* Error::Description()
+	wchar_t* Error::Description()const
 	{
 		return description;
 	}
