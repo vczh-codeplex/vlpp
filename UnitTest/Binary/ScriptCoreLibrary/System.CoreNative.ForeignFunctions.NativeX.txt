@@ -301,6 +301,90 @@ foreign function int memcmp(void* dst, void* src, int size)
     alias SystemCoreForeignFunctions.memcmp;
 
 #public
+foreign function int atoi(char* input, char** endptr, int radix)
+    alias SystemCoreForeignFunctions.atoi;
+
+#public
+foreign function int wtoi(wchar* input, wchar** endptr, int radix)
+    alias SystemCoreForeignFunctions.wtoi;
+
+#public
+foreign function int64 atoi64(char* input, char** endptr, int radix)
+    alias SystemCoreForeignFunctions.atoi64;
+
+#public
+foreign function int64 wtoi64(wchar* input, wchar** endptr, int radix)
+    alias SystemCoreForeignFunctions.wtoi64;
+
+#public
+foreign function uint atou(char* input, char** endptr, int radix)
+    alias SystemCoreForeignFunctions.atou;
+
+#public
+foreign function uint wtou(wchar* input, wchar** endptr, int radix)
+    alias SystemCoreForeignFunctions.wtou;
+
+#public
+foreign function uint64 atou64(char* input, char** endptr, int radix)
+    alias SystemCoreForeignFunctions.atou64;
+
+#public
+foreign function uint64 wtou64(wchar* input, wchar** endptr, int radix)
+    alias SystemCoreForeignFunctions.wtou64;
+
+#public
+foreign function f64 atof(char* input, char** endptr)
+    alias SystemCoreForeignFunctions.atof;
+
+#public
+foreign function f64 wtof(wchar* input, wchar** endptr)
+    alias SystemCoreForeignFunctions.wtof;
+
+#public
+foreign function char* itoa(int number, char* output, int size, int radix)
+    alias SystemCoreForeignFunctions.itoa;
+
+#public
+foreign function wchar* itow(int number, wchar* output, int size, int radix)
+    alias SystemCoreForeignFunctions.itow;
+
+#public
+foreign function char* i64toa(int64 number, char* output, int size, int radix)
+    alias SystemCoreForeignFunctions.i64toa;
+
+#public
+foreign function wchar* i64tow(int64 number, wchar* output, int size, int radix)
+    alias SystemCoreForeignFunctions.i64tow;
+
+#public
+foreign function char* utoa(uint number, char* output, int size, int radix)
+    alias SystemCoreForeignFunctions.utoa;
+
+#public
+foreign function wchar* utow(uint number, wchar* output, int size, int radix)
+    alias SystemCoreForeignFunctions.utow;
+
+#public
+foreign function char* u64toa(uint64 number, char* output, int size, int radix)
+    alias SystemCoreForeignFunctions.u64toa;
+
+#public
+foreign function wchar* u64tow(uint64 number, wchar* output, int size, int radix)
+    alias SystemCoreForeignFunctions.u64tow;
+
+#public
+foreign function char* ftoa(f64 number, char* output, int size)
+    alias SystemCoreForeignFunctions.ftoa;
+
+#public
+foreign function wchar* ftow(f64 number, wchar* output, int size)
+    alias SystemCoreForeignFunctions.ftow;
+
+#public
+foreign function int rand16()
+    alias SystemCoreForeignFunctions.rand16;
+
+#public
 foreign function f64 sin(f64 i)
     alias SystemCoreForeignFunctions.sin;
 
@@ -343,6 +427,10 @@ foreign function f64 floor(f64 i)
 #public
 foreign function f64 ceil(f64 i)
     alias SystemCoreForeignFunctions.ceil;
+
+#public
+foreign function f64 abs(f64 i)
+    alias SystemCoreForeignFunctions.abs;
     
 #public
 foreign function f32 sinf(f32 i)
@@ -387,3 +475,7 @@ foreign function f32 floorf(f32 i)
 #public
 foreign function f32 ceilf(f32 i)
     alias SystemCoreForeignFunctions.ceilf;
+
+#public
+foreign function f32 absf(f32 i)
+    alias SystemCoreForeignFunctions.absf;

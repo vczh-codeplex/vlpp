@@ -131,8 +131,53 @@ function void TestCase_RunStdlibStringFunctions()
     Assert(wcsstr(L"abcdefg", L"DE")==null, L"wcsstr should succeed");
 }
 
+function void TestCase_RunStdlibConversionFunctions()
+{
+    variable char[100] stra;
+    variable wchar[100] strw;
+    variable char* pa = cast<char*>(&stra);
+    variable wchar* pw = cast<wchar*>(&strw);
+
+    Assert(atoi("100", null, 10)==100, L"atoi should succeed");
+    Assert(wtoi(L"100", null, 10)==100, L"wtoi should succeed");
+    Assert(atoi64("100", null, 10)==100, L"atoi64 should succeed");
+    Assert(wtoi64(L"100", null, 10)==100, L"wtoi64 should succeed");
+    Assert(atou("100", null, 10)==100, L"atou should succeed");
+    Assert(wtou(L"100", null, 10)==100, L"wtou should succeed");
+    Assert(atou64("100", null, 10)==100, L"atou64 should succeed");
+    Assert(wtou64(L"100", null, 10)==100, L"wtou64 should succeed");
+    Assert(atof("100", null)==100, L"atof should succeed");
+    Assert(wtof(L"100", null)==100, L"wtof should succeed");
+
+    Assert(itoa(100, pa, 100, 10)==pa, L"itoa should succeed");
+    Assert(strcmp(pa, "100")==0, L"itoa should succeed");
+    Assert(itow(100, pw, 100, 10)==pw, L"itow should succeed");
+    Assert(wcscmp(pw, L"100")==0, L"itow should succeed");
+
+    Assert(i64toa(200, pa, 100, 10)==pa, L"i64toa should succeed");
+    Assert(strcmp(pa, "200")==0, L"i64toa should succeed");
+    Assert(i64tow(200, pw, 100, 10)==pw, L"i64tow should succeed");
+    Assert(wcscmp(pw, L"200")==0, L"i64tow should succeed");
+
+    Assert(utoa(300u32, pa, 100, 10)==pa, L"utoa should succeed");
+    Assert(strcmp(pa, "300")==0, L"utoa should succeed");
+    Assert(utow(300u32, pw, 100, 10)==pw, L"utow should succeed");
+    Assert(wcscmp(pw, L"300")==0, L"utow should succeed");
+
+    Assert(u64toa(400u64, pa, 100, 10)==pa, L"u64toa should succeed");
+    Assert(strcmp(pa, "400")==0, L"u64toa should succeed");
+    Assert(u64tow(400u64, pw, 100, 10)==pw, L"u64tow should succeed");
+    Assert(wcscmp(pw, L"400")==0, L"u64tow should succeed");
+
+    Assert(ftoa(1.5, pa, 100)==pa, L"ftoa should succeed");
+    Assert(strcmp(pa, "1.5")==0, L"ftoa should succeed");
+    Assert(ftow(1.5, pw, 100)==pw, L"ftow should succeed");
+    Assert(wcscmp(pw, L"1.5")==0, L"ftow should succeed");
+}
+
 function void TestCase_RunStdlibMathFunctions()
 {
+    rand16();
     sin(0.0);
     cos(0.0);
     tan(0.0);
@@ -144,6 +189,7 @@ function void TestCase_RunStdlibMathFunctions()
     log10(0.0);
     floor(0.0);
     ceil(0.0);
+    abs(0.0);
     sinf(0.0f);
     cosf(0.0f);
     tanf(0.0f);
@@ -155,4 +201,5 @@ function void TestCase_RunStdlibMathFunctions()
     log10f(0.0f);
     floorf(0.0f);
     ceilf(0.0f);
+    absf(0.0f);
 }

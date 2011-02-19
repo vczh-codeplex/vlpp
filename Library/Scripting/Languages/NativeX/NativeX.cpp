@@ -175,7 +175,7 @@ Extra
 			{
 				const wchar_t* reading=input.reading+2;
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
-				expression->type=char_type;
+				expression->type=wchar_type;
 				expression->argument.s64=0;
 				expression->argument.wchar_value=EscapeWalk(reading);
 				return expression;
@@ -293,7 +293,7 @@ Extra
 			Ptr<BasicExpression> ToFloat(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
-				expression->type=bool_type;
+				expression->type=f32;
 				expression->argument.s64=0;
 				expression->argument.f32=(float)wtof(WString(input.reading, input.length));
 				return expression;
@@ -302,7 +302,7 @@ Extra
 			Ptr<BasicExpression> ToDouble(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
-				expression->type=bool_type;
+				expression->type=f64;
 				expression->argument.s64=0;
 				expression->argument.f64=wtof(WString(input.reading, input.length));
 				return expression;

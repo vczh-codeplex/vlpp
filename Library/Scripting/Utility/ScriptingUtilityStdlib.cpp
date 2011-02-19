@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 #include "ScriptingUtilityForeignFunctions.h"
 #include "..\Languages\LanguageRuntime.h"
 
@@ -42,6 +43,42 @@ namespace vl
 				inline static void* __memcpy(void* dst, void* src, vint size){return memcpy(dst, src, (size_t)size);}
 				inline static vint __memcmp(void* dst, void* src, vint size){return memcmp(dst, src, (size_t)size);}
 
+				inline static vint __atoi(const char* input, char** endptr, vint radix){return strtol(input, endptr, radix);}
+				inline static vint __wtoi(const wchar_t* input, wchar_t** endptr, vint radix){return wcstol(input, endptr, radix);}
+				inline static __int64 __atoi64(const char* input, char** endptr, vint radix){return _strtoi64(input, endptr, radix);}
+				inline static __int64 __wtoi64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoi64(input, endptr, radix);}
+				inline static vuint __atou(const char* input, char** endptr, vint radix){return strtoul(input, endptr, radix);}
+				inline static vuint __wtou(const wchar_t* input, wchar_t** endptr, vint radix){return wcstoul(input, endptr, radix);}
+				inline static unsigned __int64 __atou64(const char* input, char** endptr, vint radix){return _strtoui64(input, endptr, radix);}
+				inline static unsigned __int64 __wtou64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoui64(input, endptr, radix);}
+				inline static double __atof(const char* input, char** endptr){return strtod(input, endptr);}
+				inline static double __wtof(const wchar_t* input, wchar_t** endptr){return wcstod(input, endptr);}
+
+				inline static char* __itoa(vint number, char* output, vint size, vint radix){ITOA_S(number, output, size, radix);return output;}
+				inline static wchar_t* __itow(vint number, wchar_t* output, vint size, vint radix){ITOW_S(number, output, size, radix);return output;}
+				inline static char* __i64toa(__int64 number, char* output, vint size, vint radix){I64TOA_S(number, output, size, radix);return output;}
+				inline static wchar_t* __i64tow(__int64 number, wchar_t* output, vint size, vint radix){I64TOW_S(number, output, size, radix);return output;}
+				inline static char* __utoa(vuint number, char* output, vint size, vint radix){UITOA_S(number, output, size, radix);return output;}
+				inline static wchar_t* __utow(vuint number, wchar_t* output, vint size, vint radix){UITOW_S(number, output, size, radix);return output;}
+				inline static char* __u64toa(unsigned __int64 number, char* output, vint size, vint radix){UI64TOA_S(number, output, size, radix);return output;}
+				inline static wchar_t* __u64tow(unsigned __int64 number, wchar_t* output, vint size, vint radix){UI64TOW_S(number, output, size, radix);return output;}
+
+				inline static char* __ftoa(double number, char* output, vint size)
+				{
+					AString s=ftoa(number);
+					strncpy(output, s.Buffer(), size);
+					return output;
+				}
+
+				inline static wchar_t* __ftow(double number, wchar_t* output, vint size)
+				{
+					WString s=ftow(number);
+					wcsncpy(output, s.Buffer(), size);
+					return output;
+				}
+
+				inline static vint __rand16(){return rand();}
+
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
@@ -70,6 +107,28 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(memcpy, void*(void*, void*, vint), __memcpy) &&
 						REGISTER_LIGHT_FUNCTION(memcmp, vint(void*, void*, vint), __memcmp) &&
 
+						REGISTER_LIGHT_FUNCTION(atoi, vint(const char*, char**, vint), __atoi) &&
+						REGISTER_LIGHT_FUNCTION(wtoi, vint(const wchar_t*, wchar_t**, vint), __wtoi) &&
+						REGISTER_LIGHT_FUNCTION(atoi64, __int64(const char*, char**, vint), __atoi64) &&
+						REGISTER_LIGHT_FUNCTION(wtoi64, __int64(const wchar_t*, wchar_t**, vint), __wtoi64) &&
+						REGISTER_LIGHT_FUNCTION(atou, vuint(const char*, char**, vint), __atou) &&
+						REGISTER_LIGHT_FUNCTION(wtou, vuint(const wchar_t*, wchar_t**, vint), __wtou) &&
+						REGISTER_LIGHT_FUNCTION(atou64, unsigned __int64(const char*, char**, vint), __atou64) &&
+						REGISTER_LIGHT_FUNCTION(wtou64, unsigned __int64(const wchar_t*, wchar_t**, vint), __wtou64) &&
+						REGISTER_LIGHT_FUNCTION(atof, double(const char*, char**), __atof) &&
+						REGISTER_LIGHT_FUNCTION(wtof, double(const wchar_t*, wchar_t**), __wtof) &&
+						
+						REGISTER_LIGHT_FUNCTION(itoa, char*(vint, char*, vint, vint), __itoa) &&
+						REGISTER_LIGHT_FUNCTION(itow, wchar_t*(vint, wchar_t*, vint, vint), __itow) &&
+						REGISTER_LIGHT_FUNCTION(i64toa, char*(__int64, char*, vint, vint), __i64toa) &&
+						REGISTER_LIGHT_FUNCTION(i64tow, wchar_t*(__int64, wchar_t*, vint, vint), __i64tow) &&
+						REGISTER_LIGHT_FUNCTION(utoa, char*(vuint, char*, vint, vint), __utoa) &&
+						REGISTER_LIGHT_FUNCTION(utow, wchar_t*(vuint, wchar_t*, vint, vint), __utow) &&
+						REGISTER_LIGHT_FUNCTION(u64toa, char*(unsigned __int64, char*, vint, vint), __u64toa) &&
+						REGISTER_LIGHT_FUNCTION(u64tow, wchar_t*(unsigned __int64, wchar_t*, vint, vint), __u64tow) &&
+						REGISTER_LIGHT_FUNCTION(ftoa, char*(double, char*, vint), __ftoa) &&
+						REGISTER_LIGHT_FUNCTION(ftow, wchar_t*(double, wchar_t*, vint), __ftow) &&
+
 						REGISTER_LIGHT_FUNCTION(sin, double(double), sin) &&
 						REGISTER_LIGHT_FUNCTION(cos, double(double), cos) &&
 						REGISTER_LIGHT_FUNCTION(tan, double(double), tan) &&
@@ -81,8 +140,8 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(log10, double(double), log10) &&
 						REGISTER_LIGHT_FUNCTION(floor, double(double), floor) &&
 						REGISTER_LIGHT_FUNCTION(ceil, double(double), ceil) &&
+						REGISTER_LIGHT_FUNCTION(abs, double(double), abs) &&
 
-						REGISTER_LIGHT_FUNCTION(absf, float(float), abs) &&
 						REGISTER_LIGHT_FUNCTION(sinf, float(float), sin) &&
 						REGISTER_LIGHT_FUNCTION(cosf, float(float), cos) &&
 						REGISTER_LIGHT_FUNCTION(tanf, float(float), tan) &&
@@ -95,11 +154,14 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(floorf, float(float), floor) &&
 						REGISTER_LIGHT_FUNCTION(ceilf, float(float), ceil) &&
 						REGISTER_LIGHT_FUNCTION(absf, float(float), abs) &&
+
+						REGISTER_LIGHT_FUNCTION(rand16, vint(), __rand16) &&
 						true;
 				}
 			public:
 				SystemCoreStdlibPlugin()
 				{
+					srand((unsigned)time(0));
 				}
 			};
 
