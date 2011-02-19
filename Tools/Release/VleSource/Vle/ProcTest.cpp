@@ -42,7 +42,7 @@ bool ProcTest(const Array<WString>& args)
 		for(vint i=0;i<testCases.Count();i++)
 		{
 			Console::WriteLine(L"Running Test Case: "+testCases[i].GetName());
-			BasicFunctionExecutor<void()> testCase(testCases[0], state);
+			BasicFunctionExecutor<void()> testCase(testCases[i], state);
 			testCase();
 		}
 
