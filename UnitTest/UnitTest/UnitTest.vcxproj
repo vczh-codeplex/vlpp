@@ -286,8 +286,8 @@
     <None Include="..\..\Library\Scripting\Languages\BasicFunctionExecutor.h.fpm" />
     <None Include="..\..\Library\Scripting\Languages\NativeXErrorMessage_English.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt" />
-    <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Console.NativeX.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt" />
