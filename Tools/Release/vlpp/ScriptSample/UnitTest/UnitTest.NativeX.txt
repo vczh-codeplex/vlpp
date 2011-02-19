@@ -1,0 +1,49 @@
+unit Program;
+
+uses syscrnat, sysutnat;
+
+structure Vector
+{
+    int x;
+    int y;
+}
+
+function bool VectorEqual(Vector a, Vector b)
+{
+    result = a.x==b.x && a.y==b.y;
+}
+
+function Vector VectorAdd(Vector a, Vector b)
+{
+    result.x = a.x + b.x;
+    result.y = a.y + b.y;
+}
+
+function void TestCase_VectorEqual()
+{
+    variable Vector v1;
+    variable Vector v2;
+    variable Vector v3;
+    v1.x=1;
+    v1.y=2;
+    v2.x=1;
+    v2.y=2;
+    v3.x=3;
+    v3.y=4;
+    Assert(VectorEqual(v1, v2)==true, L"VectorEqual should succeed.");
+    Assert(VectorEqual(v1, v3)==false, L"VectorEqual should succeed.");
+}
+
+function void TestCase_VectorAdd()
+{
+    variable Vector v1;
+    variable Vector v2;
+    variable Vector v3;
+    v1.x=1;
+    v1.y=2;
+    v2.x=3;
+    v2.y=4;
+    v3.x=4;
+    v3.y=6;
+    Assert(VectorEqual(VectorAdd(v1, v2), v3), L"VectorAdd should succeed.");
+}
