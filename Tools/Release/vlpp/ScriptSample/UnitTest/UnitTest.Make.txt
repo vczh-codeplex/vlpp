@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=UnitTest;UnitTest.assembly
+
+Compile=UnitTest.NativeX.txt
+Compile=..\..\Header.syscrnat.NativeX.txt
+Compile=..\..\Header.sysutnat.NativeX.txt
