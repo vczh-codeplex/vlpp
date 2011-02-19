@@ -200,6 +200,7 @@
     <ClCompile Include="..\..\Library\Regex\RegexPure.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexRich.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexWriter.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcSingleThread.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
@@ -295,6 +296,7 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.UnitTest.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunConsoleNative.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunGc.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunMemoryManager.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunStdlib.NativeX.txt" />

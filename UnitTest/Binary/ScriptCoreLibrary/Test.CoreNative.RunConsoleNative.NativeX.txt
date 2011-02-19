@@ -1,0 +1,11 @@
+unit RunConsoleNative;
+
+uses syscrnat, syscsnat, sysutnat;
+
+function void TestCase_Console()
+{
+    variable wchar[100] text;
+    Read(cast<wchar*>(&text));
+    Assert(wcscmp(cast<wchar*>(&text), L"TextFromConsole")==0, L"Console.Read should succeed.");
+    Write(L"Hello, World!\r\n");
+}

@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
 #include "..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
@@ -49,6 +50,17 @@ namespace TestScriptingUtilityHelper
 			throw 0;
 		}
 	}
+
+	void ConsolePluginReader(wchar_t* text)
+	{
+		wcscpy(text, L"TextFromConsole");
+		vl::unittest::UnitTest::PrintInfo(L"        CONSOLE.READ: "+WString(text));
+	}
+
+	void ConsolePluginWriter(wchar_t* text)
+	{
+		vl::unittest::UnitTest::PrintInfo(L"        CONSOLE.WRITE: "+WString(text));
+	}
 };
 using namespace TestScriptingUtilityHelper;
 
@@ -73,16 +85,19 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 		LanguageHost host(65536);
 		host.RegisterPlugin(CreateMemoryManagerPlugin());
 		host.RegisterPlugin(CreateUnitTestPlugin(UnitTestPluginPrinter));
+		host.RegisterPlugin(CreateConsolePlugin(ConsolePluginReader, ConsolePluginWriter));
 		host.RegisterPlugin(CreateThreadingPlugin());
 		host.RegisterPlugin(CreateStdlibPlugin());
 		host.RegisterPlugin(CreateGcSingleThreadPlugin());
 		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assembly.value);
 		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assembly.value);
+		Ptr<LanguageAssembly> syscsnatAssembly=LoadAssembly(host, basePath+syscsnat.assembly.value);
 		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assembly.value);
 
 		Ptr<LanguageState> state=host.CreateState();
 		TEST_ASSERT(state->RunInitialization(syscrnatAssembly)==ILException::Finished);
 		TEST_ASSERT(state->RunInitialization(sysutnatAssembly)==ILException::Finished);
+		TEST_ASSERT(state->RunInitialization(syscsnatAssembly)==ILException::Finished);
 		TEST_ASSERT(state->RunInitialization(unitTestAssembly)==ILException::Finished);
 
 		BasicLanguageMetadata* metadata=unitTestAssembly->GetBasicLanguageMetadata();
