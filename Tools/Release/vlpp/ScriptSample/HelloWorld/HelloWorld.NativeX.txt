@@ -1,0 +1,8 @@
+unit Program;
+
+uses syscrnat, syscsnat;
+
+function void main()
+{
+    Write(L"Hello, World!\r\n");
+}

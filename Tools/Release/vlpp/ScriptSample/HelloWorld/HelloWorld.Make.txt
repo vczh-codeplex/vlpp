@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=HelloWorld;HelloWorld.assembly
+
+Compile=HelloWorld.NativeX.txt
+Compile=..\..\Header.syscrnat.NativeX.txt
+Compile=..\..\Header.syscsnat.NativeX.txt

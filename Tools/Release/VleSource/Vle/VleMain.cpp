@@ -1,13 +1,4 @@
-#include "..\..\..\..\Library\Basic.h"
-#include "..\..\..\..\Library\Console.h"
-#include "..\..\..\..\Library\Collections\List.h"
-#include "..\..\..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
-
-using namespace vl;
-using namespace vl::console;
-using namespace vl::collections;
-using namespace vl::scripting;
-using namespace vl::scripting::utility;
+#include "Common.h"
 
 extern bool ProcMake(const Array<WString>& args);
 extern bool ProcHeader(const Array<WString>& args);
@@ -15,11 +6,6 @@ extern bool ProcLink(const Array<WString>& args);
 extern bool ProcTest(const Array<WString>& args);
 extern bool ProcSimulate(const Array<WString>& args);
 extern bool ProcInteract(const Array<WString>& args);
-
-wchar_t* ProcVersion()
-{
-	return L"v0.1";
-}
 
 /*
 make "..\Test Files\Make\Make.txt"

@@ -24,5 +24,10 @@ LanguageException
 		{
 			return resources;
 		}
+
+		bool LanguageMetadata::IsAvailable()const
+		{
+			return resources;
+		}
 	}
 }
