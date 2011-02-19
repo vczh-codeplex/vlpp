@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vle", "Vle\Vle.vcxproj", "{DB1B5FE7-E36B-46E1-848C-1A8F5BB19006}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release Folder", "Release Folder", "{55245844-B477-46FD-A052-8B2228B18913}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\Readme.txt = ..\vlpp\Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2

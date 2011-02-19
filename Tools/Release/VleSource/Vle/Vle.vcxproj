@@ -270,6 +270,7 @@
     <ClInclude Include="..\..\..\..\Library\Tuple.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Release\Deploy.bat" />
     <None Include="..\Test Files\Make\Make.txt" />
     <None Include="..\Test Files\Make\NativeX.txt" />
   </ItemGroup>

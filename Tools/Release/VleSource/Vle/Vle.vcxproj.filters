@@ -127,6 +127,9 @@
     <Filter Include="Test Files\Make">
       <UniqueIdentifier>{a5ac5a3c-f4dc-44a8-afcd-1e33d5c4a2c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Deploy">
+      <UniqueIdentifier>{389d3a4b-d848-419c-9005-77caab60d68c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Library\Basic.cpp">
@@ -696,6 +699,9 @@
     </None>
     <None Include="..\Test Files\Make\NativeX.txt">
       <Filter>Test Files\Make</Filter>
+    </None>
+    <None Include="..\Release\Deploy.bat">
+      <Filter>Deploy</Filter>
     </None>
   </ItemGroup>
 </Project>
