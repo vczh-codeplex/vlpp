@@ -34,6 +34,7 @@ namespace vl
 			
 			IMetadataProvider*				GetMetadataProvider()const;
 			Ptr<ResourceStream>				GetResourceStream()const;
+			bool							IsAvailable()const;
 		};
 	}
 }

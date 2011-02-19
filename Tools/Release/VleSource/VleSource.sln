@@ -8,6 +8,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release Folder", "Release F
 		..\vlpp\Readme.txt = ..\vlpp\Readme.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptSample", "ScriptSample", "{B13234DD-4997-47ED-AED1-DFFAFC7F521E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HelloWorld", "HelloWorld", "{EB0D451B-8B8A-46A0-AB5E-222E8B713B39}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\HelloWorld\Build.bat = ..\vlpp\ScriptSample\HelloWorld\Build.bat
+		..\vlpp\ScriptSample\HelloWorld\HelloWorld.assembly = ..\vlpp\ScriptSample\HelloWorld\HelloWorld.assembly
+		..\vlpp\ScriptSample\HelloWorld\HelloWorld.AssemblyList.txt = ..\vlpp\ScriptSample\HelloWorld\HelloWorld.AssemblyList.txt
+		..\vlpp\ScriptSample\HelloWorld\HelloWorld.Make.txt = ..\vlpp\ScriptSample\HelloWorld\HelloWorld.Make.txt
+		..\vlpp\ScriptSample\HelloWorld\HelloWorld.NativeX.txt = ..\vlpp\ScriptSample\HelloWorld\HelloWorld.NativeX.txt
+		..\vlpp\ScriptSample\HelloWorld\Run.bat = ..\vlpp\ScriptSample\HelloWorld\Run.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2
@@ -30,5 +42,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B13234DD-4997-47ED-AED1-DFFAFC7F521E} = {55245844-B477-46FD-A052-8B2228B18913}
+		{EB0D451B-8B8A-46A0-AB5E-222E8B713B39} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 	EndGlobalSection
 EndGlobal

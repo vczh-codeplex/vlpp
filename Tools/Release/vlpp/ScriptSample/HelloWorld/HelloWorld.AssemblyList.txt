@@ -1,0 +1,3 @@
+..\..\Assembly.syscrnat.assembly
+..\..\Assembly.syscsnat.assembly
+HelloWorld.assembly

@@ -1,12 +1,4 @@
-#include "..\..\..\..\Library\Basic.h"
-#include "..\..\..\..\Library\Console.h"
-#include "..\..\..\..\Library\Collections\List.h"
-
-using namespace vl;
-using namespace vl::console;
-using namespace vl::collections;
-
-extern wchar_t* ProcVersion();
+#include "Common.h"
 
 bool ProcTest(const Array<WString>& args)
 {

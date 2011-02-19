@@ -141,6 +141,7 @@
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityGcSingleThread.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Utility\ScriptingUtilityMake.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="..\..\..\..\Library\Stream\RecorderStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\..\..\Library\Threading.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="ProcHeader.cpp" />
     <ClCompile Include="ProcInteract.cpp" />
     <ClCompile Include="ProcLink.cpp" />
@@ -268,6 +270,7 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\..\..\Library\Threading.h" />
     <ClInclude Include="..\..\..\..\Library\Tuple.h" />
+    <ClInclude Include="Common.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Release\Deploy.bat" />

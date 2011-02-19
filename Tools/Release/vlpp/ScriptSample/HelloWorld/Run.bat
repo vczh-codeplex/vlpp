@@ -1,0 +1,1 @@
+..\..\vle simulate HelloWorld.AssemblyList.txt
