@@ -1,0 +1,7 @@
+Language=NativeX
+Assembly=GuessNumber;GuessNumber.assembly
+DebugAssemblyOutput=GuessNumber.assembly.txt
+
+Compile=GuessNumber.NativeX.txt
+Compile=..\..\Header.syscrnat.NativeX.txt
+Compile=..\..\Header.syscsnat.NativeX.txt

@@ -28,6 +28,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{A4
 		..\vlpp\ScriptSample\UnitTest\UnitTest.NativeX.txt = ..\vlpp\ScriptSample\UnitTest\UnitTest.NativeX.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GuessNumber", "GuessNumber", "{0DA99CD2-01A6-4303-8C9A-B90083116DC6}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\GuessNumber\Build.bat = ..\vlpp\ScriptSample\GuessNumber\Build.bat
+		..\vlpp\ScriptSample\GuessNumber\GuessNumber.AssemblyList.txt = ..\vlpp\ScriptSample\GuessNumber\GuessNumber.AssemblyList.txt
+		..\vlpp\ScriptSample\GuessNumber\GuessNumber.Make.txt = ..\vlpp\ScriptSample\GuessNumber\GuessNumber.Make.txt
+		..\vlpp\ScriptSample\GuessNumber\GuessNumber.NativeX.txt = ..\vlpp\ScriptSample\GuessNumber\GuessNumber.NativeX.txt
+		..\vlpp\ScriptSample\GuessNumber\Run.bat = ..\vlpp\ScriptSample\GuessNumber\Run.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2
@@ -55,5 +64,6 @@ Global
 		{B13234DD-4997-47ED-AED1-DFFAFC7F521E} = {55245844-B477-46FD-A052-8B2228B18913}
 		{EB0D451B-8B8A-46A0-AB5E-222E8B713B39} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 		{A4970786-98AB-438A-82CB-9BE10FA8BF52} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
+		{0DA99CD2-01A6-4303-8C9A-B90083116DC6} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 	EndGlobalSection
 EndGlobal
