@@ -1,10 +1,19 @@
 unit Console;
 
-foreign function bool __Print(wchar* message)
-    alias Console.Print;
+foreign function bool __Read(wchar* text)
+    alias Console.Read;
+
+foreign function bool __Write(wchar* text)
+    alias Console.Write;
 
 #public
-function void Print(wchar* message)
+function void Read(wchar* text)
 {
-    __Print(message);
+    __Read(text);
+}
+
+#public
+function void Write(wchar* text)
+{
+    __Write(text);
 }
