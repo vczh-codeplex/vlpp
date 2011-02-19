@@ -202,11 +202,14 @@
     <Filter Include="Source Files\Scripting\Utility">
       <UniqueIdentifier>{948bd7e0-ba7a-4db4-833a-5ef29a874d63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ScriptCoreLibrary\System.UnitTest">
-      <UniqueIdentifier>{92e8ee52-ea38-4035-98fd-b221219f581e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ScriptCoreLibrary\Test.CoreNative">
       <UniqueIdentifier>{2dd75145-8a97-4e95-872f-d95fabe8c858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptCoreLibrary\System.UnitTestNative">
+      <UniqueIdentifier>{92e8ee52-ea38-4035-98fd-b221219f581e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptCoreLibrary\System.ConsoleNative">
+      <UniqueIdentifier>{88792d4a-c21b-421d-901e-7c656c79e86b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1314,10 +1317,10 @@
       <Filter>ScriptCoreLibrary</Filter>
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.UnitTest.NativeX.txt">
-      <Filter>ScriptCoreLibrary\System.UnitTest</Filter>
+      <Filter>ScriptCoreLibrary\System.UnitTestNative</Filter>
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt">
-      <Filter>ScriptCoreLibrary\System.UnitTest</Filter>
+      <Filter>ScriptCoreLibrary\System.UnitTestNative</Filter>
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.Make.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
@@ -1348,6 +1351,12 @@
     </None>
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt">
       <Filter>ScriptCoreLibrary\System.CoreNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt">
+      <Filter>ScriptCoreLibrary\System.ConsoleNative</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Console.NativeX.txt">
+      <Filter>ScriptCoreLibrary\System.ConsoleNative</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

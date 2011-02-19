@@ -63,6 +63,9 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 	LanguageMakeFile sysutnat;
 	CompileAssembly(maker, sysutnat, basePath, L"System.UnitTestNative.Make.txt");
 
+	LanguageMakeFile syscsnat;
+	CompileAssembly(maker, syscsnat, basePath, L"System.ConsoleNative.Make.txt");
+
 	LanguageMakeFile testCoreNative;
 	CompileAssembly(maker, testCoreNative, basePath, L"Test.CoreNative.Make.txt");
 
