@@ -1,0 +1,5 @@
+Language=NativeX
+Assembly=Program;Generated.NativeX.assembly
+Header=NativeX;Generated.Header.txt
+DebugAssemblyOutput=Generated.Debug.txt
+Compile=NativeX.txt

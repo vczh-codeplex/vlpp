@@ -78,7 +78,7 @@ typedef signed __int64	pos_t;
 	public:
 		Error(wchar_t* _description);
 
-		wchar_t*			Description();
+		wchar_t*			Description()const;
 	};
 
 #ifdef _DEBUG

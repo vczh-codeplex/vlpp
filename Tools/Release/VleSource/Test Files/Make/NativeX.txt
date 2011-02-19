@@ -1,0 +1,9 @@
+unit Program;
+
+foreign function void WriteLine(wchar* message)
+    alias Console.WriteLine;
+
+function void main()
+{
+    WriteLine(L"Hello, World!");
+}

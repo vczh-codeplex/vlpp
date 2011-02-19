@@ -121,6 +121,12 @@
     <Filter Include="Library\Entity\Header Files">
       <UniqueIdentifier>{d79328c8-d407-4a41-8f04-167fff1d7c4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Files">
+      <UniqueIdentifier>{e2b10113-cdd8-4e80-b98e-8ce4ec0031bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Files\Make">
+      <UniqueIdentifier>{a5ac5a3c-f4dc-44a8-afcd-1e33d5c4a2c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Library\Basic.cpp">
@@ -359,6 +365,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\Library\Entity\SmallObjectPoolEntity.cpp">
       <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcMake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcHeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcSimulate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcInteract.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -665,5 +689,13 @@
     <ClInclude Include="..\..\..\..\Library\Entity\SmallObjectPoolEntity.h">
       <Filter>Library\Entity\Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Test Files\Make\Make.txt">
+      <Filter>Test Files\Make</Filter>
+    </None>
+    <None Include="..\Test Files\Make\NativeX.txt">
+      <Filter>Test Files\Make</Filter>
+    </None>
   </ItemGroup>
 </Project>
