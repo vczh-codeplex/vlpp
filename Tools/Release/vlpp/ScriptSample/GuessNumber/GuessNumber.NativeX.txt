@@ -1,0 +1,134 @@
+unit Program;
+
+uses syscrnat, syscsnat;
+
+function int8[4] GetDigits()
+{
+    result[0] = cast<int8>(rand16()%10);
+    result[1] = cast<int8>(rand16()%10);
+    result[2] = cast<int8>(rand16()%10);
+    result[3] = cast<int8>(rand16()%10);
+}
+
+function void PrintDigits(int8[4] digits)
+{
+    variable wchar[10] buffer;
+    Write(L"[FOR DEBUGGING] The digits is: ");
+    Write(itow(digits[0], cast<wchar*>(&buffer), 10, 10));
+    Write(itow(digits[1], cast<wchar*>(&buffer), 10, 10));
+    Write(itow(digits[2], cast<wchar*>(&buffer), 10, 10));
+    Write(itow(digits[3], cast<wchar*>(&buffer), 10, 10));
+    Write(L"\r\n");
+}
+
+variable wchar[2048] consoleInputBuffer;
+variable wchar* consoleInput = cast<wchar*>(&consoleInputBuffer);
+
+function bool IsDigit(wchar c)
+{
+    result = L'0'<=c && c<=L'9';
+}
+
+function bool GetUserInput(int8[4]* digits)
+{
+    result = false;
+    Read(consoleInput);
+    if(wcscmp(consoleInput, L"exit")==0)
+    {
+        (*digits)[0] = (*digits)[1] = (*digits)[2] = (*digits)[3] = -1s8;
+        result = true;
+    }
+    else if(wcslen(consoleInput)==4)
+    {
+        if(IsDigit(consoleInput[0])
+        && IsDigit(consoleInput[1])
+        && IsDigit(consoleInput[2])
+        && IsDigit(consoleInput[3]))
+        {
+            (*digits)[0] = cast<int8>(consoleInput[0]-L'0');
+            (*digits)[1] = cast<int8>(consoleInput[1]-L'0');
+            (*digits)[2] = cast<int8>(consoleInput[2]-L'0');
+            (*digits)[3] = cast<int8>(consoleInput[3]-L'0');
+            result = true;
+        }
+    }
+    if(!result)
+    {
+        Write(L"Wrong format!\r\n");
+    }
+}
+
+function void ValidateUserInput(int8[4] digits, int8[4] input, int* corrects, int* existings)
+{
+    *corrects = 0;
+    *existings = 0;
+
+    variable bool[4] readed;
+    readed[0] = false;
+    readed[1] = false;
+    readed[2] = false;
+    readed[3] = false;
+
+    for(variable int i = 0; when(i < 4) with i++;)do
+    {
+        if(!readed[i] && digits[i]==input[i])
+        {
+            readed[i] = true;
+            (*corrects)++;
+        }
+    }
+
+    for(variable int i = 0; when(i < 4) with i++;)do
+    {
+        if(!readed[i])
+        {
+            variable bool exists = false;
+            for(variable int j = 0; when(j < 4) with j++;)do
+                if(!readed[j] && digits[j]==input[i])
+                    exists = true;
+            if(exists)
+            {
+                (*existings)++;
+            }
+        }
+    }
+}
+
+function void main()
+{
+    Write(L"<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\r\n");
+    Write(L"I will randomly produce 4 digits.\r\n");
+    Write(L"What you should do is enter 4 digits at each time,\r\n");
+    Write(L"I will tell you how many digits get the right place,\r\n");
+    Write(L"And how many digits exist but get the wrong place,\r\n");
+    Write(L"If you want to exit, please enter \"exit\".\r\n");
+    Write(L"Enjoy!\r\n");
+
+    variable int8[4] digits = GetDigits();
+    variable int8[4] input;
+    variable int corrects = 0;
+    variable int existings = 0;
+    while(true)
+    {
+        if(GetUserInput(&input))
+        {
+            if(input[0]==-1)break;
+            ValidateUserInput(digits, input, &corrects, &existings);
+            if(corrects==4)
+            {
+                Write(L"You get the answer!\r\n");
+                break;
+            }
+            else
+            {
+                variable wchar[10] buffer;
+                Write(L"Correct: ");
+                Write(itow(corrects, cast<wchar*>(&buffer), 10, 10));
+                Write(L", Existing: ");
+                Write(itow(existings, cast<wchar*>(&buffer), 10, 10));
+                Write(L"\r\n");
+           }
+        }
+    }
+    Write(L"Have a good day.\r\n");
+}

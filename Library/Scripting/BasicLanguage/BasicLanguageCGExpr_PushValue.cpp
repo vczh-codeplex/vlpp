@@ -463,8 +463,7 @@ BasicLanguage_PushValueInternal
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
-					BasicTypeRecord* operandType=argument.info->GetEnv()->GetExpressionType(node->operand.Obj());
-					BasicLanguage_PushValue(node->operand, argument);
+					BasicTypeRecord* operandType=BasicLanguage_PushValue(node->operand, argument);
 					Code_Convert(operandType, nodeType, argument);
 					return nodeType;
 				}
