@@ -1,0 +1,10 @@
+unit Console;
+
+foreign function bool __Print(wchar* message)
+    alias Console.Print;
+
+#public
+function void Print(wchar* message)
+{
+    __Print(message);
+}
