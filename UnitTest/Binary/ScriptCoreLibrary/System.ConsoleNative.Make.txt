@@ -1,0 +1,6 @@
+Language=NativeX
+Assembly=syscsnat;Binary\Assembly.syscsnat.assembly
+Header=NativeX;Binary\Header.syscsnat.NativeX.txt
+DebugAssemblyOutput=Binary\Debug.syscsnat.txt
+
+Compile=System.ConsoleNative.Console.NativeX.txt
