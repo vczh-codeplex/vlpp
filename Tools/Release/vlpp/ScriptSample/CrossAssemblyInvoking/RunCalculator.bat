@@ -1,0 +1,1 @@
+..\..\vle.exe simulate Calculator\Calculator.AssemblyList.txt
