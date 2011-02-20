@@ -4,5 +4,33 @@ uses syscrnat, syscsnat, Expression;
 
 function void main()
 {
-    Write(L"Hello, World!\r\n");
+    Write(L"Type an expression, I will calculate the result.\r\n");
+    Write(L"If you want to quit, type \"exit\".\r\n");
+
+    variable wchar[2048] buffer;
+    variable wchar* input = cast<wchar*>(&buffer);
+    while(true)
+    {
+        Read(input);
+        if(wcscmp(input, L"exit")==0)break;
+        
+        try
+        {
+            variable Expression* exp = ParseExpression(input);
+            ftow(EvaluateExpression(exp), input, 2048);
+            Write(L"Result: ");
+            Write(input);
+            Write(L"\r\n");
+        }
+        catch
+        {
+            variable ExpressionParserException* e = cast<ExpressionParserException*>(exception);
+            Write(L"Parsing Error:\r\n");
+            Write(L"  Position: ");
+            Write(e->position);
+            Write(L"\r\n  Message: ");
+            Write(e->message);
+            Write(L"\r\n");
+        }
+    }
 }
