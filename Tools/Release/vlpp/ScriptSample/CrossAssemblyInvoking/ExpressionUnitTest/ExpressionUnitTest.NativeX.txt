@@ -92,3 +92,46 @@ function void TestCase_TestPrinter()
     Assert(wcscmp(cast<wchar*>(&buffer), baseline)==0, L"PrintExpression should succeed");
     DisposeExpression(&a->base);
 }
+
+function void AssertExpression(wchar* input, wchar* formatted)
+{
+    try
+    {
+        variable wchar[100] buffer;
+        wcscpy(cast<wchar*>(&buffer), L"");
+        variable Expression* e=ParseExpression(input);
+        PrintExpression(e, cast<wchar*>(&buffer), Printer);
+
+        Print(L"Input: ");
+        Print(input);
+        Print(L"Expect: ");
+        Print(formatted);
+        Print(L"Actual: ");
+        Print(cast<wchar*>(&buffer));
+
+        Assert(wcscmp(cast<wchar*>(&buffer), formatted)==0, L"ParseExpression should succeed");
+        DisposeExpression(e);
+    }
+    catch
+    {
+        variable ExpressionParserException* e = cast<ExpressionParserException*>(exception);
+        Print(L"Parsing Error:");
+        Print(e->position);
+        Print(e->message);
+        throw;
+    }
+}
+
+function void TestCase_TestParseNumber()
+{
+    AssertExpression(L"123", L"123");
+    AssertExpression(L"-123", L"-123");
+    AssertExpression(L"-(123)", L"-123");
+    AssertExpression(L"1+2", L"(1 + 2)");
+    AssertExpression(L"1-2", L"(1 - 2)");
+    AssertExpression(L"1*2", L"(1 * 2)");
+    AssertExpression(L"1/2", L"(1 / 2)");
+    AssertExpression(L"1+2*3+4", L"((1 + (2 * 3)) + 4)");
+    AssertExpression(L"(1+2)*(3+4)", L"((1 + 2) * (3 + 4))");
+    AssertExpression(L"-(1+2)*-(3+4)", L"(-(1 + 2) * -(3 + 4))");
+}

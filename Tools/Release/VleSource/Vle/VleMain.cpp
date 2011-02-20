@@ -9,6 +9,7 @@ extern bool ProcInteract(const Array<WString>& args);
 
 /*
 make "..\Test Files\Make\Make.txt"
+make "..\..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\Expression.Make.txt"
 */
 
 int wmain(vint argc , wchar_t* args[])
