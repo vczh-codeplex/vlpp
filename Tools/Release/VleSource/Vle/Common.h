@@ -19,8 +19,9 @@ using namespace vl::scripting::basicil;
 using namespace vl::scripting::utility;
 
 extern wchar_t* ProcVersion();
+extern WString GetFolder(WString fileName);
 extern void InitHost(LanguageHost& host);
-extern Ptr<LanguageState> LoadAssembly(LanguageHost& host, const List<WString>& fileNames, List<Ptr<LanguageAssembly>>& assemblies);
+extern Ptr<LanguageState> LoadAssembly(LanguageHost& host, const WString& baseDir, const List<WString>& fileNames, List<Ptr<LanguageAssembly>>& assemblies);
 extern void ReadAssemblyListFile(const WString& fileName, List<WString>& fileNames);
 
 #endif

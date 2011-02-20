@@ -37,6 +37,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GuessNumber", "GuessNumber"
 		..\vlpp\ScriptSample\GuessNumber\Run.bat = ..\vlpp\ScriptSample\GuessNumber\Run.bat
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossAssemblyInvoking", "CrossAssemblyInvoking", "{6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Build.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Build.bat
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator.bat
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Calculator", "Calculator", "{E4B68DAA-5C69-4DC0-8BBE-4A1AEB99F2DA}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.AssemblyList.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.AssemblyList.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.Make.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.Make.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Calculator\Calculator.NativeX.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expression", "Expression", "{FF0CFEF0-4431-455D-AB7F-510FFA809E44}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\Expression.Make.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\Expression.Make.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionEvaluator.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionEvaluator.NativeX.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionParser.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionParser.NativeX.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionPrinter.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionPrinter.NativeX.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionTree.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionTree.NativeX.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpressionUnitTest", "ExpressionUnitTest", "{A4E34F6D-19B3-447F-9BA9-E68F52A125E0}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.AssemblyList.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.AssemblyList.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.Make.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.Make.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\ExpressionUnitTest\ExpressionUnitTest.NativeX.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binary", "Binary", "{EA3379B0-882E-44A8-9259-987C4E86C298}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Binary\Readme.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Binary\Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2
@@ -65,5 +100,10 @@ Global
 		{EB0D451B-8B8A-46A0-AB5E-222E8B713B39} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 		{A4970786-98AB-438A-82CB-9BE10FA8BF52} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 		{0DA99CD2-01A6-4303-8C9A-B90083116DC6} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
+		{6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
+		{E4B68DAA-5C69-4DC0-8BBE-4A1AEB99F2DA} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
+		{FF0CFEF0-4431-455D-AB7F-510FFA809E44} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
+		{A4E34F6D-19B3-447F-9BA9-E68F52A125E0} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
+		{EA3379B0-882E-44A8-9259-987C4E86C298} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
 	EndGlobalSection
 EndGlobal

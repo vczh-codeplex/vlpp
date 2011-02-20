@@ -1,0 +1,4 @@
+..\..\..\Assembly.syscrnat.assembly
+..\..\..\Assembly.sysutnat.assembly
+..\Binary\Assembly.Expression.assembly
+..\Binary\Assembly.ExpressionUnitTest.assembly

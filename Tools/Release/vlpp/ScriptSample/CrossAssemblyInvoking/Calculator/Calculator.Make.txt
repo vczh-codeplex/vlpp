@@ -1,0 +1,8 @@
+Language=NativeX
+Assembly=Calculator;..\Binary\Assembly.Calculator.assembly
+DebugAssemblyOutput=..\Binary\Debug.Calculator.txt
+
+Compile=Calculator.NativeX.txt
+Compile=..\..\..\Header.syscrnat.NativeX.txt
+Compile=..\..\..\Header.syscsnat.NativeX.txt
+Compile=..\Binary\Header.Expression.NativeX.txt

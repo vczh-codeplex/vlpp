@@ -1,0 +1,8 @@
+Language=NativeX
+Assembly=ExpressionUnitTest;..\Binary\Assembly.ExpressionUnitTest.assembly
+DebugAssemblyOutput=..\Binary\Debug.ExpressionUnitTest.txt
+
+Compile=ExpressionUnitTest.NativeX.txt
+Compile=..\..\..\Header.syscrnat.NativeX.txt
+Compile=..\..\..\Header.sysutnat.NativeX.txt
+Compile=..\Binary\Header.Expression.NativeX.txt

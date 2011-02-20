@@ -6,6 +6,18 @@ wchar_t* ProcVersion()
 	return L"v0.1";
 }
 
+WString GetFolder(WString fileName)
+{
+	vint index=-1;
+	for(vint i=0;i<fileName.Length();i++)
+	{
+		if(fileName[i]==L'\\')index=i;
+	}
+	WString dir=fileName.Left(index+1);
+	if(dir==L"")dir=L".\\";
+	return dir;
+}
+
 void UnitTestPluginPrinter(bool condition, wchar_t* description)
 {
 	if(condition)
@@ -44,14 +56,15 @@ void InitHost(LanguageHost& host)
 	host.RegisterPlugin(CreateGcSingleThreadPlugin());
 }
 
-Ptr<LanguageState> LoadAssembly(LanguageHost& host, const List<WString>& fileNames, List<Ptr<LanguageAssembly>>& assemblies)
+Ptr<LanguageState> LoadAssembly(LanguageHost& host, const WString& baseDir, const List<WString>& fileNames, List<Ptr<LanguageAssembly>>& assemblies)
 {
 	for(vint i=0;i<fileNames.Count();i++)
 	{
-		FileStream stream(fileNames.Get(i), FileStream::ReadOnly);
+		WString fileName=baseDir+fileNames.Get(i);
+		FileStream stream(fileName, FileStream::ReadOnly);
 		if(!stream.IsAvailable())
 		{
-			throw Exception(L"Cannot open file to read: \""+fileNames.Get(i)+L"\".");
+			throw Exception(L"Cannot open file to read: \""+fileName+L"\".");
 		}
 		Ptr<LanguageAssembly> assembly=new LanguageAssembly(stream);
 		host.LoadAssembly(assembly);

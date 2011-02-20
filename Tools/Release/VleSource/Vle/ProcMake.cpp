@@ -11,17 +11,10 @@ bool ProcMake(const Array<WString>& args)
 		{
 			LanguageMakeFile makefile;
 			{
-				vint index=-1;
-				for(vint i=0;i<args[1].Length();i++)
-				{
-					if(args[1][i]==L'\\')index=i;
-				}
-				WString dir=L".\\"+args[1].Left(index+1);
-
 				BomDecoder decoder;
 				DecoderStream decoderStream(fileStream, decoder);
 				StreamReader streamReader(decoderStream);
-				makefile.Load(dir, streamReader);
+				makefile.Load(GetFolder(args[1]), streamReader);
 			}
 			LanguageMaker maker;
 			maker.Execute(makefile);

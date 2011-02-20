@@ -11,7 +11,7 @@ bool ProcTest(const Array<WString>& args)
 		LanguageHost host(65536);
 		ReadAssemblyListFile(args[1], assemblyList);
 		InitHost(host);
-		Ptr<LanguageState> state=LoadAssembly(host, assemblyList, assemblies);
+		Ptr<LanguageState> state=LoadAssembly(host, GetFolder(args[1]), assemblyList, assemblies);
 
 		List<BasicDeclarationInfo> testCases;
 		for(vint i=0;i<assemblies.Count();i++)

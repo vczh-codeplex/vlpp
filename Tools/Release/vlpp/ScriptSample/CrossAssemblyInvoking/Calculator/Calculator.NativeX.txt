@@ -1,0 +1,8 @@
+unit Calculator;
+
+uses syscrnat, syscsnat, Expression;
+
+function void main()
+{
+    Write(L"Hello, World!\r\n");
+}

@@ -1,0 +1,4 @@
+..\..\..\Assembly.syscrnat.assembly
+..\..\..\Assembly.syscsnat.assembly
+..\Binary\Assembly.Expression.assembly
+..\Binary\Assembly.Calculator.assembly

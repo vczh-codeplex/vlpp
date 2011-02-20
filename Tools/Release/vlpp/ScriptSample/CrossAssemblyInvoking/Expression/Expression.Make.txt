@@ -1,0 +1,10 @@
+Language=NativeX
+Assembly=Expression;..\Binary\Assembly.Expression.assembly
+Header=NativeX;..\Binary\Header.Expression.NativeX.txt
+DebugAssemblyOutput=..\Binary\Debug.Expression.txt
+
+Compile=ExpressionTree.NativeX.txt
+Compile=ExpressionParser.NativeX.txt
+Compile=ExpressionEvaluator.NativeX.txt
+Compile=ExpressionPrinter.NativeX.txt
+Compile=..\..\..\Header.syscrnat.NativeX.txt
