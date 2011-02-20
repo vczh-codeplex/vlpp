@@ -82,6 +82,30 @@ Ptr<LanguageState> LoadAssembly(LanguageHost& host, const WString& baseDir, cons
 	return state;
 }
 
+void InitLinker(LanguageLinker& linker)
+{
+	linker.RegisterPlugin(CreateMemoryManagerPlugin());
+	linker.RegisterPlugin(CreateUnitTestPlugin(UnitTestPluginPrinter));
+	linker.RegisterPlugin(CreateConsolePlugin(ConsolePluginReader, ConsolePluginWriter));
+	linker.RegisterPlugin(CreateThreadingPlugin());
+	linker.RegisterPlugin(CreateStdlibPlugin());
+	linker.RegisterPlugin(CreateGcSingleThreadPlugin());
+}
+
+void LoadAssembly(LanguageLinker& linker, const WString& baseDir, const List<WString>& fileNames, List<Ptr<LanguageAssembly>>& assemblies)
+{
+	for(vint i=0;i<fileNames.Count();i++)
+	{
+		WString fileName=baseDir+fileNames.Get(i);
+		FileStream stream(fileName, FileStream::ReadOnly);
+		if(!stream.IsAvailable())
+		{
+			throw Exception(L"Cannot open file to read: \""+fileName+L"\".");
+		}
+		linker.LoadAssembly(stream);
+	}
+}
+
 void ReadAssemblyListFile(const WString& fileName, List<WString>& fileNames)
 {
 	FileStream stream(fileName, FileStream::ReadOnly);

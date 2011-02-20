@@ -84,7 +84,7 @@ int wmain(vint argc , wchar_t* args[])
 	Console::WriteLine(L"The following commands are supported:");
 	Console::WriteLine(L"  vle make <make-file>");
 	Console::WriteLine(L"  vle header <language> <assembly> <filename>");
-	Console::WriteLine(L"  vle link <assembly-list-file>");
+	Console::WriteLine(L"  vle link <assembly-list-file> <assembly-output> [<debug-assembly-output>]");
 	Console::WriteLine(L"  vle test <assembly-list-file>");
 	Console::WriteLine(L"  vle simulate <assembly-list-file>");
 	Console::WriteLine(L"  vle interact <language>");

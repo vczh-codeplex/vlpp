@@ -1,0 +1,2 @@
+..\..\vle.exe link Calculator\Calculator.AssemblyList.txt Binary\Link.Calculator.assembly Binary\Link.Calculator.txt
+..\..\vle.exe link ExpressionUnitTest\ExpressionUnitTest.AssemblyList.txt Binary\Link.ExpressionUnitTest.assembly Binary\Link.ExpressionUnitTest.txt
