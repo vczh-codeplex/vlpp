@@ -1328,10 +1328,10 @@ Extra
 					FOREIGN			= CreateToken(tokens, L"foreign");
 
 					PRIM_TYPE		= CreateToken(tokens, L"int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|f32|f64|bool|char|wchar|void");
-					ACHAR			= CreateToken(tokens, L"\'([^\']|\\\\\\.)\'");
-					WCHAR			= CreateToken(tokens, L"L\'([^\']|\\\\\\.)\'");
-					ASTRING			= CreateToken(tokens, L"\"([^\"]|\\\\\\.)*\"");
-					WSTRING			= CreateToken(tokens, L"L\"([^\"]|\\\\\\.)*\"");
+					ACHAR			= CreateToken(tokens, L"\'([^\\\\\']|\\\\\\.)\'");
+					WCHAR			= CreateToken(tokens, L"L\'([^\\\\\']|\\\\\\.)\'");
+					ASTRING			= CreateToken(tokens, L"\"([^\\\\\"]|\\\\\\.)*\"");
+					WSTRING			= CreateToken(tokens, L"L\"([^\\\\\"]|\\\\\\.)*\"");
 					INTEGER			= CreateToken(tokens, L"/d+([su](8|16|32|64))?");
 					FLOAT			= CreateToken(tokens, L"/d+(./d+)[fF]");
 					DOUBLE			= CreateToken(tokens, L"/d+./d+");

@@ -1,3 +1,191 @@
 unit ExpressionParser;
 
 uses syscrnat, ExpressionTree;
+
+#public
+structure ExpressionParserException
+{
+    wchar* position;
+    wchar* message;
+}
+
+function bool ReadNumber(wchar** input, f64* number, ExpressionParserException* e)
+{
+    result = false;
+    variable wchar* endptr = null;
+    *number = wtof(*input, &endptr);
+    if(result = (endptr!=null && endptr!=*input))
+    {
+        *input = endptr;
+    }
+    else if(e->position<*input)
+    {
+        e->position = *input;
+        e->message = L"Here needs a number.";
+    }
+}
+
+function bool ReadChar(wchar** input, wchar c, ExpressionParserException* e, wchar* message)
+{
+    result = false;
+    variable wchar* temp = *input;
+    while(*temp==L' ')temp++;
+    if(result = (*temp==c))
+    {
+        *input = temp+1;
+    }
+    else if(e->position<*input)
+    {
+        e->position = *input;
+        if(message==null)
+        {
+            e->message = L"Here needs an expression.";
+        }
+        else
+        {
+            e->message = message;
+        }
+    }
+}
+
+function Expression* ParseNumber(wchar** input, ExpressionParserException* e)
+{
+    result = null;
+    variable wchar* temp = *input;
+    variable f64 number;
+    if(ReadNumber(&temp, &number, e))
+    {
+        variable NumberExpression* exp = CreateNumberExpression();
+        exp->number = number;
+        result = &exp->base;
+        *input = temp;
+    }
+}
+
+function Expression* ParseNeg(wchar** input, ExpressionParserException* e)
+{
+    result = null;
+    variable wchar* temp = *input;
+    variable NegExpression* exp = null;
+    variable Expression* a = null;
+    if(ReadChar(&temp, L'-', e, null))
+    if((a=ParseFactor(&temp, e))!=null)
+    {
+        exp = CreateNegExpression();
+        exp->operand = a;
+        result = &exp->base;
+        *input = temp;
+    }
+}
+
+function Expression* ParseBracket(wchar** input, ExpressionParserException* e)
+{
+    result = null;
+    variable wchar* temp = *input;
+    variable Expression* a = null;
+    if(ReadChar(&temp, L'(', e, null))
+    if((a=ParseExp(&temp, e))!=null)
+    if(ReadChar(&temp, L')', e, L"Here needs and \")\"."))
+    {
+        result = a;
+        *input = temp;
+    }
+}
+
+function Expression* ParseFactor(wchar** input, ExpressionParserException* e)
+{
+    result = null;
+    if((result=ParseNumber(input, e))==null)
+    if((result=ParseNeg(input, e))==null)
+    if((result=ParseBracket(input, e))==null)
+    ;
+}
+
+function Expression* ParseTerm(wchar** input, ExpressionParserException* e)
+{
+    result = ParseFactor(input, e);
+    while(result!=null)
+    {
+        variable wchar* temp = *input;
+        variable Expression* binary = null;
+        if(ReadChar(&temp, L'*', e, null))
+        {
+            binary = ParseFactor(&temp, e);
+            if(binary!=null)
+            {
+                variable MulExpression* exp = CreateMulExpression();
+                exp->left = result;
+                exp->right = binary;
+                binary = &exp->base;
+            }
+        }
+        else if(ReadChar(&temp, L'/', e, null))
+        {
+            binary = ParseFactor(&temp, e);
+            if(binary!=null)
+            {
+                variable DivExpression* exp = CreateDivExpression();
+                exp->left = result;
+                exp->right = binary;
+                binary = &exp->base;
+            }
+        }
+        if(binary==null) break;
+        else
+        {
+            result = binary;
+            *input = temp;
+        }
+    }
+}
+
+function Expression* ParseExp(wchar** input, ExpressionParserException* e)
+{
+    result = ParseTerm(input, e);
+    while(result!=null)
+    {
+        variable wchar* temp = *input;
+        variable Expression* binary = null;
+        if(ReadChar(&temp, L'+', e, null))
+        {
+            binary = ParseTerm(&temp, e);
+            if(binary!=null)
+            {
+                variable AddExpression* exp = CreateAddExpression();
+                exp->left = result;
+                exp->right = binary;
+                binary = &exp->base;
+            }
+        }
+        else if(ReadChar(&temp, L'-', e, null))
+        {
+            binary = ParseTerm(&temp, e);
+            if(binary!=null)
+            {
+                variable SubExpression* exp = CreateSubExpression();
+                exp->left = result;
+                exp->right = binary;
+                binary = &exp->base;
+            }
+        }
+        if(binary==null) break;
+        else
+        {
+            result = binary;
+            *input = temp;
+        }
+    }
+}
+
+#public
+function Expression* ParseExpression(wchar* input)
+{
+    variable ExpressionParserException e;
+    e.position = null;
+    e.message = null;
+    result = ParseExp(&input, &e);
+    if(result==null)
+    {
+        throw e;
+    }
+}
