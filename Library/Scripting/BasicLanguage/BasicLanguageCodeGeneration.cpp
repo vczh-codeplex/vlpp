@@ -846,6 +846,41 @@ Header File Generator
 						ResourceRecord<BasicTypeRes> typeRes=resource->ReadRecord(declarationRes->declarationType);
 						switch(declarationRes->type)
 						{
+						case BasicDeclarationRes::Structure:
+							{
+								if(!declarationRes->genericArgumentNames || resource->ReadArrayRecord(declarationRes->genericArgumentNames).Count()==0)
+								{
+									Ptr<BasicStructureDeclaration> target=new BasicStructureDeclaration;
+									target->defined=false;
+									target->name=declarationName;
+									program->declarations.Add(target);
+								}
+							}
+							break;
+						}
+					}
+				}
+
+				for(vint i=0;i<declarationsRes.Count();i++)
+				{
+					ResourceRecord<BasicDeclarationRes> declarationRes=declarationsRes.Get(i);
+					WString linkingAssemblyName, linkingSymbolName, declarationName;
+					if(BasicLanguage_GenerateHeaderDeclarationName(
+						declarationRes,
+						assemblyName,
+						resource,
+						publicOnly,
+						currentAssemblyOnly,
+						prefix,
+						linkingAssemblyName,
+						linkingSymbolName,
+						declarationName,
+						referencedAssemblies))
+					{
+						Ptr<BasicDeclaration> declaration;
+						ResourceRecord<BasicTypeRes> typeRes=resource->ReadRecord(declarationRes->declarationType);
+						switch(declarationRes->type)
+						{
 						case BasicDeclarationRes::ForeignFunction:
 						case BasicDeclarationRes::Function:
 							{

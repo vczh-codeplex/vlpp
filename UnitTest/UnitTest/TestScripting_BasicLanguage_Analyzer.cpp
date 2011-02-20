@@ -199,7 +199,7 @@ TEST_CASE(TestTypeManager)
 	List<BasicTypeRecord*> types;
 	types.Add(manager.GetPrimitiveType(int_type));
 	types.Add(manager.GetPointerType(structure));
-	manager.UpdateStructureType(structure, names.Wrap(), types.Wrap());
+	manager.UpdateStructureType(0, structure, names.Wrap(), types.Wrap());
 	TEST_ASSERT(structure->GetType()==BasicTypeRecord::Structure);
 	TEST_ASSERT(structure->MemberCount()==2);
 	TEST_ASSERT(structure->MemberName(0)==L"data");
@@ -234,7 +234,7 @@ TEST_CASE(TestTypeManagerWithGeneric)
 	List<BasicTypeRecord*> genericLinkTypes;
 	genericLinkTypes.Add(manager.GetGenericArgumentType(L"T"));
 	genericLinkTypes.Add(manager.GetPointerType(manager.Instanciate(genericType, instanciatingArguments.Wrap())));
-	manager.UpdateStructureType(genericLink, genericLinkNames.Wrap(), genericLinkTypes.Wrap());
+	manager.UpdateStructureType(0, genericLink, genericLinkNames.Wrap(), genericLinkTypes.Wrap());
 
 	TEST_ASSERT(genericType->GetType()==BasicTypeRecord::Generic);
 	TEST_ASSERT(genericType->ParameterCount()==1);
@@ -292,7 +292,7 @@ TEST_CASE(TestBasicEnv)
 		List<BasicTypeRecord*> types;
 		types.Add(tm.GetPrimitiveType(int_type));
 		types.Add(tm.GetPointerType(link));
-		tm.UpdateStructureType(link, names.Wrap(), types.Wrap());
+		tm.UpdateStructureType(0, link, names.Wrap(), types.Wrap());
 	}
 	global->types.Add(L"Link", link);
 	BasicFunctionDeclaration append;

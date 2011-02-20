@@ -262,7 +262,7 @@ BasicTypeManager
 				BasicTypeRecord*						GetArrayType(BasicTypeRecord* elementType, vint elementCount);
 				BasicTypeRecord*						GetFunctionType(BasicTypeRecord* returnType, const collections::IReadonlyList<BasicTypeRecord*>& parameterTypes);
 				BasicTypeRecord*						CreateStructureType(BasicStructureDeclaration* declaration);
-				void									UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
+				void									UpdateStructureType(BasicStructureDeclaration* declaration, BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types);
 
 				BasicTypeRecord*						GetGenericArgumentType(const WString& name);
 				BasicTypeRecord*						CreateGenericType(BasicStructureDeclaration* declaration);

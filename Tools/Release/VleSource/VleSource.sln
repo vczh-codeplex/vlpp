@@ -54,6 +54,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expression", "Expression", "{FF0CFEF0-4431-455D-AB7F-510FFA809E44}"
 	ProjectSection(SolutionItems) = preProject
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\Expression.Make.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\Expression.Make.txt
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionDestructor.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionDestructor.NativeX.txt
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionEvaluator.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionEvaluator.NativeX.txt
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionParser.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionParser.NativeX.txt
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionPrinter.NativeX.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Expression\ExpressionPrinter.NativeX.txt

@@ -1,3 +1,50 @@
 unit ExpressionEvaluator;
 
 uses syscrnat, ExpressionTree;
+
+function f64 VTableAddExpressionEvaluator(Expression* expression)
+{
+    variable AddExpression* e = cast<AddExpression*>(expression);
+    result = EvaluateExpression(e->left) + EvaluateExpression(e->right);
+}
+
+function f64 VTableSubExpressionEvaluator(Expression* expression)
+{
+    variable SubExpression* e = cast<SubExpression*>(expression);
+    result = EvaluateExpression(e->left) - EvaluateExpression(e->right);
+}
+
+function f64 VTableMulExpressionEvaluator(Expression* expression)
+{
+    variable MulExpression* e = cast<MulExpression*>(expression);
+    result = EvaluateExpression(e->left) * EvaluateExpression(e->right);
+}
+
+function f64 VTableDivExpressionEvaluator(Expression* expression)
+{
+    variable DivExpression* e = cast<DivExpression*>(expression);
+    result = EvaluateExpression(e->left) / EvaluateExpression(e->right);
+}
+
+function f64 VTableNumberExpressionEvaluator(Expression* expression)
+{
+    variable NumberExpression* e = cast<NumberExpression*>(expression);
+    result = e->number;
+}
+
+function f64 VTableNegExpressionEvaluator(Expression* expression)
+{
+    variable NegExpression* e = cast<NegExpression*>(expression);
+    result = -EvaluateExpression(e->operand);
+}
+
+#assembly_initialization
+function void VTableFillEvaluators()
+{
+    vtableAddExpression.evaluator=VTableAddExpressionEvaluator;
+    vtableSubExpression.evaluator=VTableSubExpressionEvaluator;
+    vtableMulExpression.evaluator=VTableMulExpressionEvaluator;
+    vtableDivExpression.evaluator=VTableDivExpressionEvaluator;
+    vtableNumberExpression.evaluator=VTableNumberExpressionEvaluator;
+    vtableNegExpression.evaluator=VTableNegExpressionEvaluator;
+}

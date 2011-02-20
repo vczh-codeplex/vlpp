@@ -1,0 +1,52 @@
+unit ExpressionDestructor;
+
+uses syscrnat, ExpressionTree;
+
+function void VTableAddExpressionDestructor(Expression* expression)
+{
+    variable AddExpression* e = cast<AddExpression*>(expression);
+    DisposeExpression(e->left);
+    DisposeExpression(e->right);
+}
+
+function void VTableSubExpressionDestructor(Expression* expression)
+{
+    variable SubExpression* e = cast<SubExpression*>(expression);
+    DisposeExpression(e->left);
+    DisposeExpression(e->right);
+}
+
+function void VTableMulExpressionDestructor(Expression* expression)
+{
+    variable MulExpression* e = cast<MulExpression*>(expression);
+    DisposeExpression(e->left);
+    DisposeExpression(e->right);
+}
+
+function void VTableDivExpressionDestructor(Expression* expression)
+{
+    variable DivExpression* e = cast<DivExpression*>(expression);
+    DisposeExpression(e->left);
+    DisposeExpression(e->right);
+}
+
+function void VTableNumberExpressionDestructor(Expression* expression)
+{
+}
+
+function void VTableNegExpressionDestructor(Expression* expression)
+{
+    variable NegExpression* e = cast<NegExpression*>(expression);
+    DisposeExpression(e->operand);
+}
+
+#assembly_initialization
+function void VTableFillDestructors()
+{
+    vtableAddExpression.destructor=VTableAddExpressionDestructor;
+    vtableSubExpression.destructor=VTableSubExpressionDestructor;
+    vtableMulExpression.destructor=VTableMulExpressionDestructor;
+    vtableDivExpression.destructor=VTableDivExpressionDestructor;
+    vtableNumberExpression.destructor=VTableNumberExpressionDestructor;
+    vtableNegExpression.destructor=VTableNegExpressionDestructor;
+}
