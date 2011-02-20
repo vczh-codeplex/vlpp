@@ -33,6 +33,7 @@ bool ProcLink(const Array<WString>& args)
 			StreamWriter writer(encoderStream);
 			assembly->LogInternalState(writer);
 		}
+		return true;
 	}
 	return false;
 }
