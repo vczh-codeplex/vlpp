@@ -1,3 +1,94 @@
 unit ExpressionUnitTest;
 
 uses syscrnat, sysutnat, Expression;
+
+function void TestCase_TestEvaluator()
+{
+    {
+        variable AddExpression* binary = CreateAddExpression();
+        variable NumberExpression* a = CreateNumberExpression();
+        variable NumberExpression* b = CreateNumberExpression();
+        a->number = 3.0;
+        b->number = 2.0;
+        binary->left = &a->base;
+        binary->right = &b->base;
+        Assert(EvaluateExpression(&binary->base)==5.0, L"3+2==5");
+        DisposeExpression(&binary->base);
+    }
+    {
+        variable SubExpression* binary = CreateSubExpression();
+        variable NumberExpression* a = CreateNumberExpression();
+        variable NumberExpression* b = CreateNumberExpression();
+        a->number = 3.0;
+        b->number = 2.0;
+        binary->left = &a->base;
+        binary->right = &b->base;
+        Assert(EvaluateExpression(&binary->base)==1.0, L"3-2==1");
+        DisposeExpression(&binary->base);
+    }
+    {
+        variable MulExpression* binary = CreateMulExpression();
+        variable NumberExpression* a = CreateNumberExpression();
+        variable NumberExpression* b = CreateNumberExpression();
+        a->number = 3.0;
+        b->number = 2.0;
+        binary->left = &a->base;
+        binary->right = &b->base;
+        Assert(EvaluateExpression(&binary->base)==6.0, L"3*2==6");
+        DisposeExpression(&binary->base);
+    }
+    {
+        variable DivExpression* binary = CreateDivExpression();
+        variable NumberExpression* a = CreateNumberExpression();
+        variable NumberExpression* b = CreateNumberExpression();
+        a->number = 3.0;
+        b->number = 2.0;
+        binary->left = &a->base;
+        binary->right = &b->base;
+        Assert(EvaluateExpression(&binary->base)==1.5, L"3/2==1.5");
+        DisposeExpression(&binary->base);
+    }
+}
+
+function void Printer(wchar* text, void* userData)
+{
+    wcscat(cast<wchar*>(userData), text);
+}
+
+function void TestCase_TestPrinter()
+{
+    variable NumberExpression*[6] numbers;
+    for(variable int i=0; when(i<6) with i++;)do
+    {
+        numbers[i] = CreateNumberExpression();
+        numbers[i]->number = i+1;
+    }
+    
+    variable AddExpression* a = CreateAddExpression();
+    variable AddExpression* b = CreateAddExpression();
+    variable SubExpression* c = CreateSubExpression();
+    variable MulExpression* d = CreateMulExpression();
+    variable DivExpression* e = CreateDivExpression();
+
+    c->left = &numbers[0]->base;
+    c->right = &numbers[1]->base;
+    d->left = &numbers[2]->base;
+    d->right = &numbers[3]->base;
+    e->left = &numbers[4]->base;
+    e->right = &numbers[5]->base;
+    b->left = &c->base;
+    b->right = &d->base;
+    a->left = &b->base;
+    a->right = &e->base;
+
+    variable wchar* baseline = L"(((1 - 2) + (3 * 4)) + (5 / 6))";
+    variable wchar[100] buffer;
+    wcscpy(cast<wchar*>(&buffer), L"");
+    PrintExpression(&a->base, cast<wchar*>(&buffer), Printer);
+    Print(L"Expect: ");
+    Print(baseline);
+    Print(L"Actual: ");
+    Print(cast<wchar*>(&buffer));
+    Assert(wcscmp(cast<wchar*>(&buffer), baseline)==0, L"PrintExpression should succeed");
+    DisposeExpression(&a->base);
+}
