@@ -603,11 +603,12 @@ BasicTypeManager
 				return type;
 			}
 
-			void BasicTypeManager::UpdateStructureType(BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types)
+			void BasicTypeManager::UpdateStructureType(BasicStructureDeclaration* declaration, BasicTypeRecord* structureType, const collections::IReadonlyList<WString>& names, const collections::IReadonlyList<BasicTypeRecord*>& types)
 			{
 				BasicStructureTypeRecord* type=dynamic_cast<BasicStructureTypeRecord*>(structureType);
 				if(type && !type->defined)
 				{
+					if(declaration)type->declaration=declaration;
 					CopyFrom(type->names.Wrap(), names);
 					CopyFrom(type->types.Wrap(), types);
 					type->defined=true;

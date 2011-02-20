@@ -1,3 +1,68 @@
 unit ExpressionPrinter;
 
 uses syscrnat, ExpressionTree;
+
+function void VTableAddExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable AddExpression* e = cast<AddExpression*>(expression);
+    printer(L"(", userData);
+    PrintExpression(e->left, userData, printer);
+    printer(L" + ", userData);
+    PrintExpression(e->right, userData, printer);
+    printer(L")", userData);
+}
+
+function void VTableSubExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable SubExpression* e = cast<SubExpression*>(expression);
+    printer(L"(", userData);
+    PrintExpression(e->left, userData, printer);
+    printer(L" - ", userData);
+    PrintExpression(e->right, userData, printer);
+    printer(L")", userData);
+}
+
+function void VTableMulExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable MulExpression* e = cast<MulExpression*>(expression);
+    printer(L"(", userData);
+    PrintExpression(e->left, userData, printer);
+    printer(L" * ", userData);
+    PrintExpression(e->right, userData, printer);
+    printer(L")", userData);
+}
+
+function void VTableDivExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable DivExpression* e = cast<DivExpression*>(expression);
+    printer(L"(", userData);
+    PrintExpression(e->left, userData, printer);
+    printer(L" / ", userData);
+    PrintExpression(e->right, userData, printer);
+    printer(L")", userData);
+}
+
+function void VTableNumberExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable NumberExpression* e = cast<NumberExpression*>(expression);
+    variable wchar[100] buffer;
+    printer(ftow(e->number, cast<wchar*>(&buffer), 100), userData);
+}
+
+function void VTableNegExpressionPrinter(Expression* expression, void*  userData, function void(wchar*, void*) printer)
+{
+    variable NegExpression* e = cast<NegExpression*>(expression);
+    printer(L"-", userData);
+    PrintExpression(e->operand, userData, printer);
+}
+
+#assembly_initialization
+function void VTableFillPrinters()
+{
+    vtableAddExpression.printer=VTableAddExpressionPrinter;
+    vtableSubExpression.printer=VTableSubExpressionPrinter;
+    vtableMulExpression.printer=VTableMulExpressionPrinter;
+    vtableDivExpression.printer=VTableDivExpressionPrinter;
+    vtableNumberExpression.printer=VTableNumberExpressionPrinter;
+    vtableNegExpression.printer=VTableNegExpressionPrinter;
+}

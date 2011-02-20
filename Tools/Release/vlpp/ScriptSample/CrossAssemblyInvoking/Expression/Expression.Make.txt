@@ -7,4 +7,5 @@ Compile=ExpressionTree.NativeX.txt
 Compile=ExpressionParser.NativeX.txt
 Compile=ExpressionEvaluator.NativeX.txt
 Compile=ExpressionPrinter.NativeX.txt
+Compile=ExpressionDestructor.NativeX.txt
 Compile=..\..\..\Header.syscrnat.NativeX.txt

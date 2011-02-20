@@ -1,3 +1,157 @@
 unit ExpressionTree;
 
 uses syscrnat;
+
+structure Expression;
+
+#public
+structure ExpressionVTable
+{
+    function void(Expression*) destructor;
+    function f64(Expression*) evaluator;
+    function void(Expression*, void*, function void(wchar*, void*)) printer;
+}
+
+#public
+structure Expression
+{
+    ExpressionVTable* vtable;
+}
+
+#public
+function f64 EvaluateExpression(Expression* expression)
+{
+    result = expression->vtable->evaluator(expression);
+}
+
+#public
+function void PrintExpression(Expression* expression, void* userData, function void(wchar*, void*) printer)
+{
+    expression->vtable->printer(expression, userData, printer);
+}
+
+#public
+function void DisposeExpression(Expression* expression)
+{
+    if(expression!=null)
+    {
+        expression->vtable->destructor(expression);
+        MemFree(cast<void*>(expression));
+    }
+}
+
+generic<T>
+function T* CreateObject()
+{
+    result = cast<T*>(MemAlloc(sizeof(T)));
+}
+
+#public
+structure AddExpression
+{
+    Expression base;
+    Expression* left;
+    Expression* right;
+}
+variable ExpressionVTable vtableAddExpression;
+
+#public
+function AddExpression* CreateAddExpression()
+{
+    variable AddExpression* e = CreateObject<AddExpression>();
+    e->base.vtable=&vtableAddExpression;
+    e->left=null;
+    e->right=null;
+    result = e;
+}
+
+#public
+structure SubExpression
+{
+    Expression base;
+    Expression* left;
+    Expression* right;
+}
+variable ExpressionVTable vtableSubExpression;
+
+#public
+function SubExpression* CreateSubExpression()
+{
+    variable SubExpression* e = CreateObject<SubExpression>();
+    e->base.vtable=&vtableSubExpression;
+    e->left=null;
+    e->right=null;
+    result = e;
+}
+
+#public
+structure MulExpression
+{
+    Expression base;
+    Expression* left;
+    Expression* right;
+}
+variable ExpressionVTable vtableMulExpression;
+
+#public
+function MulExpression* CreateMulExpression()
+{
+    variable MulExpression* e = CreateObject<MulExpression>();
+    e->base.vtable=&vtableMulExpression;
+    e->left=null;
+    e->right=null;
+    result = e;
+}
+
+#public
+structure DivExpression
+{
+    Expression base;
+    Expression* left;
+    Expression* right;
+}
+variable ExpressionVTable vtableDivExpression;
+
+#public
+function DivExpression* CreateDivExpression()
+{
+    variable DivExpression* e = CreateObject<DivExpression>();
+    e->base.vtable=&vtableDivExpression;
+    e->left=null;
+    e->right=null;
+    result = e;
+}
+
+#public
+structure NumberExpression
+{
+    Expression base;
+    f64 number;
+}
+variable ExpressionVTable vtableNumberExpression;
+
+#public
+function NumberExpression* CreateNumberExpression()
+{
+    variable NumberExpression* e = CreateObject<NumberExpression>();
+    e->base.vtable=&vtableNumberExpression;
+    e->number=0.0;
+    result = e;
+}
+
+#public
+structure NegExpression
+{
+    Expression base;
+    Expression* operand;
+}
+variable ExpressionVTable vtableNegExpression;
+
+#public
+function NegExpression* CreateNegExpression()
+{
+    variable NegExpression* e = CreateObject<NegExpression>();
+    e->base.vtable=&vtableNegExpression;
+    e->operand=null;
+    result = e;
+}

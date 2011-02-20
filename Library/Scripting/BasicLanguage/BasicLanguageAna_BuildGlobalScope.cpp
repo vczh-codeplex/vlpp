@@ -215,7 +215,7 @@ BasicLanguage_BuildGlobalScopePass1
 								argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
 							}
 						}
-						argument.typeManager->UpdateStructureType(structure, names.Wrap(), types.Wrap());
+						argument.typeManager->UpdateStructureType(node, structure, names.Wrap(), types.Wrap());
 						argument.env->RegisterStructureType(node, structure);
 					}
 				}
