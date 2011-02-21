@@ -16,6 +16,7 @@ LanguageAssembly
 			,instructionKey(-1)
 		{
 			basicLanguageMetadata=new BasicLanguageMetadata(this);
+			basicILMetadata=new BasicILMetadata(this);
 		}
 
 		LanguageAssembly::LanguageAssembly(stream::IStream& stream)
@@ -25,6 +26,7 @@ LanguageAssembly
 			il=new BasicIL;
 			il->LoadFromStream(stream);
 			basicLanguageMetadata=new BasicLanguageMetadata(this);
+			basicILMetadata=new BasicILMetadata(this);
 		}
 
 		void LanguageAssembly::SaveToStream(stream::IStream& stream)
@@ -68,6 +70,11 @@ LanguageAssembly
 		BasicLanguageMetadata* LanguageAssembly::GetBasicLanguageMetadata()
 		{
 			return basicLanguageMetadata.Obj();
+		}
+
+		BasicILMetadata* LanguageAssembly::GetBasicILMetadata()
+		{
+			return basicILMetadata.Obj();
 		}
 
 /***********************************************************************

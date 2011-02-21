@@ -42,7 +42,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossAssemblyInvoking", "Cr
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Build.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Build.bat
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Link.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Link.bat
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator.bat
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator_LinkedVersion.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunCalculator_LinkedVersion.bat
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest.bat
+		..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest_LinkedVersion.bat = ..\vlpp\ScriptSample\CrossAssemblyInvoking\RunExpressionUnitTest_LinkedVersion.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Calculator", "Calculator", "{E4B68DAA-5C69-4DC0-8BBE-4A1AEB99F2DA}"

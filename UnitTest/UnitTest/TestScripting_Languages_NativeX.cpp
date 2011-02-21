@@ -517,6 +517,38 @@ TEST_CASE(Test_NativeX_Sum)
 		LINE_(	}															)
 		);
 	{
+		BasicILMetadata* metadata=assembly->GetBasicILMetadata();
+		TEST_ASSERT(metadata->GetExportCount()==7);
+
+		TEST_ASSERT(metadata->GetExport(0).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(0).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(0).GetName()==L"Sum1");
+
+		TEST_ASSERT(metadata->GetExport(1).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(1).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(1).GetName()==L"Sum2");
+
+		TEST_ASSERT(metadata->GetExport(2).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(2).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(2).GetName()==L"Sum3");
+
+		TEST_ASSERT(metadata->GetExport(3).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(3).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(3).GetName()==L"Sum4");
+
+		TEST_ASSERT(metadata->GetExport(4).IsFunction()==false);
+		TEST_ASSERT(metadata->GetExport(4).IsVariable()==true);
+		TEST_ASSERT(metadata->GetExport(4).GetName()==L"Sum5Result");
+
+		TEST_ASSERT(metadata->GetExport(5).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(5).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(5).GetName()==L"Sum5");
+
+		TEST_ASSERT(metadata->GetExport(6).IsFunction()==true);
+		TEST_ASSERT(metadata->GetExport(6).IsVariable()==false);
+		TEST_ASSERT(metadata->GetExport(6).GetName()==L"Main");
+	}
+	{
 		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
 		TEST_ASSERT(metadata->GetDeclarationCount()==7);
 

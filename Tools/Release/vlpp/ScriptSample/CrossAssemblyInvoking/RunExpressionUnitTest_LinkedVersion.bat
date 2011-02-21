@@ -1,0 +1,1 @@
+..\..\vle.exe test linked Binary\Link.ExpressionUnitTest.assembly

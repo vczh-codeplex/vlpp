@@ -15,6 +15,7 @@ Classes:
 #include "..\BasicIL\BasicILInterpretor.h"
 #include "..\Utility\ScriptingUtilityForeignFunctions.h"
 #include "LanguageMetadata.h"
+#include "BasicILMetadata.h"
 #include "BasicLanguageMetadata.h"
 
 namespace vl
@@ -40,6 +41,7 @@ namespace vl
 			Ptr<basicil::BasicIL>								il;
 			LanguageHost*										host;
 			vint												instructionKey;
+			Ptr<BasicILMetadata>								basicILMetadata;
 			Ptr<BasicLanguageMetadata>							basicLanguageMetadata;
 
 		public:
@@ -55,6 +57,7 @@ namespace vl
 
 			WString												GetAssemblyName();
 			BasicLanguageMetadata*								GetBasicLanguageMetadata();
+			BasicILMetadata*									GetBasicILMetadata();
 		};
 
 		class LanguageState : public Object
