@@ -393,6 +393,9 @@
     <ClCompile Include="Common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicILMetadata.cpp">
+      <Filter>Library\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -700,6 +703,9 @@
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicILMetadata.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

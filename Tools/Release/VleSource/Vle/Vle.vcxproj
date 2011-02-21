@@ -135,6 +135,7 @@
     <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageWriter.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessage.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicILMetadata.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\BasicLanguageMetadata.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageMetadata.cpp" />
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\LanguageProvider.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessage.h" />
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicErrorMessageTranslator.h" />
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicFunctionExecutor.h" />
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicILMetadata.h" />
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\BasicLanguageMetadata.h" />
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageMetadata.h" />
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProvider.h" />

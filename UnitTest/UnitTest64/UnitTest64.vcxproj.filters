@@ -462,6 +462,9 @@
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp">
       <Filter>Library3\Scripting\Utility\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\BasicILMetadata.cpp">
+      <Filter>Library3\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -840,6 +843,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h">
       <Filter>Library3\Scripting\Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\BasicILMetadata.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
