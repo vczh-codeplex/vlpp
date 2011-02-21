@@ -1,5 +1,6 @@
 Vle.exe make "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt"
 Vle.exe make "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\System.UnitTestNative.Make.txt"
+Vle.exe make "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt"
 copy Vle.exe "..\..\vlpp\Vle.exe"
 copy "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\Binary\Assembly.syscrnat.assembly" "..\..\vlpp\Assembly.syscrnat.assembly"
 copy "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\Binary\Assembly.sysutnat.assembly" "..\..\vlpp\Assembly.sysutnat.assembly"
