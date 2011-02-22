@@ -43,25 +43,25 @@ namespace vl
 				inline static void* __memcpy(void* dst, void* src, vint size){return memcpy(dst, src, (size_t)size);}
 				inline static vint __memcmp(void* dst, void* src, vint size){return memcmp(dst, src, (size_t)size);}
 
-				inline static vint __atoi(const char* input, char** endptr, vint radix){return strtol(input, endptr, radix);}
-				inline static vint __wtoi(const wchar_t* input, wchar_t** endptr, vint radix){return wcstol(input, endptr, radix);}
-				inline static __int64 __atoi64(const char* input, char** endptr, vint radix){return _strtoi64(input, endptr, radix);}
-				inline static __int64 __wtoi64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoi64(input, endptr, radix);}
-				inline static vuint __atou(const char* input, char** endptr, vint radix){return strtoul(input, endptr, radix);}
-				inline static vuint __wtou(const wchar_t* input, wchar_t** endptr, vint radix){return wcstoul(input, endptr, radix);}
-				inline static unsigned __int64 __atou64(const char* input, char** endptr, vint radix){return _strtoui64(input, endptr, radix);}
-				inline static unsigned __int64 __wtou64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoui64(input, endptr, radix);}
+				inline static vint __atoi(const char* input, char** endptr, vint radix){return strtol(input, endptr, (int)radix);}
+				inline static vint __wtoi(const wchar_t* input, wchar_t** endptr, vint radix){return wcstol(input, endptr, (int)radix);}
+				inline static __int64 __atoi64(const char* input, char** endptr, vint radix){return _strtoi64(input, endptr, (int)radix);}
+				inline static __int64 __wtoi64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoi64(input, endptr, (int)radix);}
+				inline static vuint __atou(const char* input, char** endptr, vint radix){return strtoul(input, endptr, (int)radix);}
+				inline static vuint __wtou(const wchar_t* input, wchar_t** endptr, vint radix){return wcstoul(input, endptr, (int)radix);}
+				inline static unsigned __int64 __atou64(const char* input, char** endptr, vint radix){return _strtoui64(input, endptr, (int)radix);}
+				inline static unsigned __int64 __wtou64(const wchar_t* input, wchar_t** endptr, vint radix){return _wcstoui64(input, endptr, (int)radix);}
 				inline static double __atof(const char* input, char** endptr){return strtod(input, endptr);}
 				inline static double __wtof(const wchar_t* input, wchar_t** endptr){return wcstod(input, endptr);}
 
-				inline static char* __itoa(vint number, char* output, vint size, vint radix){ITOA_S(number, output, size, radix);return output;}
-				inline static wchar_t* __itow(vint number, wchar_t* output, vint size, vint radix){ITOW_S(number, output, size, radix);return output;}
-				inline static char* __i64toa(__int64 number, char* output, vint size, vint radix){I64TOA_S(number, output, size, radix);return output;}
-				inline static wchar_t* __i64tow(__int64 number, wchar_t* output, vint size, vint radix){I64TOW_S(number, output, size, radix);return output;}
-				inline static char* __utoa(vuint number, char* output, vint size, vint radix){UITOA_S(number, output, size, radix);return output;}
-				inline static wchar_t* __utow(vuint number, wchar_t* output, vint size, vint radix){UITOW_S(number, output, size, radix);return output;}
-				inline static char* __u64toa(unsigned __int64 number, char* output, vint size, vint radix){UI64TOA_S(number, output, size, radix);return output;}
-				inline static wchar_t* __u64tow(unsigned __int64 number, wchar_t* output, vint size, vint radix){UI64TOW_S(number, output, size, radix);return output;}
+				inline static char* __itoa(vint number, char* output, vint size, vint radix){ITOA_S(number, output, size, (int)radix);return output;}
+				inline static wchar_t* __itow(vint number, wchar_t* output, vint size, vint radix){ITOW_S(number, output, size, (int)radix);return output;}
+				inline static char* __i64toa(__int64 number, char* output, vint size, vint radix){I64TOA_S(number, output, size, (int)radix);return output;}
+				inline static wchar_t* __i64tow(__int64 number, wchar_t* output, vint size, vint radix){I64TOW_S(number, output, size, (int)radix);return output;}
+				inline static char* __utoa(vuint number, char* output, vint size, vint radix){UITOA_S(number, output, size, (int)radix);return output;}
+				inline static wchar_t* __utow(vuint number, wchar_t* output, vint size, vint radix){UITOW_S(number, output, size, (int)radix);return output;}
+				inline static char* __u64toa(unsigned __int64 number, char* output, vint size, vint radix){UI64TOA_S(number, output, size, (int)radix);return output;}
+				inline static wchar_t* __u64tow(unsigned __int64 number, wchar_t* output, vint size, vint radix){UI64TOW_S(number, output, size, (int)radix);return output;}
 
 				inline static char* __ftoa(double number, char* output, vint size)
 				{
