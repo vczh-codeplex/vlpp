@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Developer.WinFormControls.Extension;
+using Developer.LanguageServices.NativeX.Extension;
+using Developer.LanguageServices.NativeX;
+using System.Drawing;
+using System.ComponentModel;
+
+namespace VlTurtle.EditorControls.NativeX
+{
+    class NativeXControlPanel
+        : TextEditorBoxExtensibleControlPanel
+        , ILanguageDefaultColorizerProvider
+        , IDisposable
+        , IComponent
+    {
+        private NativeXEditingObserverProvider editingObserverProvider = null;
+        private NativeXContextSensitiveColorizerProvider colorizerProvider = null;
+        private NativeXPopupItemProvider popupItemProvider = null;
+        private NativeXTooltipProvider tooltipProvider = null;
+        private NativeXParameterInfoProvider parameterInfoProvider = null;
+        private NativeXWordingProvider wordingProvider = null;
+        private LanguageDefaultColorizerExtension languageDefaultColorizer = null;
+
+        public NativeXControlPanel()
+        {
+            this.editingObserverProvider = new NativeXEditingObserverProvider(new NativeXEditingObserverProvider.NativeXProvider());
+            this.colorizerProvider = new NativeXContextSensitiveColorizerProvider(this.editingObserverProvider);
+            this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider);
+            this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
+            this.parameterInfoProvider = new NativeXParameterInfoProvider(this.editingObserverProvider);
+            this.wordingProvider = new NativeXWordingProvider();
+            this.languageDefaultColorizer = new LanguageDefaultColorizerExtension(this);
+
+            ExtendBeforeInstall(this.editingObserverProvider);
+            ExtendBeforeInstall(this.colorizerProvider);
+            ExtendBeforeInstall(this.popupItemProvider);
+            ExtendBeforeInstall(this.tooltipProvider);
+            ExtendBeforeInstall(this.parameterInfoProvider);
+            ExtendBeforeInstall(this.wordingProvider);
+            ExtendBeforeInstall(this.languageDefaultColorizer);
+        }
+
+        public void Dispose()
+        {
+            this.editingObserverProvider.Dispose();
+            if (this.Disposed != null)
+            {
+                this.Disposed(this, new EventArgs());
+            }
+        }
+
+        int ILanguageDefaultColorizerProvider.BlockColorId
+        {
+            get
+            {
+                return NativeXColorizer.BlockColorId;
+            }
+        }
+
+        int ILanguageDefaultColorizerProvider.SnippetColorId
+        {
+            get
+            {
+                return NativeXColorizer.SnippetColorId;
+            }
+        }
+
+        Color ILanguageDefaultColorizerProvider.SnippetBackColor
+        {
+            get
+            {
+                return NativeXColorizer.SnippetBackgroundColor;
+            }
+        }
+
+        public event EventHandler Disposed;
+
+        public ISite Site { get; set; }
+    }
+}
