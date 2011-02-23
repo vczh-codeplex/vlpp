@@ -17,7 +17,7 @@ namespace VlTurtle
 
             this.codeEditorNativeX.Text =
                 "unit MyTurtleProgram;\r\n\r\n" +
-                "uses syscrnat, Turtle\r\n\r\n" +
+                "uses syscrnat, Turtle;\r\n\r\n" +
                 "function void main()\r\n" +
                 "{\r\n" +
                 "}\r\n";
