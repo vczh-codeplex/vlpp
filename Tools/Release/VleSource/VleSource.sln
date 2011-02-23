@@ -76,15 +76,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binary", "Binary", "{EA3379
 		..\vlpp\ScriptSample\CrossAssemblyInvoking\Binary\Readme.txt = ..\vlpp\ScriptSample\CrossAssemblyInvoking\Binary\Readme.txt
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VlScript", "VlScript\VlScript.vcxproj", "{CF504A26-CB33-4CD9-B1F9-06AD738040E1}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Vle\\Vle.vcxproj
 		SccProjectName1 = Vle
 		SccLocalPath1 = Vle
+		SccProjectUniqueName2 = VlScript\\VlScript.vcxproj
+		SccProjectName2 = VlScript
+		SccLocalPath2 = VlScript
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -95,6 +100,10 @@ Global
 		{DB1B5FE7-E36B-46E1-848C-1A8F5BB19006}.Debug|Win32.Build.0 = Debug|Win32
 		{DB1B5FE7-E36B-46E1-848C-1A8F5BB19006}.Release|Win32.ActiveCfg = Release|Win32
 		{DB1B5FE7-E36B-46E1-848C-1A8F5BB19006}.Release|Win32.Build.0 = Release|Win32
+		{CF504A26-CB33-4CD9-B1F9-06AD738040E1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF504A26-CB33-4CD9-B1F9-06AD738040E1}.Debug|Win32.Build.0 = Debug|Win32
+		{CF504A26-CB33-4CD9-B1F9-06AD738040E1}.Release|Win32.ActiveCfg = Release|Win32
+		{CF504A26-CB33-4CD9-B1F9-06AD738040E1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
