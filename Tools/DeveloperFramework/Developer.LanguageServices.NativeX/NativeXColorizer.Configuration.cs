@@ -114,6 +114,9 @@ namespace Developer.LanguageServices.NativeX
 			, "char"
 			, "wchar"
 			, "void"
+            , "sizeof"
+            , "typeof"
+            , "offsetof"
         }.OrderBy(s => s).ToArray();
     }
 }

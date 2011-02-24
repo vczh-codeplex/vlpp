@@ -170,4 +170,49 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             return result;
         }
     }
+
+    public abstract class NativeXTypeofExpressionType : NativeXType
+    {
+        public abstract NativeXExpression Expression { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                return this.Expression == null ? null : this.Expression.AbstractType;
+            }
+        }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            return base.ToFormattedString(genericArguments);
+        }
+    }
+
+    public abstract class NativeXTypeofMemberType : NativeXType
+    {
+        public abstract NativeXType Type { get; set; }
+        public string MemberName { get; set; }
+
+        public override NativeXAbstractType AbstractType
+        {
+            get
+            {
+                if (this.Type != null && this.MemberName != null)
+                {
+                    NativeXAbstractStructureType type = this.Type.AbstractType as NativeXAbstractStructureType;
+                    if (type != null && type.Members.ContainsKey(this.MemberName))
+                    {
+                        return type.Members[this.MemberName];
+                    }
+                }
+                return null;
+            }
+        }
+
+        public override string ToFormattedString(Dictionary<string, string> genericArguments)
+        {
+            return "typeof(" + GetFormattedString(this.Type, genericArguments) + "::" + (this.MemberName ?? "{?}") + ")";
+        }
+    }
 }

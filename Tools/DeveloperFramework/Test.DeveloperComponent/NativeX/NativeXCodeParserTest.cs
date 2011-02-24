@@ -117,6 +117,23 @@ namespace Test.DeveloperComponent.NativeX
             }
         }
 
+        private void TestParseSizeofInternal(Func<string, NativeXSizeofTypeExpression> parser)
+        {
+            {
+                var e = parser("sizeof(int)");
+                Assert.AreEqual("int", ((NativeXReferenceType)e.Type).ReferencedName);
+            }
+        }
+
+        private void TestParseOffsetofInternal(Func<string, NativeXOffsetofMemberExpression> parser)
+        {
+            {
+                var e = parser("offsetof(A::B)");
+                Assert.AreEqual("A", ((NativeXReferenceType)e.Type).ReferencedName);
+                Assert.AreEqual("B", e.MemberName);
+            }
+        }
+
         private void TestParseExp1(Func<string, NativeXExpression> parser)
         {
             {
@@ -243,6 +260,18 @@ namespace Test.DeveloperComponent.NativeX
         }
 
         [TestMethod]
+        public void TestParserSizeof()
+        {
+            TestParseSizeofInternal(s => Parse(s, NativeXCodeParser.ParseSizeofType));
+        }
+
+        [TestMethod]
+        public void TestParseOffsetof()
+        {
+            TestParseOffsetofInternal(s => Parse(s, NativeXCodeParser.ParseOffsetofMember));
+        }
+
+        [TestMethod]
         public void TestExpression()
         {
             TestParsePrimitiveInternal(s => (NativeXPrimitiveExpression)Parse(s, NativeXCodeParser.ParseExpression));
@@ -252,6 +281,8 @@ namespace Test.DeveloperComponent.NativeX
             TestParseResultInternal(s => (NativeXFunctionResultExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseExceptionInternal(s => (NativeXExceptionExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseCastingInternal(s => (NativeXCastingExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseSizeofInternal(s => (NativeXSizeofTypeExpression)Parse(s, NativeXCodeParser.ParseExpression));
+            TestParseOffsetofInternal(s => (NativeXOffsetofMemberExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseExp1(s => Parse(s, NativeXCodeParser.ParseExpression));
             TestParseUnaryExp(s => (NativeXUnaryExpression)Parse(s, NativeXCodeParser.ParseExpression));
             TestParseBinaryExp(s => (NativeXBinaryExpression)Parse(s, NativeXCodeParser.ParseExpression));
@@ -323,6 +354,23 @@ namespace Test.DeveloperComponent.NativeX
             Assert.AreEqual("1", ((NativeXPrimitiveExpression)t.Size).Code);
         }
 
+        private void TestParseTypeofMemberInternal(Func<string, NativeXTypeofMemberType> parser)
+        {
+            {
+                var e = parser("typeof(A::B)");
+                Assert.AreEqual("A", ((NativeXReferenceType)e.Type).ReferencedName);
+                Assert.AreEqual("B", e.MemberName);
+            }
+        }
+
+        private void TestParseTypeofExpressionInternal(Func<string, NativeXTypeofExpressionType> parser)
+        {
+            {
+                var e = parser("typeof(1)");
+                Assert.AreEqual("1", ((NativeXPrimitiveExpression)e.Expression).Code);
+            }
+        }
+
         [TestMethod]
         public void TestReferenceType()
         {
@@ -349,6 +397,8 @@ namespace Test.DeveloperComponent.NativeX
             TestInstanciatedTypeInternal(s => (NativeXInstanciatedType)Parse(s, NativeXCodeParser.ParseType));
             TestPointerTypeInternal(s => (NativeXPointerType)Parse(s, NativeXCodeParser.ParseType));
             TestArrayTypeInternal(s => (NativeXArrayType)Parse(s, NativeXCodeParser.ParseType));
+            TestParseTypeofMemberInternal(s => (NativeXTypeofMemberType)Parse(s, NativeXCodeParser.ParseType));
+            TestParseTypeofExpressionInternal(s => (NativeXTypeofExpressionType)Parse(s, NativeXCodeParser.ParseType));
         }
 
         #endregion
