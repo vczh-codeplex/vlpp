@@ -15,7 +15,7 @@ namespace VlTurtle
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TurtleEditorForm());
+            Application.Run(new TurtleIdeForm());
         }
     }
 }
