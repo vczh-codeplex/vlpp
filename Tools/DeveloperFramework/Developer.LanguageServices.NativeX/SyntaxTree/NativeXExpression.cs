@@ -365,4 +365,15 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             }
         }
     }
+
+    public abstract class NativeXSizeofTypeExpression : NativeXExpression
+    {
+        public abstract NativeXType Type { get; set; }
+    }
+
+    public abstract class NativeXOffsetofMemberExpression : NativeXExpression
+    {
+        public abstract NativeXType Type { get; set; }
+        public string MemberName { get; set; }
+    }
 }

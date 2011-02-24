@@ -20,6 +20,8 @@ namespace Developer.LanguageServices.NativeX
             var FUNCTION_TYPE = rule<NativeXFunctionType>("FunctionType");
             var INSTANCIATED_TYPE = rule<NativeXInstanciatedType>("InstanciatedType");
             var PRIMITIVE_TYPE = rule<NativeXType>("PrimitiveType");
+            var TYPEOFE = rule<NativeXTypeofExpressionType>("TypeofExpression");
+            var TYPEOFM = rule<NativeXTypeofMemberType>("TypeofMember");
             var TYPE = rule<NativeXType>("Type");
 
             var STRICT_INSTANCE_FUNCTION_REFERENCE = rule<NativeXInstanceFunctionExpression>("StrictInstanceFunctionReference");
@@ -35,6 +37,8 @@ namespace Developer.LanguageServices.NativeX
             var RESULT = rule<NativeXFunctionResultExpression>("Result");
             var EXCEPTION = rule<NativeXExceptionExpression>("Exception");
             var CAST = rule<NativeXCastingExpression>("Casting");
+            var SIZEOF = rule<NativeXSizeofTypeExpression>("SizeofType");
+            var OFFSETOF = rule<NativeXOffsetofMemberExpression>("OffsetofMember");
             var EXP0 = rule<NativeXExpression>("EXP0");
             var EXP1 = rule<NativeXExpression>("EXP1");
             var UNARY = rule<NativeXUnaryExpression>("Unary");
@@ -317,8 +321,16 @@ namespace Developer.LanguageServices.NativeX
                     !tok("cast") + tok("<") + TYPE["Type"] + tok(">") + tok("(") + EXPRESSION["Operand"] + tok(")")
                     );
 
+                SIZEOF.Infer(
+                    !tok("sizeof") + tok("(") + TYPE["Type"] + tok(")")
+                    );
+
+                OFFSETOF.Infer(
+                    !tok("offsetof") + tok("(") + TYPE["Type"] + tok(":") + tok(":") + ID["MemberName"] + tok(")")
+                    );
+
                 EXP0.Infer(
-                    ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | !tok("(") + ret(EXPRESSION) + tok(")")
+                    ret(SIZEOF) | ret(OFFSETOF) | ret(RESULT) | ret(EXCEPTION) | ret(CAST) | ret(PRIMITIVE) | ret(REFERENCE) | !tok("(") + ret(EXPRESSION) + tok(")")
                     );
 
                 EXP1.Infer(
@@ -386,8 +398,16 @@ namespace Developer.LanguageServices.NativeX
                     REFERENCE_TYPE["ElementType"] + !tok("<") + list<NativeXType>(tok(","), TYPE)["GenericArguments"] + tok(">")
                     );
 
+                TYPEOFM.Infer(
+                    tok("typeof") + tok("(") + TYPE["Type"] + !tok(":") + tok(":") + ID["MemberName"] + tok(")")
+                    );
+
+                TYPEOFE.Infer(
+                    !tok("typeof") + tok("(") + EXPRESSION["Expression"] + tok(")")
+                    );
+
                 PRIMITIVE_TYPE.Infer(
-                    ret(FUNCTION_TYPE) | ret(INSTANCIATED_TYPE) | ret(REFERENCE_TYPE)
+                    ret(TYPEOFM) | ret(TYPEOFE) | ret(FUNCTION_TYPE) | ret(INSTANCIATED_TYPE) | ret(REFERENCE_TYPE)
                     );
 
                 TYPE.Infer(
