@@ -32,11 +32,11 @@
             // 
             // TurtleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 262);
+            this.ClientSize = new System.Drawing.Size(291, 284);
             this.Name = "TurtleForm";
-            this.Text = "Form1";
+            this.Text = "Turtle";
             this.ResumeLayout(false);
 
         }

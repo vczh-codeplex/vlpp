@@ -86,9 +86,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Developer.WinFormControls",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VlTurtle", "VlTurtle\VlTurtle.csproj", "{920B5B20-2557-43DD-B7AB-34495B201464}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Developer.RibbonFramework", "..\..\..\Candidate\Ribbon\Developer.RibbonFramework\Developer.RibbonFramework.csproj", "{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -110,6 +112,9 @@ Global
 		SccProjectUniqueName6 = VlTurtle\\VlTurtle.csproj
 		SccProjectName6 = VlTurtle
 		SccLocalPath6 = VlTurtle
+		SccProjectUniqueName7 = ..\\..\\..\\Candidate\\Ribbon\\Developer.RibbonFramework\\Developer.RibbonFramework.csproj
+		SccProjectName7 = ../../../Candidate/Ribbon/Developer.RibbonFramework
+		SccLocalPath7 = ..\\..\\..\\Candidate\\Ribbon\\Developer.RibbonFramework
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,6 +203,19 @@ Global
 		{920B5B20-2557-43DD-B7AB-34495B201464}.Release|Win32.Build.0 = Release|x86
 		{920B5B20-2557-43DD-B7AB-34495B201464}.Release|x86.ActiveCfg = Release|x86
 		{920B5B20-2557-43DD-B7AB-34495B201464}.Release|x86.Build.0 = Release|x86
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Win32.ActiveCfg = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Win32.Build.0 = Release|Any CPU
+		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
