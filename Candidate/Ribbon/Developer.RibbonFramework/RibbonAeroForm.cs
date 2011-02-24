@@ -15,6 +15,7 @@ namespace Developer.RibbonFramework
     public partial class RibbonAeroForm : ToolStripAeroForm, IRibbonInputCallback
     {
         private RibbonContainer container = null;
+        private Control contentControl = null;
 
         public RibbonAeroForm()
         {
@@ -66,9 +67,22 @@ namespace Developer.RibbonFramework
                 RenderAeroBitmap();
                 this.Refresh();
             }
+
+            if (this.contentControl != null)
+            {
+                Rectangle contentBounds = new Rectangle(
+                    0,
+                    this.container.RibbonBounds.Bottom,
+                    this.AeroClientBounds.Width,
+                    this.AeroClientBounds.Bottom - this.container.RibbonBounds.Bottom - this.container.TabTotalHeight);
+                if (this.contentControl.Bounds != contentBounds)
+                {
+                    this.contentControl.SetBounds(contentBounds.X, contentBounds.Y, contentBounds.Width, contentBounds.Height);
+                }
+            }
         }
 
-        protected void InitializeRibbon(ToolStrip toolStripAero)
+        protected void InitializeRibbon(ToolStrip toolStripAero, Control contentControl = null)
         {
             this.InitializeAero(toolStripAero);
             this.AeroContainer.MouseUp += new MouseEventHandler(AeroContainer_MouseUp);
@@ -76,6 +90,11 @@ namespace Developer.RibbonFramework
             this.AeroContainer.MouseDown += new MouseEventHandler(AeroContainer_MouseDown);
             this.AeroContainer.MouseLeave += new EventHandler(AeroContainer_MouseLeave);
             this.container = new RibbonContainer(this);
+            this.contentControl = contentControl;
+            if (this.contentControl != null)
+            {
+                this.AeroContainer.Controls.Add(this.contentControl);
+            }
         }
 
         private MouseEventArgs CopyForRibbon(MouseEventArgs e)

@@ -71,6 +71,12 @@
     <Compile Include="TurtleIdeForm.Designer.cs">
       <DependentUpon>TurtleIdeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TurtleIdeFormContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TurtleIdeFormContent.Designer.cs">
+      <DependentUpon>TurtleIdeFormContent.cs</DependentUpon>
+    </Compile>
     <Compile Include="TurtleIdeRibbon.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TurtleIdeForm.resx">
       <DependentUpon>TurtleIdeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TurtleIdeFormContent.resx">
+      <DependentUpon>TurtleIdeFormContent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TurtleIdeRibbon.resx">
       <Generator>ResXFileCodeGenerator</Generator>
