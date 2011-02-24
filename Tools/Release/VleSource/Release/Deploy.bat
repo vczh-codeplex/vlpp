@@ -17,3 +17,5 @@ copy "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\Binary\Assembly.syscsnat.ass
 Vle.exe header NativeX "..\..\vlpp\Assembly.syscrnat.assembly" "..\..\vlpp\Header.syscrnat.NativeX.txt"
 Vle.exe header NativeX "..\..\vlpp\Assembly.sysutnat.assembly" "..\..\vlpp\Header.sysutnat.NativeX.txt"
 Vle.exe header NativeX "..\..\vlpp\Assembly.syscsnat.assembly" "..\..\vlpp\Header.syscsnat.NativeX.txt"
+
+Vle.exe header NativeX "..\..\vlpp\Assembly.syscrnat.assembly" "Header.syscrnat.NativeX.txt"

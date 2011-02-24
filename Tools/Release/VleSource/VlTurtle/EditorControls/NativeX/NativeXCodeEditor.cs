@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Developer.LanguageServices.NativeX;
 using Developer.WinFormControls;
+using System.IO;
 
 namespace VlTurtle.EditorControls.NativeX
 {
@@ -14,14 +15,21 @@ namespace VlTurtle.EditorControls.NativeX
     {
         public NativeXCodeEditor()
         {
+            NativeXControlPanel controlPanel = new NativeXControlPanel();
             InitializeComponent();
             this.Colorizer = new NativeXColorizer();
-            this.ControlPanel = new NativeXControlPanel();
+            this.ControlPanel = controlPanel;
             if (this.components == null)
             {
                 this.components = new Container();
             }
-            this.components.Add((NativeXControlPanel)this.ControlPanel);
+            this.components.Add(controlPanel);
+
+            if (File.Exists("Header.syscrnat.NativeX.txt"))
+            {
+                string text = File.ReadAllText("Header.syscrnat.NativeX.txt");
+                controlPanel.AddPredefinedHeader(text);
+            }
         }
     }
 }

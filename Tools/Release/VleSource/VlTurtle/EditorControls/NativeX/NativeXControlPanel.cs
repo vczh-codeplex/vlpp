@@ -7,12 +7,15 @@ using Developer.LanguageServices.NativeX.Extension;
 using Developer.LanguageServices.NativeX;
 using System.Drawing;
 using System.ComponentModel;
+using Developer.LanguageServices.NativeX.SyntaxTree;
+using Developer.LanguageProvider;
 
 namespace VlTurtle.EditorControls.NativeX
 {
     class NativeXControlPanel
         : TextEditorBoxExtensibleControlPanel
         , ILanguageDefaultColorizerProvider
+        , INativeXPredefinedHeaderReader
         , IDisposable
         , IComponent
     {
@@ -24,9 +27,11 @@ namespace VlTurtle.EditorControls.NativeX
         private NativeXWordingProvider wordingProvider = null;
         private LanguageDefaultColorizerExtension languageDefaultColorizer = null;
 
+        private List<NativeXUnit> predefinedHeaders = new List<NativeXUnit>();
+
         public NativeXControlPanel()
         {
-            this.editingObserverProvider = new NativeXEditingObserverProvider(new NativeXEditingObserverProvider.NativeXProvider());
+            this.editingObserverProvider = new NativeXEditingObserverProvider(this);
             this.colorizerProvider = new NativeXContextSensitiveColorizerProvider(this.editingObserverProvider);
             this.popupItemProvider = new NativeXPopupItemProvider(this.editingObserverProvider);
             this.tooltipProvider = new NativeXTooltipProvider(this.editingObserverProvider);
@@ -41,6 +46,27 @@ namespace VlTurtle.EditorControls.NativeX
             ExtendBeforeInstall(this.parameterInfoProvider);
             ExtendBeforeInstall(this.wordingProvider);
             ExtendBeforeInstall(this.languageDefaultColorizer);
+        }
+
+        public IEnumerable<NativeXUnit> PredifinedHeaders
+        {
+            get
+            {
+                return this.predefinedHeaders;
+            }
+        }
+
+        public void AddPredefinedHeader(string code)
+        {
+            List<CodeToken> tokens = NativeXCodeParser.Tokenize(code.ToCharArray());
+            int currentToken = 0;
+            bool parseSuccess = false;
+            NativeXUnit unit = NativeXCodeParser.ParseUnit(tokens, ref currentToken, ref parseSuccess);
+            if (unit != null && parseSuccess)
+            {
+                unit.BuildScope(null);
+                this.predefinedHeaders.Add(unit);
+            }
         }
 
         public void Dispose()

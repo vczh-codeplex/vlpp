@@ -14,8 +14,20 @@ namespace Developer.LanguageServices.NativeX.Extension
         public NativeXUnit Unit { get; set; }
     }
 
+    public interface INativeXPredefinedHeaderReader
+    {
+        IEnumerable<NativeXUnit> PredifinedHeaders { get; }
+    }
+
     public class NativeXCodeAnalyzer : CalculationNotifier<string, NativeXAnalyzingResult>
     {
+        private INativeXPredefinedHeaderReader headers = null;
+
+        public NativeXCodeAnalyzer(INativeXPredefinedHeaderReader headers)
+        {
+            this.headers = headers;
+        }
+
         protected override NativeXAnalyzingResult Calculate(string input)
         {
             NativeXAnalyzingResult result = new NativeXAnalyzingResult();
@@ -47,6 +59,7 @@ namespace Developer.LanguageServices.NativeX.Extension
             {
                 result.Unit.BuildScope(null);
             }
+            result.Unit.OwningScope.ExtraScopes = this.headers.PredifinedHeaders.Select(u => u.OwningScope).ToArray();
             return result;
         }
     }

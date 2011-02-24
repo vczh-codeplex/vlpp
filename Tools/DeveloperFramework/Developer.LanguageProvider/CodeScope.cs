@@ -10,6 +10,7 @@ namespace Developer.LanguageProvider
         public CodeNodeCollection ScopeNodes { get; private set; }
         public CodeScope ParentScope { get; private set; }
         public CodeNode ScopeOwner { get; private set; }
+        public CodeScope[] ExtraScopes { get; set; }
 
         internal CodeScope(CodeScope parentScope, CodeNode scopeOwner)
         {
@@ -24,6 +25,10 @@ namespace Developer.LanguageProvider
             while (scope != null)
             {
                 CodeNode node = scope.ScopeNodes[index];
+                if (node == null && scope.ExtraScopes != null)
+                {
+                    node = scope.ExtraScopes.Select(s => s.Find(index)).Where(n => n != null).FirstOrDefault();
+                }
                 if (node == null)
                 {
                     scope = scope.ParentScope;
@@ -43,12 +48,15 @@ namespace Developer.LanguageProvider
             CodeScope scope = this;
             while (scope != null)
             {
-                foreach (string key in scope.ScopeNodes.Keys)
+                foreach (CodeScope currentScope in new CodeScope[] { scope }.Concat(scope.ExtraScopes == null ? new CodeScope[] { } : scope.ExtraScopes))
                 {
-                    if (!names.Contains(key))
+                    foreach (string key in currentScope.ScopeNodes.Keys)
                     {
-                        names.Add(key);
-                        nodes.Add(scope.ScopeNodes[key]);
+                        if (!names.Contains(key))
+                        {
+                            names.Add(key);
+                            nodes.Add(currentScope.ScopeNodes[key]);
+                        }
                     }
                 }
                 scope = scope.ParentScope;
