@@ -37,55 +37,77 @@ namespace VlTurtle
                 tab.Name = "Home";
                 this.Ribbon.Tabs.Add(tab);
                 {
-                    RibbonButtonGroup group = new RibbonButtonGroup();
-                    group.Name = "Turtle";
+                    RibbonControlGroup group = new RibbonControlGroup();
+                    group.Name = "Script";
                     tab.TabPanel.Groups.Add(group);
                     {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.New;
-                        button.Name = "New";
-                        group.BigItems.Add(button);
+                        RibbonControlGroupPanel panel = new RibbonControlGroupPanel();
+                        panel.Policy = RibbonControlSizingPolicy.Big;
+                        group.Panels.Add(panel);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.New;
+                            button.SmallImage = TurtleIdeRibbon.New;
+                            button.Name = "New";
+                            panel.ControlItems.Add(button);
+                        }
                     }
                     {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.Open;
-                        button.Name = "Open";
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.Save;
-                        button.Name = "Save";
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.SaveAs;
-                        button.Name = "Save As";
-                        group.BigItems.Add(button);
+                        RibbonControlGroupPanel panel = new RibbonControlGroupPanel();
+                        panel.Policy = RibbonControlSizingPolicy.BigSmall;
+                        group.Panels.Add(panel);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.Open;
+                            button.SmallImage = TurtleIdeRibbon.Open;
+                            button.Name = "Open";
+                            panel.ControlItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.Save;
+                            button.SmallImage = TurtleIdeRibbon.Save;
+                            button.Name = "Save";
+                            panel.ControlItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.SaveAs;
+                            button.SmallImage = TurtleIdeRibbon.SaveAs;
+                            button.Name = "Save As";
+                            panel.ControlItems.Add(button);
+                        }
                     }
                 }
                 {
-                    RibbonButtonGroup group = new RibbonButtonGroup();
+                    RibbonControlGroup group = new RibbonControlGroup();
                     group.Name = "Clipboard";
                     tab.TabPanel.Groups.Add(group);
                     {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.Cut;
-                        button.Name = "Cut";
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.Copy;
-                        button.Name = "Copy";
-                        group.BigItems.Add(button);
-                    }
-                    {
-                        RibbonButton button = new RibbonButton();
-                        button.BigImage = TurtleIdeRibbon.Paste;
-                        button.Name = "Paste";
-                        group.BigItems.Add(button);
+                        RibbonControlGroupPanel panel = new RibbonControlGroupPanel();
+                        panel.Policy = RibbonControlSizingPolicy.BigSmall;
+                        group.Panels.Add(panel);
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.Run;
+                            button.SmallImage = TurtleIdeRibbon.Run;
+                            button.Name = "Run";
+                            panel.ControlItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.Stop;
+                            button.SmallImage = TurtleIdeRibbon.Stop;
+                            button.Name = "Stop";
+                            panel.ControlItems.Add(button);
+                        }
+                        {
+                            RibbonButton button = new RibbonButton();
+                            button.BigImage = TurtleIdeRibbon.Paste;
+                            button.SmallImage = TurtleIdeRibbon.Paste;
+                            button.Name = "Paste";
+                            panel.ControlItems.Add(button);
+                        }
                     }
                 }
                 {
