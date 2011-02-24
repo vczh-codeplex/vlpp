@@ -11,6 +11,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
         public string Name { get; set; }
         public abstract CodeNodeList<NativeXGenericParameter> GenericParameters { get; set; }
         public abstract CodeNodeList<NativeXGenericConstraint> GenericConstraints { get; set; }
+        public abstract CodeNodeList<NativeXAttribute> Attributes { get; set; }
         public abstract NativeXLinking Linking { get; set; }
 
         public virtual NativeXAbstractType AbstractType
@@ -59,6 +60,11 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
                 return generic;
             }
         }
+    }
+
+    public abstract class NativeXAttribute : NativeXNode
+    {
+        public string Name { get; set; }
     }
 
     public abstract class NativeXNameTypePair : NativeXNode
