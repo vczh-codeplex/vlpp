@@ -48,6 +48,7 @@ namespace Developer.LanguageServices.NativeX
 			, "null"
 			, "exception"
 			, "result"
+            , "stackdata"
 			, "function"
 			, "cast"
 			, "variable"
@@ -75,6 +76,9 @@ namespace Developer.LanguageServices.NativeX
 			, "instance"
 			, "where"
 			, "foreign"
+            , "sizeof"
+            , "offsetof"
+            , "typeof"
         }.OrderBy(s => s).ToArray();
     }
 }
