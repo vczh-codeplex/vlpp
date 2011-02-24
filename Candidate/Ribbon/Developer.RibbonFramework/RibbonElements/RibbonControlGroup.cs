@@ -233,7 +233,7 @@ namespace Developer.RibbonFramework.RibbonElements
                 case RibbonItemSize.Compact:
                     {
                         int width = 0;
-                        int totalGroups = this.ControlItems.Count / 3;
+                        int totalGroups = this.ControlItems.Count / 3 + (this.ControlItems.Count % 3 == 0 ? 0 : 1);
                         for (int i = 0; i < totalGroups; i++)
                         {
                             int start = i * 3;
@@ -321,7 +321,7 @@ namespace Developer.RibbonFramework.RibbonElements
                             int end = Math.Min(i * 3 + 2, this.ControlItems.Count - 1);
                             x += Enumerable.Range(start, end - start + 1).Select(j => this.ControlItems[j].UpdatedSize.Width).Max() + RibbonGroup.GroupPadding;
                         }
-                        y += index * (h + RibbonGroup.GroupPadding);
+                        y += currentPosition * (h + RibbonGroup.GroupPadding);
                         return new Rectangle(x, y, w, h);
                     }
                 default:
