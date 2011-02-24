@@ -10,8 +10,8 @@ namespace Developer.LanguageServices.NativeX.Extension
 {
     public class NativeXEditingObserverProvider : LanguageEditingObserverExtension<NativeXAnalyzingResult, NativeXDeclaration, NativeXEditingDeclarations>
     {
-        public NativeXEditingObserverProvider()
-            : base(new NativeXProvider())
+        public NativeXEditingObserverProvider(INativeXPredefinedHeaderReader headers)
+            : base(new NativeXProvider(headers))
         {
         }
 
@@ -23,6 +23,12 @@ namespace Developer.LanguageServices.NativeX.Extension
         public class NativeXProvider : ILanguageEditingObserverProvider<NativeXAnalyzingResult, NativeXDeclaration, NativeXEditingDeclarations>
         {
             protected NativeXEditingObserverProvider Extension { get; private set; }
+            protected INativeXPredefinedHeaderReader Headers { get; private set; }
+
+            public NativeXProvider(INativeXPredefinedHeaderReader headers)
+            {
+                this.Headers = headers;
+            }
 
             public virtual void Attach(LanguageEditingObserverExtension<NativeXAnalyzingResult, NativeXDeclaration, NativeXEditingDeclarations> extension)
             {
@@ -31,7 +37,7 @@ namespace Developer.LanguageServices.NativeX.Extension
 
             public virtual CalculationNotifier<string, NativeXAnalyzingResult> CreateAnalyzer()
             {
-                return new NativeXCodeAnalyzer();
+                return new NativeXCodeAnalyzer(this.Headers);
             }
 
             public virtual NativeXEditingDeclarations ParseEditingNodeContainer(string code)
