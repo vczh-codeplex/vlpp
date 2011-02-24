@@ -21,6 +21,7 @@ namespace Developer.LanguageServices.NativeX
         private static readonly Color StringColor = Color.FromArgb(163, 21, 21);
         private static readonly Color NumberColor = Color.FromArgb(128, 0, 255);
         private static readonly Color CommentColor = Color.FromArgb(0, 128, 0);
+        private static readonly Color AttributeColor = Color.FromArgb(128, 0, 255);
 
         private static readonly Color BreakPointColor = Color.FromArgb(255, 255, 255);
         private static readonly Color BreakPointHighlightColor = Color.FromArgb(123, 119, 166);

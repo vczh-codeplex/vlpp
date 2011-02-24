@@ -79,6 +79,7 @@ namespace Developer.LanguageServices.NativeX
 
             var GENERIC_DECLARATION = rule<NativeXDeclaration>("GenericDeclaration");
             var NON_GENERIC_DECLARATION = rule<NativeXDeclaration>("NonGenericDeclaration");
+            var ATTRIBUTE = rule<NativeXAttribute>("Attribute");
             var DECLARATION = rule<NativeXDeclaration>("Declaration");
 
             var USE = rule<NativeXUses>("UseUnitItem");
