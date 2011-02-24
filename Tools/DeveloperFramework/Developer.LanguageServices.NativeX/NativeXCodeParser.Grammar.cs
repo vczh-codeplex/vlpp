@@ -15,6 +15,7 @@ namespace Developer.LanguageServices.NativeX
             var TYPE_KEYWORD = id("Developer.LanguageServices.NativeX.NativeXTokenizer.TypeKeywordToken");
             var STRING = id("Developer.LanguageServices.NativeX.NativeXTokenizer.StringToken");
             var NUMBER = id("Developer.LanguageServices.NativeX.NativeXTokenizer.NumberToken");
+            var ATTID = id("Developer.LanguageServices.NativeX.NativeXTokenizer.AttributeToken");
 
             var REFERENCE_TYPE = rule<NativeXReferenceType>("ReferenceType");
             var FUNCTION_TYPE = rule<NativeXFunctionType>("FunctionType");
@@ -79,6 +80,7 @@ namespace Developer.LanguageServices.NativeX
 
             var GENERIC_DECLARATION = rule<NativeXDeclaration>("GenericDeclaration");
             var NON_GENERIC_DECLARATION = rule<NativeXDeclaration>("NonGenericDeclaration");
+            var DECLARATION_CANDIDATE = rule<NativeXDeclaration>("DeclarationCandidate");
             var ATTRIBUTE = rule<NativeXAttribute>("Attribute");
             var DECLARATION = rule<NativeXDeclaration>("Declaration");
 
@@ -176,7 +178,7 @@ namespace Developer.LanguageServices.NativeX
                     );
             }
             {
-                NON_GENERIC_DECLARATION.Infer(
+                DECLARATION_CANDIDATE.Infer(
                     ret(FUNCTION_DECLARATION)
                     | ret(TYPE_RENAME_DECLARATION)
                     | ret(VARIABLE_DECLARATION)
@@ -185,10 +187,18 @@ namespace Developer.LanguageServices.NativeX
                     | ret(CONCEPT_DECLARATION)
                     );
 
+                NON_GENERIC_DECLARATION.Infer(
+                    list<NativeXAttribute>(ATTRIBUTE)["Attributes"] + ret(DECLARATION_CANDIDATE)
+                    );
+
                 GENERIC_DECLARATION.Infer(
                     !tok("generic") + tok("<") + list<NativeXGenericParameter>(tok(","), GENERIC_PARAMETER)["GenericParameters"] + tok(">")
                     + opt(!tok("where") + list<NativeXGenericConstraint>(tok(","), GENERIC_CONSTRAINT)["GenericConstraints"])
                     + ret(NON_GENERIC_DECLARATION)
+                    );
+
+                ATTRIBUTE.Infer(
+                    ATTID["Name"]
                     );
 
                 DECLARATION.Infer(
