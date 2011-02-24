@@ -7,6 +7,7 @@ using System.Drawing;
 using Developer.WinFormControls;
 using Developer.LanguageProvider;
 using Developer.WinFormControls.Extension;
+using System.Windows.Forms;
 
 namespace Developer.LanguageServices.NativeX.Extension
 {
@@ -55,6 +56,16 @@ namespace Developer.LanguageServices.NativeX.Extension
                         new SnippetContent.Tab(), new SnippetContent.Text("}")
                     )
                 ));
+        }
+
+        public override bool IsPopupListCharAcceptable(char c)
+        {
+            return c == '#' || base.IsPopupListCharAcceptable(c);
+        }
+
+        public override bool IsPopupListKeyAcceptable(KeyEventArgs e)
+        {
+            return (!e.Control && !e.Alt && e.Shift && e.KeyCode == Keys.D3) || base.IsPopupListKeyAcceptable(e);
         }
 
         #region Popup Item Calculation
@@ -249,7 +260,7 @@ namespace Developer.LanguageServices.NativeX.Extension
         protected IEnumerable<TextEditorPopupItem> CreatePopupDeclarationKeywords()
         {
             Bitmap keywordImage = Images.Keyword;
-            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance", "unit", "uses", "where" };
+            string[] keywords = new string[] { "generic", "function", "type", "variable", "structure", "concept", "instance", "unit", "uses", "where", "#public", "#assembly_initialization" };
             return keywords
                 .Select(k => new TextEditorPopupItem()
                 {
@@ -411,7 +422,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                 {
                     if (inputText.Length == 1)
                     {
-                        if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z')
+                        if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z' || inputText[0] == '#')
                         {
                             PopupDeclarationKeywords(inputText);
                         }
@@ -549,7 +560,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                                 var node = this.EditingObserverExtension.EditingNode.FindDeepest<NativeXNode>(this.EditingObserverExtension.NodePositionToEditing(newEnd));
                                 if (inputText.Length == 1 && node.GetType() == typeof(NativeXDeclaration))
                                 {
-                                    if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z')
+                                    if ('a' <= inputText[0] && inputText[0] <= 'z' || 'A' <= inputText[0] && inputText[0] <= 'Z' || inputText[0] == '#')
                                     {
                                         PopupDeclarationKeywords(inputText);
                                         break;
