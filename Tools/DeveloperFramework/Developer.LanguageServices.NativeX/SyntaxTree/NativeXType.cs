@@ -200,7 +200,7 @@ namespace Developer.LanguageServices.NativeX.SyntaxTree
             {
                 if (this.Type != null && this.MemberName != null)
                 {
-                    NativeXAbstractStructureType type = this.Type.AbstractType as NativeXAbstractStructureType;
+                    NativeXAbstractStructureType type = this.Type.AbstractType.Unwrap() as NativeXAbstractStructureType;
                     if (type != null && type.Members.ContainsKey(this.MemberName))
                     {
                         return type.Members[this.MemberName];

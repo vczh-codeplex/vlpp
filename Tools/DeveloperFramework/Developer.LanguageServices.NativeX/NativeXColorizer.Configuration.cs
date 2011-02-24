@@ -71,6 +71,7 @@ namespace Developer.LanguageServices.NativeX
 			, "null"
 			, "exception"
 			, "result"
+            , "stackdata"
 			, "function"
 			, "cast"
 			, "variable"
