@@ -11,10 +11,13 @@ namespace VlTurtle
 {
     public partial class TurtleIdeForm : Developer.RibbonFramework.RibbonAeroForm
     {
+        private TurtleIdeFormContent content = null;
+
         public TurtleIdeForm()
         {
+            this.content = new TurtleIdeFormContent();
             InitializeComponent();
-            InitializeRibbon(toolStripRibbon);
+            InitializeRibbon(toolStripRibbon, content);
             CreateRibbon();
         }
 
