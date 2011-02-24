@@ -65,7 +65,8 @@ namespace Developer.RibbonFramework
             if (refresh)
             {
                 RenderAeroBitmap();
-                this.Refresh();
+                this.AeroContainer.Invalidate(false);
+                this.AeroContainer.Update();
             }
 
             if (this.contentControl != null)
