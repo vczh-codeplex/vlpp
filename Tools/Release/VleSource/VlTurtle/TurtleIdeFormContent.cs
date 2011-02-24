@@ -7,19 +7,43 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Developer.LanguageProvider;
+using VlTurtle.EditorControls;
 
 namespace VlTurtle
 {
     public partial class TurtleIdeFormContent : UserControl
     {
+        private ClipboardMonitor clipboardMonitor = null;
+
         public TurtleIdeFormContent()
         {
             InitializeComponent();
+            if (this.components == null)
+            {
+                this.components = new Container();
+            }
+            this.clipboardMonitor = new ClipboardMonitor(this);
+            this.clipboardMonitor.ClipboardChanged += new EventHandler(clipboardMonitor_ClipboardChanged);
+            this.components.Add(this.clipboardMonitor);
+        }
+
+        private void clipboardMonitor_ClipboardChanged(object sender, EventArgs e)
+        {
+            InvokeButtonStateUpdated();
         }
 
         private void codeEditorNativeX_SelectionChanged(object sender, EventArgs e)
         {
             InvokeButtonStateUpdated();
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (this.clipboardMonitor != null)
+            {
+                this.clipboardMonitor.WndProc(ref m);
+            }
+            base.WndProc(ref m);
         }
 
         private void InvokeButtonStateUpdated()
