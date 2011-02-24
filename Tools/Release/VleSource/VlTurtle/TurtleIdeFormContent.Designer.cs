@@ -39,18 +39,19 @@
             this.codeEditorNativeX.Location = new System.Drawing.Point(0, 0);
             this.codeEditorNativeX.Name = "codeEditorNativeX";
             this.codeEditorNativeX.PressingChar = false;
-            this.codeEditorNativeX.Size = new System.Drawing.Size(374, 352);
+            this.codeEditorNativeX.Size = new System.Drawing.Size(374, 325);
             this.codeEditorNativeX.TabIndex = 0;
             this.codeEditorNativeX.TabSpaceCount = 4;
+            this.codeEditorNativeX.SelectionChanged += new System.EventHandler(this.codeEditorNativeX_SelectionChanged);
             // 
             // TurtleIdeFormContent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.codeEditorNativeX);
             this.Name = "TurtleIdeFormContent";
-            this.Size = new System.Drawing.Size(374, 352);
+            this.Size = new System.Drawing.Size(374, 325);
             this.ResumeLayout(false);
 
         }

@@ -87,8 +87,9 @@
             // 
             this.AeroIcon = ((System.Drawing.Image)(resources.GetObject("$this.AeroIcon")));
             this.AeroIconSize = new System.Drawing.Size(48, 48);
-            this.ClientSize = new System.Drawing.Size(563, 575);
+            this.ClientSize = new System.Drawing.Size(484, 562);
             this.Controls.Add(this.toolStripRibbon);
+            this.MinimumSize = new System.Drawing.Size(300, 400);
             this.Name = "TurtleIdeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turtle IDE";
