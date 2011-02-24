@@ -47,7 +47,7 @@
             this.toolRibbonRedo});
             this.toolStripRibbon.Location = new System.Drawing.Point(78, 0);
             this.toolStripRibbon.Name = "toolStripRibbon";
-            this.toolStripRibbon.Size = new System.Drawing.Size(87, 25);
+            this.toolStripRibbon.Size = new System.Drawing.Size(118, 25);
             this.toolStripRibbon.TabIndex = 2;
             this.toolStripRibbon.Text = "Ribbon Tool Bar";
             // 
@@ -59,6 +59,7 @@
             this.toolRibbonSave.Name = "toolRibbonSave";
             this.toolRibbonSave.Size = new System.Drawing.Size(23, 22);
             this.toolRibbonSave.Text = "Save";
+            this.toolRibbonSave.Click += new System.EventHandler(this.toolRibbonSave_Click);
             // 
             // toolStripSeparator1
             // 
@@ -73,6 +74,7 @@
             this.toolRibbonUndo.Name = "toolRibbonUndo";
             this.toolRibbonUndo.Size = new System.Drawing.Size(23, 22);
             this.toolRibbonUndo.Text = "Undo";
+            this.toolRibbonUndo.Click += new System.EventHandler(this.toolRibbonUndo_Click);
             // 
             // toolRibbonRedo
             // 
@@ -82,6 +84,7 @@
             this.toolRibbonRedo.Name = "toolRibbonRedo";
             this.toolRibbonRedo.Size = new System.Drawing.Size(23, 22);
             this.toolRibbonRedo.Text = "Redo";
+            this.toolRibbonRedo.Click += new System.EventHandler(this.toolRibbonRedo_Click);
             // 
             // TurtleIdeForm
             // 
