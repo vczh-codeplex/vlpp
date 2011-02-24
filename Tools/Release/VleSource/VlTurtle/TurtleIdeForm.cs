@@ -36,6 +36,8 @@ namespace VlTurtle
             this.buttonPaste.Enabled = this.content.AvailablePaste();
             this.buttonUndo.Enabled = this.content.AvailableUndo();
             this.buttonRedo.Enabled = this.content.AvailableRedo();
+            this.toolRibbonUndo.Enabled = this.content.AvailableUndo();
+            this.toolRibbonRedo.Enabled = this.content.AvailableRedo();
             UpdateRibbon(true);
         }
 
@@ -215,6 +217,21 @@ namespace VlTurtle
                 menu.MenuItems.Add(button);
             }
             return menu;
+        }
+
+        private void toolRibbonSave_Click(object sender, EventArgs e)
+        {
+            this.content.OperationSave();
+        }
+
+        private void toolRibbonUndo_Click(object sender, EventArgs e)
+        {
+            this.content.OperationUndo();
+        }
+
+        private void toolRibbonRedo_Click(object sender, EventArgs e)
+        {
+            this.content.OperationRedo();
         }
     }
 }
