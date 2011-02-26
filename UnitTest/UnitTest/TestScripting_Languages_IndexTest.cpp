@@ -23,7 +23,7 @@ using namespace vl::regex;
 
 extern WString GetPath();
 
-vint Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* arguments)
+vint __stdcall Test_BasicLanguage_ForeignFunction_LightSummer(void* result, void* arguments)
 {
 	vint* numbers=*(vint**)(arguments);
 	vint count=*(vint*)((char*)arguments+sizeof(vint*));

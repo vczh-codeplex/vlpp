@@ -679,7 +679,7 @@ TEST_CASE(Test_NativeX_GenericStructure)
 	}
 }
 
-vint Test_NativeX_ForeignFunction_Summer(void* result, void* arguments)
+vint __stdcall Test_NativeX_ForeignFunction_Summer(void* result, void* arguments)
 {
 	vint* numbers=*(vint**)(arguments);
 	vint count=*(vint*)((char*)arguments+sizeof(vint*));
