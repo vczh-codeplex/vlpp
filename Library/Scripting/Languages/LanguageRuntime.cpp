@@ -133,9 +133,15 @@ LanguageHost
 
 		vint LanguageLightFunctionCallback(void* result, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
 		{
-			typedef vint(*Callback)(void*, void*);
+			typedef vint(__stdcall*Callback)(void*, void*);
 			Callback callback=(Callback)userData;
 			return callback(result, arguments);
+		}
+
+		vint LanguageLightFunctionCallback2(void* result, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
+		{
+			LanguageHost::Context* context=(LanguageHost::Context*)userData;
+			return context->function(result, arguments, context->userData);
 		}
 
 /***********************************************************************
@@ -171,9 +177,18 @@ LanguageHost
 			return new LanguageState(new BasicILStack(interpretor.Obj()));
 		}
 
-		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
+		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*))
 		{
 			return interpretor->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback, (void*)function));
+		}
+
+		bool LanguageHost::RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*, void*), void* userData)
+		{
+			Ptr<Context> context=new Context;
+			context->function=function;
+			context->userData=userData;
+			foreignFunctionContexts.Add(context);
+			return interpretor->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback2, (void*)context.Obj()));
 		}
 
 		bool LanguageHost::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)
@@ -208,9 +223,14 @@ LanguageLinker
 			return new LanguageAssembly(linker->Link());
 		}
 
-		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*))
+		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*))
 		{
 			return linker->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback, (void*)function));
+		}
+
+		bool LanguageLinker::RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*, void*))
+		{
+			return linker->Symbols()->RegisterLightFunction(category, name, BasicILLightFunction(&LanguageLightFunctionCallback2, 0));
 		}
 
 		bool LanguageLinker::RegisterPlugin(Ptr<utility::LanguagePlugin> plugin)

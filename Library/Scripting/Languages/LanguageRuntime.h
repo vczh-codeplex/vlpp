@@ -91,16 +91,26 @@ namespace vl
 
 		class LanguageHost : public Object
 		{
+		public:
+			struct Context
+			{
+				vint(__stdcall*function)(void*, void*, void*);
+				void* userData;
+			};
+
 		protected:
+
 			Ptr<basicil::BasicILInterpretor>					interpretor;
 			collections::List<Ptr<LanguageAssembly>>			loadedAssemblies;
 			collections::List<Ptr<utility::LanguagePlugin>>		plugins;
+			collections::List<Ptr<Context>>						foreignFunctionContexts;
 		public:
 			LanguageHost(vint stackSize);
 
 			bool												LoadAssembly(Ptr<LanguageAssembly> assembly);
 			Ptr<LanguageState>									CreateState();
-			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*));
+			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*));
+			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*, void*), void* userData);
 			bool												RegisterPlugin(Ptr<utility::LanguagePlugin> plugin);
 			void												LogInternalState(stream::TextWriter& writer);
 		};
@@ -116,7 +126,8 @@ namespace vl
 
 			void												LoadAssembly(stream::IStream& stream);
 			Ptr<LanguageAssembly>								Link();
-			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(*function)(void*, void*));
+			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*));
+			bool												RegisterForeignFunction(const WString& category, const WString& name, vint(__stdcall*function)(void*, void*, void*));
 			bool												RegisterPlugin(Ptr<utility::LanguagePlugin> plugin);
 			void												LogInternalState(stream::TextWriter& writer);
 		};
