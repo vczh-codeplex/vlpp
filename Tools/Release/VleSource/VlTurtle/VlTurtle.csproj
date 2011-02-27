@@ -135,6 +135,10 @@
       <Project>{4B3A01F1-F870-4EF9-8C35-22C3D5A9FAEC}</Project>
       <Name>Developer.WinFormControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VlScriptDotNet\VlScriptDotNet.csproj">
+      <Project>{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}</Project>
+      <Name>VlScriptDotNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrowright_green_32.png" />
