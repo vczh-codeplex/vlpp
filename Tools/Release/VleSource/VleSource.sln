@@ -88,9 +88,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VlTurtle", "VlTurtle\VlTurt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Developer.RibbonFramework", "..\..\..\Candidate\Ribbon\Developer.RibbonFramework\Developer.RibbonFramework.csproj", "{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Turtle", "Turtle", "{E72C5FCA-93C6-4B3A-8027-F714DEFEDF02}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\Turtle\Readme.txt = ..\vlpp\Turtle\Readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VlScriptDotNet", "VlScriptDotNet\VlScriptDotNet.csproj", "{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 9
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -115,6 +122,9 @@ Global
 		SccProjectUniqueName7 = ..\\..\\..\\Candidate\\Ribbon\\Developer.RibbonFramework\\Developer.RibbonFramework.csproj
 		SccProjectName7 = ../../../Candidate/Ribbon/Developer.RibbonFramework
 		SccLocalPath7 = ..\\..\\..\\Candidate\\Ribbon\\Developer.RibbonFramework
+		SccProjectUniqueName8 = VlScriptDotNet\\VlScriptDotNet.csproj
+		SccProjectName8 = VlScriptDotNet
+		SccLocalPath8 = VlScriptDotNet
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,12 +226,25 @@ Global
 		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Win32.ActiveCfg = Release|Any CPU
 		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|Win32.Build.0 = Release|Any CPU
 		{8128CC9F-1FCE-46B1-9FD7-38024F1B71E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B13234DD-4997-47ED-AED1-DFFAFC7F521E} = {55245844-B477-46FD-A052-8B2228B18913}
+		{E72C5FCA-93C6-4B3A-8027-F714DEFEDF02} = {55245844-B477-46FD-A052-8B2228B18913}
 		{EB0D451B-8B8A-46A0-AB5E-222E8B713B39} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 		{A4970786-98AB-438A-82CB-9BE10FA8BF52} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
 		{0DA99CD2-01A6-4303-8C9A-B90083116DC6} = {B13234DD-4997-47ED-AED1-DFFAFC7F521E}
