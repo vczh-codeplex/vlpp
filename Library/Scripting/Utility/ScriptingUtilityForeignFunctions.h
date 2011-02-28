@@ -413,8 +413,8 @@ LanguageHandleList
 ***********************************************************************/
 
 			extern Ptr<LanguagePlugin>		CreateMemoryManagerPlugin();
-			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(*printer)(bool, wchar_t*));
-			extern Ptr<LanguagePlugin>		CreateConsolePlugin(void(*reader)(wchar_t*), void(*writer)(wchar_t*));
+			extern Ptr<LanguagePlugin>		CreateUnitTestPlugin(void(__stdcall*printer)(bool, wchar_t*));
+			extern Ptr<LanguagePlugin>		CreateConsolePlugin(void(__stdcall*reader)(wchar_t*), void(__stdcall*writer)(wchar_t*));
 			extern Ptr<LanguagePlugin>		CreateThreadingPlugin();
 			extern Ptr<LanguagePlugin>		CreateStdlibPlugin();
 			extern Ptr<LanguagePlugin>		CreateGcSingleThreadPlugin();

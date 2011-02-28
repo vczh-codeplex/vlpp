@@ -13,7 +13,7 @@ namespace vl
 			class SystemCoreUnitTestPlugin : public LanguagePlugin
 			{
 			protected:
-				void(*printer)(bool, wchar_t*);
+				void(__stdcall*printer)(bool, wchar_t*);
 
 				static bool Assert(bool condition, wchar_t* description, void* userData)
 				{
@@ -36,13 +36,13 @@ namespace vl
 						symbol->RegisterLightFunction(L"UnitTest", L"Print", BasicILLightFunction(&LightFunctionMaker<bool(wchar_t*)>::Function2<&Print>, this));
 				}
 			public:
-				SystemCoreUnitTestPlugin(void(*_printer)(bool, wchar_t*))
+				SystemCoreUnitTestPlugin(void(__stdcall*_printer)(bool, wchar_t*))
 					:printer(_printer)
 				{
 				}
 			};
 
-			Ptr<LanguagePlugin> CreateUnitTestPlugin(void(*printer)(bool, wchar_t*))
+			Ptr<LanguagePlugin> CreateUnitTestPlugin(void(__stdcall*printer)(bool, wchar_t*))
 			{
 				return new SystemCoreUnitTestPlugin(printer);
 			}

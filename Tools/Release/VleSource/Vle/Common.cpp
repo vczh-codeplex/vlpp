@@ -18,7 +18,7 @@ WString GetFolder(WString fileName)
 	return dir;
 }
 
-void UnitTestPluginPrinter(bool condition, wchar_t* description)
+void __stdcall UnitTestPluginPrinter(bool condition, wchar_t* description)
 {
 	if(condition)
 	{
@@ -35,13 +35,13 @@ void UnitTestPluginPrinter(bool condition, wchar_t* description)
 	}
 }
 
-void ConsolePluginReader(wchar_t* text)
+void __stdcall ConsolePluginReader(wchar_t* text)
 {
 	WString result=Console::Read();
 	wcscpy(text, result.Buffer());
 }
 
-void ConsolePluginWriter(wchar_t* text)
+void __stdcall ConsolePluginWriter(wchar_t* text)
 {
 	Console::Write(text);
 }

@@ -40,6 +40,9 @@ extern "C"
 	//--------------------------------------------------------------------------------
 
 	VLSCRIPT_API int __stdcall VlsRegisterForeignFunction(VlsHost* host, const wchar_t* category, const wchar_t* name, VlsForeignFunction* function, void* userData);
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_CoreNative(VlsHost* host);
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_ConsoleNative(VlsHost* host, void(__stdcall*reader)(wchar_t*), void(__stdcall*writer)(wchar_t*));
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_UnitTestNative(VlsHost* host, void(__stdcall*printer)(bool, wchar_t*));
 
 	//--------------------------------------------------------------------------------
 
