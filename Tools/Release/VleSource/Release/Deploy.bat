@@ -7,7 +7,7 @@ copy VlScript.dll "..\..\vlpp\VlScript.dll"
 copy VlScript.lib "..\..\vlpp\VlScript.lib"
 copy VlScript.lib "..\..\vlpp\VlScript.lib"
 copy "..\VlScript\VlScript.h" "..\..\vlpp\VlScript.h"
-copy VlScriptDotNet.lib "..\..\vlpp\VlScriptDotNet.lib"
+copy VlScriptDotNet.dll "..\..\vlpp\VlScriptDotNet.dll"
 
 copy "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\Binary\Assembly.syscrnat.assembly" "..\..\vlpp\Assembly.syscrnat.assembly"
 copy "..\..\..\..\UnitTest\Binary\ScriptCoreLibrary\Binary\Assembly.sysutnat.assembly" "..\..\vlpp\Assembly.sysutnat.assembly"

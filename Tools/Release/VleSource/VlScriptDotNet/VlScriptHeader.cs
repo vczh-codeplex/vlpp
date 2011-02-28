@@ -18,6 +18,9 @@ namespace VlScriptDotNet
         public const int VLS_DEFAULT_STACK_SIZE = 65536;
 
         public delegate int VlsForeignFunction(IntPtr result, IntPtr arguments, IntPtr userData);
+        public delegate void VlsConsoleReader(IntPtr wcharBuffer);
+        public delegate void VlsConsoleWriter(string text);
+        public delegate void VlsUnitTestPrinter(bool condition, string message);
 
         [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern int VlsCreateHost(out IntPtr host, int stackSize);
@@ -51,6 +54,15 @@ namespace VlScriptDotNet
 
         [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern int VlsRegisterForeignFunction(IntPtr host, string category, string name, VlsForeignFunction function, IntPtr userData);
+
+        [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        public static extern int VlsLoadPlugin_CoreNative(IntPtr host);
+
+        [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        public static extern int VlsLoadPlugin_ConsoleNative(IntPtr host, VlsConsoleReader reader, VlsConsoleWriter writer);
+
+        [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        public static extern int VlsLoadPlugin_UnitTestNative(IntPtr host, VlsUnitTestPrinter printer);
 
         [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern int VlsLoadAssembly(IntPtr host, IntPtr assembly);

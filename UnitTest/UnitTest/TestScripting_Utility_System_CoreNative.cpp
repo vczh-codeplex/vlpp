@@ -38,7 +38,7 @@ namespace TestScriptingUtilityHelper
 		return assembly;
 	}
 
-	void UnitTestPluginPrinter(bool condition, wchar_t* description)
+	void __stdcall UnitTestPluginPrinter(bool condition, wchar_t* description)
 	{
 		if(condition)
 		{
@@ -51,13 +51,13 @@ namespace TestScriptingUtilityHelper
 		}
 	}
 
-	void ConsolePluginReader(wchar_t* text)
+	void __stdcall ConsolePluginReader(wchar_t* text)
 	{
 		wcscpy(text, L"TextFromConsole");
 		vl::unittest::UnitTest::PrintInfo(L"        CONSOLE.READ: "+WString(text));
 	}
 
-	void ConsolePluginWriter(wchar_t* text)
+	void __stdcall ConsolePluginWriter(wchar_t* text)
 	{
 		vl::unittest::UnitTest::PrintInfo(L"        CONSOLE.WRITE: "+WString(text));
 	}

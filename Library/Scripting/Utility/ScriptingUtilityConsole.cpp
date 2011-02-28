@@ -13,8 +13,8 @@ namespace vl
 			class SystemCoreConsolePlugin : public LanguagePlugin
 			{
 			protected:
-				void(*reader)(wchar_t*);
-				void(*writer)(wchar_t*);
+				void(__stdcall*reader)(wchar_t*);
+				void(__stdcall*writer)(wchar_t*);
 				
 				static bool Read(wchar_t* description, void* userData)
 				{
@@ -37,14 +37,14 @@ namespace vl
 						symbol->RegisterLightFunction(L"Console", L"Write", BasicILLightFunction(&LightFunctionMaker<bool(wchar_t*)>::Function2<&Write>, this));
 				}
 			public:
-				SystemCoreConsolePlugin(void(*_reader)(wchar_t*), void(*_writer)(wchar_t*))
+				SystemCoreConsolePlugin(void(__stdcall*_reader)(wchar_t*), void(__stdcall*_writer)(wchar_t*))
 					:reader(_reader)
 					,writer(_writer)
 				{
 				}
 			};
 
-			Ptr<LanguagePlugin> CreateConsolePlugin(void(*reader)(wchar_t*), void(*writer)(wchar_t*))
+			Ptr<LanguagePlugin> CreateConsolePlugin(void(__stdcall*reader)(wchar_t*), void(__stdcall*writer)(wchar_t*))
 			{
 				return new SystemCoreConsolePlugin(reader, writer);
 			}

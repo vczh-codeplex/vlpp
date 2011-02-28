@@ -1,12 +1,14 @@
 #include "VlScript.h"
-#include "..\..\..\..\Library\Scripting\Languages\LanguageRuntime.h"
 #include "..\..\..\..\Library\Stream\FileStream.h"
+#include "..\..\..\..\Library\Scripting\Languages\LanguageRuntime.h"
+#include "..\..\..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h"
 
 using namespace vl;
 using namespace vl::collections;
 using namespace vl::stream;
 using namespace vl::scripting;
 using namespace vl::scripting::basicil;
+using namespace vl::scripting::utility;
 
 struct VlsHost
 {
@@ -162,6 +164,34 @@ extern "C"
 			SetHostError(host, L"Symbol "+WString(category)+L"::"+WString(name)+L" exists.");
 			return VLS_ERR;
 		}
+	}
+
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_CoreNative(VlsHost* host)
+	{
+		VLS_ASSERT(host);
+		if(	host->host->RegisterPlugin(CreateMemoryManagerPlugin()) ||
+			host->host->RegisterPlugin(CreateThreadingPlugin()) ||
+			host->host->RegisterPlugin(CreateStdlibPlugin()) ||
+			host->host->RegisterPlugin(CreateGcSingleThreadPlugin()))
+		{
+			return VLS_OK;
+		}
+		else
+		{
+			return VLS_ERR;
+		}
+	}
+
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_ConsoleNative(VlsHost* host, void(__stdcall*reader)(wchar_t*), void(__stdcall*writer)(wchar_t*))
+	{
+		VLS_ASSERT(host);
+		return host->host->RegisterPlugin(CreateConsolePlugin(reader, writer))?VLS_OK:VLS_ERR;
+	}
+
+	VLSCRIPT_API int __stdcall VlsLoadPlugin_UnitTestNative(VlsHost* host, void(__stdcall*printer)(bool, wchar_t*))
+	{
+		VLS_ASSERT(host);
+		return host->host->RegisterPlugin(CreateUnitTestPlugin(printer))?VLS_OK:VLS_ERR;
 	}
 
 	VLSCRIPT_API int __stdcall VlsLoadAssembly(VlsHost* host, VlsAssembly* assembly)
