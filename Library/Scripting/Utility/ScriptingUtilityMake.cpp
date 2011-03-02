@@ -107,6 +107,7 @@ LanguageMakeFile
 						if(!(
 							Read(line, L"Language", language) ||
 							Read(line, L"DebugAssemblyOutput", debugAssemblyOutput) ||
+							Read(line, L"ErrorLog", errorLog) ||
 							Read(line, L"Assembly", assembly) ||
 							Read(line, L"Header", headers) ||
 							Read(line, L"Compile", compiles)))
@@ -206,6 +207,20 @@ LanguageMaker
 
 				if(errors.Count()>0)
 				{
+					if(makeFile.errorLog!=L"")
+					{
+						FileStream fileStream(makeFile.baseLocation+makeFile.errorLog, FileStream::WriteOnly);
+						BomEncoder encoder(BomEncoder::Utf16);
+						EncoderStream encoderStream(fileStream, encoder);
+						StreamWriter writer(encoderStream);
+
+						for(vint i=0;i<errors.Count();i++)
+						{
+							Ptr<LanguageException> error=errors[i];
+							writer.WriteLine(makeFile.compiles.Get(error->CodeIndex())+L"("+itow(error->LineIndex()+1)+L"):");
+							writer.WriteLine(L"  "+error->Message());
+						}
+					}
 					throw LanguageMakerException(L"Errors.", errors.Wrap());
 				}
 
