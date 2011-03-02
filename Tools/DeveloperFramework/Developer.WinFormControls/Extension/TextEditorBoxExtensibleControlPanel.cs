@@ -11,7 +11,6 @@ namespace Developer.WinFormControls.Extension
 {
     public class TextEditorBoxExtensibleControlPanel : ITextEditorControlPanel
     {
-        private int width = 0;
         private List<ITextEditorBoxEditingObserverExtension> editingObserverExtensions = new List<ITextEditorBoxEditingObserverExtension>();
         private List<ITextEditorBoxHeaderExtension> headerExtensions = new List<ITextEditorBoxHeaderExtension>();
         private List<ITextEditorBoxLineExtension> lineExtensions = new List<ITextEditorBoxLineExtension>();
@@ -42,19 +41,14 @@ namespace Developer.WinFormControls.Extension
             if (popupList != null) this.popupListExtensions.Add(popupList);
             if (tooltip != null) this.tooltipExtensions.Add(tooltip);
             if (wording != null) this.wordingExtensions.Add(wording);
-
             this.extensions.Add(extension);
-            if (header != null)
-            {
-                this.width += header.Width;
-            }
         }
 
         public int Width
         {
             get
             {
-                return width;
+                return this.headerExtensions.Select(e => e.Width).Sum();
             }
         }
 

@@ -26,6 +26,7 @@ namespace VlTurtle.EditorControls.NativeX
         private NativeXParameterInfoProvider parameterInfoProvider = null;
         private NativeXWordingProvider wordingProvider = null;
         private LanguageDefaultColorizerExtension languageDefaultColorizer = null;
+        private LineNumberProvider lineNumberProvider = null;
 
         private List<NativeXUnit> predefinedHeaders = new List<NativeXUnit>();
 
@@ -38,6 +39,7 @@ namespace VlTurtle.EditorControls.NativeX
             this.parameterInfoProvider = new NativeXParameterInfoProvider(this.editingObserverProvider);
             this.wordingProvider = new NativeXWordingProvider();
             this.languageDefaultColorizer = new LanguageDefaultColorizerExtension(this);
+            this.lineNumberProvider = new LineNumberProvider();
 
             ExtendBeforeInstall(this.editingObserverProvider);
             ExtendBeforeInstall(this.colorizerProvider);
@@ -46,6 +48,7 @@ namespace VlTurtle.EditorControls.NativeX
             ExtendBeforeInstall(this.parameterInfoProvider);
             ExtendBeforeInstall(this.wordingProvider);
             ExtendBeforeInstall(this.languageDefaultColorizer);
+            ExtendBeforeInstall(this.lineNumberProvider);
         }
 
         public IEnumerable<NativeXUnit> PredifinedHeaders

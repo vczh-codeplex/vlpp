@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorControls\ClipboardMonitor.cs" />
+    <Compile Include="EditorControls\LineNumberProvider.cs" />
     <Compile Include="EditorControls\NativeX\NativeXCodeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
