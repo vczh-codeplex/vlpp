@@ -1666,7 +1666,7 @@ namespace Developer.WinFormControls
                     }
                     if (c2 == text.Length && selectionEnd.row > lineIndex)
                     {
-                        RenderSelectedCrLf(g, new Point(x2, y));
+                        RenderSelectedCrLf(g, new Point(x2, y - this.textEditorBox.textTopOffset));
                     }
                 }
                 else
@@ -1695,7 +1695,7 @@ namespace Developer.WinFormControls
                             int xEnd = xStart + this.textEditorBox.CalculateOffsetFromLineSegment(line, itemStart, i);
                             if (xStart < visibleWidth && xEnd >= 0)
                             {
-                                Point p = new Point(xStart, position.Y);
+                                Point p = new Point(xStart, position.Y - this.textEditorBox.textTopOffset);
                                 if (selected)
                                 {
                                     RenderBackground(g, p, xEnd - xStart, colorItem.HighlightBrush);
@@ -1723,8 +1723,7 @@ namespace Developer.WinFormControls
 
             private void RenderBackground(Graphics g, Point position, int width, Brush brush)
             {
-                int y = position.Y - this.textEditorBox.textTopOffset;
-                g.FillRectangle(brush, position.X, y, width, this.textEditorBox.lineHeight);
+                g.FillRectangle(brush, position.X, position.Y, width, this.textEditorBox.lineHeight);
             }
 
             private void RenderSelectedCrLf(Graphics g, Point position)
