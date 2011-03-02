@@ -42,6 +42,7 @@ namespace vl
 				WString								baseLocation;
 				WString								language;
 				WString								debugAssemblyOutput;
+				WString								errorLog;
 				Pair								assembly;
 				collections::List<Pair>				headers;
 				collections::List<WString>			compiles;

@@ -8,12 +8,15 @@ using System.Text;
 using System.Windows.Forms;
 using Developer.LanguageProvider;
 using VlTurtle.EditorControls;
+using System.IO;
+using System.Diagnostics;
 
 namespace VlTurtle
 {
     public partial class TurtleIdeFormContent : UserControl
     {
         private ClipboardMonitor clipboardMonitor = null;
+        private readonly string workingFolder = Path.GetDirectoryName(typeof(TurtleIdeFormContent).Assembly.Location) + "\\";
 
         public TurtleIdeFormContent()
         {
@@ -131,10 +134,57 @@ namespace VlTurtle
 
         public void OperationRun()
         {
+            textBoxOutput.Text = "Compling...\r\n";
+            try
+            {
+                string makePath = this.workingFolder + "Script\\NativeX\\Make.txt";
+                string codePath = this.workingFolder + "Script\\NativeX\\NativeX.txt";
+                string errPath = this.workingFolder + "Script\\NativeX\\Error.txt";
+                string binPath = this.workingFolder + "Script\\NativeX\\TurtleController.assembly";
+
+                if (File.Exists(errPath)) File.Delete(errPath);
+                if (File.Exists(binPath)) File.Delete(binPath);
+                using (StreamWriter writer = new StreamWriter(codePath))
+                {
+                    writer.Write(this.codeEditorNativeX.Text);
+                }
+                Execute(workingFolder + "vle.exe", "make \"" + makePath + "\"");
+
+                if (File.Exists(binPath))
+                {
+                    textBoxOutput.Text += "Finished.";
+                }
+                else
+                {
+                    using (StreamReader reader = new StreamReader(errPath))
+                    {
+                        textBoxOutput.Text += reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                textBoxOutput.Text += "ERROR: " + ex.Message;
+            }
         }
 
         public void OperationStop()
         {
+        }
+
+        private void Execute(string exe, string args)
+        {
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.Arguments = args;
+            info.CreateNoWindow = true;
+            info.FileName = exe;
+            info.UseShellExecute = false;
+            info.ErrorDialog = true;
+
+            Process process = new Process();
+            process.StartInfo = info;
+            process.Start();
+            process.WaitForExit();
         }
 
         #endregion
