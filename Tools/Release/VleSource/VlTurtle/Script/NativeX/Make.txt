@@ -1,0 +1,5 @@
+﻿Language=NativeX
+Assembly=TurtleController;TurtleController.assembly
+Compile=NativeX.txt
+Compile=..\Header.Turtle.NativeX.txt
+Compile=..\..\Header.syscrnat.NativeX.txt

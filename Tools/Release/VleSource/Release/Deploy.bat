@@ -25,6 +25,12 @@ copy VlScriptDotNet.dll "..\..\vlpp\Turtle\VlScriptDotNet.dll"
 copy VlTurtle.exe "..\..\vlpp\Turtle\VlTurtle.exe"
 copy Vle.exe "..\..\vlpp\Turtle\Vle.exe"
 copy VlScript.dll "..\..\vlpp\Turtle\VlScript.dll"
+copy "Script\Turtle.Make.txt" "..\..\vlpp\Turtle\Script\Turtle.Make.txt"
+copy "Script\Turtle.NativeX.txt" "..\..\vlpp\Turtle\Script\Turtle.NativeX.txt"
+copy "Script\NativeX\Make.txt" "..\..\vlpp\Turtle\Script\NativeX\Make.txt"
+
+Vle.exe make "Script\Turtle.Make.txt"
+Vle.exe make "..\..\vlpp\Turtle\Script\Turtle.Make.txt"
 
 copy "..\..\vlpp\Assembly.syscrnat.assembly" "..\..\vlpp\Turtle\Assembly.syscrnat.assembly"
 copy "..\..\vlpp\Header.syscrnat.NativeX.txt" "..\..\vlpp\Turtle\Header.syscrnat.NativeX.txt"

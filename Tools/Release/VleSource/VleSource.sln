@@ -95,6 +95,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Turtle", "Turtle", "{E72C5F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VlScriptDotNet", "VlScriptDotNet\VlScriptDotNet.csproj", "{C886FCA4-3BEC-4837-A6B6-AFE38373FDDB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{B3577929-712C-426B-8088-4FFD0EA16C80}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\Turtle\Script\Readme.txt = ..\vlpp\Turtle\Script\Readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NativeX", "NativeX", "{8214CFE1-3640-4F0D-85E6-871D3204369F}"
+	ProjectSection(SolutionItems) = preProject
+		..\vlpp\Turtle\Script\NativeX\Readme.txt = ..\vlpp\Turtle\Script\NativeX\Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 9
@@ -253,5 +263,7 @@ Global
 		{FF0CFEF0-4431-455D-AB7F-510FFA809E44} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
 		{A4E34F6D-19B3-447F-9BA9-E68F52A125E0} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
 		{EA3379B0-882E-44A8-9259-987C4E86C298} = {6FA447C2-6680-4B45-AF81-EDDB3FDDEBCA}
+		{B3577929-712C-426B-8088-4FFD0EA16C80} = {E72C5FCA-93C6-4B3A-8027-F714DEFEDF02}
+		{8214CFE1-3640-4F0D-85E6-871D3204369F} = {B3577929-712C-426B-8088-4FFD0EA16C80}
 	EndGlobalSection
 EndGlobal
