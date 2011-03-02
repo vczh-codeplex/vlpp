@@ -1,0 +1,5 @@
+﻿unit Turtle;
+
+#public
+foreign function void TurtleMessageBox(wchar* message)
+    alias Turtle.MessageBox;

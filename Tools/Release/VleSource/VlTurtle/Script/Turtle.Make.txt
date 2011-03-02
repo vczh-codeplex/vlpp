@@ -1,0 +1,4 @@
+﻿Language=NativeX
+Assembly=Turtle;Turtle.assembly
+Header=NativeX;Header.Turtle.NativeX.txt
+Compile=Turtle.NativeX.txt

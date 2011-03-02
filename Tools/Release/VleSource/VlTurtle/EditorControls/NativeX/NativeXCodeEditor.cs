@@ -13,6 +13,8 @@ namespace VlTurtle.EditorControls.NativeX
 {
     public partial class NativeXCodeEditor : TextEditorBox
     {
+        private string[] headerFiles = { "Header.syscrnat.NativeX.txt", "Script\\Header.Turtle.NativeX.txt" };
+
         public NativeXCodeEditor()
         {
             NativeXControlPanel controlPanel = new NativeXControlPanel();
@@ -25,10 +27,13 @@ namespace VlTurtle.EditorControls.NativeX
             }
             this.components.Add(controlPanel);
 
-            if (File.Exists("Header.syscrnat.NativeX.txt"))
+            foreach (string header in this.headerFiles)
             {
-                string text = File.ReadAllText("Header.syscrnat.NativeX.txt");
-                controlPanel.AddPredefinedHeader(text);
+                if (File.Exists(header))
+                {
+                    string text = File.ReadAllText(header);
+                    controlPanel.AddPredefinedHeader(text);
+                }
             }
         }
     }
