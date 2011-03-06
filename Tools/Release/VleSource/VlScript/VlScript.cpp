@@ -52,7 +52,7 @@ extern "C"
 {
 	VLSCRIPT_API int __stdcall VlsCreateHost(VlsHost** host, int stackSize)
 	{
-		VLS_ASSERT(host && VLS_MIN_STACK_SIZE<=stackSize && stackSize<=VLS_MAX_STACK_SIZE);
+		VLS_ASSERT(host);
 		VlsHost* vHost=new VlsHost;
 		vHost->host=new LanguageHost(stackSize);
 		*host=vHost;
@@ -139,22 +139,39 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsGetBasicFunctionName(VlsAssembly* assembly, int index, const wchar_t** name)
 	{
 		VLS_ASSERT(assembly && name);
-		VLS_ASSERT(0<=index && index<assembly->basicFunctionNames.Count());
-		*name=assembly->basicFunctionNames[index].Buffer();
-		return VLS_OK;
+		ClearHostError(assembly->host);
+		if(0<=index && index<assembly->basicFunctionNames.Count())
+		{
+			*name=assembly->basicFunctionNames[index].Buffer();
+			return VLS_OK;
+		}
+		else
+		{
+			SetHostError(assembly->host, L"Index out of range.");
+			return VLS_ERR;
+		}
 	}
 
 	VLSCRIPT_API int __stdcall VlsGetBasicFunctionEntry(VlsAssembly* assembly, int index, int* entry)
 	{
 		VLS_ASSERT(assembly && entry);
-		VLS_ASSERT(0<=index && index<assembly->basicFunctionNames.Count());
-		*entry=assembly->basicFunctionEntries[index];
-		return VLS_OK;
+		ClearHostError(assembly->host);
+		if(0<=index && index<assembly->basicFunctionNames.Count())
+		{
+			*entry=assembly->basicFunctionEntries[index];
+			return VLS_OK;
+		}
+		else
+		{
+			SetHostError(assembly->host, L"Index out of range.");
+			return VLS_ERR;
+		}
 	}
 
 	VLSCRIPT_API int __stdcall VlsRegisterForeignFunction(VlsHost* host, const wchar_t* category, const wchar_t* name, VlsForeignFunction* function, void* userData)
 	{
 		VLS_ASSERT(host && category && name && function);
+		ClearHostError(host);
 		if(host->host->RegisterForeignFunction(category, name, function, userData))
 		{
 			return VLS_OK;
@@ -169,6 +186,7 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsLoadPlugin_CoreNative(VlsHost* host)
 	{
 		VLS_ASSERT(host);
+		ClearHostError(host);
 		if(	host->host->RegisterPlugin(CreateMemoryManagerPlugin()) ||
 			host->host->RegisterPlugin(CreateThreadingPlugin()) ||
 			host->host->RegisterPlugin(CreateStdlibPlugin()) ||
@@ -178,6 +196,7 @@ extern "C"
 		}
 		else
 		{
+			SetHostError(host, L"Fail to load core native plugin.");
 			return VLS_ERR;
 		}
 	}
@@ -185,18 +204,37 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsLoadPlugin_ConsoleNative(VlsHost* host, void(__stdcall*reader)(wchar_t*), void(__stdcall*writer)(wchar_t*))
 	{
 		VLS_ASSERT(host);
-		return host->host->RegisterPlugin(CreateConsolePlugin(reader, writer))?VLS_OK:VLS_ERR;
+		ClearHostError(host);
+		if(host->host->RegisterPlugin(CreateConsolePlugin(reader, writer)))
+		{
+			return VLS_OK;
+		}
+		else
+		{
+			SetHostError(host, L"Fail to load console native plugin.");
+			return VLS_ERR;
+		}
 	}
 
 	VLSCRIPT_API int __stdcall VlsLoadPlugin_UnitTestNative(VlsHost* host, void(__stdcall*printer)(bool, wchar_t*))
 	{
 		VLS_ASSERT(host);
-		return host->host->RegisterPlugin(CreateUnitTestPlugin(printer))?VLS_OK:VLS_ERR;
+		ClearHostError(host);
+		if(host->host->RegisterPlugin(CreateUnitTestPlugin(printer)))
+		{
+			return VLS_OK;
+		}
+		else
+		{
+			SetHostError(host, L"Fail to load unit test native plugin.");
+			return VLS_ERR;
+		}
 	}
 
 	VLSCRIPT_API int __stdcall VlsLoadAssembly(VlsHost* host, VlsAssembly* assembly)
 	{
 		VLS_ASSERT(host && assembly);
+		ClearHostError(host);
 		try
 		{
 			host->host->LoadAssembly(assembly->assembly);
@@ -212,6 +250,7 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsInitAssembly(VlsState* state, VlsAssembly* assembly)
 	{
 		VLS_ASSERT(state && assembly);
+		ClearHostError(state->host);
 		ILException::RunningResult result=state->state->RunInitialization(assembly->assembly);
 		if(result!=ILException::Finished)
 		{
@@ -223,15 +262,24 @@ extern "C"
 
 	VLSCRIPT_API int __stdcall VlsPush(VlsState* state, void* data, int size)
 	{
-		VLS_ASSERT(state && data && VLS_MIN_DATA_SIZE<=size && size<=VLS_MAX_DATA_SIZE);
-		try
+		VLS_ASSERT(state && data);
+		ClearHostError(state->host);
+		if(VLS_MIN_DATA_SIZE<=size && size<=VLS_MAX_DATA_SIZE)
 		{
-			memmove(state->state->GetStack()->Reserve(size), data, size);
-			return VLS_OK;
+			try
+			{
+				memmove(state->state->GetStack()->Reserve(size), data, size);
+				return VLS_OK;
+			}
+			catch(const Exception& e)
+			{
+				SetHostError(state->host, e.Message());
+				return VLS_ERR;
+			}
 		}
-		catch(const Exception& e)
+		else
 		{
-			SetHostError(state->host, e.Message());
+			SetHostError(state->host, L"Size out of range.");
 			return VLS_ERR;
 		}
 	}
@@ -239,6 +287,7 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsSetFunction(VlsState* state, VlsAssembly* assembly, int entry, void* resultAddress)
 	{
 		VLS_ASSERT(state && assembly);
+		ClearHostError(state->host);
 		try
 		{
 			state->state->PrepareToRun(assembly->assembly, entry, resultAddress);
@@ -254,6 +303,7 @@ extern "C"
 	VLSCRIPT_API int __stdcall VlsExecute(VlsState* state)
 	{
 		VLS_ASSERT(state);
+		ClearHostError(state->host);
 		ILException::RunningResult result=state->state->Run();
 		if(result!=ILException::Finished)
 		{
