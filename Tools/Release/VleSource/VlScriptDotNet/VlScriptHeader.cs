@@ -41,7 +41,7 @@ namespace VlScriptDotNet
         public static extern int VlsDisposeAssembly(IntPtr assembly);
 
         [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
-        public static extern int VlsGetLastError(IntPtr host, ref IntPtr error, out int length);
+        public static extern int VlsGetLastHostError(IntPtr host, out IntPtr error);
 
         [DllImport("VlScript.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern int VlsGetBasicFunctionCount(IntPtr assembly, out int count);
