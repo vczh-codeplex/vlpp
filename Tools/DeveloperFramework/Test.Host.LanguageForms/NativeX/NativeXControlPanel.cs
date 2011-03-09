@@ -24,7 +24,17 @@ namespace Test.Host.LanguageForms.NativeX
             private NativeXForm form = null;
             //private int counter = 0;
 
+            class EmptyHeaders : INativeXPredefinedHeaderReader
+            {
+
+                IEnumerable<NativeXUnit> INativeXPredefinedHeaderReader.PredifinedHeaders
+                {
+                    get { return new NativeXUnit[] { }; }
+                }
+            }
+
             public LanguageFormNativeXProvider(NativeXForm form)
+                : base(new EmptyHeaders())
             {
                 this.form = form;
             }
