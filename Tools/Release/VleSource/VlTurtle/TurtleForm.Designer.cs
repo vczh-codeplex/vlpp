@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(291, 284);
             this.Name = "TurtleForm";
             this.Text = "Turtle";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TurtleForm_FormClosed);
             this.ResumeLayout(false);
 
         }

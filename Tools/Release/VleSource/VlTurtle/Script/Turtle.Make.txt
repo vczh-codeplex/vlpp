@@ -1,4 +1,5 @@
 ﻿Language=NativeX
 Assembly=Turtle;Turtle.assembly
 Header=NativeX;Header.Turtle.NativeX.txt
+DebugAssemblyOutput=Debug.Turtle.txt
 Compile=Turtle.NativeX.txt

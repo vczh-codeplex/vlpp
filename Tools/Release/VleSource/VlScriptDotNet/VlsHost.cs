@@ -88,13 +88,5 @@ namespace VlScriptDotNet
                 RaiseException();
             }
         }
-
-        public void InitializeInstalledAssembly(VlsAssembly assembly)
-        {
-            if (VlScriptHeader.VlsInitAssembly(this.host, assembly.assembly) == VlScriptHeader.VLS_ERR)
-            {
-                RaiseException();
-            }
-        }
     }
 }
