@@ -110,6 +110,7 @@ extern "C"
 				}
 			}
 		}
+		*assembly=vAssembly;
 		return VLS_OK;
 	}
 
@@ -187,9 +188,9 @@ extern "C"
 	{
 		VLS_ASSERT(host);
 		ClearHostError(host);
-		if(	host->host->RegisterPlugin(CreateMemoryManagerPlugin()) ||
-			host->host->RegisterPlugin(CreateThreadingPlugin()) ||
-			host->host->RegisterPlugin(CreateStdlibPlugin()) ||
+		if(	host->host->RegisterPlugin(CreateMemoryManagerPlugin()) &&
+			host->host->RegisterPlugin(CreateThreadingPlugin()) &&
+			host->host->RegisterPlugin(CreateStdlibPlugin()) &&
 			host->host->RegisterPlugin(CreateGcSingleThreadPlugin()))
 		{
 			return VLS_OK;

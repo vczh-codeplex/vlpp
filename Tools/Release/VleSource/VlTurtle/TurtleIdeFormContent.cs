@@ -152,7 +152,9 @@ namespace VlTurtle
 
                 if (File.Exists(binPath))
                 {
-                    textBoxOutput.Text += "Finished.";
+                    textBoxOutput.Text += "Finished.\r\n";
+                    textBoxOutput.Text += "Running...\r\n";
+                    Execute(Application.ExecutablePath, "Execute");
                 }
                 else
                 {

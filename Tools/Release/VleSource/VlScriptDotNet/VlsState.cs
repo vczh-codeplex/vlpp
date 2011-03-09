@@ -27,6 +27,14 @@ namespace VlScriptDotNet
             VlScriptHeader.VlsDisposeState(this.state);
         }
 
+        public void InitializeInstalledAssembly(VlsAssembly assembly)
+        {
+            if (VlScriptHeader.VlsInitAssembly(this.state, assembly.assembly) == VlScriptHeader.VLS_ERR)
+            {
+                this.host.RaiseException();
+            }
+        }
+
         public void PushParameter(IntPtr data, int size)
         {
             if (VlScriptHeader.VlsPush(this.state, data, size) == VlScriptHeader.VLS_ERR)
