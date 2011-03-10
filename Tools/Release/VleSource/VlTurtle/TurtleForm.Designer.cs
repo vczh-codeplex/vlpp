@@ -43,6 +43,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turtle";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TurtleForm_FormClosed);
+            this.Shown += new System.EventHandler(this.TurtleForm_Shown);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.TurtleForm_Paint);
             this.ResumeLayout(false);
 
