@@ -3,3 +3,23 @@
 #public
 foreign function void TurtleMessageBox(wchar* message)
     alias Turtle.MessageBox;
+
+#public
+foreign function void TurtleDown()
+    alias Turtle.Down;
+
+#public
+foreign function void TurtleUp()
+    alias Turtle.Up;
+
+#public
+foreign function void TurtleMove(f64 length)
+    alias Turtle.Move;
+
+#public
+foreign function void TurtleTurnLeft(f64 angle)
+    alias Turtle.TurnLeft;
+
+#public
+foreign function void TurtleTurnRight(f64 angle)
+    alias Turtle.TurnRight;
