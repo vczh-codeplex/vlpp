@@ -62,6 +62,11 @@ namespace Developer.WinFormControls.Extension
             return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '_';
         }
 
+        public virtual bool IsPopupListCloseChar(char c)
+        {
+            return false;
+        }
+
         public virtual void PopupListItemSelected(string searchingKey, string text)
         {
             TextPosition end = this.Callback.TextEditorBox.SelectionCaret;

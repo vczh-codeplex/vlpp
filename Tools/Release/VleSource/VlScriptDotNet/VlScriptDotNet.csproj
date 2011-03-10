@@ -48,6 +48,7 @@
     <Compile Include="VlScriptHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VlsBasicFunction.cs" />
+    <Compile Include="VlsForeignAccessor.cs" />
     <Compile Include="VlsHost.cs" />
     <Compile Include="VlsState.cs" />
   </ItemGroup>

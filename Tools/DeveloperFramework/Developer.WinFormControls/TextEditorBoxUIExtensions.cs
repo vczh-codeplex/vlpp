@@ -462,7 +462,11 @@ namespace Developer.WinFormControls
         {
             if (this.popupList.Visible)
             {
-                if (this.needToClosePopupList || !this.textEditorBox.ControlPanel.IsPopupListCharAcceptable(e.KeyChar))
+                if (this.textEditorBox.ControlPanel.IsPopupListCloseChar(e.KeyChar))
+                {
+                    ClosePopupItems();
+                }
+                else if (this.needToClosePopupList || !this.textEditorBox.ControlPanel.IsPopupListCharAcceptable(e.KeyChar))
                 {
                     this.popupList.SelectItem();
                     ClosePopupItems();

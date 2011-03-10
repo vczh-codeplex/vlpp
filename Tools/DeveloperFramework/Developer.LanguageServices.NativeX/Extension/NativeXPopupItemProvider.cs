@@ -68,6 +68,11 @@ namespace Developer.LanguageServices.NativeX.Extension
             return (!e.Control && !e.Alt && e.Shift && e.KeyCode == Keys.D3) || base.IsPopupListKeyAcceptable(e);
         }
 
+        public override bool IsPopupListCloseChar(char c)
+        {
+            return c == '"' || base.IsPopupListCloseChar(c);
+        }
+
         #region Popup Item Calculation
 
         protected IEnumerable<TextEditorPopupItem> CreatePopupStructureMembers(NativeXAbstractStructureType structureType)
@@ -409,6 +414,8 @@ namespace Developer.LanguageServices.NativeX.Extension
 
         #endregion
 
+        #region Popup Starter
+
         public virtual void OnBeforeEdit(TextPosition start, TextPosition end, ref string[] lines)
         {
         }
@@ -572,5 +579,7 @@ namespace Developer.LanguageServices.NativeX.Extension
                 }
             }
         }
+
+        #endregion
     }
 }

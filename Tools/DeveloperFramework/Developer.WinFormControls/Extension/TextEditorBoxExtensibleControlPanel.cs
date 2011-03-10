@@ -205,6 +205,18 @@ namespace Developer.WinFormControls.Extension
             return false;
         }
 
+        public bool IsPopupListCloseChar(char c)
+        {
+            foreach (var ex in this.popupListExtensions)
+            {
+                if (ex.IsPopupListCloseChar(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void PopupListItemSelected(string searchingKey, string text)
         {
             foreach (var ex in this.popupListExtensions)
@@ -277,6 +289,7 @@ namespace Developer.WinFormControls.Extension
     {
         bool IsPopupListKeyAcceptable(KeyEventArgs e);
         bool IsPopupListCharAcceptable(char c);
+        bool IsPopupListCloseChar(char c);
         void PopupListItemSelected(string searchingKey, string text);
     }
 
