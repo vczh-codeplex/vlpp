@@ -22,11 +22,10 @@ namespace VlTurtle
         private VlsAssembly assemblyTurtle = null;
         private VlsAssembly assemblyMain = null;
 
-        private Bitmap buffer = null;
-        private Graphics canvas = null;
-
         private Bitmap finalBuffer = null;
         private Graphics finalCanvas = null;
+        private Bitmap cachedBuffer = null;
+        private Graphics cachedCanvas = null;
 
         private void LoadProgram()
         {
@@ -69,21 +68,20 @@ namespace VlTurtle
         public TurtleForm()
         {
             InitializeComponent();
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            SetStyle(ControlStyles.UserPaint, true);
+            this.DoubleBuffered = true;
             this.ClientSize = new System.Drawing.Size(800, 600);
 
-            this.buffer = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
-            this.canvas = Graphics.FromImage(this.buffer);
-            this.canvas.FillRectangle(Brushes.White, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
-            this.canvas.CompositingQuality = CompositingQuality.HighQuality;
-            this.canvas.SmoothingMode = SmoothingMode.AntiAlias;
+            this.cachedBuffer = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+            this.cachedCanvas = Graphics.FromImage(this.cachedBuffer);
+            this.cachedCanvas.FillRectangle(Brushes.White, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
+            this.cachedCanvas.CompositingQuality = CompositingQuality.HighQuality;
+            this.cachedCanvas.SmoothingMode = SmoothingMode.AntiAlias;
 
             this.finalBuffer = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
             this.finalCanvas = Graphics.FromImage(this.finalBuffer);
             this.finalCanvas.FillRectangle(Brushes.White, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
             this.finalCanvas.CompositingQuality = CompositingQuality.HighQuality;
-            this.canvas.SmoothingMode = SmoothingMode.AntiAlias;
+            this.finalCanvas.SmoothingMode = SmoothingMode.AntiAlias;
 
             this.turtleX = this.ClientSize.Width / 2;
             this.turtleY = this.ClientSize.Height / 2;
@@ -98,7 +96,7 @@ namespace VlTurtle
         private bool turtleDrawing = false;
         private double turtleDirection = -90;
         private Pen turtlePen = null;
-        private double turtleSpeed = 100;
+        private double turtleSpeed = 200;
         private int turtleFPS = 20;
 
         private void TurtleGetDestination(double length, out double x, out double y)
@@ -110,16 +108,37 @@ namespace VlTurtle
             y = this.turtleY + dy;
         }
 
-        private void TurtleGo(double length, double originX, double originY)
+        private void TurtleGo(double length, double originX, double originY, bool final)
         {
+
             double tempX, tempY;
             TurtleGetDestination(length, out tempX, out tempY);
+            if (!final)
+            {
+                this.finalCanvas.DrawImage(this.cachedBuffer, 0, 0);
+            }
             if (this.turtleDrawing)
             {
-                this.canvas.DrawLine(this.turtlePen, (float)originX, (float)originY, (float)tempX, (float)tempY);
+                if (final)
+                {
+                    this.cachedCanvas.DrawLine(this.turtlePen, (float)originX, (float)originY, (float)tempX, (float)tempY);
+                }
+                else
+                {
+                    this.finalCanvas.DrawLine(this.turtlePen, (float)originX, (float)originY, (float)tempX, (float)tempY);
+                }
+            }
+            if (final)
+            {
+                this.finalCanvas.DrawImage(this.cachedBuffer, 0, 0);
             }
             this.turtleX = tempX;
             this.turtleY = tempY;
+
+            RectangleF turtle = new RectangleF((float)this.turtleX - 3, (float)this.turtleY - 3, 6, 6);
+            this.finalCanvas.FillEllipse(Brushes.White, turtle);
+            this.finalCanvas.DrawEllipse(Pens.Black, turtle);
+
             this.Refresh();
             Application.DoEvents();
             Thread.Sleep(1000 / this.turtleFPS);
@@ -154,16 +173,16 @@ namespace VlTurtle
             originY = this.turtleY;
             TurtleGetDestination(length, out finalX, out finalY);
 
-            int steps = (int)(this.turtleFPS * Math.Round(length / this.turtleSpeed));
+            int steps = (int)Math.Round(this.turtleFPS * (length / this.turtleSpeed));
             double stepLength = this.turtleSpeed / this.turtleFPS;
             for (int i = 0; i < steps; i++)
             {
-                TurtleGo(stepLength, originX, originY);
+                TurtleGo(stepLength, originX, originY, false);
             }
 
             this.turtleX = originX;
             this.turtleY = originY;
-            TurtleGo(length, originX, originY);
+            TurtleGo(length, originX, originY, true);
 
             return accessor.Size;
         }
@@ -196,16 +215,12 @@ namespace VlTurtle
             this.turtlePen.Dispose();
             this.finalCanvas.Dispose();
             this.finalBuffer.Dispose();
-            this.canvas.Dispose();
-            this.buffer.Dispose();
+            this.cachedCanvas.Dispose();
+            this.cachedBuffer.Dispose();
         }
 
         private void TurtleForm_Paint(object sender, PaintEventArgs e)
         {
-            this.finalCanvas.DrawImage(this.buffer, 0, 0);
-            RectangleF turtle = new RectangleF((float)this.turtleX - 3, (float)this.turtleY - 3, 6, 6);
-            this.finalCanvas.FillEllipse(Brushes.White, turtle);
-            this.finalCanvas.DrawEllipse(Pens.Black, turtle);
             e.Graphics.DrawImage(this.finalBuffer, 0, 0);
         }
 
