@@ -34,10 +34,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 284);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(390, 311);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TurtleForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turtle";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TurtleForm_FormClosed);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.TurtleForm_Paint);
             this.ResumeLayout(false);
 
         }
