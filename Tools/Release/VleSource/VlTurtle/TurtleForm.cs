@@ -22,10 +22,10 @@ namespace VlTurtle
 
         private int TurtleMessageBox(IntPtr result, IntPtr arguments, IntPtr userData)
         {
-            IntPtr ptr = (IntPtr)Marshal.PtrToStructure(arguments, typeof(IntPtr));
-            string str = Marshal.PtrToStringUni(ptr);
-            MessageBox.Show(str, this.Text);
-            return Marshal.SizeOf(typeof(IntPtr));
+            VlsForeignAccessor accessor = new VlsForeignAccessor(result, arguments);
+            string message = accessor.GetWStr();
+            MessageBox.Show(message, this.Text);
+            return accessor.Size;
         }
 
         public TurtleForm()
