@@ -17,6 +17,7 @@ namespace VlScriptDotNet
         public delegate void UnitTestPrinter(bool condition, string message);
 
         internal IntPtr host;
+        private List<VlScriptHeader.VlsForeignFunction> registeredForeignFunctions = new List<VlScriptHeader.VlsForeignFunction>();
 
         public VlsHost(int stackSize)
         {
@@ -73,11 +74,16 @@ namespace VlScriptDotNet
 
         public void RegisterForeignFunction(string category, string name, ForeignFunction function, IntPtr userData)
         {
+            VlScriptHeader.VlsForeignFunction foreignFunction = new VlScriptHeader.VlsForeignFunction(function);
             if (VlScriptHeader.VlsRegisterForeignFunction(host, category, name,
-                new VlScriptHeader.VlsForeignFunction(function),
+                foreignFunction,
                 userData) == VlScriptHeader.VLS_ERR)
             {
                 RaiseException();
+            }
+            else
+            {
+                this.registeredForeignFunctions.Add(foreignFunction);
             }
         }
 
