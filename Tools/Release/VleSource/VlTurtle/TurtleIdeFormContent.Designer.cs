@@ -31,6 +31,8 @@
             this.codeEditorNativeX = new VlTurtle.EditorControls.NativeX.NativeXCodeEditor();
             this.splitEditor = new System.Windows.Forms.SplitContainer();
             this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.dialogOpen = new System.Windows.Forms.OpenFileDialog();
+            this.dialogSave = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitEditor)).BeginInit();
             this.splitEditor.Panel1.SuspendLayout();
             this.splitEditor.Panel2.SuspendLayout();
@@ -46,7 +48,7 @@
             this.codeEditorNativeX.Location = new System.Drawing.Point(0, 0);
             this.codeEditorNativeX.Name = "codeEditorNativeX";
             this.codeEditorNativeX.PressingChar = false;
-            this.codeEditorNativeX.Size = new System.Drawing.Size(374, 214);
+            this.codeEditorNativeX.Size = new System.Drawing.Size(374, 187);
             this.codeEditorNativeX.TabIndex = 0;
             this.codeEditorNativeX.TabSpaceCount = 4;
             this.codeEditorNativeX.SelectionChanged += new System.EventHandler(this.codeEditorNativeX_SelectionChanged);
@@ -66,8 +68,8 @@
             // splitEditor.Panel2
             // 
             this.splitEditor.Panel2.Controls.Add(this.textBoxOutput);
-            this.splitEditor.Size = new System.Drawing.Size(374, 352);
-            this.splitEditor.SplitterDistance = 214;
+            this.splitEditor.Size = new System.Drawing.Size(374, 325);
+            this.splitEditor.SplitterDistance = 187;
             this.splitEditor.TabIndex = 1;
             // 
             // textBoxOutput
@@ -82,14 +84,26 @@
             this.textBoxOutput.Size = new System.Drawing.Size(374, 134);
             this.textBoxOutput.TabIndex = 0;
             // 
+            // dialogOpen
+            // 
+            this.dialogOpen.DefaultExt = "turtle.txt";
+            this.dialogOpen.Filter = "Turtle File(*.turtle.txt)|*.turtle.txt|All Files(*.*)|*.*";
+            this.dialogOpen.Title = "Open Turtle File";
+            // 
+            // dialogSave
+            // 
+            this.dialogSave.DefaultExt = "turtle.txt";
+            this.dialogSave.Filter = "Turtle File(*.turtle.txt)|*.turtle.txt|All Files(*.*)|*.*";
+            this.dialogSave.Title = "Save Turtle File";
+            // 
             // TurtleIdeFormContent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.splitEditor);
             this.Name = "TurtleIdeFormContent";
-            this.Size = new System.Drawing.Size(374, 352);
+            this.Size = new System.Drawing.Size(374, 325);
             this.splitEditor.Panel1.ResumeLayout(false);
             this.splitEditor.Panel2.ResumeLayout(false);
             this.splitEditor.Panel2.PerformLayout();
@@ -104,5 +118,7 @@
         private EditorControls.NativeX.NativeXCodeEditor codeEditorNativeX;
         private System.Windows.Forms.SplitContainer splitEditor;
         private System.Windows.Forms.TextBox textBoxOutput;
+        private System.Windows.Forms.OpenFileDialog dialogOpen;
+        private System.Windows.Forms.SaveFileDialog dialogSave;
     }
 }

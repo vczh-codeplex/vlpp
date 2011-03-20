@@ -1,0 +1,10 @@
+unit DrawLine;
+
+uses syscrnat, Turtle;
+
+function void main()
+{
+	TurtleDown();
+	TurtleMove(100);
+	TurtleUp();
+}
