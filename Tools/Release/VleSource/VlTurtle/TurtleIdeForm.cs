@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -17,6 +18,8 @@ namespace VlTurtle
         private RibbonButton buttonPaste;
         private RibbonButton buttonUndo;
         private RibbonButton buttonRedo;
+        private RibbonButton buttonRun;
+        private RibbonButton buttonStop;
 
         public TurtleIdeForm()
         {
@@ -26,7 +29,7 @@ namespace VlTurtle
             CreateRibbon();
 
             this.content.ButtonStateUpdated += new EventHandler(content_ButtonStateUpdated);
-            this.content.LoadDefaultCode();
+            this.content.OperationNew();
         }
 
         private void content_ButtonStateUpdated(object sender, EventArgs e)
@@ -38,6 +41,13 @@ namespace VlTurtle
             this.buttonRedo.Enabled = this.content.AvailableRedo();
             this.toolRibbonUndo.Enabled = this.content.AvailableUndo();
             this.toolRibbonRedo.Enabled = this.content.AvailableRedo();
+            this.buttonRun.Enabled = this.content.AvailableRun();
+            this.buttonStop.Enabled = this.content.AvailableStop();
+            if (this.Text != this.content.WindowTitle)
+            {
+                this.Text = this.content.WindowTitle;
+                this.Refresh();
+            }
             UpdateRibbon(true);
         }
 
@@ -79,9 +89,11 @@ namespace VlTurtle
                         group.Panels.Add(panel);
                         {
                             RibbonButton button = new RibbonButton();
+                            button.ButtonStyle = RibbonButtonStyle.SplitButton;
                             button.BigImage = TurtleIdeRibbon.Open;
                             button.SmallImage = TurtleIdeRibbon.Open;
                             button.Name = "Open";
+                            button.DropDown = CreateOpenMenu(this.Ribbon);
                             button.Executed += (s, e) => this.content.OperationOpen();
                             panel.ControlItems.Add(button);
                         }
@@ -161,14 +173,14 @@ namespace VlTurtle
                     group.Name = "Debug";
                     tab.TabPanel.Groups.Add(group);
                     {
-                        RibbonButton button = new RibbonButton();
+                        RibbonButton button = this.buttonRun = new RibbonButton();
                         button.BigImage = TurtleIdeRibbon.Run;
                         button.Name = "Run";
                         button.Executed += (s, e) => this.content.OperationRun();
                         group.BigItems.Add(button);
                     }
                     {
-                        RibbonButton button = new RibbonButton();
+                        RibbonButton button = this.buttonStop = new RibbonButton();
                         button.BigImage = TurtleIdeRibbon.Stop;
                         button.Name = "Stop";
                         button.Executed += (s, e) => this.content.OperationStop();
@@ -217,6 +229,32 @@ namespace VlTurtle
                 menu.MenuItems.Add(button);
             }
             return menu;
+        }
+
+        private RibbonDropDownMenu CreateOpenMenu(RibbonContainer container)
+        {
+            string[] resources = typeof(TurtleIdeForm).Assembly.GetManifestResourceNames()
+                .Where(s => s.EndsWith(".turtle.txt"))
+                .ToArray();
+            RibbonMenu menu = new RibbonMenu();
+            foreach (string resource in resources)
+            {
+                RibbonMenuButton button = new RibbonMenuButton();
+                button.SmallImage = TurtleIdeRibbon.New;
+                button.Name = resource.Substring("VlTurtle.Sample.NativeX.".Length);
+                button.Executed += new EventHandler(ribbonOpenSample_Click);
+                menu.MenuItems.Add(button);
+            }
+            return new RibbonDropDownMenu(container)
+            {
+                Menu = menu
+            };
+        }
+
+        private void ribbonOpenSample_Click(object sender, EventArgs e)
+        {
+            string fullName = "VlTurtle.Sample.NativeX." + (sender as RibbonMenuButton).Name;
+            this.content.OperationOpenSample(fullName);
         }
 
         private void toolRibbonSave_Click(object sender, EventArgs e)

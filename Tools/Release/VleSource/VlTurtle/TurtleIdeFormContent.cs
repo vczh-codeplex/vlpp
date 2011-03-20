@@ -10,6 +10,7 @@ using Developer.LanguageProvider;
 using VlTurtle.EditorControls;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace VlTurtle
 {
@@ -17,6 +18,8 @@ namespace VlTurtle
     {
         private ClipboardMonitor clipboardMonitor = null;
         private readonly string workingFolder = Path.GetDirectoryName(typeof(TurtleIdeFormContent).Assembly.Location) + "\\";
+        private string fileName = "";
+        private Process turtleProcess = null;
 
         public TurtleIdeFormContent()
         {
@@ -57,7 +60,7 @@ namespace VlTurtle
             }
         }
 
-        public void LoadDefaultCode()
+        private void LoadDefaultCode()
         {
             this.codeEditorNativeX.Text =
                 "unit MyTurtleProgram;\r\n\r\n" +
@@ -86,20 +89,61 @@ namespace VlTurtle
 
         public event EventHandler ButtonStateUpdated;
 
+        public void OperationOpenSample(string fullName)
+        {
+            this.fileName = "";
+            using (StreamReader reader = new StreamReader(typeof(TurtleIdeFormContent).Assembly.GetManifestResourceStream(fullName)))
+            {
+                this.codeEditorNativeX.Text = reader.ReadToEnd();
+            }
+            this.codeEditorNativeX.ClearUndoRedoHistory();
+            InvokeButtonStateUpdated();
+        }
+
         public void OperationNew()
         {
+            LoadDefaultCode();
+            this.fileName = "";
+            InvokeButtonStateUpdated();
         }
 
         public void OperationOpen()
         {
+            if (dialogOpen.ShowDialog() == DialogResult.OK)
+            {
+                this.fileName = dialogOpen.FileName;
+                using (StreamReader reader = new StreamReader(this.fileName))
+                {
+                    this.codeEditorNativeX.Text = reader.ReadToEnd();
+                }
+                this.codeEditorNativeX.ClearUndoRedoHistory();
+                InvokeButtonStateUpdated();
+            }
         }
 
         public void OperationSave()
         {
+            if (this.fileName == "")
+            {
+                OperationSaveAs();
+            }
+            else
+            {
+                using (StreamWriter writer = new StreamWriter(this.fileName))
+                {
+                    writer.Write(this.codeEditorNativeX.Text);
+                }
+                InvokeButtonStateUpdated();
+            }
         }
 
         public void OperationSaveAs()
         {
+            if (dialogSave.ShowDialog() == DialogResult.OK)
+            {
+                this.fileName = dialogSave.FileName;
+                OperationSave();
+            }
         }
 
         public void OperationCut()
@@ -148,13 +192,22 @@ namespace VlTurtle
                 {
                     writer.Write(this.codeEditorNativeX.Text);
                 }
-                Execute(workingFolder + "vle.exe", "make \"" + makePath + "\"");
+                Execute(workingFolder + "vle.exe", "make \"" + makePath + "\"").WaitForExit();
 
                 if (File.Exists(binPath))
                 {
                     textBoxOutput.Text += "Finished.\r\n";
                     textBoxOutput.Text += "Running...\r\n";
-                    Execute(Application.ExecutablePath, "Execute");
+                    this.turtleProcess = Execute(Application.ExecutablePath, "Execute");
+                    new Thread(new ThreadStart(() =>
+                    {
+                        this.turtleProcess.WaitForExit();
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            InternalStop(true);
+                        }));
+                    })).Start();
+                    InvokeButtonStateUpdated();
                 }
                 else
                 {
@@ -170,11 +223,32 @@ namespace VlTurtle
             }
         }
 
-        public void OperationStop()
+        private void InternalStop(bool internalCall)
         {
+            if (this.turtleProcess != null)
+            {
+                try
+                {
+                    this.turtleProcess.Kill();
+                }
+                catch (Exception)
+                {
+                }
+                this.turtleProcess = null;
+            }
+            if (internalCall)
+            {
+                textBoxOutput.Text += "Stopped\r\n";
+            }
+            InvokeButtonStateUpdated();
         }
 
-        private void Execute(string exe, string args)
+        public void OperationStop()
+        {
+            InternalStop(false);
+        }
+
+        private Process Execute(string exe, string args)
         {
             ProcessStartInfo info = new ProcessStartInfo();
             info.Arguments = args;
@@ -186,12 +260,20 @@ namespace VlTurtle
             Process process = new Process();
             process.StartInfo = info;
             process.Start();
-            process.WaitForExit();
+            return process;
         }
 
         #endregion
 
         #region Operation States
+
+        public string WindowTitle
+        {
+            get
+            {
+                return "Turtle IDE v0.1 [" + (this.fileName == "" ? "Untitled" : Path.GetFileName(this.fileName)) + "]";
+            }
+        }
 
         public bool AvailableCut()
         {
@@ -216,6 +298,16 @@ namespace VlTurtle
         public bool AvailableUndo()
         {
             return codeEditorNativeX.CanUndo;
+        }
+
+        public bool AvailableRun()
+        {
+            return this.turtleProcess == null;
+        }
+
+        public bool AvailableStop()
+        {
+            return this.turtleProcess != null;
         }
 
         #endregion

@@ -178,6 +178,9 @@
     <None Include="Resources\arrowright_green_48.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Sample\NativeX\DrawLine.turtle.txt" />
+    <EmbeddedResource Include="Sample\NativeX\DrawSnow.turtle.txt" />
+    <EmbeddedResource Include="Sample\NativeX\DrawStar.turtle.txt" />
     <Content Include="Script\NativeX\Make.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

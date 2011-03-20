@@ -1,0 +1,37 @@
+unit DrawLine;
+
+uses syscrnat, Turtle;
+
+function void DrawSnowFragment(f64 length, int level)
+{
+	if(level==0)
+	{
+		TurtleMove(length);
+	}
+	else
+	{
+		DrawSnowFragment(length/3, level-1);
+		TurtleTurnLeft(60);
+		DrawSnowFragment(length/3, level-1);
+		TurtleTurnRight(120);
+		DrawSnowFragment(length/3, level-1);
+		TurtleTurnLeft(60);
+		DrawSnowFragment(length/3, level-1);
+	}
+}
+
+function void main()
+{
+	variable f64 side=300;
+	TurtleMove(side/4+100);
+	TurtleTurnLeft(90);
+	TurtleMove(side/4*1.732);
+	TurtleDown();
+	TurtleTurnRight(180);
+	for(variable int i = 0; when(i < 3) with i++;) do
+	{
+		DrawSnowFragment(side, 3);
+		TurtleTurnRight(120);
+	}
+	TurtleUp();
+}
