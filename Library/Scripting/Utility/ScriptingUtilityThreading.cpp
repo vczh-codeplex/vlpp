@@ -204,7 +204,7 @@ namespace vl
 				static vint SynCreateThread(vint label, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
 				{
 					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
-					CriticalSection::Scope scope(interpretor->GetCriticalSection());
+					BasicILLock::Scope scope(interpretor->GetLock());
 					if(interpretor->Symbols()->IsValidILIndex(interpretor->Symbols()->GetLabel(label).key))
 					{
 						SynThread* thread=new SynThread(interpretor, label, arguments);
@@ -299,7 +299,7 @@ namespace vl
 					{
 						BasicILLabel label;
 						{
-							CriticalSection::Scope scope(interpretor->GetCriticalSection());
+							BasicILLock::Scope scope(interpretor->GetLock());
 							label=interpretor->Symbols()->GetLabel(procedureLabel);
 						}
 						if(interpretor->Symbols()->IsValidILIndex(label.key))

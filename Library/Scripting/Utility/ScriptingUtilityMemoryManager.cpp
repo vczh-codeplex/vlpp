@@ -19,7 +19,7 @@ namespace vl
 				struct PoolPackage
 				{
 					GeneralObjectPool					pool;
-					CriticalSection						cs;
+					SpinLock							lock;
 
 					PoolPackage(vint poolUnitSize, vint poolUnitCount)
 						:pool(poolUnitSize, poolUnitCount)
@@ -28,7 +28,6 @@ namespace vl
 				};
 
 				PoolPackage								pool;
-				CriticalSection							pluginCs;
 
 				SystemCoreMemoryManagerPlugin()
 					:pool(1048576, 256)
@@ -39,7 +38,7 @@ namespace vl
 				{
 					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
 					PoolPackage* pool=&plugin->pool;
-					CriticalSection::Scope scope(pool->cs);
+					SpinLock::Scope scope(pool->lock);
 					return pool->pool.Alloc(size);
 				}
 
@@ -47,7 +46,7 @@ namespace vl
 				{
 					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
 					PoolPackage* pool=&plugin->pool;
-					CriticalSection::Scope scope(pool->cs);
+					SpinLock::Scope scope(pool->lock);
 					return pool->pool.Free(pointer);
 				}
 
@@ -55,7 +54,7 @@ namespace vl
 				{
 					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
 					PoolPackage* pool=&plugin->pool;
-					CriticalSection::Scope scope(pool->cs);
+					SpinLock::Scope scope(pool->lock);
 					return pool->pool.IsValid(pointer);
 				}
 
@@ -63,7 +62,7 @@ namespace vl
 				{
 					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
 					PoolPackage* pool=&plugin->pool;
-					CriticalSection::Scope scope(pool->cs);
+					SpinLock::Scope scope(pool->lock);
 					return pool->pool.GetSize(pointer);
 				}
 
@@ -71,7 +70,7 @@ namespace vl
 				{
 					LANGUAGE_PLUGIN(SystemCoreMemoryManagerPlugin);
 					PoolPackage* pool=&plugin->pool;
-					CriticalSection::Scope scope(pool->cs);
+					SpinLock::Scope scope(pool->lock);
 					return pool->pool.GetHandle(pointer);
 				}
 			protected:

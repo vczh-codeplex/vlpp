@@ -460,7 +460,7 @@ BasicILStack
 						case BasicIns::generic_callfunc_vm:
 						case BasicIns::generic_pushfunc_vm:
 							{
-								CriticalSection::Scope scope(interpretor->GetCriticalSection());
+								BasicILLock::Scope scope(interpretor->GetLock());
 								interpretor->Expander()->RewriteExecutingGenericInstruction(ins, il, instruction);
 								DO_NOT_MOVE_TO_NEXT_INSTRUCTION
 							}
@@ -511,7 +511,7 @@ BasicILStack
 							break;
 						case BasicIns::label:
 							{
-								CriticalSection::Scope scope(interpretor->GetCriticalSection());
+								BasicILLock::Scope scope(interpretor->GetLock());
 								vint index=env->Pop<vint>();
 								if(interpretor->Symbols()->IsValidLabelIndex(index))
 								{

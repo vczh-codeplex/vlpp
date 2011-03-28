@@ -494,4 +494,43 @@ EventObject
 		}
 		return false;
 	}
+
+/***********************************************************************
+SpinLock
+***********************************************************************/
+
+	SpinLock::Scope::Scope(SpinLock& _spinLock)
+		:spinLock(&_spinLock)
+	{
+		spinLock->Enter();
+	}
+
+	SpinLock::Scope::~Scope()
+	{
+		spinLock->Leave();
+	}
+			
+	SpinLock::SpinLock()
+		:token(0)
+	{
+	}
+
+	SpinLock::~SpinLock()
+	{
+	}
+
+	bool SpinLock::TryEnter()
+	{
+		return InterlockedExchange(&token, 1)==0;
+	}
+
+	void SpinLock::Enter()
+	{
+		while(InterlockedExchange(&token, 1)==1);
+	}
+
+	void SpinLock::Leave()
+	{
+		InterlockedExchange(&token, 0);
+	}
 }

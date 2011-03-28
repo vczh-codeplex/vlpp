@@ -19,6 +19,11 @@ Classes:
 
 namespace vl
 {
+
+/***********************************************************************
+内核模式对象
+***********************************************************************/
+
 	namespace threading_internal
 	{
 		struct WaitableData;
@@ -146,6 +151,35 @@ namespace vl
 
 		bool										Signal();
 		bool										Unsignal();
+	};
+
+/***********************************************************************
+用户模式对象
+***********************************************************************/
+
+	typedef long LockedInt;
+
+	class SpinLock : public Object, public NotCopyable
+	{
+	protected:
+		LockedInt									token;
+	public:
+		SpinLock();
+		~SpinLock();
+
+		bool										TryEnter();
+		void										Enter();
+		void										Leave();
+
+	public:
+		class Scope : public Object, public NotCopyable
+		{
+		private:
+			SpinLock*								spinLock;
+		public:
+			Scope(SpinLock& _spinLock);
+			~Scope();
+		};
 	};
 }
 
