@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <intrin.h>
 #include "Threading.h"
 
 namespace vl
@@ -521,16 +522,16 @@ SpinLock
 
 	bool SpinLock::TryEnter()
 	{
-		return InterlockedExchange(&token, 1)==0;
+		return _InterlockedExchange(&token, 1)==0;
 	}
 
 	void SpinLock::Enter()
 	{
-		while(InterlockedExchange(&token, 1)==1);
+		while(_InterlockedExchange(&token, 1)==1);
 	}
 
 	void SpinLock::Leave()
 	{
-		InterlockedExchange(&token, 0);
+		_InterlockedExchange(&token, 0);
 	}
 }
