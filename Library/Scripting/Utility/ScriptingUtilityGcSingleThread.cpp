@@ -48,7 +48,7 @@ namespace vl
 					
 					BasicILLabel label;
 					{
-						CriticalSection::Scope scope(callback->interpretor->GetCriticalSection());
+						BasicILLock::Scope scope(callback->interpretor->GetLock());
 						label=callback->interpretor->Symbols()->GetLabel(callback->label);
 					}
 					if(callback->interpretor->Symbols()->IsValidILIndex(label.key))

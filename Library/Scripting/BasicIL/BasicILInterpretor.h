@@ -29,18 +29,20 @@ namespace vl
 ÐéÄâ»ú
 ***********************************************************************/
 
+			typedef SpinLock BasicILLock;
+
 			class BasicILInterpretor : public Object
 			{
 			protected:
 				vint											stackSize;
 				BasicILRuntimeSymbol							symbols;
 				BasicILCodeExpander								expander;
-				CriticalSection									cs;
+				BasicILLock										lock;
 			public:
 				BasicILInterpretor(vint _stackSize);
 				~BasicILInterpretor();
 
-				CriticalSection&								GetCriticalSection();
+				BasicILLock&									GetLock();
 				vint											GetStackSize();
 				vint											LoadIL(BasicIL* il);
 				BasicILRuntimeSymbol*							Symbols();

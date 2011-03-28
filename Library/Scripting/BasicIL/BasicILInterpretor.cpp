@@ -23,9 +23,9 @@ BasicILInterpretor
 			{
 			}
 
-			CriticalSection& BasicILInterpretor::GetCriticalSection()
+			BasicILLock& BasicILInterpretor::GetLock()
 			{
-				return cs;
+				return lock;
 			}
 
 			vint BasicILInterpretor::GetStackSize()
@@ -35,7 +35,7 @@ BasicILInterpretor
 
 			vint BasicILInterpretor::LoadIL(BasicIL* il)
 			{
-				CriticalSection::Scope scope(cs);
+				BasicILLock::Scope scope(lock);
 				List<Pair<WString, WString>> linkingSymbols, foreignFunctions;
 				vint index=symbols.LoadILSymbol(il, linkingSymbols, foreignFunctions);
 				symbols.LinkILSymbol(il, linkingSymbols, foreignFunctions);

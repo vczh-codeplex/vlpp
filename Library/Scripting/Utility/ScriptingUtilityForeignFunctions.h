@@ -73,7 +73,7 @@ LanguageHandleList
 			protected:
 				collections::List<T*>		handles;
 				collections::List<vint>		freeList;
-				CriticalSection				cs;
+				SpinLock					lock;
 			public:
 				LanguageHandleList()
 				{
@@ -105,7 +105,7 @@ LanguageHandleList
 
 				vint Alloc(T* handle)
 				{
-					CriticalSection::Scope scope(cs);
+					SpinLock::Scope scope(lock);
 					if(freeList.Count()>0)
 					{
 						vint index=freeList[freeList.Count()-1];
@@ -123,7 +123,7 @@ LanguageHandleList
 				bool Free(vint index)
 				{
 					index--;
-					CriticalSection::Scope scope(cs);
+					SpinLock::Scope scope(lock);
 					if(index>=0 && index<handles.Count() && handles[index])
 					{
 						delete handles[index];

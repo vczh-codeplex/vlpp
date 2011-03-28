@@ -302,3 +302,54 @@ TEST_CASE(TestEventObject)
 	}
 	TEST_ASSERT(data.counter==10);
 }
+
+/***********************************************************************
+SpinLock
+***********************************************************************/
+
+namespace mynamespace
+{
+	struct SL_ThreadData
+	{
+		SpinLock				lock;
+		volatile vint			counter;
+
+		SL_ThreadData()
+			:counter(0)
+		{
+		}
+	};
+
+	void SL_ThreadProc(Thread* thread, void* argument)
+	{
+		SL_ThreadData* data=(SL_ThreadData*)argument;
+		{
+			SpinLock::Scope lock(data->lock);
+			data->counter++;
+		}
+	}
+}
+using namespace mynamespace;
+
+TEST_CASE(TestSpinLock)
+{
+	SL_ThreadData data;
+	List<Thread*> threads;
+	{
+		SpinLock::Scope lock(data.lock);
+		for(vint i=0;i<10;i++)
+		{
+			threads.Add(Thread::CreateAndStart(SL_ThreadProc, &data, false));
+		}
+		Thread::Sleep(1000);
+		TEST_ASSERT(data.counter==0);
+	}
+	FOREACH(Thread*, thread, threads.Wrap())
+	{
+		thread->Wait();
+		TEST_ASSERT(thread->GetState()==Thread::Stopped);
+		delete thread;
+	}
+	TEST_ASSERT(data.lock.TryEnter());
+	TEST_ASSERT(data.counter==10);
+}
