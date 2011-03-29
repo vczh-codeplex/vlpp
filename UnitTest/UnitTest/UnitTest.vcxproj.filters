@@ -519,6 +519,15 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\BasicILMetadata.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\TreeQuery.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\TreeXml.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\TreeDoc.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1710,6 +1719,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicILMetadata.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\TreeQuery.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\TreeXml.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\TreeDoc.h">
+      <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

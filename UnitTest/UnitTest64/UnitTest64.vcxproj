@@ -162,6 +162,9 @@
     <ClCompile Include="..\..\Library\Entity\GcSingleThreadEntity.cpp" />
     <ClCompile Include="..\..\Library\Entity\GeneralObjectPoolEntity.cpp" />
     <ClCompile Include="..\..\Library\Entity\SmallObjectPoolEntity.cpp" />
+    <ClCompile Include="..\..\Library\Entity\TreeDoc.cpp" />
+    <ClCompile Include="..\..\Library\Entity\TreeQuery.cpp" />
+    <ClCompile Include="..\..\Library\Entity\TreeXml.cpp" />
     <ClCompile Include="..\..\Library\Exception.cpp" />
     <ClCompile Include="..\..\Library\GlobalStorage.cpp" />
     <ClCompile Include="..\..\Library\ObjectModel\ObjectType.cpp" />
@@ -331,6 +334,9 @@
     <ClInclude Include="..\..\Library\Entity\GeneralObjectPoolEntity.h" />
     <ClInclude Include="..\..\Library\Entity\Linear.h" />
     <ClInclude Include="..\..\Library\Entity\SmallObjectPoolEntity.h" />
+    <ClInclude Include="..\..\Library\Entity\TreeDoc.h" />
+    <ClInclude Include="..\..\Library\Entity\TreeQuery.h" />
+    <ClInclude Include="..\..\Library\Entity\TreeXml.h" />
     <ClInclude Include="..\..\Library\Event.h" />
     <ClInclude Include="..\..\Library\Exception.h" />
     <ClInclude Include="..\..\Library\Function.h" />
