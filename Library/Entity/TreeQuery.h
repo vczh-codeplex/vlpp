@@ -15,18 +15,13 @@ namespace vl
 接口
 ***********************************************************************/
 
-		class ITreeQuerableAttribute : public Interface
+		class ITreeQuerable : public Interface
 		{
 		public:
-			virtual const WString&			GetName()const=0;
-			virtual const WString&			GetValue()const=0;
-		};
-
-		class ITreeQuerableElement : public Interface
-		{
-		public:
-			virtual const collections::IEnumerable<Ptr<ITreeQuerableAttribute>>&	QuerableAttributes()const=0;
-			virtual const collections::IEnumerable<Ptr<ITreeQuerableElement>>&		QuerableElements()const=0;
+			virtual const WString&											GetName()const=0;
+			virtual const WString&											GetValue()const=0;
+			virtual const collections::IEnumerable<Ptr<ITreeQuerable>>&		QuerableAttributes()const=0;
+			virtual const collections::IEnumerable<Ptr<ITreeQuerable>>&		QuerableElements()const=0;
 		};
 
 		class TreeQueryParser : public Object
@@ -41,31 +36,27 @@ namespace vl
 缺省实现
 ***********************************************************************/
 
-		class TreeAttribute : public Object, protected ITreeQuerableAttribute
+		class TreeAttribute : public Object, private ITreeQuerable
 		{
-			friend class Ptr<ITreeQuerableAttribute>;
+			friend class Ptr<ITreeQuerable>;
 		public:
-			WString				name;
-			WString				value;
+			WString												name;
+			WString												value;
 
-		protected:
+		private:
+			collections::EmptyEnumerable<Ptr<ITreeQuerable>>	nothing;
 
-			const WString& GetName()const
-			{
-				return name;
-			}
-
-			const WString& GetValue()const
-			{
-				return value;
-			}
+			const WString&										GetName()const;
+			const WString&										GetValue()const;
+			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableAttributes()const;
+			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableElements()const;
 		};
 
-		class TreeElement: public Object, protected ITreeQuerableElement
+		class TreeElement: public Object, private ITreeQuerable
 		{
-			friend class Ptr<ITreeQuerableElement>;
-			typedef collections::SelectEnumerable<Ptr<TreeAttribute>, Ptr<ITreeQuerableAttribute>>	QuerableAttributeEnumerable;
-			typedef collections::SelectEnumerable<Ptr<TreeElement>, Ptr<ITreeQuerableElement>>		QuerableElementEnumerable;
+			friend class Ptr<ITreeQuerable>;
+			typedef collections::SelectEnumerable<Ptr<TreeAttribute>, Ptr<ITreeQuerable>>	QuerableAttributeEnumerable;
+			typedef collections::SelectEnumerable<Ptr<TreeElement>, Ptr<ITreeQuerable>>		QuerableElementEnumerable;
 		private:
 			struct Querables
 			{
@@ -75,43 +66,24 @@ namespace vl
 				Querables(
 					const collections::IEnumerable<Ptr<TreeAttribute>>& attributes,
 					const collections::IEnumerable<Ptr<TreeElement>>& elements
-					)
-					:querableAttributes(attributes, ConvertAttribute)
-					,querableElements(elements, ConvertElement)
-				{
-				}
+					);
 			};
 
-			Ptr<Querables>							querables;
+			Ptr<Querables>										querables;
 		public:
-			collections::List<Ptr<TreeAttribute>>	attributes;
-			collections::List<Ptr<TreeElement>>		elements;
+			WString												name;
+			collections::List<Ptr<TreeAttribute>>				attributes;
+			collections::List<Ptr<TreeElement>>					elements;
 
-			TreeElement()
-			{
-				querables=new Querables(attributes.Wrap(), elements.Wrap());
-			}
-		protected:
+			TreeElement();
+		private:
 
-			static Ptr<ITreeQuerableAttribute> ConvertAttribute(Ptr<TreeAttribute> value)
-			{
-				return value;
-			}
-
-			static Ptr<ITreeQuerableElement> ConvertElement(Ptr<TreeElement> value)
-			{
-				return value;
-			}
-			
-			const collections::IEnumerable<Ptr<ITreeQuerableAttribute>>& QuerableAttributes()const
-			{
-				return querables->querableAttributes;
-			}
-
-			const collections::IEnumerable<Ptr<ITreeQuerableElement>>&	 QuerableElements()const
-			{
-				return querables->querableElements;
-			}
+			static Ptr<ITreeQuerable>							ConvertAttribute(Ptr<TreeAttribute> value);
+			static Ptr<ITreeQuerable>							ConvertElement(Ptr<TreeElement> value);
+			const WString&										GetName()const;
+			const WString&										GetValue()const;
+			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableAttributes()const;
+			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableElements()const;
 		};
 	}
 }
