@@ -17,6 +17,52 @@ namespace vl
 	{
 
 /***********************************************************************
+¿Õµü´úÆ÷
+***********************************************************************/
+
+		template<typename T>
+		class EmptyEnumerable : public Object, public IEnumerable<T>
+		{
+		private:
+			class Enumerator : public Object, public IEnumerator<T>
+			{
+				IEnumerator<T>* Clone()const
+				{
+					return new Enumerator;
+				}
+
+				const T& Current()const
+				{
+					return *(T*)0;
+				}
+
+				vint Index()const
+				{
+					return -1;
+				}
+
+				bool Next()
+				{
+					return false;
+				}
+
+				bool Available()const
+				{
+					return false;
+				}
+
+				void Reset()
+				{
+				}
+			};
+		public:
+			IEnumerator<T>* CreateEnumerator()const
+			{
+				return new Enumerator;
+			}
+		};
+
+/***********************************************************************
 Ëã·¨´®Áª
 ***********************************************************************/
 
