@@ -18,13 +18,19 @@ namespace vl
 {
 	namespace collections
 	{
-		template<typename KT, typename VT, typename KK=typename KeyType<KT>::Type, typename VK=typename KeyType<VT>::Type>
+		template<
+			typename KT,
+			typename VT,
+			typename ValueContainer=List<VT, typename KeyType<VT>::Type>,
+			typename KK=typename KeyType<KT>::Type, 
+			typename VK=typename KeyType<VT>::Type
+		>
 		class Dictionary : public Object, private NotCopyable
 		{
 		protected:
 			SortedList<KT, KK>					keys;
-			List<VT, VK>						values;
-			mutable DictionaryWrapper<Dictionary<KT, VT, KK, VK>, KT, VT, KK, VK>	wrapper;
+			ValueContainer						values;
+			mutable DictionaryWrapper<Dictionary<KT, VT, ValueContainer, KK, VK>, KT, VT, KK, VK>	wrapper;
 		public:
 			Dictionary()
 			{
@@ -103,7 +109,7 @@ namespace vl
 
 			bool Add(const KT& key, const VT& value)
 			{
-				CHECK_ERROR(!keys.Contains(key), L"Dictionary<KT, KK, VT, VK>::Add(const KT&, const VT&)#key已存在。");
+				CHECK_ERROR(!keys.Contains(key), L"Dictionary<KT, KK, ValueContainer, VT, VK>::Add(const KT&, const VT&)#key已存在。");
 				vint index=keys.Add(key);
 				values.Insert(index, value);
 				return true;
@@ -137,13 +143,19 @@ namespace vl
 			}
 		};
 
-		template<typename KT, typename VT, typename KK=typename KeyType<KT>::Type, typename VK=typename KeyType<VT>::Type>
+		template<
+			typename KT,
+			typename VT,
+			typename ValueContainer=List<VT, typename KeyType<VT>::Type>,
+			typename KK=typename KeyType<KT>::Type,
+			typename VK=typename KeyType<VT>::Type
+		>
 		class Group : public Object, private NotCopyable
 		{
 		protected:
 			SortedList<KT, KK>				keys;
-			List<List<VT, VK>*>				values;
-			mutable GroupWrapper<Group<KT, VT, KK, VK>, KT, VT, KK, VK>	wrapper;
+			List<ValueContainer*>			values;
+			mutable GroupWrapper<Group<KT, VT, ValueContainer, KK, VK>, KT, VT, KK, VK>	wrapper;
 		public:
 			Group()
 			{
@@ -224,11 +236,11 @@ namespace vl
 
 			bool Add(const KT& key, const VT& value)
 			{
-				List<VT, VK>* target=0;
+				ValueContainer* target=0;
 				vint index=keys.IndexOf(key);
 				if(index==-1)
 				{
-					target=new List<VT, VK>;
+					target=new ValueContainer;
 					values.Insert(keys.Add(key), target);
 				}
 				else

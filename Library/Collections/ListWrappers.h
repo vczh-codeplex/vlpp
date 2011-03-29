@@ -71,39 +71,6 @@ namespace vl
 			}
 		};
 
-		template<typename T, typename K=typename KeyType<T>::Type>
-		class ReadonlyListConverter : public virtual IReadonlyList<T, K>
-		{
-		public:
-			IEnumerator<T>* CreateEnumerator()const
-			{
-				return new ReadonlyListEnumerator<T, K>(this, 0);
-			}
-
-			bool Contains(const K& item)const
-			{
-				return IndexOf(item)!=-1;
-			}
-
-			const T& operator[](vint index)const
-			{
-				return Get(index);
-			}
-
-			vint IndexOf(const K& item)const
-			{
-				vint count=Count();
-				for(vint i=0;i<count;i++)
-				{
-					if(Get(i)==item)
-					{
-						return i;
-					}
-				}
-				return -1;
-			}
-		};
-
 		template<typename C, typename T, typename K=typename KeyType<T>::Type>
 		class ReadonlyListWrapper : public Object, public virtual IReadonlyList<T, K>
 		{
@@ -390,6 +357,73 @@ namespace vl
 			{
 				return container->operator[](index);
 			}
+		};
+
+/***********************************************************************
+类型转换代理
+***********************************************************************/
+
+		template<typename T, typename K=typename KeyType<T>::Type>
+		class ReadonlyListImplBase : public virtual IReadonlyList<T, K>
+		{
+		public:
+			IEnumerator<T>* CreateEnumerator()const
+			{
+				return new ReadonlyListEnumerator<T, K>(this, 0);
+			}
+
+			bool Contains(const K& item)const
+			{
+				return IndexOf(item)!=-1;
+			}
+
+			const T& operator[](vint index)const
+			{
+				return Get(index);
+			}
+
+			vint IndexOf(const K& item)const
+			{
+				vint count=Count();
+				for(vint i=0;i<count;i++)
+				{
+					if(Get(i)==item)
+					{
+						return i;
+					}
+				}
+				return -1;
+			}
+		};
+
+		template<typename TS, typename TD, typename KS=typename KeyType<TS>::Type, typename KD=typename KeyType<TD>::Type>
+		class ReadonlyListConverterBase : protected ReadonlyListImplBase<TD, KD>
+		{
+		private:
+			IReadonlyList<TS, KS>*				container;
+
+		protected:
+			ReadonlyListConverterBase()
+				:container(0)
+			{
+			}
+
+			vint Count()const
+			{
+				return container->Count();
+			}
+
+			const TD& Get(vint index)const
+			{
+				return Convert(container->Get(index));
+			}
+
+			void SetContainer(IReadonlyList<TS, KS>* _container)
+			{
+				container=_container;
+			}
+
+			virtual const TD& Convert(const TS& value)const;
 		};
 	}
 }
