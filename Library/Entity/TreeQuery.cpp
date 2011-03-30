@@ -25,6 +25,11 @@ TreeNode
 			return WString::Empty;
 		}
 
+		const WString& TreeNode::GetName()const
+		{
+			return WString::Empty;
+		}
+
 		bool TreeNode::IsAttributeExists(const WString& name)const
 		{
 			return false;
@@ -84,6 +89,11 @@ TreeElement
 			return true;
 		}
 
+		const WString& TreeElement::GetName()const
+		{
+			return name;
+		}
+
 		bool TreeElement::IsAttributeExists(const WString& name)const
 		{
 			return attributes.Keys().Contains(name);
@@ -113,6 +123,15 @@ TreeElement
 /***********************************************************************
 TreeComment
 ***********************************************************************/
+
+		TreeComment::TreeComment()
+		{
+		}
+
+		TreeComment::TreeComment(const WString& _value)
+			:value(_value)
+		{
+		}
 		
 		bool TreeComment::IsContent()const
 		{
@@ -122,6 +141,15 @@ TreeComment
 /***********************************************************************
 TreeText
 ***********************************************************************/
+
+		TreeText::TreeText()
+		{
+		}
+
+		TreeText::TreeText(const WString& _value)
+			:value(_value)
+		{
+		}
 		
 		bool TreeText::IsContent()const
 		{

@@ -528,6 +528,9 @@
     <ClCompile Include="..\..\Library\Entity\TreeDoc.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestEntityTree.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">

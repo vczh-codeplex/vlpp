@@ -20,6 +20,7 @@ namespace vl
 		public:
 			virtual bool											IsTextNode()const=0;
 			virtual const WString&									GetText()const=0;
+			virtual const WString&									GetName()const=0;
 			virtual bool											IsAttributeExists(const WString& name)const=0;
 			virtual const WString&									GetAttribute(const WString& name)const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElement(const WString& name)const=0;
@@ -49,6 +50,7 @@ namespace vl
 
 			bool													IsTextNode()const;
 			const WString&											GetText()const;
+			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
 			const WString&											GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
@@ -65,7 +67,8 @@ namespace vl
 
 			bool													IsContent()const;
 		protected:
-
+			
+			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
 			const WString&											GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
@@ -78,6 +81,9 @@ namespace vl
 		public:
 			WString										value;
 
+			TreeComment();
+			TreeComment(const WString& _value);
+
 			bool													IsContent()const;
 		protected:
 		};
@@ -86,6 +92,9 @@ namespace vl
 		{
 		public:
 			WString										value;
+
+			TreeText();
+			TreeText(const WString& _value);
 
 			bool													IsContent()const;
 		protected:

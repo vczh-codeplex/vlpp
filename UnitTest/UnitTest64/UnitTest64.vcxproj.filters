@@ -474,6 +474,9 @@
     <ClCompile Include="..\..\Library\Entity\TreeXml.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\UnitTest\TestEntityTree.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
