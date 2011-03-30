@@ -16,6 +16,9 @@ namespace vl
 	namespace collections
 	{
 
+		template<typename T>
+		class Enumerable;
+
 /***********************************************************************
 空迭代器
 ***********************************************************************/
@@ -23,6 +26,7 @@ namespace vl
 		template<typename T>
 		class EmptyEnumerable : public Object, public IEnumerable<T>
 		{
+			friend class Enumerable<T>;
 		private:
 			class Enumerator : public Object, public IEnumerator<T>
 			{
@@ -117,6 +121,7 @@ namespace vl
 		template<typename T, vint I=0>
 		class EnumerableStore : public virtual Object
 		{
+			friend class Enumerable<T>;
 		private:
 			IEnumerator<T>*			enumerator;
 		protected:
@@ -145,6 +150,36 @@ namespace vl
 				delete enumerator;
 				enumerator=store->CopyEnumerator();
 				return *this;
+			}
+		};
+
+/***********************************************************************
+迭代器副本
+***********************************************************************/
+
+		template<typename T>
+		class Enumerable : public Object, public IEnumerable<T>
+		{
+		protected:
+			Ptr<EnumerableStore<T>>		store;
+		public:
+			Enumerable()
+			{
+			}
+
+			Enumerable(const Enumerable<T>& enumerable)
+			{
+				store=enumerable.store;
+			}
+
+			Enumerable(const IEnumerable<T>& enumerable)
+			{
+				store=new EnumerableStore<T>(enumerable);
+			}
+
+			IEnumerator<T>* CreateEnumerator()const
+			{
+				return store?store->CopyEnumerator():new EmptyEnumerable<T>::Enumerator();
 			}
 		};
 

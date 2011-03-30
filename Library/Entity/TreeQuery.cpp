@@ -1,4 +1,5 @@
 #include "TreeQuery.h"
+#include "..\Collections\Operation.h"
 
 namespace vl
 {
@@ -11,75 +12,130 @@ namespace vl
 		}
 
 /***********************************************************************
-TreeAttribute
+TreeNode
 ***********************************************************************/
 
-		const WString& TreeAttribute::GetName()const
+		bool TreeNode::IsTextNode()const
 		{
-			return name;
+			return false;
 		}
 
-		const WString& TreeAttribute::GetValue()const
+		const WString& TreeNode::GetText()const
 		{
-			return value;
-		}
-			
-		const IEnumerable<Ptr<ITreeQuerable>>& TreeAttribute::QuerableAttributes()const
-		{
-			return nothing;
+			return WString::Empty;
 		}
 
-		const IEnumerable<Ptr<ITreeQuerable>>& TreeAttribute::QuerableElements()const
+		bool TreeNode::IsAttributeExists(const WString& name)const
 		{
-			return nothing;
+			return false;
+		}
+
+		const WString& TreeNode::GetAttribute(const WString& name)const
+		{
+			return WString::Empty;
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeNode::GetElement(const WString& name)const
+		{
+			return Enumerable<Ptr<ITreeQuerable>>();
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeNode::GetElements()const
+		{
+			return Enumerable<Ptr<ITreeQuerable>>();
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeNode::GetChildren()const
+		{
+			return Enumerable<Ptr<ITreeQuerable>>();
 		}
 
 /***********************************************************************
 TreeElement
 ***********************************************************************/
 
-		TreeElement::Querables::Querables(
-			const collections::IEnumerable<Ptr<TreeAttribute>>& attributes,
-			const collections::IEnumerable<Ptr<TreeElement>>& elements
-			)
-			:querableAttributes(attributes, ConvertAttribute)
-			,querableElements(elements, ConvertElement)
+		namespace TreeElementHelper
 		{
+			Ptr<ITreeQuerable> ConvertNode(Ptr<TreeNode> node)
+			{
+				return node;
+			}
+
+			bool IsContentNode(Ptr<TreeNode> node)
+			{
+				return node->IsContent();
+			}
+
+			bool IsElementNode(Ptr<TreeNode> node)
+			{
+				return node.Cast<TreeElement>();
+			}
+
+			bool IsElementWithName(const WString& name, Ptr<TreeNode> node)
+			{
+				Ptr<TreeElement> element=node.Cast<TreeElement>();
+				return element && element->name==name;
+			}
+		};
+		using namespace TreeElementHelper;
+		
+		bool TreeElement::IsContent()const
+		{
+			return true;
 		}
 
-		TreeElement::TreeElement()
+		bool TreeElement::IsAttributeExists(const WString& name)const
 		{
-			querables=new Querables(attributes.Wrap(), elements.Wrap());
+			return attributes.Keys().Contains(name);
 		}
 
-		Ptr<ITreeQuerable> TreeElement::ConvertAttribute(Ptr<TreeAttribute> value)
+		const WString& TreeElement::GetAttribute(const WString& name)const
+		{
+			vint index=attributes.Keys().IndexOf(name);
+			return index==-1?WString::Empty:attributes.Values()[index];
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeElement::GetElement(const WString& name)const
+		{
+			return children.Wrap()>>Where(Curry(IsElementWithName)(name))>>Select(ConvertNode);
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeElement::GetElements()const
+		{
+			return children.Wrap()>>Where(IsElementNode)>>Select(ConvertNode);
+		}
+
+		Enumerable<Ptr<ITreeQuerable>> TreeElement::GetChildren()const
+		{
+			return children.Wrap()>>Where(IsContentNode)>>Select(ConvertNode);
+		}
+
+/***********************************************************************
+TreeComment
+***********************************************************************/
+		
+		bool TreeComment::IsContent()const
+		{
+			return false;
+		}
+
+/***********************************************************************
+TreeText
+***********************************************************************/
+		
+		bool TreeText::IsContent()const
+		{
+			return true;
+		}
+
+		bool TreeText::IsTextNode()const
+		{
+			return true;
+		}
+
+		const WString& TreeText::GetText()const
 		{
 			return value;
-		}
-
-		Ptr<ITreeQuerable> TreeElement::ConvertElement(Ptr<TreeElement> value)
-		{
-			return value;
-		}
-
-		const WString& TreeElement::GetName()const
-		{
-			return name;
-		}
-
-		const WString& TreeElement::GetValue()const
-		{
-			return WString::Empty;
-		}
-			
-		const IEnumerable<Ptr<ITreeQuerable>>& TreeElement::QuerableAttributes()const
-		{
-			return querables->querableAttributes;
-		}
-
-		const IEnumerable<Ptr<ITreeQuerable>>& TreeElement::QuerableElements()const
-		{
-			return querables->querableElements;
 		}
 	}
 }
