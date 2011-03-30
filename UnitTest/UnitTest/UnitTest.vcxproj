@@ -260,6 +260,7 @@
     <ClCompile Include="TestBasic.cpp" />
     <ClCompile Include="TestCombinator.cpp" />
     <ClCompile Include="TestEntity.cpp" />
+    <ClCompile Include="TestEntityTree.cpp" />
     <ClCompile Include="TestFunction.cpp" />
     <ClCompile Include="TestGlobalStorage.cpp" />
     <ClCompile Include="TestList.cpp" />
