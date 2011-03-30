@@ -1,7 +1,7 @@
 #include "..\String.h"
 #include "..\Pointer.h"
 #include "..\Collections\Dictionary.h"
-#include "..\Collections\Operation.h"
+#include "..\Collections\OperationEnumerable.h"
 
 namespace vl
 {
@@ -18,10 +18,13 @@ namespace vl
 		class ITreeQuerable : public Interface
 		{
 		public:
-			virtual const WString&											GetName()const=0;
-			virtual const WString&											GetValue()const=0;
-			virtual const collections::IEnumerable<Ptr<ITreeQuerable>>&		QuerableAttributes()const=0;
-			virtual const collections::IEnumerable<Ptr<ITreeQuerable>>&		QuerableElements()const=0;
+			virtual bool											IsTextNode()const=0;
+			virtual const WString&									GetText()const=0;
+			virtual bool											IsAttributeExists(const WString& name)const=0;
+			virtual const WString&									GetAttribute(const WString& name)const=0;
+			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElement(const WString& name)const=0;
+			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElements()const=0;
+			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetChildren()const=0;
 		};
 
 		class TreeQueryParser : public Object
@@ -36,54 +39,59 @@ namespace vl
 »± ° µœ÷
 ***********************************************************************/
 
-		class TreeAttribute : public Object, private ITreeQuerable
+		class TreeNode : public Object, protected ITreeQuerable
 		{
 			friend class Ptr<ITreeQuerable>;
 		public:
-			WString												name;
-			WString												value;
 
-		private:
-			collections::EmptyEnumerable<Ptr<ITreeQuerable>>	nothing;
+			virtual bool											IsContent()const=0;
+		protected:
 
-			const WString&										GetName()const;
-			const WString&										GetValue()const;
-			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableAttributes()const;
-			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableElements()const;
+			bool													IsTextNode()const;
+			const WString&											GetText()const;
+			bool													IsAttributeExists(const WString& name)const;
+			const WString&											GetAttribute(const WString& name)const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetChildren()const;
 		};
 
-		class TreeElement: public Object, private ITreeQuerable
+		class TreeElement : public TreeNode
 		{
-			friend class Ptr<ITreeQuerable>;
-			typedef collections::SelectEnumerable<Ptr<TreeAttribute>, Ptr<ITreeQuerable>>	QuerableAttributeEnumerable;
-			typedef collections::SelectEnumerable<Ptr<TreeElement>, Ptr<ITreeQuerable>>		QuerableElementEnumerable;
-		private:
-			struct Querables
-			{
-				QuerableAttributeEnumerable			querableAttributes;
-				QuerableElementEnumerable			querableElements;
-
-				Querables(
-					const collections::IEnumerable<Ptr<TreeAttribute>>& attributes,
-					const collections::IEnumerable<Ptr<TreeElement>>& elements
-					);
-			};
-
-			Ptr<Querables>										querables;
 		public:
-			WString												name;
-			collections::List<Ptr<TreeAttribute>>				attributes;
-			collections::List<Ptr<TreeElement>>					elements;
+			WString										name;
+			collections::List<Ptr<TreeNode>>			children;
+			collections::Dictionary<WString, WString>	attributes;
 
-			TreeElement();
-		private:
+			bool													IsContent()const;
+		protected:
 
-			static Ptr<ITreeQuerable>							ConvertAttribute(Ptr<TreeAttribute> value);
-			static Ptr<ITreeQuerable>							ConvertElement(Ptr<TreeElement> value);
-			const WString&										GetName()const;
-			const WString&										GetValue()const;
-			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableAttributes()const;
-			const collections::IEnumerable<Ptr<ITreeQuerable>>&	QuerableElements()const;
+			bool													IsAttributeExists(const WString& name)const;
+			const WString&											GetAttribute(const WString& name)const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
+			collections::Enumerable<Ptr<ITreeQuerable>>				GetChildren()const;
+		};
+
+		class TreeComment : public TreeNode
+		{
+		public:
+			WString										value;
+
+			bool													IsContent()const;
+		protected:
+		};
+
+		class TreeText : public TreeNode
+		{
+		public:
+			WString										value;
+
+			bool													IsContent()const;
+		protected:
+
+			bool													IsTextNode()const;
+			const WString&											GetText()const;
 		};
 	}
 }
