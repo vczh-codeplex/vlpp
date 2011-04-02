@@ -18,8 +18,8 @@ namespace TreeNodeInterfaceImplemenatationHelper
 	{
 		Ptr<TreeElement> book=new TreeElement;
 		book->name=L"book";
-		book->attributes.Add(L"name", name);
-		book->attributes.Add(L"id", L"id_"+name);
+		book->attributes.Add(L"name", new TreeText(name));
+		book->attributes.Add(L"id", new TreeText(L"id_"+name));
 		return book;
 	}
 
@@ -43,14 +43,19 @@ namespace TreeNodeInterfaceImplemenatationHelper
 		return books;
 	}
 
+	bool IsText(Ptr<ITreeQuerable> node, const WString& value)
+	{
+		return node && node->IsTextNode() && node->GetText()==value;
+	}
+
 	bool IsBookWithName(const WString& name, Ptr<ITreeQuerable> book)
 	{
-		return book->IsAttributeExists(L"name") && book->GetAttribute(L"name")==name;
+		return IsText(book->GetAttribute(L"name"), name);
 	}
 }
 using namespace TreeNodeInterfaceImplemenatationHelper;
 
-TEST_CASE(TreeNodeInterfaceImplemenatation)
+TEST_CASE(TestEntity_TreeNodeInterfaceImplemenatation)
 {
 	Ptr<ITreeQuerable> books=CreateBooks();
 	TEST_ASSERT(books->GetName()==L"books");
@@ -67,9 +72,9 @@ TEST_CASE(TreeNodeInterfaceImplemenatation)
 
 			TEST_ASSERT(elements[i]->GetName()==L"book");
 			TEST_ASSERT(elements[i]->IsAttributeExists(L"name")==true);
-			TEST_ASSERT(elements[i]->GetAttribute(L"name")==WString((wchar_t)(L'A'+i)));
+			TEST_ASSERT(IsText(elements[i]->GetAttribute(L"name"), WString((wchar_t)(L'A'+i))));
 			TEST_ASSERT(elements[i]->IsAttributeExists(L"id")==true);
-			TEST_ASSERT(elements[i]->GetAttribute(L"id")==L"id_"+WString((wchar_t)(L'A'+i)));
+			TEST_ASSERT(IsText(elements[i]->GetAttribute(L"id"), L"id_"+WString((wchar_t)(L'A'+i))));
 			TEST_ASSERT(elements[i]->IsAttributeExists(L"unknown")==false);
 		}
 	}
@@ -80,7 +85,7 @@ TEST_CASE(TreeNodeInterfaceImplemenatation)
 		for(vint i=0;i<4;i++)
 		{
 			TEST_ASSERT(elements[i*2]->IsTextNode()==false);
-			TEST_ASSERT(elements[i*2]->GetAttribute(L"name")==WString((wchar_t)(L'A'+i)));
+			TEST_ASSERT(IsText(elements[i*2]->GetAttribute(L"name"), WString((wchar_t)(L'A'+i))));
 			
 			TEST_ASSERT(elements[i*2+1]->IsTextNode()==true);
 			TEST_ASSERT(elements[i*2+1]->GetText()==L"text_"+WString((wchar_t)(L'A'+i)));

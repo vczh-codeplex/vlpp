@@ -22,7 +22,7 @@ namespace vl
 			virtual const WString&									GetText()const=0;
 			virtual const WString&									GetName()const=0;
 			virtual bool											IsAttributeExists(const WString& name)const=0;
-			virtual const WString&									GetAttribute(const WString& name)const=0;
+			virtual Ptr<ITreeQuerable>								GetAttribute(const WString& name)const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElement(const WString& name)const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElements()const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetChildren()const=0;
@@ -52,7 +52,7 @@ namespace vl
 			const WString&											GetText()const;
 			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
-			const WString&											GetAttribute(const WString& name)const;
+			Ptr<ITreeQuerable>										GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetChildren()const;
@@ -61,16 +61,16 @@ namespace vl
 		class TreeElement : public TreeNode
 		{
 		public:
-			WString										name;
-			collections::List<Ptr<TreeNode>>			children;
-			collections::Dictionary<WString, WString>	attributes;
+			WString													name;
+			collections::List<Ptr<TreeNode>>						children;
+			collections::Dictionary<WString, Ptr<TreeNode>>			attributes;
 
 			bool													IsContent()const;
 		protected:
 			
 			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
-			const WString&											GetAttribute(const WString& name)const;
+			Ptr<ITreeQuerable>										GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetChildren()const;
@@ -79,7 +79,7 @@ namespace vl
 		class TreeComment : public TreeNode
 		{
 		public:
-			WString										value;
+			WString													value;
 
 			TreeComment();
 			TreeComment(const WString& _value);
@@ -91,7 +91,7 @@ namespace vl
 		class TreeText : public TreeNode
 		{
 		public:
-			WString										value;
+			WString													value;
 
 			TreeText();
 			TreeText(const WString& _value);
