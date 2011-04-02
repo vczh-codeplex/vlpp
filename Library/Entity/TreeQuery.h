@@ -1,3 +1,18 @@
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+Framework::Entity
+
+Classes:
+	ITreeQuerable								：可查询树
+	TreeQueryParser								：查询分析
+	TreeQuery									：查询运行
+
+	TreeNode									：缺省实现，根节点
+	TreeElement									：缺省实现，元素节点
+	TreeComment									：缺省实现，注释节点
+	TreeText									：缺省实现，字符串节点
+***********************************************************************/
 #include "..\String.h"
 #include "..\Pointer.h"
 #include "..\Collections\Dictionary.h"
