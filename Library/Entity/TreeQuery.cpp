@@ -35,9 +35,9 @@ TreeNode
 			return false;
 		}
 
-		const WString& TreeNode::GetAttribute(const WString& name)const
+		Ptr<ITreeQuerable> TreeNode::GetAttribute(const WString& name)const
 		{
-			return WString::Empty;
+			return 0;
 		}
 
 		Enumerable<Ptr<ITreeQuerable>> TreeNode::GetElement(const WString& name)const
@@ -99,10 +99,10 @@ TreeElement
 			return attributes.Keys().Contains(name);
 		}
 
-		const WString& TreeElement::GetAttribute(const WString& name)const
+		Ptr<ITreeQuerable> TreeElement::GetAttribute(const WString& name)const
 		{
 			vint index=attributes.Keys().IndexOf(name);
-			return index==-1?WString::Empty:attributes.Values()[index];
+			return index==-1?0:attributes.Values()[index];
 		}
 
 		Enumerable<Ptr<ITreeQuerable>> TreeElement::GetElement(const WString& name)const
