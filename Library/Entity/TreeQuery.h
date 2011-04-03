@@ -13,6 +13,10 @@ Classes:
 	TreeComment									：缺省实现，注释节点
 	TreeText									：缺省实现，字符串节点
 ***********************************************************************/
+
+#ifndef VCZH_ENTITY_TREEQUERY
+#define VCZH_ENTITY_TREEQUERY
+
 #include "..\String.h"
 #include "..\Pointer.h"
 #include "..\Collections\Dictionary.h"
@@ -119,3 +123,5 @@ namespace vl
 		};
 	}
 }
+
+#endif

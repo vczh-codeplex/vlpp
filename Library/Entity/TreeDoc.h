@@ -8,6 +8,10 @@ Classes:
 	DocWriter									：可阅读文档写入
 	TreeXmlSerializer							：可查询树可阅读文档读写
 ***********************************************************************/
+
+#ifndef VCZH_ENTITY_TREEDOC
+#define VCZH_ENTITY_TREEDOC
+
 #include "TreeQuery.h"
 
 namespace vl
@@ -16,3 +20,5 @@ namespace vl
 	{
 	}
 }
+
+#endif
