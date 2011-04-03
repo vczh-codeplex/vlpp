@@ -14,6 +14,7 @@ Classes:
 
 #include "TreeQuery.h"
 #include "..\Stream\Accessor.h"
+#include "..\Collections\List.h"
 
 namespace vl
 {
@@ -63,7 +64,7 @@ Xml
 
 			vint								indentation;
 			bool								writingElementHeader;
-			WString								currentElementName;
+			collections::List<WString>			currentElementNames;
 			bool								writingXml;
 
 			void								Indent(vint deltaIndentation);
@@ -74,7 +75,7 @@ Xml
 			~XmlWriter();
 
 			bool								OpenElement(const WString& name);
-			bool								CloseElement(const WString& name);
+			bool								CloseElement();
 			bool								WriteElement(const WString& name, const WString& value);
 			bool								WriteAttribute(const WString& name, const WString& value);
 			bool								WriteText(const WString& value);

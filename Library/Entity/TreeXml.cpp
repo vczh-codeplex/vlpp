@@ -46,6 +46,7 @@ XmlWriter
 				if(writingElementHeader)
 				{
 					writer->WriteString(L">");
+					writingElementHeader=false;
 				}
 				Indent(deltaIndentation);
 			}
@@ -59,7 +60,7 @@ XmlWriter
 		void XmlWriter::WriteEncodedText(const WString& value)
 		{
 			const wchar_t* reading=value.Buffer();
-			while(wchar_t c=*reading)
+			while(wchar_t c=*reading++)
 			{
 				switch(c)
 				{
@@ -101,14 +102,15 @@ XmlWriter
 		bool XmlWriter::OpenElement(const WString& name)
 		{
 			if(!NewNode(1)) return false;
+			writingXml=true;
 			writingElementHeader=true;
-			currentElementName=name;
+			currentElementNames.Add(name);
 			writer->WriteString(L"<");
 			writer->WriteString(name);
 			return true;
 		}
 
-		bool XmlWriter::CloseElement(const WString& name)
+		bool XmlWriter::CloseElement()
 		{
 			if(indentation<=0) return false;
 			if(writingElementHeader)
@@ -119,15 +121,16 @@ XmlWriter
 			{
 				Indent(-1);
 				writer->WriteString(L"</");
-				writer->WriteString(currentElementName);
+				writer->WriteString(currentElementNames[currentElementNames.Count()-1]);
 				writer->WriteString(L">");
 			}
+			currentElementNames.RemoveAt(currentElementNames.Count()-1);
 			return true;
 		}
 
 		bool XmlWriter::WriteElement(const WString& name, const WString& value)
 		{
-			if(!NewNode(1)) return false;
+			if(!NewNode(0)) return false;
 			writer->WriteString(L"<");
 			writer->WriteString(name);
 			writer->WriteString(L">");
@@ -167,9 +170,10 @@ XmlWriter
 				if(writingElementHeader)
 				{
 					writer->WriteString(L">");
+					writingElementHeader=false;
 				}
 			}
-			writer->WriteString(L"<![CDATA]");
+			writer->WriteString(L"<![CDATA[");
 			writer->WriteString(value);
 			writer->WriteString(L"]]>");
 			return true;
