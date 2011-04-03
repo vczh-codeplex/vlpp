@@ -58,12 +58,24 @@ Xml
 		{
 		protected:
 			stream::TextWriter*					writer;
+			bool								autoNewLine;
+			WString								space;
+
+			vint								indentation;
+			bool								writingElementHeader;
+			WString								currentElementName;
+			bool								writingXml;
+
+			void								Indent(vint deltaIndentation);
+			bool								NewNode(vint deltaIndentation);
+			void								WriteEncodedText(const WString& value);
 		public:
-			XmlWriter(stream::TextWriter& _writer);
+			XmlWriter(stream::TextWriter& _writer, bool _autoNewLine=true, const WString& _space=L"    ");
 			~XmlWriter();
 
 			bool								OpenElement(const WString& name);
 			bool								CloseElement(const WString& name);
+			bool								WriteElement(const WString& name, const WString& value);
 			bool								WriteAttribute(const WString& name, const WString& value);
 			bool								WriteText(const WString& value);
 			bool								WriteCData(const WString& value);
