@@ -12,8 +12,9 @@ XmlReader
 		XmlReader::XmlReader(stream::TextReader& _reader)
 			:reader(&_reader)
 			,componentType(BeginOfFile)
+			,readingElementHeader(false)
+			,readingDirectElementClosing(false)
 		{
-			Next();
 		}
 
 		XmlReader::~XmlReader()
@@ -23,6 +24,13 @@ XmlReader
 		bool XmlReader::Next()
 		{
 			if(!IsAvailable()) return false;
+			if(readingElementHeader)
+			{
+				// use DFA with semantic actions to form this state machine
+			}
+			else
+			{
+			}
 			return IsAvailable();
 		}
 

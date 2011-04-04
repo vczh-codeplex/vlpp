@@ -48,6 +48,10 @@ Xml
 			ComponentType						componentType;
 			WString								name;
 			WString								value;
+
+			bool								readingElementHeader;
+			bool								readingDirectElementClosing;
+			collections::List<WString>			currentElementNames;
 		public:
 			XmlReader(stream::TextReader& _reader);
 			~XmlReader();
