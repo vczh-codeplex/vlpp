@@ -9,6 +9,23 @@ namespace vl
 XmlReader
 ***********************************************************************/
 
+		XmlReader::XmlReader(stream::TextReader& _reader)
+			:reader(&_reader)
+			,componentType(BeginOfFile)
+		{
+			Next();
+		}
+
+		XmlReader::~XmlReader()
+		{
+		}
+
+		bool XmlReader::Next()
+		{
+			if(!IsAvailable()) return false;
+			return IsAvailable();
+		}
+
 /***********************************************************************
 XmlWriter
 ***********************************************************************/
