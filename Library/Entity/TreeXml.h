@@ -31,12 +31,16 @@ Xml
 			enum ComponentType
 			{
 				Comment,
-				ElementOpening,
+				ElementHeadOpening,
+				ElementHeadClosing,
 				ElementClosing,
 				Attribute,
 				Text,
 				CData,
-				EndOfFile
+
+				BeginOfFile,
+				EndOfFile,
+				WrongFormat,
 			};
 
 		protected:
@@ -48,11 +52,11 @@ Xml
 			XmlReader(stream::TextReader& _reader);
 			~XmlReader();
 
-			ComponentType						CurrentComponentType()const;
-			const WString&						CurrentName()const;
-			const WString&						CurrentValue()const;
+			ComponentType						CurrentComponentType()const { return componentType; }
+			const WString&						CurrentName()const { return name; }
+			const WString&						CurrentValue()const { return value; }
 			bool								Next();
-			bool								IsAvailable()const;
+			bool								IsAvailable()const { return componentType!=EndOfFile && componentType!=WrongFormat; }
 		};
 
 		class XmlWriter
