@@ -4,6 +4,7 @@ namespace vl
 {
 	namespace entities
 	{
+		using namespace collections;
 
 /***********************************************************************
 XmlReader
@@ -21,7 +22,61 @@ XmlReader
 
 		WString Unescape(const WString& value)
 		{
-			return value;
+			Array<wchar_t> buffer(value.Length()+1);
+			const wchar_t* reading=value.Buffer();
+			wchar_t* writing=&buffer[0];
+
+			while(wchar_t c=*reading++)
+			{
+				if(c==L'&')
+				{
+					if(wcsncmp(reading, L"lt;", 3)==0)
+					{
+						reading+=3;
+						*writing++='<';
+					}
+					else if(wcsncmp(reading, L"gt;", 3)==0)
+					{
+						reading+=3;
+						*writing++='>';
+					}
+					else if(wcsncmp(reading, L"amp;", 4)==0)
+					{
+						reading+=4;
+						*writing++='&';
+					}
+					else if(wcsncmp(reading, L"apos;", 5)==0)
+					{
+						reading+=5;
+						*writing++='\'';
+					}
+					else if(wcsncmp(reading, L"quot;", 5)==0)
+					{
+						reading+=5;
+						*writing++='\"';
+					}
+					else
+					{
+						*writing++=c;
+					}
+				}
+				else
+				{
+					*writing++=c;
+				}
+			}
+			*writing=L'\0';
+			return &buffer[0];
+		}
+
+		WString Trim(const WString& value)
+		{
+			const wchar_t* first=value.Buffer();
+			const wchar_t* last=first+value.Length();
+
+			while(IsSpace(*first)) first++;
+			while(first<last && IsSpace(last[-1])) last--;
+			return WString(first, last-first);
 		}
 
 		wchar_t XmlReader::GetNextChar()
@@ -50,7 +105,18 @@ XmlReader
 		WString XmlReader::GetWord(wchar_t &leading)
 		{
 			WString value=L"";
-			while(leading==L'<' || leading==L'\0')
+			while(IsWord(leading))
+			{
+				value+=leading;
+				leading=GetNextChar();
+			}
+			return value;
+		}
+
+		WString XmlReader::GetText(wchar_t &leading)
+		{
+			WString value=L"";
+			while(leading!=L'<' && leading!=L'\0')
 			{
 				value+=leading;
 				leading=GetNextChar();
@@ -220,8 +286,16 @@ XmlReader
 						}
 						else
 						{
-							readerState=RS_BEGIN;
-							return TransferToText(GetWord(leading));
+							WString value=GetText(leading);
+							if(leading==L'<')
+							{
+								readerState=RS_ELEMENT_LEADING;
+							}
+							else
+							{
+								readerState=RS_BEGIN;
+							}
+							return TransferToText(Unescape(Trim(value)));
 						}
 					}
 					break;
@@ -246,6 +320,10 @@ XmlReader
 							if(leading==L'/')
 							{
 								readerState=RS_ELEMENT_PRE_NO_CHILDREN_HEAD_CLOSING;
+							}
+							else if(leading==L'>')
+							{
+								readerState=RS_ELEMENT_HEAD_CLOSING;
 							}
 							else
 							{
@@ -333,7 +411,7 @@ XmlReader
 										break;
 									case 2:
 										readerState=RS_BEGIN;
-										return TransferToComment(value);
+										return TransferToComment(Unescape(value));
 									}
 									break;
 								default:
@@ -470,6 +548,12 @@ XmlReader
 						{
 							return TransferToWrongFormat();
 						}
+					}
+					break;
+				case RS_ELEMENT_HEAD_CLOSING:
+					{
+						readerState=RS_BEGIN;
+						return TransferToElementHeadClosing();
 					}
 					break;
 				}
