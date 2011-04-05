@@ -56,6 +56,7 @@ Xml
 				RS_ELEMENT_ATTRIBUTE_OR_HEAD_CLOSING,
 				RS_ELEMENT_PRE_NO_CHILDREN_HEAD_CLOSING,
 				RS_ELEMENT_NO_CHILDREN_HEAD_CLOSING,
+				RS_ELEMENT_HEAD_CLOSING,
 			};
 
 			stream::TextReader*					reader;
@@ -69,6 +70,7 @@ Xml
 			wchar_t								GetNextChar();
 			wchar_t								GetNextCharSkipSpaces();
 			WString								GetWord(wchar_t &leading);
+			WString								GetText(wchar_t &leading);
 
 			bool								TransferToElementHeadOpening(const WString& _name);
 			bool								TransferToElementHeadClosing();

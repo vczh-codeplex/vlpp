@@ -214,3 +214,210 @@ TEST_CASE(TestEntity_XmlWriter)
 			);
 	}
 }
+
+/***********************************************************************
+XmlReader
+***********************************************************************/
+
+namespace TestEntityHelper
+{
+	void AssertXmlReader_BeginOfFile(XmlReader& xml)
+	{
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::BeginOfFile);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==L"");
+	}
+
+	void AssertXmlReader_ElementHeadOpening(XmlReader& xml, const WString& name)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementHeadOpening);
+		TEST_ASSERT(xml.CurrentName()==name);
+		TEST_ASSERT(xml.CurrentValue()==L"");
+	}
+	
+	void AssertXmlReader_ElementHeadClosing(XmlReader& xml)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementHeadClosing);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==L"");
+	}
+	
+	void AssertXmlReader_ElementClosing(XmlReader& xml)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementClosing);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==L"");
+	}
+	
+	void AssertXmlReader_Attribute(XmlReader& xml, const WString& name, const WString& value)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Attribute);
+		TEST_ASSERT(xml.CurrentName()==name);
+		TEST_ASSERT(xml.CurrentValue()==value);
+	}
+	
+	void AssertXmlReader_Text(XmlReader& xml, const WString& value)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Text);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==value);
+	}
+	
+	void AssertXmlReader_CData(XmlReader& xml, const WString& value)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::CData);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==value);
+	}
+	
+	void AssertXmlReader_Comment(XmlReader& xml, const WString& value)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Comment);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==value);
+	}
+	
+	void AssertXmlReader_EndOfFile(XmlReader& xml)
+	{
+		xml.Next();
+		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::EndOfFile);
+		TEST_ASSERT(xml.CurrentName()==L"");
+		TEST_ASSERT(xml.CurrentValue()==L"");
+	}
+};
+using namespace TestEntityHelper;
+
+#define CREATE_XML_READER(CONTENT)\
+	MemoryStream memoryStream;\
+	StreamWriter streamWriter(memoryStream);\
+	streamWriter.WriteString(CONTENT);\
+	memoryStream.SeekFromBegin(0);\
+	StreamReader streamReader(memoryStream);\
+	XmlReader xml(streamReader);\
+	AssertXmlReader_BeginOfFile(xml)
+
+TEST_CASE(TestEntity_XmlReader)
+{
+	{
+		CREATE_XML_READER(
+			_(<root/>)
+			);
+		AssertXmlReader_ElementHeadOpening(xml, L"root");
+		AssertXmlReader_ElementHeadClosing(xml);
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+	{
+		CREATE_XML_READER(
+			_(<root name = "value"/>)
+			);
+		AssertXmlReader_ElementHeadOpening(xml, L"root");
+		AssertXmlReader_Attribute(xml, L"name", L"value");
+		AssertXmlReader_ElementHeadClosing(xml);
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+	{
+		CREATE_XML_READER(
+			_(<root condition = "1&lt;2 &amp;&amp; 3&gt;4" message = "&quot;abc&quot;;&apos;def&apos;"/>)
+			);
+		AssertXmlReader_ElementHeadOpening(xml, L"root");
+		AssertXmlReader_Attribute(xml, L"condition", L"1<2 && 3>4");
+		AssertXmlReader_Attribute(xml, L"message", L"\"abc\";\'def\'");
+		AssertXmlReader_ElementHeadClosing(xml);
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+	{
+		CREATE_XML_READER(
+			_(<books>)
+			_____(<book>C++ Primer</book>)
+			_____(<book>C# Primer</book>)
+			_(</books>)
+			);
+		AssertXmlReader_ElementHeadOpening(xml, L"books");
+		AssertXmlReader_ElementHeadClosing(xml);
+
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_ElementHeadClosing(xml);
+			AssertXmlReader_Text(xml, L"C++ Primer");
+			AssertXmlReader_ElementClosing(xml);
+
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_ElementHeadClosing(xml);
+			AssertXmlReader_Text(xml, L"C# Primer");
+			AssertXmlReader_ElementClosing(xml);
+
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+	{
+		CREATE_XML_READER(
+			_(<books>)
+			_____(<book>C++ Primer</book>)
+			_____(<book name = "C# Primer">)
+			_________(<author>I don&apos;t know</author>)
+			_____(</book>)
+			_(</books>)
+			);
+		AssertXmlReader_ElementHeadOpening(xml, L"books");
+		AssertXmlReader_ElementHeadClosing(xml);
+
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_ElementHeadClosing(xml);
+			AssertXmlReader_Text(xml, L"C++ Primer");
+			AssertXmlReader_ElementClosing(xml);
+
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_Attribute(xml, L"name", L"C# Primer");
+			AssertXmlReader_ElementHeadClosing(xml);
+				AssertXmlReader_ElementHeadOpening(xml, L"author");
+				AssertXmlReader_ElementHeadClosing(xml);
+				AssertXmlReader_Text(xml, L"I don't know");
+				AssertXmlReader_ElementClosing(xml);
+			AssertXmlReader_ElementClosing(xml);
+
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+	{
+		CREATE_XML_READER(
+			_(<books>)
+			_____(<!--C++ Primer Content-->)
+			_____(<book name = "C++ Primer">)
+			_________(This is the content of &quot;C++ Primer&quot;.)
+			_____(</book>)
+			_____(<!--C# Primer Content-->)
+			_____(<book name = "C# Primer"><![CDATA[This is the content of "C# Primer".]]>)
+			_____(</book>)
+			_(</books>)
+			);
+
+		AssertXmlReader_ElementHeadOpening(xml, L"books");
+		AssertXmlReader_ElementHeadClosing(xml);
+
+			AssertXmlReader_Comment(xml, L"C++ Primer Content");
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_Attribute(xml, L"name", L"C++ Primer");
+			AssertXmlReader_ElementHeadClosing(xml);
+			AssertXmlReader_Text(xml, L"This is the content of \"C++ Primer\".");
+			AssertXmlReader_ElementClosing(xml);
+
+			AssertXmlReader_Comment(xml, L"C# Primer Content");
+			AssertXmlReader_ElementHeadOpening(xml, L"book");
+			AssertXmlReader_Attribute(xml, L"name", L"C# Primer");
+			AssertXmlReader_ElementHeadClosing(xml);
+			AssertXmlReader_CData(xml, L"This is the content of \"C# Primer\".");
+			AssertXmlReader_ElementClosing(xml);
+
+		AssertXmlReader_ElementClosing(xml);
+		AssertXmlReader_EndOfFile(xml);
+	}
+}
