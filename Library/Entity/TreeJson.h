@@ -62,9 +62,36 @@ Json
 		class JsonWriter
 		{
 		protected:
+			enum WriterState
+			{
+				WS_OBJECT,
+				WS_FIRST_FIELD,
+				WS_NEXT_FIELD,
+				WS_FIRST_ARRAY_ELEMENT,
+				WS_NEXT_ARRAY_ELEMENT,
+				WS_END_OF_FILE,
+			};
+
+			enum WriterObject
+			{
+				WO_OBJECT,
+				WO_ARRAY,
+			};
+
+			friend class collections::ReadonlyListEnumerator<WriterObject>;
+		protected:
 			stream::TextWriter*					writer;
 			bool								autoNewLine;
 			WString								space;
+			
+			vint								indentation;
+			WriterState							writerState;
+			collections::List<WriterObject>		writerObjects;
+
+			void								Indent(int deltaIndentation);
+			void								WriteObjectPrefix();
+			void								WriteEncodedString(const WString& value);
+			void								CloseElement();
 		public:
 			JsonWriter(stream::TextWriter& _writer, bool _autoNewLine=true, const WString& _space=L"    ");
 			~JsonWriter();
