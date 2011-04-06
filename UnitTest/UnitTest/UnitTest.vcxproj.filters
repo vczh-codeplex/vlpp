@@ -531,6 +531,9 @@
     <ClCompile Include="TestEntityTree.cpp">
       <Filter>Source Files\Fundamental</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\TreeJson.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1730,6 +1733,9 @@
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\TreeDoc.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\TreeJson.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
