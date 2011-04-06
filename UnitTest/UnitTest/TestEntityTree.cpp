@@ -3,6 +3,7 @@
 #include "..\..\Library\Collections\Operation.h"
 #include "..\..\Library\Entity\TreeQuery.h"
 #include "..\..\Library\Entity\TreeXml.h"
+#include "..\..\Library\Entity\TreeJson.h"
 #include "..\..\Library\Stream\MemoryStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
 
@@ -419,5 +420,179 @@ TEST_CASE(TestEntity_XmlReader)
 
 		AssertXmlReader_ElementClosing(xml);
 		AssertXmlReader_EndOfFile(xml);
+	}
+}
+
+/***********************************************************************
+JsonWriter
+***********************************************************************/
+
+#define CREATE_JSON_WRITER \
+	MemoryStream memoryStream; \
+	StreamWriter streamWriter(memoryStream); \
+	JsonWriter json(streamWriter)
+
+#define ASSERT_JSON_CONTENT(CONTENT) \
+	memoryStream.SeekFromBegin(0); \
+	StreamReader streamReader(memoryStream); \
+	WString jsonText=streamReader.ReadToEnd()+L"\r\n"; \
+	if(jsonText!=CONTENT) \
+	{ \
+		vl::unittest::UnitTest::PrintError(L"Wrong JSON Text!"); \
+		vl::unittest::UnitTest::PrintError(jsonText); \
+	} \
+	TEST_ASSERT(jsonText==CONTENT)
+
+TEST_CASE(TestEntity_JsonWriter)
+{
+	{
+		CREATE_JSON_WRITER;
+		json.WriteBool(true);
+
+		ASSERT_JSON_CONTENT(
+			_(true)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.WriteBool(false);
+
+		ASSERT_JSON_CONTENT(
+			_(false)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.WriteNull();
+
+		ASSERT_JSON_CONTENT(
+			_(null)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.WriteInt(-1);
+
+		ASSERT_JSON_CONTENT(
+			_(-1)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.WriteInt(200);
+
+		ASSERT_JSON_CONTENT(
+			_(200)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.WriteDouble(3.5);
+
+		ASSERT_JSON_CONTENT(
+			_(3.5)
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenArray();
+		json.CloseArray();
+
+		ASSERT_JSON_CONTENT(
+			_([])
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenArray();
+		json.WriteInt(1);
+		json.CloseArray();
+
+		ASSERT_JSON_CONTENT(
+			_([1])
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenArray();
+		json.WriteInt(1);
+		json.WriteInt(2);
+		json.WriteInt(3);
+		json.CloseArray();
+
+		ASSERT_JSON_CONTENT(
+			L"[1, 2, 3]" L"\r\n"
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenObject();
+		json.CloseObject();
+
+		ASSERT_JSON_CONTENT(
+			L"{"							L"\r\n"
+			L"}"							L"\r\n"
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenObject();
+		json.AddField(L"name");
+		json.WriteString(L"vczh");
+		json.CloseObject();
+
+		ASSERT_JSON_CONTENT(
+			L"{"							L"\r\n"
+			L"    \"name\" : \"vczh\""		L"\r\n"
+			L"}"							L"\r\n"
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenObject();
+		json.AddField(L"name");
+		json.WriteString(L"vczh");
+		json.AddField(L"id");
+		json.WriteInt(1024);
+		json.CloseObject();
+
+		ASSERT_JSON_CONTENT(
+			L"{"							L"\r\n"
+			L"    \"name\" : \"vczh\","		L"\r\n"
+			L"    \"id\" : 1024"			L"\r\n"
+			L"}"							L"\r\n"
+			);
+	}
+	{
+		CREATE_JSON_WRITER;
+		json.OpenObject();
+		json.AddField(L"name");
+		json.WriteString(L"vczh");
+		json.AddField(L"languages");
+			json.OpenArray();
+			json.WriteString(L"C++");
+			json.WriteString(L"C#");
+			json.WriteString(L"F#");
+			json.WriteString(L"Haskell");
+			json.CloseArray();
+		json.AddField(L"project");
+			json.OpenObject();
+			json.AddField(L"host");
+			json.WriteString(L"codeplex");
+			json.AddField(L"language");
+			json.WriteString(L"C++");
+			json.CloseObject();
+		json.CloseObject();
+
+		ASSERT_JSON_CONTENT(
+			L"{"															L"\r\n"
+			L"    \"name\" : \"vczh\","										L"\r\n"
+			L"    \"languages\" : [\"C++\", \"C#\", \"F#\", \"Haskell\"],"	L"\r\n"
+			L"    \"project\" : {"											L"\r\n"
+			L"        \"host\" : \"codeplex\","								L"\r\n"
+			L"        \"language\" : \"C++\""								L"\r\n"
+			L"    }"														L"\r\n"
+			L"}"															L"\r\n"
+			);
 	}
 }
