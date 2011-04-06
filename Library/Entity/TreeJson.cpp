@@ -53,6 +53,38 @@ JsonWriter
 
 		void JsonWriter::WriteEncodedString(const WString& value)
 		{
+			const wchar_t* reading=value.Buffer();
+			writer->WriteString(L"\"");
+			while(wchar_t c=*reading++)
+			{
+				switch(c)
+				{
+				case L'\"':
+					writer->WriteString(L"\\\"");
+					break;
+				case L'\\':
+					writer->WriteString(L"\\\\");
+					break;
+				case L'/':
+					writer->WriteString(L"\\/");
+					break;
+				case L'\f':
+					writer->WriteString(L"\\f");
+					break;
+				case L'\n':
+					writer->WriteString(L"\\n");
+					break;
+				case L'\r':
+					writer->WriteString(L"\\r");
+					break;
+				case L'\t':
+					writer->WriteString(L"\\t");
+					break;
+				default:
+					writer->WriteChar(c);
+				}
+			}
+			writer->WriteString(L"\"");
 		}
 
 		void JsonWriter::CloseElement()
@@ -137,7 +169,6 @@ JsonWriter
 			{
 				WriteObjectPrefix();
 				writer->WriteString(L"[");
-				indentation++;
 				writerObjects.Add(WO_ARRAY);
 				writerState=WS_FIRST_ARRAY_ELEMENT;
 				return true;
@@ -153,7 +184,6 @@ JsonWriter
 				if(wo==WO_ARRAY)
 				{
 					writerObjects.RemoveAt(writerObjects.Count()-1);
-					Indent(-1);
 					writer->WriteString(L"]");
 					CloseElement();
 					return true;
