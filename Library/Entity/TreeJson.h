@@ -57,6 +57,9 @@ Json
 				RS_ELEMENT,
 				RS_COMMA_OR_ARRAY_CLOSING,
 				RS_END_OF_FILE,
+
+				RS_PRE_OBJECT_CLOSING,
+				RS_PRE_ARRAY_CLOSING,
 			};
 
 			enum ReaderObject
@@ -79,18 +82,18 @@ Json
 			WString								GetWord(wchar_t &leading);
 			WString								GetText(wchar_t &leading);
 
-			void								CloseObject(bool aggregationObject);
+			bool								CloseObject(bool aggregationObject, wchar_t nextLeading);
 			bool								TransferToObjectOpening();
 			bool								TransferToObjectClosing();
 			bool								TransferToField(const WString& _value);
 			bool								TransferToArrayOpening();
 			bool								TransferToArrayClosing();
-			bool								TransferToPrimitive(ComponentType _componentType, const WString& _value);
-			bool								TransferToBool(const WString& _value);
-			bool								TransferToInt(const WString& _value);
-			bool								TransferToDouble(const WString& _value);
-			bool								TransferToString(const WString& _value);
-			bool								TransferToNull();
+			bool								TransferToPrimitive(ComponentType _componentType, const WString& _value, wchar_t nextLeading);
+			bool								TransferToBool(const WString& _value, wchar_t nextLeading);
+			bool								TransferToInt(const WString& _value, wchar_t nextLeading);
+			bool								TransferToDouble(const WString& _value, wchar_t nextLeading);
+			bool								TransferToString(const WString& _value, wchar_t nextLeading);
+			bool								TransferToNull(wchar_t nextLeading);
 			bool								TransferToEndOfFile();
 			bool								TransferToWrongFormat();
 		public:

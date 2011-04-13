@@ -231,7 +231,7 @@ namespace TestEntityHelper
 
 	void AssertXmlReader_ElementHeadOpening(XmlReader& xml, const WString& name)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementHeadOpening);
 		TEST_ASSERT(xml.CurrentName()==name);
 		TEST_ASSERT(xml.CurrentValue()==L"");
@@ -239,7 +239,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_ElementHeadClosing(XmlReader& xml)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementHeadClosing);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==L"");
@@ -247,7 +247,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_ElementClosing(XmlReader& xml)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::ElementClosing);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==L"");
@@ -255,7 +255,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_Attribute(XmlReader& xml, const WString& name, const WString& value)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Attribute);
 		TEST_ASSERT(xml.CurrentName()==name);
 		TEST_ASSERT(xml.CurrentValue()==value);
@@ -263,7 +263,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_Text(XmlReader& xml, const WString& value)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Text);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==value);
@@ -271,7 +271,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_CData(XmlReader& xml, const WString& value)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::CData);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==value);
@@ -279,7 +279,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_Comment(XmlReader& xml, const WString& value)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==true);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::Comment);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==value);
@@ -287,7 +287,7 @@ namespace TestEntityHelper
 	
 	void AssertXmlReader_EndOfFile(XmlReader& xml)
 	{
-		xml.Next();
+		TEST_ASSERT(xml.Next()==false);
 		TEST_ASSERT(xml.CurrentComponentType()==XmlReader::EndOfFile);
 		TEST_ASSERT(xml.CurrentName()==L"");
 		TEST_ASSERT(xml.CurrentValue()==L"");
@@ -594,5 +594,263 @@ TEST_CASE(TestEntity_JsonWriter)
 			L"    }"														L"\r\n"
 			L"}"															L"\r\n"
 			);
+	}
+}
+
+/***********************************************************************
+JsonReader
+***********************************************************************/
+
+namespace TestEntityHelper
+{
+	void AssertJsonReader_BeginOfFile(JsonReader& json)
+	{
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::BeginOfFile);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_ObjectOpening(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::ObjectOpening);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_ObjectClosing(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::ObjectClosing);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_Field(JsonReader& json, const WString& value)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::Field);
+		TEST_ASSERT(json.CurrentValue()==value);
+	}
+	
+	void AssertJsonReader_ArrayOpening(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::ArrayOpening);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_ArrayClosing(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::ArrayClosing);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_Bool(JsonReader& json, const WString& value)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::Bool);
+		TEST_ASSERT(json.CurrentValue()==value);
+	}
+	
+	void AssertJsonReader_Int(JsonReader& json, const WString& value)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::Int);
+		TEST_ASSERT(json.CurrentValue()==value);
+	}
+	
+	void AssertJsonReader_Double(JsonReader& json, const WString& value)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::Double);
+		TEST_ASSERT(json.CurrentValue()==value);
+	}
+	
+	void AssertJsonReader_String(JsonReader& json, const WString& value)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::String);
+		TEST_ASSERT(json.CurrentValue()==value);
+	}
+	
+	void AssertJsonReader_Null(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::Null);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+	
+	void AssertJsonReader_EndOfFile(JsonReader& json)
+	{
+		TEST_ASSERT(json.Next()==true);
+		TEST_ASSERT(json.CurrentComponentType()==JsonReader::EndOfFile);
+		TEST_ASSERT(json.CurrentValue()==L"");
+	}
+};
+using namespace TestEntityHelper;
+
+#define CREATE_JSON_READER(CONTENT)\
+	MemoryStream memoryStream;\
+	StreamWriter streamWriter(memoryStream);\
+	streamWriter.WriteString(CONTENT);\
+	memoryStream.SeekFromBegin(0);\
+	StreamReader streamReader(memoryStream);\
+	JsonReader json(streamReader);\
+	AssertJsonReader_BeginOfFile(json)
+
+TEST_CASE(TestEntity_JsonReader)
+{
+	{
+		CREATE_JSON_READER(
+			_(true)
+			);
+
+		AssertJsonReader_Bool(json, L"true");
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_(false)
+			);
+
+		AssertJsonReader_Bool(json, L"false");
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_(null)
+			);
+
+		AssertJsonReader_Null(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_(-1)
+			);
+
+		AssertJsonReader_Int(json, L"-1");
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_(200)
+			);
+
+		AssertJsonReader_Int(json, L"200");
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_(3.5)
+			);
+
+		AssertJsonReader_Double(json, L"3.5");
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_([])
+			);
+
+		AssertJsonReader_ArrayOpening(json);
+		AssertJsonReader_ArrayClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			_([1])
+			);
+		
+		AssertJsonReader_ArrayOpening(json);
+			AssertJsonReader_Int(json, L"1");
+		AssertJsonReader_ArrayClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			L"[1, 2, 3]" L"\r\n"
+			);
+		
+		AssertJsonReader_ArrayOpening(json);
+			AssertJsonReader_Int(json, L"1");
+			AssertJsonReader_Int(json, L"2");
+			AssertJsonReader_Int(json, L"3");
+		AssertJsonReader_ArrayClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			L"{"							L"\r\n"
+			L"}"							L"\r\n"
+			);
+		
+		AssertJsonReader_ObjectOpening(json);
+		AssertJsonReader_ObjectClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			L"{"							L"\r\n"
+			L"    \"name\" : \"vczh\""		L"\r\n"
+			L"}"							L"\r\n"
+			);
+		
+		AssertJsonReader_ObjectOpening(json);
+			AssertJsonReader_Field(json, L"name");
+			AssertJsonReader_String(json, L"vczh");
+		AssertJsonReader_ObjectClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			L"{"							L"\r\n"
+			L"    \"name\" : \"vczh\","		L"\r\n"
+			L"    \"id\" : 1024"			L"\r\n"
+			L"}"							L"\r\n"
+			);
+		
+		AssertJsonReader_ObjectOpening(json);
+			AssertJsonReader_Field(json, L"name");
+			AssertJsonReader_String(json, L"vczh");
+			
+			AssertJsonReader_Field(json, L"id");
+			AssertJsonReader_Int(json, L"1024");
+		AssertJsonReader_ObjectClosing(json);
+		AssertJsonReader_EndOfFile(json);
+	}
+	{
+		CREATE_JSON_READER(
+			L"{"															L"\r\n"
+			L"    \"name\" : \"vczh\","										L"\r\n"
+			L"    \"languages\" : [\"C++\", \"C#\", \"F#\", \"Haskell\"],"	L"\r\n"
+			L"    \"project\" : {"											L"\r\n"
+			L"        \"host\" : \"codeplex\","								L"\r\n"
+			L"        \"language\" : \"C++\""								L"\r\n"
+			L"    }"														L"\r\n"
+			L"}"															L"\r\n"
+			);
+		
+		AssertJsonReader_ObjectOpening(json);
+			AssertJsonReader_Field(json, L"name");
+			AssertJsonReader_String(json, L"vczh");
+			
+			AssertJsonReader_Field(json, L"languages");
+			AssertJsonReader_ArrayOpening(json);
+				AssertJsonReader_String(json, L"C++");
+				AssertJsonReader_String(json, L"C#");
+				AssertJsonReader_String(json, L"F#");
+				AssertJsonReader_String(json, L"Haskell");
+			AssertJsonReader_ArrayClosing(json);
+
+			AssertJsonReader_Field(json, L"project");
+			AssertJsonReader_ObjectOpening(json);
+				AssertJsonReader_Field(json, L"host");
+				AssertJsonReader_String(json, L"codeplex");
+				
+				AssertJsonReader_Field(json, L"language");
+				AssertJsonReader_String(json, L"C++");
+			AssertJsonReader_ObjectClosing(json);
+		AssertJsonReader_ObjectClosing(json);
+		AssertJsonReader_EndOfFile(json);
 	}
 }
