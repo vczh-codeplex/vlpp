@@ -10,74 +10,78 @@ namespace vl
 XmlReader
 ***********************************************************************/
 
-		bool IsSpace(wchar_t c)
+		namespace XmlReaderHelper
 		{
-			return c==L' ' || c==L'\t' || c==L'\r' || c==L'\n';
-		}
-
-		bool IsWord(wchar_t c)
-		{
-			return L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.' || c==L'-' || c==L':' || c==L'_';
-		}
-
-		WString Unescape(const WString& value)
-		{
-			Array<wchar_t> buffer(value.Length()+1);
-			const wchar_t* reading=value.Buffer();
-			wchar_t* writing=&buffer[0];
-
-			while(wchar_t c=*reading++)
+			bool IsSpace(wchar_t c)
 			{
-				if(c==L'&')
+				return c==L' ' || c==L'\t' || c==L'\r' || c==L'\n';
+			}
+
+			bool IsWord(wchar_t c)
+			{
+				return L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.' || c==L'-' || c==L':' || c==L'_';
+			}
+
+			WString Unescape(const WString& value)
+			{
+				Array<wchar_t> buffer(value.Length()+1);
+				const wchar_t* reading=value.Buffer();
+				wchar_t* writing=&buffer[0];
+
+				while(wchar_t c=*reading++)
 				{
-					if(wcsncmp(reading, L"lt;", 3)==0)
+					if(c==L'&')
 					{
-						reading+=3;
-						*writing++='<';
-					}
-					else if(wcsncmp(reading, L"gt;", 3)==0)
-					{
-						reading+=3;
-						*writing++='>';
-					}
-					else if(wcsncmp(reading, L"amp;", 4)==0)
-					{
-						reading+=4;
-						*writing++='&';
-					}
-					else if(wcsncmp(reading, L"apos;", 5)==0)
-					{
-						reading+=5;
-						*writing++='\'';
-					}
-					else if(wcsncmp(reading, L"quot;", 5)==0)
-					{
-						reading+=5;
-						*writing++='\"';
+						if(wcsncmp(reading, L"lt;", 3)==0)
+						{
+							reading+=3;
+							*writing++='<';
+						}
+						else if(wcsncmp(reading, L"gt;", 3)==0)
+						{
+							reading+=3;
+							*writing++='>';
+						}
+						else if(wcsncmp(reading, L"amp;", 4)==0)
+						{
+							reading+=4;
+							*writing++='&';
+						}
+						else if(wcsncmp(reading, L"apos;", 5)==0)
+						{
+							reading+=5;
+							*writing++='\'';
+						}
+						else if(wcsncmp(reading, L"quot;", 5)==0)
+						{
+							reading+=5;
+							*writing++='\"';
+						}
+						else
+						{
+							*writing++=c;
+						}
 					}
 					else
 					{
 						*writing++=c;
 					}
 				}
-				else
-				{
-					*writing++=c;
-				}
+				*writing=L'\0';
+				return &buffer[0];
 			}
-			*writing=L'\0';
-			return &buffer[0];
-		}
 
-		WString Trim(const WString& value)
-		{
-			const wchar_t* first=value.Buffer();
-			const wchar_t* last=first+value.Length();
+			WString Trim(const WString& value)
+			{
+				const wchar_t* first=value.Buffer();
+				const wchar_t* last=first+value.Length();
 
-			while(IsSpace(*first)) first++;
-			while(first<last && IsSpace(last[-1])) last--;
-			return WString(first, last-first);
+				while(IsSpace(*first)) first++;
+				while(first<last && IsSpace(last[-1])) last--;
+				return WString(first, last-first);
+			}
 		}
+		using namespace XmlReaderHelper;
 
 		wchar_t XmlReader::GetNextChar()
 		{

@@ -46,9 +46,53 @@ Json
 				WrongFormat,
 			};
 		protected:
+			enum ReaderState
+			{
+				RS_NOT_READ_YET,
+				RS_FIELD_OR_OBJECT_CLOSING,
+				RS_FIELD,
+				RS_FIELD_VALUE,
+				RS_COMMA_OR_OBJECT_CLOSING,
+				RS_ELEMENT_OR_ARRAY_CLOSING,
+				RS_ELEMENT,
+				RS_COMMA_OR_ARRAY_CLOSING,
+				RS_END_OF_FILE,
+			};
+
+			enum ReaderObject
+			{
+				RO_OBJECT,
+				RO_ARRAY,
+			};
+
+			friend class collections::ReadonlyListEnumerator<ReaderObject>;
+		protected:
 			stream::TextReader*					reader;
 			ComponentType						componentType;
 			WString								value;
+			
+			ReaderState							readerState;
+			collections::List<ReaderObject>		readerObjects;
+
+			wchar_t								GetNextChar();
+			wchar_t								GetNextCharSkipSpaces();
+			WString								GetWord(wchar_t &leading);
+			WString								GetText(wchar_t &leading);
+
+			void								CloseObject(bool aggregationObject);
+			bool								TransferToObjectOpening();
+			bool								TransferToObjectClosing();
+			bool								TransferToField(const WString& _value);
+			bool								TransferToArrayOpening();
+			bool								TransferToArrayClosing();
+			bool								TransferToPrimitive(ComponentType _componentType, const WString& _value);
+			bool								TransferToBool(const WString& _value);
+			bool								TransferToInt(const WString& _value);
+			bool								TransferToDouble(const WString& _value);
+			bool								TransferToString(const WString& _value);
+			bool								TransferToNull();
+			bool								TransferToEndOfFile();
+			bool								TransferToWrongFormat();
 		public:
 			JsonReader(stream::TextReader& _reader);
 			~JsonReader();
