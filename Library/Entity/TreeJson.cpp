@@ -20,7 +20,7 @@ JsonReader
 
 			bool IsWord(wchar_t c)
 			{
-				return L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.';
+				return L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.' || c==L'+' || c==L'-';
 			}
 
 			WString Unescape(const WString& value)
@@ -128,7 +128,7 @@ JsonReader
 			return L"";
 		}
 
-		void JsonReader::CloseObject(bool aggregationObject)
+		bool JsonReader::CloseObject(bool aggregationObject, wchar_t nextLeading)
 		{
 			if(aggregationObject)
 			{
@@ -141,12 +141,43 @@ JsonReader
 			else switch(readerObjects[readerObjects.Count()-1])
 			{
 			case RO_OBJECT:
-				readerState=RS_COMMA_OR_OBJECT_CLOSING;
+				if(!nextLeading || IsSpace(nextLeading))
+				{
+					readerState=RS_COMMA_OR_OBJECT_CLOSING;
+				}
+				else if(nextLeading==L',')
+				{
+					readerState=RS_FIELD;
+				}
+				else if(nextLeading==L'}')
+				{
+					readerState=RS_PRE_OBJECT_CLOSING;
+				}
+				else
+				{
+					return false;
+				}
 				break;
 			case RO_ARRAY:
-				readerState=RS_COMMA_OR_ARRAY_CLOSING;
+				if(!nextLeading || IsSpace(nextLeading))
+				{
+					readerState=RS_COMMA_OR_ARRAY_CLOSING;
+				}
+				else if(nextLeading==L',')
+				{
+					readerState=RS_ELEMENT;
+				}
+				else if(nextLeading==L']')
+				{
+					readerState=RS_PRE_ARRAY_CLOSING;
+				}
+				else
+				{
+					return false;
+				}
 				break;
 			}
+			return true;
 		}
 
 		bool JsonReader::TransferToObjectOpening()
@@ -168,8 +199,10 @@ JsonReader
 			{
 				componentType=ObjectClosing;
 				value=L"";
-				CloseObject(true);
-				return true;
+				if(CloseObject(true, L'\0'))
+				{
+					return true;
+				}
 			}
 			return TransferToWrongFormat();
 		}
@@ -179,7 +212,7 @@ JsonReader
 			if(readerState==RS_FIELD_OR_OBJECT_CLOSING || readerState==RS_FIELD)
 			{
 				componentType=Field;
-				value=value;
+				value=_value;
 				readerState=RS_FIELD_VALUE;
 				return true;
 			}
@@ -205,47 +238,51 @@ JsonReader
 			{
 				componentType=ArrayClosing;
 				value=L"";
-				CloseObject(true);
-				return true;
+				if(CloseObject(true, L'\0'))
+				{
+					return true;
+				}
 			}
 			return TransferToWrongFormat();
 		}
 
-		bool JsonReader::TransferToPrimitive(ComponentType _componentType, const WString& _value)
+		bool JsonReader::TransferToPrimitive(ComponentType _componentType, const WString& _value, wchar_t nextLeading)
 		{
 			if(readerState==RS_NOT_READ_YET || readerState==RS_FIELD_VALUE || readerState==RS_ELEMENT_OR_ARRAY_CLOSING || readerState==RS_ELEMENT)
 			{
 				componentType=_componentType;
 				value=_value;
-				CloseObject(false);
-				return true;
+				if(CloseObject(false, nextLeading))
+				{
+					return true;
+				}
 			}
 			return TransferToWrongFormat();
 		}
 
-		bool JsonReader::TransferToBool(const WString& _value)
+		bool JsonReader::TransferToBool(const WString& _value, wchar_t nextLeading)
 		{
-			return TransferToPrimitive(Bool, _value);
+			return TransferToPrimitive(Bool, _value, nextLeading);
 		}
 
-		bool JsonReader::TransferToInt(const WString& _value)
+		bool JsonReader::TransferToInt(const WString& _value, wchar_t nextLeading)
 		{
-			return TransferToPrimitive(Int, _value);
+			return TransferToPrimitive(Int, _value, nextLeading);
 		}
 
-		bool JsonReader::TransferToDouble(const WString& _value)
+		bool JsonReader::TransferToDouble(const WString& _value, wchar_t nextLeading)
 		{
-			return TransferToPrimitive(Double, _value);
+			return TransferToPrimitive(Double, _value, nextLeading);
 		}
 
-		bool JsonReader::TransferToString(const WString& _value)
+		bool JsonReader::TransferToString(const WString& _value, wchar_t nextLeading)
 		{
-			return TransferToPrimitive(String, _value);
+			return TransferToPrimitive(String, _value, nextLeading);
 		}
 
-		bool JsonReader::TransferToNull()
+		bool JsonReader::TransferToNull(wchar_t nextLeading)
 		{
-			return TransferToPrimitive(Null, L"");
+			return TransferToPrimitive(Null, L"", nextLeading);
 		}
 
 		bool JsonReader::TransferToEndOfFile()
@@ -305,7 +342,7 @@ JsonReader
 								{
 									return TransferToEndOfFile();
 								}
-								return TransferToString(stringValue);
+								return TransferToString(stringValue, GetNextChar());
 							}
 						default:
 							if(IsWord(leading))
@@ -313,30 +350,31 @@ JsonReader
 								WString wordValue=GetWord(leading);
 								if(wordValue==L"null")
 								{
-									return TransferToNull();
+									return TransferToNull(leading);
 								}
 								else if(wordValue==L"true")
 								{
-									return TransferToBool(L"true");
+									return TransferToBool(L"true", leading);
 								}
 								else if(wordValue==L"false")
 								{
-									return TransferToBool(L"false");
+									return TransferToBool(L"false", leading);
 								}
 								else
 								{
 									const wchar_t* reading=wordValue.Buffer();
 									wchar_t* endptr=0;
-									wcstod(reading, &endptr);
-									if(*endptr==L'\0')
-									{
-										return TransferToDouble(wordValue);
-									}
 
 									wcstol(reading, &endptr, 10);
 									if(*endptr==L'\0')
 									{
-										return TransferToInt(wordValue);
+										return TransferToInt(wordValue, leading);
+									}
+
+									wcstod(reading, &endptr);
+									if(*endptr==L'\0')
+									{
+										return TransferToDouble(wordValue, leading);
 									}
 
 									return TransferToWrongFormat();
@@ -364,6 +402,10 @@ JsonReader
 							{
 								return TransferToEndOfFile();
 							}
+							if(GetNextCharSkipSpaces()!=L':')
+							{
+								return TransferToWrongFormat();
+							}
 							return TransferToField(fieldName);
 						}
 						else if(leading==L'}')
@@ -379,6 +421,7 @@ JsonReader
 					{
 						return TransferToEndOfFile();
 					}
+					break;
 				case RS_COMMA_OR_OBJECT_CLOSING:
 				case RS_COMMA_OR_ARRAY_CLOSING:
 					if(wchar_t leading=GetNextCharSkipSpaces())
@@ -404,8 +447,13 @@ JsonReader
 					{
 						return TransferToEndOfFile();
 					}
+					break;
 				case RS_END_OF_FILE:
 					return TransferToEndOfFile();
+				case RS_PRE_OBJECT_CLOSING:
+					return TransferToObjectClosing();
+				case RS_PRE_ARRAY_CLOSING:
+					return TransferToArrayClosing();
 				}
 			}
 		}
