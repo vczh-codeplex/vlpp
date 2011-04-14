@@ -6,13 +6,11 @@ Framework::Entity
 Classes:
 	JsonReader									：Json读取
 	JsonWriter									：Json写入
-	TreeJsonSerializer							：可查询树Json读写
 ***********************************************************************/
 
 #ifndef VCZH_ENTITY_TREEJSON
 #define VCZH_ENTITY_TREEJSON
 
-#include "TreeQuery.h"
 #include "..\Stream\Accessor.h"
 #include "..\Collections\List.h"
 
@@ -48,18 +46,19 @@ Json
 		protected:
 			enum ReaderState
 			{
-				RS_NOT_READ_YET,
 				RS_FIELD_OR_OBJECT_CLOSING,
 				RS_FIELD,
 				RS_FIELD_VALUE,
+				RS_PRE_OBJECT_CLOSING,
 				RS_COMMA_OR_OBJECT_CLOSING,
+
 				RS_ELEMENT_OR_ARRAY_CLOSING,
 				RS_ELEMENT,
-				RS_COMMA_OR_ARRAY_CLOSING,
-				RS_END_OF_FILE,
-
-				RS_PRE_OBJECT_CLOSING,
 				RS_PRE_ARRAY_CLOSING,
+				RS_COMMA_OR_ARRAY_CLOSING,
+				
+				RS_NOT_READ_YET,
+				RS_END_OF_FILE,
 			};
 
 			enum ReaderObject
@@ -154,10 +153,6 @@ Json
 			bool								WriteString(const WString& value);
 			bool								WriteNull();
 		};
-
-/***********************************************************************
-TreeJson
-***********************************************************************/
 	}
 }
 

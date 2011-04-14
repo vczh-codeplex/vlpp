@@ -136,6 +136,10 @@ JsonReader
 			}
 			if(readerObjects.Count()==0)
 			{
+				if(nextLeading && !IsSpace(nextLeading))
+				{
+					return false;
+				}
 				readerState=RS_END_OF_FILE;
 			}
 			else switch(readerObjects[readerObjects.Count()-1])
@@ -449,7 +453,14 @@ JsonReader
 					}
 					break;
 				case RS_END_OF_FILE:
-					return TransferToEndOfFile();
+					if(GetNextCharSkipSpaces())
+					{
+						return TransferToWrongFormat();
+					}
+					else
+					{
+						return TransferToEndOfFile();
+					}
 				case RS_PRE_OBJECT_CLOSING:
 					return TransferToObjectClosing();
 				case RS_PRE_ARRAY_CLOSING:

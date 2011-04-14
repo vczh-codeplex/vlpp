@@ -6,7 +6,6 @@ Framework::Entity
 Classes:
 	DocReader									：可阅读文档读取
 	DocWriter									：可阅读文档写入
-	TreeXmlSerializer							：可查询树可阅读文档读写
 ***********************************************************************/
 
 #ifndef VCZH_ENTITY_TREEDOC

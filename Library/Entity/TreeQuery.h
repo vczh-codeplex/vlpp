@@ -21,6 +21,7 @@ Classes:
 #include "..\Pointer.h"
 #include "..\Collections\Dictionary.h"
 #include "..\Collections\OperationEnumerable.h"
+#include "..\Stream\Accessor.h"
 
 namespace vl
 {
@@ -121,6 +122,24 @@ namespace vl
 			bool													IsTextNode()const;
 			const WString&											GetText()const;
 		};
+
+/***********************************************************************
+ÎÄµµ¶ÁÐ´
+***********************************************************************/
+
+		extern Ptr<TreeNode>					LoadXmlRawDocument(stream::TextReader& reader);
+		extern Ptr<TreeNode>					LoadXmlObjectDocument(stream::TextReader& reader);
+		extern bool								SaveXmlRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
+		extern bool								SaveXmlObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
+		extern bool								IsValidXmlRawDocument(Ptr<TreeNode> node);
+
+		extern Ptr<TreeNode>					LoadJsonRawDocument(stream::TextReader& reader);
+		extern Ptr<TreeNode>					LoadJsonObjectDocument(stream::TextReader& reader);
+		extern bool								SaveJsonRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
+		extern bool								SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
+		extern bool								IsValidJsonRawDocument(Ptr<TreeNode> node);
+
+		extern bool								IsValidObjectDocument(Ptr<TreeNode> node);
 	}
 }
 
