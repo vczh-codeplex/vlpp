@@ -1,4 +1,6 @@
 #include "TreeQuery.h"
+#include "TreeXml.h"
+#include "TreeJson.h"
 #include "..\Collections\Operation.h"
 
 namespace vl
@@ -164,6 +166,65 @@ TreeText
 		const WString& TreeText::GetText()const
 		{
 			return value;
+		}
+
+/***********************************************************************
+ÎÄµµ¶ÁÐ´
+***********************************************************************/
+
+		Ptr<TreeNode> LoadXmlRawDocument(stream::TextReader& reader)
+		{
+			return 0;
+		}
+
+		Ptr<TreeNode> LoadXmlObjectDocument(stream::TextReader& reader)
+		{
+			return 0;
+		}
+
+		bool SaveXmlRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		bool SaveXmlObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		bool IsValidXmlRawDocument(Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		Ptr<TreeNode> LoadJsonRawDocument(stream::TextReader& reader)
+		{
+			return 0;
+		}
+
+		Ptr<TreeNode> LoadJsonObjectDocument(stream::TextReader& reader)
+		{
+			return 0;
+		}
+
+		bool SaveJsonRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		bool SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		bool IsValidJsonRawDocument(Ptr<TreeNode> node)
+		{
+			return false;
+		}
+
+		bool IsValidObjectDocument(Ptr<TreeNode> node)
+		{
+			return false;
 		}
 	}
 }

@@ -6,13 +6,11 @@ Framework::Entity
 Classes:
 	XmlReader									：XML读取
 	XmlWriter									：XML写入
-	TreeXmlSerializer							：可查询树XML读写
 ***********************************************************************/
 
 #ifndef VCZH_ENTITY_TREEXML
 #define VCZH_ENTITY_TREEXML
 
-#include "TreeQuery.h"
 #include "..\Stream\Accessor.h"
 #include "..\Collections\List.h"
 
@@ -121,10 +119,6 @@ Xml
 			bool								WriteCData(const WString& value);
 			bool								WriteComment(const WString& value);
 		};
-
-/***********************************************************************
-TreeXml
-***********************************************************************/
 	}
 }
 
