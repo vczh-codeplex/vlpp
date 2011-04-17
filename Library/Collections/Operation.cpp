@@ -14,6 +14,21 @@ namespace vl
 			return MinProcessor();
 		}
 
+		FirstProcessor First()
+		{
+			return FirstProcessor();
+		}
+
+		CountProcessor Count()
+		{
+			return CountProcessor();
+		}
+
+		IsEmptyProcessor IsEmpty()
+		{
+			return IsEmptyProcessor();
+		}
+
 		TakeProcessor Take(vint count)
 		{
 			return TakeProcessor(count);

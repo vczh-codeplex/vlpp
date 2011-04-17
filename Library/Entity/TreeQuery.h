@@ -42,6 +42,7 @@ namespace vl
 			virtual const WString&									GetText()const=0;
 			virtual const WString&									GetName()const=0;
 			virtual bool											IsAttributeExists(const WString& name)const=0;
+			virtual collections::Enumerable<WString>				GetAttributeNames()const=0;
 			virtual Ptr<ITreeQuerable>								GetAttribute(const WString& name)const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElement(const WString& name)const=0;
 			virtual collections::Enumerable<Ptr<ITreeQuerable>>		GetElements()const=0;
@@ -72,6 +73,7 @@ namespace vl
 			const WString&											GetText()const;
 			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
+			collections::Enumerable<WString>						GetAttributeNames()const;
 			Ptr<ITreeQuerable>										GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
@@ -90,6 +92,7 @@ namespace vl
 			
 			const WString&											GetName()const;
 			bool													IsAttributeExists(const WString& name)const;
+			collections::Enumerable<WString>						GetAttributeNames()const;
 			Ptr<ITreeQuerable>										GetAttribute(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElement(const WString& name)const;
 			collections::Enumerable<Ptr<ITreeQuerable>>				GetElements()const;
@@ -128,18 +131,20 @@ namespace vl
 ***********************************************************************/
 
 		extern Ptr<TreeNode>					LoadXmlRawDocument(stream::TextReader& reader);
+		extern bool								SaveXmlRawDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);
+		extern bool								IsValidXmlRawDocument(Ptr<ITreeQuerable> node);
+
 		extern Ptr<TreeNode>					LoadXmlObjectDocument(stream::TextReader& reader);
-		extern bool								SaveXmlRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
-		extern bool								SaveXmlObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
-		extern bool								IsValidXmlRawDocument(Ptr<TreeNode> node);
+		extern bool								SaveXmlObjectDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);
 
 		extern Ptr<TreeNode>					LoadJsonRawDocument(stream::TextReader& reader);
-		extern Ptr<TreeNode>					LoadJsonObjectDocument(stream::TextReader& reader);
-		extern bool								SaveJsonRawDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
-		extern bool								SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<TreeNode> node);
-		extern bool								IsValidJsonRawDocument(Ptr<TreeNode> node);
+		extern bool								SaveJsonRawDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);
+		extern bool								IsValidJsonRawDocument(Ptr<ITreeQuerable> node);\
 
-		extern bool								IsValidObjectDocument(Ptr<TreeNode> node);
+		extern Ptr<TreeNode>					LoadJsonObjectDocument(stream::TextReader& reader);
+		extern bool								SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);
+
+		extern bool								IsValidObjectDocument(Ptr<ITreeQuerable> node);
 	}
 }
 

@@ -13,6 +13,9 @@ Functions:
 	[T] >> Any(T->bool) => bool
 	[T] >> Max() => T
 	[T] >> Min() => T
+	[T] >> First() => T
+	[T] >> Count() => vint
+	[T] >> IsEmpty() => bool
 	[T] >> Concat([T]) => [T]
 	[T] >> Repeat(vint) => [T]
 	[T] >> Take(vint) => [T]
