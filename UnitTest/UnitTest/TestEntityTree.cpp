@@ -4,6 +4,7 @@
 #include "..\..\Library\Entity\TreeQuery.h"
 #include "..\..\Library\Entity\TreeXml.h"
 #include "..\..\Library\Entity\TreeJson.h"
+#include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\MemoryStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
 
@@ -568,7 +569,7 @@ namespace TestEntityHelper
 			StreamReader reader(stream);
 			node2=LoadJsonRawDocument(reader);
 			TEST_ASSERT(node2);
-			TEST_ASSERT(IsValidXmlRawDocument(node2));
+			TEST_ASSERT(IsValidJsonRawDocument(node2));
 		}
 		TEST_ASSERT(IsNodeEqual(node1, node2));
 	}
@@ -699,24 +700,22 @@ TEST_CASE(TestEntity_JsonWriter)
 	{
 		CREATE_JSON_WRITER;
 		json.OpenObject();
-		json.AddField(L"name");
-		json.WriteString(L"vczh");
 		json.AddField(L"id");
 		json.WriteInt(1024);
+		json.AddField(L"name");
+		json.WriteString(L"vczh");
 		json.CloseObject();
 
 		ASSERT_JSON_CONTENT(
 			L"{"							L"\r\n"
-			L"    \"name\" : \"vczh\","		L"\r\n"
-			L"    \"id\" : 1024"			L"\r\n"
+			L"    \"id\" : 1024,"			L"\r\n"
+			L"    \"name\" : \"vczh\""		L"\r\n"
 			L"}"							L"\r\n"
 			);
 	}
 	{
 		CREATE_JSON_WRITER;
 		json.OpenObject();
-		json.AddField(L"name");
-		json.WriteString(L"vczh");
 		json.AddField(L"languages");
 			json.OpenArray();
 			json.WriteString(L"C++");
@@ -724,6 +723,8 @@ TEST_CASE(TestEntity_JsonWriter)
 			json.WriteString(L"F#");
 			json.WriteString(L"Haskell");
 			json.CloseArray();
+		json.AddField(L"name");
+		json.WriteString(L"vczh");
 		json.AddField(L"project");
 			json.OpenObject();
 			json.AddField(L"host");
@@ -735,8 +736,8 @@ TEST_CASE(TestEntity_JsonWriter)
 
 		ASSERT_JSON_CONTENT(
 			L"{"															L"\r\n"
-			L"    \"name\" : \"vczh\","										L"\r\n"
 			L"    \"languages\" : [\"C++\", \"C#\", \"F#\", \"Haskell\"],"	L"\r\n"
+			L"    \"name\" : \"vczh\","										L"\r\n"
 			L"    \"project\" : {"											L"\r\n"
 			L"        \"host\" : \"codeplex\","								L"\r\n"
 			L"        \"language\" : \"C++\""								L"\r\n"
@@ -1001,5 +1002,185 @@ TEST_CASE(TestEntity_JsonReader)
 			AssertJsonReader_ObjectClosing(json);
 		AssertJsonReader_ObjectClosing(json);
 		AssertJsonReader_EndOfFile(json);
+	}
+}
+
+/***********************************************************************
+ObjectDocument
+***********************************************************************/
+
+extern WString GetPath();
+
+namespace TestEntityHelper
+{
+	void AssertObjectDocument(Ptr<ITreeQuerable> node, const WString& name)
+	{
+		WString jsonFileName=GetPath()+L"ObjectDocument.json."+name+L".txt";
+		WString xmlFileName=GetPath()+L"ObjectDocument.xml."+name+L".txt";
+		TEST_ASSERT(IsValidObjectDocument(node));
+
+		{
+			FileStream fileStream(jsonFileName, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			TEST_ASSERT(SaveJsonObjectDocument(writer, node, true));
+		}
+		{
+			FileStream fileStream(xmlFileName, FileStream::WriteOnly);
+			BomEncoder encoder(BomEncoder::Utf16);
+			EncoderStream encoderStream(fileStream, encoder);
+			StreamWriter writer(encoderStream);
+			TEST_ASSERT(SaveXmlObjectDocument(writer, node, true));
+		}
+		{
+			FileStream fileStream(jsonFileName, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			Ptr<TreeNode> reload=LoadJsonObjectDocument(reader);
+			//TEST_ASSERT(node);
+			//TEST_ASSERT(IsNodeEqual(node, reload));
+		}
+		{
+			FileStream fileStream(xmlFileName, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			Ptr<TreeNode> reload=LoadXmlObjectDocument(reader);
+			//TEST_ASSERT(node);
+			//TEST_ASSERT(IsNodeEqual(node, reload));
+		}
+	}
+
+	class OdBuilder
+	{
+	public:
+		WString name;
+		List<Ptr<TreeElement>> stack;
+		Ptr<TreeElement> topElement;
+		WString field;
+
+		OdBuilder(const WString& _name)
+			:name(_name)
+		{
+		}
+
+		~OdBuilder()
+		{
+			AssertObjectDocument(topElement, name);
+		}
+
+		void NewObjectInternal(Ptr<TreeElement> element)
+		{
+			if(!topElement)
+			{
+				topElement=element;
+			}
+			else if(field==L"")
+			{
+				stack[stack.Count()-1]->children.Add(element);
+			}
+			else
+			{
+				stack[stack.Count()-1]->attributes.Add(field, element);
+				field=L"";
+			}
+		}
+
+		void Object(const WString& type)
+		{
+			Ptr<TreeElement> element=new TreeElement();
+			element->name=type;
+			NewObjectInternal(element);
+			stack.Add(element);
+		}
+
+		void Field(const WString& _field)
+		{
+			field=_field;
+		}
+
+		void Array(const WString& type)
+		{
+			Ptr<TreeElement> element=new TreeElement();
+			element->name=L"array:"+type;
+			NewObjectInternal(element);
+			stack.Add(element);
+		}
+
+		void Close()
+		{
+			stack.RemoveAt(stack.Count()-1);
+		}
+
+		void Null()
+		{
+			Ptr<TreeElement> element=new TreeElement();
+			element->name=L"primitive:null";
+			NewObjectInternal(element);
+		}
+
+		void Primitive(const WString& type, const WString& value)
+		{
+			Ptr<TreeElement> element=new TreeElement();
+			element->name=L"primitive:"+type;
+			element->children.Add(new TreeText(value));
+			NewObjectInternal(element);
+		}
+	};
+};
+using namespace TestEntityHelper;
+
+TEST_CASE(TestEntity_ObjectDocument)
+{
+	{
+		OdBuilder o(L"Null");
+		o.Null();
+	}
+	{
+		OdBuilder o(L"Primitive");
+		o.Primitive(L"DateTime", L"2012-12-21");
+	}
+	{
+		OdBuilder o(L"Array");
+		o.Array(L"Object");
+		o.Primitive(L"Int", L"1");
+		o.Primitive(L"Int", L"2");
+		o.Primitive(L"Int", L"3");
+		o.Close();
+	}
+	{
+		OdBuilder o(L"Class");
+		o.Object(L"Complex");
+		o.Field(L"Real");
+		o.Primitive(L"Int", L"1");
+		o.Field(L"Imagine");
+		o.Primitive(L"Int", L"2");
+		o.Close();
+	}
+	{
+		OdBuilder o(L"Complex");
+		o.Object(L"Developer");
+			o.Field(L"Name");
+			o.Primitive(L"String", L"vczh");
+
+			o.Field(L"Languages");
+			o.Array(L"String");
+				o.Primitive(L"String", L"C++");
+				o.Primitive(L"String", L"C#");
+				o.Primitive(L"String", L"F#");
+				o.Primitive(L"String", L"Haskell");
+			o.Close();
+
+			o.Field(L"Project");
+			o.Object(L"Project");
+				o.Field(L"Host");
+				o.Primitive(L"String", L"Codeplex");
+
+				o.Field(L"Language");
+				o.Primitive(L"String", L"C++");
+			o.Close();
+		o.Close();
 	}
 }
