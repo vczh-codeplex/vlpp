@@ -10,6 +10,7 @@ Data Structure::Operations
 
 #include "OperationEnumerable.h"
 #include "OperationSelect.h"
+#include "OperationForEach.h"
 
 namespace vl
 {
@@ -227,6 +228,97 @@ Min
 		};
 
 		extern MinProcessor Min();
+
+/***********************************************************************
+First
+***********************************************************************/
+
+		class FirstProcessor : public FreeEnumerableProcessor
+		{
+		public:
+			template<typename T>
+			struct ResultTypeRetriver
+			{
+				typedef T ResultType;
+			};
+
+			FirstProcessor()
+			{
+			}
+
+			template<typename T>
+			T operator()(const IEnumerable<T>& enumerable)const
+			{
+				FOREACH(T, x, enumerable)
+				{
+					return x;
+				}
+				return T();
+			}
+		};
+
+		extern FirstProcessor First();
+
+/***********************************************************************
+Count
+***********************************************************************/
+
+		class CountProcessor : public FreeEnumerableProcessor
+		{
+		public:
+			template<typename T>
+			struct ResultTypeRetriver
+			{
+				typedef vint ResultType;
+			};
+
+			CountProcessor()
+			{
+			}
+
+			template<typename T>
+			vint operator()(const IEnumerable<T>& enumerable)const
+			{
+				vint count=0;
+				FOREACH(T, x, enumerable)
+				{
+					count++;
+				}
+				return count;
+			}
+		};
+
+		extern CountProcessor Count();
+
+/***********************************************************************
+IsEmpty
+***********************************************************************/
+
+		class IsEmptyProcessor : public FreeEnumerableProcessor
+		{
+		public:
+			template<typename T>
+			struct ResultTypeRetriver
+			{
+				typedef bool ResultType;
+			};
+
+			IsEmptyProcessor()
+			{
+			}
+
+			template<typename T>
+			bool operator()(const IEnumerable<T>& enumerable)const
+			{
+				FOREACH(T, x, enumerable)
+				{
+					return false;
+				}
+				return true;
+			}
+		};
+
+		extern IsEmptyProcessor IsEmpty();
 	}
 }
 

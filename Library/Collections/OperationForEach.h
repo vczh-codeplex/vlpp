@@ -29,9 +29,8 @@ ForEach基础设施
 		class ForEachIterator : public Object
 		{
 		public:
-			virtual const T&			Current()const=0;
-			virtual bool				Available()const=0;
-			virtual void				Next(T& variable)const=0;
+			virtual bool				Available(T& variable)const=0;
+			virtual void				Next()const=0;
 
 			operator bool()const
 			{
@@ -59,22 +58,22 @@ IEnumerable<T>支持
 			{
 			}
 
-			const T& Current()const
+			bool Available(T& variable)const
 			{
-				return iterator->Current();
-			}
-
-			bool Available()const
-			{
-				return iterator->Available();
-			}
-
-			void Next(T& variable)const
-			{
-				if(iterator->Next())
+				if(iterator->Available())
 				{
 					variable=iterator->Current();
+					return true;
 				}
+				else
+				{
+					return false;
+				}
+			}
+
+			void Next()const
+			{
+				iterator->Next();
 			}
 		};
 
@@ -94,12 +93,12 @@ ForEach宏
 
 #define FOREACH(TYPE, VARIABLE, COLLECTION)\
 		SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
-		for(TYPE VARIABLE = __foreach_iterator__.Current();__foreach_iterator__.Available();__foreach_iterator__.Next(VARIABLE))
+		for(TYPE VARIABLE;__foreach_iterator__.Available(VARIABLE);__foreach_iterator__.Next())
 
 #define FOREACH_INDEXER(TYPE, VARIABLE, INDEXER, COLLECTION)\
 		SCOPE_VARIABLE(const ForEachIterator<TYPE>&, __foreach_iterator__, CreateForEachIterator(COLLECTION))\
 		SCOPE_VARIABLE(vint, INDEXER, 0)\
-		for(TYPE VARIABLE = __foreach_iterator__.Current();__foreach_iterator__.Available();__foreach_iterator__.Next(VARIABLE),INDEXER++)
+		for(TYPE VARIABLE;__foreach_iterator__.Available(VARIABLE);__foreach_iterator__.Next(),INDEXER++)
 	}
 }
 

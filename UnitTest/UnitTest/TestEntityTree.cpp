@@ -13,6 +13,41 @@ using namespace vl::collections;
 using namespace vl::stream;
 using namespace vl::unittest;
 
+namespace TreeNodeInterfaceImplemenatationHelper
+{
+	bool IsNodeEqual(Ptr<ITreeQuerable> node1, Ptr<ITreeQuerable> node2)
+	{
+		if(node1->IsTextNode() && node2->IsTextNode())
+		{
+			return node1->GetText()==node2->GetText();
+		}
+		else if(!node1->IsTextNode() && !node2->IsTextNode())
+		{
+			if(node1->GetName()!=node2->GetName()) return false;
+			if(CompareEnumerable(node1->GetAttributeNames(), node2->GetAttributeNames())!=0) return false;
+			FOREACH(WString, attribute, node1->GetAttributeNames())
+			{
+				if(!IsNodeEqual(node1->GetAttribute(attribute), node2->GetAttribute(attribute))) return false;
+			}
+
+			List<Ptr<ITreeQuerable>> children1, children2;
+			CopyFrom(children1.Wrap(), node1->GetChildren());
+			CopyFrom(children2.Wrap(), node2->GetChildren());
+			if(children1.Count()!=children2.Count()) return false;
+			for(vint i=0;i<children1.Count(); i++)
+			{
+				if(!IsNodeEqual(children1[i], children2[i])) return false;
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+using namespace TreeNodeInterfaceImplemenatationHelper;
+
 /***********************************************************************
 TreeNode
 ***********************************************************************/
@@ -102,12 +137,56 @@ TEST_CASE(TestEntity_TreeNodeInterfaceImplemenatation)
 XmlWriter
 ***********************************************************************/
 
+namespace TestEntityHelper
+{
+	void AssertLoadAndSaveXmlRawDocument(const WString& content, bool assertWithContentDirectly)
+	{
+		Ptr<TreeNode> node1;
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			writer.WriteString(content);
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+			node1=LoadXmlRawDocument(reader);
+			TEST_ASSERT(node1);
+			TEST_ASSERT(IsValidXmlRawDocument(node1));
+		}
+		if(assertWithContentDirectly)
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			TEST_ASSERT(SaveXmlRawDocument(writer, node1, true));
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+			WString reload=reader.ReadToEnd();
+			TEST_ASSERT(reload+L"\r\n"==content);
+		}
+		Ptr<TreeNode> node2;
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			TEST_ASSERT(SaveXmlRawDocument(writer, node1, true));
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+			node2=LoadXmlRawDocument(reader);
+			TEST_ASSERT(node2);
+			TEST_ASSERT(IsValidXmlRawDocument(node2));
+		}
+		TEST_ASSERT(IsNodeEqual(node1, node2));
+	}
+}
+using namespace TestEntityHelper;
+
 #define CREATE_XML_WRITER \
 	MemoryStream memoryStream; \
 	StreamWriter streamWriter(memoryStream); \
 	XmlWriter xml(streamWriter)
 
-#define ASSERT_XML_CONTENT(CONTENT) \
+#define ASSERT_XML_CONTENT(CONTENT, DIRECT_ASSERT) \
 	memoryStream.SeekFromBegin(0); \
 	StreamReader streamReader(memoryStream); \
 	WString xmlText=streamReader.ReadToEnd()+L"\r\n"; \
@@ -116,7 +195,8 @@ XmlWriter
 		vl::unittest::UnitTest::PrintError(L"Wrong XML Text!"); \
 		vl::unittest::UnitTest::PrintError(xmlText); \
 	} \
-	TEST_ASSERT(xmlText==CONTENT)
+	TEST_ASSERT(xmlText==CONTENT);\
+	AssertLoadAndSaveXmlRawDocument(CONTENT, DIRECT_ASSERT)
 
 #define _(LINE) L#LINE L"\r\n"
 #define _____(LINE) L"    " L#LINE L"\r\n"
@@ -131,7 +211,7 @@ TEST_CASE(TestEntity_XmlWriter)
 
 		ASSERT_XML_CONTENT(
 			_(<root/>)
-			);
+			,true);
 	}
 	{
 		CREATE_XML_WRITER;
@@ -141,7 +221,7 @@ TEST_CASE(TestEntity_XmlWriter)
 
 		ASSERT_XML_CONTENT(
 			_(<root name = "value"/>)
-			);
+			,true);
 	}
 	{
 		CREATE_XML_WRITER;
@@ -152,7 +232,7 @@ TEST_CASE(TestEntity_XmlWriter)
 
 		ASSERT_XML_CONTENT(
 			_(<root condition = "1&lt;2 &amp;&amp; 3&gt;4" message = "&quot;abc&quot;;&apos;def&apos;"/>)
-			);
+			,true);
 	}
 	{
 		CREATE_XML_WRITER;
@@ -166,7 +246,7 @@ TEST_CASE(TestEntity_XmlWriter)
 			_____(<book>C++ Primer</book>)
 			_____(<book>C# Primer</book>)
 			_(</books>)
-			);
+			,false);
 	}
 	{
 		CREATE_XML_WRITER;
@@ -185,7 +265,31 @@ TEST_CASE(TestEntity_XmlWriter)
 			_________(<author>I don&apos;t know</author>)
 			_____(</book>)
 			_(</books>)
-			);
+			,false);
+	}
+	{
+		CREATE_XML_WRITER;
+		xml.OpenElement(L"books");
+		xml.OpenElement(L"book");
+		xml.WriteAttribute(L"name", L"C++ Primer");
+		xml.WriteText(L"This is the content of \"C++ Primer\".");
+		xml.CloseElement();
+		xml.OpenElement(L"book");
+		xml.WriteAttribute(L"name", L"C# Primer");
+		xml.WriteText(L"This is the content of \"C# Primer\".");
+		xml.CloseElement();
+		xml.CloseElement();
+
+		ASSERT_XML_CONTENT(
+			_(<books>)
+			_____(<book name = "C++ Primer">)
+			_________(This is the content of &quot;C++ Primer&quot;.)
+			_____(</book>)
+			_____(<book name = "C# Primer">)
+			_________(This is the content of &quot;C# Primer&quot;.)
+			_____(</book>)
+			_(</books>)
+			,true);
 	}
 	{
 		CREATE_XML_WRITER;
@@ -212,7 +316,7 @@ TEST_CASE(TestEntity_XmlWriter)
 			_____(<book name = "C# Primer"><![CDATA[This is the content of "C# Primer".]]>)
 			_____(</book>)
 			_(</books>)
-			);
+			,false);
 	}
 }
 
@@ -427,6 +531,50 @@ TEST_CASE(TestEntity_XmlReader)
 JsonWriter
 ***********************************************************************/
 
+namespace TestEntityHelper
+{
+	void AssertLoadAndSaveJsonRawDocument(const WString& content, bool assertWithContentDirectly)
+	{
+		Ptr<TreeNode> node1;
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			writer.WriteString(content);
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+ 			node1=LoadJsonRawDocument(reader);
+			TEST_ASSERT(node1);
+			TEST_ASSERT(IsValidJsonRawDocument(node1));
+		}
+		if(assertWithContentDirectly)
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			TEST_ASSERT(SaveJsonRawDocument(writer, node1, true));
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+			WString reload=reader.ReadToEnd();
+			TEST_ASSERT(reload+L"\r\n"==content);
+		}
+		Ptr<TreeNode> node2;
+		{
+			MemoryStream stream;
+			StreamWriter writer(stream);
+			TEST_ASSERT(SaveJsonRawDocument(writer, node1, true));
+			stream.SeekFromBegin(0);
+
+			StreamReader reader(stream);
+			node2=LoadJsonRawDocument(reader);
+			TEST_ASSERT(node2);
+			TEST_ASSERT(IsValidXmlRawDocument(node2));
+		}
+		TEST_ASSERT(IsNodeEqual(node1, node2));
+	}
+}
+using namespace TestEntityHelper;
+
 #define CREATE_JSON_WRITER \
 	MemoryStream memoryStream; \
 	StreamWriter streamWriter(memoryStream); \
@@ -441,7 +589,8 @@ JsonWriter
 		vl::unittest::UnitTest::PrintError(L"Wrong JSON Text!"); \
 		vl::unittest::UnitTest::PrintError(jsonText); \
 	} \
-	TEST_ASSERT(jsonText==CONTENT)
+	TEST_ASSERT(jsonText==CONTENT);\
+	AssertLoadAndSaveJsonRawDocument(CONTENT, true)
 
 TEST_CASE(TestEntity_JsonWriter)
 {
