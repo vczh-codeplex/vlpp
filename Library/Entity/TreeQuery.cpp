@@ -270,32 +270,54 @@ TreeText
 					vint textNodeLength=0;
 					vint cdataState=0;
 					bool invalidCData=false;
+					bool spacePrefix=true;
+					bool spacePostfix=true;
 
 					while(wchar_t c=*reading++)
 					{
 						switch(c)
 						{
+						case ' ':case '\t':case '\r':case '\n':
+							spacePrefix=spacePrefix&true;
+							spacePostfix=true;
+							if(spacePrefix)
+							{
+								goto FINISH_VALUE_EXAMING;
+							}
+							break;
 						case L']':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength++;
 							if(cdataState<2) cdataState++;
 							break;
 						case L'\'':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength+=6;
 							cdataState=0;
 							break;
 						case L'\"':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength+=6;
 							cdataState=0;
 							break;
 						case L'&':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength+=5;
 							cdataState=0;
 							break;
 						case L'<':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength+=4;
 							cdataState=0;
 							break;
 						case L'>':
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength+=4;
 							if(cdataState==2)
 							{
@@ -308,12 +330,14 @@ TreeText
 							}
 							break;
 						default:
+							spacePrefix=false;
+							spacePostfix=false;
 							textNodeLength++;
 							cdataState=0;
 						}
 					}
 					FINISH_VALUE_EXAMING:
-					if(textNodeLength<value.Length()+12 || invalidCData)
+					if(textNodeLength<value.Length()+12 || invalidCData || spacePrefix || spacePostfix)
 					{
 						xml.WriteText(value);
 					}
@@ -357,7 +381,7 @@ TreeText
 					return false;
 				}
 			}
-			return true;
+			return name.Length()>0;
 		}
 
 		bool IsValidXmlRawDocument(Ptr<ITreeQuerable> node)
@@ -400,16 +424,66 @@ TreeText
 
 		//***************************************************************************
 
-		Ptr<TreeNode> LoadXmlObjectDocument(stream::TextReader& reader)
+		Ptr<TreeNode> LoadXmlObjectDocument(XmlReader& xml)
 		{
 			return 0;
 		}
 
+		Ptr<TreeNode> LoadXmlObjectDocument(stream::TextReader& reader)
+		{
+			XmlReader xml(reader);
+			return LoadXmlObjectDocument(xml);
+		}
+
 		//---------------------------------------------------------------------------
+
+		void SaveXmlObjectDocument(XmlWriter& xml, Ptr<ITreeQuerable> node)
+		{
+			if(node->GetName().Length()>6 && node->GetName().Sub(0, 6)==L"array:")
+			{
+				xml.OpenElement(node->GetName());
+				FOREACH(Ptr<ITreeQuerable>, element, node->GetChildren())
+				{
+					SaveXmlObjectDocument(xml, element);
+				}
+				xml.CloseElement();
+			}
+			else if(node->GetName()==L"primitive:null")
+			{
+				xml.OpenElement(node->GetName());
+				xml.CloseElement();
+			}
+			else if(node->GetName().Length()>10 && node->GetName().Sub(0, 10)==L"primitive:")
+			{
+				xml.OpenElement(node->GetName());
+				xml.WriteAttribute(L"value", (node->GetChildren()>>First())->GetText());
+				xml.CloseElement();
+			}
+			else
+			{
+				xml.OpenElement(node->GetName());
+				FOREACH(WString, attribute, node->GetAttributeNames())
+				{
+					xml.OpenElement(attribute);
+					SaveXmlObjectDocument(xml, node->GetAttribute(attribute));
+					xml.CloseElement();
+				}
+				xml.CloseElement();
+			}
+		}
 
 		bool SaveXmlObjectDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate)
 		{
-			return false;
+			if(validate && !IsValidObjectDocument(node))
+			{
+				return false;
+			}
+			else
+			{
+				XmlWriter xml(writer);
+				SaveXmlObjectDocument(xml, node);
+				return true;
+			}
 		}
 
 		//***************************************************************************
@@ -486,14 +560,10 @@ TreeText
 						}
 						else if(json.CurrentComponentType()==JsonReader::Field)
 						{
-							Ptr<TreeElement> field=new TreeElement;
-							field->name=L"json:field";
-							field->attributes.Add(L"json:name", new TreeText(json.CurrentValue()));
-							element->children.Add(field);
-
+							WString field=json.CurrentValue();
 							Ptr<TreeNode> value=LoadJsonRawDocument(json, true);
 							if(!value) return 0;
-							field->children.Add(value);
+							element->attributes.Add(field, value);
 						}
 						else
 						{
@@ -553,10 +623,10 @@ TreeText
 			else if(node->GetName()==L"json:object")
 			{
 				json.OpenObject();
-				FOREACH(Ptr<ITreeQuerable>, field, node->GetChildren())
+				FOREACH(WString, attribute, node->GetAttributeNames())
 				{
-					json.AddField(field->GetAttribute(L"json:name")->GetText());
-					SaveJsonRawDocument(json, field->GetChildren()>>First());
+					json.AddField(attribute);
+					SaveJsonRawDocument(json, node->GetAttribute(attribute));
 				}
 				json.CloseObject();
 			}
@@ -578,16 +648,6 @@ TreeText
 
 		//---------------------------------------------------------------------------
 
-		bool IsValidJsonField(Ptr<ITreeQuerable> node)
-		{
-			return node->GetName()==L"json:field"
-				&& node->GetAttributeNames()>>Count()==1
-				&& node->IsAttributeExists(L"json:name")
-				&& node->GetAttribute(L"json:name")->IsTextNode()
-				&& node->GetChildren()>>Count()==1
-				&& IsValidJsonRawDocument(node->GetChildren()>>First());
-		}
-
 		bool IsValidJsonRawDocument(Ptr<ITreeQuerable> node)
 		{
 			if(!node->IsTextNode())
@@ -599,8 +659,12 @@ TreeText
 				}
 				else if(node->GetName()==L"json:object")
 				{
-					if(!(node->GetAttributeNames()>>IsEmpty() && node->GetChildren()>>All(IsValidJsonField)))
-						return false;
+					if(!(node->GetChildren()>>IsEmpty())) return false;
+					FOREACH(WString, attribute, node->GetAttributeNames())
+					{
+						if(!IsValidJsonRawDocument(node->GetAttribute(attribute)))
+							return false;
+					}
 				}
 				else if(node->GetName()==L"json:integer")
 				{
@@ -671,23 +735,134 @@ TreeText
 
 		//***************************************************************************
 
-		Ptr<TreeNode> LoadJsonObjectDocument(stream::TextReader& reader)
+		Ptr<TreeNode> LoadJsonObjectDocument(JsonReader& json)
 		{
 			return 0;
 		}
 
+		Ptr<TreeNode> LoadJsonObjectDocument(stream::TextReader& reader)
+		{
+			JsonReader json(reader);
+			return LoadJsonObjectDocument(json);
+		}
+
 		//---------------------------------------------------------------------------
+
+		void SaveJsonObjectDocument(JsonWriter& json, Ptr<ITreeQuerable> node)
+		{
+			if(node->GetName().Length()>6 && node->GetName().Sub(0, 6)==L"array:")
+			{
+				WString typeName=node->GetName().Sub(6, node->GetName().Length()-6);
+				json.OpenObject();
+				json.AddField(L"$array");
+				json.WriteString(typeName);
+				json.AddField(L"value");
+				json.OpenArray();
+				FOREACH(Ptr<ITreeQuerable>, element, node->GetChildren())
+				{
+					SaveJsonObjectDocument(json, element);
+				}
+				json.CloseArray();
+				json.CloseObject();
+			}
+			else if(node->GetName()==L"primitive:null")
+			{
+				json.WriteNull();
+			}
+			else if(node->GetName().Length()>10 && node->GetName().Sub(0, 10)==L"primitive:")
+			{
+				WString typeName=node->GetName().Sub(10, node->GetName().Length()-10);
+				json.OpenObject();
+				json.AddField(L"$primitive");
+				json.WriteString(typeName);
+				json.AddField(L"value");
+				json.WriteString((node->GetChildren()>>First())->GetText());
+				json.CloseObject();
+			}
+			else
+			{
+				WString typeName=node->GetName();
+				json.OpenObject();
+				json.AddField(L"$object");
+				json.WriteString(typeName);
+				FOREACH(WString, attribute, node->GetAttributeNames())
+				{
+					json.AddField(attribute);
+					SaveJsonObjectDocument(json, node->GetAttribute(attribute));
+				}
+				json.CloseObject();
+			}
+		}
 
 		bool SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate)
 		{
-			return false;
+			if(validate && !IsValidObjectDocument(node))
+			{
+				return false;
+			}
+			else
+			{
+				JsonWriter json(writer);
+				SaveJsonObjectDocument(json, node);
+				return true;
+			}
 		}
 
 		//***************************************************************************
 
+		bool IsValidObjectName(const WString& name, bool singleName)
+		{
+			const wchar_t* reading=name.Buffer();
+			while(wchar_t c=*reading++)
+			{
+				if(!(L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || (!singleName && c==L'.') || c==L'_'))
+				{
+					return false;
+				}
+			}
+			return name.Length()>0;
+		}
+
 		bool IsValidObjectDocument(Ptr<ITreeQuerable> node)
 		{
-			return false;
+			if(node->IsTextNode())
+				return false;
+			if(node->GetName().Length()>=6 && node->GetName().Sub(0, 6)==L"array:")
+			{
+				if(!IsValidObjectName(node->GetName().Sub(6, node->GetName().Length()-6), false))
+					return false;
+				if(!(node->GetAttributeNames()>>IsEmpty() && node->GetChildren()>>All(IsValidObjectDocument)))
+					return false;
+			}
+			else if(node->GetName()==L"primitive:null")
+			{
+				if(!(node->GetAttributeNames()>>IsEmpty() && node->GetChildren()>>IsEmpty()))
+					return false;
+			}
+			else if(node->GetName().Length()>=10 && node->GetName().Sub(0, 10)==L"primitive:")
+			{
+				if(!(node->GetAttributeNames()>>IsEmpty()))
+					return false;
+				if(!IsValidObjectName(node->GetName().Sub(10, node->GetName().Length()-10), false))
+					return false;
+				if(!(node->GetChildren()>>Count()==1 && (node->GetChildren()>>First())->IsTextNode()))
+					return false;
+			}
+			else
+			{
+				if(!(node->GetChildren()>>IsEmpty()))
+					return false;
+				if(!IsValidObjectName(node->GetName(), false))
+					return false;
+				FOREACH(WString, attribute, node->GetAttributeNames())
+				{
+					if(!IsValidObjectName(attribute, true))
+						return false;
+					if(!IsValidObjectDocument(node->GetAttribute(attribute)))
+						return false;
+				}
+			}
+			return true;
 		}
 	}
 }

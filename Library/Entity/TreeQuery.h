@@ -139,7 +139,7 @@ namespace vl
 
 		extern Ptr<TreeNode>					LoadJsonRawDocument(stream::TextReader& reader);
 		extern bool								SaveJsonRawDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);
-		extern bool								IsValidJsonRawDocument(Ptr<ITreeQuerable> node);\
+		extern bool								IsValidJsonRawDocument(Ptr<ITreeQuerable> node);
 
 		extern Ptr<TreeNode>					LoadJsonObjectDocument(stream::TextReader& reader);
 		extern bool								SaveJsonObjectDocument(stream::TextWriter& writer, Ptr<ITreeQuerable> node, bool validate);

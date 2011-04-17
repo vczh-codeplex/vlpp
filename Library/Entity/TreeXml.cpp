@@ -671,6 +671,8 @@ XmlWriter
 			if(writingElementHeader)
 			{
 				writer->WriteString(L"/>");
+				writingElementHeader=false;
+				indentation--;
 			}
 			else
 			{
