@@ -1020,6 +1020,7 @@ namespace TestEntityHelper
 		TEST_ASSERT(IsValidObjectDocument(node));
 
 		{
+			// save json object
 			FileStream fileStream(jsonFileName, FileStream::WriteOnly);
 			BomEncoder encoder(BomEncoder::Utf16);
 			EncoderStream encoderStream(fileStream, encoder);
@@ -1027,6 +1028,48 @@ namespace TestEntityHelper
 			TEST_ASSERT(SaveJsonObjectDocument(writer, node, true));
 		}
 		{
+			// test json object
+			FileStream fileStream(jsonFileName, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			Ptr<TreeNode> reload=LoadJsonObjectDocument(reader);
+			TEST_ASSERT(reload);
+			TEST_ASSERT(IsNodeEqual(node, reload));
+		}
+		{
+			// rewrite json raw
+			Ptr<TreeNode> reload;
+			{
+				FileStream fileStream(jsonFileName, FileStream::ReadOnly);
+				BomDecoder decoder;
+				DecoderStream decoderStream(fileStream, decoder);
+				StreamReader reader(decoderStream);
+				reload=LoadJsonRawDocument(reader);
+				TEST_ASSERT(reload);
+				TEST_ASSERT(IsValidJsonRawDocument(reload));
+			}
+			{
+				FileStream fileStream(jsonFileName, FileStream::WriteOnly);
+				BomEncoder encoder(BomEncoder::Utf16);
+				EncoderStream encoderStream(fileStream, encoder);
+				StreamWriter writer(encoderStream);
+				TEST_ASSERT(SaveJsonRawDocument(writer, reload, true));
+			}
+		}
+		{
+			// test json object
+			FileStream fileStream(jsonFileName, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			Ptr<TreeNode> reload=LoadJsonObjectDocument(reader);
+			TEST_ASSERT(reload);
+			TEST_ASSERT(IsNodeEqual(node, reload));
+		}
+		//////////////////////////////////////////////////////////////////////////
+		{
+			// save xml object
 			FileStream fileStream(xmlFileName, FileStream::WriteOnly);
 			BomEncoder encoder(BomEncoder::Utf16);
 			EncoderStream encoderStream(fileStream, encoder);
@@ -1034,22 +1077,44 @@ namespace TestEntityHelper
 			TEST_ASSERT(SaveXmlObjectDocument(writer, node, true));
 		}
 		{
-			FileStream fileStream(jsonFileName, FileStream::ReadOnly);
-			BomDecoder decoder;
-			DecoderStream decoderStream(fileStream, decoder);
-			StreamReader reader(decoderStream);
-			Ptr<TreeNode> reload=LoadJsonObjectDocument(reader);
-			//TEST_ASSERT(node);
-			//TEST_ASSERT(IsNodeEqual(node, reload));
-		}
-		{
+			// test xml object
 			FileStream fileStream(xmlFileName, FileStream::ReadOnly);
 			BomDecoder decoder;
 			DecoderStream decoderStream(fileStream, decoder);
 			StreamReader reader(decoderStream);
 			Ptr<TreeNode> reload=LoadXmlObjectDocument(reader);
-			//TEST_ASSERT(node);
-			//TEST_ASSERT(IsNodeEqual(node, reload));
+			TEST_ASSERT(reload);
+			TEST_ASSERT(IsNodeEqual(node, reload));
+		}
+		{
+			// reload xml raw
+			Ptr<TreeNode> reload;
+			{
+				FileStream fileStream(xmlFileName, FileStream::ReadOnly);
+				BomDecoder decoder;
+				DecoderStream decoderStream(fileStream, decoder);
+				StreamReader reader(decoderStream);
+				reload=LoadXmlRawDocument(reader);
+				TEST_ASSERT(reload);
+				TEST_ASSERT(IsValidXmlRawDocument(reload));
+			}
+			{
+				FileStream fileStream(xmlFileName, FileStream::WriteOnly);
+				BomEncoder encoder(BomEncoder::Utf16);
+				EncoderStream encoderStream(fileStream, encoder);
+				StreamWriter writer(encoderStream);
+				TEST_ASSERT(SaveXmlRawDocument(writer, reload, true));
+			}
+		}
+		{
+			// test xml object
+			FileStream fileStream(xmlFileName, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			Ptr<TreeNode> reload=LoadXmlObjectDocument(reader);
+			TEST_ASSERT(reload);
+			TEST_ASSERT(IsNodeEqual(node, reload));
 		}
 	}
 

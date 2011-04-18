@@ -183,6 +183,32 @@ TreeText
 ÎÄµµ¶ÁÐ´
 ***********************************************************************/
 
+		bool IsValidXmlName(const WString& name)
+		{
+			const wchar_t* reading=name.Buffer();
+			while(wchar_t c=*reading++)
+			{
+				if(!(L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.' || c==L'-' || c==L':' || c==L'_'))
+				{
+					return false;
+				}
+			}
+			return name.Length()>0;
+		}
+
+		bool IsValidObjectName(const WString& name, bool singleName)
+		{
+			const wchar_t* reading=name.Buffer();
+			while(wchar_t c=*reading++)
+			{
+				if(!(L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || (!singleName && c==L'.') || c==L'_'))
+				{
+					return false;
+				}
+			}
+			return name.Length()>0;
+		}
+
 		//---------------------------------------------------------------------------
 
 		Ptr<TreeNode> LoadXmlRawDocument(XmlReader& xml, bool readElementHeadOpening)
@@ -371,19 +397,6 @@ TreeText
 
 		//---------------------------------------------------------------------------
 
-		bool IsValidXmlName(const WString& name)
-		{
-			const wchar_t* reading=name.Buffer();
-			while(wchar_t c=*reading++)
-			{
-				if(!(L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || c==L'.' || c==L'-' || c==L':' || c==L'_'))
-				{
-					return false;
-				}
-			}
-			return name.Length()>0;
-		}
-
 		bool IsValidXmlRawDocument(Ptr<ITreeQuerable> node)
 		{
 			if(!node->IsTextNode())
@@ -424,15 +437,145 @@ TreeText
 
 		//***************************************************************************
 
-		Ptr<TreeNode> LoadXmlObjectDocument(XmlReader& xml)
+		Ptr<TreeNode> LoadXmlObjectDocument(XmlReader& xml, bool readElementHeadOpening)
 		{
-			return 0;
+			if(readElementHeadOpening && !xml.Next())
+				return 0;
+			if(xml.CurrentComponentType()!=XmlReader::ElementHeadOpening)
+				return 0;
+			WString elementName=xml.CurrentName();
+			if(elementName==L"primitive:null")
+			{
+				if(!xml.Next())
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementHeadClosing)
+					return 0;
+				if(!xml.Next())
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementClosing)
+					return 0;
+				
+				Ptr<TreeElement> element=new TreeElement;
+				element->name=elementName;
+				return element;
+			}
+			else if(elementName.Length()>=10 && elementName.Sub(0, 10)==L"primitive:")
+			{
+				WString typeName=elementName.Sub(10, elementName.Length()-10);
+				if(!IsValidObjectName(typeName, false))
+					return 0;
+
+				if(!xml.Next()) return 0;
+				if(xml.CurrentComponentType()!=XmlReader::Attribute)
+					return 0;
+				if(xml.CurrentName()!=L"value")
+					return 0;
+				
+				Ptr<TreeElement> element=new TreeElement;
+				element->name=elementName;
+				element->children.Add(new TreeText(xml.CurrentValue()));
+
+				if(!xml.Next()) 
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementHeadClosing) 
+					return 0;
+				if(!xml.Next()) 
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementClosing) 
+					return 0;
+
+				return element;
+			}
+			else if(elementName.Length()>=6 && elementName.Sub(0, 6)==L"array:")
+			{
+				WString typeName=elementName.Sub(6, elementName.Length()-6);
+				if(!IsValidObjectName(typeName, false))
+					return 0;
+
+				if(!xml.Next())
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementHeadClosing)
+					return 0;
+				
+				Ptr<TreeElement> element=new TreeElement;
+				element->name=elementName;
+
+				while(true)
+				{
+					if(!xml.Next())
+						return 0;
+					if(xml.CurrentComponentType()==XmlReader::ElementHeadOpening)
+					{
+						Ptr<TreeNode> node=LoadXmlObjectDocument(xml, false);
+						if(!node)
+							return 0;
+						element->children.Add(node);
+					}
+					else if(xml.CurrentComponentType()==XmlReader::ElementClosing)
+					{
+						return element;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			}
+			else
+			{
+				WString typeName=xml.CurrentName();
+				if(!IsValidObjectName(typeName, false))
+					return 0;
+				
+				Ptr<TreeElement> element=new TreeElement;
+				element->name=elementName;
+				
+				if(!xml.Next())
+					return 0;
+				if(xml.CurrentComponentType()!=XmlReader::ElementHeadClosing)
+					return 0;
+
+				while(true)
+				{
+					if(!xml.Next())
+						return 0;
+					if(xml.CurrentComponentType()==XmlReader::ElementHeadOpening)
+					{
+						WString fieldName=xml.CurrentName();
+						if(!IsValidObjectName(fieldName, true))
+							return 0;
+
+						if(!xml.Next())
+							return 0;
+						if(xml.CurrentComponentType()!=XmlReader::ElementHeadClosing)
+							return 0;
+
+						Ptr<TreeNode> node=LoadXmlObjectDocument(xml, true);
+						if(!node)
+							return 0;
+						element->attributes.Add(fieldName, node);
+
+						if(!xml.Next())
+							return 0;
+						if(xml.CurrentComponentType()!=XmlReader::ElementClosing)
+							return 0;
+					}
+					else if(xml.CurrentComponentType()==XmlReader::ElementClosing)
+					{
+						return element;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			}
 		}
 
 		Ptr<TreeNode> LoadXmlObjectDocument(stream::TextReader& reader)
 		{
 			XmlReader xml(reader);
-			return LoadXmlObjectDocument(xml);
+			return LoadXmlObjectDocument(xml, true);
 		}
 
 		//---------------------------------------------------------------------------
@@ -735,15 +878,136 @@ TreeText
 
 		//***************************************************************************
 
-		Ptr<TreeNode> LoadJsonObjectDocument(JsonReader& json)
+		Ptr<TreeNode> LoadJsonObjectDocument(JsonReader& json, bool readElementHeadOpening)
 		{
-			return 0;
+			if(readElementHeadOpening && !json.Next()) return 0;
+			if(json.CurrentComponentType()==JsonReader::Null)
+			{
+				Ptr<TreeElement> element=new TreeElement;
+				element->name=L"primitive:null";
+				return element;
+			}
+			else if(json.CurrentComponentType()==JsonReader::ObjectOpening)
+			{
+				Ptr<TreeElement> element=new TreeElement;
+
+				while(true)
+				{
+					if(!json.Next())
+						return 0;
+					if(json.CurrentComponentType()==JsonReader::ObjectClosing)
+					{
+						break;
+					}
+					else if(json.CurrentComponentType()==JsonReader::Field)
+					{
+						WString fieldName=json.CurrentValue();
+						if(fieldName.Length()>0 && fieldName[0]==L'$')
+						{
+							if(!json.Next())
+								return 0;
+							if(json.CurrentComponentType()!=JsonReader::String)
+								return 0;
+							if(!IsValidObjectName(json.CurrentValue(), false))
+								return 0;
+
+							if(fieldName==L"$array")
+							{
+								element->name=L"array:"+json.CurrentValue();
+							}
+							else if(fieldName==L"$primitive")
+							{
+								element->name=L"primitive:"+json.CurrentValue();
+							}
+							else if(fieldName==L"$object")
+							{
+								element->name=json.CurrentValue();
+							}
+							else
+							{
+								return 0;
+							}
+						}
+						else
+						{
+							if(!IsValidObjectName(fieldName, true))
+								return 0;
+
+							if(!json.Next())
+								return 0;
+							if(json.CurrentComponentType()==JsonReader::ArrayOpening)
+							{
+								if(element->children.Count()>0)
+									return 0;
+								while(true)
+								{
+									if(!json.Next())
+										return 0;
+									if(json.CurrentComponentType()==JsonReader::ArrayClosing)
+									{
+										break;
+									}
+									else
+									{
+										Ptr<TreeNode> child=LoadJsonObjectDocument(json, false);
+										if(!child)
+											return 0;
+										element->children.Add(child);
+									}
+								}
+							}
+							else if(json.CurrentComponentType()==JsonReader::String)
+							{
+								if(element->children.Count()>0)
+									return 0;
+								element->children.Add(new TreeText(json.CurrentValue()));
+							}
+							else
+							{
+								Ptr<TreeNode> child=LoadJsonObjectDocument(json, false);
+								if(!child)
+									return 0;
+								element->attributes.Add(fieldName, child);
+							}
+						}
+					}
+					else
+					{
+						return 0;
+					}
+				}
+				if(element->name.Length()>10 && element->name.Sub(0, 10)==L"primitive:")
+				{
+					if(element->attributes.Count()>0)
+						return 0;
+					if(element->children.Count()!=1)
+						return 0;
+					if(!element->children[0].Cast<TreeText>())
+						return 0;
+				}
+				else if(element->name.Length()>6 && element->name.Sub(0, 6)==L"array:")
+				{
+					if(element->attributes.Count()>0)
+						return 0;
+				}
+				else
+				{
+					if(element->children.Count()>0)
+						return 0;
+				}
+
+				return element;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		Ptr<TreeNode> LoadJsonObjectDocument(stream::TextReader& reader)
 		{
 			JsonReader json(reader);
-			return LoadJsonObjectDocument(json);
+			return LoadJsonObjectDocument(json, true);
 		}
 
 		//---------------------------------------------------------------------------
@@ -809,19 +1073,6 @@ TreeText
 		}
 
 		//***************************************************************************
-
-		bool IsValidObjectName(const WString& name, bool singleName)
-		{
-			const wchar_t* reading=name.Buffer();
-			while(wchar_t c=*reading++)
-			{
-				if(!(L'0'<=c && c<='9' || L'A'<=c && c<='Z' || L'a'<=c && c<='z' || (!singleName && c==L'.') || c==L'_'))
-				{
-					return false;
-				}
-			}
-			return name.Length()>0;
-		}
 
 		bool IsValidObjectDocument(Ptr<ITreeQuerable> node)
 		{
