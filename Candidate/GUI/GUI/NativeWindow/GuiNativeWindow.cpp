@@ -165,6 +165,14 @@ INativeControllerListener
 		{
 		}
 
+		void INativeControllerListener::NativeWindowCreated(INativeWindow* window)
+		{
+		}
+
+		void INativeControllerListener::NativeWindowDestroying(INativeWindow* window)
+		{
+		}
+
 /***********************************************************************
 Native Window Provider
 ***********************************************************************/

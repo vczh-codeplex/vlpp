@@ -9,6 +9,7 @@ Interfaces:
 #define VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
 
 #include "..\WinNativeWindow.h"
+#include "WinGDI.h"
 
 namespace vl
 {
@@ -16,6 +17,7 @@ namespace vl
 	{
 		namespace windows
 		{
+			extern vl::windows::WinDC*				GetNativeWindowDC(INativeWindow* window);
 		}
 	}
 }

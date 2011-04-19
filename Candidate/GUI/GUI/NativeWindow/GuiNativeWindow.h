@@ -147,8 +147,8 @@ Native Window Provider
 			virtual bool				InstallListener(INativeControllerListener* listener)=0;
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
 			
-			virtual vint				GetScreenCount()=0;
-			virtual INativeScreen*		GetScreen(vint index)=0;
+			virtual int					GetScreenCount()=0;
+			virtual INativeScreen*		GetScreen(int index)=0;
 			virtual INativeScreen*		GetScreen(INativeWindow* window)=0;
 		};
 
@@ -161,6 +161,8 @@ Native Window Provider
 			virtual void				RightButtonUp(Point position);
 			virtual void				MouseMoving(Point position);
 			virtual void				GlobalTimer();
+			virtual void				NativeWindowCreated(INativeWindow* window);
+			virtual void				NativeWindowDestroying(INativeWindow* window);
 		};
 
 		extern							INativeController* GetCurrentController();
