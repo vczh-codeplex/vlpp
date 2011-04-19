@@ -878,6 +878,10 @@ WindowsController
 				{
 					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
 					windows.Add(window->GetWindowHandle(), window);
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->NativeWindowCreated(window);
+					}
 					return window;
 				}
 
@@ -886,6 +890,10 @@ WindowsController
 					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
 					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetWindowHandle()))
 					{
+						for(int i=0;i<listeners.Count();i++)
+						{
+							listeners[i]->NativeWindowDestroying(window);
+						}
 						windows.Remove(windowsForm->GetWindowHandle());
 						delete windowsForm;
 					}
@@ -939,7 +947,7 @@ WindowsController
 				struct MonitorEnumProcData
 				{
 					WindowsController*		controller;
-					vint					currentScreen;
+					int						currentScreen;
 				};
 
 				static BOOL CALLBACK MonitorEnumProc(
@@ -961,7 +969,7 @@ WindowsController
 
 				void RefreshScreenInformation()
 				{
-					for(vint i=0;i<screens.Count();i++)
+					for(int i=0;i<screens.Count();i++)
 					{
 						screens[i]->monitor=NULL;
 					}
@@ -971,13 +979,13 @@ WindowsController
 					EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)(&data));
 				}
 				
-				vint GetScreenCount()
+				int GetScreenCount()
 				{
 					RefreshScreenInformation();
 					return GetSystemMetrics(SM_CMONITORS);
 				}
 
-				INativeScreen* GetScreen(vint index)
+				INativeScreen* GetScreen(int index)
 				{
 					RefreshScreenInformation();
 					return screens[index].Obj();
@@ -992,7 +1000,7 @@ WindowsController
 						HMONITOR monitor=MonitorFromWindow(windowsForm->GetWindowHandle(), MONITOR_DEFAULTTONULL);
 						if(monitor!=NULL)
 						{
-							for(vint i=0;i<screens.Count();i++)
+							for(int i=0;i<screens.Count();i++)
 							{
 								if(screens[i]->monitor==monitor)
 								{
