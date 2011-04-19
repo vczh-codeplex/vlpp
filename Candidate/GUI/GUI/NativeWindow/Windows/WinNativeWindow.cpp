@@ -1,6 +1,6 @@
-#include <windows.h>
 #include "WinNativeWindow.h"
-#include "..\..\..\..\Library\Collections\Dictionary.h"
+#include "..\..\..\..\..\Library\Pointer.h"
+#include "..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {
@@ -696,6 +696,54 @@ WindowsController
 			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam);
 
+			class WindowsScreen : public Object, public INativeScreen
+			{
+				friend class WindowsController;
+			protected:
+				HMONITOR					monitor;
+			public:
+				WindowsScreen()
+				{
+					monitor=NULL;
+				}
+
+				Rect GetBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcMonitor.left, info.rcMonitor.top, info.rcMonitor.right, info.rcMonitor.bottom);
+				}
+
+				Rect GetClientBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom);
+				}
+
+				WString GetName()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					
+					wchar_t buffer[sizeof(info.szDevice)/sizeof(*info.szDevice)+1];
+					memset(buffer, 0, sizeof(buffer));
+					memcpy(buffer, info.szDevice, sizeof(info.szDevice));
+					return buffer;
+				}
+
+				bool IsPrimary()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return info.dwFlags==MONITORINFOF_PRIMARY;
+				}
+			};
+
 			class WindowsController : public Object, public INativeController
 			{
 			protected:
@@ -708,6 +756,7 @@ WindowsController
 				INativeWindow*						mainWindow;
 				HHOOK								mouseHook;
 
+				List<Ptr<WindowsScreen>>			screens;
 			public:
 				WindowsController(HINSTANCE _hInstance)
 					:hInstance(_hInstance)
@@ -884,6 +933,78 @@ WindowsController
 						return false;
 					}
 				}
+
+				//=======================================================================
+
+				struct MonitorEnumProcData
+				{
+					WindowsController*		controller;
+					vint					currentScreen;
+				};
+
+				static BOOL CALLBACK MonitorEnumProc(
+				  HMONITOR hMonitor,
+				  HDC hdcMonitor,
+				  LPRECT lprcMonitor,
+				  LPARAM dwData
+				)
+				{
+					MonitorEnumProcData* data=(MonitorEnumProcData*)dwData;
+					if(data->currentScreen==data->controller->screens.Count())
+					{
+						data->controller->screens.Add(new WindowsScreen());
+					}
+					data->controller->screens[data->currentScreen]->monitor=hMonitor;
+					data->currentScreen++;
+					return TRUE;
+				}
+
+				void RefreshScreenInformation()
+				{
+					for(vint i=0;i<screens.Count();i++)
+					{
+						screens[i]->monitor=NULL;
+					}
+					MonitorEnumProcData data;
+					data.controller=this;
+					data.currentScreen=0;
+					EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)(&data));
+				}
+				
+				vint GetScreenCount()
+				{
+					RefreshScreenInformation();
+					return GetSystemMetrics(SM_CMONITORS);
+				}
+
+				INativeScreen* GetScreen(vint index)
+				{
+					RefreshScreenInformation();
+					return screens[index].Obj();
+				}
+
+				INativeScreen* GetScreen(INativeWindow* window)
+				{
+					RefreshScreenInformation();
+					IWindowsForm* windowsForm=GetWindowsForm(window);
+					if(windowsForm)
+					{
+						HMONITOR monitor=MonitorFromWindow(windowsForm->GetWindowHandle(), MONITOR_DEFAULTTONULL);
+						if(monitor!=NULL)
+						{
+							for(vint i=0;i<screens.Count();i++)
+							{
+								if(screens[i]->monitor==monitor)
+								{
+									return screens[i].Obj();
+								}
+							}
+						}
+					}
+					return 0;
+				}
+
+				//=======================================================================
 			};
 
 /***********************************************************************

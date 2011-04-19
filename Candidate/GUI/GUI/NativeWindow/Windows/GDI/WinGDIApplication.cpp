@@ -4,7 +4,7 @@
 #include <crtdbg.h>
 #endif
 
-#include "WinNativeWindow.h"
+#include "..\WinNativeWindow.h"
 #include "WinGDI.h"
 
 namespace vl
