@@ -88,9 +88,9 @@
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp" />
-    <ClCompile Include="..\..\GUI\NativeWindow\WinGDI.cpp" />
-    <ClCompile Include="..\..\GUI\NativeWindow\WinGDIApplication.cpp" />
-    <ClCompile Include="..\..\GUI\NativeWindow\WinNativeWindow.cpp" />
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,9 +124,9 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h" />
-    <ClInclude Include="..\..\GUI\NativeWindow\WinGDI.h" />
-    <ClInclude Include="..\..\GUI\NativeWindow\WinGDIApplication.h" />
-    <ClInclude Include="..\..\GUI\NativeWindow\WinNativeWindow.h" />
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

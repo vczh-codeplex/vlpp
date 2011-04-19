@@ -19,12 +19,6 @@
     <Filter Include="GUI\NativeWindow">
       <UniqueIdentifier>{59e557ea-b2d2-40c8-8dae-c39ec1df5ef8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\NativeWindow\Header Files">
-      <UniqueIdentifier>{fa145d3f-6779-4b1e-91e4-26b16affa28b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\NativeWindow\Source Files">
-      <UniqueIdentifier>{4b81fa5c-8a72-4714-97cd-9722f50b3322}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library">
       <UniqueIdentifier>{88880809-1efb-40b2-96c5-9081bdd9618d}</UniqueIdentifier>
     </Filter>
@@ -55,19 +49,16 @@
     <Filter Include="Library\Stream\Source Files">
       <UniqueIdentifier>{d0726da6-a52a-4051-bae9-565acc14f733}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\NativeWindow\Windows">
+      <UniqueIdentifier>{aa8bc886-141d-4589-a18c-dbc3ce9a28cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\NativeWindow\Windows\GDI">
+      <UniqueIdentifier>{007d438e-2c4b-4b1b-9f11-8750257c99ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp">
-      <Filter>GUI\NativeWindow\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\NativeWindow\WinGDI.cpp">
-      <Filter>GUI\NativeWindow\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\NativeWindow\WinNativeWindow.cpp">
-      <Filter>GUI\NativeWindow\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Library\Basic.cpp">
       <Filter>Library\Basic\Source Files</Filter>
@@ -90,23 +81,20 @@
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp">
       <Filter>Library\Stream\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\NativeWindow\WinGDIApplication.cpp">
-      <Filter>GUI\NativeWindow\Source Files</Filter>
+    <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp">
+      <Filter>GUI\NativeWindow\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h">
-      <Filter>GUI\NativeWindow\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h">
-      <Filter>GUI\NativeWindow\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\NativeWindow\WinGDI.h">
-      <Filter>GUI\NativeWindow\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\NativeWindow\WinNativeWindow.h">
-      <Filter>GUI\NativeWindow\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
       <Filter>Library\Basic\Header Files</Filter>
     </ClInclude>
@@ -191,8 +179,20 @@
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h">
       <Filter>Library\Stream\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GUI\NativeWindow\WinGDIApplication.h">
-      <Filter>GUI\NativeWindow\Header Files</Filter>
+    <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h">
+      <Filter>GUI\NativeWindow\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

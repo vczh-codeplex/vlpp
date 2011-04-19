@@ -28,7 +28,7 @@ namespace vl
 Native Window
 ***********************************************************************/
 
-		class INativeWindow : private Interface
+		class INativeWindow : public Interface
 		{
 		public:
 			virtual Rect				GetBounds()=0;
@@ -84,7 +84,7 @@ Native Window
 			int							wheel;
 		};
 
-		class INativeWindowListener : private Interface
+		class INativeWindowListener : public Interface
 		{
 		public:
 			virtual void				Moving(Rect& bounds);
@@ -127,7 +127,16 @@ Native Window
 Native Window Provider
 ***********************************************************************/
 
-		class INativeController : private Interface
+		class INativeScreen : public Interface
+		{
+		public:
+			virtual Rect				GetBounds()=0;
+			virtual Rect				GetClientBounds()=0;
+			virtual WString				GetName()=0;
+			virtual bool				IsPrimary()=0;
+		};
+
+		class INativeController : public Interface
 		{
 		public:
 			virtual INativeWindow*		CreateNativeWindow()=0;
@@ -137,9 +146,13 @@ Native Window Provider
 
 			virtual bool				InstallListener(INativeControllerListener* listener)=0;
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
+			
+			virtual vint				GetScreenCount()=0;
+			virtual INativeScreen*		GetScreen(vint index)=0;
+			virtual INativeScreen*		GetScreen(INativeWindow* window)=0;
 		};
 
-		class INativeControllerListener : private Interface
+		class INativeControllerListener : public Interface
 		{
 		public:
 			virtual void				LeftButtonDown(Point position);

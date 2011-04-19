@@ -6,10 +6,10 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINNATIVEWINDOW
-#define VCZH_PRESENTATION_WINNATIVEWINDOW
+#ifndef VCZH_PRESENTATION_WINDOWS_WINNATIVEWINDOW
+#define VCZH_PRESENTATION_WINDOWS_WINNATIVEWINDOW
 
-#include "GuiNativeWindow.h"
+#include "..\GuiNativeWindow.h"
 #include <windows.h>
 
 namespace vl
