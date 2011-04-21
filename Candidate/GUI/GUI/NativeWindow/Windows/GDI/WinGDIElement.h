@@ -10,33 +10,19 @@ Interfaces:
 
 #include "WinGDI.h"
 #include "..\WinNativeWindow.h"
+#include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {
 	namespace presentation
 	{
-		namespace windows
+		namespace elements
 		{
 			class WinGDIElement;
 			class WinGDIElementEnvironment;
 
 /***********************************************************************
-Environment
-***********************************************************************/
-
-			class WinGDIElementEnvironment : public Object
-			{
-			protected:
-				INativeWindow*					window;
-			public:
-				WinGDIElementEnvironment(INativeWindow* _window);
-				~WinGDIElementEnvironment();
-
-				WinDC*							GetEnvironmentDC();
-			};
-
-/***********************************************************************
-Element
+基础建设
 ***********************************************************************/
 
 			class WinGDIElement : public Object
@@ -48,7 +34,42 @@ Element
 				WinGDIElement(WinGDIElementEnvironment* _environment);
 				~WinGDIElement();
 
-				virtual void					Paint()=0;
+				virtual void					Paint(Size offset, windows::WinDC* dc)=0;
+			};
+
+			class WinGDIElementEnvironment : public Object
+			{
+			protected:
+				INativeWindow*					window;
+				Ptr<WinGDIElement>				rootElement;
+			public:
+				WinGDIElementEnvironment(INativeWindow* _window);
+				~WinGDIElementEnvironment();
+
+				windows::WinDC*					GetEnvironmentDC();
+				Ptr<WinGDIElement>				GetRootElement();
+				void							SetRootElement(Ptr<WinGDIElement> element);
+				void							Paint();
+			};
+
+/***********************************************************************
+基本元素
+***********************************************************************/
+
+			class WinGDIClipElement : public WinGDIElement
+			{
+				typedef collections::List<Ptr<WinGDIElement>>		ElementList;
+			protected:
+				ElementList						children;
+				Rect							bounds;
+			public:
+				WinGDIClipElement(WinGDIElementEnvironment* _environment);
+				~WinGDIClipElement();
+
+				ElementList&					Children();
+				Rect							GetBounds();
+				void							SetBounds(Rect value);
+				void							Paint(Size offset, windows::WinDC* dc);
 			};
 		}
 	}

@@ -14,6 +14,7 @@ namespace vl
 		namespace windows
 		{
 			using namespace vl::collections;
+			using namespace vl::presentation::elements;
 
 			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener
 			{
