@@ -16,8 +16,8 @@ namespace vl
 	{
 		namespace windows
 		{
-			extern WinDC*						GetNativeWindowDC(INativeWindow* window);
-			extern WinGDIElementEnvironment*	GetNativeWindowGDIElementEnvironment(INativeWindow* window);
+			extern WinDC*									GetNativeWindowDC(INativeWindow* window);
+			extern elements::WinGDIElementEnvironment*		GetNativeWindowGDIElementEnvironment(INativeWindow* window);
 		}
 	}
 }

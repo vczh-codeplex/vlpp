@@ -5,8 +5,22 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace windows
+		namespace elements
 		{
+			using namespace vl::presentation::windows;
+
+/***********************************************************************
+WinGDIElement
+***********************************************************************/
+
+			WinGDIElement::WinGDIElement(WinGDIElementEnvironment* _environment)
+				:environment(_environment)
+			{
+			}
+
+			WinGDIElement::~WinGDIElement()
+			{
+			}
 
 /***********************************************************************
 WinGDIElementEnvironment
@@ -25,18 +39,67 @@ WinGDIElementEnvironment
 			{
 				return GetNativeWindowDC(window);
 			}
+			
+			Ptr<WinGDIElement> WinGDIElementEnvironment::GetRootElement()
+			{
+				return rootElement;
+			}
+
+			void WinGDIElementEnvironment::SetRootElement(Ptr<WinGDIElement> element)
+			{
+				rootElement=element;
+			}
+
+			void WinGDIElementEnvironment::Paint()
+			{
+				if(rootElement)
+				{
+					rootElement->Paint(Size(0, 0), GetEnvironmentDC());
+				}
+			}
 
 /***********************************************************************
-WinGDIElement
+WinGDIClipElement
 ***********************************************************************/
 
-			WinGDIElement::WinGDIElement(WinGDIElementEnvironment* _environment)
-				:environment(_environment)
+			WinGDIClipElement::WinGDIClipElement(WinGDIElementEnvironment* _environment)
+				:WinGDIElement(_environment)
 			{
 			}
 
-			WinGDIElement::~WinGDIElement()
+			WinGDIClipElement::~WinGDIClipElement()
 			{
+			}
+
+			WinGDIClipElement::ElementList& WinGDIClipElement::Children()
+			{
+				return children;
+			}
+
+			Rect WinGDIClipElement::GetBounds()
+			{
+				return bounds;
+			}
+
+			void WinGDIClipElement::SetBounds(Rect value)
+			{
+				bounds=value;
+			}
+
+			void WinGDIClipElement::Paint(Size offset, windows::WinDC* dc)
+			{
+				if(children.Count()>0)
+				{
+					Rect clipBounds(bounds.LeftTop()+offset, bounds.GetSize());
+					WinRegion::Ptr clip=dc->GetClipRegion();
+					dc->ClipRegion(new WinRegion(clipBounds.Left(), clipBounds.Top(), clipBounds.Right(), clipBounds.Bottom(), true));
+					Size newOffset(clipBounds.Left(), clipBounds.Top());
+					for(int i=0;i<children.Count();i++)
+					{
+						children[i]->Paint(newOffset, dc);
+					}
+					dc->ClipRegion(clip);
+				}
 			}
 		}
 	}
