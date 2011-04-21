@@ -93,6 +93,9 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.cpp">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -192,6 +195,9 @@
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.h">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClInclude>
   </ItemGroup>

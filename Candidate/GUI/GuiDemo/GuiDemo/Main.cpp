@@ -1,7 +1,6 @@
 #include "..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h"
 
 using namespace vl;
-using namespace vl::windows;
 using namespace vl::presentation;
 using namespace vl::presentation::windows;
 

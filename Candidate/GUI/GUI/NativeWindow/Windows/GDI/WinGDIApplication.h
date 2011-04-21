@@ -8,8 +8,7 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
 #define VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
 
-#include "..\WinNativeWindow.h"
-#include "WinGDI.h"
+#include "WinGDIElement.h"
 
 namespace vl
 {
@@ -17,7 +16,8 @@ namespace vl
 	{
 		namespace windows
 		{
-			extern vl::windows::WinDC*				GetNativeWindowDC(INativeWindow* window);
+			extern WinDC*						GetNativeWindowDC(INativeWindow* window);
+			extern WinGDIElementEnvironment*	GetNativeWindowGDIElementEnvironment(INativeWindow* window);
 		}
 	}
 }
