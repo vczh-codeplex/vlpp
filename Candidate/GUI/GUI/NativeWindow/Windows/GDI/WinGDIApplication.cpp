@@ -4,8 +4,7 @@
 #include <crtdbg.h>
 #endif
 
-#include "..\WinNativeWindow.h"
-#include "WinGDI.h"
+#include"WinGDIApplication.h"
 #include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
@@ -15,12 +14,12 @@ namespace vl
 		namespace windows
 		{
 			using namespace vl::collections;
-			using namespace vl::windows;
 
 			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener
 			{
 			protected:
 				Ptr<WinBitmap>					buffer;
+				Ptr<WinGDIElementEnvironment>	environment;
 				INativeWindow*					window;
 
 				int DetermineBufferLength(int minSize, int minBound, int maxBound, int currentSize)
@@ -66,6 +65,7 @@ namespace vl
 				GdiWindowsNativeWindowListener(INativeWindow* _window)
 					:window(_window)
 				{
+					environment=new WinGDIElementEnvironment(window);
 				}
 
 				void Moved()
@@ -83,6 +83,11 @@ namespace vl
 				WinDC* GetWinDC()
 				{
 					return buffer->GetWinDC();
+				}
+
+				WinGDIElementEnvironment* GetGDIElementEnvironment()
+				{
+					return environment.Obj();
 				}
 			};
 
@@ -111,6 +116,11 @@ namespace vl
 			WinDC* GetNativeWindowDC(INativeWindow* window)
 			{
 				return gdiListener->nativeWindowListeners[window]->GetWinDC();
+			}
+
+			WinGDIElementEnvironment* GetNativeWindowGDIElementEnvironment(INativeWindow* window)
+			{
+				return gdiListener->nativeWindowListeners[window]->GetGDIElementEnvironment();
 			}
 		}
 	}
