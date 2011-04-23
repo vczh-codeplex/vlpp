@@ -91,6 +91,7 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.cpp" />
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -128,6 +129,7 @@
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.h" />
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

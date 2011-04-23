@@ -116,12 +116,14 @@ namespace vl
 
 			WinDC* GetNativeWindowDC(INativeWindow* window)
 			{
-				return gdiListener->nativeWindowListeners[window]->GetWinDC();
+				int index=gdiListener->nativeWindowListeners.Keys().IndexOf(window);
+				return index==-1?0:gdiListener->nativeWindowListeners.Values()[index]->GetWinDC();
 			}
 
 			WinGDIElementEnvironment* GetNativeWindowGDIElementEnvironment(INativeWindow* window)
 			{
-				return gdiListener->nativeWindowListeners[window]->GetGDIElementEnvironment();
+				int index=gdiListener->nativeWindowListeners.Keys().IndexOf(window);
+				return index==-1?0:gdiListener->nativeWindowListeners.Values()[index]->GetGDIElementEnvironment();
 			}
 		}
 	}

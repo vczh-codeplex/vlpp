@@ -1,4 +1,5 @@
 #include "..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h"
+#include "..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.h"
 
 using namespace vl;
 using namespace vl::presentation;
@@ -90,6 +91,7 @@ public:
 
 void NativeMain()
 {
+	WinGDISimpleResources::RegisterAutoInstall();
 	INativeController* controller=GetCurrentController();
 	INativeWindow* window=controller->CreateNativeWindow();
 	WindowPainter painter(window);
@@ -108,4 +110,5 @@ void NativeMain()
 	}
 
 	controller->Run(window);
+	WinGDISimpleResources::UnregisterAutoInstall();
 }
