@@ -35,6 +35,17 @@ WinGDIElementEnvironment
 			{
 			}
 
+			WinGDIElementEnvironment:: ResourceMap& WinGDIElementEnvironment::Resources()
+			{
+				return resources;
+			}
+
+			Ptr<Object> WinGDIElementEnvironment::Resource(const WString& name)
+			{
+				int index=resources.Keys().IndexOf(name);
+				return index==-1?0:resources.Values()[index];
+			}
+
 			WinDC* WinGDIElementEnvironment::GetEnvironmentDC()
 			{
 				return GetNativeWindowDC(window);

@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: ³Âè÷å«(vczh)
-GUI::Windows Platform
+GUI::Windows GDI Provider
 
 Interfaces:
 ***********************************************************************/
@@ -39,13 +39,17 @@ namespace vl
 
 			class WinGDIElementEnvironment : public Object
 			{
+				typedef collections::Dictionary<WString, Ptr<Object>>	ResourceMap;
 			protected:
 				INativeWindow*					window;
 				Ptr<WinGDIElement>				rootElement;
+				ResourceMap						resources;
 			public:
 				WinGDIElementEnvironment(INativeWindow* _window);
 				~WinGDIElementEnvironment();
 
+				ResourceMap&					Resources();
+				Ptr<Object>						Resource(const WString& name);
 				windows::WinDC*					GetEnvironmentDC();
 				Ptr<WinGDIElement>				GetRootElement();
 				void							SetRootElement(Ptr<WinGDIElement> element);
@@ -58,14 +62,14 @@ namespace vl
 
 			class WinGDIClipElement : public WinGDIElement
 			{
-				typedef collections::List<Ptr<WinGDIElement>>		ElementList;
+				typedef collections::List<Ptr<WinGDIElement>>			ElementList;
 			protected:
 				ElementList						children;
 				Rect							bounds;
 			public:
 				WinGDIClipElement(WinGDIElementEnvironment* _environment);
 				~WinGDIClipElement();
-
+				
 				ElementList&					Children();
 				Rect							GetBounds();
 				void							SetBounds(Rect value);
