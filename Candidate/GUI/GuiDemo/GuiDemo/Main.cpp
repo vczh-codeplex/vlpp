@@ -53,6 +53,15 @@ protected:
 	Ptr<ThickBorder>			subRight;
 	Ptr<ThickBorder>			subCenter;
 	Ptr<WinGDIClipElement>		controlContainer;
+
+	void Center(Ptr<gdi_simple::StatefulLabel> label, Ptr<gdi_simple::StatefulBackground> background)
+	{
+		Rect bounds=background->GetBounds();
+		Size size=label->GetSize();
+		int x=bounds.Left()+(bounds.Width()-size.x)/2;
+		int y=bounds.Top()+(bounds.Height()-size.y)/2;
+		label->SetPosition(Point(x, y));
+	}
 public:
 	WindowPainter(INativeWindow* _window)
 		:window(_window)
@@ -75,15 +84,27 @@ public:
 
 		for(int i=0;i<4;i++)
 		{
-			Ptr<gdi_simple::PushableBackground> pushable=new gdi_simple::PushableBackground(env);
-			pushable->SetState((gdi_simple::StatefulBackground::State)i);
-			pushable->SetBounds(Rect(Point(30, 30+i*40), Size(200, 30)));
-			controlContainer->Children().Add(pushable);
+			Ptr<gdi_simple::PushableBackground> pushableBackground=new gdi_simple::PushableBackground(env);
+			pushableBackground->SetState((gdi_simple::StatefulBackground::State)i);
+			pushableBackground->SetBounds(Rect(Point(30, 30+i*40), Size(200, 30)));
+			controlContainer->Children().Add(pushableBackground);
 
-			Ptr<gdi_simple::SelectableBackground> selectable=new gdi_simple::SelectableBackground(env);
-			selectable->SetState((gdi_simple::StatefulBackground::State)i);
-			selectable->SetBounds(Rect(Point(240, 30+i*40), Size(200, 30)));
-			controlContainer->Children().Add(selectable);
+			Ptr<gdi_simple::PushableLabel> pushableLabel=new gdi_simple::PushableLabel(env);
+			pushableLabel->SetText(L"Button Text");
+			pushableLabel->SetState((gdi_simple::StatefulLabel::State)i);
+			Center(pushableLabel, pushableBackground);
+			controlContainer->Children().Add(pushableLabel);
+
+			Ptr<gdi_simple::SelectableBackground> selectableBackground=new gdi_simple::SelectableBackground(env);
+			selectableBackground->SetState((gdi_simple::StatefulBackground::State)i);
+			selectableBackground->SetBounds(Rect(Point(240, 30+i*40), Size(200, 30)));
+			controlContainer->Children().Add(selectableBackground);
+
+			Ptr<gdi_simple::SelectableLabel> selectableLabel=new gdi_simple::SelectableLabel(env);
+			selectableLabel->SetText(L"Menu Item Text");
+			selectableLabel->SetState((gdi_simple::StatefulLabel::State)i);
+			Center(selectableLabel, selectableBackground);
+			controlContainer->Children().Add(selectableLabel);
 		}
 
 		env->SetRootElement(container);

@@ -107,7 +107,7 @@ typedef signed __int64	pos_t;
 			object=_object;
 		}
 
-		const T& GetObject()
+		const T& Unbox()
 		{
 			return object;
 		}

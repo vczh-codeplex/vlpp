@@ -29,6 +29,9 @@ namespace vl
 				class Resources
 				{
 				public:
+
+					//-----------------------------------------------------
+
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_NORMAL_PEN);
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_ACTIVE_PEN);
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_PRESSED_PEN);
@@ -38,6 +41,18 @@ namespace vl
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_ACTIVE_BRUSH);
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_PRESSED_BRUSH);
 					RESOURCE_NAME(PUSHABLE_BACKGROUND_DISABLED_BRUSH);
+
+					RESOURCE_NAME(PUSHABLE_LABEL_NORMAL_FONT);
+					RESOURCE_NAME(PUSHABLE_LABEL_ACTIVE_FONT);
+					RESOURCE_NAME(PUSHABLE_LABEL_PRESSED_FONT);
+					RESOURCE_NAME(PUSHABLE_LABEL_DISABLED_FONT);
+
+					RESOURCE_NAME(PUSHABLE_LABEL_NORMAL_COLOR);
+					RESOURCE_NAME(PUSHABLE_LABEL_ACTIVE_COLOR);
+					RESOURCE_NAME(PUSHABLE_LABEL_PRESSED_COLOR);
+					RESOURCE_NAME(PUSHABLE_LABEL_DISABLED_COLOR);
+
+					//-----------------------------------------------------
 
 					RESOURCE_NAME(SELECTABLE_BACKGROUND_NORMAL_PEN);
 					RESOURCE_NAME(SELECTABLE_BACKGROUND_ACTIVE_PEN);
@@ -49,6 +64,18 @@ namespace vl
 					RESOURCE_NAME(SELECTABLE_BACKGROUND_PRESSED_BRUSH);
 					RESOURCE_NAME(SELECTABLE_BACKGROUND_DISABLED_BRUSH);
 
+					RESOURCE_NAME(SELECTABLE_LABEL_NORMAL_FONT);
+					RESOURCE_NAME(SELECTABLE_LABEL_ACTIVE_FONT);
+					RESOURCE_NAME(SELECTABLE_LABEL_PRESSED_FONT);
+					RESOURCE_NAME(SELECTABLE_LABEL_DISABLED_FONT);
+
+					RESOURCE_NAME(SELECTABLE_LABEL_NORMAL_COLOR);
+					RESOURCE_NAME(SELECTABLE_LABEL_ACTIVE_COLOR);
+					RESOURCE_NAME(SELECTABLE_LABEL_PRESSED_COLOR);
+					RESOURCE_NAME(SELECTABLE_LABEL_DISABLED_COLOR);
+
+					//-----------------------------------------------------
+
 					static void								RegisterAutoInstall();
 					static void								UnregisterAutoInstall();
 					static void								Install(WinGDIElementEnvironment* environment);
@@ -56,6 +83,8 @@ namespace vl
 
 					static Ptr<windows::WinPen>				GetPen(WinGDIElementEnvironment* environment, const WString& name);
 					static Ptr<windows::WinBrush>			GetBrush(WinGDIElementEnvironment* environment, const WString& name);
+					static Ptr<windows::WinFont>			GetFont(WinGDIElementEnvironment* environment, const WString& name);
+					static COLORREF							GetColor(WinGDIElementEnvironment* environment, const WString& name);
 				};
 
 #undef RESOURCE_NAME
@@ -94,6 +123,42 @@ namespace vl
 					void									Paint(Size offset, windows::WinDC* dc);
 				};
 
+				class StatefulLabel : public WinGDIElement
+				{
+				public:
+					enum State
+					{
+						Normal,
+						Active,
+						Pressed,
+						Disabled,
+
+						TotalCount,
+					};
+				protected:
+					Ptr<windows::WinFont>					fonts[TotalCount];
+					COLORREF								colors[TotalCount];
+					WString									text;
+					Point									position;
+					State									state;
+
+				public:
+					StatefulLabel(const wchar_t** fontNames, const wchar_t** colorNames, WinGDIElementEnvironment* _environment);
+					~StatefulLabel();
+
+					WString									GetText();
+					void									SetText(const WString& value);
+					Point									GetPosition();
+					void									SetPosition(Point value);
+					State									GetState();
+					void									SetState(State value);
+
+					Size									GetSize();
+					Rect									GetBounds();
+
+					void									Paint(Size offset, windows::WinDC* dc);
+				};
+
 				class PushableBackground : public StatefulBackground
 				{
 				public:
@@ -106,6 +171,20 @@ namespace vl
 				public:
 					SelectableBackground(WinGDIElementEnvironment* _environment);
 					~SelectableBackground();
+				};
+
+				class PushableLabel : public StatefulLabel
+				{
+				public:
+					PushableLabel(WinGDIElementEnvironment* _environment);
+					~PushableLabel();
+				};
+
+				class SelectableLabel : public StatefulLabel
+				{
+				public:
+					SelectableLabel(WinGDIElementEnvironment* _environment);
+					~SelectableLabel();
 				};
 			}
 		}
