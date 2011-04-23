@@ -83,6 +83,7 @@ namespace vl
 
 				WinDC* GetWinDC()
 				{
+					if(!buffer) Moved();
 					return buffer->GetWinDC();
 				}
 
