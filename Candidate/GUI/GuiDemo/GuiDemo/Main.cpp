@@ -51,6 +51,8 @@ protected:
 	Ptr<WinGDIClipElement>		subContainer;
 	Ptr<ThickBorder>			subLeft;
 	Ptr<ThickBorder>			subRight;
+	Ptr<ThickBorder>			subCenter;
+	Ptr<WinGDIClipElement>		controlContainer;
 public:
 	WindowPainter(INativeWindow* _window)
 		:window(_window)
@@ -59,13 +61,30 @@ public:
 		background=new ThickBorder(RGB(0, 0, 0), RGB(255, 0, 128), env);
 		subLeft=new ThickBorder(RGB(128, 128, 255), RGB(0, 255, 128), env);
 		subRight=new ThickBorder(RGB(128, 128, 255), RGB(0, 255, 128), env);
+		subCenter=new ThickBorder(RGB(255, 255, 255), RGB(0, 0, 0), env);
 		container=new WinGDIClipElement(env);
 		subContainer=new WinGDIClipElement(env);
+		controlContainer=new WinGDIClipElement(env);
 
 		container->Children().Add(background);
 		container->Children().Add(subContainer);
 		subContainer->Children().Add(subLeft);
 		subContainer->Children().Add(subRight);
+		subContainer->Children().Add(subCenter);
+		subContainer->Children().Add(controlContainer);
+
+		for(int i=0;i<4;i++)
+		{
+			Ptr<gdi_simple::PushableBackground> pushable=new gdi_simple::PushableBackground(env);
+			pushable->SetState((gdi_simple::StatefulBackground::State)i);
+			pushable->SetBounds(Rect(Point(30, 30+i*40), Size(200, 30)));
+			controlContainer->Children().Add(pushable);
+
+			Ptr<gdi_simple::SelectableBackground> selectable=new gdi_simple::SelectableBackground(env);
+			selectable->SetState((gdi_simple::StatefulBackground::State)i);
+			selectable->SetBounds(Rect(Point(240, 30+i*40), Size(200, 30)));
+			controlContainer->Children().Add(selectable);
+		}
 
 		env->SetRootElement(container);
 	}
@@ -75,6 +94,7 @@ public:
 		container->SetBounds(Rect(Point(0, 0), window->GetClientSize()));
 		background->bounds=Rect(Point(0, 0), window->GetClientSize());
 		subContainer->SetBounds(Rect(Point(20, 20), window->GetClientSize()-Size(40, 40)));
+		controlContainer->SetBounds(Rect(Point(20, 20), subContainer->GetBounds().GetSize()-Size(40, 40)));
 
 		Size c=subContainer->GetBounds().GetSize();
 		subLeft->bounds=Rect(
@@ -85,13 +105,17 @@ public:
 			Point(c.x-c.x/2+9, -9),
 			Size(c.x/2, c.y+18)
 			);
+		subCenter->bounds=Rect(
+			Point(20, 20),
+			Size(c.x-40, c.y-40)
+			);
 		env->Paint();
 	}
 };
 
 void NativeMain()
 {
-	WinGDISimpleResources::RegisterAutoInstall();
+	gdi_simple::Resources::RegisterAutoInstall();
 	INativeController* controller=GetCurrentController();
 	INativeWindow* window=controller->CreateNativeWindow();
 	WindowPainter painter(window);
@@ -110,5 +134,5 @@ void NativeMain()
 	}
 
 	controller->Run(window);
-	WinGDISimpleResources::UnregisterAutoInstall();
+	gdi_simple::Resources::UnregisterAutoInstall();
 }
