@@ -95,6 +95,7 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main_NativeWindow_GuiSimple.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h" />

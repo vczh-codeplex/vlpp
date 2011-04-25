@@ -102,6 +102,9 @@
     <ClCompile Include="..\..\GUI\GuiControl.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Main_NativeWindow_GuiSimple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
