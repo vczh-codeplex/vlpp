@@ -27,6 +27,7 @@ namespace vl
 		class GuiControl;
 		class GuiWindowBase;
 		class GuiApplication;
+		class GuiWindow;
 
 /***********************************************************************
 Æ¤·ô
@@ -79,7 +80,9 @@ namespace vl
 
 		protected:
 
-			virtual const WString&			GetSkinBuilderName()=0;
+			virtual WString					GetSkinBuilderName()=0;
+			virtual Rect					GetBoundsForSkin();
+
 			virtual void					NotifySetParent(GuiControl* value);
 			virtual void					NotifyAttachedToWindow(GuiWindowBase* window);
 			virtual void					NotifyChildEntering(GuiControl* value);
@@ -97,18 +100,35 @@ namespace vl
 			const WString&					GetControlName();
 			void							SetControlName(const WString& value);
 
-			Grid*							GetContainer();
-			void							SetContainer(Grid* value);
+			virtual Grid*					GetContainer();
+			virtual void					SetContainer(Grid* value);
 
-			Rect							GetBounds();
-			void							SetBounds(Rect value);
+			virtual Rect					GetBounds();
+			virtual void					SetBounds(Rect value);
+			
+			virtual Size					GetClientSize();
+			virtual void					SetClientSize(Size value);
 		};
 
-		class GuiWindowBase : public GuiControl
+		class GuiWindowBase : public GuiControl, private INativeWindowListener
 		{
+		private:
+			INativeWindow*					nativeWindow;
+
+		private:
+
+			void							Moving(Rect& value);
+			void							Moved();
+			void							Destroying();
 		protected:
+
+			virtual void					InitializeWindow();
+			Rect							GetBoundsForSkin();
 		public:
-			virtual INativeWindow*			GetContainingNativeWindow()=0;
+			GuiWindowBase();
+			~GuiWindowBase();
+
+			INativeWindow*					GetContainingNativeWindow();
 		};
 
 /***********************************************************************
@@ -117,15 +137,26 @@ namespace vl
 
 		class GuiApplication : public Object
 		{
+			friend class GuiWindowBase;
+
 			typedef collections::Dictionary<WString, Ptr<IGuiSkinBuilder>>		SkinBuilderMap;
+			typedef collections::List<GuiWindowBase*>							WindowBaseList;
 		protected:
 			SkinBuilderMap					skinBuilders;
+			WindowBaseList					windowBases;
+			GuiWindow*						mainWindow;
+
+			void							RegisterWindow(GuiWindowBase* window);
+			void							UnregisterWindow(GuiWindowBase* window);
 		public:
 			GuiApplication();
 			~GuiApplication();
 
-			void							SetSkinBuilder(const WString& name, IGuiSkinBuilder* builder);
 			IGuiSkinBuilder*				GetSkinBuilder(const WString& name);
+			void							SetSkinBuilder(const WString& name, IGuiSkinBuilder* builder);
+
+			void							Run(GuiWindow* window);
+			GuiWindow*						GetMainWindow();
 		};
 
 		extern GuiApplication*				GetCurrentApplication();
@@ -145,7 +176,22 @@ namespace vl
 		class GuiWindow : public GuiWindowBase
 		{
 		protected:
+
+			WString							GetSkinBuilderName();
 		public:
+			GuiWindow();
+			~GuiWindow();
+
+			WString							GetTitle();
+			void							SetTitle(const WString& value);
+			void							MoveToScreenCenter();
+			void							Show();
+			void							Close();
+
+			Rect							GetBounds();
+			void							SetBounds(Rect value);
+			Size							GetClientSize();
+			void							SetClientSize(Size value);
 		};
 
 /***********************************************************************

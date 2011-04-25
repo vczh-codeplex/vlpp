@@ -1,11 +1,7 @@
-#include "..\..\GUI\GuiControl.h"
-
-using namespace vl;
-using namespace vl::presentation;
-
 extern void Main_NativeWindow_GuiSimple();
+extern void Main_GuiApplication_Window();
 
 void GuiMain()
 {
-	Main_NativeWindow_GuiSimple();
+	Main_GuiApplication_Window();
 }
