@@ -40,6 +40,11 @@ GuiControl::Grid
 GuiControl
 ***********************************************************************/
 
+		Rect GuiControl::GetBoundsForSkin()
+		{
+			return bounds;
+		}
+
 		void GuiControl::NotifySetParent(GuiControl* value)
 		{
 			if(parent)
@@ -70,7 +75,10 @@ GuiControl
 				if(builder)
 				{
 					skin=builder->Build(window->GetContainingNativeWindow());
-					skin->SetBounds(bounds);
+					if(skin)
+					{
+						skin->SetBounds(GetBoundsForSkin());
+					}
 				}
 			}
 			if(container)
@@ -114,6 +122,11 @@ GuiControl
 
 		void GuiControl::NotifyMoved(Rect value)
 		{
+			bounds=value;
+			if(skin)
+			{
+				skin->SetBounds(GetBoundsForSkin());
+			}
 		}
 
 		GuiControl::GuiControl()
@@ -184,28 +197,109 @@ GuiControl
 		{
 			NotifyMoving(value);
 			NotifyMoved(value);
-			bounds=value;
-			if(skin)
+		}
+		
+		Size GuiControl::GetClientSize()
+		{
+			return GetBounds().GetSize();
+		}
+
+		void GuiControl::SetClientSize(Size value)
+		{
+			SetBounds(Rect(GetBounds().LeftTop(), value));
+		}
+
+/***********************************************************************
+GuiWindowBase
+***********************************************************************/
+
+		void GuiWindowBase::Moving(Rect& value)
+		{
+			NotifyMoving(value);
+		}
+
+		void GuiWindowBase::Moved()
+		{
+			NotifyMoved(GetBounds());
+		}
+
+		void GuiWindowBase::Destroying()
+		{
+			if(nativeWindow)
 			{
-				skin->SetBounds(bounds);
+				INativeWindow* window=nativeWindow;
+				nativeWindow=0;
+				GetCurrentApplication()->UnregisterWindow(this);
 			}
+		}
+
+		//----------------------------------------------------------------------
+
+		void GuiWindowBase::InitializeWindow()
+		{
+			NotifyAttachedToWindow(this);
+		}
+
+		Rect GuiWindowBase::GetBoundsForSkin()
+		{
+			return Rect(Point(0, 0), GetContainingNativeWindow()->GetClientSize());
+		}
+
+		GuiWindowBase::GuiWindowBase()
+			:nativeWindow(0)
+		{
+			nativeWindow=GetCurrentController()->CreateNativeWindow();
+			nativeWindow->InstallListener(this);
+			GetCurrentApplication()->RegisterWindow(this);
+		}
+
+		GuiWindowBase::~GuiWindowBase()
+		{
+			if(nativeWindow)
+			{
+				GetCurrentController()->DestroyNativeWindow(nativeWindow);
+			}
+		}
+
+		INativeWindow* GuiWindowBase::GetContainingNativeWindow()
+		{
+			return nativeWindow;
 		}
 
 /***********************************************************************
 GuiApplication
 ***********************************************************************/
 
+		void GuiApplication::RegisterWindow(GuiWindowBase* window)
+		{
+			int index=windowBases.IndexOf(window);
+			if(index==-1)
+			{
+				windowBases.Add(window);
+			}
+		}
+
+		void GuiApplication::UnregisterWindow(GuiWindowBase* window)
+		{
+			int index=windowBases.IndexOf(window);
+			if(index!=-1)
+			{
+				windowBases.RemoveAt(index);
+			}
+		}
+
 		GuiApplication::GuiApplication()
+			:mainWindow(0)
 		{
 		}
 
 		GuiApplication::~GuiApplication()
 		{
-		}
-
-		void GuiApplication::SetSkinBuilder(const WString& name, IGuiSkinBuilder* builder)
-		{
-			skinBuilders.Set(name, builder);
+			while(windowBases.Count()>0)
+			{
+				GuiWindowBase* window=windowBases[windowBases.Count()-1];
+				delete window;
+			}
 		}
 
 		IGuiSkinBuilder* GuiApplication::GetSkinBuilder(const WString& name)
@@ -214,11 +308,102 @@ GuiApplication
 			return index==-1?0:skinBuilders.Values()[index].Obj();
 		}
 
+		void GuiApplication::SetSkinBuilder(const WString& name, IGuiSkinBuilder* builder)
+		{
+			skinBuilders.Set(name, builder);
+		}
+		
+		void GuiApplication::Run(GuiWindow* window)
+		{
+			if(!mainWindow)
+			{
+				mainWindow=window;
+				GetCurrentController()->Run(window->GetContainingNativeWindow());
+			}
+		}
+
+		GuiWindow* GuiApplication::GetMainWindow()
+		{
+			return mainWindow;
+		}
+
 		GuiApplication* currentApplication=0;
 
 		GuiApplication* GetCurrentApplication()
 		{
 			return currentApplication;
+		}
+
+/***********************************************************************
+GuiWindow
+***********************************************************************/
+
+		WString GuiWindow::GetSkinBuilderName()
+		{
+			return L"vl::presentation::GuiWindow";
+		}
+
+		GuiWindow::GuiWindow()
+		{
+			InitializeWindow();
+		}
+
+		GuiWindow::~GuiWindow()
+		{
+		}
+
+		WString GuiWindow::GetTitle()
+		{
+			return GetContainingNativeWindow()->GetTitle();
+		}
+
+		void GuiWindow::SetTitle(const WString& value)
+		{
+			GetContainingNativeWindow()->SetTitle(value);
+		}
+
+		void GuiWindow::MoveToScreenCenter()
+		{
+			INativeWindow* window=GetContainingNativeWindow();
+			INativeScreen* screen=GetCurrentController()->GetScreen(window);
+			if(screen)
+			{
+				Rect client=screen->GetClientBounds();
+				Rect bounds=window->GetBounds();
+				int x=(client.Width()-bounds.Width())/2+client.Left();
+				int y=(client.Height()-bounds.Height())/2+client.Top();
+				window->SetBounds(Rect(Point(x, y), bounds.GetSize()));
+			}
+		}
+
+		void GuiWindow::Show()
+		{
+			GetContainingNativeWindow()->Show();
+		}
+
+		void GuiWindow::Close()
+		{
+			GetContainingNativeWindow()->Hide();
+		}
+
+		Rect GuiWindow::GetBounds()
+		{
+			return GetContainingNativeWindow()->GetBounds();
+		}
+
+		void GuiWindow::SetBounds(Rect value)
+		{
+			GetContainingNativeWindow()->SetBounds(value);
+		}
+		
+		Size GuiWindow::GetClientSize()
+		{
+			return GetContainingNativeWindow()->GetClientSize();
+		}
+
+		void GuiWindow::SetClientSize(Size value)
+		{
+			GetContainingNativeWindow()->SetClientSize(value);
 		}
 	}
 }
