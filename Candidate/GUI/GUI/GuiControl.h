@@ -114,6 +114,7 @@ namespace vl
 		{
 		private:
 			INativeWindow*					nativeWindow;
+			bool							destructorInvoked;
 
 		private:
 
