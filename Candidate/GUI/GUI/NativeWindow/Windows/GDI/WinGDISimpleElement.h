@@ -10,6 +10,7 @@ Interfaces:
 #define VCZH_PRESENTATION_WINDOWS_GDI_ELEMENT
 
 #include "WinGDIElement.h"
+#include "..\..\..\GuiApplication.h"
 
 namespace vl
 {
@@ -76,6 +77,15 @@ namespace vl
 
 					//-----------------------------------------------------
 
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_NORMAL_PEN);
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_ACTIVE_PEN);
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_PRESSED_PEN);
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_DISABLED_PEN);
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_PEN);
+					RESOURCE_NAME(FOCUSABLE_BACKGROUND_BRUSH);
+
+					//-----------------------------------------------------
+
 					static void								RegisterAutoInstall();
 					static void								UnregisterAutoInstall();
 					static void								Install(WinGDIElementEnvironment* environment);
@@ -93,7 +103,7 @@ namespace vl
 元素
 ***********************************************************************/
 
-				class StatefulBackground : public WinGDIElement
+				class StatefulObject : public WinGDIElement
 				{
 				public:
 					enum State
@@ -105,6 +115,12 @@ namespace vl
 
 						TotalCount,
 					};
+				public:
+					StatefulObject(WinGDIElementEnvironment* _environment);
+				};
+
+				class StatefulBackground : public StatefulObject
+				{
 				protected:
 					Ptr<windows::WinPen>					pens[TotalCount];
 					Ptr<windows::WinBrush>					brushes[TotalCount];
@@ -123,18 +139,8 @@ namespace vl
 					void									Paint(Size offset, windows::WinDC* dc);
 				};
 
-				class StatefulLabel : public WinGDIElement
+				class StatefulLabel : public StatefulObject
 				{
-				public:
-					enum State
-					{
-						Normal,
-						Active,
-						Pressed,
-						Disabled,
-
-						TotalCount,
-					};
 				protected:
 					Ptr<windows::WinFont>					fonts[TotalCount];
 					COLORREF								colors[TotalCount];
@@ -173,6 +179,13 @@ namespace vl
 					~SelectableBackground();
 				};
 
+				class FocusableBackground : public StatefulBackground
+				{
+				public:
+					FocusableBackground(bool staticPen, WinGDIElementEnvironment* _environment);
+					~FocusableBackground();
+				};
+
 				class PushableLabel : public StatefulLabel
 				{
 				public:
@@ -185,6 +198,34 @@ namespace vl
 				public:
 					SelectableLabel(WinGDIElementEnvironment* _environment);
 					~SelectableLabel();
+				};
+
+/***********************************************************************
+控件风格
+***********************************************************************/
+
+				class WindowSkin : public Object, public GuiWindow::IGuiWindowSkin
+				{
+				public:
+					class Builder : public Object, public IGuiSkinBuilder
+					{
+					public:
+						Ptr<IGuiSkin>						Build(INativeWindow* window);
+					};
+				protected:
+					Ptr<FocusableBackground>				background;
+					IGuiSkinListener*						skinListener;
+
+				public:
+					WindowSkin(INativeWindow* window);
+					~WindowSkin();
+
+					void									AttachListener(IGuiSkinListener* listener);
+					void									SetBounds(Rect value);
+					void									RemoveChild(IGuiSkin* child);
+					void									InsertChild(int index, IGuiSkin* child);
+					int										ChildCount();
+					void									Install(INativeWindow* window);
 				};
 			}
 		}

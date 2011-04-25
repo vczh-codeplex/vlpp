@@ -16,7 +16,7 @@ namespace vl
 			using namespace vl::collections;
 			using namespace vl::presentation::elements;
 
-			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener
+			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener, public IWindowsFormGraphicsHandler
 			{
 			protected:
 				Ptr<WinBitmap>					buffer;
@@ -67,6 +67,13 @@ namespace vl
 					:window(_window)
 				{
 					environment=new WinGDIElementEnvironment(window);
+					IWindowsForm* form=GetWindowsForm(window);
+					form->SetGraphicsHandler(this);
+				}
+
+				void RedrawContent()
+				{
+					environment->Paint();
 				}
 
 				void Moved()

@@ -1,6 +1,7 @@
 #include "WinNativeWindow.h"
 #include "..\..\..\..\..\Library\Pointer.h"
 #include "..\..\..\..\..\Library\Collections\Dictionary.h"
+#include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -62,12 +63,13 @@ WindowsForm
 			class WindowsForm : public Object, public INativeWindow, public IWindowsForm
 			{
 			protected:
-				HWND							handle;
-				WString							title;
-				List<INativeWindowListener*>	listeners;
-				int								mouseLastX;
-				int								mouseLastY;
-				int								mouseHoving;
+				HWND								handle;
+				WString								title;
+				List<INativeWindowListener*>		listeners;
+				int									mouseLastX;
+				int									mouseLastY;
+				int									mouseHoving;
+				IWindowsFormGraphicsHandler*		graphicsHandler;
 				
 				DWORD InternalGetExStyle()
 				{
@@ -159,6 +161,7 @@ WindowsForm
 					:mouseLastX(-1)
 					,mouseLastY(-1)
 					,mouseHoving(false)
+					,graphicsHandler(0)
 				{
 					DWORD exStyle=WS_EX_APPWINDOW | WS_EX_CONTROLPARENT;
 					DWORD style=WS_BORDER | WS_CAPTION | WS_SIZEBOX | WS_SYSMENU | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
@@ -167,9 +170,15 @@ WindowsForm
 
 				~WindowsForm()
 				{
-					for(int i=0;i<listeners.Count();i++)
+					List<INativeWindowListener*> copiedListeners;
+					CopyFrom(copiedListeners.Wrap(), listeners.Wrap());
+					for(int i=0;i<copiedListeners.Count();i++)
 					{
-						listeners[i]->Destroying();
+						INativeWindowListener* listener=copiedListeners[i];
+						if(listeners.Contains(listener))
+						{
+							listener->Destroying();
+						}
 					}
 					DestroyWindow(handle);
 				}
@@ -476,6 +485,16 @@ WindowsForm
 					return handle;
 				}
 
+				IWindowsFormGraphicsHandler* GetGraphicsHandler()
+				{
+					return graphicsHandler;
+				}
+
+				void SetGraphicsHandler(IWindowsFormGraphicsHandler* handler)
+				{
+					graphicsHandler=handler;
+				}
+
 				Rect GetBounds()
 				{
 					RECT rect;
@@ -686,6 +705,13 @@ WindowsForm
 					}
 				}
 
+				void RedrawContent()
+				{
+					if(graphicsHandler)
+					{
+						graphicsHandler->RedrawContent();
+					}
+				}
 			};
 
 /***********************************************************************

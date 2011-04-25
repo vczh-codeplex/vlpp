@@ -63,6 +63,15 @@ Resources
 
 				//-----------------------------------------------------
 
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_NORMAL_PEN);
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_ACTIVE_PEN);
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_PRESSED_PEN);
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_DISABLED_PEN);
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_PEN);
+				RESOURCE_NAME(FOCUSABLE_BACKGROUND_BRUSH);
+
+				//-----------------------------------------------------
+
 #undef RESOURCE_NAME
 
 				class ResourcesAutoInstaller : public INativeControllerListener
@@ -90,6 +99,7 @@ Resources
 				void Resources::RegisterAutoInstall()
 				{
 					GetCurrentController()->InstallListener(&ResourcesAutoInstaller);
+					GetCurrentApplication()->SetSkinBuilder(GuiWindow::SkinBuilderName, new WindowSkin::Builder);
 				}
 
 				void Resources::UnregisterAutoInstall()
@@ -146,6 +156,15 @@ Resources
 					environment->Resources().Add(SELECTABLE_LABEL_DISABLED_COLOR,			new ObjectBox<COLORREF>(RGB(161,161,161)));
 
 					//-----------------------------------------------------
+
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(211, 211, 211)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(210, 235, 249)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_PRESSED_PEN,			new WinPen(PS_SOLID, 1, RGB(0, 96, 166)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_DISABLED_PEN,			new WinPen(PS_SOLID, 1, RGB(211, 211, 211)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_PEN,					new WinPen(PS_SOLID, 1, RGB(255, 255, 255)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_BRUSH,				new WinBrush(RGB(255, 255, 255)));
+
+					//-----------------------------------------------------
 				}
 
 				void Resources::Uninstall(WinGDIElementEnvironment* environment)
@@ -196,6 +215,15 @@ Resources
 					environment->Resources().Remove(SELECTABLE_LABEL_DISABLED_COLOR);
 
 					//-----------------------------------------------------
+
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_NORMAL_PEN);
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_ACTIVE_PEN);
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_PRESSED_PEN);
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_DISABLED_PEN);
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_PEN);
+					environment->Resources().Remove(FOCUSABLE_BACKGROUND_BRUSH);
+
+					//-----------------------------------------------------
 				}
 
 				Ptr<WinPen> Resources::GetPen(WinGDIElementEnvironment* environment, const WString& name)
@@ -219,11 +247,21 @@ Resources
 				}
 
 /***********************************************************************
+StatefulObject
+***********************************************************************/
+
+				StatefulObject::StatefulObject(WinGDIElementEnvironment* _environment)
+					:WinGDIElement(_environment)
+				{
+				}
+
+/***********************************************************************
 StatefulBackground
 ***********************************************************************/
 
 				StatefulBackground::StatefulBackground(const wchar_t** penNames, const wchar_t** brushNames, WinGDIElementEnvironment* _environment)
-					:WinGDIElement(_environment)
+					:StatefulObject(_environment)
+					,state(StatefulObject::Normal)
 				{
 					for(int i=0;i<TotalCount;i++)
 					{
@@ -246,7 +284,7 @@ StatefulBackground
 					bounds=value;
 				}
 
-				StatefulBackground::State StatefulBackground::GetState()
+				StatefulObject::State StatefulBackground::GetState()
 				{
 					return state;
 				}
@@ -272,7 +310,8 @@ StatefulLabel
 ***********************************************************************/
 				
 				StatefulLabel::StatefulLabel(const wchar_t** fontNames, const wchar_t** colorNames, WinGDIElementEnvironment* _environment)
-					:WinGDIElement(_environment)
+					:StatefulObject(_environment)
+					,state(StatefulObject::Normal)
 				{
 					for(int i=0;i<TotalCount;i++)
 					{
@@ -305,7 +344,7 @@ StatefulLabel
 					position=value;
 				}
 
-				StatefulLabel::State StatefulLabel::GetState()
+				StatefulObject::State StatefulLabel::GetState()
 				{
 					return state;
 				}
@@ -391,6 +430,40 @@ SelectableBackground
 				}
 
 /***********************************************************************
+SelectableBackground
+***********************************************************************/
+
+				const wchar_t* FocusableBackground_PenNames[]={
+					Resources::FOCUSABLE_BACKGROUND_NORMAL_PEN,
+					Resources::FOCUSABLE_BACKGROUND_ACTIVE_PEN,
+					Resources::FOCUSABLE_BACKGROUND_PRESSED_PEN,
+					Resources::FOCUSABLE_BACKGROUND_DISABLED_PEN,
+				};
+
+				const wchar_t* FocusableBackground_EmptyPenNames[]={
+					Resources::FOCUSABLE_BACKGROUND_PEN,
+					Resources::FOCUSABLE_BACKGROUND_PEN,
+					Resources::FOCUSABLE_BACKGROUND_PEN,
+					Resources::FOCUSABLE_BACKGROUND_PEN,
+				};
+
+				const wchar_t* FocusableBackground_BrushNames[]={
+					Resources::FOCUSABLE_BACKGROUND_BRUSH,
+					Resources::FOCUSABLE_BACKGROUND_BRUSH,
+					Resources::FOCUSABLE_BACKGROUND_BRUSH,
+					Resources::FOCUSABLE_BACKGROUND_BRUSH,
+				};
+
+				FocusableBackground::FocusableBackground(bool staticPen, WinGDIElementEnvironment* _environment)
+					:StatefulBackground((staticPen?FocusableBackground_EmptyPenNames:FocusableBackground_PenNames), FocusableBackground_BrushNames, _environment)
+				{
+				}
+
+				FocusableBackground::~FocusableBackground()
+				{
+				}
+
+/***********************************************************************
 PushableBackground
 ***********************************************************************/
 
@@ -442,6 +515,56 @@ SelectableLabel
 
 				SelectableLabel::~SelectableLabel()
 				{
+				}
+
+/***********************************************************************
+WindowSkin
+***********************************************************************/
+
+				Ptr<IGuiSkin> WindowSkin::Builder::Build(INativeWindow* window)
+				{
+					return new WindowSkin(window);
+				}
+
+				WindowSkin::WindowSkin(INativeWindow* window)
+					:skinListener(0)
+				{
+					WinGDIElementEnvironment* env=GetNativeWindowGDIElementEnvironment(window);
+					background=new FocusableBackground(true, env);
+				}
+
+				WindowSkin::~WindowSkin()
+				{
+				}
+
+				void WindowSkin::AttachListener(IGuiSkinListener* listener)
+				{
+					skinListener=listener;
+				}
+
+				void WindowSkin::SetBounds(Rect value)
+				{
+					background->SetBounds(value);
+					skinListener->RequireRedraw();
+				}
+
+				void WindowSkin::RemoveChild(IGuiSkin* child)
+				{
+				}
+
+				void WindowSkin::InsertChild(int index, IGuiSkin* child)
+				{
+				}
+
+				int WindowSkin::ChildCount()
+				{
+					return 0;
+				}
+
+				void WindowSkin::Install(INativeWindow* window)
+				{
+					WinGDIElementEnvironment* env=GetNativeWindowGDIElementEnvironment(window);
+					env->SetRootElement(background);
 				}
 			}
 		}
