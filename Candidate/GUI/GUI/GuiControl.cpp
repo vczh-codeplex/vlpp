@@ -229,7 +229,10 @@ GuiWindowBase
 			{
 				INativeWindow* window=nativeWindow;
 				nativeWindow=0;
-				GetCurrentApplication()->UnregisterWindow(this);
+				if(!destructorInvoked)
+				{
+					delete this;
+				}
 			}
 		}
 
@@ -247,6 +250,7 @@ GuiWindowBase
 
 		GuiWindowBase::GuiWindowBase()
 			:nativeWindow(0)
+			,destructorInvoked(false)
 		{
 			nativeWindow=GetCurrentController()->CreateNativeWindow();
 			nativeWindow->InstallListener(this);
@@ -255,10 +259,12 @@ GuiWindowBase
 
 		GuiWindowBase::~GuiWindowBase()
 		{
+			destructorInvoked=true;
 			if(nativeWindow)
 			{
 				GetCurrentController()->DestroyNativeWindow(nativeWindow);
 			}
+			GetCurrentApplication()->UnregisterWindow(this);
 		}
 
 		INativeWindow* GuiWindowBase::GetContainingNativeWindow()
