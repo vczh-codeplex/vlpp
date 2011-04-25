@@ -108,6 +108,9 @@
     <ClCompile Include="Main_GuiApplication_Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GuiWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -216,6 +219,12 @@
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\GuiControl.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GuiWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GuiApplication.h">
       <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -70,7 +70,7 @@ public:
 		background=new ThickBorder(RGB(0, 0, 0), RGB(255, 0, 128), env);
 		subLeft=new ThickBorder(RGB(128, 128, 255), RGB(0, 255, 128), env);
 		subRight=new ThickBorder(RGB(128, 128, 255), RGB(0, 255, 128), env);
-		subCenter=new ThickBorder(RGB(255, 255, 255), RGB(0, 0, 0), env);
+		subCenter=new ThickBorder(RGB(255, 232, 166), RGB(0, 0, 0), env);
 		container=new WinGDIClipElement(env);
 		subContainer=new WinGDIClipElement(env);
 		controlContainer=new WinGDIClipElement(env);
@@ -82,29 +82,42 @@ public:
 		subContainer->Children().Add(subCenter);
 		subContainer->Children().Add(controlContainer);
 
-		for(int i=0;i<4;i++)
+		for(int i=0;i<5;i++)
 		{
-			Ptr<gdi_simple::PushableBackground> pushableBackground=new gdi_simple::PushableBackground(env);
-			pushableBackground->SetState((gdi_simple::StatefulBackground::State)i);
-			pushableBackground->SetBounds(Rect(Point(30, 30+i*40), Size(200, 30)));
-			controlContainer->Children().Add(pushableBackground);
+			if(i<4)
+			{
+				Ptr<gdi_simple::PushableBackground> pushableBackground=new gdi_simple::PushableBackground(env);
+				pushableBackground->SetState((gdi_simple::StatefulObject::State)i);
+				pushableBackground->SetBounds(Rect(Point(30, 30+i*40), Size(200, 30)));
+				controlContainer->Children().Add(pushableBackground);
 
-			Ptr<gdi_simple::PushableLabel> pushableLabel=new gdi_simple::PushableLabel(env);
-			pushableLabel->SetText(L"Button Text");
-			pushableLabel->SetState((gdi_simple::StatefulLabel::State)i);
-			Center(pushableLabel, pushableBackground);
-			controlContainer->Children().Add(pushableLabel);
+				Ptr<gdi_simple::PushableLabel> pushableLabel=new gdi_simple::PushableLabel(env);
+				pushableLabel->SetText(L"Button Text");
+				pushableLabel->SetState((gdi_simple::StatefulObject::State)i);
+				Center(pushableLabel, pushableBackground);
+				controlContainer->Children().Add(pushableLabel);
+			}
 
-			Ptr<gdi_simple::SelectableBackground> selectableBackground=new gdi_simple::SelectableBackground(env);
-			selectableBackground->SetState((gdi_simple::StatefulBackground::State)i);
-			selectableBackground->SetBounds(Rect(Point(240, 30+i*40), Size(200, 30)));
-			controlContainer->Children().Add(selectableBackground);
+			if(i<4)
+			{
+				Ptr<gdi_simple::SelectableBackground> selectableBackground=new gdi_simple::SelectableBackground(env);
+				selectableBackground->SetState((gdi_simple::StatefulObject::State)i);
+				selectableBackground->SetBounds(Rect(Point(240, 30+i*40), Size(200, 30)));
+				controlContainer->Children().Add(selectableBackground);
 
-			Ptr<gdi_simple::SelectableLabel> selectableLabel=new gdi_simple::SelectableLabel(env);
-			selectableLabel->SetText(L"Menu Item Text");
-			selectableLabel->SetState((gdi_simple::StatefulLabel::State)i);
-			Center(selectableLabel, selectableBackground);
-			controlContainer->Children().Add(selectableLabel);
+				Ptr<gdi_simple::SelectableLabel> selectableLabel=new gdi_simple::SelectableLabel(env);
+				selectableLabel->SetText(L"Menu Item Text");
+				selectableLabel->SetState((gdi_simple::StatefulObject::State)i);
+				Center(selectableLabel, selectableBackground);
+				controlContainer->Children().Add(selectableLabel);
+			}
+
+			{
+				Ptr<gdi_simple::FocusableBackground> focusableBackground=new gdi_simple::FocusableBackground(i==4, env);
+				focusableBackground->SetState((gdi_simple::StatefulObject::State)(i%4));
+				focusableBackground->SetBounds(Rect(Point(450, 30+i*40), Size(200, 30)));
+				controlContainer->Children().Add(focusableBackground);
+			}
 		}
 
 		env->SetRootElement(container);

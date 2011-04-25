@@ -1,4 +1,5 @@
 #include "GuiControl.h"
+#include "GuiWindow.h"
 
 namespace vl
 {
@@ -45,6 +46,11 @@ GuiControl
 			return bounds;
 		}
 
+		Ptr<IGuiSkin> GuiControl::GetSkin()
+		{
+			return skin;
+		}
+
 		void GuiControl::NotifySetParent(GuiControl* value)
 		{
 			if(parent)
@@ -77,6 +83,7 @@ GuiControl
 					skin=builder->Build(window->GetContainingNativeWindow());
 					if(skin)
 					{
+						skin->AttachListener(window->GetSkinListener());
 						skin->SetBounds(GetBoundsForSkin());
 					}
 				}
@@ -90,6 +97,11 @@ GuiControl
 					child->NotifyAttachedToWindow(window);
 				}
 			}
+			NotifySkinChanged();
+		}
+
+		void GuiControl::NotifySkinChanged()
+		{
 		}
 
 		void GuiControl::NotifyChildEntering(GuiControl* value)
@@ -213,6 +225,176 @@ GuiControl
 GuiWindowBase
 ***********************************************************************/
 
+		class GuiWindowBaseListener : public Object, public IGuiSkinListener, public INativeWindowListener
+		{
+		protected:
+			bool						needToRedraw;
+			INativeWindow*				window;
+
+			void RedrawIfRequired()
+			{
+				if(needToRedraw)
+				{
+					window->RedrawContent();
+				}
+			}
+		public:
+			GuiWindowBaseListener(INativeWindow* _window)
+				:needToRedraw(false)
+				,window(_window)
+			{
+			}
+
+			~GuiWindowBaseListener()
+			{
+			}
+
+			void RequireRedraw()
+			{
+				needToRedraw=true;
+			}
+
+			void Moving(Rect& bounds)
+			{
+				RedrawIfRequired();
+			}
+
+			void Moved()
+			{
+				RedrawIfRequired();
+			}
+
+			void Enabled()
+			{
+				RedrawIfRequired();
+			}
+
+			void Disabled()
+			{
+				RedrawIfRequired();
+			}
+
+			void GotFocus()
+			{
+				RedrawIfRequired();
+			}
+
+			void LostFocus()
+			{
+				RedrawIfRequired();
+			}
+
+			void Activated()
+			{
+				RedrawIfRequired();
+			}
+
+			void Deactivated()
+			{
+				RedrawIfRequired();
+			}
+
+			void Opened()
+			{
+				RedrawIfRequired();
+			}
+
+			void LeftButtonDown(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void LeftButtonUp(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void RightButtonDown(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void RightButtonUp(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void RightButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void MiddleButtonDown(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void MiddleButtonUp(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void HorizontalWheel(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void VerticalWheel(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void MouseMoving(const NativeWindowMouseInfo& info)
+			{
+				RedrawIfRequired();
+			}
+
+			void MouseEntered()
+			{
+				RedrawIfRequired();
+			}
+
+			void MouseLeaved()
+			{
+				RedrawIfRequired();
+			}
+
+			void KeyDown(int code, bool alt)
+			{
+				RedrawIfRequired();
+			}
+
+			void KeyUp(int code, bool alt)
+			{
+				RedrawIfRequired();
+			}
+
+			void SysKeyDown(int code, bool alt)
+			{
+				RedrawIfRequired();
+			}
+
+			void SysKeyUp(int code, bool alt)
+			{
+				RedrawIfRequired();
+			}
+
+			void Char(wchar_t keyChar)
+			{
+				RedrawIfRequired();
+			}
+		};
+
 		void GuiWindowBase::Moving(Rect& value)
 		{
 			NotifyMoving(value);
@@ -227,7 +409,7 @@ GuiWindowBase
 		{
 			if(nativeWindow)
 			{
-				INativeWindow* window=nativeWindow;
+				nativeWindow->UninstallListener(skinListener.Cast<INativeWindowListener>().Obj());
 				nativeWindow=0;
 				if(!destructorInvoked)
 				{
@@ -251,9 +433,15 @@ GuiWindowBase
 		GuiWindowBase::GuiWindowBase()
 			:nativeWindow(0)
 			,destructorInvoked(false)
+			,skinListener(0)
 		{
 			nativeWindow=GetCurrentController()->CreateNativeWindow();
 			nativeWindow->InstallListener(this);
+
+			Ptr<GuiWindowBaseListener> listener=new GuiWindowBaseListener(nativeWindow);
+			nativeWindow->InstallListener(listener.Obj());
+			skinListener=listener;
+
 			GetCurrentApplication()->RegisterWindow(this);
 		}
 
@@ -270,6 +458,11 @@ GuiWindowBase
 		INativeWindow* GuiWindowBase::GetContainingNativeWindow()
 		{
 			return nativeWindow;
+		}
+
+		IGuiSkinListener* GuiWindowBase::GetSkinListener()
+		{
+			return skinListener.Obj();
 		}
 
 /***********************************************************************
@@ -338,78 +531,6 @@ GuiApplication
 		GuiApplication* GetCurrentApplication()
 		{
 			return currentApplication;
-		}
-
-/***********************************************************************
-GuiWindow
-***********************************************************************/
-
-		WString GuiWindow::GetSkinBuilderName()
-		{
-			return L"vl::presentation::GuiWindow";
-		}
-
-		GuiWindow::GuiWindow()
-		{
-			InitializeWindow();
-		}
-
-		GuiWindow::~GuiWindow()
-		{
-		}
-
-		WString GuiWindow::GetTitle()
-		{
-			return GetContainingNativeWindow()->GetTitle();
-		}
-
-		void GuiWindow::SetTitle(const WString& value)
-		{
-			GetContainingNativeWindow()->SetTitle(value);
-		}
-
-		void GuiWindow::MoveToScreenCenter()
-		{
-			INativeWindow* window=GetContainingNativeWindow();
-			INativeScreen* screen=GetCurrentController()->GetScreen(window);
-			if(screen)
-			{
-				Rect client=screen->GetClientBounds();
-				Rect bounds=window->GetBounds();
-				int x=(client.Width()-bounds.Width())/2+client.Left();
-				int y=(client.Height()-bounds.Height())/2+client.Top();
-				window->SetBounds(Rect(Point(x, y), bounds.GetSize()));
-			}
-		}
-
-		void GuiWindow::Show()
-		{
-			GetContainingNativeWindow()->Show();
-		}
-
-		void GuiWindow::Close()
-		{
-			GetContainingNativeWindow()->Hide();
-		}
-
-		Rect GuiWindow::GetBounds()
-		{
-			return GetContainingNativeWindow()->GetBounds();
-		}
-
-		void GuiWindow::SetBounds(Rect value)
-		{
-			GetContainingNativeWindow()->SetBounds(value);
-		}
-		
-		Size GuiWindow::GetClientSize()
-		{
-			return GetContainingNativeWindow()->GetClientSize();
-		}
-
-		void GuiWindow::SetClientSize(Size value)
-		{
-			GetContainingNativeWindow()->SetClientSize(value);
 		}
 	}
 }

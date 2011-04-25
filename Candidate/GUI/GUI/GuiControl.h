@@ -33,9 +33,16 @@ namespace vl
 Æ¤·ô
 ***********************************************************************/
 
+		class IGuiSkinListener : public Interface
+		{
+		public:
+			virtual void					RequireRedraw()=0;
+		};
+
 		class IGuiSkin : public Interface
 		{
 		public:
+			virtual void					AttachListener(IGuiSkinListener* listener)=0;
 			virtual void					SetBounds(Rect value)=0;
 			virtual void					RemoveChild(IGuiSkin* child)=0;
 			virtual void					InsertChild(int index, IGuiSkin* child)=0;
@@ -82,9 +89,11 @@ namespace vl
 
 			virtual WString					GetSkinBuilderName()=0;
 			virtual Rect					GetBoundsForSkin();
+			Ptr<IGuiSkin>					GetSkin();
 
 			virtual void					NotifySetParent(GuiControl* value);
 			virtual void					NotifyAttachedToWindow(GuiWindowBase* window);
+			virtual void					NotifySkinChanged();
 			virtual void					NotifyChildEntering(GuiControl* value);
 			virtual void					NotifyChildEntered(GuiControl* value);
 			virtual void					NotifyChildLeaving(GuiControl* value);
@@ -115,6 +124,7 @@ namespace vl
 		private:
 			INativeWindow*					nativeWindow;
 			bool							destructorInvoked;
+			Ptr<IGuiSkinListener>			skinListener;
 
 		private:
 
@@ -130,6 +140,7 @@ namespace vl
 			~GuiWindowBase();
 
 			INativeWindow*					GetContainingNativeWindow();
+			IGuiSkinListener*				GetSkinListener();
 		};
 
 /***********************************************************************
@@ -168,31 +179,6 @@ namespace vl
 
 		class GuiNormalGrid : public GuiControl::Grid
 		{
-		};
-
-/***********************************************************************
-¶¥²ã´°¿Ú
-***********************************************************************/
-
-		class GuiWindow : public GuiWindowBase
-		{
-		protected:
-
-			WString							GetSkinBuilderName();
-		public:
-			GuiWindow();
-			~GuiWindow();
-
-			WString							GetTitle();
-			void							SetTitle(const WString& value);
-			void							MoveToScreenCenter();
-			void							Show();
-			void							Close();
-
-			Rect							GetBounds();
-			void							SetBounds(Rect value);
-			Size							GetClientSize();
-			void							SetClientSize(Size value);
 		};
 
 /***********************************************************************

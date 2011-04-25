@@ -70,6 +70,7 @@ Native Window
 
 			virtual bool				InstallListener(INativeWindowListener* listener)=0;
 			virtual bool				UninstallListener(INativeWindowListener* listener)=0;
+			virtual void				RedrawContent()=0;
 		};
 
 		struct NativeWindowMouseInfo
