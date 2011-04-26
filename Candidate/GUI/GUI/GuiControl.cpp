@@ -242,11 +242,13 @@ GuiWindowBase
 		void GuiWindowBase::Moving(Rect& value)
 		{
 			NotifyMoving(value);
+			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Moved()
 		{
 			NotifyMoved(GetBounds());
+			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Enabled()
