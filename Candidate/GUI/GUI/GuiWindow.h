@@ -28,7 +28,7 @@ namespace vl
 			class IGuiWindowSkin : public IGuiSkin
 			{
 			public:
-				virtual void				Install(INativeWindow* window)=0;
+				virtual void				Install()=0;
 			};
 		protected:
 

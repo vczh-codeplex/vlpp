@@ -92,7 +92,6 @@
     <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
-    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -135,7 +134,6 @@
     <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
-    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIElement.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />
   </ItemGroup>

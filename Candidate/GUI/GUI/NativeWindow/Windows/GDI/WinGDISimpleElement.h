@@ -9,8 +9,7 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_WINDOWS_GDI_ELEMENT
 #define VCZH_PRESENTATION_WINDOWS_GDI_ELEMENT
 
-#include "WinGDIElement.h"
-#include "..\..\..\GuiApplication.h"
+#include "WinGDIApplication.h"
 
 namespace vl
 {
@@ -204,28 +203,16 @@ namespace vl
 ¿Ø¼þ·ç¸ñ
 ***********************************************************************/
 
-				class WindowSkin : public Object, public GuiWindow::IGuiWindowSkin
+				class WindowSkin : public WinGDISkin<GuiWindow::IGuiWindowSkin, WindowSkin>
 				{
-				public:
-					class Builder : public Object, public IGuiSkinBuilder
-					{
-					public:
-						Ptr<IGuiSkin>						Build(INativeWindow* window);
-					};
 				protected:
 					Ptr<FocusableBackground>				background;
-					IGuiSkinListener*						skinListener;
-
 				public:
 					WindowSkin(INativeWindow* window);
 					~WindowSkin();
 
-					void									AttachListener(IGuiSkinListener* listener);
 					void									SetBounds(Rect value);
-					void									RemoveChild(IGuiSkin* child);
-					void									InsertChild(int index, IGuiSkin* child);
-					int										ChildCount();
-					void									Install(INativeWindow* window);
+					void									Install();
 				};
 			}
 		}

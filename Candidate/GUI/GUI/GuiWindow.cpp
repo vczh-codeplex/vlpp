@@ -22,7 +22,7 @@ GuiWindow
 			Ptr<IGuiWindowSkin> skin=GetSkin().Cast<IGuiWindowSkin>();
 			if(skin)
 			{
-				skin->Install(GetContainingNativeWindow());
+				skin->Install();
 			}
 		}
 

@@ -225,175 +225,19 @@ GuiControl
 GuiWindowBase
 ***********************************************************************/
 
-		class GuiWindowBaseListener : public Object, public IGuiSkinListener, public INativeWindowListener
+		void GuiWindowBase::RedrawIfRequired()
 		{
-		protected:
-			bool						needToRedraw;
-			INativeWindow*				window;
+			if(needToRedraw)
+			{
+				nativeWindow->RedrawContent();
+				needToRedraw=false;
+			}
+		}
 
-			void RedrawIfRequired()
-			{
-				if(needToRedraw)
-				{
-					window->RedrawContent();
-				}
-			}
-		public:
-			GuiWindowBaseListener(INativeWindow* _window)
-				:needToRedraw(false)
-				,window(_window)
-			{
-			}
-
-			~GuiWindowBaseListener()
-			{
-			}
-
-			void RequireRedraw()
-			{
-				needToRedraw=true;
-			}
-
-			void Moving(Rect& bounds)
-			{
-				RedrawIfRequired();
-			}
-
-			void Moved()
-			{
-				RedrawIfRequired();
-			}
-
-			void Enabled()
-			{
-				RedrawIfRequired();
-			}
-
-			void Disabled()
-			{
-				RedrawIfRequired();
-			}
-
-			void GotFocus()
-			{
-				RedrawIfRequired();
-			}
-
-			void LostFocus()
-			{
-				RedrawIfRequired();
-			}
-
-			void Activated()
-			{
-				RedrawIfRequired();
-			}
-
-			void Deactivated()
-			{
-				RedrawIfRequired();
-			}
-
-			void Opened()
-			{
-				RedrawIfRequired();
-			}
-
-			void LeftButtonDown(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void LeftButtonUp(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void RightButtonDown(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void RightButtonUp(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void RightButtonDoubleClick(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void MiddleButtonDown(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void MiddleButtonUp(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void HorizontalWheel(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void VerticalWheel(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void MouseMoving(const NativeWindowMouseInfo& info)
-			{
-				RedrawIfRequired();
-			}
-
-			void MouseEntered()
-			{
-				RedrawIfRequired();
-			}
-
-			void MouseLeaved()
-			{
-				RedrawIfRequired();
-			}
-
-			void KeyDown(int code, bool alt)
-			{
-				RedrawIfRequired();
-			}
-
-			void KeyUp(int code, bool alt)
-			{
-				RedrawIfRequired();
-			}
-
-			void SysKeyDown(int code, bool alt)
-			{
-				RedrawIfRequired();
-			}
-
-			void SysKeyUp(int code, bool alt)
-			{
-				RedrawIfRequired();
-			}
-
-			void Char(wchar_t keyChar)
-			{
-				RedrawIfRequired();
-			}
-		};
+		void GuiWindowBase::RequireRedraw()
+		{
+			needToRedraw=true;
+		}
 
 		void GuiWindowBase::Moving(Rect& value)
 		{
@@ -405,17 +249,158 @@ GuiWindowBase
 			NotifyMoved(GetBounds());
 		}
 
+		void GuiWindowBase::Enabled()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Disabled()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::GotFocus()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::LostFocus()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Activated()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Deactivated()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Opened()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Closing(bool& cancel)
+		{
+		}
+
+		void GuiWindowBase::Closed()
+		{
+		}
+
+		void GuiWindowBase::Paint()
+		{
+		}
+
 		void GuiWindowBase::Destroying()
 		{
 			if(nativeWindow)
 			{
-				nativeWindow->UninstallListener(skinListener.Cast<INativeWindowListener>().Obj());
 				nativeWindow=0;
 				if(!destructorInvoked)
 				{
 					delete this;
 				}
 			}
+		}
+
+		void GuiWindowBase::LeftButtonDown(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::LeftButtonUp(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::RightButtonDown(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::RightButtonUp(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::RightButtonDoubleClick(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MiddleButtonDown(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MiddleButtonUp(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::HorizontalWheel(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::VerticalWheel(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MouseMoving(const NativeWindowMouseInfo& info)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MouseEntered()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::MouseLeaved()
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::KeyDown(int code, bool alt)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::KeyUp(int code, bool alt)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::SysKeyDown(int code, bool alt)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::SysKeyUp(int code, bool alt)
+		{
+			RedrawIfRequired();
+		}
+
+		void GuiWindowBase::Char(wchar_t keyChar)
+		{
+			RedrawIfRequired();
 		}
 
 		//----------------------------------------------------------------------
@@ -433,15 +418,10 @@ GuiWindowBase
 		GuiWindowBase::GuiWindowBase()
 			:nativeWindow(0)
 			,destructorInvoked(false)
-			,skinListener(0)
+			,needToRedraw(false)
 		{
 			nativeWindow=GetCurrentController()->CreateNativeWindow();
 			nativeWindow->InstallListener(this);
-
-			Ptr<GuiWindowBaseListener> listener=new GuiWindowBaseListener(nativeWindow);
-			nativeWindow->InstallListener(listener.Obj());
-			skinListener=listener;
-
 			GetCurrentApplication()->RegisterWindow(this);
 		}
 
@@ -462,7 +442,7 @@ GuiWindowBase
 
 		IGuiSkinListener* GuiWindowBase::GetSkinListener()
 		{
-			return skinListener.Obj();
+			return this;
 		}
 
 /***********************************************************************
