@@ -521,25 +521,14 @@ SelectableLabel
 WindowSkin
 ***********************************************************************/
 
-				Ptr<IGuiSkin> WindowSkin::Builder::Build(INativeWindow* window)
-				{
-					return new WindowSkin(window);
-				}
-
 				WindowSkin::WindowSkin(INativeWindow* window)
-					:skinListener(0)
+					:WinGDISkin(window)
 				{
-					WinGDIElementEnvironment* env=GetNativeWindowGDIElementEnvironment(window);
-					background=new FocusableBackground(true, env);
+					background=new FocusableBackground(true, environment);
 				}
 
 				WindowSkin::~WindowSkin()
 				{
-				}
-
-				void WindowSkin::AttachListener(IGuiSkinListener* listener)
-				{
-					skinListener=listener;
 				}
 
 				void WindowSkin::SetBounds(Rect value)
@@ -548,23 +537,9 @@ WindowSkin
 					skinListener->RequireRedraw();
 				}
 
-				void WindowSkin::RemoveChild(IGuiSkin* child)
+				void WindowSkin::Install()
 				{
-				}
-
-				void WindowSkin::InsertChild(int index, IGuiSkin* child)
-				{
-				}
-
-				int WindowSkin::ChildCount()
-				{
-					return 0;
-				}
-
-				void WindowSkin::Install(INativeWindow* window)
-				{
-					WinGDIElementEnvironment* env=GetNativeWindowGDIElementEnvironment(window);
-					env->SetRootElement(background);
+					environment->SetRootElement(background);
 				}
 			}
 		}

@@ -119,18 +119,51 @@ namespace vl
 			virtual void					SetClientSize(Size value);
 		};
 
-		class GuiWindowBase : public GuiControl, private INativeWindowListener
+		class GuiWindowBase : public GuiControl, protected INativeWindowListener, private IGuiSkinListener
 		{
 		private:
 			INativeWindow*					nativeWindow;
 			bool							destructorInvoked;
-			Ptr<IGuiSkinListener>			skinListener;
+			bool							needToRedraw;
 
-		private:
-
-			void							Moving(Rect& value);
+			void							RedrawIfRequired();
+			void							RequireRedraw();
+		protected:
+			void							RedrawContent();
+			void							Moving(Rect& bounds);
 			void							Moved();
+			void							Enabled();
+			void							Disabled();
+			void							GotFocus();
+			void							LostFocus();
+			void							Activated();
+			void							Deactivated();
+			void							Opened();
+			void							Closing(bool& cancel);
+			void							Closed();
+			void							Paint();
 			void							Destroying();
+
+			void							LeftButtonDown(const NativeWindowMouseInfo& info);
+			void							LeftButtonUp(const NativeWindowMouseInfo& info);
+			void							LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
+			void							RightButtonDown(const NativeWindowMouseInfo& info);
+			void							RightButtonUp(const NativeWindowMouseInfo& info);
+			void							RightButtonDoubleClick(const NativeWindowMouseInfo& info);
+			void							MiddleButtonDown(const NativeWindowMouseInfo& info);
+			void							MiddleButtonUp(const NativeWindowMouseInfo& info);
+			void							MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
+			void							HorizontalWheel(const NativeWindowMouseInfo& info);
+			void							VerticalWheel(const NativeWindowMouseInfo& info);
+			void							MouseMoving(const NativeWindowMouseInfo& info);
+			void							MouseEntered();
+			void							MouseLeaved();
+
+			void							KeyDown(int code, bool alt);
+			void							KeyUp(int code, bool alt);
+			void							SysKeyDown(int code, bool alt);
+			void							SysKeyUp(int code, bool alt);
+			void							Char(wchar_t keyChar);
 		protected:
 
 			virtual void					InitializeWindow();
