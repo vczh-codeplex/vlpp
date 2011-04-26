@@ -91,22 +91,31 @@ namespace vl
 »ù±¾Æ¤·ô
 ***********************************************************************/
 
-			template<typename ISkinInterface, typename SkinImplementation>
+#define DEFINE_BUILDER(SKIN)\
+			public:\
+				class Builder : public Object, public IGuiSkinBuilder\
+				{\
+				public:\
+					Ptr<IGuiSkin> Build(INativeWindow* window)\
+					{\
+						return new SKIN(window);\
+					}\
+				}
+
+#define BUILDER_OF_SKIN(SKIN) SKIN::Builder
+
+			template<typename ISkinInterface>
 			class WinGDISkin : public Object, public ISkinInterface
 			{
-			public:
-				class Builder : public Object, public IGuiSkinBuilder
-				{
-				public:
-					Ptr<IGuiSkin> Build(INativeWindow* window)
-					{
-						return new SkinImplementation(window);
-					}
-				};
 			protected:
-				INativeWindow*							window;
-				WinGDIElementEnvironment*				environment;
-				IGuiSkinListener*						skinListener;
+				INativeWindow*								window;
+				WinGDIElementEnvironment*					environment;
+				IGuiSkinListener*							skinListener;
+				collections::List<WinGDISkin*>				childSkins;
+
+				virtual Ptr<WinGDIClipElement>				GetContainerElement()=0;
+				virtual int									GetTopLevelElementCount()=0;
+				virtual void								InsertElements(int index, Ptr<WinGDIClipElement> containerElement)=0;
 			public:
 				WinGDISkin(INativeWindow* _window)
 					:window(_window)
@@ -122,15 +131,56 @@ namespace vl
 
 				void RemoveChild(IGuiSkin* child)
 				{
+					WinGDISkin* skin=dynamic_cast<WinGDISkin*>(child);
+					if(skin)
+					{
+						int index=childSkins.IndexOf(skin);
+						if(index>=0)
+						{
+							int previousCount=0;
+							for(int i=0;i<index;i++)
+							{
+								previousCount=childSkins[i]->GetTopLevelElementCount();
+							}
+
+							int totalCount=skin->GetTopLevelElementCount();
+							collections::List<Ptr<WinGDIElement>>& elements=GetContainerElement()->Children();
+							for(int i=0;i<totalCount;i++)
+							{
+								elements.RemoveAt(previousCount);
+							}
+							childSkins.RemoveAt(index);
+							skinListener->RequireRedraw();
+						}
+					}
 				}
 
 				void InsertChild(int index, IGuiSkin* child)
 				{
+					WinGDISkin* skin=dynamic_cast<WinGDISkin*>(child);
+					if(skin && !childSkins.Contains(skin))
+					{
+						int previousCount=0;
+						for(int i=0;i<index;i++)
+						{
+							previousCount=childSkins[i]->GetTopLevelElementCount();
+						}
+
+						skin->InsertElements(previousCount, GetContainerElement());
+
+						childSkins.Insert(index, skin);
+						skinListener->RequireRedraw();
+					}
+				}
+
+				IGuiSkin* GetChild(int index)
+				{
+					return childSkins[index];
 				}
 
 				int ChildCount()
 				{
-					return 0;
+					return childSkins.Count();
 				}
 			};
 		}
