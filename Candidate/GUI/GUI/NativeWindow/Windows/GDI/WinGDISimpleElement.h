@@ -203,10 +203,15 @@ namespace vl
 ¿Ø¼þ·ç¸ñ
 ***********************************************************************/
 
-				class WindowSkin : public WinGDISkin<GuiWindow::IGuiWindowSkin, WindowSkin>
+				class WindowSkin : public WinGDISkin<GuiWindow::IGuiWindowSkin>
 				{
+					DEFINE_BUILDER(WindowSkin);
 				protected:
 					Ptr<FocusableBackground>				background;
+
+					Ptr<WinGDIClipElement>					GetContainerElement();
+					int										GetTopLevelElementCount();
+					void									InsertElements(int index, Ptr<WinGDIClipElement> containerElement);
 				public:
 					WindowSkin(INativeWindow* window);
 					~WindowSkin();

@@ -46,6 +46,7 @@ namespace vl
 			virtual void					SetBounds(Rect value)=0;
 			virtual void					RemoveChild(IGuiSkin* child)=0;
 			virtual void					InsertChild(int index, IGuiSkin* child)=0;
+			virtual IGuiSkin*				GetChild(int index)=0;
 			virtual int						ChildCount()=0;
 		};
 

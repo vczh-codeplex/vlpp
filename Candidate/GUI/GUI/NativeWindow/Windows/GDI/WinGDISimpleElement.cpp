@@ -1,5 +1,4 @@
 #include "WinGDISimpleElement.h"
-#include "WinGDIApplication.h"
 
 namespace vl
 {
@@ -99,7 +98,7 @@ Resources
 				void Resources::RegisterAutoInstall()
 				{
 					GetCurrentController()->InstallListener(&ResourcesAutoInstaller);
-					GetCurrentApplication()->SetSkinBuilder(GuiWindow::SkinBuilderName, new WindowSkin::Builder);
+					GetCurrentApplication()->SetSkinBuilder(GuiWindow::SkinBuilderName, new BUILDER_OF_SKIN(WindowSkin));
 				}
 
 				void Resources::UnregisterAutoInstall()
@@ -520,6 +519,21 @@ SelectableLabel
 /***********************************************************************
 WindowSkin
 ***********************************************************************/
+
+				Ptr<WinGDIClipElement> WindowSkin::GetContainerElement()
+				{
+					return 0;
+				}
+
+				int WindowSkin::GetTopLevelElementCount()
+				{
+					return 1;
+				}
+
+				void WindowSkin::InsertElements(int index, Ptr<WinGDIClipElement> containerElement)
+				{
+					containerElement->Children().Insert(index, background);
+				}
 
 				WindowSkin::WindowSkin(INativeWindow* window)
 					:WinGDISkin(window)
