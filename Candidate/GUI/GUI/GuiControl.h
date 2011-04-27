@@ -42,6 +42,7 @@ namespace vl
 		class IGuiSkin : public Interface
 		{
 		public:
+			virtual IGuiSkinListener*		GetListener()=0;
 			virtual void					AttachListener(IGuiSkinListener* listener)=0;
 			virtual void					SetBounds(Rect value)=0;
 			virtual void					RemoveChild(IGuiSkin* child)=0;
@@ -65,9 +66,13 @@ namespace vl
 		public:
 			class Grid : public Object
 			{
-			private:
-				GuiControl*					ownedControl;
 			protected:
+				GuiControl*					ownedControl;
+				
+				void						NotifyChildEntering(GuiControl* value);
+				void						NotifyChildEntered(GuiControl* value);
+				void						NotifyChildLeaving(GuiControl* value);
+				void						NotifyChildLeaved(GuiControl* value);
 			public:
 				Grid();
 				~Grid();
@@ -168,6 +173,7 @@ namespace vl
 		protected:
 
 			virtual void					InitializeWindow();
+			virtual void					FinalizeWindow();
 			Rect							GetBoundsForSkin();
 		public:
 			GuiWindowBase();
@@ -213,28 +219,6 @@ namespace vl
 
 		class GuiNormalGrid : public GuiControl::Grid
 		{
-		};
-
-/***********************************************************************
-¿Ø¼þ¿â
-***********************************************************************/
-
-		class GuiLabel : public GuiControl
-		{
-		protected:
-		public:
-		};
-
-		class GuiButtonBase : public GuiControl
-		{
-		protected:
-		public:
-		};
-
-		class GuiButton : public GuiButtonBase
-		{
-		protected:
-		public:
 		};
 	}
 }

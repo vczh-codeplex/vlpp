@@ -1,0 +1,73 @@
+/***********************************************************************
+Vczh Library++ 3.0
+Developer: 陈梓瀚(vczh)
+GUI::Control Library
+
+Interfaces:
+***********************************************************************/
+
+#ifndef VCZH_PRESENTATION_GUIBUTTON
+#define VCZH_PRESENTATION_GUIBUTTON
+
+#include "GuiControl.h"
+
+namespace vl
+{
+	namespace presentation
+	{
+
+/***********************************************************************
+按钮基类
+***********************************************************************/
+
+		class GuiButtonBase : public GuiControl
+		{
+		public:
+			enum ButtonState
+			{
+				Normal,
+				Active,
+				Pressed,
+				Disabled,
+			};
+		protected:
+			ButtonState							buttonState;
+
+			virtual void						NotifyButtonStateChanged()=0;
+		public:
+			GuiButtonBase();
+			~GuiButtonBase();
+		};
+
+/***********************************************************************
+文字按钮
+***********************************************************************/
+
+		class GuiTextButton : public GuiButtonBase
+		{
+		public:
+			static const wchar_t* const		SkinBuilderName;
+
+			class IGuiTextButtonSkin : public virtual IGuiSkin
+			{
+			public:
+				virtual void					SetState(ButtonState style)=0;
+				virtual void					SetText(const WString& text)=0;
+			};
+		protected:
+			WString								text;
+
+			WString								GetSkinBuilderName();
+			void								NotifySkinChanged();
+			void								NotifyButtonStateChanged();
+		public:
+			GuiTextButton();
+			~GuiTextButton();
+
+			WString&							GetText();
+			void								SetText(const WString& value);
+		};
+	}
+}
+
+#endif

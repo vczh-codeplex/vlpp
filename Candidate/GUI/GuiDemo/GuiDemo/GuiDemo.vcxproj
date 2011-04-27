@@ -87,7 +87,10 @@
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\GUI\GuiButton.cpp" />
+    <ClCompile Include="..\..\GUI\GuiContainer.cpp" />
     <ClCompile Include="..\..\GUI\GuiControl.cpp" />
+    <ClCompile Include="..\..\GUI\GuiGrid.cpp" />
     <ClCompile Include="..\..\GUI\GuiWindow.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
@@ -128,7 +131,10 @@
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\GUI\GuiApplication.h" />
+    <ClInclude Include="..\..\GUI\GuiButton.h" />
+    <ClInclude Include="..\..\GUI\GuiContainer.h" />
     <ClInclude Include="..\..\GUI\GuiControl.h" />
+    <ClInclude Include="..\..\GUI\GuiGrid.h" />
     <ClInclude Include="..\..\GUI\GuiWindow.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h" />

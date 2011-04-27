@@ -10,6 +10,9 @@ Interfaces:
 #define VCZH_PRESENTATION_GUIAPPLICATION
 
 #include "GuiControl.h"
+#include "GuiGrid.h"
 #include "GuiWindow.h"
+#include "GuiButton.h"
+#include "GuiContainer.h"
 
 #endif

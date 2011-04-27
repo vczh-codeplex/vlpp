@@ -99,6 +99,7 @@ Resources
 				{
 					GetCurrentController()->InstallListener(&ResourcesAutoInstaller);
 					GetCurrentApplication()->SetSkinBuilder(GuiWindow::SkinBuilderName, new BUILDER_OF_SKIN(WindowSkin));
+					GetCurrentApplication()->SetSkinBuilder(GuiTextButton::SkinBuilderName, new BUILDER_OF_SKIN(TextButtonSkin));
 				}
 
 				void Resources::UnregisterAutoInstall()
@@ -522,7 +523,7 @@ WindowSkin
 
 				Ptr<WinGDIClipElement> WindowSkin::GetContainerElement()
 				{
-					return 0;
+					return containerElement;
 				}
 
 				int WindowSkin::GetTopLevelElementCount()
@@ -532,13 +533,18 @@ WindowSkin
 
 				void WindowSkin::InsertElements(int index, Ptr<WinGDIClipElement> containerElement)
 				{
-					containerElement->Children().Insert(index, background);
+					containerElement->Children().Insert(index, root);
 				}
 
 				WindowSkin::WindowSkin(INativeWindow* window)
 					:WinGDISkin(window)
 				{
 					background=new FocusableBackground(true, environment);
+					containerElement=new WinGDIClipElement(environment);
+					root=new WinGDIClipElement(environment);
+
+					root->Children().Add(background);
+					root->Children().Add(containerElement);
 				}
 
 				WindowSkin::~WindowSkin()
@@ -547,13 +553,99 @@ WindowSkin
 
 				void WindowSkin::SetBounds(Rect value)
 				{
-					background->SetBounds(value);
+					root->SetBounds(value);
+					background->SetBounds(Rect(Point(0, 0), value.GetSize()));
+					containerElement->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					skinListener->RequireRedraw();
 				}
 
 				void WindowSkin::Install()
 				{
-					environment->SetRootElement(background);
+					environment->SetRootElement(root);
+				}
+
+/***********************************************************************
+TextButtonSkin
+***********************************************************************/
+
+				Ptr<WinGDIClipElement> TextButtonSkin::GetContainerElement()
+				{
+					return containerElement;
+				}
+
+				int TextButtonSkin::GetTopLevelElementCount()
+				{
+					return 1;
+				}
+
+				void TextButtonSkin::InsertElements(int index, Ptr<WinGDIClipElement> containerElement)
+				{
+					containerElement->Children().Insert(index, clipBorder);
+				}
+
+				void TextButtonSkin::AdjustLabel()
+				{
+					Size buttonSize=background->GetBounds().GetSize();
+					Size labelSize=label->GetSize();
+					label->SetPosition(Point((buttonSize.x-labelSize.x)/2, (buttonSize.y-labelSize.y)/2));
+				}
+
+				TextButtonSkin::TextButtonSkin(INativeWindow* window)
+					:WinGDISkin(window)
+				{
+					clipBorder=new WinGDIClipElement(environment);
+					background=new PushableBackground(environment);
+					label=new PushableLabel(environment);
+					containerElement=new WinGDIClipElement(environment);
+
+					clipBorder->Children().Add(background);
+					clipBorder->Children().Add(label);
+					clipBorder->Children().Add(containerElement);
+				}
+
+				TextButtonSkin::~TextButtonSkin()
+				{
+				}
+
+				void TextButtonSkin::SetBounds(Rect value)
+				{
+					clipBorder->SetBounds(value);
+					background->SetBounds(Rect(Point(0, 0), value.GetSize()));
+					containerElement->SetBounds(Rect(Point(0, 0), value.GetSize()));
+					AdjustLabel();
+					skinListener->RequireRedraw();
+				}
+
+				void TextButtonSkin::SetState(GuiButtonBase::ButtonState style)
+				{
+					StatefulObject::State state=StatefulObject::Normal;
+					switch(style)
+					{
+					case GuiButtonBase::Normal:
+						state=StatefulObject::Normal;
+						break;
+					case GuiButtonBase::Active:
+						state=StatefulObject::Active;
+						break;
+					case GuiButtonBase::Pressed:
+						state=StatefulObject::Pressed;
+						break;
+					case GuiButtonBase::Disabled:
+						state=StatefulObject::Disabled;
+						break;
+					default:
+						return;
+					}
+					background->SetState(state);
+					label->SetState(state);
+					skinListener->RequireRedraw();
+				}
+
+				void TextButtonSkin::SetText(const WString& text)
+				{
+					label->SetText(text);
+					AdjustLabel();
+					skinListener->RequireRedraw();
 				}
 			}
 		}

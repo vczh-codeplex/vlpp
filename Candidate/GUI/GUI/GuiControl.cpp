@@ -10,6 +10,38 @@ namespace vl
 GuiControl::Grid
 ***********************************************************************/
 
+		void GuiControl::Grid::NotifyChildEntering(GuiControl* value)
+		{
+			if(ownedControl)
+			{
+				ownedControl->NotifyChildEntering(value);
+			}
+		}
+
+		void GuiControl::Grid::NotifyChildEntered(GuiControl* value)
+		{
+			if(ownedControl)
+			{
+				ownedControl->NotifyChildEntered(value);
+			}
+		}
+
+		void GuiControl::Grid::NotifyChildLeaving(GuiControl* value)
+		{
+			if(ownedControl)
+			{
+				ownedControl->NotifyChildLeaving(value);
+			}
+		}
+
+		void GuiControl::Grid::NotifyChildLeaved(GuiControl* value)
+		{
+			if(ownedControl)
+			{
+				ownedControl->NotifyChildLeaved(value);
+			}
+		}
+
 		GuiControl::Grid::Grid()
 			:ownedControl(0)
 		{
@@ -26,15 +58,9 @@ GuiControl::Grid
 
 		bool GuiControl::Grid::SetOwnedControl(GuiControl* control)
 		{
-			if(ownedControl)
-			{
-				ownedControl=control;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			if(!ownedControl == !control) return false;
+			ownedControl=control;
+			return true;
 		}
 
 /***********************************************************************
@@ -112,7 +138,9 @@ GuiControl
 		{
 			if(skin)
 			{
+				value->NotifySetParent(this);
 				skin->InsertChild(container->GetChildIndex(value), value->skin.Obj());
+				skin->GetListener()->RequireRedraw();
 			}
 		}
 
@@ -120,7 +148,9 @@ GuiControl
 		{
 			if(skin)
 			{
+				value->NotifySetParent(0);
 				skin->RemoveChild(value->skin.Obj());
+				skin->GetListener()->RequireRedraw();
 			}
 		}
 
@@ -181,7 +211,6 @@ GuiControl
 					{
 						GuiControl* child=container->GetChild(i);
 						NotifyChildLeaving(child);
-						child->NotifySetParent(0);
 						NotifyChildLeaved(child);
 					}
 				}
@@ -193,7 +222,6 @@ GuiControl
 					{
 						GuiControl* child=container->GetChild(i);
 						NotifyChildEntering(child);
-						child->NotifySetParent(this);
 						NotifyChildEntered(child);
 					}
 				}
@@ -410,6 +438,11 @@ GuiWindowBase
 		void GuiWindowBase::InitializeWindow()
 		{
 			NotifyAttachedToWindow(this);
+		}
+
+		void GuiWindowBase::FinalizeWindow()
+		{
+			NotifyAttachedToWindow(0);
 		}
 
 		Rect GuiWindowBase::GetBoundsForSkin()
