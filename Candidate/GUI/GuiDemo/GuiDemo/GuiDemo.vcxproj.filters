@@ -108,6 +108,15 @@
     <ClCompile Include="..\..\GUI\GuiWindow.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GuiContainer.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GuiButton.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GuiGrid.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -219,6 +228,15 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\GuiApplication.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GuiContainer.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GuiButton.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GuiGrid.h">
       <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>

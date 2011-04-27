@@ -33,6 +33,7 @@ GuiWindow
 
 		GuiWindow::~GuiWindow()
 		{
+			FinalizeWindow();
 		}
 
 		WString GuiWindow::GetTitle()

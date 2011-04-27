@@ -104,24 +104,36 @@ namespace vl
 
 #define BUILDER_OF_SKIN(SKIN) SKIN::Builder
 
+			class WinGDISkinBase : public Object, public virtual IGuiSkin
+			{
+				template<typename ISkinInterface>
+				friend class WinGDISkin;
+			protected:
+				virtual Ptr<WinGDIClipElement>				GetContainerElement()=0;
+				virtual int									GetTopLevelElementCount()=0;
+				virtual void								InsertElements(int index, Ptr<WinGDIClipElement> containerElement)=0;
+			};
+
 			template<typename ISkinInterface>
-			class WinGDISkin : public Object, public ISkinInterface
+			class WinGDISkin : public WinGDISkinBase, public ISkinInterface
 			{
 			protected:
 				INativeWindow*								window;
 				WinGDIElementEnvironment*					environment;
 				IGuiSkinListener*							skinListener;
-				collections::List<WinGDISkin*>				childSkins;
+				collections::List<WinGDISkinBase*>			childSkins;
 
-				virtual Ptr<WinGDIClipElement>				GetContainerElement()=0;
-				virtual int									GetTopLevelElementCount()=0;
-				virtual void								InsertElements(int index, Ptr<WinGDIClipElement> containerElement)=0;
 			public:
 				WinGDISkin(INativeWindow* _window)
 					:window(_window)
 					,environment(windows::GetNativeWindowGDIElementEnvironment(_window))
 					,skinListener(0)
 				{
+				}
+
+				IGuiSkinListener* GetListener()
+				{
+					return skinListener;
 				}
 
 				void AttachListener(IGuiSkinListener* listener)
@@ -131,7 +143,7 @@ namespace vl
 
 				void RemoveChild(IGuiSkin* child)
 				{
-					WinGDISkin* skin=dynamic_cast<WinGDISkin*>(child);
+					WinGDISkinBase* skin=dynamic_cast<WinGDISkinBase*>(child);
 					if(skin)
 					{
 						int index=childSkins.IndexOf(skin);
@@ -157,7 +169,7 @@ namespace vl
 
 				void InsertChild(int index, IGuiSkin* child)
 				{
-					WinGDISkin* skin=dynamic_cast<WinGDISkin*>(child);
+					WinGDISkinBase* skin=dynamic_cast<WinGDISkinBase*>(child);
 					if(skin && !childSkins.Contains(skin))
 					{
 						int previousCount=0;

@@ -17,7 +17,7 @@ namespace vl
 	{
 
 /***********************************************************************
-¶¥²ã´°¿Ú
+ÆÕÍ¨´°¿Ú
 ***********************************************************************/
 
 		class GuiWindow : public GuiWindowBase
@@ -25,7 +25,7 @@ namespace vl
 		public:
 			static const wchar_t* const		SkinBuilderName;
 
-			class IGuiWindowSkin : public IGuiSkin
+			class IGuiWindowSkin : public virtual IGuiSkin
 			{
 			public:
 				virtual void				Install()=0;

@@ -207,7 +207,9 @@ namespace vl
 				{
 					DEFINE_BUILDER(WindowSkin);
 				protected:
+					Ptr<WinGDIClipElement>					root;
 					Ptr<FocusableBackground>				background;
+					Ptr<WinGDIClipElement>					containerElement;
 
 					Ptr<WinGDIClipElement>					GetContainerElement();
 					int										GetTopLevelElementCount();
@@ -218,6 +220,28 @@ namespace vl
 
 					void									SetBounds(Rect value);
 					void									Install();
+				};
+
+				class TextButtonSkin : public WinGDISkin<GuiTextButton::IGuiTextButtonSkin>
+				{
+					DEFINE_BUILDER(TextButtonSkin);
+				protected:
+					Ptr<WinGDIClipElement>					clipBorder;
+					Ptr<PushableBackground>					background;
+					Ptr<PushableLabel>						label;
+					Ptr<WinGDIClipElement>					containerElement;
+
+					Ptr<WinGDIClipElement>					GetContainerElement();
+					int										GetTopLevelElementCount();
+					void									InsertElements(int index, Ptr<WinGDIClipElement> containerElement);
+					void									AdjustLabel();
+				public:
+					TextButtonSkin(INativeWindow* window);
+					~TextButtonSkin();
+
+					void									SetBounds(Rect value);
+					void									SetState(GuiButtonBase::ButtonState style);
+					void									SetText(const WString& text);
 				};
 			}
 		}
