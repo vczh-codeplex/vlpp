@@ -219,6 +219,7 @@ namespace vl
 					~WindowSkin();
 
 					void									SetBounds(Rect value);
+					bool									ContainsPoint(Point value);
 					void									Install();
 				};
 
@@ -240,6 +241,7 @@ namespace vl
 					~TextButtonSkin();
 
 					void									SetBounds(Rect value);
+					bool									ContainsPoint(Point value);
 					void									SetState(GuiButtonBase::ButtonState style);
 					void									SetText(const WString& text);
 				};

@@ -9,8 +9,48 @@ namespace vl
 GuiButtonBase
 ***********************************************************************/
 
+		void GuiButtonBase::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		{
+			GuiControl::NotifyMouseDown(button, info);
+			RequireTracking();
+			pressing=true;
+			buttonState=Pressed;
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		{
+			GuiControl::NotifyMouseUp(button, info);
+			ReleaseTracking();
+			pressing=false;
+			buttonState=(entering?Active:Normal);
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyMouseEntered()
+		{
+			GuiControl::NotifyMouseEntered();
+			buttonState=(pressing?Pressed:Active);
+			entering=true;
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyMouseLeaved()
+		{
+			GuiControl::NotifyMouseLeaved();
+			buttonState=(pressing?Active:Normal);
+			entering=false;
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyButtonStateChanged()
+		{
+		}
+
 		GuiButtonBase::GuiButtonBase()
 			:buttonState(Normal)
+			,pressing(false)
+			,entering(false)
 		{
 		}
 
@@ -42,6 +82,7 @@ GuiTextButton
 
 		void GuiTextButton::NotifyButtonStateChanged()
 		{
+			GuiButtonBase::NotifyButtonStateChanged();
 			Ptr<IGuiTextButtonSkin> skin=GetSkin().Cast<IGuiTextButtonSkin>();
 			if(skin)
 			{

@@ -619,6 +619,18 @@ WindowsForm
 					return GetExStyle(WS_EX_APPWINDOW);
 				}
 
+				bool RequireCapture()
+				{
+					SetCapture(handle);
+					return true;
+				}
+
+				bool ReleaseCapture()
+				{
+					::ReleaseCapture();
+					return true;
+				}
+
 				bool GetMaximizedBox()
 				{
 					return GetStyle(WS_MAXIMIZEBOX);
@@ -710,6 +722,7 @@ WindowsForm
 					if(graphicsHandler)
 					{
 						graphicsHandler->RedrawContent();
+						SendMessage(this->handle, WM_PAINT, NULL, NULL);
 					}
 				}
 			};

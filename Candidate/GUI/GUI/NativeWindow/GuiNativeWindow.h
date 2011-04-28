@@ -54,6 +54,8 @@ Native Window
 			virtual void				ShowInTaskBar()=0;
 			virtual void				HideInTaskBar()=0;
 			virtual bool				IsAppearedInTaskBar()=0;
+			virtual bool				RequireCapture()=0;
+			virtual bool				ReleaseCapture()=0;
 
 			virtual bool				GetMaximizedBox()=0;
 			virtual void				SetMaximizedBox(bool visible)=0;
