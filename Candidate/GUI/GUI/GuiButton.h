@@ -32,8 +32,14 @@ namespace vl
 			};
 		protected:
 			ButtonState							buttonState;
-
-			virtual void						NotifyButtonStateChanged()=0;
+			bool								pressing;
+			bool								entering;
+			
+			void								NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			void								NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			void								NotifyMouseEntered();
+			void								NotifyMouseLeaved();
+			virtual void						NotifyButtonStateChanged();
 		public:
 			GuiButtonBase();
 			~GuiButtonBase();

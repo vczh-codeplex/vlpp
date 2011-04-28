@@ -559,6 +559,11 @@ WindowSkin
 					skinListener->RequireRedraw();
 				}
 
+				bool WindowSkin::ContainsPoint(Point value)
+				{
+					return root->GetBounds().Contains(value);
+				}
+
 				void WindowSkin::Install()
 				{
 					environment->SetRootElement(root);
@@ -587,7 +592,11 @@ TextButtonSkin
 				{
 					Size buttonSize=background->GetBounds().GetSize();
 					Size labelSize=label->GetSize();
-					label->SetPosition(Point((buttonSize.x-labelSize.x)/2, (buttonSize.y-labelSize.y)/2));
+					int offset=
+						label->GetState()==StatefulObject::Active?-1:
+						label->GetState()==StatefulObject::Pressed?1:
+						0;
+					label->SetPosition(Point((buttonSize.x-labelSize.x)/2+offset, (buttonSize.y-labelSize.y)/2+offset));
 				}
 
 				TextButtonSkin::TextButtonSkin(INativeWindow* window)
@@ -616,6 +625,11 @@ TextButtonSkin
 					skinListener->RequireRedraw();
 				}
 
+				bool TextButtonSkin::ContainsPoint(Point value)
+				{
+					return clipBorder->GetBounds().Contains(value);
+				}
+
 				void TextButtonSkin::SetState(GuiButtonBase::ButtonState style)
 				{
 					StatefulObject::State state=StatefulObject::Normal;
@@ -638,6 +652,7 @@ TextButtonSkin
 					}
 					background->SetState(state);
 					label->SetState(state);
+					AdjustLabel();
 					skinListener->RequireRedraw();
 				}
 

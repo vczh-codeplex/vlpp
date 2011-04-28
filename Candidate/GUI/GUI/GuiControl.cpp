@@ -67,6 +67,19 @@ GuiControl::Grid
 GuiControl
 ***********************************************************************/
 
+		void GuiControl::TrackChild(GuiControl* child)
+		{
+			if(child)
+			{
+				RequireTracking();
+			}
+			else
+			{
+				ReleaseTracking();
+			}
+			trackingControl=child;
+		}
+
 		Rect GuiControl::GetBoundsForSkin()
 		{
 			return bounds;
@@ -75,6 +88,36 @@ GuiControl
 		Ptr<IGuiSkin> GuiControl::GetSkin()
 		{
 			return skin;
+		}
+
+		eventargs::MouseInfo GuiControl::Offset(GuiControl* child, const eventargs::MouseInfo& info)
+		{
+			eventargs::MouseInfo r=info;
+			Point offset=child->GetBounds().LeftTop();
+			r.x-=offset.x;
+			r.y-=offset.y;
+			return r;
+		}
+
+		void GuiControl::RequireTracking()
+		{
+			if(parent)
+			{
+				parent->TrackChild(this);
+			}
+		}
+
+		void GuiControl::ReleaseTracking()
+		{
+			if(parent)
+			{
+				parent->TrackChild(0);
+			}
+		}
+
+		bool GuiControl::IsTracking()
+		{
+			return parent&&parent->trackingControl==this;
 		}
 
 		void GuiControl::NotifySetParent(GuiControl* value)
@@ -152,6 +195,9 @@ GuiControl
 				skin->RemoveChild(value->skin.Obj());
 				skin->GetListener()->RequireRedraw();
 			}
+			if(focusedControl==value) focusedControl=0;
+			if(enteredControl==value) enteredControl=0;
+			if(trackingControl==value) trackingControl=0;
 		}
 
 		void GuiControl::NotifyChildLeaved(GuiControl* value)
@@ -171,8 +217,92 @@ GuiControl
 			}
 		}
 
+		void GuiControl::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		{
+			GuiControl* child=GetChildFromPoint(Point(info.x, info.y));
+			if(child)
+			{
+				child->NotifyMouseDown(button, Offset(child, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseMove(const eventargs::MouseInfo& info)
+		{
+			GuiControl* child=GetChildFromPoint(Point(info.x, info.y));
+			if(enteredControl!=child)
+			{
+				if(enteredControl)
+				{
+					enteredControl->NotifyMouseLeaved();
+				}
+				enteredControl=child;
+				if(enteredControl)
+				{
+					enteredControl->NotifyMouseEntered();
+				}
+			}
+			if(trackingControl)
+			{
+				child=trackingControl;
+			}
+			if(child)
+			{
+				child->NotifyMouseMove(Offset(child, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		{
+			GuiControl* child=trackingControl?trackingControl:GetChildFromPoint(Point(info.x, info.y));
+			if(child)
+			{
+				child->NotifyMouseUp(button, Offset(child, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		{
+			GuiControl* child=trackingControl?trackingControl:GetChildFromPoint(Point(info.x, info.y));
+			if(child)
+			{
+				child->NotifyMouseDoubleClick(button, Offset(child, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyMouseHorizontalWheel(Offset(focusedControl, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseVerticalWheel(const eventargs::MouseInfo& info)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyMouseVerticalWheel(Offset(focusedControl, info));
+			}
+		}
+
+		void GuiControl::NotifyMouseEntered()
+		{
+		}
+
+		void GuiControl::NotifyMouseLeaved()
+		{
+			if(enteredControl)
+			{
+				enteredControl->NotifyMouseLeaved();
+				enteredControl=0;
+			}
+		}
+
 		GuiControl::GuiControl()
 			:parent(0)
+			,focusedControl(0)
+			,enteredControl(0)
+			,trackingControl(0)
 		{
 		}
 
@@ -183,6 +313,24 @@ GuiControl
 		GuiControl* GuiControl::GetParent()
 		{
 			return parent;
+		}
+
+		GuiControl* GuiControl::GetChildFromPoint(Point value)
+		{
+			if(skin && container)
+			{
+				int count=container->GetChildCount();
+				for(int i=0;i<count;i++)
+				{
+					GuiControl* child=container->GetChild(i);
+					Ptr<IGuiSkin> childSkin=child->GetSkin();
+					if(childSkin && childSkin->ContainsPoint(value))
+					{
+						return child;
+					}
+				}
+			}
+			return 0;
 		}
 
 		const WString& GuiControl::GetControlName()
@@ -338,73 +486,101 @@ GuiWindowBase
 			}
 		}
 
+		eventargs::MouseInfo Convert(const NativeWindowMouseInfo& info)
+		{
+			eventargs::MouseInfo r;
+			r.ctrl=info.ctrl;
+			r.shift=info.shift;
+			r.left=info.left;
+			r.middle=info.middle;
+			r.right=info.right;
+			r.x=info.x;
+			r.y=info.y;
+			r.wheel=info.wheel;
+			return r;
+		}
+
 		void GuiWindowBase::LeftButtonDown(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDown(eventargs::LeftButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::LeftButtonUp(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseUp(eventargs::LeftButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDoubleClick(eventargs::LeftButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::RightButtonDown(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDown(eventargs::RightButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::RightButtonUp(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseUp(eventargs::RightButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::RightButtonDoubleClick(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDoubleClick(eventargs::RightButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MiddleButtonDown(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDown(eventargs::MiddleButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MiddleButtonUp(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseUp(eventargs::MiddleButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseDoubleClick(eventargs::MiddleButton, Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::HorizontalWheel(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseHorizontalWheel(Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::VerticalWheel(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseVerticalWheel(Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MouseMoving(const NativeWindowMouseInfo& info)
 		{
+			NotifyMouseMove(Convert(info));
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MouseEntered()
 		{
+			NotifyMouseEntered();
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::MouseLeaved()
 		{
+			NotifyMouseLeaved();
 			RedrawIfRequired();
 		}
 
@@ -448,6 +624,16 @@ GuiWindowBase
 		Rect GuiWindowBase::GetBoundsForSkin()
 		{
 			return Rect(Point(0, 0), GetContainingNativeWindow()->GetClientSize());
+		}
+
+		void GuiWindowBase::RequireTracking()
+		{
+			nativeWindow->RequireCapture();
+		}
+
+		void GuiWindowBase::ReleaseTracking()
+		{
+			nativeWindow->ReleaseCapture();
 		}
 
 		GuiWindowBase::GuiWindowBase()

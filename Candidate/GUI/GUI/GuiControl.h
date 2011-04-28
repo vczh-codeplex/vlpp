@@ -45,6 +45,7 @@ namespace vl
 			virtual IGuiSkinListener*		GetListener()=0;
 			virtual void					AttachListener(IGuiSkinListener* listener)=0;
 			virtual void					SetBounds(Rect value)=0;
+			virtual bool					ContainsPoint(Point value)=0;
 			virtual void					RemoveChild(IGuiSkin* child)=0;
 			virtual void					InsertChild(int index, IGuiSkin* child)=0;
 			virtual IGuiSkin*				GetChild(int index)=0;
@@ -60,6 +61,23 @@ namespace vl
 /***********************************************************************
 ¿Ø¼þ
 ***********************************************************************/
+
+		namespace eventargs
+		{
+			enum MouseButton
+			{
+				LeftButton,
+				MiddleButton,
+				RightButton,
+			};
+
+			struct MouseInfo
+			{
+				bool						ctrl, shift;
+				bool						left, middle, right;
+				int							x, y, wheel;
+			};
+		}
 
 		class GuiControl : public Object
 		{
@@ -91,11 +109,20 @@ namespace vl
 			Ptr<Grid>						container;
 			Rect							bounds;
 
+			GuiControl*						focusedControl;
+			GuiControl*						enteredControl;
+			GuiControl*						trackingControl;
+
+			void							TrackChild(GuiControl* child);
 		protected:
 
 			virtual WString					GetSkinBuilderName()=0;
 			virtual Rect					GetBoundsForSkin();
 			Ptr<IGuiSkin>					GetSkin();
+			eventargs::MouseInfo			Offset(GuiControl* child, const eventargs::MouseInfo& info);
+			virtual void					RequireTracking();
+			virtual void					ReleaseTracking();
+			bool							IsTracking();
 
 			virtual void					NotifySetParent(GuiControl* value);
 			virtual void					NotifyAttachedToWindow(GuiWindowBase* window);
@@ -106,11 +133,21 @@ namespace vl
 			virtual void					NotifyChildLeaved(GuiControl* value);
 			virtual void					NotifyMoving(Rect& value);
 			virtual void					NotifyMoved(Rect value);
+
+			virtual void					NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseMove(const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseVerticalWheel(const eventargs::MouseInfo& info);
+			virtual void					NotifyMouseEntered();
+			virtual void					NotifyMouseLeaved();
 		public:
 			GuiControl();
 			~GuiControl();
 
 			GuiControl*						GetParent();
+			GuiControl*						GetChildFromPoint(Point value);
 
 			const WString&					GetControlName();
 			void							SetControlName(const WString& value);
@@ -175,6 +212,8 @@ namespace vl
 			virtual void					InitializeWindow();
 			virtual void					FinalizeWindow();
 			Rect							GetBoundsForSkin();
+			void							RequireTracking();
+			void							ReleaseTracking();
 		public:
 			GuiWindowBase();
 			~GuiWindowBase();
