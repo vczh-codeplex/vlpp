@@ -31,6 +31,7 @@ namespace vl
 			int									GetChildCount();
 			GuiControl*							GetChild(int index);
 			int									GetChildIndex(GuiControl* child);
+			void								AddControl(GuiControl* child);
 			void								InsertControl(int index, GuiControl* child);
 			void								RemoveControl(GuiControl* child);
 		};

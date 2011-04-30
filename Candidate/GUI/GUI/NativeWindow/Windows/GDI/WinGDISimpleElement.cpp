@@ -100,6 +100,7 @@ Resources
 					GetCurrentController()->InstallListener(&ResourcesAutoInstaller);
 					GetCurrentApplication()->SetSkinBuilder(GuiWindow::SkinBuilderName, new BUILDER_OF_SKIN(WindowSkin));
 					GetCurrentApplication()->SetSkinBuilder(GuiTextButton::SkinBuilderName, new BUILDER_OF_SKIN(TextButtonSkin));
+					GetCurrentApplication()->SetSkinBuilder(GuiPanel::SkinBuilderName, new BUILDER_OF_SKIN(PanelSkin));
 				}
 
 				void Resources::UnregisterAutoInstall()
@@ -113,10 +114,10 @@ Resources
 
 					//-----------------------------------------------------
 
-					environment->Resources().Add(PUSHABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(161,161,161)));
-					environment->Resources().Add(PUSHABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(161,161,161)));
-					environment->Resources().Add(PUSHABLE_BACKGROUND_PRESSED_PEN,			new WinPen(PS_SOLID, 1, RGB(161,161,161)));
-					environment->Resources().Add(PUSHABLE_BACKGROUND_DISABLED_PEN,			new WinPen(PS_SOLID, 1, RGB(161,161,161)));
+					environment->Resources().Add(PUSHABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
+					environment->Resources().Add(PUSHABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
+					environment->Resources().Add(PUSHABLE_BACKGROUND_PRESSED_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
+					environment->Resources().Add(PUSHABLE_BACKGROUND_DISABLED_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
 
 					environment->Resources().Add(PUSHABLE_BACKGROUND_NORMAL_BRUSH,			new WinBrush(RGB(255, 255, 255)));
 					environment->Resources().Add(PUSHABLE_BACKGROUND_ACTIVE_BRUSH,			new WinBrush(RGB(210, 235, 249)));
@@ -131,12 +132,12 @@ Resources
 					environment->Resources().Add(PUSHABLE_LABEL_NORMAL_COLOR,				new ObjectBox<COLORREF>(RGB(102, 96, 181)));
 					environment->Resources().Add(PUSHABLE_LABEL_ACTIVE_COLOR,				new ObjectBox<COLORREF>(RGB(102, 96, 181)));
 					environment->Resources().Add(PUSHABLE_LABEL_PRESSED_COLOR,				new ObjectBox<COLORREF>(RGB(102, 96, 181)));
-					environment->Resources().Add(PUSHABLE_LABEL_DISABLED_COLOR,				new ObjectBox<COLORREF>(RGB(161,161,161)));
+					environment->Resources().Add(PUSHABLE_LABEL_DISABLED_COLOR,				new ObjectBox<COLORREF>(RGB(161, 161, 161)));
 
 					//-----------------------------------------------------
 
 					environment->Resources().Add(SELECTABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(255, 255, 255)));
-					environment->Resources().Add(SELECTABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(161,161,161)));
+					environment->Resources().Add(SELECTABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
 					environment->Resources().Add(SELECTABLE_BACKGROUND_PRESSED_PEN,			new WinPen(PS_SOLID, 1, RGB(0, 96, 166)));
 					environment->Resources().Add(SELECTABLE_BACKGROUND_DISABLED_PEN,		new WinPen(PS_SOLID, 1, RGB(211, 211, 211)));
 
@@ -153,12 +154,12 @@ Resources
 					environment->Resources().Add(SELECTABLE_LABEL_NORMAL_COLOR,				new ObjectBox<COLORREF>(RGB(102, 96, 181)));
 					environment->Resources().Add(SELECTABLE_LABEL_ACTIVE_COLOR,				new ObjectBox<COLORREF>(RGB(102, 96, 181)));
 					environment->Resources().Add(SELECTABLE_LABEL_PRESSED_COLOR,			new ObjectBox<COLORREF>(RGB(255, 255, 255)));
-					environment->Resources().Add(SELECTABLE_LABEL_DISABLED_COLOR,			new ObjectBox<COLORREF>(RGB(161,161,161)));
+					environment->Resources().Add(SELECTABLE_LABEL_DISABLED_COLOR,			new ObjectBox<COLORREF>(RGB(161, 161, 161)));
 
 					//-----------------------------------------------------
 
-					environment->Resources().Add(FOCUSABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(211, 211, 211)));
-					environment->Resources().Add(FOCUSABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(210, 235, 249)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_NORMAL_PEN,			new WinPen(PS_SOLID, 1, RGB(161, 161, 161)));
+					environment->Resources().Add(FOCUSABLE_BACKGROUND_ACTIVE_PEN,			new WinPen(PS_SOLID, 1, RGB(160, 205, 229)));
 					environment->Resources().Add(FOCUSABLE_BACKGROUND_PRESSED_PEN,			new WinPen(PS_SOLID, 1, RGB(0, 96, 166)));
 					environment->Resources().Add(FOCUSABLE_BACKGROUND_DISABLED_PEN,			new WinPen(PS_SOLID, 1, RGB(211, 211, 211)));
 					environment->Resources().Add(FOCUSABLE_BACKGROUND_PEN,					new WinPen(PS_SOLID, 1, RGB(255, 255, 255)));
@@ -263,11 +264,7 @@ StatefulBackground
 					:StatefulObject(_environment)
 					,state(StatefulObject::Normal)
 				{
-					for(int i=0;i<TotalCount;i++)
-					{
-						pens[i]=Resources::GetPen(_environment, penNames[i]);
-						brushes[i]=Resources::GetBrush(_environment, brushNames[i]);
-					}
+					ResetResource(penNames, brushNames);
 				}
 
 				StatefulBackground::~StatefulBackground()
@@ -294,6 +291,15 @@ StatefulBackground
 					state=value;
 				}
 
+				void StatefulBackground::ResetResource(const wchar_t** penNames, const wchar_t** brushNames)
+				{
+					for(int i=0;i<TotalCount;i++)
+					{
+						pens[i]=Resources::GetPen(environment, penNames[i]);
+						brushes[i]=Resources::GetBrush(environment, brushNames[i]);
+					}
+				}
+
 				void StatefulBackground::Paint(Size offset, windows::WinDC* dc)
 				{
 					int x=bounds.Left()+offset.x;
@@ -313,11 +319,7 @@ StatefulLabel
 					:StatefulObject(_environment)
 					,state(StatefulObject::Normal)
 				{
-					for(int i=0;i<TotalCount;i++)
-					{
-						fonts[i]=Resources::GetFont(_environment, fontNames[i]);
-						colors[i]=Resources::GetColor(_environment, colorNames[i]);
-					}
+					ResetResource(fontNames, colorNames);
 				}
 
 				StatefulLabel::~StatefulLabel()
@@ -352,6 +354,15 @@ StatefulLabel
 				void StatefulLabel::SetState(State value)
 				{
 					state=value;
+				}
+
+				void StatefulLabel::ResetResource(const wchar_t** fontNames, const wchar_t** colorNames)
+				{
+					for(int i=0;i<TotalCount;i++)
+					{
+						fonts[i]=Resources::GetFont(environment, fontNames[i]);
+						colors[i]=Resources::GetColor(environment, colorNames[i]);
+					}
 				}
 
 				Size StatefulLabel::GetSize()
@@ -456,11 +467,23 @@ FocusableBackground
 
 				FocusableBackground::FocusableBackground(bool staticPen, WinGDIElementEnvironment* _environment)
 					:StatefulBackground((staticPen?FocusableBackground_EmptyPenNames:FocusableBackground_PenNames), FocusableBackground_BrushNames, _environment)
+					,isStaticPen(staticPen)
 				{
 				}
 
 				FocusableBackground::~FocusableBackground()
 				{
+				}
+
+				void FocusableBackground::SetStaticPen(bool value)
+				{
+					isStaticPen=value;
+					ResetResource((isStaticPen?FocusableBackground_EmptyPenNames:FocusableBackground_PenNames), FocusableBackground_BrushNames);
+				}
+
+				bool FocusableBackground::IsStaticPen()
+				{
+					return isStaticPen;
 				}
 
 /***********************************************************************
@@ -577,9 +600,9 @@ WindowSkin
 					return 1;
 				}
 
-				void WindowSkin::InsertElements(int index, Ptr<WinGDIClipElement> containerElement)
+				void WindowSkin::InsertElements(int index, Ptr<WinGDIClipElement> _containerElement)
 				{
-					containerElement->Children().Insert(index, root);
+					_containerElement->Children().Insert(index, root);
 				}
 
 				WindowSkin::WindowSkin(INativeWindow* window)
@@ -596,6 +619,11 @@ WindowSkin
 				WindowSkin::~WindowSkin()
 				{
 				}
+				
+				Rect WindowSkin::GetBounds()
+				{
+					return root->GetBounds();
+				}
 
 				void WindowSkin::SetBounds(Rect value)
 				{
@@ -603,11 +631,6 @@ WindowSkin
 					background->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					containerElement->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					skinListener->RequireRedraw();
-				}
-
-				bool WindowSkin::ContainsPoint(Point value)
-				{
-					return root->GetBounds().Contains(value);
 				}
 
 				void WindowSkin::Install()
@@ -629,9 +652,9 @@ TextButtonSkin
 					return 1;
 				}
 
-				void TextButtonSkin::InsertElements(int index, Ptr<WinGDIClipElement> containerElement)
+				void TextButtonSkin::InsertElements(int index, Ptr<WinGDIClipElement> _containerElement)
 				{
-					containerElement->Children().Insert(index, clipBorder);
+					_containerElement->Children().Insert(index, clipBorder);
 				}
 
 				void TextButtonSkin::AdjustLabel()
@@ -663,6 +686,11 @@ TextButtonSkin
 				TextButtonSkin::~TextButtonSkin()
 				{
 				}
+				
+				Rect TextButtonSkin::GetBounds()
+				{
+					return clipBorder->GetBounds();
+				}
 
 				void TextButtonSkin::SetBounds(Rect value)
 				{
@@ -672,11 +700,6 @@ TextButtonSkin
 					containerElement->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					AdjustLabel();
 					skinListener->RequireRedraw();
-				}
-
-				bool TextButtonSkin::ContainsPoint(Point value)
-				{
-					return clipBorder->GetBounds().Contains(value);
 				}
 
 				void TextButtonSkin::SetState(GuiButtonBase::ButtonState style)
@@ -713,6 +736,91 @@ TextButtonSkin
 				{
 					focusedRectangle->SetFocus(focusing);
 					skinListener->RequireRedraw();
+				}
+
+/***********************************************************************
+PanelSkin
+***********************************************************************/
+
+				Ptr<WinGDIClipElement> PanelSkin::GetContainerElement()
+				{
+					return containerElement;
+				}
+
+				int PanelSkin::GetTopLevelElementCount()
+				{
+					return 2;
+				}
+
+				void PanelSkin::InsertElements(int index, Ptr<WinGDIClipElement> _containerElement)
+				{
+					_containerElement->Children().Insert(index, containerElement);
+					_containerElement->Children().Insert(index, background);
+				}
+
+				void PanelSkin::UpdateState()
+				{
+					bool staticPen=borderState==GuiPanel::Normal;
+					if(background->IsStaticPen()!=staticPen)
+					{
+						background->SetStaticPen(staticPen);
+					}
+					if(!staticPen)
+					{
+						if(borderState==GuiPanel::Static)
+						{
+							background->SetState(StatefulObject::Normal);
+						}
+						else switch(panelState)
+						{
+						case GuiPanel::Normal:
+							background->SetState(StatefulObject::Normal);
+							break;
+						case GuiPanel::Active:
+							background->SetState(StatefulObject::Active);
+							break;
+						case GuiPanel::Focused:
+							background->SetState(StatefulObject::Pressed);
+							break;
+						}
+					}
+					skinListener->RequireRedraw();
+				}
+
+				PanelSkin::PanelSkin(INativeWindow* window)
+					:WinGDISkin(window)
+					,panelState(GuiPanel::Normal)
+					,borderState(GuiPanel::Dynamic)
+				{
+					background=new FocusableBackground(false, environment);
+					containerElement=new WinGDIClipElement(environment);
+				}
+
+				PanelSkin::~PanelSkin()
+				{
+				}
+					
+				Rect PanelSkin::GetBounds()
+				{
+					return background->GetBounds();
+				}
+
+				void PanelSkin::SetBounds(Rect value)
+				{
+					background->SetBounds(value);
+					containerElement->SetBounds(Rect(value.LeftTop()+Size(1, 1), value.GetSize()-Size(2, 2)));
+				}
+
+				void PanelSkin::SetPanelState(GuiPanel::PanelState value)
+				{
+					panelState=value;
+					UpdateState();
+				}
+
+				void PanelSkin::SetBorderState(GuiPanel::BorderState value)
+				{
+					borderState=value;
+					UpdateState();
 				}
 			}
 		}

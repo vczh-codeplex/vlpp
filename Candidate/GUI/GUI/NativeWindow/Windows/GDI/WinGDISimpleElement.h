@@ -99,7 +99,7 @@ namespace vl
 #undef RESOURCE_NAME
 
 /***********************************************************************
-元素
+元素基类
 ***********************************************************************/
 
 				class StatefulObject : public WinGDIElement
@@ -134,6 +134,7 @@ namespace vl
 					void									SetBounds(Rect value);
 					State									GetState();
 					void									SetState(State value);
+					void									ResetResource(const wchar_t** penNames, const wchar_t** brushNames);
 
 					void									Paint(Size offset, windows::WinDC* dc);
 				};
@@ -157,12 +158,17 @@ namespace vl
 					void									SetPosition(Point value);
 					State									GetState();
 					void									SetState(State value);
+					void									ResetResource(const wchar_t** fontNames, const wchar_t** colorNames);
 
 					Size									GetSize();
 					Rect									GetBounds();
 
 					void									Paint(Size offset, windows::WinDC* dc);
 				};
+
+/***********************************************************************
+元素
+***********************************************************************/
 
 				class PushableBackground : public StatefulBackground
 				{
@@ -180,9 +186,14 @@ namespace vl
 
 				class FocusableBackground : public StatefulBackground
 				{
+				protected:
+					bool									isStaticPen;
 				public:
 					FocusableBackground(bool staticPen, WinGDIElementEnvironment* _environment);
 					~FocusableBackground();
+
+					void									SetStaticPen(bool value);
+					bool									IsStaticPen();
 				};
 
 				class PushableLabel : public StatefulLabel
@@ -229,13 +240,13 @@ namespace vl
 
 					Ptr<WinGDIClipElement>					GetContainerElement();
 					int										GetTopLevelElementCount();
-					void									InsertElements(int index, Ptr<WinGDIClipElement> containerElement);
+					void									InsertElements(int index, Ptr<WinGDIClipElement> _containerElement);
 				public:
 					WindowSkin(INativeWindow* window);
 					~WindowSkin();
 
+					Rect									GetBounds();
 					void									SetBounds(Rect value);
-					bool									ContainsPoint(Point value);
 					void									Install();
 				};
 
@@ -251,17 +262,40 @@ namespace vl
 
 					Ptr<WinGDIClipElement>					GetContainerElement();
 					int										GetTopLevelElementCount();
-					void									InsertElements(int index, Ptr<WinGDIClipElement> containerElement);
+					void									InsertElements(int index, Ptr<WinGDIClipElement> _containerElement);
 					void									AdjustLabel();
 				public:
 					TextButtonSkin(INativeWindow* window);
 					~TextButtonSkin();
-
+					
+					Rect									GetBounds();
 					void									SetBounds(Rect value);
-					bool									ContainsPoint(Point value);
 					void									SetState(GuiButtonBase::ButtonState style);
 					void									SetText(const WString& text);
 					void									SetFocus(bool focusing);
+				};
+
+				class PanelSkin : public WinGDISkin<GuiPanel::IGuiPanelSkin>
+				{
+					DEFINE_BUILDER(PanelSkin);
+				protected:
+					Ptr<FocusableBackground>				background;
+					Ptr<WinGDIClipElement>					containerElement;
+					GuiPanel::PanelState					panelState;
+					GuiPanel::BorderState					borderState;
+
+					Ptr<WinGDIClipElement>					GetContainerElement();
+					int										GetTopLevelElementCount();
+					void									InsertElements(int index, Ptr<WinGDIClipElement> _containerElement);
+					void									UpdateState();
+				public:
+					PanelSkin(INativeWindow* window);
+					~PanelSkin();
+					
+					Rect									GetBounds();
+					void									SetBounds(Rect value);
+					void									SetPanelState(GuiPanel::PanelState value);
+					void									SetBorderState(GuiPanel::BorderState value);
 				};
 			}
 		}

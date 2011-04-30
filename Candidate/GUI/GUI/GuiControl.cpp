@@ -82,11 +82,12 @@ GuiControl
 
 		bool GuiControl::FocusChild(GuiControl* child)
 		{
-			if(focusedControl)
-			{
-				focusedControl->NotifyLostFocus();
-			}
+			GuiControl* oldFocusedControl=focusedControl;
 			focusedControl=child;
+			if(oldFocusedControl)
+			{
+				oldFocusedControl->NotifyLostFocus();
+			}
 			if(IsFocusing())
 			{
 				focusedControl->NotifyGotFocus();
@@ -125,7 +126,7 @@ GuiControl
 		{
 			if(parent)
 			{
-				GuiWindowBase* parentWindow=dynamic_cast<GuiWindowBase*>(parent);
+				GuiWindowBase* parentWindow=parent->GetAttachedWindow();
 				if(parentWindow)
 				{
 					NotifyAttachedToWindow(0);
@@ -134,7 +135,7 @@ GuiControl
 			parent=value;
 			if(parent)
 			{
-				GuiWindowBase* parentWindow=dynamic_cast<GuiWindowBase*>(parent);
+				GuiWindowBase* parentWindow=parent->GetAttachedWindow();
 				if(parentWindow)
 				{
 					NotifyAttachedToWindow(parentWindow);
@@ -154,7 +155,6 @@ GuiControl
 					if(skin)
 					{
 						skin->AttachListener(window->GetSkinListener());
-						skin->SetBounds(GetBoundsForSkin());
 					}
 				}
 			}
@@ -167,11 +167,16 @@ GuiControl
 					child->NotifyAttachedToWindow(window);
 				}
 			}
+			attachedWindow=window;
 			NotifySkinChanged();
 		}
 
 		void GuiControl::NotifySkinChanged()
 		{
+			if(skin)
+			{
+				skin->SetBounds(GetBoundsForSkin());
+			}
 		}
 
 		void GuiControl::NotifyChildEntering(GuiControl* value)
@@ -311,17 +316,17 @@ GuiControl
 
 		GuiControl* GuiControl::NotifyKeyDown(int code, bool alt)
 		{
-			if(IsFocusing() && IsTabStopEnabled())
+			if(IsFocusing() && IsTabAwayEnabled())
 			{
-				if(code==VKEY_TAB && !alt)
+				if(attachedWindow && code==VKEY_TAB && !alt)
 				{
 					if(GetCurrentController()->IsKeyPressing(VKEY_SHIFT))
 					{
-						FocusPreviousControl();
+						attachedWindow->FocusPreviousControl();
 					}
 					else
 					{
-						FocusNextControl();
+						attachedWindow->FocusNextControl();
 					}
 				}
 				return this;
@@ -402,24 +407,21 @@ GuiControl
 			}
 		}
 
-		void GuiControl::NotifyGotFocus()
+		GuiControl* GuiControl::NotifyGotFocus()
 		{
-			if(focusedControl)
-			{
-				focusedControl->NotifyGotFocus();
-			}
+			return focusedControl?focusedControl->NotifyGotFocus():this;
 		}
 
-		void GuiControl::NotifyLostFocus()
+		GuiControl* GuiControl::NotifyLostFocus()
 		{
-			if(focusedControl)
-			{
-				focusedControl->NotifyLostFocus();
-			}
+			return focusedControl?focusedControl->NotifyLostFocus():this;
 		}
 
 		GuiControl::GuiControl()
 			:parent(0)
+			,attachedWindow(0)
+			,tabStop(true)
+			,tabAway(true)
 			,focusedControl(0)
 			,enteredControl(0)
 			,trackingControl(0)
@@ -433,6 +435,11 @@ GuiControl
 		GuiControl* GuiControl::GetParent()
 		{
 			return parent;
+		}
+
+		GuiWindowBase* GuiControl::GetAttachedWindow()
+		{
+			return attachedWindow;
 		}
 
 		GuiControl* GuiControl::GetChildFromPoint(Point value)
@@ -498,15 +505,78 @@ GuiControl
 
 		bool GuiControl::IsFocusing()
 		{
-			return parent&&parent->focusedControl==this;
+			return parent&&parent->IsFocusing()&&parent->focusedControl==this;
 		}
 
-		void GuiControl::FocusNextControl()
+		GuiControl* GuiControl::GetPreviousFocusControl()
 		{
+			if(focusedControl)
+			{
+				GuiControl* control=focusedControl->GetPreviousFocusControl();
+				if(control) return control;
+				control=GetLastFocusControl(focusedControl);
+				if(control) return control;
+			}
+			return parent?0:GetLastFocusControl(0);
 		}
 
-		void GuiControl::FocusPreviousControl()
+		GuiControl* GuiControl::GetNextFocusControl()
 		{
+			if(focusedControl)
+			{
+				GuiControl* control=focusedControl->GetNextFocusControl();
+				if(control) return control;
+				control=GetFirstFocusControl(focusedControl);
+				if(control) return control;
+			}
+			return parent?0:GetFirstFocusControl(0);
+		}
+
+		GuiControl* GuiControl::GetFirstFocusControl(GuiControl* after)
+		{
+			if(IsTabStopEnabled())
+			{
+				return this;
+			}
+			if(container)
+			{
+				int current=container->GetChildIndex(after);
+				int count=container->GetChildCount();
+				while(++current<count)
+				{
+					GuiControl* control=container->GetChild(current)->GetFirstFocusControl(0);
+					if(control)
+					{
+						return control;
+					}
+				}
+			}
+			return 0;
+		}
+
+		GuiControl* GuiControl::GetLastFocusControl(GuiControl* before)
+		{
+			if(IsTabStopEnabled())
+			{
+				return this;
+			}
+			if(container)
+			{
+				int current=container->GetChildIndex(before);
+				if(current==-1)
+				{
+					current=container->GetChildCount();
+				}
+				while(--current>=0)
+				{
+					GuiControl* control=container->GetChild(current)->GetLastFocusControl(0);
+					if(control)
+					{
+						return control;
+					}
+				}
+			}
+			return 0;
 		}
 
 		GuiControl::Grid* GuiControl::GetContainer()
@@ -555,11 +625,20 @@ GuiControl
 		
 		Size GuiControl::GetClientSize()
 		{
-			return GetBounds().GetSize();
+			Size value=GetBounds().GetSize();
+			if(skin)
+			{
+				value=skin->GetClientSizeFromBoundsSize(value);
+			}
+			return value;
 		}
 
 		void GuiControl::SetClientSize(Size value)
 		{
+			if(skin)
+			{
+				value=skin->GetBoundsSizeFromClientSize(value);
+			}
 			SetBounds(Rect(GetBounds().LeftTop(), value));
 		}
 
@@ -576,6 +655,21 @@ GuiControl
 		bool GuiControl::IsTabStopEnabled()
 		{
 			return tabStop && (!container || container->GetChildCount()==0);
+		}
+
+		bool GuiControl::GetTabAway()
+		{
+			return tabAway;
+		}
+
+		void GuiControl::SetTabAway(bool value)
+		{
+			tabAway=value;
+		}
+
+		bool GuiControl::IsTabAwayEnabled()
+		{
+			return tabAway && (!container || container->GetChildCount()==0);
 		}
 
 /***********************************************************************
@@ -620,11 +714,13 @@ GuiWindowBase
 
 		void GuiWindowBase::GotFocus()
 		{
+			NotifyGotFocus();
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::LostFocus()
 		{
+			NotifyLostFocus();
 			RedrawIfRequired();
 		}
 
@@ -851,6 +947,24 @@ GuiWindowBase
 		bool GuiWindowBase::IsFocusing()
 		{
 			return nativeWindow->IsFocused();
+		}
+
+		void GuiWindowBase::FocusPreviousControl()
+		{
+			GuiControl* control=GetPreviousFocusControl();
+			if(control)
+			{
+				control->RequireFocus();
+			}
+		}
+
+		void GuiWindowBase::FocusNextControl()
+		{
+			GuiControl* control=GetNextFocusControl();
+			if(control)
+			{
+				control->RequireFocus();
+			}
 		}
 
 		INativeWindow* GuiWindowBase::GetContainingNativeWindow()

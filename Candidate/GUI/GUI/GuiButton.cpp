@@ -94,24 +94,26 @@ GuiTextButton
 			}
 		}
 
-		void GuiTextButton::NotifyGotFocus()
+		GuiControl* GuiTextButton::NotifyGotFocus()
 		{
-			GuiButtonBase::NotifyGotFocus();
+			GuiControl* actionRaiser=GuiButtonBase::NotifyGotFocus();
 			Ptr<IGuiTextButtonSkin> skin=GetSkin().Cast<IGuiTextButtonSkin>();
 			if(skin)
 			{
 				skin->SetFocus(true);
 			}
+			return actionRaiser;
 		}
 
-		void GuiTextButton::NotifyLostFocus()
+		GuiControl* GuiTextButton::NotifyLostFocus()
 		{
-			GuiButtonBase::NotifyLostFocus();
+			GuiControl* actionRaiser=GuiButtonBase::NotifyLostFocus();
 			Ptr<IGuiTextButtonSkin> skin=GetSkin().Cast<IGuiTextButtonSkin>();
 			if(skin)
 			{
 				skin->SetFocus(false);
 			}
+			return actionRaiser;
 		}
 
 		GuiTextButton::GuiTextButton()
