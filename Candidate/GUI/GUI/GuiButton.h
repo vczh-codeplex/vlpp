@@ -28,7 +28,6 @@ namespace vl
 				Normal,
 				Active,
 				Pressed,
-				Disabled,
 			};
 		protected:
 			ButtonState							buttonState;

@@ -430,7 +430,7 @@ SelectableBackground
 				}
 
 /***********************************************************************
-SelectableBackground
+FocusableBackground
 ***********************************************************************/
 
 				const wchar_t* FocusableBackground_PenNames[]={
@@ -692,9 +692,6 @@ TextButtonSkin
 						break;
 					case GuiButtonBase::Pressed:
 						state=StatefulObject::Pressed;
-						break;
-					case GuiButtonBase::Disabled:
-						state=StatefulObject::Disabled;
 						break;
 					default:
 						return;
