@@ -40,10 +40,59 @@ public:
 
 class SmallWindow : public GuiWindow
 {
+protected:
+
+	void UpdateTitle()
+	{
+		bool capslockPressing=GetCurrentController()->IsKeyPressing(VKEY_CAPITAL);
+		bool capslockToggled=GetCurrentController()->IsKeyToggled(VKEY_CAPITAL);
+		if(capslockPressing)
+		{
+			if(capslockToggled)
+			{
+				SetTitle(L"CAPSLOCK pressing and toggled");
+			}
+			else
+			{
+				SetTitle(L"CAPSLOCK pressing");
+			}
+		}
+		else
+		{
+			if(capslockToggled)
+			{
+				SetTitle(L"CAPSLOCK toggled");
+			}
+			else
+			{
+				SetTitle(L"CAPSLOCK");
+			}
+		}
+	}
+
+	GuiControl* NotifyKeyDown(int code, bool alt)
+	{
+		GuiControl* actionRaiser=GuiWindow::NotifyKeyDown(code, alt);
+		if(code==VKEY_CAPITAL)
+		{
+			UpdateTitle();
+		}
+		return actionRaiser;
+	}
+
+	GuiControl* NotifyKeyUp(int code, bool alt)
+	{
+		GuiControl* actionRaiser=GuiWindow::NotifyKeyUp(code, alt);
+		if(code==VKEY_CAPITAL)
+		{
+			UpdateTitle();
+		}
+		return actionRaiser;
+	}
 public:
 	SmallWindow()
 	{
-		SetTitle(L"This is another window");
+		UpdateTitle();
 		SetClientSize(Size(300, 200));
 		MoveToScreenCenter();
 	}

@@ -1052,6 +1052,16 @@ WindowsController
 				}
 
 				//=======================================================================
+				
+				bool IsKeyPressing(int code)
+				{
+					return (GetKeyState(code)&0xF0)!=0;
+				}
+
+				bool IsKeyToggled(int code)
+				{
+					return (GetKeyState(code)&0x0F)!=0;
+				}
 			};
 
 /***********************************************************************

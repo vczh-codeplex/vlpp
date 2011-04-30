@@ -121,44 +121,6 @@ GuiControl
 			return r;
 		}
 
-		void GuiControl::RequireTracking()
-		{
-			if(parent)
-			{
-				parent->TrackChild(this);
-			}
-		}
-
-		void GuiControl::ReleaseTracking()
-		{
-			if(parent)
-			{
-				parent->TrackChild(0);
-			}
-		}
-
-		bool GuiControl::IsTracking()
-		{
-			return parent&&parent->trackingControl==this;
-		}
-
-		bool GuiControl::RequireFocus()
-		{
-			if(parent)
-			{
-				return parent->FocusChild(this);
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		bool GuiControl::IsFocusing()
-		{
-			return parent&&parent->focusedControl==this;
-		}
-
 		void GuiControl::NotifySetParent(GuiControl* value)
 		{
 			if(parent)
@@ -347,6 +309,86 @@ GuiControl
 			}
 		}
 
+		GuiControl* GuiControl::NotifyKeyDown(int code, bool alt)
+		{
+			if(IsFocusing() && IsTabStopEnabled())
+			{
+				if(code==VKEY_TAB && !alt)
+				{
+					if(GetCurrentController()->IsKeyPressing(VKEY_SHIFT))
+					{
+						FocusPreviousControl();
+					}
+					else
+					{
+						FocusNextControl();
+					}
+				}
+				return this;
+			}
+			if(focusedControl)
+			{
+				focusedControl->NotifyKeyDown(code, alt);
+				return focusedControl;
+			}
+			else
+			{
+				return this;
+			}
+		}
+
+		GuiControl* GuiControl::NotifyKeyUp(int code, bool alt)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyKeyUp(code, alt);
+				return focusedControl;
+			}
+			else
+			{
+				return this;
+			}
+		}
+
+		GuiControl* GuiControl::NotifySysKeyDown(int code, bool alt)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifySysKeyDown(code, alt);
+				return focusedControl;
+			}
+			else
+			{
+				return this;
+			}
+		}
+
+		GuiControl* GuiControl::NotifySysKeyUp(int code, bool alt)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifySysKeyUp(code, alt);
+				return focusedControl;
+			}
+			else
+			{
+				return this;
+			}
+		}
+
+		GuiControl* GuiControl::NotifyChar(wchar_t keyChar)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyChar(keyChar);
+				return focusedControl;
+			}
+			else
+			{
+				return this;
+			}
+		}
+
 		void GuiControl::NotifyMouseEntered()
 		{
 		}
@@ -421,6 +463,52 @@ GuiControl
 			name=value;
 		}
 
+		void GuiControl::RequireTracking()
+		{
+			if(parent)
+			{
+				parent->TrackChild(this);
+			}
+		}
+
+		void GuiControl::ReleaseTracking()
+		{
+			if(parent)
+			{
+				parent->TrackChild(0);
+			}
+		}
+
+		bool GuiControl::IsTracking()
+		{
+			return parent&&parent->trackingControl==this;
+		}
+
+		bool GuiControl::RequireFocus()
+		{
+			if(parent)
+			{
+				return parent->FocusChild(this);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool GuiControl::IsFocusing()
+		{
+			return parent&&parent->focusedControl==this;
+		}
+
+		void GuiControl::FocusNextControl()
+		{
+		}
+
+		void GuiControl::FocusPreviousControl()
+		{
+		}
+
 		GuiControl::Grid* GuiControl::GetContainer()
 		{
 			return container.Obj();
@@ -473,6 +561,21 @@ GuiControl
 		void GuiControl::SetClientSize(Size value)
 		{
 			SetBounds(Rect(GetBounds().LeftTop(), value));
+		}
+
+		bool GuiControl::GetTabStop()
+		{
+			return tabStop;
+		}
+
+		void GuiControl::SetTabStop(bool value)
+		{
+			tabStop=value;
+		}
+
+		bool GuiControl::IsTabStopEnabled()
+		{
+			return tabStop && (!container || container->GetChildCount()==0);
 		}
 
 /***********************************************************************
@@ -664,26 +767,31 @@ GuiWindowBase
 
 		void GuiWindowBase::KeyDown(int code, bool alt)
 		{
+			NotifyKeyDown(code, alt);
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::KeyUp(int code, bool alt)
 		{
+			NotifyKeyUp(code, alt);
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::SysKeyDown(int code, bool alt)
 		{
+			NotifySysKeyDown(code, alt);
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::SysKeyUp(int code, bool alt)
 		{
+			NotifySysKeyUp(code, alt);
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Char(wchar_t keyChar)
 		{
+			NotifyChar(keyChar);
 			RedrawIfRequired();
 		}
 
@@ -702,6 +810,26 @@ GuiWindowBase
 		Rect GuiWindowBase::GetBoundsForSkin()
 		{
 			return Rect(Point(0, 0), GetContainingNativeWindow()->GetClientSize());
+		}
+
+		GuiWindowBase::GuiWindowBase()
+			:nativeWindow(0)
+			,destructorInvoked(false)
+			,needToRedraw(false)
+		{
+			nativeWindow=GetCurrentController()->CreateNativeWindow();
+			nativeWindow->InstallListener(this);
+			GetCurrentApplication()->RegisterWindow(this);
+		}
+
+		GuiWindowBase::~GuiWindowBase()
+		{
+			destructorInvoked=true;
+			if(nativeWindow)
+			{
+				GetCurrentController()->DestroyNativeWindow(nativeWindow);
+			}
+			GetCurrentApplication()->UnregisterWindow(this);
 		}
 
 		void GuiWindowBase::RequireTracking()
@@ -723,26 +851,6 @@ GuiWindowBase
 		bool GuiWindowBase::IsFocusing()
 		{
 			return nativeWindow->IsFocused();
-		}
-
-		GuiWindowBase::GuiWindowBase()
-			:nativeWindow(0)
-			,destructorInvoked(false)
-			,needToRedraw(false)
-		{
-			nativeWindow=GetCurrentController()->CreateNativeWindow();
-			nativeWindow->InstallListener(this);
-			GetCurrentApplication()->RegisterWindow(this);
-		}
-
-		GuiWindowBase::~GuiWindowBase()
-		{
-			destructorInvoked=true;
-			if(nativeWindow)
-			{
-				GetCurrentController()->DestroyNativeWindow(nativeWindow);
-			}
-			GetCurrentApplication()->UnregisterWindow(this);
 		}
 
 		INativeWindow* GuiWindowBase::GetContainingNativeWindow()

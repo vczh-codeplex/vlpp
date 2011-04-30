@@ -108,6 +108,7 @@ namespace vl
 			WString							name;
 			Ptr<Grid>						container;
 			Rect							bounds;
+			bool							tabStop;
 
 			GuiControl*						focusedControl;
 			GuiControl*						enteredControl;
@@ -121,11 +122,6 @@ namespace vl
 			virtual Rect					GetBoundsForSkin();
 			Ptr<IGuiSkin>					GetSkin();
 			eventargs::MouseInfo			Offset(GuiControl* child, const eventargs::MouseInfo& info);
-			virtual void					RequireTracking();
-			virtual void					ReleaseTracking();
-			virtual bool					IsTracking();
-			virtual bool					RequireFocus();
-			virtual bool					IsFocusing();
 
 			virtual void					NotifySetParent(GuiControl* value);
 			virtual void					NotifyAttachedToWindow(GuiWindowBase* window);
@@ -144,6 +140,12 @@ namespace vl
 			virtual GuiControl*				NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info);
 			virtual GuiControl*				NotifyMouseVerticalWheel(const eventargs::MouseInfo& info);
 
+			virtual GuiControl*				NotifyKeyDown(int code, bool alt);
+			virtual GuiControl*				NotifyKeyUp(int code, bool alt);
+			virtual GuiControl*				NotifySysKeyDown(int code, bool alt);
+			virtual GuiControl*				NotifySysKeyUp(int code, bool alt);
+			virtual GuiControl*				NotifyChar(wchar_t keyChar);
+
 			virtual void					NotifyMouseEntered();
 			virtual void					NotifyMouseLeaved();
 			virtual void					NotifyGotFocus();
@@ -158,6 +160,14 @@ namespace vl
 			const WString&					GetControlName();
 			void							SetControlName(const WString& value);
 
+			virtual void					RequireTracking();
+			virtual void					ReleaseTracking();
+			virtual bool					IsTracking();
+			virtual bool					RequireFocus();
+			virtual bool					IsFocusing();
+			virtual void					FocusNextControl();
+			virtual void					FocusPreviousControl();
+
 			virtual Grid*					GetContainer();
 			virtual void					SetContainer(Grid* value);
 
@@ -166,6 +176,10 @@ namespace vl
 			
 			virtual Size					GetClientSize();
 			virtual void					SetClientSize(Size value);
+
+			virtual bool					GetTabStop();
+			virtual void					SetTabStop(bool value);
+			virtual bool					IsTabStopEnabled();
 		};
 
 		class GuiWindowBase : public GuiControl, protected INativeWindowListener, private IGuiSkinListener
@@ -218,13 +232,14 @@ namespace vl
 			virtual void					InitializeWindow();
 			virtual void					FinalizeWindow();
 			Rect							GetBoundsForSkin();
+		public:
+			GuiWindowBase();
+			~GuiWindowBase();
+
 			void							RequireTracking();
 			void							ReleaseTracking();
 			bool							RequireFocus();
 			bool							IsFocusing();
-		public:
-			GuiWindowBase();
-			~GuiWindowBase();
 
 			INativeWindow*					GetContainingNativeWindow();
 			IGuiSkinListener*				GetSkinListener();
