@@ -518,6 +518,52 @@ SelectableLabel
 				}
 
 /***********************************************************************
+FocusedRectangle
+***********************************************************************/
+
+				FocusedRectangle::FocusedRectangle(WinGDIElementEnvironment* _environment)
+					:WinGDIElement(_environment)
+					,focusing(false)
+				{
+				}
+
+				FocusedRectangle::~FocusedRectangle()
+				{
+				}
+					
+				Rect FocusedRectangle::GetBounds()
+				{
+					return bounds;
+				}
+
+				void FocusedRectangle::SetBounds(Rect value)
+				{
+					bounds=value;
+				}
+
+				bool FocusedRectangle::GetFocus()
+				{
+					return focusing;
+				}
+
+				void FocusedRectangle::SetFocus(bool value)
+				{
+					focusing=value;
+				}
+
+				void FocusedRectangle::Paint(Size offset, windows::WinDC* dc)
+				{
+					if(focusing)
+					{
+						int x=offset.x+bounds.Left()+3;
+						int y=offset.y+bounds.Top()+3;
+						int w=bounds.Width()-6;
+						int h=bounds.Height()-6;
+						dc->FocusRectangle(x, y, x+w, y+h);
+					}
+				}
+
+/***********************************************************************
 WindowSkin
 ***********************************************************************/
 
@@ -605,10 +651,12 @@ TextButtonSkin
 					clipBorder=new WinGDIClipElement(environment);
 					background=new PushableBackground(environment);
 					label=new PushableLabel(environment);
+					focusedRectangle=new FocusedRectangle(environment);
 					containerElement=new WinGDIClipElement(environment);
 
 					clipBorder->Children().Add(background);
 					clipBorder->Children().Add(label);
+					clipBorder->Children().Add(focusedRectangle);
 					clipBorder->Children().Add(containerElement);
 				}
 
@@ -620,6 +668,7 @@ TextButtonSkin
 				{
 					clipBorder->SetBounds(value);
 					background->SetBounds(Rect(Point(0, 0), value.GetSize()));
+					focusedRectangle->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					containerElement->SetBounds(Rect(Point(0, 0), value.GetSize()));
 					AdjustLabel();
 					skinListener->RequireRedraw();
@@ -660,6 +709,12 @@ TextButtonSkin
 				{
 					label->SetText(text);
 					AdjustLabel();
+					skinListener->RequireRedraw();
+				}
+
+				void TextButtonSkin::SetFocus(bool focusing)
+				{
+					focusedRectangle->SetFocus(focusing);
 					skinListener->RequireRedraw();
 				}
 			}

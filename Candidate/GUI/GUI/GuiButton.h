@@ -35,8 +35,9 @@ namespace vl
 			bool								pressing;
 			bool								entering;
 			
-			void								NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
-			void								NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			GuiControl*							NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			GuiControl*							NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+
 			void								NotifyMouseEntered();
 			void								NotifyMouseLeaved();
 			virtual void						NotifyButtonStateChanged();
@@ -59,6 +60,7 @@ namespace vl
 			public:
 				virtual void					SetState(ButtonState style)=0;
 				virtual void					SetText(const WString& text)=0;
+				virtual void					SetFocus(bool focusing)=0;
 			};
 		protected:
 			WString								text;
@@ -66,6 +68,9 @@ namespace vl
 			WString								GetSkinBuilderName();
 			void								NotifySkinChanged();
 			void								NotifyButtonStateChanged();
+
+			void								NotifyGotFocus();
+			void								NotifyLostFocus();
 		public:
 			GuiTextButton();
 			~GuiTextButton();
