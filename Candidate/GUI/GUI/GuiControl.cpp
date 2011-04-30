@@ -80,6 +80,28 @@ GuiControl
 			trackingControl=child;
 		}
 
+		bool GuiControl::FocusChild(GuiControl* child)
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyLostFocus();
+			}
+			focusedControl=child;
+			if(IsFocusing())
+			{
+				focusedControl->NotifyGotFocus();
+				return true;
+			}
+			if(RequireFocus())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		Rect GuiControl::GetBoundsForSkin()
 		{
 			return bounds;
@@ -118,6 +140,23 @@ GuiControl
 		bool GuiControl::IsTracking()
 		{
 			return parent&&parent->trackingControl==this;
+		}
+
+		bool GuiControl::RequireFocus()
+		{
+			if(parent)
+			{
+				return parent->FocusChild(this);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		bool GuiControl::IsFocusing()
+		{
+			return parent&&parent->focusedControl==this;
 		}
 
 		void GuiControl::NotifySetParent(GuiControl* value)
@@ -217,16 +256,21 @@ GuiControl
 			}
 		}
 
-		void GuiControl::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* child=GetChildFromPoint(Point(info.x, info.y));
 			if(child)
 			{
 				child->NotifyMouseDown(button, Offset(child, info));
+				return child;
+			}
+			else
+			{
+				return this;
 			}
 		}
 
-		void GuiControl::NotifyMouseMove(const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseMove(const eventargs::MouseInfo& info)
 		{
 			GuiControl* child=GetChildFromPoint(Point(info.x, info.y));
 			if(enteredControl!=child)
@@ -241,47 +285,65 @@ GuiControl
 					enteredControl->NotifyMouseEntered();
 				}
 			}
-			if(trackingControl)
+			if(child || trackingControl)
 			{
-				child=trackingControl;
+				GuiControl* control=trackingControl?trackingControl:child;
+				control->NotifyMouseMove(Offset(control, info));
 			}
-			if(child)
-			{
-				child->NotifyMouseMove(Offset(child, info));
-			}
+			return child?child:this;
 		}
 
-		void GuiControl::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* child=trackingControl?trackingControl:GetChildFromPoint(Point(info.x, info.y));
 			if(child)
 			{
 				child->NotifyMouseUp(button, Offset(child, info));
+				return child;
+			}
+			else
+			{
+				return this;
 			}
 		}
 
-		void GuiControl::NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* child=trackingControl?trackingControl:GetChildFromPoint(Point(info.x, info.y));
 			if(child)
 			{
 				child->NotifyMouseDoubleClick(button, Offset(child, info));
+				return child;
+			}
+			else
+			{
+				return this;
 			}
 		}
 
-		void GuiControl::NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info)
 		{
 			if(focusedControl)
 			{
 				focusedControl->NotifyMouseHorizontalWheel(Offset(focusedControl, info));
+				return focusedControl;
+			}
+			else
+			{
+				return this;
 			}
 		}
 
-		void GuiControl::NotifyMouseVerticalWheel(const eventargs::MouseInfo& info)
+		GuiControl* GuiControl::NotifyMouseVerticalWheel(const eventargs::MouseInfo& info)
 		{
 			if(focusedControl)
 			{
 				focusedControl->NotifyMouseVerticalWheel(Offset(focusedControl, info));
+				return focusedControl;
+			}
+			else
+			{
+				return this;
 			}
 		}
 
@@ -295,6 +357,22 @@ GuiControl
 			{
 				enteredControl->NotifyMouseLeaved();
 				enteredControl=0;
+			}
+		}
+
+		void GuiControl::NotifyGotFocus()
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyGotFocus();
+			}
+		}
+
+		void GuiControl::NotifyLostFocus()
+		{
+			if(focusedControl)
+			{
+				focusedControl->NotifyLostFocus();
 			}
 		}
 
@@ -634,6 +712,17 @@ GuiWindowBase
 		void GuiWindowBase::ReleaseTracking()
 		{
 			nativeWindow->ReleaseCapture();
+		}
+
+		bool GuiWindowBase::RequireFocus()
+		{
+			nativeWindow->SetFocus();
+			return nativeWindow->IsFocused();
+		}
+
+		bool GuiWindowBase::IsFocusing()
+		{
+			return nativeWindow->IsFocused();
 		}
 
 		GuiWindowBase::GuiWindowBase()

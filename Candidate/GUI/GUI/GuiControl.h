@@ -114,6 +114,7 @@ namespace vl
 			GuiControl*						trackingControl;
 
 			void							TrackChild(GuiControl* child);
+			bool							FocusChild(GuiControl* child);
 		protected:
 
 			virtual WString					GetSkinBuilderName()=0;
@@ -122,7 +123,9 @@ namespace vl
 			eventargs::MouseInfo			Offset(GuiControl* child, const eventargs::MouseInfo& info);
 			virtual void					RequireTracking();
 			virtual void					ReleaseTracking();
-			bool							IsTracking();
+			virtual bool					IsTracking();
+			virtual bool					RequireFocus();
+			virtual bool					IsFocusing();
 
 			virtual void					NotifySetParent(GuiControl* value);
 			virtual void					NotifyAttachedToWindow(GuiWindowBase* window);
@@ -134,14 +137,17 @@ namespace vl
 			virtual void					NotifyMoving(Rect& value);
 			virtual void					NotifyMoved(Rect value);
 
-			virtual void					NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
-			virtual void					NotifyMouseMove(const eventargs::MouseInfo& info);
-			virtual void					NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
-			virtual void					NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info);
-			virtual void					NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info);
-			virtual void					NotifyMouseVerticalWheel(const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseMove(const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info);
+			virtual GuiControl*				NotifyMouseVerticalWheel(const eventargs::MouseInfo& info);
+
 			virtual void					NotifyMouseEntered();
 			virtual void					NotifyMouseLeaved();
+			virtual void					NotifyGotFocus();
+			virtual void					NotifyLostFocus();
 		public:
 			GuiControl();
 			~GuiControl();
@@ -214,6 +220,8 @@ namespace vl
 			Rect							GetBoundsForSkin();
 			void							RequireTracking();
 			void							ReleaseTracking();
+			bool							RequireFocus();
+			bool							IsFocusing();
 		public:
 			GuiWindowBase();
 			~GuiWindowBase();

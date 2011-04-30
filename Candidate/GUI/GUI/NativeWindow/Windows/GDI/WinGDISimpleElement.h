@@ -199,6 +199,22 @@ namespace vl
 					~SelectableLabel();
 				};
 
+				class FocusedRectangle : public WinGDIElement
+				{
+				protected:
+					Rect									bounds;
+					bool									focusing;
+				public:
+					FocusedRectangle(WinGDIElementEnvironment* _environment);
+					~FocusedRectangle();
+					
+					Rect									GetBounds();
+					void									SetBounds(Rect value);
+					bool									GetFocus();
+					void									SetFocus(bool value);
+					void									Paint(Size offset, windows::WinDC* dc);
+				};
+
 /***********************************************************************
 ¿Ø¼þ·ç¸ñ
 ***********************************************************************/
@@ -230,6 +246,7 @@ namespace vl
 					Ptr<WinGDIClipElement>					clipBorder;
 					Ptr<PushableBackground>					background;
 					Ptr<PushableLabel>						label;
+					Ptr<FocusedRectangle>					focusedRectangle;
 					Ptr<WinGDIClipElement>					containerElement;
 
 					Ptr<WinGDIClipElement>					GetContainerElement();
@@ -244,6 +261,7 @@ namespace vl
 					bool									ContainsPoint(Point value);
 					void									SetState(GuiButtonBase::ButtonState style);
 					void									SetText(const WString& text);
+					void									SetFocus(bool focusing);
 				};
 			}
 		}

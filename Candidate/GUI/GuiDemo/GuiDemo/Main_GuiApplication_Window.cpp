@@ -8,7 +8,9 @@ using namespace vl::presentation::elements;
 class MainWindow : public GuiWindow
 {
 public:
-	GuiTextButton*					button;
+	GuiTextButton*					button1;
+	GuiTextButton*					button2;
+	GuiTextButton*					button3;
 
 	MainWindow()
 	{
@@ -19,10 +21,20 @@ public:
 		GuiFreeGrid* grid=new GuiFreeGrid;
 		SetContainer(grid);
 
-		button=new GuiTextButton;
-		button->SetText(L"Press me!");
-		button->SetBounds(Rect(Point(10, 10), Size(100, 30)));
-		grid->InsertControl(0, button);
+		button1=new GuiTextButton;
+		button1->SetText(L"Press me 1!");
+		button1->SetBounds(Rect(Point(10, 10), Size(100, 30)));
+		grid->InsertControl(0, button1);
+
+		button2=new GuiTextButton;
+		button2->SetText(L"Press me 2!");
+		button2->SetBounds(Rect(Point(120, 10), Size(100, 30)));
+		grid->InsertControl(0, button2);
+
+		button3=new GuiTextButton;
+		button3->SetText(L"Press me 3!");
+		button3->SetBounds(Rect(Point(230, 10), Size(100, 30)));
+		grid->InsertControl(0, button3);
 	}
 };
 

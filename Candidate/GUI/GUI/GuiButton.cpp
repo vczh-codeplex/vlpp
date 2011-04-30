@@ -9,22 +9,25 @@ namespace vl
 GuiButtonBase
 ***********************************************************************/
 
-		void GuiButtonBase::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		GuiControl* GuiButtonBase::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
-			GuiControl::NotifyMouseDown(button, info);
+			GuiControl* eventRaiser=GuiControl::NotifyMouseDown(button, info);
 			RequireTracking();
+			RequireFocus();
 			pressing=true;
 			buttonState=Pressed;
 			NotifyButtonStateChanged();
+			return eventRaiser;
 		}
 
-		void GuiButtonBase::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
+		GuiControl* GuiButtonBase::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
-			GuiControl::NotifyMouseUp(button, info);
+			GuiControl* eventRaiser=GuiControl::NotifyMouseUp(button, info);
 			ReleaseTracking();
 			pressing=false;
 			buttonState=(entering?Active:Normal);
 			NotifyButtonStateChanged();
+			return eventRaiser;
 		}
 
 		void GuiButtonBase::NotifyMouseEntered()
@@ -77,6 +80,7 @@ GuiTextButton
 			{
 				skin->SetState(buttonState);
 				skin->SetText(text);
+				skin->SetFocus(IsFocusing());
 			}
 		}
 
@@ -87,6 +91,26 @@ GuiTextButton
 			if(skin)
 			{
 				skin->SetState(buttonState);
+			}
+		}
+
+		void GuiTextButton::NotifyGotFocus()
+		{
+			GuiButtonBase::NotifyGotFocus();
+			Ptr<IGuiTextButtonSkin> skin=GetSkin().Cast<IGuiTextButtonSkin>();
+			if(skin)
+			{
+				skin->SetFocus(true);
+			}
+		}
+
+		void GuiTextButton::NotifyLostFocus()
+		{
+			GuiButtonBase::NotifyLostFocus();
+			Ptr<IGuiTextButtonSkin> skin=GetSkin().Cast<IGuiTextButtonSkin>();
+			if(skin)
+			{
+				skin->SetFocus(false);
 			}
 		}
 
