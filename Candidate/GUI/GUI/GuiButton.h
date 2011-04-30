@@ -68,8 +68,8 @@ namespace vl
 			void								NotifySkinChanged();
 			void								NotifyButtonStateChanged();
 
-			void								NotifyGotFocus();
-			void								NotifyLostFocus();
+			GuiControl*							NotifyGotFocus();
+			GuiControl*							NotifyLostFocus();
 		public:
 			GuiTextButton();
 			~GuiTextButton();

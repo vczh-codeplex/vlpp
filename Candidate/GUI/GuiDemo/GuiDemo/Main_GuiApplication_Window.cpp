@@ -11,6 +11,8 @@ public:
 	GuiTextButton*					button1;
 	GuiTextButton*					button2;
 	GuiTextButton*					button3;
+	GuiTextButton*					button4;
+	GuiPanel*						panel;
 
 	MainWindow()
 	{
@@ -18,23 +20,37 @@ public:
 		SetClientSize(Size(800, 600));
 		MoveToScreenCenter();
 
-		GuiFreeGrid* grid=new GuiFreeGrid;
-		SetContainer(grid);
+		GuiFreeGrid* windowGrid=new GuiFreeGrid;
+		SetContainer(windowGrid);
 
 		button1=new GuiTextButton;
+		windowGrid->AddControl(button1);
 		button1->SetText(L"Press me 1!");
 		button1->SetBounds(Rect(Point(10, 10), Size(100, 30)));
-		grid->InsertControl(0, button1);
 
-		button2=new GuiTextButton;
-		button2->SetText(L"Press me 2!");
-		button2->SetBounds(Rect(Point(120, 10), Size(100, 30)));
-		grid->InsertControl(0, button2);
+		{
+			panel=new GuiPanel;
+			windowGrid->AddControl(panel);
+			panel->SetClientSize(Size(230, 50));
+			panel->SetBounds(Rect(Point(10, 50), panel->GetClientSize()));
+			GuiFreeGrid* panelGrid=new GuiFreeGrid;
+			panel->SetContainer(panelGrid);
 
-		button3=new GuiTextButton;
-		button3->SetText(L"Press me 3!");
-		button3->SetBounds(Rect(Point(230, 10), Size(100, 30)));
-		grid->InsertControl(0, button3);
+			button2=new GuiTextButton;
+			panelGrid->AddControl(button2);
+			button2->SetText(L"Press me 2!");
+			button2->SetBounds(Rect(Point(10, 10), Size(100, 30)));
+
+			button3=new GuiTextButton;
+			panelGrid->AddControl(button3);
+			button3->SetText(L"Press me 3!");
+			button3->SetBounds(Rect(Point(120, 10), Size(100, 30)));
+		}
+
+		button4=new GuiTextButton;
+		windowGrid->AddControl(button4);
+		button4->SetText(L"Press me 4!");
+		button4->SetBounds(Rect(Point(10, 112), Size(100, 30)));
 	}
 };
 

@@ -38,6 +38,11 @@ GuiFreeGrid
 			return children.IndexOf(child);
 		}
 
+		void GuiFreeGrid::AddControl(GuiControl* child)
+		{
+			InsertControl(children.Count(), child);
+		}
+
 		void GuiFreeGrid::InsertControl(int index, GuiControl* child)
 		{
 			if(!children.Contains(child))

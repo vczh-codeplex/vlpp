@@ -141,6 +141,37 @@ namespace vl
 					skinListener=listener;
 				}
 
+				Size GetClientSizeFromBoundsSize(Size value)
+				{
+					Ptr<WinGDIClipElement> container=GetContainerElement();
+					if(container)
+					{
+						return value-(GetBounds().GetSize()-container->GetBounds().GetSize());
+					}
+					else
+					{
+						return value;
+					}
+				}
+
+				Size GetBoundsSizeFromClientSize(Size value)
+				{
+					Ptr<WinGDIClipElement> container=GetContainerElement();
+					if(container)
+					{
+						return value+(GetBounds().GetSize()-container->GetBounds().GetSize());
+					}
+					else
+					{
+						return value;
+					}
+				}
+
+				bool ContainsPoint(Point value)
+				{
+					return GetBounds().Contains(value);
+				}
+
 				void RemoveChild(IGuiSkin* child)
 				{
 					WinGDISkinBase* skin=dynamic_cast<WinGDISkinBase*>(child);
