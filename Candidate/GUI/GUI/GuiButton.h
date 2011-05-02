@@ -40,6 +40,9 @@ namespace vl
 			void								NotifyMouseEntered();
 			void								NotifyMouseLeaved();
 			virtual void						NotifyButtonStateChanged();
+			virtual void						NotifyExecuted();
+		public:
+			events::NotifyEvent					OnExecuted;
 		public:
 			GuiButtonBase();
 			~GuiButtonBase();
