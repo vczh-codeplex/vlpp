@@ -5,6 +5,7 @@ namespace vl
 {
 	namespace presentation
 	{
+		using namespace eventargs;
 
 /***********************************************************************
 GuiControl::Grid
@@ -141,6 +142,11 @@ GuiControl
 					NotifyAttachedToWindow(parentWindow);
 				}
 			}
+
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnSetParent(e);
 		}
 
 		void GuiControl::NotifyAttachedToWindow(GuiWindowBase* window)
@@ -169,6 +175,11 @@ GuiControl
 			}
 			attachedWindow=window;
 			NotifySkinChanged();
+
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnAttachedToWindow(e);
 		}
 
 		void GuiControl::NotifySkinChanged()
@@ -212,6 +223,12 @@ GuiControl
 
 		void GuiControl::NotifyMoving(Rect& value)
 		{
+			MovingEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			e.bounds=value;
+			OnMoving(e);
+			value=e.bounds;
 		}
 
 		void GuiControl::NotifyMoved(Rect value)
@@ -221,6 +238,11 @@ GuiControl
 			{
 				skin->SetBounds(GetBoundsForSkin());
 			}
+
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnMoved(e);
 		}
 
 		GuiControl* GuiControl::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
@@ -229,12 +251,16 @@ GuiControl
 			if(child)
 			{
 				child->NotifyMouseDown(button, Offset(child, info));
-				return child;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=child?child:this;
+			MouseButtonEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			e.button=button;
+			OnMouseDown(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyMouseMove(const eventargs::MouseInfo& info)
@@ -257,7 +283,14 @@ GuiControl
 				GuiControl* control=trackingControl?trackingControl:child;
 				control->NotifyMouseMove(Offset(control, info));
 			}
-			return child?child:this;
+
+			GuiControl* raiser=child?child:this;
+			MouseEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			OnMouseMove(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
@@ -266,12 +299,16 @@ GuiControl
 			if(child)
 			{
 				child->NotifyMouseUp(button, Offset(child, info));
-				return child;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=child?child:this;
+			MouseButtonEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			e.button=button;
+			OnMouseUp(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyMouseDoubleClick(eventargs::MouseButton button, const eventargs::MouseInfo& info)
@@ -280,12 +317,16 @@ GuiControl
 			if(child)
 			{
 				child->NotifyMouseDoubleClick(button, Offset(child, info));
-				return child;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=child?child:this;
+			MouseButtonEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			e.button=button;
+			OnMouseDoubleClick(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyMouseHorizontalWheel(const eventargs::MouseInfo& info)
@@ -293,12 +334,15 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifyMouseHorizontalWheel(Offset(focusedControl, info));
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			MouseEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			OnMouseHorizontalWheel(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyMouseVerticalWheel(const eventargs::MouseInfo& info)
@@ -306,12 +350,15 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifyMouseVerticalWheel(Offset(focusedControl, info));
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			MouseEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.mouse=info;
+			OnMouseVerticalWheel(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyKeyDown(int code, bool alt)
@@ -334,12 +381,16 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifyKeyDown(code, alt);
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			KeyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.code=code;
+			e.alt=alt;
+			OnKeyDown(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyKeyUp(int code, bool alt)
@@ -347,12 +398,16 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifyKeyUp(code, alt);
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			KeyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.code=code;
+			e.alt=alt;
+			OnKeyUp(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifySysKeyDown(int code, bool alt)
@@ -360,12 +415,16 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifySysKeyDown(code, alt);
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			KeyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.code=code;
+			e.alt=alt;
+			OnSysKeyDown(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifySysKeyUp(int code, bool alt)
@@ -373,12 +432,16 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifySysKeyUp(code, alt);
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			KeyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.code=code;
+			e.alt=alt;
+			OnSysKeyUp(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyChar(wchar_t keyChar)
@@ -386,16 +449,23 @@ GuiControl
 			if(focusedControl)
 			{
 				focusedControl->NotifyChar(keyChar);
-				return focusedControl;
 			}
-			else
-			{
-				return this;
-			}
+
+			GuiControl* raiser=focusedControl?focusedControl:this;
+			CharEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			e.keyChar=keyChar;
+			OnChar(e);
+			return raiser;
 		}
 
 		void GuiControl::NotifyMouseEntered()
 		{
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnMouseEntered(e);
 		}
 
 		void GuiControl::NotifyMouseLeaved()
@@ -405,16 +475,31 @@ GuiControl
 				enteredControl->NotifyMouseLeaved();
 				enteredControl=0;
 			}
+
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnMouseLeaved(e);
 		}
 
 		GuiControl* GuiControl::NotifyGotFocus()
 		{
-			return focusedControl?focusedControl->NotifyGotFocus():this;
+			GuiControl* raiser=focusedControl?focusedControl->NotifyGotFocus():this;
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			OnGotFocus(e);
+			return raiser;
 		}
 
 		GuiControl* GuiControl::NotifyLostFocus()
 		{
-			return focusedControl?focusedControl->NotifyLostFocus():this;
+			GuiControl* raiser=focusedControl?focusedControl->NotifyLostFocus():this;
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=raiser;
+			OnLostFocus(e);
+			return raiser;
 		}
 
 		GuiControl::GuiControl()
@@ -736,15 +821,19 @@ GuiWindowBase
 
 		void GuiWindowBase::Opened()
 		{
+			NotifyOpened();
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Closing(bool& cancel)
 		{
+			NotifyClosing(cancel);
+			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Closed()
 		{
+			NotifyClosed();
 		}
 
 		void GuiWindowBase::Paint()
@@ -906,6 +995,32 @@ GuiWindowBase
 		Rect GuiWindowBase::GetBoundsForSkin()
 		{
 			return Rect(Point(0, 0), GetContainingNativeWindow()->GetClientSize());
+		}
+
+		void GuiWindowBase::NotifyOpened()
+		{
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnOpened(e);
+		}
+
+		void GuiWindowBase::NotifyClosing(bool& cancel)
+		{
+			CancelEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			e.cancel=cancel;
+			OnClosing(e);
+			cancel=e.cancel;
+		}
+
+		void GuiWindowBase::NotifyClosed()
+		{
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnClosed(e);
 		}
 
 		GuiWindowBase::GuiWindowBase()

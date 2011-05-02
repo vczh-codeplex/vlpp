@@ -80,6 +80,54 @@ namespace vl
 				bool						left, middle, right;
 				int							x, y, wheel;
 			};
+
+			struct NotifyEventArgs
+			{
+				GuiControl*					sender;
+				GuiControl*					raiser;
+			};
+
+			struct MovingEventArgs : public NotifyEventArgs
+			{
+				Rect						bounds;
+			};
+
+			struct MouseEventArgs : public NotifyEventArgs
+			{
+				MouseInfo					mouse;
+			};
+			
+			struct MouseButtonEventArgs : public MouseEventArgs
+			{
+				MouseButton					button;
+			};
+
+			struct KeyEventArgs : public NotifyEventArgs
+			{
+				int							code;
+				bool						alt;
+			};
+
+			struct CharEventArgs : public NotifyEventArgs
+			{
+				wchar_t						keyChar;
+			};
+
+			struct CancelEventArgs : public NotifyEventArgs
+			{
+				bool						cancel;
+			};
+		}
+
+		namespace events
+		{
+			typedef Event<void(eventargs::NotifyEventArgs&)>			NotifyEvent;
+			typedef Event<void(eventargs::MovingEventArgs&)>			MovingEvent;
+			typedef Event<void(eventargs::MouseEventArgs&)>				MouseEvent;
+			typedef Event<void(eventargs::MouseButtonEventArgs&)>		MouseButtonEvent;
+			typedef Event<void(eventargs::KeyEventArgs&)>				KeyEvent;
+			typedef Event<void(eventargs::CharEventArgs&)>				CharEvent;
+			typedef Event<void(eventargs::CancelEventArgs&)>			CancelEvent;
 		}
 
 		class GuiControl : public Object
@@ -155,6 +203,26 @@ namespace vl
 			virtual void					NotifyMouseLeaved();
 			virtual GuiControl*				NotifyGotFocus();
 			virtual GuiControl*				NotifyLostFocus();
+		public:
+			events::NotifyEvent				OnSetParent;
+			events::NotifyEvent				OnAttachedToWindow;
+			events::MovingEvent				OnMoving;
+			events::NotifyEvent				OnMoved;
+			events::MouseButtonEvent		OnMouseDown;
+			events::MouseEvent				OnMouseMove;
+			events::MouseButtonEvent		OnMouseUp;
+			events::MouseButtonEvent		OnMouseDoubleClick;
+			events::MouseEvent				OnMouseHorizontalWheel;
+			events::MouseEvent				OnMouseVerticalWheel;
+			events::KeyEvent				OnKeyDown;
+			events::KeyEvent				OnKeyUp;
+			events::KeyEvent				OnSysKeyDown;
+			events::KeyEvent				OnSysKeyUp;
+			events::CharEvent				OnChar;
+			events::NotifyEvent				OnMouseEntered;
+			events::NotifyEvent				OnMouseLeaved;
+			events::NotifyEvent				OnGotFocus;
+			events::NotifyEvent				OnLostFocus;
 		public:
 			GuiControl();
 			~GuiControl();
@@ -243,6 +311,14 @@ namespace vl
 			virtual void					InitializeWindow();
 			virtual void					FinalizeWindow();
 			Rect							GetBoundsForSkin();
+
+			virtual void					NotifyOpened();
+			virtual void					NotifyClosing(bool& cancel);
+			virtual void					NotifyClosed();
+		public:
+			events::NotifyEvent				OnOpened;
+			events::CancelEvent				OnClosing;
+			events::NotifyEvent				OnClosed;
 		public:
 			GuiWindowBase();
 			~GuiWindowBase();

@@ -4,6 +4,7 @@ namespace vl
 {
 	namespace presentation
 	{
+		using namespace eventargs;
 
 /***********************************************************************
 GuiButtonBase
@@ -12,21 +13,31 @@ GuiButtonBase
 		GuiControl* GuiButtonBase::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* eventRaiser=GuiControl::NotifyMouseDown(button, info);
-			RequireTracking();
-			RequireFocus();
-			pressing=true;
-			buttonState=Pressed;
-			NotifyButtonStateChanged();
+			if(button==eventargs::LeftButton)
+			{
+				RequireTracking();
+				RequireFocus();
+				pressing=true;
+				buttonState=Pressed;
+				NotifyButtonStateChanged();
+			}
 			return eventRaiser;
 		}
 
 		GuiControl* GuiButtonBase::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* eventRaiser=GuiControl::NotifyMouseUp(button, info);
-			ReleaseTracking();
-			pressing=false;
-			buttonState=(entering?Active:Normal);
-			NotifyButtonStateChanged();
+			if(button==eventargs::LeftButton)
+			{
+				ReleaseTracking();
+				pressing=false;
+				if(entering && buttonState==Pressed)
+				{
+					NotifyExecuted();
+				}
+				buttonState=(entering?Active:Normal);
+				NotifyButtonStateChanged();
+			}
 			return eventRaiser;
 		}
 
@@ -48,6 +59,14 @@ GuiButtonBase
 
 		void GuiButtonBase::NotifyButtonStateChanged()
 		{
+		}
+
+		void GuiButtonBase::NotifyExecuted()
+		{
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnExecuted(e);
 		}
 
 		GuiButtonBase::GuiButtonBase()
