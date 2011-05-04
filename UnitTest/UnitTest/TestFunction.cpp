@@ -177,7 +177,7 @@ void EventHandler2(vint& a)
 	a+=2;
 }
 
-TEST_CASE(TestEvent)
+TEST_CASE(TestEventNormalFunctions)
 {
 	vint a=0;
 	Event<void(vint&)> e;
@@ -199,6 +199,47 @@ TEST_CASE(TestEvent)
 
 	e.Remove(EventHandler2);
 	e.Remove(EventHandler2);
+	e(a);
+	TEST_ASSERT(a==12);
+}
+
+class EhObj
+{
+public:
+	void EventHandler1(vint& a)
+	{
+		a+=1;
+	}
+
+	void EventHandler2(vint& a)
+	{
+		a+=2;
+	}
+};
+
+TEST_CASE(TestEventMemberFunctions)
+{
+	EhObj o;
+	vint a=0;
+	Event<void(vint&)> e;
+
+	e.Add(&o, &EhObj::EventHandler1);
+	e.Add(&o, &EhObj::EventHandler1);
+	e(a);
+	TEST_ASSERT(a==2);
+
+	e.Add(&o, &EhObj::EventHandler2);
+	e.Add(&o, &EhObj::EventHandler2);
+	e(a);
+	TEST_ASSERT(a==8);
+
+	e.Remove(&o, &EhObj::EventHandler1);
+	e.Remove(&o, &EhObj::EventHandler1);
+	e(a);
+	TEST_ASSERT(a==12);
+
+	e.Remove(&o, &EhObj::EventHandler2);
+	e.Remove(&o, &EhObj::EventHandler2);
 	e(a);
 	TEST_ASSERT(a==12);
 }

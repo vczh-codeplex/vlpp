@@ -158,10 +158,12 @@ namespace vl
 			GuiWindowBase*					attachedWindow;
 			Ptr<IGuiSkin>					skin;
 			WString							name;
+			Ptr<Object>						tag;
 			Ptr<Grid>						container;
 			Rect							bounds;
 			bool							tabStop;
 			bool							tabAway;
+			bool							enabled;
 
 			GuiControl*						focusedControl;
 			GuiControl*						enteredControl;
@@ -169,6 +171,7 @@ namespace vl
 
 			void							TrackChild(GuiControl* child);
 			bool							FocusChild(GuiControl* child);
+			void							InvokeNotifyVisuallyEnability();
 		protected:
 
 			virtual WString					GetSkinBuilderName()=0;
@@ -203,6 +206,10 @@ namespace vl
 			virtual void					NotifyMouseLeaved();
 			virtual GuiControl*				NotifyGotFocus();
 			virtual GuiControl*				NotifyLostFocus();
+			virtual void					NotifyEnabled();
+			virtual void					NotifyDisabled();
+			virtual void					NotifyVisuallyEnabled();
+			virtual void					NotifyVisuallyDisabled();
 		public:
 			events::NotifyEvent				OnSetParent;
 			events::NotifyEvent				OnAttachedToWindow;
@@ -223,6 +230,10 @@ namespace vl
 			events::NotifyEvent				OnMouseLeaved;
 			events::NotifyEvent				OnGotFocus;
 			events::NotifyEvent				OnLostFocus;
+			events::NotifyEvent				OnEnabled;
+			events::NotifyEvent				OnDisabled;
+			events::NotifyEvent				OnVisuallyEnabled;
+			events::NotifyEvent				OnVisuallyDisabled;
 		public:
 			GuiControl();
 			~GuiControl();
@@ -234,6 +245,9 @@ namespace vl
 			const WString&					GetControlName();
 			void							SetControlName(const WString& value);
 
+			Ptr<Object>						GetTag();
+			void							SetTag(const Ptr<Object>& value);
+
 			virtual void					RequireTracking();
 			virtual void					ReleaseTracking();
 			virtual bool					IsTracking();
@@ -243,6 +257,10 @@ namespace vl
 			virtual GuiControl*				GetNextFocusControl();
 			virtual GuiControl*				GetFirstFocusControl(GuiControl* after);
 			virtual GuiControl*				GetLastFocusControl(GuiControl* before);
+
+			virtual bool					GetEnabled();
+			virtual void					SetEnabled(bool value);
+			virtual bool					IsVisuallyEnabled();
 
 			virtual Grid*					GetContainer();
 			virtual void					SetContainer(Grid* value);
@@ -330,6 +348,9 @@ namespace vl
 
 			void							FocusPreviousControl();
 			void							FocusNextControl();
+
+			bool							GetEnabled();
+			void							SetEnabled(bool value);
 
 			INativeWindow*					GetContainingNativeWindow();
 			IGuiSkinListener*				GetSkinListener();

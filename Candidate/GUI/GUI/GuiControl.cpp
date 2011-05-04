@@ -104,6 +104,18 @@ GuiControl
 			}
 		}
 
+		void GuiControl::InvokeNotifyVisuallyEnability()
+		{
+			if(IsVisuallyEnabled())
+			{
+				NotifyVisuallyEnabled();
+			}
+			else
+			{
+				NotifyVisuallyDisabled();
+			}
+		}
+
 		Rect GuiControl::GetBoundsForSkin()
 		{
 			return bounds;
@@ -254,12 +266,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=child?child:this;
-			MouseButtonEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			e.button=button;
-			OnMouseDown(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseButtonEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				e.button=button;
+				OnMouseDown(e);
+			}
 			return raiser;
 		}
 
@@ -285,11 +300,14 @@ GuiControl
 			}
 
 			GuiControl* raiser=child?child:this;
-			MouseEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			OnMouseMove(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				OnMouseMove(e);
+			}
 			return raiser;
 		}
 
@@ -302,12 +320,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=child?child:this;
-			MouseButtonEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			e.button=button;
-			OnMouseUp(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseButtonEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				e.button=button;
+				OnMouseUp(e);
+			}
 			return raiser;
 		}
 
@@ -320,12 +341,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=child?child:this;
-			MouseButtonEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			e.button=button;
-			OnMouseDoubleClick(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseButtonEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				e.button=button;
+				OnMouseDoubleClick(e);
+			}
 			return raiser;
 		}
 
@@ -337,11 +361,14 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			MouseEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			OnMouseHorizontalWheel(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				OnMouseHorizontalWheel(e);
+			}
 			return raiser;
 		}
 
@@ -353,11 +380,14 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			MouseEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.mouse=info;
-			OnMouseVerticalWheel(e);
+			if(IsVisuallyEnabled())
+			{
+				MouseEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.mouse=info;
+				OnMouseVerticalWheel(e);
+			}
 			return raiser;
 		}
 
@@ -384,12 +414,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			KeyEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.code=code;
-			e.alt=alt;
-			OnKeyDown(e);
+			if(IsVisuallyEnabled())
+			{
+				KeyEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.code=code;
+				e.alt=alt;
+				OnKeyDown(e);
+			}
 			return raiser;
 		}
 
@@ -401,12 +434,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			KeyEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.code=code;
-			e.alt=alt;
-			OnKeyUp(e);
+			if(IsVisuallyEnabled())
+			{
+				KeyEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.code=code;
+				e.alt=alt;
+				OnKeyUp(e);
+			}
 			return raiser;
 		}
 
@@ -418,12 +454,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			KeyEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.code=code;
-			e.alt=alt;
-			OnSysKeyDown(e);
+			if(IsVisuallyEnabled())
+			{
+				KeyEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.code=code;
+				e.alt=alt;
+				OnSysKeyDown(e);
+			}
 			return raiser;
 		}
 
@@ -435,12 +474,15 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			KeyEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.code=code;
-			e.alt=alt;
-			OnSysKeyUp(e);
+			if(IsVisuallyEnabled())
+			{
+				KeyEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.code=code;
+				e.alt=alt;
+				OnSysKeyUp(e);
+			}
 			return raiser;
 		}
 
@@ -452,20 +494,26 @@ GuiControl
 			}
 
 			GuiControl* raiser=focusedControl?focusedControl:this;
-			CharEventArgs e;
-			e.sender=this;
-			e.raiser=raiser;
-			e.keyChar=keyChar;
-			OnChar(e);
+			if(IsVisuallyEnabled())
+			{
+				CharEventArgs e;
+				e.sender=this;
+				e.raiser=raiser;
+				e.keyChar=keyChar;
+				OnChar(e);
+			}
 			return raiser;
 		}
 
 		void GuiControl::NotifyMouseEntered()
 		{
-			NotifyEventArgs e;
-			e.sender=this;
-			e.raiser=this;
-			OnMouseEntered(e);
+			if(IsVisuallyEnabled())
+			{
+				NotifyEventArgs e;
+				e.sender=this;
+				e.raiser=this;
+				OnMouseEntered(e);
+			}
 		}
 
 		void GuiControl::NotifyMouseLeaved()
@@ -475,11 +523,14 @@ GuiControl
 				enteredControl->NotifyMouseLeaved();
 				enteredControl=0;
 			}
-
-			NotifyEventArgs e;
-			e.sender=this;
-			e.raiser=this;
-			OnMouseLeaved(e);
+			
+			if(IsVisuallyEnabled())
+			{
+				NotifyEventArgs e;
+				e.sender=this;
+				e.raiser=this;
+				OnMouseLeaved(e);
+			}
 		}
 
 		GuiControl* GuiControl::NotifyGotFocus()
@@ -502,11 +553,64 @@ GuiControl
 			return raiser;
 		}
 
+		void GuiControl::NotifyEnabled()
+		{
+			InvokeNotifyVisuallyEnability();
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnEnabled(e);
+		}
+
+		void GuiControl::NotifyDisabled()
+		{
+			InvokeNotifyVisuallyEnability();
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnDisabled(e);
+		}
+
+		void GuiControl::NotifyVisuallyEnabled()
+		{
+			if(container)
+			{
+				int count=container->GetChildCount();
+				for(int i=0;i<count;i++)
+				{
+					GuiControl* child=container->GetChild(i);
+					child->InvokeNotifyVisuallyEnability();
+				}
+			}
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnVisuallyEnabled(e);
+		}
+
+		void GuiControl::NotifyVisuallyDisabled()
+		{
+			if(container)
+			{
+				int count=container->GetChildCount();
+				for(int i=0;i<count;i++)
+				{
+					GuiControl* child=container->GetChild(i);
+					child->InvokeNotifyVisuallyEnability();
+				}
+			}
+			NotifyEventArgs e;
+			e.sender=this;
+			e.raiser=this;
+			OnVisuallyDisabled(e);
+		}
+
 		GuiControl::GuiControl()
 			:parent(0)
 			,attachedWindow(0)
 			,tabStop(true)
 			,tabAway(true)
+			,enabled(true)
 			,focusedControl(0)
 			,enteredControl(0)
 			,trackingControl(0)
@@ -555,6 +659,16 @@ GuiControl
 			name=value;
 		}
 
+		Ptr<Object> GuiControl::GetTag()
+		{
+			return tag;
+		}
+
+		void GuiControl::SetTag(const Ptr<Object>& value)
+		{
+			tag=value;
+		}
+
 		void GuiControl::RequireTracking()
 		{
 			if(parent)
@@ -578,7 +692,7 @@ GuiControl
 
 		bool GuiControl::RequireFocus()
 		{
-			if(parent)
+			if(parent && IsVisuallyEnabled())
 			{
 				return parent->FocusChild(this);
 			}
@@ -664,6 +778,29 @@ GuiControl
 			return 0;
 		}
 
+		bool GuiControl::GetEnabled()
+		{
+			return enabled;
+		}
+
+		void GuiControl::SetEnabled(bool value)
+		{
+			enabled=value;
+			if(enabled)
+			{
+				NotifyEnabled();
+			}
+			else
+			{
+				NotifyDisabled();
+			}
+		}
+
+		bool GuiControl::IsVisuallyEnabled()
+		{
+			return enabled && (!parent || parent->IsVisuallyEnabled());
+		}
+
 		GuiControl::Grid* GuiControl::GetContainer()
 		{
 			return container.Obj();
@@ -739,7 +876,7 @@ GuiControl
 
 		bool GuiControl::IsTabStopEnabled()
 		{
-			return tabStop && (!container || container->GetChildCount()==0);
+			return tabStop && IsVisuallyEnabled() && (!container || container->GetChildCount()==0);
 		}
 
 		bool GuiControl::GetTabAway()
@@ -789,11 +926,13 @@ GuiWindowBase
 
 		void GuiWindowBase::Enabled()
 		{
+			NotifyEnabled();
 			RedrawIfRequired();
 		}
 
 		void GuiWindowBase::Disabled()
 		{
+			NotifyDisabled();
 			RedrawIfRequired();
 		}
 
@@ -1079,6 +1218,23 @@ GuiWindowBase
 			if(control)
 			{
 				control->RequireFocus();
+			}
+		}
+
+		bool GuiWindowBase::GetEnabled()
+		{
+			return nativeWindow->IsEnabled();
+		}
+
+		void GuiWindowBase::SetEnabled(bool value)
+		{
+			if(value)
+			{
+				nativeWindow->Enable();
+			}
+			else
+			{
+				nativeWindow->Disable();
 			}
 		}
 

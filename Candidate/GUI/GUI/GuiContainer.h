@@ -28,6 +28,7 @@ namespace vl
 				Normal,
 				Active,
 				Focused,
+				Disabled,
 			};
 
 			enum BorderState
@@ -57,6 +58,8 @@ namespace vl
 			void								NotifyMouseLeaved();
 			GuiControl*							NotifyGotFocus();
 			GuiControl*							NotifyLostFocus();
+			void								NotifyVisuallyEnabled();
+			void								NotifyVisuallyDisabled();
 		public:
 			GuiPanel();
 			~GuiPanel();

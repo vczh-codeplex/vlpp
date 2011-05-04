@@ -32,11 +32,24 @@ vl::Event<void()>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void()>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)())
+		{
+			functions.Add(Func<void()>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)())
+		{
+			functions.Remove(Func<void()>(sender, function));
+		}
+ 
 		void operator()()const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -59,11 +72,24 @@ vl::Event<void(T0)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0))
+		{
+			functions.Add(Func<void(T0)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0))
+		{
+			functions.Remove(Func<void(T0)>(sender, function));
+		}
+ 
 		void operator()(T0 p0)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -86,11 +112,24 @@ vl::Event<void(T0,T1)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1))
+		{
+			functions.Add(Func<void(T0,T1)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1))
+		{
+			functions.Remove(Func<void(T0,T1)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -113,11 +152,24 @@ vl::Event<void(T0,T1,T2)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2))
+		{
+			functions.Add(Func<void(T0,T1,T2)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2))
+		{
+			functions.Remove(Func<void(T0,T1,T2)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -140,11 +192,24 @@ vl::Event<void(T0,T1,T2,T3)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -167,11 +232,24 @@ vl::Event<void(T0,T1,T2,T3,T4)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -194,11 +272,24 @@ vl::Event<void(T0,T1,T2,T3,T4,T5)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4,T5)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4,T5)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4,T5)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -221,11 +312,24 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4,T5,T6)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4,T5,T6)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4,T5,T6)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -248,11 +352,24 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4,T5,T6,T7)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4,T5,T6,T7)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4,T5,T6,T7)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -275,11 +392,24 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7,T8))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7,T8))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7,T8 p8)const
 		{
 			for(vint i=0;i<functions.Count();i++)
@@ -302,11 +432,24 @@ vl::Event<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 		{
 			functions.Add(handler);
 		}
-		
+ 
 		void Remove(const Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>& handler)
 		{
 			functions.Remove(handler);
 		}
+ 
+		template<typename C>
+		void Add(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9))
+		{
+			functions.Add(Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>(sender, function));
+		}
+ 
+		template<typename C>
+		void Remove(C* sender, void(C::*function)(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9))
+		{
+			functions.Remove(Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>(sender, function));
+		}
+ 
 		void operator()(T0 p0,T1 p1,T2 p2,T3 p3,T4 p4,T5 p5,T6 p6,T7 p7,T8 p8,T9 p9)const
 		{
 			for(vint i=0;i<functions.Count();i++)

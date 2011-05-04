@@ -28,6 +28,7 @@ namespace vl
 				Normal,
 				Active,
 				Pressed,
+				Disabled,
 			};
 		protected:
 			ButtonState							buttonState;
@@ -39,6 +40,9 @@ namespace vl
 
 			void								NotifyMouseEntered();
 			void								NotifyMouseLeaved();
+			void								NotifyVisuallyEnabled();
+			void								NotifyVisuallyDisabled();
+
 			virtual void						NotifyButtonStateChanged();
 			virtual void						NotifyExecuted();
 		public:
