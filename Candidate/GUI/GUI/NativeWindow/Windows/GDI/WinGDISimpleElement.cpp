@@ -716,6 +716,9 @@ TextButtonSkin
 					case GuiButtonBase::Pressed:
 						state=StatefulObject::Pressed;
 						break;
+					case GuiButtonBase::Disabled:
+						state=StatefulObject::Disabled;
+						break;
 					default:
 						return;
 					}
@@ -781,6 +784,9 @@ PanelSkin
 							break;
 						case GuiPanel::Focused:
 							background->SetState(StatefulObject::Pressed);
+							break;
+						case GuiPanel::Disabled:
+							background->SetState(StatefulObject::Disabled);
 							break;
 						}
 					}

@@ -14,12 +14,24 @@ vl::Event<$FUNCTION_TYPE($count,0)>
 		{
 			functions.Add(handler);
 		}
-		
+$( )
 		void Remove(const Func<$FUNCTION_TYPE($count,0)>& handler)
 		{
 			functions.Remove(handler);
 		}
-
+$( )
+		template<typename C>
+		void Add(C* sender, $FUNCTION_DECL($count,0,C::*function))
+		{
+			functions.Add(Func<$FUNCTION_TYPE($count,0)>(sender, function));
+		}
+$( )
+		template<typename C>
+		void Remove(C* sender, $FUNCTION_DECL($count,0,C::*function))
+		{
+			functions.Remove(Func<$FUNCTION_TYPE($count,0)>(sender, function));
+		}
+$( )
 		void operator()($PARAMETER_LIST($count))const
 		{
 			for(vint i=0;i<functions.Count();i++)

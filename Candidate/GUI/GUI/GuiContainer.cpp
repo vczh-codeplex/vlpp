@@ -36,6 +36,7 @@ GuiPanel
 			if(skin)
 			{
 				skin->SetPanelState(
+					!IsVisuallyEnabled()?Disabled:
 					IsFocusing()?Focused:
 					entering?Active:Normal
 					);
@@ -68,6 +69,18 @@ GuiPanel
 			GuiControl* actionRaiser=GuiControl::NotifyLostFocus();
 			UpdateSkinPanelState();
 			return actionRaiser;
+		}
+
+		void GuiPanel::NotifyVisuallyEnabled()
+		{
+			GuiControl::NotifyVisuallyEnabled();
+			UpdateSkinPanelState();
+		}
+
+		void GuiPanel::NotifyVisuallyDisabled()
+		{
+			GuiControl::NotifyVisuallyDisabled();
+			UpdateSkinPanelState();
 		}
 
 		GuiPanel::GuiPanel()

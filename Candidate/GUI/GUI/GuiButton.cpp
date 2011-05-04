@@ -13,13 +13,16 @@ GuiButtonBase
 		GuiControl* GuiButtonBase::NotifyMouseDown(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* eventRaiser=GuiControl::NotifyMouseDown(button, info);
-			if(button==eventargs::LeftButton)
+			if(IsVisuallyEnabled())
 			{
-				RequireTracking();
-				RequireFocus();
-				pressing=true;
-				buttonState=Pressed;
-				NotifyButtonStateChanged();
+				if(button==eventargs::LeftButton)
+				{
+					RequireTracking();
+					RequireFocus();
+					pressing=true;
+					buttonState=Pressed;
+					NotifyButtonStateChanged();
+				}
 			}
 			return eventRaiser;
 		}
@@ -27,16 +30,19 @@ GuiButtonBase
 		GuiControl* GuiButtonBase::NotifyMouseUp(eventargs::MouseButton button, const eventargs::MouseInfo& info)
 		{
 			GuiControl* eventRaiser=GuiControl::NotifyMouseUp(button, info);
-			if(button==eventargs::LeftButton)
+			if(IsVisuallyEnabled())
 			{
-				ReleaseTracking();
-				pressing=false;
-				if(entering && buttonState==Pressed)
+				if(button==eventargs::LeftButton)
 				{
-					NotifyExecuted();
+					ReleaseTracking();
+					pressing=false;
+					if(entering && buttonState==Pressed)
+					{
+						NotifyExecuted();
+					}
+					buttonState=(entering?Active:Normal);
+					NotifyButtonStateChanged();
 				}
-				buttonState=(entering?Active:Normal);
-				NotifyButtonStateChanged();
 			}
 			return eventRaiser;
 		}
@@ -44,16 +50,41 @@ GuiButtonBase
 		void GuiButtonBase::NotifyMouseEntered()
 		{
 			GuiControl::NotifyMouseEntered();
-			buttonState=(pressing?Pressed:Active);
-			entering=true;
+			if(IsVisuallyEnabled())
+			{
+				buttonState=(pressing?Pressed:Active);
+				entering=true;
+			}
 			NotifyButtonStateChanged();
 		}
 
 		void GuiButtonBase::NotifyMouseLeaved()
 		{
 			GuiControl::NotifyMouseLeaved();
-			buttonState=(pressing?Active:Normal);
+			if(IsVisuallyEnabled())
+			{
+				buttonState=(pressing?Active:Normal);
+				entering=false;
+			}
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyVisuallyEnabled()
+		{
+			GuiControl::NotifyVisuallyEnabled();
+			if(buttonState==Disabled)
+			{
+				buttonState=Normal;
+			}
+			NotifyButtonStateChanged();
+		}
+
+		void GuiButtonBase::NotifyVisuallyDisabled()
+		{
+			GuiControl::NotifyVisuallyDisabled();
+			buttonState=Disabled;
 			entering=false;
+			pressing=false;
 			NotifyButtonStateChanged();
 		}
 
