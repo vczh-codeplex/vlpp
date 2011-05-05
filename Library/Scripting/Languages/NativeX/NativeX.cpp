@@ -146,6 +146,7 @@ Extra
 			Ptr<BasicExpression> ToTrue(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=bool_type;
 				expression->argument.s64=0;
 				expression->argument.bool_value=true;
@@ -155,6 +156,7 @@ Extra
 			Ptr<BasicExpression> ToFalse(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=bool_type;
 				expression->argument.s64=0;
 				expression->argument.bool_value=false;
@@ -165,6 +167,7 @@ Extra
 			{
 				const wchar_t* reading=input.reading+1;
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=char_type;
 				expression->argument.s64=0;
 				expression->argument.char_value=wtoa(WString(EscapeWalk(reading)))[0];
@@ -175,6 +178,7 @@ Extra
 			{
 				const wchar_t* reading=input.reading+2;
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=wchar_type;
 				expression->argument.s64=0;
 				expression->argument.wchar_value=EscapeWalk(reading);
@@ -197,8 +201,9 @@ Extra
 
 			Ptr<BasicExpression> ToInteger(const RegexToken& input)
 			{
-				bool sign=true;
-				vint bits=8*sizeof(vint);
+				bool sign=false;
+				bool implicit=true;
+				vint bits=64;
 				if(input.length>2)
 				{
 					switch(input.reading[input.length-2])
@@ -206,10 +211,12 @@ Extra
 					case L's':
 						sign=true;
 						bits=8;
+						implicit=false;
 						goto FINISHED_TYPE_RECOGNIZING;
 					case L'u':
 						sign=false;
 						bits=8;
+						implicit=false;
 						goto FINISHED_TYPE_RECOGNIZING;
 					}
 				}
@@ -226,6 +233,7 @@ Extra
 					default:
 						goto FINISHED_TYPE_RECOGNIZING;
 					}
+					implicit=false;
 					if(wcsncmp(input.reading+input.length-2, L"16", 2)==0)
 					{
 						bits=16;
@@ -245,6 +253,21 @@ Extra
 				}
 			FINISHED_TYPE_RECOGNIZING:
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=implicit;
+				unsigned __int64 temporaryParsing=wtou64(WString(input.reading, input.length));
+				if(implicit)
+				{
+					unsigned __int64 temporaryParsing=wtou64(WString(input.reading, input.length));
+					if(temporaryParsing < ((unsigned __int64)1<<31))
+					{
+						sign=true;
+						bits=32;
+					}
+					else if(temporaryParsing < ((unsigned __int64)1<<63))
+					{
+						sign=true;
+					}
+				}
 				if(sign)
 				{
 					expression->argument.s64=wtoi64(WString(input.reading, input.length));
@@ -293,6 +316,7 @@ Extra
 			Ptr<BasicExpression> ToFloat(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=f32;
 				expression->argument.s64=0;
 				expression->argument.f32=(float)wtof(WString(input.reading, input.length));
@@ -302,6 +326,7 @@ Extra
 			Ptr<BasicExpression> ToDouble(const RegexToken& input)
 			{
 				Ptr<BasicNumericExpression> expression=CreateNode<BasicNumericExpression>(input);
+				expression->implicitIntegerType=false;
 				expression->type=f64;
 				expression->argument.s64=0;
 				expression->argument.f64=wtof(WString(input.reading, input.length));

@@ -577,6 +577,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(unsigned __int8 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=u8;
 				result->argument.s64=0;
 				result->argument.u8=value;
@@ -586,6 +587,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(unsigned __int16 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=u16;
 				result->argument.s64=0;
 				result->argument.u16=value;
@@ -595,6 +597,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(unsigned __int32 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=u32;
 				result->argument.s64=0;
 				result->argument.u32=value;
@@ -604,6 +607,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(unsigned __int64 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=u64;
 				result->argument.s64=0;
 				result->argument.u64=value;
@@ -613,6 +617,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(signed __int8 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=s8;
 				result->argument.s64=0;
 				result->argument.s8=value;
@@ -622,6 +627,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(signed __int16 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=s16;
 				result->argument.s64=0;
 				result->argument.s16=value;
@@ -631,6 +637,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(signed __int32 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=s32;
 				result->argument.s64=0;
 				result->argument.s32=value;
@@ -640,6 +647,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(signed __int64 value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=s64;
 				result->argument.s64=0;
 				result->argument.s64=value;
@@ -649,6 +657,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(float value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=f32;
 				result->argument.s64=0;
 				result->argument.f32=value;
@@ -658,6 +667,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(double value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=f64;
 				result->argument.s64=0;
 				result->argument.f64=value;
@@ -667,6 +677,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(bool value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=bool_type;
 				result->argument.s64=0;
 				result->argument.bool_value=value;
@@ -676,6 +687,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(char value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=char_type;
 				result->argument.s64=0;
 				result->argument.char_value=value;
@@ -685,6 +697,7 @@ BasicExpressionNode
 			BasicExpressionNode e_prim(wchar_t value)
 			{
 				Ptr<BasicNumericExpression> result=new BasicNumericExpression;
+				result->implicitIntegerType=false;
 				result->type=wchar_type;
 				result->argument.s64=0;
 				result->argument.wchar_value=value;

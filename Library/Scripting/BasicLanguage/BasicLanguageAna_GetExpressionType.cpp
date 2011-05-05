@@ -35,11 +35,42 @@ BasicLanguage_GetExpressionType
 			bool CanImplicitConvertTo(BasicTypeRecord* from, BasicTypeRecord* to, BasicExpression* fromExpression, const BP& argument)
 			{
 				bool fromNull=dynamic_cast<BasicNullExpression*>(fromExpression)!=0;
+				BasicNumericExpression* implicitInteger=dynamic_cast<BasicNumericExpression*>(fromExpression);
+				if(implicitInteger && !implicitInteger->implicitIntegerType)
+				{
+					implicitInteger=0;
+				}
+
 				if(from==to)
 				{
 					return true;
 				}
-				else if(from->GetType()==BasicTypeRecord::Primitive && to->GetType()==BasicTypeRecord::Primitive)
+				if(implicitInteger && to->GetType()==BasicTypeRecord::Primitive)
+				{
+					switch(to->PrimitiveType())
+					{
+					case s8:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<7);
+					case s16:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<15);
+					case s32:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<31);
+					case s64:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<63);
+					case u8:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<8);
+					case u16:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<16);
+					case u32:
+						return implicitInteger->argument.u64<((unsigned __int64)1<<32);
+					case u64:
+					case f32:
+					case f64:
+						return true;
+					}
+				}
+
+				if(from->GetType()==BasicTypeRecord::Primitive && to->GetType()==BasicTypeRecord::Primitive)
 				{
 					return argument.configuration.CanImplicitConvertTo(from->PrimitiveType(), to->PrimitiveType());
 				}
