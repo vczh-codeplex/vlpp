@@ -182,6 +182,7 @@ Primitive Expression
 			public:
 				ALGORITHM_ACCEPT_DECLARATION
 
+				bool										implicitIntegerType;
 				BasicPrimitiveTypeEnum						type;
 				BasicPrimitiveValueEnum						argument;
 			};

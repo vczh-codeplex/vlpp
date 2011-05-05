@@ -617,6 +617,62 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(wstrExpr2, argument)==tm.GetPointerType(tm.GetPrimitiveType(wchar_type)));
 }
 
+void Test_BasicLanguage_RunImplicitInteger()
+{
+	BasicEnv env;
+	BasicTypeManager tm;
+	List<Ptr<BasicLanguageCodeException>> errors;
+	SortedList<WString> forwardStructures;
+	BasicScope* globalScope=env.GlobalScope();
+	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	SetConfiguration(argument.configuration);
+
+	Ptr<BasicStatement> s1=s_if(e_prim(1.1), s_empty()).GetInternalValue();
+	Ptr<BasicStatement> s2=s_if(e_prim(true), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+	Ptr<BasicStatement> s3=s_if(e_prim(true), s_empty(), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
+
+	BasicLanguage_CheckStatement(s1, argument);
+	TEST_ASSERT(errors.Count()==1);
+	BasicLanguage_CheckStatement(s2, argument);
+	TEST_ASSERT(errors.Count()==2);
+	BasicLanguage_CheckStatement(s3, argument);
+	TEST_ASSERT(errors.Count()==3);
+}
+
+TEST_CASE(Test_BasicLanguage_ImplicitInteger)
+{
+	BasicPrimitiveTypeEnum types[]={s8, s16, s32, s64, u8, u16, u32, u64, f32, f64};
+	for(int i=0;i<10;i++)
+	{
+		for(int j=0;j<8;j++)
+		{
+			BasicEnv env;
+			BasicTypeManager tm;
+			List<Ptr<BasicLanguageCodeException>> errors;
+			SortedList<WString> forwardStructures;
+			BasicScope* globalScope=env.GlobalScope();
+			BP argument(&env, globalScope, &tm, errors, forwardStructures);
+			SetConfiguration(argument.configuration);
+
+			Ptr<BasicVariableStatement> statement=new BasicVariableStatement;
+			Ptr<BasicPrimitiveType> type=new BasicPrimitiveType;
+			type->type=types[i];
+			statement->type=type;
+			statement->name=L"a";
+
+			Ptr<BasicNumericExpression> expression=new BasicNumericExpression;
+			expression->implicitIntegerType=1;
+			expression->type=types[j];
+			expression->argument.s64=1;
+			statement->initializer=expression;
+
+			Ptr<BasicStatement> result=statement;
+			BasicLanguage_CheckStatement(result, argument);
+			TEST_ASSERT(errors.Count()==0);
+		}
+	}
+}
+
 TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicUnaryExpression)
 {
 	BasicEnv env;
