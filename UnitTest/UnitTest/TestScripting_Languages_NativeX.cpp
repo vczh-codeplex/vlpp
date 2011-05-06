@@ -201,9 +201,9 @@ TEST_CASE(Test_NativeX_TypeRename1)
 		);
 	{
 		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
-		TEST_ASSERT(metadata->GetDeclarationCount()==1);
+		TEST_ASSERT(metadata->GetDeclarationCount()==2);
 
-		BasicDeclarationInfo link=metadata->GetDeclaration(0);
+		BasicDeclarationInfo link=metadata->GetDeclaration(1);
 		TEST_ASSERT(link.IsFunction()==false);
 		TEST_ASSERT(link.IsVariable()==false);
 		TEST_ASSERT(link.IsStructure()==true);
@@ -223,6 +223,17 @@ TEST_CASE(Test_NativeX_TypeRename1)
 		TEST_ASSERT(linkType.GetComponentName(1)==L"next");
 		TEST_ASSERT(linkType.GetComponentOffset(1)==sizeof(vint));
 		TEST_ASSERT(linkType.GetComponentType(1).IsPointer() && linkType.GetComponentType(1).GetElementType().IsSameRecord(linkType));
+
+		BasicDeclarationInfo plink=metadata->GetDeclaration(0);
+		TEST_ASSERT(plink.IsFunction()==false);
+		TEST_ASSERT(plink.IsVariable()==false);
+		TEST_ASSERT(plink.IsStructure()==false);
+		TEST_ASSERT(plink.IsTypeRename()==true);
+		TEST_ASSERT(plink.GetName()==L"PLink");
+
+		BasicTypeInfo plinkType=plink.GetType();
+		TEST_ASSERT(plinkType.IsPointer()==true);
+		TEST_ASSERT(plinkType.GetElementType().IsSameRecord(linkType));
 	}
 }
 
@@ -241,9 +252,9 @@ TEST_CASE(Test_NativeX_TypeName2)
 		);
 	{
 		BasicLanguageMetadata* metadata=assembly->GetBasicLanguageMetadata();
-		TEST_ASSERT(metadata->GetDeclarationCount()==1);
+		TEST_ASSERT(metadata->GetDeclarationCount()==3);
 
-		BasicDeclarationInfo command=metadata->GetDeclaration(0);
+		BasicDeclarationInfo command=metadata->GetDeclaration(2);
 		TEST_ASSERT(command.IsFunction()==false);
 		TEST_ASSERT(command.IsVariable()==false);
 		TEST_ASSERT(command.IsStructure()==true);
@@ -272,6 +283,24 @@ TEST_CASE(Test_NativeX_TypeName2)
 		TEST_ASSERT(commandType.GetComponentName(2)==L"next");
 		TEST_ASSERT(commandType.GetComponentOffset(2)==sizeof(vint)*2);
 		TEST_ASSERT(commandType.GetComponentType(2).IsPointer() && commandType.GetComponentType(2).GetElementType().IsSameRecord(commandType));
+
+		BasicDeclarationInfo pcommandType=metadata->GetDeclaration(0);
+		TEST_ASSERT(pcommandType.IsFunction()==false);
+		TEST_ASSERT(pcommandType.IsVariable()==false);
+		TEST_ASSERT(pcommandType.IsStructure()==false);
+		TEST_ASSERT(pcommandType.IsTypeRename()==true);
+		TEST_ASSERT(pcommandType.GetName()==L"PCommand");
+
+		TEST_ASSERT(pcommandType.GetType().IsPointer()==true);
+		TEST_ASSERT(pcommandType.GetType().GetElementType().IsSameRecord(commandType));
+
+		BasicDeclarationInfo pexecutorType=metadata->GetDeclaration(1);
+		TEST_ASSERT(pexecutorType.IsFunction()==false);
+		TEST_ASSERT(pexecutorType.IsVariable()==false);
+		TEST_ASSERT(pexecutorType.IsStructure()==false);
+		TEST_ASSERT(pexecutorType.IsTypeRename()==true);
+		TEST_ASSERT(pexecutorType.GetName()==L"PExecutor");
+		TEST_ASSERT(pexecutorType.GetType().IsFunction()==true);
 	}
 }
 

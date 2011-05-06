@@ -127,6 +127,7 @@ BasicLanguage_BuildGlobalScopePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicFunctionDeclaration)
 				{
+					// register function type
 					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						BP internalArgument=BuildBasicGenericScope(node, argument);
@@ -159,6 +160,7 @@ BasicLanguage_BuildGlobalScopePass1
 					{
 						if(forward==-1)
 						{
+							// register undefined structure when the first forward structure definition appears
 							argument.forwardStructures.Add(node->name);
 							BasicTypeRecord* structure=argument.typeManager->CreateStructureType(node);
 							structure=BuildBasicGenericType(structure, node, argument);
@@ -170,12 +172,14 @@ BasicLanguage_BuildGlobalScopePass1
 						BasicTypeRecord* structure=0;
 						if(forward==-1)
 						{
+							// register structure if it doesn't have any forward structure definition
 							structure=argument.typeManager->CreateStructureType(node);
 							BasicTypeRecord* genericType=BuildBasicGenericType(structure, node, argument);
 							argument.scope->types.Add(node->name, genericType);
 						}
 						else
 						{
+							// get the registered forward structure definition type
 							argument.forwardStructures.RemoveAt(forward);
 							BasicTypeRecord* type=argument.scope->types.Items()[node->name];
 							if(type->GetType()==BasicTypeRecord::Generic)
@@ -188,6 +192,7 @@ BasicLanguage_BuildGlobalScopePass1
 						List<WString> names;
 						List<BasicTypeRecord*> types;
 						BP internalArgument=BuildBasicGenericScope(node, argument);
+						// get structure member type
 						for(vint i=0;i<node->memberNames.Count();i++)
 						{
 							if(node->memberNames.IndexOf(node->memberNames[i])==i)
@@ -215,6 +220,7 @@ BasicLanguage_BuildGlobalScopePass1
 								argument.errors.Add(BasicLanguageCodeException::GetStructureMemberAlreadyExists(node, i));
 							}
 						}
+						// fill structure type
 						argument.typeManager->UpdateStructureType(node, structure, names.Wrap(), types.Wrap());
 						argument.env->RegisterStructureType(node, structure);
 					}
@@ -222,6 +228,7 @@ BasicLanguage_BuildGlobalScopePass1
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
+					// register variable type
 					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						try
@@ -240,6 +247,7 @@ BasicLanguage_BuildGlobalScopePass1
 				
 				ALGORITHM_PROCEDURE_MATCH(BasicTypeRenameDeclaration)
 				{
+					// register type renaming
 					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
 						try
@@ -260,16 +268,19 @@ BasicLanguage_BuildGlobalScopePass1
 				{
 					if(BasicLanguage_EnsureNothingExists(node, argument, node->name))
 					{
+						// create concept scope
 						BasicScope* conceptScope=argument.env->CreateScope(argument.scope);
 						conceptScope->types.Add(node->conceptType, argument.typeManager->GetGenericArgumentType(node->conceptType));
 						BP internalArgument(argument, conceptScope);
 
+						// register concept object
 						Ptr<BasicScope::Concept> conceptObject=new BasicScope::Concept;
 						conceptObject->conceptScope=conceptScope;
 						conceptObject->conceptType=argument.typeManager->GetGenericArgumentType(node->conceptType);
 						conceptObject->conceptDeclaration=node;
 						argument.scope->concepts.Add(node->name, conceptObject);
 
+						// get concept function types
 						for(vint i=0;i<node->functions.Count();i++)
 						{
 							BasicConceptBaseDeclaration::FunctionConcept* functionConcept=node->functions[i].Obj();
@@ -302,6 +313,7 @@ BasicLanguage_BuildGlobalScopePass1
 						return;
 					}
 
+					// check instance type
 					BP internalArgument=BuildBasicGenericScope(node, argument);
 					BasicTypeRecord* instanceType=BasicLanguage_GetTypeRecord(node->instanceType, argument, true);
 					switch(instanceType->GetType())
@@ -322,6 +334,7 @@ BasicLanguage_BuildGlobalScopePass1
 						argument.errors.Add(BasicLanguageCodeException::GetInstanceTypeNotCorrect(node));
 					}
 					
+					// register instance object
 					Ptr<BasicScope::Instance> instanceObject=new BasicScope::Instance;
 					instanceObject->targetConcept=conceptObject.Obj();
 					instanceObject->instanceDeclaration=node;
@@ -350,6 +363,7 @@ BasicLanguage_BuildGlobalScopePass2
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
+							// check public type dependency
 							BasicTypeRecord* type=argument.env->GetFunctionType(node, true);
 							if(type)
 							{
@@ -368,6 +382,7 @@ BasicLanguage_BuildGlobalScopePass2
 						}
 						else if(attribute->attributeName==L"assembly_initialization")
 						{
+							// check function type, should be "function void()"
 							BasicTypeRecord* type=argument.env->GetFunctionType(node, true);
 							if(type)
 							{
@@ -392,6 +407,7 @@ BasicLanguage_BuildGlobalScopePass2
 				{
 					if(!node->defined)
 					{
+						// check if the forward structure definition is defined later or not
 						BasicStructureTypeRecord* structure=dynamic_cast<BasicStructureTypeRecord*>(argument.scope->types.Items()[node->name]);
 						if(!structure->Defined())
 						{
@@ -406,6 +422,7 @@ BasicLanguage_BuildGlobalScopePass2
 					}
 					else
 					{
+						// check public type dependency
 						for(vint i=0;i<node->attributes.Count();i++)
 						{
 							Ptr<BasicAttribute> attribute=node->attributes[i];
@@ -435,6 +452,7 @@ BasicLanguage_BuildGlobalScopePass2
 				{
 					for(vint i=0;i<node->attributes.Count();i++)
 					{
+						// check public type dependency
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
@@ -458,8 +476,20 @@ BasicLanguage_BuildGlobalScopePass2
 				{
 					for(vint i=0;i<node->attributes.Count();i++)
 					{
+						// check public type dependency
 						Ptr<BasicAttribute> attribute=node->attributes[i];
-						argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnTypeRenameDeclaration(node, attribute->attributeName));
+						if(attribute->attributeName==L"public")
+						{
+							BasicTypeRecord* type=argument.scope->types.Find(node->name);
+							if(type && !IsPublicType(type, argument))
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetPublicDeclarationCannotUseNonPublicType(node, type));
+							}
+						}
+						else
+						{
+							argument.errors.Add(BasicLanguageCodeException::GetAttributeCannotApplyOnTypeRenameDeclaration(node, attribute->attributeName));
+						}
 					}
 				}
 
@@ -467,6 +497,7 @@ BasicLanguage_BuildGlobalScopePass2
 				{
 					for(vint i=0;i<node->attributes.Count();i++)
 					{
+						// check public type dependency
 						Ptr<BasicAttribute> attribute=node->attributes[i];
 						if(attribute->attributeName==L"public")
 						{
@@ -525,7 +556,8 @@ BasicLanguage_BuildGlobalScopePass2
 								}
 							}
 						}
-
+						
+						// check public dependency
 						for(vint i=0;i<node->attributes.Count();i++)
 						{
 							Ptr<BasicAttribute> attribute=node->attributes[i];
@@ -555,14 +587,17 @@ BasicLanguage_BuildGlobalScopePass2
 						CopyFrom(conceptFunctions.Wrap(), instanceObject->targetConcept->functions.Keys());
 						BP newArgument(argument, instanceObject->instanceScope);
 
+						// map concept type to instance type
 						Dictionary<BasicTypeRecord*, BasicTypeRecord*> table;
 						if(node->genericDeclaration.HasGeneric())
 						{
+							// map instance type type parameter to instance type parameter
 							Dictionary<BasicTypeRecord*, BasicTypeRecord*> internalTable;
 							for(vint i=0;i<node->genericDeclaration.arguments.Count();i++)
 							{
 								internalTable.Add(instanceObject->instanceType->ParameterType(i), argument.typeManager->GetGenericArgumentType(node->genericDeclaration.arguments[i]));
 							}
+							// build instanciated instance type with instance type type parameter replaced with instance type parameter
 							BasicTypeRecord* instanciatedInstanceType=argument.typeManager->Instanciate(instanceObject->instanceType, internalTable.Wrap());
 							table.Add(instanceObject->targetConcept->conceptType, instanciatedInstanceType);
 						}
@@ -576,11 +611,13 @@ BasicLanguage_BuildGlobalScopePass2
 							BasicConceptInstanceDeclaration::FunctionInstance* functionInstance=node->functions[i].Obj();
 							if(conceptFunctions.Contains(functionInstance->name))
 							{
+								// mark that the concept function is mapped to the instance function
 								conceptFunctions.Remove(functionInstance->name);
 								BasicTypeRecord* functionType=0;
 								BasicFunctionDeclaration* functionDeclaration=0;
 								Ptr<BasicScope::Instance::FunctionInstance> functionInstanceObject=new BasicScope::Instance::FunctionInstance;
 
+								// get assigned function expression
 								Ptr<BasicExpression> functionExpression;
 								Ptr<BasicReferenceExpression> referenceExpression;
 								if(functionInstance->normalFunction)
@@ -598,6 +635,7 @@ BasicLanguage_BuildGlobalScopePass2
 									}
 								}
 								
+								// check concept function type and instance function type
 								functionType=BasicLanguage_GetExpressionType(functionExpression, newArgument);
 								if(functionType)
 								{

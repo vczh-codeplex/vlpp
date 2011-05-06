@@ -81,6 +81,7 @@ Metadata
 			bool									IsStructure()const;
 			bool									IsConcept()const;
 			bool									IsInstance()const;
+			bool									IsTypeRename()const;
 
 			BasicTypeInfo							GetType()const;
 			WString									GetName()const;
