@@ -947,6 +947,13 @@ Header File Generator
 								declaration=target;
 							}
 							break;
+						case BasicDeclarationRes::TypeRename:
+							{
+								Ptr<BasicTypeRenameDeclaration> target=new BasicTypeRenameDeclaration;
+								target->type=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap, referencedAssemblies);
+								declaration=target;
+							}
+							break;
 						default:
 							CHECK_FAIL(L"BasicLanguage_GenerateHeaderFile(...)#遇到无法解释的资源类型。");
 						}

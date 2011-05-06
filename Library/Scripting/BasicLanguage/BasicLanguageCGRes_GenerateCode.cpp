@@ -305,7 +305,22 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)
 				{
-					return ResourceHandle<BasicDeclarationRes>::Null();
+					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					BuildGenericResource(resource, node, argument);
+					BuildAttributeResource(resource, node, argument);
+					BuildLinkingResource(resource, node, argument);
+
+					ResourceString name=argument.resource->CreateString(node->name);
+					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->types.Find(node->name);
+					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
+
+					resource->type=BasicDeclarationRes::TypeRename;
+					resource->declarationType=declarationType;
+					resource->name=name;
+					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+					resource->address=-1;
+
+					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicStructureDeclaration)
@@ -369,6 +384,12 @@ BasicLanguage_GenerateResource
 							subTypes.Set(i, member);
 						}
 						resource->declarationType=conceptType;
+
+						if(conceptObject->conceptDeclaration->linking.HasLink())
+						{
+							resource->instanceConceptAssemblyName=argument.resource->CreateString(conceptObject->conceptDeclaration->linking.assemblyName);
+							resource->instanceConceptSymbolName=argument.resource->CreateString(conceptObject->conceptDeclaration->linking.symbolName);
+						}
 					}
 					resource->type=BasicDeclarationRes::Concept;
 					resource->name=argument.resource->CreateString(node->name);

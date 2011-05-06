@@ -213,83 +213,89 @@ foreign function bool SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
 
 #public
-foreign function char* strcpy(char* dst, char* src)
+type astring = char*;
+
+#public
+type wstring = wchar*;
+
+#public
+foreign function astring strcpy(astring dst, astring src)
     alias SystemCoreForeignFunctions.strcpy;
 
 #public
-foreign function char* strncpy(char* dst, char* src, int size)
+foreign function astring strncpy(astring dst, astring src, int size)
     alias SystemCoreForeignFunctions.strncpy;
 
 #public
-foreign function char* strcat(char* dst, char* src)
+foreign function astring strcat(astring dst, astring src)
     alias SystemCoreForeignFunctions.strcat;
 
 #public
-foreign function char* strncat(char* dst, char* src, int size)
+foreign function astring strncat(astring dst, astring src, int size)
     alias SystemCoreForeignFunctions.strncat;
 
 #public
-foreign function int strcmp(char* a, char* b)
+foreign function int strcmp(astring a, astring b)
     alias SystemCoreForeignFunctions.strcmp;
 
 #public
-foreign function int strncmp(char* a, char* b, int size)
+foreign function int strncmp(astring a, astring b, int size)
     alias SystemCoreForeignFunctions.strncmp;
 
 #public
-foreign function int stricmp(char* a, char* b)
+foreign function int stricmp(astring a, astring b)
     alias SystemCoreForeignFunctions.stricmp;
 
 #public
-foreign function int strnicmp(char* a, char* b, int size)
+foreign function int strnicmp(astring a, astring b, int size)
     alias SystemCoreForeignFunctions.strnicmp;
 
 #public
-foreign function char* strstr(char* a, char* b)
+foreign function astring strstr(astring a, astring b)
     alias SystemCoreForeignFunctions.strstr;
 
 #public
-foreign function int strlen(char* s)
+foreign function int strlen(astring s)
     alias SystemCoreForeignFunctions.strlen;
 
 #public
-foreign function wchar* wcscpy(wchar* dst, wchar* src)
+foreign function wstring wcscpy(wstring dst, wstring src)
     alias SystemCoreForeignFunctions.wcscpy;
 
 #public
-foreign function wchar* wcsncpy(wchar* dst, wchar* src, int size)
+foreign function wstring wcsncpy(wstring dst, wstring src, int size)
     alias SystemCoreForeignFunctions.wcsncpy;
 
 #public
-foreign function wchar* wcscat(wchar* dst, wchar* src)
+foreign function wstring wcscat(wstring dst, wstring src)
     alias SystemCoreForeignFunctions.wcscat;
 
 #public
-foreign function wchar* wcsncat(wchar* dst, wchar* src, int size)
+foreign function wstring wcsncat(wstring dst, wstring src, int size)
     alias SystemCoreForeignFunctions.wcsncat;
 
 #public
-foreign function int wcscmp(wchar* a, wchar* b)
+foreign function int wcscmp(wstring a, wstring b)
     alias SystemCoreForeignFunctions.wcscmp;
 
 #public
-foreign function int wcsncmp(wchar* a, wchar* b, int size)
+foreign function int wcsncmp(wstring a, wstring b, int size)
     alias SystemCoreForeignFunctions.wcsncmp;
 
 #public
-foreign function int wcsicmp(wchar* a, wchar* b)
+foreign function int wcsicmp(wstring a, wstring b)
     alias SystemCoreForeignFunctions.wcsicmp;
 
 #public
-foreign function int wcsnicmp(wchar* a, wchar* b, int size)
+foreign function int wcsnicmp(wstring a, wstring b, int size)
     alias SystemCoreForeignFunctions.wcsnicmp;
 
 #public
-foreign function wchar* wcsstr(wchar* a, wchar* b)
+foreign function wstring wcsstr(wstring a, wstring b)
     alias SystemCoreForeignFunctions.wcsstr;
 
 #public
-foreign function int wcslen(wchar* s)
+foreign function int wcslen(wstring s)
     alias SystemCoreForeignFunctions.wcslen;
 
 #public
@@ -301,83 +307,83 @@ foreign function int memcmp(void* dst, void* src, int size)
     alias SystemCoreForeignFunctions.memcmp;
 
 #public
-foreign function int atoi(char* input, char** endptr, int radix)
+foreign function int atoi(astring input, astring* endptr, int radix)
     alias SystemCoreForeignFunctions.atoi;
 
 #public
-foreign function int wtoi(wchar* input, wchar** endptr, int radix)
+foreign function int wtoi(wstring input, wstring* endptr, int radix)
     alias SystemCoreForeignFunctions.wtoi;
 
 #public
-foreign function int64 atoi64(char* input, char** endptr, int radix)
+foreign function int64 atoi64(astring input, astring* endptr, int radix)
     alias SystemCoreForeignFunctions.atoi64;
 
 #public
-foreign function int64 wtoi64(wchar* input, wchar** endptr, int radix)
+foreign function int64 wtoi64(wstring input, wstring* endptr, int radix)
     alias SystemCoreForeignFunctions.wtoi64;
 
 #public
-foreign function uint atou(char* input, char** endptr, int radix)
+foreign function uint atou(astring input, astring* endptr, int radix)
     alias SystemCoreForeignFunctions.atou;
 
 #public
-foreign function uint wtou(wchar* input, wchar** endptr, int radix)
+foreign function uint wtou(wstring input, wstring* endptr, int radix)
     alias SystemCoreForeignFunctions.wtou;
 
 #public
-foreign function uint64 atou64(char* input, char** endptr, int radix)
+foreign function uint64 atou64(astring input, astring* endptr, int radix)
     alias SystemCoreForeignFunctions.atou64;
 
 #public
-foreign function uint64 wtou64(wchar* input, wchar** endptr, int radix)
+foreign function uint64 wtou64(wstring input, wstring* endptr, int radix)
     alias SystemCoreForeignFunctions.wtou64;
 
 #public
-foreign function f64 atof(char* input, char** endptr)
+foreign function f64 atof(astring input, astring* endptr)
     alias SystemCoreForeignFunctions.atof;
 
 #public
-foreign function f64 wtof(wchar* input, wchar** endptr)
+foreign function f64 wtof(wstring input, wstring* endptr)
     alias SystemCoreForeignFunctions.wtof;
 
 #public
-foreign function char* itoa(int number, char* output, int size, int radix)
+foreign function astring itoa(int number, astring output, int size, int radix)
     alias SystemCoreForeignFunctions.itoa;
 
 #public
-foreign function wchar* itow(int number, wchar* output, int size, int radix)
+foreign function wstring itow(int number, wstring output, int size, int radix)
     alias SystemCoreForeignFunctions.itow;
 
 #public
-foreign function char* i64toa(int64 number, char* output, int size, int radix)
+foreign function astring i64toa(int64 number, astring output, int size, int radix)
     alias SystemCoreForeignFunctions.i64toa;
 
 #public
-foreign function wchar* i64tow(int64 number, wchar* output, int size, int radix)
+foreign function wstring i64tow(int64 number, wstring output, int size, int radix)
     alias SystemCoreForeignFunctions.i64tow;
 
 #public
-foreign function char* utoa(uint number, char* output, int size, int radix)
+foreign function astring utoa(uint number, astring output, int size, int radix)
     alias SystemCoreForeignFunctions.utoa;
 
 #public
-foreign function wchar* utow(uint number, wchar* output, int size, int radix)
+foreign function wstring utow(uint number, wstring output, int size, int radix)
     alias SystemCoreForeignFunctions.utow;
 
 #public
-foreign function char* u64toa(uint64 number, char* output, int size, int radix)
+foreign function astring u64toa(uint64 number, astring output, int size, int radix)
     alias SystemCoreForeignFunctions.u64toa;
 
 #public
-foreign function wchar* u64tow(uint64 number, wchar* output, int size, int radix)
+foreign function wstring u64tow(uint64 number, wstring output, int size, int radix)
     alias SystemCoreForeignFunctions.u64tow;
 
 #public
-foreign function char* ftoa(f64 number, char* output, int size)
+foreign function astring ftoa(f64 number, astring output, int size)
     alias SystemCoreForeignFunctions.ftoa;
 
 #public
-foreign function wchar* ftow(f64 number, wchar* output, int size)
+foreign function wstring ftow(f64 number, wstring output, int size)
     alias SystemCoreForeignFunctions.ftow;
 
 #public
