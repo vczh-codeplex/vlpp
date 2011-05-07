@@ -190,6 +190,7 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildDeclarationBody.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_BuildGlobalScope.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_CheckStatement.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetConstantValue.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetExpressionType.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetTypeRecord.cpp" />
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_IsLeftValue.cpp" />

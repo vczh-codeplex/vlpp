@@ -86,6 +86,9 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP);
 			extern void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument);
 
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_IsConstantExpression, BasicExpression, BP, bool);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetConstantValue, BasicExpression, BP, Ptr<BasicNumericExpression>);
+
 /***********************************************************************
 BasicAnalyzer
 ***********************************************************************/
