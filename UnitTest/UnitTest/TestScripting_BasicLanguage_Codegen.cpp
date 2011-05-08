@@ -42,7 +42,7 @@ TEST_CASE(TestBasicTypeInfo)
 
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(analyzer.GetEnv(), analyzer.GetEnv()->GlobalScope(), analyzer.GetTypeManager(), errors, forwardStructures);
+	BP argument(analyzer.GetEnv(), analyzer.GetEnv()->GlobalScope(), analyzer.GetTypeManager(), analyzer.GetTypeInfoManager(), errors, forwardStructures);
 
 	BasicTypeRecord* typeInt8=BasicLanguage_GetTypeRecord(t_int8().GetInternalValue(), argument, true);
 	BasicTypeRecord* typePInt8=BasicLanguage_GetTypeRecord((*t_int8()).GetInternalValue(), argument, true);

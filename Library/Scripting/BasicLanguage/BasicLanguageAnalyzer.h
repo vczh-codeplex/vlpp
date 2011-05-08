@@ -12,6 +12,7 @@ Classes:
 #define VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGEANALYZER
 
 #include "..\..\Exception.h"
+#include "..\..\Entity\Linear.h"
 #include "BasicLanguageScopeManager.h"
 #include "BasicLanguageException.h"
 #include "BasicLanguageConfiguration.h"
@@ -43,6 +44,32 @@ BasicSemanticExtension
 				virtual void											BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument);
 			};
 
+/***********************************************************************
+BasicTypeInfo
+***********************************************************************/
+
+			typedef Linear<BasicTypeRecord*, vint>									BasicOffset;
+
+			class BasicTypeInfo : public Object
+			{
+			public:
+				BasicOffset															size;
+				collections::List<BasicOffset>										offsets;
+			};
+
+			class BasicTypeInfoManager : public Object
+			{
+				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
+			protected:
+				_TypeInfoTable														typeInfos;
+			public:
+				BasicTypeInfo*														GetTypeInfo(BasicTypeRecord* type);
+			};
+
+/***********************************************************************
+BasicAlgorithmParameter
+***********************************************************************/
+
 			class BasicAlgorithmParameter
 			{
 			private:
@@ -51,6 +78,7 @@ BasicSemanticExtension
 				BasicEnv*												env;
 				BasicScope*												scope;
 				BasicTypeManager*										typeManager;
+				BasicTypeInfoManager*									typeInfoManager;
 				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
 				collections::SortedList<WString>&						forwardStructures;
 				BasicSemanticExtension*									semanticExtension;
@@ -60,6 +88,7 @@ BasicSemanticExtension
 					BasicEnv* _env,
 					BasicScope* _scope,
 					BasicTypeManager* _typeManager,
+					BasicTypeInfoManager* _typeInfoManager,
 					collections::List<Ptr<BasicLanguageCodeException>>& _errors,
 					collections::SortedList<WString>& _forwardStructures
 					);
@@ -132,14 +161,15 @@ BasicAnalyzer
 			class BasicAnalyzer : public Object, private NotCopyable
 			{
 			protected:
-				BasicEnv												env;
-				BasicTypeManager										tm;
-				collections::List<Ptr<BasicLanguageCodeException>>		errors;
-				collections::SortedList<WString>						forwardStructures;
-				BasicSemanticExtension*									semanticExtension;
-				BasicAlgorithmConfiguration								configuration;
-				Ptr<BasicProgram>										program;
-				bool													analyzed;
+				BasicEnv															env;
+				BasicTypeManager													tm;
+				BasicTypeInfoManager												tim;
+				collections::List<Ptr<BasicLanguageCodeException>>					errors;
+				collections::SortedList<WString>									forwardStructures;
+				BasicSemanticExtension*												semanticExtension;
+				BasicAlgorithmConfiguration											configuration;
+				Ptr<BasicProgram>													program;
+				bool																analyzed;
 			public:
 				BasicAnalyzer(Ptr<BasicProgram> _program, BasicSemanticExtension* _semanticExtension, BasicAlgorithmConfiguration _configuration);
 				~BasicAnalyzer();
@@ -148,6 +178,7 @@ BasicAnalyzer
 				BasicTypeManager*													GetTypeManager();
 				const collections::IReadonlyList<Ptr<BasicLanguageCodeException>>&	GetErrors();
 				BasicAlgorithmConfiguration&										GetConfiguration();
+				BasicTypeInfoManager*												GetTypeInfoManager();
 				void																Analyze();
 				Ptr<BasicProgram>													GetProgram();
 			};
