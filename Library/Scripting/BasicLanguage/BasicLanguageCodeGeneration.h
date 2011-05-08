@@ -10,11 +10,10 @@ Classes:
 #define VCZH_SCRIPTING_BASICLANGUAGE_BASICLANGUAGECODEGENERATION
 
 #include "..\..\Stream\MemoryStream.h"
-#include "BasicLanguageAnalyzer.h"
-#include "BasicLanguageResource.h"
 #include "..\BasicIL\BasicILDefinition.h"
 #include "..\BasicIL\BasicILSymbolResource.h"
-#include "..\..\Entity\Linear.h"
+#include "BasicLanguageAnalyzer.h"
+#include "BasicLanguageResource.h"
 
 namespace vl
 {
@@ -22,18 +21,8 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
-			typedef Linear<BasicTypeRecord*, vint>									BasicOffset;
-
-			class BasicTypeInfo : public Object
-			{
-			public:
-				BasicOffset															size;
-				collections::List<BasicOffset>										offsets;
-			};
-
 			class BasicCodegenInfo : public Object
 			{
-				typedef collections::Dictionary<BasicTypeRecord*, Ptr<BasicTypeInfo>>			_TypeInfoTable;
 				typedef collections::Dictionary<BasicTypeRecord*, ResourceHandle<BasicTypeRes>>	_TypeResTable;
 			public:
 				struct FunctionEntry
@@ -61,7 +50,6 @@ namespace vl
 				typedef Linear<vint, vint>											FunctionLinear;
 			protected:
 				BasicAnalyzer*														analyzer;
-				_TypeInfoTable														typeInfos;
 				collections::Dictionary<BasicFunctionDeclaration*, vint>			functions;
 				collections::Dictionary<BasicVariableDeclaration*, vint>			globalVariableOffsets;
 				collections::Dictionary<BasicVariableStatement*, BasicOffset>		localVariableOffsets;
@@ -91,6 +79,7 @@ namespace vl
 				BasicTypeInfo*														GetTypeInfo(BasicTypeRecord* type);
 				BasicEnv*															GetEnv();
 				BasicTypeManager*													GetTypeManager();
+				BasicTypeInfoManager*												GetTypeInfoManager();
 				BasicAlgorithmConfiguration&										GetConfiguration();
 				collections::IDictionary<BasicFunctionDeclaration*, vint>&			GetFunctions();
 				collections::IDictionary<BasicVariableDeclaration*, vint>&			GetGlobalVariableOffsets();

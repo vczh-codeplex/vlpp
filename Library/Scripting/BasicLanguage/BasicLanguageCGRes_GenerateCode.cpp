@@ -411,6 +411,7 @@ BasicLanguage_GenerateResource
 							argument.info->GetEnv(),
 							argument.info->GetEnv()->GlobalScope(),
 							argument.info->GetTypeManager(),
+							argument.info->GetTypeInfoManager(),
 							*(List<Ptr<BasicLanguageCodeException>>*)0,
 							*(SortedList<WString>*)0
 							);

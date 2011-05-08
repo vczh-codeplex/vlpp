@@ -121,6 +121,7 @@ namespace vl
 					argument.info->GetEnv(),
 					argument.info->GetSemanticScope(),
 					argument.info->GetTypeManager(),
+					argument.info->GetTypeInfoManager(),
 					*(List<Ptr<BasicLanguageCodeException>>*)0,
 					*(SortedList<WString>*)0
 					);
@@ -173,6 +174,7 @@ namespace vl
 					argument.info->GetEnv(),
 					argument.info->GetSemanticScope(),
 					argument.info->GetTypeManager(),
+					argument.info->GetTypeInfoManager(),
 					*(List<Ptr<BasicLanguageCodeException>>*)0,
 					*(SortedList<WString>*)0
 					);

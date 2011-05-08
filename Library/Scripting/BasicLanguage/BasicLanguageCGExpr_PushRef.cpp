@@ -159,6 +159,7 @@ BasicLanguage_PushRef
 								argument.info->GetEnv(),
 								0,
 								argument.info->GetTypeManager(),
+								argument.info->GetTypeInfoManager(),
 								*(List<Ptr<BasicLanguageCodeException>>*)0,
 								*(SortedList<WString>*)0
 								);

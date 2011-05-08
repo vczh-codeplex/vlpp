@@ -1870,6 +1870,7 @@ Extra
 						analyzer->GetEnv(),
 						analyzer->GetEnv()->GlobalScope(),
 						analyzer->GetTypeManager(),
+						analyzer->GetTypeInfoManager(),
 						*(List<Ptr<BasicLanguageCodeException>>*)0,
 						*(SortedList<WString>*)0
 						);

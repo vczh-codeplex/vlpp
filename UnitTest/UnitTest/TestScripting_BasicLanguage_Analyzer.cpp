@@ -372,10 +372,11 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	BasicScope* global=env.GlobalScope();
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(&env, global, &tm, errors, forwardStructures);
+	BP argument(&env, global, &tm, &tim, errors, forwardStructures);
 	
 	BasicTypeRecord* link=tm.CreateStructureType(0);
 	global->types.Add(L"Link", link);
@@ -411,10 +412,11 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord_GenericTypeRename)
 
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	BasicScope* global=env.GlobalScope();
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(&env, global, &tm, errors, forwardStructures);
+	BP argument(&env, global, &tm, &tim, errors, forwardStructures);
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 
 	BasicTypeRecord* unitType=BasicLanguage_GetTypeRecord(t_type(L"Unit").GetInternalValue(), argument, true);
@@ -438,10 +440,11 @@ TEST_CASE(Test_BasicLanguage_GetTypeRecord_GenericStructure)
 
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	BasicScope* global=env.GlobalScope();
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(&env, global, &tm, errors, forwardStructures);
+	BP argument(&env, global, &tm, &tim, errors, forwardStructures);
 	BasicLanguage_BuildGlobalScope(program.GetInternalValue(), argument);
 
 	BasicTypeRecord* linkType=BasicLanguage_GetTypeRecord(t_type(L"Link").GetInternalValue(), argument, true);
@@ -472,9 +475,10 @@ TEST_CASE(Test_BasicLanguage_BuildGlobalScope)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
-	BP argument(&env, env.GlobalScope(), &tm, errors, forwardStructures);
+	BP argument(&env, env.GlobalScope(), &tm, &tim, errors, forwardStructures);
 
 	BasicProgramNode program;
 	program.DefineStructureForward(L"Link");
@@ -569,10 +573,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicPrimitiveExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 
 	Ptr<BasicExpression> intExpr=e_prim((vsint)0).GetInternalValue();
 	Ptr<BasicExpression> uintExpr=e_prim((vuint)0).GetInternalValue();
@@ -621,10 +626,11 @@ void Test_BasicLanguage_RunImplicitInteger()
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> s1=s_if(e_prim(1.1), s_empty()).GetInternalValue();
@@ -648,10 +654,11 @@ TEST_CASE(Test_BasicLanguage_ImplicitInteger)
 		{
 			BasicEnv env;
 			BasicTypeManager tm;
+			BasicTypeInfoManager tim;
 			List<Ptr<BasicLanguageCodeException>> errors;
 			SortedList<WString> forwardStructures;
 			BasicScope* globalScope=env.GlobalScope();
-			BP argument(&env, globalScope, &tm, errors, forwardStructures);
+			BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 			SetConfiguration(argument.configuration);
 
 			Ptr<BasicVariableStatement> statement=new BasicVariableStatement;
@@ -677,10 +684,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicUnaryExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -718,10 +726,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicBinaryExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -836,10 +845,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicSubscribeExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 	
 	BasicProgramNode program;
@@ -873,10 +883,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicMemberExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -924,10 +935,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInvokeExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -997,10 +1009,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicResultExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -1026,10 +1039,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicCastingExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicExpression> cast_int_to_uint=e_prim((vsint)0)[t_uint()].GetInternalValue();
@@ -1049,10 +1063,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 
 	BasicProgramNode program;
 	program.DefineFunction(L"a");
@@ -1077,10 +1092,11 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstanciatedExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 
 	BasicProgramNode program;
 	program.Generic().GenericArgument(L"T").GenericArgument(L"U")
@@ -1121,10 +1137,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicEmptyStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> statement=s_empty().GetInternalValue();
@@ -1136,10 +1153,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicExpressionStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> s1=s_expr(e_prim(0)).GetInternalValue();
@@ -1154,10 +1172,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicVariableStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -1182,10 +1201,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicIfStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> s1=s_if(e_prim(1.1), s_empty()).GetInternalValue();
@@ -1204,10 +1224,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicWhileStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> a1=s_while(e_prim(1.1), s_expr(e_prim(0).Assign(e_prim(0)))).GetInternalValue();
@@ -1265,10 +1286,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicForStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> s1=s_for(s_empty(), e_prim(true), s_empty(), s_empty()).GetInternalValue();
@@ -1301,10 +1323,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicBreakContinueStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> s1=s_break().GetInternalValue();
@@ -1332,10 +1355,11 @@ TEST_CASE(Test_BasicLanguage_CheckStatement_BasicReturnStatement)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	Ptr<BasicStatement> statement=s_return().GetInternalValue();
@@ -1351,10 +1375,11 @@ TEST_CASE(Test_BasicLanguage_BuildDeclarationBody)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
@@ -1376,10 +1401,11 @@ TEST_CASE(Test_BasicLanguage_ConceptDeclaration)
 {
 	BasicEnv env;
 	BasicTypeManager tm;
+	BasicTypeInfoManager tim;
 	List<Ptr<BasicLanguageCodeException>> errors;
 	SortedList<WString> forwardStructures;
 	BasicScope* globalScope=env.GlobalScope();
-	BP argument(&env, globalScope, &tm, errors, forwardStructures);
+	BP argument(&env, globalScope, &tm, &tim, errors, forwardStructures);
 	SetConfiguration(argument.configuration);
 
 	BasicProgramNode program;
