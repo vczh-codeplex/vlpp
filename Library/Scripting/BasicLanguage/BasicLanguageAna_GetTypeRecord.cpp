@@ -163,7 +163,7 @@ BasicLanguage_GetTypeRecord
 			BasicTypeRecord* BasicLanguage_GetTypeRecord(BasicType* type, const BP& argument, bool acceptRawGenericType)
 			{
 				BasicTypeRecord* typeRecord=BasicLanguage_GetTypeRecordInternal(type, argument);
-				if(typeRecord->GetType()==BasicTypeRecord::Generic && !acceptRawGenericType)
+				if(typeRecord && typeRecord->GetType()==BasicTypeRecord::Generic && !acceptRawGenericType)
 				{
 					argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(type));
 				}

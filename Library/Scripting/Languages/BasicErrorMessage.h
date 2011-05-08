@@ -86,6 +86,7 @@ namespace vl
 				static WString InstanceDeclaredOnPublicConceptShouldBePublic(const WString& concept);
 				static WString InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(const WString& concept);
 				static WString ArrayElementCountShouldBeIntegerConstantExpression();
+				static WString ArrayElementCountShouldBePositive();
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();

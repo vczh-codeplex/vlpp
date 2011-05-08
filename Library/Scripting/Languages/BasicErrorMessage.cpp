@@ -311,6 +311,11 @@ namespace vl
 				return L"Array element count should be integer constant expression.";
 			}
 
+			WString BasicErrorMessage::ArrayElementCountShouldBePositive()
+			{
+				return L"Array element count should be positive.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";
