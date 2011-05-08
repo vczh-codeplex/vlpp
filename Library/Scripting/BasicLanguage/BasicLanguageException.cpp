@@ -521,6 +521,12 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(expression, ArrayElementCountShouldBeIntegerConstantExpression, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArrayElementCountShouldBePositive(BasicExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, ArrayElementCountShouldBePositive, parameters.Wrap());
+			}
 		}
 	}
 }

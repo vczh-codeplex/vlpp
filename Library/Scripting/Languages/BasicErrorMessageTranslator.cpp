@@ -363,6 +363,11 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ArrayElementCountShouldBeIntegerConstantExpression();
 					}
 					break;
+				case BasicLanguageCodeException::ArrayElementCountShouldBePositive:
+					{
+						message=BasicErrorMessage::ArrayElementCountShouldBePositive();
+					}
+					break;
 				default:
 					return 0;
 				}

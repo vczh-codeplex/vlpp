@@ -7,3 +7,33 @@ function void TestCase_AssertAndPrint()
     Assert(1==1, L"AssertAndPrint: 1==1");
     Print(L"AssertAndPrint: This is a message.");
 }
+
+structure SizeofStructure
+{
+    int a;
+    char b;
+    f64 c;
+}
+
+function void TestCase_AssertConstantExpression()
+{
+    Assert(sizeof(char[5+2])==7, L"+");
+    Assert(sizeof(char[5-2])==3, L"-");
+    Assert(sizeof(char[5*2])==10, L"*");
+    Assert(sizeof(char[5/2])==2, L"/");
+    Assert(sizeof(char[5%2])==1, L"%");
+    Assert(sizeof(char[5&2])==0, L"&");
+    Assert(sizeof(char[5|2])==7, L"|");
+    Assert(sizeof(char[5^2])==7, L"^");
+    Assert(sizeof(char[5<<2])==20, L"<<");
+    Assert(sizeof(char[5>>2])==1, L">>");
+    
+    Assert(sizeof(char[cast<int>(cast<wchar*>(null)+3)])==6, L"complex");
+    Assert(sizeof(char[cast<int>(3+cast<wchar*>(null))])==6, L"complex");
+    Assert(sizeof(char[cast<int>(cast<wchar*>(6)-cast<wchar*>(4))])==1, L"complex");
+
+    Assert(sizeof(char[sizeof(SizeofStructure)]) == sizeof(int)+sizeof(char)+sizeof(f64), L"sizeof");
+    Assert(sizeof(char[offsetof(SizeofStructure::a)])==0, L"offsetof");
+    Assert(sizeof(char[offsetof(SizeofStructure::b)])==sizeof(int), L"offsetof");
+    Assert(sizeof(char[offsetof(SizeofStructure::c)])==sizeof(int)+sizeof(char), L"offsetof");
+}

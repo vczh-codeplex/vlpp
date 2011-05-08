@@ -219,7 +219,9 @@ BasicLanguage_IsConstantExpression
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
 				{
-					return BasicLanguage_IsConstantExpression(node->operand, argument) && node->type.Cast<BasicPrimitiveType>();
+					BasicTypeRecord* castType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					return BasicLanguage_IsConstantExpression(node->operand, argument) &&
+						(castType->GetType()==BasicTypeRecord::Primitive || castType->GetType()==BasicTypeRecord::Pointer);
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
