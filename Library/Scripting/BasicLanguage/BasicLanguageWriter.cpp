@@ -40,7 +40,7 @@ BasicTypeNode
 			{
 				Ptr<BasicArrayType> result=new BasicArrayType;
 				result->elementType=type;
-				result->size=size;
+				result->count=e_prim(size).GetInternalValue();
 				return result;
 			}
 

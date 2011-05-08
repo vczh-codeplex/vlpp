@@ -515,6 +515,12 @@ BasicLanguageCodeException
 				parameters[0]=declaration->name;
 				return new BasicLanguageCodeException(declaration, InstanceDeclaredOnNonPublicConceptShouldBeNonPublic, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetArrayElementCountShouldBeIntegerConstantExpression(BasicExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(expression, ArrayElementCountShouldBeIntegerConstantExpression, parameters.Wrap());
+			}
 		}
 	}
 }

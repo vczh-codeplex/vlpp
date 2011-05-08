@@ -140,6 +140,20 @@ BasicLanguage_IsConstantExpression
 
 				ALGORITHM_FUNCTION_MATCH(BasicBinaryExpression)
 				{
+					BasicTypeRecord* lvt=argument.env->GetExpressionType(node->leftOperand.Obj());
+					if(lvt->GetType()==BasicTypeRecord::Pointer)
+					{
+						BasicTypeInfo* info=argument.typeInfoManager->GetTypeInfo(lvt->ElementType());
+						if(!info->size.IsConstant()) return false;
+					}
+
+					BasicTypeRecord* rvt=argument.env->GetExpressionType(node->rightOperand.Obj());
+					if(rvt->GetType()==BasicTypeRecord::Pointer)
+					{
+						BasicTypeInfo* info=argument.typeInfoManager->GetTypeInfo(rvt->ElementType());
+						if(!info->size.IsConstant()) return false;
+					}
+
 					switch(node->type)
 					{
 					case BasicBinaryExpression::Add:
@@ -190,12 +204,17 @@ BasicLanguage_IsConstantExpression
 
 				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
 				{
-					return true;
+					BasicTypeRecord* nodeType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					BasicOffset size=argument.typeInfoManager->GetTypeInfo(nodeType)->size;
+					return size.IsConstant();
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
 				{
-					return true;
+					BasicTypeRecord* structureType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					BasicTypeInfo* structureInfo=argument.typeInfoManager->GetTypeInfo(structureType);
+					BasicOffset offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
+					return offset.IsConstant();
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)
@@ -374,10 +393,38 @@ BasicLanguage_GetConstantValue
 
 					switch(node->type)
 					{
-					case BasicBinaryExpression::Add: // TODO: process pointer
-						NUMERIC_BINARY(+);
-					case BasicBinaryExpression::Sub: // TODO: process pointer
-						NUMERIC_BINARY(-);
+					case BasicBinaryExpression::Add:
+						if(lvt->GetType()==BasicTypeRecord::Pointer)
+						{
+							vint size=argument.typeInfoManager->GetTypeInfo(lvt->ElementType())->size.Constant();
+							return BasicCompileTimeConstant(lv.S(lvt) + size*rv.S(lvt));
+						}
+						else if(rvt->GetType()==BasicTypeRecord::Pointer)
+						{
+							vint size=argument.typeInfoManager->GetTypeInfo(rvt->ElementType())->size.Constant();
+							return BasicCompileTimeConstant(size*lv.S(lvt) + rv.S(lvt));
+						}
+						else
+						{
+							NUMERIC_BINARY(+);
+						}
+					case BasicBinaryExpression::Sub:
+						if(lvt->GetType()==BasicTypeRecord::Pointer)
+						{
+							vint size=argument.typeInfoManager->GetTypeInfo(lvt->ElementType())->size.Constant();
+							if(rvt->GetType()==BasicTypeRecord::Pointer)
+							{
+								return BasicCompileTimeConstant((lv.S(lvt) - rv.S(rvt))/size);
+							}
+							else
+							{
+								return BasicCompileTimeConstant(lv.S(lvt) - size*rv.S(lvt));
+							}
+						}
+						else
+						{
+							NUMERIC_BINARY(-);
+						}
 					case BasicBinaryExpression::Mul:
 						NUMERIC_BINARY(*);
 					case BasicBinaryExpression::Div:
@@ -440,14 +487,17 @@ BasicLanguage_GetConstantValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicSizeofExpression)
 				{
-					// TODO:
-					return BasicCompileTimeConstant();
+					BasicTypeRecord* nodeType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					BasicOffset size=argument.typeInfoManager->GetTypeInfo(nodeType)->size;
+					return BasicCompileTimeConstant((signed __int64)size.Constant());
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicOffsetofExpression)
 				{
-					// TODO:
-					return BasicCompileTimeConstant();
+					BasicTypeRecord* structureType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+					BasicTypeInfo* structureInfo=argument.typeInfoManager->GetTypeInfo(structureType);
+					BasicOffset offset=structureInfo->offsets[structureType->MemberNameIndex(node->member)];
+					return BasicCompileTimeConstant((signed __int64)offset.Constant());
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicCastingExpression)

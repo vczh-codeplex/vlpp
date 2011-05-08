@@ -358,6 +358,11 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(error->GetParameters()[0]);
 					}
 					break;
+				case BasicLanguageCodeException::ArrayElementCountShouldBeIntegerConstantExpression:
+					{
+						message=BasicErrorMessage::ArrayElementCountShouldBeIntegerConstantExpression();
+					}
+					break;
 				default:
 					return 0;
 				}

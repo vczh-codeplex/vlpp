@@ -479,7 +479,7 @@ Type
 				ALGORITHM_ACCEPT_DECLARATION
 
 				Ptr<BasicType>								elementType;
-				vint										size;
+				Ptr<BasicExpression>						count;
 			};
 
 			class BasicReferenceType : public BasicType

@@ -815,19 +815,29 @@ Extra
 				}
 			}
 
-			Ptr<BasicType> ToDecoratedType(const Ptr<BasicType>& operand, const RegexToken& decoration)
+			ParsingPair<RegexToken, Ptr<BasicExpression>> ToPointerTypeDecorator(const RegexToken& decoration)
 			{
-				if(*decoration.reading==L'*')
+				return ParsingPair<RegexToken, Ptr<BasicExpression>>(decoration, 0);
+			}
+
+			ParsingPair<RegexToken, Ptr<BasicExpression>> ToArrayTypeDecorator(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
+			{
+				return input;
+			}
+
+			Ptr<BasicType> ToDecoratedType(const Ptr<BasicType>& decoratingType, const ParsingPair<RegexToken, Ptr<BasicExpression>>& decorator)
+			{
+				if(decorator.Second())
 				{
-					Ptr<BasicPointerType> type=CreateNode<BasicPointerType>(decoration);
-					type->elementType=operand;
+					Ptr<BasicArrayType> type=CreateNode<BasicArrayType>(decorator.First());
+					type->count=decorator.Second();
+					type->elementType=decoratingType;
 					return type;
 				}
 				else
 				{
-					Ptr<BasicArrayType> type=CreateNode<BasicArrayType>(decoration);
-					type->size=wtoi(WString(decoration.reading, decoration.length));
-					type->elementType=operand;
+					Ptr<BasicPointerType> type=CreateNode<BasicPointerType>(decorator.First());
+					type->elementType=decoratingType;
 					return type;
 				}
 			}
@@ -1453,7 +1463,7 @@ Extra
 									| (TYPEOF + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToTypeofExpression]
 									;
 
-					type			= lrec(primType + *(MUL | (OPEN_ARRAY >> INTEGER << CLOSE_ARRAY)), ToDecoratedType);
+					type			= lrec(primType + *(MUL[ToPointerTypeDecorator] | ((OPEN_ARRAY + exp)[ToArrayTypeDecorator] << CLOSE_ARRAY)), ToDecoratedType);
 
 					statement		= SEMICOLON(NeedStatement)[ToEmptyStat]
 									| (exp + SEMICOLON(NeedSemicolon))[ToExprStat]
@@ -2272,7 +2282,7 @@ Extra
 				{
 					NativeX_BasicType_GenerateCode(node->elementType, argument);
 					argument.writer.WriteString(L"[");
-					argument.writer.WriteString(itow(node->size));
+					NativeX_BasicExpression_GenerateCode(node->count, argument);
 					argument.writer.WriteString(L"]");
 				}
 
