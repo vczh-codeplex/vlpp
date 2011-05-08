@@ -659,9 +659,14 @@ Header File Generator
 					break;
 				case BasicTypeRes::Array:
 					{
+						Ptr<BasicNumericExpression> count=new BasicNumericExpression;
+						count->implicitIntegerType=false;
+						count->type=int_type;
+						count->argument.int_value=typeRes->elementCount;
+
 						Ptr<BasicArrayType> target=new BasicArrayType;
 						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap, referencedAssemblies);
-						target->size=typeRes->elementCount;
+						target->count=count;
 						type=target;
 					}
 					break;

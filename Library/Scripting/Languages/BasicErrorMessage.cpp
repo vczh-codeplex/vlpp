@@ -306,6 +306,11 @@ namespace vl
 				return L"Instance declared on non public concept "+concept+L" should be non public.";
 			}
 
+			WString BasicErrorMessage::ArrayElementCountShouldBeIntegerConstantExpression()
+			{
+				return L"Array element count should be integer constant expression.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

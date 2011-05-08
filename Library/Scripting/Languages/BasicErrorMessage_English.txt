@@ -62,6 +62,8 @@ PublicDeclarationCannotUseNonPublicType(name,type)=Public declaration {name} can
 InstanceDeclaredOnPublicConceptShouldBePublic(concept)=Instance declared on public concept {concept} should be public.
 InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(concept)=Instance declared on non public concept {concept} should be non public.
 
+ArrayElementCountShouldBeIntegerConstantExpression=Array element count should be integer constant expression.
+
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.
 ILExceptionAccessViolation=Access violation.

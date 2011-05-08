@@ -85,6 +85,7 @@ namespace vl
 					PublicDeclarationCannotUseNonPublicType,				//declaration-name, [typeParameter for type information]
 					InstanceDeclaredOnPublicConceptShouldBePublic,			//concept-name
 					InstanceDeclaredOnNonPublicConceptShouldBeNonPublic,	//concept-name
+					ArrayElementCountShouldBeIntegerConstantExpression,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -170,6 +171,7 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetPublicDeclarationCannotUseNonPublicType(BasicDeclaration* declaration, BasicTypeRecord* type);
 				static Ptr<BasicLanguageCodeException>							GetInstanceDeclaredOnPublicConceptShouldBePublic(BasicConceptInstanceDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetInstanceDeclaredOnNonPublicConceptShouldBeNonPublic(BasicConceptInstanceDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetArrayElementCountShouldBeIntegerConstantExpression(BasicExpression* expression);
 			};
 		}
 	}

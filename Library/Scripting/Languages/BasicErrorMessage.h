@@ -85,6 +85,7 @@ namespace vl
 				static WString PublicDeclarationCannotUseNonPublicType(const WString& name, const WString& type);
 				static WString InstanceDeclaredOnPublicConceptShouldBePublic(const WString& concept);
 				static WString InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(const WString& concept);
+				static WString ArrayElementCountShouldBeIntegerConstantExpression();
 				static WString ILExceptionStackOverflow();
 				static WString ILExceptionDividByZero();
 				static WString ILExceptionAccessViolation();

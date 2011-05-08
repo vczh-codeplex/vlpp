@@ -53,7 +53,17 @@ BasicLanguage_GetTypeRecord
 
 				ALGORITHM_FUNCTION_MATCH(BasicArrayType)
 				{
-					return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument, false), node->size);
+					BasicTypeRecord* countType=BasicLanguage_GetExpressionType(node->count, argument);
+					if(countType && CanImplicitConvertTo(countType, argument.typeManager->GetPrimitiveType(int_type), node->count.Obj(), argument))
+					{
+						if(BasicLanguage_IsConstantExpression(node->count, argument))
+						{
+							vint count=(vint)BasicLanguage_GetConstantValue(node->count, argument).S(countType);
+							return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument, false), count);
+						}
+					}
+					argument.errors.Add(BasicLanguageCodeException::GetArrayElementCountShouldBeIntegerConstantExpression(node->count.Obj()));
+					return 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceType)
