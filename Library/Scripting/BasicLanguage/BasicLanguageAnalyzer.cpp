@@ -58,6 +58,10 @@ BasicSemanticExtension
 				CHECK_FAIL(L"BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
 			}
 
+/***********************************************************************
+BasicAlgorithmParameter
+***********************************************************************/
+
 			BasicAlgorithmParameter::BasicAlgorithmParameter(
 				BasicEnv* _env,
 				BasicScope* _scope,
