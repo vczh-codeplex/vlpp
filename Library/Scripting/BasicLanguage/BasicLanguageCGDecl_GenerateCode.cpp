@@ -36,11 +36,14 @@ BasicLanguage_GenerateLinkingSymbolTable
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
+					if(!node->constant)
 					{
-						if(!node->genericDeclaration.HasGeneric())
+						if(node->linking.HasLink() && !argument.info->linkings.Contains(node->linking))
 						{
-							const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+							if(!node->genericDeclaration.HasGeneric())
+							{
+								const_cast<BCP&>(argument).info->linkings.Add(node->linking);
+							}
 						}
 					}
 				}
@@ -141,28 +144,31 @@ BasicLanguage_GenerateCodePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicVariableDeclaration)
 				{
-					if(!node->genericDeclaration.HasGeneric())
+					if(!node->constant)
 					{
-						BasicOffset offset=-1;
-						if(node->linking.HasLink())
+						if(!node->genericDeclaration.HasGeneric())
 						{
-							offset=argument.info->linkings.IndexOf(node->linking);
+							BasicOffset offset=-1;
+							if(node->linking.HasLink())
+							{
+								offset=argument.info->linkings.IndexOf(node->linking);
+							}
+							else
+							{
+								BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
+								BasicOffset size=argument.info->GetTypeInfo(type)->size;
+								char* data=new char[size.Constant()];
+								memset(data, 0, size.Constant());
+								offset=(vint)argument.globalData->Size();
+								argument.globalData->Write(data, size.Constant());
+								delete[] data;
+							}
+							argument.info->GetGlobalVariableOffsets().Add(node, offset.Constant());
 						}
-						else
+						if(node->initializer)
 						{
-							BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Items()[node->name].type;
-							BasicOffset size=argument.info->GetTypeInfo(type)->size;
-							char* data=new char[size.Constant()];
-							memset(data, 0, size.Constant());
-							offset=(vint)argument.globalData->Size();
-							argument.globalData->Write(data, size.Constant());
-							delete[] data;
+							BasicLanguage_StoreToAddress(node->initializer.Obj(), node, argument);
 						}
-						argument.info->GetGlobalVariableOffsets().Add(node, offset.Constant());
-					}
-					if(node->initializer)
-					{
-						BasicLanguage_StoreToAddress(node->initializer.Obj(), node, argument);
 					}
 				}
 

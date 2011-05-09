@@ -73,7 +73,8 @@ BasicLanguage_BuildDeclarationBody
 							argument.errors.Add(BasicLanguageCodeException::GetExternalVariableCannotHaveInitializer(node));
 						}
 					}
-					if(node->initializer)
+					// constant initializer is checked
+					if(!node->constant && node->initializer)
 					{
 						BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
 						try

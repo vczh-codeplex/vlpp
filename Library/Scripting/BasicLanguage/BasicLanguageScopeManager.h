@@ -21,6 +21,44 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
+
+/***********************************************************************
+BasicCompileTimeConstant
+***********************************************************************/
+
+			struct BasicCompileTimeConstant
+			{
+				union
+				{
+					signed __int64			s;
+					unsigned __int64		u;
+					double					d;
+				};
+
+				enum ConstantType
+				{
+					Unsigned,
+					Signed,
+					Float,
+				};
+
+				BasicCompileTimeConstant(){s=0;}
+				BasicCompileTimeConstant(signed __int64 v){s=v;}
+				BasicCompileTimeConstant(unsigned __int64 v){u=v;}
+				BasicCompileTimeConstant(double v){d=v;}
+				BasicCompileTimeConstant(bool v){s=(v?-1:0);}
+
+				signed __int64				S(BasicTypeRecord* sourceType);
+				unsigned __int64			U(BasicTypeRecord* sourceType);
+				double						F(BasicTypeRecord* sourceType);
+			};
+
+			extern BasicCompileTimeConstant::ConstantType GetConstantType(BasicTypeRecord* type);
+
+/***********************************************************************
+BasicScope
+***********************************************************************/
+
 			class BasicScope : public CommonScope<BasicScope>
 			{
 				friend class BasicEnv;
@@ -43,9 +81,11 @@ namespace vl
 					BasicVariableStatement*						localVariable;
 					vint										parameterIndex;
 					BasicTypeRecord*							type;
+					BasicCompileTimeConstant					constantValue;
 
 					Variable();
 					Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type);
+					Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type, BasicCompileTimeConstant _constantValue);
 					Variable(BasicVariableStatement* variable, BasicTypeRecord* _type);
 					Variable(vint variable, BasicTypeRecord* _type);
 
@@ -93,6 +133,10 @@ namespace vl
 				Ptr<Instance>									FindInstance(BasicTypeRecord* type, const WString& conceptName);
 				bool											RequiredInstanceExists(BasicTypeRecord* type, const WString& conceptName, Ptr<BasicScope::Instance>& instance);
 			};
+
+/***********************************************************************
+BasicEnv
+***********************************************************************/
 
 			class BasicEnv : public Object, private NotCopyable
 			{

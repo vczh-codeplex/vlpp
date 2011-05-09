@@ -64,6 +64,9 @@ InstanceDeclaredOnNonPublicConceptShouldBeNonPublic(concept)=Instance declared o
 
 ArrayElementCountShouldBeIntegerConstantExpression=Array element count should be integer constant expression.
 ArrayElementCountShouldBePositive=Array element count should be positive.
+ConstantInitializerShouldBeConstantExpression=Constant initializer should be constant expression.
+ConstantCannotBeGeneric=Constant cannot be generic.
+ConstantCannotBeExternalSymbol=Constant cannot be external symbol.
 
 ILExceptionStackOverflow=Stack overflow.
 ILExceptionDividByZero=Divided by zero.

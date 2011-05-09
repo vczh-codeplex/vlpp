@@ -1103,6 +1103,7 @@ BasicGenericNode
 
 				declaration->name=name;
 				declaration->type=type.GetInternalValue();
+				declaration->constant=false;
 				program->declarations.Add(declaration);
 			}
 
@@ -1113,6 +1114,7 @@ BasicGenericNode
 
 				declaration->name=name;
 				declaration->type=type.GetInternalValue();
+				declaration->constant=false;
 				declaration->linking.assemblyName=assemblyName;
 				declaration->linking.symbolName=symbolName;
 				program->declarations.Add(declaration);
@@ -1126,6 +1128,19 @@ BasicGenericNode
 				declaration->name=name;
 				declaration->type=type.GetInternalValue();
 				declaration->initializer=initializer.GetInternalValue();
+				declaration->constant=false;
+				program->declarations.Add(declaration);
+			}
+
+			void BasicGenericNode::DefineConstant(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer)
+			{
+				Ptr<BasicVariableDeclaration> declaration=new BasicVariableDeclaration;
+				CopyGenericDeclaration(declaration);
+
+				declaration->name=name;
+				declaration->type=type.GetInternalValue();
+				declaration->initializer=initializer.GetInternalValue();
+				declaration->constant=true;
 				program->declarations.Add(declaration);
 			}
 

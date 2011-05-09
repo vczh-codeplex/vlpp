@@ -527,6 +527,24 @@ BasicLanguageCodeException
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(expression, ArrayElementCountShouldBePositive, parameters.Wrap());
 			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConstantInitializerShouldBeConstantExpression(BasicVariableDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, ConstantInitializerShouldBeConstantExpression, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConstantCannotBeGeneric(BasicVariableDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, ConstantCannotBeGeneric, parameters.Wrap());
+			}
+
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetConstantCannotBeExternalSymbol(BasicVariableDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new BasicLanguageCodeException(declaration, ConstantCannotBeExternalSymbol, parameters.Wrap());
+			}
 		}
 	}
 }

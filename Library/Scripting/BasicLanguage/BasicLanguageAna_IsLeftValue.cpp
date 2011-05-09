@@ -119,7 +119,19 @@ BasicLanguage_IsLeftValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicReferenceExpression)
 				{
-					return argument.env->GetReference(node).isVariable;
+					BasicEnv::Reference reference=argument.env->GetReference(node);
+					if(!reference.isVariable)
+					{
+						return false;
+					}
+					else if(reference.globalVariable && reference.globalVariable->constant)
+					{
+						return false;
+					}
+					else
+					{
+						return true;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)

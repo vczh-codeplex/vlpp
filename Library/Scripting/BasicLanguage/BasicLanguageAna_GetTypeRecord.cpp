@@ -59,7 +59,15 @@ BasicLanguage_GetTypeRecord
 						if(BasicLanguage_IsConstantExpression(node->count, argument))
 						{
 							vint count=(vint)BasicLanguage_GetConstantValue(node->count, argument).S(countType);
-							return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument, false), count);
+							if(count>0)
+							{
+								return argument.typeManager->GetArrayType(BasicLanguage_GetTypeRecord(node->elementType, argument, false), count);
+							}
+							else
+							{
+								argument.errors.Add(BasicLanguageCodeException::GetArrayElementCountShouldBePositive(node->count.Obj()));
+								return 0;
+							}
 						}
 					}
 					argument.errors.Add(BasicLanguageCodeException::GetArrayElementCountShouldBeIntegerConstantExpression(node->count.Obj()));

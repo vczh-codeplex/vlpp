@@ -87,6 +87,9 @@ namespace vl
 					InstanceDeclaredOnNonPublicConceptShouldBeNonPublic,	//concept-name
 					ArrayElementCountShouldBeIntegerConstantExpression,
 					ArrayElementCountShouldBePositive,
+					ConstantInitializerShouldBeConstantExpression,
+					ConstantCannotBeGeneric,
+					ConstantCannotBeExternalSymbol,
 				};
 			protected:
 				BasicLanguageElement*											element;
@@ -174,6 +177,9 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetInstanceDeclaredOnNonPublicConceptShouldBeNonPublic(BasicConceptInstanceDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetArrayElementCountShouldBeIntegerConstantExpression(BasicExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetArrayElementCountShouldBePositive(BasicExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetConstantInitializerShouldBeConstantExpression(BasicVariableDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConstantCannotBeGeneric(BasicVariableDeclaration* declaration);
+				static Ptr<BasicLanguageCodeException>							GetConstantCannotBeExternalSymbol(BasicVariableDeclaration* declaration);
 			};
 		}
 	}

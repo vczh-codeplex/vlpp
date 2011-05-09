@@ -22,7 +22,7 @@ function void TestCase_AssertConstantExpression()
     Assert(sizeof(char[5*2])==10, L"*");
     Assert(sizeof(char[5/2])==2, L"/");
     Assert(sizeof(char[5%2])==1, L"%");
-    Assert(sizeof(char[5&2])==0, L"&");
+    Assert(sizeof(char[5&2+1])==1, L"&");
     Assert(sizeof(char[5|2])==7, L"|");
     Assert(sizeof(char[5^2])==7, L"^");
     Assert(sizeof(char[5<<2])==20, L"<<");
@@ -33,7 +33,7 @@ function void TestCase_AssertConstantExpression()
     Assert(sizeof(char[cast<int>(cast<wchar*>(6)-cast<wchar*>(4))])==1, L"complex");
 
     Assert(sizeof(char[sizeof(SizeofStructure)]) == sizeof(int)+sizeof(char)+sizeof(f64), L"sizeof");
-    Assert(sizeof(char[offsetof(SizeofStructure::a)])==0, L"offsetof");
+    Assert(sizeof(char[offsetof(SizeofStructure::a)+1])==1, L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::b)])==sizeof(int), L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::c)])==sizeof(int)+sizeof(char), L"offsetof");
 }
