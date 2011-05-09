@@ -261,7 +261,15 @@ Extra
 					if(temporaryParsing < ((unsigned __int64)1<<31))
 					{
 						sign=true;
+#ifndef VCZH_64
 						bits=32;
+#endif
+					}
+					else if(temporaryParsing < ((unsigned __int64)1<<32))
+					{
+#ifndef VCZH_64
+						bits=32;
+#endif
 					}
 					else if(temporaryParsing < ((unsigned __int64)1<<63))
 					{
