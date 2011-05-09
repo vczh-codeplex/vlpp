@@ -164,6 +164,7 @@ Code Generation Helper Functions
 			extern basicil::BasicIns::ValueType		Convert								(BasicPrimitiveTypeEnum type);
 			extern basicil::BasicIns::ValueType		Convert								(BasicTypeRecord* type);
 			extern basicil::BasicIns::Argument		Convert								(BasicPrimitiveValueEnum value);
+			extern basicil::BasicIns::Argument		Convert								(BasicCompileTimeConstant value);
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern bool								IsForeignFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);

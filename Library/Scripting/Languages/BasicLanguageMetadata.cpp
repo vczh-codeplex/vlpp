@@ -191,6 +191,11 @@ BasicDeclarationInfo
 			return declaration->type==BasicDeclarationRes::TypeRename;
 		}
 
+		bool BasicDeclarationInfo::IsConstant()const
+		{
+			return declaration->type==BasicDeclarationRes::Constant;
+		}
+
 		BasicTypeInfo BasicDeclarationInfo::GetType()const
 		{
 			return BasicTypeInfo(declaration->declarationType, metadata);

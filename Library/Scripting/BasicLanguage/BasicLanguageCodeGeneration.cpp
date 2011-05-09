@@ -837,6 +837,90 @@ Header File Generator
 								declaration=target;
 							}
 							break;
+						case BasicDeclarationRes::Constant:
+							{
+								Ptr<BasicVariableDeclaration> target=new BasicVariableDeclaration;
+								target->constant=true;
+								target->type=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap, referencedAssemblies);
+
+								if(target->type.Cast<BasicPointerType>())
+								{
+									if(declarationRes->constantValue.d==0)
+									{
+										target->initializer=new BasicNullExpression;
+									}
+									else
+									{
+										Ptr<BasicNumericExpression> number=new BasicNumericExpression;
+										number->implicitIntegerType=true;
+										number->type=u64;
+										number->argument.u64=declarationRes->constantValue.u;
+
+										Ptr<BasicCastingExpression> casting=new BasicCastingExpression;
+										casting->type=target->type;
+										casting->operand=number;
+										target->initializer=casting;
+									}
+								}
+								else if(Ptr<BasicPrimitiveType> primitiveType=target->type.Cast<BasicPrimitiveType>())
+								{
+									Ptr<BasicNumericExpression> number=new BasicNumericExpression;
+									number->implicitIntegerType=true;
+									number->type=primitiveType->type;
+									switch(primitiveType->type)
+									{
+									case s8:
+										number->argument.s8=(signed __int8)declarationRes->constantValue.s;
+										break;
+									case s16:
+										number->argument.s16=(signed __int16)declarationRes->constantValue.s;
+										break;
+									case s32:
+										number->argument.s32=(signed __int32)declarationRes->constantValue.s;
+										break;
+									case s64:
+										number->argument.s64=(signed __int64)declarationRes->constantValue.s;
+										break;
+									case u8:
+										number->argument.u8=(unsigned __int8)declarationRes->constantValue.u;
+										break;
+									case u16:
+										number->argument.u16=(unsigned __int16)declarationRes->constantValue.u;
+										break;
+									case u32:
+										number->argument.u32=(unsigned __int32)declarationRes->constantValue.u;
+										break;
+									case u64:
+										number->argument.u64=(unsigned __int64)declarationRes->constantValue.u;
+										break;
+									case f32:
+										number->argument.f32=(float)declarationRes->constantValue.d;
+										break;
+									case f64:
+										number->argument.f64=(double)declarationRes->constantValue.d;
+										break;
+									case char_type:
+										number->argument.char_value=(char)declarationRes->constantValue.s;
+										break;
+									case wchar_type:
+										number->argument.wchar_value=(wchar_t)declarationRes->constantValue.u;
+										break;
+									case bool_type:
+										number->argument.bool_value=(declarationRes->constantValue.s!=0);
+										break;
+									default:
+										CHECK_FAIL(L"BasicLanguage_GenerateHeaderFile(...)#遇到无法解释的常量类型。");
+									}
+									target->initializer=number;
+								}
+								else
+								{
+									CHECK_FAIL(L"BasicLanguage_GenerateHeaderFile(...)#遇到无法解释的常量类型。");
+								}
+
+								declaration=target;
+							}
+							break;
 						case BasicDeclarationRes::Structure:
 							{
 								Ptr<BasicStructureDeclaration> target=new BasicStructureDeclaration;
@@ -893,8 +977,11 @@ Header File Generator
 							CHECK_FAIL(L"BasicLanguage_GenerateHeaderFile(...)#遇到无法解释的资源类型。");
 						}
 						declaration->name=declarationName;
-						declaration->linking.assemblyName=linkingAssemblyName;
-						declaration->linking.symbolName=linkingSymbolName;
+						if(declarationRes->type!=BasicDeclarationRes::Constant)
+						{
+							declaration->linking.assemblyName=linkingAssemblyName;
+							declaration->linking.symbolName=linkingSymbolName;
+						}
 						if(declarationRes->type!=BasicDeclarationRes::Concept && declarationRes->genericArgumentNames)
 						{
 							ResourceArrayRecord<BasicParameterRes> argumentsRes=resource->ReadArrayRecord(declarationRes->genericArgumentNames);

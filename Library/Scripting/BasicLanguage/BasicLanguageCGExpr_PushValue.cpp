@@ -476,8 +476,27 @@ BasicLanguage_PushValueInternal
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node);
 					if(reference.isVariable)
 					{
-						BasicLanguage_PushRef(node, argument);
-						Code_Read(nodeType, argument);
+						if(reference.globalVariable && reference.globalVariable->constant)
+						{
+							BasicCompileTimeConstant constantValue=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).constantValue;
+							if(nodeType->GetType()==BasicTypeRecord::Pointer)
+							{
+								argument.Ins(BasicIns::push, BasicIns::pointer_type, BasicIns::MakePointer((void*)constantValue.u));
+							}
+							else if(nodeType->GetType()==BasicTypeRecord::Primitive)
+							{
+								argument.Ins(BasicIns::push, Convert(nodeType->PrimitiveType()), Convert(constantValue));
+							}
+							else
+							{
+								CHECK_ERROR(false, L"BasicLanguage_PushValueInternal(BasicReferenceExpression*, const BCP&)#不支持此操作。");
+							}
+						}
+						else
+						{
+							BasicLanguage_PushRef(node, argument);
+							Code_Read(nodeType, argument);
+						}
 					}
 					else
 					{
