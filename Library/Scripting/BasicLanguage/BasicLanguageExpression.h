@@ -557,6 +557,7 @@ Declaration
 
 				Ptr<BasicType>								type;
 				Ptr<BasicExpression>						initializer;
+				bool										constant;
 			};
 
 			class BasicTypeRenameDeclaration : public BasicDeclaration

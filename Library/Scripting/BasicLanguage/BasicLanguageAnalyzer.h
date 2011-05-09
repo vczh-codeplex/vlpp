@@ -119,38 +119,6 @@ Algorithms
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP);
 			extern void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument);
 
-/***********************************************************************
-Algorithms::Constant
-***********************************************************************/
-
-			struct BasicCompileTimeConstant
-			{
-				union
-				{
-					signed __int64			s;
-					unsigned __int64		u;
-					double					d;
-				};
-
-				enum ConstantType
-				{
-					Unsigned,
-					Signed,
-					Float,
-				};
-
-				BasicCompileTimeConstant(){s=0;}
-				BasicCompileTimeConstant(signed __int64 v){s=v;}
-				BasicCompileTimeConstant(unsigned __int64 v){u=v;}
-				BasicCompileTimeConstant(double v){d=v;}
-				BasicCompileTimeConstant(bool v){s=(v?-1:0);}
-
-				signed __int64				S(BasicTypeRecord* sourceType);
-				unsigned __int64			U(BasicTypeRecord* sourceType);
-				double						F(BasicTypeRecord* sourceType);
-			};
-
-			extern BasicCompileTimeConstant::ConstantType GetConstantType(BasicTypeRecord* type);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_IsConstantExpression, BasicExpression, BP, bool);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetConstantValue, BasicExpression, BP, BasicCompileTimeConstant);
 

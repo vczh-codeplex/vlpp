@@ -316,6 +316,21 @@ namespace vl
 				return L"Array element count should be positive.";
 			}
 
+			WString BasicErrorMessage::ConstantInitializerShouldBeConstantExpression()
+			{
+				return L"Constant initializer should be constant expression.";
+			}
+
+			WString BasicErrorMessage::ConstantCannotBeGeneric()
+			{
+				return L"Constant cannot be generic.";
+			}
+
+			WString BasicErrorMessage::ConstantCannotBeExternalSymbol()
+			{
+				return L"Constant cannot be external symbol.";
+			}
+
 			WString BasicErrorMessage::ILExceptionStackOverflow()
 			{
 				return L"Stack overflow.";

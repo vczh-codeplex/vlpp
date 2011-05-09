@@ -264,6 +264,7 @@ Program
 				void									DefineVariable(const WString& name, const BasicTypeNode& type);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const WString& assemblyName, const WString& symbolName);
 				void									DefineVariable(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
+				void									DefineConstant(const WString& name, const BasicTypeNode& type, const BasicExpressionNode& initializer);
 				void									DefineRename(const WString& name, const BasicTypeNode& type);
 				BasicFunctionDeclarationNode			DefineFunction(const WString& name);
 				void									DefineStructureForward(const WString& name);

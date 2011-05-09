@@ -1067,6 +1067,17 @@ Extra
 				{
 					declaration->initializer=input.Second().Head()->Value();
 				}
+				declaration->constant=false;
+				return declaration;
+			}
+
+			Ptr<BasicDeclaration> ToConstDecl(const ParsingPair<ParsingPair<ParsingPair<RegexToken, Ptr<BasicType>>, RegexToken>, Ptr<BasicExpression>>& input)
+			{
+				Ptr<BasicVariableDeclaration> declaration=CreateNode<BasicVariableDeclaration>(input.First().First().First());
+				declaration->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				declaration->type=input.First().First().Second();
+				declaration->initializer=input.Second();
+				declaration->constant=true;
 				return declaration;
 			}
 
@@ -1287,7 +1298,7 @@ Extra
 				TokenType							PRIM_TYPE;
 				
 				TokenType							SIZEOF, OFFSETOF, TYPEOF;
-				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, STACK_DATA, RESULT, FUNCTION, CAST, VARIABLE;
+				TokenType							TRUE, FALSE, NULL_VALUE, EXCEPTION_VALUE, STACK_DATA, RESULT, FUNCTION, CAST, VARIABLE, CONSTANT;
 				TokenType							IF, ELSE, BREAK, CONTINUE, EXIT, WHILE, DO, LOOP, WHEN, FOR, WITH, TRY, CATCH, THROW;
 				TokenType							TYPE, STRUCTURE, UNIT, USES, ALIAS, GENERIC, CONCEPT, INSTANCE, WHERE, FOREIGN;
 
@@ -1337,6 +1348,7 @@ Extra
 					FUNCTION		= CreateToken(tokens, L"function");
 					CAST			= CreateToken(tokens, L"cast");
 					VARIABLE		= CreateToken(tokens, L"variable");
+					CONSTANT		= CreateToken(tokens, L"constant");
 					IF				= CreateToken(tokens, L"if");
 					ELSE			= CreateToken(tokens, L"else");
 					BREAK			= CreateToken(tokens, L"break");
@@ -1490,7 +1502,8 @@ Extra
 
 					nonGenericDeclaration		
 									= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
-									| (TYPE + ID + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
+									| ((CONSTANT + type + ID(NeedID) + exp(NeedExpression)) << SEMICOLON(NeedSemicolon))[ToConstDecl]
+									| (TYPE + ID(NeedID) + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]
 									| (INSTANCE >> (instanceType + (COLON(NeedColon) >> ID << SEMICOLON(NeedSemicolon))))[ToInstancePreDecl]
@@ -2771,7 +2784,14 @@ Extra
 					PrintAttribute(node, argument);
 					PrintGeneric(node, argument);
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"variable ");
+					if(node->constant)
+					{
+						argument.writer.WriteString(L"constant ");
+					}
+					else
+					{
+						argument.writer.WriteString(L"variable ");
+					}
 					NativeX_BasicType_GenerateCode(node->type, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);

@@ -832,6 +832,7 @@ Header File Generator
 						case BasicDeclarationRes::Variable:
 							{
 								Ptr<BasicVariableDeclaration> target=new BasicVariableDeclaration;
+								target->constant=false;
 								target->type=BasicLanguage_GenerateHeaderType(typeRes, resource, prefix, declarationTypeMap, referencedAssemblies);
 								declaration=target;
 							}

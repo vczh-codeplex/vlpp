@@ -279,28 +279,35 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
 				{
-					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-					BuildGenericResource(resource, node, argument);
-					BuildAttributeResource(resource, node, argument);
-					BuildLinkingResource(resource, node, argument);
-
-					ResourceString name=argument.resource->CreateString(node->name);
-					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
-					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
-
-					resource->type=BasicDeclarationRes::Variable;
-					resource->declarationType=declarationType;
-					resource->name=name;
-					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
-					if(node->genericDeclaration.HasGeneric())
+					if(node->constant)
 					{
-						resource->address=-1;
+						return ResourceHandle<BasicDeclarationRes>::Null();
 					}
 					else
 					{
-						resource->address=argument.info->GetGlobalVariableOffsets()[node];
+						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						BuildGenericResource(resource, node, argument);
+						BuildAttributeResource(resource, node, argument);
+						BuildLinkingResource(resource, node, argument);
+
+						ResourceString name=argument.resource->CreateString(node->name);
+						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
+						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
+
+						resource->type=BasicDeclarationRes::Variable;
+						resource->declarationType=declarationType;
+						resource->name=name;
+						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+						if(node->genericDeclaration.HasGeneric())
+						{
+							resource->address=-1;
+						}
+						else
+						{
+							resource->address=argument.info->GetGlobalVariableOffsets()[node];
+						}
+						return resource;
 					}
-					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)

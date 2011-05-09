@@ -236,7 +236,54 @@ BasicLanguage_BuildGlobalScopePass1
 							BP internalArgument=BuildBasicGenericScope(node, argument);
 							BasicTypeRecord* type=BasicLanguage_GetTypeRecord(node->type, internalArgument, false);
 							type=BuildBasicGenericType(type, node, internalArgument);
-							argument.scope->variables.Add(node->name, BasicScope::Variable(node, type));
+
+							if(node->constant)
+							{
+								if(node->linking.HasLink())
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetConstantCannotBeExternalSymbol(node));
+								}
+								if(node->genericDeclaration.HasGeneric())
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetConstantCannotBeGeneric(node));
+								}
+								if(node->initializer)
+								{
+									BasicTypeRecord* initializerType=BasicLanguage_GetExpressionType(node->initializer, argument);
+									try
+									{
+										BasicTypeRecord* variableType=BasicLanguage_GetTypeRecord(node->type, argument, false);
+										if(initializerType && variableType)
+										{
+											if(!CanImplicitConvertTo(initializerType, variableType, node->initializer.Obj(), argument))
+											{
+												argument.errors.Add(BasicLanguageCodeException::GetInitializerTypeNotMatch(node));
+											}
+											else if(!BasicLanguage_IsConstantExpression(node->initializer, argument))
+											{
+												argument.errors.Add(BasicLanguageCodeException::GetConstantInitializerShouldBeConstantExpression(node));
+											}
+											else
+											{
+												BasicCompileTimeConstant constantValue=BasicLanguage_GetConstantValue(node->initializer, argument);
+												argument.scope->variables.Add(node->name, BasicScope::Variable(node, type, constantValue));
+											}
+										}
+									}
+									catch(Ptr<BasicLanguageCodeException> e)
+									{
+										argument.errors.Add(e);
+									}
+								}
+								else
+								{
+									argument.errors.Add(BasicLanguageCodeException::GetConstantInitializerShouldBeConstantExpression(node));
+								}
+							}
+							else
+							{
+								argument.scope->variables.Add(node->name, BasicScope::Variable(node, type));
+							}
 						}
 						catch(Ptr<BasicLanguageCodeException> e)
 						{

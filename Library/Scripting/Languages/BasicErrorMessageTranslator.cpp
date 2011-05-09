@@ -368,6 +368,21 @@ BasicErrorMessageTranslator
 						message=BasicErrorMessage::ArrayElementCountShouldBePositive();
 					}
 					break;
+				case BasicLanguageCodeException::ConstantInitializerShouldBeConstantExpression:
+					{
+						message=BasicErrorMessage::ConstantInitializerShouldBeConstantExpression();
+					}
+					break;
+				case BasicLanguageCodeException::ConstantCannotBeGeneric:
+					{
+						message=BasicErrorMessage::ConstantCannotBeGeneric();
+					}
+					break;
+				case BasicLanguageCodeException::ConstantCannotBeExternalSymbol:
+					{
+						message=BasicErrorMessage::ConstantCannotBeExternalSymbol();
+					}
+					break;
 				default:
 					return 0;
 				}

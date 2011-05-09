@@ -8,6 +8,87 @@ namespace vl
 		{
 
 /***********************************************************************
+BasicCompileTimeConstant
+***********************************************************************/
+			
+			signed __int64 BasicCompileTimeConstant::S(BasicTypeRecord* sourceType)
+			{
+				switch(GetConstantType(sourceType))
+				{
+				case Signed:
+					return (signed __int64)s;
+				case Unsigned:
+					return (signed __int64)u;
+				case Float:
+					return (signed __int64)d;
+				default:
+					return 0;
+				}
+			}
+
+			unsigned __int64 BasicCompileTimeConstant::U(BasicTypeRecord* sourceType)
+			{
+				switch(GetConstantType(sourceType))
+				{
+				case Signed:
+					return (unsigned __int64)s;
+				case Unsigned:
+					return (unsigned __int64)u;
+				case Float:
+					return (unsigned __int64)d;
+				default:
+					return 0;
+				}
+			}
+
+			double BasicCompileTimeConstant::F(BasicTypeRecord* sourceType)
+			{
+				switch(GetConstantType(sourceType))
+				{
+				case Signed:
+					return (double)s;
+				case Unsigned:
+					return (double)u;
+				case Float:
+					return (double)d;
+				default:
+					return 0;
+				}
+			}
+
+			BasicCompileTimeConstant::ConstantType GetConstantType(BasicTypeRecord* type)
+			{
+				if(type->GetType()==BasicTypeRecord::Primitive)
+				{
+					switch(type->PrimitiveType())
+					{
+					case s8:
+					case s16:
+					case s32:
+					case s64:
+						return BasicCompileTimeConstant::Signed;
+					case u8:
+					case u16:
+					case u32:
+					case u64:
+						return BasicCompileTimeConstant::Unsigned;
+					case f32:
+					case f64:
+						return BasicCompileTimeConstant::Float;
+					case char_type:
+					case wchar_type:
+					case bool_type:
+						return BasicCompileTimeConstant::Signed;
+					}
+				}
+				else if(type->GetType()==BasicTypeRecord::Pointer)
+				{
+					return BasicCompileTimeConstant::Unsigned;
+				}
+				CHECK_FAIL(L"GetConstantType(BasicTypeRecord* type))#非法常熟类型。");
+			}
+
+/***********************************************************************
 BasicScope::Variable
 ***********************************************************************/
 
@@ -23,6 +104,15 @@ BasicScope::Variable
 				:globalVariable(variable)
 				,localVariable(0)
 				,parameterIndex(0)
+				,type(_type)
+			{
+			}
+
+			BasicScope::Variable::Variable(BasicVariableDeclaration* variable, BasicTypeRecord* _type, BasicCompileTimeConstant _constantValue)
+				:globalVariable(variable)
+				,localVariable(0)
+				,parameterIndex(0)
+				,constantValue(_constantValue)
 				,type(_type)
 			{
 			}
