@@ -387,6 +387,9 @@ foreign function wstring ftow(f64 number, wstring output, int size)
     alias SystemCoreForeignFunctions.ftow;
 
 #public
+constant f64 PI = 3.1415926535897932;
+
+#public
 foreign function int rand16()
     alias SystemCoreForeignFunctions.rand16;
 

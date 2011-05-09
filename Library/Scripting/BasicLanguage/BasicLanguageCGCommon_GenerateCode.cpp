@@ -73,6 +73,13 @@ namespace vl
 				return argument;
 			}
 
+			BasicIns::Argument Convert(BasicCompileTimeConstant value)
+			{
+				BasicIns::Argument argument;
+				argument.s64=value.s;
+				return argument;
+			}
+
 			bool IsExternalFunction(BasicReferenceExpression* referenceExpression, const BCP& argument)
 			{
 				if(referenceExpression)

@@ -244,6 +244,7 @@ BasicLanguage_GenerateResource
 				ALGORITHM_FUNCTION_MATCH(BasicFunctionDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					resource->constantValue.s=0;
 					BuildGenericResource(resource, node, argument);
 					BuildAttributeResource(resource, node, argument);
 					BuildLinkingResource(resource, node, argument);
@@ -279,40 +280,55 @@ BasicLanguage_GenerateResource
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
 				{
+					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					resource->constantValue.s=0;
+					BuildGenericResource(resource, node, argument);
+					BuildAttributeResource(resource, node, argument);
+					BuildLinkingResource(resource, node, argument);
+
+					ResourceString name=argument.resource->CreateString(node->name);
+					BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
+					ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
+
 					if(node->constant)
 					{
-						return ResourceHandle<BasicDeclarationRes>::Null();
+						resource->type=BasicDeclarationRes::Constant;
+						BasicCompileTimeConstant constantValue=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).constantValue;
+						switch(GetConstantType(type))
+						{
+						case BasicCompileTimeConstant::Signed:
+							resource->constantValue.s=constantValue.s;
+							break;
+						case BasicCompileTimeConstant::Unsigned:
+							resource->constantValue.u=constantValue.u;
+							break;
+						case BasicCompileTimeConstant::Float:
+							resource->constantValue.d=constantValue.d;
+							break;
+						}
 					}
 					else
 					{
-						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
-						BuildGenericResource(resource, node, argument);
-						BuildAttributeResource(resource, node, argument);
-						BuildLinkingResource(resource, node, argument);
-
-						ResourceString name=argument.resource->CreateString(node->name);
-						BasicTypeRecord* type=argument.info->GetEnv()->GlobalScope()->variables.Find(node->name).type;
-						ResourceHandle<BasicTypeRes> declarationType=GenerateResource(type, argument);
-
 						resource->type=BasicDeclarationRes::Variable;
-						resource->declarationType=declarationType;
-						resource->name=name;
-						resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
-						if(node->genericDeclaration.HasGeneric())
-						{
-							resource->address=-1;
-						}
-						else
-						{
-							resource->address=argument.info->GetGlobalVariableOffsets()[node];
-						}
-						return resource;
 					}
+					resource->declarationType=declarationType;
+					resource->name=name;
+					resource->parameterNames=ResourceArrayHandle<BasicParameterRes>::Null();
+					if(node->genericDeclaration.HasGeneric() || node->constant)
+					{
+						resource->address=-1;
+					}
+					else
+					{
+						resource->address=argument.info->GetGlobalVariableOffsets()[node];
+					}
+					return resource;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicTypeRenameDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					resource->constantValue.s=0;
 					BuildGenericResource(resource, node, argument);
 					BuildAttributeResource(resource, node, argument);
 					BuildLinkingResource(resource, node, argument);
@@ -335,6 +351,7 @@ BasicLanguage_GenerateResource
 					if(node->defined)
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						resource->constantValue.s=0;
 						BuildGenericResource(resource, node, argument);
 						BuildAttributeResource(resource, node, argument);
 						BuildLinkingResource(resource, node, argument);
@@ -359,6 +376,7 @@ BasicLanguage_GenerateResource
 				ALGORITHM_FUNCTION_MATCH(BasicConceptBaseDeclaration)
 				{
 					ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+					resource->constantValue.s=0;
 					BuildAttributeResource(resource, node, argument);
 					BuildLinkingResource(resource, node, argument);
 					{
@@ -410,6 +428,7 @@ BasicLanguage_GenerateResource
 					if(node->defined)
 					{
 						ResourceRecord<BasicDeclarationRes> resource=argument.resource->CreateRecord<BasicDeclarationRes>();
+						resource->constantValue.s=0;
 						BuildGenericResource(resource, node, argument);
 						BuildAttributeResource(resource, node, argument);
 						BuildLinkingResource(resource, node, argument);
@@ -470,7 +489,7 @@ BasicLanguage_GenerateExport
 
 				ALGORITHM_FUNCTION_MATCH(BasicVariableDeclaration)
 				{
-					if(node->linking.HasLink() || node->genericDeclaration.HasGeneric())
+					if(node->linking.HasLink() || node->genericDeclaration.HasGeneric() || node->constant)
 					{
 						return ResourceHandle<BasicILExportRes>::Null();
 					}

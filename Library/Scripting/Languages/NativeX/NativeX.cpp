@@ -1502,7 +1502,7 @@ Extra
 
 					nonGenericDeclaration		
 									= (VARIABLE + type + ID(NeedID) + opt(linking) + opt(ASSIGN >> exp) << SEMICOLON(NeedSemicolon))[ToVarDecl]
-									| ((CONSTANT + type + ID(NeedID) + exp(NeedExpression)) << SEMICOLON(NeedSemicolon))[ToConstDecl]
+									| ((CONSTANT + type + ID(NeedID) + (ASSIGN(NeedAssign) >> exp(NeedExpression))) << SEMICOLON(NeedSemicolon))[ToConstDecl]
 									| (TYPE + ID(NeedID) + (ASSIGN(NeedAssign) >> type) << SEMICOLON(NeedSemicolon))[ToTypedefDecl]
 									| (STRUCTURE + ID(NeedID) << SEMICOLON(NeedSemicolon))[ToStructPreDecl]
 									| (STRUCTURE + ID(NeedID) + opt(linking) + (OPEN_STAT(NeedOpenStruct) >> *(type + ID(NeedID) << SEMICOLON(NeedSemicolon)) << CLOSE_STAT(NeedCloseStruct)))[ToStructDecl]

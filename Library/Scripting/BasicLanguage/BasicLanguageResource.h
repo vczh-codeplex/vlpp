@@ -109,10 +109,11 @@ namespace vl
 				Concept,
 				Instance,
 				TypeRename,
+				Constant,
 			};
 
 			TypeEnum									type;
-			ResourceHandle<BasicTypeRes>				declarationType;				//Function, Variable, Structure, Concept, Instance, TypeRename
+			ResourceHandle<BasicTypeRes>				declarationType;				//Function, Variable, Structure, Concept, Instance, TypeRename, Constant
 			ResourceString								name;
 			ResourceArrayHandle<BasicParameterRes>		parameterNames;					//Function(parameter)
 			vint										address;						//Function(ins index), Variable(data offset)
@@ -123,6 +124,12 @@ namespace vl
 			ResourceArrayHandle<BasicAttributeRes>		attributes;
 			ResourceString								instanceConceptAssemblyName;	//Instance
 			ResourceString								instanceConceptSymbolName;		//Instance
+			union
+			{
+				signed __int64							s;
+				unsigned __int64						u;
+				double									d;
+			}											constantValue;					//Constant
 		};
 
 /***********************************************************************

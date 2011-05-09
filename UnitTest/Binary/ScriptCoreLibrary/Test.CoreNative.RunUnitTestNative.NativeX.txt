@@ -6,6 +6,12 @@ function void TestCase_AssertAndPrint()
 {
     Assert(1==1, L"AssertAndPrint: 1==1");
     Print(L"AssertAndPrint: This is a message.");
+
+    variable wchar[100] buffer;
+    ftow(asin(1)*2, &buffer[0], 100);
+    Print(&buffer[0]);
+    ftow(PI, &buffer[0], 100);
+    Print(&buffer[0]);
 }
 
 structure SizeofStructure
@@ -15,6 +21,9 @@ structure SizeofStructure
     f64 c;
 }
 
+constant int one = 1;
+constant int two = one+one;
+
 function void TestCase_AssertConstantExpression()
 {
     Assert(sizeof(char[5+2])==7, L"+");
@@ -22,7 +31,7 @@ function void TestCase_AssertConstantExpression()
     Assert(sizeof(char[5*2])==10, L"*");
     Assert(sizeof(char[5/2])==2, L"/");
     Assert(sizeof(char[5%2])==1, L"%");
-    Assert(sizeof(char[5&2+1])==1, L"&");
+    Assert(sizeof(char[(5&2)+two])==2, L"&");
     Assert(sizeof(char[5|2])==7, L"|");
     Assert(sizeof(char[5^2])==7, L"^");
     Assert(sizeof(char[5<<2])==20, L"<<");
@@ -33,7 +42,7 @@ function void TestCase_AssertConstantExpression()
     Assert(sizeof(char[cast<int>(cast<wchar*>(6)-cast<wchar*>(4))])==1, L"complex");
 
     Assert(sizeof(char[sizeof(SizeofStructure)]) == sizeof(int)+sizeof(char)+sizeof(f64), L"sizeof");
-    Assert(sizeof(char[offsetof(SizeofStructure::a)+1])==1, L"offsetof");
+    Assert(sizeof(char[offsetof(SizeofStructure::a)+one])==1, L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::b)])==sizeof(int), L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::c)])==sizeof(int)+sizeof(char), L"offsetof");
 }
