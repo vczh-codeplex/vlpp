@@ -537,6 +537,12 @@
     <ClCompile Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetConstantValue.cpp">
       <Filter>Library3\Scripting\BasicLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Entity\TaskEntity.cpp">
+      <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestEntityTask.cpp">
+      <Filter>Source Files\Fundamental</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1739,6 +1745,9 @@
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\TreeJson.h">
+      <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Entity\TaskEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
