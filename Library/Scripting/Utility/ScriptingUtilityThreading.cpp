@@ -1,6 +1,7 @@
 #include "ScriptingUtilityForeignFunctions.h"
 #include "..\Languages\LanguageRuntime.h"
 #include "..\..\Threading.h"
+#include <intrin.h>
 
 namespace vl
 {
@@ -16,6 +17,31 @@ namespace vl
 			protected:
 				LanguageHandleList<WaitableObject>		waitables;
 				LanguageHandleList<CriticalSection>		criticalSections;
+
+				/*----------------------------------------------------------------------*/
+
+				static bool SynInitializeSpinLock(vint* lock)
+				{
+					*lock=0;
+					return true;
+				}
+
+				static bool SynTryEnterSpinLock(vint* lock)
+				{
+					return _InterlockedExchange((long*)lock, 1)==0;
+				}
+
+				static bool SynEnterSpinLock(vint* lock)
+				{
+					while(_InterlockedExchange((long*)lock, 1)==1);
+					return true;
+				}
+
+				static bool SynLeaveSpinLock(vint* lock)
+				{
+					_InterlockedExchange((long*)lock, 0);
+					return true;
+				}
 
 				/*----------------------------------------------------------------------*/
 
@@ -420,6 +446,10 @@ namespace vl
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
+						REGISTER_LIGHT_FUNCTION(SynInitializeSpinLock, bool(vint*), SynInitializeSpinLock) &&
+						REGISTER_LIGHT_FUNCTION(SynTryEnterSpinLock, bool(vint*), SynTryEnterSpinLock) &&
+						REGISTER_LIGHT_FUNCTION(SynEnterSpinLock, bool(vint*), SynEnterSpinLock) &&
+						REGISTER_LIGHT_FUNCTION(SynLeaveSpinLock, bool(vint*), SynLeaveSpinLock) &&
 						REGISTER_LIGHT_FUNCTION2(SynCreateCriticalSection, vint(), SynCreateCriticalSection) &&
 						REGISTER_LIGHT_FUNCTION2(SynDisposeCriticalSection, bool(vint), SynDisposeCriticalSection) &&
 						REGISTER_LIGHT_FUNCTION2(SynTryEnterCriticalSection, bool(vint), SynTryEnterCriticalSection) &&

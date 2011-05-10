@@ -130,6 +130,25 @@ structure SynWaitable
 }
 
 #public
+type SpinLock = int;
+
+#public
+foreign function bool SynInitializeSpinLock(SpinLock* lock)
+    alias SystemCoreForeignFunctions.SynInitializeSpinLock;
+
+#public
+foreign function bool SynTryEnterSpinLock(SpinLock* lock)
+    alias SystemCoreForeignFunctions.SynTryEnterSpinLock;
+
+#public
+foreign function bool SynEnterSpinLock(SpinLock* lock)
+    alias SystemCoreForeignFunctions.SynEnterSpinLock;
+
+#public
+foreign function bool SynLeaveSpinLock(SpinLock* lock)
+    alias SystemCoreForeignFunctions.SynLeaveSpinLock;
+
+#public
 foreign function SynCriticalSection* SynCreateCriticalSection()
     alias SystemCoreForeignFunctions.SynCreateCriticalSection;
     
