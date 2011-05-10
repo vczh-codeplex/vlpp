@@ -299,6 +299,14 @@ foreign function int wcslen(wstring s)
     alias SystemCoreForeignFunctions.wcslen;
 
 #public
+foreign function int strtowcs(astring a, wstring w, int chars)
+    alias SystemCoreForeignFunctions.strtowcs;
+
+#public
+foreign function int wcstostr(wstring s, astring a, int chars)
+    alias SystemCoreForeignFunctions.wcstostr;
+
+#public
 foreign function void* memcpy(void* dst, void* src, int size)
     alias SystemCoreForeignFunctions.memcpy;
 

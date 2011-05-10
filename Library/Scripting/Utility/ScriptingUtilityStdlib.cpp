@@ -40,6 +40,16 @@ namespace vl
 				inline static const wchar_t* __wcsstr(const wchar_t* str, const wchar_t* sub){return wcsstr(str, sub);}
 				inline static vint __wcslen(const wchar_t* str){return wcslen(str);}
 
+				inline static vint __strtowcs(const char* a, wchar_t* w, vint chars)
+				{
+					return _atow(a, w, chars);
+				}
+
+				inline static vint __wcstostr(const wchar_t* w, char* a, vint chars)
+				{
+					return _wtoa(w, a, chars);
+				}
+
 				inline static void* __memcpy(void* dst, void* src, vint size){return memcpy(dst, src, (size_t)size);}
 				inline static vint __memcmp(void* dst, void* src, vint size){return memcmp(dst, src, (size_t)size);}
 
@@ -103,7 +113,9 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(wcsnicmp, vint(const wchar_t*, const wchar_t*, vint), __wcsnicmp) &&
 						REGISTER_LIGHT_FUNCTION(wcsstr, const wchar_t*(const wchar_t*, const wchar_t*), __wcsstr) &&
 						REGISTER_LIGHT_FUNCTION(wcslen, vint(const wchar_t*), __wcslen) &&
-
+						
+						REGISTER_LIGHT_FUNCTION(strtowcs, vint(const char*, wchar_t*, vint), __strtowcs) &&
+						REGISTER_LIGHT_FUNCTION(wcstostr, vint(const wchar_t*, char*, vint), __wcstostr) &&
 						REGISTER_LIGHT_FUNCTION(memcpy, void*(void*, void*, vint), __memcpy) &&
 						REGISTER_LIGHT_FUNCTION(memcmp, vint(void*, void*, vint), __memcmp) &&
 

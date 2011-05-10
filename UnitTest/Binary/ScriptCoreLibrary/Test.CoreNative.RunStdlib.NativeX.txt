@@ -129,6 +129,20 @@ function void TestCase_RunStdlibStringFunctions()
     Assert(wcsnicmp(L"abc", L"ABD", 2)==0, L"wcsnicmp should succeed");
     AssertStringW(wcsstr(L"abcdefg", L"de"), L"defg", 4);
     Assert(wcsstr(L"abcdefg", L"DE")==null, L"wcsstr should succeed");
+
+	variable int len = 0;
+
+	strcpy(a1, "vczh is a genius");
+	len = strtowcs(a1, null, 0);
+	Assert(len==17, L"strtowcs should succeed");
+	strtowcs(a1, w1, len);
+	Assert(wcscmp(w1, L"vczh is a genius")==0, L"strtowcs should succeed");
+
+	wcscpy(w1, L"vczh is a genius");
+	len = wcstostr(w1, null, 0);
+	Assert(len==17, L"wcstostr should succeed");
+	wcstostr(w1, a1, len);
+	Assert(strcmp(a1, "vczh is a genius")==0, L"wcstostr should succeed");
 }
 
 function void TestCase_RunStdlibConversionFunctions()

@@ -137,25 +137,33 @@ namespace vl
 		return atow(ftoa(number));
 	}
 
+	vint _wtoa(const wchar_t* w, char* a, vint chars)
+	{
+		return WideCharToMultiByte(CP_THREAD_ACP, 0, w, -1, a, (int)(a?chars:0), 0, 0);
+	}
+
 	AString wtoa(const WString& string)
 	{
-		vint Length=WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),0,0,0,0);
-		char* Temp=new char[Length+1];
-		WideCharToMultiByte(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),Temp,(int)Length,0,0);
-		Temp[Length]='\0';
-		AString s=Temp;
-		delete[] Temp;
+		vint len=_wtoa(string.Buffer(), 0, 0);
+		char* buffer=new char[len];
+		_wtoa(string.Buffer(), buffer, (int)len);
+		AString s=buffer;
+		delete[] buffer;
 		return s;
+	}
+
+	vint _atow(const char* a, wchar_t* w, vint chars)
+	{
+		return MultiByteToWideChar(CP_THREAD_ACP, 0, a, -1, w, (int)(w?chars:0));
 	}
 
 	WString atow(const AString& string)
 	{
-		vint Length=MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),0,0);
-		wchar_t* Temp=new wchar_t[Length+1];
-		MultiByteToWideChar(CP_THREAD_ACP,0,string.Buffer(),(int)string.Length(),Temp,(int)Length);
-		Temp[Length]=L'\0';
-		WString s=Temp;
-		delete[] Temp;
+		vint len=_atow(string.Buffer(), 0, 0);
+		wchar_t* buffer=new wchar_t[len];
+		_atow(string.Buffer(), buffer, (int)len);
+		WString s=buffer;
+		delete[] buffer;
 		return s;
 	}
 

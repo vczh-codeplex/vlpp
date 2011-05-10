@@ -430,7 +430,9 @@ namespace vl
 	extern WString				u64tow(unsigned __int64 number);
 	extern AString				ftoa(double number);
 	extern WString				ftow(double number);
+	extern vint					_wtoa(const wchar_t* w, char* a, vint chars);
 	extern AString				wtoa(const WString& string);
+	extern vint					_atow(const char* a, wchar_t* w, vint chars);
 	extern WString				atow(const AString& string);
 	extern AString				alower(const AString& string);
 	extern WString				wlower(const WString& string);
