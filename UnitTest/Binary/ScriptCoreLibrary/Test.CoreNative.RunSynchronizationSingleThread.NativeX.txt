@@ -2,6 +2,16 @@ unit RunSynchronizationSingleThread;
 
 uses syscrnat, sysutnat;
 
+function void TestCase_RunSpinLockSingleThread()
+{
+    variable SpinLock lock;
+	Assert(SynInitializeSpinLock(&lock), L"SynInitializeSpinLock should succeed");
+	Assert(SynEnterSpinLock(&lock), L"SynEnterSpinLock should succeed");
+	Assert(SynLeaveSpinLock(&lock), L"SynLeaveSpinLock should succeed");
+	Assert(SynTryEnterSpinLock(&lock), L"SynTryEnterSpinLock should succeed");
+	Assert(SynLeaveSpinLock(&lock), L"SynLeaveSpinLock should succeed");
+}
+
 function void TestCase_RunCriticalSectionSingleThread()
 {
     variable SynCriticalSection* cs=SynCreateCriticalSection();
