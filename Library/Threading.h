@@ -47,6 +47,11 @@ namespace vl
 		bool										IsCreated();
 		bool										Wait();
 		bool										WaitForTime(vint ms);
+		
+		static bool									WaitAll(WaitableObject** objects, vint count);
+		static bool									WaitAllForTime(WaitableObject** objects, vint count, vint ms);
+		static vint									WaitAny(WaitableObject** objects, vint count, bool* abandoned);
+		static vint									WaitAnyForTime(WaitableObject** objects, vint count, vint ms, bool* abandoned);
 	};
 
 	class Thread : public WaitableObject

@@ -64,13 +64,19 @@ Task
 
 		class CancellationToken : public Object
 		{
+		protected:
+			bool									cancelled;
 		public:
-			bool									Cancel();
+			CancellationToken();
+			~CancellationToken();
+
+			void									Cancel();
 			bool									IsCancellationRequested();
 		};
 
 		class Task : public Object, protected ITask
 		{
+			friend class Ptr<Task>;
 		public:
 			enum TaskState
 			{
@@ -81,12 +87,13 @@ Task
 
 			enum TaskResult
 			{
+				NotExecuted=0,
 				Finished=1,
 				Cancelled=2,
 				Failed=4,
 			};
 		protected:
-			SpinLock								taskDataLock;
+			SpinLock								taskLock;
 			EventObject								taskExecutionEvent;
 			TaskState								taskState;
 			TaskResult								taskResult;
@@ -110,13 +117,14 @@ Task
 			CancellationToken*						GetCancellationToken();
 			TaskState								GetState();
 			TaskResult								GetResult();
-			bool									ContinueWith(Ptr<Task> child, TaskResult conditions);
+			void									ContinueWith(Ptr<Task> child, TaskResult conditions);
 
-			void									Start();
 			void									Wait();
 
-			static void								WaitAll(Task* tasks, vint count);
-			static vint								WaitAny(Task* tasks, vint count);
+			static bool								WaitAll(Task** tasks, vint count);
+			static bool								WaitAllForTime(Task** tasks, vint count, vint ms);
+			static vint								WaitAny(Task** tasks, vint count);
+			static vint								WaitAnyForTime(Task** tasks, vint count, vint ms);
 		};
 
 		template<typename T>
@@ -124,11 +132,28 @@ Task
 		{
 		protected:
 			T										calculationResult;
-		public:
-			CalTask(const Func<T()>& task, CancellationToken* token=0);
-			CalTask(const Func<T(CalTask*)>& task, CancellationToken* token=0);
 
-			const T&								GetCalculationResult();
+			void RunTask(Func<T()> task)
+			{
+				calculationResult=task();
+			}
+		public:
+			CalTask(const Func<T()>& _task, CancellationToken* _token=0)
+				:Task(_token)
+			{
+				task=Curry(Func<void()>(this, CalTask<T>::RunTask))(_task);
+			}
+
+			CalTask(const Func<T(CalTask*)>& _task, CancellationToken* _token=0)
+				:Task(_token)
+			{
+				task=Curry(Func<void()>(this, CalTask<T>::RunTask))(Curry(_task)(this));
+			}
+
+			const T& GetCalculationResult()
+			{
+				return taskResult==Finished?calculationResult:*(T*)0;
+			}
 		};
 	}
 }

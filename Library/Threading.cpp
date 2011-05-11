@@ -1,10 +1,12 @@
 #include <Windows.h>
 #include <intrin.h>
 #include "Threading.h"
+#include "Collections\List.h"
 
 namespace vl
 {
 	using namespace threading_internal;
+	using namespace collections;
 
 /***********************************************************************
 WaitableObject
@@ -53,6 +55,77 @@ WaitableObject
 			}
 		}
 		return false;
+	}
+
+	bool WaitableObject::WaitAll(WaitableObject** objects, vint count)
+	{
+		Array<HANDLE> handles(count);
+		for(vint i=0;i<count;i++)
+		{
+			handles[i]=objects[i]->waitableData->handle;
+		}
+		DWORD result=WaitForMultipleObjects((DWORD)count, &handles[0], TRUE, INFINITE);
+		return result==WAIT_OBJECT_0 || result==WAIT_ABANDONED_0;
+
+	}
+
+	bool WaitableObject::WaitAllForTime(WaitableObject** objects, vint count, vint ms)
+	{
+		Array<HANDLE> handles(count);
+		for(vint i=0;i<count;i++)
+		{
+			handles[i]=objects[i]->waitableData->handle;
+		}
+		DWORD result=WaitForMultipleObjects((DWORD)count, &handles[0], TRUE, (DWORD)ms);
+		return result==WAIT_OBJECT_0 || result==WAIT_ABANDONED_0;
+	}
+
+	vint WaitableObject::WaitAny(WaitableObject** objects, vint count, bool* abandoned)
+	{
+		Array<HANDLE> handles(count);
+		for(vint i=0;i<count;i++)
+		{
+			handles[i]=objects[i]->waitableData->handle;
+		}
+		DWORD result=WaitForMultipleObjects((DWORD)count, &handles[0], FALSE, INFINITE);
+		if(WAIT_OBJECT_0 <= result && result<WAIT_OBJECT_0+count)
+		{
+			*abandoned=false;
+			return result-WAIT_OBJECT_0;
+		}
+		else if(WAIT_ABANDONED_0 <= result && result<WAIT_ABANDONED_0+count)
+		{
+			*abandoned=true;
+			return result-WAIT_ABANDONED_0;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	vint WaitableObject::WaitAnyForTime(WaitableObject** objects, vint count, vint ms, bool* abandoned)
+	{
+		Array<HANDLE> handles(count);
+		for(vint i=0;i<count;i++)
+		{
+			handles[i]=objects[i]->waitableData->handle;
+		}
+		DWORD result=WaitForMultipleObjects((DWORD)count, &handles[0], FALSE, (DWORD)ms);
+		if(WAIT_OBJECT_0 <= result && result<WAIT_OBJECT_0+count)
+		{
+			*abandoned=false;
+			return result-WAIT_OBJECT_0;
+		}
+		else if(WAIT_ABANDONED_0 <= result && result<WAIT_ABANDONED_0+count)
+		{
+			*abandoned=true;
+			return result-WAIT_ABANDONED_0;
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 /***********************************************************************
