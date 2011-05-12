@@ -101,3 +101,82 @@ TEST_CASE(TestEntity_RunSimpleTask)
 	ThreadPool::Current()->Queue(taskA);
 	ThreadPool::StopThreadPool(false);
 }
+
+/***********************************************************************
+Task
+***********************************************************************/
+
+namespace TestEntityHelper
+{
+	vint SquareTask(vint input)
+	{
+		{
+			SpinLock::Scope scope(lock);
+			UnitTest::PrintInfo(L"    Start executing task square("+itow(input)+L")");
+		}
+		Thread::Sleep(1000);
+		{
+			SpinLock::Scope scope(lock);
+			UnitTest::PrintInfo(L"    Stop executing task square("+itow(input)+L") = "+itow(input*input));
+		}
+		return input*input;
+	}
+
+	vint SquareTask2(vint input, Task* self)
+	{
+		if(input<5)
+		{
+			self->ContinueWith(new CalTask<vint>(Curry(SquareTask2)(input+1)), Task::Finished);
+			self->ContinueWith(new CalTask<vint>(Curry(SquareTask2)(input+2)), Task::Finished);
+			self->ContinueWith(new CalTask<vint>(Curry(SquareTask2)(input+3)), Task::Finished);
+		}
+		{
+			SpinLock::Scope scope(lock);
+			UnitTest::PrintInfo(L"    Start executing task square2("+itow(input)+L")");
+		}
+		Thread::Sleep(1000);
+		{
+			SpinLock::Scope scope(lock);
+			UnitTest::PrintInfo(L"    Stop executing task square2("+itow(input)+L") = "+itow(input*input));
+		}
+		return input*input;
+	}
+}
+using namespace TestEntityHelper;
+
+TEST_CASE(TestEntity_RunSquareTask)
+{
+	Ptr<CalTask<vint>> taskA=new CalTask<vint>(Curry(SquareTask)(1));
+	Ptr<CalTask<vint>> taskB=new CalTask<vint>(Curry(SquareTask)(2));
+	Ptr<CalTask<vint>> taskC=new CalTask<vint>(Curry(SquareTask)(3));
+	Ptr<CalTask<vint>> taskD=new CalTask<vint>(Curry(SquareTask)(4));
+	Ptr<CalTask<vint>> taskE=new CalTask<vint>(Curry(SquareTask)(5));
+	Ptr<CalTask<vint>> taskF=new CalTask<vint>(Curry(SquareTask)(6));
+	Ptr<CalTask<vint>> taskG=new CalTask<vint>(Curry(SquareTask)(7));
+
+	taskA->ContinueWith(taskB, Task::Finished);
+	taskA->ContinueWith(taskC, Task::Finished);
+	taskA->ContinueWith(taskD, Task::Finished);
+	taskB->ContinueWith(taskE, Task::Finished);
+	taskE->ContinueWith(taskF, Task::Finished);
+	taskC->ContinueWith(taskG, Task::Finished);
+
+	ThreadPool::StartThreadPool();
+	ThreadPool::Current()->Queue(taskA);
+	ThreadPool::StopThreadPool(false);
+
+	TEST_ASSERT(taskA->GetCalculationResult()==1);
+	TEST_ASSERT(taskB->GetCalculationResult()==4);
+	TEST_ASSERT(taskC->GetCalculationResult()==9);
+	TEST_ASSERT(taskD->GetCalculationResult()==16);
+	TEST_ASSERT(taskE->GetCalculationResult()==25);
+	TEST_ASSERT(taskF->GetCalculationResult()==36);
+	TEST_ASSERT(taskG->GetCalculationResult()==49);
+}
+
+TEST_CASE(TestEntity_RunSquareTask2)
+{
+	ThreadPool::StartThreadPool();
+	ThreadPool::Current()->Queue(Ptr<CalTask<vint>>(new CalTask<vint>(Curry(SquareTask2)(1))));
+	ThreadPool::StopThreadPool(false);
+}

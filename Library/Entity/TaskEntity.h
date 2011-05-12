@@ -101,7 +101,7 @@ Task
 		protected:
 			T										calculationResult;
 
-			void RunTask(Func<T()> task)
+			void RunTask(const Func<T()>& task)
 			{
 				calculationResult=task();
 			}
@@ -109,13 +109,13 @@ Task
 			CalTask(const Func<T()>& _task, CancellationToken* _token=0)
 				:Task(_token)
 			{
-				task=Curry(Func<void()>(this, CalTask<T>::RunTask))(_task);
+				task=Curry(Func<void(const Func<T()>&)>(this, &CalTask<T>::RunTask))(_task);
 			}
 
-			CalTask(const Func<T(CalTask*)>& _task, CancellationToken* _token=0)
+			CalTask(const Func<T(Task*)>& _task, CancellationToken* _token=0)
 				:Task(_token)
 			{
-				task=Curry(Func<void()>(this, CalTask<T>::RunTask))(Curry(_task)(this));
+				task=Curry(Func<void(const Func<T()>&)>(this, &CalTask<T>::RunTask))(Curry(_task)(this));
 			}
 
 			const T& GetCalculationResult()
@@ -149,6 +149,13 @@ ThreadPool
 			bool									Queue(Ptr<ITask> task);
 			bool									Queue(Ptr<Task> task);
 			bool									Queue(const Func<void()>& task);
+
+			template<typename T>
+			bool Queue(Ptr<CalTask<T>> task)
+			{
+				return Queue(task.Cast<Task>());
+			}
+
 			vint									GetQueuedTaskCount();
 			vint									GetExecutingTaskCount();
 			bool									IsTurnedOff();
