@@ -1,0 +1,137 @@
+Minimum Elements:
+    Class (public, private, internal) * (static) * (partial) * (normal, abstract, sealed)
+        Base Class
+        Base Interfaces
+        Accessor (public, protected, private, protected internal, internal) * (normal, static, const, readonly, static readonly) * (normal, virtual, abstract, override)
+        Variable
+        Property
+        Member Function (normal, external, interop)
+        Interface Member Overrider
+        Operator (implicit, explicit) // encoded to member function
+        Constructor (implicit, explicit)
+        Type Converter (implicit, explicit)
+    Structure (public, private, internal) * (static)
+        Base Class == Object
+        // copied from class
+    Interface (public, private, internal)
+        Base Interfaces
+        Property
+        Member Function
+    Mixin Fragment (public, private, internal)
+        (defined must have base class)
+        (defined must have base interfaces)
+        // copied from class
+    Generic
+        Type Argument
+            Base Class Constraints
+            Interface Constraints
+            Constructor Constraints
+Primitive Types:
+    Int8
+    Int16
+    Int32
+    Int64
+    UInt8
+    UInt16
+    UInt32
+    UInt64
+    Float32
+    Float64
+    Bool
+    Char (unicode)
+    Int (Int32/Int64)
+    UInt (UInt32/UInt64)
+    IntPtr
+Predefined Types:
+    Object
+    Array
+    Enumeration
+    Delegate
+    Event
+    String (unicode)
+    Type (and related objects)
+    Attribute
+    Exception
+Auto Extended Elements:
+    Strong Typed Array
+    Strong Typed Enumeration
+    Strong Typed Function
+    Strong Typed Event
+    Lambda Expression
+===========================================================
+class Object
+{
+    public virtual Type GetType();
+    public virtual String ToString();
+    public virtual Int GetHashCode();
+}
+===========================================================
+abstract class Enumeration : Object
+{
+    protected constructor(Int value);
+    public implicit Int();
+    public Int Value{get;}
+}
+
+class Season : Enumeration
+{
+    public implicit constructor(Int Value);
+    
+    #region [Flag] only
+
+    public static Season operator | (Season a, Season b);
+    public static bool operator & (Season a, Season b);
+
+    #endregion
+
+    public static readonly Spring = 0;
+    public static readonly Summer = 1;
+    public static readonly Autumn = 2;
+    public static readonly Winter = 3;
+}
+===========================================================
+abstract class Delegate : Object
+{
+    public abstract Object Invoke(Object[] arguments);
+    public static bool operator== (Delegate a, Delegate b);
+    public static bool operator!= (Delegate a, Delegate b);
+}
+
+generic<T, U, R>
+abstract class Function : Delegate
+{
+    public abstract R Invoke(T t, U u);
+}
+
+generic<T, U>
+abstract class Procedure : Delegate
+{
+    public abstract void Invoke(T t, U u);
+}
+===========================================================
+abstract class Event : Object
+{
+    public abstract void Invoke(Object[] arguments);
+    public abstract bool Add(Delegate delegate);
+    public abstract bool Remove(Delegate delegate);
+}
+
+generic<T, U>
+class Event : Event
+{
+    public void Invoke(T t, U u);
+    public bool Add(Procedure<T, U> delegate);
+    public bool Remove(Procedure<T, U> delegate);
+}
+===========================================================
+abstract class Array : Object
+{
+    public abstract Int Dimension{get;}
+    public abstract Int Dimensions[Int index]{get;}
+    public abstract Int Lengths[Int index]{get;}
+    public abstract Object GetElement(Int[] indices);
+    public abstract void SetElement(Int[] indices, Object value);
+}
+
+generic<T>
+class Array1 : Array; //2, 3, 4, ...
