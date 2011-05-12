@@ -268,7 +268,7 @@ vl::function_binding::Binding<$FUNCTION_TYPE($count,$function)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -375,7 +375,7 @@ $loop($MAX_FUNCTION_NUMBER(),0,$FUNCTION_APPLY)
 		struct Binding
 		{
 		};
-
+		$( )
 		template<typename T>
 		struct CR{typedef const T& Type;};
 		template<typename T>
@@ -384,6 +384,15 @@ $loop($MAX_FUNCTION_NUMBER(),0,$FUNCTION_APPLY)
 		struct CR<const T>{typedef const T& Type;};
 		template<typename T>
 		struct CR<const T&>{typedef const T& Type;};
+		$( )
+		template<typename T>
+		struct RCR{typedef T Type;};
+		template<typename T>
+		struct RCR<T&>{typedef T& Type;};
+		template<typename T>
+		struct RCR<const T>{typedef T Type;};
+		template<typename T>
+		struct RCR<const T&>{typedef T Type;};
 		
 $$define $BINDING_APPLY($index) $$begin
 $( )

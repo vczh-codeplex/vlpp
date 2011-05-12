@@ -4892,6 +4892,7 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 		struct Binding
 		{
 		};
+		 
 		template<typename T>
 		struct CR{typedef const T& Type;};
 		template<typename T>
@@ -4900,6 +4901,15 @@ vl::Func<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 		struct CR<const T>{typedef const T& Type;};
 		template<typename T>
 		struct CR<const T&>{typedef const T& Type;};
+		 
+		template<typename T>
+		struct RCR{typedef T Type;};
+		template<typename T>
+		struct RCR<T&>{typedef T& Type;};
+		template<typename T>
+		struct RCR<const T>{typedef T Type;};
+		template<typename T>
+		struct RCR<const T&>{typedef T Type;};
 		
  
 /***********************************************************************
@@ -4915,7 +4925,7 @@ vl::function_binding::Binding<R(T0)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -4956,7 +4966,7 @@ vl::function_binding::Binding<void(T0)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -4997,7 +5007,7 @@ vl::function_binding::Binding<R(T0,T1)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5038,7 +5048,7 @@ vl::function_binding::Binding<void(T0,T1)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5079,7 +5089,7 @@ vl::function_binding::Binding<R(T0,T1,T2)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5120,7 +5130,7 @@ vl::function_binding::Binding<void(T0,T1,T2)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5161,7 +5171,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5202,7 +5212,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5243,7 +5253,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5284,7 +5294,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5325,7 +5335,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4,T5)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5366,7 +5376,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4,T5)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5407,7 +5417,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4,T5,T6)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5448,7 +5458,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4,T5,T6)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5489,7 +5499,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4,T5,T6,T7)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5530,7 +5540,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4,T5,T6,T7)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5571,7 +5581,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5612,7 +5622,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4,T5,T6,T7,T8)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5653,7 +5663,7 @@ vl::function_binding::Binding<R(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)
@@ -5694,7 +5704,7 @@ vl::function_binding::Binding<void(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9)>
 			{
 			protected:
 				Func<FunctionType>		target;
-				T0						p0;
+				typename RCR<T0>::Type	p0;
 			public:
 				Binder(const Func<FunctionType>& _target, typename CR<T0>::Type _p0)
 					:target(_target)

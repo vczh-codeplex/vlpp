@@ -19,43 +19,11 @@ namespace vl
 {
 	namespace entities
 	{
- 
-/***********************************************************************
-ThreadPool
-***********************************************************************/
 
 		class ITask : public Interface
 		{
 		public:
 			virtual void							Execute()=0;
-		};
-
-		class ThreadPool
-		{
-		private:
-			static unsigned long __stdcall			ThreadPoolProc(void* parameter);
-		private:
-			SpinLock								threadPoolLock;
-			EventObject								taskCounterEvent;
-			collections::List<Ptr<ITask>>			queuedTasks;
-			collections::List<Ptr<ITask>>			executingTasks;
-			volatile bool							stopped;
-
-			ThreadPool();
-			~ThreadPool();
-
-			void									StopAcceptingTask();
-		public:
-
-			bool									Queue(Ptr<ITask> task);
-			bool									Queue(const Func<void()>& task);
-			vint									GetQueuedTaskCount();
-			vint									GetExecutingTaskCount();
-			bool									IsTurnedOff();
-
-			static void								StartThreadPool();
-			static void								StopThreadPool();
-			static ThreadPool*						Current();
 		};
  
 /***********************************************************************
@@ -154,6 +122,40 @@ Task
 			{
 				return taskResult==Finished?calculationResult:*(T*)0;
 			}
+		};
+ 
+/***********************************************************************
+ThreadPool
+***********************************************************************/
+
+		class ThreadPool
+		{
+		private:
+			static unsigned long __stdcall			ThreadPoolProc(void* parameter);
+		private:
+			SpinLock								threadPoolLock;
+			EventObject								taskCounterEvent;
+			collections::List<Ptr<ITask>>			queuedTasks;
+			collections::List<Ptr<ITask>>			executingTasks;
+			volatile bool							stopped;
+			volatile bool							eagerToStop;
+
+			ThreadPool();
+			~ThreadPool();
+
+			void									StopAcceptingTask(bool stopQueuedTasks);
+		public:
+
+			bool									Queue(Ptr<ITask> task);
+			bool									Queue(Ptr<Task> task);
+			bool									Queue(const Func<void()>& task);
+			vint									GetQueuedTaskCount();
+			vint									GetExecutingTaskCount();
+			bool									IsTurnedOff();
+
+			static void								StartThreadPool();
+			static void								StopThreadPool(bool stopQueuedTasks);
+			static ThreadPool*						Current();
 		};
 	}
 }
