@@ -5,6 +5,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest64", "UnitTest64\UnitTest64.vcxproj", "{C0862825-8A92-4BB4-A3A8-71514E91118A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Draft", "Draft", "{BC84A88D-4F73-4826-9C27-D44C8D3FFA3B}"
+	ProjectSection(SolutionItems) = preProject
+		ManagedLanguageObjectModel.txt = ManagedLanguageObjectModel.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 3
