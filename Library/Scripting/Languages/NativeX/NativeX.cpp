@@ -1343,6 +1343,8 @@ Extra
 				{
 					List<WString> tokens;
 					tokens.Add(L"/s+");
+					tokens.Add(L"////[^\r\n]*(\r\n|\n)?");
+					tokens.Add(L"///*([^*//]+|/*+[^//])*/*+//");
 										
 					SIZEOF			= CreateToken(tokens, L"sizeof");
 					OFFSETOF		= CreateToken(tokens, L"offsetof");
@@ -1546,7 +1548,7 @@ Extra
 
 				static bool Blank(vint token)
 				{
-					return token==0;
+					return token<3;
 				}
 
 				Ptr<NativeXUnit> Parse(const WString& code, vint codeIndex, IList<Ptr<LanguageException>>& errors)

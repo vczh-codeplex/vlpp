@@ -59,6 +59,18 @@ TEST_CASE(TestEntity_ThreadPool)
 	}
 }
 
+TEST_CASE(TestEntity_ThreadPoolStopTrue)
+{
+	ThreadPool::StartThreadPool();
+	ThreadPool::StopThreadPool(true);
+}
+
+TEST_CASE(TestEntity_ThreadPoolStopFalse)
+{
+	ThreadPool::StartThreadPool();
+	ThreadPool::StopThreadPool(false);
+}
+
 /***********************************************************************
 Task
 ***********************************************************************/
