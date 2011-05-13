@@ -129,3 +129,39 @@ function SynThread* SynGetCurrentThread()
         result=cast<SynThread*>(localData->thread);
     }
 }
+
+structure ThreadPoolProcArguments
+{
+    function void(void*) taskProc;
+    function void(void*) freeProc;
+    void* arguments;
+}
+
+function void ThreadPoolTaskProc(void* arguments)
+{
+    variable ThreadPoolProcArguments* tpa=cast<ThreadPoolProcArguments*>(arguments);
+    variable ThreadLocalData localData;
+    localData.thread=null;
+    stackdata=&localData;
+    tpa->taskProc(tpa->arguments);
+}
+
+function void ThreadPoolFreeProc(void* arguments)
+{
+    variable ThreadPoolProcArguments* tpa=cast<ThreadPoolProcArguments*>(arguments);
+    if(tpa->freeProc!=null)
+    {
+        tpa->freeProc(tpa->arguments);
+    }
+    MemFree(tpa);
+}
+
+#public
+function bool SynQueueThreadPoolTask(function void(void*) taskProc, function void(void*) freeProc, void* arguments)
+{
+    variable ThreadPoolProcArguments* tpa=cast<ThreadPoolProcArguments*>(MemAlloc(sizeof(ThreadPoolProcArguments)));
+    tpa->taskProc=taskProc;
+    tpa->freeProc=freeProc;
+    tpa->arguments=arguments;
+    result = __SynQueueThreadPoolTask(ThreadPoolTaskProc, ThreadPoolFreeProc, tpa);
+}

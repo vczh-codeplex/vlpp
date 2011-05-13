@@ -78,7 +78,7 @@ Task
 			:taskState(Ready)
 			,taskResult(NotExecuted)
 			,token(_token?_token:new CancellationToken)
-			,owningToken(_token!=0)
+			,owningToken(_token==0)
 		{
 			taskExecutionEvent.CreateManualUnsignal(false);
 		}
@@ -87,7 +87,7 @@ Task
 			:taskState(Ready)
 			,taskResult(NotExecuted)
 			,token(_token?_token:new CancellationToken)
-			,owningToken(_token!=0)
+			,owningToken(_token==0)
 		{
 			task=_task;
 		}
@@ -96,7 +96,7 @@ Task
 			:taskState(Ready)
 			,taskResult(NotExecuted)
 			,token(_token?_token:new CancellationToken)
-			,owningToken(_token!=0)
+			,owningToken(_token==0)
 		{
 			task=Curry(_task)(this);
 		}
@@ -258,10 +258,12 @@ ThreadPool
 		void ThreadPool::StopAcceptingTask(bool stopQueuedTasks)
 		{
 			eagerToStop=true;
-			if(stopQueuedTasks)
 			{
 				SpinLock::Scope scope(threadPoolLock);
-				stopped=true;
+				if(stopQueuedTasks)
+				{
+					stopped=true;
+				}
 				if(queuedTasks.Count()==0 && executingTasks.Count()==0)
 				{
 					taskCounterEvent.Signal();

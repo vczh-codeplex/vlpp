@@ -115,3 +115,38 @@ function void TestCase_RunThreadAndGetThreadObject()
     Assert(thread==threadPointer, L"SynGetCurrentThread should succeed");
     Assert(SynDisposeThread(thread), L"SynDisposeThread should succeed");
 }
+
+function void ThreadPoolTaskProc(void* arguments)
+{
+    variable bool* bs = cast<bool*>(arguments);
+    Assert(bs[0]==false, L"Task proc flag should be false");
+    SynSleep(1000);
+    bs[0] = true;
+}
+
+function void ThreadPoolFreeProc(void* arguments)
+{
+    variable bool* bs = cast<bool*>(arguments);
+    Assert(bs[1]==false, L"Free proc flag should be false");
+    SynSleep(1000);
+    bs[1] = true;
+}
+
+function void TestCase_RunThreadPool()
+{
+    variable bool[4] flags;
+    flags[0] = false;
+    flags[1] = false;
+    flags[2] = false;
+    flags[3] = false;
+
+    Assert(SynStartThreadPool()==true, L"SynStartThreadPool should succeed");
+    Assert(SynQueueThreadPoolTask(ThreadPoolTaskProc, ThreadPoolFreeProc, &flags[0])==true, L"SynQueueThreadPoolTasks should succeed");
+    Assert(SynQueueThreadPoolTask(ThreadPoolTaskProc, ThreadPoolFreeProc, &flags[2])==true, L"SynQueueThreadPoolTasks should succeed");
+    Assert(SynStopThreadPool(false)==true, L"SynStopThreadPool should succeed");
+
+    Assert(flags[0]==true, L"Task proc [0] flag should be true");
+    Assert(flags[1]==true, L"Free proc [1] flag should be true");
+    Assert(flags[2]==true, L"Task proc [2] flag should be true");
+    Assert(flags[3]==true, L"Free proc [3] flag should be true");
+}

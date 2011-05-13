@@ -26,6 +26,7 @@ constant int two = one+one;
 
 function void TestCase_AssertConstantExpression()
 {
+    // test constant operator expressions
     Assert(sizeof(char[5+2])==7, L"+");
     Assert(sizeof(char[5-2])==3, L"-");
     Assert(sizeof(char[5*2])==10, L"*");
@@ -37,12 +38,19 @@ function void TestCase_AssertConstantExpression()
     Assert(sizeof(char[5<<2])==20, L"<<");
     Assert(sizeof(char[5>>2])==1, L">>");
     
+    /* test complex constant expressions */
     Assert(sizeof(char[cast<int>(cast<wchar*>(null)+3)])==6, L"complex");
     Assert(sizeof(char[cast<int>(3+cast<wchar*>(null))])==6, L"complex");
     Assert(sizeof(char[cast<int>(cast<wchar*>(6)-cast<wchar*>(4))])==1, L"complex");
 
+    /* test sizing constant expressions */
     Assert(sizeof(char[sizeof(SizeofStructure)]) == sizeof(int)+sizeof(char)+sizeof(f64), L"sizeof");
     Assert(sizeof(char[offsetof(SizeofStructure::a)+one])==1, L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::b)])==sizeof(int), L"offsetof");
     Assert(sizeof(char[offsetof(SizeofStructure::c)])==sizeof(int)+sizeof(char), L"offsetof");
+
+    /**/
+    /***/
+    /****/
+    /*a*a*a*/
 }

@@ -1,6 +1,7 @@
 #include "ScriptingUtilityForeignFunctions.h"
 #include "..\Languages\LanguageRuntime.h"
 #include "..\..\Threading.h"
+#include "..\..\Entity\TaskEntity.h"
 #include <intrin.h>
 
 namespace vl
@@ -11,6 +12,7 @@ namespace vl
 		{
 			using namespace basicil;
 			using namespace collections;
+			using namespace entities;
 
 			class SystemCoreThreadingPlugin : public LanguagePlugin
 			{
@@ -443,6 +445,97 @@ namespace vl
 
 				/*----------------------------------------------------------------------*/
 
+				static bool SynStartThreadPool()
+				{
+					ThreadPool::StartThreadPool();
+					return true;
+				}
+
+				static bool SynStopThreadPool(bool stopQueuedTasks)
+				{
+					ThreadPool::StopThreadPool(stopQueuedTasks);
+					return true;
+				}
+
+				static bool SynQueueThreadPoolTask(vint taskProc, vint freeProc, void* arguments, BasicILInterpretor* interpretor, BasicILStack* stack, void* userData)
+				{
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					BasicILLock::Scope scope(interpretor->GetLock());
+					if(interpretor->Symbols()->IsValidILIndex(interpretor->Symbols()->GetLabel(taskProc).key)
+						&& (freeProc==0 || interpretor->Symbols()->IsValidILIndex(interpretor->Symbols()->GetLabel(freeProc).key))
+						&& ThreadPool::Current()!=0)
+					{
+						Ptr<SynThreadPoolTask> task=new SynThreadPoolTask(interpretor, taskProc, freeProc, arguments);
+						ThreadPool::Current()->Queue(task.Cast<ITask>());
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+
+				class SynThreadPoolTask : public Object, public ITask
+				{
+				protected:
+					BasicILInterpretor*			interpretor;
+					Ptr<BasicILStack>			stack;
+					vint						procedureLabel;
+					vint						freeArgumentsLabel;
+					void*						procedureArguments;
+
+					void RunLabel(vint targetLabel)
+					{
+						Ptr<BasicILStack> stack=new BasicILStack(interpretor);
+						BasicILLabel label;
+						{
+							BasicILLock::Scope scope(interpretor->GetLock());
+							label=interpretor->Symbols()->GetLabel(targetLabel);
+						}
+						if(interpretor->Symbols()->IsValidILIndex(label.key))
+						{
+							stack->GetEnv()->Push<void*>(procedureArguments);
+							stack->ResetBuffer(label.instruction, label.key, 0);
+							ILException::RunningResult result=stack->Run();
+							if(result!=ILException::Finished)
+							{
+								throw ILException(result);
+							}
+							return;
+						}
+						throw ILException(ILException::UnknownInstruction);
+					}
+				public:
+					SynThreadPoolTask(BasicILInterpretor* _interpretor, vint _taskProc, vint _freeProc, void* _arguments)
+						:interpretor(_interpretor)
+						,procedureLabel(_taskProc)
+						,freeArgumentsLabel(_freeProc)
+						,procedureArguments(_arguments)
+					{
+					}
+
+					~SynThreadPoolTask()
+					{
+						try
+						{
+							if(freeArgumentsLabel)
+							{
+								RunLabel(freeArgumentsLabel);
+							}
+						}
+						catch(const Exception&)
+						{
+						}
+					}
+
+					void Execute()
+					{
+						RunLabel(procedureLabel);
+					}
+				};
+
+				/*----------------------------------------------------------------------*/
+
 				bool RegisterForeignFunctions(BasicILRuntimeSymbol* symbol)
 				{
 					return
@@ -471,7 +564,10 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION2(SynPauseAndWaitThread, bool(vint), SynPauseAndWaitThread) &&
 						REGISTER_LIGHT_FUNCTION2(SynResumeThread, bool(vint), SynResumeThread) &&
 						REGISTER_LIGHT_FUNCTION2(SynStopAndWaitThread, bool(vint), SynStopAndWaitThread) &&
-						REGISTER_LIGHT_FUNCTION(SynSleep, bool(vint), SynSleep);
+						REGISTER_LIGHT_FUNCTION(SynSleep, bool(vint), SynSleep) &&
+						REGISTER_LIGHT_FUNCTION(SynStartThreadPool, bool(), SynStartThreadPool) &&
+						REGISTER_LIGHT_FUNCTION(SynStopThreadPool, bool(bool), SynStopThreadPool) &&
+						REGISTER_LIGHT_FUNCTION3(SynQueueThreadPoolTask, bool(vint, vint, void*), SynQueueThreadPoolTask);
 				}
 			public:
 				SystemCoreThreadingPlugin()

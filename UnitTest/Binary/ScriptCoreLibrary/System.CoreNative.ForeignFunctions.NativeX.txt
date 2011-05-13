@@ -232,6 +232,17 @@ foreign function bool SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
 
 #public
+foreign function bool SynStartThreadPool()
+    alias SystemCoreForeignFunctions.SynStartThreadPool;
+
+#public
+foreign function bool SynStopThreadPool(bool stopQueuedTasks)
+    alias SystemCoreForeignFunctions.SynStopThreadPool;
+
+foreign function bool __SynQueueThreadPoolTask(function void(void*) taskProc, function void(void*) freeProc, void* arguments)
+    alias SystemCoreForeignFunctions.SynQueueThreadPoolTask;
+
+#public
 type astring = char*;
 
 #public
