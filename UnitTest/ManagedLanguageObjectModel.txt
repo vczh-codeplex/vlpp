@@ -5,9 +5,9 @@ Minimum Elements:
         Accessor (public, protected, private, protected internal, internal) * (normal, static, const, readonly, static readonly) * (normal, virtual, abstract, override)
         Variable
         Property
-        Member Function (normal, external, interop)
+        Member Function (normal, external, interop), Extension Method
         Interface Member Overrider
-        Operator (implicit, explicit) // encoded to member function
+        Operator (implicit, explicit) // encoded to member function, should be static
         Constructor (implicit, explicit)
         Type Converter (implicit, explicit)
     Structure (public, private, internal) * (static)
@@ -93,6 +93,8 @@ class Season : Enumeration
 abstract class Delegate : Object
 {
     public abstract Object Invoke(Object[] arguments);
+    public object ThisObject{get; set;}
+    public IntPtr FunctionObject{get; set;}
     public static bool operator== (Delegate a, Delegate b);
     public static bool operator!= (Delegate a, Delegate b);
 }
@@ -135,3 +137,49 @@ abstract class Array : Object
 
 generic<T>
 class Array1 : Array; //2, 3, 4, ...
+===========================================================
+public int Score{get; set;}
+
+public int __get_Score__(){return __field_Score__;}
+public void __set_Score__(int value){__field_Score__ = value;}
+private int __field_Score__;
+===========================================================
+public static int operator+(int a, int b);
+
+public static int __op_add__(int a, int b);
+===========================================================
+class Class
+{
+    private string stringField;
+    private int intField;
+    private Class[] arrayField;
+}
+
+structure class::MyNamespace.Class
+{
+    GcHandle handle;
+}
+
+structure @"struct::MyNamespace.Class"
+{
+    @"struct::System.Object" __base_object__;
+    @"virtual::MyNamespace.Class"* __vtable__; //optional
+    @"class::System.String" stringField;
+    int intField;
+    @"class::System.Array1"<@"class::MyNamespace.Class"> arrayField;
+}
+===========================================================
+concept T : @"managed_concept::Operatable"
+{
+    Assign = function void(T* variable, T* value);
+    Push = function T(T expression);
+    Pop = function void(T* variable);
+}
+
+concept T : @"interface_concept::System.IComparable";
+===========================================================
+Compiling Steps:
+    Extended Managed Code (with property, extension method, reflection, lambda expression, ...)
+->  Managed Code (with Type object, object(object[]) invokers, ...)
+->  Basic Code
+===========================================================
