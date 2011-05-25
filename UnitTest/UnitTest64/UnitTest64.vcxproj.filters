@@ -157,6 +157,15 @@
     <Filter Include="Source Files\Scripting\Utility">
       <UniqueIdentifier>{2b126fdb-44a8-4380-90e3-9d6b0360be00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Scripting\ManagedLanguage">
+      <UniqueIdentifier>{05b720b0-33f2-4d8e-95c4-19fec0d159f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\ManagedLanguage\Header Files">
+      <UniqueIdentifier>{28d5cf49-41f6-4e98-a61f-7217a53682b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\ManagedLanguage\Source Files">
+      <UniqueIdentifier>{96615bfe-e7af-4fb8-aad8-213720ebd17f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -488,6 +497,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Entity\TaskEntity.cpp">
       <Filter>Library3\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -885,6 +897,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Entity\TaskEntity.h">
       <Filter>Library3\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

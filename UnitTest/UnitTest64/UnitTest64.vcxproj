@@ -222,6 +222,7 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcSingleThread.cpp" />
@@ -401,6 +402,7 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h" />
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityMake.h" />
