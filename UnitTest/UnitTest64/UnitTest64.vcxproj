@@ -220,6 +220,9 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageMetadata.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageProvider.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
@@ -400,6 +403,9 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h" />

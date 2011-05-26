@@ -166,6 +166,15 @@
     <Filter Include="Library3\Scripting\ManagedLanguage\Source Files">
       <UniqueIdentifier>{96615bfe-e7af-4fb8-aad8-213720ebd17f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX">
+      <UniqueIdentifier>{4296f0f8-a2ce-401a-aeba-1ee4f4f08258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX\Header Files">
+      <UniqueIdentifier>{a5135742-c8ec-4e2d-b21d-5f377468666f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX\Source Files">
+      <UniqueIdentifier>{2d38116c-72fb-4243-acc0-2e271359784f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -500,6 +509,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp">
+      <Filter>Library3\Scripting\Languages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -900,6 +918,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h">
       <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

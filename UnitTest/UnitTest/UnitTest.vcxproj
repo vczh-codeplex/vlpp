@@ -207,6 +207,9 @@
     <ClCompile Include="..\..\Library\Regex\RegexRich.cpp" />
     <ClCompile Include="..\..\Library\Regex\RegexWriter.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\BasicILMetadata.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.cpp" />
@@ -289,6 +292,8 @@
     <None Include="..\..\Library\Common.fpm" />
     <None Include="..\..\Library\Event.h.fpm" />
     <None Include="..\..\Library\Function.h.fpm" />
+    <None Include="..\..\Library\Scripting\Languages\ManagedErrorMessage_English.txt" />
+    <None Include="..\..\Library\Scripting\Languages\ManagedXErrorMessage_English.txt" />
     <None Include="..\..\Library\Tuple.h.fpm" />
     <None Include="..\..\Library\ObjectModel\ObjectTypeClass.h.fpm" />
     <None Include="..\..\Library\ObjectModel\ObjectTypeClassTemplate.h.fpm" />
@@ -627,6 +632,9 @@
     <ClInclude Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicILMetadata.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityGcCommon.h" />

@@ -220,6 +220,15 @@
     <Filter Include="Library3\Scripting\ManagedLanguage\Source Files">
       <UniqueIdentifier>{42c46632-4c99-4611-82af-2f131599242d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX">
+      <UniqueIdentifier>{65c28563-af8a-463f-bb4a-accaf0756c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX\Header Files">
+      <UniqueIdentifier>{bfeb41e8-5b2b-4941-b31b-65034f340f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library3\Scripting\Languages\ManagedX\Source Files">
+      <UniqueIdentifier>{0f4161a9-2a4f-4b90-b589-23d4bab6cdbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -554,6 +563,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp">
+      <Filter>Library3\Scripting\Languages\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1403,6 +1421,12 @@
     <None Include="..\Binary\ScriptCoreLibrary\Test.CoreNative.RunConsoleNative.NativeX.txt">
       <Filter>ScriptCoreLibrary\Test.CoreNative</Filter>
     </None>
+    <None Include="..\..\Library\Scripting\Languages\ManagedErrorMessage_English.txt">
+      <Filter>Library3\Scripting\Languages</Filter>
+    </None>
+    <None Include="..\..\Library\Scripting\Languages\ManagedXErrorMessage_English.txt">
+      <Filter>Library3\Scripting\Languages</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
@@ -1764,6 +1788,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h">
       <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

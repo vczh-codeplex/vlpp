@@ -5,6 +5,7 @@
 #include "..\BasicLanguage\BasicLanguageCommentProvider.h"
 #include "..\Languages\LanguageProviderExtension.h"
 #include "..\Languages\NativeX\NativeX.h"
+#include "..\Languages\ManagedX\ManagedX.h"
 
 namespace vl
 {
@@ -135,6 +136,7 @@ LanguageMaker
 					if(index!=-1)
 					{
 						Ptr<ILanguageProvider> provider=providerFactories.Values()[index]();
+						CHECK_ERROR(name==provider->LanguageName(), L"LanguageMaker::GetProvider(const WString&)#±àÒëÆ÷Ãû×Ö²»Æ¥Åä¡£");
 						providers.Add(name, provider);
 						return provider;
 					}
@@ -148,6 +150,7 @@ LanguageMaker
 			LanguageMaker::LanguageMaker()
 			{
 				providerFactories.Add(L"NativeX", &CreateNativeXLanguageProvider);
+				providerFactories.Add(L"ManagedX", &CreateManagedXLanguageProvider);
 			}
 
 			void LanguageMaker::Execute(const LanguageMakeFile& makeFile)
