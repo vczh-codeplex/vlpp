@@ -31,14 +31,6 @@ namespace vl
 				ManagedPosition();
 			};
 
-			struct ManagedGenericInfo
-			{
-			};
-
-			struct ManagedAttributeInfo
-			{
-			};
-
 			class ManagedLanguageElement : public Object, private NotCopyable
 			{
 			public:
@@ -71,9 +63,6 @@ Basic Constructions
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(ManagedDeclaration)
-					
-				ManagedAttributeInfo						attributeInfo;
-				ManagedGenericInfo							genericInfo;
 			};
 
 			class ManagedProgram : public ManagedLanguageElement
@@ -309,6 +298,8 @@ Basic Expressions
 
 				Ptr<ManagedExpression>						function;
 				collections::List<Ptr<ManagedExpression>>	arguments;
+				collections::List<WString>					defaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>	defaultParameterValues;
 			};
 
 			class ManagedNewExpression : public ManagedExpression
@@ -318,6 +309,10 @@ Basic Expressions
 
 				Ptr<ManagedType>							objectType;
 				collections::List<Ptr<ManagedExpression>>	arguments;
+				collections::List<WString>					defaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>	defaultParameterValues;
+				collections::List<WString>					propertyNames;
+				collections::List<Ptr<ManagedExpression>>	propertyValues;
 			};
 
 			class ManagedFunctionResultExpression : public ManagedExpression
@@ -590,45 +585,194 @@ Extended Statements
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedStatement, MANAGED_EXTENDED_STATEMENT_TARGETS)
 
 /***********************************************************************
+Basic Declaration Fragments
+***********************************************************************/
+
+			struct ManagedAttributeInfo
+			{
+			public:
+				collections::List<Ptr<ManagedNewExpression>>	attributes;
+			};
+
+			struct ManagedGenericInfo
+			{
+			public:
+				struct Argument
+				{
+					WString									name;
+					collections::List<Ptr<ManagedType>>		typeConstraints;
+					bool									newConstraint;
+				};
+
+				collections::List<Ptr<Argument>>			arguments;
+			};
+
+			namespace declatt
+			{
+				enum Accessor
+				{
+					Public,
+					Protected,
+					Private,
+					ProtectedInternal,
+					Internal,
+				};
+
+				enum Inheritation
+				{
+					Normal,
+					Sealed,
+					Abstract,
+					Virtual,
+				};
+
+				enum MemberType
+				{
+					Instance,
+					Static,
+				};
+
+				enum DataType
+				{
+					Variable,
+					Constant,
+					Readonly,
+				};
+			};
+
+			class ManagedMember : public ManagedLanguageElement
+			{
+			public:
+				ALGORITHM_TARGET_ROOT(ManagedMember)
+			};
+
+			class ManagedField : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				Ptr<ManagedType>							type;
+				WString										name;
+				Ptr<ManagedExpression>						initializer;
+
+				declatt::Accessor							accessor;
+				declatt::MemberType							memberType;
+				declatt::DataType							dataType;
+				ManagedAttributeInfo						attributeInfo;
+			};
+
+			class ManagedProperty : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				Ptr<ManagedType>							type;
+				WString										name;
+				Ptr<ManagedStatement>						getter;
+				Ptr<ManagedStatement>						setter;
+
+				declatt::Accessor							getterAccessor;
+				declatt::Accessor							setterAccessor;
+				declatt::Inheritation						inheritation;
+				declatt::MemberType							memberType;
+				ManagedAttributeInfo						attributeInfo;
+			};
+
+			class ManagedParameter : public ManagedLanguageElement
+			{
+			public:
+				enum ParameterType
+				{
+					Normal,
+					Default,
+					Params
+				};
+
+				Ptr<ManagedType>							type;
+				WString										name;
+				ParameterType								parameterType;
+				Ptr<ManagedExpression>						defaultValue;
+
+				ManagedAttributeInfo						attributeInfo;
+			};
+
+			class ManagedMethod : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				Ptr<ManagedType>							implementedInterfaceType;
+				WString										name;
+				Ptr<ManagedType>							returnType;
+				collections::List<Ptr<ManagedParameter>>	parameters;
+				Ptr<ManagedStatement>						body;
+
+				declatt::Accessor							accessor;
+				declatt::Inheritation						inheritation;
+				declatt::MemberType							memberType;
+				ManagedAttributeInfo						attributeInfo;
+				ManagedGenericInfo							genericInfo;
+			};
+
+			class ManagedConstructor : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				collections::List<Ptr<ManagedParameter>>	parameters;
+				collections::List<Ptr<ManagedExpression>>	baseArguments;
+				collections::List<WString>					baseDefaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>	baseDefaultParameterValues;
+				Ptr<ManagedStatement>						body;
+
+				declatt::Accessor							accessor;
+				declatt::MemberType							memberType;
+				ManagedAttributeInfo						attributeInfo;
+			};
+
+#define MANAGED_MEMBER_TARGETS(P, F)\
+			F(P, ManagedField)\
+			F(P, ManagedProperty)\
+			F(P, ManagedMethod)\
+			F(P, ManagedConstructor)\
+
+			DEFINE_ALGORITHM_INTERFACE(ManagedMember, MANAGED_MEMBER_TARGETS)
+
+/***********************************************************************
 Basic Declarations
 ***********************************************************************/
 
-			class ManagedClassDeclaration : public ManagedDeclaration
+			class ManagedTypeDeclaration : public ManagedDeclaration
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
-			};
 
-			class ManagedStructureDeclaration : public ManagedDeclaration
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
-			};
+				enum DeclarationType
+				{
+					Class,
+					Structure,
+					Interface,
+				};
 
-			class ManagedInterfaceDeclaration : public ManagedDeclaration
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
+				collections::List<Ptr<ManagedMember>>		members;
+
+				declatt::Accessor							accessor;
+				declatt::Inheritation						inheritation;
+				ManagedGenericInfo							genericInfo;
+				ManagedAttributeInfo						attributeInfo;
 			};
 
 			class ManagedNamespaceDeclaration : public ManagedDeclaration
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
-			};
 
-			class ManagedTypeRenameDeclaration : public ManagedDeclaration
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
+				collections::List<Ptr<ManagedDeclaration>>	declarations;
 			};
 
 #define MANAGED_DECLARATION_TARGETS(P, F)\
-			F(P, ManagedClassDeclaration)\
-			F(P, ManagedStructureDeclaration)\
-			F(P, ManagedInterfaceDeclaration)\
+			F(P, ManagedTypeDeclaration)\
 			F(P, ManagedNamespaceDeclaration)\
-			F(P, ManagedTypeRenameDeclaration)\
 			F(P, ManagedExtendedDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedDeclaration, MANAGED_DECLARATION_TARGETS)
@@ -641,24 +785,36 @@ Extended Declarations
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
+
+				bool										composable;
+				collections::List<WString>					enumerationNames;
+				collections::List<vint>						enumerationValues;
+
+				declatt::Accessor							accessor;
+				ManagedAttributeInfo						attributeInfo;
 			};
 
-			class ManagedDelegateDeclaration : public ManagedExtendedDeclaration
+			class ManagedTypeRenameDeclaration : public ManagedExtendedDeclaration
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
+
+				declatt::Accessor							accessor;
+				ManagedGenericInfo							genericInfo;
 			};
 
-			class ManagedEventDeclaration : public ManagedExtendedDeclaration
+			class ManagedUsingNamespaceDeclaration : public ManagedExtendedDeclaration
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
+
+				collections::List<WString>					namespaceFragments;
 			};
 
 #define MANAGED_EXTENDED_DECLARATION_TARGETS(P, F)\
 			F(P, ManagedEnumerationDeclaration)\
-			F(P, ManagedDelegateDeclaration)\
-			F(P, ManagedEventDeclaration)\
+			F(P, ManagedTypeRenameDeclaration)\
+			F(P, ManagedUsingNamespaceDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedDeclaration, MANAGED_EXTENDED_DECLARATION_TARGETS)
 		}
