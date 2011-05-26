@@ -12,6 +12,7 @@ Interfaces:
 
 #include "LanguageProvider.h"
 #include "..\BasicLanguage\BasicLanguageExpression.h"
+#include "..\ManagedLanguage\ManagedLanguageExpression.h"
 
 namespace vl
 {
@@ -20,23 +21,45 @@ namespace vl
 		class IBasicLanguageProvider : public Interface
 		{
 		public:
-			virtual Ptr<basiclanguage::BasicProgram>	ParseProgram(
-															const WString& code, 
-															Ptr<Object>& outputExtra,
-															collections::IList<Ptr<LanguageException>>& errors
-															)=0;
+			virtual Ptr<basiclanguage::BasicProgram>		ParseProgram(
+																const WString& code, 
+																Ptr<Object>& outputExtra,
+																collections::IList<Ptr<LanguageException>>& errors
+																)=0;
 
-			virtual void								GenerateCode(
-															Ptr<basiclanguage::BasicProgram> program,
-															Ptr<Object> inputExtra,
-															stream::TextWriter& writer
-															)=0;
+			virtual void									GenerateCode(
+																Ptr<basiclanguage::BasicProgram> program,
+																Ptr<Object> inputExtra,
+																stream::TextWriter& writer
+																)=0;
 
-			virtual bool								GenerateHeader(
-															Ptr<LanguageAssembly> assembly,
-															Ptr<Object> inputExtra,
-															stream::TextWriter& writer
-															)=0;
+			virtual bool									GenerateHeader(
+																Ptr<LanguageAssembly> assembly,
+																Ptr<Object> inputExtra,
+																stream::TextWriter& writer
+																)=0;
+		};
+
+		class IManagedLanguageProvider : public Interface
+		{
+		public:
+			virtual Ptr<managedlanguage::ManagedProgram>	ParseProgram(
+																const WString& code, 
+																Ptr<Object>& outputExtra,
+																collections::IList<Ptr<LanguageException>>& errors
+																)=0;
+
+			virtual void									GenerateCode(
+																Ptr<managedlanguage::ManagedProgram> program,
+																Ptr<Object> inputExtra,
+																stream::TextWriter& writer
+																)=0;
+
+			virtual bool									GenerateHeader(
+																Ptr<LanguageAssembly> assembly,
+																Ptr<Object> inputExtra,
+																stream::TextWriter& writer
+																)=0;
 		};
 	}
 }
