@@ -13,11 +13,11 @@ Classes:
 Algorithm Definition
 ***********************************************************************/
 
-#define ALGORITHM_TARGET_ROOT(NAME) friend class NAME##Algorithm; typedef NAME##Algorithm __algorithm_interface__; virtual void Accept(__algorithm_interface__* algorithm_object)=0;
-#define ALGORITHM_ACCEPT_DECLARATION void Accept(__algorithm_interface__* algorithm_object);
-#define ALGORITHM_ACCEPT_IMPLEMENTATION(NODE) void NODE::Accept(__algorithm_interface__* algorithm_object){algorithm_object->Apply(this);}
+#define ALGORITHM_TARGET_ROOT(NAME) friend class NAME##Algorithm; virtual void Accept(NAME##Algorithm* algorithm_object)=0;
+#define ALGORITHM_ACCEPT_DECLARATION(NAME) void Accept(NAME##Algorithm* algorithm_object);
+#define ALGORITHM_ACCEPT_IMPLEMENTATION(NAME, NODE) void NODE::Accept(NAME##Algorithm* algorithm_object){algorithm_object->Apply(this);}
 
-#define DEFINE_ALGORITHM_INTERFACE_ELEMENT(NODE) virtual void Apply(NODE* node)=0;
+#define DEFINE_ALGORITHM_INTERFACE_ELEMENT(NAME, NODE) virtual void Apply(NODE* node)=0;
 #define DEFINE_ALGORITHM_INTERFACE(NAME, ALGORITHM_TARGETS)\
 	class NAME##Algorithm : public Object, private NotCopyable\
 	{\
@@ -25,10 +25,10 @@ Algorithm Definition
 		template<typename T>void BeforeCall(void*, const T&){}\
 		template<typename T>void AfterCall(void*, const T&){}\
 	public:\
-		ALGORITHM_TARGETS(DEFINE_ALGORITHM_INTERFACE_ELEMENT)\
+		ALGORITHM_TARGETS(NAME, DEFINE_ALGORITHM_INTERFACE_ELEMENT)\
 	};
 
-#define DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(ALGORITHM_TARGETS) ALGORITHM_TARGETS(ALGORITHM_ACCEPT_IMPLEMENTATION)
+#define DEFINE_ALGORITHM_ACCEPT_IMPLEMENTATION(NAME, ALGORITHM_TARGETS) ALGORITHM_TARGETS(NAME, ALGORITHM_ACCEPT_IMPLEMENTATION)
 
 /***********************************************************************
 Algorithm Extern
