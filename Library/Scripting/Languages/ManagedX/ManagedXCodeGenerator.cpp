@@ -253,18 +253,18 @@ Basic Expressions
 					}
 					argument.writer.WriteString(L")");
 
-					if(node->propertyNames.Count()>0)
+					if(node->properties.Count()>0)
 					{
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
 						argument.writer.WriteString(L"{\r\n");
-						for(int i=0;i<node->propertyNames.Count();i++)
+						for(int i=0;i<node->properties.Count();i++)
 						{
 							if(i) argument.writer.WriteString(L",\r\n");
 							PrintIndentation(argument, 1);
-							IdentifierToString(node->propertyNames[i], argument.writer);
+							IdentifierToString(node->properties[i]->propertyName, argument.writer);
 							argument.writer.WriteString(L" = ");
-							ManagedX_GenerateCode_Expression(node->propertyValues[i], argument);
+							ManagedX_GenerateCode_Expression(node->properties[i]->value, argument);
 						}
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
@@ -335,8 +335,9 @@ Extended Expressions
 						}
 						IdentifierToString(node->parameterNames[i], argument.writer);
 					}
-					argument.writer.WriteString(L")");
-					ManagedX_GenerateCode_Statement(node->body, argument);
+					argument.writer.WriteString(L")\r\n");
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->body, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedChoiceExpression)
@@ -385,11 +386,27 @@ Extended Expressions
 					{
 						argument.writer.WriteString(L"~");
 					}
-					else
+					else if(node->operatorName==L"op_preinc")
+					{
+						argument.writer.WriteString(L"++");
+					}
+					else if(node->operatorName==L"op_predec")
+					{
+						argument.writer.WriteString(L"-+");
+					}
+					else if(node->operatorName!=L"op_postinc" && node->operatorName==L"op_postdec")
 					{
 						argument.writer.WriteString(L"<UNKNOWN-OPERATOR-");
 						IdentifierToString(node->operatorName, argument.writer);
 						argument.writer.WriteString(L">");
+					}
+					if(node->operatorName==L"op_postinc")
+					{
+						argument.writer.WriteString(L"++");
+					}
+					else if(node->operatorName==L"op_postdec")
+					{
+						argument.writer.WriteString(L"-+");
 					}
 					ManagedX_GenerateCode_Expression(node->operand, argument);
 					argument.writer.WriteString(L")");
@@ -515,6 +532,7 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
 				{
+					argument.writer.WriteString(L"new ");
 					ManagedX_GenerateCode_Type(node->objectType, argument);
 					argument.writer.WriteString(L"[");
 					for(vint i=0;i<node->sizes.Count();i++)
@@ -556,50 +574,182 @@ Basic Statements
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEmptyStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedCompositeStatement)
 				{
+					PrintIndentation(argument, -1);
+					argument.writer.WriteString(L"{\r\n");
+					for(int i=0;i<node->statements.Count();i++)
+					{
+						ManagedX_GenerateCode_Statement(node->statements[i], argument);
+						argument.writer.WriteString(L"\r\n");
+					}
+					PrintIndentation(argument, -1);
+					argument.writer.WriteString(L"}");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExpressionStatement)
 				{
+					PrintIndentation(argument);
+					ManagedX_GenerateCode_Expression(node->expression, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedVariableStatement)
 				{
+					PrintIndentation(argument);
+					if(node->constant)
+					{
+						argument.writer.WriteString(L"const ");
+					}
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					if(node->initializer)
+					{
+						argument.writer.WriteString(L" = ");
+						ManagedX_GenerateCode_Expression(node->initializer, argument);
+					}
+					argument.writer.WriteString(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIfStatement)
 				{
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"if(");
+					ManagedX_GenerateCode_Expression(node->condition, argument);
+					argument.writer.WriteLine(L")\r\n");
+					ManagedX_GenerateCode_Statement(node->trueStatement, newArgument);
+					if(node->falseStatement)
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteLine(L"else\r\n");
+						ManagedX_GenerateCode_Statement(node->falseStatement, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedWhileStatement)
 				{
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument);
+					if(node->beginCondition)
+					{
+						argument.writer.WriteString(L"while(");
+						ManagedX_GenerateCode_Expression(node->beginCondition, argument);
+						argument.writer.WriteLine(L")\r\n");
+					}
+					else
+					{
+						argument.writer.WriteLine(L"while(true)");
+					}
+					ManagedX_GenerateCode_Statement(node->statement, newArgument);
+					if(node->endCondition)
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"when(");
+						ManagedX_GenerateCode_Expression(node->endCondition, argument);
+						argument.writer.WriteLine(L");");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedForStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"for(");
+					for(vint i=0;i<node->initializers.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						Ptr<ManagedVariableStatement> variable=node->initializers[i];
+
+						ManagedX_GenerateCode_Type(variable->type, argument);
+						argument.writer.WriteString(L" ");
+						IdentifierToString(variable->name, argument.writer);
+						if(variable->initializer)
+						{
+							argument.writer.WriteString(L" = ");
+							ManagedX_GenerateCode_Expression(variable->initializer, argument);
+						}
+					}
+					argument.writer.WriteString(L" ; ");
+					if(node->condition)
+					{
+						ManagedX_GenerateCode_Expression(node->condition, argument);
+					}
+					argument.writer.WriteString(L" ; ");
+					for(vint i=0;i<node->sideEffects.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Expression(node->sideEffects[i], argument);
+					}
+					argument.writer.WriteString(L")\r\n");
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBreakStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"break;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedContinueStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"continue;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReturnStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"exit;");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTryCatchStatement)
 				{
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					argument.writer.WriteString(L"try\r\n");
+					ManagedX_GenerateCode_Statement(node->tryStatement, newArgument);
+					for(int i=0;i<node->catches.Count();i++)
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"catch(");
+						ManagedX_GenerateCode_Type(node->catches[i]->exceptionType, argument);
+						if(node->catches[i]->exceptionName!=L"")
+						{
+							argument.writer.WriteString(L" ");
+							IdentifierToString(node->catches[i]->exceptionName, argument.writer);
+						}
+						argument.writer.WriteString(L"catch)\r\n");
+						ManagedX_GenerateCode_Statement(node->catches[i]->exceptionHandler, newArgument);
+					}
+					if(node->finallyStatement)
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"finally\r\n");
+						ManagedX_GenerateCode_Statement(node->finallyStatement, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedThrowStatement)
 				{
+					PrintIndentation(argument);
+					if(node->expression)
+					{
+						argument.writer.WriteString(L"throw ");
+						ManagedX_GenerateCode_Expression(node->expression, argument);
+						argument.writer.WriteString(L";");
+					}
+					else
+					{
+						argument.writer.WriteString(L"throw;");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedStatement)
@@ -617,14 +767,59 @@ Extended Statements
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"using(");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L" = ");
+					ManagedX_GenerateCode_Expression(node->initialize, argument);
+					argument.writer.WriteLine(L")\r\n");
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedLockStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"lock(");
+					ManagedX_GenerateCode_Expression(node->lock, argument);
+					argument.writer.WriteLine(L")\r\n");
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->statement, newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedSelectStatement)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"select(");
+					ManagedX_GenerateCode_Expression(node->expression, argument);
+					argument.writer.WriteLine(L")\r\n");
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"{\r\n");
+					
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					for(vint i=0;i<node->cases.Count();i++)
+					{
+						Ptr<ManagedCaseClause> caseClause=node->cases[i];
+						for(vint j=0;j<caseClause->conditions.Count();j++)
+						{
+							PrintIndentation(argument);
+							argument.writer.WriteString(L"case ");
+							ManagedX_GenerateCode_Expression(caseClause->conditions[j], argument);
+							argument.writer.WriteString(L":\r\n");
+						}
+						ManagedX_GenerateCode_Statement(caseClause->statement, newArgument);
+					}
+					if(node->defaultStatement)
+					{
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"default:\r\n");
+						ManagedX_GenerateCode_Statement(node->defaultStatement, newArgument);
+					}
+
+					PrintIndentation(argument);
+					argument.writer.WriteLine(L"}");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedStatement)
