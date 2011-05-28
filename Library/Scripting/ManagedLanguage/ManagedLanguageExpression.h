@@ -638,38 +638,18 @@ Basic Declaration Fragments
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(ManagedMember)
-			};
-
-			class ManagedField : public ManagedMember
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
-
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedExpression>						initializer;
 
 				declatt::Accessor							accessor;
 				declatt::MemberType							memberType;
-				declatt::DataType							dataType;
 				ManagedAttributeInfo						attributeInfo;
 			};
 
-			class ManagedProperty : public ManagedMember
+			class ManagedExtendedMember : public ManagedMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
 
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedStatement>						getter;
-				Ptr<ManagedStatement>						setter;
-
-				declatt::Accessor							getterAccessor;
-				declatt::Accessor							setterAccessor;
-				declatt::Inheritation						inheritation;
-				declatt::MemberType							memberType;
-				ManagedAttributeInfo						attributeInfo;
+				ALGORITHM_TARGET_ROOT(ManagedExtendedMember)
 			};
 
 			class ManagedParameter : public ManagedLanguageElement
@@ -686,11 +666,41 @@ Basic Declaration Fragments
 				WString										name;
 				ParameterType								parameterType;
 				Ptr<ManagedExpression>						defaultValue;
-
-				ManagedAttributeInfo						attributeInfo;
+				bool										params;
 			};
 
-			class ManagedMethod : public ManagedMember
+			class ManagedMethodCommon
+			{
+			public:
+				collections::List<Ptr<ManagedParameter>>	parameters;
+				Ptr<ManagedStatement>						body;
+			};
+
+			class ManagedConstructorCommon
+			{
+			public:
+				collections::List<Ptr<ManagedExpression>>	baseArguments;
+				collections::List<WString>					baseDefaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>	baseDefaultParameterValues;
+			};
+
+/***********************************************************************
+Basic Members
+***********************************************************************/
+
+			class ManagedField : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				Ptr<ManagedType>							type;
+				WString										name;
+				Ptr<ManagedExpression>						initializer;
+
+				declatt::DataType							dataType;
+			};
+
+			class ManagedMethod : public ManagedMember, public ManagedMethodCommon
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -698,39 +708,70 @@ Basic Declaration Fragments
 				Ptr<ManagedType>							implementedInterfaceType;
 				WString										name;
 				Ptr<ManagedType>							returnType;
-				collections::List<Ptr<ManagedParameter>>	parameters;
-				Ptr<ManagedStatement>						body;
 
-				declatt::Accessor							accessor;
 				declatt::Inheritation						inheritation;
-				declatt::MemberType							memberType;
-				ManagedAttributeInfo						attributeInfo;
 				ManagedGenericInfo							genericInfo;
 			};
 
-			class ManagedConstructor : public ManagedMember
+			class ManagedConstructor : public ManagedMember, public ManagedMethodCommon, public ManagedConstructorCommon
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
-
-				collections::List<Ptr<ManagedParameter>>	parameters;
-				collections::List<Ptr<ManagedExpression>>	baseArguments;
-				collections::List<WString>					baseDefaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>	baseDefaultParameterValues;
-				Ptr<ManagedStatement>						body;
-
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				ManagedAttributeInfo						attributeInfo;
 			};
 
 #define MANAGED_MEMBER_TARGETS(P, F)\
 			F(P, ManagedField)\
-			F(P, ManagedProperty)\
 			F(P, ManagedMethod)\
 			F(P, ManagedConstructor)\
+			F(P, ManagedExtendedMember)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedMember, MANAGED_MEMBER_TARGETS)
+
+/***********************************************************************
+Extended Members
+***********************************************************************/
+
+			class ManagedProperty : public ManagedExtendedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
+
+				Ptr<ManagedType>							type;
+				WString										name;
+				Ptr<ManagedStatement>						getter;
+				Ptr<ManagedStatement>						setter;
+
+				declatt::Accessor							setterAccessor;
+				declatt::Inheritation						inheritation;
+			};
+
+			class ManagedConverterOperator : public ManagedExtendedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
+
+				Ptr<ManagedType>							targetType;
+				bool										implicit;
+
+				declatt::Inheritation						inheritation;
+				ManagedGenericInfo							genericInfo;
+			};
+
+			class ManagedConverterConstructor : public ManagedExtendedMember, public ManagedConstructorCommon
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
+
+				Ptr<ManagedType>							sourceType;
+				bool										implicit;
+			};
+
+#define MANAGED_EXTENDED_MEMBER_TARGETS(P, F)\
+			F(P, ManagedProperty)\
+			F(P, ManagedConverterOperator)\
+			F(P, ManagedConverterConstructor)\
+
+			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedMember, MANAGED_EXTENDED_MEMBER_TARGETS)
 
 /***********************************************************************
 Basic Declarations
