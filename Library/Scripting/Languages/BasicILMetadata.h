@@ -26,18 +26,18 @@ Metadata
 		{
 			friend class BasicILMetadata;
 		protected:
-			const BasicILMetadata*					metadata;
-			ResourceRecord<BasicILExportRes>		exportInfo;
+			const BasicILMetadata*						metadata;
+			ResourceRecord<basicil::BasicILExportRes>	exportInfo;
 			
-			BasicILExportInfo(ResourceHandle<BasicILExportRes> _exportInfo, const BasicILMetadata* _metadata);
+			BasicILExportInfo(ResourceHandle<basicil::BasicILExportRes> _exportInfo, const BasicILMetadata* _metadata);
 		public:
 			BasicILExportInfo();
 			operator bool()const;
 
-			bool									IsVariable()const;
-			bool									IsFunction()const;
-			WString									GetName()const;
-			vint									GetInstructionIndex()const;
+			bool										IsVariable()const;
+			bool										IsFunction()const;
+			WString										GetName()const;
+			vint										GetInstructionIndex()const;
 		};
 
 /***********************************************************************
@@ -47,12 +47,12 @@ BasicILMetadata
 		class BasicILMetadata : public LanguageMetadata
 		{
 		protected:
-			ResourceRecord<BasicILEntryRes>			entry;
+			ResourceRecord<basicil::BasicILEntryRes>	entry;
 		public:
 			BasicILMetadata(IMetadataProvider* metadataProvider);
 
-			vint									GetExportCount()const;
-			BasicILExportInfo						GetExport(vint index)const;
+			vint										GetExportCount()const;
+			BasicILExportInfo							GetExport(vint index)const;
 		};
 	}
 }

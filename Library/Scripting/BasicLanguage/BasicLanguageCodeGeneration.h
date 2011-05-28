@@ -215,12 +215,12 @@ Code Generation
 
 			extern ResourceHandle<BasicTypeRes> GenerateResource(BasicTypeRecord* type, const BCP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateResource, BasicDeclaration, BCP, ResourceHandle<BasicDeclarationRes>);
-			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<BasicILExportRes>);
-			extern ResourceHandle<BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
-			extern ResourceArrayHandle<BasicDeclarationRes> BasicLanguage_GenerateDeclarationResource(const Ptr<BasicProgram> program, const BCP& argument);
-			extern ResourceArrayHandle<BasicILExportRes> BasicLanguage_GenerateExportResource(const Ptr<BasicProgram> program, const BCP& argument);
-			extern ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateLinkingResource(const Ptr<BasicProgram> program, const BCP& argument);
-			extern ResourceArrayHandle<BasicILLinkingRes> BasicLanguage_GenerateForeignResource(const Ptr<BasicProgram> program, const BCP& argument);
+			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GenerateExport, BasicDeclaration, BCP, ResourceHandle<basicil::BasicILExportRes>);
+			extern ResourceHandle<basicil::BasicILGenericRes> BasicLanguage_GenerateGenericResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
+			extern ResourceArrayHandle<basiclanguage::BasicDeclarationRes> BasicLanguage_GenerateDeclarationResource(const Ptr<BasicProgram> program, const BCP& argument);
+			extern ResourceArrayHandle<basicil::BasicILExportRes> BasicLanguage_GenerateExportResource(const Ptr<BasicProgram> program, const BCP& argument);
+			extern ResourceArrayHandle<basicil::BasicILLinkingRes> BasicLanguage_GenerateLinkingResource(const Ptr<BasicProgram> program, const BCP& argument);
+			extern ResourceArrayHandle<basicil::BasicILLinkingRes> BasicLanguage_GenerateForeignResource(const Ptr<BasicProgram> program, const BCP& argument);
 
 			extern void BasicLanguage_GenerateCode(Ptr<BasicProgram> program, const WString& programName, const BCP& argument);
 

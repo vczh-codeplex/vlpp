@@ -5,6 +5,7 @@ namespace vl
 {
 	namespace scripting
 	{
+		using namespace basiclanguage;
 
 /***********************************************************************
 BasicMetadataInfo
