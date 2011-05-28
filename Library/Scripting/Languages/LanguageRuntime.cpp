@@ -5,6 +5,7 @@ namespace vl
 	namespace scripting
 	{
 		using namespace basicil;
+		using namespace basiclanguage;
 
 /***********************************************************************
 LanguageAssembly

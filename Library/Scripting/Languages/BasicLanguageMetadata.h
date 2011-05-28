@@ -37,65 +37,65 @@ Metadata
 		{
 			friend class BasicDeclarationInfo;
 		protected:
-			ResourceRecord<BasicTypeRes>			type;
+			ResourceRecord<basiclanguage::BasicTypeRes>			type;
 
-			BasicTypeInfo(ResourceHandle<BasicTypeRes> _type, const BasicLanguageMetadata* metadata);
+			BasicTypeInfo(ResourceHandle<basiclanguage::BasicTypeRes> _type, const BasicLanguageMetadata* metadata);
 		public:
 			BasicTypeInfo();
 			operator bool()const;
-			bool									IsSameRecord(const BasicTypeInfo& typeInfo)const;
+			bool												IsSameRecord(const BasicTypeInfo& typeInfo)const;
 
-			bool									IsPrimitive()const;
-			bool									IsPointer()const;
-			bool									IsArray()const;
-			bool									IsFunction()const;
-			bool									IsStructure()const;
-			bool									IsGenericArgument()const;
+			bool												IsPrimitive()const;
+			bool												IsPointer()const;
+			bool												IsArray()const;
+			bool												IsFunction()const;
+			bool												IsStructure()const;
+			bool												IsGenericArgument()const;
 	
-			vint									GetSize()const;
-			BasicTypeRes::PrimitiveTypeEnum			GetPrimitive()const;
-			BasicTypeInfo							GetElementType()const;
-			vint									GetElementCount()const;
-			vint									GetComponentCount()const;
-			BasicTypeInfo							GetComponentType(vint index)const;
-			WString									GetComponentName(vint index)const;
-			vint									GetComponentOffset(vint index)const;
-			WString									GetGenericArgumentName()const;
+			vint												GetSize()const;
+			basiclanguage::BasicTypeRes::PrimitiveTypeEnum		GetPrimitive()const;
+			BasicTypeInfo										GetElementType()const;
+			vint												GetElementCount()const;
+			vint												GetComponentCount()const;
+			BasicTypeInfo										GetComponentType(vint index)const;
+			WString												GetComponentName(vint index)const;
+			vint												GetComponentOffset(vint index)const;
+			WString												GetGenericArgumentName()const;
 		};
 
 		class BasicDeclarationInfo : public BasicMetadataInfo
 		{
 			friend class BasicLanguageMetadata;
 		protected:
-			ResourceRecord<BasicDeclarationRes>		declaration;
+			ResourceRecord<basiclanguage::BasicDeclarationRes>	declaration;
 
-			BasicDeclarationInfo(ResourceHandle<BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);
+			BasicDeclarationInfo(ResourceHandle<basiclanguage::BasicDeclarationRes> _declaration, const BasicLanguageMetadata* metadata);
 		public:
 			BasicDeclarationInfo();
 			operator bool()const;
-			bool									IsSameRecord(const BasicDeclarationInfo& declarationInfo)const;
+			bool												IsSameRecord(const BasicDeclarationInfo& declarationInfo)const;
 
-			bool									IsForeignFunction()const;
-			bool									IsFunction()const;
-			bool									IsVariable()const;
-			bool									IsStructure()const;
-			bool									IsConcept()const;
-			bool									IsInstance()const;
-			bool									IsTypeRename()const;
-			bool									IsConstant()const;
+			bool												IsForeignFunction()const;
+			bool												IsFunction()const;
+			bool												IsVariable()const;
+			bool												IsStructure()const;
+			bool												IsConcept()const;
+			bool												IsInstance()const;
+			bool												IsTypeRename()const;
+			bool												IsConstant()const;
 
-			BasicTypeInfo							GetType()const;
-			WString									GetName()const;
-			vint									GetParameterCount()const;
-			WString									GetParameterName(vint index)const;
-			vint									GetAddress()const;
-			bool									IsLinkingSymbol()const;
-			WString									GetLinkingAssemblyName()const;
-			WString									GetLinkingSymbolName()const;
-			vint									GetGenericArgumentCount()const;
-			WString									GetGenericArgumentName(vint index)const;
-			WString									GetInstanceConceptAssemblyName()const;
-			WString									GetInstanceConceptSymbolName()const;
+			BasicTypeInfo										GetType()const;
+			WString												GetName()const;
+			vint												GetParameterCount()const;
+			WString												GetParameterName(vint index)const;
+			vint												GetAddress()const;
+			bool												IsLinkingSymbol()const;
+			WString												GetLinkingAssemblyName()const;
+			WString												GetLinkingSymbolName()const;
+			vint												GetGenericArgumentCount()const;
+			WString												GetGenericArgumentName(vint index)const;
+			WString												GetInstanceConceptAssemblyName()const;
+			WString												GetInstanceConceptSymbolName()const;
 		};
 
 /***********************************************************************
@@ -105,12 +105,12 @@ BasicLanguageMetadata
 		class BasicLanguageMetadata : public LanguageMetadata
 		{
 		protected:
-			ResourceRecord<BasicEntryRes>			entry;
+			ResourceRecord<basiclanguage::BasicEntryRes>		entry;
 		public:
 			BasicLanguageMetadata(IMetadataProvider* metadataProvider);
 
-			vint									GetDeclarationCount()const;
-			BasicDeclarationInfo					GetDeclaration(vint index)const;
+			vint												GetDeclarationCount()const;
+			BasicDeclarationInfo								GetDeclaration(vint index)const;
 		};
 	}
 }
