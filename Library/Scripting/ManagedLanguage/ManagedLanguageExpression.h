@@ -23,10 +23,10 @@ namespace vl
 		{
 			struct ManagedPosition
 			{
-				vint										start;
-				vint										lineStart;
-				vint										lineIndex;
-				vint										codeIndex;
+				vint												start;
+				vint												lineStart;
+				vint												lineIndex;
+				vint												codeIndex;
 
 				ManagedPosition();
 			};
@@ -34,7 +34,7 @@ namespace vl
 			class ManagedLanguageElement : public Object, private NotCopyable
 			{
 			public:
-				ManagedPosition								position;
+				ManagedPosition										position;
 			};
 
 /***********************************************************************
@@ -116,7 +116,7 @@ Basic Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
 
-				WString										name;
+				WString												name;
 			};
 
 			class ManagedMemberType : public ManagedType
@@ -124,8 +124,8 @@ Basic Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
 
-				Ptr<ManagedType>							operand;
-				WString										member;
+				Ptr<ManagedType>									operand;
+				WString												member;
 			};
 
 			class ManagedInstantiatedGenericType : public ManagedType
@@ -133,8 +133,8 @@ Basic Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
 
-				Ptr<ManagedType>							elementType;
-				collections::List<Ptr<ManagedType>>			argumentTypes;
+				Ptr<ManagedType>									elementType;
+				collections::List<Ptr<ManagedType>>					argumentTypes;
 			};
 
 #define MANAGED_TYPE_TARGETS(P, F)\
@@ -154,8 +154,8 @@ Extended Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
 
-				Ptr<ManagedType>							elementType;
-				int											dimensionCount;
+				Ptr<ManagedType>									elementType;
+				int													dimensionCount;
 			};
 
 			class ManagedFunctionType : public ManagedExtendedType
@@ -163,8 +163,8 @@ Extended Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
 
-				Ptr<ManagedType>							returnType;
-				collections::List<Ptr<ManagedType>>			parameterTypes;
+				Ptr<ManagedType>									returnType;
+				collections::List<Ptr<ManagedType>>					parameterTypes;
 			};
 
 			class ManagedEventType : public ManagedExtendedType
@@ -172,7 +172,7 @@ Extended Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
 
-				Ptr<ManagedFunctionType>					functionType;
+				Ptr<ManagedFunctionType>							functionType;
 			};
 
 			class ManagedAutoReferType : public ManagedExtendedType
@@ -197,6 +197,31 @@ Extended Types
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedType, MANAGED_EXTENDED_TYPE_TARGETS)
 
 /***********************************************************************
+Basic Expression Fragments
+***********************************************************************/
+
+			class ManagedArgument : public ManagedLanguageElement
+			{
+			public:
+				enum ArgumentType
+				{
+					Normal,
+					Ref,
+					Out,
+				};
+				Ptr<ManagedExpression>								value;
+				ArgumentType										argumentType;
+				WString												defaultParameterName;
+			};
+
+			class ManagedPropertySetter : public ManagedLanguageElement
+			{
+			public:
+				Ptr<ManagedExpression>								value;
+				WString												propertyName;
+			};
+
+/***********************************************************************
 Basic Expressions
 ***********************************************************************/
 
@@ -215,12 +240,12 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				bool										sign;
+				bool												sign;
 				union
 				{
-					signed __int64							signedInteger;
-					unsigned __int64						unsignedInteger;
-				}											value;
+					signed __int64									signedInteger;
+					unsigned __int64								unsignedInteger;
+				}													value;
 			};
 
 			class ManagedFloatExpression : public ManagedPrimitiveExpression
@@ -228,7 +253,7 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				double										value;
+				double												value;
 			};
 
 			class ManagedBooleanExpression : public ManagedPrimitiveExpression
@@ -236,7 +261,7 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				bool										value;
+				bool												value;
 			};
 
 			class ManagedCharExpression : public ManagedPrimitiveExpression
@@ -244,7 +269,7 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				wchar_t										value;
+				wchar_t												value;
 			};
 
 			class ManagedStringExpression : public ManagedPrimitiveExpression
@@ -252,7 +277,7 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				WString										value;
+				WString												value;
 			};
 
 			class ManagedReferenceExpression : public ManagedExpression
@@ -260,7 +285,7 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				WString										name;
+				WString												name;
 			};
 
 			class ManagedMemberExpression : public ManagedExpression
@@ -268,8 +293,8 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				WString										member;
+				Ptr<ManagedExpression>								operand;
+				WString												member;
 			};
 
 			class ManagedInstanciatedExpression : public ManagedExpression
@@ -277,22 +302,8 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				collections::List<Ptr<ManagedType>>			argumentTypes;
-			};
-
-			class ManagedArgument : public ManagedLanguageElement
-			{
-			public:
-				enum ArgumentType
-				{
-					Normal,
-					Ref,
-					Out,
-				};
-				Ptr<ManagedExpression>						value;
-				ArgumentType								argumentType;
-				WString										defaultParameterName;
+				Ptr<ManagedExpression>								operand;
+				collections::List<Ptr<ManagedType>>					argumentTypes;
 			};
 
 			class ManagedInvokeExpression : public ManagedExpression
@@ -300,8 +311,8 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>						function;
-				collections::List<Ptr<ManagedArgument>>		arguments;
+				Ptr<ManagedExpression>								function;
+				collections::List<Ptr<ManagedArgument>>				arguments;
 			};
 
 			class ManagedNewObjectExpression : public ManagedExpression
@@ -309,10 +320,9 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedType>							objectType;
-				collections::List<Ptr<ManagedArgument>>		arguments;
-				collections::List<WString>					propertyNames;
-				collections::List<Ptr<ManagedExpression>>	propertyValues;
+				Ptr<ManagedType>									objectType;
+				collections::List<Ptr<ManagedArgument>>				arguments;
+				collections::List<Ptr<ManagedPropertySetter>>		properties;
 			};
 
 			class ManagedFunctionResultExpression : public ManagedExpression
@@ -326,8 +336,8 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				Ptr<ManagedType>							type;
+				Ptr<ManagedExpression>								operand;
+				Ptr<ManagedType>									type;
 			};
 
 			class ManagedThisExpression : public ManagedExpression
@@ -347,8 +357,8 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>						leftOperand;
-				Ptr<ManagedExpression>						rightOperand;
+				Ptr<ManagedExpression>								leftOperand;
+				Ptr<ManagedExpression>								rightOperand;
 			};
 
 #define MANAGED_EXPRESSION_TARGETS(P, F)\
@@ -381,10 +391,10 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				collections::List<Ptr<ManagedType>>			parameterTypes;
-				collections::List<WString>					parameterNames;
-				Ptr<ManagedType>							returnType;
-				Ptr<ManagedStatement>						body;
+				collections::List<Ptr<ManagedType>>					parameterTypes; // can be autoref
+				collections::List<WString>							parameterNames;
+				Ptr<ManagedType>									returnType; // can be autoref
+				Ptr<ManagedStatement>								body;
 			};
 
 			class ManagedChoiceExpression : public ManagedExtendedExpression
@@ -392,9 +402,9 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						condition;
-				Ptr<ManagedExpression>						trueExpression;
-				Ptr<ManagedExpression>						falseExpression;
+				Ptr<ManagedExpression>								condition;
+				Ptr<ManagedExpression>								trueExpression;
+				Ptr<ManagedExpression>								falseExpression;
 			};
 
 			class ManagedNullChoiceExpression : public ManagedExtendedExpression
@@ -402,8 +412,8 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						valueExpression;
-				Ptr<ManagedExpression>						candidateExpression;
+				Ptr<ManagedExpression>								valueExpression;
+				Ptr<ManagedExpression>								candidateExpression;
 			};
 
 			class ManagedTypeofExpression : public ManagedExtendedExpression
@@ -411,7 +421,7 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedType>							type;
+				Ptr<ManagedType>									type;
 			};
 
 			class ManagedUnaryExpression : public ManagedExtendedExpression
@@ -419,8 +429,8 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				WString										operatorName;
+				Ptr<ManagedExpression>								operand;
+				WString												operatorName;
 			};
 
 			class ManagedBinaryExpression : public ManagedExtendedExpression
@@ -428,9 +438,9 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						leftOperand;
-				Ptr<ManagedExpression>						rightOperand;
-				WString										operatorName;
+				Ptr<ManagedExpression>								leftOperand;
+				Ptr<ManagedExpression>								rightOperand;
+				WString												operatorName;
 			};
 
 			class ManagedNewArrayExpression : public ManagedExtendedExpression
@@ -438,8 +448,8 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedType>							objectType;
-				collections::List<Ptr<ManagedExpression>>	sizes;
+				Ptr<ManagedType>									objectType;
+				collections::List<Ptr<ManagedExpression>>			sizes;
 			};
 
 			class ManagedIsTypeExpression : public ManagedExtendedExpression
@@ -447,8 +457,8 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				Ptr<ManagedType>							type;
+				Ptr<ManagedExpression>								operand;
+				Ptr<ManagedType>									type;
 			};
 
 			class ManagedIndexExpression : public ManagedExtendedExpression
@@ -456,8 +466,8 @@ Extended Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				Ptr<ManagedExpression>						operand;
-				collections::List<Ptr<ManagedExpression>>	indices;
+				Ptr<ManagedExpression>								operand;
+				collections::List<Ptr<ManagedExpression>>			indices;
 			};
 
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
@@ -474,6 +484,18 @@ Extended Expressions
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
 /***********************************************************************
+Basic Statement Fragments
+***********************************************************************/
+
+			class ManagedCatchClause : public ManagedLanguageElement
+			{
+			public:
+				Ptr<ManagedType>									exceptionType;
+				WString												exceptionName; // nullable
+				Ptr<ManagedStatement>								exceptionHandler;
+			};
+
+/***********************************************************************
 Basic Statements
 ***********************************************************************/
 
@@ -488,7 +510,7 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				collections::List<Ptr<ManagedStatement>>	statements;
+				collections::List<Ptr<ManagedStatement>>			statements;
 			};
 
 			class ManagedExpressionStatement : public ManagedStatement
@@ -496,7 +518,7 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedExpression>						expression;
+				Ptr<ManagedExpression>								expression;
 			};
 
 			class ManagedVariableStatement : public ManagedStatement
@@ -504,10 +526,10 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				bool										constant;
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedExpression>						initializer;
+				bool												constant;
+				Ptr<ManagedType>									type; // can be autoref
+				WString												name;
+				Ptr<ManagedExpression>								initializer; // nullable
 			};
 
 			class ManagedIfStatement : public ManagedStatement
@@ -515,9 +537,9 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedExpression>						condition;
-				Ptr<ManagedStatement>						trueStatement;
-				Ptr<ManagedStatement>						falseStatement;
+				Ptr<ManagedExpression>								condition;
+				Ptr<ManagedStatement>								trueStatement;
+				Ptr<ManagedStatement>								falseStatement; // nullable
 			};
 
 			class ManagedWhileStatement : public ManagedStatement
@@ -525,9 +547,9 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedExpression>						beginCondition;
-				Ptr<ManagedExpression>						endCondition;
-				Ptr<ManagedStatement>						statement;
+				Ptr<ManagedExpression>								beginCondition; // nullable
+				Ptr<ManagedExpression>								endCondition; // nullable
+				Ptr<ManagedStatement>								statement;
 			};
 
 			class ManagedForStatement : public ManagedStatement
@@ -535,10 +557,10 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedStatement>						initializer;
-				Ptr<ManagedStatement>						sideEffect;
-				Ptr<ManagedExpression>						condition;
-				Ptr<ManagedStatement>						statement;
+				collections::List<Ptr<ManagedVariableStatement>>	initializers;
+				collections::List<Ptr<ManagedExpression>>			sideEffects;
+				Ptr<ManagedExpression>								condition; // nullable
+				Ptr<ManagedStatement>								statement;
 			};
 
 			class ManagedBreakStatement : public ManagedStatement
@@ -564,11 +586,9 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedStatement>						tryStatement;
-				collections::List<Ptr<ManagedType>>			catchExceptionTypes;
-				collections::List<WString>					catchExceptionNames;
-				collections::List<Ptr<ManagedStatement>>	catchExceptionHandlers;
-				Ptr<ManagedStatement>						finallyStatement;
+				Ptr<ManagedStatement>								tryStatement;
+				collections::List<Ptr<ManagedCatchClause>>			catches;
+				Ptr<ManagedStatement>								finallyStatement; // nullable
 			};
 
 			class ManagedThrowStatement : public ManagedStatement
@@ -576,7 +596,7 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedExpression>						expression;
+				Ptr<ManagedNewObjectExpression>						expression; // nullable
 			};
 
 #define MANAGED_STATEMENT_TARGETS(P, F)\
@@ -597,6 +617,17 @@ Basic Statements
 			DEFINE_ALGORITHM_INTERFACE(ManagedStatement, MANAGED_STATEMENT_TARGETS)
 
 /***********************************************************************
+Extended Statement Fragments
+***********************************************************************/
+
+			class ManagedCaseClause : public ManagedExtendedStatement
+			{
+			public:
+				collections::List<Ptr<ManagedExpression>>			conditions;
+				Ptr<ManagedStatement>								statement;
+			};
+
+/***********************************************************************
 Extended Statements
 ***********************************************************************/
 
@@ -605,10 +636,10 @@ Extended Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
 
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedExpression>						initialize;
-				Ptr<ManagedStatement>						statement;
+				Ptr<ManagedType>									type;
+				WString												name;
+				Ptr<ManagedExpression>								initialize;
+				Ptr<ManagedStatement>								statement;
 			};
 
 			class ManagedLockStatement : public ManagedExtendedStatement
@@ -616,8 +647,8 @@ Extended Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
 
-				Ptr<ManagedExpression>						lock;
-				Ptr<ManagedStatement>						statement;
+				Ptr<ManagedExpression>								lock;
+				Ptr<ManagedStatement>								statement;
 			};
 
 			class ManagedSelectStatement : public ManagedExtendedStatement
@@ -625,10 +656,9 @@ Extended Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
 
-				Ptr<ManagedExpression>						expression;
-				collections::List<Ptr<ManagedExpression>>	caseConditions;
-				collections::List<Ptr<ManagedStatement>>	caseStatements;
-				Ptr<ManagedStatement>						defaultStatements;
+				Ptr<ManagedExpression>								expression;
+				collections::List<Ptr<ManagedCaseClause>>			cases;
+				Ptr<ManagedStatement>								defaultStatement; // nullable
 			};
 
 #define MANAGED_EXTENDED_STATEMENT_TARGETS(P, F)\
@@ -660,13 +690,13 @@ Basic Declaration Fragments
 
 				struct Argument
 				{
-					WString									name;
-					collections::List<Ptr<ManagedType>>		typeConstraints;
-					bool									newConstraint;
-					ArgumentConversion						conversion;
+					WString											name;
+					collections::List<Ptr<ManagedType>>				typeConstraints;
+					bool											newConstraint;
+					ArgumentConversion								conversion;
 				};
 
-				collections::List<Ptr<Argument>>			arguments;
+				collections::List<Ptr<Argument>>					arguments;
 			};
 
 			namespace declatt
@@ -708,9 +738,9 @@ Basic Declaration Fragments
 			public:
 				ALGORITHM_TARGET_ROOT(ManagedMember)
 
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				ManagedAttributeInfo						attributeInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+				ManagedAttributeInfo								attributeInfo;
 			};
 
 			class ManagedExtendedMember : public ManagedMember
@@ -733,26 +763,26 @@ Basic Declaration Fragments
 					Out,
 				};
 
-				Ptr<ManagedType>							type;
-				WString										name;
-				ParameterType								parameterType;
-				Ptr<ManagedExpression>						defaultValue;
-				bool										params;
+				Ptr<ManagedType>									type;
+				WString												name;
+				ParameterType										parameterType;
+				Ptr<ManagedExpression>								defaultValue;
+				bool												params;
 			};
 
 			class ManagedMethodCommon
 			{
 			public:
-				collections::List<Ptr<ManagedParameter>>	parameters;
-				Ptr<ManagedStatement>						body;
+				collections::List<Ptr<ManagedParameter>>			parameters;
+				Ptr<ManagedStatement>								body;
 			};
 
 			class ManagedConstructorCommon
 			{
 			public:
-				collections::List<Ptr<ManagedExpression>>	baseArguments;
-				collections::List<WString>					baseDefaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>	baseDefaultParameterValues;
+				collections::List<Ptr<ManagedExpression>>			baseArguments;
+				collections::List<WString>							baseDefaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>			baseDefaultParameterValues;
 			};
 
 /***********************************************************************
@@ -764,11 +794,11 @@ Basic Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
 
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedExpression>						initializer;
+				Ptr<ManagedType>									type;
+				WString												name;
+				Ptr<ManagedExpression>								initializer;
 
-				declatt::DataType							dataType;
+				declatt::DataType									dataType;
 			};
 
 			class ManagedMethod : public ManagedMember, public ManagedMethodCommon
@@ -776,12 +806,12 @@ Basic Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
 
-				Ptr<ManagedType>							implementedInterfaceType;
-				WString										name;
-				Ptr<ManagedType>							returnType;
+				Ptr<ManagedType>									implementedInterfaceType;
+				WString												name;
+				Ptr<ManagedType>									returnType;
 
-				declatt::Inheritation						inheritation;
-				ManagedGenericInfo							genericInfo;
+				declatt::Inheritation								inheritation;
+				ManagedGenericInfo									genericInfo;
 			};
 
 			class ManagedConstructor : public ManagedMember, public ManagedMethodCommon, public ManagedConstructorCommon
@@ -807,13 +837,13 @@ Extended Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 
-				Ptr<ManagedType>							type;
-				WString										name;
-				Ptr<ManagedStatement>						getter;
-				Ptr<ManagedStatement>						setter;
+				Ptr<ManagedType>									type;
+				WString												name;
+				Ptr<ManagedStatement>								getter;
+				Ptr<ManagedStatement>								setter;
 
-				declatt::Accessor							setterAccessor;
-				declatt::Inheritation						inheritation;
+				declatt::Accessor									setterAccessor;
+				declatt::Inheritation								inheritation;
 			};
 
 			class ManagedConverterOperator : public ManagedExtendedMember
@@ -821,11 +851,11 @@ Extended Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 
-				Ptr<ManagedType>							targetType;
-				bool										implicit;
+				Ptr<ManagedType>									targetType;
+				bool												implicit;
 
-				declatt::Inheritation						inheritation;
-				ManagedGenericInfo							genericInfo;
+				declatt::Inheritation								inheritation;
+				ManagedGenericInfo									genericInfo;
 			};
 
 			class ManagedConverterConstructor : public ManagedExtendedMember, public ManagedConstructorCommon
@@ -833,8 +863,8 @@ Extended Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 
-				Ptr<ManagedType>							sourceType;
-				bool										implicit;
+				Ptr<ManagedType>									sourceType;
+				bool												implicit;
 			};
 
 #define MANAGED_EXTENDED_MEMBER_TARGETS(P, F)\
@@ -860,12 +890,12 @@ Basic Declarations
 					Interface,
 				};
 
-				collections::List<Ptr<ManagedMember>>		members;
+				collections::List<Ptr<ManagedMember>>				members;
 
-				declatt::Accessor							accessor;
-				declatt::Inheritation						inheritation;
-				ManagedGenericInfo							genericInfo;
-				ManagedAttributeInfo						attributeInfo;
+				declatt::Accessor									accessor;
+				declatt::Inheritation								inheritation;
+				ManagedGenericInfo									genericInfo;
+				ManagedAttributeInfo								attributeInfo;
 			};
 
 			class ManagedNamespaceDeclaration : public ManagedDeclaration
@@ -873,7 +903,7 @@ Basic Declarations
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
 
-				collections::List<Ptr<ManagedDeclaration>>	declarations;
+				collections::List<Ptr<ManagedDeclaration>>			declarations;
 			};
 
 #define MANAGED_DECLARATION_TARGETS(P, F)\
@@ -892,12 +922,12 @@ Extended Declarations
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
 
-				bool										composable;
-				collections::List<WString>					enumerationNames;
-				collections::List<vint>						enumerationValues;
+				bool												composable;
+				collections::List<WString>							enumerationNames;
+				collections::List<vint>								enumerationValues;
 
-				declatt::Accessor							accessor;
-				ManagedAttributeInfo						attributeInfo;
+				declatt::Accessor									accessor;
+				ManagedAttributeInfo								attributeInfo;
 			};
 
 			class ManagedTypeRenameDeclaration : public ManagedExtendedDeclaration
@@ -905,8 +935,8 @@ Extended Declarations
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
 
-				declatt::Accessor							accessor;
-				ManagedGenericInfo							genericInfo;
+				declatt::Accessor									accessor;
+				ManagedGenericInfo									genericInfo;
 			};
 
 			class ManagedUsingNamespaceDeclaration : public ManagedExtendedDeclaration
@@ -914,7 +944,7 @@ Extended Declarations
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
 
-				collections::List<WString>					namespaceFragments;
+				collections::List<WString>							namespaceFragments;
 			};
 
 #define MANAGED_EXTENDED_DECLARATION_TARGETS(P, F)\
