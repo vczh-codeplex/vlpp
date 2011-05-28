@@ -228,7 +228,6 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				bool										doublePrecision;
 				double										value;
 			};
 
@@ -337,6 +336,9 @@ Basic Expressions
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
+
+				Ptr<ManagedExpression>						leftOperand;
+				Ptr<ManagedExpression>						rightOperand;
 			};
 
 #define MANAGED_EXPRESSION_TARGETS(P, F)\
@@ -430,6 +432,15 @@ Extended Expressions
 				collections::List<Ptr<ManagedExpression>>	sizes;
 			};
 
+			class ManagedIsTypeExpression : public ManagedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedExpression>						operand;
+				Ptr<ManagedType>							type;
+			};
+
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
 			F(P, ManagedLambdaExpression)\
 			F(P, ManagedChoiceExpression)\
@@ -438,6 +449,7 @@ Extended Expressions
 			F(P, ManagedUnaryExpression)\
 			F(P, ManagedBinaryExpression)\
 			F(P, ManagedNewArrayExpression)\
+			F(P, ManagedIsTypeExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
