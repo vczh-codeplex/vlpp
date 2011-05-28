@@ -158,6 +158,14 @@ Extended Expressions
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)
+				{
+				}
+
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedExpression)
 
 /***********************************************************************

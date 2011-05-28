@@ -404,11 +404,32 @@ Extended Expressions
 				Ptr<ManagedType>							type;
 			};
 
+			class ManagedUnaryExpression : public ManagedExtendedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedExpression>						operand;
+				WString										operatorName;
+			};
+
+			class ManagedBinaryExpression : public ManagedExtendedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedExpression>						leftOperand;
+				Ptr<ManagedExpression>						rightOperand;
+				WString										operatorName;
+			};
+
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
 			F(P, ManagedLambdaExpression)\
 			F(P, ManagedChoiceExpression)\
 			F(P, ManagedNullChoiceExpression)\
 			F(P, ManagedTypeofExpression)\
+			F(P, ManagedUnaryExpression)\
+			F(P, ManagedBinaryExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
@@ -590,11 +611,19 @@ Basic Declaration Fragments
 			struct ManagedGenericInfo
 			{
 			public:
+				enum ArgumentConversion
+				{
+					None,
+					In,
+					Out,
+				};
+
 				struct Argument
 				{
 					WString									name;
 					collections::List<Ptr<ManagedType>>		typeConstraints;
 					bool									newConstraint;
+					ArgumentConversion						conversion;
 				};
 
 				collections::List<Ptr<Argument>>			arguments;
