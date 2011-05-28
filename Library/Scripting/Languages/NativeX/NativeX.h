@@ -6,8 +6,8 @@ Scripting::Native X
 Classes:
 ***********************************************************************/
 
-#ifndef VCZH_SCRIPTING_LANGUAGES_NATIVEX_NATIVEXPARSER
-#define VCZH_SCRIPTING_LANGUAGES_NATIVEX_NATIVEXPARSER
+#ifndef VCZH_SCRIPTING_LANGUAGES_NATIVEX_NATIVEX
+#define VCZH_SCRIPTING_LANGUAGES_NATIVEX_NATIVEX
 
 #include "..\LanguageProvider.h"
 

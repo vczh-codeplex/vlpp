@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Library3">
       <UniqueIdentifier>{3199ff09-f1f1-499d-b89c-4c600fd1287f}</UniqueIdentifier>
     </Filter>
@@ -174,6 +170,10 @@
     </Filter>
     <Filter Include="Library3\Scripting\Languages\ManagedX\Source Files">
       <UniqueIdentifier>{2d38116c-72fb-4243-acc0-2e271359784f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -518,6 +518,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp">
       <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -927,6 +936,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h">
       <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
