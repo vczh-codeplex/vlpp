@@ -778,14 +778,6 @@ Basic Declaration Fragments
 				Ptr<ManagedStatement>								body;
 			};
 
-			class ManagedConstructorCommon
-			{
-			public:
-				collections::List<Ptr<ManagedExpression>>			baseArguments;
-				collections::List<WString>							baseDefaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>			baseDefaultParameterValues;
-			};
-
 /***********************************************************************
 Basic Members
 ***********************************************************************/
@@ -815,10 +807,16 @@ Basic Members
 				ManagedGenericInfo									genericInfo;
 			};
 
-			class ManagedConstructor : public ManagedMember, public ManagedMethodCommon, public ManagedConstructorCommon
+			class ManagedConstructor : public ManagedMember, public ManagedMethodCommon
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+					
+				WString												name;
+				bool												implicit;
+				collections::List<Ptr<ManagedExpression>>			baseArguments;
+				collections::List<WString>							baseDefaultParameterNames;
+				collections::List<Ptr<ManagedExpression>>			baseDefaultParameterValues;
 			};
 
 #define MANAGED_MEMBER_TARGETS(P, F)\
@@ -851,27 +849,19 @@ Extended Members
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
-
+					
+				WString												name;
 				Ptr<ManagedType>									targetType;
 				bool												implicit;
+				Ptr<ManagedStatement>								body;
 
 				declatt::Inheritation								inheritation;
 				ManagedGenericInfo									genericInfo;
 			};
 
-			class ManagedConverterConstructor : public ManagedExtendedMember, public ManagedConstructorCommon
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
-
-				Ptr<ManagedType>									sourceType;
-				bool												implicit;
-			};
-
 #define MANAGED_EXTENDED_MEMBER_TARGETS(P, F)\
 			F(P, ManagedProperty)\
 			F(P, ManagedConverterOperator)\
-			F(P, ManagedConverterConstructor)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedMember, MANAGED_EXTENDED_MEMBER_TARGETS)
 
@@ -891,6 +881,7 @@ Basic Declarations
 					Interface,
 				};
 				
+				DeclarationType										declarationType;
 				WString												name;
 				collections::List<Ptr<ManagedType>>					baseTypes;
 				collections::List<Ptr<ManagedMember>>				members;

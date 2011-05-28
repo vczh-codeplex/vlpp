@@ -984,14 +984,46 @@ Basic Members
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
 				{
+					InfoToString(node->attributeInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->memberType, argument.writer);
+					AttributeToString(node->dataType, argument.writer);
+
+					ManagedX_GenerateCode_Type(node->type, argument);
+					IdentifierToString(node->name, argument.writer);
+					if(node->initializer)
+					{
+						argument.writer.WriteString(L" = ");
+						ManagedX_GenerateCode_Expression(node->initializer, argument);
+					}
+					argument.writer.WriteString(L";\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
+					InfoToString(node->attributeInfo, argument);
+					InfoToString(node->genericInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->memberType, argument.writer);
+					AttributeToString(node->inheritation, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
+					InfoToString(node->attributeInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->memberType, argument.writer);
+					if(node->implicit)
+					{
+						argument.writer.WriteString(L"implicit ");
+					}
+					else
+					{
+						argument.writer.WriteString(L"explicit ");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
@@ -1009,14 +1041,29 @@ Extended Members
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
+					InfoToString(node->attributeInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->memberType, argument.writer);
+					AttributeToString(node->inheritation, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(ManagedConverterConstructor)
-				{
+					InfoToString(node->attributeInfo, argument);
+					InfoToString(node->genericInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->memberType, argument.writer);
+					AttributeToString(node->inheritation, argument.writer);
+					if(node->implicit)
+					{
+						argument.writer.WriteString(L"implicit ");
+					}
+					else
+					{
+						argument.writer.WriteString(L"explicit ");
+					}
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedMember)
@@ -1029,10 +1076,67 @@ Basic Declaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeDeclaration)
 				{
+					InfoToString(node->attributeInfo, argument);
+					InfoToString(node->genericInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+					AttributeToString(node->inheritation, argument.writer);
+
+					switch(node->declarationType)
+					{
+					case ManagedTypeDeclaration::Class:
+						argument.writer.WriteString(L"class ");
+						break;
+					case ManagedTypeDeclaration::Structure:
+						argument.writer.WriteString(L"struct ");
+						break;
+					case ManagedTypeDeclaration::Interface:
+						argument.writer.WriteString(L"interface ");
+						break;
+					}
+					IdentifierToString(node->name, argument.writer);
+					if(node->baseTypes.Count())
+					{
+						argument.writer.WriteString(L" : ");
+						for(vint i=0;i<node->baseTypes.Count();i++)
+						{
+							if(i) argument.writer.WriteString(L", ");
+							ManagedX_GenerateCode_Type(node->baseTypes[i], argument);
+						}
+					}
+					argument.writer.WriteString(L"{\r\n");
+
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					for(vint i=0;i<node->members.Count();i++)
+					{
+						ManagedX_GenerateCode_Member(node->members[i], newArgument);
+					}
+
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"}\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNamespaceDeclaration)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"namespace ");
+					for(vint i=0;i<node->namespaceFragments.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L".");
+						IdentifierToString(node->namespaceFragments[i], argument.writer);
+					}
+					argument.writer.WriteString(L"{\r\n");
+
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					for(vint i=0;i<node->declarations.Count();i++)
+					{
+						ManagedX_GenerateCode_Declaration(node->declarations[i], newArgument);
+					}
+					
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"}\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedDeclaration)
