@@ -624,6 +624,7 @@ Basic Declaration Fragments
 					Sealed,
 					Abstract,
 					Virtual,
+					Override,
 				};
 
 				enum MemberType
