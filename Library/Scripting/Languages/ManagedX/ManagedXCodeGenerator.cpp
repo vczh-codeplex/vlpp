@@ -66,6 +66,151 @@ namespace vl
 				ManagedX_GenerateCode_Expression(node->value, argument);
 			}
 
+			void AttributeToString(declatt::Accessor att, TextWriter& writer)
+			{
+				switch(att)
+				{
+				case declatt::Public:
+					writer.WriteString(L"public ");
+					break;
+				case declatt::Protected:
+					writer.WriteString(L"protected ");
+					break;
+				case declatt::Private:
+					writer.WriteString(L"private ");
+					break;
+				case declatt::ProtectedInternal:
+					writer.WriteString(L"protected internal ");
+					break;
+				case declatt::Internal:
+					writer.WriteString(L"internal ");
+					break;
+				}
+			}
+
+			void AttributeToString(declatt::Inheritation att, TextWriter& writer)
+			{
+				switch(att)
+				{
+				case declatt::Normal:
+					break;
+				case declatt::Sealed:
+					writer.WriteString(L"sealed ");
+					break;
+				case declatt::Abstract:
+					writer.WriteString(L"abstract ");
+					break;
+				case declatt::Virtual:
+					writer.WriteString(L"virtual ");
+					break;
+				case declatt::Override:
+					writer.WriteString(L"override ");
+					break;
+				}
+			}
+
+			void AttributeToString(declatt::MemberType att, TextWriter& writer)
+			{
+				switch(att)
+				{
+				case declatt::Instance:
+					break;
+				case declatt::Static:
+					writer.WriteString(L"static ");
+					break;
+				}
+			}
+
+			void AttributeToString(declatt::DataType att, TextWriter& writer)
+			{
+				switch(att)
+				{
+				case declatt::Variable:
+					break;
+				case declatt::Constant:
+					writer.WriteString(L"const ");
+					break;
+				case declatt::Readonly:
+					writer.WriteString(L"readonly ");
+					break;
+				}
+			}
+
+			void InfoToString(ManagedAttributeInfo& info, const MXCGP& argument)
+			{
+				for(vint i=0;i<info.attributes.Count();i++)
+				{
+					Ptr<ManagedNewObjectExpression> att=info.attributes[i];
+
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"[");
+
+					ManagedX_GenerateCode_Type(att->objectType, argument);
+					argument.writer.WriteString(L"(");
+					for(vint j=0;j<att->arguments.Count();j++)
+					{
+						if(j) argument.writer.WriteString(L", ");
+						ArgumentToString(att->arguments[j], argument);
+					}
+
+					for(vint j=0;j>att->properties.Count();j++)
+					{
+						if(j || att->arguments.Count()) argument.writer.WriteString(L", ");
+						IdentifierToString(att->properties[j]->propertyName, argument.writer);
+						argument.writer.WriteString(L" = ");
+						ManagedX_GenerateCode_Expression(att->properties[j]->value, argument);
+					}
+					argument.writer.WriteString(L")");
+
+					argument.writer.WriteString(L"]\r\n");
+				}
+			}
+
+			void InfoToString(ManagedGenericInfo& info, const MXCGP& argument)
+			{
+				PrintIndentation(argument);
+				argument.writer.WriteString(L"generic<");
+				for(vint i=0;i>info.arguments.Count();i++)
+				{
+					Ptr<ManagedGenericInfo::Argument> arg=info.arguments[i];
+					if(i) argument.writer.WriteString(L",\r\n");
+					PrintIndentation(argument, 1);
+
+					switch(arg->conversion)
+					{
+					case ManagedGenericInfo::In:
+						argument.writer.WriteString(L"in ");
+						break;
+					case ManagedGenericInfo::Out:
+						argument.writer.WriteString(L"out ");
+						break;
+					}
+					IdentifierToString(arg->name, argument.writer);
+
+					if(arg->newConstraint || arg->typeConstraints.Count())
+					{
+						argument.writer.WriteString(L" : ");
+						for(vint j=0;j<arg->typeConstraints.Count();j++)
+						{
+							if(j) argument.writer.WriteString(L", ");
+							ManagedX_GenerateCode_Type(arg->typeConstraints[j], argument);
+						}
+
+						if(arg->newConstraint)
+						{
+							if(arg->typeConstraints.Count())
+							{
+								argument.writer.WriteString(L", ");
+							}
+							argument.writer.WriteString(L"new()");
+						}
+					}
+				}
+				argument.writer.WriteString(L"\r\n");
+				PrintIndentation(argument, 1);
+				argument.writer.WriteString(L">\r\n");
+			}
+
 /***********************************************************************
 Basic Types
 ***********************************************************************/
@@ -79,8 +224,15 @@ Basic Types
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberType)
 				{
-					ManagedX_GenerateCode_Type(node->operand, argument);
-					argument.writer.WriteString(L".");
+					if(node->operand)
+					{
+						ManagedX_GenerateCode_Type(node->operand, argument);
+						argument.writer.WriteString(L".");
+					}
+					else
+					{
+						argument.writer.WriteString(L"global::");
+					}
 					IdentifierToString(node->member, argument.writer);
 				}
 
@@ -258,7 +410,7 @@ Basic Expressions
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
 						argument.writer.WriteString(L"{\r\n");
-						for(int i=0;i<node->properties.Count();i++)
+						for(vint i=0;i<node->properties.Count();i++)
 						{
 							if(i) argument.writer.WriteString(L",\r\n");
 							PrintIndentation(argument, 1);
@@ -582,7 +734,7 @@ Basic Statements
 				{
 					PrintIndentation(argument, -1);
 					argument.writer.WriteString(L"{\r\n");
-					for(int i=0;i<node->statements.Count();i++)
+					for(vint i=0;i<node->statements.Count();i++)
 					{
 						ManagedX_GenerateCode_Statement(node->statements[i], argument);
 						argument.writer.WriteString(L"\r\n");
@@ -714,7 +866,7 @@ Basic Statements
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					argument.writer.WriteString(L"try\r\n");
 					ManagedX_GenerateCode_Statement(node->tryStatement, newArgument);
-					for(int i=0;i<node->catches.Count();i++)
+					for(vint i=0;i<node->catches.Count();i++)
 					{
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
@@ -792,7 +944,7 @@ Extended Statements
 				ALGORITHM_PROCEDURE_MATCH(ManagedSelectStatement)
 				{
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"select(");
+					argument.writer.WriteString(L"switch(");
 					ManagedX_GenerateCode_Expression(node->expression, argument);
 					argument.writer.WriteLine(L")\r\n");
 					PrintIndentation(argument);
@@ -898,14 +1050,58 @@ Extended Declaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEnumerationDeclaration)
 				{
+					InfoToString(node->attributeInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+
+					if(node->composable)
+					{
+						argument.writer.WriteString(L"enum switch ");
+					}
+					else
+					{
+						argument.writer.WriteString(L"enum ");
+					}
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"{\r\n");
+					for(vint i=0;i<node->items.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L",\r\n");
+						PrintIndentation(argument, 1);
+						IdentifierToString(node->items[i]->name, argument.writer);
+						if(node->items[i]->value)
+						{
+							argument.writer.WriteString(L" = ");
+							ManagedX_GenerateCode_Expression(node->items[i]->value, argument);
+						}
+					}
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"}\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeRenameDeclaration)
 				{
+					InfoToString(node->genericInfo, argument);
+					PrintIndentation(argument);
+					AttributeToString(node->accessor, argument.writer);
+
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L" = ");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L";\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"using ");
+					for(vint i=0;i<node->namespaceFragments.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L".");
+						IdentifierToString(node->namespaceFragments[i], argument.writer);
+					}
+					argument.writer.WriteString(L";\r\n\r\n");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedDeclaration)

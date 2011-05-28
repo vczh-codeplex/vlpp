@@ -124,7 +124,7 @@ Basic Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
 
-				Ptr<ManagedType>									operand;
+				Ptr<ManagedType>									operand; // null = global::
 				WString												member;
 			};
 
@@ -737,7 +737,8 @@ Basic Declaration Fragments
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(ManagedMember)
-
+					
+				WString												name;
 				declatt::Accessor									accessor;
 				declatt::MemberType									memberType;
 				ManagedAttributeInfo								attributeInfo;
@@ -889,7 +890,9 @@ Basic Declarations
 					Structure,
 					Interface,
 				};
-
+				
+				WString												name;
+				collections::List<Ptr<ManagedType>>					baseTypes;
 				collections::List<Ptr<ManagedMember>>				members;
 
 				declatt::Accessor									accessor;
@@ -902,7 +905,8 @@ Basic Declarations
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedDeclaration)
-
+					
+				collections::List<WString>							namespaceFragments;
 				collections::List<Ptr<ManagedDeclaration>>			declarations;
 			};
 
@@ -914,6 +918,17 @@ Basic Declarations
 			DEFINE_ALGORITHM_INTERFACE(ManagedDeclaration, MANAGED_DECLARATION_TARGETS)
 
 /***********************************************************************
+Extended Declaration Fragments
+***********************************************************************/
+
+			class ManagedEnumItem : public ManagedLanguageElement
+			{
+			public:
+				WString												name;
+				Ptr<ManagedExpression>								value;
+			};
+
+/***********************************************************************
 Extended Declarations
 ***********************************************************************/
 
@@ -921,10 +936,10 @@ Extended Declarations
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
-
+					
+				WString												name;
 				bool												composable;
-				collections::List<WString>							enumerationNames;
-				collections::List<vint>								enumerationValues;
+				collections::List<Ptr<ManagedEnumItem>>				items;
 
 				declatt::Accessor									accessor;
 				ManagedAttributeInfo								attributeInfo;
@@ -934,6 +949,9 @@ Extended Declarations
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedDeclaration)
+
+				WString												name;
+				Ptr<ManagedType>									type;
 
 				declatt::Accessor									accessor;
 				ManagedGenericInfo									genericInfo;

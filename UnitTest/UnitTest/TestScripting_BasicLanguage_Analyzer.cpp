@@ -648,9 +648,9 @@ void Test_BasicLanguage_RunImplicitInteger()
 TEST_CASE(Test_BasicLanguage_ImplicitInteger)
 {
 	BasicPrimitiveTypeEnum types[]={s8, s16, s32, s64, u8, u16, u32, u64, f32, f64};
-	for(int i=0;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
-		for(int j=0;j<8;j++)
+		for(vint j=0;j<8;j++)
 		{
 			BasicEnv env;
 			BasicTypeManager tm;
