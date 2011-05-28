@@ -242,16 +242,12 @@ Extended Statements
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedStatement)
 
 /***********************************************************************
-Basic Declaration Fragments
+Basic Members
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_Member, ManagedMember, MXCGP)
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
-				{
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
 				}
 
@@ -263,7 +259,32 @@ Basic Declaration Fragments
 				{
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
+				{
+					ManagedX_GenerateCode_ExtendedMember(node, argument);
+				}
+
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_Member)
+
+/***********************************************************************
+Extended Members
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedMember, ManagedExtendedMember, MXCGP)
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedConverterConstructor)
+				{
+				}
+
+			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedMember)
 
 /***********************************************************************
 Basic Declaration
