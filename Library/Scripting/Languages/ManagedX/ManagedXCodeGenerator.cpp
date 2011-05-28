@@ -45,6 +45,101 @@ namespace vl
 
 			void IdentifierToString(const WString& identifier, TextWriter& writer)
 			{
+				static wchar_t* keywords[]=
+				{
+					L"void",
+					L"sbyte",
+					L"byte",
+					L"short",
+					L"word",
+					L"int",
+					L"uint",
+					L"long",
+					L"ulong",
+					L"bool",
+					L"char",
+					L"string",
+					L"float",
+					L"double",
+					L"object",
+					L"ref",
+					L"out",
+					L"public",
+					L"protected",
+					L"private",
+					L"internal",
+					L"sealed",
+					L"abstract",
+					L"virtual",
+					L"override",
+					L"static",
+					L"const",
+					L"readonly",
+					L"generic",
+					L"in",
+					L"out",
+					L"new",
+					L"params",
+					L"global",
+					L"function",
+					L"event",
+					L"var",
+					L"dynamic",
+					L"null",
+					L"true",
+					L"false",
+					L"result",
+					L"value",
+					L"as",
+					L"this",
+					L"base",
+					L"typeof",
+					L"is",
+					L"const",
+					L"if",
+					L"else",
+					L"while",
+					L"when",
+					L"do",
+					L"loop",
+					L"for",
+					L"break",
+					L"continue",
+					L"exit",
+					L"try",
+					L"catch",
+					L"finally",
+					L"throw",
+					L"using",
+					L"lock",
+					L"switch",
+					L"case",
+					L"default",
+					L"implicit",
+					L"explicit",
+					L"get",
+					L"set",
+					L"class",
+					L"struct",
+					L"interface",
+					L"namespace",
+					L"enum",
+				};
+
+				const wchar_t* buffer=identifier.Buffer();
+				bool isKeyword=false;
+				for(vint i=0;i<sizeof(keywords)/sizeof(*keywords);i++)
+				{
+					if(wcscmp(keywords[i], buffer)==0)
+					{
+						isKeyword=true;
+						break;
+					}
+				}
+				if(isKeyword)
+				{
+					writer.WriteString(L"@");
+				}
 				writer.WriteString(identifier);
 			}
 
@@ -209,6 +304,38 @@ namespace vl
 				argument.writer.WriteString(L"\r\n");
 				PrintIndentation(argument, 1);
 				argument.writer.WriteString(L">\r\n");
+			}
+
+			void ParametersToString(ManagedMethodCommon& method, const MXCGP& argument)
+			{
+				argument.writer.WriteString(L"(");
+				for(vint i=0;i<method.parameters.Count();i++)
+				{
+					Ptr<ManagedParameter> p=method.parameters[i];
+					if(i) argument.writer.WriteString(L", ");
+
+					switch(p->parameterType)
+					{
+					case ManagedParameter::Params:
+						argument.writer.WriteString(L"params ");
+						break;
+					case ManagedParameter::Ref:
+						argument.writer.WriteString(L"ref ");
+						break;
+					case ManagedParameter::Out:
+						argument.writer.WriteString(L"out ");
+						break;
+					}
+					ManagedX_GenerateCode_Type(p->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(p->name, argument.writer);
+					if(p->defaultValue)
+					{
+						argument.writer.WriteString(L" = ");
+						ManagedX_GenerateCode_Expression(p->defaultValue, argument);
+					}
+				}
+				argument.writer.WriteString(L")");
 			}
 
 /***********************************************************************
@@ -445,7 +572,7 @@ Basic Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBaseExpression)
 				{
-					argument.writer.WriteString(L"type");
+					argument.writer.WriteString(L"base");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAssignmentExpression)
@@ -472,7 +599,7 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedLambdaExpression)
 				{
-					argument.writer.WriteString(L"delegate ");
+					argument.writer.WriteString(L"function ");
 					if(!node->returnType.Cast<ManagedAutoReferType>())
 					{
 						ManagedX_GenerateCode_Type(node->returnType, argument);
@@ -714,6 +841,11 @@ Extended Expressions
 						ManagedX_GenerateCode_Expression(node->indices[i], argument);
 					}
 					argument.writer.WriteString(L"]");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedSetterValueExpression)
+				{
+					argument.writer.WriteString(L"value");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedExpression)
@@ -991,6 +1123,7 @@ Basic Members
 					AttributeToString(node->dataType, argument.writer);
 
 					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
 					if(node->initializer)
 					{
@@ -1008,6 +1141,15 @@ Basic Members
 					AttributeToString(node->accessor, argument.writer);
 					AttributeToString(node->memberType, argument.writer);
 					AttributeToString(node->inheritation, argument.writer);
+
+					ManagedX_GenerateCode_Type(node->returnType, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					ParametersToString(*node, argument);
+
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->body, newArgument);
+					argument.writer.WriteString(L"\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
@@ -1016,6 +1158,7 @@ Basic Members
 					PrintIndentation(argument);
 					AttributeToString(node->accessor, argument.writer);
 					AttributeToString(node->memberType, argument.writer);
+
 					if(node->implicit)
 					{
 						argument.writer.WriteString(L"implicit ");
@@ -1024,6 +1167,25 @@ Basic Members
 					{
 						argument.writer.WriteString(L"explicit ");
 					}
+					IdentifierToString(node->name, argument.writer);
+					ParametersToString(*node, argument);
+
+					if(node->baseArguments.Count())
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument, 1);
+						argument.writer.WriteString(L":base(");
+						for(vint i=0;i<node->baseArguments.Count();i++)
+						{
+							if(i) argument.writer.WriteString(L", ");
+							ArgumentToString(node->baseArguments[i], argument);
+						}
+						argument.writer.WriteString(L")");
+					}
+
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->body, newArgument);
+					argument.writer.WriteString(L"\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
@@ -1046,6 +1208,24 @@ Extended Members
 					AttributeToString(node->accessor, argument.writer);
 					AttributeToString(node->memberType, argument.writer);
 					AttributeToString(node->inheritation, argument.writer);
+					
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L" ");
+					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"{\r\n");
+					
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument, 1);
+					argument.writer.WriteString(L"get ");
+					ManagedX_GenerateCode_Statement(node->getter, newArgument);
+					argument.writer.WriteString(L"\r\n");
+					AttributeToString(node->setterAccessor, argument.writer);
+					argument.writer.WriteString(L"set ");
+					ManagedX_GenerateCode_Statement(node->setter, newArgument);
+
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"}\r\n\r\n");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
@@ -1056,6 +1236,7 @@ Extended Members
 					AttributeToString(node->accessor, argument.writer);
 					AttributeToString(node->memberType, argument.writer);
 					AttributeToString(node->inheritation, argument.writer);
+
 					if(node->implicit)
 					{
 						argument.writer.WriteString(L"implicit ");
@@ -1064,6 +1245,11 @@ Extended Members
 					{
 						argument.writer.WriteString(L"explicit ");
 					}
+					ManagedX_GenerateCode_Type(node->targetType, argument);
+
+					MXCGP newArgument(argument.writer, argument.indentation+1);
+					ManagedX_GenerateCode_Statement(node->body, newArgument);
+					argument.writer.WriteString(L"\r\n\r\n");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedMember)
