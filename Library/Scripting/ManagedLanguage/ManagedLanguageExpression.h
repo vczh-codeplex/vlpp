@@ -470,6 +470,12 @@ Extended Expressions
 				collections::List<Ptr<ManagedExpression>>			indices;
 			};
 
+			class ManagedSetterValueExpression : public ManagedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+			};
+
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
 			F(P, ManagedLambdaExpression)\
 			F(P, ManagedChoiceExpression)\
@@ -480,6 +486,7 @@ Extended Expressions
 			F(P, ManagedNewArrayExpression)\
 			F(P, ManagedIsTypeExpression)\
 			F(P, ManagedIndexExpression)\
+			F(P, ManagedSetterValueExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
@@ -758,7 +765,6 @@ Basic Declaration Fragments
 				enum ParameterType
 				{
 					Normal,
-					Default,
 					Params,
 					Ref,
 					Out,
@@ -768,7 +774,6 @@ Basic Declaration Fragments
 				WString												name;
 				ParameterType										parameterType;
 				Ptr<ManagedExpression>								defaultValue;
-				bool												params;
 			};
 
 			class ManagedMethodCommon
@@ -789,7 +794,7 @@ Basic Members
 
 				Ptr<ManagedType>									type;
 				WString												name;
-				Ptr<ManagedExpression>								initializer;
+				Ptr<ManagedExpression>								initializer; // nullable
 
 				declatt::DataType									dataType;
 			};
@@ -814,9 +819,7 @@ Basic Members
 					
 				WString												name;
 				bool												implicit;
-				collections::List<Ptr<ManagedExpression>>			baseArguments;
-				collections::List<WString>							baseDefaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>			baseDefaultParameterValues;
+				collections::List<Ptr<ManagedArgument>>				baseArguments;
 			};
 
 #define MANAGED_MEMBER_TARGETS(P, F)\
@@ -850,7 +853,6 @@ Extended Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 					
-				WString												name;
 				Ptr<ManagedType>									targetType;
 				bool												implicit;
 				Ptr<ManagedStatement>								body;
