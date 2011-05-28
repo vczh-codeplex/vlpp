@@ -573,6 +573,15 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp">
+      <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1797,6 +1806,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h">
+      <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
