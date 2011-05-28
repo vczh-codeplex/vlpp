@@ -6,26 +6,42 @@ namespace vl
 	{
 		namespace language_managedx
 		{
+			void PrintIndentation(const MXCGP& argument, vint offset=0)
+			{
+				for(vint i=0;i<argument.indentation+offset;i++)
+				{
+					argument.writer.WriteString(L"    ");
+				}
+			}
+
 /***********************************************************************
 Basic Types
 ***********************************************************************/
 
 			BEGIN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_Type, ManagedType, MXCGP)
 
-				ALGORITHM_PROCEDURE_MATCH(ManagedGenericArgumentType)
-				{
-				}
-
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferencedType)
 				{
+					argument.writer.WriteString(node->name);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberType)
 				{
+					ManagedX_GenerateCode_Type(node->operand, argument);
+					argument.writer.WriteString(L".");
+					argument.writer.WriteString(node->member);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedGenericType)
 				{
+					ManagedX_GenerateCode_Type(node->elementType, argument);
+					argument.writer.WriteString(L"<");
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Type(node->argumentTypes[i], argument);
+					}
+					argument.writer.WriteString(L">");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedType)
@@ -43,18 +59,49 @@ Extended Types
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedArrayType)
 				{
+					ManagedX_GenerateCode_Type(node->elementType, argument);
+					argument.writer.WriteString(L"[");
+					for(vint i=1;i<node->dimensionCount;i++)
+					{
+						argument.writer.WriteString(L",");
+					}
+					argument.writer.WriteString(L"]");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedFunctionType)
 				{
+					argument.writer.WriteString(L"function ");
+					ManagedX_GenerateCode_Type(node->returnType, argument);
+					argument.writer.WriteString(L"(");
+					for(vint i=0;i<node->parameterTypes.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Type(node->parameterTypes[i], argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEventType)
 				{
+					argument.writer.WriteString(L"event ");
+					ManagedX_GenerateCode_Type(node->functionType->returnType, argument);
+					argument.writer.WriteString(L"(");
+					for(vint i=0;i<node->functionType->parameterTypes.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Type(node->functionType->parameterTypes[i], argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAutoReferType)
 				{
+					argument.writer.WriteString(L"var");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedDynamicType)
+				{
+					argument.writer.WriteString(L"dynamic");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedType)
@@ -105,7 +152,7 @@ Basic Expressions
 				{
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(ManagedNewExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedNewObjectExpression)
 				{
 				}
 
@@ -163,6 +210,10 @@ Extended Expressions
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)
+				{
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
 				{
 				}
 
