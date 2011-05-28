@@ -14,6 +14,40 @@ namespace vl
 				}
 			}
 
+			void UnescapeStringContent(const WString& string, TextWriter& writer)
+			{
+				const wchar_t* buffer=string.Buffer();
+				while(*buffer)
+				{
+					switch(*buffer)
+					{
+					case L'\r':
+						writer.WriteString(L"\\r");
+						break;
+					case L'\n':
+						writer.WriteString(L"\\n");
+						break;
+					case L'\t':
+						writer.WriteString(L"\\t");
+						break;
+					case L'\"':
+						writer.WriteString(L"\\\"");
+						break;
+					case L'\\':
+						writer.WriteString(L"\\\\");
+						break;
+					default:
+						writer.WriteChar(*buffer);
+					}
+					buffer++;
+				}
+			}
+
+			void IdentifierToString(const WString& identifier, TextWriter& writer)
+			{
+				writer.WriteString(identifier);
+			}
+
 /***********************************************************************
 Basic Types
 ***********************************************************************/
@@ -22,14 +56,14 @@ Basic Types
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferencedType)
 				{
-					argument.writer.WriteString(node->name);
+					IdentifierToString(node->name, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberType)
 				{
 					ManagedX_GenerateCode_Type(node->operand, argument);
 					argument.writer.WriteString(L".");
-					argument.writer.WriteString(node->member);
+					IdentifierToString(node->member, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedGenericType)
@@ -114,66 +148,159 @@ Basic Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNullExpression)
 				{
+					argument.writer.WriteString(L"null");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIntegerExpression)
 				{
+					if(node->sign)
+					{
+						argument.writer.WriteString(i64tow(node->value.signedInteger));
+					}
+					else
+					{
+						argument.writer.WriteString(i64tow(node->value.unsignedInteger));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedFloatExpression)
 				{
+					argument.writer.WriteString(ftow(node->value));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBooleanExpression)
 				{
+					argument.writer.WriteString(node->value?L"true":L"false");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedCharExpression)
 				{
+					argument.writer.WriteString(L"\'");
+					UnescapeStringContent(node->value, argument.writer);
+					argument.writer.WriteString(L"\'");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedStringExpression)
 				{
+					argument.writer.WriteString(L"\"");
+					UnescapeStringContent(node->value, argument.writer);
+					argument.writer.WriteString(L"\"");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferenceExpression)
 				{
+					IdentifierToString(node->name, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberExpression)
 				{
+					ManagedX_GenerateCode_Expression(node->operand, argument);
+					argument.writer.WriteString(L".");
+					IdentifierToString(node->member, argument.writer);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInstanciatedExpression)
 				{
+					ManagedX_GenerateCode_Expression(node->operand, argument);
+					argument.writer.WriteString(L"<");
+					for(vint i=0;i<node->argumentTypes.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Type(node->argumentTypes[i], argument);
+					}
+					argument.writer.WriteString(L">");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInvokeExpression)
 				{
+					ManagedX_GenerateCode_Expression(node->function, argument);
+					argument.writer.WriteString(L"(");
+					for(vint i=0;i<node->arguments.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Expression(node->arguments[i], argument);
+					}
+
+					for(vint i=0;i<node->defaultParameterNames.Count();i++)
+					{
+						if(i || node->arguments.Count()) argument.writer.WriteString(L", ");
+						IdentifierToString(node->defaultParameterNames[i], argument.writer);
+						argument.writer.WriteString(L":");
+						ManagedX_GenerateCode_Expression(node->defaultParameterValues[i], argument);
+					}
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNewObjectExpression)
 				{
+					argument.writer.WriteString(L"new ");
+					ManagedX_GenerateCode_Type(node->objectType, argument);
+					argument.writer.WriteString(L"(");
+					for(vint i=0;i<node->arguments.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Expression(node->arguments[i], argument);
+					}
+
+					for(vint i=0;i<node->defaultParameterNames.Count();i++)
+					{
+						if(i || node->arguments.Count()) argument.writer.WriteString(L", ");
+						IdentifierToString(node->defaultParameterNames[i], argument.writer);
+						argument.writer.WriteString(L":");
+						ManagedX_GenerateCode_Expression(node->defaultParameterValues[i], argument);
+					}
+					argument.writer.WriteString(L")");
+
+					if(node->propertyNames.Count()>0)
+					{
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"{\r\n");
+						for(int i=0;i<node->propertyNames.Count();i++)
+						{
+							if(i) argument.writer.WriteString(L",\r\n");
+							PrintIndentation(argument, 1);
+							IdentifierToString(node->propertyNames[i], argument.writer);
+							argument.writer.WriteString(L" = ");
+							ManagedX_GenerateCode_Expression(node->propertyValues[i], argument);
+						}
+						argument.writer.WriteString(L"\r\n");
+						PrintIndentation(argument);
+						argument.writer.WriteString(L"}");
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedFunctionResultExpression)
 				{
+					argument.writer.WriteString(L"result");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedCastingExpression)
 				{
+					argument.writer.WriteString(L"(");
+					ManagedX_GenerateCode_Expression(node->operand, argument);
+					argument.writer.WriteString(L" as ");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedThisExpression)
 				{
+					argument.writer.WriteString(L"this");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBaseExpression)
 				{
+					argument.writer.WriteString(L"type");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAssignmentExpression)
 				{
+					argument.writer.WriteString(L"(");
+					ManagedX_GenerateCode_Expression(node->leftOperand, argument);
+					argument.writer.WriteString(L" = ");
+					ManagedX_GenerateCode_Expression(node->rightOperand, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedExpression)
@@ -191,18 +318,51 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedLambdaExpression)
 				{
+					argument.writer.WriteString(L"delegate ");
+					if(!node->returnType.Cast<ManagedAutoReferType>())
+					{
+						ManagedX_GenerateCode_Type(node->returnType, argument);
+					}
+					argument.writer.WriteString(L"(");
+					for(vint i=0;i<node->parameterNames.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						if(!node->parameterTypes[i].Cast<ManagedAutoReferType>())
+						{
+							ManagedX_GenerateCode_Type(node->parameterTypes[i], argument);
+						}
+						IdentifierToString(node->parameterNames[i], argument.writer);
+					}
+					argument.writer.WriteString(L")");
+					ManagedX_GenerateCode_Statement(node->body, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedChoiceExpression)
 				{
+					argument.writer.WriteString(L"(");
+					ManagedX_GenerateCode_Expression(node->condition, argument);
+					argument.writer.WriteString(L" ? ");
+					ManagedX_GenerateCode_Expression(node->trueExpression, argument);
+					argument.writer.WriteString(L" : ");
+					ManagedX_GenerateCode_Expression(node->falseExpression, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNullChoiceExpression)
 				{
+					argument.writer.WriteString(L"(");
+					ManagedX_GenerateCode_Expression(node->valueExpression, argument);
+					argument.writer.WriteString(L" ?? ");
+					ManagedX_GenerateCode_Expression(node->candidateExpression, argument);
+					argument.writer.WriteString(L" : ");
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeofExpression)
 				{
+					argument.writer.WriteString(L"typeof(");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
@@ -215,6 +375,23 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
 				{
+					ManagedX_GenerateCode_Type(node->objectType, argument);
+					argument.writer.WriteString(L"[");
+					for(vint i=0;i<node->sizes.Count();i++)
+					{
+						if(i) argument.writer.WriteString(L", ");
+						ManagedX_GenerateCode_Expression(node->sizes[i], argument);
+					}
+					argument.writer.WriteString(L"]");
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedIsTypeExpression)
+				{
+					argument.writer.WriteString(L"(");
+					ManagedX_GenerateCode_Expression(node->operand, argument);
+					argument.writer.WriteString(L" is ");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L")");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedExpression)
