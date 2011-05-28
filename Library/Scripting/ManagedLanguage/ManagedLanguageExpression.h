@@ -111,12 +111,6 @@ Extended Constructions
 Basic Types
 ***********************************************************************/
 
-			class ManagedVoidType : public ManagedType
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
-			};
-
 			class ManagedGenericArgumentType : public ManagedType
 			{
 			public:
@@ -152,7 +146,6 @@ Basic Types
 			};
 
 #define MANAGED_TYPE_TARGETS(P, F)\
-			F(P, ManagedVoidType)\
 			F(P, ManagedGenericArgumentType)\
 			F(P, ManagedReferencedType)\
 			F(P, ManagedMemberType)\
@@ -188,7 +181,7 @@ Extended Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
 
-				Ptr<ManagedFunctionType>					functionType;
+				Ptr<ManagedType>							functionType;
 			};
 
 			class ManagedAutoReferType : public ManagedExtendedType

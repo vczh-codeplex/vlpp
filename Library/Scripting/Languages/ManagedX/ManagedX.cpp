@@ -1,4 +1,7 @@
 #include "ManagedX.h"
+#include "ManagedXErrorMessage.h"
+#include "ManagedXCodeGenerator.h"
+
 #include "..\LanguageProviderExtension.h"
 
 namespace vl
