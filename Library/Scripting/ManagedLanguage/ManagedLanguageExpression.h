@@ -281,15 +281,27 @@ Basic Expressions
 				collections::List<Ptr<ManagedType>>			argumentTypes;
 			};
 
+			class ManagedArgument : public ManagedLanguageElement
+			{
+			public:
+				enum ArgumentType
+				{
+					Normal,
+					Ref,
+					Out,
+				};
+				Ptr<ManagedExpression>						value;
+				ArgumentType								argumentType;
+				WString										defaultParameterName;
+			};
+
 			class ManagedInvokeExpression : public ManagedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
 				Ptr<ManagedExpression>						function;
-				collections::List<Ptr<ManagedExpression>>	arguments;
-				collections::List<WString>					defaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>	defaultParameterValues;
+				collections::List<Ptr<ManagedArgument>>		arguments;
 			};
 
 			class ManagedNewObjectExpression : public ManagedExpression
@@ -298,9 +310,7 @@ Basic Expressions
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
 				Ptr<ManagedType>							objectType;
-				collections::List<Ptr<ManagedExpression>>	arguments;
-				collections::List<WString>					defaultParameterNames;
-				collections::List<Ptr<ManagedExpression>>	defaultParameterValues;
+				collections::List<Ptr<ManagedArgument>>		arguments;
 				collections::List<WString>					propertyNames;
 				collections::List<Ptr<ManagedExpression>>	propertyValues;
 			};
@@ -423,7 +433,7 @@ Extended Expressions
 				WString										operatorName;
 			};
 
-			class ManagedNewArrayExpression : public ManagedExpression
+			class ManagedNewArrayExpression : public ManagedExtendedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
@@ -432,13 +442,22 @@ Extended Expressions
 				collections::List<Ptr<ManagedExpression>>	sizes;
 			};
 
-			class ManagedIsTypeExpression : public ManagedExpression
+			class ManagedIsTypeExpression : public ManagedExtendedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
 				Ptr<ManagedExpression>						operand;
 				Ptr<ManagedType>							type;
+			};
+
+			class ManagedIndexExpression : public ManagedExtendedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedExpression>						operand;
+				collections::List<Ptr<ManagedExpression>>	indices;
 			};
 
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
@@ -450,6 +469,7 @@ Extended Expressions
 			F(P, ManagedBinaryExpression)\
 			F(P, ManagedNewArrayExpression)\
 			F(P, ManagedIsTypeExpression)\
+			F(P, ManagedIndexExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
@@ -708,7 +728,9 @@ Basic Declaration Fragments
 				{
 					Normal,
 					Default,
-					Params
+					Params,
+					Ref,
+					Out,
 				};
 
 				Ptr<ManagedType>							type;
