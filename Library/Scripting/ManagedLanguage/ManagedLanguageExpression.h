@@ -111,14 +111,6 @@ Extended Constructions
 Basic Types
 ***********************************************************************/
 
-			class ManagedGenericArgumentType : public ManagedType
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedType)
-
-				WString										name;
-			};
-
 			class ManagedReferencedType : public ManagedType
 			{
 			public:
@@ -146,7 +138,6 @@ Basic Types
 			};
 
 #define MANAGED_TYPE_TARGETS(P, F)\
-			F(P, ManagedGenericArgumentType)\
 			F(P, ManagedReferencedType)\
 			F(P, ManagedMemberType)\
 			F(P, ManagedInstantiatedGenericType)\
@@ -181,10 +172,16 @@ Extended Types
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
 
-				Ptr<ManagedType>							functionType;
+				Ptr<ManagedFunctionType>					functionType;
 			};
 
 			class ManagedAutoReferType : public ManagedExtendedType
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
+			};
+
+			class ManagedDynamicType : public ManagedExtendedType
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
@@ -195,6 +192,7 @@ Extended Types
 			F(P, ManagedFunctionType)\
 			F(P, ManagedEventType)\
 			F(P, ManagedAutoReferType)\
+			F(P, ManagedDynamicType)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedType, MANAGED_EXTENDED_TYPE_TARGETS)
 
@@ -295,7 +293,7 @@ Basic Expressions
 				collections::List<Ptr<ManagedExpression>>	defaultParameterValues;
 			};
 
-			class ManagedNewExpression : public ManagedExpression
+			class ManagedNewObjectExpression : public ManagedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
@@ -352,7 +350,7 @@ Basic Expressions
 			F(P, ManagedMemberExpression)\
 			F(P, ManagedInstanciatedExpression)\
 			F(P, ManagedInvokeExpression)\
-			F(P, ManagedNewExpression)\
+			F(P, ManagedNewObjectExpression)\
 			F(P, ManagedFunctionResultExpression)\
 			F(P, ManagedCastingExpression)\
 			F(P, ManagedThisExpression)\
@@ -423,6 +421,15 @@ Extended Expressions
 				WString										operatorName;
 			};
 
+			class ManagedNewArrayExpression : public ManagedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedType>							objectType;
+				collections::List<Ptr<ManagedExpression>>	sizes;
+			};
+
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
 			F(P, ManagedLambdaExpression)\
 			F(P, ManagedChoiceExpression)\
@@ -430,6 +437,7 @@ Extended Expressions
 			F(P, ManagedTypeofExpression)\
 			F(P, ManagedUnaryExpression)\
 			F(P, ManagedBinaryExpression)\
+			F(P, ManagedNewArrayExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
@@ -605,7 +613,7 @@ Basic Declaration Fragments
 			struct ManagedAttributeInfo
 			{
 			public:
-				collections::List<Ptr<ManagedNewExpression>>	attributes;
+				collections::List<Ptr<ManagedNewObjectExpression>>	attributes;
 			};
 
 			struct ManagedGenericInfo
