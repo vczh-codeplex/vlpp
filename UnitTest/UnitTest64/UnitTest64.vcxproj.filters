@@ -528,6 +528,15 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp">
       <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_Languages_Managed_Parser.cpp">
+      <Filter>Source Files\Scripting\Languages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -945,6 +954,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.h">
       <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

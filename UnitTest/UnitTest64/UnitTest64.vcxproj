@@ -222,7 +222,9 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\LanguageRuntime.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeX.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp" />
@@ -265,6 +267,7 @@
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Codegen.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_BasicLanguage_Configuration.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Languages_IndexTest.cpp" />
+    <ClCompile Include="..\UnitTest\TestScripting_Languages_Managed_Parser.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Utility_System_CoreNative.cpp" />
     <ClCompile Include="..\UnitTest\TestStream.cpp" />
@@ -408,7 +411,9 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h" />

@@ -6,6 +6,11 @@ namespace vl
 	{
 		namespace language_managedx
 		{
+			WString ManagedXErrorMessage::UnrecognizedToken(const WString& token)
+			{
+				return L"Unrecognized Token \""+token+L"\".";
+			}
+
 		}
 	}
 }

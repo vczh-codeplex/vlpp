@@ -25,6 +25,7 @@ namespace vl
 			class ManagedXErrorMessage
 			{
 			public:
+				static WString UnrecognizedToken(const WString& token);
 			};
 		}
 	}

@@ -6,8 +6,8 @@ Scripting::Managed X
 Classes:
 ***********************************************************************/
 
-#ifndef VCZH_SCRIPTING_LANGUAGES_MANAGEDX_MANAGEDXPARSER
-#define VCZH_SCRIPTING_LANGUAGES_MANAGEDX_MANAGEDXPARSER
+#ifndef VCZH_SCRIPTING_LANGUAGES_MANAGEDX_MANAGEDX
+#define VCZH_SCRIPTING_LANGUAGES_MANAGEDX_MANAGEDX
 
 #include "..\LanguageProvider.h"
 

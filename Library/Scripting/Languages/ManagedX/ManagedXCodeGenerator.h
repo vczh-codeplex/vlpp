@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: ³Âè÷å«(vczh)
-Scripting::Native X
+Scripting::Managed X
 
 Classes:
 ***********************************************************************/
@@ -34,6 +34,7 @@ namespace vl
 				}
 			} MXCGP;
 
+			extern void ManagedX_GenerateCode_Program(Ptr<ManagedProgram> program, TextWriter& writer);
 			EXTERN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_Type, ManagedType, MXCGP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedType, ManagedExtendedType, MXCGP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_Expression, ManagedExpression, MXCGP)
