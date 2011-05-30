@@ -43,7 +43,7 @@ namespace TestManagedXParserHelper
 		List<Ptr<LanguageException>> errors;
 		Ptr<ManagedXUnit> unit;
 
-		//unit=parser->Parse(code, 0, errors.Wrap());
+		unit=parser->Parse(code, 0, errors.Wrap());
 		for(vint i=0;i<errors.Count();i++)
 		{
 			vl::unittest::UnitTest::PrintError(L"ERROR ("+itow(errors[i]->LineIndex())+L"): "+errors[i]->Message());
