@@ -1,1 +1,3 @@
 resource:vl.scripting.language_managedx.ManagedXErrorMessage
+
+UnrecognizedToken(token)=Unrecognized Token \"{token}\".

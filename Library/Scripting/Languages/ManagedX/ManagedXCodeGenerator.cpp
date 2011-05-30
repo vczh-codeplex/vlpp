@@ -6,6 +6,19 @@ namespace vl
 	{
 		namespace language_managedx
 		{
+			void ManagedX_GenerateCode_Program(Ptr<ManagedProgram> program, TextWriter& writer)
+			{
+				MXCGP argument(writer, 0);
+				for(vint i=0;i<program->declarations.Count();i++)
+				{
+					ManagedX_GenerateCode_Declaration(program->declarations[i], argument);
+				}
+			}
+
+/***********************************************************************
+¸¨Öúº¯Êý
+***********************************************************************/
+
 			void PrintIndentation(const MXCGP& argument, vint offset=0)
 			{
 				for(vint i=0;i<argument.indentation+offset;i++)

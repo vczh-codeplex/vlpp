@@ -1260,7 +1260,6 @@ namespace vl
 			{
 			protected:
 				Ptr<RegexLexer>						lexer;
-				vint								blankID;
 
 				TokenType							ACHAR;
 				TokenType							WCHAR;

@@ -229,6 +229,12 @@
     <Filter Include="Library3\Scripting\Languages\ManagedX\Source Files">
       <UniqueIdentifier>{0f4161a9-2a4f-4b90-b589-23d4bab6cdbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFiles\ManagedX">
+      <UniqueIdentifier>{dae210d5-4588-4675-9369-91e2a4dede94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFiles\ManagedX\Parsing">
+      <UniqueIdentifier>{000e148c-1bb1-44a9-b91b-de6967a0dd86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -583,6 +589,12 @@
       <Filter>Library3\Scripting\Languages\NativeX\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScripting_Languages_Managed_Parser.cpp">
+      <Filter>Source Files\Scripting\Languages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp">
       <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1439,6 +1451,12 @@
     <None Include="..\..\Library\Scripting\Languages\ManagedXErrorMessage_English.txt">
       <Filter>Library3\Scripting\Languages</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\Index.txt">
+      <Filter>TestFiles\ManagedX\Parsing</Filter>
+    </None>
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.NamespaceAndUsing.txt">
+      <Filter>TestFiles\ManagedX\Parsing</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
@@ -1820,6 +1838,9 @@
       <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h">
       <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

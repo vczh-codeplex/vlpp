@@ -1,0 +1,13 @@
+using System;
+
+namespace first
+{
+	namespace second
+	{
+		using third.forth;
+	}
+
+	namespace third.forth
+	{
+	}
+}
