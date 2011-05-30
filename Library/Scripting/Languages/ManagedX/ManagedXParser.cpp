@@ -15,7 +15,7 @@ namespace vl
 			using namespace combinator;
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>					TokenType;
-			typedef Node<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>				UnitRule;
 
 /***********************************************************************
@@ -103,6 +103,108 @@ namespace vl
 			}
 
 /***********************************************************************
+Constants
+***********************************************************************/
+
+/***********************************************************************
+Basic Types
+***********************************************************************/
+
+/***********************************************************************
+Extended Types
+***********************************************************************/
+
+/***********************************************************************
+Basic Expressions
+***********************************************************************/
+
+/***********************************************************************
+Extended Expressions
+***********************************************************************/
+
+/***********************************************************************
+Basic Statements
+***********************************************************************/
+
+/***********************************************************************
+Extended Statements
+***********************************************************************/
+
+/***********************************************************************
+Basic Declaration Members
+***********************************************************************/
+
+/***********************************************************************
+Extended Declaration Members
+***********************************************************************/
+
+/***********************************************************************
+Basic Declarations
+***********************************************************************/
+
+			Ptr<ManagedDeclaration> ToNamespaceDecl(const ParsingPair<ParsingPair<RegexToken, ParsingList<RegexToken>>, ParsingList<Ptr<ManagedDeclaration>>>& input)
+			{
+				Ptr<ManagedNamespaceDeclaration> decl=CreateNode<ManagedNamespaceDeclaration>(input.First().First());
+				{
+					Ptr<ParsingList<RegexToken>::Node> current=input.First().Second().Head();
+					while(current)
+					{
+						decl->namespaceFragments.Add(WString(current->Value().reading, current->Value().length));
+						current=current->Next();
+					}
+				}
+				{
+					Ptr<ParsingList<Ptr<ManagedDeclaration>>::Node> current=input.Second().Head();
+					while(current)
+					{
+						decl->declarations.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				return decl;
+			}
+
+/***********************************************************************
+Extended Declarations
+***********************************************************************/
+
+			Ptr<ManagedDeclaration> ToUsingNamespaceDecl(const ParsingPair<RegexToken, ParsingList<RegexToken>>& input)
+			{
+				Ptr<ManagedUsingNamespaceDeclaration> decl=CreateNode<ManagedUsingNamespaceDeclaration>(input.First());
+				Ptr<ParsingList<RegexToken>::Node> current=input.Second().Head();
+				while(current)
+				{
+					decl->namespaceFragments.Add(WString(current->Value().reading, current->Value().length));
+					current=current->Next();
+				}
+				return decl;
+			}
+
+/***********************************************************************
+Unit
+***********************************************************************/
+
+			Ptr<ManagedXUnit> ToUnit(const ParsingList<Ptr<ManagedDeclaration>>& input)
+			{
+				Ptr<ManagedProgram> program=new ManagedProgram;
+				Ptr<ParsingList<Ptr<ManagedDeclaration>>::Node> current=input.Head();
+				while(current)
+				{
+					program->declarations.Add(current->Value());
+					current=current->Next();
+				}
+				
+				Ptr<ManagedXUnit> unit=new ManagedXUnit;
+				unit->program=program;
+				unit->codeIndex=-1;
+				return unit;
+			}
+
+/***********************************************************************
+Error Handlers
+***********************************************************************/
+
+/***********************************************************************
 Óï·¨·ÖÎöÆ÷
 ***********************************************************************/
 
@@ -160,6 +262,11 @@ namespace vl
 					lexer=new RegexLexer(tokens.Wrap());
 
 					/*--------SYNTACTICAL ANALYZER--------*/
+
+					declaration			= (USING + plist(ID + *(DOT >> ID)))[ToUsingNamespaceDecl]
+										| (NAMESPACE + plist(ID + *(DOT >> ID)) + (OPEN_DECL_BRACE >> *declaration << CLOSE_DECL_BRACE))[ToNamespaceDecl]
+										;
+					unit				= (*declaration)[ToUnit];
 				}
 
 				static bool Blank(vint token)

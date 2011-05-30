@@ -277,7 +277,7 @@ namespace vl
 			void InfoToString(ManagedGenericInfo& info, const MXCGP& argument)
 			{
 				PrintIndentation(argument);
-				argument.writer.WriteString(L"generic<");
+				argument.writer.WriteString(L"generic<\r\n");
 				for(vint i=0;i>info.arguments.Count();i++)
 				{
 					Ptr<ManagedGenericInfo::Argument> arg=info.arguments[i];
@@ -1225,6 +1225,8 @@ Extended Members
 					ManagedX_GenerateCode_Type(node->type, argument);
 					argument.writer.WriteString(L" ");
 					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
 					
 					MXCGP newArgument(argument.writer, argument.indentation+1);
@@ -1303,6 +1305,8 @@ Basic Declaration
 							ManagedX_GenerateCode_Type(node->baseTypes[i], argument);
 						}
 					}
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
 
 					MXCGP newArgument(argument.writer, argument.indentation+1);
@@ -1311,7 +1315,6 @@ Basic Declaration
 						ManagedX_GenerateCode_Member(node->members[i], newArgument);
 					}
 
-					argument.writer.WriteString(L"\r\n");
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"}\r\n\r\n");
 				}
@@ -1325,6 +1328,8 @@ Basic Declaration
 						if(i) argument.writer.WriteString(L".");
 						IdentifierToString(node->namespaceFragments[i], argument.writer);
 					}
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
 
 					MXCGP newArgument(argument.writer, argument.indentation+1);
@@ -1333,7 +1338,6 @@ Basic Declaration
 						ManagedX_GenerateCode_Declaration(node->declarations[i], newArgument);
 					}
 					
-					argument.writer.WriteString(L"\r\n");
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"}\r\n\r\n");
 				}
@@ -1366,6 +1370,8 @@ Extended Declaration
 						argument.writer.WriteString(L"enum ");
 					}
 					IdentifierToString(node->name, argument.writer);
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
 					for(vint i=0;i<node->items.Count();i++)
 					{
