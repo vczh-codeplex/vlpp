@@ -204,6 +204,20 @@ Unit
 Error Handlers
 ***********************************************************************/
 
+#define ERROR_HANDLER(NAME, TYPE)																						\
+			ParsingResult<TYPE> NAME(TokenInput<RegexToken>& input, Types<TokenInput<RegexToken>>::GlobalInfo& info)	\
+			{																											\
+				info.errors.Clear();																					\
+				info.errors.Add(new CombinatorError<TokenInput<RegexToken>>(ManagedXErrorMessage::NAME(), input));		\
+				return ParsingResult<TYPE>();																			\
+			}
+			
+			ERROR_HANDLER(NeedId,							RegexToken)
+
+			ERROR_HANDLER(NeedOpenDeclBrace,				RegexToken)
+			ERROR_HANDLER(NeedCloseDeclBrace,				RegexToken)
+			ERROR_HANDLER(NeedSemicolon,					RegexToken)
+
 /***********************************************************************
 Óï·¨·ÖÎöÆ÷
 ***********************************************************************/
@@ -225,6 +239,7 @@ Error Handlers
 				/*--------SYMBOLS--------*/
 
 				TokenType							DOT;
+				TokenType							SEMICOLON;
 				TokenType							OPEN_DECL_BRACE;
 				TokenType							CLOSE_DECL_BRACE;
 
@@ -254,6 +269,7 @@ Error Handlers
 					/*--------SYMBOLS--------*/
 
 					DOT					= CreateToken(tokens, L".");
+					SEMICOLON			= CreateToken(tokens, L";");
 					OPEN_DECL_BRACE		= CreateToken(tokens, L"/{");
 					CLOSE_DECL_BRACE	= CreateToken(tokens, L"/}");
 
@@ -263,8 +279,8 @@ Error Handlers
 
 					/*--------SYNTACTICAL ANALYZER--------*/
 
-					declaration			= (USING + plist(ID + *(DOT >> ID)))[ToUsingNamespaceDecl]
-										| (NAMESPACE + plist(ID + *(DOT >> ID)) + (OPEN_DECL_BRACE >> *declaration << CLOSE_DECL_BRACE))[ToNamespaceDecl]
+					declaration			= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
+										| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
 										;
 					unit				= (*declaration)[ToUnit];
 				}

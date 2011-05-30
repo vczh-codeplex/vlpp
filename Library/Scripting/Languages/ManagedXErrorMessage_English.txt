@@ -1,3 +1,9 @@
 resource:vl.scripting.language_managedx.ManagedXErrorMessage
 
 UnrecognizedToken(token)=Unrecognized Token \"{token}\".
+
+NeedId=Here needs an identifier.
+
+NeedOpenDeclBrace=Here needs \"{\".
+NeedCloseDeclBrace=Here needs \"}\".
+NeedSemicolon=Here needs \";\".
