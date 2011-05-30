@@ -11,6 +11,26 @@ namespace vl
 				return L"Unrecognized Token \""+token+L"\".";
 			}
 
+			WString ManagedXErrorMessage::NeedId()
+			{
+				return L"Here needs an identifier.";
+			}
+
+			WString ManagedXErrorMessage::NeedOpenDeclBrace()
+			{
+				return L"Here needs \"{\".";
+			}
+
+			WString ManagedXErrorMessage::NeedCloseDeclBrace()
+			{
+				return L"Here needs \"}\".";
+			}
+
+			WString ManagedXErrorMessage::NeedSemicolon()
+			{
+				return L"Here needs \";\".";
+			}
+
 		}
 	}
 }
