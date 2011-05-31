@@ -1398,9 +1398,9 @@ Extended Declaration
 				{
 					InfoToString(node->genericInfo, argument);
 					PrintIndentation(argument);
-					argument.writer.WriteString(L"using ");
 					AttributeToString(node->accessor, argument.writer);
 
+					argument.writer.WriteString(L"using ");
 					IdentifierToString(node->name, argument.writer);
 					argument.writer.WriteString(L" = ");
 					ManagedX_GenerateCode_Type(node->type, argument);

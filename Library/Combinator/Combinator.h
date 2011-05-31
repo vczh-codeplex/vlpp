@@ -19,6 +19,8 @@ Classes:
 	opt(a)						：零个或一个重复
 	unit<I>(v)					：记号值匹配
 	pred<I>(f)					：记号函数匹配
+	let(p, v)					：当p成立时返回v值
+	def(p, v)					：当p不成立时返回v值
 ***********************************************************************/
 
 #ifndef VCZH_COMBINATOR_COMBINATOR
@@ -34,6 +36,7 @@ Classes:
 #include "_Using.h"
 #include "_Error.h"
 #include "_Ref.h"
+#include "_Def.h"
 
 namespace vl
 {
@@ -232,6 +235,22 @@ Node
 		{
 			return new _Pred<I>(predicate, L"遇到预期外的输入。");
 		}
+
+		template<typename I, typename O, typename V>
+		Node<I, V> let(const Node<I, O>& node, const V& value)
+		{
+			return new _Let<I, O, V>(node.GetCombinator(), value);
+		}
+
+		template<typename I, typename O>
+		Node<I, O> def(const Node<I, O>& node, const O& value)
+		{
+			return new _Def<I, O>(node.GetCombinator(), value);
+		}
+
+/***********************************************************************
+Node
+***********************************************************************/
 
 /***********************************************************************
 List Constructor (T,T*)?

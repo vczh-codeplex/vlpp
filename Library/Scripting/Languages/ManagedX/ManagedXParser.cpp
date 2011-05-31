@@ -189,6 +189,10 @@ Extended Expressions
 ***********************************************************************/
 
 /***********************************************************************
+Basic Declaration Fragments
+***********************************************************************/
+
+/***********************************************************************
 Basic Statements
 ***********************************************************************/
 
@@ -234,10 +238,11 @@ Basic Declarations
 Extended Declarations
 ***********************************************************************/
 
-			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<ParsingPair<declatt::Accessor, RegexToken>, Ptr<ManagedType>>& input)
 			{
-				Ptr<ManagedTypeRenameDeclaration> decl=CreateNode<ManagedTypeRenameDeclaration>(input.First());
-				decl->name=WString(input.First().reading, input.First().length);
+				Ptr<ManagedTypeRenameDeclaration> decl=CreateNode<ManagedTypeRenameDeclaration>(input.First().Second());
+				decl->accessor=input.First().First();
+				decl->name=WString(input.First().Second().reading, input.First().Second().length);
 				decl->type=input.Second();
 				return decl;
 			}
@@ -299,6 +304,11 @@ Error Handlers
 ***********************************************************************/
 
 			typedef Node<TokenInput<RegexToken>, RegexToken>					TokenType;
+			typedef Node<TokenInput<RegexToken>, declatt::Accessor>				AccessorNode;
+			typedef Node<TokenInput<RegexToken>, declatt::Inheritation>			InheritationNode;
+			typedef Node<TokenInput<RegexToken>, declatt::MemberType>			MemberTypeNode;
+			typedef Node<TokenInput<RegexToken>, declatt::DataType>				DataTypeNode;
+
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>				TypeNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>				UnitRule;
@@ -316,6 +326,10 @@ Error Handlers
 				TokenType							NAMESPACE;
 				TokenType							USING;
 
+				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
+				TokenType							SEALED, ABSTRACT, VIRTUAL, OVERRIDE;
+				TokenType							STATIC, CONST, READONLY;
+
 				/*--------OBJECTS--------*/
 
 				TokenType							ID;
@@ -330,6 +344,11 @@ Error Handlers
 				TokenType							CLOSE_DECL_BRACE;
 
 				/*--------RULES--------*/
+
+				AccessorNode						accessor;
+				InheritationNode					inheritation;
+				MemberTypeNode						memberType;
+				DataTypeNode						dataType;
 
 				TypeNode							type, primitiveType;
 
@@ -369,6 +388,18 @@ Error Handlers
 					NAMESPACE			= CreateToken(tokens, L"namespace");
 					USING				= CreateToken(tokens, L"using");
 
+					PUBLIC				= CreateToken(tokens, L"public");
+					PROTECTED			= CreateToken(tokens, L"protected");
+					PRIVATE				= CreateToken(tokens, L"private");
+					INTERNAL			= CreateToken(tokens, L"internal");
+					SEALED				= CreateToken(tokens, L"sealed");
+					ABSTRACT			= CreateToken(tokens, L"abstract");
+					VIRTUAL				= CreateToken(tokens, L"virtual");
+					OVERRIDE			= CreateToken(tokens, L"override");
+					STATIC				= CreateToken(tokens, L"static");
+					CONST				= CreateToken(tokens, L"const");
+					READONLY			= CreateToken(tokens, L"readonly");
+
 					/*--------OBJECTS--------*/
 
 					ID					= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
@@ -386,6 +417,27 @@ Error Handlers
 
 					lexer=new RegexLexer(tokens.Wrap());
 
+					/*--------ATTRIBUTES--------*/
+
+					accessor			= def(	let(PUBLIC, declatt::Public)
+											|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
+											|	let(PROTECTED, declatt::Protected)
+											|	let(PRIVATE, declatt::Private)
+											|	let(INTERNAL, declatt::Internal)
+											,	declatt::Private);
+
+					inheritation		= def(	let(SEALED, declatt::Sealed)
+											|	let(ABSTRACT, declatt::Abstract)
+											|	let(VIRTUAL, declatt::Virtual)
+											|	let(OVERRIDE, declatt::Override)
+											,	declatt::Normal);
+
+					memberType			= def(let(STATIC, declatt::Static), declatt::Instance);
+
+					dataType			= def(	let(CONST, declatt::Constant)
+											|	let(READONLY, declatt::Readonly)
+											,	declatt::Variable);
+
 					/*--------SYNTACTICAL ANALYZER--------*/
 
 					primitiveType		= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
@@ -396,7 +448,7 @@ Error Handlers
 																), ToLrecType);
 
 					declaration			= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
-										| (((USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
+										| ((accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
 										| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
 										;
 					unit				= (*declaration)[ToUnit];

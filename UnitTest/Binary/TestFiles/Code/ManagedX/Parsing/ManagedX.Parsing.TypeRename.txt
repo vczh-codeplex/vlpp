@@ -2,11 +2,11 @@ using System;
 
 namespace typerename
 {
-	using SINT8 = sbyte;
-	using UINT8 = byte;
-	using SINT16 = short;
-	using UINT16 = word;
-	using SINT32 = int;
+	public using SINT8 = sbyte;
+	protected using UINT8 = byte;
+	private using SINT16 = short;
+	internal using UINT16 = word;
+	protected internal using SINT32 = int;
 	using UINT32 = uint;
 	using SINT64 = long;
 	using UINT64 = ulong;
