@@ -31,6 +31,11 @@ namespace vl
 				return L"Here needs \"=\".";
 			}
 
+			WString ManagedXErrorMessage::NeedLt()
+			{
+				return L"Here needs \"<\".";
+			}
+
 			WString ManagedXErrorMessage::NeedGt()
 			{
 				return L"Here needs \">\".";
