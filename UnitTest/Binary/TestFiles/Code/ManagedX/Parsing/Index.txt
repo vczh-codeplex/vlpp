@@ -1,1 +1,2 @@
 ManagedX.Parsing.NamespaceAndUsing.txt
+ManagedX.Parsing.TypeRename.txt

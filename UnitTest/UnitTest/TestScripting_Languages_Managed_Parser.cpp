@@ -36,9 +36,9 @@ namespace TestManagedXParserHelper
 		return streamReader.ReadToEnd();
 	}
 
-	Ptr<ManagedXUnit> Parse(Ptr<ManagedXParser> parser, const WString& intputPath)
+	Ptr<ManagedXUnit> Parse(Ptr<ManagedXParser> parser, const WString& inputPath)
 	{
-		WString code=ReadFile(intputPath);
+		WString code=ReadFile(inputPath);
 			
 		List<Ptr<LanguageException>> errors;
 		Ptr<ManagedXUnit> unit;
@@ -71,12 +71,14 @@ namespace TestManagedXParserHelper
 	void CheckParser(Ptr<ManagedXParser> parser, const WString& fileName)
 	{
 		WString intputPath=GetPath()+L"Code\\ManagedX\\Parsing\\"+fileName;
-		WString outputPath1=GetPath()+L"[ManagedX.Parsing][1]"+fileName;
-		WString outputPath2=GetPath()+L"[ManagedX.Parsing][2]"+fileName;
+		WString outputPath1=GetPath()+L"[ManagedX.Parsing]["+fileName+L"][1].txt";
+		WString outputPath2=GetPath()+L"[ManagedX.Parsing]["+fileName+L"][2].txt";
 
 		Ptr<ManagedXUnit> unit;
+		vl::unittest::UnitTest::PrintInfo(L"  pass 1");
 		unit=Parse(parser, intputPath);
 		Generate(unit, outputPath1);
+		vl::unittest::UnitTest::PrintInfo(L"  pass 2");
 		unit=Parse(parser, outputPath1);
 		Generate(unit, outputPath2);
 

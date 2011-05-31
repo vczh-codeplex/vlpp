@@ -350,6 +350,7 @@
     <None Include="..\Binary\TestFiles\Code\Index.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\Index.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.NamespaceAndUsing.txt" />
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.TypeRename.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Eq2.Main.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Eq2.Make.txt" />
     <None Include="..\Binary\TestFiles\Code\NativeX.ALU.-1Ge2.Main.txt" />

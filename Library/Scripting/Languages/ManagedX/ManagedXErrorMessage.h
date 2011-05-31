@@ -27,9 +27,11 @@ namespace vl
 			public:
 				static WString UnrecognizedToken(const WString& token);
 				static WString NeedId();
+				static WString NeedColon();
+				static WString NeedSemicolon();
+				static WString NeedEq();
 				static WString NeedOpenDeclBrace();
 				static WString NeedCloseDeclBrace();
-				static WString NeedSemicolon();
 			};
 		}
 	}

@@ -75,6 +75,8 @@ namespace vl
 					L"float",
 					L"double",
 					L"object",
+					L"intptr",
+					L"uintptr",
 					L"ref",
 					L"out",
 					L"public",
@@ -276,47 +278,50 @@ namespace vl
 
 			void InfoToString(ManagedGenericInfo& info, const MXCGP& argument)
 			{
-				PrintIndentation(argument);
-				argument.writer.WriteString(L"generic<\r\n");
-				for(vint i=0;i>info.arguments.Count();i++)
+				if(info.HasGeneric())
 				{
-					Ptr<ManagedGenericInfo::Argument> arg=info.arguments[i];
-					if(i) argument.writer.WriteString(L",\r\n");
-					PrintIndentation(argument, 1);
-
-					switch(arg->conversion)
+					PrintIndentation(argument);
+					argument.writer.WriteString(L"generic<\r\n");
+					for(vint i=0;i>info.arguments.Count();i++)
 					{
-					case ManagedGenericInfo::In:
-						argument.writer.WriteString(L"in ");
-						break;
-					case ManagedGenericInfo::Out:
-						argument.writer.WriteString(L"out ");
-						break;
-					}
-					IdentifierToString(arg->name, argument.writer);
+						Ptr<ManagedGenericInfo::Argument> arg=info.arguments[i];
+						if(i) argument.writer.WriteString(L",\r\n");
+						PrintIndentation(argument, 1);
 
-					if(arg->newConstraint || arg->typeConstraints.Count())
-					{
-						argument.writer.WriteString(L" : ");
-						for(vint j=0;j<arg->typeConstraints.Count();j++)
+						switch(arg->conversion)
 						{
-							if(j) argument.writer.WriteString(L", ");
-							ManagedX_GenerateCode_Type(arg->typeConstraints[j], argument);
+						case ManagedGenericInfo::In:
+							argument.writer.WriteString(L"in ");
+							break;
+						case ManagedGenericInfo::Out:
+							argument.writer.WriteString(L"out ");
+							break;
 						}
+						IdentifierToString(arg->name, argument.writer);
 
-						if(arg->newConstraint)
+						if(arg->newConstraint || arg->typeConstraints.Count())
 						{
-							if(arg->typeConstraints.Count())
+							argument.writer.WriteString(L" : ");
+							for(vint j=0;j<arg->typeConstraints.Count();j++)
 							{
-								argument.writer.WriteString(L", ");
+								if(j) argument.writer.WriteString(L", ");
+								ManagedX_GenerateCode_Type(arg->typeConstraints[j], argument);
 							}
-							argument.writer.WriteString(L"new()");
+
+							if(arg->newConstraint)
+							{
+								if(arg->typeConstraints.Count())
+								{
+									argument.writer.WriteString(L", ");
+								}
+								argument.writer.WriteString(L"new()");
+							}
 						}
 					}
+					argument.writer.WriteString(L"\r\n");
+					PrintIndentation(argument, 1);
+					argument.writer.WriteString(L">\r\n");
 				}
-				argument.writer.WriteString(L"\r\n");
-				PrintIndentation(argument, 1);
-				argument.writer.WriteString(L">\r\n");
 			}
 
 			void ParametersToString(ManagedMethodCommon& method, const MXCGP& argument)
@@ -1393,6 +1398,7 @@ Extended Declaration
 				{
 					InfoToString(node->genericInfo, argument);
 					PrintIndentation(argument);
+					argument.writer.WriteString(L"using ");
 					AttributeToString(node->accessor, argument.writer);
 
 					IdentifierToString(node->name, argument.writer);
