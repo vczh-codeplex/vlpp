@@ -4,6 +4,7 @@
 #include "..\..\..\Combinator\Combinator.h"
 #include "..\..\..\Combinator\ParserInput.h"
 #include "..\..\..\Combinator\TokenCombinator.h"
+#include "..\..\..\Collections\Operation.h"
 
 namespace vl
 {
@@ -258,16 +259,56 @@ Extended Expressions
 ***********************************************************************/
 
 /***********************************************************************
-Basic Declaration Fragments
-***********************************************************************/
-
-/***********************************************************************
 Basic Statements
 ***********************************************************************/
 
 /***********************************************************************
 Extended Statements
 ***********************************************************************/
+
+/***********************************************************************
+Basic Declaration Fragments
+***********************************************************************/
+
+			Ptr<ManagedGenericInfo::Argument> ToGenericArgument(const ParsingPair<
+						ParsingPair<ManagedGenericInfo::ArgumentConversion, RegexToken>,
+						ParsingList<ParsingList<Ptr<ManagedType>>>
+					>& input)
+			{
+				Ptr<ManagedGenericInfo::Argument> argument=new ManagedGenericInfo::Argument;
+				argument->newConstraint=false;
+				argument->conversion=input.First().First();
+				argument->name=WString(input.First().Second().reading, input.First().Second().length);
+				if(input.Second().Head())
+				{
+					Ptr<ParsingList<Ptr<ManagedType>>::Node> type=input.Second().Head()->Value().Head();
+					while(type)
+					{
+						if(type->Value())
+						{
+							argument->typeConstraints.Add(type->Value());
+						}
+						else
+						{
+							argument->newConstraint=true;
+						}
+						type=type->Next();
+					}
+				}
+				return argument;
+			}
+
+			Ptr<ManagedGenericInfo> ToGenericInfo(const ParsingList<Ptr<ManagedGenericInfo::Argument>>& input)
+			{
+				Ptr<ManagedGenericInfo> info=new ManagedGenericInfo;
+				Ptr<ParsingList<Ptr<ManagedGenericInfo::Argument>>::Node> current=input.Head();
+				while(current)
+				{
+					info->arguments.Add(current->Value());
+					current=current->Next();
+				}
+				return info;
+			}
 
 /***********************************************************************
 Basic Declaration Members
@@ -307,10 +348,19 @@ Basic Declarations
 Extended Declarations
 ***********************************************************************/
 
-			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<ParsingPair<declatt::Accessor, RegexToken>, Ptr<ManagedType>>& input)
+			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingList<
+				Ptr<ManagedGenericInfo>>, 
+				declatt::Accessor>, 
+				RegexToken>, 
+				Ptr<ManagedType>>& input)
 			{
 				Ptr<ManagedTypeRenameDeclaration> decl=CreateNode<ManagedTypeRenameDeclaration>(input.First().Second());
-				decl->accessor=input.First().First();
+				if(input.First().First().First().Head())
+				{
+					Ptr<ManagedGenericInfo> genericInfo=input.First().First().First().Head()->Value();
+					CopyFrom(decl->genericInfo.arguments.Wrap(), genericInfo->arguments.Wrap());
+				}
+				decl->accessor=input.First().First().Second();
 				decl->name=WString(input.First().Second().reading, input.First().Second().length);
 				decl->type=input.Second();
 				return decl;
@@ -365,6 +415,7 @@ Error Handlers
 			ERROR_HANDLER(NeedColon,						RegexToken)
 			ERROR_HANDLER(NeedSemicolon,					RegexToken)
 			ERROR_HANDLER(NeedEq,							RegexToken)
+			ERROR_HANDLER(NeedLt,							RegexToken)
 			ERROR_HANDLER(NeedGt,							RegexToken)
 			ERROR_HANDLER(NeedOpenDeclBrace,				RegexToken)
 			ERROR_HANDLER(NeedCloseDeclBrace,				RegexToken)
@@ -377,15 +428,21 @@ Error Handlers
 Óï·¨·ÖÎöÆ÷
 ***********************************************************************/
 
-			typedef Node<TokenInput<RegexToken>, RegexToken>					TokenType;
-			typedef Node<TokenInput<RegexToken>, declatt::Accessor>				AccessorNode;
-			typedef Node<TokenInput<RegexToken>, declatt::Inheritation>			InheritationNode;
-			typedef Node<TokenInput<RegexToken>, declatt::MemberType>			MemberTypeNode;
-			typedef Node<TokenInput<RegexToken>, declatt::DataType>				DataTypeNode;
+			typedef Node<TokenInput<RegexToken>, RegexToken>									TokenType;
+			typedef Node<TokenInput<RegexToken>, declatt::Accessor>								AccessorNode;
+			typedef Node<TokenInput<RegexToken>, declatt::Inheritation>							InheritationNode;
+			typedef Node<TokenInput<RegexToken>, declatt::MemberType>							MemberTypeNode;
+			typedef Node<TokenInput<RegexToken>, declatt::DataType>								DataTypeNode;
+			typedef Node<TokenInput<RegexToken>, ManagedGenericInfo::ArgumentConversion>		GenericArgconv;
+			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
 
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>				TypeNode;
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>				UnitRule;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>								TypeNode;
+
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
+
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>								UnitRule;
 
 			class ManagedXParserImpl : public ManagedXParser
 			{
@@ -395,10 +452,10 @@ Error Handlers
 				/*--------KEYWORDS--------*/
 
 				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
+
+				TokenType							IN, OUT, PARAMS, REF, NEW;
 				
-				TokenType							GLOBAL;
-				TokenType							NAMESPACE;
-				TokenType							USING;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC;
 
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
 				TokenType							SEALED, ABSTRACT, VIRTUAL, OVERRIDE;
@@ -422,9 +479,13 @@ Error Handlers
 				InheritationNode					inheritation;
 				MemberTypeNode						memberType;
 				DataTypeNode						dataType;
+				GenericArgconv						genericArgconv;
+				FunctionArgconv						functionArgconv;
 
-				TypeNode							type, primitiveType;
+				TypeNode							type, primitiveType, genericTypeConstraint;
 
+				GenericArgumentNode					genericArgument;
+				GenericInfoNode						genericInfo;
 				DeclarationNode						declaration;
 
 				UnitRule							unit;
@@ -439,63 +500,70 @@ Error Handlers
 
 					/*--------KEYWORDS--------*/
 
-					SBYTE				= CreateToken(tokens, L"sbyte");
-					BYTE				= CreateToken(tokens, L"byte");
-					SHORT				= CreateToken(tokens, L"short");
-					WORD				= CreateToken(tokens, L"word");
-					INT					= CreateToken(tokens, L"int");
-					UINT				= CreateToken(tokens, L"uint");
-					LONG				= CreateToken(tokens, L"long");
-					ULONG				= CreateToken(tokens, L"ulong");
-					CHAR				= CreateToken(tokens, L"char");
-					STRING				= CreateToken(tokens, L"string");
-					FLOAT				= CreateToken(tokens, L"float");
-					DOUBLE				= CreateToken(tokens, L"double");
-					BOOL				= CreateToken(tokens, L"bool");
-					OBJECT				= CreateToken(tokens, L"object");
-					VOID				= CreateToken(tokens, L"void");
-					INTPTR				= CreateToken(tokens, L"intptr");
-					UINTPTR				= CreateToken(tokens, L"uintptr");
-					VAR					= CreateToken(tokens, L"var");
-					DYNAMIC				= CreateToken(tokens, L"dynamic");
-					FUNCTION			= CreateToken(tokens, L"function");
-					EVENT				= CreateToken(tokens, L"event");
-										
-					GLOBAL				= CreateToken(tokens, L"global");
-					NAMESPACE			= CreateToken(tokens, L"namespace");
-					USING				= CreateToken(tokens, L"using");
+					SBYTE					= CreateToken(tokens, L"sbyte");
+					BYTE					= CreateToken(tokens, L"byte");
+					SHORT					= CreateToken(tokens, L"short");
+					WORD					= CreateToken(tokens, L"word");
+					INT						= CreateToken(tokens, L"int");
+					UINT					= CreateToken(tokens, L"uint");
+					LONG					= CreateToken(tokens, L"long");
+					ULONG					= CreateToken(tokens, L"ulong");
+					CHAR					= CreateToken(tokens, L"char");
+					STRING					= CreateToken(tokens, L"string");
+					FLOAT					= CreateToken(tokens, L"float");
+					DOUBLE					= CreateToken(tokens, L"double");
+					BOOL					= CreateToken(tokens, L"bool");
+					OBJECT					= CreateToken(tokens, L"object");
+					VOID					= CreateToken(tokens, L"void");
+					INTPTR					= CreateToken(tokens, L"intptr");
+					UINTPTR					= CreateToken(tokens, L"uintptr");
+					VAR						= CreateToken(tokens, L"var");
+					DYNAMIC					= CreateToken(tokens, L"dynamic");
+					FUNCTION				= CreateToken(tokens, L"function");
+					EVENT					= CreateToken(tokens, L"event");
 
-					PUBLIC				= CreateToken(tokens, L"public");
-					PROTECTED			= CreateToken(tokens, L"protected");
-					PRIVATE				= CreateToken(tokens, L"private");
-					INTERNAL			= CreateToken(tokens, L"internal");
-					SEALED				= CreateToken(tokens, L"sealed");
-					ABSTRACT			= CreateToken(tokens, L"abstract");
-					VIRTUAL				= CreateToken(tokens, L"virtual");
-					OVERRIDE			= CreateToken(tokens, L"override");
-					STATIC				= CreateToken(tokens, L"static");
-					CONST				= CreateToken(tokens, L"const");
-					READONLY			= CreateToken(tokens, L"readonly");
+					IN						= CreateToken(tokens, L"in");
+					OUT						= CreateToken(tokens, L"out");
+					PARAMS					= CreateToken(tokens, L"params");
+					REF						= CreateToken(tokens, L"ref");
+					NEW						= CreateToken(tokens, L"new");
+										
+					GLOBAL					= CreateToken(tokens, L"global");
+					NAMESPACE				= CreateToken(tokens, L"namespace");
+					USING					= CreateToken(tokens, L"using");
+					GENERIC					= CreateToken(tokens, L"generic");
+
+					PUBLIC					= CreateToken(tokens, L"public");
+					PROTECTED				= CreateToken(tokens, L"protected");
+					PRIVATE					= CreateToken(tokens, L"private");
+					INTERNAL				= CreateToken(tokens, L"internal");
+					SEALED					= CreateToken(tokens, L"sealed");
+					ABSTRACT				= CreateToken(tokens, L"abstract");
+					VIRTUAL					= CreateToken(tokens, L"virtual");
+					OVERRIDE				= CreateToken(tokens, L"override");
+					STATIC					= CreateToken(tokens, L"static");
+					CONST					= CreateToken(tokens, L"const");
+					READONLY				= CreateToken(tokens, L"readonly");
 
 					/*--------OBJECTS--------*/
 
-					ID					= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
+					ID						= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
 
 					/*--------SYMBOLS--------*/
 
-					DOT					= CreateToken(tokens, L".");
-					COLON				= CreateToken(tokens, L":");
-					SEMICOLON			= CreateToken(tokens, L";");
-					COMMA				= CreateToken(tokens, L",");
-					EQ					= CreateToken(tokens, L"=");
-					LT					= CreateToken(tokens, L"<");
-					GT					= CreateToken(tokens, L">");
-					OPEN_DECL_BRACE		= CreateToken(tokens, L"/{");
-					CLOSE_DECL_BRACE	= CreateToken(tokens, L"/}");
-					OPEN_ARRAY_BRACE	= CreateToken(tokens, L"/[");
-					CLOSE_ARRAY_BRACE	= CreateToken(tokens, L"/]");
-					OPEN_EXP_BRACE		= CreateToken(tokens, L"/(");
-					CLOSE_EXP_BRACE		= CreateToken(tokens, L"/)");
+					DOT						= CreateToken(tokens, L".");
+					COLON					= CreateToken(tokens, L":");
+					SEMICOLON				= CreateToken(tokens, L";");
+					COMMA					= CreateToken(tokens, L",");
+					EQ						= CreateToken(tokens, L"=");
+					LT						= CreateToken(tokens, L"<");
+					GT						= CreateToken(tokens, L">");
+					OPEN_DECL_BRACE			= CreateToken(tokens, L"/{");
+					CLOSE_DECL_BRACE		= CreateToken(tokens, L"/}");
+					OPEN_ARRAY_BRACE		= CreateToken(tokens, L"/[");
+					CLOSE_ARRAY_BRACE		= CreateToken(tokens, L"/]");
+					OPEN_EXP_BRACE			= CreateToken(tokens, L"/(");
+					CLOSE_EXP_BRACE			= CreateToken(tokens, L"/)");
 
 					/*--------LEXICAL ANALYZER--------*/
 
@@ -503,45 +571,68 @@ Error Handlers
 
 					/*--------ATTRIBUTES--------*/
 
-					accessor			= def(	let(PUBLIC, declatt::Public)
-											|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
-											|	let(PROTECTED, declatt::Protected)
-											|	let(PRIVATE, declatt::Private)
-											|	let(INTERNAL, declatt::Internal)
-											,	declatt::Private);
+					accessor				= def(	let(PUBLIC, declatt::Public)
+												|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
+												|	let(PROTECTED, declatt::Protected)
+												|	let(PRIVATE, declatt::Private)
+												|	let(INTERNAL, declatt::Internal)
+												,	declatt::Private);
 
-					inheritation		= def(	let(SEALED, declatt::Sealed)
-											|	let(ABSTRACT, declatt::Abstract)
-											|	let(VIRTUAL, declatt::Virtual)
-											|	let(OVERRIDE, declatt::Override)
-											,	declatt::Normal);
+					inheritation			= def(	let(SEALED, declatt::Sealed)
+												|	let(ABSTRACT, declatt::Abstract)
+												|	let(VIRTUAL, declatt::Virtual)
+												|	let(OVERRIDE, declatt::Override)
+												,	declatt::Normal);
 
-					memberType			= def(let(STATIC, declatt::Static), declatt::Instance);
+					memberType				= def(let(STATIC, declatt::Static), declatt::Instance);
 
-					dataType			= def(	let(CONST, declatt::Constant)
-											|	let(READONLY, declatt::Readonly)
-											,	declatt::Variable);
+					dataType				= def(	let(CONST, declatt::Constant)
+												|	let(READONLY, declatt::Readonly)
+												,	declatt::Variable);
 
-					/*--------SYNTACTICAL ANALYZER--------*/
+					genericArgconv			= def(	let(IN, ManagedGenericInfo::In)
+												|	let(OUT, ManagedGenericInfo::Out)
+												,	ManagedGenericInfo::None);
 
-					primitiveType		= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
-										| ID[ToReferenceType]
-										| VAR[ToAutoReferType]
-										| DYNAMIC[ToDynamicType]
-										| (FUNCTION + type + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToFunctionType]
-										| (EVENT + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToEventType]
-										| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
-										;
-					type				= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
-																| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericType]
-																| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
-																), ToLrecType);
+					functionArgconv			= def(	let(PARAMS, ManagedParameter::Params)
+												|	let(REF, ManagedParameter::Ref)
+												|	let(OUT, ManagedParameter::Out)
+												,	ManagedParameter::Normal);
 
-					declaration			= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
-										| ((accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
-										| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
-										;
-					unit				= (*declaration)[ToUnit];
+					/*--------TYPES--------*/
+
+					primitiveType			= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
+											| ID[ToReferenceType]
+											| VAR[ToAutoReferType]
+											| DYNAMIC[ToDynamicType]
+											| (FUNCTION + type + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToFunctionType]
+											| (EVENT + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToEventType]
+											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
+											;
+					type					= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
+																	| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericType]
+																	| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
+																	), ToLrecType);
+
+					/*--------DECLARATION FRAGMENTS--------*/
+
+					genericTypeConstraint	= type | let(NEW + OPEN_EXP_BRACE(NeedOpenExpBrace) + CLOSE_EXP_BRACE(NeedCloseExpBrace), Ptr<ManagedType>());
+
+					genericArgument			= ((genericArgconv + ID(NeedId)) + opt(COLON(NeedColon) >> (
+												OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(genericTypeConstraint + *(COMMA >> genericTypeConstraint)) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)
+											)))[ToGenericArgument];
+
+					genericInfo				= (GENERIC + LT(NeedLt) >> (
+												plist(genericArgument + *(COMMA >> genericArgument))
+											) << GT(NeedGt))[ToGenericInfo];
+
+					/*--------DECLARATIONS--------*/
+
+					declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
+											| ((opt(genericInfo) + accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
+											| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
+											;
+					unit					= (*declaration)[ToUnit];
 				}
 
 				static bool Blank(vint token)

@@ -31,4 +31,15 @@ namespace typerename
     using F1 = function int();
     using F2 = function int(string);
     using F3 = function int(float, double);
+
+    generic<T>
+    using ListWrapper = List<T>;
+
+    generic<
+        A,
+        in B : { new() },
+        out C : { IEnumerable<int> },
+        D : { IEnumerable<int>, new() }
+        >
+    using What = NoIdea<List<A>, Dictionary<B, C>, D>;
 }

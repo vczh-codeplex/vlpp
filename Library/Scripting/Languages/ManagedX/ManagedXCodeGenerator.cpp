@@ -282,7 +282,7 @@ namespace vl
 				{
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"generic<\r\n");
-					for(vint i=0;i>info.arguments.Count();i++)
+					for(vint i=0;i<info.arguments.Count();i++)
 					{
 						Ptr<ManagedGenericInfo::Argument> arg=info.arguments[i];
 						if(i) argument.writer.WriteString(L",\r\n");
@@ -301,7 +301,7 @@ namespace vl
 
 						if(arg->newConstraint || arg->typeConstraints.Count())
 						{
-							argument.writer.WriteString(L" : ");
+							argument.writer.WriteString(L" : { ");
 							for(vint j=0;j<arg->typeConstraints.Count();j++)
 							{
 								if(j) argument.writer.WriteString(L", ");
@@ -316,6 +316,7 @@ namespace vl
 								}
 								argument.writer.WriteString(L"new()");
 							}
+							argument.writer.WriteString(L" }");
 						}
 					}
 					argument.writer.WriteString(L"\r\n");
