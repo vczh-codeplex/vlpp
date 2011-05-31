@@ -704,6 +704,8 @@ Basic Declaration Fragments
 				};
 
 				collections::List<Ptr<Argument>>					arguments;
+
+				bool												HasGeneric();
 			};
 
 			namespace declatt

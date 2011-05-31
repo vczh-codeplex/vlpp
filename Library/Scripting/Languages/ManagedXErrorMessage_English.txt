@@ -4,6 +4,8 @@ UnrecognizedToken(token)=Unrecognized Token \"{token}\".
 
 NeedId=Here needs an identifier.
 
+NeedColon=Here needs \":\".
+NeedSemicolon=Here needs \";\".
+NeedEq=Here needs \"=\".
 NeedOpenDeclBrace=Here needs \"{\".
 NeedCloseDeclBrace=Here needs \"}\".
-NeedSemicolon=Here needs \";\".

@@ -16,6 +16,21 @@ namespace vl
 				return L"Here needs an identifier.";
 			}
 
+			WString ManagedXErrorMessage::NeedColon()
+			{
+				return L"Here needs \":\".";
+			}
+
+			WString ManagedXErrorMessage::NeedSemicolon()
+			{
+				return L"Here needs \";\".";
+			}
+
+			WString ManagedXErrorMessage::NeedEq()
+			{
+				return L"Here needs \"=\".";
+			}
+
 			WString ManagedXErrorMessage::NeedOpenDeclBrace()
 			{
 				return L"Here needs \"{\".";
@@ -24,11 +39,6 @@ namespace vl
 			WString ManagedXErrorMessage::NeedCloseDeclBrace()
 			{
 				return L"Here needs \"}\".";
-			}
-
-			WString ManagedXErrorMessage::NeedSemicolon()
-			{
-				return L"Here needs \";\".";
 			}
 
 		}

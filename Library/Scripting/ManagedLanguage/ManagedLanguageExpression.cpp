@@ -24,6 +24,15 @@ namespace vl
 				,codeIndex(0)
 			{
 			}
+
+/***********************************************************************
+ManagedGenericInfo
+***********************************************************************/
+
+			bool ManagedGenericInfo::HasGeneric()
+			{
+				return arguments.Count()>0;
+			}
 		}
 	}
 }

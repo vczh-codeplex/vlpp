@@ -1,0 +1,22 @@
+using System;
+
+namespace typerename
+{
+	using SINT8 = sbyte;
+	using UINT8 = byte;
+	using SINT16 = short;
+	using UINT16 = word;
+	using SINT32 = int;
+	using UINT32 = uint;
+	using SINT64 = long;
+	using UINT64 = ulong;
+	using CHAR = char;
+	using STRING = string;
+	using FLOAT = float;
+	using DOUBLE = double;
+	using BOOL = bool;
+	using OBJECT = object;
+	using VOID = void;
+	using INTPTR = intptr;
+	using UINTPTR = uintptr;
+}

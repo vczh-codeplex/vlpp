@@ -14,10 +14,6 @@ namespace vl
 			using namespace regex;
 			using namespace combinator;
 
-			typedef Node<TokenInput<RegexToken>, RegexToken>					TokenType;
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>				UnitRule;
-
 /***********************************************************************
 辅助函数
 ***********************************************************************/
@@ -110,6 +106,76 @@ Constants
 Basic Types
 ***********************************************************************/
 
+			Ptr<ManagedType> ToKeywordType(const RegexToken& input)
+			{
+				WString name;
+				WString keyword(input.reading, input.length);
+				if(keyword==L"sbyte")			name = L"SInt8";
+				else if(keyword==L"byte")		name = L"UInt8";
+				else if(keyword==L"short")		name = L"SInt16";
+				else if(keyword==L"word")		name = L"UInt16";
+				else if(keyword==L"int")		name = L"SInt32";
+				else if(keyword==L"uint")		name = L"UInt32";
+				else if(keyword==L"long")		name = L"SInt64";
+				else if(keyword==L"ulong")		name = L"UInt64";
+				else if(keyword==L"char")		name = L"Char";
+				else if(keyword==L"string")		name = L"String";
+				else if(keyword==L"float")		name = L"Single";
+				else if(keyword==L"double")		name = L"Double";
+				else if(keyword==L"bool")		name = L"Bool";
+				else if(keyword==L"object")		name = L"Object";
+				else if(keyword==L"void")		name = L"Void";
+#ifdef VCZH_64
+				else if(keyword==L"intptr")		name = L"SInt64";
+				else if(keyword==L"uintptr")	name = L"UInt64";
+#else
+				else if(keyword==L"intptr")		name = L"SInt32";
+				else if(keyword==L"uintptr")	name = L"UInt32";
+#endif
+
+				Ptr<ManagedMemberType> system=CreateNode<ManagedMemberType>(input);
+				system->member=L"System";
+
+				Ptr<ManagedMemberType> type=CreateNode<ManagedMemberType>(input);
+				type->operand=system;
+				type->member=name;
+				return type;
+			}
+
+			Ptr<ManagedType> ToReferenceType(const RegexToken& input)
+			{
+				Ptr<ManagedReferencedType> type=CreateNode<ManagedReferencedType>(input);
+				type->name=WString(input.reading, input.length);
+				return type;
+			}
+
+			Ptr<ManagedType> ToGlobalType(const RegexToken& input)
+			{
+				Ptr<ManagedMemberType> type=CreateNode<ManagedMemberType>(input);
+				type->member=WString(input.reading, input.length);
+				return type;
+			}
+
+			Ptr<ManagedType> ToLrecType(const Ptr<ManagedType>& elementType, const Ptr<ManagedType>& decoratorType)
+			{
+				if(Ptr<ManagedMemberType> memberType=decoratorType.Cast<ManagedMemberType>())
+				{
+					memberType->operand=elementType;
+					return memberType;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"ToLrecType(Ptr<ManagedType>, Ptr<ManagedType>)#未知类型。");
+				}
+			}
+
+			Ptr<ManagedType> ToMemberTypeLrec(const RegexToken& input)
+			{
+				Ptr<ManagedMemberType> type=CreateNode<ManagedMemberType>(input);
+				type->member=WString(input.reading, input.length);
+				return type;
+			}
+
 /***********************************************************************
 Extended Types
 ***********************************************************************/
@@ -168,6 +234,14 @@ Basic Declarations
 Extended Declarations
 ***********************************************************************/
 
+			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedTypeRenameDeclaration> decl=CreateNode<ManagedTypeRenameDeclaration>(input.First());
+				decl->name=WString(input.First().reading, input.First().length);
+				decl->type=input.Second();
+				return decl;
+			}
+
 			Ptr<ManagedDeclaration> ToUsingNamespaceDecl(const ParsingPair<RegexToken, ParsingList<RegexToken>>& input)
 			{
 				Ptr<ManagedUsingNamespaceDeclaration> decl=CreateNode<ManagedUsingNamespaceDeclaration>(input.First());
@@ -213,14 +287,21 @@ Error Handlers
 			}
 			
 			ERROR_HANDLER(NeedId,							RegexToken)
-
+				
+			ERROR_HANDLER(NeedColon,						RegexToken)
+			ERROR_HANDLER(NeedSemicolon,					RegexToken)
+			ERROR_HANDLER(NeedEq,							RegexToken)
 			ERROR_HANDLER(NeedOpenDeclBrace,				RegexToken)
 			ERROR_HANDLER(NeedCloseDeclBrace,				RegexToken)
-			ERROR_HANDLER(NeedSemicolon,					RegexToken)
 
 /***********************************************************************
 语法分析器
 ***********************************************************************/
+
+			typedef Node<TokenInput<RegexToken>, RegexToken>					TokenType;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>				TypeNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>		DeclarationNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>				UnitRule;
 
 			class ManagedXParserImpl : public ManagedXParser
 			{
@@ -228,7 +309,10 @@ Error Handlers
 				Ptr<RegexLexer>						lexer;
 
 				/*--------KEYWORDS--------*/
+
+				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR;
 				
+				TokenType							GLOBAL;
 				TokenType							NAMESPACE;
 				TokenType							USING;
 
@@ -239,11 +323,15 @@ Error Handlers
 				/*--------SYMBOLS--------*/
 
 				TokenType							DOT;
+				TokenType							COLON;
 				TokenType							SEMICOLON;
+				TokenType							EQ;
 				TokenType							OPEN_DECL_BRACE;
 				TokenType							CLOSE_DECL_BRACE;
 
 				/*--------RULES--------*/
+
+				TypeNode							type, primitiveType;
 
 				DeclarationNode						declaration;
 
@@ -258,7 +346,26 @@ Error Handlers
 					tokens.Add(L"///*([^*//]+|/*+[^//])*/*+//");
 
 					/*--------KEYWORDS--------*/
+
+					SBYTE				= CreateToken(tokens, L"sbyte");
+					BYTE				= CreateToken(tokens, L"byte");
+					SHORT				= CreateToken(tokens, L"short");
+					WORD				= CreateToken(tokens, L"word");
+					INT					= CreateToken(tokens, L"int");
+					UINT				= CreateToken(tokens, L"uint");
+					LONG				= CreateToken(tokens, L"long");
+					ULONG				= CreateToken(tokens, L"ulong");
+					CHAR				= CreateToken(tokens, L"char");
+					STRING				= CreateToken(tokens, L"string");
+					FLOAT				= CreateToken(tokens, L"float");
+					DOUBLE				= CreateToken(tokens, L"double");
+					BOOL				= CreateToken(tokens, L"bool");
+					OBJECT				= CreateToken(tokens, L"object");
+					VOID				= CreateToken(tokens, L"void");
+					INTPTR				= CreateToken(tokens, L"intptr");
+					UINTPTR				= CreateToken(tokens, L"uintptr");
 										
+					GLOBAL				= CreateToken(tokens, L"global");
 					NAMESPACE			= CreateToken(tokens, L"namespace");
 					USING				= CreateToken(tokens, L"using");
 
@@ -269,7 +376,9 @@ Error Handlers
 					/*--------SYMBOLS--------*/
 
 					DOT					= CreateToken(tokens, L".");
+					COLON				= CreateToken(tokens, L":");
 					SEMICOLON			= CreateToken(tokens, L";");
+					EQ					= CreateToken(tokens, L"=");
 					OPEN_DECL_BRACE		= CreateToken(tokens, L"/{");
 					CLOSE_DECL_BRACE	= CreateToken(tokens, L"/}");
 
@@ -279,7 +388,15 @@ Error Handlers
 
 					/*--------SYNTACTICAL ANALYZER--------*/
 
+					primitiveType		= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
+										| ID[ToReferenceType]
+										| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
+										;
+					type				= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
+																), ToLrecType);
+
 					declaration			= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
+										| (((USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
 										| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
 										;
 					unit				= (*declaration)[ToUnit];
