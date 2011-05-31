@@ -31,6 +31,11 @@ namespace vl
 				return L"Here needs \"=\".";
 			}
 
+			WString ManagedXErrorMessage::NeedGt()
+			{
+				return L"Here needs \">\".";
+			}
+
 			WString ManagedXErrorMessage::NeedOpenDeclBrace()
 			{
 				return L"Here needs \"{\".";
@@ -39,6 +44,26 @@ namespace vl
 			WString ManagedXErrorMessage::NeedCloseDeclBrace()
 			{
 				return L"Here needs \"}\".";
+			}
+
+			WString ManagedXErrorMessage::NeedOpenArrayBrace()
+			{
+				return L"Here needs \"]\".";
+			}
+
+			WString ManagedXErrorMessage::NeedCloseArrayBrace()
+			{
+				return L"Here needs \"]\".";
+			}
+
+			WString ManagedXErrorMessage::NeedOpenExpBrace()
+			{
+				return L"Here needs \"(\".";
+			}
+
+			WString ManagedXErrorMessage::NeedCloseExpBrace()
+			{
+				return L"Here needs \")\".";
 			}
 
 		}

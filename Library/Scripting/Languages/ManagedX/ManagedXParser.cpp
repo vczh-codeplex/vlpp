@@ -161,12 +161,20 @@ Basic Types
 				if(Ptr<ManagedMemberType> memberType=decoratorType.Cast<ManagedMemberType>())
 				{
 					memberType->operand=elementType;
-					return memberType;
+				}
+				else if(Ptr<ManagedInstantiatedGenericType> genericType=decoratorType.Cast<ManagedInstantiatedGenericType>())
+				{
+					genericType->elementType=elementType;
+				}
+				else if(Ptr<ManagedArrayType> arrayType=decoratorType.Cast<ManagedArrayType>())
+				{
+					arrayType->elementType=elementType;
 				}
 				else
 				{
 					CHECK_ERROR(false, L"ToLrecType(Ptr<ManagedType>, Ptr<ManagedType>)#未知类型。");
 				}
+				return decoratorType;
 			}
 
 			Ptr<ManagedType> ToMemberTypeLrec(const RegexToken& input)
@@ -176,9 +184,70 @@ Basic Types
 				return type;
 			}
 
+			Ptr<ManagedType> ToInstantiatedGenericType(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			{
+				Ptr<ManagedInstantiatedGenericType> type=CreateNode<ManagedInstantiatedGenericType>(input.First());
+				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					type->argumentTypes.Add(current->Value());
+					current=current->Next();
+				}
+				return type;
+			}
+
 /***********************************************************************
 Extended Types
 ***********************************************************************/
+
+			Ptr<ManagedType> ToArrayType(const ParsingPair<RegexToken, ParsingList<RegexToken>>& input)
+			{
+				Ptr<ManagedArrayType> type=CreateNode<ManagedArrayType>(input.First());
+				Ptr<ParsingList<RegexToken>::Node> current=input.Second().Head();
+				int count=1;
+				while(current)
+				{
+					count++;
+					current=current->Next();
+				}
+				type->dimensionCount=count;
+				return type;
+			}
+
+			Ptr<ManagedType> ToFunctionType(const ParsingPair<ParsingPair<RegexToken, Ptr<ManagedType>>, ParsingList<Ptr<ManagedType>>>& input)
+			{
+				Ptr<ManagedFunctionType> type=CreateNode<ManagedFunctionType>(input.First().First());
+				type->returnType=input.First().Second();
+				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					type->parameterTypes.Add(current->Value());
+					current=current->Next();
+				}
+				return type;
+			}
+
+			Ptr<ManagedType> ToEventType(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			{
+				Ptr<ManagedEventType> type=CreateNode<ManagedEventType>(input.First());
+				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					type->parameterTypes.Add(current->Value());
+					current=current->Next();
+				}
+				return type;
+			}
+
+			Ptr<ManagedType> ToAutoReferType(const RegexToken& input)
+			{
+				return CreateNode<ManagedAutoReferType>(input);
+			}
+
+			Ptr<ManagedType> ToDynamicType(const RegexToken& input)
+			{
+				return CreateNode<ManagedDynamicType>(input);
+			}
 
 /***********************************************************************
 Basic Expressions
@@ -296,8 +365,13 @@ Error Handlers
 			ERROR_HANDLER(NeedColon,						RegexToken)
 			ERROR_HANDLER(NeedSemicolon,					RegexToken)
 			ERROR_HANDLER(NeedEq,							RegexToken)
+			ERROR_HANDLER(NeedGt,							RegexToken)
 			ERROR_HANDLER(NeedOpenDeclBrace,				RegexToken)
 			ERROR_HANDLER(NeedCloseDeclBrace,				RegexToken)
+			ERROR_HANDLER(NeedOpenArrayBrace,				RegexToken)
+			ERROR_HANDLER(NeedCloseArrayBrace,				RegexToken)
+			ERROR_HANDLER(NeedOpenExpBrace,					RegexToken)
+			ERROR_HANDLER(NeedCloseExpBrace,				RegexToken)
 
 /***********************************************************************
 语法分析器
@@ -320,7 +394,7 @@ Error Handlers
 
 				/*--------KEYWORDS--------*/
 
-				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR;
+				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
 				
 				TokenType							GLOBAL;
 				TokenType							NAMESPACE;
@@ -336,12 +410,11 @@ Error Handlers
 
 				/*--------SYMBOLS--------*/
 
-				TokenType							DOT;
-				TokenType							COLON;
-				TokenType							SEMICOLON;
-				TokenType							EQ;
-				TokenType							OPEN_DECL_BRACE;
-				TokenType							CLOSE_DECL_BRACE;
+				TokenType							DOT, COLON, SEMICOLON, COMMA;
+				TokenType							EQ, LT, GT;
+				TokenType							OPEN_DECL_BRACE, CLOSE_DECL_BRACE;
+				TokenType							OPEN_ARRAY_BRACE, CLOSE_ARRAY_BRACE;
+				TokenType							OPEN_EXP_BRACE, CLOSE_EXP_BRACE;
 
 				/*--------RULES--------*/
 
@@ -383,6 +456,10 @@ Error Handlers
 					VOID				= CreateToken(tokens, L"void");
 					INTPTR				= CreateToken(tokens, L"intptr");
 					UINTPTR				= CreateToken(tokens, L"uintptr");
+					VAR					= CreateToken(tokens, L"var");
+					DYNAMIC				= CreateToken(tokens, L"dynamic");
+					FUNCTION			= CreateToken(tokens, L"function");
+					EVENT				= CreateToken(tokens, L"event");
 										
 					GLOBAL				= CreateToken(tokens, L"global");
 					NAMESPACE			= CreateToken(tokens, L"namespace");
@@ -409,9 +486,16 @@ Error Handlers
 					DOT					= CreateToken(tokens, L".");
 					COLON				= CreateToken(tokens, L":");
 					SEMICOLON			= CreateToken(tokens, L";");
+					COMMA				= CreateToken(tokens, L",");
 					EQ					= CreateToken(tokens, L"=");
+					LT					= CreateToken(tokens, L"<");
+					GT					= CreateToken(tokens, L">");
 					OPEN_DECL_BRACE		= CreateToken(tokens, L"/{");
 					CLOSE_DECL_BRACE	= CreateToken(tokens, L"/}");
+					OPEN_ARRAY_BRACE	= CreateToken(tokens, L"/[");
+					CLOSE_ARRAY_BRACE	= CreateToken(tokens, L"/]");
+					OPEN_EXP_BRACE		= CreateToken(tokens, L"/(");
+					CLOSE_EXP_BRACE		= CreateToken(tokens, L"/)");
 
 					/*--------LEXICAL ANALYZER--------*/
 
@@ -442,9 +526,15 @@ Error Handlers
 
 					primitiveType		= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
 										| ID[ToReferenceType]
+										| VAR[ToAutoReferType]
+										| DYNAMIC[ToDynamicType]
+										| (FUNCTION + type + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToFunctionType]
+										| (EVENT + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToEventType]
 										| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
 										;
 					type				= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
+																| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericType]
+																| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
 																), ToLrecType);
 
 					declaration			= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]

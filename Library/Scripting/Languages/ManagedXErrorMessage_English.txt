@@ -7,5 +7,10 @@ NeedId=Here needs an identifier.
 NeedColon=Here needs \":\".
 NeedSemicolon=Here needs \";\".
 NeedEq=Here needs \"=\".
+NeedGt=Here needs \">\".
 NeedOpenDeclBrace=Here needs \"{\".
 NeedCloseDeclBrace=Here needs \"}\".
+NeedOpenArrayBrace=Here needs \"]\".
+NeedCloseArrayBrace=Here needs \"]\".
+NeedOpenExpBrace=Here needs \"(\".
+NeedCloseExpBrace=Here needs \")\".

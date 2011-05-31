@@ -30,8 +30,13 @@ namespace vl
 				static WString NeedColon();
 				static WString NeedSemicolon();
 				static WString NeedEq();
+				static WString NeedGt();
 				static WString NeedOpenDeclBrace();
 				static WString NeedCloseDeclBrace();
+				static WString NeedOpenArrayBrace();
+				static WString NeedCloseArrayBrace();
+				static WString NeedOpenExpBrace();
+				static WString NeedCloseExpBrace();
 			};
 		}
 	}

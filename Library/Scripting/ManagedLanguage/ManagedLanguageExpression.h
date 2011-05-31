@@ -171,8 +171,8 @@ Extended Types
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedType)
-
-				Ptr<ManagedFunctionType>							functionType;
+					
+				collections::List<Ptr<ManagedType>>					parameterTypes;
 			};
 
 			class ManagedAutoReferType : public ManagedExtendedType
