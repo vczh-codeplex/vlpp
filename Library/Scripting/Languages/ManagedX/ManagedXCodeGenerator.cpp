@@ -432,13 +432,11 @@ Extended Types
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEventType)
 				{
-					argument.writer.WriteString(L"event ");
-					ManagedX_GenerateCode_Type(node->functionType->returnType, argument);
-					argument.writer.WriteString(L"(");
-					for(vint i=0;i<node->functionType->parameterTypes.Count();i++)
+					argument.writer.WriteString(L"event (");
+					for(vint i=0;i<node->parameterTypes.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L", ");
-						ManagedX_GenerateCode_Type(node->functionType->parameterTypes[i], argument);
+						ManagedX_GenerateCode_Type(node->parameterTypes[i], argument);
 					}
 					argument.writer.WriteString(L")");
 				}
