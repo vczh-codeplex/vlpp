@@ -402,8 +402,40 @@ Basic Declarations
 Extended Declarations
 ***********************************************************************/
 
-			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingList<
-				Ptr<ManagedGenericInfo>>, 
+			Ptr<ManagedEnumItem> ToEnumItem(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedEnumItem> item=CreateNode<ManagedEnumItem>(input.First());
+				item->name=ConvertID(WString(input.First().reading, input.First().length));
+				if(input.Second().Head())
+				{
+					item->value=input.Second().Head()->Value();
+				}
+				return item;
+			}
+
+			Ptr<ManagedDeclaration> ToEnum(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				declatt::Accessor,
+				RegexToken>,
+				ParsingList<RegexToken>>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedEnumItem>>>& input)
+			{
+				Ptr<ManagedEnumerationDeclaration> decl=CreateNode<ManagedEnumerationDeclaration>(input.First().First().First().Second());
+				decl->accessor=input.First().First().First().First();
+				decl->composable=input.First().First().Second().Head();
+				decl->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+
+				Ptr<ParsingList<Ptr<ManagedEnumItem>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					decl->items.Add(current->Value());
+					current=current->Next();
+				}
+				return decl;
+			}
+
+			Ptr<ManagedDeclaration> ToTypeRenameDecl(const ParsingPair<ParsingPair<ParsingPair<
+				ParsingList<Ptr<ManagedGenericInfo>>, 
 				declatt::Accessor>, 
 				RegexToken>, 
 				Ptr<ManagedType>>& input)
@@ -497,6 +529,7 @@ Error Handlers
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>								UnitRule;
@@ -510,9 +543,11 @@ Error Handlers
 
 				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
 
+				TokenType							SWITCH;
+
 				TokenType							IN, OUT, PARAMS, REF, NEW;
 				
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM;
 
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
 				TokenType							SEALED, ABSTRACT, VIRTUAL, OVERRIDE;
@@ -545,6 +580,7 @@ Error Handlers
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
+				EnumItemNode						enumItem;
 				DeclarationNode						declaration;
 
 				UnitRule							unit;
@@ -580,6 +616,8 @@ Error Handlers
 					DYNAMIC					= CreateToken(tokens, L"dynamic");
 					FUNCTION				= CreateToken(tokens, L"function");
 					EVENT					= CreateToken(tokens, L"event");
+					
+					SWITCH					= CreateToken(tokens, L"switch");
 
 					IN						= CreateToken(tokens, L"in");
 					OUT						= CreateToken(tokens, L"out");
@@ -591,6 +629,7 @@ Error Handlers
 					NAMESPACE				= CreateToken(tokens, L"namespace");
 					USING					= CreateToken(tokens, L"using");
 					GENERIC					= CreateToken(tokens, L"generic");
+					ENUM					= CreateToken(tokens, L"enum");
 
 					PUBLIC					= CreateToken(tokens, L"public");
 					PROTECTED				= CreateToken(tokens, L"protected");
@@ -666,7 +705,7 @@ Error Handlers
 					/*--------TYPES--------*/
 
 					primitiveType			= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
-											| ID[ToReferenceType]
+											| ID(NeedId)[ToReferenceType]
 											| VAR[ToAutoReferType]
 											| DYNAMIC[ToDynamicType]
 											| (FUNCTION + type + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToFunctionType]
@@ -702,9 +741,14 @@ Error Handlers
 
 					/*--------DECLARATIONS--------*/
 
-					declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID)) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
+					enumItem				= (ID(NeedId) + opt(EQ >> expression))[ToEnumItem];
+
+					declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID(NeedId))) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
 											| ((opt(genericInfo) + accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
-											| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID)) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
+											| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID(NeedId))) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
+											| (accessor + ENUM + opt(SWITCH) + ID + (
+												OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(enumItem + *(COMMA >> enumItem))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)
+												))[ToEnum]
 											;
 					unit					= (*declaration)[ToUnit];
 				}
