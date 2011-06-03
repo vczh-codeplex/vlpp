@@ -103,6 +103,53 @@ namespace vl
 Constants
 ***********************************************************************/
 
+			Ptr<ManagedExpression> ToNull(const RegexToken& input)
+			{
+				Ptr<ManagedNullExpression> exp=CreateNode<ManagedNullExpression>(input);
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToBoolean(const RegexToken& input)
+			{
+				Ptr<ManagedBooleanExpression> exp=CreateNode<ManagedBooleanExpression>(input);
+				WString value(input.reading, input.length);
+				exp->value=value==L"true";
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToInteger(const RegexToken& input)
+			{
+				Ptr<ManagedIntegerExpression> exp=CreateNode<ManagedIntegerExpression>(input);
+				WString value(input.reading, input.length);
+				exp->sign=false;
+				exp->value.unsignedInteger=wtou64(value);
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToFloat(const RegexToken& input)
+			{
+				Ptr<ManagedFloatExpression> exp=CreateNode<ManagedFloatExpression>(input);
+				WString value(input.reading, input.length);
+				exp->value=wtof(value);
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToChar(const RegexToken& input)
+			{
+				Ptr<ManagedCharExpression> exp=CreateNode<ManagedCharExpression>(input);
+				WString value(input.reading+1, input.length-2);
+				exp->value=EscapeString(value)[0];
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToString(const RegexToken& input)
+			{
+				Ptr<ManagedStringExpression> exp=CreateNode<ManagedStringExpression>(input);
+				WString value(input.reading+1, input.length-2);
+				exp->value=EscapeString(value);
+				return exp;
+			}
+
 /***********************************************************************
 Basic Types
 ***********************************************************************/
@@ -146,7 +193,7 @@ Basic Types
 			Ptr<ManagedType> ToReferenceType(const RegexToken& input)
 			{
 				Ptr<ManagedReferencedType> type=CreateNode<ManagedReferencedType>(input);
-				type->name=WString(input.reading, input.length);
+				type->name=ConvertID(WString(input.reading, input.length));
 				return type;
 			}
 
@@ -181,7 +228,7 @@ Basic Types
 			Ptr<ManagedType> ToMemberTypeLrec(const RegexToken& input)
 			{
 				Ptr<ManagedMemberType> type=CreateNode<ManagedMemberType>(input);
-				type->member=WString(input.reading, input.length);
+				type->member=ConvertID(WString(input.reading, input.length));
 				return type;
 			}
 
@@ -253,6 +300,13 @@ Extended Types
 /***********************************************************************
 Basic Expressions
 ***********************************************************************/
+
+			Ptr<ManagedExpression> ToReferenceExpression(const RegexToken& input)
+			{
+				Ptr<ManagedReferenceExpression> exp=CreateNode<ManagedReferenceExpression>(input);
+				exp->name=ConvertID(WString(input.reading, input.length));
+				return exp;
+			}
 
 /***********************************************************************
 Extended Expressions
@@ -423,6 +477,8 @@ Error Handlers
 			ERROR_HANDLER(NeedCloseArrayBrace,				RegexToken)
 			ERROR_HANDLER(NeedOpenExpBrace,					RegexToken)
 			ERROR_HANDLER(NeedCloseExpBrace,				RegexToken)
+			
+			ERROR_HANDLER(NeedExpression,					RegexToken)
 
 /***********************************************************************
 Óï·¨·ÖÎöÆ÷
@@ -437,6 +493,7 @@ Error Handlers
 			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>								TypeNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
@@ -463,7 +520,7 @@ Error Handlers
 
 				/*--------OBJECTS--------*/
 
-				TokenType							ID;
+				TokenType							VCHAR, VSTRING, VINTEGER, VFLOAT, VNULL, VBOOLEAN, ID;
 
 				/*--------SYMBOLS--------*/
 
@@ -483,6 +540,8 @@ Error Handlers
 				FunctionArgconv						functionArgconv;
 
 				TypeNode							type, primitiveType, genericTypeConstraint;
+
+				ExpressionNode						constant, primitiveExpression, expression;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -546,7 +605,12 @@ Error Handlers
 					READONLY				= CreateToken(tokens, L"readonly");
 
 					/*--------OBJECTS--------*/
-
+					VCHAR					= CreateToken(tokens, L"\'([^\\\\\']|\\\\\\.)\'");
+					VSTRING					= CreateToken(tokens, L"\"([^\\\\\"]|\\\\\\.)*\"");
+					VFLOAT					= CreateToken(tokens, L"/d+./d+");
+					VINTEGER				= CreateToken(tokens, L"/d+");
+					VNULL					= CreateToken(tokens, L"null");
+					VBOOLEAN				= CreateToken(tokens, L"true|false");
 					ID						= CreateToken(tokens, L"(@?[a-zA-Z_]/w*)|(@\"([^\"]|\\\\\\.)*\")");
 
 					/*--------SYMBOLS--------*/
@@ -613,6 +677,16 @@ Error Handlers
 																	| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericType]
 																	| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
 																	), ToLrecType);
+
+					/*--------EXPRESSIONS--------*/
+
+					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
+					
+					primitiveExpression		= constant
+											| ID(NeedExpression)[ToReferenceExpression]
+											;
+
+					expression				= primitiveExpression;
 
 					/*--------DECLARATION FRAGMENTS--------*/
 

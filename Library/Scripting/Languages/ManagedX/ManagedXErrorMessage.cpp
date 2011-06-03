@@ -71,6 +71,11 @@ namespace vl
 				return L"Here needs \")\".";
 			}
 
+			WString ManagedXErrorMessage::NeedExpression()
+			{
+				return L"Here needs an expression.";
+			}
+
 		}
 	}
 }
