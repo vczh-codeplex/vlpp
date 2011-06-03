@@ -38,6 +38,7 @@ namespace vl
 				static WString NeedCloseArrayBrace();
 				static WString NeedOpenExpBrace();
 				static WString NeedCloseExpBrace();
+				static WString NeedExpression();
 			};
 		}
 	}

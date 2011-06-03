@@ -15,3 +15,5 @@ NeedOpenArrayBrace=Here needs \"]\".
 NeedCloseArrayBrace=Here needs \"]\".
 NeedOpenExpBrace=Here needs \"(\".
 NeedCloseExpBrace=Here needs \")\".
+
+NeedExpression=Here needs an expression.
