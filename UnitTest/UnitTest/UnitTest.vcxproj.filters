@@ -1460,6 +1460,9 @@
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.TypeRename.txt">
       <Filter>TestFiles\ManagedX\Parsing</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.EnumerationAndExpression.txt">
+      <Filter>TestFiles\ManagedX\Parsing</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

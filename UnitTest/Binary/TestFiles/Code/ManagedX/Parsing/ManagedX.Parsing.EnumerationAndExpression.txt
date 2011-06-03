@@ -1,0 +1,31 @@
+using System;
+
+namespace enumerations
+{
+	public enum Season
+	{
+		Spring,
+		Summer,
+		Autumn,
+		Winter
+	}
+
+	protected internal enum switch FileAttributes
+	{
+		None = 0,
+		Readonly,
+		System,
+		Hidden
+	}
+
+	enum Constants
+	{
+		Null = null,
+		Integer = 0,
+		Float = 3.14,
+		True = true,
+		False = false,
+		Char = 'v',
+		String = "vczh is genius!"
+	}
+}
