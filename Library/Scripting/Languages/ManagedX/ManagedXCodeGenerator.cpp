@@ -672,7 +672,7 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
 				{
-					//argument.writer.WriteString(L"(");
+					argument.writer.WriteString(L"(");
 					if(node->operatorName==L"op_pos")
 					{
 						argument.writer.WriteString(L"+ ");
@@ -712,7 +712,7 @@ Extended Expressions
 					{
 						argument.writer.WriteString(L" --");
 					}
-					//argument.writer.WriteString(L")");
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)

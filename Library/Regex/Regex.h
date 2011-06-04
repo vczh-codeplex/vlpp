@@ -113,16 +113,17 @@ namespace vl
 		class RegexToken
 		{
 		public:
-			vint											start;
-			vint											length;
-			vint											token;
+			vint										start;
+			vint										length;
+			vint										token;
 			const wchar_t*								reading;
 
-			vint											lineIndex;
-			vint											lineStart;
-			vint											codeIndex;
+			vint										lineIndex;
+			vint										lineStart;
+			vint										codeIndex;
 
 			bool										operator==(const RegexToken& _token)const;
+			bool										operator==(const wchar_t* _token)const;
 		};
 
 		class RegexTokens : public Object, public collections::IEnumerable<RegexToken>

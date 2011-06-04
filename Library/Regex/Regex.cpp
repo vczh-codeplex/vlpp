@@ -359,6 +359,11 @@ RegexTokens
 		{
 			return length==_token.length && token==_token.token && reading==_token.reading;
 		}
+		
+		bool RegexToken::operator==(const wchar_t* _token)const
+		{
+			return wcsncmp(reading, _token, length)==0;
+		}
 
 		class RegexTokenEnumerator : public Object, public IEnumerator<RegexToken>
 		{
