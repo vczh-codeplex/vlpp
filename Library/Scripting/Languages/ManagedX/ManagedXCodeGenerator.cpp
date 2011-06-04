@@ -1384,6 +1384,7 @@ Extended Declaration
 					argument.writer.WriteString(L"\r\n");
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
+					MXCGP newArgument(argument.writer, argument.indentation+1);
 					for(vint i=0;i<node->items.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L",\r\n");
@@ -1392,7 +1393,7 @@ Extended Declaration
 						if(node->items[i]->value)
 						{
 							argument.writer.WriteString(L" = ");
-							ManagedX_GenerateCode_Expression(node->items[i]->value, argument);
+							ManagedX_GenerateCode_Expression(node->items[i]->value, newArgument);
 						}
 					}
 					argument.writer.WriteString(L"\r\n");

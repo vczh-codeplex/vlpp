@@ -30,6 +30,17 @@ namespace vl
 				return node;
 			}
 
+			template<typename T, typename U>
+			Ptr<T> CreateNode(Ptr<U> copy)
+			{
+				Ptr<T> node=new T;
+				node->position.start=copy->position.start;
+				node->position.lineStart=copy->position.lineStart;
+				node->position.lineIndex=copy->position.lineIndex;
+				node->position.codeIndex=copy->position.codeIndex;
+				return node;
+			}
+
 			Node<TokenInput<RegexToken>, RegexToken> CreateToken(List<WString>& tokens, const WString& token)
 			{
 				Node<TokenInput<RegexToken>, RegexToken> node=tk(tokens.Count());
@@ -361,6 +372,10 @@ Basic Expressions
 				{
 					genericExpression->operand=operand;
 				}
+				else if(Ptr<ManagedInvokeExpression> invokeExpression=decoratorExpression.Cast<ManagedInvokeExpression>())
+				{
+					invokeExpression->function=operand;
+				}
 				else
 				{
 					CHECK_ERROR(false, L"ToLrecExpression(Ptr<ManagedExpression>, Ptr<ManagedExpression>)#Î´ÖªÀàÐÍ¡£");
@@ -383,6 +398,72 @@ Basic Expressions
 				{
 					exp->argumentTypes.Add(current->Value());
 					current=current->Next();
+				}
+				return exp;
+			}
+
+			Ptr<ManagedArgument> ToArgument(const ParsingPair<ParsingPair<
+				ManagedArgument::ArgumentType,
+				ParsingList<RegexToken>>,
+				Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedArgument> arg=CreateNode<ManagedArgument>(input.Second());
+				arg->argumentType=input.First().First();
+				if(input.First().Second().Head())
+				{
+					RegexToken name=input.First().Second().Head()->Value();
+					arg->defaultParameterName=ConvertID(WString(name.reading, name.length));
+				}
+				arg->value=input.Second();
+				return arg;
+			}
+
+			Ptr<ManagedExpression> ToInvokeLrec(const ParsingPair<
+				RegexToken,
+				ParsingList<Ptr<ManagedArgument>>>& input)
+			{
+				Ptr<ManagedInvokeExpression> exp=CreateNode<ManagedInvokeExpression>(input.First());
+				Ptr<ParsingList<Ptr<ManagedArgument>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					exp->arguments.Add(current->Value());
+					current=current->Next();
+				}
+				return exp;
+			}
+
+			Ptr<ManagedPropertySetter> ToPropertySetter(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedPropertySetter> setter=CreateNode<ManagedPropertySetter>(input.First());
+				setter->propertyName=ConvertID(WString(input.First().reading, input.First().length));
+				setter->value=input.Second();
+				return setter;
+			}
+
+			Ptr<ManagedExpression> ToNewObject(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedArgument>>>,
+				ParsingList<ParsingList<Ptr<ManagedPropertySetter>>>>& input)
+			{
+				Ptr<ManagedNewObjectExpression> exp=CreateNode<ManagedNewObjectExpression>(input.First().First().First());
+				exp->objectType=input.First().First().Second();
+				{
+					Ptr<ParsingList<Ptr<ManagedArgument>>::Node> current=input.First().Second().Head();
+					while(current)
+					{
+						exp->arguments.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				if(input.Second().Head())
+				{
+					Ptr<ParsingList<Ptr<ManagedPropertySetter>>::Node> current=input.Second().Head()->Value().Head();
+					while(current)
+					{
+						exp->properties.Add(current->Value());
+						current=current->Next();
+					}
 				}
 				return exp;
 			}
@@ -602,13 +683,17 @@ Error Handlers
 			typedef Node<TokenInput<RegexToken>, declatt::DataType>								DataTypeNode;
 			typedef Node<TokenInput<RegexToken>, ManagedGenericInfo::ArgumentConversion>		GenericArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
+			typedef Node<TokenInput<RegexToken>, ManagedArgument::ArgumentType>					InvokeArgconv;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>								TypeNode;
+			
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedArgument>>							ArgumentNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedPropertySetter>>					PropertySetterNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
-			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>								UnitRule;
@@ -652,9 +737,12 @@ Error Handlers
 				DataTypeNode						dataType;
 				GenericArgconv						genericArgconv;
 				FunctionArgconv						functionArgconv;
+				InvokeArgconv						invokeArgconv;
 
 				TypeNode							type, primitiveType, genericTypeConstraint;
 
+				ArgumentNode						argument;
+				PropertySetterNode					propertySetter;
 				ExpressionNode						constant, primitiveExpression, expression;
 				ExpressionNode						exp0;
 
@@ -782,6 +870,10 @@ Error Handlers
 												|	let(OUT, ManagedParameter::Out)
 												,	ManagedParameter::Normal);
 
+					invokeArgconv			= def(	let(REF, ManagedArgument::Ref)
+												|	let(OUT, ManagedArgument::Out)
+												,	ManagedArgument::Normal);
+
 					/*--------TYPES--------*/
 
 					primitiveType			= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
@@ -792,6 +884,7 @@ Error Handlers
 											| (EVENT + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(type + *(COMMA >> type))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToEventType]
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
 											;
+
 					type					= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
 																	| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericTypeLrec]
 																	| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
@@ -799,15 +892,26 @@ Error Handlers
 
 					/*--------EXPRESSIONS--------*/
 
+					argument				= (invokeArgconv + opt(ID << COLON(NeedColon)) + expression)[ToArgument];
+
+					propertySetter			= (ID(NeedId) + (EQ(NeedEq) >> expression))[ToPropertySetter];
+
 					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
 					
 					primitiveExpression		= constant
 											| (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordExpression]
 											| ID(NeedExpression)[ToReferenceExpression]
+											| (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
+											| (NEW + type + 
+												(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
+												opt(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(propertySetter + *(COMMA >> propertySetter))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+											  )[ToNewObject]
 											;
+
 					exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]
 																			| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedExpressionLrec]
+																			| (OPEN_EXP_BRACE(NeedOpenExpBrace) + plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))[ToInvokeLrec]
 																			), ToLrecExpression);
 
 					expression				= exp0;
