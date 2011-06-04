@@ -219,6 +219,98 @@ Constants
 			}
 
 /***********************************************************************
+Left Recursion Helper
+***********************************************************************/
+
+			namespace typelrec
+			{
+				class TypeLrecBase : public Object
+				{
+				public:
+					virtual Ptr<ManagedType>			Set(Ptr<ManagedType> operand)=0;
+				};
+
+				template<typename T>
+				class TypeLrec{};
+
+#define TYPE_LREC(TYPE, MEMBER)\
+				template<>\
+				class TypeLrec<TYPE> : public TypeLrecBase\
+				{\
+				protected:\
+					Ptr<TYPE>							type;\
+				public:\
+					TypeLrec(Ptr<TYPE> _type)\
+						:type(_type)\
+					{\
+					}\
+					Ptr<ManagedType> Set(Ptr<ManagedType> operand)\
+					{\
+						type->MEMBER=operand;\
+						return type;\
+					}\
+				};
+
+				TYPE_LREC(ManagedMemberType, operand)
+				TYPE_LREC(ManagedInstantiatedGenericType, elementType)
+				TYPE_LREC(ManagedArrayType, elementType)
+#undef TYPE_LREC
+
+				template<typename T>
+				Ptr<TypeLrecBase> ToTypeLrec(Ptr<T> exp)
+				{
+					return new TypeLrec<T>(exp);
+				}
+			}
+
+			namespace explrec
+			{
+				class ExpLrecBase : public Object
+				{
+				public:
+					virtual Ptr<ManagedExpression>		Set(Ptr<ManagedExpression> operand)=0;
+				};
+
+				template<typename T>
+				class ExpLrec{};
+
+#define EXP_LREC(TYPE, MEMBER)\
+				template<>\
+				class ExpLrec<TYPE> : public ExpLrecBase\
+				{\
+				protected:\
+					Ptr<TYPE>							exp;\
+				public:\
+					ExpLrec(Ptr<TYPE> _exp)\
+						:exp(_exp)\
+					{\
+					}\
+					Ptr<ManagedExpression> Set(Ptr<ManagedExpression> operand)\
+					{\
+						exp->MEMBER=operand;\
+						return exp;\
+					}\
+				};
+
+				EXP_LREC(ManagedMemberExpression, operand)
+				EXP_LREC(ManagedInstantiatedExpression, operand)
+				EXP_LREC(ManagedInvokeExpression, function)
+				EXP_LREC(ManagedCastingExpression, operand)
+				EXP_LREC(ManagedIsTypeExpression, operand)
+				EXP_LREC(ManagedChoiceExpression, condition)
+				EXP_LREC(ManagedNullChoiceExpression, valueExpression)
+				EXP_LREC(ManagedUnaryExpression, operand)
+				EXP_LREC(ManagedBinaryExpression, leftOperand)
+#undef EXP_LREC
+
+				template<typename T>
+				Ptr<ExpLrecBase> ToExpLrec(Ptr<T> exp)
+				{
+					return new ExpLrec<T>(exp);
+				}
+			}
+
+/***********************************************************************
 Basic Types
 ***********************************************************************/
 
@@ -272,35 +364,19 @@ Basic Types
 				return type;
 			}
 
-			Ptr<ManagedType> ToLrecType(const Ptr<ManagedType>& elementType, const Ptr<ManagedType>& decoratorType)
+			Ptr<ManagedType> ToLrecType(const Ptr<ManagedType>& elementType, const Ptr<typelrec::TypeLrecBase>& decoratorType)
 			{
-				if(Ptr<ManagedMemberType> memberType=decoratorType.Cast<ManagedMemberType>())
-				{
-					memberType->operand=elementType;
-				}
-				else if(Ptr<ManagedInstantiatedGenericType> genericType=decoratorType.Cast<ManagedInstantiatedGenericType>())
-				{
-					genericType->elementType=elementType;
-				}
-				else if(Ptr<ManagedArrayType> arrayType=decoratorType.Cast<ManagedArrayType>())
-				{
-					arrayType->elementType=elementType;
-				}
-				else
-				{
-					CHECK_ERROR(false, L"ToLrecType(Ptr<ManagedType>, Ptr<ManagedType>)#未知类型。");
-				}
-				return decoratorType;
+				return decoratorType->Set(elementType);
 			}
 
-			Ptr<ManagedType> ToMemberTypeLrec(const RegexToken& input)
+			Ptr<typelrec::TypeLrecBase> ToMemberTypeLrec(const RegexToken& input)
 			{
 				Ptr<ManagedMemberType> type=CreateNode<ManagedMemberType>(input);
 				type->member=ConvertID(WString(input.reading, input.length));
-				return type;
+				return typelrec::ToTypeLrec(type);
 			}
 
-			Ptr<ManagedType> ToInstantiatedGenericTypeLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			Ptr<typelrec::TypeLrecBase> ToInstantiatedGenericTypeLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
 			{
 				Ptr<ManagedInstantiatedGenericType> type=CreateNode<ManagedInstantiatedGenericType>(input.First());
 				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
@@ -309,14 +385,14 @@ Basic Types
 					type->argumentTypes.Add(current->Value());
 					current=current->Next();
 				}
-				return type;
+				return typelrec::ToTypeLrec(type);
 			}
 
 /***********************************************************************
 Extended Types
 ***********************************************************************/
 
-			Ptr<ManagedType> ToArrayType(const ParsingPair<RegexToken, ParsingList<RegexToken>>& input)
+			Ptr<typelrec::TypeLrecBase> ToArrayType(const ParsingPair<RegexToken, ParsingList<RegexToken>>& input)
 			{
 				Ptr<ManagedArrayType> type=CreateNode<ManagedArrayType>(input.First());
 				Ptr<ParsingList<RegexToken>::Node> current=input.Second().Head();
@@ -327,7 +403,7 @@ Extended Types
 					current=current->Next();
 				}
 				type->dimensionCount=count;
-				return type;
+				return typelrec::ToTypeLrec(type);
 			}
 
 			Ptr<ManagedType> ToFunctionType(const ParsingPair<ParsingPair<RegexToken, Ptr<ManagedType>>, ParsingList<Ptr<ManagedType>>>& input)
@@ -419,59 +495,19 @@ Basic Expressions
 				return exp;
 			}
 
-			Ptr<ManagedExpression> ToLrecExpression(const Ptr<ManagedExpression>& operand, const Ptr<ManagedExpression>& decoratorExpression)
+			Ptr<ManagedExpression> ToLrecExpression(const Ptr<ManagedExpression>& operand, const Ptr<explrec::ExpLrecBase>& decoratorExpression)
 			{
-				if(Ptr<ManagedMemberExpression> memberExpression=decoratorExpression.Cast<ManagedMemberExpression>())
-				{
-					memberExpression->operand=operand;
-				}
-				else if(Ptr<ManagedInstantiatedExpression> genericExpression=decoratorExpression.Cast<ManagedInstantiatedExpression>())
-				{
-					genericExpression->operand=operand;
-				}
-				else if(Ptr<ManagedInvokeExpression> invokeExpression=decoratorExpression.Cast<ManagedInvokeExpression>())
-				{
-					invokeExpression->function=operand;
-				}
-				else if(Ptr<ManagedCastingExpression> op=decoratorExpression.Cast<ManagedCastingExpression>())
-				{
-					op->operand=operand;
-				}
-				else if(Ptr<ManagedIsTypeExpression> op=decoratorExpression.Cast<ManagedIsTypeExpression>())
-				{
-					op->operand=operand;
-				}
-				else if(Ptr<ManagedChoiceExpression> op=decoratorExpression.Cast<ManagedChoiceExpression>())
-				{
-					op->condition=operand;
-				}
-				else if(Ptr<ManagedNullChoiceExpression> op=decoratorExpression.Cast<ManagedNullChoiceExpression>())
-				{
-					op->valueExpression=operand;
-				}
-				else if(Ptr<ManagedUnaryExpression> op=decoratorExpression.Cast<ManagedUnaryExpression>())
-				{
-					op->operand=operand;
-				}
-				else if(Ptr<ManagedBinaryExpression> op=decoratorExpression.Cast<ManagedBinaryExpression>())
-				{
-					op->leftOperand=operand;
-				}
-				else
-				{
-					CHECK_ERROR(false, L"ToLrecExpression(Ptr<ManagedExpression>, Ptr<ManagedExpression>)#未知类型。");
-				}
-				return decoratorExpression;
+				return decoratorExpression->Set(operand);
 			}
 
-			Ptr<ManagedExpression> ToMemberExpressionLrec(const RegexToken& input)
+			Ptr<explrec::ExpLrecBase> ToMemberExpressionLrec(const RegexToken& input)
 			{
 				Ptr<ManagedMemberExpression> exp=CreateNode<ManagedMemberExpression>(input);
 				exp->member=ConvertID(WString(input.reading, input.length));
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
-			Ptr<ManagedExpression> ToInstantiatedExpressionLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			Ptr<explrec::ExpLrecBase> ToInstantiatedExpressionLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
 			{
 				Ptr<ManagedInstantiatedExpression> exp=CreateNode<ManagedInstantiatedExpression>(input.First());
 				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
@@ -480,7 +516,7 @@ Basic Expressions
 					exp->argumentTypes.Add(current->Value());
 					current=current->Next();
 				}
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
 			Ptr<ManagedArgument> ToArgument(const ParsingPair<ParsingPair<
@@ -499,7 +535,7 @@ Basic Expressions
 				return arg;
 			}
 
-			Ptr<ManagedExpression> ToInvokeLrec(const ParsingPair<
+			Ptr<explrec::ExpLrecBase> ToInvokeLrec(const ParsingPair<
 				RegexToken,
 				ParsingList<Ptr<ManagedArgument>>>& input)
 			{
@@ -510,7 +546,7 @@ Basic Expressions
 					exp->arguments.Add(current->Value());
 					current=current->Next();
 				}
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
 			Ptr<ManagedPropertySetter> ToPropertySetter(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
@@ -564,11 +600,11 @@ Basic Expressions
 				return CreateNode<ManagedFunctionResultExpression>(input);
 			}
 
-			Ptr<ManagedExpression> ToCastingLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			Ptr<explrec::ExpLrecBase> ToCastingLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
 			{
 				Ptr<ManagedCastingExpression> exp=CreateNode<ManagedCastingExpression>(input.First());
 				exp->type=input.Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
 			Ptr<ManagedExpression> ToAssignment(const ParsingPair<ParsingPair<
@@ -591,26 +627,26 @@ Extended Expressions
 				return CreateNode<ManagedSetterValueExpression>(input);
 			}
 
-			Ptr<ManagedExpression> ToIsTypeLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			Ptr<explrec::ExpLrecBase> ToIsTypeLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
 			{
 				Ptr<ManagedIsTypeExpression> exp=CreateNode<ManagedIsTypeExpression>(input.First());
 				exp->type=input.Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
-			Ptr<ManagedExpression> ToChoiceLrec(const ParsingPair<RegexToken, ParsingPair<Ptr<ManagedExpression>, Ptr<ManagedExpression>>>& input)
+			Ptr<explrec::ExpLrecBase> ToChoiceLrec(const ParsingPair<RegexToken, ParsingPair<Ptr<ManagedExpression>, Ptr<ManagedExpression>>>& input)
 			{
 				Ptr<ManagedChoiceExpression> exp=CreateNode<ManagedChoiceExpression>(input.First());
 				exp->trueExpression=input.Second().First();
 				exp->falseExpression=input.Second().Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
-			Ptr<ManagedExpression> ToNullChoiceLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			Ptr<explrec::ExpLrecBase> ToNullChoiceLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
 				Ptr<ManagedNullChoiceExpression> exp=CreateNode<ManagedNullChoiceExpression>(input.First());
 				exp->candidateExpression=input.Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
 			Ptr<ManagedExpression> ToUnary(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
@@ -649,7 +685,7 @@ Extended Expressions
 				return exp;
 			}
 
-			Ptr<ManagedExpression> ToUnaryLrec(const RegexToken& input)
+			Ptr<explrec::ExpLrecBase> ToUnaryLrec(const RegexToken& input)
 			{
 				WString op(input.reading, input.length);
 				Ptr<ManagedUnaryExpression> exp=CreateNode<ManagedUnaryExpression>(input);
@@ -665,10 +701,10 @@ Extended Expressions
 				{
 					CHECK_ERROR(false, L"ToUnaryLrec(const RegexToken&)#未知操作符。");
 				}
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
-			Ptr<ManagedExpression> ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			Ptr<explrec::ExpLrecBase> ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
 				WString op(input.First().reading, input.First().length);
 				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
@@ -741,10 +777,10 @@ Extended Expressions
 					CHECK_ERROR(false, L"ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>>)#未知操作符。");
 				}
 				exp->rightOperand=input.Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
-			Ptr<ManagedExpression> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			Ptr<explrec::ExpLrecBase> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
 				WString op(input.First().reading, input.First().length);
 				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
@@ -757,7 +793,7 @@ Extended Expressions
 					exp->operatorName=L"op_shr";
 				}
 				exp->rightOperand=input.Second();
-				return exp;
+				return explrec::ToExpLrec(exp);
 			}
 
 			Ptr<ManagedExpression> ToBinaryEq(const ParsingPair<ParsingPair<
@@ -1041,6 +1077,7 @@ Error Handlers
 			
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedArgument>>							ArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedPropertySetter>>					PropertySetterNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedExpression>>						IncompleteExpressionNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
@@ -1057,7 +1094,7 @@ Error Handlers
 
 				/*--------KEYWORDS--------*/
 
-				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
+				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT;
 
@@ -1076,9 +1113,9 @@ Error Handlers
 				/*--------SYMBOLS--------*/
 
 				TokenType							DOT, COLON, SEMICOLON, COMMA;
-				TokenType							ADDEQ, SUBEQ, MULEQ, DIVEQ, MODEQ, ANDEQ, BITANDEQ, OREQ, BITOREQ, XOREQ, SHLEQ, SHREQ;
+				TokenType							OPEQ;
 				TokenType							LE, GE, EE, NE, EQ, LT, GT, QQ, QT;
-				TokenType							ADD, SUB, MUL, DIV, MOD, NOT, BITNOT, INC, DEC;
+				TokenType							ADD_SUB, MUL_DIV_MOD, NOT_BITNOT, INC_DEC;
 				TokenType							AND, BITAND, OR, BITOR, XOR;
 				TokenType							OPEN_DECL_BRACE, CLOSE_DECL_BRACE;
 				TokenType							OPEN_ARRAY_BRACE, CLOSE_ARRAY_BRACE;
@@ -1098,8 +1135,9 @@ Error Handlers
 
 				ArgumentNode						argument;
 				PropertySetterNode					propertySetter;
-				ExpressionNode						constant, primitiveExpression, expression;
-				ExpressionNode						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13, exp14;
+				IncompleteExpressionNode			constant, primitiveExpression;
+				IncompleteExpressionNode			exp0, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13;
+				ExpressionNode						exp1, exp14, expression;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -1118,23 +1156,7 @@ Error Handlers
 
 					/*--------KEYWORDS--------*/
 
-					SBYTE					= CreateToken(tokens, L"sbyte");
-					BYTE					= CreateToken(tokens, L"byte");
-					SHORT					= CreateToken(tokens, L"short");
-					WORD					= CreateToken(tokens, L"word");
-					INT						= CreateToken(tokens, L"int");
-					UINT					= CreateToken(tokens, L"uint");
-					LONG					= CreateToken(tokens, L"long");
-					ULONG					= CreateToken(tokens, L"ulong");
-					CHAR					= CreateToken(tokens, L"char");
-					STRING					= CreateToken(tokens, L"string");
-					FLOAT					= CreateToken(tokens, L"float");
-					DOUBLE					= CreateToken(tokens, L"double");
-					BOOL					= CreateToken(tokens, L"bool");
-					OBJECT					= CreateToken(tokens, L"object");
-					VOID					= CreateToken(tokens, L"void");
-					INTPTR					= CreateToken(tokens, L"intptr");
-					UINTPTR					= CreateToken(tokens, L"uintptr");
+					TYPEKEYWORD				= CreateToken(tokens, L"sbyte|byte|short|word|int|uint|long|ulong|char|string|float|double|bool|object|void|intptr|uintptr");
 					VAR						= CreateToken(tokens, L"var");
 					DYNAMIC					= CreateToken(tokens, L"dynamic");
 					FUNCTION				= CreateToken(tokens, L"function");
@@ -1188,18 +1210,7 @@ Error Handlers
 					SEMICOLON				= CreateToken(tokens, L";");
 					COMMA					= CreateToken(tokens, L",");
 					
-					ADDEQ					= CreateToken(tokens, L"/+=");
-					SUBEQ					= CreateToken(tokens, L"-=");
-					MULEQ					= CreateToken(tokens, L"/*=");
-					DIVEQ					= CreateToken(tokens, L"//=");
-					MODEQ					= CreateToken(tokens, L"%=");
-					ANDEQ					= CreateToken(tokens, L"&&=");
-					BITANDEQ				= CreateToken(tokens, L"&=");
-					OREQ					= CreateToken(tokens, L"/|/|=");
-					BITOREQ					= CreateToken(tokens, L"/|=");
-					XOREQ					= CreateToken(tokens, L"/^=");
-					SHLEQ					= CreateToken(tokens, L"<<=");
-					SHREQ					= CreateToken(tokens, L">>=");
+					OPEQ					= CreateToken(tokens, L"(/+|-|/*|//|%|&&|&|/|/||/||/^|<<|>>)=");
 
 					LE						= CreateToken(tokens, L">=");
 					GE						= CreateToken(tokens, L"<=");
@@ -1211,15 +1222,10 @@ Error Handlers
 					QQ						= CreateToken(tokens, L"/?/?");
 					QT						= CreateToken(tokens, L"/?");
 					
-					INC						= CreateToken(tokens, L"/+/+");
-					DEC						= CreateToken(tokens, L"--");
-					ADD						= CreateToken(tokens, L"/+");
-					SUB						= CreateToken(tokens, L"-");
-					MUL						= CreateToken(tokens, L"/*");
-					DIV						= CreateToken(tokens, L"//");
-					MOD						= CreateToken(tokens, L"%");
-					NOT						= CreateToken(tokens, L"!");
-					BITNOT					= CreateToken(tokens, L"~");
+					INC_DEC					= CreateToken(tokens, L"/+/+|--");
+					NOT_BITNOT				= CreateToken(tokens, L"!|~");
+					ADD_SUB					= CreateToken(tokens, L"/+|-");
+					MUL_DIV_MOD				= CreateToken(tokens, L"/*|//|%");
 
 					AND						= CreateToken(tokens, L"&&");
 					BITAND					= CreateToken(tokens, L"&");
@@ -1274,7 +1280,7 @@ Error Handlers
 
 					/*--------TYPES--------*/
 
-					primitiveType			= (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordType]
+					primitiveType			= TYPEKEYWORD[ToKeywordType]
 											| ID(NeedId)[ToReferenceType]
 											| VAR[ToAutoReferType]
 											| DYNAMIC[ToDynamicType]
@@ -1296,33 +1302,33 @@ Error Handlers
 
 					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
 					
-					primitiveExpression		= constant
-											| (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordExpression]
+					primitiveExpression		= (OPEN_EXP_BRACE >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
+											| (constant
+											| TYPEKEYWORD[ToKeywordExpression]
 											| THIS[ToThis]
 											| BASE[ToBase]
 											| RESULT[ToResult]
 											| VALUE[ToSetterValue]
 											| ID(NeedExpression)[ToReferenceExpression]
-											| (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
 											| (NEW + type + 
 												(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
 												opt(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(propertySetter + *(COMMA >> propertySetter))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
-											  )[ToNewObject]
+											  )[ToNewObject])
 											;
 
 					exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]
 																			| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedExpressionLrec]
 																			| (OPEN_EXP_BRACE(NeedOpenExpBrace) + plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))[ToInvokeLrec]
-																			| (INC | DEC)[ToUnaryLrec]
+																			| (INC_DEC)[ToUnaryLrec]
 																			), ToLrecExpression);
 
 					exp1					= exp0
-											| ((ADD | SUB | NOT | BITNOT | INC | DEC) + exp1)[ToUnary]
+											| ((ADD_SUB | NOT_BITNOT | INC_DEC) + exp1)[ToUnary]
 											;
 
-					exp2					= lrec(exp1 + *(((MUL | DIV | MOD) + exp1)[ToBinaryLrec]), ToLrecExpression);
-					exp3					= lrec(exp2 + *(((ADD | SUB) + exp2)[ToBinaryLrec]), ToLrecExpression);
+					exp2					= lrec(exp1 + *((MUL_DIV_MOD + exp1)[ToBinaryLrec]), ToLrecExpression);
+					exp3					= lrec(exp2 + *((ADD_SUB + exp2)[ToBinaryLrec]), ToLrecExpression);
 					exp4					= lrec(exp3 + *((((LT << LT) | (GT >> GT)) + exp3)[ToBinaryShiftLrec]), ToLrecExpression);
 					exp5					= lrec(exp4 + *(((LT | LE | GT | GE) + exp4)[ToBinaryLrec] | (AS + type)[ToCastingLrec] | (IS + type)[ToIsTypeLrec]), ToLrecExpression);
 					exp6					= lrec(exp5 + *(((EE | NE) + exp5)[ToBinaryLrec]), ToLrecExpression);
@@ -1331,9 +1337,9 @@ Error Handlers
 					exp9					= lrec(exp8 + *((BITOR + exp8)[ToBinaryLrec]), ToLrecExpression);
 					exp10					= lrec(exp9 + *((AND + exp9)[ToBinaryLrec]), ToLrecExpression);
 					exp11					= lrec(exp10 + *((OR + exp10)[ToBinaryLrec]), ToLrecExpression);
-					exp12					= lrec(exp11 + *((QT + (exp11 + (COLON(NeedColon) >> exp11)))[ToChoiceLrec]), ToLrecExpression);
-					exp13					= lrec(exp12 + *((QQ + exp12)[ToNullChoiceLrec]), ToLrecExpression);
-					exp14					= (exp13 + (ADDEQ | SUBEQ | MULEQ | DIVEQ | MODEQ | ANDEQ | BITANDEQ | OREQ | BITOREQ | XOREQ | SHLEQ | SHREQ) + exp14)[ToBinaryEq]
+					exp12					= lrec(exp11 + *((QQ + exp11)[ToNullChoiceLrec]), ToLrecExpression);
+					exp13					= lrec(exp12 + *((QT + (exp12 + (COLON(NeedColon) >> exp12)))[ToChoiceLrec]), ToLrecExpression);
+					exp14					= (exp13 + OPEQ + exp14)[ToBinaryEq]
 											| (exp13 + EQ + exp14)[ToAssignment]
 											| exp13
 											;

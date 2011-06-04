@@ -52,7 +52,7 @@ namespace enumerations
         exp2 = a*b/c%d++--,
         exp3 = a+b-c*d/e%f,
         exp4 = a<<b>>c+d-e,
-        //exp5 = a<b<=c>d>=e as f is g<<h>>i,
+        exp5 = a<b<=c>d>=e<<h>>i as f is g,
         exp6 = a==b!=c<d<=e>f>=g as h is i,
         exp7 = a&b==c!=d,
         exp8 = a^b&c,
@@ -60,7 +60,7 @@ namespace enumerations
         exp10 = a&&b|c,
         exp11 = a||b&&c,
         exp12 = a??b||c,
-        //exp13 = a??b?c??d:e??f,
+        exp13 = a??b?c??d:e??f,
         exp14 = a+=b-=c*=d/=e%=f&&=g&=h||=i|=j^=k<<=l>>=m=n,
 
         Last = fuck
