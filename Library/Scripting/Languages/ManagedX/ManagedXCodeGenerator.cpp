@@ -697,12 +697,13 @@ Extended Expressions
 					{
 						argument.writer.WriteString(L"--");
 					}
-					else if(node->operatorName!=L"op_postinc" && node->operatorName==L"op_postdec")
+					else if(node->operatorName!=L"op_postinc" && node->operatorName!=L"op_postdec")
 					{
 						argument.writer.WriteString(L"<UNKNOWN-OPERATOR-");
 						IdentifierToString(node->operatorName, argument.writer);
 						argument.writer.WriteString(L">");
 					}
+					ManagedX_GenerateCode_Expression(node->operand, argument);
 					if(node->operatorName==L"op_postinc")
 					{
 						argument.writer.WriteString(L"++");
@@ -711,7 +712,6 @@ Extended Expressions
 					{
 						argument.writer.WriteString(L"--");
 					}
-					ManagedX_GenerateCode_Expression(node->operand, argument);
 					argument.writer.WriteString(L")");
 				}
 
@@ -830,6 +830,14 @@ Extended Expressions
 					else if(node->operatorName==L"op_xor_eq")
 					{
 						argument.writer.WriteString(L"^=");
+					}
+					else if(node->operatorName==L"op_shl_eq")
+					{
+						argument.writer.WriteString(L"<<=");
+					}
+					else if(node->operatorName==L"op_shr_eq")
+					{
+						argument.writer.WriteString(L">>=");
 					}
 					else
 					{
