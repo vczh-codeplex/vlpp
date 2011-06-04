@@ -672,30 +672,30 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
 				{
-					argument.writer.WriteString(L"(");
+					//argument.writer.WriteString(L"(");
 					if(node->operatorName==L"op_pos")
 					{
-						argument.writer.WriteString(L"+");
+						argument.writer.WriteString(L"+ ");
 					}
 					else if(node->operatorName==L"op_neg")
 					{
-						argument.writer.WriteString(L"-");
+						argument.writer.WriteString(L"- ");
 					}
 					else if(node->operatorName==L"op_not")
 					{
-						argument.writer.WriteString(L"!");
+						argument.writer.WriteString(L"! ");
 					}
 					else if(node->operatorName==L"op_bitnot")
 					{
-						argument.writer.WriteString(L"~");
+						argument.writer.WriteString(L"~ ");
 					}
 					else if(node->operatorName==L"op_preinc")
 					{
-						argument.writer.WriteString(L"++");
+						argument.writer.WriteString(L"++ ");
 					}
 					else if(node->operatorName==L"op_predec")
 					{
-						argument.writer.WriteString(L"--");
+						argument.writer.WriteString(L"-- ");
 					}
 					else if(node->operatorName!=L"op_postinc" && node->operatorName!=L"op_postdec")
 					{
@@ -706,138 +706,138 @@ Extended Expressions
 					ManagedX_GenerateCode_Expression(node->operand, argument);
 					if(node->operatorName==L"op_postinc")
 					{
-						argument.writer.WriteString(L"++");
+						argument.writer.WriteString(L" ++");
 					}
 					else if(node->operatorName==L"op_postdec")
 					{
-						argument.writer.WriteString(L"--");
+						argument.writer.WriteString(L" --");
 					}
-					argument.writer.WriteString(L")");
+					//argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)
 				{
-					argument.writer.WriteString(L"(");
+					//argument.writer.WriteString(L"(");
 					ManagedX_GenerateCode_Expression(node->leftOperand, argument);
 					if(node->operatorName==L"op_add")
 					{
-						argument.writer.WriteString(L"+");
+						argument.writer.WriteString(L" + ");
 					}
 					else if(node->operatorName==L"op_sub")
 					{
-						argument.writer.WriteString(L"-");
+						argument.writer.WriteString(L" - ");
 					}
 					else if(node->operatorName==L"op_mul")
 					{
-						argument.writer.WriteString(L"*");
+						argument.writer.WriteString(L" * ");
 					}
 					else if(node->operatorName==L"op_div")
 					{
-						argument.writer.WriteString(L"/");
+						argument.writer.WriteString(L" / ");
 					}
 					else if(node->operatorName==L"op_mod")
 					{
-						argument.writer.WriteString(L"%");
+						argument.writer.WriteString(L" % ");
 					}
 					else if(node->operatorName==L"op_lt")
 					{
-						argument.writer.WriteString(L"<");
+						argument.writer.WriteString(L" < ");
 					}
 					else if(node->operatorName==L"op_le")
 					{
-						argument.writer.WriteString(L"<=");
+						argument.writer.WriteString(L" <= ");
 					}
 					else if(node->operatorName==L"op_gt")
 					{
-						argument.writer.WriteString(L">");
+						argument.writer.WriteString(L" > ");
 					}
 					else if(node->operatorName==L"op_ge")
 					{
-						argument.writer.WriteString(L">=");
+						argument.writer.WriteString(L" >= ");
 					}
 					else if(node->operatorName==L"op_eq")
 					{
-						argument.writer.WriteString(L"==");
+						argument.writer.WriteString(L" == ");
 					}
 					else if(node->operatorName==L"op_ne")
 					{
-						argument.writer.WriteString(L"!=");
+						argument.writer.WriteString(L" != ");
 					}
 					else if(node->operatorName==L"op_and")
 					{
-						argument.writer.WriteString(L"&&");
+						argument.writer.WriteString(L" && ");
 					}
 					else if(node->operatorName==L"op_bitand")
 					{
-						argument.writer.WriteString(L"&");
+						argument.writer.WriteString(L" & ");
 					}
 					else if(node->operatorName==L"op_or")
 					{
-						argument.writer.WriteString(L"||");
+						argument.writer.WriteString(L" || ");
 					}
 					else if(node->operatorName==L"op_bitor")
 					{
-						argument.writer.WriteString(L"|");
+						argument.writer.WriteString(L" | ");
 					}
 					else if(node->operatorName==L"op_xor")
 					{
-						argument.writer.WriteString(L"^");
+						argument.writer.WriteString(L" ^ ");
 					}
 					else if(node->operatorName==L"op_shl")
 					{
-						argument.writer.WriteString(L"<<");
+						argument.writer.WriteString(L" << ");
 					}
 					else if(node->operatorName==L"op_shr")
 					{
-						argument.writer.WriteString(L">>");
+						argument.writer.WriteString(L" >> ");
 					}
 					else if(node->operatorName==L"op_add_eq")
 					{
-						argument.writer.WriteString(L"+=");
+						argument.writer.WriteString(L" += ");
 					}
 					else if(node->operatorName==L"op_sub_eq")
 					{
-						argument.writer.WriteString(L"-=");
+						argument.writer.WriteString(L" -= ");
 					}
 					else if(node->operatorName==L"op_mul_eq")
 					{
-						argument.writer.WriteString(L"*=");
+						argument.writer.WriteString(L" *= ");
 					}
 					else if(node->operatorName==L"op_div_eq")
 					{
-						argument.writer.WriteString(L"/=");
+						argument.writer.WriteString(L" /= ");
 					}
 					else if(node->operatorName==L"op_mod_eq")
 					{
-						argument.writer.WriteString(L"%=");
+						argument.writer.WriteString(L" %= ");
 					}
 					else if(node->operatorName==L"op_and_eq")
 					{
-						argument.writer.WriteString(L"&&=");
+						argument.writer.WriteString(L" &&= ");
 					}
 					else if(node->operatorName==L"op_bitand_eq")
 					{
-						argument.writer.WriteString(L"&=");
+						argument.writer.WriteString(L" &= ");
 					}
 					else if(node->operatorName==L"op_or_eq")
 					{
-						argument.writer.WriteString(L"||=");
+						argument.writer.WriteString(L" ||= ");
 					}
 					else if(node->operatorName==L"op_bitor_eq")
 					{
-						argument.writer.WriteString(L"|=");
+						argument.writer.WriteString(L" |= ");
 					}
 					else if(node->operatorName==L"op_xor_eq")
 					{
-						argument.writer.WriteString(L"^=");
+						argument.writer.WriteString(L" ^= ");
 					}
 					else if(node->operatorName==L"op_shl_eq")
 					{
-						argument.writer.WriteString(L"<<=");
+						argument.writer.WriteString(L" <<= ");
 					}
 					else if(node->operatorName==L"op_shr_eq")
 					{
-						argument.writer.WriteString(L">>=");
+						argument.writer.WriteString(L" >>= ");
 					}
 					else
 					{
@@ -846,7 +846,7 @@ Extended Expressions
 						argument.writer.WriteString(L">");
 					}
 					ManagedX_GenerateCode_Expression(node->rightOperand, argument);
-					argument.writer.WriteString(L")");
+					//argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
