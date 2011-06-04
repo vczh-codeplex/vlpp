@@ -32,6 +32,17 @@ namespace enumerations
         Member1 = global::System.String.Empty,
         Member2 = string.Empty,
         Inst1 = global::System.Collections.List<int>,
-        Inst2 = global::System.Enumerable.Aggregate<string, int>.GetType.Cast<object>
+        Inst2 = global::System.Enumerable.Aggregate<string, int>.GetType.Cast<object>,
+        Invoke1 = a(),
+        Invoke2 = a(1),
+        Invoke3 = a(ref i, out 2, a:3, b:4),
+        New1 = new Box(),
+        New2 = new Box(1, 2, 3, 4),
+        New3 = new Box(1, 2, 3, 4)
+        {
+            Name = "vczh",
+            Description = "genius"
+        },
+        Last = fuck
 	}
 }
