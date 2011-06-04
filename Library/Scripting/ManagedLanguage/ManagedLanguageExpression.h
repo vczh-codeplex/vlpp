@@ -293,11 +293,11 @@ Basic Expressions
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 
-				Ptr<ManagedExpression>								operand;
+				Ptr<ManagedExpression>								operand; // null = global::
 				WString												member;
 			};
 
-			class ManagedInstanciatedExpression : public ManagedExpression
+			class ManagedInstantiatedExpression : public ManagedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
@@ -370,7 +370,7 @@ Basic Expressions
 			F(P, ManagedStringExpression)\
 			F(P, ManagedReferenceExpression)\
 			F(P, ManagedMemberExpression)\
-			F(P, ManagedInstanciatedExpression)\
+			F(P, ManagedInstantiatedExpression)\
 			F(P, ManagedInvokeExpression)\
 			F(P, ManagedNewObjectExpression)\
 			F(P, ManagedFunctionResultExpression)\

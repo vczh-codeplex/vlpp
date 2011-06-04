@@ -232,7 +232,7 @@ Basic Types
 				return type;
 			}
 
-			Ptr<ManagedType> ToInstantiatedGenericType(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			Ptr<ManagedType> ToInstantiatedGenericTypeLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
 			{
 				Ptr<ManagedInstantiatedGenericType> type=CreateNode<ManagedInstantiatedGenericType>(input.First());
 				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
@@ -301,10 +301,89 @@ Extended Types
 Basic Expressions
 ***********************************************************************/
 
+			Ptr<ManagedExpression> ToKeywordExpression(const RegexToken& input)
+			{
+				WString name;
+				WString keyword(input.reading, input.length);
+				if(keyword==L"sbyte")			name = L"SInt8";
+				else if(keyword==L"byte")		name = L"UInt8";
+				else if(keyword==L"short")		name = L"SInt16";
+				else if(keyword==L"word")		name = L"UInt16";
+				else if(keyword==L"int")		name = L"SInt32";
+				else if(keyword==L"uint")		name = L"UInt32";
+				else if(keyword==L"long")		name = L"SInt64";
+				else if(keyword==L"ulong")		name = L"UInt64";
+				else if(keyword==L"char")		name = L"Char";
+				else if(keyword==L"string")		name = L"String";
+				else if(keyword==L"float")		name = L"Single";
+				else if(keyword==L"double")		name = L"Double";
+				else if(keyword==L"bool")		name = L"Bool";
+				else if(keyword==L"object")		name = L"Object";
+				else if(keyword==L"void")		name = L"Void";
+#ifdef VCZH_64
+				else if(keyword==L"intptr")		name = L"SInt64";
+				else if(keyword==L"uintptr")	name = L"UInt64";
+#else
+				else if(keyword==L"intptr")		name = L"SInt32";
+				else if(keyword==L"uintptr")	name = L"UInt32";
+#endif
+
+				Ptr<ManagedMemberExpression> system=CreateNode<ManagedMemberExpression>(input);
+				system->member=L"System";
+
+				Ptr<ManagedMemberExpression> exp=CreateNode<ManagedMemberExpression>(input);
+				exp->operand=system;
+				exp->member=name;
+				return exp;
+			}
+
 			Ptr<ManagedExpression> ToReferenceExpression(const RegexToken& input)
 			{
 				Ptr<ManagedReferenceExpression> exp=CreateNode<ManagedReferenceExpression>(input);
 				exp->name=ConvertID(WString(input.reading, input.length));
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToGlobalExpression(const RegexToken& input)
+			{
+				Ptr<ManagedMemberExpression> exp=CreateNode<ManagedMemberExpression>(input);
+				exp->member=WString(input.reading, input.length);
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToLrecExpression(const Ptr<ManagedExpression>& operand, const Ptr<ManagedExpression>& decoratorExpression)
+			{
+				if(Ptr<ManagedMemberExpression> memberExpression=decoratorExpression.Cast<ManagedMemberExpression>())
+				{
+					memberExpression->operand=operand;
+				}
+				else if(Ptr<ManagedInstantiatedExpression> genericExpression=decoratorExpression.Cast<ManagedInstantiatedExpression>())
+				{
+					genericExpression->operand=operand;
+				}
+				else
+				{
+					CHECK_ERROR(false, L"ToLrecExpression(Ptr<ManagedExpression>, Ptr<ManagedExpression>)#Î´ÖªÀàÐÍ¡£");
+				}
+				return decoratorExpression;
+			}
+
+			Ptr<ManagedExpression> ToMemberExpressionLrec(const RegexToken& input)
+			{
+				Ptr<ManagedMemberExpression> exp=CreateNode<ManagedMemberExpression>(input);
+				exp->member=ConvertID(WString(input.reading, input.length));
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToInstantiatedExpressionLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedType>>>& input)
+			{
+				Ptr<ManagedInstantiatedExpression> exp=CreateNode<ManagedInstantiatedExpression>(input.First());
+				Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					exp->argumentTypes.Add(current->Value());
+					current=current->Next();
+				}
 				return exp;
 			}
 
@@ -577,6 +656,7 @@ Error Handlers
 				TypeNode							type, primitiveType, genericTypeConstraint;
 
 				ExpressionNode						constant, primitiveExpression, expression;
+				ExpressionNode						exp0;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -713,7 +793,7 @@ Error Handlers
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalType]
 											;
 					type					= lrec(primitiveType + *( (DOT >> ID)[ToMemberTypeLrec]
-																	| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericType]
+																	| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedGenericTypeLrec]
 																	| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
 																	), ToLrecType);
 
@@ -722,10 +802,15 @@ Error Handlers
 					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
 					
 					primitiveExpression		= constant
+											| (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordExpression]
 											| ID(NeedExpression)[ToReferenceExpression]
+											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
 											;
+					exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]
+																			| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedExpressionLrec]
+																			), ToLrecExpression);
 
-					expression				= primitiveExpression;
+					expression				= exp0;
 
 					/*--------DECLARATION FRAGMENTS--------*/
 
