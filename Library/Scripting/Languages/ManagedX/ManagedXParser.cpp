@@ -6,6 +6,63 @@
 #include "..\..\..\Combinator\TokenCombinator.h"
 #include "..\..\..\Collections\Operation.h"
 
+/***********************************************************************
++	op_pos
+-	op_neg
+!	op_not
+~	op_bitnot
+++	op_preinc/op_postinc
+--	op_predec/op_postdec
+====================================
+*	op_mul
+/	op_div
+%	op_mod
+
++	op_add
+-	op_sub
+
+<<	op_shl
+>>	op_shr
+
+<	op_lt
+<=	op_le
+>	op_gt
+>=	op_ge
+as	ManagedCastingExpression
+is	ManagedIsTypeExpression
+
+==	op_eq
+!=	op_ne
+
+&	op_bitand
+
+^	op_xor
+
+|	op_bitor
+
+&&	op_and
+
+||	op_or
+
+??	ManagedNullChoiceExpression
+
+?:	ManagedChoiceExpression
+
++=	op_add_eq
+-=	op_sub_eq
+*=	op_mul_eq
+/=	op_div_eq
+%=	op_mod_eq
+&&=	op_and_eq
+&=	op_bitand_eq
+||=	op_or_eq
+|=	op_bitor_eq
+^=	op_xor_eq
+<<=	op_shl_eq
+>>=	op_shr_eq
+=	ManagedAssignmentExpression
+***********************************************************************/
+
 namespace vl
 {
 	namespace scripting
@@ -376,6 +433,34 @@ Basic Expressions
 				{
 					invokeExpression->function=operand;
 				}
+				else if(Ptr<ManagedCastingExpression> op=decoratorExpression.Cast<ManagedCastingExpression>())
+				{
+					op->operand=operand;
+				}
+				else if(Ptr<ManagedIsTypeExpression> op=decoratorExpression.Cast<ManagedIsTypeExpression>())
+				{
+					op->operand=operand;
+				}
+				else if(Ptr<ManagedAssignmentExpression> op=decoratorExpression.Cast<ManagedAssignmentExpression>())
+				{
+					op->leftOperand=operand;
+				}
+				else if(Ptr<ManagedChoiceExpression> op=decoratorExpression.Cast<ManagedChoiceExpression>())
+				{
+					op->condition=operand;
+				}
+				else if(Ptr<ManagedNullChoiceExpression> op=decoratorExpression.Cast<ManagedNullChoiceExpression>())
+				{
+					op->valueExpression=operand;
+				}
+				else if(Ptr<ManagedUnaryExpression> op=decoratorExpression.Cast<ManagedUnaryExpression>())
+				{
+					op->operand=operand;
+				}
+				else if(Ptr<ManagedBinaryExpression> op=decoratorExpression.Cast<ManagedBinaryExpression>())
+				{
+					op->leftOperand=operand;
+				}
 				else
 				{
 					CHECK_ERROR(false, L"ToLrecExpression(Ptr<ManagedExpression>, Ptr<ManagedExpression>)#Î´ÖªÀàÐÍ¡£");
@@ -478,9 +563,238 @@ Basic Expressions
 				return CreateNode<ManagedBaseExpression>(input);
 			}
 
+			Ptr<ManagedExpression> ToResult(const RegexToken& input)
+			{
+				return CreateNode<ManagedFunctionResultExpression>(input);
+			}
+
+			Ptr<ManagedExpression> ToCastingLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedCastingExpression> exp=CreateNode<ManagedCastingExpression>(input.First());
+				exp->type=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToAssignmentLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(input.First());
+				exp->rightOperand=input.Second();
+				return exp;
+			}
+
 /***********************************************************************
 Extended Expressions
 ***********************************************************************/
+
+			Ptr<ManagedExpression> ToSetterValue(const RegexToken& input)
+			{
+				return CreateNode<ManagedSetterValueExpression>(input);
+			}
+
+			Ptr<ManagedExpression> ToIsTypeLrec(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedIsTypeExpression> exp=CreateNode<ManagedIsTypeExpression>(input.First());
+				exp->type=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToChoiceLrec(const ParsingPair<RegexToken, ParsingPair<Ptr<ManagedExpression>, Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedChoiceExpression> exp=CreateNode<ManagedChoiceExpression>(input.First());
+				exp->trueExpression=input.Second().First();
+				exp->falseExpression=input.Second().Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToNullChoiceLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedNullChoiceExpression> exp=CreateNode<ManagedNullChoiceExpression>(input.First());
+				exp->candidateExpression=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToUnary(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				WString op(input.First().reading, input.First().length);
+				Ptr<ManagedUnaryExpression> exp=CreateNode<ManagedUnaryExpression>(input.First());
+				if(op==L"+")
+				{
+					exp->operatorName=L"op_pos";
+				}
+				else if(op==L"-")
+				{
+					exp->operatorName=L"op_neg";
+				}
+				else if(op==L"!")
+				{
+					exp->operatorName=L"op_not";
+				}
+				else if(op==L"~")
+				{
+					exp->operatorName=L"op_bitnot";
+				}
+				else if(op==L"++")
+				{
+					exp->operatorName=L"op_preinc";
+				}
+				else if(op==L"--")
+				{
+					exp->operatorName=L"op_predec";
+				}
+				exp->operand=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToUnaryLrec(const RegexToken& input)
+			{
+				WString op(input.reading, input.length);
+				Ptr<ManagedUnaryExpression> exp=CreateNode<ManagedUnaryExpression>(input);
+				if(op==L"++")
+				{
+					exp->operatorName=L"op_postinc";
+				}
+				else if(op==L"--")
+				{
+					exp->operatorName=L"op_postdec";
+				}
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				WString op(input.First().reading, input.First().length);
+				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
+				if(op==L"+")
+				{
+					exp->operatorName=L"op_add";
+				}
+				else if(op==L"-")
+				{
+					exp->operatorName=L"op_sub";
+				}
+				else if(op==L"*")
+				{
+					exp->operatorName=L"op_mul";
+				}
+				else if(op==L"/")
+				{
+					exp->operatorName=L"op_div";
+				}
+				else if(op==L"%")
+				{
+					exp->operatorName=L"op_mod";
+				}
+				else if(op==L"<")
+				{
+					exp->operatorName=L"op_lt";
+				}
+				else if(op==L"<=")
+				{
+					exp->operatorName=L"op_le";
+				}
+				else if(op==L">")
+				{
+					exp->operatorName=L"op_gt";
+				}
+				else if(op==L">=")
+				{
+					exp->operatorName=L"op_ge";
+				}
+				else if(op==L"==")
+				{
+					exp->operatorName=L"op_eq";
+				}
+				else if(op==L"!=")
+				{
+					exp->operatorName=L"op_ne";
+				}
+				else if(op==L"&&")
+				{
+					exp->operatorName=L"op_and";
+				}
+				else if(op==L"&")
+				{
+					exp->operatorName=L"op_bitand";
+				}
+				else if(op==L"||")
+				{
+					exp->operatorName=L"op_or";
+				}
+				else if(op==L"|")
+				{
+					exp->operatorName=L"op_bitor";
+				}
+				else if(op==L"^")
+				{
+					exp->operatorName=L"op_xor";
+				}
+				else if(op==L"+=")
+				{
+					exp->operatorName=L"op_add_eq";
+				}
+				else if(op==L"-=")
+				{
+					exp->operatorName=L"op_sub_eq";
+				}
+				else if(op==L"*=")
+				{
+					exp->operatorName=L"op_mul_eq";
+				}
+				else if(op==L"/=")
+				{
+					exp->operatorName=L"op_div_eq";
+				}
+				else if(op==L"%=")
+				{
+					exp->operatorName=L"op_mod_eq";
+				}
+				else if(op==L"&&=")
+				{
+					exp->operatorName=L"op_and_eq";
+				}
+				else if(op==L"&=")
+				{
+					exp->operatorName=L"op_bitand_eq";
+				}
+				else if(op==L"||=")
+				{
+					exp->operatorName=L"op_or_eq";
+				}
+				else if(op==L"|=")
+				{
+					exp->operatorName=L"op_bitor_eq";
+				}
+				else if(op==L"^=")
+				{
+					exp->operatorName=L"op_xor_eq";
+				}
+				else if(op==L"<<=")
+				{
+					exp->operatorName=L"op_shl_eq";
+				}
+				else if(op==L">>=")
+				{
+					exp->operatorName=L"op_shr_eq";
+				}
+				exp->rightOperand=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				WString op(input.First().reading, input.First().length);
+				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
+				if(op==L"<")
+				{
+					exp->operatorName=L"op_shl";
+				}
+				else if(op==L">")
+				{
+					exp->operatorName=L"op_shr";
+				}
+				exp->rightOperand=input.Second();
+				return exp;
+			}
 
 /***********************************************************************
 Basic Statements
@@ -717,7 +1031,7 @@ Error Handlers
 
 				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
 
-				TokenType							SWITCH, THIS, BASE, NEW;
+				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT;
 
 				TokenType							IN, OUT, PARAMS, REF;
 				
@@ -734,7 +1048,10 @@ Error Handlers
 				/*--------SYMBOLS--------*/
 
 				TokenType							DOT, COLON, SEMICOLON, COMMA;
-				TokenType							EQ, LT, GT;
+				TokenType							ADDEQ, SUBEQ, MULEQ, DIVEQ, MODEQ, ANDEQ, BITANDEQ, OREQ, BITOREQ, XOREQ, SHLEQ, SHREQ;
+				TokenType							LE, GE, EE, NE, EQ, LT, GT, QQ, QT;
+				TokenType							ADD, SUB, MUL, DIV, MOD, NOT, BITNOT, INC, DEC;
+				TokenType							AND, BITAND, OR, BITOR, XOR;
 				TokenType							OPEN_DECL_BRACE, CLOSE_DECL_BRACE;
 				TokenType							OPEN_ARRAY_BRACE, CLOSE_ARRAY_BRACE;
 				TokenType							OPEN_EXP_BRACE, CLOSE_EXP_BRACE;
@@ -754,7 +1071,7 @@ Error Handlers
 				ArgumentNode						argument;
 				PropertySetterNode					propertySetter;
 				ExpressionNode						constant, primitiveExpression, expression;
-				ExpressionNode						exp0;
+				ExpressionNode						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13, exp14;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -799,6 +1116,10 @@ Error Handlers
 					THIS					= CreateToken(tokens, L"this");
 					BASE					= CreateToken(tokens, L"base");
 					NEW						= CreateToken(tokens, L"new");
+					VALUE					= CreateToken(tokens, L"value");
+					AS						= CreateToken(tokens, L"as");
+					IS						= CreateToken(tokens, L"is");
+					RESULT					= CreateToken(tokens, L"result");
 
 					IN						= CreateToken(tokens, L"in");
 					OUT						= CreateToken(tokens, L"out");
@@ -838,9 +1159,46 @@ Error Handlers
 					COLON					= CreateToken(tokens, L":");
 					SEMICOLON				= CreateToken(tokens, L";");
 					COMMA					= CreateToken(tokens, L",");
+					
+					ADDEQ					= CreateToken(tokens, L"/+=");
+					SUBEQ					= CreateToken(tokens, L"-=");
+					MULEQ					= CreateToken(tokens, L"/*=");
+					DIVEQ					= CreateToken(tokens, L"//=");
+					MODEQ					= CreateToken(tokens, L"%=");
+					ANDEQ					= CreateToken(tokens, L"&&=");
+					BITANDEQ				= CreateToken(tokens, L"&=");
+					OREQ					= CreateToken(tokens, L"/|/|=");
+					BITOREQ					= CreateToken(tokens, L"/|=");
+					XOREQ					= CreateToken(tokens, L"/^=");
+					SHLEQ					= CreateToken(tokens, L"<<=");
+					SHREQ					= CreateToken(tokens, L">>=");
+
+					LE						= CreateToken(tokens, L">=");
+					GE						= CreateToken(tokens, L"<=");
+					EE						= CreateToken(tokens, L"==");
+					NE						= CreateToken(tokens, L"!=");
 					EQ						= CreateToken(tokens, L"=");
 					LT						= CreateToken(tokens, L"<");
 					GT						= CreateToken(tokens, L">");
+					QQ						= CreateToken(tokens, L"/?/?");
+					QT						= CreateToken(tokens, L"/?");
+					
+					INC						= CreateToken(tokens, L"/+/+");
+					DEC						= CreateToken(tokens, L"--");
+					ADD						= CreateToken(tokens, L"/+");
+					SUB						= CreateToken(tokens, L"-");
+					MUL						= CreateToken(tokens, L"/*");
+					DIV						= CreateToken(tokens, L"//");
+					MOD						= CreateToken(tokens, L"%");
+					NOT						= CreateToken(tokens, L"!");
+					BITNOT					= CreateToken(tokens, L"~");
+
+					AND						= CreateToken(tokens, L"&&");
+					BITAND					= CreateToken(tokens, L"&");
+					OR						= CreateToken(tokens, L"/|/|");
+					BITOR					= CreateToken(tokens, L"/|");
+					XOR						= CreateToken(tokens, L"/^");
+
 					OPEN_DECL_BRACE			= CreateToken(tokens, L"/{");
 					CLOSE_DECL_BRACE		= CreateToken(tokens, L"/}");
 					OPEN_ARRAY_BRACE		= CreateToken(tokens, L"/[");
@@ -914,6 +1272,8 @@ Error Handlers
 											| (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordExpression]
 											| THIS[ToThis]
 											| BASE[ToBase]
+											| RESULT[ToResult]
+											| VALUE[ToSetterValue]
 											| ID(NeedExpression)[ToReferenceExpression]
 											| (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
@@ -926,9 +1286,28 @@ Error Handlers
 					exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]
 																			| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedExpressionLrec]
 																			| (OPEN_EXP_BRACE(NeedOpenExpBrace) + plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))[ToInvokeLrec]
+																			| (INC | DEC)[ToUnaryLrec]
 																			), ToLrecExpression);
 
-					expression				= exp0;
+					exp1					= exp0
+											| ((ADD | SUB | NOT | BITNOT | INC | DEC) + exp1)[ToUnary]
+											;
+
+					exp2					= lrec(exp1 + *(((MUL | DIV | MOD) + exp1)[ToBinaryLrec]), ToLrecExpression);
+					exp3					= lrec(exp2 + *(((ADD | SUB) + exp2)[ToBinaryLrec]), ToLrecExpression);
+					exp4					= lrec(exp3 + *((((LT << LT) | (GT >> GT)) + exp3)[ToBinaryShiftLrec]), ToLrecExpression);
+					exp5					= lrec(exp4 + *(((LT | LE | GT | GE) + exp4)[ToBinaryLrec] | (AS + type)[ToCastingLrec] | (IS + type)[ToIsTypeLrec]), ToLrecExpression);
+					exp6					= lrec(exp5 + *(((EE | NE) + exp5)[ToBinaryLrec]), ToLrecExpression);
+					exp7					= lrec(exp6 + *((BITAND + exp6)[ToBinaryLrec]), ToLrecExpression);
+					exp8					= lrec(exp7 + *((XOR + exp7)[ToBinaryLrec]), ToLrecExpression);
+					exp9					= lrec(exp8 + *((BITOR + exp8)[ToBinaryLrec]), ToLrecExpression);
+					exp10					= lrec(exp9 + *((AND + exp9)[ToBinaryLrec]), ToLrecExpression);
+					exp11					= lrec(exp10 + *((OR + exp10)[ToBinaryLrec]), ToLrecExpression);
+					exp12					= lrec(exp11 + *((QT + (exp11 + (COLON(NeedColon) >> exp11)))[ToChoiceLrec]), ToLrecExpression);
+					exp13					= lrec(exp12 + *((QQ + exp12)[ToNullChoiceLrec]), ToLrecExpression);
+					exp14					= lrec(exp13 + *(((ADDEQ | SUBEQ | MULEQ | DIVEQ | MODEQ | ANDEQ | BITANDEQ | OREQ | BITOREQ | XOREQ | SHLEQ | SHREQ) + exp13)[ToBinaryLrec]), ToLrecExpression);
+
+					expression				= exp14;
 
 					/*--------DECLARATION FRAGMENTS--------*/
 
