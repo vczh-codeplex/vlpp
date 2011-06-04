@@ -651,7 +651,7 @@ Extended Expressions
 
 			Ptr<ManagedExpression> ToUnary(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
-				WString op(input.First().reading, input.First().length);
+				RegexToken op=input.First();
 				Ptr<ManagedUnaryExpression> exp=CreateNode<ManagedUnaryExpression>(input.First());
 				if(op==L"+")
 				{
@@ -687,13 +687,12 @@ Extended Expressions
 
 			Ptr<explrec::ExpLrecBase> ToUnaryLrec(const RegexToken& input)
 			{
-				WString op(input.reading, input.length);
 				Ptr<ManagedUnaryExpression> exp=CreateNode<ManagedUnaryExpression>(input);
-				if(op==L"++")
+				if(input==L"++")
 				{
 					exp->operatorName=L"op_postinc";
 				}
-				else if(op==L"--")
+				else if(input==L"--")
 				{
 					exp->operatorName=L"op_postdec";
 				}
@@ -706,7 +705,7 @@ Extended Expressions
 
 			Ptr<explrec::ExpLrecBase> ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
-				WString op(input.First().reading, input.First().length);
+				RegexToken op=input.First();
 				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
 				if(op==L"+")
 				{
@@ -782,7 +781,7 @@ Extended Expressions
 
 			Ptr<explrec::ExpLrecBase> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
-				WString op(input.First().reading, input.First().length);
+				RegexToken op=input.First();
 				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
 				if(op==L"<")
 				{
@@ -801,7 +800,7 @@ Extended Expressions
 				RegexToken>,
 				Ptr<ManagedExpression>>& input)
 			{
-				WString op(input.First().Second().reading, input.First().Second().length);
+				RegexToken op=input.First().Second();
 				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First().Second());
 				if(op==L"+=")
 				{
@@ -1137,7 +1136,7 @@ Error Handlers
 				PropertySetterNode					propertySetter;
 				IncompleteExpressionNode			constant, primitiveExpression;
 				IncompleteExpressionNode			exp0, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12, exp13;
-				ExpressionNode						exp1, exp14, expression;
+				ExpressionNode						exp1, expression;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -1339,12 +1338,10 @@ Error Handlers
 					exp11					= lrec(exp10 + *((OR + exp10)[ToBinaryLrec]), ToLrecExpression);
 					exp12					= lrec(exp11 + *((QQ + exp11)[ToNullChoiceLrec]), ToLrecExpression);
 					exp13					= lrec(exp12 + *((QT + (exp12 + (COLON(NeedColon) >> exp12)))[ToChoiceLrec]), ToLrecExpression);
-					exp14					= (exp13 + OPEQ + exp14)[ToBinaryEq]
-											| (exp13 + EQ + exp14)[ToAssignment]
+					expression				= (exp13 + OPEQ + expression)[ToBinaryEq]
+											| (exp13 + EQ + expression)[ToAssignment]
 											| exp13
 											;
-
-					expression				= exp14;
 
 					/*--------DECLARATION FRAGMENTS--------*/
 
