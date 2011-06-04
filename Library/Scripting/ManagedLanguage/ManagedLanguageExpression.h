@@ -470,7 +470,7 @@ Extended Expressions
 				collections::List<Ptr<ManagedExpression>>			indices;
 			};
 
-			class ManagedSetterValueExpression : public ManagedExpression
+			class ManagedSetterValueExpression : public ManagedExtendedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)

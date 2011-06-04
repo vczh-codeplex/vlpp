@@ -45,6 +45,8 @@ namespace enumerations
         },
         This = this,
         Base = base,
+        Value = value,
+        Result = result,
         Last = fuck
 	}
 }
