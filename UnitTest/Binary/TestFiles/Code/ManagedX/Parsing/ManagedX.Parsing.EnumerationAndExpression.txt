@@ -26,6 +26,12 @@ namespace enumerations
 		True = true,
 		False = false,
 		Char = 'v',
-		String = "vczh is genius!"
+		String = "vczh is genius!",
+        Id1 = criticalSection,
+        Id2 = @lock,
+        Member1 = global::System.String.Empty,
+        Member2 = string.Empty,
+        Inst1 = global::System.Collections.List<int>,
+        Inst2 = global::System.Enumerable.Aggregate<string, int>.GetType.Cast<object>
 	}
 }

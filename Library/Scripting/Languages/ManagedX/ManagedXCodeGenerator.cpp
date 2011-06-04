@@ -508,12 +508,19 @@ Basic Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberExpression)
 				{
-					ManagedX_GenerateCode_Expression(node->operand, argument);
-					argument.writer.WriteString(L".");
+					if(node->operand)
+					{
+						ManagedX_GenerateCode_Expression(node->operand, argument);
+						argument.writer.WriteString(L".");
+					}
+					else
+					{
+						argument.writer.WriteString(L"global::");
+					}
 					IdentifierToString(node->member, argument.writer);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(ManagedInstanciatedExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedExpression)
 				{
 					ManagedX_GenerateCode_Expression(node->operand, argument);
 					argument.writer.WriteString(L"<");
