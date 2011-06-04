@@ -43,6 +43,8 @@ namespace enumerations
             Name = "vczh",
             Description = "genius"
         },
+        This = this,
+        Base = base,
         Last = fuck
 	}
 }
