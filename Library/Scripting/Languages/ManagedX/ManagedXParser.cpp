@@ -468,6 +468,16 @@ Basic Expressions
 				return exp;
 			}
 
+			Ptr<ManagedExpression> ToThis(const RegexToken& input)
+			{
+				return CreateNode<ManagedThisExpression>(input);
+			}
+
+			Ptr<ManagedExpression> ToBase(const RegexToken& input)
+			{
+				return CreateNode<ManagedBaseExpression>(input);
+			}
+
 /***********************************************************************
 Extended Expressions
 ***********************************************************************/
@@ -707,9 +717,9 @@ Error Handlers
 
 				TokenType							SBYTE, BYTE, SHORT, WORD, INT, UINT, LONG, ULONG, CHAR, STRING, FLOAT, DOUBLE, BOOL, OBJECT, VOID, INTPTR, UINTPTR, VAR, DYNAMIC, FUNCTION, EVENT;
 
-				TokenType							SWITCH;
+				TokenType							SWITCH, THIS, BASE, NEW;
 
-				TokenType							IN, OUT, PARAMS, REF, NEW;
+				TokenType							IN, OUT, PARAMS, REF;
 				
 				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM;
 
@@ -786,12 +796,14 @@ Error Handlers
 					EVENT					= CreateToken(tokens, L"event");
 					
 					SWITCH					= CreateToken(tokens, L"switch");
+					THIS					= CreateToken(tokens, L"this");
+					BASE					= CreateToken(tokens, L"base");
+					NEW						= CreateToken(tokens, L"new");
 
 					IN						= CreateToken(tokens, L"in");
 					OUT						= CreateToken(tokens, L"out");
 					PARAMS					= CreateToken(tokens, L"params");
 					REF						= CreateToken(tokens, L"ref");
-					NEW						= CreateToken(tokens, L"new");
 										
 					GLOBAL					= CreateToken(tokens, L"global");
 					NAMESPACE				= CreateToken(tokens, L"namespace");
@@ -900,6 +912,8 @@ Error Handlers
 					
 					primitiveExpression		= constant
 											| (SBYTE|BYTE|SHORT|WORD|INT|UINT|LONG|ULONG|CHAR|STRING|FLOAT|DOUBLE|BOOL|OBJECT|VOID|INTPTR|UINTPTR)[ToKeywordExpression]
+											| THIS[ToThis]
+											| BASE[ToBase]
 											| ID(NeedExpression)[ToReferenceExpression]
 											| (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
 											| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
