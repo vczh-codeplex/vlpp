@@ -441,10 +441,6 @@ Basic Expressions
 				{
 					op->operand=operand;
 				}
-				else if(Ptr<ManagedAssignmentExpression> op=decoratorExpression.Cast<ManagedAssignmentExpression>())
-				{
-					op->leftOperand=operand;
-				}
 				else if(Ptr<ManagedChoiceExpression> op=decoratorExpression.Cast<ManagedChoiceExpression>())
 				{
 					op->condition=operand;
@@ -575,9 +571,13 @@ Basic Expressions
 				return exp;
 			}
 
-			Ptr<ManagedExpression> ToAssignmentLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			Ptr<ManagedExpression> ToAssignment(const ParsingPair<ParsingPair<
+				Ptr<ManagedExpression>,
+				RegexToken>,
+				Ptr<ManagedExpression>>& input)
 			{
-				Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(input.First());
+				Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(input.First().Second());
+				exp->leftOperand=input.First().First();
 				exp->rightOperand=input.Second();
 				return exp;
 			}
@@ -641,6 +641,10 @@ Extended Expressions
 				{
 					exp->operatorName=L"op_predec";
 				}
+				else
+				{
+					CHECK_ERROR(false, L"ToUnary(const ParsingPair<RegexToken, Ptr<ManagedExpression>>>)#未知操作符。");
+				}
 				exp->operand=input.Second();
 				return exp;
 			}
@@ -656,6 +660,10 @@ Extended Expressions
 				else if(op==L"--")
 				{
 					exp->operatorName=L"op_postdec";
+				}
+				else
+				{
+					CHECK_ERROR(false, L"ToUnaryLrec(const RegexToken&)#未知操作符。");
 				}
 				return exp;
 			}
@@ -728,7 +736,38 @@ Extended Expressions
 				{
 					exp->operatorName=L"op_xor";
 				}
-				else if(op==L"+=")
+				else
+				{
+					CHECK_ERROR(false, L"ToBinaryLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>>)#未知操作符。");
+				}
+				exp->rightOperand=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				WString op(input.First().reading, input.First().length);
+				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
+				if(op==L"<")
+				{
+					exp->operatorName=L"op_shl";
+				}
+				else if(op==L">")
+				{
+					exp->operatorName=L"op_shr";
+				}
+				exp->rightOperand=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToBinaryEq(const ParsingPair<ParsingPair<
+				Ptr<ManagedExpression>,
+				RegexToken>,
+				Ptr<ManagedExpression>>& input)
+			{
+				WString op(input.First().Second().reading, input.First().Second().length);
+				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First().Second());
+				if(op==L"+=")
 				{
 					exp->operatorName=L"op_add_eq";
 				}
@@ -776,22 +815,11 @@ Extended Expressions
 				{
 					exp->operatorName=L"op_shr_eq";
 				}
-				exp->rightOperand=input.Second();
-				return exp;
-			}
-
-			Ptr<ManagedExpression> ToBinaryShiftLrec(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
-			{
-				WString op(input.First().reading, input.First().length);
-				Ptr<ManagedBinaryExpression> exp=CreateNode<ManagedBinaryExpression>(input.First());
-				if(op==L"<")
+				else
 				{
-					exp->operatorName=L"op_shl";
+					CHECK_ERROR(false, L"ToBinaryEq(const {arsingPair<ParsingPair<Ptr<ManagedExpression>, RegexToken>, Ptr<ManagedExpression>>>)#未知操作符。");
 				}
-				else if(op==L">")
-				{
-					exp->operatorName=L"op_shr";
-				}
+				exp->leftOperand=input.First().First();
 				exp->rightOperand=input.Second();
 				return exp;
 			}
@@ -1305,7 +1333,10 @@ Error Handlers
 					exp11					= lrec(exp10 + *((OR + exp10)[ToBinaryLrec]), ToLrecExpression);
 					exp12					= lrec(exp11 + *((QT + (exp11 + (COLON(NeedColon) >> exp11)))[ToChoiceLrec]), ToLrecExpression);
 					exp13					= lrec(exp12 + *((QQ + exp12)[ToNullChoiceLrec]), ToLrecExpression);
-					exp14					= lrec(exp13 + *(((ADDEQ | SUBEQ | MULEQ | DIVEQ | MODEQ | ANDEQ | BITANDEQ | OREQ | BITOREQ | XOREQ | SHLEQ | SHREQ) + exp13)[ToBinaryLrec]), ToLrecExpression);
+					exp14					= (exp13 + (ADDEQ | SUBEQ | MULEQ | DIVEQ | MODEQ | ANDEQ | BITANDEQ | OREQ | BITOREQ | XOREQ | SHLEQ | SHREQ) + exp14)[ToBinaryEq]
+											| (exp13 + EQ + exp14)[ToAssignment]
+											| exp13
+											;
 
 					expression				= exp14;
 
