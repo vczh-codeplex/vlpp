@@ -362,7 +362,7 @@ RegexTokens
 		
 		bool RegexToken::operator==(const wchar_t* _token)const
 		{
-			return wcsncmp(reading, _token, length)==0;
+			return wcslen(_token)==length && wcsncmp(reading, _token, length)==0;
 		}
 
 		class RegexTokenEnumerator : public Object, public IEnumerator<RegexToken>
