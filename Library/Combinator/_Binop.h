@@ -34,6 +34,19 @@ namespace vl
 				OperatorRecord*								first;
 				OperatorRecord*								last;
 
+				PrecedenceRecord(_Binop<I, O>* _binop)
+					:binop(_binop)
+					,previous(0)
+					,first(0)
+					,last(0)
+				{
+				}
+
+				~PrecedenceRecord()
+				{
+					if(first) delete first;
+				}
+
 				template<typename T>
 				void AddOperatorRecord(T* newRecord)
 				{
@@ -46,7 +59,7 @@ namespace vl
 					{
 						T* record=dynamic_cast<T*>(last);
 						CHECK_ERROR(record, L"_Binop<I, O>::PrecedenceRecord::LastOperatorRecord<T>()#操作符记录类型不匹配。");
-						record->last=newRecord;
+						record->next=newRecord;
 						last=newRecord;
 					}
 				}
@@ -64,18 +77,42 @@ namespace vl
 			class PreUnaryRecord : public OperatorRecord
 			{
 			public:
-				PreUnaryRecord*								last;
+				PreUnaryRecord*								next;
 				typename Combinator<I, T>::Ref				op;
 				Func<O(T, O)>								handler;
 
 				PreUnaryRecord()
-					:last(0)
+					:next(0)
 				{
+				}
+
+				~PreUnaryRecord()
+				{
+					if(next) delete next;
 				}
 
 				ParsingResult<OutputType> ParsePrecedence(PrecedenceRecord* precedence, InputType& input, GlobalInfoType& globalInfo)
 				{
-					return ParsingResult<OutputType>();
+					PreUnaryRecord<T>* current=this;
+					while(current)
+					{
+						InputType newInput=input;
+						GlobalInfoType newGlobalInfo;
+						if(ParsingResult<T> opResult=current->op->Parse(newInput, newGlobalInfo))
+						{
+							input=newInput;
+							globalInfo.Append(newGlobalInfo);
+								
+							ParsingResult<O> result=precedence->binop->ParsePrecedence(precedence, input, globalInfo);
+							if(result)
+							{
+								result=ParsingResult<O>(current->handler(opResult.Value(), result.Value()));
+							}
+							return result;
+						}
+						current=current->next;
+					}
+					return precedence->binop->ParsePrecedence(precedence->previous, input, globalInfo);
 				}
 			};
 			
@@ -83,18 +120,47 @@ namespace vl
 			class PostUnaryRecord : public OperatorRecord
 			{
 			public:
-				PostUnaryRecord*							last;
+				PostUnaryRecord*							next;
 				typename Combinator<I, T>::Ref				op;
 				Func<O(O, T)>								handler;
 
 				PostUnaryRecord()
-					:last(0)
+					:next(0)
 				{
+				}
+
+				~PostUnaryRecord()
+				{
+					if(next) delete next;
 				}
 
 				ParsingResult<OutputType> ParsePrecedence(PrecedenceRecord* precedence, InputType& input, GlobalInfoType& globalInfo)
 				{
-					return ParsingResult<OutputType>();
+					ParsingResult<O> result=precedence->binop->ParsePrecedence(precedence->previous, input, globalInfo);
+					if(result)
+					{
+						O exp=result.Value();
+						while(true)
+						{
+							PostUnaryRecord<T>* current=this;
+							while(current)
+							{
+								InputType newInput=input;
+								GlobalInfoType newGlobalInfo;
+								if(ParsingResult<T> opResult=current->op->Parse(newInput, newGlobalInfo))
+								{
+									input=newInput;
+									globalInfo.Append(newGlobalInfo);
+									exp=current->handler(exp, opResult.Value());
+									break;
+								}
+								current=current->next;
+							}
+							if(!current) break;
+						}
+						result=ParsingResult<O>(exp);
+					}
+					return result;
 				}
 			};
 			
@@ -102,18 +168,50 @@ namespace vl
 			class LeftBinaryRecord : public OperatorRecord
 			{
 			public:
-				LeftBinaryRecord*							last;
+				LeftBinaryRecord*							next;
 				typename Combinator<I, T>::Ref				op;
 				Func<O(O, T, O)>							handler;
 
 				LeftBinaryRecord()
-					:last(0)
+					:next(0)
 				{
+				}
+
+				~LeftBinaryRecord()
+				{
+					if(next) delete next;
 				}
 
 				ParsingResult<OutputType> ParsePrecedence(PrecedenceRecord* precedence, InputType& input, GlobalInfoType& globalInfo)
 				{
-					return ParsingResult<OutputType>();
+					ParsingResult<O> result=precedence->binop->ParsePrecedence(precedence->previous, input, globalInfo);
+					if(result)
+					{
+						O exp=result.Value();
+						while(true)
+						{
+							LeftBinaryRecord<T>* current=this;
+							while(current)
+							{
+								InputType newInput=input;
+								GlobalInfoType newGlobalInfo;
+								if(ParsingResult<T> opResult=current->op->Parse(newInput, newGlobalInfo))
+								{
+									if(ParsingResult<O> right=precedence->binop->ParsePrecedence(precedence->previous, newInput, newGlobalInfo))
+									{
+										input=newInput;
+										globalInfo.Append(newGlobalInfo);
+										exp=current->handler(exp, opResult.Value(), right.Value());
+										break;
+									}
+								}
+								current=current->next;
+							}
+							if(!current) break;
+						}
+						result=ParsingResult<O>(exp);
+					}
+					return result;
 				}
 			};
 			
@@ -121,18 +219,44 @@ namespace vl
 			class RightBinaryRecord : public OperatorRecord
 			{
 			public:
-				RightBinaryRecord*							last;
+				RightBinaryRecord*							next;
 				typename Combinator<I, T>::Ref				op;
 				Func<O(O, T, O)>							handler;
 
 				RightBinaryRecord()
-					:last(0)
+					:next(0)
 				{
+				}
+
+				~RightBinaryRecord()
+				{
+					if(next) delete next;
 				}
 
 				ParsingResult<OutputType> ParsePrecedence(PrecedenceRecord* precedence, InputType& input, GlobalInfoType& globalInfo)
 				{
-					return ParsingResult<OutputType>();
+					ParsingResult<O> result=precedence->binop->ParsePrecedence(precedence->previous, input, globalInfo);
+					if(result)
+					{
+						RightBinaryRecord<T>* current=this;
+						while(current)
+						{
+							InputType newInput=input;
+							GlobalInfoType newGlobalInfo;
+							if(ParsingResult<T> opResult=current->op->Parse(newInput, newGlobalInfo))
+							{
+								if(ParsingResult<O> right=precedence->binop->ParsePrecedence(precedence, newInput, newGlobalInfo))
+								{
+									input=newInput;
+									globalInfo.Append(newGlobalInfo);
+									O exp=current->handler(result.Value(), opResult.Value(), right.Value());
+									return ParsingResult<O>(exp);
+								}
+							}
+							current=current->next;
+						}
+					}
+					return result;
 				}
 			};
 		protected:
@@ -144,12 +268,8 @@ namespace vl
 			{
 				if(needNewPrecedence)
 				{
-					PrecedenceRecord* precedence=new PrecedenceRecord;
-					precedence->binop=this;
+					PrecedenceRecord* precedence=new PrecedenceRecord(this);
 					precedence->previous=lowestPrecedence;
-					precedence->first=0;
-					precedence->last=0;
-
 					lowestPrecedence=precedence;
 					needNewPrecedence=false;
 				}
