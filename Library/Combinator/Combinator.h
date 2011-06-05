@@ -21,6 +21,12 @@ Classes:
 	pred<I>(f)					：记号函数匹配
 	let(p, v)					：当p成立时返回v值
 	def(p, v)					：当p不成立时返回v值
+	binop(e)
+		.post(o, f)
+		.pre(o, f)
+		.lbin(o, f)
+		.rbin(o, f)
+		.precedence()
 ***********************************************************************/
 
 #ifndef VCZH_COMBINATOR_COMBINATOR
@@ -37,6 +43,7 @@ Classes:
 #include "_Error.h"
 #include "_Ref.h"
 #include "_Def.h"
+#include "_Binop.h"
 
 namespace vl
 {
@@ -249,8 +256,89 @@ Node
 		}
 
 /***********************************************************************
-Node
+binop
 ***********************************************************************/
+
+		template<typename I, typename O>
+		class BinopWrapper : public Object
+		{
+		protected:
+			Ptr<_Binop<I, O>>				binop;
+		public:
+			BinopWrapper(const Node<I, O>& expression)
+				:binop(new _Binop<I, O>(expression.GetCombinator()))
+			{
+			}
+
+			operator Node<I, O>()
+			{
+				return binop;
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& pre(const Node<I, T>& op, Func<O(T, O)> handler)
+			{
+				binop->PreUnary(op.GetCombinator(), handler);
+				return *this;
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& post(const Node<I, T>& op, Func<O(O, T)> handler)
+			{
+				binop->PostUnary(op.GetCombinator(), handler);
+				return *this;
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& lbin(const Node<I, T>& op, Func<O(O, T, O)> handler)
+			{
+				binop->LeftBinary(op.GetCombinator(), handler);
+				return *this;
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& rbin(const Node<I, T>& op, Func<O(O, T, O)> handler)
+			{
+				binop->RightBinary(op.GetCombinator(), handler);
+				return *this;
+			}
+
+			BinopWrapper<I, O>& precedence()
+			{
+				binop->Precedence();
+				return *this;
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& pre(const Node<I, T>& op, O(*handler)(T, O))
+			{
+				return pre(op, Func<O(T, O)>(handler));
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& post(const Node<I, T>& op, O(*handler)(O, T))
+			{
+				return post(op, Func<O(O, T)>(handler));
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& lbin(const Node<I, T>& op, O(*handler)(O, T, O))
+			{
+				return lbin(op, Func<O(O, T, O)>(handler));
+			}
+
+			template<typename T>
+			BinopWrapper<I, O>& rbin(const Node<I, T>& op, O(*handler)(O, T, O))
+			{
+				return rbin(op, Func<O(O, T, O)>(handler));
+			}
+		};
+
+		template<typename I, typename O>
+		BinopWrapper<I, O> binop(const Node<I, O>& node)
+		{
+			return BinopWrapper<I, O>(node);
+		}
 
 /***********************************************************************
 List Constructor (T,T*)?

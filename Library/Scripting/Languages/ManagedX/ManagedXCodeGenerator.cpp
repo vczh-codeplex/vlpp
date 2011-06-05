@@ -717,7 +717,7 @@ Extended Expressions
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)
 				{
-					//argument.writer.WriteString(L"(");
+					argument.writer.WriteString(L"(");
 					ManagedX_GenerateCode_Expression(node->leftOperand, argument);
 					if(node->operatorName==L"op_add")
 					{
@@ -846,7 +846,7 @@ Extended Expressions
 						argument.writer.WriteString(L">");
 					}
 					ManagedX_GenerateCode_Expression(node->rightOperand, argument);
-					//argument.writer.WriteString(L")");
+					argument.writer.WriteString(L")");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
