@@ -456,70 +456,50 @@ namespace vl
 				}
 			}
 
-			Ptr<BasicExpression> ToPreUnary(const ParsingPair<RegexToken, Ptr<BasicExpression>>& input)
+			Ptr<BasicExpression> ToPreUnary(RegexToken op, Ptr<BasicExpression> operand)
 			{
-				WString op(input.First().reading, input.First().length);
+				Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(op);
+				expression->operand=operand;
 				if(op==L"++")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::PrefixIncrease;
-					return expression;
 				}
 				else if(op==L"--")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::PrefixDecrease;
-					return expression;
 				}
 				else if(op==L"&")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::GetAddress;
-					return expression;
 				}
 				else if(op==L"*")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::DereferencePointer;
-					return expression;
 				}
 				else if(op==L"-")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::Negative;
-					return expression;
 				}
 				else if(op==L"~")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::BitNot;
-					return expression;
 				}
 				else if(op==L"!")
 				{
-					Ptr<BasicUnaryExpression> expression=CreateNode<BasicUnaryExpression>(input.First());
-					expression->operand=input.Second();
 					expression->type=BasicUnaryExpression::Not;
-					return expression;
 				}
 				else
 				{
 					CHECK_FAIL(L"language_nativex::ToPreUnary()#´íÎóµÄ²Ù×÷·û¡£");
 				}
+				return expression;
 			}
 
-			Ptr<BasicExpression> ToBinary(const Ptr<BasicExpression>& left, const ParsingPair<RegexToken, Ptr<BasicExpression>>& binary)
+			Ptr<BasicExpression> ToBinary(Ptr<BasicExpression> left, RegexToken op, Ptr<BasicExpression> right)
 			{
-				WString op(binary.First().reading, binary.First().length);
-				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(binary.First());
+				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(op);
 				expression->leftOperand=left;
-				expression->rightOperand=binary.Second();
+				expression->rightOperand=right;
 				if(op==L"+")
 				{
 					expression->type=BasicBinaryExpression::Add;
@@ -643,12 +623,12 @@ namespace vl
 				return expression;
 			}
 
-			Ptr<BasicExpression> ToBinary2(const Ptr<BasicExpression>& left, const ParsingPair<ParsingPair<RegexToken, RegexToken>, Ptr<BasicExpression>>& binary)
+			Ptr<BasicExpression> ToBinary2(Ptr<BasicExpression> left, ParsingPair<RegexToken, RegexToken> shiftop, Ptr<BasicExpression> right)
 			{
-				WString op(binary.First().First().reading, binary.First().First().length);
-				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(binary.First().First());
+				RegexToken op=shiftop.First();
+				Ptr<BasicBinaryExpression> expression=CreateNode<BasicBinaryExpression>(op);
 				expression->leftOperand=left;
-				expression->rightOperand=binary.Second();
+				expression->rightOperand=right;
 				if(op==L"<")
 				{
 					expression->type=BasicBinaryExpression::Shl;
@@ -661,9 +641,10 @@ namespace vl
 				{
 					CHECK_FAIL(L"language_nativex::ToBinary()#´íÎóµÄ²Ù×÷·û¡£");
 				}
-				if(binary.First().First().start+1!=binary.First().Second().start)
+				if(shiftop.First().start+1!=shiftop.Second().start)
 				{
-					WString message=NativeXErrorMessage::OperatorShouldNotBe(op+op, op+L" "+op);
+					WString opcode(op.reading, op.length);
+					WString message=NativeXErrorMessage::OperatorShouldNotBe(opcode+opcode, opcode+L" "+opcode);
 					throw CombinatorResultError<Ptr<BasicExpression>>(message, ParsingResult<Ptr<BasicExpression>>(expression));
 				}
 				else
@@ -1298,8 +1279,7 @@ namespace vl
 				LinkingNode							linking;
 				ExpressionRule						primitive;
 				ExpressionRule						reference;
-				ExpressionRule						exp0, exp1, exp2, exp3, exp4, exp5, exp6, exp7, exp8, exp9, exp10, exp11, exp12;
-				ExpressionRule						exp;
+				ExpressionRule						exp0, exp1, exp;
 				TypeRule							primType, functionType, type, instanceType;
 				StatementRule						statement;
 				DeclarationNode						nonGenericDeclaration, functionDeclaration, rawDeclaration;
@@ -1431,18 +1411,21 @@ namespace vl
 													| ((DOT | POINTER) + ID[ToReference])
 													| ((INCREASE | DECREASE)[UpgradePostfix])
 													), ToPostUnary);
-					exp2			= exp1 | ((INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT) + exp2)[ToPreUnary];
-					exp3			= lrec(exp2 + *((MUL | DIV | MOD) + exp2), ToBinary);
-					exp4			= lrec(exp3 + *((ADD | SUB) + exp3), ToBinary);
-					exp5			= lrec(exp4 + *((LT+LT | GT+GT) + exp4), ToBinary2);
-					exp6			= lrec(exp5 + *((LT | GT | LE | GE) + exp5), ToBinary);
-					exp7			= lrec(exp6 + *((EQ | NE) + exp6), ToBinary);
-					exp8			= lrec(exp7 + *(BIT_AND + exp7), ToBinary);
-					exp9			= lrec(exp8 + *(XOR + exp8), ToBinary);
-					exp10			= lrec(exp9 + *(BIT_OR + exp9), ToBinary);
-					exp11			= lrec(exp10 + *(AND + exp10), ToBinary);
-					exp12			= lrec(exp11 + *(OR + exp11), ToBinary);
-					exp				= lrec(exp12 + *((OP_ASSIGN | ASSIGN) + exp12), ToBinary);
+
+					exp				= binop(exp1)
+										.pre(INCREASE | DECREASE | BIT_AND | MUL | SUB | BIT_NOT | NOT, ToPreUnary).precedence()
+										.lbin(MUL, ToBinary).lbin(DIV, ToBinary).lbin(MOD, ToBinary).precedence()
+										.lbin(ADD, ToBinary).lbin(SUB, ToBinary).precedence()
+										.lbin(LT + LT, ToBinary2).lbin(GT + GT, ToBinary2).precedence()
+										.lbin(LT, ToBinary).lbin(GT, ToBinary).lbin(LE, ToBinary).lbin(GE, ToBinary).precedence()
+										.lbin(EQ, ToBinary).lbin(NE, ToBinary).precedence()
+										.lbin(BIT_AND, ToBinary).precedence()
+										.lbin(XOR, ToBinary).precedence()
+										.lbin(BIT_OR, ToBinary).precedence()
+										.lbin(AND, ToBinary).precedence()
+										.lbin(OR, ToBinary).precedence()
+										.rbin(OP_ASSIGN, ToBinary).rbin(ASSIGN, ToBinary).precedence()
+										;
 
 					functionType	= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType];
 					primType		= functionType
