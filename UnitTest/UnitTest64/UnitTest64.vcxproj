@@ -334,6 +334,7 @@
     <ClInclude Include="..\..\Library\Combinator\StringCombinator.h" />
     <ClInclude Include="..\..\Library\Combinator\TokenCombinator.h" />
     <ClInclude Include="..\..\Library\Combinator\_Alt.h" />
+    <ClInclude Include="..\..\Library\Combinator\_Binop.h" />
     <ClInclude Include="..\..\Library\Combinator\_Def.h" />
     <ClInclude Include="..\..\Library\Combinator\_Error.h" />
     <ClInclude Include="..\..\Library\Combinator\_Loop.h" />

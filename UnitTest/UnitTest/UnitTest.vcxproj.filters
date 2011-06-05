@@ -1852,5 +1852,8 @@
     <ClInclude Include="..\..\Library\Combinator\_Def.h">
       <Filter>Library3\Combinator\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Combinator\_Binop.h">
+      <Filter>Library3\Combinator\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
