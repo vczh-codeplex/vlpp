@@ -26,6 +26,11 @@ namespace vl
 				return L"Here needs \";\".";
 			}
 
+			WString ManagedXErrorMessage::NeedLambda()
+			{
+				return L"Here needs \"=>\".";
+			}
+
 			WString ManagedXErrorMessage::NeedEq()
 			{
 				return L"Here needs \"=\".";
@@ -74,6 +79,11 @@ namespace vl
 			WString ManagedXErrorMessage::NeedExpression()
 			{
 				return L"Here needs an expression.";
+			}
+
+			WString ManagedXErrorMessage::NeedStatement()
+			{
+				return L"Here needs a statement.";
 			}
 
 		}

@@ -659,6 +659,80 @@ Extended Expressions
 				return explrec::ToExpLrec(exp);
 			}
 
+			Ptr<ManagedStatement> ToLambdaStatement(const Ptr<ManagedExpression>& input)
+			{
+				Ptr<ManagedAssignmentExpression> assign=CreateNode<ManagedAssignmentExpression>(input);
+				assign->leftOperand=CreateNode<ManagedFunctionResultExpression>(input);
+				assign->rightOperand=input;
+				
+				Ptr<ManagedExpressionStatement> exp=CreateNode<ManagedExpressionStatement>(input);
+				exp->expression=assign;
+
+				Ptr<ManagedCompositeStatement> stat=CreateNode<ManagedCompositeStatement>(input);
+				stat->statements.Add(exp);
+				stat->statements.Add(CreateNode<ManagedReturnStatement>(input));
+				return stat;
+			}
+
+			Ptr<ManagedExpression> ToLambda1(const ParsingPair<RegexToken, Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
+				parameter->type=CreateNode<ManagedAutoReferType>(input.First());
+				parameter->name=ConvertID(WString(input.First().reading, input.First().length));
+
+				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First());
+				exp->returnType=CreateNode<ManagedAutoReferType>(input.First());
+				exp->parameters.Add(parameter);
+				exp->body=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToLambda2(const ParsingPair<ParsingPair<
+				RegexToken,
+				ParsingList<RegexToken>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First().First());
+				exp->returnType=CreateNode<ManagedAutoReferType>(input.First().First());
+				exp->body=input.Second();
+
+				Ptr<ParsingList<RegexToken>::Node> current=input.First().Second().Head();
+				while(current)
+				{
+					RegexToken name=current->Value();
+					Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
+					parameter->type=CreateNode<ManagedAutoReferType>(name);
+					parameter->name=ConvertID(WString(name.reading, name.length));
+					exp->parameters.Add(parameter);
+					current=current->Next();
+				}
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToLambda3(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<ParsingPair<Ptr<ManagedType>, RegexToken>>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First().First().First());
+				exp->returnType=input.First().First().Second();
+				exp->body=input.Second();
+
+				Ptr<ParsingList<ParsingPair<Ptr<ManagedType>, RegexToken>>::Node> current=input.First().Second().Head();
+				while(current)
+				{
+					RegexToken name=current->Value().Second();
+					Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
+					parameter->type=current->Value().First();
+					parameter->name=ConvertID(WString(name.reading, name.length));
+					exp->parameters.Add(parameter);
+					current=current->Next();
+				}
+				return exp;
+			}
+
+
 /***********************************************************************
 Operator Expressions
 ***********************************************************************/
@@ -899,6 +973,35 @@ Operator Expressions
 Basic Statements
 ***********************************************************************/
 
+			Ptr<ManagedStatement> ToEmptyStat(const RegexToken& input)
+			{
+				return CreateNode<ManagedEmptyStatement>(input);
+			}
+
+			Ptr<ManagedStatement> ToCompositeStat(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedStatement>>>& input)
+			{
+				Ptr<ManagedCompositeStatement> stat=CreateNode<ManagedCompositeStatement>(input.First());
+				Ptr<ParsingList<Ptr<ManagedStatement>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					stat->statements.Add(current->Value());
+					current=current->Next();
+				}
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToExpressionStat(const Ptr<ManagedExpression>& input)
+			{
+				Ptr<ManagedExpressionStatement> stat=CreateNode<ManagedExpressionStatement>(input);
+				stat->expression=input;
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToReturnStat(const RegexToken& input)
+			{
+				return CreateNode<ManagedReturnStatement>(input);
+			}
+
 /***********************************************************************
 Extended Statements
 ***********************************************************************/
@@ -1083,6 +1186,7 @@ Error Handlers
 				
 			ERROR_HANDLER(NeedColon,						RegexToken)
 			ERROR_HANDLER(NeedSemicolon,					RegexToken)
+			ERROR_HANDLER(NeedLambda,						RegexToken)
 			ERROR_HANDLER(NeedEq,							RegexToken)
 			ERROR_HANDLER(NeedLt,							RegexToken)
 			ERROR_HANDLER(NeedGt,							RegexToken)
@@ -1094,6 +1198,7 @@ Error Handlers
 			ERROR_HANDLER(NeedCloseExpBrace,				RegexToken)
 			
 			ERROR_HANDLER(NeedExpression,					RegexToken)
+			ERROR_HANDLER(NeedStatement,					RegexToken)
 
 /***********************************************************************
 Óï·¨·ÖÎöÆ÷
@@ -1114,6 +1219,9 @@ Error Handlers
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedPropertySetter>>					PropertySetterNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedExpression>>						IncompleteExpressionNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
+			
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedStatement>>							IncompleteStatementNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedStatement>>							StatementNode;
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
@@ -1130,13 +1238,11 @@ Error Handlers
 				/*--------KEYWORDS--------*/
 
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
-
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
-
-				TokenType							IN, OUT, PARAMS, REF;
-				
+				TokenType							EXIT;
 				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM;
-
+				
+				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
 				TokenType							SEALED, ABSTRACT, VIRTUAL, OVERRIDE;
 				TokenType							STATIC, CONST, READONLY;
@@ -1147,7 +1253,7 @@ Error Handlers
 
 				/*--------SYMBOLS--------*/
 
-				TokenType							DOT, COLON, SEMICOLON, COMMA;
+				TokenType							DOT, COLON, SEMICOLON, COMMA, LAMBDA;
 				TokenType							OPEQ;
 				TokenType							LE, GE, EE, NE, EQ, LT, GT, QQ, QT;
 				TokenType							ADD_SUB, MUL_DIV_MOD, NOT_BITNOT, INC_DEC;
@@ -1172,6 +1278,9 @@ Error Handlers
 				PropertySetterNode					propertySetter;
 				IncompleteExpressionNode			constant, primitiveExpression, exp0;
 				ExpressionNode						expression;
+
+				IncompleteStatementNode				compositeStatement, lambdaBody;
+				StatementNode						statement;
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
@@ -1206,17 +1315,19 @@ Error Handlers
 					RESULT					= CreateToken(tokens, L"result");
 					TYPEOF					= CreateToken(tokens, L"typeof");
 
-					IN						= CreateToken(tokens, L"in");
-					OUT						= CreateToken(tokens, L"out");
-					PARAMS					= CreateToken(tokens, L"params");
-					REF						= CreateToken(tokens, L"ref");
+					EXIT					= CreateToken(tokens, L"exit");
 										
 					GLOBAL					= CreateToken(tokens, L"global");
 					NAMESPACE				= CreateToken(tokens, L"namespace");
 					USING					= CreateToken(tokens, L"using");
 					GENERIC					= CreateToken(tokens, L"generic");
 					ENUM					= CreateToken(tokens, L"enum");
+					
 
+					IN						= CreateToken(tokens, L"in");
+					OUT						= CreateToken(tokens, L"out");
+					PARAMS					= CreateToken(tokens, L"params");
+					REF						= CreateToken(tokens, L"ref");
 					PUBLIC					= CreateToken(tokens, L"public");
 					PROTECTED				= CreateToken(tokens, L"protected");
 					PRIVATE					= CreateToken(tokens, L"private");
@@ -1244,6 +1355,7 @@ Error Handlers
 					COLON					= CreateToken(tokens, L":");
 					SEMICOLON				= CreateToken(tokens, L";");
 					COMMA					= CreateToken(tokens, L",");
+					LAMBDA					= CreateToken(tokens, L"=>");
 					
 					OPEQ					= CreateToken(tokens, L"(/+|-|/*|//|%|&&|&|/|/||/||/^|<<|>>)=");
 
@@ -1329,6 +1441,20 @@ Error Handlers
 																	| ((OPEN_ARRAY_BRACE + *COMMA) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToArrayType]
 																	), ToLrecType);
 
+					/*--------STATENENTS--------*/
+
+					compositeStatement		= ((OPEN_DECL_BRACE(NeedStatement) + *statement) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))[ToCompositeStat];
+
+					lambdaBody				= expression[ToLambdaStatement]
+											| compositeStatement
+											;
+
+					statement				= compositeStatement
+											| SEMICOLON(NeedStatement)[ToEmptyStat]
+											| (EXIT << SEMICOLON(NeedSemicolon))[ToReturnStat]
+											| (expression << SEMICOLON(NeedSemicolon))[ToExpressionStat]
+											;
+
 					/*--------EXPRESSIONS--------*/
 
 					argument				= (invokeArgconv + opt(ID << COLON(NeedColon)) + expression)[ToArgument];
@@ -1337,7 +1463,19 @@ Error Handlers
 
 					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
 					
-					primitiveExpression		= (OPEN_EXP_BRACE >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
+					primitiveExpression		= ((ID << LAMBDA(NeedLambda)) + lambdaBody)[ToLambda1]
+											| (
+												((OPEN_EXP_BRACE + plist(opt(ID(NeedId) + *(COMMA >> ID(NeedId))))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + 
+												(LAMBDA(NeedLambda) >> lambdaBody)
+											  )[ToLambda2]
+											| (FUNCTION + type + (
+												OPEN_EXP_BRACE(NeedOpenExpBrace) >> 
+													plist(opt((type + ID(NeedId)) + *(COMMA >> (type + ID(NeedId)))))
+												<< CLOSE_EXP_BRACE(NeedCloseExpBrace)
+												) +
+												compositeStatement
+											  )[ToLambda3]
+											| (OPEN_EXP_BRACE >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace))
 											| (constant
 											| TYPEKEYWORD[ToKeywordExpression]
 											| THIS[ToThis]
