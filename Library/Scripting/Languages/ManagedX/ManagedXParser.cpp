@@ -296,6 +296,7 @@ Left Recursion Helper
 				EXP_LREC(ManagedInstantiatedExpression, operand)
 				EXP_LREC(ManagedInvokeExpression, function)
 				EXP_LREC(ManagedUnaryExpression, operand)
+				EXP_LREC(ManagedIndexExpression, operand)
 #undef EXP_LREC
 
 				template<typename T>
@@ -621,6 +622,41 @@ Extended Expressions
 			Ptr<ManagedExpression> ToSetterValue(const RegexToken& input)
 			{
 				return CreateNode<ManagedSetterValueExpression>(input);
+			}
+
+			Ptr<ManagedExpression> ToTypeof(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedTypeofExpression> exp=CreateNode<ManagedTypeofExpression>(input.First());
+				exp->type=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedExpression> ToNewArray(const ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedNewArrayExpression> exp=CreateNode<ManagedNewArrayExpression>(input.First().First());
+				exp->objectType=input.First().Second();
+				Ptr<ParsingList<Ptr<ManagedExpression>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					exp->sizes.Add(current->Value());
+					current=current->Next();
+				}
+				return exp;
+			}
+
+			Ptr<explrec::ExpLrecBase> ToIndexLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedIndexExpression> exp=CreateNode<ManagedIndexExpression>(input.First());
+				Ptr<ParsingList<Ptr<ManagedExpression>>::Node> current=input.Second().Head();
+				while(current)
+				{
+					exp->indices.Add(current->Value());
+					current=current->Next();
+				}
+				return explrec::ToExpLrec(exp);
 			}
 
 /***********************************************************************
@@ -1095,7 +1131,7 @@ Error Handlers
 
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 
-				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT;
+				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
 
 				TokenType							IN, OUT, PARAMS, REF;
 				
@@ -1168,6 +1204,7 @@ Error Handlers
 					AS						= CreateToken(tokens, L"as");
 					IS						= CreateToken(tokens, L"is");
 					RESULT					= CreateToken(tokens, L"result");
+					TYPEOF					= CreateToken(tokens, L"typeof");
 
 					IN						= CreateToken(tokens, L"in");
 					OUT						= CreateToken(tokens, L"out");
@@ -1313,11 +1350,16 @@ Error Handlers
 												(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
 												opt(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(propertySetter + *(COMMA >> propertySetter))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
 											  )[ToNewObject])
+											| (NEW + type + 
+												(OPEN_ARRAY_BRACE(NeedOpenArrayBrace) >> plist(expression + *(COMMA >> expression)) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))
+											  )[ToNewArray]
+											| (TYPEOF + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> type << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToTypeof]
 											;
 
 					exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]
 																			| ((LT + plist(type + *(COMMA >> type))) << GT(NeedGt))[ToInstantiatedExpressionLrec]
 																			| (OPEN_EXP_BRACE(NeedOpenExpBrace) + plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))[ToInvokeLrec]
+																			| (OPEN_ARRAY_BRACE(NeedOpenArrayBrace) + plist(expression + *(COMMA >> expression)) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToIndexLrec]
 																			| (INC_DEC)[ToUnaryLrec]
 																			), ToLrecExpression);
 

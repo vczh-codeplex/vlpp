@@ -36,9 +36,9 @@ namespace enumerations
         Invoke1 = a(),
         Invoke2 = a(1),
         Invoke3 = a(ref i, out 2, a:3, b:4),
-        New1 = new Box(),
-        New2 = new Box(1, 2, 3, 4),
-        New3 = new Box(1, 2, 3, 4)
+        NewObject1 = new Box(),
+        NewObject2 = new Box(1, 2, 3, 4),
+        NewObject3 = new Box(1, 2, 3, 4)
         {
             Name = "vczh",
             Description = "genius"
@@ -62,6 +62,12 @@ namespace enumerations
         exp12 = a??b||c,
         exp13 = a??b?c??d:e??f,
         exp14 = a+=b-=c*=d/=e%=f&&=g&=h||=i|=j^=k<<=l>>=m=n,
+
+        Typeof = typeof(string),
+        NewArray1 = new string[10],
+        NewArray2 = new string[RowCount, ColCount],
+        Index1 = stringArray[5],
+        Index2 = stringArray[row, col],
 
         Last = fuck
 	}
