@@ -386,13 +386,19 @@ Basic Expressions
 Extended Expressions
 ***********************************************************************/
 
+			class ManagedLambdaParameter : public Object
+			{
+			public:
+				Ptr<ManagedType>									type; // can be autoref
+				WString												name;
+			};
+
 			class ManagedLambdaExpression : public ManagedExtendedExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
 
-				collections::List<Ptr<ManagedType>>					parameterTypes; // can be autoref
-				collections::List<WString>							parameterNames;
+				collections::List<Ptr<ManagedLambdaParameter>>		parameters;
 				Ptr<ManagedType>									returnType; // can be autoref
 				Ptr<ManagedStatement>								body;
 			};

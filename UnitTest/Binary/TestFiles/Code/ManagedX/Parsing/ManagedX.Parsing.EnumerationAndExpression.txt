@@ -69,6 +69,12 @@ namespace enumerations
         Index1 = stringArray[5],
         Index2 = stringArray[row, col],
 
+        Lambda1 = x=>x+1,
+        Lambda2 = ()=>0,
+        Lambda3 = (x)=>x+1,
+        Lambda4 = (x,y)=>x+y,
+        Lambda5 = function int(int x, int y){result = x+y; exit;},
+
         Last = fuck
 	}
 }

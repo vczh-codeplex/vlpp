@@ -29,6 +29,7 @@ namespace vl
 				static WString NeedId();
 				static WString NeedColon();
 				static WString NeedSemicolon();
+				static WString NeedLambda();
 				static WString NeedEq();
 				static WString NeedLt();
 				static WString NeedGt();
@@ -39,6 +40,7 @@ namespace vl
 				static WString NeedOpenExpBrace();
 				static WString NeedCloseExpBrace();
 				static WString NeedExpression();
+				static WString NeedStatement();
 			};
 		}
 	}

@@ -624,19 +624,14 @@ Extended Expressions
 				ALGORITHM_PROCEDURE_MATCH(ManagedLambdaExpression)
 				{
 					argument.writer.WriteString(L"function ");
-					if(!node->returnType.Cast<ManagedAutoReferType>())
-					{
-						ManagedX_GenerateCode_Type(node->returnType, argument);
-					}
+					ManagedX_GenerateCode_Type(node->returnType, argument);
 					argument.writer.WriteString(L"(");
-					for(vint i=0;i<node->parameterNames.Count();i++)
+					for(vint i=0;i<node->parameters.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L", ");
-						if(!node->parameterTypes[i].Cast<ManagedAutoReferType>())
-						{
-							ManagedX_GenerateCode_Type(node->parameterTypes[i], argument);
-						}
-						IdentifierToString(node->parameterNames[i], argument.writer);
+						ManagedX_GenerateCode_Type(node->parameters[i]->type, argument);
+						argument.writer.WriteString(L" ");
+						IdentifierToString(node->parameters[i]->name, argument.writer);
 					}
 					argument.writer.WriteString(L")\r\n");
 					MXCGP newArgument(argument.writer, argument.indentation+1);
@@ -919,6 +914,7 @@ Basic Statements
 				{
 					PrintIndentation(argument);
 					ManagedX_GenerateCode_Expression(node->expression, argument);
+					argument.writer.WriteString(L";");
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedVariableStatement)
