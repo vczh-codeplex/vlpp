@@ -19,6 +19,9 @@ namespace vl
 			protected:
 				LanguageHandleList<WaitableObject>		waitables;
 				LanguageHandleList<CriticalSection>		criticalSections;
+#ifdef VCZH_NO_OLD_OS
+				LanguageHandleList<ReaderWriterLock>	readerWriterLocks;
+#endif
 
 				/*----------------------------------------------------------------------*/
 
@@ -100,6 +103,106 @@ namespace vl
 
 				/*----------------------------------------------------------------------*/
 
+				static vint SynCreateReaderWriterLock(void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=new ReaderWriterLock;
+					vint handle=plugin->readerWriterLocks.Alloc(srw);
+					return handle;
+#else
+					return 0;
+#endif
+				}
+
+				static bool SynDisposeReaderWriterLock(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					return plugin->readerWriterLocks.Free(handle);
+#else
+					return false;
+#endif
+				}
+
+				static bool SynTryEnterReader(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					return srw->TryEnterReader();
+#else
+					return false;
+#endif
+				}
+
+				static bool SynEnterReader(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					srw->EnterReader();
+					return true;
+#else
+					return false;
+#endif
+				}
+
+				static bool SynLeaveReader(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					srw->LeaveReader();
+					return true;
+#else
+					return false;
+#endif
+				}
+
+				static bool SynTryEnterWriter(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					return srw->TryEnterWriter();
+#else
+					return false;
+#endif
+				}
+
+				static bool SynEnterWriter(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					srw->EnterWriter();
+					return true;
+#else
+					return false;
+#endif
+				}
+
+				static bool SynLeaveWriter(vint handle, void* userData)
+				{
+#ifdef VCZH_NO_OLD_OS
+					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
+					ReaderWriterLock* srw=plugin->readerWriterLocks.GetHandle(handle);
+					if(!srw) return false;
+					srw->LeaveWriter();
+					return true;
+#else
+					return false;
+#endif
+				}
+
+				/*----------------------------------------------------------------------*/
+
 				static vint SynCreateMutex(bool owned, void* userData)
 				{
 					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
@@ -130,6 +233,8 @@ namespace vl
 					}
 				}
 
+				/*----------------------------------------------------------------------*/
+
 				static vint SynCreateSemaphore(vint init, vint max, void* userData)
 				{
 					LANGUAGE_PLUGIN(SystemCoreThreadingPlugin);
@@ -159,6 +264,8 @@ namespace vl
 						return false;
 					}
 				}
+
+				/*----------------------------------------------------------------------*/
 
 				static vint SynCreateAutoEvent(bool signaled, void* userData)
 				{
@@ -205,6 +312,8 @@ namespace vl
 					EventObject* eventObject=dynamic_cast<EventObject*>(plugin->waitables.GetHandle(handle));
 					return eventObject?eventObject->Unsignal():false;
 				}
+
+				/*----------------------------------------------------------------------*/
 
 				static bool SynDisposeWaitable(vint handle, void* userData)
 				{
@@ -548,6 +657,14 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION2(SynTryEnterCriticalSection, bool(vint), SynTryEnterCriticalSection) &&
 						REGISTER_LIGHT_FUNCTION2(SynEnterCriticalSection, bool(vint), SynEnterCriticalSection) &&
 						REGISTER_LIGHT_FUNCTION2(SynLeaveCriticalSection, bool(vint), SynLeaveCriticalSection) &&
+						REGISTER_LIGHT_FUNCTION2(SynCreateReaderWriterLock, vint(), SynCreateReaderWriterLock) &&
+						REGISTER_LIGHT_FUNCTION2(SynDisposeReaderWriterLock, bool(vint), SynDisposeReaderWriterLock) &&
+						REGISTER_LIGHT_FUNCTION2(SynTryEnterReader, bool(vint), SynTryEnterReader) &&
+						REGISTER_LIGHT_FUNCTION2(SynEnterReader, bool(vint), SynEnterReader) &&
+						REGISTER_LIGHT_FUNCTION2(SynLeaveReader, bool(vint), SynLeaveReader) &&
+						REGISTER_LIGHT_FUNCTION2(SynTryEnterWriter, bool(vint), SynTryEnterWriter) &&
+						REGISTER_LIGHT_FUNCTION2(SynEnterWriter, bool(vint), SynEnterWriter) &&
+						REGISTER_LIGHT_FUNCTION2(SynLeaveWriter, bool(vint), SynLeaveWriter) &&
 						REGISTER_LIGHT_FUNCTION2(SynCreateMutex, vint(bool), SynCreateMutex) &&
 						REGISTER_LIGHT_FUNCTION2(SynReleaseMutex, bool(vint), SynReleaseMutex) &&
 						REGISTER_LIGHT_FUNCTION2(SynCreateSemaphore, vint(vint, vint), SynCreateSemaphore) &&

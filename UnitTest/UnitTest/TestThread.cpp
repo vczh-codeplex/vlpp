@@ -303,6 +303,8 @@ TEST_CASE(TestCriticalSection)
 	TEST_ASSERT(data.counter==10);
 }
 
+#ifdef VCZH_NO_OLD_OS
+
 /***********************************************************************
 ReaderWriterLock
 ***********************************************************************/
@@ -371,6 +373,8 @@ TEST_CASE(TestReaderWriterLock)
 	}
 	TEST_ASSERT(data.counter==100);
 }
+
+#endif
 
 /***********************************************************************
 SpinLock

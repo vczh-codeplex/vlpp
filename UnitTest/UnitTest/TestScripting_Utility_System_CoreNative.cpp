@@ -21,6 +21,7 @@ namespace TestScriptingUtilityHelper
 {
 	void CompileAssembly(LanguageMaker& maker, LanguageMakeFile& makeFile, const WString& basePath, const WString& fileName)
 	{
+		vl::unittest::UnitTest::PrintInfo(L"Compiling "+fileName+L"...");
 		WString path=basePath+fileName;
 		FileStream fileStream(path, FileStream::ReadOnly);
 		BomDecoder decoder;
@@ -82,6 +83,7 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 	CompileAssembly(maker, testCoreNative, basePath, L"Test.CoreNative.Make.txt");
 
 	{
+		vl::unittest::UnitTest::PrintInfo(L"Initializing LanguageHost...");
 		LanguageHost host(65536);
 		host.RegisterPlugin(CreateMemoryManagerPlugin());
 		host.RegisterPlugin(CreateUnitTestPlugin(UnitTestPluginPrinter));
@@ -89,11 +91,14 @@ TEST_CASE(TestScriptingUtility_System_CoreNative)
 		host.RegisterPlugin(CreateThreadingPlugin());
 		host.RegisterPlugin(CreateStdlibPlugin());
 		host.RegisterPlugin(CreateGcSingleThreadPlugin());
+		
+		vl::unittest::UnitTest::PrintInfo(L"Loading assemblies...");
 		Ptr<LanguageAssembly> syscrnatAssembly=LoadAssembly(host, basePath+syscrnat.assembly.value);
 		Ptr<LanguageAssembly> sysutnatAssembly=LoadAssembly(host, basePath+sysutnat.assembly.value);
 		Ptr<LanguageAssembly> syscsnatAssembly=LoadAssembly(host, basePath+syscsnat.assembly.value);
 		Ptr<LanguageAssembly> unitTestAssembly=LoadAssembly(host, basePath+testCoreNative.assembly.value);
-
+		
+		vl::unittest::UnitTest::PrintInfo(L"Initializing assemblies...");
 		Ptr<LanguageState> state=host.CreateState();
 		TEST_ASSERT(state->RunInitialization(syscrnatAssembly)==ILException::Finished);
 		TEST_ASSERT(state->RunInitialization(sysutnatAssembly)==ILException::Finished);

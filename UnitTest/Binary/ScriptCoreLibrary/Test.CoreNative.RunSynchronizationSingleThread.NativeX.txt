@@ -2,6 +2,10 @@ unit RunSynchronizationSingleThread;
 
 uses syscrnat, sysutnat;
 
+/***********************************************************************
+Run API Single Thread
+***********************************************************************/
+
 function void TestCase_RunSpinLockSingleThread()
 {
     variable SpinLock lock;
@@ -28,6 +32,32 @@ function void TestCase_RunCriticalSectionSingleThread()
     Assert(!SynTryEnterCriticalSection(cs), L"SynTryEnterCriticalSection on disposed object should fail");
     Assert(!SynLeaveCriticalSection(cs), L"SynLeaveCriticalSection on disposed object should fail");
     Assert(!SynDisposeCriticalSection(cs), L"SynDisposeCriticalSection on disposed object should fail");
+}
+
+function void TestCase_RunReaderWriterLockSingleThread()
+{
+	variable SynReaderWriterLock* srw=SynCreateReaderWriterLock();
+	Assert(srw!=null, L"SynCreateReaderWriterLock should succeed");
+
+    Assert(SynEnterReader(srw), L"SynEnterReader should succeed");
+    Assert(SynLeaveReader(srw), L"SynLeaveReader should succeed");
+    Assert(SynTryEnterReader(srw), L"SynTryEnterReader should succeed");
+    Assert(SynLeaveReader(srw), L"SynLeaveReader should succeed");
+    Assert(SynEnterWriter(srw), L"SynEnterWriter should succeed");
+    Assert(SynLeaveWriter(srw), L"SynLeaveWriter should succeed");
+    Assert(SynTryEnterWriter(srw), L"SynTryEnterWriter should succeed");
+    Assert(SynLeaveWriter(srw), L"SynLeaveWriter should succeed");
+    Assert(SynDisposeReaderWriterLock(srw), L"SynDisposeReaderWriterLock should succeed");
+
+    Assert(!SynEnterReader(srw), L"SynEnterReader on disposed object should fail");
+    Assert(!SynLeaveReader(srw), L"SynLeaveReader on disposed object should fail");
+    Assert(!SynTryEnterReader(srw), L"SynTryEnterReader on disposed object should fail");
+    Assert(!SynLeaveReader(srw), L"SynLeaveReader on disposed object should fail");
+    Assert(!SynEnterWriter(srw), L"SynEnterWriter on disposed object should fail");
+    Assert(!SynLeaveWriter(srw), L"SynLeaveWriter on disposed object should fail");
+    Assert(!SynTryEnterWriter(srw), L"SynTryEnterWriter on disposed object should fail");
+    Assert(!SynLeaveWriter(srw), L"SynLeaveWriter on disposed object should fail");
+    Assert(!SynDisposeReaderWriterLock(srw), L"SynDisposeReaderWriterLock on disposed object should fail");
 }
 
 function void TestCase_RunMutexSingleThread()
@@ -98,6 +128,10 @@ function void TestCase_RunManualEventSingleThread()
     Assert(!SynDisposeWaitable(w), L"SynDisposeWaitable on disposed object should fail");
 }
 
+/***********************************************************************
+TestCase_RunThreadAndGetThreadObject 
+***********************************************************************/
+
 function void ThreadProcReturnThreadObject(void* arguments)
 {
     SynSleep(1000);
@@ -115,6 +149,10 @@ function void TestCase_RunThreadAndGetThreadObject()
     Assert(thread==threadPointer, L"SynGetCurrentThread should succeed");
     Assert(SynDisposeThread(thread), L"SynDisposeThread should succeed");
 }
+
+/***********************************************************************
+TestCase_RunThreadPool 
+***********************************************************************/
 
 function void ThreadPoolTaskProc(void* arguments)
 {
