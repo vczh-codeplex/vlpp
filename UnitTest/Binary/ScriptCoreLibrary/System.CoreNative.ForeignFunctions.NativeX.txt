@@ -1,8 +1,8 @@
 unit ForeignFunctions;
 
-structure __ForeignHandle
-{
-}
+/***********************************************************************
+Memory Management
+***********************************************************************/
 
 #public
 foreign function void* MemAlloc(int size)
@@ -23,6 +23,10 @@ foreign function int MemGetHandleSize(void* handle)
 #public
 foreign function void* MemGetOwnerHandle(void* handle)
     alias SystemCoreForeignFunctions.MemGetOwnerHandle;
+
+/***********************************************************************
+Garbage Collector
+***********************************************************************/
 
 #public
 structure GcMetaSegment
@@ -119,18 +123,25 @@ foreign function bool GcCopy(GcHandle* hDst, int oDst, GcHandle* hSrc, int oSrc,
 foreign function bool GcCollect()
     alias SystemCoreForeignFunctions.GcCollect;
 
-#public
-structure SynCriticalSection
-{
-}
+/***********************************************************************
+Synchronization Objects
+***********************************************************************/
 
 #public
-structure SynWaitable
-{
-}
+structure SynCriticalSection {}
+
+#public
+structure SynReaderWriterLock {}
+
+#public
+structure SynWaitable {}
 
 #public
 type SpinLock = int;
+
+/***********************************************************************
+Spin Lock
+***********************************************************************/
 
 #public
 foreign function bool SynInitializeSpinLock(SpinLock* lock)
@@ -147,6 +158,10 @@ foreign function bool SynEnterSpinLock(SpinLock* lock)
 #public
 foreign function bool SynLeaveSpinLock(SpinLock* lock)
     alias SystemCoreForeignFunctions.SynLeaveSpinLock;
+
+/***********************************************************************
+Critical Section
+***********************************************************************/
 
 #public
 foreign function SynCriticalSection* SynCreateCriticalSection()
@@ -167,6 +182,46 @@ foreign function bool SynEnterCriticalSection(SynCriticalSection* cs)
 #public
 foreign function bool SynLeaveCriticalSection(SynCriticalSection* cs)
     alias SystemCoreForeignFunctions.SynLeaveCriticalSection;
+
+/***********************************************************************
+Reader Writer Lock
+***********************************************************************/
+
+#public
+foreign function SynReaderWriterLock* SynCreateReaderWriterLock()
+	alias SystemCoreForeignFunctions.SynCreateReaderWriterLock;
+
+#public
+foreign function bool SynDisposeReaderWriterLock(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynDisposeReaderWriterLock;
+
+#public
+foreign function bool SynTryEnterReader(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynTryEnterReader;
+
+#public
+foreign function bool SynEnterReader(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynEnterReader;
+
+#public
+foreign function bool SynLeaveReader(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynLeaveReader;
+
+#public
+foreign function bool SynTryEnterWriter(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynTryEnterWriter;
+
+#public
+foreign function bool SynEnterWriter(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynEnterWriter;
+
+#public
+foreign function bool SynLeaveWriter(SynReaderWriterLock* srw)
+	alias SystemCoreForeignFunctions.SynLeaveWriter;
+
+/***********************************************************************
+Mutex
+***********************************************************************/
     
 #public
 foreign function SynWaitable* SynCreateMutex(bool owned)
@@ -175,6 +230,10 @@ foreign function SynWaitable* SynCreateMutex(bool owned)
 #public
 foreign function bool SynReleaseMutex(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynReleaseMutex;
+
+/***********************************************************************
+Semaphore
+***********************************************************************/
     
 #public
 foreign function SynWaitable* SynCreateSemaphore(int init, int max)
@@ -183,6 +242,10 @@ foreign function SynWaitable* SynCreateSemaphore(int init, int max)
 #public
 foreign function bool SynReleaseSemaphore(SynWaitable* w, int count)
     alias SystemCoreForeignFunctions.SynReleaseSemaphore;
+
+/***********************************************************************
+Event
+***********************************************************************/
     
 #public
 foreign function SynWaitable* SynCreateAutoEvent(bool signaled)
@@ -199,6 +262,10 @@ foreign function bool SynSignalEvent(SynWaitable* w)
 #public
 foreign function bool SynUnsignalEvent(SynWaitable* w)
     alias SystemCoreForeignFunctions.SynUnsignalEvent;
+
+/***********************************************************************
+Synchronization Operations
+***********************************************************************/
     
 #public
 foreign function bool SynDisposeWaitable(SynWaitable* w)
@@ -211,6 +278,10 @@ foreign function bool SynWait(SynWaitable* w)
 #public
 foreign function bool SynWaitForTime(SynWaitable* w, int ms)
     alias SystemCoreForeignFunctions.SynWaitForTime;
+
+/***********************************************************************
+Thread
+***********************************************************************/
 
 foreign function SynWaitable* __SynCreateThread(function void(void*) procedure, void* arguments)
     alias SystemCoreForeignFunctions.SynCreateThread;
@@ -231,6 +302,10 @@ foreign function bool __SynStopAndWaitThread(SynWaitable* w)
 foreign function bool SynSleep(int ms)
     alias SystemCoreForeignFunctions.SynSleep;
 
+/***********************************************************************
+Thread Pool
+***********************************************************************/
+
 #public
 foreign function bool SynStartThreadPool()
     alias SystemCoreForeignFunctions.SynStartThreadPool;
@@ -242,11 +317,19 @@ foreign function bool SynStopThreadPool(bool stopQueuedTasks)
 foreign function bool __SynQueueThreadPoolTask(function void(void*) taskProc, function void(void*) freeProc, void* arguments)
     alias SystemCoreForeignFunctions.SynQueueThreadPoolTask;
 
+/***********************************************************************
+String Types
+***********************************************************************/
+
 #public
 type astring = char*;
 
 #public
 type wstring = wchar*;
+
+/***********************************************************************
+Ansi String Functions
+***********************************************************************/
 
 #public
 foreign function astring strcpy(astring dst, astring src)
@@ -287,6 +370,10 @@ foreign function astring strstr(astring a, astring b)
 #public
 foreign function int strlen(astring s)
     alias SystemCoreForeignFunctions.strlen;
+
+/***********************************************************************
+Wide String Functions
+***********************************************************************/
 
 #public
 foreign function wstring wcscpy(wstring dst, wstring src)
@@ -336,6 +423,10 @@ foreign function int strtowcs(astring a, wstring w, int chars)
 foreign function int wcstostr(wstring s, astring a, int chars)
     alias SystemCoreForeignFunctions.wcstostr;
 
+/***********************************************************************
+Memory Functions
+***********************************************************************/
+
 #public
 foreign function void* memcpy(void* dst, void* src, int size)
     alias SystemCoreForeignFunctions.memcpy;
@@ -343,6 +434,10 @@ foreign function void* memcpy(void* dst, void* src, int size)
 #public
 foreign function int memcmp(void* dst, void* src, int size)
     alias SystemCoreForeignFunctions.memcmp;
+
+/***********************************************************************
+String Conversion Functions
+***********************************************************************/
 
 #public
 foreign function int atoi(astring input, astring* endptr, int radix)
@@ -423,6 +518,10 @@ foreign function astring ftoa(f64 number, astring output, int size)
 #public
 foreign function wstring ftow(f64 number, wstring output, int size)
     alias SystemCoreForeignFunctions.ftow;
+
+/***********************************************************************
+Mathematical Functions
+***********************************************************************/
 
 #public
 constant f64 PI = 3.1415926535897932;
