@@ -1033,7 +1033,7 @@ Extended Statements
 ***********************************************************************/
 
 /***********************************************************************
-Basic Declaration Fragments
+Basic Declaration Fragments (Generic)
 ***********************************************************************/
 
 			Ptr<ManagedGenericInfo::Argument> ToGenericArgument(const ParsingPair<
@@ -1074,6 +1074,86 @@ Basic Declaration Fragments
 					current=current->Next();
 				}
 				return info;
+			}
+
+			void CopyGenericInfo(ManagedGenericInfo& dst, Ptr<ManagedGenericInfo> src)
+			{
+				CopyFrom(dst.arguments.Wrap(), src->arguments.Wrap());
+			}
+
+/***********************************************************************
+Basic Declaration Fragments (Attribute)
+***********************************************************************/
+
+			Ptr<ManagedNewObjectExpression> ToAttributeItem1(const ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedNewObjectExpression> exp=CreateNode<ManagedNewObjectExpression>(input.First());
+				exp->objectType=input.Second();
+				return exp;
+			}
+
+			Ptr<ManagedNewObjectExpression> ToAttributeItem2(const ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedPropertySetter>>>& input)
+			{
+				Ptr<ManagedNewObjectExpression> exp=CreateNode<ManagedNewObjectExpression>(input.First().First());
+				exp->objectType=input.First().Second();
+				{
+					Ptr<ParsingList<Ptr<ManagedPropertySetter>>::Node> current=input.Second().Head();
+					while(current)
+					{
+						exp->properties.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				return exp;
+			}
+
+			Ptr<ManagedNewObjectExpression> ToAttributeItem3(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedArgument>>>,
+				ParsingList<Ptr<ManagedPropertySetter>>>& input)
+			{
+				Ptr<ManagedNewObjectExpression> exp=CreateNode<ManagedNewObjectExpression>(input.First().First().First());
+				exp->objectType=input.First().First().Second();
+				{
+					Ptr<ParsingList<Ptr<ManagedArgument>>::Node> current=input.First().Second().Head();
+					while(current)
+					{
+						exp->arguments.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				{
+					Ptr<ParsingList<Ptr<ManagedPropertySetter>>::Node> current=input.Second().Head();
+					while(current)
+					{
+						exp->properties.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				return exp;
+			}
+
+			Ptr<ManagedAttributeInfo> ToAttributeInfo(const ParsingList<Ptr<ManagedNewObjectExpression>>& input)
+			{
+				Ptr<ManagedAttributeInfo> info=new ManagedAttributeInfo;
+				Ptr<ParsingList<Ptr<ManagedNewObjectExpression>>::Node> current=input.Head();
+				while(current)
+				{
+					info->attributes.Add(current->Value());
+					current=current->Next();
+				}
+				return info;
+			}
+
+			void CopyAttributeInfo(ManagedAttributeInfo& dst, Ptr<ManagedAttributeInfo> src)
+			{
+				CopyFrom(dst.attributes.Wrap(), src->attributes.Wrap());
 			}
 
 /***********************************************************************
@@ -1125,15 +1205,17 @@ Extended Declarations
 				return item;
 			}
 
-			Ptr<ManagedDeclaration> ToEnum(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
-				declatt::Accessor,
+			Ptr<ManagedDeclaration> ToEnum(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				declatt::Accessor>,
 				RegexToken>,
 				ParsingList<RegexToken>>,
 				RegexToken>,
 				ParsingList<Ptr<ManagedEnumItem>>>& input)
 			{
 				Ptr<ManagedEnumerationDeclaration> decl=CreateNode<ManagedEnumerationDeclaration>(input.First().First().First().Second());
-				decl->accessor=input.First().First().First().First();
+				CopyAttributeInfo(decl->attributeInfo, input.First().First().First().First().First());
+				decl->accessor=input.First().First().First().First().Second();
 				decl->composable=input.First().First().Second().Head();
 				decl->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
 
@@ -1156,7 +1238,7 @@ Extended Declarations
 				if(input.First().First().First().Head())
 				{
 					Ptr<ManagedGenericInfo> genericInfo=input.First().First().First().Head()->Value();
-					CopyFrom(decl->genericInfo.arguments.Wrap(), genericInfo->arguments.Wrap());
+					CopyGenericInfo(decl->genericInfo, genericInfo);
 				}
 				decl->accessor=input.First().First().Second();
 				decl->name=WString(input.First().Second().reading, input.First().Second().length);
@@ -1252,6 +1334,8 @@ Error Handlers
 
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo::Argument>>				GenericArgumentNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedGenericInfo>>						GenericInfoNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedNewObjectExpression>>				AttributeItemNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedAttributeInfo>>						AttributeInfoNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
 
@@ -1312,6 +1396,8 @@ Error Handlers
 
 				GenericArgumentNode					genericArgument;
 				GenericInfoNode						genericInfo;
+				AttributeItemNode					attributeItem1, attributeItem2, attributeItem3;
+				AttributeInfoNode					attributeInfo;
 				EnumItemNode						enumItem;
 				DeclarationNode						declaration;
 
@@ -1563,6 +1649,25 @@ Error Handlers
 												plist(genericArgument + *(COMMA >> genericArgument))
 											) << GT(NeedGt))[ToGenericInfo];
 
+					attributeItem1			= ((OPEN_ARRAY_BRACE + type) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))[ToAttributeItem1];
+
+					attributeItem2			= ((
+												OPEN_ARRAY_BRACE +
+												type +
+												(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(propertySetter + *(COMMA >> propertySetter))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))
+											   ) << CLOSE_ARRAY_BRACE(NeedCloseExpBrace)
+											  )[ToAttributeItem2];
+
+					attributeItem3			= ((
+												OPEN_ARRAY_BRACE +
+												type +
+												(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(argument + *(COMMA >> argument))) +
+												(*(COMMA >> propertySetter) << CLOSE_EXP_BRACE(NeedCloseExpBrace))
+											   ) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace)
+											  )[ToAttributeItem3];
+
+					attributeInfo			= (*(attributeItem1 | attributeItem2 | attributeItem3))[ToAttributeInfo];
+
 					/*--------DECLARATIONS--------*/
 
 					enumItem				= (ID(NeedId) + opt(EQ >> expression))[ToEnumItem];
@@ -1570,7 +1675,7 @@ Error Handlers
 					declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID(NeedId))) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
 											| ((opt(genericInfo) + accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
 											| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID(NeedId))) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
-											| (accessor + ENUM + opt(SWITCH) + ID + (
+											| (attributeInfo + accessor + ENUM + opt(SWITCH) + ID + (
 												OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(enumItem + *(COMMA >> enumItem))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)
 												))[ToEnum]
 											;
