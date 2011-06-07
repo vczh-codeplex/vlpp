@@ -288,56 +288,6 @@ Thread
 	}
 
 /***********************************************************************
-CriticalSection
-***********************************************************************/
-
-	namespace threading_internal
-	{
-		struct CriticalSectionData
-		{
-			CRITICAL_SECTION		criticalSection;
-		};
-	}
-
-	CriticalSection::Scope::Scope(CriticalSection& _criticalSection)
-		:criticalSection(&_criticalSection)
-	{
-		criticalSection->Enter();
-	}
-
-	CriticalSection::Scope::~Scope()
-	{
-		criticalSection->Leave();
-	}
-			
-	CriticalSection::CriticalSection()
-	{
-		internalData=new CriticalSectionData;
-		InitializeCriticalSection(&internalData->criticalSection);
-	}
-
-	CriticalSection::~CriticalSection()
-	{
-		DeleteCriticalSection(&internalData->criticalSection);
-		delete internalData;
-	}
-
-	bool CriticalSection::TryEnter()
-	{
-		return TryEnterCriticalSection(&internalData->criticalSection)!=0;
-	}
-
-	void CriticalSection::Enter()
-	{
-		EnterCriticalSection(&internalData->criticalSection);
-	}
-
-	void CriticalSection::Leave()
-	{
-		LeaveCriticalSection(&internalData->criticalSection);
-	}
-
-/***********************************************************************
 Mutex
 ***********************************************************************/
 
@@ -568,6 +518,198 @@ EventObject
 		}
 		return false;
 	}
+
+/***********************************************************************
+CriticalSection
+***********************************************************************/
+
+	namespace threading_internal
+	{
+		struct CriticalSectionData
+		{
+			CRITICAL_SECTION		criticalSection;
+		};
+	}
+
+	CriticalSection::Scope::Scope(CriticalSection& _criticalSection)
+		:criticalSection(&_criticalSection)
+	{
+		criticalSection->Enter();
+	}
+
+	CriticalSection::Scope::~Scope()
+	{
+		criticalSection->Leave();
+	}
+			
+	CriticalSection::CriticalSection()
+	{
+		internalData=new CriticalSectionData;
+		InitializeCriticalSection(&internalData->criticalSection);
+	}
+
+	CriticalSection::~CriticalSection()
+	{
+		DeleteCriticalSection(&internalData->criticalSection);
+		delete internalData;
+	}
+
+	bool CriticalSection::TryEnter()
+	{
+		return TryEnterCriticalSection(&internalData->criticalSection)!=0;
+	}
+
+	void CriticalSection::Enter()
+	{
+		EnterCriticalSection(&internalData->criticalSection);
+	}
+
+	void CriticalSection::Leave()
+	{
+		LeaveCriticalSection(&internalData->criticalSection);
+	}
+
+#ifdef VCZH_NO_OLD_OS
+
+/***********************************************************************
+ReaderWriterLock
+***********************************************************************/
+
+	namespace threading_internal
+	{
+		struct ReaderWriterLockData
+		{
+			SRWLOCK			lock;
+		};
+	}
+
+	ReaderWriterLock::ReaderScope::ReaderScope(ReaderWriterLock& _lock)
+		:lock(&_lock)
+	{
+		lock->EnterReader();
+	}
+
+	ReaderWriterLock::ReaderScope::~ReaderScope()
+	{
+		lock->LeaveReader();
+	}
+
+	ReaderWriterLock::WriterScope::WriterScope(ReaderWriterLock& _lock)
+		:lock(&_lock)
+	{
+		lock->EnterWriter();
+	}
+
+	ReaderWriterLock::WriterScope::~WriterScope()
+	{
+		lock->LeaveWriter();
+	}
+
+	ReaderWriterLock::ReaderWriterLock()
+		:internalData(new threading_internal::ReaderWriterLockData)
+	{
+		InitializeSRWLock(&internalData->lock);
+	}
+
+	ReaderWriterLock::~ReaderWriterLock()
+	{
+		delete internalData;
+	}
+
+	bool ReaderWriterLock::TryEnterReader()
+	{
+		return TryAcquireSRWLockShared(&internalData->lock)!=0;
+	}
+
+	void ReaderWriterLock::EnterReader()
+	{
+		AcquireSRWLockShared(&internalData->lock);
+	}
+
+	void ReaderWriterLock::LeaveReader()
+	{
+		ReleaseSRWLockShared(&internalData->lock);
+	}
+
+	bool ReaderWriterLock::TryEnterWriter()
+	{
+		return TryAcquireSRWLockExclusive(&internalData->lock)!=0;
+	}
+
+	void ReaderWriterLock::EnterWriter()
+	{
+		AcquireSRWLockExclusive(&internalData->lock);
+	}
+
+	void ReaderWriterLock::LeaveWriter()
+	{
+		ReleaseSRWLockExclusive(&internalData->lock);
+	}
+
+/***********************************************************************
+ConditionVariable
+***********************************************************************/
+
+	namespace threading_internal
+	{
+		struct ConditionVariableData
+		{
+			CONDITION_VARIABLE			variable;
+		};
+	}
+
+	ConditionVariable::ConditionVariable()
+		:internalData(new threading_internal::ConditionVariableData)
+	{
+		InitializeConditionVariable(&internalData->variable);
+	}
+
+	ConditionVariable::~ConditionVariable()
+	{
+		delete internalData;
+	}
+
+	bool ConditionVariable::SleepWith(CriticalSection& cs)
+	{
+		return SleepConditionVariableCS(&internalData->variable, &cs.internalData->criticalSection, INFINITE)!=0;
+	}
+
+	bool ConditionVariable::SleepWithForTime(CriticalSection& cs, vint ms)
+	{
+		return SleepConditionVariableCS(&internalData->variable, &cs.internalData->criticalSection, (DWORD)ms)!=0;
+	}
+
+	bool ConditionVariable::SleepWithReader(ReaderWriterLock& lock)
+	{
+		return SleepConditionVariableSRW(&internalData->variable, &lock.internalData->lock, INFINITE, CONDITION_VARIABLE_LOCKMODE_SHARED)!=0;
+	}
+
+	bool ConditionVariable::SleepWithReaderForTime(ReaderWriterLock& lock, vint ms)
+	{
+		return SleepConditionVariableSRW(&internalData->variable, &lock.internalData->lock, (DWORD)ms, CONDITION_VARIABLE_LOCKMODE_SHARED)!=0;
+	}
+
+	bool ConditionVariable::SleepWithWriter(ReaderWriterLock& lock)
+	{
+		return SleepConditionVariableSRW(&internalData->variable, &lock.internalData->lock, INFINITE, 0)!=0;
+	}
+
+	bool ConditionVariable::SleepWithWriterForTime(ReaderWriterLock& lock, vint ms)
+	{
+		return SleepConditionVariableSRW(&internalData->variable, &lock.internalData->lock, (DWORD)ms, 0)!=0;
+	}
+
+	void ConditionVariable::WakeOnePending()
+	{
+		WakeConditionVariable(&internalData->variable);
+	}
+
+	void ConditionVariable::WakeAllPendings()
+	{
+		WakeAllConditionVariable(&internalData->variable);
+	}
+
+#endif
 
 /***********************************************************************
 SpinLock
