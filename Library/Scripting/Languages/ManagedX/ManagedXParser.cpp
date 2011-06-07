@@ -659,6 +659,34 @@ Extended Expressions
 				return explrec::ToExpLrec(exp);
 			}
 
+/***********************************************************************
+Extended Expressions (Lambda Expression)
+***********************************************************************/
+
+			Ptr<ManagedLambdaParameter> ToLambdaTypedParameter(const ParsingPair<ParsingList<Ptr<ManagedType>>, RegexToken>& input)
+			{
+				RegexToken name=input.Second();
+				Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
+				if(input.First().Head())
+				{
+					parameter->type=input.First().Head()->Value();
+				}
+				else
+				{
+					parameter->type=CreateNode<ManagedAutoReferType>(name);
+				}
+				parameter->name=ConvertID(WString(name.reading, name.length));
+				return parameter;
+			}
+
+			Ptr<ManagedLambdaParameter> ToLambdaUntypedParameter(const RegexToken& input)
+			{
+				Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
+				parameter->type=CreateNode<ManagedAutoReferType>(input);
+				parameter->name=ConvertID(WString(input.reading, input.length));
+				return parameter;
+			}
+
 			Ptr<ManagedStatement> ToLambdaStatement(const Ptr<ManagedExpression>& input)
 			{
 				Ptr<ManagedAssignmentExpression> assign=CreateNode<ManagedAssignmentExpression>(input);
@@ -674,36 +702,31 @@ Extended Expressions
 				return stat;
 			}
 
-			Ptr<ManagedExpression> ToLambda1(const ParsingPair<RegexToken, Ptr<ManagedStatement>>& input)
+			Ptr<ManagedExpression> ToLambda1(const ParsingPair<ParsingPair<
+				Ptr<ManagedLambdaParameter>, 
+				RegexToken>,
+				Ptr<ManagedStatement>>& input)
 			{
-				Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
-				parameter->type=CreateNode<ManagedAutoReferType>(input.First());
-				parameter->name=ConvertID(WString(input.First().reading, input.First().length));
-
-				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First());
-				exp->returnType=CreateNode<ManagedAutoReferType>(input.First());
-				exp->parameters.Add(parameter);
+				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First().Second());
+				exp->returnType=CreateNode<ManagedAutoReferType>(input.Second());
+				exp->parameters.Add(input.First().First());
 				exp->body=input.Second();
 				return exp;
 			}
 
 			Ptr<ManagedExpression> ToLambda2(const ParsingPair<ParsingPair<
 				RegexToken,
-				ParsingList<RegexToken>>,
+				ParsingList<Ptr<ManagedLambdaParameter>>>,
 				Ptr<ManagedStatement>>& input)
 			{
 				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First().First());
 				exp->returnType=CreateNode<ManagedAutoReferType>(input.First().First());
 				exp->body=input.Second();
 
-				Ptr<ParsingList<RegexToken>::Node> current=input.First().Second().Head();
+				Ptr<ParsingList<Ptr<ManagedLambdaParameter>>::Node> current=input.First().Second().Head();
 				while(current)
 				{
-					RegexToken name=current->Value();
-					Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
-					parameter->type=CreateNode<ManagedAutoReferType>(name);
-					parameter->name=ConvertID(WString(name.reading, name.length));
-					exp->parameters.Add(parameter);
+					exp->parameters.Add(current->Value());
 					current=current->Next();
 				}
 				return exp;
@@ -711,22 +734,25 @@ Extended Expressions
 
 			Ptr<ManagedExpression> ToLambda3(const ParsingPair<ParsingPair<ParsingPair<
 				RegexToken,
-				Ptr<ManagedType>>,
-				ParsingList<ParsingPair<Ptr<ManagedType>, RegexToken>>>,
+				ParsingList<Ptr<ManagedType>>>,
+				ParsingList<Ptr<ManagedLambdaParameter>>>,
 				Ptr<ManagedStatement>>& input)
 			{
 				Ptr<ManagedLambdaExpression> exp=CreateNode<ManagedLambdaExpression>(input.First().First().First());
-				exp->returnType=input.First().First().Second();
+				if(input.First().First().Second().Head())
+				{
+					exp->returnType=input.First().First().Second().Head()->Value();
+				}
+				else
+				{
+					exp->returnType=CreateNode<ManagedAutoReferType>(input.First().First().First());
+				}
 				exp->body=input.Second();
 
-				Ptr<ParsingList<ParsingPair<Ptr<ManagedType>, RegexToken>>::Node> current=input.First().Second().Head();
+				Ptr<ParsingList<Ptr<ManagedLambdaParameter>>::Node> current=input.First().Second().Head();
 				while(current)
 				{
-					RegexToken name=current->Value().Second();
-					Ptr<ManagedLambdaParameter> parameter=new ManagedLambdaParameter;
-					parameter->type=current->Value().First();
-					parameter->name=ConvertID(WString(name.reading, name.length));
-					exp->parameters.Add(parameter);
+					exp->parameters.Add(current->Value());
 					current=current->Next();
 				}
 				return exp;
@@ -1216,6 +1242,7 @@ Error Handlers
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>								TypeNode;
 			
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedArgument>>							ArgumentNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedLambdaParameter>>					LambdaParameterNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedPropertySetter>>					PropertySetterNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedExpression>>						IncompleteExpressionNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
@@ -1275,6 +1302,7 @@ Error Handlers
 				TypeNode							type, primitiveType, genericTypeConstraint;
 
 				ArgumentNode						argument;
+				LambdaParameterNode					lambdaUntypedParameter, lambdaParameter;
 				PropertySetterNode					propertySetter;
 				IncompleteExpressionNode			constant, primitiveExpression, exp0;
 				ExpressionNode						expression;
@@ -1459,18 +1487,22 @@ Error Handlers
 
 					argument				= (invokeArgconv + opt(ID << COLON(NeedColon)) + expression)[ToArgument];
 
+					lambdaUntypedParameter	= ID(NeedId)[ToLambdaUntypedParameter];
+					lambdaParameter			= (opt(type) + ID(NeedId))[ToLambdaTypedParameter]
+											| lambdaUntypedParameter;
+
 					propertySetter			= (ID(NeedId) + (EQ(NeedEq) >> expression))[ToPropertySetter];
 
 					constant				= VNULL[ToNull] | VBOOLEAN[ToBoolean] | VINTEGER[ToInteger] | VFLOAT[ToFloat] | VCHAR[ToChar] | VSTRING[ToString];
 					
-					primitiveExpression		= ((ID << LAMBDA(NeedLambda)) + lambdaBody)[ToLambda1]
+					primitiveExpression		= (lambdaUntypedParameter + LAMBDA(NeedLambda) + lambdaBody)[ToLambda1]
 											| (
-												((OPEN_EXP_BRACE + plist(opt(ID(NeedId) + *(COMMA >> ID(NeedId))))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + 
+												((OPEN_EXP_BRACE + plist(opt(lambdaUntypedParameter + *(COMMA >> lambdaUntypedParameter)))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + 
 												(LAMBDA(NeedLambda) >> lambdaBody)
 											  )[ToLambda2]
-											| (FUNCTION + type + (
+											| (FUNCTION + opt(type) + (
 												OPEN_EXP_BRACE(NeedOpenExpBrace) >> 
-													plist(opt((type + ID(NeedId)) + *(COMMA >> (type + ID(NeedId)))))
+													plist(opt(lambdaParameter + *(COMMA >> lambdaParameter)))
 												<< CLOSE_EXP_BRACE(NeedCloseExpBrace)
 												) +
 												compositeStatement

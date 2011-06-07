@@ -624,13 +624,19 @@ Extended Expressions
 				ALGORITHM_PROCEDURE_MATCH(ManagedLambdaExpression)
 				{
 					argument.writer.WriteString(L"function ");
-					ManagedX_GenerateCode_Type(node->returnType, argument);
+					if(!node->returnType.Cast<ManagedAutoReferType>())
+					{
+						ManagedX_GenerateCode_Type(node->returnType, argument);
+					}
 					argument.writer.WriteString(L"(");
 					for(vint i=0;i<node->parameters.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L", ");
-						ManagedX_GenerateCode_Type(node->parameters[i]->type, argument);
-						argument.writer.WriteString(L" ");
+						if(!node->parameters[i]->type.Cast<ManagedAutoReferType>())
+						{
+							ManagedX_GenerateCode_Type(node->parameters[i]->type, argument);
+							argument.writer.WriteString(L" ");
+						}
 						IdentifierToString(node->parameters[i]->name, argument.writer);
 					}
 					argument.writer.WriteString(L")\r\n");
