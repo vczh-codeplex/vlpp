@@ -356,7 +356,7 @@ TEST_CASE(TestReaderWriterLock)
 	SRW_ThreadData data;
 	List<Thread*> threads;
 	{
-		Thread::CreateAndStart(SRW_WriterProc, &data, false);
+		threads.Add(Thread::CreateAndStart(SRW_WriterProc, &data, false));
 		for(vint i=0;i<9;i++)
 		{
 			threads.Add(Thread::CreateAndStart(SRW_ReaderProc, &data, false));
