@@ -79,57 +79,6 @@ TEST_CASE(TestPauseAndResumeThread)
 }
 
 /***********************************************************************
-CriticalSection
-***********************************************************************/
-
-namespace mynamespace
-{
-	struct CS_ThreadData
-	{
-		CriticalSection			cs;
-		volatile vint			counter;
-
-		CS_ThreadData()
-			:counter(0)
-		{
-		}
-	};
-
-	void CS_ThreadProc(Thread* thread, void* argument)
-	{
-		CS_ThreadData* data=(CS_ThreadData*)argument;
-		{
-			CriticalSection::Scope lock(data->cs);
-			data->counter++;
-		}
-	}
-}
-using namespace mynamespace;
-
-TEST_CASE(TestCriticalSection)
-{
-	CS_ThreadData data;
-	List<Thread*> threads;
-	{
-		CriticalSection::Scope lock(data.cs);
-		for(vint i=0;i<10;i++)
-		{
-			threads.Add(Thread::CreateAndStart(CS_ThreadProc, &data, false));
-		}
-		Thread::Sleep(1000);
-		TEST_ASSERT(data.counter==0);
-	}
-	FOREACH(Thread*, thread, threads.Wrap())
-	{
-		thread->Wait();
-		TEST_ASSERT(thread->GetState()==Thread::Stopped);
-		delete thread;
-	}
-	TEST_ASSERT(data.cs.TryEnter());
-	TEST_ASSERT(data.counter==10);
-}
-
-/***********************************************************************
 Mutex
 ***********************************************************************/
 
@@ -301,6 +250,126 @@ TEST_CASE(TestEventObject)
 		delete thread;
 	}
 	TEST_ASSERT(data.counter==10);
+}
+
+/***********************************************************************
+CriticalSection
+***********************************************************************/
+
+namespace mynamespace
+{
+	struct CS_ThreadData
+	{
+		CriticalSection			cs;
+		volatile vint			counter;
+
+		CS_ThreadData()
+			:counter(0)
+		{
+		}
+	};
+
+	void CS_ThreadProc(Thread* thread, void* argument)
+	{
+		CS_ThreadData* data=(CS_ThreadData*)argument;
+		{
+			CriticalSection::Scope lock(data->cs);
+			data->counter++;
+		}
+	}
+}
+using namespace mynamespace;
+
+TEST_CASE(TestCriticalSection)
+{
+	CS_ThreadData data;
+	List<Thread*> threads;
+	{
+		CriticalSection::Scope lock(data.cs);
+		for(vint i=0;i<10;i++)
+		{
+			threads.Add(Thread::CreateAndStart(CS_ThreadProc, &data, false));
+		}
+		Thread::Sleep(1000);
+		TEST_ASSERT(data.counter==0);
+	}
+	FOREACH(Thread*, thread, threads.Wrap())
+	{
+		thread->Wait();
+		TEST_ASSERT(thread->GetState()==Thread::Stopped);
+		delete thread;
+	}
+	TEST_ASSERT(data.cs.TryEnter());
+	TEST_ASSERT(data.counter==10);
+}
+
+/***********************************************************************
+ReaderWriterLock
+***********************************************************************/
+
+namespace mynamespace
+{
+	struct SRW_ThreadData
+	{
+		EventObject				ev;
+		SpinLock				sl;
+		ReaderWriterLock		lock;
+		volatile vint			counter;
+
+		SRW_ThreadData()
+			:counter(0)
+		{
+			ev.CreateManualUnsignal(false);
+		}
+	};
+
+	void SRW_ReaderProc(Thread* thread, void* argument)
+	{
+		SRW_ThreadData* data=(SRW_ThreadData*)argument;
+		data->ev.Wait();
+		for(vint i=0;i<10;i++)
+		{
+			ReaderWriterLock::ReaderScope srw(data->lock);
+			SpinLock::Scope sl(data->sl);
+			data->counter++;
+		}
+	}
+
+	void SRW_WriterProc(Thread* thread, void* argument)
+	{
+		SRW_ThreadData* data=(SRW_ThreadData*)argument;
+		data->ev.Wait();
+		for(vint i=0;i<10;i++)
+		{
+			ReaderWriterLock::WriterScope srw(data->lock);
+			SpinLock::Scope sl(data->sl);
+			data->counter++;
+		}
+	}
+}
+using namespace mynamespace;
+
+TEST_CASE(TestReaderWriterLock)
+{
+	SRW_ThreadData data;
+	List<Thread*> threads;
+	{
+		Thread::CreateAndStart(SRW_WriterProc, &data, false);
+		for(vint i=0;i<9;i++)
+		{
+			threads.Add(Thread::CreateAndStart(SRW_ReaderProc, &data, false));
+		}
+		Thread::Sleep(1000);
+		TEST_ASSERT(data.counter==0);
+	}
+	data.ev.Signal();
+	FOREACH(Thread*, thread, threads.Wrap())
+	{
+		thread->Wait();
+		TEST_ASSERT(thread->GetState()==Thread::Stopped);
+		delete thread;
+	}
+	TEST_ASSERT(data.counter==100);
 }
 
 /***********************************************************************

@@ -28,10 +28,13 @@ namespace vl
 	{
 		struct WaitableData;
 		struct ThreadData;
-		struct CriticalSectionData;
 		struct MutexData;
 		struct SemaphoreData;
 		struct EventData;
+
+		struct CriticalSectionData;
+		struct ReaderWriterLockData;
+		struct ConditionVariableData;
 	}
 
 	class WaitableObject : public Object, public NotCopyable
@@ -90,29 +93,6 @@ namespace vl
 		void										SetCPU(vint index);
 	};
 
-	class CriticalSection : public Object, public NotCopyable
-	{
-	private:
-		threading_internal::CriticalSectionData*	internalData;
-	public:
-		CriticalSection();
-		~CriticalSection();
-
-		bool										TryEnter();
-		void										Enter();
-		void										Leave();
-
-	public:
-		class Scope : public Object, public NotCopyable
-		{
-		private:
-			CriticalSection*						criticalSection;
-		public:
-			Scope(CriticalSection& _criticalSection);
-			~Scope();
-		};
-	};
-
 	class Mutex : public WaitableObject
 	{
 	private:
@@ -157,6 +137,92 @@ namespace vl
 		bool										Signal();
 		bool										Unsignal();
 	};
+
+/***********************************************************************
+进程内对象
+***********************************************************************/
+
+	class CriticalSection : public Object, public NotCopyable
+	{
+	private:
+#ifdef VCZH_NO_OLD_OS
+		friend class ConditionVariable;
+#endif
+		threading_internal::CriticalSectionData*	internalData;
+	public:
+		CriticalSection();
+		~CriticalSection();
+
+		bool										TryEnter();
+		void										Enter();
+		void										Leave();
+
+	public:
+		class Scope : public Object, public NotCopyable
+		{
+		private:
+			CriticalSection*						criticalSection;
+		public:
+			Scope(CriticalSection& _criticalSection);
+			~Scope();
+		};
+	};
+
+#ifdef VCZH_NO_OLD_OS
+
+	class ReaderWriterLock : public Object, public NotCopyable
+	{
+	private:
+		friend class ConditionVariable;
+		threading_internal::ReaderWriterLockData*	internalData;
+	public:
+		ReaderWriterLock();
+		~ReaderWriterLock();
+
+		bool										TryEnterReader();
+		void										EnterReader();
+		void										LeaveReader();
+		bool										TryEnterWriter();
+		void										EnterWriter();
+		void										LeaveWriter();
+	public:
+		class ReaderScope : public Object, public NotCopyable
+		{
+		private:
+			ReaderWriterLock*						lock;
+		public:
+			ReaderScope(ReaderWriterLock& _lock);
+			~ReaderScope();
+		};
+		
+		class WriterScope : public Object, public NotCopyable
+		{
+		private:
+			ReaderWriterLock*						lock;
+		public:
+			WriterScope(ReaderWriterLock& _lock);
+			~WriterScope();
+		};
+	};
+
+	class ConditionVariable : public Object, public NotCopyable
+	{
+	private:
+		threading_internal::ConditionVariableData*	internalData;
+	public:
+		ConditionVariable();
+		~ConditionVariable();
+
+		bool										SleepWith(CriticalSection& cs);
+		bool										SleepWithForTime(CriticalSection& cs, vint ms);
+		bool										SleepWithReader(ReaderWriterLock& lock);
+		bool										SleepWithReaderForTime(ReaderWriterLock& lock, vint ms);
+		bool										SleepWithWriter(ReaderWriterLock& lock);
+		bool										SleepWithWriterForTime(ReaderWriterLock& lock, vint ms);
+		void										WakeOnePending();
+		void										WakeAllPendings();
+	};
+#endif
 
 /***********************************************************************
 用户模式对象
