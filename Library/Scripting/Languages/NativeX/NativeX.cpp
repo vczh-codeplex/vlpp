@@ -4,7 +4,7 @@
 #include "NativeXErrorMessageTranslator.h"
 #include "NativeXCodeGenerator.h"
 
-#include "..\LanguageProviderExtension.h"
+#include "..\LanguageProviderBasicExtension.h"
 #include "..\..\BasicLanguage\BasicLanguageCodeGeneration.h"
 
 namespace vl

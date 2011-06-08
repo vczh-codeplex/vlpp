@@ -415,7 +415,8 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicLanguageMetadata.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageMetadata.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProvider.h" />
-    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h" />

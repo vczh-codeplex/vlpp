@@ -1,7 +1,7 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\NativeX\NativeX.h"
 #include "..\..\Library\Scripting\Languages\BasicFunctionExecutor.h"
-#include "..\..\Library\Scripting\Languages\LanguageProviderExtension.h"
+#include "..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageResource.h"
 #include "..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h"
 

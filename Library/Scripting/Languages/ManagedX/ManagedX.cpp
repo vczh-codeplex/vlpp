@@ -2,7 +2,7 @@
 #include "ManagedXErrorMessage.h"
 #include "ManagedXCodeGenerator.h"
 
-#include "..\LanguageProviderExtension.h"
+#include "..\LanguageProviderManagedExtension.h"
 
 namespace vl
 {

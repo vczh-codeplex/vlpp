@@ -1756,9 +1756,6 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageRuntime.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
-      <Filter>Library3\Scripting\Languages\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeX.h">
       <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
@@ -1875,6 +1872,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Common.h">
       <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
