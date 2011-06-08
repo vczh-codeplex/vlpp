@@ -134,6 +134,16 @@ namespace enumerations
             {
                 throw new Exception();
             }
+
+            using(Graphics g=Graphics.FromDesltop())
+            {
+                g.Dispose();
+            }
+
+            lock(this.lockObject)
+            {
+                this.names.Add("vczh");
+            }
         },
 
         Last = fuck

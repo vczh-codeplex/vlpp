@@ -1120,7 +1120,7 @@ Extended Statements
 					IdentifierToString(node->name, argument.writer);
 					argument.writer.WriteString(L" = ");
 					ManagedX_GenerateCode_Expression(node->initialize, argument);
-					argument.writer.WriteLine(L")\r\n");
+					argument.writer.WriteString(L")\r\n");
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->statement, newArgument);
 				}
@@ -1130,7 +1130,7 @@ Extended Statements
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"lock(");
 					ManagedX_GenerateCode_Expression(node->lock, argument);
-					argument.writer.WriteLine(L")\r\n");
+					argument.writer.WriteString(L")\r\n");
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->statement, newArgument);
 				}

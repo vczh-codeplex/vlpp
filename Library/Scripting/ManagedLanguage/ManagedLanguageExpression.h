@@ -649,7 +649,7 @@ Extended Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
 
-				Ptr<ManagedType>									type;
+				Ptr<ManagedType>									type; // can be autoref
 				WString												name;
 				Ptr<ManagedExpression>								initialize;
 				Ptr<ManagedStatement>								statement;

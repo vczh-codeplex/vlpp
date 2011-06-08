@@ -212,6 +212,12 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Attribute.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Declaration.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Expression.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Lexer.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Statement.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Type.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp" />
@@ -649,6 +655,7 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Common.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.h" />
