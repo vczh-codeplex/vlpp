@@ -80,6 +80,62 @@ namespace enumerations
         Lambda4 = (x,y)=>x+y,
         Lambda5 = function int(int x, int y){result = x+y; exit;},
 
+        Statements = ()=>
+        {
+            Invoke();
+            {
+                break;
+                continue;
+                exit;
+            }
+            const int a;
+            int b;
+            const int c=10;
+            int d=10;
+
+            if (true) exit;
+            if (true)
+            {
+                print("A");
+            }
+            else
+            {
+                print("B");
+            }
+
+            while(true)
+            {
+                exit;
+            }when(false);
+            do
+            {
+                exit;
+            }while(false);
+            while(true) exit;
+
+            for(;;);
+            for(int i=0;i<100;i++) result++;
+            for(int i=0,int j=0;i+j<200;i++,j++) result+=i+j;
+
+            try throw new Exception();
+            try
+            {
+                throw new Exception();
+            }
+            catch(InvalidOperationException ex)
+            {
+                throw;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                throw new Exception();
+            }
+        },
+
         Last = fuck
 	}
 }

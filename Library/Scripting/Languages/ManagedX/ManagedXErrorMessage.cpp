@@ -16,6 +16,11 @@ namespace vl
 				return L"Here needs an identifier.";
 			}
 
+			WString ManagedXErrorMessage::NeedWhile()
+			{
+				return L"Here needs \"while\".";
+			}
+
 			WString ManagedXErrorMessage::NeedColon()
 			{
 				return L"Here needs \":\".";

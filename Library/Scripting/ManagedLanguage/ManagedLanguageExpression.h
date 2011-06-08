@@ -609,7 +609,7 @@ Basic Statements
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
 
-				Ptr<ManagedNewObjectExpression>						expression; // nullable
+				Ptr<ManagedExpression>								expression; // nullable
 			};
 
 #define MANAGED_STATEMENT_TARGETS(P, F)\
