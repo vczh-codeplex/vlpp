@@ -3,7 +3,8 @@
 #include "..\..\Stream\CharFormat.h"
 
 #include "..\BasicLanguage\BasicLanguageCommentProvider.h"
-#include "..\Languages\LanguageProviderExtension.h"
+#include "..\Languages\LanguageProviderBasicExtension.h"
+#include "..\Languages\LanguageProviderManagedExtension.h"
 #include "..\Languages\NativeX\NativeX.h"
 #include "..\Languages\ManagedX\ManagedX.h"
 

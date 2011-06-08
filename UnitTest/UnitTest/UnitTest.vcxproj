@@ -649,7 +649,8 @@
     <ClInclude Include="..\..\Library\Scripting\BasicIL\BasicILSymbolResource.h" />
     <ClInclude Include="..\..\Library\Scripting\BasicLanguage\BasicLanguageCommentProvider.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicILMetadata.h" />
-    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h" />
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessage.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedX.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h" />

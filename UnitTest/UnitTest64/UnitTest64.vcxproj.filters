@@ -859,9 +859,6 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
       <Filter>Library3\Scripting\Languages\NativeX\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
-      <Filter>Library3\Scripting\Languages\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\BasicErrorMessage.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
@@ -987,6 +984,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Common.h">
       <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h">
+      <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
