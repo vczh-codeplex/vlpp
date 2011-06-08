@@ -1023,9 +1023,176 @@ Basic Statements
 				return stat;
 			}
 
+			Ptr<ManagedStatement> ToBreakStat(const RegexToken& input)
+			{
+				return CreateNode<ManagedBreakStatement>(input);
+			}
+
+			Ptr<ManagedStatement> ToContinueStat(const RegexToken& input)
+			{
+				return CreateNode<ManagedContinueStatement>(input);
+			}
+
 			Ptr<ManagedStatement> ToReturnStat(const RegexToken& input)
 			{
 				return CreateNode<ManagedReturnStatement>(input);
+			}
+
+			Ptr<ManagedStatement> ToVarStat(const ParsingPair<ParsingPair<ParsingPair<
+				ParsingList<RegexToken>,
+				Ptr<ManagedType>>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedVariableStatement> stat=CreateNode<ManagedVariableStatement>(input.First().Second());
+				stat->constant=input.First().First().First().Head();
+				stat->type=input.First().First().Second();
+				stat->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				if(input.Second().Head())
+				{
+					stat->initializer=input.Second().Head()->Value();
+				}
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToIfStat(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedExpression>>,
+				Ptr<ManagedStatement>>,
+				ParsingList<Ptr<ManagedStatement>>>& input)
+			{
+				Ptr<ManagedIfStatement> stat=CreateNode<ManagedIfStatement>(input.First().First().First());
+				stat->condition=input.First().First().Second();
+				stat->trueStatement=input.First().Second();
+				if(input.Second().Head())
+				{
+					stat->falseStatement=input.Second().Head()->Value();
+				}
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToWhileStat(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedExpression>>,
+				Ptr<ManagedStatement>>,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedWhileStatement> stat=CreateNode<ManagedWhileStatement>(input.First().First().First());
+				stat->beginCondition=input.First().First().Second();
+				stat->statement=input.First().Second();
+				if(input.Second().Head())
+				{
+					stat->endCondition=input.Second().Head()->Value();
+				}
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToDoWhileStat(const ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedStatement>>,
+				Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedWhileStatement> stat=CreateNode<ManagedWhileStatement>(input.First().First());
+				stat->statement=input.First().Second();
+				stat->endCondition=input.Second();
+				return stat;
+			}
+
+			Ptr<ManagedVariableStatement> ToForInitializer(const ParsingPair<ParsingPair<
+				Ptr<ManagedType>,
+				RegexToken>,
+				Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedVariableStatement> stat=CreateNode<ManagedVariableStatement>(input.First().Second());
+				stat->constant=false;
+				stat->type=input.First().First();
+				stat->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				stat->initializer=input.Second();
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToForStat(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				ParsingList<Ptr<ManagedVariableStatement>>>,
+				ParsingList<Ptr<ManagedExpression>>>,
+				ParsingList<Ptr<ManagedExpression>>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedForStatement> stat=CreateNode<ManagedForStatement>(input.First().First().First().First());
+				{
+					Ptr<ParsingList<Ptr<ManagedVariableStatement>>::Node> current=input.First().First().First().Second().Head();
+					while(current)
+					{
+						stat->initializers.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				if(input.First().First().Second().Head())
+				{
+					stat->condition=input.First().First().Second().Head()->Value();
+				}
+				{
+					Ptr<ParsingList<Ptr<ManagedExpression>>::Node> current=input.First().Second().Head();
+					while(current)
+					{
+						stat->sideEffects.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				stat->statement=input.Second();
+				return stat;
+			}
+
+			Ptr<ManagedCatchClause> ToCatchClause(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedType>>,
+				ParsingList<RegexToken>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedCatchClause> clause=CreateNode<ManagedCatchClause>(input.First().First().First());
+				clause->exceptionType=input.First().First().Second();
+				if(input.First().Second().Head())
+				{
+					RegexToken name=input.First().Second().Head()->Value();
+					clause->exceptionName=ConvertID(WString(name.reading, name.length));
+				}
+				clause->exceptionHandler=input.Second();
+				return clause;
+			}
+
+			Ptr<ManagedStatement> ToTryStat(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedStatement>>,
+				ParsingList<Ptr<ManagedCatchClause>>>,
+				ParsingList<Ptr<ManagedStatement>>>& input)
+			{
+				Ptr<ManagedTryCatchStatement> stat=CreateNode<ManagedTryCatchStatement>(input.First().First().First());
+				stat->tryStatement=input.First().First().Second();
+
+				Ptr<ParsingList<Ptr<ManagedCatchClause>>::Node> current=input.First().Second().Head();
+				while(current)
+				{
+					stat->catches.Add(current->Value());
+					current=current->Next();
+				}
+
+				if(input.Second().Head())
+				{
+					stat->finallyStatement=input.Second().Head()->Value();
+				}
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToThrowStat(const ParsingPair<
+				RegexToken,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedThrowStatement> stat=CreateNode<ManagedThrowStatement>(input.First());
+				if(input.Second().Head())
+				{
+					stat->expression=input.Second().Head()->Value();
+				}
+				return stat;
 			}
 
 /***********************************************************************
@@ -1291,6 +1458,7 @@ Error Handlers
 			}
 			
 			ERROR_HANDLER(NeedId,							RegexToken)
+			ERROR_HANDLER(NeedWhile,						RegexToken)
 				
 			ERROR_HANDLER(NeedColon,						RegexToken)
 			ERROR_HANDLER(NeedSemicolon,					RegexToken)
@@ -1329,6 +1497,9 @@ Error Handlers
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedExpression>>						IncompleteExpressionNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedExpression>>						ExpressionNode;
 			
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedVariableStatement>>					ForInitializerNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedCatchClause>>						CatchClauseNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedCaseClause>>						CaseClauseNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedStatement>>							IncompleteStatementNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedStatement>>							StatementNode;
 
@@ -1350,7 +1521,7 @@ Error Handlers
 
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
-				TokenType							EXIT;
+				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE;
 				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM;
 				
 				TokenType							IN, OUT, PARAMS, REF;
@@ -1391,6 +1562,9 @@ Error Handlers
 				IncompleteExpressionNode			constant, primitiveExpression, exp0;
 				ExpressionNode						expression;
 
+				ForInitializerNode					forInitializer;
+				CatchClauseNode						catchClause;
+				CaseClauseNode						caseClause;
 				IncompleteStatementNode				compositeStatement, lambdaBody;
 				StatementNode						statement;
 
@@ -1430,6 +1604,20 @@ Error Handlers
 					TYPEOF					= CreateToken(tokens, L"typeof");
 
 					EXIT					= CreateToken(tokens, L"exit");
+					BREAK					= CreateToken(tokens, L"break");
+					CONTINUE				= CreateToken(tokens, L"continue");
+					IF						= CreateToken(tokens, L"if");
+					ELSE					= CreateToken(tokens, L"else");
+					WHILE					= CreateToken(tokens, L"while");
+					DO						= CreateToken(tokens, L"do");
+					WHEN					= CreateToken(tokens, L"when");
+					FOR						= CreateToken(tokens, L"for");
+					TRY						= CreateToken(tokens, L"try");
+					CATCH					= CreateToken(tokens, L"catch");
+					FINALLY					= CreateToken(tokens, L"finally");
+					THROW					= CreateToken(tokens, L"throw");
+					LOCK					= CreateToken(tokens, L"lock");
+					CASE					= CreateToken(tokens, L"case");
 										
 					GLOBAL					= CreateToken(tokens, L"global");
 					NAMESPACE				= CreateToken(tokens, L"namespace");
@@ -1563,9 +1751,30 @@ Error Handlers
 											| compositeStatement
 											;
 
+					forInitializer			= (type + ID(NeedId) + (EQ(NeedEq) >> expression))[ToForInitializer];
+
+					catchClause				= ((CATCH << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + opt(ID) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToCatchClause];
+
 					statement				= compositeStatement
 											| SEMICOLON(NeedStatement)[ToEmptyStat]
+											| (BREAK << SEMICOLON(NeedSemicolon))[ToBreakStat]
+											| (CONTINUE << SEMICOLON(NeedSemicolon))[ToContinueStat]
 											| (EXIT << SEMICOLON(NeedSemicolon))[ToReturnStat]
+											| (IF + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + opt(ELSE >> statement))[ToIfStat]
+											| (WHILE + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + 
+												opt(WHEN >> OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))
+											  )[ToWhileStat]
+											| (DO + statement + (WHILE(NeedWhile) >> (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))))[ToDoWhileStat]
+											| (
+												(FOR << OPEN_EXP_BRACE(NeedOpenExpBrace)) +
+												(plist(opt(forInitializer + *(COMMA >> forInitializer))) << SEMICOLON(NeedSemicolon))
+												+ opt(expression) +
+												(SEMICOLON(NeedSemicolon) >> plist(opt(expression + *(COMMA >> expression))))
+												+ (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement)
+											  )[ToForStat]
+											| (TRY + statement + *catchClause + opt(FINALLY >> statement))[ToTryStat]
+											| (THROW + (opt(expression) << SEMICOLON(NeedSemicolon)))[ToThrowStat]
+											| ((opt(CONST) + type + ID(NeedId) + opt(EQ >> expression))<<SEMICOLON(NeedSemicolon))[ToVarStat]
 											| (expression << SEMICOLON(NeedSemicolon))[ToExpressionStat]
 											;
 

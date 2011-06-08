@@ -909,7 +909,15 @@ Basic Statements
 					argument.writer.WriteString(L"{\r\n");
 					for(vint i=0;i<node->statements.Count();i++)
 					{
-						ManagedX_GenerateCode_Statement(node->statements[i], argument);
+						if(node->statements[i].Cast<ManagedCompositeStatement>())
+						{
+							MXCGP newArgument(argument.writer, argument.indentation+1);
+							ManagedX_GenerateCode_Statement(node->statements[i], newArgument);
+						}
+						else
+						{
+							ManagedX_GenerateCode_Statement(node->statements[i], argument);
+						}
 						argument.writer.WriteString(L"\r\n");
 					}
 					PrintIndentation(argument, -1);
@@ -947,13 +955,13 @@ Basic Statements
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"if(");
 					ManagedX_GenerateCode_Expression(node->condition, argument);
-					argument.writer.WriteLine(L")\r\n");
+					argument.writer.WriteLine(L")");
 					ManagedX_GenerateCode_Statement(node->trueStatement, newArgument);
 					if(node->falseStatement)
 					{
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
-						argument.writer.WriteLine(L"else\r\n");
+						argument.writer.WriteLine(L"else");
 						ManagedX_GenerateCode_Statement(node->falseStatement, newArgument);
 					}
 				}
@@ -966,7 +974,11 @@ Basic Statements
 					{
 						argument.writer.WriteString(L"while(");
 						ManagedX_GenerateCode_Expression(node->beginCondition, argument);
-						argument.writer.WriteLine(L")\r\n");
+						argument.writer.WriteLine(L")");
+					}
+					else if(node->endCondition)
+					{
+						argument.writer.WriteLine(L"do");
 					}
 					else
 					{
@@ -977,9 +989,16 @@ Basic Statements
 					{
 						argument.writer.WriteString(L"\r\n");
 						PrintIndentation(argument);
-						argument.writer.WriteString(L"when(");
+						if(node->beginCondition)
+						{
+							argument.writer.WriteString(L"when(");
+						}
+						else
+						{
+							argument.writer.WriteString(L"while(");
+						}
 						ManagedX_GenerateCode_Expression(node->endCondition, argument);
-						argument.writer.WriteLine(L");");
+						argument.writer.WriteString(L");");
 					}
 				}
 
@@ -1001,12 +1020,12 @@ Basic Statements
 							ManagedX_GenerateCode_Expression(variable->initializer, argument);
 						}
 					}
-					argument.writer.WriteString(L" ; ");
+					argument.writer.WriteString(L"; ");
 					if(node->condition)
 					{
 						ManagedX_GenerateCode_Expression(node->condition, argument);
 					}
-					argument.writer.WriteString(L" ; ");
+					argument.writer.WriteString(L"; ");
 					for(vint i=0;i<node->sideEffects.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L", ");
@@ -1038,6 +1057,7 @@ Basic Statements
 				ALGORITHM_PROCEDURE_MATCH(ManagedTryCatchStatement)
 				{
 					MXCGP newArgument(argument.writer, argument.indentation+1);
+					PrintIndentation(argument);
 					argument.writer.WriteString(L"try\r\n");
 					ManagedX_GenerateCode_Statement(node->tryStatement, newArgument);
 					for(vint i=0;i<node->catches.Count();i++)
@@ -1051,7 +1071,7 @@ Basic Statements
 							argument.writer.WriteString(L" ");
 							IdentifierToString(node->catches[i]->exceptionName, argument.writer);
 						}
-						argument.writer.WriteString(L"catch)\r\n");
+						argument.writer.WriteString(L")\r\n");
 						ManagedX_GenerateCode_Statement(node->catches[i]->exceptionHandler, newArgument);
 					}
 					if(node->finallyStatement)

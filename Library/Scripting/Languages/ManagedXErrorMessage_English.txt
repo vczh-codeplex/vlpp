@@ -3,6 +3,7 @@ resource:vl.scripting.language_managedx.ManagedXErrorMessage
 UnrecognizedToken(token)=Unrecognized Token \"{token}\".
 
 NeedId=Here needs an identifier.
+NeedWhile=Here needs \"while\".
 
 NeedColon=Here needs \":\".
 NeedSemicolon=Here needs \";\".
