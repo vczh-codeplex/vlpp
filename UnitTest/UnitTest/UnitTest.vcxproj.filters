@@ -597,6 +597,24 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp">
       <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Type.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Expression.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Statement.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Declaration.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Attribute.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Lexer.cpp">
+      <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1854,6 +1872,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Combinator\_Binop.h">
       <Filter>Library3\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Common.h">
+      <Filter>Library3\Scripting\Languages\ManagedX\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
