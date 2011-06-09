@@ -1,0 +1,31 @@
+namespace System
+{
+    namespace Attributes
+    {
+        class X{}
+        public class X{}
+        abstract class X{}
+        public abstract class X{}
+
+        [Serializable]
+        public class X{}
+
+        generic<T>
+        public class X{}
+
+        [Serializable]
+        generic<T>
+        public class X{}
+    }
+
+    namespace Types
+    {
+        public class X{}
+        public struct X : A{}
+        public interface X : A, B{}
+    }
+
+    namespace Members
+    {
+    }
+}
