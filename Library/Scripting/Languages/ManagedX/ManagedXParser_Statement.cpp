@@ -237,6 +237,42 @@ Extended Statements
 				return stat;
 			}
 
+			Ptr<ManagedCaseClause> ToCaseClause(const ParsingPair<
+				ParsingList<Ptr<ManagedExpression>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedCaseClause> clause=CreateNode<ManagedCaseClause>(input.Second());
+				Ptr<ParsingList<Ptr<ManagedExpression>>::Node> current=input.First().Head();
+				while(current)
+				{
+					clause->conditions.Add(current->Value());
+					current=current->Next();
+				}
+				clause->statement=input.Second();
+				return clause;
+			}
+
+			Ptr<ManagedStatement> ToSelectStat(const ParsingPair<ParsingPair<ParsingPair<
+				RegexToken,
+				Ptr<ManagedExpression>>,
+				ParsingList<Ptr<ManagedCaseClause>>>,
+				ParsingList<Ptr<ManagedStatement>>>& input)
+			{
+				Ptr<ManagedSelectStatement> stat=CreateNode<ManagedSelectStatement>(input.First().First().First());
+				stat->expression=input.First().First().Second();
+				Ptr<ParsingList<Ptr<ManagedCaseClause>>::Node> current=input.First().Second().Head();
+				while(current)
+				{
+					stat->cases.Add(current->Value());
+					current=current->Next();
+				}
+				if(input.Second().Head())
+				{
+					stat->defaultStatement=input.Second().Head()->Value();
+				}
+				return stat;
+			}
+
 /***********************************************************************
 Lambda Statement
 ***********************************************************************/
@@ -274,6 +310,8 @@ ManagedXParserImpl
 
 				catchClause				= ((CATCH << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + opt(ID) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToCatchClause];
 
+				caseClause				= (*(CASE >> expression << COLON(NeedColon)) + statement)[ToCaseClause];
+
 				statement				= compositeStatement
 										| SEMICOLON(NeedStatement)[ToEmptyStat]
 										| (BREAK << SEMICOLON(NeedSemicolon))[ToBreakStat]
@@ -295,6 +333,11 @@ ManagedXParserImpl
 										| (THROW + (opt(expression) << SEMICOLON(NeedSemicolon)))[ToThrowStat]
 										| ((USING << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + ID(NeedId) + (EQ >> expression) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToUsingStat]
 										| (LOCK + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement)[ToLockStat]
+										| (SWITCH + 
+											(OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
+											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *caseClause) +
+											(opt(DEFAULT >> COLON(NeedColon) >> statement) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+										  )[ToSelectStat]
 										| ((opt(CONST) + type + ID(NeedId) + opt(EQ >> expression))<<SEMICOLON(NeedSemicolon))[ToVarStat]
 										| (expression << SEMICOLON(NeedSemicolon))[ToExpressionStat]
 										;

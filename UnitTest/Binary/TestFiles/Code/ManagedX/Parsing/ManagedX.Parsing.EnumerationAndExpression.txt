@@ -69,6 +69,7 @@ namespace enumerations
         exp14 = a+=b-=c*=d/=e%=f&&=g&=h||=i|=j^=k<<=l>>=m=n,
 
         Typeof = typeof(string),
+		Default = default(string),
         NewArray1 = new string[10],
         NewArray2 = new string[RowCount, ColCount],
         Index1 = stringArray[5],
@@ -144,6 +145,13 @@ namespace enumerations
             {
                 this.names.Add("vczh");
             }
+
+			switch(count)
+			{
+				case 1: print(1);
+				case 2: case 3: print(2);
+				default: print(3);
+			}
         },
 
         Last = fuck

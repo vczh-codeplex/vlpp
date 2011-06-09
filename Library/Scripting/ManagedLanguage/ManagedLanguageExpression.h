@@ -430,6 +430,14 @@ Extended Expressions
 				Ptr<ManagedType>									type;
 			};
 
+			class ManagedDefaultExpression : public ManagedExtendedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedType>									type;
+			};
+
 			class ManagedUnaryExpression : public ManagedExtendedExpression
 			{
 			public:
@@ -487,6 +495,7 @@ Extended Expressions
 			F(P, ManagedChoiceExpression)\
 			F(P, ManagedNullChoiceExpression)\
 			F(P, ManagedTypeofExpression)\
+			F(P, ManagedDefaultExpression)\
 			F(P, ManagedUnaryExpression)\
 			F(P, ManagedBinaryExpression)\
 			F(P, ManagedNewArrayExpression)\
@@ -633,7 +642,7 @@ Basic Statements
 Extended Statement Fragments
 ***********************************************************************/
 
-			class ManagedCaseClause : public ManagedExtendedStatement
+			class ManagedCaseClause : public ManagedLanguageElement
 			{
 			public:
 				collections::List<Ptr<ManagedExpression>>			conditions;

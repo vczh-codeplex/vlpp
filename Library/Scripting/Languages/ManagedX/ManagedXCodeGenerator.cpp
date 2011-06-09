@@ -671,6 +671,13 @@ Extended Expressions
 					argument.writer.WriteString(L")");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(ManagedDefaultExpression)
+				{
+					argument.writer.WriteString(L"default(");
+					ManagedX_GenerateCode_Type(node->type, argument);
+					argument.writer.WriteString(L")");
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
 				{
 					argument.writer.WriteString(L"(");
@@ -1140,32 +1147,34 @@ Extended Statements
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"switch(");
 					ManagedX_GenerateCode_Expression(node->expression, argument);
-					argument.writer.WriteLine(L")\r\n");
+					argument.writer.WriteLine(L")");
 					PrintIndentation(argument);
-					argument.writer.WriteLine(L"{\r\n");
+					argument.writer.WriteLine(L"{");
 					
-					MXCGP newArgument(argument.writer, argument.indentation+1);
+					MXCGP newArgument(argument.writer, argument.indentation+2);
 					for(vint i=0;i<node->cases.Count();i++)
 					{
 						Ptr<ManagedCaseClause> caseClause=node->cases[i];
 						for(vint j=0;j<caseClause->conditions.Count();j++)
 						{
-							PrintIndentation(argument);
+							PrintIndentation(argument, 1);
 							argument.writer.WriteString(L"case ");
 							ManagedX_GenerateCode_Expression(caseClause->conditions[j], argument);
 							argument.writer.WriteString(L":\r\n");
 						}
 						ManagedX_GenerateCode_Statement(caseClause->statement, newArgument);
+						argument.writer.WriteLine(L"");
 					}
 					if(node->defaultStatement)
 					{
-						PrintIndentation(argument);
+						PrintIndentation(argument, 1);
 						argument.writer.WriteString(L"default:\r\n");
 						ManagedX_GenerateCode_Statement(node->defaultStatement, newArgument);
+						argument.writer.WriteLine(L"");
 					}
 
 					PrintIndentation(argument);
-					argument.writer.WriteLine(L"}");
+					argument.writer.WriteString(L"}");
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedStatement)
