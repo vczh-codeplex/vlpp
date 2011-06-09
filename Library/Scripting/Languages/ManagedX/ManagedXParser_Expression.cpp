@@ -251,6 +251,13 @@ Extended Expressions
 				return exp;
 			}
 
+			Ptr<ManagedExpression> ToDefault(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
+			{
+				Ptr<ManagedDefaultExpression> exp=CreateNode<ManagedDefaultExpression>(input.First());
+				exp->type=input.Second();
+				return exp;
+			}
+
 			Ptr<ManagedExpression> ToNewArray(const ParsingPair<ParsingPair<
 				RegexToken,
 				Ptr<ManagedType>>,
@@ -647,6 +654,7 @@ ManagedXParserImpl
 											(OPEN_ARRAY_BRACE(NeedOpenArrayBrace) >> plist(expression + *(COMMA >> expression)) << CLOSE_ARRAY_BRACE(NeedCloseArrayBrace))
 											)[ToNewArray]
 										| (TYPEOF + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> type << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToTypeof]
+										| (DEFAULT + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> type << CLOSE_EXP_BRACE(NeedCloseExpBrace)))[ToDefault]
 										;
 
 				exp0					= lrec(primitiveExpression +   *( (DOT >> ID)[ToMemberExpressionLrec]

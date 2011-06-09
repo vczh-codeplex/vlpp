@@ -55,6 +55,7 @@ ManagedXParserImpl
 				THROW					= CreateToken(tokens, L"throw");
 				LOCK					= CreateToken(tokens, L"lock");
 				CASE					= CreateToken(tokens, L"case");
+				DEFAULT					= CreateToken(tokens, L"default");
 										
 				GLOBAL					= CreateToken(tokens, L"global");
 				NAMESPACE				= CreateToken(tokens, L"namespace");
