@@ -134,6 +134,11 @@ Basic Declaration Fragments (Attribute)
 Basic Declaration Members
 ***********************************************************************/
 
+			Ptr<ManagedMember> ToTemporaryMember(const RegexToken& input)
+			{
+				return 0;
+			}
+
 /***********************************************************************
 Extended Declaration Members
 ***********************************************************************/
@@ -141,6 +146,45 @@ Extended Declaration Members
 /***********************************************************************
 Basic Declarations
 ***********************************************************************/
+
+			Ptr<ManagedDeclaration> ToTypeDecl(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				ParsingList<Ptr<ManagedGenericInfo>>>,
+				declatt::Accessor>,
+				declatt::Inheritation>,
+				ManagedTypeDeclaration::DeclarationType>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedType>>>,
+				ParsingList<Ptr<ManagedMember>>>& input)
+			{
+				Ptr<ManagedTypeDeclaration> decl=CreateNode<ManagedTypeDeclaration>(input.First().First().Second());
+				CopyAttributeInfo(decl->attributeInfo, input.First().First().First().First().First().First().First());
+				if(input.First().First().First().First().First().First().Second().Head())
+				{
+					CopyGenericInfo(decl->genericInfo, input.First().First().First().First().First().First().Second().Head()->Value());
+				}
+				decl->accessor=input.First().First().First().First().First().Second();
+				decl->inheritation=input.First().First().First().First().Second();
+				decl->declarationType=input.First().First().First().Second();
+				decl->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				{
+					Ptr<ParsingList<Ptr<ManagedType>>::Node> current=input.First().Second().Head();
+					while(current)
+					{
+						decl->baseTypes.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				{
+					Ptr<ParsingList<Ptr<ManagedMember>>::Node> current=input.Second().Head();
+					while(current)
+					{
+						decl->members.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				return decl;
+			}
 
 			Ptr<ManagedDeclaration> ToNamespaceDecl(const ParsingPair<ParsingPair<RegexToken, ParsingList<RegexToken>>, ParsingList<Ptr<ManagedDeclaration>>>& input)
 			{
@@ -296,6 +340,16 @@ ManagedXParserImpl
 				declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID(NeedId))) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
 										| ((opt(genericInfo) + accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]
 										| (NAMESPACE + plist(ID(NeedId) + *(DOT >> ID(NeedId))) + (OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *declaration << CLOSE_DECL_BRACE(NeedCloseDeclBrace)))[ToNamespaceDecl]
+										| (
+											attributeInfo +
+											opt(genericInfo) +
+											accessor +
+											inheritation +
+											(let(CLASS, ManagedTypeDeclaration::Class) | let(STRUCT, ManagedTypeDeclaration::Structure) | let(INTERFACE, ManagedTypeDeclaration::Interface)) +
+											ID(NeedId) +
+											plist(opt(COLON >> (type + *(COMMA >> type)))) +
+											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *ID[ToTemporaryMember] << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+										  )[ToTypeDecl]
 										| (attributeInfo + accessor + ENUM + opt(SWITCH) + ID + (
 											OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(enumItem + *(COMMA >> enumItem))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)
 											))[ToEnum]

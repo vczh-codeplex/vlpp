@@ -6,6 +6,53 @@ namespace vl
 	{
 		namespace language_managedx
 		{
+
+/***********************************************************************
+Left Recursion Helper
+***********************************************************************/
+
+			namespace explrec
+			{
+				class ExpLrecBase : public Object
+				{
+				public:
+					virtual Ptr<ManagedExpression>		Set(Ptr<ManagedExpression> operand)=0;
+				};
+
+				template<typename T>
+				class ExpLrec{};
+
+#define EXP_LREC(TYPE, MEMBER)\
+				template<>\
+				class ExpLrec<TYPE> : public ExpLrecBase\
+				{\
+				protected:\
+					Ptr<TYPE>							exp;\
+				public:\
+					ExpLrec(Ptr<TYPE> _exp)\
+						:exp(_exp)\
+					{\
+					}\
+					Ptr<ManagedExpression> Set(Ptr<ManagedExpression> operand)\
+					{\
+						exp->MEMBER=operand;\
+						return exp;\
+					}\
+				};
+
+				EXP_LREC(ManagedMemberExpression, operand)
+				EXP_LREC(ManagedInstantiatedExpression, operand)
+				EXP_LREC(ManagedInvokeExpression, function)
+				EXP_LREC(ManagedUnaryExpression, operand)
+				EXP_LREC(ManagedIndexExpression, operand)
+#undef EXP_LREC
+
+				template<typename T>
+				Ptr<ExpLrecBase> ToExpLrec(Ptr<T> exp)
+				{
+					return new ExpLrec<T>(exp);
+				}
+			}
 /***********************************************************************
 Constants
 ***********************************************************************/

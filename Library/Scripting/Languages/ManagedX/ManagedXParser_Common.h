@@ -108,94 +108,6 @@ namespace vl
 			extern WString										ConvertID(const WString& input);
 
 /***********************************************************************
-Left Recursion Helper
-***********************************************************************/
-
-			namespace typelrec
-			{
-				class TypeLrecBase : public Object
-				{
-				public:
-					virtual Ptr<ManagedType>			Set(Ptr<ManagedType> operand)=0;
-				};
-
-				template<typename T>
-				class TypeLrec{};
-
-#define TYPE_LREC(TYPE, MEMBER)\
-				template<>\
-				class TypeLrec<TYPE> : public TypeLrecBase\
-				{\
-				protected:\
-					Ptr<TYPE>							type;\
-				public:\
-					TypeLrec(Ptr<TYPE> _type)\
-						:type(_type)\
-					{\
-					}\
-					Ptr<ManagedType> Set(Ptr<ManagedType> operand)\
-					{\
-						type->MEMBER=operand;\
-						return type;\
-					}\
-				};
-
-				TYPE_LREC(ManagedMemberType, operand)
-				TYPE_LREC(ManagedInstantiatedGenericType, elementType)
-				TYPE_LREC(ManagedArrayType, elementType)
-#undef TYPE_LREC
-
-				template<typename T>
-				Ptr<TypeLrecBase> ToTypeLrec(Ptr<T> exp)
-				{
-					return new TypeLrec<T>(exp);
-				}
-			}
-
-			namespace explrec
-			{
-				class ExpLrecBase : public Object
-				{
-				public:
-					virtual Ptr<ManagedExpression>		Set(Ptr<ManagedExpression> operand)=0;
-				};
-
-				template<typename T>
-				class ExpLrec{};
-
-#define EXP_LREC(TYPE, MEMBER)\
-				template<>\
-				class ExpLrec<TYPE> : public ExpLrecBase\
-				{\
-				protected:\
-					Ptr<TYPE>							exp;\
-				public:\
-					ExpLrec(Ptr<TYPE> _exp)\
-						:exp(_exp)\
-					{\
-					}\
-					Ptr<ManagedExpression> Set(Ptr<ManagedExpression> operand)\
-					{\
-						exp->MEMBER=operand;\
-						return exp;\
-					}\
-				};
-
-				EXP_LREC(ManagedMemberExpression, operand)
-				EXP_LREC(ManagedInstantiatedExpression, operand)
-				EXP_LREC(ManagedInvokeExpression, function)
-				EXP_LREC(ManagedUnaryExpression, operand)
-				EXP_LREC(ManagedIndexExpression, operand)
-#undef EXP_LREC
-
-				template<typename T>
-				Ptr<ExpLrecBase> ToExpLrec(Ptr<T> exp)
-				{
-					return new ExpLrec<T>(exp);
-				}
-			}
-
-/***********************************************************************
 Óï·¨·ÖÎöÆ÷
 ***********************************************************************/
 
@@ -269,7 +181,7 @@ Left Recursion Helper
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
 				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT;
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE;
 				
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;

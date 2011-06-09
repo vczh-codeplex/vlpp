@@ -62,6 +62,9 @@ ManagedXParserImpl
 				USING					= CreateToken(tokens, L"using");
 				GENERIC					= CreateToken(tokens, L"generic");
 				ENUM					= CreateToken(tokens, L"enum");
+				CLASS					= CreateToken(tokens, L"class");
+				STRUCT					= CreateToken(tokens, L"struct");
+				INTERFACE				= CreateToken(tokens, L"interface");
 					
 
 				IN						= CreateToken(tokens, L"in");

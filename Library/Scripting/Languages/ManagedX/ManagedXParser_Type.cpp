@@ -8,6 +8,51 @@ namespace vl
 		{
 
 /***********************************************************************
+Left Recursion Helper
+***********************************************************************/
+
+			namespace typelrec
+			{
+				class TypeLrecBase : public Object
+				{
+				public:
+					virtual Ptr<ManagedType>			Set(Ptr<ManagedType> operand)=0;
+				};
+
+				template<typename T>
+				class TypeLrec{};
+
+#define TYPE_LREC(TYPE, MEMBER)\
+				template<>\
+				class TypeLrec<TYPE> : public TypeLrecBase\
+				{\
+				protected:\
+					Ptr<TYPE>							type;\
+				public:\
+					TypeLrec(Ptr<TYPE> _type)\
+						:type(_type)\
+					{\
+					}\
+					Ptr<ManagedType> Set(Ptr<ManagedType> operand)\
+					{\
+						type->MEMBER=operand;\
+						return type;\
+					}\
+				};
+
+				TYPE_LREC(ManagedMemberType, operand)
+				TYPE_LREC(ManagedInstantiatedGenericType, elementType)
+				TYPE_LREC(ManagedArrayType, elementType)
+#undef TYPE_LREC
+
+				template<typename T>
+				Ptr<TypeLrecBase> ToTypeLrec(Ptr<T> exp)
+				{
+					return new TypeLrec<T>(exp);
+				}
+			}
+
+/***********************************************************************
 Basic Types
 ***********************************************************************/
 
