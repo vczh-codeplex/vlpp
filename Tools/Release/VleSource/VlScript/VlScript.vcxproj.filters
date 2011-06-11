@@ -121,6 +121,24 @@
     <Filter Include="Library\Scripting\Languages\NativeX\Source Files">
       <UniqueIdentifier>{08322784-c1d5-43e4-ad4f-a1ac1b12aa59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Scripting\Languages\ManagedX">
+      <UniqueIdentifier>{0bc5474e-22a9-4275-9ba1-f312d6216f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\ManagedX\Header Files">
+      <UniqueIdentifier>{0e24d4bd-0632-428d-93ec-cba42ddba02a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\Languages\ManagedX\Source Files">
+      <UniqueIdentifier>{c2433586-3ed7-40fb-a151-f140b8aefa29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\ManagedLanguage">
+      <UniqueIdentifier>{b41c2108-54ba-4c41-b556-cc335ad3ef65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\ManagedLanguage\Header Files">
+      <UniqueIdentifier>{dad09e6a-39dc-4760-b2f5-6976190d85e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scripting\ManagedLanguage\Source Files">
+      <UniqueIdentifier>{2d0178f3-a69b-4d57-b676-9c17c38ba3e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VlScript.h">
@@ -420,9 +438,6 @@
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProvider.h">
       <Filter>Library\Scripting\Languages\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProviderExtension.h">
-      <Filter>Library\Scripting\Languages\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageRuntime.h">
       <Filter>Library\Scripting\Languages\Header Files</Filter>
     </ClInclude>
@@ -431,6 +446,51 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.h">
       <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h">
+      <Filter>Library\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h">
+      <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.h">
+      <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXParser.h">
+      <Filter>Library\Scripting\Languages\NativeX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TaskEntity.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeDoc.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeJson.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeQuery.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeXml.h">
+      <Filter>Library\Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedX.h">
+      <Filter>Library\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h">
+      <Filter>Library\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.h">
+      <Filter>Library\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h">
+      <Filter>Library\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Common.h">
+      <Filter>Library\Scripting\Languages\ManagedX\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h">
+      <Filter>Library\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -679,6 +739,66 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessage.cpp">
       <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp">
+      <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.cpp">
+      <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp">
+      <Filter>Library\Scripting\Languages\NativeX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\BasicLanguage\BasicLanguageAna_GetConstantValue.cpp">
+      <Filter>Library\Scripting\BasicLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TaskEntity.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeDoc.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeJson.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeXml.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeQuery.cpp">
+      <Filter>Library\Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedX.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXErrorMessage.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Attribute.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Declaration.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Expression.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Lexer.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Statement.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Type.cpp">
+      <Filter>Library\Scripting\Languages\ManagedX\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp">
+      <Filter>Library\Scripting\ManagedLanguage\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
