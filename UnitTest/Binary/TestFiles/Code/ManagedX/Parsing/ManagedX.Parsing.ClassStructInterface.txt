@@ -27,5 +27,88 @@ namespace System
 
     namespace Members
     {
+        class DeclarationMember
+        {
+            class X{}
+            public class X{}
+            abstract class X{}
+            public abstract class X{}
+
+            [Serializable]
+            public class X{}
+
+            generic<T>
+            public class X{}
+
+            [Serializable]
+            generic<T>
+            public class X{}
+
+            public class X{}
+            public struct X : A{}
+            public interface X : A, B{}
+
+            [Serializable]
+            [Serializable()]
+            [Serializable(1, 2, 3)]
+            [Serializable(a:1, b:2, c:3)]
+            [Serializable(1, 2, 3, a:1, b:2, c:3)]
+	        public enum Season
+	        {
+		        Spring,
+		        Summer,
+		        Autumn,
+		        Winter
+	        }
+
+	        protected internal enum switch FileAttributes
+	        {
+		        None = 0,
+		        Readonly,
+		        System,
+		        Hidden
+	        }
+
+	        public using SINT8 = sbyte;
+	        protected using UINT8 = byte;
+	        private using SINT16 = short;
+	        internal using UINT16 = word;
+	        protected internal using SINT32 = int;
+	        using UINT32 = uint;
+	        using SINT64 = long;
+	        using UINT64 = ulong;
+	        using CHAR = char;
+	        using STRING = string;
+	        using FLOAT = float;
+	        using DOUBLE = double;
+	        using BOOL = bool;
+	        using OBJECT = object;
+	        using VOID = void;
+	        using INTPTR = intptr;
+	        using UINTPTR = uintptr;
+
+            using StringList = List<string>;
+            using StringMap = Dictionary<int, string>;
+            using IntArray = int[];
+            using VarMatrix = var[,];
+            using DynamicCube = dynamic[,,];
+            using E1 = event();
+            using E2 = event(Control);
+            using E3 = event(object, EventArgs);
+            using F1 = function int();
+            using F2 = function int(string);
+            using F3 = function int(float, double);
+
+            generic<T>
+            using ListWrapper = List<T>;
+
+            generic<
+                A,
+                in B : { new() },
+                out C : { IEnumerable<int> },
+                D : { IEnumerable<int>, new() }
+                >
+            using What = NoIdea<List<A>, Dictionary<B, C>, D>;
+        }
     }
 }

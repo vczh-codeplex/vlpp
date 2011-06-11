@@ -134,9 +134,11 @@ Basic Declaration Fragments (Attribute)
 Basic Declaration Members
 ***********************************************************************/
 
-			Ptr<ManagedMember> ToTemporaryMember(const RegexToken& input)
+			Ptr<ManagedMember> ToTypeMember(const Ptr<ManagedDeclaration>& input)
 			{
-				return 0;
+				Ptr<ManagedTypeMember> member=CreateNode<ManagedTypeMember>(input);
+				member->declaration=input;
+				return member;
 			}
 
 /***********************************************************************
@@ -333,6 +335,10 @@ ManagedXParserImpl
 
 				attributeInfo			= (*(attributeItem1 | attributeItem2 | attributeItem3))[ToAttributeInfo];
 
+				/*--------DECLARATION MEMBERS--------*/
+
+				member					= declaration[ToTypeMember];
+
 				/*--------DECLARATIONS--------*/
 
 				enumItem				= (ID(NeedId) + opt(EQ >> expression))[ToEnumItem];
@@ -348,7 +354,7 @@ ManagedXParserImpl
 											(let(CLASS, ManagedTypeDeclaration::Class) | let(STRUCT, ManagedTypeDeclaration::Structure) | let(INTERFACE, ManagedTypeDeclaration::Interface)) +
 											ID(NeedId) +
 											plist(opt(COLON >> (type + *(COMMA >> type)))) +
-											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *ID[ToTemporaryMember] << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *member << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
 										  )[ToTypeDecl]
 										| (attributeInfo + accessor + ENUM + opt(SWITCH) + ID + (
 											OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(opt(enumItem + *(COMMA >> enumItem))) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)

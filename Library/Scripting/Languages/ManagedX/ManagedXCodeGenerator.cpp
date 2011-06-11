@@ -1259,6 +1259,11 @@ Basic Members
 					argument.writer.WriteString(L"\r\n\r\n");
 				}
 
+				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
+				{
+					ManagedX_GenerateCode_Declaration(node->declaration, argument);
+				}
+
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
 				{
 					ManagedX_GenerateCode_ExtendedMember(node, argument);
