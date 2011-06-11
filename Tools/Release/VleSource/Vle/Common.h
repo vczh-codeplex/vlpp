@@ -16,6 +16,7 @@ using namespace vl::collections;
 using namespace vl::stream;
 using namespace vl::scripting;
 using namespace vl::scripting::basicil;
+using namespace vl::scripting::basiclanguage;
 using namespace vl::scripting::utility;
 
 extern wchar_t* ProcVersion();

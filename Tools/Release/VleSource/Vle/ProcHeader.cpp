@@ -1,5 +1,5 @@
 #include "Common.h"
-#include "..\..\..\..\Library\Scripting\Languages\LanguageProviderExtension.h"
+#include "..\..\..\..\Library\Scripting\Languages\LanguageProviderBasicExtension.h"
 #include "..\..\..\..\Library\Scripting\Languages\NativeX\NativeX.h"
 
 void ProcHeaderGenerateBasic(Ptr<LanguageAssembly> assembly, Ptr<IBasicLanguageProvider> provider, TextWriter& writer)
