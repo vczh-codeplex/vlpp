@@ -139,6 +139,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedNewObjectExpression>>				AttributeItemNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedAttributeInfo>>						AttributeInfoNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
+			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedMember>>							MemberNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedXUnit>>								UnitRule;
@@ -232,6 +233,7 @@ namespace vl
 				AttributeItemNode					attributeItem1, attributeItem2, attributeItem3;
 				AttributeInfoNode					attributeInfo;
 				EnumItemNode						enumItem;
+				MemberNode							member;
 				DeclarationNode						declaration;
 
 				UnitRule							unit;

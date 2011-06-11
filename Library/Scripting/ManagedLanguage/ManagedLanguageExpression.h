@@ -761,14 +761,18 @@ Basic Declaration Fragments
 			{
 			public:
 				ALGORITHM_TARGET_ROOT(ManagedMember)
-					
+			};
+
+			class ManagedNonTypeMember : public ManagedMember
+			{
+			public:
 				WString												name;
 				declatt::Accessor									accessor;
 				declatt::MemberType									memberType;
 				ManagedAttributeInfo								attributeInfo;
 			};
 
-			class ManagedExtendedMember : public ManagedMember
+			class ManagedExtendedMember : public ManagedNonTypeMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -804,7 +808,7 @@ Basic Declaration Fragments
 Basic Members
 ***********************************************************************/
 
-			class ManagedField : public ManagedMember
+			class ManagedField : public ManagedNonTypeMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -816,7 +820,7 @@ Basic Members
 				declatt::DataType									dataType;
 			};
 
-			class ManagedMethod : public ManagedMember, public ManagedMethodCommon
+			class ManagedMethod : public ManagedNonTypeMember, public ManagedMethodCommon
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -829,7 +833,7 @@ Basic Members
 				ManagedGenericInfo									genericInfo;
 			};
 
-			class ManagedConstructor : public ManagedMember, public ManagedMethodCommon
+			class ManagedConstructor : public ManagedNonTypeMember, public ManagedMethodCommon
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -839,10 +843,19 @@ Basic Members
 				collections::List<Ptr<ManagedArgument>>				baseArguments;
 			};
 
+			class ManagedTypeMember : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				Ptr<ManagedDeclaration>								declaration;
+			};
+
 #define MANAGED_MEMBER_TARGETS(P, F)\
 			F(P, ManagedField)\
 			F(P, ManagedMethod)\
 			F(P, ManagedConstructor)\
+			F(P, ManagedTypeMember)\
 			F(P, ManagedExtendedMember)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedMember, MANAGED_MEMBER_TARGETS)
