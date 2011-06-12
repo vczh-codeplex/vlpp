@@ -1215,6 +1215,11 @@ Basic Members
 
 					ManagedX_GenerateCode_Type(node->returnType, argument);
 					argument.writer.WriteString(L" ");
+					if(node->implementedInterfaceType)
+					{
+						ManagedX_GenerateCode_Type(node->implementedInterfaceType, argument);
+						argument.writer.WriteString(L"::");
+					}
 					IdentifierToString(node->name, argument.writer);
 					ParametersToString(*node, argument);
 
@@ -1287,21 +1292,34 @@ Extended Members
 					
 					ManagedX_GenerateCode_Type(node->type, argument);
 					argument.writer.WriteString(L" ");
+					if(node->implementedInterfaceType)
+					{
+						ManagedX_GenerateCode_Type(node->implementedInterfaceType, argument);
+						argument.writer.WriteString(L"::");
+					}
 					IdentifierToString(node->name, argument.writer);
 					argument.writer.WriteString(L"\r\n");
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"{\r\n");
 					
-					MXCGP newArgument(argument.writer, argument.indentation+1);
-					PrintIndentation(argument, 1);
-					argument.writer.WriteString(L"get ");
-					ManagedX_GenerateCode_Statement(node->getter, newArgument);
-					argument.writer.WriteString(L"\r\n");
-					AttributeToString(node->setterAccessor, argument.writer);
-					argument.writer.WriteString(L"set ");
-					ManagedX_GenerateCode_Statement(node->setter, newArgument);
+					MXCGP newArgument(argument.writer, argument.indentation+2);
 
-					argument.writer.WriteString(L"\r\n");
+					if(node->getter)
+					{
+						PrintIndentation(argument, 1);
+						argument.writer.WriteString(L"get\r\n");
+						ManagedX_GenerateCode_Statement(node->getter, newArgument);
+						argument.writer.WriteString(L"\r\n");
+					}
+					if(node->setter)
+					{
+						PrintIndentation(argument, 1);
+						AttributeToString(node->setterAccessor, argument.writer);
+						argument.writer.WriteString(L"set\r\n");
+						ManagedX_GenerateCode_Statement(node->setter, newArgument);
+						argument.writer.WriteString(L"\r\n");
+					}
+
 					PrintIndentation(argument);
 					argument.writer.WriteString(L"}\r\n\r\n");
 				}

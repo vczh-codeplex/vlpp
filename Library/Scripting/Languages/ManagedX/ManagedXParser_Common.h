@@ -139,6 +139,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedNewObjectExpression>>				AttributeItemNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedAttributeInfo>>						AttributeInfoNode;
 			typedef Node<TokenInput<RegexToken>, Ptr<ManagedEnumItem>>							EnumItemNode;
+			typedef Node<TokenInput<RegexToken>, Ptr<ManagedParameter>>							ParameterNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedMember>>							MemberNode;
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedDeclaration>>						DeclarationNode;
 
@@ -158,6 +159,7 @@ namespace vl
 				ERROR_HANDLER(NeedId,							RegexToken)
 				ERROR_HANDLER(NeedWhile,						RegexToken)
 				
+				ERROR_HANDLER(NeedDot,							RegexToken)
 				ERROR_HANDLER(NeedColon,						RegexToken)
 				ERROR_HANDLER(NeedSemicolon,					RegexToken)
 				ERROR_HANDLER(NeedLambda,						RegexToken)
@@ -182,7 +184,7 @@ namespace vl
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
 				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT;
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET;
 				
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
@@ -206,7 +208,7 @@ namespace vl
 
 				/*--------RULES--------*/
 
-				AccessorNode						accessor;
+				AccessorNode						accessor, setterAccessor;
 				InheritationNode					inheritation;
 				MemberTypeNode						memberType;
 				DataTypeNode						dataType;
@@ -233,6 +235,7 @@ namespace vl
 				AttributeItemNode					attributeItem1, attributeItem2, attributeItem3;
 				AttributeInfoNode					attributeInfo;
 				EnumItemNode						enumItem;
+				ParameterNode						parameter;
 				MemberNode							member;
 				DeclarationNode						declaration;
 
