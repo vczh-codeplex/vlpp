@@ -62,6 +62,22 @@ namespace System
             }
         }
 
+        class OperatorMembers
+        {
+            [Serializable]
+            generic<T>
+            public static sealed implicit T() throw new ImpossibleException();
+            
+            [Serializable]
+            generic<T>
+            public static sealed explicit T() throw new ImpossibleException();
+
+            public string()
+            {
+                return this.ToString();
+            }
+        }
+
         class DeclarationMembers
         {
             class X{}

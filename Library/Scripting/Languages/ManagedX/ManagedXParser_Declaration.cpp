@@ -209,6 +209,31 @@ Extended Declaration Members
 				return member;
 			}
 
+			Ptr<ManagedMember> ToConverterOperatorMember(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				ParsingList<Ptr<ManagedGenericInfo>>>,
+				declatt::Accessor>,
+				declatt::MemberType>,
+				declatt::Inheritation>,
+				bool>,
+				Ptr<ManagedType>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedConverterOperator> member=CreateNode<ManagedConverterOperator>(input.First().Second());
+				CopyAttributeInfo(member->attributeInfo, input.First().First().First().First().First().First().First());
+				if(input.First().First().First().First().First().First().Second().Head())
+				{
+					CopyGenericInfo(member->genericInfo, input.First().First().First().First().First().First().Second().Head()->Value());
+				}
+				member->accessor=input.First().First().First().First().First().Second();
+				member->memberType=input.First().First().First().First().Second();
+				member->inheritation=input.First().First().First().Second();
+				member->implicit=input.First().First().Second();
+				member->targetType=input.First().Second();
+				member->body=input.Second();
+				return member;
+			}
+
 /***********************************************************************
 Basic Declarations
 ***********************************************************************/
@@ -408,6 +433,9 @@ ManagedXParserImpl
 												opt(opt(setterAccessor) + (SET >> statement))
 											) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
 										  )[ToPropertyMember]
+										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + implicitExplicit + type
+											+ (OPEN_EXP_BRACE(NeedOpenExpBrace) >> CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement)
+										  )[ToConverterOperatorMember]
 										| declaration[ToTypeMember]
 										;
 

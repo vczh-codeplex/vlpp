@@ -121,6 +121,7 @@ namespace vl
 					L"break",
 					L"continue",
 					L"exit",
+					L"return",
 					L"try",
 					L"catch",
 					L"finally",
@@ -343,6 +344,9 @@ namespace vl
 						break;
 					case ManagedParameter::Out:
 						argument.writer.WriteString(L"out ");
+						break;
+					case ManagedParameter::This:
+						argument.writer.WriteString(L"this ");
 						break;
 					}
 					ManagedX_GenerateCode_Type(p->type, argument);
@@ -1342,6 +1346,7 @@ Extended Members
 						argument.writer.WriteString(L"explicit ");
 					}
 					ManagedX_GenerateCode_Type(node->targetType, argument);
+					argument.writer.WriteString(L"()\r\n");
 
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->body, newArgument);

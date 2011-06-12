@@ -56,6 +56,7 @@ ManagedXParserImpl
 				LOCK					= CreateToken(tokens, L"lock");
 				CASE					= CreateToken(tokens, L"case");
 				DEFAULT					= CreateToken(tokens, L"default");
+				RETURN					= CreateToken(tokens, L"return");
 										
 				GLOBAL					= CreateToken(tokens, L"global");
 				NAMESPACE				= CreateToken(tokens, L"namespace");
@@ -67,6 +68,8 @@ ManagedXParserImpl
 				INTERFACE				= CreateToken(tokens, L"interface");
 				GET						= CreateToken(tokens, L"get");
 				SET						= CreateToken(tokens, L"set");
+				IMPLICIT				= CreateToken(tokens, L"implicit");
+				EXPLICIT				= CreateToken(tokens, L"explicit");
 					
 
 				IN						= CreateToken(tokens, L"in");
