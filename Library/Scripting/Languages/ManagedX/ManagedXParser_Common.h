@@ -159,6 +159,7 @@ namespace vl
 			
 				ERROR_HANDLER(NeedId,							RegexToken)
 				ERROR_HANDLER(NeedWhile,						RegexToken)
+				ERROR_HANDLER(NeedAs,							RegexToken)
 				
 				ERROR_HANDLER(NeedDot,							RegexToken)
 				ERROR_HANDLER(NeedColon,						RegexToken)
@@ -185,7 +186,7 @@ namespace vl
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
 				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT, RETURN;
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT, CONSTRUCTOR, DESTRUCTOR;
 				
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;

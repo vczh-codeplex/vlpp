@@ -763,16 +763,7 @@ Basic Declaration Fragments
 				ALGORITHM_TARGET_ROOT(ManagedMember)
 			};
 
-			class ManagedNonTypeMember : public ManagedMember
-			{
-			public:
-				WString												name;
-				declatt::Accessor									accessor;
-				declatt::MemberType									memberType;
-				ManagedAttributeInfo								attributeInfo;
-			};
-
-			class ManagedExtendedMember : public ManagedNonTypeMember
+			class ManagedExtendedMember : public ManagedMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
@@ -798,50 +789,58 @@ Basic Declaration Fragments
 				Ptr<ManagedExpression>								defaultValue;
 			};
 
-			class ManagedMethodCommon
-			{
-			public:
-				collections::List<Ptr<ManagedParameter>>			parameters;
-				Ptr<ManagedStatement>								body;
-			};
-
 /***********************************************************************
 Basic Members
 ***********************************************************************/
 
-			class ManagedField : public ManagedNonTypeMember
+			class ManagedField : public ManagedMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+
+				ManagedAttributeInfo								attributeInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+				declatt::DataType									dataType;
 
 				Ptr<ManagedType>									type;
 				WString												name;
 				Ptr<ManagedExpression>								initializer; // nullable
 
-				declatt::DataType									dataType;
 			};
 
-			class ManagedMethod : public ManagedNonTypeMember, public ManagedMethodCommon
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
-
-				Ptr<ManagedType>									implementedInterfaceType; // nullable
-				WString												name;
-				Ptr<ManagedType>									returnType;
-
-				declatt::Inheritation								inheritation;
-				ManagedGenericInfo									genericInfo;
-			};
-
-			class ManagedConstructor : public ManagedNonTypeMember, public ManagedMethodCommon
+			class ManagedMethod : public ManagedMember
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
 					
+				ManagedAttributeInfo								attributeInfo;
+				ManagedGenericInfo									genericInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+				declatt::Inheritation								inheritation;
+
+				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
+				collections::List<Ptr<ManagedParameter>>			parameters;
+				Ptr<ManagedType>									returnType;
+				Ptr<ManagedStatement>								body;
+
+			};
+
+			class ManagedConstructor : public ManagedMember
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
+					
+				ManagedAttributeInfo								attributeInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+
 				bool												implicit;
+				collections::List<Ptr<ManagedParameter>>			parameters;
 				collections::List<Ptr<ManagedArgument>>				baseArguments;
+				Ptr<ManagedStatement>								body;
 			};
 
 			class ManagedTypeMember : public ManagedMember
@@ -869,15 +868,19 @@ Extended Members
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
+					
+				ManagedAttributeInfo								attributeInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+				declatt::Inheritation								inheritation;
 
 				Ptr<ManagedType>									type;
 				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
+
 				Ptr<ManagedStatement>								getter; // nullable
 				Ptr<ManagedStatement>								setter; // nullable
-
 				declatt::Accessor									setterAccessor;
-				declatt::Inheritation								inheritation;
 			};
 
 			class ManagedConverterOperator : public ManagedExtendedMember
@@ -885,12 +888,16 @@ Extended Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 					
-				Ptr<ManagedType>									targetType;
+				ManagedAttributeInfo								attributeInfo;
+				ManagedGenericInfo									genericInfo;
+				declatt::Accessor									accessor;
+				declatt::MemberType									memberType;
+				declatt::Inheritation								inheritation;
+					
 				bool												implicit;
+				Ptr<ManagedType>									targetType;
 				Ptr<ManagedStatement>								body;
 
-				declatt::Inheritation								inheritation;
-				ManagedGenericInfo									genericInfo;
 			};
 
 #define MANAGED_EXTENDED_MEMBER_TARGETS(P, F)\

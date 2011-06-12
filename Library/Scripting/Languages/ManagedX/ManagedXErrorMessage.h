@@ -28,6 +28,7 @@ namespace vl
 				static WString UnrecognizedToken(const WString& token);
 				static WString NeedId();
 				static WString NeedWhile();
+				static WString NeedAs();
 				static WString NeedDot();
 				static WString NeedColon();
 				static WString NeedSemicolon();

@@ -433,7 +433,7 @@ ManagedXParserImpl
 												opt(opt(setterAccessor) + (SET >> statement))
 											) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
 										  )[ToPropertyMember]
-										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + implicitExplicit + type
+										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + implicitExplicit + (AS(NeedAs) >> type)
 											+ (OPEN_EXP_BRACE(NeedOpenExpBrace) >> CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement)
 										  )[ToConverterOperatorMember]
 										| declaration[ToTypeMember]

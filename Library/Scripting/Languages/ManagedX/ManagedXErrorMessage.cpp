@@ -21,6 +21,11 @@ namespace vl
 				return L"Here needs \"while\".";
 			}
 
+			WString ManagedXErrorMessage::NeedAs()
+			{
+				return L"Here needs \"as\".";
+			}
+
 			WString ManagedXErrorMessage::NeedDot()
 			{
 				return L"Here needs \".\".";
