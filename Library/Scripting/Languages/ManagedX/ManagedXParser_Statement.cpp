@@ -273,6 +273,22 @@ Extended Statements
 				return stat;
 			}
 
+			Ptr<ManagedStatement> ToSetResultAndExitStat(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
+			{
+				Ptr<ManagedCompositeStatement> stat=CreateNode<ManagedCompositeStatement>(input.First());
+				{
+					Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(input.First());
+					exp->leftOperand=CreateNode<ManagedFunctionResultExpression>(input.First());
+					exp->rightOperand=input.Second();
+
+					Ptr<ManagedExpressionStatement> expstat=CreateNode<ManagedExpressionStatement>(input.First());
+					expstat->expression=exp;
+					stat->statements.Add(expstat);
+				}
+				stat->statements.Add(CreateNode<ManagedReturnStatement>(input.First()));
+				return stat;
+			}
+
 /***********************************************************************
 Lambda Statement
 ***********************************************************************/
@@ -317,6 +333,7 @@ ManagedXParserImpl
 										| (BREAK << SEMICOLON(NeedSemicolon))[ToBreakStat]
 										| (CONTINUE << SEMICOLON(NeedSemicolon))[ToContinueStat]
 										| (EXIT << SEMICOLON(NeedSemicolon))[ToReturnStat]
+										| ((RETURN + expression) << SEMICOLON(NeedSemicolon))[ToSetResultAndExitStat]
 										| (IF + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + opt(ELSE >> statement))[ToIfStat]
 										| (WHILE + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + 
 											opt(WHEN >> OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))

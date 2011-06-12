@@ -36,6 +36,10 @@ ManagedXParserImpl
 											|	let(READONLY, declatt::Readonly)
 											,	declatt::Variable);
 
+				implicitExplicit		= def(	let(IMPLICIT, true)
+											|	let(EXPLICIT, false)
+											,	true);
+
 				genericArgconv			= def(	let(IN, ManagedGenericInfo::In)
 											|	let(OUT, ManagedGenericInfo::Out)
 											,	ManagedGenericInfo::None);

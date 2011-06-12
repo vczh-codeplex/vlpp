@@ -789,6 +789,7 @@ Basic Declaration Fragments
 					Params,
 					Ref,
 					Out,
+					This,
 				};
 
 				Ptr<ManagedType>									type;

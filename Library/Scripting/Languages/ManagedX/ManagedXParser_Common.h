@@ -116,6 +116,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, declatt::Inheritation>							InheritationNode;
 			typedef Node<TokenInput<RegexToken>, declatt::MemberType>							MemberTypeNode;
 			typedef Node<TokenInput<RegexToken>, declatt::DataType>								DataTypeNode;
+			typedef Node<TokenInput<RegexToken>, bool>											ImplicitExplicitNode;
 			typedef Node<TokenInput<RegexToken>, ManagedGenericInfo::ArgumentConversion>		GenericArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedArgument::ArgumentType>					InvokeArgconv;
@@ -183,8 +184,8 @@ namespace vl
 
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
-				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT;
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET;
+				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT, RETURN;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT;
 				
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
@@ -212,6 +213,7 @@ namespace vl
 				InheritationNode					inheritation;
 				MemberTypeNode						memberType;
 				DataTypeNode						dataType;
+				ImplicitExplicitNode				implicitExplicit;
 				GenericArgconv						genericArgconv;
 				FunctionArgconv						functionArgconv;
 				InvokeArgconv						invokeArgconv;
