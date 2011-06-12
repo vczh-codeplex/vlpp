@@ -66,13 +66,13 @@ namespace System
         {
             [Serializable]
             generic<T>
-            public static sealed implicit T() throw new ImpossibleException();
+            public static sealed implicit as T() throw new ImpossibleException();
             
             [Serializable]
             generic<T>
-            public static sealed explicit T() throw new ImpossibleException();
+            public static sealed explicit as T() throw new ImpossibleException();
 
-            public string()
+            public as string()
             {
                 return this.ToString();
             }

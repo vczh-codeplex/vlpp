@@ -6,6 +6,8 @@ namespace vl
 	{
 		namespace language_managedx
 		{
+			using namespace collections;
+
 			void ManagedX_GenerateCode_Program(Ptr<ManagedProgram> program, TextWriter& writer)
 			{
 				MXCGP argument(writer, 0);
@@ -135,6 +137,8 @@ namespace vl
 					L"explicit",
 					L"get",
 					L"set",
+					L"constructor",
+					L"destructor",
 					L"class",
 					L"struct",
 					L"interface",
@@ -326,12 +330,12 @@ namespace vl
 				}
 			}
 
-			void ParametersToString(ManagedMethodCommon& method, const MXCGP& argument)
+			void ParametersToString(List<Ptr<ManagedParameter>>& parameters, const MXCGP& argument)
 			{
 				argument.writer.WriteString(L"(");
-				for(vint i=0;i<method.parameters.Count();i++)
+				for(vint i=0;i<parameters.Count();i++)
 				{
-					Ptr<ManagedParameter> p=method.parameters[i];
+					Ptr<ManagedParameter> p=parameters[i];
 					if(i) argument.writer.WriteString(L", ");
 
 					switch(p->parameterType)
@@ -1225,7 +1229,7 @@ Basic Members
 						argument.writer.WriteString(L"::");
 					}
 					IdentifierToString(node->name, argument.writer);
-					ParametersToString(*node, argument);
+					ParametersToString(node->parameters, argument);
 
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->body, newArgument);
@@ -1241,14 +1245,13 @@ Basic Members
 
 					if(node->implicit)
 					{
-						argument.writer.WriteString(L"implicit ");
+						argument.writer.WriteString(L"implicit constructor ");
 					}
 					else
 					{
-						argument.writer.WriteString(L"explicit ");
+						argument.writer.WriteString(L"explicit constructor ");
 					}
-					IdentifierToString(node->name, argument.writer);
-					ParametersToString(*node, argument);
+					ParametersToString(node->parameters, argument);
 
 					if(node->baseArguments.Count())
 					{
@@ -1339,11 +1342,11 @@ Extended Members
 
 					if(node->implicit)
 					{
-						argument.writer.WriteString(L"implicit ");
+						argument.writer.WriteString(L"implicit as ");
 					}
 					else
 					{
-						argument.writer.WriteString(L"explicit ");
+						argument.writer.WriteString(L"explicit as ");
 					}
 					ManagedX_GenerateCode_Type(node->targetType, argument);
 					argument.writer.WriteString(L"()\r\n");
