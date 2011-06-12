@@ -141,9 +141,73 @@ Basic Declaration Members
 				return member;
 			}
 
+			Ptr<ManagedMember> ToFieldMember(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				declatt::Accessor>,
+				declatt::MemberType>,
+				declatt::DataType>,
+				Ptr<ManagedType>>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedField> member=CreateNode<ManagedField>(input.First().Second());
+				CopyAttributeInfo(member->attributeInfo, input.First().First().First().First().First().First());
+				member->accessor=input.First().First().First().First().First().Second();
+				member->memberType=input.First().First().First().First().Second();
+				member->dataType=input.First().First().First().Second();
+				member->type=input.First().First().Second();
+				member->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				if(input.Second().Head())
+				{
+					member->initializer=input.Second().Head()->Value();
+				}
+				return member;
+			}
+
 /***********************************************************************
 Extended Declaration Members
 ***********************************************************************/
+
+			Ptr<ManagedMember> ToPropertyMember(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				declatt::Accessor>,
+				declatt::MemberType>,
+				declatt::Inheritation>,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedType>>>,
+				RegexToken>,
+				ParsingPair<
+					ParsingList<Ptr<ManagedStatement>>,
+					ParsingList<ParsingPair<ParsingList<declatt::Accessor>, Ptr<ManagedStatement>>>
+					>>& input)
+			{
+				Ptr<ManagedProperty> member=CreateNode<ManagedProperty>(input.First().Second());
+				CopyAttributeInfo(member->attributeInfo, input.First().First().First().First().First().First().First());
+				member->accessor=input.First().First().First().First().First().First().Second();
+				member->memberType=input.First().First().First().First().First().Second();
+				member->inheritation=input.First().First().First().First().Second();
+				member->type=input.First().First().First().Second();
+				if(input.First().First().Second().Head())
+				{
+					member->implementedInterfaceType=input.First().First().Second().Head()->Value();
+				}
+				member->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+
+				member->setterAccessor=member->accessor;
+				if(input.Second().First().Head())
+				{
+					member->getter=input.Second().First().Head()->Value();
+				}
+				if(input.Second().Second().Head())
+				{
+					if(input.Second().Second().Head()->Value().First().Head())
+					{
+						member->setterAccessor=input.Second().Second().Head()->Value().First().Head()->Value();
+					}
+					member->setter=input.Second().Second().Head()->Value().Second();
+				}
+				return member;
+			}
 
 /***********************************************************************
 Basic Declarations
@@ -337,7 +401,15 @@ ManagedXParserImpl
 
 				/*--------DECLARATION MEMBERS--------*/
 
-				member					= declaration[ToTypeMember];
+				member					= ((attributeInfo + accessor + memberType + dataType + type + ID(NeedId) + opt(EQ >> expression)) << SEMICOLON(NeedSemicolon))[ToFieldMember]
+										| (attributeInfo + accessor + memberType + inheritation + type + opt(type << COLON(NeedColon) << COLON(NeedColon)) + ID(NeedId) + 
+											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> (
+												opt(GET >> statement) +
+												opt(opt(setterAccessor) + (SET >> statement))
+											) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+										  )[ToPropertyMember]
+										| declaration[ToTypeMember]
+										;
 
 				/*--------DECLARATIONS--------*/
 

@@ -5,6 +5,7 @@ UnrecognizedToken(token)=Unrecognized Token \"{token}\".
 NeedId=Here needs an identifier.
 NeedWhile=Here needs \"while\".
 
+NeedDot=Here needs \".\".
 NeedColon=Here needs \":\".
 NeedSemicolon=Here needs \";\".
 NeedLambda=Here needs \"=>\".

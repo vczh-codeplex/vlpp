@@ -14,11 +14,14 @@ ManagedXParserImpl
 			{
 				/*--------ATTRIBUTES--------*/
 
-				accessor				= def(	let(PUBLIC, declatt::Public)
-											|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
-											|	let(PROTECTED, declatt::Protected)
-											|	let(PRIVATE, declatt::Private)
-											|	let(INTERNAL, declatt::Internal)
+				setterAccessor			= let(PUBLIC, declatt::Public)
+										|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
+										|	let(PROTECTED, declatt::Protected)
+										|	let(PRIVATE, declatt::Private)
+										|	let(INTERNAL, declatt::Internal)
+										;
+
+				accessor				= def(	setterAccessor
 											,	declatt::Private);
 
 				inheritation			= def(	let(SEALED, declatt::Sealed)

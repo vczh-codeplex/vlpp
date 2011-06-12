@@ -825,7 +825,7 @@ Basic Members
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(ManagedMember)
 
-				Ptr<ManagedType>									implementedInterfaceType;
+				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
 				Ptr<ManagedType>									returnType;
 
@@ -870,9 +870,10 @@ Extended Members
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedMember)
 
 				Ptr<ManagedType>									type;
+				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
-				Ptr<ManagedStatement>								getter;
-				Ptr<ManagedStatement>								setter;
+				Ptr<ManagedStatement>								getter; // nullable
+				Ptr<ManagedStatement>								setter; // nullable
 
 				declatt::Accessor									setterAccessor;
 				declatt::Inheritation								inheritation;

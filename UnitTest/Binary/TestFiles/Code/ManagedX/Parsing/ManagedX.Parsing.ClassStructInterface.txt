@@ -27,7 +27,42 @@ namespace System
 
     namespace Members
     {
-        class DeclarationMember
+        class FieldMembers
+        {
+            [Serializable]
+            public int a;
+
+            public static const int b = 0;
+            public static readonly int c = 0;
+            int d;
+        }
+
+        class PropertyMembers
+        {
+            [Serializable]
+            public int a{get;set;}
+
+            public static sealed int IB::b{get; private set;}
+
+            public static abstract int c{}
+            public static virtual int c{get throw new NotImplementedException();}
+            public static override int c{set throw new NotImplementedException();}
+
+            private int x;
+            public int X
+            {
+                get
+                {
+                    result=this.x;
+                }
+                set
+                {
+                    this.x=value;
+                }
+            }
+        }
+
+        class DeclarationMembers
         {
             class X{}
             public class X{}

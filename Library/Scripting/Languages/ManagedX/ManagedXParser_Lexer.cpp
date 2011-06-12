@@ -65,6 +65,8 @@ ManagedXParserImpl
 				CLASS					= CreateToken(tokens, L"class");
 				STRUCT					= CreateToken(tokens, L"struct");
 				INTERFACE				= CreateToken(tokens, L"interface");
+				GET						= CreateToken(tokens, L"get");
+				SET						= CreateToken(tokens, L"set");
 					
 
 				IN						= CreateToken(tokens, L"in");
