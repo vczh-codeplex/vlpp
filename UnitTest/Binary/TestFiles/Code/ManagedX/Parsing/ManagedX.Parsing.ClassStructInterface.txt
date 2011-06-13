@@ -76,6 +76,47 @@ namespace System
             {
                 return this.ToString();
             }
+
+			public void operator prefix ++();
+			public void operator prefix --();
+			public void operator postfix ++();
+			public void operator postfix --();
+			public void operator prefix +();
+			public void operator prefix -();
+			public void operator prefix !();
+			public void operator prefix ~();
+
+			public void operator +=();
+			public void operator -=();
+			public void operator *=();
+			public void operator /=();
+			public void operator %=();
+			public void operator &&=();
+			public void operator &=();
+			public void operator ||=();
+			public void operator |=();
+			public void operator ^=();
+			public void operator <<=();
+			public void operator >>=();
+
+			public void operator <<();
+			public void operator >>();
+			public void operator +();
+			public void operator -();
+			public void operator *();
+			public void operator /();
+			public void operator %();
+			public void operator <();
+			public void operator <=();
+			public void operator >();
+			public void operator >=();
+			public void operator ==();
+			public void operator !=();
+			public void operator &&();
+			public void operator &();
+			public void operator ||();
+			public void operator |();
+			public void operator ^();
         }
 
 		class MethodMembers
