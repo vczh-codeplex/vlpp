@@ -30,6 +30,7 @@ namespace vl
 				static WString NeedWhile();
 				static WString NeedAs();
 				static WString NeedInOut();
+				static WString NeedBase();
 				static WString NeedDot();
 				static WString NeedColon();
 				static WString NeedSemicolon();

@@ -39,6 +39,9 @@ ManagedXParserImpl
 				implicitExplicit		= def(	let(IMPLICIT, true)
 											|	let(EXPLICIT, false)
 											,	false);
+				
+				internalExternal		= def(	let(EXTERNAL, true)
+											,	false);
 
 				genericArgconv			= let(IN+OUT, ManagedGenericInfo::InOut)
 										| let(IN, ManagedGenericInfo::In)

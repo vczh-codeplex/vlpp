@@ -131,6 +131,27 @@ Basic Declaration Fragments (Attribute)
 			}
 
 /***********************************************************************
+Basic Declaration Fragments (Parameter)
+***********************************************************************/
+
+			Ptr<ManagedParameter> ToParameter(const ParsingPair<ParsingPair<ParsingPair<
+				ManagedParameter::ParameterType,
+				Ptr<ManagedType>>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedExpression>>>& input)
+			{
+				Ptr<ManagedParameter> parameter=CreateNode<ManagedParameter>(input.First().Second());
+				parameter->parameterType=input.First().First().First();
+				parameter->type=input.First().First().Second();
+				parameter->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				if(input.Second().Head())
+				{
+					parameter->defaultValue=input.Second().Head()->Value();
+				}
+				return parameter;
+			}
+
+/***********************************************************************
 Basic Declaration Members
 ***********************************************************************/
 
@@ -161,6 +182,79 @@ Basic Declaration Members
 				{
 					member->initializer=input.Second().Head()->Value();
 				}
+				return member;
+			}
+
+			Ptr<ManagedMember> ToMethodMember(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				ParsingList<Ptr<ManagedGenericInfo>>>,
+				declatt::Accessor>,
+				declatt::MemberType>,
+				declatt::Inheritation>,
+				bool>,
+				Ptr<ManagedType>>,
+				ParsingList<Ptr<ManagedType>>>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedParameter>>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedMethod> member=CreateNode<ManagedMethod>(input.First().First().Second());
+				CopyAttributeInfo(member->attributeInfo, input.First().First().First().First().First().First().First().First().First().First());
+				if(input.First().First().First().First().First().First().First().First().First().Second().Head())
+				{
+					CopyGenericInfo(member->genericInfo, input.First().First().First().First().First().First().First().First().First().Second().Head()->Value());
+				}
+				member->accessor=input.First().First().First().First().First().First().First().First().Second();
+				member->memberType=input.First().First().First().First().First().First().First().Second();
+				member->inheritation=input.First().First().First().First().First().First().Second();
+				member->externalMethod=input.First().First().First().First().First().Second();
+				member->returnType=input.First().First().First().First().Second();
+				if(input.First().First().First().Second().Head())
+				{
+					member->implementedInterfaceType=input.First().First().First().Second().Head()->Value();
+				}
+				member->name=ConvertID(WString(input.First().First().Second().reading, input.First().First().Second().length));
+				Ptr<ParsingList<Ptr<ManagedParameter>>::Node> current=input.First().Second().Head();
+				while(current)
+				{
+					member->parameters.Add(current->Value());
+					current=current->Next();
+				}
+				member->body=input.Second();
+				return member;
+			}
+
+			Ptr<ManagedMember> ToConstructorMember(const ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<ParsingPair<
+				Ptr<ManagedAttributeInfo>,
+				declatt::Accessor>,
+				bool>,
+				RegexToken>,
+				ParsingList<Ptr<ManagedParameter>>>,
+				ParsingList<ParsingList<Ptr<ManagedArgument>>>>,
+				Ptr<ManagedStatement>>& input)
+			{
+				Ptr<ManagedConstructor> member=CreateNode<ManagedConstructor>(input.First().First().First().Second());
+				CopyAttributeInfo(member->attributeInfo, input.First().First().First().First().First().First());
+				member->accessor=input.First().First().First().First().First().Second();
+				member->implicit=input.First().First().First().First().Second();
+				{
+					Ptr<ParsingList<Ptr<ManagedParameter>>::Node> current=input.First().First().Second().Head();
+					while(current)
+					{
+						member->parameters.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				if(input.First().Second().Head())
+				{
+					Ptr<ParsingList<Ptr<ManagedArgument>>::Node> current=input.First().Second().Head()->Value().Head();
+					while(current)
+					{
+						member->baseArguments.Add(current->Value());
+						current=current->Next();
+					}
+				}
+				member->body=input.Second();
 				return member;
 			}
 
@@ -424,6 +518,8 @@ ManagedXParserImpl
 
 				attributeInfo			= (*(attributeItem1 | attributeItem2 | attributeItem3))[ToAttributeInfo];
 
+				parameter				= (functionArgconv + type+ ID(NeedId) + opt(EQ >> expression))[ToParameter];
+
 				/*--------DECLARATION MEMBERS--------*/
 
 				member					= ((attributeInfo + accessor + memberType + dataType + type + ID(NeedId) + opt(EQ >> expression)) << SEMICOLON(NeedSemicolon))[ToFieldMember]
@@ -436,6 +532,17 @@ ManagedXParserImpl
 										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + implicitExplicit + (AS(NeedAs) >> type)
 											+ (OPEN_EXP_BRACE(NeedOpenExpBrace) >> CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement)
 										  )[ToConverterOperatorMember]
+										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + internalExternal +
+											type + 
+											opt(type << COLON(NeedColon) << COLON(NeedColon)) + ID(NeedId) +
+											(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(parameter + *(COMMA >> parameter))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
+											statement
+										  )[ToMethodMember]
+										| (attributeInfo + accessor + implicitExplicit + CONSTRUCTOR + 
+											(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(parameter + *(COMMA >> parameter))) << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
+											opt(COLON >> BASE(NeedBase) >>(OPEN_EXP_BRACE(NeedOpenExpBrace) >> plist(opt(argument + *(COMMA >> argument))) << CLOSE_EXP_BRACE(NeedCloseExpBrace))) +
+											statement
+										  )[ToConstructorMember]
 										| declaration[ToTypeMember]
 										;
 
