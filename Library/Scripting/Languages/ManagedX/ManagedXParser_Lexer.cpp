@@ -72,6 +72,7 @@ ManagedXParserImpl
 				EXPLICIT				= CreateToken(tokens, L"explicit");
 				CONSTRUCTOR				= CreateToken(tokens, L"constructor");
 				DESTRUCTOR				= CreateToken(tokens, L"destructor");
+				EXTERNAL				= CreateToken(tokens, L"external");
 					
 
 				IN						= CreateToken(tokens, L"in");

@@ -819,12 +819,13 @@ Basic Members
 				declatt::Accessor									accessor;
 				declatt::MemberType									memberType;
 				declatt::Inheritation								inheritation;
+				bool												externalMethod;
 
 				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
 				collections::List<Ptr<ManagedParameter>>			parameters;
 				Ptr<ManagedType>									returnType;
-				Ptr<ManagedStatement>								body;
+				Ptr<ManagedStatement>								body; // ;able
 
 			};
 
@@ -835,7 +836,6 @@ Basic Members
 					
 				ManagedAttributeInfo								attributeInfo;
 				declatt::Accessor									accessor;
-				declatt::MemberType									memberType;
 
 				bool												implicit;
 				collections::List<Ptr<ManagedParameter>>			parameters;
@@ -878,8 +878,8 @@ Extended Members
 				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
 
-				Ptr<ManagedStatement>								getter; // nullable
-				Ptr<ManagedStatement>								setter; // nullable
+				Ptr<ManagedStatement>								getter; // ;able
+				Ptr<ManagedStatement>								setter; // ;able
 				declatt::Accessor									setterAccessor;
 			};
 

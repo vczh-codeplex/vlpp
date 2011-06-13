@@ -139,6 +139,7 @@ namespace vl
 					L"set",
 					L"constructor",
 					L"destructor",
+					L"external",
 					L"class",
 					L"struct",
 					L"interface",
@@ -1243,7 +1244,6 @@ Basic Members
 					InfoToString(node->attributeInfo, argument);
 					PrintIndentation(argument);
 					AttributeToString(node->accessor, argument.writer);
-					AttributeToString(node->memberType, argument.writer);
 
 					if(node->implicit)
 					{

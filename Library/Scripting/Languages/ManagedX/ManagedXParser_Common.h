@@ -117,6 +117,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, declatt::MemberType>							MemberTypeNode;
 			typedef Node<TokenInput<RegexToken>, declatt::DataType>								DataTypeNode;
 			typedef Node<TokenInput<RegexToken>, bool>											ImplicitExplicitNode;
+			typedef Node<TokenInput<RegexToken>, bool>											InternalExternalNode;
 			typedef Node<TokenInput<RegexToken>, ManagedGenericInfo::ArgumentConversion>		GenericArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedArgument::ArgumentType>					InvokeArgconv;
@@ -161,6 +162,7 @@ namespace vl
 				ERROR_HANDLER(NeedWhile,						RegexToken)
 				ERROR_HANDLER(NeedAs,							RegexToken)
 				ERROR_HANDLER(NeedInOut,						RegexToken)
+				ERROR_HANDLER(NeedBase,							RegexToken)
 				
 				ERROR_HANDLER(NeedDot,							RegexToken)
 				ERROR_HANDLER(NeedColon,						RegexToken)
@@ -187,7 +189,7 @@ namespace vl
 				TokenType							TYPEKEYWORD, VAR, DYNAMIC, FUNCTION, EVENT;
 				TokenType							SWITCH, THIS, BASE, NEW, VALUE, AS, IS, RESULT, TYPEOF;
 				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT, RETURN;
-				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT, CONSTRUCTOR, DESTRUCTOR;
+				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT, CONSTRUCTOR, DESTRUCTOR, EXTERNAL;
 				
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
@@ -216,6 +218,7 @@ namespace vl
 				MemberTypeNode						memberType;
 				DataTypeNode						dataType;
 				ImplicitExplicitNode				implicitExplicit;
+				InternalExternalNode				internalExternal;
 				GenericArgconv						genericArgconv;
 				FunctionArgconv						functionArgconv;
 				InvokeArgconv						invokeArgconv;
