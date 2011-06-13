@@ -29,6 +29,7 @@ namespace vl
 				static WString NeedId();
 				static WString NeedWhile();
 				static WString NeedAs();
+				static WString NeedInOut();
 				static WString NeedDot();
 				static WString NeedColon();
 				static WString NeedSemicolon();

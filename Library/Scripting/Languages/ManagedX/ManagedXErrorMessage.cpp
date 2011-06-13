@@ -26,6 +26,11 @@ namespace vl
 				return L"Here needs \"as\".";
 			}
 
+			WString ManagedXErrorMessage::NeedInOut()
+			{
+				return L"Here needs \"in\", \"out\" or \"in out\".";
+			}
+
 			WString ManagedXErrorMessage::NeedDot()
 			{
 				return L"Here needs \".\".";

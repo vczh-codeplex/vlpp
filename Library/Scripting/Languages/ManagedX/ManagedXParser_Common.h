@@ -160,6 +160,7 @@ namespace vl
 				ERROR_HANDLER(NeedId,							RegexToken)
 				ERROR_HANDLER(NeedWhile,						RegexToken)
 				ERROR_HANDLER(NeedAs,							RegexToken)
+				ERROR_HANDLER(NeedInOut,						RegexToken)
 				
 				ERROR_HANDLER(NeedDot,							RegexToken)
 				ERROR_HANDLER(NeedColon,						RegexToken)
