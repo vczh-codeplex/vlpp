@@ -31,6 +31,7 @@ namespace vl
 				static WString NeedAs();
 				static WString NeedInOut();
 				static WString NeedBase();
+				static WString NeedOperator();
 				static WString NeedDot();
 				static WString NeedColon();
 				static WString NeedSemicolon();
