@@ -1233,7 +1233,8 @@ Basic Members
 					}
 					IdentifierToString(node->name, argument.writer);
 					ParametersToString(node->parameters, argument);
-
+					
+					argument.writer.WriteString(L"\r\n");
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->body, newArgument);
 					argument.writer.WriteString(L"\r\n\r\n");
@@ -1247,11 +1248,11 @@ Basic Members
 
 					if(node->implicit)
 					{
-						argument.writer.WriteString(L"implicit constructor ");
+						argument.writer.WriteString(L"implicit constructor");
 					}
 					else
 					{
-						argument.writer.WriteString(L"explicit constructor ");
+						argument.writer.WriteString(L"explicit constructor");
 					}
 					ParametersToString(node->parameters, argument);
 
@@ -1267,7 +1268,8 @@ Basic Members
 						}
 						argument.writer.WriteString(L")");
 					}
-
+					
+					argument.writer.WriteString(L"\r\n");
 					MXCGP newArgument(argument.writer, argument.indentation+1);
 					ManagedX_GenerateCode_Statement(node->body, newArgument);
 					argument.writer.WriteString(L"\r\n\r\n");
