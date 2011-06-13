@@ -78,6 +78,45 @@ namespace System
             }
         }
 
+		class MethodMembers
+		{
+			[Serializable]
+			generic<in out T>
+			public static sealed external string IToString::ToString(string format="");
+
+			public void Make()
+			{
+			}
+
+			public void Make(int a, int b)
+			{
+			}
+
+			public void Make(int a, int b=0)
+			{
+			}
+		}
+
+		class ConstructorMembers
+		{
+			[Serializable]
+			public implicit constructor(string s)
+				:base(a, ref b, out c)
+			{
+				throw new ImpossibleException();
+			}
+
+			public explicit constructor(string s)
+			{
+				throw new ImpossibleException();
+			}
+
+			public constructor(string s)
+			{
+				throw new ImpossibleException();
+			}
+		}
+
         class DeclarationMembers
         {
             class X{}
