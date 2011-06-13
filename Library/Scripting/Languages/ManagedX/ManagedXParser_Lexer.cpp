@@ -74,7 +74,9 @@ ManagedXParserImpl
 				DESTRUCTOR				= CreateToken(tokens, L"destructor");
 				EXTERNAL				= CreateToken(tokens, L"external");
 					
-
+				OPERATOR				= CreateToken(tokens, L"operator");
+				PREFIX					= CreateToken(tokens, L"prefix");
+				POSTFIX					= CreateToken(tokens, L"postfix");
 				IN						= CreateToken(tokens, L"in");
 				OUT						= CreateToken(tokens, L"out");
 				PARAMS					= CreateToken(tokens, L"params");

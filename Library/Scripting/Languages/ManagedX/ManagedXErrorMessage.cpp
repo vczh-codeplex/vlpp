@@ -36,6 +36,11 @@ namespace vl
 				return L"Here needs \"base\".";
 			}
 
+			WString ManagedXErrorMessage::NeedOperator()
+			{
+				return L"Here needs an operator.";
+			}
+
 			WString ManagedXErrorMessage::NeedDot()
 			{
 				return L"Here needs \".\".";

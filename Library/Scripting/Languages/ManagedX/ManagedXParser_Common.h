@@ -121,6 +121,7 @@ namespace vl
 			typedef Node<TokenInput<RegexToken>, ManagedGenericInfo::ArgumentConversion>		GenericArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedParameter::ParameterType>				FunctionArgconv;
 			typedef Node<TokenInput<RegexToken>, ManagedArgument::ArgumentType>					InvokeArgconv;
+			typedef Node<TokenInput<RegexToken>, WString>										OperatorNode;
 
 			typedef Rule<TokenInput<RegexToken>, Ptr<ManagedType>>								TypeNode;
 			
@@ -163,6 +164,7 @@ namespace vl
 				ERROR_HANDLER(NeedAs,							RegexToken)
 				ERROR_HANDLER(NeedInOut,						RegexToken)
 				ERROR_HANDLER(NeedBase,							RegexToken)
+				ERROR_HANDLER(NeedOperator,						WString)
 				
 				ERROR_HANDLER(NeedDot,							RegexToken)
 				ERROR_HANDLER(NeedColon,						RegexToken)
@@ -191,6 +193,7 @@ namespace vl
 				TokenType							EXIT, BREAK, CONTINUE, IF, ELSE, WHILE, DO, WHEN, FOR, TRY, CATCH, FINALLY, THROW, LOCK, CASE, DEFAULT, RETURN;
 				TokenType							GLOBAL, NAMESPACE, USING, GENERIC, ENUM, CLASS, STRUCT, INTERFACE, GET, SET, IMPLICIT, EXPLICIT, CONSTRUCTOR, DESTRUCTOR, EXTERNAL;
 				
+				TokenType							OPERATOR, PREFIX, POSTFIX;
 				TokenType							IN, OUT, PARAMS, REF;
 				TokenType							PUBLIC, PROTECTED, PRIVATE, INTERNAL;
 				TokenType							SEALED, ABSTRACT, VIRTUAL, OVERRIDE;
@@ -222,6 +225,7 @@ namespace vl
 				GenericArgconv						genericArgconv;
 				FunctionArgconv						functionArgconv;
 				InvokeArgconv						invokeArgconv;
+				OperatorNode						operatorNode;
 
 				TypeNode							type, primitiveType, genericTypeConstraint;
 

@@ -7,6 +7,7 @@ NeedWhile=Here needs \"while\".
 NeedAs=Here needs \"as\".
 NeedInOut=Here needs \"in\", \"out\" or \"in out\".
 NeedBase=Here needs \"base\".
+NeedOperator=Here needs an operator.
 
 NeedDot=Here needs \".\".
 NeedColon=Here needs \":\".

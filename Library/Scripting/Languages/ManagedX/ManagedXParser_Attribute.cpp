@@ -30,7 +30,8 @@ ManagedXParserImpl
 											|	let(OVERRIDE, declatt::Override)
 											,	declatt::Normal);
 
-				memberType				= def(let(STATIC, declatt::Static), declatt::Instance);
+				memberType				= def(	let(STATIC, declatt::Static)
+											, declatt::Instance);
 
 				dataType				= def(	let(CONST, declatt::Constant)
 											|	let(READONLY, declatt::Readonly)
@@ -55,6 +56,18 @@ ManagedXParserImpl
 				invokeArgconv			= def(	let(REF, ManagedArgument::Ref)
 											|	let(OUT, ManagedArgument::Out)
 											,	ManagedArgument::Normal);
+
+				/*--------OPERATORS--------*/
+
+				operatorNode			= let(PREFIX+tk(L"++"), WString(L"op_preinc"))
+										| let(PREFIX+tk(L"--"), WString(L"op_predec"))
+										| let(POSTFIX+tk(L"++"), WString(L"op_postinc"))
+										| let(POSTFIX+tk(L"--"), WString(L"op_postdec"))
+										| let(PREFIX+tk(L"+"), WString(L"op_pos"))
+										| let(PREFIX+tk(L"-"), WString(L"op_neg"))
+										| let(PREFIX+tk(L"!"), WString(L"op_not"))
+										| let(PREFIX+tk(L"~"), WString(L"op_bitnot"))
+										;
 			}
 		}
 	}
