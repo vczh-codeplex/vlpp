@@ -5,6 +5,7 @@ UnrecognizedToken(token)=Unrecognized Token \"{token}\".
 NeedId=Here needs an identifier.
 NeedWhile=Here needs \"while\".
 NeedAs=Here needs \"as\".
+NeedInOut=Here needs \"in\", \"out\" or \"in out\".
 
 NeedDot=Here needs \".\".
 NeedColon=Here needs \":\".

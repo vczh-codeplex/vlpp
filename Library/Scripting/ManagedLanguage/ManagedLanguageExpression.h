@@ -705,7 +705,7 @@ Basic Declaration Fragments
 			public:
 				enum ArgumentConversion
 				{
-					None,
+					InOut,
 					In,
 					Out,
 				};

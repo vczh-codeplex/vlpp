@@ -15,10 +15,10 @@ ManagedXParserImpl
 				/*--------ATTRIBUTES--------*/
 
 				setterAccessor			= let(PUBLIC, declatt::Public)
-										|	let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
-										|	let(PROTECTED, declatt::Protected)
-										|	let(PRIVATE, declatt::Private)
-										|	let(INTERNAL, declatt::Internal)
+										| let(PROTECTED+INTERNAL, declatt::ProtectedInternal)
+										| let(PROTECTED, declatt::Protected)
+										| let(PRIVATE, declatt::Private)
+										| let(INTERNAL, declatt::Internal)
 										;
 
 				accessor				= def(	setterAccessor
@@ -40,9 +40,9 @@ ManagedXParserImpl
 											|	let(EXPLICIT, false)
 											,	false);
 
-				genericArgconv			= def(	let(IN, ManagedGenericInfo::In)
-											|	let(OUT, ManagedGenericInfo::Out)
-											,	ManagedGenericInfo::None);
+				genericArgconv			= let(IN+OUT, ManagedGenericInfo::InOut)
+										| let(IN, ManagedGenericInfo::In)
+										| let(OUT(NeedInOut), ManagedGenericInfo::Out);
 
 				functionArgconv			= def(	let(PARAMS, ManagedParameter::Params)
 											|	let(REF, ManagedParameter::Ref)

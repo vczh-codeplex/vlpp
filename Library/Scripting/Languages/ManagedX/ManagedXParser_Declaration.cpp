@@ -398,7 +398,7 @@ ManagedXParserImpl
 				genericTypeConstraint	= type | let(NEW + OPEN_EXP_BRACE(NeedOpenExpBrace) + CLOSE_EXP_BRACE(NeedCloseExpBrace), Ptr<ManagedType>());
 
 				genericArgument			= ((genericArgconv + ID(NeedId)) + opt(COLON(NeedColon) >> (
-											OPEN_DECL_BRACE(NeedOpenDeclBrace) >> plist(genericTypeConstraint + *(COMMA >> genericTypeConstraint)) << CLOSE_DECL_BRACE(NeedCloseDeclBrace)
+											plist(genericTypeConstraint + *(COMMA >> genericTypeConstraint))
 										)))[ToGenericArgument];
 
 				genericInfo				= (GENERIC + LT(NeedLt) >> (

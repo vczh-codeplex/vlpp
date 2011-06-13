@@ -295,6 +295,9 @@ namespace vl
 
 						switch(arg->conversion)
 						{
+						case ManagedGenericInfo::InOut:
+							argument.writer.WriteString(L"in out ");
+							break;
 						case ManagedGenericInfo::In:
 							argument.writer.WriteString(L"in ");
 							break;
@@ -306,7 +309,7 @@ namespace vl
 
 						if(arg->newConstraint || arg->typeConstraints.Count())
 						{
-							argument.writer.WriteString(L" : { ");
+							argument.writer.WriteString(L" : ");
 							for(vint j=0;j<arg->typeConstraints.Count();j++)
 							{
 								if(j) argument.writer.WriteString(L", ");
@@ -321,7 +324,6 @@ namespace vl
 								}
 								argument.writer.WriteString(L"new()");
 							}
-							argument.writer.WriteString(L" }");
 						}
 					}
 					argument.writer.WriteString(L"\r\n");
