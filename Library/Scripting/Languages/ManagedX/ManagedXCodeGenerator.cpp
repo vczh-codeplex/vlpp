@@ -1234,7 +1234,163 @@ Basic Members
 						ManagedX_GenerateCode_Type(node->implementedInterfaceType, argument);
 						argument.writer.WriteString(L"::");
 					}
-					IdentifierToString(node->name, argument.writer);
+
+					if(node->name==L"op_pos")
+					{
+						argument.writer.WriteString(L"operator prefix +");
+					}
+					else if(node->name==L"op_neg")
+					{
+						argument.writer.WriteString(L"operator prefix -");
+					}
+					else if(node->name==L"op_not")
+					{
+						argument.writer.WriteString(L"operator prefix !");
+					}
+					else if(node->name==L"op_bitnot")
+					{
+						argument.writer.WriteString(L"operator prefix ~");
+					}
+					else if(node->name==L"op_preinc")
+					{
+						argument.writer.WriteString(L"operator prefix ++");
+					}
+					else if(node->name==L"op_predec")
+					{
+						argument.writer.WriteString(L"operator prefix --");
+					}
+					else if(node->name==L"op_postinc")
+					{
+						argument.writer.WriteString(L"operator postfix ++");
+					}
+					else if(node->name==L"op_postdec")
+					{
+						argument.writer.WriteString(L"operator postfix --");
+					}
+					else if(node->name==L"op_add_eq")
+					{
+						argument.writer.WriteString(L"operator +=");
+					}
+					else if(node->name==L"op_sub_eq")
+					{
+						argument.writer.WriteString(L"operator -=");
+					}
+					else if(node->name==L"op_mul_eq")
+					{
+						argument.writer.WriteString(L"operator *=");
+					}
+					else if(node->name==L"op_div_eq")
+					{
+						argument.writer.WriteString(L"operator /=");
+					}
+					else if(node->name==L"op_mod_eq")
+					{
+						argument.writer.WriteString(L"operator %=");
+					}
+					else if(node->name==L"op_and_eq")
+					{
+						argument.writer.WriteString(L"operator &&=");
+					}
+					else if(node->name==L"op_bitand_eq")
+					{
+						argument.writer.WriteString(L"operator &=");
+					}
+					else if(node->name==L"op_or_eq")
+					{
+						argument.writer.WriteString(L"operator ||=");
+					}
+					else if(node->name==L"op_bitor_eq")
+					{
+						argument.writer.WriteString(L"operator |=");
+					}
+					else if(node->name==L"op_xor_eq")
+					{
+						argument.writer.WriteString(L"operator ^=");
+					}
+					else if(node->name==L"op_shl_eq")
+					{
+						argument.writer.WriteString(L"operator <<=");
+					}
+					else if(node->name==L"op_shr_eq")
+					{
+						argument.writer.WriteString(L"operator >>=");
+					}
+					else if(node->name==L"op_mul")
+					{
+						argument.writer.WriteString(L"operator *");
+					}
+					else if(node->name==L"op_div")
+					{
+						argument.writer.WriteString(L"operator /");
+					}
+					else if(node->name==L"op_mod")
+					{
+						argument.writer.WriteString(L"operator %");
+					}
+					else if(node->name==L"op_add")
+					{
+						argument.writer.WriteString(L"operator +");
+					}
+					else if(node->name==L"op_sub")
+					{
+						argument.writer.WriteString(L"operator -");
+					}
+					else if(node->name==L"op_shl")
+					{
+						argument.writer.WriteString(L"operator <<");
+					}
+					else if(node->name==L"op_shr")
+					{
+						argument.writer.WriteString(L"operator >>");
+					}
+					else if(node->name==L"op_lt")
+					{
+						argument.writer.WriteString(L"operator <");
+					}
+					else if(node->name==L"op_le")
+					{
+						argument.writer.WriteString(L"operator <=");
+					}
+					else if(node->name==L"op_gt")
+					{
+						argument.writer.WriteString(L"operator >");
+					}
+					else if(node->name==L"op_ge")
+					{
+						argument.writer.WriteString(L"operator >=");
+					}
+					else if(node->name==L"op_eq")
+					{
+						argument.writer.WriteString(L"operator ==");
+					}
+					else if(node->name==L"op_ne")
+					{
+						argument.writer.WriteString(L"operator !=");
+					}
+					else if(node->name==L"op_bitand")
+					{
+						argument.writer.WriteString(L"operator &");
+					}
+					else if(node->name==L"op_xor")
+					{
+						argument.writer.WriteString(L"operator ^");
+					}
+					else if(node->name==L"op_bitor")
+					{
+						argument.writer.WriteString(L"operator |");
+					}
+					else if(node->name==L"op_and")
+					{
+						argument.writer.WriteString(L"operator &&");
+					}
+					else if(node->name==L"op_or")
+					{
+						argument.writer.WriteString(L"operator ||");
+					}
+					else
+					{
+						IdentifierToString(node->name, argument.writer);
+					}
 					ParametersToString(node->parameters, argument);
 					
 					argument.writer.WriteString(L"\r\n");
