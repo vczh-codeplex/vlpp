@@ -77,6 +77,7 @@ ManagedXParserImpl
 				OPERATOR				= CreateToken(tokens, L"operator");
 				PREFIX					= CreateToken(tokens, L"prefix");
 				POSTFIX					= CreateToken(tokens, L"postfix");
+				INOUT					= CreateToken(tokens, L"inout");
 				IN						= CreateToken(tokens, L"in");
 				OUT						= CreateToken(tokens, L"out");
 				PARAMS					= CreateToken(tokens, L"params");

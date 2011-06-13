@@ -44,7 +44,7 @@ ManagedXParserImpl
 				internalExternal		= def(	let(EXTERNAL, true)
 											,	false);
 
-				genericArgconv			= let(IN+OUT, ManagedGenericInfo::InOut)
+				genericArgconv			= let(INOUT, ManagedGenericInfo::InOut)
 										| let(IN, ManagedGenericInfo::In)
 										| let(OUT(NeedInOut), ManagedGenericInfo::Out);
 

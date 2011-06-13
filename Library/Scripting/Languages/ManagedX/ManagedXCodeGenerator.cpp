@@ -96,6 +96,7 @@ namespace vl
 					L"const",
 					L"readonly",
 					L"generic",
+					L"inout",
 					L"in",
 					L"out",
 					L"new",
@@ -300,7 +301,7 @@ namespace vl
 						switch(arg->conversion)
 						{
 						case ManagedGenericInfo::InOut:
-							argument.writer.WriteString(L"in out ");
+							argument.writer.WriteString(L"inout ");
 							break;
 						case ManagedGenericInfo::In:
 							argument.writer.WriteString(L"in ");
