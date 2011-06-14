@@ -136,6 +136,12 @@ Reference Container
 				return ReferenceContainer<T>(reference);
 			};
 
+			template<typename T>
+			ReferenceTuple<T> skip()
+			{
+				return ReferenceContainer<T>();
+			};
+
 /***********************************************************************
 Reference Filler
 ***********************************************************************/
@@ -155,6 +161,14 @@ Reference Filler
 			template<>
 			struct ReferenceFiller<regex::RegexToken>
 			{
+				static void Fill(const ReferenceContainer<regex::RegexToken>& reference, const regex::RegexToken& value)
+				{
+					if(reference.reference)
+					{
+						*reference.reference=value;
+					}
+				}
+
 				static void Fill(const ReferenceContainer<WString>& reference, const regex::RegexToken& value)
 				{
 					if(reference.reference)
@@ -175,11 +189,12 @@ Reference Filler
 					}
 				}
 
-				static void Fill(const ReferenceContainer<T>& reference, const ParsingList<T>& value)
+				template<typename U>
+				static void Fill(const ReferenceContainer<U>& reference, const ParsingList<T>& value)
 				{
-					if(reference.reference && value.Head())
+					if(value.Head())
 					{
-						*reference.reference=value.Head()->Value();
+						ReferenceFiller<T>::Fill(reference, value.Head()->Value());
 					}
 				}
 
@@ -197,14 +212,14 @@ Reference Filler
 				}
 			};
 
-			template<typename V, typename W>
-			struct ReferenceFiller<ParsingPair<V, W>>
+			template<typename T, typename U>
+			struct ReferenceFiller<ParsingPair<T, U>>
 			{
-				template<typename T, typename U>
-				static void Fill(const ReferenceContainer<ParsingPair<T, U>>& reference, const ParsingPair<V, W>& value)
+				template<typename V, typename W>
+				static void Fill(const ReferenceContainer<ParsingPair<V, W>>& reference, const ParsingPair<T, U>& value)
 				{
-					ReferenceFiller<V>::Fill(reference.reference.First(), value.First());
-					ReferenceFiller<W>::Fill(reference.reference.Second(), value.Second());
+					ReferenceFiller<T>::Fill(reference.reference.First(), value.First());
+					ReferenceFiller<U>::Fill(reference.reference.Second(), value.Second());
 				}
 			};
 
