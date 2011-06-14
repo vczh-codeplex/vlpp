@@ -56,13 +56,33 @@ Element Converter
 			template<typename T>
 			struct TypeConverter<opt<T>>
 			{
-				typedef ParsingList<T> ResultType;
+				typedef ParsingList<typename TypeConverter<T>::ResultType> ResultType;
 			};
 
 			template<typename T>
 			struct TypeConverter<rep<T>>
 			{
-				typedef ParsingList<T> ResultType;
+				typedef ParsingList<typename TypeConverter<T>::ResultType> ResultType;
+			};
+
+			template<
+				typename T1,
+				typename T2,
+				typename T3,
+				typename T4,
+				typename T5,
+				typename T6,
+				typename T7,
+				typename T8,
+				typename T9,
+				typename T10,
+				typename T11,
+				typename T12,
+				typename Tx
+			>
+			struct TypeConverter<tp<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Tx>>
+			{
+				typedef typename tp<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Tx>::ResultType ResultType;
 			};
 
 /***********************************************************************
@@ -127,6 +147,13 @@ Reference Container
 				{
 					typedef ReferenceContainer<ParsingPair<T, U>> ResultType;
 					return ResultType(typename ResultType::ReferenceType(container, ReferenceContainer<U>()));
+				}
+
+				template<typename U>
+				ReferenceTuple<ParsingPair<T, U>> ref(const ReferenceTuple<U>& tuple)
+				{
+					typedef ReferenceContainer<ParsingPair<T, U>> ResultType;
+					return ResultType(typename ResultType::ReferenceType(container, tuple.container));
 				}
 			};
 
@@ -197,15 +224,19 @@ Reference Filler
 						ReferenceFiller<T>::Fill(reference, value.Head()->Value());
 					}
 				}
-
-				static void Fill(const ReferenceContainer<collections::List<T>>& reference, const ParsingList<T>& value)
+				
+				template<typename U>
+				static void Fill(const ReferenceContainer<collections::List<U>>& reference, const ParsingList<T>& value)
 				{
 					if(reference.reference)
 					{
 						Ptr<ParsingList<T>::Node> current=value.Head();
 						while(current)
 						{
-							reference.reference->Add(current->Value());
+							U item;
+							ReferenceContainer<U> itemReference(item);
+							ReferenceFiller<T>::Fill(itemReference, current->Value());
+							reference.reference->Add(item);
 							current=current->Next();
 						}
 					}
