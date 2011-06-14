@@ -783,6 +783,7 @@ Basic Declaration Fragments
 					This,
 				};
 
+				ManagedAttributeInfo								attributeInfo;
 				Ptr<ManagedType>									type;
 				WString												name;
 				ParameterType										parameterType;
@@ -956,6 +957,7 @@ Extended Declaration Fragments
 			class ManagedEnumItem : public ManagedLanguageElement
 			{
 			public:
+				ManagedAttributeInfo								attributeInfo;
 				WString												name;
 				Ptr<ManagedExpression>								value;
 			};

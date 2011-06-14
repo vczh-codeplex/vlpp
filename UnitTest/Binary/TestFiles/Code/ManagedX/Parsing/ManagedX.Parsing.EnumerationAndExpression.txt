@@ -10,6 +10,7 @@ namespace enumerations
 	public enum Season
 	{
 		Spring,
+        [Display("Spring")]
 		Summer,
 		Autumn,
 		Winter
