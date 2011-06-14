@@ -90,9 +90,9 @@ namespace vl
 
 			WString ConvertID(const WString& input)
 			{
-				if(input[0]==L'@')
+				if(input.Length()>=1 && input[0]==L'@')
 				{
-					if(input[1]==L'\"')
+					if(input.Length()>=3 && input[1]==L'\"')
 					{
 						return EscapeString(input.Sub(2, input.Length()-3));
 					}
