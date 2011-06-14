@@ -5,7 +5,7 @@
 #include "ManagedXErrorMessage.h"
 #include "..\..\..\Regex\Regex.h"
 #include "..\..\..\Combinator\Combinator.h"
-#include "..\..\..\Combinator\ParserInput.h"
+#include "..\..\..\Combinator\TupleProcessor.h"
 #include "..\..\..\Combinator\TokenCombinator.h"
 #include "..\..\..\Collections\Operation.h"
 

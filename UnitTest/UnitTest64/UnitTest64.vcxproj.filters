@@ -991,5 +991,8 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Library\Combinator\TupleProcessor.h">
+      <Filter>Library3\Combinator\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

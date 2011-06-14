@@ -49,20 +49,28 @@ Basic Statements
 				return CreateNode<ManagedReturnStatement>(input);
 			}
 
-			Ptr<ManagedStatement> ToVarStat(const ParsingPair<ParsingPair<ParsingPair<
-				ParsingList<RegexToken>,
-				Ptr<ManagedType>>,
-				RegexToken>,
-				ParsingList<Ptr<ManagedExpression>>>& input)
+			Ptr<ManagedStatement> ToVarStat(const x::tp<
+				x::opt<RegexToken>,
+				Ptr<ManagedType>,
+				RegexToken,
+				x::opt<Ptr<ManagedExpression>>
+				>::ResultType& input)
 			{
 				Ptr<ManagedVariableStatement> stat=CreateNode<ManagedVariableStatement>(input.First().Second());
-				stat->constant=input.First().First().First().Head();
-				stat->type=input.First().First().Second();
-				stat->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
-				if(input.Second().Head())
-				{
-					stat->initializer=input.Second().Head()->Value();
-				}
+				//stat->constant=input.First().First().First().Head();
+				//stat->type=input.First().First().Second();
+				//stat->name=ConvertID(WString(input.First().Second().reading, input.First().Second().length));
+				//if(input.Second().Head())
+				//{
+				//	stat->initializer=input.Second().Head()->Value();
+				//}
+				Fill(
+					x::ref(stat->constant)
+					.ref(stat->type)
+					.ref(stat->name)
+					.ref(stat->initializer)
+					, input);
+				stat->name=ConvertID(stat->name);
 				return stat;
 			}
 
