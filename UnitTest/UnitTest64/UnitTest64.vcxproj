@@ -339,6 +339,7 @@
     <ClInclude Include="..\..\Library\Combinator\ParserInput.h" />
     <ClInclude Include="..\..\Library\Combinator\StringCombinator.h" />
     <ClInclude Include="..\..\Library\Combinator\TokenCombinator.h" />
+    <ClInclude Include="..\..\Library\Combinator\TupleProcessor.h" />
     <ClInclude Include="..\..\Library\Combinator\_Alt.h" />
     <ClInclude Include="..\..\Library\Combinator\_Binop.h" />
     <ClInclude Include="..\..\Library\Combinator\_Def.h" />
