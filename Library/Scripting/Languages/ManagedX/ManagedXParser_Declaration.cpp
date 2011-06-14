@@ -338,14 +338,15 @@ Extended Declaration Members
 					.ref(member->type)
 					.ref(member->implementedInterfaceType)
 					.ref(member->name)
+					, input.First());
+				member->setterAccessor=member->accessor;
+				x::Fill(
+					x::ref(member->getter)
 					.ref(
-						x::ref(member->getter)
-						.ref(
-							x::ref(member->setterAccessor)
-							.ref(member->setter)
-							)
+						x::ref(member->setterAccessor=member->accessor)
+						.ref(member->setter)
 						)
-					, input);
+					, input.Second());
 				member->name=ConvertID(member->name);
 				return member;
 			}
