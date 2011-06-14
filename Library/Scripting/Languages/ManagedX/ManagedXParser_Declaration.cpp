@@ -170,6 +170,7 @@ Basic Declaration Fragments (Parameter)
 ***********************************************************************/
 
 			Ptr<ManagedParameter> ToParameter(const x::tp<
+					Ptr<ManagedAttributeInfo>,
 					ManagedParameter::ParameterType,
 					Ptr<ManagedType>,
 					RegexToken,
@@ -178,7 +179,8 @@ Basic Declaration Fragments (Parameter)
 			{
 				Ptr<ManagedParameter> parameter=CreateNode<ManagedParameter>(input.First().Second());
 				x::Fill(
-					x::ref(parameter->parameterType)
+					x::ref(parameter->attributeInfo)
+					.ref(parameter->parameterType)
 					.ref(parameter->type)
 					.ref(parameter->name)
 					.ref(parameter->defaultValue)
@@ -426,13 +428,15 @@ Extended Declarations
 ***********************************************************************/
 
 			Ptr<ManagedEnumItem> ToEnumItem(const x::tp<
+				Ptr<ManagedAttributeInfo>,
 				RegexToken,
 				x::opt<Ptr<ManagedExpression>>
 				>::ResultType& input)
 			{
-				Ptr<ManagedEnumItem> item=CreateNode<ManagedEnumItem>(input.First());
+				Ptr<ManagedEnumItem> item=CreateNode<ManagedEnumItem>(input.First().Second());
 				x::Fill(
-					x::ref(item->name)
+					x::ref(item->attributeInfo)
+					.ref(item->name)
 					.ref(item->value)
 					, input);
 				item->name=ConvertID(item->name);
@@ -553,7 +557,7 @@ ManagedXParserImpl
 
 				attributeInfo			= (*(attributeItem1 | attributeItem2 | attributeItem3))[ToAttributeInfo];
 
-				parameter				= (functionArgconv + type+ ID(NeedId) + opt(EQ >> expression))[ToParameter];
+				parameter				= (attributeInfo + functionArgconv + type+ ID(NeedId) + opt(EQ >> expression))[ToParameter];
 
 				/*--------DECLARATION MEMBERS--------*/
 
@@ -589,7 +593,7 @@ ManagedXParserImpl
 
 				/*--------DECLARATIONS--------*/
 
-				enumItem				= (ID(NeedId) + opt(EQ >> expression))[ToEnumItem];
+				enumItem				= (attributeInfo + ID(NeedId) + opt(EQ >> expression))[ToEnumItem];
 
 				declaration				= ((USING + plist(ID(NeedId) + *(DOT >> ID(NeedId))) << SEMICOLON(NeedSemicolon)))[ToUsingNamespaceDecl]
 										| ((opt(genericInfo) + accessor + (USING >> ID(NeedId)) + (EQ(NeedEq) >> type)) << SEMICOLON(NeedSemicolon))[ToTypeRenameDecl]

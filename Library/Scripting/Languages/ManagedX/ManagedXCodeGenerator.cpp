@@ -256,13 +256,16 @@ namespace vl
 				}
 			}
 
-			void InfoToString(ManagedAttributeInfo& info, const MXCGP& argument)
+			void InfoToString(ManagedAttributeInfo& info, const MXCGP& argument, bool newLine=true)
 			{
 				for(vint i=0;i<info.attributes.Count();i++)
 				{
 					Ptr<ManagedNewObjectExpression> att=info.attributes[i];
 
-					PrintIndentation(argument);
+					if(newLine)
+					{
+						PrintIndentation(argument);
+					}
 					argument.writer.WriteString(L"[");
 
 					ManagedX_GenerateCode_Type(att->objectType, argument);
@@ -282,7 +285,14 @@ namespace vl
 					}
 					argument.writer.WriteString(L")");
 
-					argument.writer.WriteString(L"]\r\n");
+					if(newLine)
+					{
+						argument.writer.WriteString(L"]\r\n");
+					}
+					else
+					{
+						argument.writer.WriteString(L"]");
+					}
 				}
 			}
 
@@ -345,6 +355,7 @@ namespace vl
 					Ptr<ManagedParameter> p=parameters[i];
 					if(i) argument.writer.WriteString(L", ");
 
+					InfoToString(parameters[i]->attributeInfo, argument, false);
 					switch(p->parameterType)
 					{
 					case ManagedParameter::Params:
@@ -1630,6 +1641,7 @@ Extended Declaration
 					for(vint i=0;i<node->items.Count();i++)
 					{
 						if(i) argument.writer.WriteString(L",\r\n");
+						InfoToString(node->items[i]->attributeInfo, newArgument);
 						PrintIndentation(argument, 1);
 						IdentifierToString(node->items[i]->name, argument.writer);
 						if(node->items[i]->value)

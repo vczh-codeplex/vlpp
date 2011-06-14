@@ -129,7 +129,7 @@ namespace System
 			{
 			}
 
-			public void Make(int a, int b)
+			public void Make(int a, [Default(0)]int b)
 			{
 			}
 
