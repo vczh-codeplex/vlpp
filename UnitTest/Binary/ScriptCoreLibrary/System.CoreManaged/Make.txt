@@ -1,0 +1,3 @@
+Language=ManagedX
+
+Compile=Object.txt

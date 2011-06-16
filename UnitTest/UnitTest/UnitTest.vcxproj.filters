@@ -235,6 +235,9 @@
     <Filter Include="TestFiles\ManagedX\Parsing">
       <UniqueIdentifier>{000e148c-1bb1-44a9-b91b-de6967a0dd86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScriptCoreLibrary\System.CoreManaged">
+      <UniqueIdentifier>{eebe5eab-c674-4812-9a8a-a1534c018725}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -1483,6 +1486,12 @@
     </None>
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.ClassStructInterface.txt">
       <Filter>TestFiles\ManagedX\Parsing</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Object.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
