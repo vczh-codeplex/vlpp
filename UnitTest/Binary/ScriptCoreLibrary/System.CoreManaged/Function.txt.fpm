@@ -11,11 +11,11 @@ $$define $FUNCTION($elements) $$begin
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
 $( )
-		public R operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
+		public virtual R operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
 		{
 			return Invoke($loopsep($elements,0,$PARAMETER,$(,) )) as R;
 		}
@@ -28,11 +28,11 @@ $$define $PROCEDURE_0() $$begin
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
 $( )
-		public void operator()()
+		public virtual void operator()()
 		{
 			Invoke();
 		}
@@ -46,11 +46,11 @@ $$define $PROCEDURE($elements) $$begin
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
 $( )
-		public void operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
+		public virtual void operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
 		{
 			Invoke($loopsep($elements,0,$PARAMETER,$(,) ));
 		}

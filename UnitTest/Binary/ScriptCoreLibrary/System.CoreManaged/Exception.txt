@@ -21,19 +21,27 @@ namespace System
 		}
 	}
 
-    public class WrongFormatException : Exception
-    {
-        public constructor(string value)
-        {
-            this.Message=string.Format("Value {0} does not fit in the format.", value);
-        }
-    }
+	public class WrongFormatException : Exception
+	{
+		public constructor(string value)
+		{
+			this.Message=string.Format("Value {0} does not fit in the format.", value);
+		}
+	}
 
-    public class TypeConversionException : Exception
-    {
-        public constructor(Type to, Type from)
-        {
-            this.Message=string.Format("Cannot convert from {0} to {1}.", from, to);
-        }
-    }
+	public class TypeConversionException : Exception
+	{
+		public constructor(Type to, Type from)
+		{
+			this.Message=string.Format("Cannot convert from {0} to {1}.", from, to);
+		}
+	}
+
+	public class NotImplementedException : Exception
+	{
+		public constructor()
+		{
+			this.Message="Not implemented.";
+		}
+	}
 }
