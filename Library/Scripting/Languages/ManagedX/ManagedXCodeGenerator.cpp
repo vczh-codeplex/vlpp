@@ -1399,6 +1399,14 @@ Basic Members
 					{
 						argument.writer.WriteString(L"operator ||");
 					}
+					else if(node->name==L"op_invoke")
+					{
+						argument.writer.WriteString(L"operator ()");
+					}
+					else if(node->name==L"op_index")
+					{
+						argument.writer.WriteString(L"operator []");
+					}
 					else
 					{
 						IdentifierToString(node->name, argument.writer);

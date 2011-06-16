@@ -99,6 +99,9 @@ ManagedXParserImpl
 										| let(tk(L"||"), WString(L"op_or"))
 										| let(tk(L"|"), WString(L"op_bitor"))
 										| let(tk(L"^"), WString(L"op_xor"))
+										
+										| let(tk(L"(")+tk(L")"), WString(L"op_invoke"))
+										| let(tk(L"[")+tk(L"]"), WString(L"op_index"))
 										;
 			}
 		}

@@ -4568,4 +4568,7 @@ vl::function_combining::Combining<R1(T0,T1,T2,T3,T4,T5,T6,T7,T8,T9), R2(T0,T1,T2
 		return Curry<Func<T>(Func<R(R,R)>,Func<T>,Func<T>)>(Combine)(converter);
 	}
 }
+public const wchar_t* text = L"10";
+public const wchar_t* numbers[] = {  
+L"1",L"2",L"3",L"4",L"5"}
 #endif

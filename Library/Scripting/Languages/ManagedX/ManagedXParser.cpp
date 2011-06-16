@@ -8,6 +8,9 @@
 ++	op_preinc/op_postinc
 --	op_predec/op_postdec
 ====================================
+()	op_invoke
+[]	op_index
+====================================
 *	op_mul
 /	op_div
 %	op_mod

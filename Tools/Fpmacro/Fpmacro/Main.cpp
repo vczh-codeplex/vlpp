@@ -407,14 +407,14 @@ protected:
 				}
 				else
 				{
-					throw Exception(L"If函数的参数个数必须是e。");
+					throw Exception(L"If函数的参数个数必须是3。");
 				}
 			}
 		case Loop:
 			{
 				if(arguments.Count()!=3)
 				{
-					throw Exception(L"Loop函数的参数个数必须是1。");
+					throw Exception(L"Loop函数的参数个数必须是3。");
 				}
 				WString text;
 				int count=GetInt(arguments.Get(0), environment);
@@ -432,7 +432,7 @@ protected:
 			{
 				if(arguments.Count()!=4)
 				{
-					throw Exception(L"LoopSep函数的参数个数必须是1。");
+					throw Exception(L"LoopSep函数的参数个数必须是4。");
 				}
 				WString text;
 				int count=GetInt(arguments.Get(0), environment);
@@ -457,7 +457,11 @@ protected:
 				{
 					throw Exception(L"Head函数的参数个数必须是1。");
 				}
-				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arguments.Get(0).Obj());
+
+				RunningObject::Ref arrayArgument=arguments.Get(0);
+				arrayArgument=Run(arrayArgument, environment);
+				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arrayArgument.Obj());
+
 				if(!arrayObject)
 				{
 					throw Exception(L"Head函数的参数必须是数组。");
@@ -474,7 +478,11 @@ protected:
 				{
 					throw Exception(L"Tail函数的参数个数必须是1。");
 				}
-				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arguments.Get(0).Obj());
+
+				RunningObject::Ref arrayArgument=arguments.Get(0);
+				arrayArgument=Run(arrayArgument, environment);
+				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arrayArgument.Obj());
+
 				if(!arrayObject)
 				{
 					throw Exception(L"Tail函数的参数必须是数组。");
@@ -496,10 +504,14 @@ protected:
 				{
 					throw Exception(L"Length函数的参数个数必须是1。");
 				}
-				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arguments.Get(0).Obj());
+
+				RunningObject::Ref arrayArgument=arguments.Get(0);
+				arrayArgument=Run(arrayArgument, environment);
+				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arrayArgument.Obj());
+
 				if(!arrayObject)
 				{
-					throw Exception(L"Tail函数的参数必须是数组。");
+					throw Exception(L"Length函数的参数必须是数组。");
 				}
 				return GetObj(arrayObject->objects.Count());
 			}
@@ -509,7 +521,11 @@ protected:
 				{
 					throw Exception(L"Get函数的参数个数必须是2。");
 				}
-				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arguments.Get(0).Obj());
+
+				RunningObject::Ref arrayArgument=arguments.Get(0);
+				arrayArgument=Run(arrayArgument, environment);
+				ArrayObject* arrayObject=dynamic_cast<ArrayObject*>(arrayArgument.Obj());
+
 				if(!arrayObject)
 				{
 					throw Exception(L"Get函数的第一个参数必须是数组。");
@@ -955,8 +971,6 @@ public:
 		PLAIN_TEXT		= rgx(L"[^/$(), /t/r/n//\"]+");
 		BRACKET_OPEN	= str(L"(");
 		BRACKET_CLOSE	= str(L")");
-		ARRAY_OPEN		= str(L"$[");
-		ARRAY_CLOSE		= str(L"]");
 		NAME			= rgx(L"/$[a-zA-Z_]/w*");
 		COMMA			= str(L",");
 		COMMENT			= rgx(L"(////[^/r/n]*|///*([^*]|/*+[^*//])*/*+//)");
@@ -972,15 +986,15 @@ public:
 		ref_head		= ((str(L"$$define")>>*SPACE>>NAME) + (*SPACE>>(BRACKET_OPEN >> name_list << BRACKET_CLOSE)))[ToRefDefHead]<<*SPACE;
 
 		text_exp_nc		= (COMMENT | STRING | PLAIN_TEXT | ESCAPE | SPACE | OTHERS)[ToText];
-		unit_exp_nc		= invoke_exp | array_exp | reference_exp | text_exp_nc | str(L"()")[ToText] | (BRACKET_OPEN >> opt(exp + opt(BRACKET_CLOSE)))[ToBracket];
+		unit_exp_nc		= array_exp | invoke_exp | reference_exp | text_exp_nc | str(L"()")[ToText] | (BRACKET_OPEN >> opt(exp + opt(BRACKET_CLOSE)))[ToBracket];
 		concat_exp_nc	= list(+unit_exp_nc)[ToConcat];
 		exp_nc			= concat_exp_nc;
 
-		array_exp		= (ARRAY_OPEN >> exp_list << ARRAY_CLOSE)[ToArray];
+		array_exp		= (str(L"$array") >> BRACKET_OPEN >> exp_list << BRACKET_CLOSE)[ToArray];
 		reference_exp	= NAME[ToReference];
 		text_exp		= (COMMA | COMMENT | STRING | PLAIN_TEXT | ESCAPE | SPACE | OTHERS)[ToText];
 		invoke_exp		= (reference_exp + (BRACKET_OPEN >> exp_list << BRACKET_CLOSE))[ToInvoke];
-		unit_exp		= invoke_exp | array_exp | reference_exp | text_exp | str(L"()")[ToText] | (BRACKET_OPEN >> opt(exp + opt(BRACKET_CLOSE)))[ToBracket];
+		unit_exp		= array_exp | invoke_exp | reference_exp | text_exp | str(L"()")[ToText] | (BRACKET_OPEN >> opt(exp + opt(BRACKET_CLOSE)))[ToBracket];
 		concat_exp		= list(+unit_exp)[ToConcat];
 		exp				= concat_exp;
 
