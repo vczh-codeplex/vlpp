@@ -286,11 +286,6 @@ Extended Expressions
 
 			}
 
-			Ptr<ManagedExpression> ToSetterValue(const RegexToken& input)
-			{
-				return CreateNode<ManagedSetterValueExpression>(input);
-			}
-
 			Ptr<ManagedExpression> ToTypeof(const ParsingPair<RegexToken, Ptr<ManagedType>>& input)
 			{
 				Ptr<ManagedTypeofExpression> exp=CreateNode<ManagedTypeofExpression>(input.First());
@@ -690,7 +685,6 @@ ManagedXParserImpl
 										| THIS[ToThis]
 										| BASE[ToBase]
 										| RESULT[ToResult]
-										| VALUE[ToSetterValue]
 										| ID(NeedExpression)[ToReferenceExpression]
 										| ((GLOBAL + COLON(NeedColon) + COLON(NeedColon)) >> ID(NeedId))[ToGlobalExpression]
 										| (NEW + type + 

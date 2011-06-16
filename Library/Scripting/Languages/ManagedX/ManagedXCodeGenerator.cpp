@@ -110,7 +110,6 @@ namespace vl
 					L"true",
 					L"false",
 					L"result",
-					L"value",
 					L"as",
 					L"this",
 					L"base",
@@ -917,11 +916,6 @@ Extended Expressions
 					argument.writer.WriteString(L"]");
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(ManagedSetterValueExpression)
-				{
-					argument.writer.WriteString(L"value");
-				}
-
 			END_ALGORITHM_PROCEDURE(ManagedX_GenerateCode_ExtendedExpression)
 
 /***********************************************************************
@@ -1505,7 +1499,14 @@ Extended Members
 					{
 						PrintIndentation(argument, 1);
 						AttributeToString(node->setterAccessor, argument.writer);
-						argument.writer.WriteString(L"set\r\n");
+						if(node->setterParameter==L"")
+						{
+							argument.writer.WriteString(L"set\r\n");
+						}
+						else
+						{
+							argument.writer.WriteString(L"set("+node->setterParameter+L")\r\n");
+						}
 						ManagedX_GenerateCode_Statement(node->setter, newArgument);
 						argument.writer.WriteString(L"\r\n");
 					}

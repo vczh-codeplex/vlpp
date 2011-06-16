@@ -325,7 +325,7 @@ Extended Declaration Members
 				RegexToken,
 				x::tp<
 					x::opt<Ptr<ManagedStatement>>,
-					x::opt<x::tp<x::opt<declatt::Accessor>, Ptr<ManagedStatement>>>
+					x::opt<x::tp<x::opt<declatt::Accessor>, x::opt<RegexToken>, Ptr<ManagedStatement>>>
 					>
 				>::ResultType& input)
 			{
@@ -344,8 +344,9 @@ Extended Declaration Members
 					x::ref(member->getter)
 					.ref(
 						x::ref(member->setterAccessor=member->accessor)
+						.ref(member->setterParameter)
 						.ref(member->setter)
-						)
+					)
 					, input.Second());
 				member->name=ConvertID(member->name);
 				return member;
@@ -566,7 +567,7 @@ ManagedXParserImpl
 										| (attributeInfo + accessor + memberType + inheritation + type + opt(type << COLON(NeedColon) << COLON(NeedColon)) + ID(NeedId) + 
 											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> (
 												opt(GET >> statement) +
-												opt(opt(setterAccessor) + (SET >> statement))
+												opt(opt(setterAccessor) + (SET >> opt(OPEN_EXP_BRACE(NeedOpenExpBrace) >> ID(NeedId) << CLOSE_EXP_BRACE(NeedCloseExpBrace))) + statement)
 											) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
 										  )[ToPropertyMember]
 										| (attributeInfo + opt(genericInfo) + accessor + memberType + inheritation + implicitExplicit + (AS(NeedAs) >> type)
