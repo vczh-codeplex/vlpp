@@ -316,7 +316,13 @@
     <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Console.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Common.fpm" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm" />

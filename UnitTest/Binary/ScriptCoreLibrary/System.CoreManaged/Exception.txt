@@ -1,0 +1,23 @@
+namespace System
+{
+	public class Exception
+	{
+		public string Message{get;protected set;}
+	}
+
+	public class IndexOutOfRangeException : Exception
+	{
+		public constructor()
+		{
+			this.Message="Index out of range.";
+		}
+	}
+
+	public class ArgumentOutOfRangeException : Exception
+	{
+		public constructor(string parameterName)
+		{
+			this.Message="Argument out of range:"+parameterName+".";
+		}
+	}
+}

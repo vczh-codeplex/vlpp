@@ -1,0 +1,111 @@
+$$include:Common.fpm
+
+$$define $DIMENTION_FIELD_NAME($element) dimSize$element
+$$define $DIMENTION_PARAMETER_NAME($element) _$element
+$$define $DIMENTION_PARAMETER_DEFINITION($element) int $DIMENTION_PARAMETER_NAME($element)
+$$define $DIMENTION_PARAMETER_NAME_IN_ARRAY($element) indices[$element]
+
+$$define $DIMENTION_FIELD($element) $$begin
+		private int $DIMENTION_FIELD_NAME($element);
+$( )
+$$end
+
+$$define $DIMENTION_FIELD_SETTER($element) $$begin
+			$DIMENTION_FIELD_NAME($element) = $DIMENTION_PARAMETER_NAME($element);
+$( )
+$$end
+
+$$define $DIMENTION_SIZE_CASE($element) $$begin
+				case $element:
+					return $DIMENTION_FIELD_NAME($element);
+$( )
+$$end
+
+$$define $DIMENTION_CHECK($element) $$begin
+			if($DIMENTION_PARAMETER_NAME($element)<0 || $DIMENTION_PARAMETER_NAME($element)>=$DIMENTION_FIELD_NAME($element))
+				throw new ArgumentOutOfRangeException($(")$DIMENTION_PARAMETER_NAME($element)$("));
+$( )
+$$end
+
+$$define $ARRAY_IMPLEMENTATION($elements) $$begin
+$( )
+	generic<inout T>
+	public class Array$elements : Array
+	{
+		private intptr gchandle=0;
+$( )
+		public constructor($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
+		{
+$loop($elements,0,$DIMENTION_FIELD_SETTER)
+			Initialize(this.Length);
+		}
+$( )
+$loop($elements,0,$DIMENTION_FIELD)
+		public override int GetDimCount()
+		{
+			return $elements;
+		}
+$( )
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+$loop($elements,0,$DIMENTION_SIZE_CASE)
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+$( )
+		public override int Length
+		{
+			get
+			{
+				return $loopsep($elements,0,$DIMENTION_FIELD_NAME,$(*));
+			}
+		}
+$( )
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=$elements)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))];
+		}
+$( )
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=$elements)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))]=value;
+		}
+$( )
+		public T operator get[]($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
+		{
+$loop($elements,0,$DIMENTION_CHECK)
+		}
+$( )
+		public T operator set[](T value, $loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
+		{
+$loop($elements,0,$DIMENTION_CHECK)
+		}
+$( )
+		private external void Initialize(int size);
+	}
+$$end
+
+namespace System
+{
+	generic<inout T>
+	public abstract class Array
+	{
+		public abstract int GetDimCount();
+		public abstract int GetDimSize(int dim);
+		public abstract int Length{get;}
+		public abstract T GetElement(params int[] indices);
+		public abstract void SetElement(T value, params int[] indices);
+	}
+$loop($MAX_ELEMENT_COUNT(),1,$ARRAY_IMPLEMENTATION)
+}

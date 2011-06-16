@@ -2,4 +2,7 @@ Language=ManagedX
 
 Compile=Object.txt
 Compile=Attribute.txt
+Compile=Exception.txt
 Compile=Numbers.txt
+Compile=Array.txt
+Compile=Function.txt

@@ -1502,6 +1502,24 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt.fpm">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt.fpm">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Common.fpm">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

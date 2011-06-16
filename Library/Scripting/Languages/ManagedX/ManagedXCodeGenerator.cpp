@@ -1397,9 +1397,13 @@ Basic Members
 					{
 						argument.writer.WriteString(L"operator ()");
 					}
-					else if(node->name==L"op_index")
+					else if(node->name==L"op_index_get")
 					{
-						argument.writer.WriteString(L"operator []");
+						argument.writer.WriteString(L"operator get[]");
+					}
+					else if(node->name==L"op_index_set")
+					{
+						argument.writer.WriteString(L"operator set[]");
 					}
 					else
 					{
