@@ -46,7 +46,7 @@ namespace System
 
             public static abstract int c{}
             public static virtual int c{get throw new NotImplementedException();}
-            public static override int c{set throw new NotImplementedException();}
+            public static override int c{set(value) throw new NotImplementedException();}
 
             private int x;
             public int X
@@ -55,7 +55,7 @@ namespace System
                 {
                     result=this.x;
                 }
-                set
+                set(value)
                 {
                     this.x=value;
                 }

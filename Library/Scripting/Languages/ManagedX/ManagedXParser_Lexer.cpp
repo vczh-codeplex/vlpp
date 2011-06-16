@@ -34,7 +34,6 @@ ManagedXParserImpl
 				THIS					= CreateToken(tokens, L"this");
 				BASE					= CreateToken(tokens, L"base");
 				NEW						= CreateToken(tokens, L"new");
-				VALUE					= CreateToken(tokens, L"value");
 				AS						= CreateToken(tokens, L"as");
 				IS						= CreateToken(tokens, L"is");
 				RESULT					= CreateToken(tokens, L"result");

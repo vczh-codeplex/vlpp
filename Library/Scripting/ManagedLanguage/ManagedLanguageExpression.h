@@ -484,12 +484,6 @@ Extended Expressions
 				collections::List<Ptr<ManagedExpression>>			indices;
 			};
 
-			class ManagedSetterValueExpression : public ManagedExtendedExpression
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
-			};
-
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\
 			F(P, ManagedLambdaExpression)\
 			F(P, ManagedChoiceExpression)\
@@ -501,7 +495,6 @@ Extended Expressions
 			F(P, ManagedNewArrayExpression)\
 			F(P, ManagedIsTypeExpression)\
 			F(P, ManagedIndexExpression)\
-			F(P, ManagedSetterValueExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
 
@@ -879,8 +872,9 @@ Extended Members
 				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
 
-				Ptr<ManagedStatement>								getter; // ;able
-				Ptr<ManagedStatement>								setter; // ;able
+				Ptr<ManagedStatement>								getter; // emptyable
+				Ptr<ManagedStatement>								setter; // emptyable
+				WString												setterParameter; // nullable if setter == empty
 				declatt::Accessor									setterAccessor;
 			};
 
