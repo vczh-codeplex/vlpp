@@ -1,6 +1,17 @@
 namespace System
 {
-    public class Object
+	using System.CompilerModel;
+
+	public class Object
 	{
+		[AutoGenerate]
+		public abstract Type GetType();
+
+		public external bool ReferenceEquals(object a, object b);
+
+		public virtual string ToString()
+		{
+			return GetType().FullName;
+		}
 	}
 }
