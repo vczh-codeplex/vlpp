@@ -1,6 +1,7 @@
 #include "ManagedX.h"
 #include "ManagedXErrorMessage.h"
 #include "ManagedXCodeGenerator.h"
+#include "ManagedXParser.h"
 
 #include "..\LanguageProviderManagedExtension.h"
 
@@ -16,7 +17,13 @@ namespace vl
 
 			class ManagedXProvider : public Object, public ILanguageProvider, public IManagedLanguageProvider
 			{
+			protected:
+				Ptr<ManagedXParser>						parser;
 			public:
+				ManagedXProvider()
+				{
+					parser=ManagedXParser::Create();
+				}
 
 				WString LanguageName()
 				{
@@ -46,7 +53,15 @@ namespace vl
 					collections::IList<Ptr<LanguageException>>& errors
 					)
 				{
-					return 0;
+					Ptr<ManagedXUnit> unit=parser->Parse(code, 0, errors);
+					if(unit)
+					{
+						return unit->program;
+					}
+					else
+					{
+						return 0;
+					}
 				}
 
 				void GenerateCode(
@@ -55,6 +70,7 @@ namespace vl
 					stream::TextWriter& writer
 					)
 				{
+					ManagedX_GenerateCode_Program(program, writer);
 				}
 
 				bool GenerateHeader(

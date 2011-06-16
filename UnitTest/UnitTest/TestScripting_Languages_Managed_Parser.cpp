@@ -1,6 +1,9 @@
 #include "..\..\Library\UnitTest\UnitTest.h"
 #include "..\..\Library\Scripting\Languages\ManagedX\ManagedXParser.h"
 #include "..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h"
+#include "..\..\Library\Scripting\Languages\ManagedX\ManagedX.h"
+#include "..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h"
+#include "..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
 #include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
 
@@ -8,6 +11,7 @@ using namespace vl;
 using namespace vl::stream;
 using namespace vl::scripting;
 using namespace vl::scripting::managedlanguage;
+using namespace vl::scripting::utility;
 using namespace vl::scripting::language_managedx;
 
 extern WString GetPath();
@@ -100,5 +104,46 @@ TEST_CASE(Test_ManagedX_Parser)
 	{
 		vl::unittest::UnitTest::PrintInfo(L"Parsing ManagedX program: "+codeFiles[i]);
 		CheckParser(parser, codeFiles[i]);
+	}
+}
+
+TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
+{
+	vl::unittest::UnitTest::PrintInfo(L"Initializing ManagedX Provider...");
+	Ptr<ILanguageProvider> provider=CreateManagedXLanguageProvider();
+	Ptr<IManagedLanguageProvider> managedProvider=provider.Cast<IManagedLanguageProvider>();
+	WString inputPath=GetPath()+L"..\\ScriptCoreLibrary\\System.CoreManaged\\";
+	LanguageMakeFile makeFile;
+	{
+		FileStream fileStream(inputPath+L"Make.txt", FileStream::ReadOnly);
+		BomDecoder decoder;
+		DecoderStream decoderStream(fileStream, decoder);
+		StreamReader reader(decoderStream);
+		makeFile.Load(inputPath, reader);
+	}
+
+	for(vint i=0;i<makeFile.compiles.Count();i++)
+	{
+		WString codePath=makeFile.baseLocation+makeFile.compiles[i];
+		vl::unittest::UnitTest::PrintInfo(L"Parsing ManagedX program: "+makeFile.compiles[i]);
+
+		WString code;
+		{
+			FileStream fileStream(codePath, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader reader(decoderStream);
+			code=reader.ReadToEnd();
+		}
+		Ptr<Object> extra;
+		List<Ptr<LanguageException>> errors;
+		Ptr<ManagedProgram> program=managedProvider->ParseProgram(code, extra, errors.Wrap());
+
+		TEST_ASSERT(program);
+		for(vint i=0;i<errors.Count();i++)
+		{
+			vl::unittest::UnitTest::PrintError(L"ERROR ("+itow(errors[i]->LineIndex())+L"): "+errors[i]->Message());
+		}
+		TEST_ASSERT(errors.Count()==0);
 	}
 }
