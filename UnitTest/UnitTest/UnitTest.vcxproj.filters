@@ -1520,6 +1520,15 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Enumeration.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\String.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Type.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

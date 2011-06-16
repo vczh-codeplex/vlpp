@@ -320,6 +320,7 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Common.fpm" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Enumeration.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt.fpm" />
@@ -327,6 +328,8 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Object.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\String.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Type.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Make.txt" />

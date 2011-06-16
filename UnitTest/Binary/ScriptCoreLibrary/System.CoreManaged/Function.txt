@@ -1,3 +1,356 @@
 namespace System
 {
+	public abstract class DelegateTarget
+	{
+		public IntPtr FunctionObject{get; protected set;}
+		public abstract object Invoke(object thisObject, params object[] arguments);
+ 
+		public static bool operator ==(DelegateTarget a, DelegateTarget b)
+		{
+			return a.FunctionObject==b.FunctionObject;
+		}
+ 
+		public static bool operator !=(DelegateTarget a, DelegateTarget b)
+		{
+			return a.FunctionObject!=b.FunctionObject;
+		}
+	}
+ 
+	public class Delegate
+	{
+		public object ThisObject{get; protected set;}
+		public DelegateTarget Target{get; protected set;}
+ 
+		public constructor(object thisObject, DelegateTarget target)
+		{
+			this.ThisObject=thisObject;
+			this.Target=target;
+		}
+ 
+		public object Invoke(params object[] arguments)
+		{
+			return this.Target.Invoke(this.ThisObject, arguments);
+		}
+ 
+		public static bool operator ==(Delegate a, Delegate b)
+		{
+			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
+		}
+ 
+		public static bool operator !=(Delegate a, Delegate b)
+		{
+			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
+		}
+	}
+ 
+	generic<out R>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()()
+		{
+			return Invoke() as R;
+		}
+	}
+ 
+ 	generic<out R, in T0>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0)
+		{
+			return Invoke(p0) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1)
+		{
+			return Invoke(p0, p1) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2)
+		{
+			return Invoke(p0, p1, p2) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3)
+		{
+			return Invoke(p0, p1, p2, p3) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
+		{
+			return Invoke(p0, p1, p2, p3, p4) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
+		{
+			return Invoke(p0, p1, p2, p3, p4, p5) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
+		{
+			return Invoke(p0, p1, p2, p3, p4, p5, p6) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
+		{
+			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+		{
+			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8) as R;
+		}
+	}
+ 
+ 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
+		{
+			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) as R;
+		}
+	}
+ 
+ 
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()()
+		{
+			Invoke();
+		}
+	}
+ 
+ 
+	generic<in T0>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0)
+		{
+			Invoke(p0);
+		}
+	}
+ 
+ 	generic<in T0, in T1>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1)
+		{
+			Invoke(p0, p1);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2)
+		{
+			Invoke(p0, p1, p2);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3)
+		{
+			Invoke(p0, p1, p2, p3);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
+		{
+			Invoke(p0, p1, p2, p3, p4);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4, in T5>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
+		{
+			Invoke(p0, p1, p2, p3, p4, p5);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
+		{
+			Invoke(p0, p1, p2, p3, p4, p5, p6);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
+		{
+			Invoke(p0, p1, p2, p3, p4, p5, p6, p7);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+		{
+			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8);
+		}
+	}
+ 
+ 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+ 
+		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
+		{
+			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+		}
+	}
+ 
+ 
 }

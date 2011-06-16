@@ -1,5 +1,110 @@
 $$include:Common.fpm
 
+$$define $TYPE($element) T$element
+$$define $TYPE_IN_GENERIC($element) in $TYPE($element)
+$$define $TYPE_IN_GENERIC_WITH_COMMA($element) , $TYPE_IN_GENERIC($element)
+$$define $PARAMETER($element) p$element
+$$define $TYPE_AND_PARAMETER($element) $TYPE($element) $PARAMETER($element)
+
+$$define $FUNCTION($elements) $$begin
+	generic<out R$loop($elements,0,$TYPE_IN_GENERIC_WITH_COMMA)>
+	public class Function : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+$( )
+		public R operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
+		{
+			return Invoke($loopsep($elements,0,$PARAMETER,$(,) )) as R;
+		}
+	}
+$( )
+$( )
+$$end
+
+$$define $PROCEDURE_0() $$begin
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+$( )
+		public void operator()()
+		{
+			Invoke();
+		}
+	}
+$( )
+$( )
+$$end
+
+$$define $PROCEDURE($elements) $$begin
+	generic<$loopsep($elements,0,$TYPE_IN_GENERIC,$(,) )>
+	public class Procedure : Delegate
+	{
+		public constructor(object thisObject, DelegateTarget target)
+            :base(thisObject, target)
+		{
+		}
+$( )
+		public void operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
+		{
+			Invoke($loopsep($elements,0,$PARAMETER,$(,) ));
+		}
+	}
+$( )
+$( )
+$$end
+
 namespace System
 {
+	public abstract class DelegateTarget
+	{
+		public IntPtr FunctionObject{get; protected set;}
+		public abstract object Invoke(object thisObject, params object[] arguments);
+$( )
+		public static bool operator ==(DelegateTarget a, DelegateTarget b)
+		{
+			return a.FunctionObject==b.FunctionObject;
+		}
+$( )
+		public static bool operator !=(DelegateTarget a, DelegateTarget b)
+		{
+			return a.FunctionObject!=b.FunctionObject;
+		}
+	}
+$( )
+	public class Delegate
+	{
+		public object ThisObject{get; protected set;}
+		public DelegateTarget Target{get; protected set;}
+$( )
+		public constructor(object thisObject, DelegateTarget target)
+		{
+			this.ThisObject=thisObject;
+			this.Target=target;
+		}
+$( )
+		public object Invoke(params object[] arguments)
+		{
+			return this.Target.Invoke(this.ThisObject, arguments);
+		}
+$( )
+		public static bool operator ==(Delegate a, Delegate b)
+		{
+			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
+		}
+$( )
+		public static bool operator !=(Delegate a, Delegate b)
+		{
+			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
+		}
+	}
+$( )
+$loop($add($MAX_ELEMENT_COUNT(),1),0,$FUNCTION)
+$PROCEDURE_0()
+$loop($MAX_ELEMENT_COUNT(),1,$PROCEDURE)
 }
