@@ -27,12 +27,20 @@ $$define $DIMENTION_CHECK($element) $$begin
 $( )
 $$end
 
+$$define $DIMENTION_SUMMERS($elements) $$begin
+  $$define $DIMENTION_SUMMER($index) $$begin
+			sum*=$DIMENTION_FIELD_NAME($sub($sub($elements,1),$index));
+			index+=sum*$DIMENTION_PARAMETER_NAME($sub($sub($elements,2),$index));
+$( )
+  $$end
+$loop($sub($elements,1),0,$DIMENTION_SUMMER)
+$$end
+
 $$define $ARRAY_IMPLEMENTATION($elements) $$begin
 $( )
 	generic<inout T>
 	public class Array$elements : Array
 	{
-		private intptr gchandle=0;
 $( )
 		public constructor($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
@@ -85,14 +93,21 @@ $( )
 		public T operator get[]($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
 $loop($elements,0,$DIMENTION_CHECK)
+            int index=$DIMENTION_PARAMETER_NAME($sub($elements,1));
+            int sum=1;
+            $DIMENTION_SUMMERS($elements)
+            return Get(index);
 		}
 $( )
 		public T operator set[](T value, $loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
 $loop($elements,0,$DIMENTION_CHECK)
+            int index=$DIMENTION_PARAMETER_NAME($sub($elements,1));
+            int sum=1;
+            $DIMENTION_SUMMERS($elements)
+            Set(value, index);
 		}
 $( )
-		private external void Initialize(int size);
 	}
 $$end
 
@@ -101,6 +116,11 @@ namespace System
 	generic<inout T>
 	public abstract class Array
 	{
+		protected intptr gchandle=0;
+		protected external void Initialize(int size);
+        protected external T Get(int position);
+        protected external void Set(T value, int position);
+$( )
 		public abstract int GetDimCount();
 		public abstract int GetDimSize(int dim);
 		public abstract int Length{get;}
