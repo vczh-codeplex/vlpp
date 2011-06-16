@@ -11,6 +11,7 @@ Interfaces:
 #define VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDEREXTENSION
 
 #include "LanguageProvider.h"
+#include "..\BasicLanguage\BasicLanguageExpression.h"
 #include "..\ManagedLanguage\ManagedLanguageExpression.h"
 
 namespace vl
@@ -23,6 +24,12 @@ namespace vl
 			virtual Ptr<managedlanguage::ManagedProgram>	ParseProgram(
 																const WString& code, 
 																Ptr<Object>& outputExtra,
+																collections::IList<Ptr<LanguageException>>& errors
+																)=0;
+
+			virtual Ptr<basiclanguage::BasicProgram>		CompileToBasicProgram(
+																collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
+																collections::IReadonlyList<WString>& codes, 
 																collections::IList<Ptr<LanguageException>>& errors
 																)=0;
 

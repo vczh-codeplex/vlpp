@@ -15,6 +15,8 @@ namespace vl
 {
 	namespace scripting
 	{
+		// ParseProgram
+		// GenerateCode
 		class NativeXLanguageExtra : public Object
 		{
 		public:
@@ -22,6 +24,7 @@ namespace vl
 			collections::List<WString>		imports;
 		};
 
+		// GenerateHeader
 		class NativeXHeaderExtra : public Object
 		{
 		public:
