@@ -64,6 +64,15 @@ namespace vl
 					}
 				}
 
+				Ptr<basiclanguage::BasicProgram> CompileToBasicProgram(
+					collections::IReadonlyList<Ptr<LanguageAssembly>>& references,
+					collections::IReadonlyList<WString>& codes, 
+					collections::IList<Ptr<LanguageException>>& errors
+					)
+				{
+					return 0;
+				}
+
 				void GenerateCode(
 					Ptr<managedlanguage::ManagedProgram> program,
 					Ptr<Object> inputExtra,
