@@ -101,7 +101,8 @@ ManagedXParserImpl
 										| let(tk(L"^"), WString(L"op_xor"))
 										
 										| let(tk(L"(")+tk(L")"), WString(L"op_invoke"))
-										| let(tk(L"[")+tk(L"]"), WString(L"op_index"))
+										| let(GET+tk(L"[")+tk(L"]"), WString(L"op_index_get"))
+										| let(SET+tk(L"[")+tk(L"]"), WString(L"op_index_set"))
 										;
 			}
 		}

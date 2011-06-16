@@ -1,0 +1,1103 @@
+namespace System
+{
+	generic<inout T>
+	public abstract class Array
+	{
+		public abstract int GetDimCount();
+		public abstract int GetDimSize(int dim);
+		public abstract int Length{get;}
+		public abstract T GetElement(params int[] indices);
+		public abstract void SetElement(T value, params int[] indices);
+	}
+ 
+	generic<inout T>
+	public class Array1 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0)
+		{
+			dimSize0 = _0;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 
+		public override int GetDimCount()
+		{
+			return 1;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=1)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=1)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0]]=value;
+		}
+ 
+		public T operator get[](int _0)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 
+		}
+ 
+		public T operator set[](T value, int _0)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array2 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 
+		public override int GetDimCount()
+		{
+			return 2;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=2)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=2)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array3 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 
+		public override int GetDimCount()
+		{
+			return 3;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=3)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=3)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array4 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 
+		public override int GetDimCount()
+		{
+			return 4;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=4)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=4)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array5 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 
+		public override int GetDimCount()
+		{
+			return 5;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=5)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=5)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array6 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 			dimSize5 = _5;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 		private int dimSize5;
+ 
+		public override int GetDimCount()
+		{
+			return 6;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 				case 5:
+					return dimSize5;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4*dimSize5;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=6)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=6)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array7 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 			dimSize5 = _5;
+ 			dimSize6 = _6;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 		private int dimSize5;
+ 		private int dimSize6;
+ 
+		public override int GetDimCount()
+		{
+			return 7;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 				case 5:
+					return dimSize5;
+ 				case 6:
+					return dimSize6;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4*dimSize5*dimSize6;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=7)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=7)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array8 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 			dimSize5 = _5;
+ 			dimSize6 = _6;
+ 			dimSize7 = _7;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 		private int dimSize5;
+ 		private int dimSize6;
+ 		private int dimSize7;
+ 
+		public override int GetDimCount()
+		{
+			return 8;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 				case 5:
+					return dimSize5;
+ 				case 6:
+					return dimSize6;
+ 				case 7:
+					return dimSize7;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4*dimSize5*dimSize6*dimSize7;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=8)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=8)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array9 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 			dimSize5 = _5;
+ 			dimSize6 = _6;
+ 			dimSize7 = _7;
+ 			dimSize8 = _8;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 		private int dimSize5;
+ 		private int dimSize6;
+ 		private int dimSize7;
+ 		private int dimSize8;
+ 
+		public override int GetDimCount()
+		{
+			return 9;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 				case 5:
+					return dimSize5;
+ 				case 6:
+					return dimSize6;
+ 				case 7:
+					return dimSize7;
+ 				case 8:
+					return dimSize8;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4*dimSize5*dimSize6*dimSize7*dimSize8;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=9)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=9)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	} 
+	generic<inout T>
+	public class Array10 : Array
+	{
+		private intptr gchandle=0;
+ 
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
+		{
+			dimSize0 = _0;
+ 			dimSize1 = _1;
+ 			dimSize2 = _2;
+ 			dimSize3 = _3;
+ 			dimSize4 = _4;
+ 			dimSize5 = _5;
+ 			dimSize6 = _6;
+ 			dimSize7 = _7;
+ 			dimSize8 = _8;
+ 			dimSize9 = _9;
+ 
+			Initialize(this.Length);
+		}
+ 
+		private int dimSize0;
+ 		private int dimSize1;
+ 		private int dimSize2;
+ 		private int dimSize3;
+ 		private int dimSize4;
+ 		private int dimSize5;
+ 		private int dimSize6;
+ 		private int dimSize7;
+ 		private int dimSize8;
+ 		private int dimSize9;
+ 
+		public override int GetDimCount()
+		{
+			return 10;
+		}
+ 
+		public override int GetDimSize(int dim)
+		{
+			switch(dim)
+			{
+				case 0:
+					return dimSize0;
+ 				case 1:
+					return dimSize1;
+ 				case 2:
+					return dimSize2;
+ 				case 3:
+					return dimSize3;
+ 				case 4:
+					return dimSize4;
+ 				case 5:
+					return dimSize5;
+ 				case 6:
+					return dimSize6;
+ 				case 7:
+					return dimSize7;
+ 				case 8:
+					return dimSize8;
+ 				case 9:
+					return dimSize9;
+ 
+				default:
+					throw new ArgumentOutOfRangeException("dim");
+			}
+		}
+ 
+		public override int Length
+		{
+			get
+			{
+				return dimSize0*dimSize1*dimSize2*dimSize3*dimSize4*dimSize5*dimSize6*dimSize7*dimSize8*dimSize9;
+			}
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			if(indices.Length!=10)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8],indices[9]];
+		}
+ 
+		public override void SetElement(T value, params int[] indices)
+		{
+			if(indices.Length!=10)
+			{
+				throw new ArgumentOutOfRangeException("indices");
+			}
+			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8],indices[9]]=value;
+		}
+ 
+		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 			if(_9<0 || _9>=dimSize9)
+				throw new ArgumentOutOfRangeException("_9");
+ 
+		}
+ 
+		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 			if(_9<0 || _9>=dimSize9)
+				throw new ArgumentOutOfRangeException("_9");
+ 
+		}
+ 
+		private external void Initialize(int size);
+	}
+}
