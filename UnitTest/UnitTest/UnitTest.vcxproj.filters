@@ -1493,6 +1493,9 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">

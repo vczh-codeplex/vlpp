@@ -139,11 +139,11 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 		List<Ptr<LanguageException>> errors;
 		Ptr<ManagedProgram> program=managedProvider->ParseProgram(code, extra, errors.Wrap());
 
-		TEST_ASSERT(program);
 		for(vint i=0;i<errors.Count();i++)
 		{
 			vl::unittest::UnitTest::PrintError(L"ERROR ("+itow(errors[i]->LineIndex())+L"): "+errors[i]->Message());
 		}
+		TEST_ASSERT(program);
 		TEST_ASSERT(errors.Count()==0);
 	}
 }

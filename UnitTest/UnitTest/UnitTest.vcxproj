@@ -316,6 +316,7 @@
     <None Include="..\Binary\ScriptCoreLibrary\Binary\Readme.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Console.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Object.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />

@@ -1,0 +1,47 @@
+namespace System
+{
+	public class Attribute
+	{
+	}
+
+	enum switch AttributeTargets
+	{
+		Class,
+		Struct,
+		Interface,
+		Enum,
+		Constructor,
+		Method,
+		Property,
+		Field,
+		ConverterOperator,
+		EnumItem,
+		Parameter,
+
+		TypeDeclaration = AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Enum,
+		TypeMember = AttributeTargets.Method | AttributeTargets.Constructor | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.ConverterOperator,
+		All = AttributeTargets.TypeDeclaration | AttributeTargets.TypeMember | AttributeTargets.EnumItem | AttributeTargets.Parameter
+	}
+
+	public class AttributeUsageAttribute : Attribute
+	{
+		public AttributeTargets Targets{get;set;}
+		public bool AllowMultiple{get;set;}
+		public bool AllowInherit{get;set;}
+
+		public constructor(AttributeTargets targets, bool allowMultiple=true, bool allowInherit=true)
+		{
+			this.Targets=targets;
+			this.AllowMultiple=allowMultiple;
+			this.AllowInherit=allowInherit;
+		}
+	}
+
+	namespace CompilerModel
+	{
+		[AttributeUsage(AttributeTargets.Method)]
+		public class AutoGenerateAttribute : Attribute
+		{
+		}
+	}
+}

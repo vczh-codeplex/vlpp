@@ -1,3 +1,4 @@
 Language=ManagedX
 
 Compile=Object.txt
+Compile=Attribute.txt
