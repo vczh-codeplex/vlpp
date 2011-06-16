@@ -1,3 +1,50 @@
 namespace System
 {
+	[StructBase]
+	public struct EnumItemBase
+	{
+		public int Value{get; protected internal set;}
+
+		public constructor()
+		{
+		}
+
+		public constructor(int value)
+		{
+			this.Value=value;
+		}
+	}
+
+	generic<inout T : EnumItemBase, new()>
+	public class EnumItemManager
+	{
+		private T[] predefinedItems;
+		public bool Composable{get;private set;}
+
+		public int GetPredefinedItemCount()
+		{
+			return this.predefinedItems.Length;
+		}
+
+		public T GetPredefinedItem(int index)
+		{
+			return this.predefinedItems[index];
+		}
+
+		public constructor(bool composable, T[] predefinedItems)
+		{
+			this.Composable=composable;
+			this.predefinedItems=predefinedItems;
+		}
+
+		public T ItemFromString(string value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string ItemToString(T item)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

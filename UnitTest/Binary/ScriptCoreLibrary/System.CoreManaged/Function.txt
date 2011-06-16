@@ -47,11 +47,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()()
+		public virtual R operator()()
 		{
 			return Invoke() as R;
 		}
@@ -61,11 +61,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0)
+		public virtual R operator()(T0 p0)
 		{
 			return Invoke(p0) as R;
 		}
@@ -75,11 +75,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1)
+		public virtual R operator()(T0 p0, T1 p1)
 		{
 			return Invoke(p0, p1) as R;
 		}
@@ -89,11 +89,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2)
 		{
 			return Invoke(p0, p1, p2) as R;
 		}
@@ -103,11 +103,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3)
 		{
 			return Invoke(p0, p1, p2, p3) as R;
 		}
@@ -117,11 +117,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
 		{
 			return Invoke(p0, p1, p2, p3, p4) as R;
 		}
@@ -131,11 +131,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
 		{
 			return Invoke(p0, p1, p2, p3, p4, p5) as R;
 		}
@@ -145,11 +145,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
 		{
 			return Invoke(p0, p1, p2, p3, p4, p5, p6) as R;
 		}
@@ -159,11 +159,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
 		{
 			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7) as R;
 		}
@@ -173,11 +173,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
 		{
 			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8) as R;
 		}
@@ -187,11 +187,11 @@ namespace System
 	public class Function : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
+		public virtual R operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
 		{
 			return Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) as R;
 		}
@@ -201,11 +201,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()()
+		public virtual void operator()()
 		{
 			Invoke();
 		}
@@ -216,11 +216,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0)
+		public virtual void operator()(T0 p0)
 		{
 			Invoke(p0);
 		}
@@ -230,11 +230,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1)
+		public virtual void operator()(T0 p0, T1 p1)
 		{
 			Invoke(p0, p1);
 		}
@@ -244,11 +244,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2)
 		{
 			Invoke(p0, p1, p2);
 		}
@@ -258,11 +258,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3)
 		{
 			Invoke(p0, p1, p2, p3);
 		}
@@ -272,11 +272,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
 		{
 			Invoke(p0, p1, p2, p3, p4);
 		}
@@ -286,11 +286,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5);
 		}
@@ -300,11 +300,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6);
 		}
@@ -314,11 +314,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7);
 		}
@@ -328,11 +328,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8);
 		}
@@ -342,11 +342,11 @@ namespace System
 	public class Procedure : Delegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
-            :base(thisObject, target)
+			:base(thisObject, target)
 		{
 		}
  
-		public void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
+		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 		}

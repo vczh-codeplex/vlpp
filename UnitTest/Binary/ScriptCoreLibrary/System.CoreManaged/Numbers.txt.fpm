@@ -78,7 +78,7 @@ $$define $CONSTRUCTOR_MEMBERS($name) $$begin
 		public constructor($name value);
 $( )
 		public override external string ToString();
-        public static external $name Parse(string value);
+		public static external $name Parse(string value);
 $( )
 $$end
 

@@ -5,8 +5,8 @@ namespace System
 	{
 		protected intptr gchandle=0;
 		protected external void Initialize(int size);
-        protected external T Get(int position);
-        protected external void Set(T value, int position);
+		protected external T Get(int position);
+		protected external void Set(T value, int position);
  
 		public abstract int GetDimCount();
 		public abstract int GetDimSize(int dim);
@@ -16,7 +16,7 @@ namespace System
 	}
  
 	generic<inout T>
-	public class Array1 : Array
+	public sealed class Array1 : Array
 	{
  
 		public constructor(int _0)
@@ -76,11 +76,11 @@ namespace System
 			if(_0<0 || _0>=dimSize0)
 				throw new ArgumentOutOfRangeException("_0");
  
-            int index=_0;
-            int sum=1;
-              
+			int index=_0;
+			int sum=1;
+			  
 
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0)
@@ -88,16 +88,16 @@ namespace System
 			if(_0<0 || _0>=dimSize0)
 				throw new ArgumentOutOfRangeException("_0");
  
-            int index=_0;
-            int sum=1;
-              
+			int index=_0;
+			int sum=1;
+			  
 
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array2 : Array
+	public sealed class Array2 : Array
 	{
  
 		public constructor(int _0, int _1)
@@ -163,14 +163,14 @@ namespace System
  			if(_1<0 || _1>=dimSize1)
 				throw new ArgumentOutOfRangeException("_1");
  
-            int index=_1;
-            int sum=1;
-              
+			int index=_1;
+			int sum=1;
+			  
 			sum*=dimSize1;
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1)
@@ -180,19 +180,19 @@ namespace System
  			if(_1<0 || _1>=dimSize1)
 				throw new ArgumentOutOfRangeException("_1");
  
-            int index=_1;
-            int sum=1;
-              
+			int index=_1;
+			int sum=1;
+			  
 			sum*=dimSize1;
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array3 : Array
+	public sealed class Array3 : Array
 	{
  
 		public constructor(int _0, int _1, int _2)
@@ -264,9 +264,9 @@ namespace System
  			if(_2<0 || _2>=dimSize2)
 				throw new ArgumentOutOfRangeException("_2");
  
-            int index=_2;
-            int sum=1;
-              
+			int index=_2;
+			int sum=1;
+			  
 			sum*=dimSize2;
 			index+=sum*_1;
  
@@ -274,7 +274,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2)
@@ -286,9 +286,9 @@ namespace System
  			if(_2<0 || _2>=dimSize2)
 				throw new ArgumentOutOfRangeException("_2");
  
-            int index=_2;
-            int sum=1;
-              
+			int index=_2;
+			int sum=1;
+			  
 			sum*=dimSize2;
 			index+=sum*_1;
  
@@ -296,12 +296,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array4 : Array
+	public sealed class Array4 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3)
@@ -379,9 +379,9 @@ namespace System
  			if(_3<0 || _3>=dimSize3)
 				throw new ArgumentOutOfRangeException("_3");
  
-            int index=_3;
-            int sum=1;
-              
+			int index=_3;
+			int sum=1;
+			  
 			sum*=dimSize3;
 			index+=sum*_2;
  
@@ -392,7 +392,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3)
@@ -406,9 +406,9 @@ namespace System
  			if(_3<0 || _3>=dimSize3)
 				throw new ArgumentOutOfRangeException("_3");
  
-            int index=_3;
-            int sum=1;
-              
+			int index=_3;
+			int sum=1;
+			  
 			sum*=dimSize3;
 			index+=sum*_2;
  
@@ -419,12 +419,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array5 : Array
+	public sealed class Array5 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4)
@@ -508,9 +508,9 @@ namespace System
  			if(_4<0 || _4>=dimSize4)
 				throw new ArgumentOutOfRangeException("_4");
  
-            int index=_4;
-            int sum=1;
-              
+			int index=_4;
+			int sum=1;
+			  
 			sum*=dimSize4;
 			index+=sum*_3;
  
@@ -524,7 +524,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4)
@@ -540,9 +540,9 @@ namespace System
  			if(_4<0 || _4>=dimSize4)
 				throw new ArgumentOutOfRangeException("_4");
  
-            int index=_4;
-            int sum=1;
-              
+			int index=_4;
+			int sum=1;
+			  
 			sum*=dimSize4;
 			index+=sum*_3;
  
@@ -556,12 +556,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array6 : Array
+	public sealed class Array6 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5)
@@ -651,9 +651,9 @@ namespace System
  			if(_5<0 || _5>=dimSize5)
 				throw new ArgumentOutOfRangeException("_5");
  
-            int index=_5;
-            int sum=1;
-              
+			int index=_5;
+			int sum=1;
+			  
 			sum*=dimSize5;
 			index+=sum*_4;
  
@@ -670,7 +670,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5)
@@ -688,9 +688,9 @@ namespace System
  			if(_5<0 || _5>=dimSize5)
 				throw new ArgumentOutOfRangeException("_5");
  
-            int index=_5;
-            int sum=1;
-              
+			int index=_5;
+			int sum=1;
+			  
 			sum*=dimSize5;
 			index+=sum*_4;
  
@@ -707,12 +707,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array7 : Array
+	public sealed class Array7 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6)
@@ -808,9 +808,9 @@ namespace System
  			if(_6<0 || _6>=dimSize6)
 				throw new ArgumentOutOfRangeException("_6");
  
-            int index=_6;
-            int sum=1;
-              
+			int index=_6;
+			int sum=1;
+			  
 			sum*=dimSize6;
 			index+=sum*_5;
  
@@ -830,7 +830,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6)
@@ -850,9 +850,9 @@ namespace System
  			if(_6<0 || _6>=dimSize6)
 				throw new ArgumentOutOfRangeException("_6");
  
-            int index=_6;
-            int sum=1;
-              
+			int index=_6;
+			int sum=1;
+			  
 			sum*=dimSize6;
 			index+=sum*_5;
  
@@ -872,12 +872,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array8 : Array
+	public sealed class Array8 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
@@ -979,9 +979,9 @@ namespace System
  			if(_7<0 || _7>=dimSize7)
 				throw new ArgumentOutOfRangeException("_7");
  
-            int index=_7;
-            int sum=1;
-              
+			int index=_7;
+			int sum=1;
+			  
 			sum*=dimSize7;
 			index+=sum*_6;
  
@@ -1004,7 +1004,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
@@ -1026,9 +1026,9 @@ namespace System
  			if(_7<0 || _7>=dimSize7)
 				throw new ArgumentOutOfRangeException("_7");
  
-            int index=_7;
-            int sum=1;
-              
+			int index=_7;
+			int sum=1;
+			  
 			sum*=dimSize7;
 			index+=sum*_6;
  
@@ -1051,12 +1051,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array9 : Array
+	public sealed class Array9 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
@@ -1164,9 +1164,9 @@ namespace System
  			if(_8<0 || _8>=dimSize8)
 				throw new ArgumentOutOfRangeException("_8");
  
-            int index=_8;
-            int sum=1;
-              
+			int index=_8;
+			int sum=1;
+			  
 			sum*=dimSize8;
 			index+=sum*_7;
  
@@ -1192,7 +1192,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
@@ -1216,9 +1216,9 @@ namespace System
  			if(_8<0 || _8>=dimSize8)
 				throw new ArgumentOutOfRangeException("_8");
  
-            int index=_8;
-            int sum=1;
-              
+			int index=_8;
+			int sum=1;
+			  
 			sum*=dimSize8;
 			index+=sum*_7;
  
@@ -1244,12 +1244,12 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	} 
 	generic<inout T>
-	public class Array10 : Array
+	public sealed class Array10 : Array
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
@@ -1363,9 +1363,9 @@ namespace System
  			if(_9<0 || _9>=dimSize9)
 				throw new ArgumentOutOfRangeException("_9");
  
-            int index=_9;
-            int sum=1;
-              
+			int index=_9;
+			int sum=1;
+			  
 			sum*=dimSize9;
 			index+=sum*_8;
  
@@ -1394,7 +1394,7 @@ namespace System
 			index+=sum*_0;
  
   
-            return Get(index);
+			return Get(index);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
@@ -1420,9 +1420,9 @@ namespace System
  			if(_9<0 || _9>=dimSize9)
 				throw new ArgumentOutOfRangeException("_9");
  
-            int index=_9;
-            int sum=1;
-              
+			int index=_9;
+			int sum=1;
+			  
 			sum*=dimSize9;
 			index+=sum*_8;
  
@@ -1451,7 +1451,7 @@ namespace System
 			index+=sum*_0;
  
   
-            Set(value, index);
+			Set(value, index);
 		}
  
 	}
