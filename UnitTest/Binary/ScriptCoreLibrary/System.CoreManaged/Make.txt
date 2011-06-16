@@ -6,3 +6,6 @@ Compile=Exception.txt
 Compile=Numbers.txt
 Compile=Array.txt
 Compile=Function.txt
+Compile=Enumeration.txt
+Compile=String.txt
+Compile=Type.txt

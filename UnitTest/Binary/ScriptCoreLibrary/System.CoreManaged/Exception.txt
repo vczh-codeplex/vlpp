@@ -17,7 +17,23 @@ namespace System
 	{
 		public constructor(string parameterName)
 		{
-			this.Message="Argument out of range:"+parameterName+".";
+			this.Message=string.Format("Argument out of range:{0}.", parameterName);
 		}
 	}
+
+    public class WrongFormatException : Exception
+    {
+        public constructor(string value)
+        {
+            this.Message=string.Format("Value {0} does not fit in the format.", value);
+        }
+    }
+
+    public class TypeConversionException : Exception
+    {
+        public constructor(Type to, Type from)
+        {
+            this.Message=string.Format("Cannot convert from {0} to {1}.", from, to);
+        }
+    }
 }
