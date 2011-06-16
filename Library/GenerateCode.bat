@@ -5,4 +5,5 @@
 ..\Tools\Fpmacro ObjectModel\ObjectTypeClass.h.fpm
 ..\Tools\Fpmacro ObjectModel\ObjectTypeClassTemplate.h.fpm
 ..\Tools\Fpmacro Scripting\Languages\BasicFunctionExecutor.h.fpm
+..\Tools\Fpmacro ..\UnitTest\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm
 pause

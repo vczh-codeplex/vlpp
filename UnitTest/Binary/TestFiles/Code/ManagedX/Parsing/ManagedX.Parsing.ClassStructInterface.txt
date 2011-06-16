@@ -117,6 +117,9 @@ namespace System
 			public void operator ||();
 			public void operator |();
 			public void operator ^();
+			
+			public void operator ()();
+			public void operator []();
         }
 
 		class MethodMembers

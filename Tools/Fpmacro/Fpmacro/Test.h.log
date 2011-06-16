@@ -3027,6 +3027,96 @@ Functions:
         TEXT : }
     }
     TEXT : }
+    REFERENCE {
+        $PRINT_NUMBER : $index
+        CONCAT {
+            TEXT : L
+            TEXT : "
+            NAME : $index
+            TEXT : "
+        }
+    }
+    REFERENCE {
+        $PRING_ARRAY : $numbers
+        TEXT :   
+        REFERENCE {
+            $PRINTER : $index
+            INVOKE {
+                NAME : $PRINT_NUMBER
+                ARGUMENTS {
+                    INVOKE {
+                        NAME : $get
+                        ARGUMENTS {
+                            NAME : $numbers
+                            CONCAT {
+                                TEXT :  
+                                NAME : $index
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        INVOKE {
+            NAME : $loopsep
+            ARGUMENTS {
+                INVOKE {
+                    NAME : $length
+                    ARGUMENTS {
+                        NAME : $numbers
+                    }
+                }
+                TEXT : 0
+                NAME : $PRINTER
+                TEXT : ,
+            }
+        }
+    }
+    CONCAT {
+        TEXT : public
+        TEXT :  
+        TEXT : const
+        TEXT :  
+        TEXT : wchar_t*
+        TEXT :  
+        TEXT : text
+        TEXT :  
+        TEXT : =
+        TEXT :  
+        INVOKE {
+            NAME : $PRINT_NUMBER
+            ARGUMENTS {
+                TEXT : 10
+            }
+        }
+        TEXT : ;
+    }
+    CONCAT {
+        TEXT : public
+        TEXT :  
+        TEXT : const
+        TEXT :  
+        TEXT : wchar_t*
+        TEXT :  
+        TEXT : numbers[]
+        TEXT :  
+        TEXT : =
+        TEXT :  
+        TEXT : {
+        INVOKE {
+            NAME : $PRING_ARRAY
+            ARGUMENTS {
+                ARRAY {
+                    TEXT : 1
+                    TEXT : 2
+                    TEXT : 3
+                    TEXT : 4
+                    TEXT : 5
+                }
+            }
+        }
+        TEXT : }
+    }
     TEXT : #endif
 }
 ==============================================================================================

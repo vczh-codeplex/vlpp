@@ -365,4 +365,13 @@ $loop(11,0,$COMBINDING_APPLY)
 		return Curry<Func<T>(Func<R(R,R)>,Func<T>,Func<T>)>(Combine)(converter);
 	}
 }
+
+$$define $PRINT_NUMBER($index) L$(")$index$(")
+$$define $PRING_ARRAY($numbers) $$begin
+  $$define $PRINTER($index) $PRINT_NUMBER($get($numbers, $index))
+$loopsep($length($numbers),0,$PRINTER,$(,))
+$$end
+
+public const wchar_t* text = $PRINT_NUMBER(10);
+public const wchar_t* numbers[] = {$PRING_ARRAY($array(1,2,3,4,5))}
 #endif

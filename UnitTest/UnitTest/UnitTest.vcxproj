@@ -318,6 +318,8 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.ConsoleNative.Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Object.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.ForeignFunctions.NativeX.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreNative.Gc.NativeX.txt" />

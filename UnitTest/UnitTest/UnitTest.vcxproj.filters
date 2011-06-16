@@ -1496,6 +1496,12 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
