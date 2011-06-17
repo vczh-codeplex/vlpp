@@ -18,9 +18,6 @@ namespace System
 	generic<inout T : EnumItemBase, new()>
 	public class EnumItemManager
 	{
-		private T[] predefinedItems;
-		public bool Composable{get;private set;}
-
 		public int GetPredefinedItemCount()
 		{
 			return this.predefinedItems.Length;
@@ -31,10 +28,9 @@ namespace System
 			return this.predefinedItems[index];
 		}
 
-		public constructor(bool composable, T[] predefinedItems)
+		public constructor(bool composable, Type enumerationType)
 		{
-			this.Composable=composable;
-			this.predefinedItems=predefinedItems;
+			throw new NotImplementedException();
 		}
 
 		public T ItemFromString(string value)
