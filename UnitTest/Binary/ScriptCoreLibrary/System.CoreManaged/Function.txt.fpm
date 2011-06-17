@@ -66,6 +66,16 @@ $$define $EVENT_0() $$begin
 		{
 			Invoke();
 		}
+$( )
+		public void Add(Procedure procedure)
+		{
+			base.Add(procedure);
+		}
+$( )
+		public void Remove(Procedure procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
 $( )
 $( )
@@ -78,6 +88,16 @@ $$define $EVENT($elements) $$begin
 		public virtual void operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
 		{
 			Invoke($loopsep($elements,0,$PARAMETER,$(,) ));
+		}
+$( )
+		public void Add(Procedure<$loopsep($elements,0,$TYPE,$(,) )> procedure)
+		{
+			base.Add(procedure);
+		}
+$( )
+		public void Remove(Procedure<$loopsep($elements,0,$TYPE,$(,) )> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
 $( )
@@ -147,12 +167,12 @@ $( )
 			return this.Target.Invoke(this.ThisObject, arguments);
 		}
 $( )
-		public static bool operator ==(Delegate a, Delegate b)
+		public static bool operator ==(MethodDelegate a, MethodDelegate b)
 		{
 			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
 		}
 $( )
-		public static bool operator !=(Delegate a, Delegate b)
+		public static bool operator !=(MethodDelegate a, MethodDelegate b)
 		{
 			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
 		}
@@ -160,6 +180,83 @@ $( )
 $( )
 	public class BroadcastDelegate : Delegate
 	{
+		private class DelegateLink
+		{
+			public Delegate invokee;
+			public int counter;
+			DelegateLink previous;
+			DelegateLink next;
+		}
+$( )
+		private DelegateLink first;
+		private DelegateLink last;
+$( )
+		private DelegateLink FindDelegate(Delegate delegate)
+		{
+			if(this.first==null) return null;
+			else
+			{
+				DelegateLink current=this.first;
+				while(current!=null)
+				{
+					if(current.invokee.Equals(delegate))
+					{
+						return current;
+					}
+				}
+				return null;
+			}
+		}
+$( )
+		protected void Add(Delegate delegate)
+		{
+			DelegateLink link=FindDelegate(delegate);
+			if(link!=null)
+			{
+				link=new DelegateLink();
+				link.invokee=delegate;
+				if(this.first==null)
+				{
+					this.first=link;
+					this.last=link;
+				}
+				else
+				{
+					this.last.next=link;
+					link.previous=this.last;
+					this.last=link;
+				}
+			}
+			link.counter++;
+		}
+$( )
+		protected void Remove(Delegate delegate)
+		{
+			DelegateLink link=FindDelegate(delegate);
+			if(link!=null)
+			{
+				if((--link.counter)==0)
+				{
+					if(link==this.first)
+					{
+						this.first=link.next;
+					}
+					else
+					{
+						link.previous.next=link.next;
+					}
+					if(link==this.last)
+					{
+						this.last=link.previous;
+					}
+					else
+					{
+						link.next.previous=link.previous;
+					}
+				}
+			}
+		}
+$( )
 		public override object Invoke(params object[] arguments)
 		{
 			return new NotImplementedException();
