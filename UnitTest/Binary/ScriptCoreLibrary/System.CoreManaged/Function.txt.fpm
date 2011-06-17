@@ -1,13 +1,13 @@
 $$include:Common.fpm
 
 $$define $TYPE($element) T$element
-$$define $TYPE_IN_GENERIC($element) in $TYPE($element)
+$$define $TYPE_IN_GENERIC($element) inout $TYPE($element)
 $$define $TYPE_IN_GENERIC_WITH_COMMA($element) , $TYPE_IN_GENERIC($element)
 $$define $PARAMETER($element) p$element
 $$define $TYPE_AND_PARAMETER($element) $TYPE($element) $PARAMETER($element)
 
 $$define $FUNCTION($elements) $$begin
-	generic<out R$loop($elements,0,$TYPE_IN_GENERIC_WITH_COMMA)>
+	generic<inout R$loop($elements,0,$TYPE_IN_GENERIC_WITH_COMMA)>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -120,22 +120,12 @@ $( )
 		{
 			try
 			{
-				return this==(o as DelegateTarget);
+				return this.FunctionObject==(o as DelegateTarget).FunctionObject;
 			}
 			catch(TypeConversionException)
 			{
 				return false;
 			}
-		}
-$( )
-		public static bool operator ==(DelegateTarget a, DelegateTarget b)
-		{
-			return a.FunctionObject==b.FunctionObject;
-		}
-$( )
-		public static bool operator !=(DelegateTarget a, DelegateTarget b)
-		{
-			return a.FunctionObject!=b.FunctionObject;
 		}
 	}
 $( )
@@ -150,11 +140,12 @@ $( )
 			this.Target=target;
 		}
 $( )
-		public override bool Equals(MethodDelegate o)
+		public override bool Equals(object o)
 		{
 			try
 			{
-				return this==(o as DelegateTarget);
+				MethodDelegate t=o as MethodDelegate;
+				return this.Target==t.Target && this.ThisObject==t.ThisObject;
 			}
 			catch(TypeConversionException)
 			{
@@ -165,16 +156,6 @@ $( )
 		public override object Invoke(params object[] arguments)
 		{
 			return this.Target.Invoke(this.ThisObject, arguments);
-		}
-$( )
-		public static bool operator ==(MethodDelegate a, MethodDelegate b)
-		{
-			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
-		}
-$( )
-		public static bool operator !=(MethodDelegate a, MethodDelegate b)
-		{
-			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
 		}
 	}
 $( )

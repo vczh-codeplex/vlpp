@@ -14,22 +14,12 @@ namespace System
 		{
 			try
 			{
-				return this==(o as DelegateTarget);
+				return this.FunctionObject==(o as DelegateTarget).FunctionObject;
 			}
 			catch(TypeConversionException)
 			{
 				return false;
 			}
-		}
- 
-		public static bool operator ==(DelegateTarget a, DelegateTarget b)
-		{
-			return a.FunctionObject==b.FunctionObject;
-		}
- 
-		public static bool operator !=(DelegateTarget a, DelegateTarget b)
-		{
-			return a.FunctionObject!=b.FunctionObject;
 		}
 	}
  
@@ -44,11 +34,12 @@ namespace System
 			this.Target=target;
 		}
  
-		public override bool Equals(MethodDelegate o)
+		public override bool Equals(object o)
 		{
 			try
 			{
-				return this==(o as DelegateTarget);
+				MethodDelegate t=o as MethodDelegate;
+				return this.Target==t.Target && this.ThisObject==t.ThisObject;
 			}
 			catch(TypeConversionException)
 			{
@@ -59,16 +50,6 @@ namespace System
 		public override object Invoke(params object[] arguments)
 		{
 			return this.Target.Invoke(this.ThisObject, arguments);
-		}
- 
-		public static bool operator ==(MethodDelegate a, MethodDelegate b)
-		{
-			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
-		}
- 
-		public static bool operator !=(MethodDelegate a, MethodDelegate b)
-		{
-			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
 		}
 	}
  
@@ -157,7 +138,7 @@ namespace System
 		}
 	}
  
-	generic<out R>
+	generic<inout R>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -171,7 +152,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0>
+ 	generic<inout R, inout T0>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -185,7 +166,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1>
+ 	generic<inout R, inout T0, inout T1>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -199,7 +180,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2>
+ 	generic<inout R, inout T0, inout T1, inout T2>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -213,7 +194,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -227,7 +208,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -241,7 +222,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4, inout T5>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -255,7 +236,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -269,7 +250,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -283,7 +264,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -297,7 +278,7 @@ namespace System
 		}
 	}
  
- 	generic<out R, in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
+ 	generic<inout R, inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8, inout T9>
 	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -326,7 +307,7 @@ namespace System
 	}
  
  
-	generic<in T0>
+	generic<inout T0>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -340,7 +321,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1>
+ 	generic<inout T0, inout T1>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -354,7 +335,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2>
+ 	generic<inout T0, inout T1, inout T2>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -368,7 +349,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3>
+ 	generic<inout T0, inout T1, inout T2, inout T3>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -382,7 +363,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -396,7 +377,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -410,7 +391,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -424,7 +405,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -438,7 +419,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -452,7 +433,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8, inout T9>
 	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
@@ -486,7 +467,7 @@ namespace System
 	}
  
  
-	generic<in T0>
+	generic<inout T0>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0)
@@ -505,7 +486,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1>
+ 	generic<inout T0, inout T1>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1)
@@ -524,7 +505,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2>
+ 	generic<inout T0, inout T1, inout T2>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2)
@@ -543,7 +524,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3>
+ 	generic<inout T0, inout T1, inout T2, inout T3>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3)
@@ -562,7 +543,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4)
@@ -581,7 +562,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
@@ -600,7 +581,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
@@ -619,7 +600,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
@@ -638,7 +619,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
@@ -657,7 +638,7 @@ namespace System
 		}
 	}
  
- 	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
+ 	generic<inout T0, inout T1, inout T2, inout T3, inout T4, inout T5, inout T6, inout T7, inout T8, inout T9>
 	public class Event : BroadcastDelegate
 	{
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
