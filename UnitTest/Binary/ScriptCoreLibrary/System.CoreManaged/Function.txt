@@ -61,12 +61,12 @@ namespace System
 			return this.Target.Invoke(this.ThisObject, arguments);
 		}
  
-		public static bool operator ==(Delegate a, Delegate b)
+		public static bool operator ==(MethodDelegate a, MethodDelegate b)
 		{
 			return a.FunctionObject==b.FunctionObject && a.ThisObject==b.ThisObject;
 		}
  
-		public static bool operator !=(Delegate a, Delegate b)
+		public static bool operator !=(MethodDelegate a, MethodDelegate b)
 		{
 			return a.FunctionObject!=b.FunctionObject || a.ThisObject!=b.ThisObject;
 		}
@@ -74,6 +74,83 @@ namespace System
  
 	public class BroadcastDelegate : Delegate
 	{
+		private class DelegateLink
+		{
+			public Delegate invokee;
+			public int counter;
+			DelegateLink previous;
+			DelegateLink next;
+		}
+ 
+		private DelegateLink first;
+		private DelegateLink last;
+ 
+		private DelegateLink FindDelegate(Delegate delegate)
+		{
+			if(this.first==null) return null;
+			else
+			{
+				DelegateLink current=this.first;
+				while(current!=null)
+				{
+					if(current.invokee.Equals(delegate))
+					{
+						return current;
+					}
+				}
+				return null;
+			}
+		}
+ 
+		protected void Add(Delegate delegate)
+		{
+			DelegateLink link=FindDelegate(delegate);
+			if(link!=null)
+			{
+				link=new DelegateLink();
+				link.invokee=delegate;
+				if(this.first==null)
+				{
+					this.first=link;
+					this.last=link;
+				}
+				else
+				{
+					this.last.next=link;
+					link.previous=this.last;
+					this.last=link;
+				}
+			}
+			link.counter++;
+		}
+ 
+		protected void Remove(Delegate delegate)
+		{
+			DelegateLink link=FindDelegate(delegate);
+			if(link!=null)
+			{
+				if((--link.counter)==0)
+				{
+					if(link==this.first)
+					{
+						this.first=link.next;
+					}
+					else
+					{
+						link.previous.next=link.next;
+					}
+					if(link==this.last)
+					{
+						this.last=link.previous;
+					}
+					else
+					{
+						link.next.previous=link.previous;
+					}
+				}
+			}
+		}
+ 
 		public override object Invoke(params object[] arguments)
 		{
 			return new NotImplementedException();
@@ -396,6 +473,16 @@ namespace System
 		{
 			Invoke();
 		}
+ 
+		public void Add(Procedure procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  
@@ -406,6 +493,16 @@ namespace System
 		{
 			Invoke(p0);
 		}
+ 
+		public void Add(Procedure<T0> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0> procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  	generic<in T0, in T1>
@@ -414,6 +511,16 @@ namespace System
 		public virtual void operator()(T0 p0, T1 p1)
 		{
 			Invoke(p0, p1);
+		}
+ 
+		public void Add(Procedure<T0, T1> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
  
@@ -424,6 +531,16 @@ namespace System
 		{
 			Invoke(p0, p1, p2);
 		}
+ 
+		public void Add(Procedure<T0, T1, T2> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2> procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  	generic<in T0, in T1, in T2, in T3>
@@ -432,6 +549,16 @@ namespace System
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3)
 		{
 			Invoke(p0, p1, p2, p3);
+		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
  
@@ -442,6 +569,16 @@ namespace System
 		{
 			Invoke(p0, p1, p2, p3, p4);
 		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4> procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  	generic<in T0, in T1, in T2, in T3, in T4, in T5>
@@ -450,6 +587,16 @@ namespace System
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5);
+		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4, T5> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4, T5> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
  
@@ -460,6 +607,16 @@ namespace System
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6);
 		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4, T5, T6> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4, T5, T6> procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7>
@@ -468,6 +625,16 @@ namespace System
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7);
+		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4, T5, T6, T7> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4, T5, T6, T7> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
  
@@ -478,6 +645,16 @@ namespace System
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8);
 		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4, T5, T6, T7, T8> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4, T5, T6, T7, T8> procedure)
+		{
+			base.Remove(procedure);
+		}
 	}
  
  	generic<in T0, in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9>
@@ -486,6 +663,16 @@ namespace System
 		public virtual void operator()(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
 		{
 			Invoke(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+		}
+ 
+		public void Add(Procedure<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> procedure)
+		{
+			base.Add(procedure);
+		}
+ 
+		public void Remove(Procedure<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9> procedure)
+		{
+			base.Remove(procedure);
 		}
 	}
  
