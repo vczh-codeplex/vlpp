@@ -21,7 +21,7 @@ namespace typerename
 	using UINTPTR = uintptr;
 
     using StringList = List<string>;
-    using StringMap = Dictionary<int, string>;
+    using StringMap = global::System.Dictionary<int, string>;
     using IntArray = int[];
     using VarMatrix = var[,];
     using DynamicCube = dynamic[,,];
