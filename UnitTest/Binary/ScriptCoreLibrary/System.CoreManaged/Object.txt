@@ -1,3 +1,18 @@
+/*
+v as T throws exception when failure
+
+a op b only search for
+  1. A.op(b)
+  2. B.op(a)
+  operator should be static
+
+extension method
+  this should be the first
+  should be static
+  should be in static class
+
+in T and out T can only appears at interface
+*/
 namespace System
 {
 	using System.CompilerModel;
@@ -21,14 +36,20 @@ namespace System
 
 		public static bool operator==(object a, object b)
 		{
-			if(a==null && b==null) return true;
-			else if(a!=null && b!=null) return a.Equals(b);
-			else return false;
+			return CallEquals<object>(a, b);
 		}
 
 		public static bool operator!=(object a, object b)
 		{
-			return !(a==b);
+			return !CallEquals<object>(a, b);
+		}
+
+		generic<inout T>
+		public static bool CallEquals(T a, T b)
+		{
+			if(a==null && b==null) return true;
+			else if(a!=null && b!=null) return a.Equals(b);
+			else return false;
 		}
 	}
 
