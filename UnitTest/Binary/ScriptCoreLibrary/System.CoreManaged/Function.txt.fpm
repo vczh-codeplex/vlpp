@@ -8,7 +8,7 @@ $$define $TYPE_AND_PARAMETER($element) $TYPE($element) $PARAMETER($element)
 
 $$define $FUNCTION($elements) $$begin
 	generic<out R$loop($elements,0,$TYPE_IN_GENERIC_WITH_COMMA)>
-	public class Function : Delegate
+	public class Function : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
 			:base(thisObject, target)
@@ -25,7 +25,7 @@ $( )
 $$end
 
 $$define $PROCEDURE_0() $$begin
-	public class Procedure : Delegate
+	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
 			:base(thisObject, target)
@@ -43,7 +43,7 @@ $$end
 
 $$define $PROCEDURE($elements) $$begin
 	generic<$loopsep($elements,0,$TYPE_IN_GENERIC,$(,) )>
-	public class Procedure : Delegate
+	public class Procedure : MethodDelegate
 	{
 		public constructor(object thisObject, DelegateTarget target)
 			:base(thisObject, target)
@@ -59,12 +59,54 @@ $( )
 $( )
 $$end
 
+$$define $EVENT_0() $$begin
+	public class Event : BroadcastDelegate
+	{
+		public virtual void operator()()
+		{
+			Invoke();
+		}
+	}
+$( )
+$( )
+$$end
+
+$$define $EVENT($elements) $$begin
+	generic<$loopsep($elements,0,$TYPE_IN_GENERIC,$(,) )>
+	public class Event : BroadcastDelegate
+	{
+		public virtual void operator()($loopsep($elements,0,$TYPE_AND_PARAMETER,$(,) ))
+		{
+			Invoke($loopsep($elements,0,$PARAMETER,$(,) ));
+		}
+	}
+$( )
+$( )
+$$end
+
 namespace System
 {
+	public abstract class Delegate
+	{
+		public abstract object Invoke(params object[] arguments);
+	}
+$( )
 	public abstract class DelegateTarget
 	{
 		public IntPtr FunctionObject{get; protected set;}
 		public abstract object Invoke(object thisObject, params object[] arguments);
+$( )
+		public override bool Equals(object o)
+		{
+			try
+			{
+				return this==(o as DelegateTarget);
+			}
+			catch(TypeConversionException)
+			{
+				return false;
+			}
+		}
 $( )
 		public static bool operator ==(DelegateTarget a, DelegateTarget b)
 		{
@@ -77,7 +119,7 @@ $( )
 		}
 	}
 $( )
-	public class Delegate
+	public class MethodDelegate : Delegate
 	{
 		public object ThisObject{get; protected set;}
 		public DelegateTarget Target{get; protected set;}
@@ -88,7 +130,19 @@ $( )
 			this.Target=target;
 		}
 $( )
-		public object Invoke(params object[] arguments)
+		public override bool Equals(MethodDelegate o)
+		{
+			try
+			{
+				return this==(o as DelegateTarget);
+			}
+			catch(TypeConversionException)
+			{
+				return false;
+			}
+		}
+$( )
+		public override object Invoke(params object[] arguments)
 		{
 			return this.Target.Invoke(this.ThisObject, arguments);
 		}
@@ -104,7 +158,17 @@ $( )
 		}
 	}
 $( )
+	public class BroadcastDelegate : Delegate
+	{
+		public override object Invoke(params object[] arguments)
+		{
+			return new NotImplementedException();
+		}
+	}
+$( )
 $loop($add($MAX_ELEMENT_COUNT(),1),0,$FUNCTION)
 $PROCEDURE_0()
 $loop($MAX_ELEMENT_COUNT(),1,$PROCEDURE)
+$EVENT_0()
+$loop($MAX_ELEMENT_COUNT(),1,$EVENT)
 }
