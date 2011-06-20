@@ -5,12 +5,16 @@ namespace System
 	{
 		protected intptr gchandle=0;
 		protected external void Initialize(int size);
-		protected external T Get(int position);
-		protected external void Set(T value, int position);
+		public external T Get(int position);
+		public external void Set(T value, int position);
+ 
+		public external void CopyTo(intptr pointer, int fromStart, int length);
+		public external void CopyTo(Array<T> array, int fromStart, int length, int toStart);
  
 		public abstract int GetDimCount();
 		public abstract int GetDimSize(int dim);
 		public abstract int Length{get;}
+		public abstract int GetStartIndexFromIndices(params int[] indices);
 		public abstract T GetElement(params int[] indices);
 		public abstract void SetElement(T value, params int[] indices);
 	}
@@ -53,46 +57,45 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=1)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0]];
+			return GetStartIndex[indices[0]];
+		}
+ 
+		public int GetStartIndex(int _0)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 
+			int index=_0;
+			int sum=1;
+			  
+
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=1)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 
-			int index=_0;
-			int sum=1;
-			  
-
-			return Get(index);
+			return Get(_0);
 		}
  
 		public T operator set[](T value, int _0)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 
-			int index=_0;
-			int sum=1;
-			  
-
-			Set(value, index);
+			return Set(value, _0);
 		}
  
 	} 
@@ -138,56 +141,50 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=2)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1]];
+			return GetStartIndex[indices[0],indices[1]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 
+			int index=_1;
+			int sum=1;
+			  
+			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=2)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 
-			int index=_1;
-			int sum=1;
-			  
-			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1);
 		}
  
 		public T operator set[](T value, int _0, int _1)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 
-			int index=_1;
-			int sum=1;
-			  
-			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1);
 		}
  
 	} 
@@ -237,66 +234,55 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=3)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2]];
+			return GetStartIndex[indices[0],indices[1],indices[2]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 
+			int index=_2;
+			int sum=1;
+			  
+			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=3)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 
-			int index=_2;
-			int sum=1;
-			  
-			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 
-			int index=_2;
-			int sum=1;
-			  
-			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2);
 		}
  
 	} 
@@ -350,76 +336,60 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=4)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 
+			int index=_3;
+			int sum=1;
+			  
+			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=4)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 
-			int index=_3;
-			int sum=1;
-			  
-			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 
-			int index=_3;
-			int sum=1;
-			  
-			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3);
 		}
  
 	} 
@@ -477,86 +447,65 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=5)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 
+			int index=_4;
+			int sum=1;
+			  
+			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=5)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 
-			int index=_4;
-			int sum=1;
-			  
-			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 
-			int index=_4;
-			int sum=1;
-			  
-			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4);
 		}
  
 	} 
@@ -618,96 +567,70 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=6)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4, int _5)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 
+			int index=_5;
+			int sum=1;
+			  
+			sum*=dimSize5;
+			index+=sum*_4;
+ 
+  			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=6)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 
-			int index=_5;
-			int sum=1;
-			  
-			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4, _5);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 
-			int index=_5;
-			int sum=1;
-			  
-			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4, _5);
 		}
  
 	} 
@@ -773,106 +696,75 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=7)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4, int _5, int _6)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 
+			int index=_6;
+			int sum=1;
+			  
+			sum*=dimSize6;
+			index+=sum*_5;
+ 
+  			sum*=dimSize5;
+			index+=sum*_4;
+ 
+  			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=7)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 
-			int index=_6;
-			int sum=1;
-			  
-			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4, _5, _6);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 
-			int index=_6;
-			int sum=1;
-			  
-			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4, _5, _6);
 		}
  
 	} 
@@ -942,116 +834,80 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=8)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 
+			int index=_7;
+			int sum=1;
+			  
+			sum*=dimSize7;
+			index+=sum*_6;
+ 
+  			sum*=dimSize6;
+			index+=sum*_5;
+ 
+  			sum*=dimSize5;
+			index+=sum*_4;
+ 
+  			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=8)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 
-			int index=_7;
-			int sum=1;
-			  
-			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4, _5, _6, _7);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 
-			int index=_7;
-			int sum=1;
-			  
-			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7);
 		}
  
 	} 
@@ -1125,126 +981,85 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=9)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 
+			int index=_8;
+			int sum=1;
+			  
+			sum*=dimSize8;
+			index+=sum*_7;
+ 
+  			sum*=dimSize7;
+			index+=sum*_6;
+ 
+  			sum*=dimSize6;
+			index+=sum*_5;
+ 
+  			sum*=dimSize5;
+			index+=sum*_4;
+ 
+  			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=9)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 			if(_8<0 || _8>=dimSize8)
-				throw new ArgumentOutOfRangeException("_8");
- 
-			int index=_8;
-			int sum=1;
-			  
-			sum*=dimSize8;
-			index+=sum*_7;
- 
-  			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4, _5, _6, _7, _8);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 			if(_8<0 || _8>=dimSize8)
-				throw new ArgumentOutOfRangeException("_8");
- 
-			int index=_8;
-			int sum=1;
-			  
-			sum*=dimSize8;
-			index+=sum*_7;
- 
-  			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7, _8);
 		}
  
 	} 
@@ -1322,136 +1137,90 @@ namespace System
 			}
 		}
  
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=10)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8],indices[9]];
+			return GetStartIndex[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8],indices[9]];
+		}
+ 
+		public int GetStartIndex(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
+		{
+			if(_0<0 || _0>=dimSize0)
+				throw new ArgumentOutOfRangeException("_0");
+ 			if(_1<0 || _1>=dimSize1)
+				throw new ArgumentOutOfRangeException("_1");
+ 			if(_2<0 || _2>=dimSize2)
+				throw new ArgumentOutOfRangeException("_2");
+ 			if(_3<0 || _3>=dimSize3)
+				throw new ArgumentOutOfRangeException("_3");
+ 			if(_4<0 || _4>=dimSize4)
+				throw new ArgumentOutOfRangeException("_4");
+ 			if(_5<0 || _5>=dimSize5)
+				throw new ArgumentOutOfRangeException("_5");
+ 			if(_6<0 || _6>=dimSize6)
+				throw new ArgumentOutOfRangeException("_6");
+ 			if(_7<0 || _7>=dimSize7)
+				throw new ArgumentOutOfRangeException("_7");
+ 			if(_8<0 || _8>=dimSize8)
+				throw new ArgumentOutOfRangeException("_8");
+ 			if(_9<0 || _9>=dimSize9)
+				throw new ArgumentOutOfRangeException("_9");
+ 
+			int index=_9;
+			int sum=1;
+			  
+			sum*=dimSize9;
+			index+=sum*_8;
+ 
+  			sum*=dimSize8;
+			index+=sum*_7;
+ 
+  			sum*=dimSize7;
+			index+=sum*_6;
+ 
+  			sum*=dimSize6;
+			index+=sum*_5;
+ 
+  			sum*=dimSize5;
+			index+=sum*_4;
+ 
+  			sum*=dimSize4;
+			index+=sum*_3;
+ 
+  			sum*=dimSize3;
+			index+=sum*_2;
+ 
+  			sum*=dimSize2;
+			index+=sum*_1;
+ 
+  			sum*=dimSize1;
+			index+=sum*_0;
+ 
+  
+			return index;
+		}
+ 
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
  
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=10)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[indices[0],indices[1],indices[2],indices[3],indices[4],indices[5],indices[6],indices[7],indices[8],indices[9]]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 			if(_8<0 || _8>=dimSize8)
-				throw new ArgumentOutOfRangeException("_8");
- 			if(_9<0 || _9>=dimSize9)
-				throw new ArgumentOutOfRangeException("_9");
- 
-			int index=_9;
-			int sum=1;
-			  
-			sum*=dimSize9;
-			index+=sum*_8;
- 
-  			sum*=dimSize8;
-			index+=sum*_7;
- 
-  			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			return Get(index);
+			return Get(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9);
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
 		{
-			if(_0<0 || _0>=dimSize0)
-				throw new ArgumentOutOfRangeException("_0");
- 			if(_1<0 || _1>=dimSize1)
-				throw new ArgumentOutOfRangeException("_1");
- 			if(_2<0 || _2>=dimSize2)
-				throw new ArgumentOutOfRangeException("_2");
- 			if(_3<0 || _3>=dimSize3)
-				throw new ArgumentOutOfRangeException("_3");
- 			if(_4<0 || _4>=dimSize4)
-				throw new ArgumentOutOfRangeException("_4");
- 			if(_5<0 || _5>=dimSize5)
-				throw new ArgumentOutOfRangeException("_5");
- 			if(_6<0 || _6>=dimSize6)
-				throw new ArgumentOutOfRangeException("_6");
- 			if(_7<0 || _7>=dimSize7)
-				throw new ArgumentOutOfRangeException("_7");
- 			if(_8<0 || _8>=dimSize8)
-				throw new ArgumentOutOfRangeException("_8");
- 			if(_9<0 || _9>=dimSize9)
-				throw new ArgumentOutOfRangeException("_9");
- 
-			int index=_9;
-			int sum=1;
-			  
-			sum*=dimSize9;
-			index+=sum*_8;
- 
-  			sum*=dimSize8;
-			index+=sum*_7;
- 
-  			sum*=dimSize7;
-			index+=sum*_6;
- 
-  			sum*=dimSize6;
-			index+=sum*_5;
- 
-  			sum*=dimSize5;
-			index+=sum*_4;
- 
-  			sum*=dimSize4;
-			index+=sum*_3;
- 
-  			sum*=dimSize3;
-			index+=sum*_2;
- 
-  			sum*=dimSize2;
-			index+=sum*_1;
- 
-  			sum*=dimSize1;
-			index+=sum*_0;
- 
-  
-			Set(value, index);
+			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9);
 		}
  
 	}

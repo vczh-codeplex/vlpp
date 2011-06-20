@@ -5,6 +5,7 @@ a op b only search for
   1. A.op(b)
   2. B.op(a)
   operator should be static
+  child's operator declaration hides parent's
 
 extension method
   this should be the first
