@@ -1,3 +1,107 @@
 namespace System
 {
+	enum StringEncoding
+	{
+		MBCS,
+		Utf16,
+		Utf16BigEndian,
+		Utf8
+	}
+
+	enum StringComparisons
+	{
+		Ordinal,
+		Invariant,
+		SystemDefault,
+		UserDefault,
+		OrdinalIgnoreCase,
+		InvariantIgnoreCase,
+		SystemDefaultIgnoreCase,
+		UserDefaultIgnoreCase
+	}
+
+	class String
+	{
+		public constructor();
+		public constructor(char[] chars, bool copy=true);
+		public constructor(intptr chars, int length, StringEncoding encoding=StringEncoding.Utf16);
+
+		protected external int GetLength();
+		public int Length{get return GetLength();}
+		public external char operator get[](int index);
+		public external char operator set[](char c, int index);
+		
+		public external char[] ToCharArray(bool copy=true);
+		public override string ToString()
+		{
+			return this;
+		}
+		
+		public external string Sub(int index, int size);
+		public external string ToUpper();
+		public external string ToLower();
+		public external string Trim(char[] chars, bool start, bool end);
+
+		public string Left(int size)
+		{
+			return Sub(0, size);
+		}
+
+		public string Right(int size)
+		{
+			return Sub(this.Length-size, size);
+		}
+
+		public string Trim()
+		{
+			return Trim(null, true, true);
+		}
+
+		public string TrimStart()
+		{
+			return Trim(null, true, false);
+		}
+
+		public string TrimEnd()
+		{
+			return Trim(null, false, true);
+		}
+
+		public static external int Compare(string a, string b, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
+
+		public static bool operator<(string a, string b)
+		{
+			return Compare(a, b)<0;
+		}
+
+		public static bool operator<=(string a, string b)
+		{
+			return Compare(a, b)<=0;
+		}
+
+		public static bool operator>(string a, string b)
+		{
+			return Compare(a, b)>0;
+		}
+
+		public static bool operator>=(string a, string b)
+		{
+			return Compare(a, b)>=0;
+		}
+
+		public static bool operator==(string a, string b)
+		{
+			return Compare(a, b)==0;
+		}
+
+		public static bool operator!=(string a, string b)
+		{
+			return Compare(a, b)!=0;
+		}
+
+		public external int FirstIndexOf(string s, int skipChars=0, int charCount=-1, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
+		public external int FirstIndexOf(char c, int skipChars=0, int charCount=-1, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
+		public external int LastIndexOf(string s, int skipChars=0, int charCount=-1, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
+		public external int LastIndexOf(char c, int skipChars=0, int charCount=-1, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
+	}
 }

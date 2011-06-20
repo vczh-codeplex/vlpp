@@ -72,40 +72,42 @@ $( )
 			}
 		}
 $( )
-		public override T GetElement(params int[] indices)
+		public override int GetStartIndexFromIndices(params int[] indices)
 		{
 			if(indices.Length!=$elements)
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return this[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))];
+			return GetStartIndex[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))];
+		}
+$( )
+		public int GetStartIndex($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
+		{
+$loop($elements,0,$DIMENTION_CHECK)
+			int index=$DIMENTION_PARAMETER_NAME($sub($elements,1));
+			int sum=1;
+			$DIMENTION_SUMMERS($elements)
+			return index;
+		}
+$( )
+		public override T GetElement(params int[] indices)
+		{
+			return Get(GetStartIndexFromIndices(indices));
 		}
 $( )
 		public override void SetElement(T value, params int[] indices)
 		{
-			if(indices.Length!=$elements)
-			{
-				throw new ArgumentOutOfRangeException("indices");
-			}
-			this[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))]=value;
+			Set(value, GetStartIndexFromIndices(indices));
 		}
 $( )
 		public T operator get[]($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
-$loop($elements,0,$DIMENTION_CHECK)
-			int index=$DIMENTION_PARAMETER_NAME($sub($elements,1));
-			int sum=1;
-			$DIMENTION_SUMMERS($elements)
-			return Get(index);
+			return Get($loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) ));
 		}
 $( )
 		public T operator set[](T value, $loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
-$loop($elements,0,$DIMENTION_CHECK)
-			int index=$DIMENTION_PARAMETER_NAME($sub($elements,1));
-			int sum=1;
-			$DIMENTION_SUMMERS($elements)
-			Set(value, index);
+			return Set(value, $loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) ));
 		}
 $( )
 	}
@@ -118,12 +120,16 @@ namespace System
 	{
 		protected intptr gchandle=0;
 		protected external void Initialize(int size);
-		protected external T Get(int position);
-		protected external void Set(T value, int position);
+		public external T Get(int position);
+		public external void Set(T value, int position);
+$( )
+		public external void CopyTo(intptr pointer, int fromStart, int length);
+		public external void CopyTo(Array<T> array, int fromStart, int length, int toStart);
 $( )
 		public abstract int GetDimCount();
 		public abstract int GetDimSize(int dim);
 		public abstract int Length{get;}
+		public abstract int GetStartIndexFromIndices(params int[] indices);
 		public abstract T GetElement(params int[] indices);
 		public abstract void SetElement(T value, params int[] indices);
 	}
