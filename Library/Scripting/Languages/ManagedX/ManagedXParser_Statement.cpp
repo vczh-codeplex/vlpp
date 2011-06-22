@@ -133,25 +133,6 @@ Basic Statements
 				return stat;
 			}
 
-			Ptr<ManagedStatement> ToForStat(const x::tp<
-					RegexToken,
-					x::rep<Ptr<ManagedVariableStatement>>,
-					x::opt<Ptr<ManagedExpression>>,
-					x::rep<Ptr<ManagedExpression>>,
-					Ptr<ManagedStatement>
-				>::ResultType& input)
-			{
-				Ptr<ManagedForStatement> stat=CreateNode<ManagedForStatement>(input.First().First().First().First());
-				x::Fill(
-					x::skip<RegexToken>()
-					.ref(stat->initializers)
-					.ref(stat->condition)
-					.ref(stat->sideEffects)
-					.ref(stat->statement)
-					, input);
-				return stat;
-			}
-
 			Ptr<ManagedCatchClause> ToCatchClause(const x::tp<
 					RegexToken,
 					Ptr<ManagedType>,
@@ -269,6 +250,45 @@ Extended Statements
 				return stat;
 			}
 
+			Ptr<ManagedStatement> ToForStat(const x::tp<
+					RegexToken,
+					x::rep<Ptr<ManagedVariableStatement>>,
+					x::opt<Ptr<ManagedExpression>>,
+					x::rep<Ptr<ManagedExpression>>,
+					Ptr<ManagedStatement>
+				>::ResultType& input)
+			{
+				Ptr<ManagedForStatement> stat=CreateNode<ManagedForStatement>(input.First().First().First().First());
+				x::Fill(
+					x::skip<RegexToken>()
+					.ref(stat->initializers)
+					.ref(stat->condition)
+					.ref(stat->sideEffects)
+					.ref(stat->statement)
+					, input);
+				return stat;
+			}
+
+			Ptr<ManagedStatement> ToForEachStat(const x::tp<
+					RegexToken,
+					Ptr<ManagedType>,
+					RegexToken,
+					Ptr<ManagedExpression>,
+					Ptr<ManagedStatement>
+				>::ResultType& input)
+			{
+				Ptr<ManagedForEachStatement> stat=CreateNode<ManagedForEachStatement>(input.First().First().First().First());
+				x::Fill(
+					x::skip<RegexToken>()
+					.ref(stat->type)
+					.ref(stat->name)
+					.ref(stat->container)
+					.ref(stat->statement)
+					, input);
+				stat->name=ConvertID(stat->name);
+				return stat;
+			}
+
 			Ptr<ManagedStatement> ToSetResultAndExitStat(const ParsingPair<RegexToken, Ptr<ManagedExpression>>& input)
 			{
 				Ptr<ManagedCompositeStatement> stat=CreateNode<ManagedCompositeStatement>(input.First());
@@ -335,6 +355,15 @@ ManagedXParserImpl
 											opt(WHEN >> OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))
 											)[ToWhileStat]
 										| (DO + statement + (WHILE(NeedWhile) >> (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))))[ToDoWhileStat]
+										| (TRY + statement + *catchClause + opt(FINALLY >> statement))[ToTryStat]
+										| (THROW + (opt(expression) << SEMICOLON(NeedSemicolon)))[ToThrowStat]
+										| ((USING << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + ID(NeedId) + (EQ(NeedEq) >> expression) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToUsingStat]
+										| (LOCK + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement)[ToLockStat]
+										| (SWITCH + 
+											(OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
+											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *caseClause) +
+											(opt(DEFAULT >> COLON(NeedColon) >> statement) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
+										  )[ToSelectStat]
 										| (
 											(FOR << OPEN_EXP_BRACE(NeedOpenExpBrace)) +
 											(plist(opt(forInitializer + *(COMMA >> forInitializer))) << SEMICOLON(NeedSemicolon))
@@ -342,15 +371,7 @@ ManagedXParserImpl
 											(SEMICOLON(NeedSemicolon) >> plist(opt(expression + *(COMMA >> expression))))
 											+ (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement)
 											)[ToForStat]
-										| (TRY + statement + *catchClause + opt(FINALLY >> statement))[ToTryStat]
-										| (THROW + (opt(expression) << SEMICOLON(NeedSemicolon)))[ToThrowStat]
-										| ((USING << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + ID(NeedId) + (EQ >> expression) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToUsingStat]
-										| (LOCK + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement)[ToLockStat]
-										| (SWITCH + 
-											(OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) +
-											(OPEN_DECL_BRACE(NeedOpenDeclBrace) >> *caseClause) +
-											(opt(DEFAULT >> COLON(NeedColon) >> statement) << CLOSE_DECL_BRACE(NeedCloseDeclBrace))
-										  )[ToSelectStat]
+										| ((FOREACH << OPEN_EXP_BRACE(NeedOpenExpBrace)) + type + ID(NeedId) + (IN(NeedIn) >> expression) + (CLOSE_EXP_BRACE(NeedCloseExpBrace) >> statement))[ToForEachStat]
 										| ((opt(CONST) + type + ID(NeedId) + opt(EQ >> expression))<<SEMICOLON(NeedSemicolon))[ToVarStat]
 										| (expression << SEMICOLON(NeedSemicolon))[ToExpressionStat]
 										;

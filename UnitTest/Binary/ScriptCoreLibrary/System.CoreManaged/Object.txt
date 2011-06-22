@@ -52,6 +52,12 @@ namespace System
 			else if(a!=null && b!=null) return a.Equals(b);
 			else return false;
 		}
+
+		generic<inout T>
+		public static external bool TryCast(object src, out T dst);
+
+		generic<inout T>
+		public static external bool IsCastable(object src);
 	}
 
 	[NotInstantiable]

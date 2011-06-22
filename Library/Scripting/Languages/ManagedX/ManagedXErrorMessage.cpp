@@ -31,6 +31,11 @@ namespace vl
 				return L"Here needs \"in\", \"out\" or \"in out\".";
 			}
 
+			WString ManagedXErrorMessage::NeedIn()
+			{
+				return L"Here needs \"in\".";
+			}
+
 			WString ManagedXErrorMessage::NeedBase()
 			{
 				return L"Here needs \"base\".";
