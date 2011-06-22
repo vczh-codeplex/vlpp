@@ -6,6 +6,7 @@ NeedId=Here needs an identifier.
 NeedWhile=Here needs \"while\".
 NeedAs=Here needs \"as\".
 NeedInOut=Here needs \"in\", \"out\" or \"in out\".
+NeedIn=Here needs \"in\".
 NeedBase=Here needs \"base\".
 NeedOperator=Here needs an operator.
 

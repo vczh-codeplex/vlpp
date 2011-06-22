@@ -331,15 +331,6 @@ Basic Expressions
 				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
 			};
 
-			class ManagedCastingExpression : public ManagedExpression
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedExpression)
-
-				Ptr<ManagedExpression>								operand;
-				Ptr<ManagedType>									type;
-			};
-
 			class ManagedThisExpression : public ManagedExpression
 			{
 			public:
@@ -374,7 +365,6 @@ Basic Expressions
 			F(P, ManagedInvokeExpression)\
 			F(P, ManagedNewObjectExpression)\
 			F(P, ManagedFunctionResultExpression)\
-			F(P, ManagedCastingExpression)\
 			F(P, ManagedThisExpression)\
 			F(P, ManagedBaseExpression)\
 			F(P, ManagedAssignmentExpression)\
@@ -475,6 +465,15 @@ Extended Expressions
 				Ptr<ManagedType>									type;
 			};
 
+			class ManagedCastingExpression : public ManagedExtendedExpression
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedExpression)
+
+				Ptr<ManagedExpression>								operand;
+				Ptr<ManagedType>									type;
+			};
+
 			class ManagedIndexExpression : public ManagedExtendedExpression
 			{
 			public:
@@ -494,6 +493,7 @@ Extended Expressions
 			F(P, ManagedBinaryExpression)\
 			F(P, ManagedNewArrayExpression)\
 			F(P, ManagedIsTypeExpression)\
+			F(P, ManagedCastingExpression)\
 			F(P, ManagedIndexExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedExpression, MANAGED_EXTENDED_EXPRESSION_TARGETS)
@@ -567,17 +567,6 @@ Basic Statements
 				Ptr<ManagedStatement>								statement;
 			};
 
-			class ManagedForStatement : public ManagedStatement
-			{
-			public:
-				ALGORITHM_ACCEPT_DECLARATION(ManagedStatement)
-
-				collections::List<Ptr<ManagedVariableStatement>>	initializers;
-				collections::List<Ptr<ManagedExpression>>			sideEffects;
-				Ptr<ManagedExpression>								condition; // nullable
-				Ptr<ManagedStatement>								statement;
-			};
-
 			class ManagedBreakStatement : public ManagedStatement
 			{
 			public:
@@ -621,7 +610,6 @@ Basic Statements
 			F(P, ManagedVariableStatement)\
 			F(P, ManagedIfStatement)\
 			F(P, ManagedWhileStatement)\
-			F(P, ManagedForStatement)\
 			F(P, ManagedBreakStatement)\
 			F(P, ManagedContinueStatement)\
 			F(P, ManagedReturnStatement)\
@@ -676,10 +664,34 @@ Extended Statements
 				Ptr<ManagedStatement>								defaultStatement; // nullable
 			};
 
+			class ManagedForStatement : public ManagedExtendedStatement
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
+
+				collections::List<Ptr<ManagedVariableStatement>>	initializers;
+				collections::List<Ptr<ManagedExpression>>			sideEffects;
+				Ptr<ManagedExpression>								condition; // nullable
+				Ptr<ManagedStatement>								statement;
+			};
+
+			class ManagedForEachStatement : public ManagedExtendedStatement
+			{
+			public:
+				ALGORITHM_ACCEPT_DECLARATION(ManagedExtendedStatement)
+
+				Ptr<ManagedType>									type; // can be autoref
+				WString												name;
+				Ptr<ManagedExpression>								container;
+				Ptr<ManagedStatement>								statement;
+			};
+
 #define MANAGED_EXTENDED_STATEMENT_TARGETS(P, F)\
 			F(P, ManagedUsingStatement)\
 			F(P, ManagedLockStatement)\
 			F(P, ManagedSelectStatement)\
+			F(P, ManagedForStatement)\
+			F(P, ManagedForEachStatement)\
 
 			DEFINE_ALGORITHM_INTERFACE(ManagedExtendedStatement, MANAGED_EXTENDED_STATEMENT_TARGETS)
 

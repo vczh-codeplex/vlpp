@@ -47,6 +47,7 @@ ManagedXParserImpl
 				WHILE					= CreateToken(tokens, L"while");
 				DO						= CreateToken(tokens, L"do");
 				WHEN					= CreateToken(tokens, L"when");
+				FOREACH					= CreateToken(tokens, L"foreach");
 				FOR						= CreateToken(tokens, L"for");
 				TRY						= CreateToken(tokens, L"try");
 				CATCH					= CreateToken(tokens, L"catch");
