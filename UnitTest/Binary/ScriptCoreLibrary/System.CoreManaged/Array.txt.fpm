@@ -42,10 +42,10 @@ $( )
 	public sealed class Array$elements : Array
 	{
 $( )
-		public constructor($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
+		public constructor($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ), Array<T> src=null, bool copy=true)
 		{
 $loop($elements,0,$DIMENTION_FIELD_SETTER)
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
 $( )
 $loop($elements,0,$DIMENTION_FIELD)
@@ -119,7 +119,7 @@ namespace System
 	public abstract class Array
 	{
 		protected intptr gchandle=0;
-		protected external void Initialize(int size);
+		protected external void Initialize(int size, Array<T> src, bool copy);
 		public external T Get(int position);
 		public external void Set(T value, int position);
 $( )

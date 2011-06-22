@@ -13,6 +13,11 @@ extension method
   should be in static class
 
 in T and out T can only appears at interface
+
+new Type{values}
+new <array-type>{values}
+yield return
+async-await
 */
 namespace System
 {

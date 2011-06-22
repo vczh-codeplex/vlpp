@@ -4,7 +4,7 @@ namespace System
 	public abstract class Array
 	{
 		protected intptr gchandle=0;
-		protected external void Initialize(int size);
+		protected external void Initialize(int size, Array<T> src, bool copy);
 		public external T Get(int position);
 		public external void Set(T value, int position);
  
@@ -23,11 +23,11 @@ namespace System
 	public sealed class Array1 : Array
 	{
  
-		public constructor(int _0)
+		public constructor(int _0, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -103,12 +103,12 @@ namespace System
 	public sealed class Array2 : Array
 	{
  
-		public constructor(int _0, int _1)
+		public constructor(int _0, int _1, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -192,13 +192,13 @@ namespace System
 	public sealed class Array3 : Array
 	{
  
-		public constructor(int _0, int _1, int _2)
+		public constructor(int _0, int _1, int _2, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
  			dimSize2 = _2;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -290,14 +290,14 @@ namespace System
 	public sealed class Array4 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3)
+		public constructor(int _0, int _1, int _2, int _3, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
  			dimSize2 = _2;
  			dimSize3 = _3;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -397,7 +397,7 @@ namespace System
 	public sealed class Array5 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4)
+		public constructor(int _0, int _1, int _2, int _3, int _4, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -405,7 +405,7 @@ namespace System
  			dimSize3 = _3;
  			dimSize4 = _4;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -513,7 +513,7 @@ namespace System
 	public sealed class Array6 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4, int _5)
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -522,7 +522,7 @@ namespace System
  			dimSize4 = _4;
  			dimSize5 = _5;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -638,7 +638,7 @@ namespace System
 	public sealed class Array7 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6)
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -648,7 +648,7 @@ namespace System
  			dimSize5 = _5;
  			dimSize6 = _6;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -772,7 +772,7 @@ namespace System
 	public sealed class Array8 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -783,7 +783,7 @@ namespace System
  			dimSize6 = _6;
  			dimSize7 = _7;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -915,7 +915,7 @@ namespace System
 	public sealed class Array9 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -927,7 +927,7 @@ namespace System
  			dimSize7 = _7;
  			dimSize8 = _8;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
@@ -1067,7 +1067,7 @@ namespace System
 	public sealed class Array10 : Array
 	{
  
-		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
+		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9, Array<T> src=null, bool copy=true)
 		{
 			dimSize0 = _0;
  			dimSize1 = _1;
@@ -1080,7 +1080,7 @@ namespace System
  			dimSize8 = _8;
  			dimSize9 = _9;
  
-			Initialize(this.Length);
+			Initialize(this.Length, src, copy);
 		}
  
 		private int dimSize0;
