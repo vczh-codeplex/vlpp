@@ -60,9 +60,6 @@ namespace System
 
 		generic<inout T>
 		public static external bool TryCast(object src, out T dst);
-
-		generic<inout T>
-		public static external bool IsCastable(object src);
 	}
 
 	[NotInstantiable]

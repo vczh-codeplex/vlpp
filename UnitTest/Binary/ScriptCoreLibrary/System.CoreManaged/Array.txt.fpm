@@ -133,5 +133,29 @@ $( )
 		public abstract T GetElement(params int[] indices);
 		public abstract void SetElement(T value, params int[] indices);
 	}
+$( )
+	generic<inout T>
+	public class ReadonlyArray
+	{
+		private T[] items;
+$( )
+		public constructor(T[] items)
+		{
+			this.items=items;
+		}
+$( )
+		public int Length
+		{
+			get
+			{
+				return this.items.Length;
+			}
+		}
+$( )
+		public T operator get[](int index)
+		{
+			return this.items[index];
+		}
+	}
 $loop($MAX_ELEMENT_COUNT(),1,$ARRAY_IMPLEMENTATION)
 }

@@ -20,6 +20,30 @@ namespace System
 	}
  
 	generic<inout T>
+	public class ReadonlyArray
+	{
+		private T[] items;
+ 
+		public constructor(T[] items)
+		{
+			this.items=items;
+		}
+ 
+		public int Length
+		{
+			get
+			{
+				return this.items.Length;
+			}
+		}
+ 
+		public T operator get[](int index)
+		{
+			return this.items[index];
+		}
+	}
+ 
+	generic<inout T>
 	public sealed class Array1 : Array
 	{
  
