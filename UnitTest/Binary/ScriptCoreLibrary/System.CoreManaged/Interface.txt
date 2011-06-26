@@ -1,0 +1,25 @@
+namespace System
+{
+	public interface IEnumerator
+	{
+		public abstract bool MoveNext();
+		public abstract object Current{get;}
+	}
+
+	public interface IEnumerable
+	{
+		public abstract IEnumerator GetEnunmerator();
+	}
+
+	generic<inout T>
+	public interface IEnumerator : IEnumerator
+	{
+		public abstract T Current{get;}
+	}
+
+	generic<inout T>
+	public interface IEnumerable : IEnumerable
+	{
+		public abstract IEnumerator<T> GetEnunmerator();
+	}
+}

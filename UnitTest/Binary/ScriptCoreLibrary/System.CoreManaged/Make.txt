@@ -1,11 +1,12 @@
 Language=ManagedX
 
-Compile=Object.txt
-Compile=Attribute.txt
-Compile=Exception.txt
-Compile=Numbers.txt
 Compile=Array.txt
-Compile=Function.txt
+Compile=Attribute.txt
 Compile=Enumeration.txt
+Compile=Exception.txt
+Compile=Function.txt
+Compile=Interface.txt
+Compile=Numbers.txt
+Compile=Object.txt
 Compile=String.txt
 Compile=Type.txt

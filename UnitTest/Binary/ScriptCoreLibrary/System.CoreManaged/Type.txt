@@ -79,20 +79,20 @@ namespace System
 			public external bool IsAssignableFrom(Type type);
 		}
 
-		public class GenericParameterInfo
+		public abstract class GenericParameterInfo
 		{
-			public Type Type{get;private set;}
-			public ReadonlyArray<Type> TypeConstraints{get;private set;}
-			public GenericArgumentConversion Conversion{get;private set;}
-			public bool NewConstraint{get;private set;}
+			public Type Type{get;protected set;}
+			public ReadonlyArray<Type> TypeConstraints{get;protected set;}
+			public GenericArgumentConversion Conversion{get;protected set;}
+			public bool NewConstraint{get;protected set;}
 		}
 
-		public class MethodParameterInfo
+		public abstract class MethodParameterInfo
 		{
-			public Type Type{get;private set;}
-			public string Name{get;private set;}
-			public MethodArgumentConversion Conversion{get;private set;}
-			public MethodBase DeclaredMember{get;private set;}
+			public Type Type{get;protected set;}
+			public string Name{get;protected set;}
+			public MethodArgumentConversion Conversion{get;protected set;}
+			public MethodBase DeclaredMember{get;protected set;}
 		}
 
 		public abstract class MemberInfo
@@ -109,6 +109,8 @@ namespace System
 
 		public abstract class PropertyInfo : MemberInfo
 		{
+			public Type ImplementedInterface{get;protected set;}
+			public bool Implicit{get;protected set;}
 			public Type PropertyType{get;protected set;}
 			public Delegate Getter{get;protected set;}
 			public Delegate Setter{get;protected set;}
@@ -124,18 +126,18 @@ namespace System
 		public abstract class MethodBase : MemberInfo
 		{
 			public ReadonlyArray<MethodParameterInfo> Parameters{get;protected set;}
+			public Type ReturnType{get;protected set;}
+			public bool Implicit{get;protected set;}
 			public Delegate Invoker{get;protected set;}
 		}
 
 		public abstract class MethodInfo : MethodBase
 		{
-			public Type ReturnType{get;protected set;}
 			public Type ImplementedInterface{get;protected set;}
 		}
 
 		public abstract class ConstructorInfo : MethodBase
 		{
-			public bool Implicit{get;protected set;}
 		}
 
 		public abstract class ConverterOperatorInfo : MethodBase
