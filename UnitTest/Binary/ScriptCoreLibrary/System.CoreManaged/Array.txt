@@ -1,7 +1,7 @@
 namespace System
 {
 	generic<inout T>
-	public abstract class Array
+	public abstract class Array : IEnumerable<T>
 	{
 		protected intptr gchandle=0;
 		protected external void Initialize(int size, Array<T> src, bool copy);
@@ -17,6 +17,58 @@ namespace System
 		public abstract int GetStartIndexFromIndices(params int[] indices);
 		public abstract T GetElement(params int[] indices);
 		public abstract void SetElement(T value, params int[] indices);
+ 
+		private class Enumerator : IEnumerator
+		{
+			private Array<T> array;
+			private int index;
+ 
+			public constructor(Array<T> array)
+			{
+				this.array=array;
+				this.index=-1;
+			}
+ 
+			public bool MoveNext()
+			{
+				if(index==array.Length-1)
+				{
+					return false;
+				}
+				else
+				{
+					index++;
+					return true;
+				}
+			}
+ 
+			public T Current
+			{
+				get
+				{
+					return array.Get(index);
+				}
+			}
+ 
+			object IEnumerator::Current
+			{
+				get
+				{
+					return array.Get(index);
+				}
+			}
+		}
+ 
+		IEnumerator<T> IEnumerable<T>::GetEnumerator()
+		{
+			return new Enumerator(this);
+		}
+ 
+		IEnumerator IEnumerable::GetEnumerator()
+		{
+			return new Enumerator(this);
+		}
+ 
 	}
  
 	generic<inout T>

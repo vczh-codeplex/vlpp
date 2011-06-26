@@ -324,6 +324,7 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt.fpm" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Interface.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Make.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Numbers.txt.fpm" />
