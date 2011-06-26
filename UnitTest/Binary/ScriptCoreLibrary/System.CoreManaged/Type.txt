@@ -4,46 +4,144 @@ namespace System
 	{
 		public enum Accessor
 		{
-		}
-	
-		public enum MemberType
-		{
-		}
-	
-		public enum DataType
-		{
+			Public,
+			Protected,
+			Private,
+			ProtectedInternal,
+			Internal,
+			NotApplicable
 		}
 	
 		public enum Inheritance
 		{
+			Normal,
+			Sealed,
+			Abstract,
+			Virtual,
+			Override,
+			NotApplicable
+		}
+	
+		public enum MemberType
+		{
+			Instance,
+			Static,
+			NotApplicable
+		}
+	
+		public enum DataType
+		{
+			Variable,
+			Constant,
+			Readonly,
+			NotApplicable
+		}
+
+		public enum DeclarationType
+		{
+			Class,
+			Structure,
+			Interface,
+			GenericParameter
+		}
+
+		public enum GenericArgumentConversion
+		{
+			InOut,
+			In,
+			Out
+		}
+
+		public enum MethodArgumentConversion
+		{
+			Normal,
+			This,
+			Params,
+			Default
 		}
 		
 		public abstract class Type
 		{
+			public ReadonlyArray<Attribute> GenericTypes{get;protected set;}
+			public ReadonlyArray<GenericParameterInfo> GenericTypes{get;protected set;}
+			public Accessor Accessor{get;protected set;}
+			public Inheritance Inheritance{get;protected set;}
+			public DeclarationType DeclarationType{get;protected set;}
+			public Type DeclaredType{get;private set;}
+			public string Namespace{get;protected set;}
+			public string Name{get;protected set;}
+
+			public ReadonlyArray<MemberInfo> Members{get;protected set;}
+			public ReadonlyArray<Type> SubTypes{get;protected set;}
+			public ReadonlyArray<Type> ImplementedInterfaces{get;protected set;}
+			public Type BaseType{get;protected set;}
+
+			public external bool IsAssignableFrom(Type type);
+		}
+
+		public class GenericParameterInfo
+		{
+			public Type Type{get;private set;}
+			public ReadonlyArray<Type> TypeConstraints{get;private set;}
+			public GenericArgumentConversion Conversion{get;private set;}
+			public bool NewConstraint{get;private set;}
+		}
+
+		public class MethodParameterInfo
+		{
+			public Type Type{get;private set;}
+			public string Name{get;private set;}
+			public MethodArgumentConversion Conversion{get;private set;}
+			public MethodBase DeclaredMember{get;private set;}
 		}
 
 		public abstract class MemberInfo
 		{
+			public ReadonlyArray<Attribute> GenericTypes{get;protected set;}
+			public ReadonlyArray<GenericParameterInfo> GenericTypes{get;protected set;}
+			public Accessor Accessor{get;protected set;}
+			public Inheritance Inheritance{get;protected set;}
+			public MemberType MemberType{get;protected set;}
+			public DataType DataType{get;protected set;}
+			public Type DeclaredType{get;protected set;}
+			public string Name{get;protected set;}
 		}
 
-		public class PropertyInfo : MemberInfo
+		public abstract class PropertyInfo : MemberInfo
 		{
+			public Type PropertyType{get;protected set;}
+			public Delegate Getter{get;protected set;}
+			public Delegate Setter{get;protected set;}
 		}
 
-		public class FieldInfo : MemberInfo
+		public abstract class FieldInfo : MemberInfo
 		{
+			public Type FieldType{get;protected set;}
+			public Delegate Getter{get;protected set;}
+			public Delegate Setter{get;protected set;}
 		}
 
-		public class MethodInfo : MemberInfo
+		public abstract class MethodBase : MemberInfo
 		{
+			public ReadonlyArray<MethodParameterInfo> Parameters{get;protected set;}
+			public Delegate Invoker{get;protected set;}
 		}
 
-		public class ConstructorInfo : MemberInfo
+		public abstract class MethodInfo : MethodBase
 		{
+			public Type ReturnType{get;protected set;}
+			public Type ImplementedInterface{get;protected set;}
 		}
 
-		public class ConverterOperatorInfo : MemberInfo
+		public abstract class ConstructorInfo : MethodBase
 		{
+			public bool Implicit{get;protected set;}
+		}
+
+		public abstract class ConverterOperatorInfo : MethodBase
+		{
+			public bool Implicit{get;protected set;}
+			public Type TargetType{get;protected set;}
 		}
 	}
 }
