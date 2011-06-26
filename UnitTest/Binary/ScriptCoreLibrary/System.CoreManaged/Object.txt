@@ -18,6 +18,10 @@ new Type{values}
 new <array-type>{values}
 yield return
 async-await
+
+TODO:
+  Clear NotImplementedException(EnumItemManager)
+  Add Stacktrace in Exception
 */
 namespace System
 {
