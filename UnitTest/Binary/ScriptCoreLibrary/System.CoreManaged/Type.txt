@@ -1,3 +1,49 @@
 namespace System
 {
+	namespace Reflection
+	{
+		public enum Accessor
+		{
+		}
+	
+		public enum MemberType
+		{
+		}
+	
+		public enum DataType
+		{
+		}
+	
+		public enum Inheritance
+		{
+		}
+		
+		public abstract class Type
+		{
+		}
+
+		public abstract class MemberInfo
+		{
+		}
+
+		public class PropertyInfo : MemberInfo
+		{
+		}
+
+		public class FieldInfo : MemberInfo
+		{
+		}
+
+		public class MethodInfo : MemberInfo
+		{
+		}
+
+		public class ConstructorInfo : MemberInfo
+		{
+		}
+
+		public class ConverterOperatorInfo : MemberInfo
+		{
+		}
+	}
 }
