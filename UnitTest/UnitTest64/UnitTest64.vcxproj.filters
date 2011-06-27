@@ -175,6 +175,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Scripting\ManagedLanguage">
+      <UniqueIdentifier>{bd47b241-b759-40d6-bd55-c230c426aa9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -557,6 +560,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UnitTest\TestScripting_ManagedLanguage_Analyzer.cpp">
+      <Filter>Source Files\Scripting\ManagedLanguage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

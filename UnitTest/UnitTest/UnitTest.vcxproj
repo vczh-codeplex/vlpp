@@ -294,6 +294,7 @@
     <ClCompile Include="TestScripting_Languages_IndexTest.cpp" />
     <ClCompile Include="TestScripting_Languages_Managed_Parser.cpp" />
     <ClCompile Include="TestScripting_Languages_NativeX.cpp" />
+    <ClCompile Include="TestScripting_ManagedLanguage_Analyzer.cpp" />
     <ClCompile Include="TestScripting_Utility_System_CoreNative.cpp" />
     <ClCompile Include="TestStream.cpp" />
     <ClCompile Include="TestString.cpp" />

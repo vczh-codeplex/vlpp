@@ -238,6 +238,9 @@
     <Filter Include="ScriptCoreLibrary\System.CoreManaged">
       <UniqueIdentifier>{eebe5eab-c674-4812-9a8a-a1534c018725}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scripting\ManagedLanguage">
+      <UniqueIdentifier>{0c8fdd83-f66b-491e-87dc-223a8aad9249}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Library\Collections\Operation.cpp">
@@ -620,6 +623,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScripting_ManagedLanguage_Analyzer.cpp">
+      <Filter>Source Files\Scripting\ManagedLanguage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

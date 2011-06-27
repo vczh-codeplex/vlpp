@@ -276,6 +276,7 @@
     <ClCompile Include="..\UnitTest\TestScripting_Languages_IndexTest.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Languages_Managed_Parser.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Languages_NativeX.cpp" />
+    <ClCompile Include="..\UnitTest\TestScripting_ManagedLanguage_Analyzer.cpp" />
     <ClCompile Include="..\UnitTest\TestScripting_Utility_System_CoreNative.cpp" />
     <ClCompile Include="..\UnitTest\TestStream.cpp" />
     <ClCompile Include="..\UnitTest\TestString.cpp" />
