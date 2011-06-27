@@ -17,6 +17,10 @@ namespace vl
 	{
 		namespace managedlanguage
 		{
+			class ManagedSymbolItem;
+			class ManagedSymbolItemGroup;
+			class ManagedTypeSymbol;
+			class ManagedSymbolManager;
 
 /***********************************************************************
 Basic Constructions
@@ -47,6 +51,7 @@ Basic Constructions
 			protected:
 				ManagedSymbolManager*		manager;
 				ManagedSymbolItemGroup*		parent;
+				ManagedTypeSymbol*			associatedType;
 				WString						name;
 				GroupMap					itemGroups;
 			public:
@@ -56,6 +61,7 @@ Basic Constructions
 				ManagedSymbolManager*		GetManager();
 				ManagedSymbolItemGroup*		GetParent();
 				const WString&				GetName();
+				void						SetName(const WString& value);
 				const IGroupMap&			ItemGroups();
 				ManagedSymbolItemGroup*		ItemGroup(const WString& name);
 				void						Add(ManagedSymbolItem* item);
@@ -86,11 +92,21 @@ Types
 				friend class ManagedSymbolManager;
 
 				typedef collections::List<ManagedTypeSymbol*>								TypeList;
+				typedef collections::IReadonlyList<ManagedTypeSymbol*>						ITypeList;
 			protected:
+				ManagedSymbolManager*		manager;
 				ManagedSymbolItem*			typeSymbol;
 				TypeList					genericArguments;
-				TypeList					instantiatedTypes;
+				TypeList					associatedInstantiatedTypes;
+
+				ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol);
 			public:
+				~ManagedTypeSymbol();
+
+				ManagedSymbolManager*		GetManager();
+				ManagedSymbolItem*			GetSymbol();
+				ManagedTypeSymbol*			GetGenericDeclaration();
+				const ITypeList&			GetGenericArguments();
 			};
 
 /***********************************************************************
@@ -113,9 +129,11 @@ ManagedSymbolManager
 			{
 				typedef collections::List<Ptr<ManagedSymbolItem>>							ItemList;
 				typedef collections::List<Ptr<ManagedSymbolItemGroup>>						GroupList;
+				typedef collections::List<Ptr<ManagedTypeSymbol>>							TypeList;
 			protected:
 				ItemList					allocatedItems;
 				GroupList					allocatedGroups;
+				TypeList					allocatedTypes;
 				ManagedSymbolItem*			global;
 			public:
 				ManagedSymbolManager();
@@ -123,7 +141,11 @@ ManagedSymbolManager
 
 				void						Register(ManagedSymbolItem* item);
 				void						Register(ManagedSymbolItemGroup* group);
+				void						Register(ManagedTypeSymbol* typeSymbol);
 				ManagedSymbolItem*			Global();
+				
+				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item);
+				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments);
 			};
 		}
 	}

@@ -1,4 +1,5 @@
 #include "ManagedLanguageSymbolManager.h"
+#include "..\..\Collections\Operation.h"
 
 namespace vl
 {
@@ -6,6 +7,7 @@ namespace vl
 	{
 		namespace managedlanguage
 		{
+			using namespace collections;
 
 /***********************************************************************
 ManagedSymbolItem
@@ -14,6 +16,7 @@ ManagedSymbolItem
 			ManagedSymbolItem::ManagedSymbolItem(ManagedSymbolManager* _manager)
 				:manager(_manager)
 				,parent(0)
+				,associatedType(0)
 			{
 				manager->Register(this);
 			}
@@ -37,6 +40,11 @@ ManagedSymbolItem
 				return name;
 			}
 
+			void ManagedSymbolItem::SetName(const WString& value)
+			{
+				name=value;
+			}
+
 			const ManagedSymbolItem::IGroupMap& ManagedSymbolItem::ItemGroups()
 			{
 				return itemGroups.Wrap();
@@ -54,6 +62,7 @@ ManagedSymbolItem
 				if(!group)
 				{
 					group=new ManagedSymbolItemGroup(this);
+					itemGroups.Add(item->GetName(), group);
 					manager->Register(group);
 				}
 				group->Add(item);
@@ -84,9 +93,44 @@ ManagedSymbolItemGroup
 
 			void ManagedSymbolItemGroup::Add(ManagedSymbolItem* item)
 			{
-				CHECK_ERROR(item->parent==0, L"ManagedSymbolItemGroup(ManagedSymbolItem*)#一个ManagedSymbolItem只能属于一个ManagedSymbolItemGroup。");
+				CHECK_ERROR(item->parent==0, L"ManagedSymbolItemGroup::Add(ManagedSymbolItem*)#一个ManagedSymbolItem只能属于一个ManagedSymbolItemGroup。");
 				item->parent=this;
 				items.Add(item);
+			}
+
+/***********************************************************************
+ManagedSymbolItemGroup
+***********************************************************************/
+
+			ManagedTypeSymbol::ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol)
+				:manager(_manager)
+				,typeSymbol(_typeSymbol)
+			{
+				manager->Register(this);
+			}
+
+			ManagedTypeSymbol::~ManagedTypeSymbol()
+			{
+			}
+
+			ManagedSymbolManager* ManagedTypeSymbol::GetManager()
+			{
+				return manager;
+			}
+
+			ManagedSymbolItem* ManagedTypeSymbol::GetSymbol()
+			{
+				return typeSymbol;
+			}
+
+			ManagedTypeSymbol* ManagedTypeSymbol::GetGenericDeclaration()
+			{
+				return manager->GetType(typeSymbol);
+			}
+
+			const ManagedTypeSymbol::ITypeList& ManagedTypeSymbol::GetGenericArguments()
+			{
+				return genericArguments.Wrap();
 			}
 
 /***********************************************************************
@@ -113,9 +157,41 @@ ManagedSymbolItemGroup
 				allocatedGroups.Add(group);
 			}
 
+			void ManagedSymbolManager::Register(ManagedTypeSymbol* typeSymbol)
+			{
+				allocatedTypes.Add(typeSymbol);
+			}
+
 			ManagedSymbolItem* ManagedSymbolManager::Global()
 			{
 				return global;
+			}
+
+			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item)
+			{
+				if(item->associatedType==0)
+				{
+					item->associatedType=new ManagedTypeSymbol(this, item);
+				}
+				return item->associatedType;
+			}
+
+			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments)
+			{
+				ManagedTypeSymbol* genericDeclaration=GetType(item);
+				for(vint i=0;i<genericDeclaration->associatedInstantiatedTypes.Count();i++)
+				{
+					ManagedTypeSymbol* instantiated=genericDeclaration->associatedInstantiatedTypes[i];
+					if(CompareEnumerable(instantiated->genericArguments.Wrap(), genericArguments)==0)
+					{
+						return instantiated;
+					}
+				}
+
+				ManagedTypeSymbol* instantiated=new ManagedTypeSymbol(this, genericDeclaration->typeSymbol);
+				CopyFrom(instantiated->genericArguments.Wrap(), genericArguments);
+				genericDeclaration->associatedInstantiatedTypes.Add(instantiated);
+				return instantiated;
 			}
 		}
 	}
