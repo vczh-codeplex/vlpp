@@ -22,6 +22,21 @@ namespace vl
 Basic Constructions
 ***********************************************************************/
 
+			enum ManagedSymbolType
+			{
+				Namespace,
+				Class,
+				Structure,
+				Interface,
+				Field,
+				Property,
+				Method,
+				Constructor,
+				ConverterOperator,
+				GenericParameter,
+				MethodParameter,
+			};
+
 			class ManagedSymbolItem : public Object
 			{
 				friend class ManagedSymbolItemGroup;
@@ -63,7 +78,31 @@ Basic Constructions
 			};
 
 /***********************************************************************
-Symbols
+Types
+***********************************************************************/
+
+			class ManagedTypeSymbol : public Object
+			{
+				friend class ManagedSymbolManager;
+
+				typedef collections::List<ManagedTypeSymbol*>								TypeList;
+			protected:
+				ManagedSymbolItem*			typeSymbol;
+				TypeList					genericArguments;
+				TypeList					instantiatedTypes;
+			public:
+			};
+
+/***********************************************************************
+Others
+***********************************************************************/
+
+/***********************************************************************
+Members
+***********************************************************************/
+
+/***********************************************************************
+Declarations
 ***********************************************************************/
 
 /***********************************************************************
