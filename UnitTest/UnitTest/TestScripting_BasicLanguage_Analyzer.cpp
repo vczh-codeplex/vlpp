@@ -39,7 +39,7 @@ BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, vint, vint)
 		return 4;
 	}
 
-	ALGORITHM_FUNCTION_MATCH(BasicInstanciatedGenericType)
+	ALGORITHM_FUNCTION_MATCH(BasicInstantiatedGenericType)
 	{
 		return 5;
 	}
@@ -92,7 +92,7 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, vint*)
 		*argument=4;
 	}
 
-	ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedGenericType)
+	ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedGenericType)
 	{
 		*argument=5;
 	}
@@ -1088,7 +1088,7 @@ TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicReferenceExpression)
 	TEST_ASSERT(BasicLanguage_GetExpressionType(cExpr, argumentExpression)==BasicLanguage_GetTypeRecord(t_bool().GetInternalValue(), argumentExpression, true));
 }
 
-TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstanciatedExpression)
+TEST_CASE(Test_BasicLanguage_GetExpressionType_BasicInstantiatedExpression)
 {
 	BasicEnv env;
 	BasicTypeManager tm;

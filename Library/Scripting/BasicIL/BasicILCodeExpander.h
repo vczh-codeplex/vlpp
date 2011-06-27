@@ -52,7 +52,7 @@ namespace vl
 
 			class BasicILCodeExpander : public Object
 			{
-				typedef collections::Dictionary<WString, vint>									_InstanciatedGenericFunctionMap;
+				typedef collections::Dictionary<WString, vint>									_InstantiatedGenericFunctionMap;
 
 			public:
 				struct VariablePackage
@@ -72,7 +72,7 @@ namespace vl
 					_PackageList								packages;
 					_VariableMap								variables;
 					bool										autoLink;
-					vint										instanciatedGenericVariableSize;
+					vint										instantiatedGenericVariableSize;
 
 					VariableManager(bool _autoLink);
 
@@ -81,8 +81,8 @@ namespace vl
 			protected:
 
 				BasicILGenericTarget::ListType					genericTargets;
-				_InstanciatedGenericFunctionMap					instanciatedGenericFunctions;
-				VariableManager									instanciatedGenericVariables;
+				_InstantiatedGenericFunctionMap					instantiatedGenericFunctions;
+				VariableManager									instantiatedGenericVariables;
 				BasicILRuntimeSymbol*							symbols;
 				
 				vint											RegisterTarget(BasicILGenericArgumentEnvironment* environment, BasicIL* il, ResourceHandle<BasicILGenericTargetRes> targetRecordHandle);
@@ -98,9 +98,9 @@ namespace vl
 				~BasicILCodeExpander();
 
 				void											RewriteExecutingGenericInstruction(BasicIns& ins, BasicIL* il, vint insIndex);
-				const _InstanciatedGenericFunctionMap&			GetInstanciatedGenericFunctions();
-				const VariableManager::_VariableMap&			GetInstanciatedGenericVariables();
-				vint											GetInstanciatedGenericVariableSize();
+				const _InstantiatedGenericFunctionMap&			GetInstantiatedGenericFunctions();
+				const VariableManager::_VariableMap&			GetInstantiatedGenericVariables();
+				vint											GetInstantiatedGenericVariableSize();
 				void											LogInternalState(stream::TextWriter& writer);
 			};
 		}

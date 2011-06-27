@@ -149,7 +149,7 @@ BasicLanguage_IsConstantExpression
 					return reference.isVariable && reference.globalVariable && reference.globalVariable->constant;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					return false;
 				}
@@ -445,7 +445,7 @@ BasicLanguage_GetConstantValue
 					return argument.scope->variables.Find(node->name).constantValue;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					return BasicCompileTimeConstant();
 				}

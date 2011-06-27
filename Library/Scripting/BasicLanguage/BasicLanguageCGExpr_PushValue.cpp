@@ -517,7 +517,7 @@ BasicLanguage_PushValueInternal
 					return nodeType;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());

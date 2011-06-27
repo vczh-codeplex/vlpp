@@ -356,7 +356,7 @@ namespace vl
 					argument.writer.WriteString(L")");
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedGenericType)
+				ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedGenericType)
 				{
 					NativeX_BasicType_GenerateCode(node->elementType, argument);
 					argument.writer.WriteString(L"<");
@@ -546,7 +546,7 @@ namespace vl
 					IdentifierToString(node->name, argument.writer);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedExpression)
 				{
 					IdentifierToString(node->reference->name, argument.writer);
 					argument.writer.WriteString(L"<");

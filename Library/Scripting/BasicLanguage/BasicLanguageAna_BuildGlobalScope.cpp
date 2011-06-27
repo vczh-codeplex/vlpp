@@ -644,9 +644,9 @@ BasicLanguage_BuildGlobalScopePass2
 							{
 								internalTable.Add(instanceObject->instanceType->ParameterType(i), argument.typeManager->GetGenericArgumentType(node->genericDeclaration.arguments[i]));
 							}
-							// build instanciated instance type with instance type type parameter replaced with instance type parameter
-							BasicTypeRecord* instanciatedInstanceType=argument.typeManager->Instanciate(instanceObject->instanceType, internalTable.Wrap());
-							table.Add(instanceObject->targetConcept->conceptType, instanciatedInstanceType);
+							// build instantiated instance type with instance type type parameter replaced with instance type parameter
+							BasicTypeRecord* instantiatedInstanceType=argument.typeManager->Instanciate(instanceObject->instanceType, internalTable.Wrap());
+							table.Add(instanceObject->targetConcept->conceptType, instantiatedInstanceType);
 						}
 						else
 						{

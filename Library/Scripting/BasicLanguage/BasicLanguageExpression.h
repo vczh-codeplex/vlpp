@@ -331,7 +331,7 @@ Other Expression
 				WString										name;
 			};
 
-			class BasicInstanciatedExpression : public BasicExpression
+			class BasicInstantiatedExpression : public BasicExpression
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(BasicExpression)
@@ -499,7 +499,7 @@ Type
 				collections::List<Ptr<BasicType>>			parameterTypes;
 			};
 
-			class BasicInstanciatedGenericType : public BasicType
+			class BasicInstantiatedGenericType : public BasicType
 			{
 			public:
 				ALGORITHM_ACCEPT_DECLARATION(BasicType)
@@ -592,7 +592,7 @@ Declaration
 				{
 					WString									name;
 					Ptr<BasicReferenceExpression>			normalFunction;
-					Ptr<BasicInstanciatedExpression>		genericFunction;
+					Ptr<BasicInstantiatedExpression>		genericFunction;
 				};
 
 				bool										defined;
@@ -645,7 +645,7 @@ Algorithms
 			F(P, BasicOffsetofExpression)\
 			F(P, BasicCastingExpression)\
 			F(P, BasicReferenceExpression)\
-			F(P, BasicInstanciatedExpression)\
+			F(P, BasicInstantiatedExpression)\
 			F(P, BasicInstanceFunctionExpression)\
 			F(P, BasicExtendedExpression)\
 
@@ -674,7 +674,7 @@ Algorithms
 			F(P, BasicArrayType)\
 			F(P, BasicReferenceType)\
 			F(P, BasicFunctionType)\
-			F(P, BasicInstanciatedGenericType)\
+			F(P, BasicInstantiatedGenericType)\
 			F(P, BasicTypeofExpressionType)\
 			F(P, BasicTypeofMemberType)\
 			F(P, BasicExtendedType)\

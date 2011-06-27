@@ -244,7 +244,7 @@ BasicScope
 				BasicGenericStructureProxyTypeRecord* structureProxyType=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
 				if(structureProxyType)
 				{
-					instance=FindInstance(structureProxyType->UninstanciatedStructureType(), conceptName);
+					instance=FindInstance(structureProxyType->UninstantiatedStructureType(), conceptName);
 				}
 				else
 				{
@@ -417,7 +417,7 @@ BasicEnv
 				return index==-1?0:statementScopes.Values()[index];
 			}
 
-			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstanciatedType)
+			BasicTypeRecord* BasicEnv::GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstantiatedType)
 			{
 				vint index=functionTypes.Keys().IndexOf(function);
 				if(index==-1)
@@ -427,7 +427,7 @@ BasicEnv
 				else
 				{
 					BasicTypeRecord* type=functionTypes.Values()[index];
-					if(avoidUninstanciatedType && type->GetType()==BasicTypeRecord::Generic)
+					if(avoidUninstantiatedType && type->GetType()==BasicTypeRecord::Generic)
 					{
 						type=type->ElementType();
 					}

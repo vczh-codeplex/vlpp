@@ -299,7 +299,7 @@ BasicLanguage_PushRef
 					}
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedExpression)
 				{
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
 					if(reference.isVariable && reference.globalVariable)
@@ -310,7 +310,7 @@ BasicLanguage_PushRef
 					}
 					else
 					{
-						CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicInstanciatedExpression*, const BCP&)#不支持此操作。");
+						CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicInstantiatedExpression*, const BCP&)#不支持此操作。");
 					}
 				}
 

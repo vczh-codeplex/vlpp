@@ -320,24 +320,24 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(declaration, GenericArgumentNotExists, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(BasicType* type)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstantiatedGenericType(BasicType* type)
 			{
 				Array<WString> parameters(0);
-				return new BasicLanguageCodeException(type, CannotUseUninstanciatedGenericType, parameters.Wrap());
+				return new BasicLanguageCodeException(type, CannotUseUninstantiatedGenericType, parameters.Wrap());
 			}
 			
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericVariable(BasicReferenceExpression* expression)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstantiatedGenericVariable(BasicReferenceExpression* expression)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=expression->name;
-				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericVariable, parameters.Wrap());
+				return new BasicLanguageCodeException(expression, CannotUseUninstantiatedGenericVariable, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstanciatedGenericFunction(BasicReferenceExpression* expression)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetCannotUseUninstantiatedGenericFunction(BasicReferenceExpression* expression)
 			{
 				Array<WString> parameters(1);
 				parameters[0]=expression->name;
-				return new BasicLanguageCodeException(expression, CannotUseUninstanciatedGenericFunction, parameters.Wrap());
+				return new BasicLanguageCodeException(expression, CannotUseUninstantiatedGenericFunction, parameters.Wrap());
 			}
 
 			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicType* type)
@@ -346,7 +346,7 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, GenericArgumentNumberNotMatch, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicInstanciatedExpression* expression)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentNumberNotMatch(BasicInstantiatedExpression* expression)
 			{
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(expression, GenericArgumentNumberNotMatch, parameters.Wrap());
@@ -358,7 +358,7 @@ BasicLanguageCodeException
 				return new BasicLanguageCodeException(type, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());
 			}
 
-			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression)
+			Ptr<BasicLanguageCodeException> BasicLanguageCodeException::GetGenericArgumentCannotApplyToNonGenericType(BasicInstantiatedExpression* expression)
 			{
 				Array<WString> parameters(0);
 				return new BasicLanguageCodeException(expression, GenericArgumentCannotApplyToNonGenericType, parameters.Wrap());

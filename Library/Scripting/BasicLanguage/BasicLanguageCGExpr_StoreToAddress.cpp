@@ -172,7 +172,7 @@ BasicLanguage_StoreToAddressInternal
 					return false;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					return false;
 				}

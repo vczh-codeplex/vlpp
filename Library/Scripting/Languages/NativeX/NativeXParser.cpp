@@ -335,12 +335,12 @@ namespace vl
 				return expression;
 			}
 
-			Ptr<BasicExpression> ToInstanciatedExpression(const ParsingPair<RegexToken, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
+			Ptr<BasicExpression> ToInstantiatedExpression(const ParsingPair<RegexToken, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
 			{
 				Ptr<BasicReferenceExpression> reference=CreateNode<BasicReferenceExpression>(input.First());
 				reference->name=ConvertID(WString(input.First().reading, input.First().length));
 
-				Ptr<BasicInstanciatedExpression> expression=CreateNode<BasicInstanciatedExpression>(input.Second().First());
+				Ptr<BasicInstantiatedExpression> expression=CreateNode<BasicInstantiatedExpression>(input.Second().First());
 				expression->reference=reference;
 				CopyFrom(expression->argumentTypes.Wrap(), input.Second().Second()->Wrap());
 				return expression;
@@ -807,9 +807,9 @@ namespace vl
 				return type;
 			}
 
-			Ptr<BasicType> ToInstanciatedGenericType(const ParsingPair<Ptr<BasicType>, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
+			Ptr<BasicType> ToInstantiatedGenericType(const ParsingPair<Ptr<BasicType>, ParsingPair<RegexToken, Ptr<List<Ptr<BasicType>>>>>& input)
 			{
-				Ptr<BasicInstanciatedGenericType> type=CreateNode<BasicInstanciatedGenericType>(input.Second().First());
+				Ptr<BasicInstantiatedGenericType> type=CreateNode<BasicInstantiatedGenericType>(input.Second().First());
 				type->elementType=input.First();
 				CopyFrom(type->argumentTypes.Wrap(), input.Second().Second()->Wrap());
 				return type;
@@ -1132,7 +1132,7 @@ namespace vl
 				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
 				functionInstance->name=ConvertID(WString(input.First().reading, input.First().length));
 				functionInstance->normalFunction=input.Second().Cast<BasicReferenceExpression>();
-				functionInstance->genericFunction=input.Second().Cast<BasicInstanciatedExpression>();
+				functionInstance->genericFunction=input.Second().Cast<BasicInstantiatedExpression>();
 				return functionInstance;
 			}
 
@@ -1392,7 +1392,7 @@ namespace vl
 									;
 
 					reference		= (ID + (LT(NeedLt) >> type(NeedTypeExpression) << GT(NeedGt)) + (COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID)))[ToBasicInstanceFunctionExpression]
-									| (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedExpression]
+									| (ID + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstantiatedExpression]
 									| ID[ToReference]
 									;
 
@@ -1429,7 +1429,7 @@ namespace vl
 
 					functionType	= (FUNCTION(NeedType) + type + (OPEN_BRACE(NeedOpenBrace) >> list(opt(type + *(COMMA >> type))) << CLOSE_BRACE(NeedCloseBrace)))[ToFunctionType];
 					primType		= functionType
-									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstanciatedGenericType]
+									| ((PRIM_TYPE | ID)[ToNamedType] + (LT(NeedLt) + list(opt(type + *(COMMA >> type))) << GT(NeedGt)))[ToInstantiatedGenericType]
 									| (PRIM_TYPE | ID)[ToNamedType]
 									| (TYPEOF + (OPEN_BRACE(NeedOpenBrace) >> type + ((COLON(NeedColon) + COLON(NeedColon) >> ID(NeedID))) << CLOSE_BRACE(NeedCloseBrace)))[ToTypeofMember]
 									| (TYPEOF + (OPEN_BRACE(NeedOpenBrace) >> exp << CLOSE_BRACE(NeedCloseBrace)))[ToTypeofExpression]

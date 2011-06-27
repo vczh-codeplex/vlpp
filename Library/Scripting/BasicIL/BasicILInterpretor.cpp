@@ -215,10 +215,10 @@ BasicILLinker
 				}
 			}
 
-			void BasicILLinker::CopyInstanciatedGenericFunctions()
+			void BasicILLinker::CopyInstantiatedGenericFunctions()
 			{
 				BasicIL* sitingIL=symbols.GetGenericFunctionSitingIL();
-				const Dictionary<WString, vint>& functions=expander.GetInstanciatedGenericFunctions();
+				const Dictionary<WString, vint>& functions=expander.GetInstantiatedGenericFunctions();
 				List<vint> offsets;
 				List<vint> counts;
 				for(vint i=0;i<functions.Count();i++)
@@ -301,11 +301,11 @@ BasicILLinker
 				}
 			}
 
-			void BasicILLinker::CopyInstanciatedGenericVariables()
+			void BasicILLinker::CopyInstantiatedGenericVariables()
 			{
 				BasicIL* sitingIL=symbols.GetGenericFunctionSitingIL();
 				assemblyGlobalData.Add(sitingIL, 0);
-				const Dictionary<WString, Pair<char*, vint>>& variables=expander.GetInstanciatedGenericVariables();
+				const Dictionary<WString, Pair<char*, vint>>& variables=expander.GetInstantiatedGenericVariables();
 
 				for(vint i=0;i<variables.Count();i++)
 				{
@@ -321,7 +321,7 @@ BasicILLinker
 
 			void BasicILLinker::CopyAssemblyExportedGlobalVariables()
 			{
-				vint totalSize=expander.GetInstanciatedGenericVariableSize();
+				vint totalSize=expander.GetInstantiatedGenericVariableSize();
 				for(vint i=BasicILRuntimeSymbol::GenericFunctionSitingAssemblyKey+1;i<symbols.GetILCount();i++)
 				{
 					totalSize+=symbols.GetIL(i)->globalData.Count();
@@ -330,7 +330,7 @@ BasicILLinker
 				if(totalSize>0)
 				{
 					memset(&linkedIL->globalData[0], 0, (vint)(linkedIL->globalData.Count()*sizeof(linkedIL->globalData[0])));
-					vint offset=expander.GetInstanciatedGenericVariableSize();
+					vint offset=expander.GetInstantiatedGenericVariableSize();
 					
 					for(vint i=BasicILRuntimeSymbol::GenericFunctionSitingAssemblyKey+1;i<symbols.GetILCount();i++)
 					{
@@ -589,9 +589,9 @@ BasicILLinker
 					ExpandAll();
 					linkedIL=new BasicIL;
 					CopyAssemblyInitializers();
-					CopyInstanciatedGenericFunctions();
+					CopyInstantiatedGenericFunctions();
 					CopyAssemblyExportedFunctions();
-					CopyInstanciatedGenericVariables();
+					CopyInstantiatedGenericVariables();
 					CopyAssemblyExportedGlobalVariables();
 					LinkInstructions();
 					BuildExportedResource();

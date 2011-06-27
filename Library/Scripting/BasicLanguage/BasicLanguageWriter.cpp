@@ -46,7 +46,7 @@ BasicTypeNode
 
 			BasicTypeNode BasicTypeNode::operator[](const ListNode& types)const
 			{
-				Ptr<BasicInstanciatedGenericType> result=new BasicInstanciatedGenericType;
+				Ptr<BasicInstantiatedGenericType> result=new BasicInstantiatedGenericType;
 				result->elementType=type;
 				CopyFrom(result->argumentTypes.Wrap(), types.types->Wrap());
 				return result;
@@ -741,7 +741,7 @@ BasicExpressionNode
 
 			BasicExpressionNode e_name(const WString& name, const BasicTypeNode::ListNode& types)
 			{
-				Ptr<BasicInstanciatedExpression> result=new BasicInstanciatedExpression;
+				Ptr<BasicInstantiatedExpression> result=new BasicInstantiatedExpression;
 				result->reference=new BasicReferenceExpression;
 				result->reference->name=name;
 				CopyFrom(result->argumentTypes.Wrap(), types.types->Wrap());
@@ -1060,7 +1060,7 @@ BasicConceptInstanceDeclarationNode
 			{
 				Ptr<BasicConceptInstanceDeclaration::FunctionInstance> functionInstance=new BasicConceptInstanceDeclaration::FunctionInstance;
 				functionInstance->name=function;
-				functionInstance->genericFunction=e_name(target, types).GetInternalValue().Cast<BasicInstanciatedExpression>();
+				functionInstance->genericFunction=e_name(target, types).GetInternalValue().Cast<BasicInstantiatedExpression>();
 				declaration->functions.Add(functionInstance);
 				return *this;
 			}

@@ -61,7 +61,7 @@ NativeXMessageTranslator
 							BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
 							if(proxy)
 							{
-								BasicTypeRecord* genericType=proxy->UninstanciatedStructureType()->ElementType();
+								BasicTypeRecord* genericType=proxy->UninstantiatedStructureType()->ElementType();
 								WString result=genericType->Declaration()->name;
 								for(vint i=0;i<genericType->ParameterCount();i++)
 								{
