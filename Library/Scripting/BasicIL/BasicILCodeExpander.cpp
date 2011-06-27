@@ -130,7 +130,7 @@ BasicILCodeExpander::VariablePackage
 
 			BasicILCodeExpander::VariableManager::VariableManager(bool _autoLink)
 				:autoLink(_autoLink)
-				,instanciatedGenericVariableSize(0)
+				,instantiatedGenericVariableSize(0)
 			{
 			}
 
@@ -144,8 +144,8 @@ BasicILCodeExpander::VariablePackage
 				else
 				{
 					char* pointer=0;
-					vint offset=instanciatedGenericVariableSize;
-					instanciatedGenericVariableSize+=size;
+					vint offset=instantiatedGenericVariableSize;
+					instantiatedGenericVariableSize+=size;
 					if(autoLink)
 					{
 						for(vint i=0;i<packages.Count();i++)
@@ -284,10 +284,10 @@ BasicILCodeExpander
 				BasicILGenericFunctionEntry* functionEntry=symbols->GetGenericFunctionEntry(symbol).Obj();
 				WString uniqueName=CalculateUniqueName(functionEntry->uniqueEntryID, target);
 
-				vint instanciationIndex=instanciatedGenericFunctions.Keys().IndexOf(uniqueName);
+				vint instanciationIndex=instantiatedGenericFunctions.Keys().IndexOf(uniqueName);
 				if(instanciationIndex!=-1)
 				{
-					return instanciatedGenericFunctions.Values()[instanciationIndex];
+					return instantiatedGenericFunctions.Values()[instanciationIndex];
 				}
 				else
 				{
@@ -311,7 +311,7 @@ BasicILCodeExpander
 						{
 						case BasicIns::generic_pushdata:
 							{
-								if(instanciatedGenericVariables.autoLink)
+								if(instantiatedGenericVariables.autoLink)
 								{
 									ins.opcode=BasicIns::push;
 									ins.type1=BasicIns::pointer_type;
@@ -380,7 +380,7 @@ BasicILCodeExpander
 						}
 					}
 
-					instanciatedGenericFunctions.Add(uniqueName, genericFunctionLabelIndex);
+					instantiatedGenericFunctions.Add(uniqueName, genericFunctionLabelIndex);
 					return genericFunctionLabelIndex;
 				}
 			}
@@ -399,12 +399,12 @@ BasicILCodeExpander
 					size+=variableEntry->size.Factor(i)*target->arguments[i]->size;
 				}
 
-				return instanciatedGenericVariables.Allocate(uniqueName, size);
+				return instantiatedGenericVariables.Allocate(uniqueName, size);
 			}
 
 			BasicILCodeExpander::BasicILCodeExpander(BasicILRuntimeSymbol* _symbols, bool _autoLink)
 				:symbols(_symbols)
-				,instanciatedGenericVariables(_autoLink)
+				,instantiatedGenericVariables(_autoLink)
 			{
 			}
 
@@ -418,7 +418,7 @@ BasicILCodeExpander
 				{
 				case BasicIns::generic_pushdata:
 					{
-						if(instanciatedGenericVariables.autoLink)
+						if(instantiatedGenericVariables.autoLink)
 						{
 							ins.opcode=BasicIns::push;
 							ins.type1=BasicIns::pointer_type;
@@ -485,19 +485,19 @@ BasicILCodeExpander
 				}
 			}
 
-			const BasicILCodeExpander::_InstanciatedGenericFunctionMap& BasicILCodeExpander::GetInstanciatedGenericFunctions()
+			const BasicILCodeExpander::_InstantiatedGenericFunctionMap& BasicILCodeExpander::GetInstantiatedGenericFunctions()
 			{
-				return instanciatedGenericFunctions;
+				return instantiatedGenericFunctions;
 			}
 
-			const BasicILCodeExpander::VariableManager::_VariableMap& BasicILCodeExpander::GetInstanciatedGenericVariables()
+			const BasicILCodeExpander::VariableManager::_VariableMap& BasicILCodeExpander::GetInstantiatedGenericVariables()
 			{
-				return instanciatedGenericVariables.variables;
+				return instantiatedGenericVariables.variables;
 			}
 
-			vint BasicILCodeExpander::GetInstanciatedGenericVariableSize()
+			vint BasicILCodeExpander::GetInstantiatedGenericVariableSize()
 			{
-				return instanciatedGenericVariables.instanciatedGenericVariableSize;
+				return instantiatedGenericVariables.instantiatedGenericVariableSize;
 			}				
 		}
 	}

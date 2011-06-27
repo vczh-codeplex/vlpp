@@ -130,7 +130,7 @@ BasicLanguage_InvokeInternal
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					BasicTypeRecord* resultType=0;
 					vint index=GetGenericFunctionTargetIndex(node, argument, resultType);

@@ -245,7 +245,7 @@ BasicLanguage_RunSideEffect
 				{
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedExpression)
 				{
 				}
 

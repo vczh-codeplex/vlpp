@@ -189,7 +189,7 @@ BasicEnv
 
 				BasicScope*														GetFunctionScope(BasicFunctionDeclaration* function);
 				BasicScope*														GetStatementScope(BasicStatement* statement);
-				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstanciatedType);
+				BasicTypeRecord*												GetFunctionType(BasicFunctionDeclaration* function, bool avoidUninstantiatedType);
 				BasicTypeRecord*												GetStructureType(BasicStructureDeclaration* structure);
 				BasicTypeRecord*												GetExpressionType(BasicExpression* expression);
 				Reference														GetReference(BasicReferenceExpression* expression);

@@ -60,9 +60,9 @@ namespace vl
 					ExternalStructureShouldBeDefined,						//name
 					GenericArgumentAlreadyExists,							//name
 					GenericArgumentNotExists,								//name
-					CannotUseUninstanciatedGenericType,
-					CannotUseUninstanciatedGenericVariable,					//name
-					CannotUseUninstanciatedGenericFunction,					//name
+					CannotUseUninstantiatedGenericType,
+					CannotUseUninstantiatedGenericVariable,					//name
+					CannotUseUninstantiatedGenericFunction,					//name
 					GenericArgumentNumberNotMatch,
 					GenericArgumentCannotApplyToNonGenericType,
 					ConceptFunctionAlreadyExists,							//name
@@ -147,13 +147,13 @@ namespace vl
 				static Ptr<BasicLanguageCodeException>							GetExternalStructureShouldBeDefined(BasicStructureDeclaration* declaration);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentAlreadyExists(BasicDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNotExists(BasicDeclaration* declaration, const WString& name);
-				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericType(BasicType* type);
-				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericVariable(BasicReferenceExpression* expression);
-				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstanciatedGenericFunction(BasicReferenceExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstantiatedGenericType(BasicType* type);
+				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstantiatedGenericVariable(BasicReferenceExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetCannotUseUninstantiatedGenericFunction(BasicReferenceExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicType* type);
-				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicInstanciatedExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentNumberNotMatch(BasicInstantiatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicType* type);
-				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicInstanciatedExpression* expression);
+				static Ptr<BasicLanguageCodeException>							GetGenericArgumentCannotApplyToNonGenericType(BasicInstantiatedExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionAlreadyExists(BasicConceptBaseDeclaration* declaration, const WString& name);
 				static Ptr<BasicLanguageCodeException>							GetConceptFunctionNotExists(BasicInstanceFunctionExpression* expression);
 				static Ptr<BasicLanguageCodeException>							GetConceptAlreadyExists(BasicDeclaration* declaration);

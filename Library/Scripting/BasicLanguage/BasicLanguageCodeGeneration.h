@@ -69,10 +69,10 @@ namespace vl
 				vint																localFunctionCount;
 				collections::List<BasicLinking>										linkings;
 				collections::List<BasicLinking>										foreigns;
-				collections::List<Ptr<FunctionEntry>>								instanciatedGenericFunctionEntries;
-				collections::List<Ptr<GenericTarget>>								instanciatedGenericTargets;
-				collections::List<Ptr<GenericInstanceTarget>>						instanciatedGenericInstanceTargets;
-				collections::List<FunctionLinear>									instanciatedGenericLinears;
+				collections::List<Ptr<FunctionEntry>>								instantiatedGenericFunctionEntries;
+				collections::List<Ptr<GenericTarget>>								instantiatedGenericTargets;
+				collections::List<Ptr<GenericInstanceTarget>>						instantiatedGenericInstanceTargets;
+				collections::List<FunctionLinear>									instantiatedGenericLinears;
 
 				BasicCodegenInfo(BasicAnalyzer* _analyzer);
 
@@ -168,8 +168,8 @@ Code Generation Helper Functions
 			extern bool								IsExternalFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern bool								IsForeignFunction					(BasicReferenceExpression* referenceExpression, const BCP& argument);
 			extern vint								GetFunctionIndex					(BasicReferenceExpression* referenceExpression, const BCP& argument);
-			extern vint								GetGenericVariableTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
-			extern vint								GetGenericFunctionTargetIndex		(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
+			extern vint								GetGenericVariableTargetIndex		(BasicInstantiatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
+			extern vint								GetGenericFunctionTargetIndex		(BasicInstantiatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType);
 			extern vint								GetGenericInstanceTargetIndex		(BasicInstanceFunctionExpression* node, const BCP& argument);
 			extern void								Code_ScaleAdder						(BasicTypeRecord* addedValueType, const BCP& argument, bool scaleOne);
 			extern void								Code_Read							(BasicTypeRecord* type, const BCP& argument);

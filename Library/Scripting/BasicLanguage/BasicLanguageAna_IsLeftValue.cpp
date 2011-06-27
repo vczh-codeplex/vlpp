@@ -134,7 +134,7 @@ BasicLanguage_IsLeftValue
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					return argument.env->GetReference(node->reference.Obj()).isVariable;
 				}

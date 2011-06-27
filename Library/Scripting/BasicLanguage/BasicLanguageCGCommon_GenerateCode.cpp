@@ -122,7 +122,7 @@ namespace vl
 				return -1;
 			}
 
-			vint GetGenericTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord* nodeType, BasicDeclaration* declaration)
+			vint GetGenericTargetIndex(BasicInstantiatedExpression* node, const BCP& argument, BasicTypeRecord* nodeType, BasicDeclaration* declaration)
 			{
 				BP bp(
 					argument.info->GetEnv(),
@@ -143,7 +143,7 @@ namespace vl
 				return argument.info->RegisterGenericTarget(target);
 			}
 
-			vint GetGenericVariableTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
+			vint GetGenericVariableTargetIndex(BasicInstantiatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
 			{
 				BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 				BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
@@ -159,7 +159,7 @@ namespace vl
 				}
 			}
 
-			vint GetGenericFunctionTargetIndex(BasicInstanciatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
+			vint GetGenericFunctionTargetIndex(BasicInstantiatedExpression* node, const BCP& argument, BasicTypeRecord*& resultType)
 			{
 				BasicTypeRecord* nodeType=argument.info->GetEnv()->GetExpressionType(node);
 				BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());

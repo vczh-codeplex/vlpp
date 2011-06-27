@@ -116,7 +116,7 @@ BasicLanguage_GenerateResource
 							if(proxyType)
 							{
 								IDictionary<BasicTypeRecord*, BasicTypeRecord*>& genericArguments=proxyType->GenericArgumentMap();
-								BasicTypeRecord* structureType=proxyType->UninstanciatedStructureType();
+								BasicTypeRecord* structureType=proxyType->UninstantiatedStructureType();
 								BasicTypeRecord* genericType=structureType->ElementType();
 								List<BasicTypeRecord*> genericParameters;
 								for(vint i=0;i<genericType->ParameterCount();i++)
@@ -124,7 +124,7 @@ BasicLanguage_GenerateResource
 									genericParameters.Add(genericType->ParameterType(i));
 								}
 
-								resource->type=BasicTypeRes::Instanciated;
+								resource->type=BasicTypeRes::Instantiated;
 								resource->elementType=GenerateResource(structureType, argument);
 								resource->elementCount=-1;
 								ResourceArrayRecord<BasicSubTypeRes> subTypes=argument.resource->CreateArrayRecord<BasicSubTypeRes>(genericArguments.Count());
@@ -710,14 +710,14 @@ BasicLanguage_Generate*Resource
 							BasicGenericStructureProxyTypeRecord* proxy=dynamic_cast<BasicGenericStructureProxyTypeRecord*>(type);
 							if(proxy)
 							{
-								BasicDeclaration* structureDeclaration=proxy->UninstanciatedStructureType()->Declaration();
+								BasicDeclaration* structureDeclaration=proxy->UninstantiatedStructureType()->Declaration();
 								vint count=structureDeclaration->genericDeclaration.arguments.Count();
 								for(vint i=0;i<count;i++)
 								{
 									BasicTypeRecord* key=typeManager->GetGenericArgumentType(structureDeclaration->genericDeclaration.arguments[i]);
 									argumentTypes.Add(proxy->GenericArgumentMap()[key]);
 								}
-								return GetRegisteredType(proxy->UninstanciatedStructureType());
+								return GetRegisteredType(proxy->UninstantiatedStructureType());
 							}
 							else
 							{
@@ -759,9 +759,9 @@ BasicLanguage_Generate*Resource
 			ResourceArrayHandle<BasicILGenericFunctionEntryRes> BasicLanguage_GenerateFunctionEntryResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericFunctionEntryRes>> entries;
-				for(vint i=0;i<argument.info->instanciatedGenericFunctionEntries.Count();i++)
+				for(vint i=0;i<argument.info->instantiatedGenericFunctionEntries.Count();i++)
 				{
-					Ptr<BasicCodegenInfo::FunctionEntry> entry=argument.info->instanciatedGenericFunctionEntries[i];
+					Ptr<BasicCodegenInfo::FunctionEntry> entry=argument.info->instantiatedGenericFunctionEntries[i];
 					if(entry->declaration && entry->declaration->genericDeclaration.HasGeneric() && !entry->declaration->linking.HasLink())
 					{
 						ResourceRecord<BasicILGenericFunctionEntryRes> entryResource=argument.exportResource->CreateRecord<BasicILGenericFunctionEntryRes>();
@@ -930,9 +930,9 @@ BasicLanguage_Generate*Resource
 			{
 				List<ResourceHandle<BasicILGenericTargetRes>> targets;
 				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument, programName);
-				for(vint i=0;i<argument.info->instanciatedGenericTargets.Count();i++)
+				for(vint i=0;i<argument.info->instantiatedGenericTargets.Count();i++)
 				{
-					BasicCodegenInfo::GenericTarget* target=argument.info->instanciatedGenericTargets[i].Obj();
+					BasicCodegenInfo::GenericTarget* target=argument.info->instantiatedGenericTargets[i].Obj();
 					targets.Add(BasicLanguage_GenerateTargetResource(programName, argument, recorder, target->targetDeclaration, target->ownerFunctionDeclaration, target->genericParameters.Wrap()));
 				}
 				return argument.exportResource->CreateArrayRecord(targets.Wrap());
@@ -941,9 +941,9 @@ BasicLanguage_Generate*Resource
 			ResourceArrayHandle<BasicILGenericLinearRes> BasicLanguage_GenerateLinearResource(const Ptr<BasicProgram> program, const WString& programName, const BCP& argument)
 			{
 				List<ResourceHandle<BasicILGenericLinearRes>> linears;
-				for(vint i=0;i<argument.info->instanciatedGenericLinears.Count();i++)
+				for(vint i=0;i<argument.info->instantiatedGenericLinears.Count();i++)
 				{
-					BasicCodegenInfo::FunctionLinear& linear=argument.info->instanciatedGenericLinears[i];
+					BasicCodegenInfo::FunctionLinear& linear=argument.info->instantiatedGenericLinears[i];
 					linears.Add(BasicLanguage_GenerateLinearResource(argument, linear));
 				}
 				return argument.exportResource->CreateArrayRecord(linears.Wrap());
@@ -1031,9 +1031,9 @@ BasicLanguage_Generate*Resource
 			{
 				List<ResourceHandle<BasicILGenericInstanceTargetRes>> targets;
 				TypeUniqueStringRecorder recorder(argument.exportResource, program, argument, programName);
-				for(vint i=0;i<argument.info->instanciatedGenericInstanceTargets.Count();i++)
+				for(vint i=0;i<argument.info->instantiatedGenericInstanceTargets.Count();i++)
 				{
-					BasicCodegenInfo::GenericInstanceTarget* target=argument.info->instanciatedGenericInstanceTargets[i].Obj();
+					BasicCodegenInfo::GenericInstanceTarget* target=argument.info->instantiatedGenericInstanceTargets[i].Obj();
 					targets.Add(BasicLanguage_GenerateTargetInstanceResource(programName, argument, recorder, target->targetDeclaration, target->ownerFunctionDeclaration, target->functionName, target->type));
 				}
 				return argument.exportResource->CreateArrayRecord(targets.Wrap());

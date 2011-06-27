@@ -108,10 +108,10 @@ namespace vl
 
 				void											CopyInstructions(BasicIL* dst, BasicIL* src, vint start, vint count);
 				void											CopyAssemblyInitializers();
-				void											CopyInstanciatedGenericFunctions();
+				void											CopyInstantiatedGenericFunctions();
 				void											CopyAssemblyExportedFunctions();
 				
-				void											CopyInstanciatedGenericVariables();
+				void											CopyInstantiatedGenericVariables();
 				void											CopyAssemblyExportedGlobalVariables();
 
 				void											LinkInstructions();

@@ -181,19 +181,19 @@ namespace vl
 				return L"Generic argument "+name+L" does not exist in declaration "+declaration+L".";
 			}
 
-			WString BasicErrorMessage::CannotUseUninstanciatedGenericType()
+			WString BasicErrorMessage::CannotUseUninstantiatedGenericType()
 			{
-				return L"Cannot use uninstanciated generic types.";
+				return L"Cannot use uninstantiated generic types.";
 			}
 
-			WString BasicErrorMessage::CannotUseUninstanciatedGenericVariable(const WString& name)
+			WString BasicErrorMessage::CannotUseUninstantiatedGenericVariable(const WString& name)
 			{
-				return L"Cannot use uninstanciated generic variable "+name+L".";
+				return L"Cannot use uninstantiated generic variable "+name+L".";
 			}
 
-			WString BasicErrorMessage::CannotUseUninstanciatedGenericFunction(const WString& name)
+			WString BasicErrorMessage::CannotUseUninstantiatedGenericFunction(const WString& name)
 			{
-				return L"Cannot use uninstanciated generic function "+name+L".";
+				return L"Cannot use uninstantiated generic function "+name+L".";
 			}
 
 			WString BasicErrorMessage::GenericArgumentNumberNotMatch()

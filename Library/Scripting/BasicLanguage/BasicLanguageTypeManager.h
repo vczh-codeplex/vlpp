@@ -213,7 +213,7 @@ BasicTypeManager
 				bool									Defined();
 				BasicDeclaration*						Declaration();
 
-				BasicTypeRecord*						UninstanciatedStructureType();
+				BasicTypeRecord*						UninstantiatedStructureType();
 				_IGenericInstanciatingTypeTable&		GenericArgumentMap();
 			};
 

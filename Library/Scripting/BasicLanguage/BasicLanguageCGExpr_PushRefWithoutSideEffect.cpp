@@ -138,7 +138,7 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedExpression)
 				{
 					BasicEnv::Reference reference=argument.info->GetEnv()->GetReference(node->reference.Obj());
 					if(reference.isVariable)
@@ -272,7 +272,7 @@ BasicLanguage_PushRefWithoutSideEffect
 					BasicLanguage_PushRef(node, argument);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicInstanciatedExpression)
+				ALGORITHM_PROCEDURE_MATCH(BasicInstantiatedExpression)
 				{
 					BasicLanguage_PushRef(node, argument);
 				}

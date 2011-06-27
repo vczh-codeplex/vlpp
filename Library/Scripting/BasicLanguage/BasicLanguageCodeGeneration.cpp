@@ -89,7 +89,7 @@ BasicCodegenInfo
 				entry->declaration=declaration;
 				entry->startInstruction=il->instructions.Count()-existInstructionCount;
 				entry->instructionCount=0;
-				instanciatedGenericFunctionEntries.Add(entry);
+				instantiatedGenericFunctionEntries.Add(entry);
 			}
 
 			void BasicCodegenInfo::EndFunction(vint returnIns, basicil::BasicIL* il, vint remainInstructionCount)
@@ -100,7 +100,7 @@ BasicCodegenInfo
 				}
 				returnInstructions.Clear();
 
-				Ptr<FunctionEntry> entry=instanciatedGenericFunctionEntries[instanciatedGenericFunctionEntries.Count()-1];
+				Ptr<FunctionEntry> entry=instantiatedGenericFunctionEntries[instantiatedGenericFunctionEntries.Count()-1];
 				entry->instructionCount=il->instructions.Count()-entry->startInstruction+remainInstructionCount;
 			}
 
@@ -181,32 +181,32 @@ BasicCodegenInfo
 
 			vint BasicCodegenInfo::RegisterGenericTarget(Ptr<GenericTarget> target)
 			{
-				for(vint i=0;i<instanciatedGenericTargets.Count();i++)
+				for(vint i=0;i<instantiatedGenericTargets.Count();i++)
 				{
-					GenericTarget* currentTarget=instanciatedGenericTargets[i].Obj();
+					GenericTarget* currentTarget=instantiatedGenericTargets[i].Obj();
 					if(currentFunctionDeclaration==currentTarget->ownerFunctionDeclaration && target->targetDeclaration==currentTarget->targetDeclaration && CompareEnumerable(target->genericParameters.Wrap(), currentTarget->genericParameters.Wrap())==0)
 					{
 						return i;
 					}
 				}
 				target->ownerFunctionDeclaration=currentFunctionDeclaration;
-				instanciatedGenericTargets.Add(target);
-				return instanciatedGenericTargets.Count()-1;
+				instantiatedGenericTargets.Add(target);
+				return instantiatedGenericTargets.Count()-1;
 			}
 
 			vint BasicCodegenInfo::RegisterGenericInstanceTarget(Ptr<GenericInstanceTarget> target)
 			{
-				for(vint i=0;i<instanciatedGenericInstanceTargets.Count();i++)
+				for(vint i=0;i<instantiatedGenericInstanceTargets.Count();i++)
 				{
-					GenericInstanceTarget* currentTarget=instanciatedGenericInstanceTargets[i].Obj();
+					GenericInstanceTarget* currentTarget=instantiatedGenericInstanceTargets[i].Obj();
 					if(currentFunctionDeclaration==currentTarget->ownerFunctionDeclaration && target->targetDeclaration==currentTarget->targetDeclaration && target->functionName==currentTarget->functionName && target->type==currentTarget->type)
 					{
 						return i;
 					}
 				}
 				target->ownerFunctionDeclaration=currentFunctionDeclaration;
-				instanciatedGenericInstanceTargets.Add(target);
-				return instanciatedGenericInstanceTargets.Count()-1;
+				instantiatedGenericInstanceTargets.Add(target);
+				return instantiatedGenericInstanceTargets.Count()-1;
 			}
 
 			vint BasicCodegenInfo::RegisterLinear(const BasicOffset& offset)
@@ -218,11 +218,11 @@ BasicCodegenInfo
 					vint value=offset.Factor(currentFunctionGenericParameters[i]);
 					linear(i, value);
 				}
-				vint index=instanciatedGenericLinears.IndexOf(linear);
+				vint index=instantiatedGenericLinears.IndexOf(linear);
 				if(index==-1)
 				{
-					instanciatedGenericLinears.Add(linear);
-					return instanciatedGenericLinears.Count()-1;
+					instantiatedGenericLinears.Add(linear);
+					return instantiatedGenericLinears.Count()-1;
 				}
 				else
 				{
@@ -698,9 +698,9 @@ Header File Generator
 						type=target;
 					}
 					break;
-				case BasicTypeRes::Instanciated:
+				case BasicTypeRes::Instantiated:
 					{
-						Ptr<BasicInstanciatedGenericType> target=new BasicInstanciatedGenericType;
+						Ptr<BasicInstantiatedGenericType> target=new BasicInstantiatedGenericType;
 						target->elementType=BasicLanguage_GenerateHeaderType(typeRes->elementType, resource, prefix, declarationTypeMap, referencedAssemblies);
 						ResourceArrayRecord<BasicSubTypeRes> argumentTypesRes=resource->ReadArrayRecord(typeRes->subTypes);
 						for(vint j=0;j<argumentTypesRes.Count();j++)

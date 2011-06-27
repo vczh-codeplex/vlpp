@@ -22,7 +22,7 @@ BasicLanguage_GetTypeRecord
 					if(structureProxyType)
 					{
 						BasicConceptInstanceDeclaration* instance=instanceObject->instanceDeclaration;
-						BasicDeclaration* structure=structureProxyType->UninstanciatedStructureType()->Declaration();
+						BasicDeclaration* structure=structureProxyType->UninstantiatedStructureType()->Declaration();
 						for(vint i=0;i<instance->genericDeclaration.constraints.Count();i++)
 						{
 							Ptr<BasicGeneric::Constraint> constraint=instance->genericDeclaration.constraints[i];
@@ -100,7 +100,7 @@ BasicLanguage_GetTypeRecord
 						);
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicInstanciatedGenericType)
+				ALGORITHM_FUNCTION_MATCH(BasicInstantiatedGenericType)
 				{
 					BasicTypeRecord* genericType=BasicLanguage_GetTypeRecord(node->elementType, argument, true);
 					if(genericType->GetType()!=BasicTypeRecord::Generic)
@@ -173,7 +173,7 @@ BasicLanguage_GetTypeRecord
 				BasicTypeRecord* typeRecord=BasicLanguage_GetTypeRecordInternal(type, argument);
 				if(typeRecord && typeRecord->GetType()==BasicTypeRecord::Generic && !acceptRawGenericType)
 				{
-					argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstanciatedGenericType(type));
+					argument.errors.Add(BasicLanguageCodeException::GetCannotUseUninstantiatedGenericType(type));
 				}
 				return typeRecord;
 			}

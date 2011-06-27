@@ -160,23 +160,23 @@ BasicILInterpretor
 			void BasicILCodeExpander::LogInternalState(stream::TextWriter& writer)
 			{
 				writer.WriteLine(L"-----------------------------------------------");
-				writer.WriteLine(L"Instanciated Generic Function Map");
+				writer.WriteLine(L"Instantiated Generic Function Map");
 				writer.WriteLine(L"-----------------------------------------------");
-				for(vint i=0;i<instanciatedGenericFunctions.Count();i++)
+				for(vint i=0;i<instantiatedGenericFunctions.Count();i++)
 				{
-					WString key=instanciatedGenericFunctions.Keys()[i];
-					vint value=instanciatedGenericFunctions.Values()[i];
+					WString key=instantiatedGenericFunctions.Keys()[i];
+					vint value=instantiatedGenericFunctions.Values()[i];
 					writer.WriteLine(key+L" = "+itow(value));
 				}
 				writer.WriteLine(L"");
 
 				writer.WriteLine(L"-----------------------------------------------");
-				writer.WriteLine(L"Instanciated Generic Variable Map");
+				writer.WriteLine(L"Instantiated Generic Variable Map");
 				writer.WriteLine(L"-----------------------------------------------");
-				for(vint i=0;i<instanciatedGenericVariables.variables.Count();i++)
+				for(vint i=0;i<instantiatedGenericVariables.variables.Count();i++)
 				{
-					WString key=instanciatedGenericVariables.variables.Keys()[i];
-					Pair<char*, vint> value=instanciatedGenericVariables.variables.Values()[i];
+					WString key=instantiatedGenericVariables.variables.Keys()[i];
+					Pair<char*, vint> value=instantiatedGenericVariables.variables.Values()[i];
 					writer.WriteLine(key+L" = Offset("+itow(value.value)+L"), Pointer("+itow((vint)value.key)+L")");
 				}
 				writer.WriteLine(L"");

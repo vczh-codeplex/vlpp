@@ -43,7 +43,7 @@ namespace vl
 					Structure,
 					GenericArgument,
 					Concept,
-					Instanciated,
+					Instantiated,
 				};
 
 				enum PrimitiveTypeEnum
