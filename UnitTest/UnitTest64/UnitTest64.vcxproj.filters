@@ -555,6 +555,9 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedX\ManagedXParser_Statement.cpp">
       <Filter>Library3\Scripting\Languages\ManagedX\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -993,6 +996,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Combinator\TupleProcessor.h">
       <Filter>Library3\Combinator\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
