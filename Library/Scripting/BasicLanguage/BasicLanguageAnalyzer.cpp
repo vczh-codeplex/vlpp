@@ -10,55 +10,6 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-BasicSemanticExtension
-***********************************************************************/
-
-			Ptr<BasicExpression> BasicSemanticExtension::ReplaceExpression(Ptr<BasicExpression> originalExpression, const BP& argument)
-			{
-				return originalExpression;
-			}
-
-			Ptr<BasicStatement> BasicSemanticExtension::ReplaceStatement(Ptr<BasicStatement> originalStatement, const BP& argument)
-			{
-				return originalStatement;
-			}
-
-			BasicTypeRecord* BasicSemanticExtension::GetTypeRecord(BasicExtendedType* type, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::GetTypeRecord(BasicExtendedType*, const BP&)#不支持此操作。");
-			}
-
-			void BasicSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::BuildGlobalScopePass1(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
-			}
-
-			void BasicSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::BuildGlobalScopePass2(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
-			}
-
-			bool BasicSemanticExtension::IsLeftValue(BasicExtendedExpression* expression, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::IsLeftValue(BasicExtendedExpression*, const BP&)#不支持此操作。");
-			}
-
-			BasicTypeRecord* BasicSemanticExtension::GetExpressionType(BasicExtendedExpression* expression, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::GetExpressionType(BasicExtendedExpression*, const BP&)#不支持此操作。");
-			}
-
-			void BasicSemanticExtension::CheckStatement(BasicExtendedStatement* statement, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::CheckStatement(BasicExtendedStatement*, const BP&)#不支持此操作。");
-			}
-
-			void BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument)
-			{
-				CHECK_FAIL(L"BasicSemanticExtension::BuildDeclarationBody(BasicExtendedDeclaration*, const BP&)#不支持此操作。");
-			}
-
-/***********************************************************************
 BasicAlgorithmParameter
 ***********************************************************************/
 
@@ -76,7 +27,6 @@ BasicAlgorithmParameter
 				,typeInfoManager(_typeInfoManager)
 				,errors(_errors)
 				,forwardStructures(_forwardStructures)
-				,semanticExtension(&defaultSemanticExtension)
 			{
 			}
 
@@ -87,7 +37,6 @@ BasicAlgorithmParameter
 				,typeInfoManager(bp.typeInfoManager)
 				,errors(bp.errors)
 				,forwardStructures(bp.forwardStructures)
-				,semanticExtension(bp.semanticExtension)
 				,configuration(bp.configuration)
 			{
 			}
@@ -99,7 +48,6 @@ BasicAlgorithmParameter
 				,typeInfoManager(bp.typeInfoManager)
 				,errors(bp.errors)
 				,forwardStructures(bp.forwardStructures)
-				,semanticExtension(bp.semanticExtension)
 				,configuration(bp.configuration)
 			{
 			}
@@ -193,9 +141,8 @@ BasicTypeInfoManager
 BasicAnalyzer
 ***********************************************************************/
 
-			BasicAnalyzer::BasicAnalyzer(Ptr<BasicProgram> _program, BasicSemanticExtension* _semanticExtension, BasicAlgorithmConfiguration _configuration)
+			BasicAnalyzer::BasicAnalyzer(Ptr<BasicProgram> _program, BasicAlgorithmConfiguration _configuration)
 				:program(_program)
-				,semanticExtension(_semanticExtension)
 				,configuration(_configuration)
 				,analyzed(false)
 			{
@@ -237,10 +184,6 @@ BasicAnalyzer
 					analyzed=true;
 					BP argument(&env, env.GlobalScope(), &tm, &tim, errors, forwardStructures);
 					argument.configuration=configuration;
-					if(semanticExtension)
-					{
-						argument.semanticExtension=semanticExtension;
-					}
 
 					BasicLanguage_BuildGlobalScope(program, argument);
 					if(errors.Count()==0)

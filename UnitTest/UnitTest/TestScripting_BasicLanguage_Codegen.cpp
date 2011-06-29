@@ -36,7 +36,7 @@ TEST_CASE(TestBasicTypeInfo)
 		.Member(L"e", t_double())
 		.Member(L"f", t_int8());
 
-	BasicAnalyzer analyzer(program.GetInternalValue(), 0, BasicAlgorithmConfiguration());
+	BasicAnalyzer analyzer(program.GetInternalValue(), BasicAlgorithmConfiguration());
 	analyzer.Analyze();
 	BasicCodegenInfo info(&analyzer);
 

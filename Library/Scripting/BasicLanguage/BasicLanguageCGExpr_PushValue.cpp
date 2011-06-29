@@ -543,11 +543,6 @@ BasicLanguage_PushValueInternal
 					return argument.info->GetEnv()->GetExpressionType(node);
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return argument.codegenExtension->PushValue(node, argument);
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_PushValueInternal)
 
 			BasicTypeRecord* BasicLanguage_PushValue(Ptr<BasicExpression> expression, const BCP& argument)

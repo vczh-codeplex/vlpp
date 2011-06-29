@@ -159,11 +159,6 @@ BasicLanguage_IsConstantExpression
 					return false;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return false;
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_IsConstantExpression)
 
 /***********************************************************************
@@ -451,11 +446,6 @@ BasicLanguage_GetConstantValue
 				}
 
 				ALGORITHM_FUNCTION_MATCH(BasicInstanceFunctionExpression)
-				{
-					return BasicCompileTimeConstant();
-				}
-
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
 				{
 					return BasicCompileTimeConstant();
 				}

@@ -13,12 +13,11 @@ namespace vl
 BasicLanguage_GetExpressionType
 ***********************************************************************/
 
-			BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument)
+			BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression> expression, const BP& argument)
 			{
 				BasicTypeRecord* type=argument.env->GetExpressionType(expression.Obj());
 				if(!type)
 				{
-					expression=argument.semanticExtension->ReplaceExpression(expression, argument);
 					try
 					{
 						type=BasicLanguage_GetExpressionTypeInternal(expression, argument);
@@ -763,11 +762,6 @@ BasicLanguage_GetExpressionType
 					Dictionary<BasicTypeRecord*, BasicTypeRecord*> typeMap;
 					typeMap.Add(conceptObject->conceptType, type);
 					return argument.typeManager->Instanciate(conceptObject->functions.Values()[functionIndex], typeMap.Wrap());
-				}
-
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return argument.semanticExtension->GetExpressionType(node, argument);
 				}
 
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal)

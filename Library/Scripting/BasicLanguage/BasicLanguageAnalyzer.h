@@ -23,26 +23,6 @@ namespace vl
 	{
 		namespace basiclanguage
 		{
-			class BasicAlgorithmParameter;
-			typedef BasicAlgorithmParameter BP;
-
-/***********************************************************************
-BasicSemanticExtension
-***********************************************************************/
-
-			class BasicSemanticExtension : public Object, private NotCopyable
-			{
-			public:
-				virtual Ptr<BasicExpression>							ReplaceExpression(Ptr<BasicExpression> originalExpression, const BP& argument);
-				virtual Ptr<BasicStatement>								ReplaceStatement(Ptr<BasicStatement> originalStatement, const BP& argument);
-				virtual BasicTypeRecord*								GetTypeRecord(BasicExtendedType* type, const BP& argument);
-				virtual void											BuildGlobalScopePass1(BasicExtendedDeclaration* declaration, const BP& argument);
-				virtual void											BuildGlobalScopePass2(BasicExtendedDeclaration* declaration, const BP& argument);
-				virtual bool											IsLeftValue(BasicExtendedExpression* expression, const BP& argument);
-				virtual BasicTypeRecord*								GetExpressionType(BasicExtendedExpression* expression, const BP& argument);
-				virtual void											CheckStatement(BasicExtendedStatement* statement, const BP& argument);
-				virtual void											BuildDeclarationBody(BasicExtendedDeclaration* declaration, const BP& argument);
-			};
 
 /***********************************************************************
 BasicTypeInfo
@@ -72,8 +52,6 @@ BasicAlgorithmParameter
 
 			class BasicAlgorithmParameter
 			{
-			private:
-				BasicSemanticExtension									defaultSemanticExtension;
 			public:
 				BasicEnv*												env;
 				BasicScope*												scope;
@@ -81,7 +59,6 @@ BasicAlgorithmParameter
 				BasicTypeInfoManager*									typeInfoManager;
 				collections::List<Ptr<BasicLanguageCodeException>>&		errors;
 				collections::SortedList<WString>&						forwardStructures;
-				BasicSemanticExtension*									semanticExtension;
 				BasicAlgorithmConfiguration								configuration;
 
 				BasicAlgorithmParameter(
@@ -95,6 +72,7 @@ BasicAlgorithmParameter
 				BasicAlgorithmParameter(const BasicAlgorithmParameter& bp, BasicScope* _scope);
 				BasicAlgorithmParameter(const BasicAlgorithmParameter& bp);
 			};
+			typedef BasicAlgorithmParameter BP;
 
 /***********************************************************************
 Algorithms
@@ -110,11 +88,11 @@ Algorithms
 			extern void BasicLanguage_BuildGlobalScope(Ptr<BasicProgram> program, BP& argument);
 
 			extern bool CanImplicitConvertTo(BasicTypeRecord* from, BasicTypeRecord* to, BasicExpression* fromExpression, const BP& argument);
-			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression>& expression, const BP& argument);
+			extern BasicTypeRecord* BasicLanguage_GetExpressionType(Ptr<BasicExpression> expression, const BP& argument);
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue, BasicExpression, BP, bool)
 			EXTERN_ALGORITHM_FUNCTION(BasicLanguage_GetExpressionTypeInternal, BasicExpression, BP, BasicTypeRecord*)
 
-			extern void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument);
+			extern void BasicLanguage_CheckStatement(Ptr<BasicStatement> statement, const BP& argument);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal, BasicStatement, BP);
 			EXTERN_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody, BasicDeclaration, BP);
 			extern void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument);
@@ -134,12 +112,11 @@ BasicAnalyzer
 				BasicTypeInfoManager												tim;
 				collections::List<Ptr<BasicLanguageCodeException>>					errors;
 				collections::SortedList<WString>									forwardStructures;
-				BasicSemanticExtension*												semanticExtension;
 				BasicAlgorithmConfiguration											configuration;
 				Ptr<BasicProgram>													program;
 				bool																analyzed;
 			public:
-				BasicAnalyzer(Ptr<BasicProgram> _program, BasicSemanticExtension* _semanticExtension, BasicAlgorithmConfiguration _configuration);
+				BasicAnalyzer(Ptr<BasicProgram> _program, BasicAlgorithmConfiguration _configuration);
 				~BasicAnalyzer();
 
 				BasicEnv*															GetEnv();

@@ -156,11 +156,6 @@ BasicLanguage_CanPushRefWithoutSideEffect
 					return false;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return argument.codegenExtension->CanPushRefWithoutSideEffect(node, argument);
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_CanPushRefWithoutSideEffect)
 
 /***********************************************************************
@@ -280,11 +275,6 @@ BasicLanguage_PushRefWithoutSideEffect
 				ALGORITHM_PROCEDURE_MATCH(BasicInstanceFunctionExpression)
 				{
 					CHECK_ERROR(false, L"BasicLanguage_PushRefWithoutSideEffect(BasicInstanceFunctionExpression*, const BCP&)#不支持此操作。");
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
-				{
-					argument.codegenExtension->PushRefWithoutSideEffect(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_PushRefWithoutSideEffect)

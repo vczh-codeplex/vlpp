@@ -17,6 +17,8 @@ Algorithm Definition
 #define ALGORITHM_ACCEPT_DECLARATION(NAME) void Accept(NAME##Algorithm* algorithm_object);
 #define ALGORITHM_ACCEPT_IMPLEMENTATION(NAME, NODE) void NODE::Accept(NAME##Algorithm* algorithm_object){algorithm_object->Apply(this);}
 
+#define ALGORITHM_ACCEPT_DECLARATION_UNNSED(NAME) void Accept(NAME##Algorithm* algorithm_object){CHECK_ERROR(false, L"不可使用。");}
+
 #define DEFINE_ALGORITHM_INTERFACE_ELEMENT(NAME, NODE) virtual void Apply(NODE* node)=0;
 #define DEFINE_ALGORITHM_INTERFACE(NAME, ALGORITHM_TARGETS)\
 	class NAME##Algorithm : public Object, private NotCopyable\

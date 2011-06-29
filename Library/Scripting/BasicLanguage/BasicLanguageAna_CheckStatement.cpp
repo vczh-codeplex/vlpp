@@ -13,9 +13,8 @@ namespace vl
 BasicLanguage_CheckStatement
 ***********************************************************************/
 
-			void BasicLanguage_CheckStatement(Ptr<BasicStatement>& statement, const BP& argument)
+			void BasicLanguage_CheckStatement(Ptr<BasicStatement> statement, const BP& argument)
 			{
-				statement=argument.semanticExtension->ReplaceStatement(statement, argument);
 				try
 				{
 					BasicLanguage_CheckStatementInternal(statement, argument);
@@ -200,11 +199,6 @@ BasicLanguage_CheckStatement
 							argument.errors.Add(BasicLanguageCodeException::GetCannotThrowVoidValue(node));
 						}
 					}
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
-				{
-					argument.semanticExtension->CheckStatement(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_CheckStatementInternal)

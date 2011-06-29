@@ -161,11 +161,6 @@ BasicLanguage_GetTypeRecord
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
-				{
-					return argument.semanticExtension->GetTypeRecord(node, argument);
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_GetTypeRecordInternal)
 
 			BasicTypeRecord* BasicLanguage_GetTypeRecord(BasicType* type, const BP& argument, bool acceptRawGenericType)

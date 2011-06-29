@@ -387,10 +387,6 @@ namespace vl
 					argument.writer.WriteString(L")");
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
-				{
-				}
-
 			END_ALGORITHM_PROCEDURE(NativeX_BasicType_GenerateCode)
 
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicExpression_GenerateCode, BasicExpression, NXCGP)
@@ -567,10 +563,6 @@ namespace vl
 					IdentifierToString(node->functionName, argument.writer);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
-				{
-				}
-
 			END_ALGORITHM_PROCEDURE(NativeX_BasicExpression_GenerateCode)
 
 			BEGIN_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode, BasicStatement, NXCGP)
@@ -721,10 +713,6 @@ namespace vl
 					{
 						argument.writer.WriteLine(L"throw;");
 					}
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
-				{
 				}
 
 			END_ALGORITHM_PROCEDURE(NativeX_BasicStatement_GenerateCode)
@@ -975,10 +963,6 @@ namespace vl
 					{
 						argument.writer.WriteLine(L";");
 					}
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
 				}
 
 			END_ALGORITHM_PROCEDURE(NativeX_BasicDeclaration_GenerateCode)

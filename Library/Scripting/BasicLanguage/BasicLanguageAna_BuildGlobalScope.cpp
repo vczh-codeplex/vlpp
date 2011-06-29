@@ -390,11 +390,6 @@ BasicLanguage_BuildGlobalScopePass1
 					argument.scope->instances.Add(instanceObject);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.semanticExtension->BuildGlobalScopePass1(node, argument);
-				}
-
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass1)
 
 /***********************************************************************
@@ -717,11 +712,6 @@ BasicLanguage_BuildGlobalScopePass2
 							argument.errors.Add(BasicLanguageCodeException::GetInstanceShouldHaveFunction(node, conceptFunctions[i]));
 						}
 					}
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.semanticExtension->BuildGlobalScopePass2(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildGlobalScopePass2)

@@ -319,11 +319,6 @@ BasicLanguage_PushRef
 					CHECK_ERROR(false, L"BasicLanguage_PushRef(BasicInstanceFunctionExpression*, const BCP&)#不支持此操作。");
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedExpression)
-				{
-					argument.codegenExtension->PushRef(node, argument);
-				}
-
 			END_ALGORITHM_PROCEDURE(BasicLanguage_PushRef)
 		}
 	}

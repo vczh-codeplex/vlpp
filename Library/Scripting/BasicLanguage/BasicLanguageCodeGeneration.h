@@ -113,33 +113,12 @@ namespace vl
 Extension
 ***********************************************************************/
 
-			struct BasicCodegenParameter;
-			typedef BasicCodegenParameter BCP;
-
-			class BasicCodegenExtension : public Object, private NotCopyable
-			{
-			public:
-				virtual BasicTypeRecord*									PushValue(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void												RunSideEffect(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void												PushRef(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void												PushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
-				virtual bool												CanPushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument);
-				virtual void												GenerateCode(BasicExtendedStatement* statement, const BCP& argument);
-				virtual void												GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument);
-				virtual void												GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument);
-				virtual void												GenerateCodePass3(BasicExtendedDeclaration* statement, const BCP& argument);
-				virtual ResourceHandle<BasicDeclarationRes>					GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument);
-			};
-
 			struct BasicCodegenParameter
 			{
-			private:
-				BasicCodegenExtension										defaultCodegenExtension;
 			public:
 				BasicCodegenInfo*											info;
 				basicil::BasicIL*											il;
 				stream::MemoryStream*										globalData;
-				BasicCodegenExtension*										codegenExtension;
 				Ptr<ResourceStream>											resource;
 				Ptr<ResourceStream>											exportResource;
 				BasicLanguageElement*										currentLanguageElement;
@@ -156,6 +135,7 @@ Extension
 				void														Ins(basicil::BasicIns::OpCode opcode, const BasicOffset& argument)const;
 				void														Ins(basicil::BasicIns::OpCode opcode, basicil::BasicIns::ValueType type1, const BasicOffset& argument)const;
 			};
+			typedef BasicCodegenParameter BCP;
 
 /***********************************************************************
 Code Generation Helper Functions
@@ -245,12 +225,11 @@ BasicCodeGenerator
 			protected:
 				Ptr<basicil::BasicIL>										il;
 				Ptr<stream::MemoryStream>									globalData;
-				BasicCodegenExtension*										codegenExtension;
 				Ptr<BasicCodegenInfo>										codegenInfo;
 				Ptr<BasicProgram>											program;
 				WString														programName;
 			public:
-				BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension, const WString& _programName);
+				BasicCodeGenerator(BasicAnalyzer* analyzer, const WString& _programName);
 				~BasicCodeGenerator();
 
 				Ptr<basicil::BasicIL>										GetIL();

@@ -251,60 +251,6 @@ BasicCodegenInfo
 			}
 
 /***********************************************************************
-BasicCodegenExtension
-***********************************************************************/
-
-			BasicTypeRecord* BasicCodegenExtension::PushValue(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::PushValue(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::RunSideEffect(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::RunSideEffect(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::PushRef(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::PushRef(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::PushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::PushRefWithoutSideEffect(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
-			bool BasicCodegenExtension::CanPushRefWithoutSideEffect(BasicExtendedExpression* expression, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::CanPushRefWithoutSideEffect(BasicExtendedExpression*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::GenerateCode(BasicExtendedStatement* statement, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::GenerateCode(BasicExtendedStatement*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::GenerateCodePass1(BasicExtendedDeclaration* statement, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::GenerateCodePass1(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration* statement, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::GenerateCodePass2(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
-			}
-
-			void BasicCodegenExtension::GenerateCodePass3(BasicExtendedDeclaration* statement, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::GenerateCodePass3(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
-			}
-
-			ResourceHandle<BasicDeclarationRes> BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration* statement, const BCP& argument)
-			{
-				CHECK_FAIL(L"BasicCodegenExtension::GenerateResource(BasicExtendedDeclaration*, const BCP&)#不支持此操作。");
-			}
-
-/***********************************************************************
 BasicCodegenParameter
 ***********************************************************************/
 			
@@ -312,7 +258,6 @@ BasicCodegenParameter
 				:info(_info)
 				,il(_il)
 				,globalData(_globalData)
-				,codegenExtension(&defaultCodegenExtension)
 				,resource(_resource)
 				,exportResource(_exportResource)
 				,currentLanguageElement(0)
@@ -323,7 +268,6 @@ BasicCodegenParameter
 				:info(parameter.info)
 				,il(parameter.il)
 				,globalData(parameter.globalData)
-				,codegenExtension(parameter.codegenExtension)
 				,resource(parameter.resource)
 				,exportResource(parameter.exportResource)
 				,currentLanguageElement(0)
@@ -462,10 +406,9 @@ BasicLanguage_GenerateCode
 BasicCodeGenerator
 ***********************************************************************/
 
-			BasicCodeGenerator::BasicCodeGenerator(BasicAnalyzer* analyzer, BasicCodegenExtension* extension, const WString& _programName)
+			BasicCodeGenerator::BasicCodeGenerator(BasicAnalyzer* analyzer, const WString& _programName)
 				:il(new BasicIL)
 				,globalData(new MemoryStream)
-				,codegenExtension(extension)
 				,codegenInfo(new BasicCodegenInfo(analyzer))
 				,program(analyzer->GetProgram())
 				,programName(_programName)
@@ -495,10 +438,6 @@ BasicCodeGenerator
 					il->resources[BasicILResourceNames::BasicLanguageInterfaces],
 					il->resources[BasicILResourceNames::ExportedSymbols]
 				);
-				if(codegenExtension)
-				{
-					argument.codegenExtension=codegenExtension;
-				}
 				argument.info->EnterSemanticScope(argument.info->GetEnv()->GlobalScope());
 				BasicLanguage_GenerateCode(program, programName, argument);
 				argument.info->LeaveSemanticScope();
