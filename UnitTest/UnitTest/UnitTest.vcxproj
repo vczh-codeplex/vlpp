@@ -221,6 +221,8 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass1.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.cpp" />
     <ClCompile Include="..\..\Library\Scripting\Utility\ScriptingUtilityConsole.cpp" />
@@ -679,6 +681,7 @@
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXCodeGenerator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXErrorMessageTranslator.h" />
     <ClInclude Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.h" />
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.h" />
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.h" />
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.h" />
     <ClInclude Include="..\..\Library\Scripting\Utility\ScriptingUtilityForeignFunctions.h" />

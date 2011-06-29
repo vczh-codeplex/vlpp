@@ -151,7 +151,6 @@ ManagedSymbolItemGroup
 			ManagedSymbolManager::ManagedSymbolManager()
 			{
 				global=new ManagedSymbolGlobal(this);
-				global->name=L"global::";
 			}
 
 			ManagedSymbolManager::~ManagedSymbolManager()
@@ -206,6 +205,15 @@ ManagedSymbolItemGroup
 			}
 
 /***********************************************************************
+Symbol Names
+***********************************************************************/
+
+			const wchar_t* const ManagedSymbolConstructor::SymbolName = L"$SpecialName$Constructor";
+			const wchar_t* const ManagedSymbolUsingNamespace::SymbolName = L"$SpecialName$UsingNamespace";
+			const wchar_t* const ManagedSymbolConverterOperator::SymbolName = L"$SpecialName$ConverterOperator";
+			const wchar_t* const ManagedSymbolGlobal::SymbolName = L"$SpecialName$Global";
+
+/***********************************************************************
 Symbol Constructors
 ***********************************************************************/
 
@@ -237,6 +245,7 @@ Symbol Constructors
 			ManagedSymbolConverterOperator::ManagedSymbolConverterOperator(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::ConverterOperator)
 			{
+				SetName(SymbolName);
 			}
 
 			ManagedSymbolMethod::ManagedSymbolMethod(ManagedSymbolManager* _manager)
@@ -247,6 +256,7 @@ Symbol Constructors
 			ManagedSymbolConstructor::ManagedSymbolConstructor(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Constructor)
 			{
+				SetName(SymbolName);
 			}
 
 			ManagedSymbolNamespace::ManagedSymbolNamespace(ManagedSymbolManager* _manager)
@@ -257,6 +267,7 @@ Symbol Constructors
 			ManagedSymbolUsingNamespace::ManagedSymbolUsingNamespace(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::UsingNamespace)
 			{
+				SetName(SymbolName);
 			}
 
 			ManagedSymbolTypeRename::ManagedSymbolTypeRename(ManagedSymbolManager* _manager)
@@ -275,6 +286,7 @@ Symbol Constructors
 			ManagedSymbolGlobal::ManagedSymbolGlobal(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, Global)
 			{
+				SetName(SymbolName);
 			}
 		}
 	}

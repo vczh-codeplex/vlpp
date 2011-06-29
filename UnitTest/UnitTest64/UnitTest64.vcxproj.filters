@@ -564,6 +564,12 @@
     <ClCompile Include="..\UnitTest\TestScripting_ManagedLanguage_Analyzer.cpp">
       <Filter>Source Files\Scripting\ManagedLanguage</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass1.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1004,6 +1010,9 @@
       <Filter>Library3\Combinator\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.h">
       <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
