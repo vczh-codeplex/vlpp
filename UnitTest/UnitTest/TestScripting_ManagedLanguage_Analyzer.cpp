@@ -11,17 +11,18 @@ TEST_CASE(Test_ManagedLanguage_SymbolManager)
 	ManagedSymbolManager sm;
 	{
 		TEST_ASSERT(sm.Global()->GetName()==L"global::");
+		TEST_ASSERT(sm.Global()->GetSymbolType()==ManagedSymbolItem::Global);
 	}
 	{
-		ManagedSymbolItem* si1 = new ManagedSymbolItem(&sm);
+		ManagedSymbolItem* si1 = new ManagedSymbolItem(&sm, ManagedSymbolItem::Namespace);
 		si1->SetName(L"A");
 		sm.Global()->Add(si1);
 
-		ManagedSymbolItem* si2 = new ManagedSymbolItem(&sm);
+		ManagedSymbolItem* si2 = new ManagedSymbolItem(&sm, ManagedSymbolItem::Namespace);
 		si2->SetName(L"A");
 		sm.Global()->Add(si2);
 
-		ManagedSymbolItem* si3 = new ManagedSymbolItem(&sm);
+		ManagedSymbolItem* si3 = new ManagedSymbolItem(&sm, ManagedSymbolItem::Namespace);
 		si3->SetName(L"B");
 		sm.Global()->Add(si3);
 	}
@@ -32,10 +33,12 @@ TEST_CASE(Test_ManagedLanguage_SymbolManager)
 
 		FOREACH(ManagedSymbolItemGroup*, group, sm.Global()->ItemGroups().Values())
 		{
-			TEST_ASSERT(group->GetParent()==sm.Global());
+			TEST_ASSERT(group->GetParentItem()==sm.Global());
 			FOREACH(ManagedSymbolItem*, item, group->Items())
 			{
-				TEST_ASSERT(item->GetParent()==group);
+				TEST_ASSERT(item->GetSymbolType()==ManagedSymbolItem::Namespace);
+				TEST_ASSERT(item->GetParentGroup()==group);
+				TEST_ASSERT(item->GetParentItem()==sm.Global());
 				TEST_ASSERT(item->GetManager()==&sm);
 				TEST_ASSERT(sm.Global()->ItemGroup(item->GetName())==group);
 			}

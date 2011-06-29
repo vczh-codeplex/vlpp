@@ -13,10 +13,11 @@ namespace vl
 ManagedSymbolItem
 ***********************************************************************/
 
-			ManagedSymbolItem::ManagedSymbolItem(ManagedSymbolManager* _manager)
+			ManagedSymbolItem::ManagedSymbolItem(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType)
 				:manager(_manager)
 				,parent(0)
 				,associatedType(0)
+				,symbolType(_symbolType)
 			{
 				manager->Register(this);
 			}
@@ -30,9 +31,14 @@ ManagedSymbolItem
 				return manager;
 			}
 
-			ManagedSymbolItemGroup* ManagedSymbolItem::GetParent()
+			ManagedSymbolItemGroup* ManagedSymbolItem::GetParentGroup()
 			{
 				return parent;
+			}
+
+			ManagedSymbolItem* ManagedSymbolItem::GetParentItem()
+			{
+				return parent?parent->GetParentItem():0;
 			}
 
 			const WString& ManagedSymbolItem::GetName()
@@ -43,6 +49,11 @@ ManagedSymbolItem
 			void ManagedSymbolItem::SetName(const WString& value)
 			{
 				name=value;
+			}
+
+			ManagedSymbolItem::ManagedSymbolType ManagedSymbolItem::GetSymbolType()
+			{
+				return symbolType;
 			}
 
 			const ManagedSymbolItem::IGroupMap& ManagedSymbolItem::ItemGroups()
@@ -81,7 +92,7 @@ ManagedSymbolItemGroup
 			{
 			}
 
-			ManagedSymbolItem* ManagedSymbolItemGroup::GetParent()
+			ManagedSymbolItem* ManagedSymbolItemGroup::GetParentItem()
 			{
 				return parent;
 			}
@@ -139,7 +150,7 @@ ManagedSymbolItemGroup
 
 			ManagedSymbolManager::ManagedSymbolManager()
 			{
-				global=new ManagedSymbolItem(this);
+				global=new ManagedSymbolGlobal(this);
 				global->name=L"global::";
 			}
 
@@ -192,6 +203,78 @@ ManagedSymbolItemGroup
 				CopyFrom(instantiated->genericArguments.Wrap(), genericArguments);
 				genericDeclaration->associatedInstantiatedTypes.Add(instantiated);
 				return instantiated;
+			}
+
+/***********************************************************************
+Symbol Constructors
+***********************************************************************/
+
+			ManagedSymbolGenericParameter::ManagedSymbolGenericParameter(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::GenericParameter)
+			{
+			}
+
+			ManagedSymbolMethodParameter::ManagedSymbolMethodParameter(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::MethodParameter)
+			{
+			}
+
+			ManagedSymbolField::ManagedSymbolField(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Field)
+			{
+			}
+
+			ManagedSymbolProperty::ManagedSymbolProperty(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Property)
+			{
+			}
+
+			ManagedSymbolPropertySetterValue::ManagedSymbolPropertySetterValue(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::PropertySetterValue)
+			{
+			}
+
+			ManagedSymbolConverterOperator::ManagedSymbolConverterOperator(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::ConverterOperator)
+			{
+			}
+
+			ManagedSymbolMethod::ManagedSymbolMethod(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Method)
+			{
+			}
+
+			ManagedSymbolConstructor::ManagedSymbolConstructor(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Constructor)
+			{
+			}
+
+			ManagedSymbolNamespace::ManagedSymbolNamespace(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Namespace)
+			{
+			}
+
+			ManagedSymbolUsingNamespace::ManagedSymbolUsingNamespace(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::UsingNamespace)
+			{
+			}
+
+			ManagedSymbolTypeRename::ManagedSymbolTypeRename(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::TypeRename)
+			{
+			}
+
+			ManagedSymbolDeclaration::ManagedSymbolDeclaration(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType)
+				:ManagedSymbolItem(_manager, _symbolType)
+			{
+				CHECK_ERROR(_symbolType==ManagedSymbolItem::Class || _symbolType==ManagedSymbolItem::Structure || _symbolType==ManagedSymbolItem::Interface,
+					L"ManagedSymbolDeclaration::ManagedSymbolDeclaration(ManagedSymbolManager*, ManagedSymbolType)#符号类型不在规定范围内。"
+					);
+			}
+
+			ManagedSymbolGlobal::ManagedSymbolGlobal(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, Global)
+			{
 			}
 		}
 	}
