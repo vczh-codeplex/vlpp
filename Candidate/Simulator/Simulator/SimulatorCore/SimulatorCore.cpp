@@ -222,12 +222,17 @@ extern "C"
 	void DrawFrameLine(Geometry* geometry, void* context, const Vector3& p1, const Vector3& p2)
 	{
 		SimulatorScenePair* pair=(SimulatorScenePair*)context;
-		Vector3 v1=pair->scene->observer.Perspect(p1*geometry->localMatrix);
-		Vector3 v2=pair->scene->observer.Perspect(p2*geometry->localMatrix);
-		int w=pair->simulator->buffer->GetWidth();
-		int h=pair->simulator->buffer->GetHeight();
-		pair->simulator->dc->MoveTo((int)(v1.x+w/2), (int)(h/2-v1.y));
-		pair->simulator->dc->LineTo((int)(v2.x+w/2), (int)(h/2-v2.y));
+		Vector3 mp1=p1*geometry->localMatrix;
+		Vector3 mp2=p2*geometry->localMatrix;
+		if(mp1.y>-500 && mp2.y>-500)
+		{
+			Vector3 v1=pair->scene->observer.Perspect(mp1);
+			Vector3 v2=pair->scene->observer.Perspect(mp2);
+			int w=pair->simulator->buffer->GetWidth();
+			int h=pair->simulator->buffer->GetHeight();
+			pair->simulator->dc->MoveTo((int)(v1.x+w/2), (int)(h/2-v1.y));
+			pair->simulator->dc->LineTo((int)(v2.x+w/2), (int)(h/2-v2.y));
+		}
 	}
 
 	SIMULATORCORE_API int __stdcall DebuggerIntersect(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer, int x, int y)
