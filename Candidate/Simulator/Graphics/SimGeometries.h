@@ -92,6 +92,8 @@ namespace simulator
 			collections::List<Triangle>			triangles;
 
 			Triangles();
+
+			void								Load(const WString& fileName);
 			
 			void								CallbackContentIntersect(const Vector3& d, double& scale, Triangle& t, const Ray3& ray, Plane3& plane, Vector3& diffuseNormal, Material& planeMaterial);
 			Triangle&							CallbackGetObject(int index);

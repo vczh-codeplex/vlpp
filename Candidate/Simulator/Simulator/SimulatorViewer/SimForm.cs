@@ -62,6 +62,7 @@ namespace SimulatorViewer
             this.scenes.Add(Tuple.Create("Menger Sponge", SimulatorAPI.CreateScene5()));
             this.scenes.Add(Tuple.Create("Balls and Walls", SimulatorAPI.CreateScene6()));
             this.scenes.Add(Tuple.Create("Desktop", SimulatorAPI.CreateScene7()));
+            this.scenes.Add(Tuple.Create("Sponza", SimulatorAPI.CreateScene8()));
 
             this.currentScene = this.scenes[0].Item2;
             this.currentRenderer = this.renderers[0].Item2;

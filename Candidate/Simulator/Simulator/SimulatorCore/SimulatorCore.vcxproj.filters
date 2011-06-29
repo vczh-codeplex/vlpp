@@ -335,6 +335,9 @@
     <ClCompile Include="..\..\..\..\Library\Stream\RecorderStream.cpp">
       <Filter>Library\Stream\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimulatorScene8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Textures\Earth.bmp">

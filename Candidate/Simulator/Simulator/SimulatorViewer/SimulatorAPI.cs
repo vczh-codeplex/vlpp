@@ -49,6 +49,9 @@ namespace SimulatorViewer
         public static extern IntPtr CreateScene7();
 
         [DllImport("SimulatorCore.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr CreateScene8();
+
+        [DllImport("SimulatorCore.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void RotateScene(IntPtr scene, double xy, double yz, double zx);
 
         [DllImport("SimulatorCore.dll", CallingConvention = CallingConvention.StdCall)]
