@@ -144,6 +144,7 @@ namespace simulator
 		// ambient occlusion
 		bool					enableAmbientOcclusion;
 		int						aoLevel;
+		double					aoRange;
 
 		Material();
 	};

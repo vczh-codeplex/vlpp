@@ -71,6 +71,7 @@ Material
 		,blinnC3(1.0)
 		,enableAmbientOcclusion(false)
 		,aoLevel(6)
+		,aoRange(200)
 	{
 	}
 	

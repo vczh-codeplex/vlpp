@@ -8,7 +8,7 @@ namespace CreateScene6_Helper
 		g->localMatrix=MatrixScale(xs, ys, zs)*MatrixOffset(xo, yo, zo);
 		g->material.color=color;
 		g->material.enableAmbientOcclusion=true;
-		g->material.aoLevel=24;
+		g->material.aoLevel=13;
 		if(BRDF)
 		{
 			g->material.enableReflection=true;
@@ -30,7 +30,7 @@ namespace CreateScene6_Helper
 		g->localMatrix=MatrixScale(r, r, r)*MatrixOffset(xo, yo, zo);
 		g->material.color=color;
 		g->material.enableAmbientOcclusion=true;
-		g->material.aoLevel=24;
+		g->material.aoLevel=13;
 		g->material.enableReflection=true;
 		g->material.reflection=0.3;
 		g->material.enableBlinnSpecular=true;
@@ -83,7 +83,7 @@ extern "C"
 			CreateGreenCube(g, 
 				200, 200, 20, 
 				0, 0, -70,
-				Color(0.24, 0.6, 0.18), true);
+				Color(0.24, 0.6, 0.18), false);
 			CreateGreenCube(g, 
 				200, 20, 55, 
 				0, 180, 5,
@@ -99,7 +99,7 @@ extern "C"
 			CreateBall(g, 70, -90, 90, 20, Color(1.0, 0.2, 0.2));
 			CreateBall(g, 70, -90, -50, 20, Color(1.0, 1.0, 0.2));
 			CreateBall(g, 70, 31, 20, 20, Color(0.2, 0.2, 1.0));
-			g->BuildKdTree(10, 1);
+			//g->BuildKdTree(10, 1);
 			g->Update();
 			scene->scene.geometries.Add(g);
 		}

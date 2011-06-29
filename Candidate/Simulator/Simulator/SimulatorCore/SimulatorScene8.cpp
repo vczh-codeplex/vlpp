@@ -9,11 +9,11 @@ extern "C"
 
 		SceneHandle* scene=new SceneHandle;
 		InstallSky(&scene->scene);
-		scene->scene.environmentLight=Color(0.6, 0.6, 0.6);
+		scene->scene.environmentLight=Color(0.3, 0.3, 0.3);
 		{
 			ParallelLight light;
-			light.light=Color(0.4, 0.4, 0.4);
-			light.direction=Normalize(Vector3(-1, 1, -1), 1.0);
+			light.light=Color(0.5, 0.5, 0.5);
+			light.direction=Normalize(Vector3(-0.2, 0.2, -1), 1.0);
 			scene->scene.parallelLights.Add(light);
 		}
 		{
@@ -28,7 +28,8 @@ extern "C"
 			}
 			g->material.color=Color(1.0, 1.0, 1.0);
 			g->material.enableAmbientOcclusion=true;
-			g->material.aoLevel=5;
+			g->material.aoLevel=6;
+			g->material.aoRange=100;
 			g->BuildKdTree(25, 1);
 			g->Update();
 			scene->scene.geometries.Add(g);
