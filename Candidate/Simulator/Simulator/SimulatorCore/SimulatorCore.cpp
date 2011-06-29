@@ -76,6 +76,11 @@ struct SimulatorHandle
 		}
 	}
 
+	Color Render(SceneHandle* scene, Renderer* renderer, int screenWidth, int screenHeight, int x, int y)
+	{
+		return renderer->Render(&scene->observer, &scene->scene, screenWidth, screenHeight, x, y);
+	}
+
 	void Render(SceneHandle* scene, Renderer* renderer, Color* colors, int bufferWidth, int bufferHeight, int screenWidth, int screenHeight)
 	{
 		for(int i=0;i<cpuCount;i++)
@@ -225,7 +230,15 @@ extern "C"
 
 	SIMULATORCORE_API int __stdcall DebuggerIntersect(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer, int x, int y)
 	{
-		return 0;
+		if(renderer==0)
+		{
+			return 0;
+		}
+		else
+		{
+			Color result=simulator->Render(scene, renderer, simulator->buffer->GetWidth(), simulator->buffer->GetHeight(), x, y);
+			return RGB(ConvertColor(result.x), ConvertColor(result.y), ConvertColor(result.z));
+		}
 	}
 
 	SIMULATORCORE_API void __stdcall RenderScene(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer)

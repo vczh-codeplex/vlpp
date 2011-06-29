@@ -245,6 +245,7 @@ namespace simulator
 	class Renderer : public Object
 	{
 	public:
+		virtual Color			Render(Observer* observer, Scene* scene, vint screenWidth, vint screenHeight, int x, int y)=0;
 		virtual void			Render(Observer* observer, Scene* scene, vint bufferWidth, vint bufferHeight, vint screenWidth, vint screenHeight, int startY, int endY, Color* colors)=0;
 	};
 
@@ -257,6 +258,7 @@ namespace simulator
 
 			DirectTrayRenderer(int _level);
 
+			Color				Render(Observer* observer, Scene* scene, vint screenWidth, vint screenHeight, int x, int y);
 			void				Render(Observer* observer, Scene* scene, vint bufferWidth, vint bufferHeight, vint screenWidth, vint screenHeight, int startY, int endY, Color* colors);
 		};
 	}
