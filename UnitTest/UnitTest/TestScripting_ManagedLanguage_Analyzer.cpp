@@ -10,7 +10,7 @@ TEST_CASE(Test_ManagedLanguage_SymbolManager)
 {
 	ManagedSymbolManager sm;
 	{
-		TEST_ASSERT(sm.Global()->GetName()==L"global::");
+		TEST_ASSERT(sm.Global()->GetName()==ManagedSymbolGlobal::SymbolName);
 		TEST_ASSERT(sm.Global()->GetSymbolType()==ManagedSymbolItem::Global);
 	}
 	{

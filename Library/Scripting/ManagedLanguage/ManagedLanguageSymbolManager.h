@@ -192,6 +192,8 @@ Data Members
 			class ManagedSymbolConverterOperator : public ManagedSymbolItem
 			{
 			public:
+				static const wchar_t* const SymbolName;
+			public:
 				ManagedSymbolConverterOperator(ManagedSymbolManager* _manager);
 
 				ManagedConverterOperator*					languageElement;
@@ -227,6 +229,8 @@ Data Members
 			class ManagedSymbolConstructor : public ManagedSymbolItem
 			{
 			public:
+				static const wchar_t* const SymbolName;
+			public:
 				ManagedSymbolConstructor(ManagedSymbolManager* _manager);
 
 				ManagedConstructor*							languageElement;
@@ -253,6 +257,8 @@ Declarations
 			// UsingNamespace
 			class ManagedSymbolUsingNamespace : public ManagedSymbolItem
 			{
+			public:
+				static const wchar_t* const SymbolName;
 			public:
 				ManagedSymbolUsingNamespace(ManagedSymbolManager* _manager);
 
@@ -296,6 +302,8 @@ Global
 			// Global {Namespace, UsingNamespace, TypeRename, Class, Structure, Interface}
 			class ManagedSymbolGlobal : public ManagedSymbolItem
 			{
+			public:
+				static const wchar_t* const SymbolName;
 			public:
 				ManagedSymbolGlobal(ManagedSymbolManager* _manager);
 			};
