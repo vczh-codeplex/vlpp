@@ -223,6 +223,11 @@ extern "C"
 		pair->simulator->dc->LineTo((int)(v2.x+w/2), (int)(h/2-v2.y));
 	}
 
+	SIMULATORCORE_API int __stdcall DebuggerIntersect(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer, int x, int y)
+	{
+		return 0;
+	}
+
 	SIMULATORCORE_API void __stdcall RenderScene(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer)
 	{
 		if(renderer)

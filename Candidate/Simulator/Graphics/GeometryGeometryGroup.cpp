@@ -51,7 +51,7 @@ namespace simulator
 					+(subPlane.position.y-newRay.position.y)
 					+(subPlane.position.z-newRay.position.z))
 					/(newRay.direction.x+newRay.direction.y+newRay.direction.z);
-				if(scale<0 || subScale<=scale)
+				if((scale<0 || subScale<scale) && subScale>0)
 				{
 					scale=subScale;
 					plane=TransformPlane(subPlane, t.g->localMatrix, t.g->localMatrixNormal);

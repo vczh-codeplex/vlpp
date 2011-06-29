@@ -50,5 +50,6 @@ extern "C"
 
 	SIMULATORCORE_API Renderer*			__stdcall		CreateDirectTrayRenderer(int level);
 	SIMULATORCORE_API void				__stdcall		DestroyRenderer(Renderer* renderer);
+	SIMULATORCORE_API int				__stdcall		DebuggerIntersect(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer, int x, int y);
 	SIMULATORCORE_API void				__stdcall		RenderScene(SimulatorHandle* simulator, SceneHandle* scene, Renderer* renderer);
 }
