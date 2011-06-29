@@ -1,4 +1,5 @@
 #include "SimScene.h"
+#include <stdlib.h>
 
 namespace simulator
 {
@@ -6,7 +7,7 @@ namespace simulator
 	{
 		namespace directtray
 		{
-			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, Plane3& plane, Vector3& diffuseNormal, Material& material, Geometry*& g, double range=-1)
+			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, Plane3& plane, Vector3& diffuseNormal, Material& material, Geometry*& g, double aoRange=-1, double* aoLengthSquare=0)
 			{
 				if(refractingGeometry)
 				{
@@ -39,9 +40,13 @@ namespace simulator
 							double scale=LengthSquare(_plane.position-ray.position);
 							if(!found || scale<nearestScale)
 							{
-								if(range<=0 || scale<range*range)
+								if(aoRange<=0 || scale<aoRange*aoRange)
 								{
 									found=true;
+									if(aoLengthSquare)
+									{
+										*aoLengthSquare=scale;
+									}
 									nearestScale=scale;
 
 									plane=_plane;
@@ -56,13 +61,13 @@ namespace simulator
 				}
 			}
 
-			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, double range=-1)
+			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, double aoRange=-1, double* aoLengthSquare=0)
 			{
 				Plane3 plane;
 				Vector3 diffuseNormal;
 				Material material;
 				Geometry* g=0;
-				return Intersect(ray, scene, refractingGeometry, plane, diffuseNormal, material, g, range);
+				return Intersect(ray, scene, refractingGeometry, plane, diffuseNormal, material, g, aoRange, aoLengthSquare);
 			}
 
 			Color GetLight(const Ray3& acceptingRay, const Plane3& acceptingPanel, const Vector3& acceptingDiffuseNormal, Geometry* acceptingGeometry, Scene* scene, bool allowShadow)
@@ -138,18 +143,20 @@ namespace simulator
 						Vector3 aoX, aoY, aoZ;
 						GetAxis(plane.normal, aoX, aoY, aoZ);
 						int ao=material.aoLevel;
-						int hit=0;
+						double hit=0;
 						int total=0;
-						for(int h=0;h<ao;h++)
+						for(int _h=0;_h<ao;_h++)
 						{
+							double h=_h+(double)(rand()-RAND_MAX)/RAND_MAX;
 							double th=0.99*(PI*h/(2*(ao-1)));
 							double sth=sin(th);
 							double cth=cos(th);
 							int vao=(int)(2*ao*sth)+1;
 							total+=vao;
 
-							for(int v=0;v<vao;v++)
+							for(int _v=0;_v<vao;_v++)
 							{
+								double v=_v+(double)(rand()-RAND_MAX)/RAND_MAX;
 								double tv=2*PI*v/vao;
 								double stv=sin(tv);
 								double ctv=cos(tv);
@@ -160,13 +167,15 @@ namespace simulator
 								Vector3 aod=Scale(aoX, aoXs)+Scale(aoY, aoYs)+Scale(aoZ, aoZs);
 								Ray3 aor(plane.position+Scale(aod, dmin), aod);
 
-								if(Intersect(aor, scene, 0, 50))
+								double aoLengthSquare=0;
+								if(Intersect(aor, scene, 0, material.aoRange, &aoLengthSquare))
 								{
-									hit++;
+									double currentHit=1-aoLengthSquare/(material.aoRange*material.aoRange);
+									hit+=currentHit;
 								}
 							}
 						}
-						environmentScale=1-(double)hit/total;
+						environmentScale=1-hit/total;
 					}
 					color=(Scale(scene->environmentLight, environmentScale)+GetLight(ray, plane, diffuseNormal, g, scene, allowShadow))*material.color;
 					return true;

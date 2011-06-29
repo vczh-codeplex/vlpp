@@ -1,5 +1,6 @@
 #include "SimulatorCore.h"
 #include "..\..\..\..\Library\Threading.h"
+#include <time.h>
 
 using namespace vl;
 using namespace vl::windows;
@@ -112,6 +113,7 @@ extern "C"
 {
 	SIMULATORCORE_API SimulatorHandle* __stdcall CreateSimulator(bool enableFSAA)
 	{
+		srand((unsigned)time(0));
 		return new SimulatorHandle(enableFSAA);
 	}
 
