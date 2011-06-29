@@ -884,8 +884,8 @@ Extended Members
 				Ptr<ManagedType>									implementedInterfaceType; // nullable
 				WString												name;
 
-				Ptr<ManagedStatement>								getter; // emptyable
-				Ptr<ManagedStatement>								setter; // emptyable
+				Ptr<ManagedStatement>								getter; // ;able
+				Ptr<ManagedStatement>								setter; // ;able
 				WString												setterParameter; // nullable if setter == empty
 				declatt::Accessor									setterAccessor;
 			};
