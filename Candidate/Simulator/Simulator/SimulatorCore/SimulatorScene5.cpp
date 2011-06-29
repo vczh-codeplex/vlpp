@@ -95,7 +95,7 @@ extern "C"
 		}
 		{
 			Triangles* g=new Triangles;
-			CreateMengerSponge(1, g);
+			CreateMengerSponge(4, g);
 			g->localMatrix=MatrixScale(150, 150, 150)*MatrixRotateXY(-0.5)*MatrixRotateYZ(0.5);
 			g->material.color=Color(0.6, 0.8, 1.0);
 			g->material.enableAmbientOcclusion=true;
