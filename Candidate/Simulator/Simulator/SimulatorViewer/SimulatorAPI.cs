@@ -66,6 +66,9 @@ namespace SimulatorViewer
         public static extern void DestroyRenderer(IntPtr scene);
 
         [DllImport("SimulatorCore.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern int DebuggerIntersect(IntPtr simulator, IntPtr scene, IntPtr renderer, int x, int y);
+
+        [DllImport("SimulatorCore.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern void RenderScene(IntPtr simulator, IntPtr scene, IntPtr renderer);
     }
 }

@@ -32,9 +32,9 @@
             // 
             // SimForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 242);
+            this.ClientSize = new System.Drawing.Size(284, 262);
             this.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -45,6 +45,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SimForm_FormClosed);
             this.Load += new System.EventHandler(this.SimForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.SimForm_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SimForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SimForm_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SimForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SimForm_MouseMove);

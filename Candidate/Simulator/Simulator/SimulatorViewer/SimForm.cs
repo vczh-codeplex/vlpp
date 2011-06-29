@@ -22,6 +22,8 @@ namespace SimulatorViewer
         private Point rotatingPosition;
         private double renderMilliseconds = 0;
 
+        private bool debuggerIntersectPixel = false;
+
         public SimForm()
         {
             InitializeComponent();
@@ -116,8 +118,22 @@ namespace SimulatorViewer
             }
         }
 
+        private void SimForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && !e.Shift & !e.Alt && e.KeyCode == Keys.ControlKey)
+            {
+                this.debuggerIntersectPixel = true;
+                this.Cursor = Cursors.Cross;
+            }
+        }
+
         private void SimForm_KeyUp(object sender, KeyEventArgs e)
         {
+            if (this.debuggerIntersectPixel)
+            {
+                this.debuggerIntersectPixel = false;
+                this.Cursor = Cursors.SizeAll;
+            }
             if (!e.Control && !e.Shift && !e.Alt)
             {
                 int code = (int)e.KeyCode;
@@ -160,28 +176,49 @@ namespace SimulatorViewer
 
         private void SimForm_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (this.debuggerIntersectPixel)
             {
-                this.rotating = true;
-                this.rotatingPosition = e.Location;
+                int result = SimulatorAPI.DebuggerIntersect(this.simulator, this.currentScene, this.currentRenderer, e.X, e.Y);
+                Color color = Color.FromArgb(result);
+                this.Text = string.Format("Vczh Simulator 3.0 ({0}, {1}) -> {2}", e.X, e.Y, color);
+            }
+            else
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    this.rotating = true;
+                    this.rotatingPosition = e.Location;
+                }
             }
         }
 
         private void SimForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (this.rotating)
+            if (this.debuggerIntersectPixel)
             {
-                double x = (double)(e.Location.X - this.rotatingPosition.X) / this.ClientSize.Width;
-                double y = (double)(e.Location.Y - this.rotatingPosition.Y) / this.ClientSize.Height;
-                SimulatorAPI.RotateScene(this.currentScene, x * 2 * Math.PI, y * 2 * Math.PI, 0);
-                this.rotatingPosition = e.Location;
-                Render();
+            }
+            else
+            {
+                if (this.rotating)
+                {
+                    double x = (double)(e.Location.X - this.rotatingPosition.X) / this.ClientSize.Width;
+                    double y = (double)(e.Location.Y - this.rotatingPosition.Y) / this.ClientSize.Height;
+                    SimulatorAPI.RotateScene(this.currentScene, x * 2 * Math.PI, y * 2 * Math.PI, 0);
+                    this.rotatingPosition = e.Location;
+                    Render();
+                }
             }
         }
 
         private void SimForm_MouseUp(object sender, MouseEventArgs e)
         {
-            this.rotating = false;
+            if (this.debuggerIntersectPixel)
+            {
+            }
+            else
+            {
+                this.rotating = false;
+            }
         }
     }
 }
