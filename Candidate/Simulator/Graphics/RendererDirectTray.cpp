@@ -76,7 +76,6 @@ namespace simulator
 				for(int l=0;l<scene->parallelLights.Count();l++)
 				{
 					ParallelLight& light=scene->parallelLights[l];
-					double cosT=-Dot(acceptingPanel.normal, light.direction);
 					double cosD=-Dot(acceptingDiffuseNormal, light.direction);
 					if(cosD>0)
 					{

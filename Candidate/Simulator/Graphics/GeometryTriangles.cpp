@@ -183,6 +183,10 @@ namespace simulator
 			Vector3 _a=_p2-_p1;
 			Vector3 _b=_p3-_p1;
 			Vector3 _normal=Normalize(Cross(_a, _b), 1.0);
+			if(Dot(_normal, ray.direction)>0)
+			{
+				_normal=Scale(_normal, -1);
+			}
 			double _d=-Dot(_normal, _p1);
 			Matrix4 _matrixInterpolation=MatrixInverse(MatrixAxis(_a, _b, _normal));
 
