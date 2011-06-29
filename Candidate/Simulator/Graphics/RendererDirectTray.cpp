@@ -6,7 +6,7 @@ namespace simulator
 	{
 		namespace directtray
 		{
-			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, Plane3& plane, Vector3& diffuseNormal, Material& material, Geometry*& g)
+			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, Plane3& plane, Vector3& diffuseNormal, Material& material, Geometry*& g, double range=-1)
 			{
 				if(refractingGeometry)
 				{
@@ -39,13 +39,16 @@ namespace simulator
 							double scale=LengthSquare(_plane.position-ray.position);
 							if(!found || scale<nearestScale)
 							{
-								found=true;
-								nearestScale=scale;
+								if(range<=0 || scale<range*range)
+								{
+									found=true;
+									nearestScale=scale;
 
-								plane=_plane;
-								diffuseNormal=_diffuseNormal*_g->localMatrixNormal;
-								material=_material;
-								g=_g;
+									plane=_plane;
+									diffuseNormal=_diffuseNormal*_g->localMatrixNormal;
+									material=_material;
+									g=_g;
+								}
 							}
 						}
 					}
@@ -53,13 +56,13 @@ namespace simulator
 				}
 			}
 
-			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry)
+			bool Intersect(const Ray3& ray, Scene* scene, Geometry* refractingGeometry, double range=-1)
 			{
 				Plane3 plane;
 				Vector3 diffuseNormal;
 				Material material;
 				Geometry* g=0;
-				return Intersect(ray, scene, refractingGeometry, plane, diffuseNormal, material, g);
+				return Intersect(ray, scene, refractingGeometry, plane, diffuseNormal, material, g, range);
 			}
 
 			Color GetLight(const Ray3& acceptingRay, const Plane3& acceptingPanel, const Vector3& acceptingDiffuseNormal, Geometry* acceptingGeometry, Scene* scene, bool allowShadow)
@@ -157,7 +160,7 @@ namespace simulator
 								Vector3 aod=Scale(aoX, aoXs)+Scale(aoY, aoYs)+Scale(aoZ, aoZs);
 								Ray3 aor(plane.position+Scale(aod, dmin), aod);
 
-								if(Intersect(aor, scene, 0))
+								if(Intersect(aor, scene, 0, 50))
 								{
 									hit++;
 								}

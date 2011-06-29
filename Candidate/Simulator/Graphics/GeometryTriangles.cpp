@@ -1,13 +1,158 @@
 #include "SimGeometries.h"
 #include <math.h>
+#include <stdio.h>
 
 namespace simulator
 {
 	namespace geometries
 	{
+		namespace fuckobj
+		{
+			struct FaceVertex
+			{
+				int vid, nid, tid;
+
+				bool operator==(const FaceVertex& fv)
+				{
+					return false;
+				}
+
+				bool operator!=(const FaceVertex& fv)
+				{
+					return false;
+				}
+			};
+		}
+		using namespace fuckobj;
+
 		Triangles::Triangles()
 			:KdObject<Triangle, Triangles>(Geometry::Triangles)
 		{
+		}
+
+		void Triangles::Load(const WString& fileName)
+		{
+			FILE * f = 0;
+			fopen_s(&f, wtoa(fileName).Buffer(), "rt");
+			if (f == 0)
+				return;
+			char buf[200];
+			int smoothGroup = 0;
+			List<FaceVertex> faceVertices;
+			List<Vectorf3> vertices;
+			while (!feof(f))
+			{
+				fscanf_s(f, "%s", buf, 200);
+				if (_stricmp(buf, "v") == 0)
+				{
+					Vectorf3 v;
+					fscanf_s(f, "%f %f %f", &v.x, &v.y, &v.z);
+					vertices.Add(v);
+				}
+				else if (_stricmp(buf, "vn") == 0)
+				{
+					Vectorf3 v;
+					fscanf_s(f, "%f %f %f", &v.x, &v.y, &v.z);
+					//Normals.Add(v);
+				}
+				else if (_stricmp(buf, "vt") == 0)
+				{
+					Vectorf3 v;
+					fscanf_s(f, "%f %f", &v.x, &v.y);
+					//TexCoords.Add(v);
+				}
+				else if (_stricmp(buf, "f") == 0)
+				{
+					fgets(buf, 200, f);
+					int len = strlen(buf);
+					int startPos = 0;
+					faceVertices.Clear();
+					for (int i = 0; i<len; i++)
+					{
+						if (buf[i] != ' ' && buf[i] != '\t' && buf[i] != '\n')
+						{
+							continue;
+						}
+						else if (i == startPos)
+						{
+							startPos++;
+							continue;
+						}
+						char str[50];
+						memset(str, 0, 50);
+						memcpy(str, buf+startPos, i-startPos);
+						if (strstr(str, "//"))
+						{
+							int vid, nid;
+							sscanf_s(str, "%d//%d", &vid, &nid);
+							FaceVertex vtx;
+							vtx.vid = vid - 1;
+							vtx.nid = nid - 1;
+							vtx.tid = -1;
+							faceVertices.Add(vtx);
+						}
+						else
+						{
+							int slashCount = 0;
+							for (int j = 0; j<i-startPos; j++)
+							{
+								if (str[j] == '/') slashCount ++;
+							}
+							if (slashCount == 0)
+							{
+								FaceVertex vtx;
+								vtx.nid = vtx.tid = -1;
+								sscanf_s(str, "%d", &vtx.vid);
+								vtx.vid --;
+								faceVertices.Add(vtx);
+							}
+							else if (slashCount == 3)
+							{
+								FaceVertex vtx;
+								vtx.nid = -1;
+								sscanf_s(str, "%d/%d", &vtx.vid, &vtx.tid);
+								vtx.vid --;
+								vtx.tid --;
+								faceVertices.Add(vtx);
+							}
+							else
+							{
+								FaceVertex vtx;
+								sscanf_s(str, "%d/%d/%d", &vtx.vid, &vtx.tid, &vtx.nid);
+								vtx.vid --;
+								vtx.tid --;
+								vtx.nid --;
+								faceVertices.Add(vtx);
+							}
+						}
+						startPos = i+1;
+					}
+					// simple triangulation
+					for (int i = 2; i<faceVertices.Count(); i++)
+					{
+						Triangle triangle;
+						triangle.p1=vertices[faceVertices[0].vid];
+						triangle.p2=vertices[faceVertices[i-1].vid];
+						triangle.p3=vertices[faceVertices[i].vid];
+						triangles.Add(triangle);
+					}
+				}
+				else if (_stricmp(buf, "s") == 0)
+				{
+					fscanf_s(f, "%s", buf, 200);
+					if (buf[0] >= '0' && buf[0] <= '9')
+					{
+						sscanf_s(buf, "%d", &smoothGroup);
+					}
+					else
+						smoothGroup = 0;
+				}
+				else
+				{
+					while (!feof(f) && fgetc(f) != '\n');
+				}
+			}
+			fclose(f);
 		}
 
 		Triangle& Triangles::CallbackGetObject(int index)

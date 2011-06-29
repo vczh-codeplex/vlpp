@@ -44,6 +44,7 @@ extern "C"
 	SIMULATORCORE_API SceneHandle*		__stdcall		CreateScene5();
 	SIMULATORCORE_API SceneHandle*		__stdcall		CreateScene6();
 	SIMULATORCORE_API SceneHandle*		__stdcall		CreateScene7();
+	SIMULATORCORE_API SceneHandle*		__stdcall		CreateScene8();
 	SIMULATORCORE_API void				__stdcall		RotateScene(SceneHandle* scene, double xy, double yz, double zx);
 	SIMULATORCORE_API void				__stdcall		DestroyScene(SceneHandle* scene);
 	SIMULATORCORE_API int				__stdcall		GetTriangleCount(SceneHandle* scene);
