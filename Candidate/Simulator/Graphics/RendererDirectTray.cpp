@@ -307,6 +307,34 @@ namespace simulator
 		{
 		}
 
+		Color DirectTrayRenderer::Render(Observer* observer, Scene* scene, vint screenWidth, vint screenHeight, int x, int y)
+		{
+			switch(level)
+			{
+			case 0:
+			case 1:
+				{
+					bool allowShadow=(level==1);
+					Ray3 ray=observer->CreateRay(x, y, screenWidth, screenHeight, screenWidth, screenHeight);
+					return directtray::GetDiffuseWithoutReflection(ray, scene, allowShadow, false);
+				}
+			case 2:
+				{
+					bool allowShadow=(level==1);
+					Ray3 ray=observer->CreateRay(x, y, screenWidth, screenHeight, screenWidth, screenHeight);
+					return directtray::GetDiffuseWithReflection(ray, scene, 4, 0, true, false, false);
+				}
+			case 3:
+				{
+					bool allowShadow=(level==1);
+					Ray3 ray=observer->CreateRay(x, y, screenWidth, screenHeight, screenWidth, screenHeight);
+					return directtray::GetDiffuseWithReflection(ray, scene, 4, 0, true, true, true);
+				}
+			default:
+				return Color(0, 0, 0);
+			}
+		}
+
 		void DirectTrayRenderer::Render(Observer* observer, Scene* scene, vint bufferWidth, vint bufferHeight, vint screenWidth, vint screenHeight, int startY, int endY, Color* colors)
 		{
 			colors+=startY*bufferWidth;

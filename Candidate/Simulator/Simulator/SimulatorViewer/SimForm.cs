@@ -179,7 +179,7 @@ namespace SimulatorViewer
             if (this.debuggerIntersectPixel)
             {
                 int result = SimulatorAPI.DebuggerIntersect(this.simulator, this.currentScene, this.currentRenderer, e.X, e.Y);
-                Color color = Color.FromArgb(result);
+                Color color = Color.FromArgb(result % 256, (result >> 8) % 256, (result >> 16));
                 this.Text = string.Format("Vczh Simulator 3.0 ({0}, {1}) -> {2}", e.X, e.Y, color);
             }
             else
