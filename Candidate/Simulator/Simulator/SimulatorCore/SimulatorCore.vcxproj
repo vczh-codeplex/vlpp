@@ -175,6 +175,7 @@
     <ClCompile Include="SimulatorScene6.cpp" />
     <ClCompile Include="SimulatorScene7.cpp" />
     <ClCompile Include="SimulatorScene8.cpp" />
+    <ClCompile Include="SimulatorScene9.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Textures\Earth.bmp" />
