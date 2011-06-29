@@ -175,11 +175,6 @@ BasicLanguage_GenerateCode
 					argument.Ins(BasicIns::exception_raise);
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedStatement)
-				{
-					argument.codegenExtension->GenerateCode(node, argument);
-				}
-
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodeInternal)
 
 			void BasicLanguage_GenerateCode(BasicStatement* node, const BCP& argument)

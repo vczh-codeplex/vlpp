@@ -379,9 +379,11 @@ namespace vl
 语义函数：复合表达式
 ***********************************************************************/
 
-			class NativeXArguments : public BasicExtendedExpression
+			class NativeXArguments : public BasicExpression
 			{
 			public:
+				ALGORITHM_ACCEPT_DECLARATION_UNNSED(BasicExpression)
+
 				Ptr<List<Ptr<BasicExpression>>>		arguments;
 			};
 

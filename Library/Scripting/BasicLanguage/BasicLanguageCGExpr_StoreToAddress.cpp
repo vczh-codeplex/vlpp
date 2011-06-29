@@ -182,11 +182,6 @@ BasicLanguage_StoreToAddressInternal
 					return false;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return false;
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_StoreToAddressInternal)
 
 			void BasicLanguage_StoreToAddress(BasicExpression* expression, const StoreToAddressParameter& stap, BasicTypeRecord* addressType, const BCP& argument)

@@ -601,30 +601,6 @@ Declaration
 			};
 
 /***********************************************************************
-Extension Nodes
-***********************************************************************/
-
-			class BasicExtendedExpression : public BasicExpression
-			{
-				ALGORITHM_ACCEPT_DECLARATION(BasicExpression)
-			};
-
-			class BasicExtendedStatement : public BasicStatement
-			{
-				ALGORITHM_ACCEPT_DECLARATION(BasicStatement)
-			};
-
-			class BasicExtendedType : public BasicType
-			{
-				ALGORITHM_ACCEPT_DECLARATION(BasicType)
-			};
-
-			class BasicExtendedDeclaration : public BasicDeclaration
-			{
-				ALGORITHM_ACCEPT_DECLARATION(BasicDeclaration)
-			};
-
-/***********************************************************************
 Algorithms
 ***********************************************************************/
 
@@ -647,7 +623,6 @@ Algorithms
 			F(P, BasicReferenceExpression)\
 			F(P, BasicInstantiatedExpression)\
 			F(P, BasicInstanceFunctionExpression)\
-			F(P, BasicExtendedExpression)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicExpression, BASIC_EXPRESSION_TARGETS)
 
@@ -664,7 +639,6 @@ Algorithms
 			F(P, BasicReturnStatement)\
 			F(P, BasicTryCatchStatement)\
 			F(P, BasicThrowStatement)\
-			F(P, BasicExtendedStatement)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicStatement, BASIC_STATEMENT_TARGETS)
 
@@ -677,7 +651,6 @@ Algorithms
 			F(P, BasicInstantiatedGenericType)\
 			F(P, BasicTypeofExpressionType)\
 			F(P, BasicTypeofMemberType)\
-			F(P, BasicExtendedType)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicType, BASIC_TYPE_TARGETS)
 
@@ -688,7 +661,6 @@ Algorithms
 			F(P, BasicTypeRenameDeclaration)\
 			F(P, BasicConceptBaseDeclaration)\
 			F(P, BasicConceptInstanceDeclaration)\
-			F(P, BasicExtendedDeclaration)\
 
 			DEFINE_ALGORITHM_INTERFACE(BasicDeclaration, BASIC_DECLARATION_TARGETS)
 

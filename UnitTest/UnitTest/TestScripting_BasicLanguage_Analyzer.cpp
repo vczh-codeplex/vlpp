@@ -54,11 +54,6 @@ BEGIN_ALGORITHM_FUNCTION(GetTypeID, BasicType, vint, vint)
 		return 7;
 	}
 
-	ALGORITHM_FUNCTION_MATCH(BasicExtendedType)
-	{
-		return 8;
-	}
-
 END_ALGORITHM_FUNCTION(GetTypeID)
 
 /***********************************************************************
@@ -105,11 +100,6 @@ BEGIN_ALGORITHM_PROCEDURE(TestTypeID, BasicType, vint*)
 	ALGORITHM_PROCEDURE_MATCH(BasicTypeofMemberType)
 	{
 		*argument=7;
-	}
-
-	ALGORITHM_PROCEDURE_MATCH(BasicExtendedType)
-	{
-		*argument=8;
 	}
 
 END_ALGORITHM_PROCEDURE(TestTypeID)
@@ -1456,7 +1446,7 @@ TEST_CASE(Test_BasicAnalyzer)
 				)
 		);
 
-	BasicAnalyzer analyzer(program.GetInternalValue(), 0, configuration);
+	BasicAnalyzer analyzer(program.GetInternalValue(), configuration);
 	analyzer.Analyze();
 	TEST_ASSERT(analyzer.GetErrors().Count()==0);
 }

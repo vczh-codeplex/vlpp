@@ -189,7 +189,7 @@ Extra
 
 					BasicAlgorithmConfiguration configuration;
 					SetConfiguration(configuration);
-					BasicAnalyzer analyzer(program, 0, configuration);
+					BasicAnalyzer analyzer(program, configuration);
 					analyzer.Analyze();
 					if(analyzer.GetErrors().Count()>0)
 					{
@@ -201,7 +201,7 @@ Extra
 						return 0;
 					}
 
-					BasicCodeGenerator codegen(&analyzer, 0, assemblyName);
+					BasicCodeGenerator codegen(&analyzer, assemblyName);
 					codegen.GenerateCode();
 					Ptr<LanguageAssembly> assembly=new LanguageAssembly(codegen.GetIL());
 					if(assemblyLogTextWriter)

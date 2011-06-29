@@ -118,11 +118,6 @@ BasicLanguage_BuildDeclarationBody
 				{
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.semanticExtension->BuildDeclarationBody(node, argument);
-				}
-
 			END_ALGORITHM_PROCEDURE(BasicLanguage_BuildDeclarationBody)
 
 			void BasicLanguage_BuildDeclarationBody(Ptr<BasicProgram> program, BP& argument)

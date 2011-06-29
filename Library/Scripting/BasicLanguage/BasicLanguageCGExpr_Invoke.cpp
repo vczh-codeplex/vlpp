@@ -152,11 +152,6 @@ BasicLanguage_InvokeInternal
 					return true;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return false;
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_InvokeInternal)
 
 			void BasicLanguage_Invoke(BasicExpression* expression, const BCP& argument)

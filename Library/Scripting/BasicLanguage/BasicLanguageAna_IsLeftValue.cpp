@@ -144,11 +144,6 @@ BasicLanguage_IsLeftValue
 					return false;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(BasicExtendedExpression)
-				{
-					return argument.semanticExtension->IsLeftValue(node, argument);
-				}
-
 			END_ALGORITHM_FUNCTION(BasicLanguage_IsLeftValue)
 		}
 	}

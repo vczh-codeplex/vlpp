@@ -64,10 +64,6 @@ BasicLanguage_GenerateLinkingSymbolTable
 				{
 				}
 
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-				}
-
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateLinkingSymbolTable)
 
 /***********************************************************************
@@ -116,11 +112,6 @@ BasicLanguage_GenerateCodePass1
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.codegenExtension->GenerateCodePass1(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass1)
@@ -186,11 +177,6 @@ BasicLanguage_GenerateCodePass2
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.codegenExtension->GenerateCodePass2(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass2)
@@ -264,11 +250,6 @@ BasicLanguage_GenerateCodePass3
 
 				ALGORITHM_PROCEDURE_MATCH(BasicConceptInstanceDeclaration)
 				{
-				}
-
-				ALGORITHM_PROCEDURE_MATCH(BasicExtendedDeclaration)
-				{
-					argument.codegenExtension->GenerateCodePass3(node, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(BasicLanguage_GenerateCodePass3)
