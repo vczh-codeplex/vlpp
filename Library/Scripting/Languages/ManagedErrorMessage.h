@@ -25,6 +25,7 @@ namespace vl
 			class ManagedErrorMessage
 			{
 			public:
+				static WString SymbolAlreadyDefined(const WString& name);
 			};
 		}
 	}
