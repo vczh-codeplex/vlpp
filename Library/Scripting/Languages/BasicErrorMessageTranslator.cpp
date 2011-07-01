@@ -1,4 +1,5 @@
 #include "BasicErrorMessageTranslator.h"
+#include "BasicErrorMessage.h"
 
 namespace vl
 {

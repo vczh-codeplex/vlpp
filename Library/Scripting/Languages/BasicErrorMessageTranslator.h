@@ -10,10 +10,7 @@ Classes:
 #define VCZH_SCRIPTING_LANGUAGES_BASICERRORMESSAGETRANSLATOR
 
 #include "LanguageProvider.h"
-#include "BasicErrorMessage.h"
-#include "..\BasicLanguage\BasicLanguageExpression.h"
 #include "..\BasicLanguage\BasicLanguageException.h"
-#include "..\BasicLanguage\BasicLanguageTypeManager.h"
 
 namespace vl
 {
