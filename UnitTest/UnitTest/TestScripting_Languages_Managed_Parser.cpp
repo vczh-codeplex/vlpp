@@ -3,11 +3,14 @@
 #include "..\..\Library\Scripting\Languages\ManagedX\ManagedXCodeGenerator.h"
 #include "..\..\Library\Scripting\Languages\ManagedX\ManagedX.h"
 #include "..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h"
+#include "..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.h"
 #include "..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
 #include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
+#include "..\..\Library\Collections\OperationForEach.h"
 
 using namespace vl;
+using namespace vl::collections;
 using namespace vl::stream;
 using namespace vl::scripting;
 using namespace vl::scripting::managedlanguage;
@@ -107,6 +110,22 @@ TEST_CASE(Test_ManagedX_Parser)
 	}
 }
 
+namespace TestManagedXParserHelper
+{
+	void AnalyzeManagedXPrograms(List<Ptr<ManagedProgram>>& programs)
+	{
+		List<Ptr<ManagedLanguageCodeException>> errors;
+		ManagedSymbolManager sm;
+		MAP argument(&sm, errors);
+
+		FOREACH(Ptr<ManagedProgram>, program, programs.Wrap())
+		{
+			ManagedLanguage_AnalyzeProgram(program, argument);
+		}
+	}
+}
+using namespace TestManagedXParserHelper;
+
 TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 {
 	vl::unittest::UnitTest::PrintInfo(L"Initializing ManagedX Provider...");
@@ -122,6 +141,7 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 		makeFile.Load(inputPath, reader);
 	}
 
+	List<Ptr<ManagedProgram>> parsedPrograms;
 	for(vint i=0;i<makeFile.compiles.Count();i++)
 	{
 		WString codePath=makeFile.baseLocation+makeFile.compiles[i];
@@ -145,5 +165,9 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 		}
 		TEST_ASSERT(program);
 		TEST_ASSERT(errors.Count()==0);
+		parsedPrograms.Add(program);
 	}
+
+	vl::unittest::UnitTest::PrintInfo(L"Analyzing System.CoreManaged");
+	AnalyzeManagedXPrograms(parsedPrograms);
 }

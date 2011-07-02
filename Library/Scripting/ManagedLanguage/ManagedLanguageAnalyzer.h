@@ -10,6 +10,7 @@ Classes:
 #define VCZH_SCRIPTING_MANAGEDLANGUAGE_MANAGEDLANGUAGEANALYZER
 
 #include "ManagedLanguageSymbolManager.h"
+#include "ManagedLanguageException.h"
 
 namespace vl
 {
@@ -24,17 +25,21 @@ ManagedAnalyzerParameter
 
 			class ManagedAnalyzerParameter : public Object
 			{
+				typedef collections::List<Ptr<ManagedLanguageCodeException>>		ErrorList;
 			public:
 				ManagedSymbolManager*			symbolManager;
 				ManagedSymbolItem*				currentSymbol;
+				ErrorList&						errors;
 
-				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager);
-				ManagedAnalyzerParameter(ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol);
+				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ErrorList& _errors);
+				ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol);
 			};
 			typedef ManagedAnalyzerParameter MAP;
 
+			extern void ManagedLanguage_AnalyzeProgram(Ptr<ManagedProgram> program, const MAP& argument);
+
 /***********************************************************************
-Build Global Scope Pass 1 (Build place holders)
+Build Global Scope Pass 1 (Build place holders, bind symbol and language element)
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope1_Member, ManagedMember, MAP)
