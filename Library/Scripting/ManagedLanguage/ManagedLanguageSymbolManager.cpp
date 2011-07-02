@@ -204,6 +204,16 @@ ManagedSymbolItemGroup
 				return instantiated;
 			}
 
+			void ManagedSymbolManager::SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem)
+			{
+				elementSymbolMap.Add(element, symbolItem);
+			}
+
+			ManagedSymbolItem* ManagedSymbolManager::GetSymbol(ManagedLanguageElement* element)
+			{
+				return elementSymbolMap[element];
+			}
+
 /***********************************************************************
 Symbol Names
 ***********************************************************************/

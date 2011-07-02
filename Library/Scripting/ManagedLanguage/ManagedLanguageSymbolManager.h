@@ -152,7 +152,8 @@ Data Members
 			public:
 				ManagedSymbolField(ManagedSymbolManager* _manager);
 
-				ManagedField*								languageElement;
+				ManagedField*								typeLanguageElement;
+				ManagedEnumItem*							enumerationLanguageElement;
 
 				declatt::Accessor							accessor;
 				declatt::MemberType							memberType;
@@ -279,13 +280,14 @@ Declarations
 				collections::Array<WString>					orderedGenericParameterNames;
 			};
 
-			// Class, Structure, Interface {GenericParameter, TypeRename, Class, Structure, Interface}
+			// Class, Structure, Interface {GenericParameter, TypeRename, Class, Structure, Interface, <Members>}
 			class ManagedSymbolDeclaration : public ManagedSymbolItem
 			{
 			public:
 				ManagedSymbolDeclaration(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType);
 
-				ManagedTypeDeclaration*						languageElement;
+				ManagedTypeDeclaration*						typeLanguageElement;
+				ManagedEnumerationDeclaration*				enumerationLanguageElement;
 
 				declatt::Accessor							accessor;
 				declatt::Inheritation						inheritation;
@@ -314,13 +316,15 @@ ManagedSymbolManager
 
 			class ManagedSymbolManager : public Object
 			{
-				typedef collections::List<Ptr<ManagedSymbolItem>>							ItemList;
-				typedef collections::List<Ptr<ManagedSymbolItemGroup>>						GroupList;
-				typedef collections::List<Ptr<ManagedTypeSymbol>>							TypeList;
+				typedef collections::List<Ptr<ManagedSymbolItem>>								ItemList;
+				typedef collections::List<Ptr<ManagedSymbolItemGroup>>							GroupList;
+				typedef collections::List<Ptr<ManagedTypeSymbol>>								TypeList;
+				typedef collections::Dictionary<ManagedLanguageElement*, ManagedSymbolItem*>	ElementSymbolMap;
 			protected:
 				ItemList					allocatedItems;
 				GroupList					allocatedGroups;
 				TypeList					allocatedTypes;
+				ElementSymbolMap			elementSymbolMap;
 				ManagedSymbolGlobal*		global;
 			public:
 				ManagedSymbolManager();
@@ -333,6 +337,9 @@ ManagedSymbolManager
 				
 				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item);
 				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments);
+
+				void						SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem);
+				ManagedSymbolItem*			GetSymbol(ManagedLanguageElement* element);
 			};
 		}
 	}
