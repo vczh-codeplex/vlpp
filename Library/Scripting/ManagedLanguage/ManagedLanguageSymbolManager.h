@@ -265,7 +265,7 @@ Declarations
 
 				ManagedUsingNamespaceDeclaration*			languageElement;
 
-				ManagedSymbolNamespace*						associatedNamespace;
+				collections::List<ManagedSymbolNamespace*>	associatedNamespaces;
 			};
 
 			// TypeRename {GenericParameter}
@@ -275,6 +275,8 @@ Declarations
 				ManagedSymbolTypeRename(ManagedSymbolManager* _manager);
 
 				ManagedTypeRenameDeclaration*				languageElement;
+
+				declatt::Accessor							accessor;
 
 				ManagedTypeSymbol*							type;
 				collections::Array<WString>					orderedGenericParameterNames;
@@ -340,6 +342,12 @@ ManagedSymbolManager
 
 				void						SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem);
 				ManagedSymbolItem*			GetSymbol(ManagedLanguageElement* element);
+
+				template<typename T>
+				T* GetTypedSymbol(ManagedLanguageElement* element)
+				{
+					return dynamic_cast<T*>(GetSymbol(element));
+				}
 			};
 		}
 	}

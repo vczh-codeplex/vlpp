@@ -90,6 +90,7 @@ ManagedLanguage_BuildGlobalScope2_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
 				{
+					ManagedLanguage_BuildGlobalScope2_Declaration(node->declaration, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
@@ -127,6 +128,11 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNamespaceDeclaration)
 				{
+					MAP newArgument(argument, argument.symbolManager->GetSymbol(node));
+					FOREACH(Ptr<ManagedDeclaration>, declaration, node->declarations.Wrap())
+					{
+						ManagedLanguage_BuildGlobalScope2_Declaration(declaration, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedDeclaration)
@@ -148,10 +154,50 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeRenameDeclaration)
 				{
+					ManagedSymbolTypeRename* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolTypeRename>(node);
+					symbol->accessor=node->accessor;
+					symbol->type=ManagedLanguage_GetTypeSymbol_Type(node->type, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
+					List<ManagedSymbolItem*> namespaces;
+					namespaces.Add(argument.symbolManager->Global());
+					vint start=0;
+					vint end=namespaces.Count();
+
+					FOREACH(WString, name, node->namespaceFragments.Wrap())
+					{
+						for(vint i=start;i<end;i++)
+						{
+							ManagedSymbolItemGroup* group=namespaces[i]->ItemGroup(name);
+							if(group)
+							{
+								FOREACH(ManagedSymbolItem*, item, group->Items())
+								{
+									if(item->GetSymbolType()==ManagedSymbolItem::Namespace)
+									{
+										namespaces.Add(item);
+									}
+								}
+							}
+						}
+						start=end;
+						end=namespaces.Count();
+					}
+
+					if(start==end)
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(node));
+					}
+					else
+					{
+						ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
+						for(vint i=start;i<end;i++)
+						{
+							symbol->associatedNamespaces.Add(dynamic_cast<ManagedSymbolNamespace*>(namespaces[i]));
+						}
+					}
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration)

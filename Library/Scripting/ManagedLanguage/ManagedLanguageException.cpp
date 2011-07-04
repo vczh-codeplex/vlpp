@@ -33,7 +33,7 @@ ManagedLanguageCodeException
 			{
 			}
 
-			ManagedLanguageElement* ManagedLanguageCodeException::GetBasicLanguageElement()const
+			ManagedLanguageElement* ManagedLanguageCodeException::GetManagedLanguageElement()const
 			{
 				return element;
 			}
@@ -62,6 +62,12 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(1);
 				parameters[0]=name;
 				return new ManagedLanguageCodeException(element, SymbolAlreadyDefined, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetNamespaceNotExists(ManagedUsingNamespaceDeclaration* element)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, NamespaceNotExists, parameters.Wrap());
 			}
 		}
 	}
