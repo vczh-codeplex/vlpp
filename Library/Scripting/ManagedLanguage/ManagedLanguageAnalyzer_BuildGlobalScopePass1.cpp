@@ -118,8 +118,23 @@ ManagedLanguage_BuildGlobalScope1_ExtendedMember
 				{
 					if(ManagedSymbolItemGroup* group=argument.currentSymbol->ItemGroup(node->name))
 					{
-						argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(node, node->name));
-						return;
+						FOREACH(ManagedSymbolItem*, item, group->Items())
+						{
+							if(item->GetSymbolType()==ManagedSymbolItem::Property)
+							{
+								ManagedSymbolProperty* symbol=dynamic_cast<ManagedSymbolProperty*>(item);
+								if(!node->implementedInterfaceType && !symbol->languageElement->implementedInterfaceType)
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(node, node->name));
+									return;
+								}
+							}
+							else
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(node, node->name));
+								return;
+							}
+						}
 					}
 
 					ManagedSymbolProperty* symbol=new ManagedSymbolProperty(argument.symbolManager);
@@ -244,13 +259,16 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 						}
 
 						ManagedSymbolNamespace* symbol=new ManagedSymbolNamespace(argument.symbolManager);
-						argument.symbolManager->SetSymbol(node, symbol);
 
-						symbol->languageElement=node;
+						symbol->languageElement=0;
 						symbol->SetName(name);
 						currentSymbol->Add(symbol);
 						currentSymbol=symbol;
 					}
+
+					ManagedSymbolNamespace* symbol=dynamic_cast<ManagedSymbolNamespace*>(currentSymbol);
+					argument.symbolManager->SetSymbol(node, symbol);
+					symbol->languageElement=node;
 
 					MAP newArgument(argument, currentSymbol);
 					FOREACH(Ptr<ManagedDeclaration>, declaration, node->declarations.Wrap())

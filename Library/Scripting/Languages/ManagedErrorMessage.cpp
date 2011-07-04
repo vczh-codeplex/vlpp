@@ -11,6 +11,11 @@ namespace vl
 				return L"Symbol "+name+L" already defined.";
 			}
 
+			WString ManagedErrorMessage::NamespaceNotExists(const WString& name)
+			{
+				return L"Namespace "+name+L" not exists.";
+			}
+
 		}
 	}
 }

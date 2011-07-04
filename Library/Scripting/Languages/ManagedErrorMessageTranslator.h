@@ -20,6 +20,8 @@ namespace vl
 		{
 			class ManagedErrorMessageTranslator : public Object
 			{
+			protected:
+				virtual WString					NamespaceToString(const collections::IReadonlyList<WString>& fragments)=0;
 			public:
 				Ptr<LanguageException>			Translate(Ptr<ManagedLanguageCodeException> error, vint codeIndex);
 			};

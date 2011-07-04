@@ -62,7 +62,7 @@ namespace System
 		
 		public abstract class Type
 		{
-			public ReadonlyArray<Attribute> GenericTypes{get;protected set;}
+			public ReadonlyArray<Attribute> Attributes{get;protected set;}
 			public ReadonlyArray<GenericParameterInfo> GenericTypes{get;protected set;}
 			public Accessor Accessor{get;protected set;}
 			public Inheritance Inheritance{get;protected set;}
@@ -97,7 +97,7 @@ namespace System
 
 		public abstract class MemberInfo
 		{
-			public ReadonlyArray<Attribute> GenericTypes{get;protected set;}
+			public ReadonlyArray<Attribute> Attributes{get;protected set;}
 			public ReadonlyArray<GenericParameterInfo> GenericTypes{get;protected set;}
 			public Accessor Accessor{get;protected set;}
 			public Inheritance Inheritance{get;protected set;}

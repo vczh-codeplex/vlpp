@@ -23,7 +23,8 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					SymbolAlreadyDefined,	// name
+					SymbolAlreadyDefined,	// <all>								:name
+					NamespaceNotExists,		// <ManagedUsingNamespaceDeclaration>	:
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -35,12 +36,13 @@ namespace vl
 				ManagedLanguageCodeException(const ManagedLanguageCodeException& exception);
 				~ManagedLanguageCodeException();
 
-				ManagedLanguageElement*											GetBasicLanguageElement()const;
+				ManagedLanguageElement*											GetManagedLanguageElement()const;
 				ManagedTypeSymbol*												GetTypeParameter()const;
 				ExceptionCode													GetExceptionCode()const;
 				const collections::IReadonlyList<WString>&						GetParameters()const;
 
 				static Ptr<ManagedLanguageCodeException>						GetSymbolAlreadyDefined(ManagedLanguageElement* element, const WString& name);
+				static Ptr<ManagedLanguageCodeException>						GetNamespaceNotExists(ManagedUsingNamespaceDeclaration* element);
 			};
 		}
 	}

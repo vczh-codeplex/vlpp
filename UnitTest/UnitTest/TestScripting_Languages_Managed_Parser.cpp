@@ -112,16 +112,14 @@ TEST_CASE(Test_ManagedX_Parser)
 
 namespace TestManagedXParserHelper
 {
-	void AnalyzeManagedXPrograms(List<Ptr<ManagedProgram>>& programs)
+	void AnalyzeManagedXPrograms(Ptr<ManagedProgram> program)
 	{
 		List<Ptr<ManagedLanguageCodeException>> errors;
 		ManagedSymbolManager sm;
 		MAP argument(&sm, errors);
 
-		FOREACH(Ptr<ManagedProgram>, program, programs.Wrap())
-		{
-			ManagedLanguage_AnalyzeProgram(program, argument);
-		}
+		ManagedLanguage_AnalyzeProgram(program, argument);
+		TEST_ASSERT(errors.Count()==0);
 	}
 }
 using namespace TestManagedXParserHelper;
@@ -169,5 +167,10 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 	}
 
 	vl::unittest::UnitTest::PrintInfo(L"Analyzing System.CoreManaged");
-	AnalyzeManagedXPrograms(parsedPrograms);
+	Ptr<ManagedProgram> mergedProgram=new ManagedProgram;
+	FOREACH(Ptr<ManagedProgram>, program, parsedPrograms.Wrap())
+	{
+		CopyFrom(mergedProgram->declarations.Wrap(), program->declarations.Wrap(), true);
+	}
+	AnalyzeManagedXPrograms(mergedProgram);
 }

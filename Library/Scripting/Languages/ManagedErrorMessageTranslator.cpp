@@ -22,14 +22,20 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::SymbolAlreadyDefined(error->GetParameters()[0]);
 					}
 					break;
+				case ManagedLanguageCodeException::NamespaceNotExists:
+					{
+						ManagedUsingNamespaceDeclaration* declaration=dynamic_cast<ManagedUsingNamespaceDeclaration*>(error->GetManagedLanguageElement());
+						message=ManagedErrorMessage::NamespaceNotExists(NamespaceToString(declaration->namespaceFragments.Wrap()));
+					}
+					break;
 				default:
 					return 0;
 				}
 				return new LanguageException(
 					message,
-					error->GetBasicLanguageElement()->position.lineIndex,
-					error->GetBasicLanguageElement()->position.lineStart,
-					error->GetBasicLanguageElement()->position.start,
+					error->GetManagedLanguageElement()->position.lineIndex,
+					error->GetManagedLanguageElement()->position.lineStart,
+					error->GetManagedLanguageElement()->position.start,
 					codeIndex
 					);
 			}

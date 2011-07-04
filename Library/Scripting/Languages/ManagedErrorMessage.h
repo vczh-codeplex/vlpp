@@ -26,6 +26,7 @@ namespace vl
 			{
 			public:
 				static WString SymbolAlreadyDefined(const WString& name);
+				static WString NamespaceNotExists(const WString& name);
 			};
 		}
 	}
