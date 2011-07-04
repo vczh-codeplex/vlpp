@@ -128,7 +128,7 @@ Others
 
 				ManagedGenericInfo::ArgumentConversion		conversion;
 				bool										newConstraint;
-				collections::Array<ManagedTypeSymbol*>		typeConstraints;
+				collections::List<ManagedTypeSymbol*>		typeConstraints;
 			};
 
 			// MethodParameter
@@ -205,7 +205,7 @@ Data Members
 
 				bool										implicit;
 				ManagedTypeSymbol*							targetType;
-				collections::Array<WString>					orderedGenericParameterNames;
+				collections::List<WString>					orderedGenericParameterNames;
 			};
 
 			// Method {GenericParameter, MethodParameter}
@@ -222,8 +222,8 @@ Data Members
 
 				ManagedTypeSymbol*							returnType;
 				ManagedTypeSymbol*							implementedInterfaceType;
-				collections::Array<WString>					orderedGenericParameterNames;
-				collections::Array<WString>					orderedMethodParameterNames;
+				collections::List<WString>					orderedGenericParameterNames;
+				collections::List<WString>					orderedMethodParameterNames;
 			};
 
 			// Constructor {MethodParameter}
@@ -239,7 +239,7 @@ Data Members
 				declatt::Accessor							accessor;
 
 				bool										implicit;
-				collections::Array<WString>					orderedMethodParameterNames;
+				collections::List<WString>					orderedMethodParameterNames;
 			};
 
 /***********************************************************************
@@ -279,7 +279,7 @@ Declarations
 				declatt::Accessor							accessor;
 
 				ManagedTypeSymbol*							type;
-				collections::Array<WString>					orderedGenericParameterNames;
+				collections::List<WString>					orderedGenericParameterNames;
 			};
 
 			// Class, Structure, Interface {GenericParameter, TypeRename, Class, Structure, Interface, <Members>}
@@ -294,9 +294,9 @@ Declarations
 				declatt::Accessor							accessor;
 				declatt::Inheritation						inheritation;
 
-				collections::Array<ManagedTypeSymbol*>		baseTypes;
-				collections::Array<WString>					orderedGenericParameterNames;
-				collections::Array<WString>					orderedDataMemberNames;
+				collections::List<ManagedTypeSymbol*>		baseTypes;
+				collections::List<WString>					orderedGenericParameterNames;
+				collections::List<WString>					orderedDataMemberNames;
 			};
 
 /***********************************************************************

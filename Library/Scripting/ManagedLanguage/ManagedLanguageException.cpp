@@ -69,6 +69,20 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(element, NamespaceNotExists, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSystemTypeNotExists(ManagedLanguageElement* element, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new ManagedLanguageCodeException(element, SystemTypeNotExists, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSystemTypeDuplicated(ManagedLanguageElement* element, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new ManagedLanguageCodeException(element, SystemTypeDuplicated, parameters.Wrap());
+			}
 		}
 	}
 }

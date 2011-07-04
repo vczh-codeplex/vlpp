@@ -22,6 +22,7 @@ namespace vl
 			{
 			protected:
 				virtual WString					NamespaceToString(const collections::IReadonlyList<WString>& fragments)=0;
+				virtual WString					SystemTypeToString(const WString& name)=0;
 			public:
 				Ptr<LanguageException>			Translate(Ptr<ManagedLanguageCodeException> error, vint codeIndex);
 			};

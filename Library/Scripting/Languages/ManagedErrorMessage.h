@@ -27,6 +27,10 @@ namespace vl
 			public:
 				static WString SymbolAlreadyDefined(const WString& name);
 				static WString NamespaceNotExists(const WString& name);
+				static WString FullPathTypeNotExists(const WString& name);
+				static WString FullPathTypeDuplicated(const WString& name);
+				static WString ScopedTypeNotExists(const WString& name);
+				static WString ScopedTypeDuplicated(const WString& name);
 			};
 		}
 	}
