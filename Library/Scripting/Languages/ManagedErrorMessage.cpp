@@ -13,7 +13,27 @@ namespace vl
 
 			WString ManagedErrorMessage::NamespaceNotExists(const WString& name)
 			{
-				return L"Namespace "+name+L" not exists.";
+				return L"Namespace "+name+L" does not exists.";
+			}
+
+			WString ManagedErrorMessage::FullPathTypeNotExists(const WString& name)
+			{
+				return L"Type "+name+L" does not exist.";
+			}
+
+			WString ManagedErrorMessage::FullPathTypeDuplicated(const WString& name)
+			{
+				return L"Multiple types of "+name+L" found.";
+			}
+
+			WString ManagedErrorMessage::ScopedTypeNotExists(const WString& name)
+			{
+				return L"Type "+name+L" does not exist in the current scope.";
+			}
+
+			WString ManagedErrorMessage::ScopedTypeDuplicated(const WString& name)
+			{
+				return L"Multiple types of "+name+L" found in the current scope.";
 			}
 
 		}

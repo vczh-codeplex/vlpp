@@ -184,7 +184,6 @@ BasicLanguage_GetConstantValue
 
 				ALGORITHM_FUNCTION_MATCH(BasicNumericExpression)
 				{
-					// TODO:
 					switch(node->type)
 					{
 					case s8:

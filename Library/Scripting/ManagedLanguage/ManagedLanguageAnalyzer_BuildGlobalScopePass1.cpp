@@ -13,7 +13,7 @@ namespace vl
 ManagedLanguage_BuildGlobalScope1_GenericParameter
 ***********************************************************************/
 
-			void ManagedLanguage_BuildGlobalScope1_GenericParameter(Array<WString>& orderedGenericParameterNames, ManagedGenericInfo* genericInfo, const MAP& argument)
+			void ManagedLanguage_BuildGlobalScope1_GenericParameter(ManagedGenericInfo* genericInfo, const MAP& argument)
 			{
 				FOREACH(Ptr<ManagedGenericInfo::Argument>, genericParameter, genericInfo->arguments.Wrap())
 				{
@@ -226,7 +226,7 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 					argument.currentSymbol->Add(symbol);
 
 					MAP newArgument(argument, symbol);
-					ManagedLanguage_BuildGlobalScope1_GenericParameter(symbol->orderedGenericParameterNames, &node->genericInfo, newArgument);
+					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, newArgument);
 
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
@@ -368,7 +368,7 @@ ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration
 					symbol->SetName(node->name);
 					argument.currentSymbol->Add(symbol);
 
-					ManagedLanguage_BuildGlobalScope1_GenericParameter(symbol->orderedGenericParameterNames, &node->genericInfo, MAP(argument, symbol));
+					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, MAP(argument, symbol));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)

@@ -28,6 +28,16 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::NamespaceNotExists(NamespaceToString(declaration->namespaceFragments.Wrap()));
 					}
 					break;
+				case ManagedLanguageCodeException::SystemTypeNotExists:
+					{
+						message=ManagedErrorMessage::FullPathTypeNotExists(SystemTypeToString(error->GetParameters()[0]));
+					}
+					break;
+				case ManagedLanguageCodeException::SystemTypeDuplicated:
+					{
+						message=ManagedErrorMessage::FullPathTypeDuplicated(SystemTypeToString(error->GetParameters()[0]));
+					}
+					break;
 				default:
 					return 0;
 				}

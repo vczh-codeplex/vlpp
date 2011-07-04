@@ -1,4 +1,8 @@
 resource:vl.scripting.managedlanguage.ManagedErrorMessage
 
 SymbolAlreadyDefined(name)=Symbol {name} already defined.
-NamespaceNotExists(name)=Namespace {name} not exists.
+NamespaceNotExists(name)=Namespace {name} does not exists.
+FullPathTypeNotExists(name)=Type {name} does not exist.
+FullPathTypeDuplicated(name)=Multiple types of {name} found.
+ScopedTypeNotExists(name)=Type {name} does not exist in the current scope.
+ScopedTypeDuplicated(name)=Multiple types of {name} found in the current scope.

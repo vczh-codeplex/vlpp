@@ -25,6 +25,8 @@ namespace vl
 				{
 					SymbolAlreadyDefined,	// <all>								:name
 					NamespaceNotExists,		// <ManagedUsingNamespaceDeclaration>	:
+					SystemTypeNotExists,	// <all>								:name
+					SystemTypeDuplicated,	// <all>								:name
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -43,6 +45,8 @@ namespace vl
 
 				static Ptr<ManagedLanguageCodeException>						GetSymbolAlreadyDefined(ManagedLanguageElement* element, const WString& name);
 				static Ptr<ManagedLanguageCodeException>						GetNamespaceNotExists(ManagedUsingNamespaceDeclaration* element);
+				static Ptr<ManagedLanguageCodeException>						GetSystemTypeNotExists(ManagedLanguageElement* element, const WString& name);
+				static Ptr<ManagedLanguageCodeException>						GetSystemTypeDuplicated(ManagedLanguageElement* element, const WString& name);
 			};
 		}
 	}
