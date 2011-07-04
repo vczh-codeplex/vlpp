@@ -239,6 +239,7 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\NativeX\NativeXParser.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass1.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass2.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageException.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageSymbolManager.cpp" />

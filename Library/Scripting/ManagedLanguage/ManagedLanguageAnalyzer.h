@@ -51,6 +51,14 @@ Build Global Scope Pass 1 (Build place holders, bind symbol and language element
 Build Global Scope Pass 2 (Fill place holders)
 ***********************************************************************/
 
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_Type, ManagedType, MAP, ManagedTypeSymbol*)
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_ExtendedType, ManagedExtendedType, MAP, ManagedTypeSymbol*)
+
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_Member, ManagedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedMember, ManagedExtendedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_Declaration, ManagedDeclaration, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
+
 /***********************************************************************
 Build Global Scope Pass 3 (Check declarations and function bodies)
 ***********************************************************************/

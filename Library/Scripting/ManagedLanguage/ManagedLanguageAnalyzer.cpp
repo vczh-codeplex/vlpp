@@ -33,10 +33,19 @@ ManagedLanguage_AnalyzeProgram
 
 			void ManagedLanguage_AnalyzeProgram(Ptr<ManagedProgram> program, const MAP& argument)
 			{
+				// build symbol item place holder
 				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
 				{
 					ManagedLanguage_BuildGlobalScope1_Declaration(declaration, argument);
 				}
+				if(argument.errors.Count()>0) return;
+				
+				// fill symbol item
+				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+				{
+					ManagedLanguage_BuildGlobalScope2_Declaration(declaration, argument);
+				}
+				if(argument.errors.Count()>0) return;
 			}
 		}
 	}
