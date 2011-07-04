@@ -639,6 +639,9 @@
     <ClCompile Include="..\..\Library\Scripting\Languages\ManagedErrorMessageTranslator.cpp">
       <Filter>Library3\Scripting\Languages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass2.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
