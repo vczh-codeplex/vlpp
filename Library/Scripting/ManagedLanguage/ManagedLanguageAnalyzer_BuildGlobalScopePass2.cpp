@@ -278,42 +278,36 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
-					List<ManagedSymbolItem*> namespaces;
-					namespaces.Add(argument.symbolManager->Global());
-					vint start=0;
-					vint end=namespaces.Count();
+					ManagedSymbolItem* currentNamespace=argument.symbolManager->Global();
 
 					FOREACH(WString, name, node->namespaceFragments.Wrap())
 					{
-						for(vint i=start;i<end;i++)
+						if(currentNamespace)
 						{
-							ManagedSymbolItemGroup* group=namespaces[i]->ItemGroup(name);
-							if(group)
+							if(ManagedSymbolItemGroup* group=currentNamespace->ItemGroup(name))
 							{
+								ManagedSymbolItem* nextNamespace=0;
 								FOREACH(ManagedSymbolItem*, item, group->Items())
 								{
 									if(item->GetSymbolType()==ManagedSymbolItem::Namespace)
 									{
-										namespaces.Add(item);
+										nextNamespace=item;
+										break;
 									}
 								}
+								currentNamespace=nextNamespace;
 							}
 						}
-						start=end;
-						end=namespaces.Count();
 					}
 
-					if(start==end)
+					if(currentNamespace && currentNamespace->GetSymbolType()==ManagedSymbolItem::Namespace)
 					{
-						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(node));
+						ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
+						symbol->associatedNamespace=dynamic_cast<ManagedSymbolNamespace*>(currentNamespace);
 					}
 					else
 					{
-						ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
-						for(vint i=start;i<end;i++)
-						{
-							symbol->associatedNamespaces.Add(dynamic_cast<ManagedSymbolNamespace*>(namespaces[i]));
-						}
+						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(node));
 					}
 				}
 
