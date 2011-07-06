@@ -265,7 +265,7 @@ Declarations
 
 				ManagedUsingNamespaceDeclaration*						languageElement;
 
-				collections::List<ManagedSymbolNamespace*>				associatedNamespaces;
+				ManagedSymbolNamespace*									associatedNamespace;
 			};
 
 			// TypeRename {GenericParameter}

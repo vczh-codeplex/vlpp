@@ -229,42 +229,77 @@ Symbol Constructors
 
 			ManagedSymbolGenericParameter::ManagedSymbolGenericParameter(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::GenericParameter)
+				,conversion(ManagedGenericInfo::InOut)
+				,newConstraint(false)
 			{
 			}
 
 			ManagedSymbolMethodParameter::ManagedSymbolMethodParameter(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::MethodParameter)
+				,parameterType(ManagedParameter::Normal)
+				,containsDefaultValue(false)
+				,type(0)
 			{
 			}
 
 			ManagedSymbolField::ManagedSymbolField(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Field)
+				,typeLanguageElement(0)
+				,enumerationLanguageElement(0)
+				,accessor(declatt::Private)
+				,memberType(declatt::Instance)
+				,dataType(declatt::Variable)
+				,type(0)
 			{
 			}
 
 			ManagedSymbolProperty::ManagedSymbolProperty(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Property)
+				,languageElement(0)
+				,accessor(declatt::Private)
+				,memberType(declatt::Instance)
+				,inheritation(declatt::Sealed)
+				,type(0)
+				,implementedInterfaceType(0)
+				,containsGetter(false)
+				,containsSetter(false)
 			{
 			}
 
 			ManagedSymbolPropertySetterValue::ManagedSymbolPropertySetterValue(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::PropertySetterValue)
+				,associatedProperty(0)
 			{
 			}
 
 			ManagedSymbolConverterOperator::ManagedSymbolConverterOperator(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::ConverterOperator)
+				,languageElement(0)
+				,accessor(declatt::Private)
+				,memberType(declatt::Instance)
+				,inheritation(declatt::Sealed)
+				,implicit(false)
+				,targetType(0)
 			{
 				SetName(SymbolName);
 			}
 
 			ManagedSymbolMethod::ManagedSymbolMethod(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Method)
+				,languageElement(0)
+				,accessor(declatt::Private)
+				,memberType(declatt::Instance)
+				,inheritation(declatt::Sealed)
+				,returnType(0)
+				,implementedInterfaceType(0)
 			{
 			}
 
 			ManagedSymbolConstructor::ManagedSymbolConstructor(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Constructor)
+				,languageElement(0)
+				,accessor(declatt::Private)
+				,implicit(false)
 			{
 				SetName(SymbolName);
 			}
@@ -276,17 +311,26 @@ Symbol Constructors
 
 			ManagedSymbolUsingNamespace::ManagedSymbolUsingNamespace(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::UsingNamespace)
+				,languageElement(0)
+				,associatedNamespace(0)
 			{
 				SetName(SymbolName);
 			}
 
 			ManagedSymbolTypeRename::ManagedSymbolTypeRename(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::TypeRename)
+				,languageElement(0)
+				,accessor(declatt::Private)
+				,type(0)
 			{
 			}
 
 			ManagedSymbolDeclaration::ManagedSymbolDeclaration(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType)
 				:ManagedSymbolItem(_manager, _symbolType)
+				,typeLanguageElement(0)
+				,enumerationLanguageElement(0)
+				,accessor(declatt::Private)
+				,inheritation(declatt::Sealed)
 			{
 				CHECK_ERROR(_symbolType==ManagedSymbolItem::Class || _symbolType==ManagedSymbolItem::Structure || _symbolType==ManagedSymbolItem::Interface,
 					L"ManagedSymbolDeclaration::ManagedSymbolDeclaration(ManagedSymbolManager*, ManagedSymbolType)#符号类型不在规定范围内。"
