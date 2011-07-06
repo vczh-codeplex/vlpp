@@ -27,6 +27,8 @@ namespace vl
 					NamespaceNotExists,		// <ManagedUsingNamespaceDeclaration>	:
 					SystemTypeNotExists,	// <all>								:name
 					SystemTypeDuplicated,	// <all>								:name
+					TypeNotExists,			// <ManagedType>
+					TypeDuplicated,			// <ManagedType>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -47,6 +49,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetNamespaceNotExists(ManagedUsingNamespaceDeclaration* element);
 				static Ptr<ManagedLanguageCodeException>						GetSystemTypeNotExists(ManagedLanguageElement* element, const WString& name);
 				static Ptr<ManagedLanguageCodeException>						GetSystemTypeDuplicated(ManagedLanguageElement* element, const WString& name);
+				static Ptr<ManagedLanguageCodeException>						GetTypeNotExists(ManagedType* element);
+				static Ptr<ManagedLanguageCodeException>						GetTypeDuplicated(ManagedType* element);
 			};
 		}
 	}

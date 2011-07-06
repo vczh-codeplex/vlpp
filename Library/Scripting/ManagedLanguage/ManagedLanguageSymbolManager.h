@@ -137,6 +137,8 @@ Others
 			public:
 				ManagedSymbolMethodParameter(ManagedSymbolManager* _manager);
 
+				ManagedParameter*										languageElement;
+
 				ManagedParameter::ParameterType							parameterType;
 				bool													containsDefaultValue;
 				ManagedTypeSymbol*										type;
@@ -171,6 +173,7 @@ Data Members
 				ManagedProperty*										languageElement;
 
 				declatt::Accessor										accessor;
+				declatt::Accessor										setterAccessor;
 				declatt::MemberType										memberType;
 				declatt::Inheritation									inheritation;
 

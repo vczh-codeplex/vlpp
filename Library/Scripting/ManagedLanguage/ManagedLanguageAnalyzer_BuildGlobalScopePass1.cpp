@@ -50,6 +50,10 @@ ManagedLanguage_BuildGlobalScope1_Member
 					symbol->typeLanguageElement=node;
 					symbol->enumerationLanguageElement=0;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
+					symbol->memberType=node->memberType;
+					symbol->dataType=node->dataType;
 					argument.currentSymbol->Add(symbol);
 				}
 
@@ -72,7 +76,21 @@ ManagedLanguage_BuildGlobalScope1_Member
 
 					symbol->languageElement=node;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
+					symbol->memberType=node->memberType;
+					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
+
+					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
+					{
+						ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
+						argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
+
+						parameterSymbol->languageElement=parameter.Obj();
+						parameterSymbol->SetName(parameter->name);
+						symbol->Add(parameterSymbol);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
@@ -93,7 +111,19 @@ ManagedLanguage_BuildGlobalScope1_Member
 					argument.symbolManager->SetSymbol(node, symbol);
 
 					symbol->languageElement=node;
+
+					symbol->accessor=node->accessor;
 					argument.currentSymbol->Add(symbol);
+
+					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
+					{
+						ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
+						argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
+
+						parameterSymbol->languageElement=parameter.Obj();
+						parameterSymbol->SetName(parameter->name);
+						symbol->Add(parameterSymbol);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
@@ -142,6 +172,11 @@ ManagedLanguage_BuildGlobalScope1_ExtendedMember
 
 					symbol->languageElement=node;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
+					symbol->setterAccessor=node->setterAccessor;
+					symbol->memberType=node->memberType;
+					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
 				}
 
@@ -163,6 +198,10 @@ ManagedLanguage_BuildGlobalScope1_ExtendedMember
 					argument.symbolManager->SetSymbol(node, symbol);
 
 					symbol->languageElement=node;
+
+					symbol->accessor=node->accessor;
+					symbol->memberType=node->memberType;
+					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
 				}
 
@@ -223,6 +262,9 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 					symbol->typeLanguageElement=node;
 					symbol->enumerationLanguageElement=0;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
+					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
 
 					MAP newArgument(argument, symbol);
@@ -331,6 +373,9 @@ ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration
 					symbol->typeLanguageElement=0;
 					symbol->enumerationLanguageElement=node;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
+					symbol->inheritation=declatt::Sealed;
 					argument.currentSymbol->Add(symbol);
 
 					FOREACH(Ptr<ManagedEnumItem>, enumItem, node->items.Wrap())
@@ -347,6 +392,10 @@ ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration
 							field->typeLanguageElement=0;
 							field->enumerationLanguageElement=enumItem.Obj();
 							field->SetName(enumItem->name);
+
+							field->accessor=declatt::Public;
+							field->memberType=declatt::Static;
+							field->dataType=declatt::Readonly;
 							symbol->Add(field);
 						}
 					}
@@ -371,6 +420,8 @@ ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration
 					
 					symbol->languageElement=node;
 					symbol->SetName(node->name);
+
+					symbol->accessor=node->accessor;
 					argument.currentSymbol->Add(symbol);
 
 					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, MAP(argument, symbol));

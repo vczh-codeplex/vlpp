@@ -83,6 +83,18 @@ ManagedLanguageCodeException::ExceptionCode
 				parameters[0]=name;
 				return new ManagedLanguageCodeException(element, SystemTypeDuplicated, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeNotExists(ManagedType* element)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, TypeNotExists, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeDuplicated(ManagedType* element)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, TypeDuplicated, parameters.Wrap());
+			}
 		}
 	}
 }

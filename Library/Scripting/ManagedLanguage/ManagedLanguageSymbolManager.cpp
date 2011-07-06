@@ -236,6 +236,7 @@ Symbol Constructors
 
 			ManagedSymbolMethodParameter::ManagedSymbolMethodParameter(ManagedSymbolManager* _manager)
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::MethodParameter)
+				,languageElement(0)
 				,parameterType(ManagedParameter::Normal)
 				,containsDefaultValue(false)
 				,type(0)
@@ -257,6 +258,7 @@ Symbol Constructors
 				:ManagedSymbolItem(_manager, ManagedSymbolItem::Property)
 				,languageElement(0)
 				,accessor(declatt::Private)
+				,setterAccessor(declatt::Private)
 				,memberType(declatt::Instance)
 				,inheritation(declatt::Sealed)
 				,type(0)
