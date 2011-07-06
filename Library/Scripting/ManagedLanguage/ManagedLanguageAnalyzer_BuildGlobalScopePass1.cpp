@@ -239,6 +239,7 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 					ManagedSymbolItem* currentSymbol=argument.currentSymbol;
 					FOREACH(WString, name, node->namespaceFragments.Wrap())
 					{
+						bool pass=false;
 						if(ManagedSymbolItemGroup* group=currentSymbol->ItemGroup(name))
 						{
 							FOREACH(ManagedSymbolItem*, item, group->Items())
@@ -248,8 +249,11 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 								case ManagedSymbolItem::Class:
 								case ManagedSymbolItem::Structure:
 								case ManagedSymbolItem::Interface:
-								case ManagedSymbolItem::Namespace:
 								case ManagedSymbolItem::TypeRename:
+									break;
+								case ManagedSymbolItem::Namespace:
+									currentSymbol=item;
+									pass=true;
 									break;
 								default:
 									argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(node, name));
@@ -258,17 +262,18 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 							}
 						}
 
-						ManagedSymbolNamespace* symbol=new ManagedSymbolNamespace(argument.symbolManager);
-
-						symbol->languageElement=0;
-						symbol->SetName(name);
-						currentSymbol->Add(symbol);
-						currentSymbol=symbol;
+						if(!pass)
+						{
+							ManagedSymbolNamespace* symbol=new ManagedSymbolNamespace(argument.symbolManager);
+							symbol->SetName(name);
+							currentSymbol->Add(symbol);
+							currentSymbol=symbol;
+						}
 					}
 
 					ManagedSymbolNamespace* symbol=dynamic_cast<ManagedSymbolNamespace*>(currentSymbol);
 					argument.symbolManager->SetSymbol(node, symbol);
-					symbol->languageElement=node;
+					symbol->languageElements.Add(node);
 
 					MAP newArgument(argument, currentSymbol);
 					FOREACH(Ptr<ManagedDeclaration>, declaration, node->declarations.Wrap())

@@ -126,9 +126,9 @@ Others
 			public:
 				ManagedSymbolGenericParameter(ManagedSymbolManager* _manager);
 
-				ManagedGenericInfo::ArgumentConversion		conversion;
-				bool										newConstraint;
-				collections::List<ManagedTypeSymbol*>		typeConstraints;
+				ManagedGenericInfo::ArgumentConversion					conversion;
+				bool													newConstraint;
+				collections::List<ManagedTypeSymbol*>					typeConstraints;
 			};
 
 			// MethodParameter
@@ -137,9 +137,9 @@ Others
 			public:
 				ManagedSymbolMethodParameter(ManagedSymbolManager* _manager);
 
-				ManagedParameter::ParameterType				parameterType;
-				bool										containsDefaultValue;
-				ManagedTypeSymbol*							type;
+				ManagedParameter::ParameterType							parameterType;
+				bool													containsDefaultValue;
+				ManagedTypeSymbol*										type;
 			};
 
 /***********************************************************************
@@ -152,14 +152,14 @@ Data Members
 			public:
 				ManagedSymbolField(ManagedSymbolManager* _manager);
 
-				ManagedField*								typeLanguageElement;
-				ManagedEnumItem*							enumerationLanguageElement;
+				ManagedField*											typeLanguageElement;
+				ManagedEnumItem*										enumerationLanguageElement;
 
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				declatt::DataType							dataType;
+				declatt::Accessor										accessor;
+				declatt::MemberType										memberType;
+				declatt::DataType										dataType;
 
-				ManagedTypeSymbol*							type;
+				ManagedTypeSymbol*										type;
 			};
 
 			// Property {PropertySetterValue}
@@ -168,16 +168,16 @@ Data Members
 			public:
 				ManagedSymbolProperty(ManagedSymbolManager* _manager);
 
-				ManagedProperty*							languageElement;
+				ManagedProperty*										languageElement;
 
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				declatt::Inheritation						inheritation;
+				declatt::Accessor										accessor;
+				declatt::MemberType										memberType;
+				declatt::Inheritation									inheritation;
 
-				ManagedTypeSymbol*							type;
-				ManagedTypeSymbol*							implementedInterfaceType;
-				bool										containsGetter;
-				bool										containsSetter;
+				ManagedTypeSymbol*										type;
+				ManagedTypeSymbol*										implementedInterfaceType;
+				bool													containsGetter;
+				bool													containsSetter;
 			};
 
 			// PropertySetterValue
@@ -186,7 +186,7 @@ Data Members
 			public:
 				ManagedSymbolPropertySetterValue(ManagedSymbolManager* _manager);
 
-				ManagedSymbolProperty*						associatedProperty;
+				ManagedSymbolProperty*									associatedProperty;
 			};
 
 			// ConverterOperator {GenericParameter}
@@ -197,15 +197,15 @@ Data Members
 			public:
 				ManagedSymbolConverterOperator(ManagedSymbolManager* _manager);
 
-				ManagedConverterOperator*					languageElement;
+				ManagedConverterOperator*								languageElement;
 
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				declatt::Inheritation						inheritation;
+				declatt::Accessor										accessor;
+				declatt::MemberType										memberType;
+				declatt::Inheritation									inheritation;
 
-				bool										implicit;
-				ManagedTypeSymbol*							targetType;
-				collections::List<WString>					orderedGenericParameterNames;
+				bool													implicit;
+				ManagedTypeSymbol*										targetType;
+				collections::List<WString>								orderedGenericParameterNames;
 			};
 
 			// Method {GenericParameter, MethodParameter}
@@ -214,32 +214,32 @@ Data Members
 			public:
 				ManagedSymbolMethod(ManagedSymbolManager* _manager);
 
-				ManagedMethod*								languageElement;
+				ManagedMethod*											languageElement;
 
-				declatt::Accessor							accessor;
-				declatt::MemberType							memberType;
-				declatt::Inheritation						inheritation;
+				declatt::Accessor										accessor;
+				declatt::MemberType										memberType;
+				declatt::Inheritation									inheritation;
 
-				ManagedTypeSymbol*							returnType;
-				ManagedTypeSymbol*							implementedInterfaceType;
-				collections::List<WString>					orderedGenericParameterNames;
-				collections::List<WString>					orderedMethodParameterNames;
+				ManagedTypeSymbol*										returnType;
+				ManagedTypeSymbol*										implementedInterfaceType;
+				collections::List<WString>								orderedGenericParameterNames;
+				collections::List<WString>								orderedMethodParameterNames;
 			};
 
 			// Constructor {MethodParameter}
 			class ManagedSymbolConstructor : public ManagedSymbolItem
 			{
 			public:
-				static const wchar_t* const SymbolName;
+				static const wchar_t* const								SymbolName;
 			public:
 				ManagedSymbolConstructor(ManagedSymbolManager* _manager);
 
-				ManagedConstructor*							languageElement;
+				ManagedConstructor*										languageElement;
 
-				declatt::Accessor							accessor;
+				declatt::Accessor										accessor;
 
-				bool										implicit;
-				collections::List<WString>					orderedMethodParameterNames;
+				bool													implicit;
+				collections::List<WString>								orderedMethodParameterNames;
 			};
 
 /***********************************************************************
@@ -252,20 +252,20 @@ Declarations
 			public:
 				ManagedSymbolNamespace(ManagedSymbolManager* _manager);
 
-				ManagedNamespaceDeclaration*				languageElement;
+				collections::List<ManagedNamespaceDeclaration*>			languageElements;
 			};
 
 			// UsingNamespace
 			class ManagedSymbolUsingNamespace : public ManagedSymbolItem
 			{
 			public:
-				static const wchar_t* const SymbolName;
+				static const wchar_t* const								SymbolName;
 			public:
 				ManagedSymbolUsingNamespace(ManagedSymbolManager* _manager);
 
-				ManagedUsingNamespaceDeclaration*			languageElement;
+				ManagedUsingNamespaceDeclaration*						languageElement;
 
-				collections::List<ManagedSymbolNamespace*>	associatedNamespaces;
+				collections::List<ManagedSymbolNamespace*>				associatedNamespaces;
 			};
 
 			// TypeRename {GenericParameter}
@@ -274,12 +274,12 @@ Declarations
 			public:
 				ManagedSymbolTypeRename(ManagedSymbolManager* _manager);
 
-				ManagedTypeRenameDeclaration*				languageElement;
+				ManagedTypeRenameDeclaration*							languageElement;
 
-				declatt::Accessor							accessor;
+				declatt::Accessor										accessor;
 
-				ManagedTypeSymbol*							type;
-				collections::List<WString>					orderedGenericParameterNames;
+				ManagedTypeSymbol*										type;
+				collections::List<WString>								orderedGenericParameterNames;
 			};
 
 			// Class, Structure, Interface {GenericParameter, TypeRename, Class, Structure, Interface, <Members>}
@@ -288,15 +288,15 @@ Declarations
 			public:
 				ManagedSymbolDeclaration(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType);
 
-				ManagedTypeDeclaration*						typeLanguageElement;
-				ManagedEnumerationDeclaration*				enumerationLanguageElement;
+				ManagedTypeDeclaration*									typeLanguageElement;
+				ManagedEnumerationDeclaration*							enumerationLanguageElement;
 
-				declatt::Accessor							accessor;
-				declatt::Inheritation						inheritation;
+				declatt::Accessor										accessor;
+				declatt::Inheritation									inheritation;
 
-				collections::List<ManagedTypeSymbol*>		baseTypes;
-				collections::List<WString>					orderedGenericParameterNames;
-				collections::List<WString>					orderedDataMemberNames;
+				collections::List<ManagedTypeSymbol*>					baseTypes;
+				collections::List<WString>								orderedGenericParameterNames;
+				collections::List<WString>								orderedDataMemberNames;
 			};
 
 /***********************************************************************
@@ -307,7 +307,7 @@ Global
 			class ManagedSymbolGlobal : public ManagedSymbolItem
 			{
 			public:
-				static const wchar_t* const SymbolName;
+				static const wchar_t* const								SymbolName;
 			public:
 				ManagedSymbolGlobal(ManagedSymbolManager* _manager);
 			};
