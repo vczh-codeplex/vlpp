@@ -39,7 +39,17 @@ ManagedAnalyzerParameter
 			extern void ManagedLanguage_AnalyzeProgram(Ptr<ManagedProgram> program, const MAP& argument);
 
 /***********************************************************************
-Build Global Scope Pass 1 (Build place holders, bind symbol and language element)
+Helper Functions
+***********************************************************************/
+			
+			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument);
+			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument);
+
+/***********************************************************************
+Build Global Scope Pass 1 <before linking symbols from other assemblies>
+  Build place holders
+  Bind symbols and language elements
+  Fill declatt data
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope1_Member, ManagedMember, MAP)
@@ -48,11 +58,9 @@ Build Global Scope Pass 1 (Build place holders, bind symbol and language element
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
 
 /***********************************************************************
-Build Global Scope Pass 2 (Fill place holders)
+Build Global Scope Pass 2 <after linking symbols from other assemblies>
+  Fill place holders
 ***********************************************************************/
-
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_Type, ManagedType, MAP, ManagedTypeSymbol*)
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_ExtendedType, ManagedExtendedType, MAP, ManagedTypeSymbol*)
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_Member, ManagedMember, MAP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedMember, ManagedExtendedMember, MAP)
@@ -60,7 +68,8 @@ Build Global Scope Pass 2 (Fill place holders)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
 
 /***********************************************************************
-Build Global Scope Pass 3 (Check declarations and function bodies)
+Build Global Scope Pass 3
+  Check declarations and function bodies
 ***********************************************************************/
 		}
 	}

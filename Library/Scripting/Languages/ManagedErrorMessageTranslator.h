@@ -21,8 +21,8 @@ namespace vl
 			class ManagedErrorMessageTranslator : public Object
 			{
 			protected:
-				virtual WString					NamespaceToString(const collections::IReadonlyList<WString>& fragments)=0;
-				virtual WString					SystemTypeToString(const WString& name)=0;
+				virtual WString					SymbolsToString(const collections::IReadonlyList<WString>& symbols)=0;
+				virtual WString					TypeToString(ManagedType* type)=0;
 			public:
 				Ptr<LanguageException>			Translate(Ptr<ManagedLanguageCodeException> error, vint codeIndex);
 			};

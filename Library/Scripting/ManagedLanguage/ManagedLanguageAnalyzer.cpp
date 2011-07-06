@@ -47,6 +47,103 @@ ManagedLanguage_AnalyzeProgram
 				}
 				if(argument.errors.Count()>0) return;
 			}
+
+/***********************************************************************
+GetSystemType
+***********************************************************************/
+
+			void SearchType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end, const WString& name, vint genericParameterCount)
+			{
+				// TODO: consider accessor
+				for(vint i=start;i<end;i++)
+				{
+					ManagedSymbolItemGroup* group=symbolItems[i]->ItemGroup(name);
+					if(group)
+					{
+						FOREACH(ManagedSymbolItem*, item, group->Items())
+						{
+							switch(item->GetSymbolType())
+							{
+							case ManagedSymbolItem::Namespace:
+								{
+									if(genericParameterCount==0)
+									{
+										symbolItems.Add(item);
+									}
+								}
+								break;
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
+								{
+									if(genericParameterCount==dynamic_cast<ManagedSymbolDeclaration*>(item)->orderedGenericParameterNames.Count())
+									{
+										symbolItems.Add(item);
+									}
+								}
+								break;
+							case ManagedSymbolItem::TypeRename:
+								{
+									if(genericParameterCount==dynamic_cast<ManagedSymbolTypeRename*>(item)->orderedGenericParameterNames.Count())
+									{
+										symbolItems.Add(item);
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+				start=end;
+				end=symbolItems.Count();
+			}
+
+			void FilterType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end)
+			{
+				for(vint i=start;i<end;i++)
+				{
+					ManagedSymbolItem* item=symbolItems[i];
+					switch(item->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
+					case ManagedSymbolItem::TypeRename:
+						{
+							symbolItems.Add(item);
+						}
+						break;
+					}
+				}
+				start=end;
+				end=symbolItems.Count();
+			}
+
+			ManagedTypeSymbol* GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument)
+			{
+				List<ManagedSymbolItem*> symbolItems;
+				symbolItems.Add(argument.symbolManager->Global());
+				vint start=0;
+				vint end=symbolItems.Count();
+				SearchType(symbolItems, start, end, L"System", 0);
+				SearchType(symbolItems, start, end, name, 0);
+				FilterType(symbolItems, start, end);
+				if(start==end)
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetSystemTypeNotExists(element, name));
+					return 0;
+				}
+				else if(start+1<end)
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetSystemTypeDuplicated(element, name));
+					return 0;
+				}
+				else
+				{
+					ManagedSymbolItem* baseType=symbolItems[start];
+					return argument.symbolManager->GetType(baseType);
+				}
+			}
 		}
 	}
 }

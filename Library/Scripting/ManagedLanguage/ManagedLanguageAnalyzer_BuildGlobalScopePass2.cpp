@@ -8,164 +8,10 @@ namespace vl
 		namespace managedlanguage
 		{
 			using namespace collections;
-
-			void SearchType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end, const WString& name, vint genericParameterCount)
-			{
-				// TODO: consider accessor
-				for(vint i=start;i<end;i++)
-				{
-					ManagedSymbolItemGroup* group=symbolItems[i]->ItemGroup(name);
-					if(group)
-					{
-						FOREACH(ManagedSymbolItem*, item, group->Items())
-						{
-							switch(item->GetSymbolType())
-							{
-							case ManagedSymbolItem::Namespace:
-								{
-									if(genericParameterCount==0)
-									{
-										symbolItems.Add(item);
-									}
-								}
-								break;
-							case ManagedSymbolItem::Class:
-							case ManagedSymbolItem::Structure:
-							case ManagedSymbolItem::Interface:
-								{
-									if(genericParameterCount==dynamic_cast<ManagedSymbolDeclaration*>(item)->orderedGenericParameterNames.Count())
-									{
-										symbolItems.Add(item);
-									}
-								}
-								break;
-							case ManagedSymbolItem::TypeRename:
-								{
-									if(genericParameterCount==dynamic_cast<ManagedSymbolTypeRename*>(item)->orderedGenericParameterNames.Count())
-									{
-										symbolItems.Add(item);
-									}
-								}
-								break;
-							}
-						}
-					}
-				}
-				start=end;
-				end=symbolItems.Count();
-			}
-
-			void FilterType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end)
-			{
-				for(vint i=start;i<end;i++)
-				{
-					ManagedSymbolItem* item=symbolItems[i];
-					switch(item->GetSymbolType())
-					{
-					case ManagedSymbolItem::Class:
-					case ManagedSymbolItem::Structure:
-					case ManagedSymbolItem::Interface:
-					case ManagedSymbolItem::TypeRename:
-						{
-							symbolItems.Add(item);
-						}
-						break;
-					}
-				}
-				start=end;
-				end=symbolItems.Count();
-			}
-
-			ManagedTypeSymbol* GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument)
-			{
-				List<ManagedSymbolItem*> symbolItems;
-				symbolItems.Add(argument.symbolManager->Global());
-				vint start=0;
-				vint end=symbolItems.Count();
-				SearchType(symbolItems, start, end, L"System", 0);
-				SearchType(symbolItems, start, end, name, 0);
-				FilterType(symbolItems, start, end);
-				if(start==end)
-				{
-					argument.errors.Add(ManagedLanguageCodeException::GetSystemTypeNotExists(element, name));
-					return 0;
-				}
-				else if(start+1<end)
-				{
-					argument.errors.Add(ManagedLanguageCodeException::GetSystemTypeDuplicated(element, name));
-					return 0;
-				}
-				else
-				{
-					ManagedSymbolItem* baseType=symbolItems[start];
-					return argument.symbolManager->GetType(baseType);
-				}
-			}
 			
 			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedSymbolItem* symbol, List<WString>& orderedGenericParameterNames, ManagedGenericInfo* genericInfo, const MAP& argument)
 			{
 			}
-
-/***********************************************************************
-ManagedLanguage_GetTypeSymbol_Type
-***********************************************************************/
-
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_Type, ManagedType, MAP, ManagedTypeSymbol*)
-
-				ALGORITHM_FUNCTION_MATCH(ManagedReferencedType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedMemberType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedInstantiatedGenericType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedExtendedType)
-				{
-					return ManagedLanguage_GetTypeSymbol_ExtendedType(node, argument);
-				}
-
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_Type)
-
-/***********************************************************************
-ManagedLanguage_GetTypeSymbol_ExtendedType
-***********************************************************************/
-
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_ExtendedType, ManagedExtendedType, MAP, ManagedTypeSymbol*)
-
-				ALGORITHM_FUNCTION_MATCH(ManagedArrayType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedFunctionType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedEventType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedAutoReferType)
-				{
-					return 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedDynamicType)
-				{
-					return 0;
-				}
-
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeSymbol_ExtendedType)
 
 /***********************************************************************
 ManagedLanguage_BuildGlobalScope2_Member
@@ -175,14 +21,45 @@ ManagedLanguage_BuildGlobalScope2_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
 				{
+					ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
+					symbol->type=GetTypeSymbol(node->type, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
+					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
+					symbol->returnType=GetTypeSymbol(node->returnType, argument);
+					if(node->implementedInterfaceType)
+					{
+						symbol->implementedInterfaceType=GetTypeSymbol(node->implementedInterfaceType, argument);
+					}
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+
+					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
+					{
+						symbol->orderedMethodParameterNames.Add(parameter->name);
+						ManagedSymbolMethodParameter* parameterSymbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethodParameter>(parameter.Obj());
+
+						parameterSymbol->parameterType=parameter->parameterType;
+						parameterSymbol->containsDefaultValue=parameter->defaultValue;
+						parameterSymbol->type=GetTypeSymbol(parameter->type, argument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
+					ManagedSymbolConstructor* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConstructor>(node);
+					symbol->implicit=node->implicit;
+
+					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
+					{
+						symbol->orderedMethodParameterNames.Add(parameter->name);
+						ManagedSymbolMethodParameter* parameterSymbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethodParameter>(parameter.Obj());
+
+						parameterSymbol->parameterType=parameter->parameterType;
+						parameterSymbol->containsDefaultValue=parameter->defaultValue;
+						parameterSymbol->type=GetTypeSymbol(parameter->type, argument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
@@ -205,10 +82,29 @@ ManagedLanguage_BuildGlobalScope2_ExtendedMember
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
+					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
+					symbol->type=GetTypeSymbol(node->type, argument);
+					if(node->implementedInterfaceType)
+					{
+						symbol->implementedInterfaceType=GetTypeSymbol(node->implementedInterfaceType, argument);
+					}
+					symbol->containsGetter=node->getter;
+					symbol->containsSetter=node->setter;
+					if(symbol->containsSetter)
+					{
+						ManagedSymbolPropertySetterValue* setterValue=new ManagedSymbolPropertySetterValue(argument.symbolManager);
+						setterValue->SetName(node->setterParameter);
+						setterValue->associatedProperty=symbol;
+						symbol->Add(setterValue);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
+					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
+					symbol->implicit=node->implicit;
+					symbol->targetType=GetTypeSymbol(node->targetType, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedMember)
@@ -221,6 +117,27 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeDeclaration)
 				{
+					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+
+					FOREACH(Ptr<ManagedType>, type, node->baseTypes.Wrap())
+					{
+						ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
+						if(typeSymbol)
+						{
+							symbol->baseTypes.Add(typeSymbol);
+						}
+					}
+
+					MAP newArgument(argument, symbol);
+					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
+					{
+						ManagedLanguage_BuildGlobalScope2_Member(member, newArgument);
+						if(Ptr<ManagedField> field=member.Cast<ManagedField>())
+						{
+							symbol->orderedDataMemberNames.Add(field->name);
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNamespaceDeclaration)
@@ -248,8 +165,6 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedEnumerationDeclaration)
 				{
 					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
-					symbol->accessor=node->accessor;
-					symbol->inheritation=declatt::Sealed;
 
 					if(ManagedTypeSymbol* baseType=GetSystemType(node, L"EnumItemBase", argument))
 					{
@@ -261,9 +176,6 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 						symbol->orderedDataMemberNames.Add(enumItem->name);
 						ManagedSymbolField* field=dynamic_cast<ManagedSymbolField*>(symbol->ItemGroup(enumItem->name)->Items()[0]);
 
-						field->accessor=declatt::Public;
-						field->memberType=declatt::Static;
-						field->dataType=declatt::Readonly;
 						field->type=argument.symbolManager->GetType(symbol);
 					}
 				}
@@ -271,8 +183,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeRenameDeclaration)
 				{
 					ManagedSymbolTypeRename* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolTypeRename>(node);
-					symbol->accessor=node->accessor;
-					symbol->type=ManagedLanguage_GetTypeSymbol_Type(node->type, argument);
+					symbol->type=GetTypeSymbol(node->type, argument);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
 				}
 
