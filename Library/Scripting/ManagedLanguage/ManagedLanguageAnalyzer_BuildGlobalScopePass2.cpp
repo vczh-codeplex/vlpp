@@ -9,8 +9,28 @@ namespace vl
 		{
 			using namespace collections;
 			
-			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedSymbolItem* symbol, List<WString>& orderedGenericParameterNames, ManagedGenericInfo* genericInfo, const MAP& argument)
+			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedSymbolItem* symbol, ManagedGenericInfo* genericInfo, const MAP& argument)
 			{
+				FOREACH(Ptr<ManagedGenericInfo::Argument>, genericParameter, genericInfo->arguments.Wrap())
+				{
+					ManagedSymbolItemGroup* group=argument.currentSymbol->ItemGroup(genericParameter->name);
+					CHECK_ERROR(
+						group && group->Items().Count()==1 && group->Items()[0]->GetSymbolType()==ManagedSymbolItem::GenericParameter,
+						L"ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedSymbolItem*, ManagedGenericInfo*, const MAP&)#BuildGlobalScope1可能出现问题。"
+						);
+					ManagedSymbolGenericParameter* symbol=dynamic_cast<ManagedSymbolGenericParameter*>(group->Items()[0]);
+					symbol->conversion=genericParameter->conversion;
+					symbol->newConstraint=genericParameter->newConstraint;
+
+					FOREACH(Ptr<ManagedType>, constraint, genericParameter->typeConstraints.Wrap())
+					{
+						ManagedTypeSymbol* type=GetTypeSymbol(constraint, argument);
+						if(type)
+						{
+							symbol->typeConstraints.Add(type);
+						}
+					}
+				}
 			}
 
 /***********************************************************************
@@ -33,11 +53,10 @@ ManagedLanguage_BuildGlobalScope2_Member
 					{
 						symbol->implementedInterfaceType=GetTypeSymbol(node->implementedInterfaceType, argument);
 					}
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
 
 					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
 					{
-						symbol->orderedMethodParameterNames.Add(parameter->name);
 						ManagedSymbolMethodParameter* parameterSymbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethodParameter>(parameter.Obj());
 
 						parameterSymbol->parameterType=parameter->parameterType;
@@ -53,7 +72,6 @@ ManagedLanguage_BuildGlobalScope2_Member
 
 					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
 					{
-						symbol->orderedMethodParameterNames.Add(parameter->name);
 						ManagedSymbolMethodParameter* parameterSymbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethodParameter>(parameter.Obj());
 
 						parameterSymbol->parameterType=parameter->parameterType;
@@ -104,7 +122,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedMember
 					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
 					symbol->implicit=node->implicit;
 					symbol->targetType=GetTypeSymbol(node->targetType, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedMember)
@@ -118,7 +136,8 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeDeclaration)
 				{
 					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+					MAP newArgument(argument, symbol);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, newArgument);
 
 					FOREACH(Ptr<ManagedType>, type, node->baseTypes.Wrap())
 					{
@@ -129,14 +148,9 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 						}
 					}
 
-					MAP newArgument(argument, symbol);
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
 						ManagedLanguage_BuildGlobalScope2_Member(member, newArgument);
-						if(Ptr<ManagedField> field=member.Cast<ManagedField>())
-						{
-							symbol->orderedDataMemberNames.Add(field->name);
-						}
 					}
 				}
 
@@ -173,7 +187,6 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 
 					FOREACH(Ptr<ManagedEnumItem>, enumItem, node->items.Wrap())
 					{
-						symbol->orderedDataMemberNames.Add(enumItem->name);
 						ManagedSymbolField* field=dynamic_cast<ManagedSymbolField*>(symbol->ItemGroup(enumItem->name)->Items()[0]);
 
 						field->type=argument.symbolManager->GetType(symbol);
@@ -184,7 +197,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				{
 					ManagedSymbolTypeRename* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolTypeRename>(node);
 					symbol->type=GetTypeSymbol(node->type, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, symbol->orderedGenericParameterNames, &node->genericInfo, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
