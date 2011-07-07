@@ -42,7 +42,7 @@ ManagedAnalyzerParameter
 Helper Functions
 ***********************************************************************/
 			
-			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument);
+			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount=0);
 			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument);
 
 /***********************************************************************
@@ -50,6 +50,7 @@ Build Global Scope Pass 1 <before linking symbols from other assemblies>
   Build place holders
   Bind symbols and language elements
   Fill declatt data
+  Fill ordered*Names
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope1_Member, ManagedMember, MAP)
