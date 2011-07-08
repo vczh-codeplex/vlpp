@@ -98,7 +98,7 @@ GetSystemType
 				end=symbolItems.Count();
 			}
 
-			void FilterType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end, vint genericParameterCount)
+			void FilterType(List<ManagedSymbolItem*>& symbolItems, vint& start, vint& end)
 			{
 				for(vint i=start;i<end;i++)
 				{
@@ -108,21 +108,9 @@ GetSystemType
 					case ManagedSymbolItem::Class:
 					case ManagedSymbolItem::Structure:
 					case ManagedSymbolItem::Interface:
-						{
-							ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(item);
-							if(symbol->orderedGenericParameterNames.Count()==genericParameterCount)
-							{
-								symbolItems.Add(item);
-							}
-						}
-						break;
 					case ManagedSymbolItem::TypeRename:
 						{
-							ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(item);
-							if(symbol->orderedGenericParameterNames.Count()==genericParameterCount)
-							{
-								symbolItems.Add(item);
-							}
+							symbolItems.Add(item);
 						}
 						break;
 					}
@@ -138,8 +126,8 @@ GetSystemType
 				vint start=0;
 				vint end=symbolItems.Count();
 				SearchType(symbolItems, start, end, L"System", 0);
-				SearchType(symbolItems, start, end, name, 0);
-				FilterType(symbolItems, start, end, genericParameterCount);
+				SearchType(symbolItems, start, end, name, genericParameterCount);
+				FilterType(symbolItems, start, end);
 				if(start==end)
 				{
 					argument.errors.Add(ManagedLanguageCodeException::GetSystemTypeNotExists(element, name));

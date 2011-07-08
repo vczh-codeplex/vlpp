@@ -2,6 +2,7 @@ Language=ManagedX
 
 Compile=Array.txt
 Compile=Attribute.txt
+Compile=Dynamic.txt
 Compile=Enumeration.txt
 Compile=Exception.txt
 Compile=Function.txt

@@ -1559,6 +1559,9 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Interface.txt">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Dynamic.txt">
+      <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
