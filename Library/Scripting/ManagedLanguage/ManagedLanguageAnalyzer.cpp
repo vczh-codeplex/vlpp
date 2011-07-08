@@ -197,7 +197,7 @@ EnsureSymbolBaseTypesCompleted
 					{
 						FOREACH(Ptr<ManagedType>, type, symbol->typeLanguageElement->baseTypes.Wrap())
 						{
-							ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
+							ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument, symbol);
 							if(typeSymbol)
 							{
 								symbol->baseTypes.Add(typeSymbol);

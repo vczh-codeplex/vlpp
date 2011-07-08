@@ -7,7 +7,7 @@ namespace System
  
 	public abstract class DelegateTarget
 	{
-		public IntPtr FunctionObject{get; protected set;}
+		public intptr FunctionObject{get; protected set;}
 		public abstract object Invoke(object thisObject, params object[] arguments);
  
 		public override bool Equals(object o)

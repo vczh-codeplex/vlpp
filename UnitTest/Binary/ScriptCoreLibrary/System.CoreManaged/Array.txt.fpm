@@ -39,7 +39,7 @@ $$end
 $$define $ARRAY_IMPLEMENTATION($elements) $$begin
 $( )
 	generic<inout T>
-	public sealed class Array$elements : Array
+	public sealed class Array$elements : Array<T>
 	{
 $( )
 		public constructor($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ), Array<T> src=null, bool copy=true)

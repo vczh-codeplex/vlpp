@@ -16,11 +16,13 @@ namespace vl
 				const MAP&						context;
 				List<ManagedSymbolItem*>&		namespaceResults;
 				List<ManagedTypeSymbol*>&		typeResults;
+				ManagedSymbolItem*				extraGenericParameterContainer;
 
-				ManagedAnalyzerGetTypeSymbolParameter(const MAP& _context, List<ManagedSymbolItem*>& _namespaceResults, List<ManagedTypeSymbol*>& _typeResults)
+				ManagedAnalyzerGetTypeSymbolParameter(const MAP& _context, List<ManagedSymbolItem*>& _namespaceResults, List<ManagedTypeSymbol*>& _typeResults, ManagedSymbolItem* _extraGenericParameterContainer)
 					:context(_context)
 					,namespaceResults(_namespaceResults)
 					,typeResults(_typeResults)
+					,extraGenericParameterContainer(_extraGenericParameterContainer)
 				{
 				}
 			};
@@ -142,7 +144,7 @@ ManagedLanguage_GetTypeSymbol_Type
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferencedType)
 				{
-					// consider private
+					// TODO: consider accessor
 					{
 						ManagedSymbolItem* currentSymbol=argument.context.currentSymbol;
 						while(currentSymbol)
@@ -180,6 +182,7 @@ ManagedLanguage_GetTypeSymbol_Type
 							currentSymbol=currentSymbol->GetParentItem();
 						}
 					}
+					vint baseTypeLength=argument.typeResults.Count();
 					{
 						vint start=0;
 						vint end=argument.typeResults.Count();
@@ -205,6 +208,30 @@ ManagedLanguage_GetTypeSymbol_Type
 					
 					List<ManagedSymbolItem*> newNamespaceResults;
 					List<ManagedTypeSymbol*> newTypeResults;
+					for(vint i=0;i<=baseTypeLength;i++)
+					{
+						ManagedSymbolItem* baseTypeSymbol=0;
+						if(i==0)
+						{
+							if(argument.extraGenericParameterContainer)
+							{
+								baseTypeSymbol=argument.extraGenericParameterContainer;
+							}
+						}
+						else
+						{
+							baseTypeSymbol=argument.typeResults[i-1]->GetSymbol();
+						}
+						if(baseTypeSymbol)
+						{
+							ManagedSymbolItemGroup* group=baseTypeSymbol->ItemGroup(node->name);
+							if(group && group->Items().Count()==1 && group->Items()[0]->GetSymbolType()==ManagedSymbolItem::GenericParameter)
+							{
+								ManagedSymbolGenericParameter* genericParameterSymbol=dynamic_cast<ManagedSymbolGenericParameter*>(group->Items()[0]);
+								newTypeResults.Add(argument.context.symbolManager->GetType(genericParameterSymbol));
+							}
+						}
+					}
 					SearchMember(argument, node->name, newNamespaceResults, newTypeResults);
 
 					argument.namespaceResults.Clear();
@@ -268,7 +295,7 @@ ManagedLanguage_GetTypeSymbol_Type
 					List<ManagedTypeSymbol*> genericArguments;
 					FOREACH(Ptr<ManagedType>, argumentType, node->argumentTypes.Wrap())
 					{
-						ManagedTypeSymbol* genericArgument=GetTypeSymbol(argumentType, argument.context);
+						ManagedTypeSymbol* genericArgument=GetTypeSymbol(argumentType, argument.context, argument.extraGenericParameterContainer);
 						if(genericArgument)
 						{
 							genericArguments.Add(genericArgument);
@@ -302,7 +329,7 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 				ALGORITHM_PROCEDURE_MATCH(ManagedArrayType)
 				{
 					ManagedTypeSymbol* arrayDecl=GetSystemType(node, L"Array"+itow(node->dimensionCount), argument.context, 1);
-					ManagedTypeSymbol* element=GetTypeSymbol(node->elementType, argument.context);
+					ManagedTypeSymbol* element=GetTypeSymbol(node->elementType, argument.context, argument.extraGenericParameterContainer);
 					if(arrayDecl && element)
 					{
 						List<ManagedTypeSymbol*> genericArguments;
@@ -316,13 +343,13 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 					List<ManagedTypeSymbol*> genericArguments;
 					FOREACH(Ptr<ManagedType>, parameter, node->parameterTypes.Wrap())
 					{
-						ManagedTypeSymbol* parameterType=GetTypeSymbol(parameter, argument.context);
+						ManagedTypeSymbol* parameterType=GetTypeSymbol(parameter, argument.context, argument.extraGenericParameterContainer);
 						if(parameterType)
 						{
 							genericArguments.Add(parameterType);
 						}
 					}
-					ManagedTypeSymbol* returnType=GetTypeSymbol(node->returnType, argument.context);
+					ManagedTypeSymbol* returnType=GetTypeSymbol(node->returnType, argument.context, argument.extraGenericParameterContainer);
 					ManagedTypeSymbol* voidType=GetSystemType(node, L"Void", argument.context);
 
 					if(returnType && voidType && genericArguments.Count()==node->parameterTypes.Count())
@@ -359,7 +386,7 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 					List<ManagedTypeSymbol*> genericArguments;
 					FOREACH(Ptr<ManagedType>, parameter, node->parameterTypes.Wrap())
 					{
-						ManagedTypeSymbol* parameterType=GetTypeSymbol(parameter, argument.context);
+						ManagedTypeSymbol* parameterType=GetTypeSymbol(parameter, argument.context, argument.extraGenericParameterContainer);
 						if(parameterType)
 						{
 							genericArguments.Add(parameterType);
@@ -403,24 +430,62 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 GetTypeSymbol
 ***********************************************************************/
 
-			ManagedTypeSymbol* GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument)
+			ManagedTypeSymbol* GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument, ManagedSymbolItem* extraGenericParameterContainer)
 			{
 				List<ManagedSymbolItem*> namespaceResults;
 				List<ManagedTypeSymbol*> typeResults;
-				ManagedLanguage_GetTypeSymbol_Type(type, MAGTSP(argument, namespaceResults, typeResults));
-				if(typeResults.Count()==0)
+				ManagedLanguage_GetTypeSymbol_Type(type, MAGTSP(argument, namespaceResults, typeResults, extraGenericParameterContainer));
+
+				List<ManagedTypeSymbol*> acceptableTypeResults;
+				FOREACH(ManagedTypeSymbol*, typeResult, typeResults.Wrap())
 				{
-					//argument.errors.Add(ManagedLanguageCodeException::GetTypeNotExists(type.Obj()));
+					if(typeResult->GetGenericDeclaration()==0)
+					{
+						switch(typeResult->GetSymbol()->GetSymbolType())
+						{
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
+								{
+									if(dynamic_cast<ManagedSymbolDeclaration*>(typeResult->GetSymbol())->orderedGenericParameterNames.Count()==0)
+									{
+										acceptableTypeResults.Add(typeResult);
+									}
+								}
+								break;
+							case ManagedSymbolItem::TypeRename:
+								{
+									if(dynamic_cast<ManagedSymbolTypeRename*>(typeResult->GetSymbol())->orderedGenericParameterNames.Count()==0)
+									{
+										acceptableTypeResults.Add(typeResult);
+									}
+								}
+								break;
+							case ManagedSymbolItem::GenericParameter:
+								{
+									acceptableTypeResults.Add(typeResult);
+								}
+								break;
+						}
+					}
+					else
+					{
+						acceptableTypeResults.Add(typeResult);
+					}
+				}
+				if(acceptableTypeResults.Count()==0)
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetTypeNotExists(type.Obj()));
 					return 0;
 				}
-				else if(typeResults.Count()>1)
+				else if(acceptableTypeResults.Count()>1)
 				{
-					//argument.errors.Add(ManagedLanguageCodeException::GetTypeDuplicated(type.Obj()));
+					argument.errors.Add(ManagedLanguageCodeException::GetTypeDuplicated(type.Obj()));
 					return 0;
 				}
 				else
 				{
-					return typeResults[0];
+					return acceptableTypeResults[0];
 				}
 			}
 		}

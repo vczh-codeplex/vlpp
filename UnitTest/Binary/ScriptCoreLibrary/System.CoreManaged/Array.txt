@@ -96,7 +96,7 @@ namespace System
 	}
  
 	generic<inout T>
-	public sealed class Array1 : Array
+	public sealed class Array1 : Array<T>
 	{
  
 		public constructor(int _0, Array<T> src=null, bool copy=true)
@@ -176,7 +176,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array2 : Array
+	public sealed class Array2 : Array<T>
 	{
  
 		public constructor(int _0, int _1, Array<T> src=null, bool copy=true)
@@ -265,7 +265,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array3 : Array
+	public sealed class Array3 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, Array<T> src=null, bool copy=true)
@@ -363,7 +363,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array4 : Array
+	public sealed class Array4 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, Array<T> src=null, bool copy=true)
@@ -470,7 +470,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array5 : Array
+	public sealed class Array5 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, Array<T> src=null, bool copy=true)
@@ -586,7 +586,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array6 : Array
+	public sealed class Array6 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, Array<T> src=null, bool copy=true)
@@ -711,7 +711,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array7 : Array
+	public sealed class Array7 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, Array<T> src=null, bool copy=true)
@@ -845,7 +845,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array8 : Array
+	public sealed class Array8 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, Array<T> src=null, bool copy=true)
@@ -988,7 +988,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array9 : Array
+	public sealed class Array9 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, Array<T> src=null, bool copy=true)
@@ -1140,7 +1140,7 @@ namespace System
  
 	} 
 	generic<inout T>
-	public sealed class Array10 : Array
+	public sealed class Array10 : Array<T>
 	{
  
 		public constructor(int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9, Array<T> src=null, bool copy=true)
