@@ -41,6 +41,16 @@ namespace vl
 				return L"The Auto refer type \""+autoRefType+L"\" can only be used in variable declaration statement, using statement, foreach statement and lambda expression parameter/return type.";
 			}
 
+			WString ManagedErrorMessage::CannotDirectReferTypeRenameAsToplevel(const WString& name)
+			{
+				return L"Type rename declaration "+name+L" cannot target to a type whose top level type is another type rename declaration.";
+			}
+
+			WString ManagedErrorMessage::IllegalNestedDeclaration()
+			{
+				return L"Only class, structure, interface, enumeration and type rename can be defined as a nested type.";
+			}
+
 		}
 	}
 }

@@ -32,6 +32,8 @@ namespace vl
 				static WString ScopedTypeNotExists(const WString& name);
 				static WString ScopedTypeDuplicated(const WString& name);
 				static WString IllegalAutoRefer(const WString& autoRefType);
+				static WString CannotDirectReferTypeRenameAsToplevel(const WString& name);
+				static WString IllegalNestedDeclaration();
 			};
 		}
 	}

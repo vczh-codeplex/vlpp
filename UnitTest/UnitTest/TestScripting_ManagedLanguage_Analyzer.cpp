@@ -51,6 +51,7 @@ TEST_CASE(Test_ManagedLanguage_SymbolManager)
 		TEST_ASSERT(sm.GetType(si)==ts);
 		TEST_ASSERT(ts->GetManager()==&sm);
 		TEST_ASSERT(ts->GetSymbol()==si);
+		TEST_ASSERT(ts->GetGenericDeclaration()==0);
 	}
 
 	ManagedTypeSymbol* tsA=sm.GetType(sm.Global()->ItemGroup(L"A")->Items()[0]);
@@ -66,20 +67,22 @@ TEST_CASE(Test_ManagedLanguage_SymbolManager)
 	{
 		ga.Clear();
 		ga.Add(tsA);
-		ts_A=sm.GetType(si, ga.Wrap());
-		TEST_ASSERT(sm.GetType(si, ga.Wrap())==ts_A);
+		ts_A=sm.GetInstiantiatedType(ts, ga.Wrap());
+		TEST_ASSERT(sm.GetInstiantiatedType(ts, ga.Wrap())==ts_A);
 		TEST_ASSERT(ts_A->GetManager()==&sm);
 		TEST_ASSERT(ts_A->GetSymbol()==si);
+		TEST_ASSERT(ts_A->GetGenericDeclaration()==ts);
 		TEST_ASSERT(CompareEnumerable(ga.Wrap(), ts_A->GetGenericArguments())==0);
 	}
 	{
 		ga.Clear();
 		ga.Add(tsA);
 		ga.Add(tsB);
-		ts_AB=sm.GetType(si, ga.Wrap());
-		TEST_ASSERT(sm.GetType(si, ga.Wrap())==ts_AB);
+		ts_AB=sm.GetInstiantiatedType(ts, ga.Wrap());
+		TEST_ASSERT(sm.GetInstiantiatedType(ts, ga.Wrap())==ts_AB);
 		TEST_ASSERT(ts_AB->GetManager()==&sm);
 		TEST_ASSERT(ts_AB->GetSymbol()==si);
+		TEST_ASSERT(ts_AB->GetGenericDeclaration()==ts);
 		TEST_ASSERT(CompareEnumerable(ga.Wrap(), ts_AB->GetGenericArguments())==0);
 	}
 	TEST_ASSERT(ts_A!=ts_AB);

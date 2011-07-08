@@ -23,13 +23,15 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					SymbolAlreadyDefined,	// <all>								:name
-					NamespaceNotExists,		// <ManagedUsingNamespaceDeclaration>	:
-					SystemTypeNotExists,	// <all>								:name
-					SystemTypeDuplicated,	// <all>								:name
-					TypeNotExists,			// <ManagedType>
-					TypeDuplicated,			// <ManagedType>
-					IllegalAutoRefer,		// <ManagedAutoReferType>
+					SymbolAlreadyDefined,						// <all>								:name
+					NamespaceNotExists,							// <ManagedUsingNamespaceDeclaration>	:
+					SystemTypeNotExists,						// <all>								:name
+					SystemTypeDuplicated,						// <all>								:name
+					TypeNotExists,								// <ManagedType>
+					TypeDuplicated,								// <ManagedType>
+					IllegalAutoRefer,							// <ManagedAutoReferType>
+					CannotDirectReferTypeRenameAsToplevel,		// <ManagedTypeRenameDeclaration>		:name
+					IllegalNestedDeclaration,					// <ManagedTypeMember>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -53,6 +55,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetTypeNotExists(ManagedType* element);
 				static Ptr<ManagedLanguageCodeException>						GetTypeDuplicated(ManagedType* element);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefer(ManagedAutoReferType* element);
+				static Ptr<ManagedLanguageCodeException>						GetCannotDirectReferTypeRenameAsToplevel(ManagedTypeRenameDeclaration* element);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalNestedDeclaration(ManagedTypeMember* element);
 			};
 		}
 	}

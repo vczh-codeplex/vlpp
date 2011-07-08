@@ -103,18 +103,61 @@ Types
 			protected:
 				ManagedSymbolManager*		manager;
 				ManagedSymbolItem*			typeSymbol; // GenericParameter, Class, Structure, Interface, TypeRename(temporary)
+				ManagedTypeSymbol*			parentType;
+				ManagedTypeSymbol*			genericDeclaration;
 				TypeList					genericArguments;
 				TypeList					associatedInstantiatedTypes;
 
-				ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol);
+				ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol, ManagedTypeSymbol* _parentType);
+				ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedTypeSymbol* _genericDeclaration);
 			public:
 				~ManagedTypeSymbol();
 
 				ManagedSymbolManager*		GetManager();
-				ManagedSymbolItem*			GetSymbol();
-				ManagedTypeSymbol*			GetGenericDeclaration();
-				const ITypeList&			GetGenericArguments();
+				ManagedSymbolItem*			GetSymbol();				// declaration symbol
+				ManagedTypeSymbol*			GetParentType();			// parent type (exists => this type is a member type)
+																		//   will not be a type rename
+																		//   may contains some generic arguments
+																		//   a full "generic declaration -> type" map can be retrived from the full parent type train
+				ManagedTypeSymbol*			GetGenericDeclaration();	// generic declaration type (exists => this type is a instantiated type)
+				const ITypeList&			GetGenericArguments();		// generic arguments (not empty => this type is a instantiated type)
+																		//    generic argument can be another generic parameter
 			};
+			/*
+				generic<inout T>
+				class A
+				{
+					generic<inout U>
+					public using S = B<T, U>;
+				}
+
+				A<int>.S<string> ->
+					TypeSymbol(A<int>.S<string>)
+					{
+						GetSymbol() = A.S
+						GetParentType() = 0
+						GetGenericDeclaration() = TypeSymbol(A<int>.S)
+						{
+							GetSymbol() = A.S
+							GetParentType() = TypeSymbol(A<int>)
+							{
+								GetSymbol() = A
+								GetParentType() = 0
+								GetGenericDeclaration() = TypeSymbol(A)
+								{
+									GetSymbol() = A
+									GetParentType() = 0
+									GetGenericDeclaration() = 0
+									GetGenericArguments() = []
+								}
+								GetGenericArguments() = [int]
+							}
+							GetGenericDeclaration() = 0
+							GetGenericArguments() = []
+						}
+						GetGenericArguments() = [string]
+					}		
+			*/
 
 /***********************************************************************
 Others
@@ -340,8 +383,8 @@ ManagedSymbolManager
 				void						Register(ManagedTypeSymbol* typeSymbol);
 				ManagedSymbolItem*			Global();
 				
-				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item);
-				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments);
+				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item, ManagedTypeSymbol* parentType=0);
+				ManagedTypeSymbol*			GetInstiantiatedType(ManagedTypeSymbol* genericDeclaration, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments);
 
 				void						SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem);
 				ManagedSymbolItem*			GetSymbol(ManagedLanguageElement* element);
