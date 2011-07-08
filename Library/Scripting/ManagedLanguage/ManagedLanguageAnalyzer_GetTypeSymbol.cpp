@@ -1,5 +1,6 @@
 #include "ManagedLanguageAnalyzer.h"
 #include "..\..\Collections\OperationForEach.h"
+#include "..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -13,13 +14,13 @@ namespace vl
 			{
 			public:
 				const MAP&						context;
-				List<ManagedSymbolItem*>&		temporaryResult;
-				List<ManagedTypeSymbol*>&		result;
+				List<ManagedSymbolItem*>&		namespaceResults;
+				List<ManagedTypeSymbol*>&		typeResults;
 
-				ManagedAnalyzerGetTypeSymbolParameter(const MAP& _context, List<ManagedSymbolItem*>& _temporaryResult, List<ManagedTypeSymbol*>& _result)
+				ManagedAnalyzerGetTypeSymbolParameter(const MAP& _context, List<ManagedSymbolItem*>& _namespaceResults, List<ManagedTypeSymbol*>& _typeResults)
 					:context(_context)
-					,temporaryResult(_temporaryResult)
-					,result(_result)
+					,namespaceResults(_namespaceResults)
+					,typeResults(_typeResults)
 				{
 				}
 			};
@@ -36,14 +37,217 @@ ManagedLanguage_GetTypeSymbol_Type
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferencedType)
 				{
+					// consider private
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberType)
 				{
+					if(node->operand)
+					{
+						// consider private
+						List<ManagedSymbolItem*> newNamespaceResults;
+						List<ManagedTypeSymbol*> newTypeResults;
+						ManagedLanguage_GetTypeSymbol_Type(node->operand, argument);
+
+						FOREACH(ManagedSymbolItem*, namespaceResult, argument.namespaceResults.Wrap())
+						{
+							if(ManagedSymbolItemGroup* group=namespaceResult->ItemGroup(node->member))
+							{
+								FOREACH(ManagedSymbolItem*, item, group->Items())
+								{
+									switch(item->GetSymbolType())
+									{
+									case ManagedSymbolItem::Namespace:
+										{
+											if(!newNamespaceResults.Contains(item))
+											{
+												newNamespaceResults.Add(item);
+											}
+										}
+										break;
+									case ManagedSymbolItem::Class:
+									case ManagedSymbolItem::Structure:
+									case ManagedSymbolItem::Interface:
+									case ManagedSymbolItem::TypeRename:
+										{
+											ManagedTypeSymbol* type=argument.context.symbolManager->GetType(item);
+											if(!newTypeResults.Contains(type))
+											{
+												newTypeResults.Add(type);
+											}
+										}
+										break;
+									}
+								}
+							}
+						}
+
+						FOREACH(ManagedTypeSymbol*, typeResult, argument.typeResults.Wrap())
+						{
+							bool failed=false;
+							ManagedTypeSymbol* operandType=typeResult;
+							ManagedTypeSymbol* newOperandType=typeResult;
+							do
+							{
+								operandType=newOperandType;
+								if(operandType->GetGenericDeclaration()==0)
+								{
+									switch(operandType->GetSymbol()->GetSymbolType())
+									{
+									case ManagedSymbolItem::Class:
+									case ManagedSymbolItem::Structure:
+									case ManagedSymbolItem::Interface:
+										{
+											failed=dynamic_cast<ManagedSymbolDeclaration*>(operandType->GetSymbol())->orderedGenericParameterNames.Count()>0;
+										}
+										break;
+									case ManagedSymbolItem::TypeRename:
+										{
+											ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(operandType->GetSymbol());
+											if(symbol->orderedGenericParameterNames.Count()>0)
+											{
+												failed=true;
+											}
+											else if(symbol->languageElement)
+											{
+												ManagedTypeSymbol* targetType=
+													symbol->type
+													?symbol->type
+													:GetTypeSymbol(symbol->languageElement->type, MAP(argument.context, symbol))
+													;
+												if(!targetType || targetType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
+												{
+													failed=true;
+												}
+												else
+												{
+													newOperandType=targetType;
+												}
+											}
+										}
+										break;
+									}
+								}
+							}while(!failed && newOperandType!=operandType);
+							if(!failed)
+							{
+								if(ManagedSymbolItemGroup* group=operandType->GetSymbol()->ItemGroup(node->member))
+								{
+									FOREACH(ManagedSymbolItem*, item, group->Items())
+									{
+										switch(item->GetSymbolType())
+										{
+										case ManagedSymbolItem::Class:
+										case ManagedSymbolItem::Structure:
+										case ManagedSymbolItem::Interface:
+										case ManagedSymbolItem::TypeRename:
+											{
+												ManagedTypeSymbol* type=argument.context.symbolManager->GetType(item, operandType);
+												if(!newTypeResults.Contains(type))
+												{
+													newTypeResults.Add(type);
+												}
+											}
+											break;
+										}
+									}
+								}
+							}
+						}
+
+						argument.namespaceResults.Clear();
+						argument.typeResults.Clear();
+						CopyFrom(argument.namespaceResults.Wrap(), newNamespaceResults.Wrap());
+						CopyFrom(argument.typeResults.Wrap(), newTypeResults.Wrap());
+					}
+					else
+					{
+						argument.namespaceResults.Clear();
+						argument.typeResults.Clear();
+						
+						if(ManagedSymbolItemGroup* group=argument.context.symbolManager->Global()->ItemGroup(node->member))
+						{
+							FOREACH(ManagedSymbolItem*, item, group->Items())
+							{
+								switch(item->GetSymbolType())
+								{
+								case ManagedSymbolItem::Namespace:
+									{
+										if(!argument.namespaceResults.Contains(item))
+										{
+											argument.namespaceResults.Add(item);
+										}
+									}
+									break;
+								case ManagedSymbolItem::Class:
+								case ManagedSymbolItem::Structure:
+								case ManagedSymbolItem::Interface:
+								case ManagedSymbolItem::TypeRename:
+									{
+										ManagedTypeSymbol* type=argument.context.symbolManager->GetType(item);
+										if(!argument.typeResults.Contains(type))
+										{
+											argument.typeResults.Add(type);
+										}
+									}
+									break;
+								}
+							}
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedGenericType)
 				{
+					ManagedLanguage_GetTypeSymbol_Type(node->elementType, argument);
+					List<ManagedTypeSymbol*> acceptableTypes;
+					FOREACH(ManagedTypeSymbol*, resultType, argument.typeResults.Wrap())
+					{
+						if(resultType->GetGenericDeclaration()==0)
+						{
+							switch(resultType->GetSymbol()->GetSymbolType())
+							{
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
+								{
+									if(dynamic_cast<ManagedSymbolDeclaration*>(resultType->GetSymbol())->orderedGenericParameterNames.Count()==node->argumentTypes.Count())
+									{
+										acceptableTypes.Add(resultType);
+									}
+								}
+								break;
+							case ManagedSymbolItem::TypeRename:
+								{
+									if(dynamic_cast<ManagedSymbolTypeRename*>(resultType->GetSymbol())->orderedGenericParameterNames.Count()==node->argumentTypes.Count())
+									{
+										acceptableTypes.Add(resultType);
+									}
+								}
+								break;
+							}
+						}
+					}
+
+					List<ManagedTypeSymbol*> genericArguments;
+					FOREACH(Ptr<ManagedType>, argumentType, node->argumentTypes.Wrap())
+					{
+						ManagedTypeSymbol* genericArgument=GetTypeSymbol(argumentType, argument.context);
+						if(genericArgument)
+						{
+							genericArguments.Add(genericArgument);
+						}
+					}
+
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
+					if(genericArguments.Count()==node->argumentTypes.Count())
+					{
+						FOREACH(ManagedTypeSymbol*, acceptableType, acceptableTypes.Wrap())
+						{
+							argument.typeResults.Add(argument.context.symbolManager->GetInstiantiatedType(acceptableType, genericArguments.Wrap()));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedType)
@@ -61,20 +265,22 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedArrayType)
 				{
-					argument.result.Clear();
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
 					ManagedTypeSymbol* arrayDecl=GetSystemType(node, L"Array"+itow(node->dimensionCount), argument.context, 1);
 					ManagedTypeSymbol* element=GetTypeSymbol(node->elementType, argument.context);
 					if(arrayDecl && element)
 					{
 						List<ManagedTypeSymbol*> genericArguments;
 						genericArguments.Add(element);
-						argument.result.Add(argument.context.symbolManager->GetType(arrayDecl->GetSymbol(), genericArguments.Wrap()));
+						argument.typeResults.Add(argument.context.symbolManager->GetInstiantiatedType(arrayDecl, genericArguments.Wrap()));
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedFunctionType)
 				{
-					argument.result.Clear();
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
 					List<ManagedTypeSymbol*> genericArguments;
 					FOREACH(Ptr<ManagedType>, parameter, node->parameterTypes.Wrap())
 					{
@@ -96,11 +302,11 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 							{
 								if(genericArguments.Count()==0)
 								{
-									argument.result.Add(procedureDecl);
+									argument.typeResults.Add(procedureDecl);
 								}
 								else
 								{
-									argument.result.Add(argument.context.symbolManager->GetType(procedureDecl->GetSymbol(), genericArguments.Wrap()));
+									argument.typeResults.Add(argument.context.symbolManager->GetInstiantiatedType(procedureDecl, genericArguments.Wrap()));
 								}
 							}
 						}
@@ -110,7 +316,7 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 							ManagedTypeSymbol* functionDecl=GetSystemType(node, L"Function", argument.context, genericArguments.Count());
 							if(functionDecl)
 							{
-								argument.result.Add(argument.context.symbolManager->GetType(functionDecl->GetSymbol(), genericArguments.Wrap()));
+								argument.typeResults.Add(argument.context.symbolManager->GetInstiantiatedType(functionDecl, genericArguments.Wrap()));
 							}
 						}
 					}
@@ -118,7 +324,8 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEventType)
 				{
-					argument.result.Clear();
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
 					List<ManagedTypeSymbol*> genericArguments;
 					FOREACH(Ptr<ManagedType>, parameter, node->parameterTypes.Wrap())
 					{
@@ -136,11 +343,11 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 						{
 							if(genericArguments.Count()==0)
 							{
-								argument.result.Add(eventDecl);
+								argument.typeResults.Add(eventDecl);
 							}
 							else
 							{
-								argument.result.Add(argument.context.symbolManager->GetType(eventDecl->GetSymbol(), genericArguments.Wrap()));
+								argument.typeResults.Add(argument.context.symbolManager->GetInstiantiatedType(eventDecl, genericArguments.Wrap()));
 							}
 						}
 					}
@@ -148,17 +355,19 @@ ManagedLanguage_GetTypeSymbol_ExtendedType
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAutoReferType)
 				{
-					argument.result.Clear();
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
 					argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalAutoRefer(node));
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedDynamicType)
 				{
-					argument.result.Clear();
+					argument.namespaceResults.Clear();
+					argument.typeResults.Clear();
 					ManagedTypeSymbol* dynamicDecl=GetSystemType(node, L"IDynamic", argument.context);
 					if(dynamicDecl)
 					{
-						argument.result.Add(dynamicDecl);
+						argument.typeResults.Add(dynamicDecl);
 					}
 				}
 
@@ -170,22 +379,22 @@ GetTypeSymbol
 
 			ManagedTypeSymbol* GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument)
 			{
-				List<ManagedSymbolItem*> temporaryResult;
-				List<ManagedTypeSymbol*> result;
-				ManagedLanguage_GetTypeSymbol_Type(type, MAGTSP(argument, temporaryResult, result));
-				if(result.Count()==0)
+				List<ManagedSymbolItem*> namespaceResults;
+				List<ManagedTypeSymbol*> typeResults;
+				ManagedLanguage_GetTypeSymbol_Type(type, MAGTSP(argument, namespaceResults, typeResults));
+				if(typeResults.Count()==0)
 				{
 					//argument.errors.Add(ManagedLanguageCodeException::GetTypeNotExists(type.Obj()));
 					return 0;
 				}
-				else if(result.Count()>1)
+				else if(typeResults.Count()>1)
 				{
 					//argument.errors.Add(ManagedLanguageCodeException::GetTypeDuplicated(type.Obj()));
 					return 0;
 				}
 				else
 				{
-					return result[0];
+					return typeResults[0];
 				}
 			}
 		}

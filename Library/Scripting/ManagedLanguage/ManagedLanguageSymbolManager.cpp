@@ -113,9 +113,20 @@ ManagedSymbolItemGroup
 ManagedSymbolItemGroup
 ***********************************************************************/
 
-			ManagedTypeSymbol::ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol)
+			ManagedTypeSymbol::ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol, ManagedTypeSymbol* _parentType)
 				:manager(_manager)
 				,typeSymbol(_typeSymbol)
+				,parentType(_parentType)
+				,genericDeclaration(0)
+			{
+				manager->Register(this);
+			}
+
+			ManagedTypeSymbol::ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedTypeSymbol* _genericDeclaration)
+				:manager(_manager)
+				,typeSymbol(_genericDeclaration->typeSymbol)
+				,parentType(0)
+				,genericDeclaration(_genericDeclaration)
 			{
 				manager->Register(this);
 			}
@@ -134,9 +145,14 @@ ManagedSymbolItemGroup
 				return typeSymbol;
 			}
 
+			ManagedTypeSymbol* ManagedTypeSymbol::GetParentType()
+			{
+				return parentType;
+			}
+
 			ManagedTypeSymbol* ManagedTypeSymbol::GetGenericDeclaration()
 			{
-				return manager->GetType(typeSymbol);
+				return genericDeclaration;
 			}
 
 			const ManagedTypeSymbol::ITypeList& ManagedTypeSymbol::GetGenericArguments()
@@ -177,18 +193,17 @@ ManagedSymbolItemGroup
 				return global;
 			}
 
-			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item)
+			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item, ManagedTypeSymbol* parentType)
 			{
 				if(item->associatedType==0)
 				{
-					item->associatedType=new ManagedTypeSymbol(this, item);
+					item->associatedType=new ManagedTypeSymbol(this, item, parentType);
 				}
 				return item->associatedType;
 			}
 
-			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments)
+			ManagedTypeSymbol* ManagedSymbolManager::GetInstiantiatedType(ManagedTypeSymbol* genericDeclaration, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments)
 			{
-				ManagedTypeSymbol* genericDeclaration=GetType(item);
 				for(vint i=0;i<genericDeclaration->associatedInstantiatedTypes.Count();i++)
 				{
 					ManagedTypeSymbol* instantiated=genericDeclaration->associatedInstantiatedTypes[i];
@@ -198,7 +213,7 @@ ManagedSymbolItemGroup
 					}
 				}
 
-				ManagedTypeSymbol* instantiated=new ManagedTypeSymbol(this, genericDeclaration->typeSymbol);
+				ManagedTypeSymbol* instantiated=new ManagedTypeSymbol(this, genericDeclaration);
 				CopyFrom(instantiated->genericArguments.Wrap(), genericArguments);
 				genericDeclaration->associatedInstantiatedTypes.Add(instantiated);
 				return instantiated;

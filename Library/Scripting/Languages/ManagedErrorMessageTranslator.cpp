@@ -59,6 +59,17 @@ ManagedErrorMessageTranslator
 					{
 						message=ManagedErrorMessage::IllegalAutoRefer(TypeToString(dynamic_cast<ManagedAutoReferType*>(error->GetManagedLanguageElement())));
 					}
+					break;
+				case ManagedLanguageCodeException::CannotDirectReferTypeRenameAsToplevel:
+					{
+						message=ManagedErrorMessage::CannotDirectReferTypeRenameAsToplevel(error->GetParameters()[0]);
+					}
+					break;
+				case ManagedLanguageCodeException::IllegalNestedDeclaration:
+					{
+						message=ManagedErrorMessage::IllegalNestedDeclaration();
+					}
+					break;
 				default:
 					return 0;
 				}

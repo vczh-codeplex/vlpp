@@ -101,6 +101,19 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(element, IllegalAutoRefer, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotDirectReferTypeRenameAsToplevel(ManagedTypeRenameDeclaration* element)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=element->name;
+				return new ManagedLanguageCodeException(element, CannotDirectReferTypeRenameAsToplevel, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalNestedDeclaration(ManagedTypeMember* element)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, IllegalNestedDeclaration, parameters.Wrap());
+			}
 		}
 	}
 }

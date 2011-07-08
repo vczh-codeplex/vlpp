@@ -134,7 +134,18 @@ ManagedLanguage_BuildGlobalScope1_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
 				{
-					ManagedLanguage_BuildGlobalScope1_Declaration(node->declaration, argument);
+					if(
+						node->declaration.Cast<ManagedTypeDeclaration>() ||
+						node->declaration.Cast<ManagedEnumerationDeclaration>() ||
+						node->declaration.Cast<ManagedTypeRenameDeclaration>()
+						)
+					{
+						ManagedLanguage_BuildGlobalScope1_Declaration(node->declaration, argument);
+					}
+					else
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetIllegalNestedDeclaration(node));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
