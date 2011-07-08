@@ -144,6 +144,75 @@ GetSystemType
 					return argument.symbolManager->GetType(baseType);
 				}
 			}
+
+/***********************************************************************
+EnsureUsingNamespaceSymbolCompleted
+***********************************************************************/
+
+			void EnsureUsingNamespaceSymbolCompleted(ManagedSymbolUsingNamespace* symbol, const MAP& argument)
+			{
+				ManagedSymbolItem* currentNamespace=argument.symbolManager->Global();
+				if(!symbol->associatedNamespace && symbol->languageElement)
+				{
+					FOREACH(WString, name, symbol->languageElement->namespaceFragments.Wrap())
+					{
+						if(currentNamespace)
+						{
+							if(ManagedSymbolItemGroup* group=currentNamespace->ItemGroup(name))
+							{
+								ManagedSymbolItem* nextNamespace=0;
+								FOREACH(ManagedSymbolItem*, item, group->Items())
+								{
+									if(item->GetSymbolType()==ManagedSymbolItem::Namespace)
+									{
+										nextNamespace=item;
+										break;
+									}
+								}
+								currentNamespace=nextNamespace;
+							}
+						}
+					}
+
+					if(currentNamespace && currentNamespace->GetSymbolType()==ManagedSymbolItem::Namespace)
+					{
+						symbol->associatedNamespace=dynamic_cast<ManagedSymbolNamespace*>(currentNamespace);
+					}
+					else
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(symbol->languageElement));
+					}
+				}
+			}
+
+/***********************************************************************
+EnsureSymbolBaseTypesCompleted
+***********************************************************************/
+
+			void EnsureSymbolBaseTypesCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument)
+			{
+				if(symbol->baseTypes.Count()==0)
+				{
+					if(symbol->typeLanguageElement && symbol->typeLanguageElement->baseTypes.Count()>0)
+					{
+						FOREACH(Ptr<ManagedType>, type, symbol->typeLanguageElement->baseTypes.Wrap())
+						{
+							ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
+							if(typeSymbol)
+							{
+								symbol->baseTypes.Add(typeSymbol);
+							}
+						}
+					}
+					else if(symbol->enumerationLanguageElement)
+					{
+						if(ManagedTypeSymbol* baseType=GetSystemType(symbol->enumerationLanguageElement, L"EnumItemBase", argument))
+						{
+							symbol->baseTypes.Add(baseType);
+						}
+					}
+				}
+			}
 		}
 	}
 }
