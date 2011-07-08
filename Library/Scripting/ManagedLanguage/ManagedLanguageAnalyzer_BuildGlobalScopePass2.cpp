@@ -48,7 +48,7 @@ ManagedLanguage_BuildGlobalScope2_Member
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
 					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
-					symbol->returnType=GetTypeSymbol(node->returnType, argument);
+					symbol->returnType=GetTypeSymbol(node->returnType, argument, symbol);
 					if(node->implementedInterfaceType)
 					{
 						symbol->implementedInterfaceType=GetTypeSymbol(node->implementedInterfaceType, argument);
@@ -61,7 +61,7 @@ ManagedLanguage_BuildGlobalScope2_Member
 
 						parameterSymbol->parameterType=parameter->parameterType;
 						parameterSymbol->containsDefaultValue=parameter->defaultValue;
-						parameterSymbol->type=GetTypeSymbol(parameter->type, argument);
+						parameterSymbol->type=GetTypeSymbol(parameter->type, argument, symbol);
 					}
 				}
 
@@ -121,7 +121,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedMember
 				{
 					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
 					symbol->implicit=node->implicit;
-					symbol->targetType=GetTypeSymbol(node->targetType, argument);
+					symbol->targetType=GetTypeSymbol(node->targetType, argument, symbol);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
 				}
 
@@ -184,7 +184,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeRenameDeclaration)
 				{
 					ManagedSymbolTypeRename* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolTypeRename>(node);
-					symbol->type=GetTypeSymbol(node->type, argument);
+					symbol->type=GetTypeSymbol(node->type, argument, symbol);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
 					if(symbol->type->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
 					{

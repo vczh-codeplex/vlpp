@@ -43,7 +43,7 @@ Helper Functions
 ***********************************************************************/
 			
 			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount=0);
-			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument);
+			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument, ManagedSymbolItem* extraGenericParameterContainer=0);
 			extern void							EnsureUsingNamespaceSymbolCompleted(ManagedSymbolUsingNamespace* symbol, const MAP& argument);
 			extern void							EnsureSymbolBaseTypesCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument);
 
