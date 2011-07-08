@@ -124,39 +124,59 @@ Types
 																		//    generic argument can be another generic parameter
 			};
 			/*
-				generic<inout T>
-				class A
-				{
-					generic<inout U>
-					public using S = B<T, U>;
-				}
+			================================================
+			generic<inout T>
+			class A
+			{
+				generic<inout U>
+				public using S = B<T, U>;
+			}
 
-				A<int>.S<string> ->
-					TypeSymbol(A<int>.S<string>)
+			generic<inout T, inout U>
+			class B
+			{
+				public using T = Dictionary<T, U>;
+			}
+			================================================
+			A<int> ->
+				TypeSymbol(A<int>)
+				{
+					GetSymbol() = A
+					GetParentType() = 0
+					GetGenericDeclaration() = TypeSymbol(A)
+					{
+						GetSymbol() = A
+						GetParentType() = 0
+						GetGenericDeclaration() = 0
+						GetGenericArguments() = []
+					}
+					GetGenericArguments() = [int]
+				}
+			================================================
+			A<int>.S<string> ->
+				TypeSymbol(A<int>.S<string>)
+				{
+					GetSymbol() = A.S
+					GetParentType() = 0
+					GetGenericDeclaration() = TypeSymbol(A<int>.S)
 					{
 						GetSymbol() = A.S
-						GetParentType() = 0
-						GetGenericDeclaration() = TypeSymbol(A<int>.S)
-						{
-							GetSymbol() = A.S
-							GetParentType() = TypeSymbol(A<int>)
-							{
-								GetSymbol() = A
-								GetParentType() = 0
-								GetGenericDeclaration() = TypeSymbol(A)
-								{
-									GetSymbol() = A
-									GetParentType() = 0
-									GetGenericDeclaration() = 0
-									GetGenericArguments() = []
-								}
-								GetGenericArguments() = [int]
-							}
-							GetGenericDeclaration() = 0
-							GetGenericArguments() = []
-						}
-						GetGenericArguments() = [string]
-					}		
+						GetParentType() = TypeSymbol(A<int>)
+						GetGenericDeclaration() = 0
+						GetGenericArguments() = []
+					}
+					GetGenericArguments() = [string]
+				}
+			================================================
+			A<int>.S<string>.T ->
+				TypeSymbol(Dictionary<int, string>)
+				{
+					GetSymbol() = Dictionary
+					GetParentType() = 0
+					GetGenericDeclaration() = TypeSymbol(Dictionary)
+					GetGenericArguments() = [int, string]
+				}
+			================================================
 			*/
 
 /***********************************************************************

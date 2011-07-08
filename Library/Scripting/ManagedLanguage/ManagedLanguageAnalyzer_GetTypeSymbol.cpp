@@ -85,53 +85,56 @@ ManagedLanguage_GetTypeSymbol_Type
 						FOREACH(ManagedTypeSymbol*, typeResult, argument.typeResults.Wrap())
 						{
 							bool failed=false;
-							ManagedTypeSymbol* operandType=typeResult;
-							ManagedTypeSymbol* newOperandType=typeResult;
-							do
+							ManagedSymbolItem* typeResultSymbol=0;
+							switch(typeResult->GetSymbol()->GetSymbolType())
 							{
-								operandType=newOperandType;
-								if(operandType->GetGenericDeclaration()==0)
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
 								{
-									switch(operandType->GetSymbol()->GetSymbolType())
+									if(typeResult->GetGenericDeclaration()==0)
 									{
-									case ManagedSymbolItem::Class:
-									case ManagedSymbolItem::Structure:
-									case ManagedSymbolItem::Interface:
-										{
-											failed=dynamic_cast<ManagedSymbolDeclaration*>(operandType->GetSymbol())->orderedGenericParameterNames.Count()>0;
-										}
-										break;
-									case ManagedSymbolItem::TypeRename:
-										{
-											ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(operandType->GetSymbol());
-											if(symbol->orderedGenericParameterNames.Count()>0)
-											{
-												failed=true;
-											}
-											else if(symbol->languageElement)
-											{
-												ManagedTypeSymbol* targetType=
-													symbol->type
-													?symbol->type
-													:GetTypeSymbol(symbol->languageElement->type, MAP(argument.context, symbol))
-													;
-												if(!targetType || targetType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
-												{
-													failed=true;
-												}
-												else
-												{
-													newOperandType=targetType;
-												}
-											}
-										}
-										break;
+										failed=dynamic_cast<ManagedSymbolDeclaration*>(typeResult->GetSymbol())->orderedGenericParameterNames.Count()>0;
+									}
+									else
+									{
+										typeResultSymbol=typeResult->GetSymbol();
 									}
 								}
-							}while(!failed && newOperandType!=operandType);
+								break;
+							case ManagedSymbolItem::TypeRename:
+								{
+									ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(typeResult->GetSymbol());
+									if(typeResult->GetGenericDeclaration()==0 && symbol->orderedGenericParameterNames.Count()>0)
+									{
+										failed=true;
+									}
+									else if(symbol->languageElement)
+									{
+										ManagedTypeSymbol* targetType=
+											symbol->type
+											?symbol->type
+											:GetTypeSymbol(symbol->languageElement->type, MAP(argument.context, symbol))
+											;
+										if(!targetType || targetType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
+										{
+											failed=true;
+										}
+										else
+										{
+											typeResultSymbol=targetType->GetSymbol();
+										}
+									}
+								}
+								break;
+							default:
+								failed=true;
+								break;
+							}
+
 							if(!failed)
 							{
-								if(ManagedSymbolItemGroup* group=operandType->GetSymbol()->ItemGroup(node->member))
+								if(ManagedSymbolItemGroup* group=typeResultSymbol->ItemGroup(node->member))
 								{
 									FOREACH(ManagedSymbolItem*, item, group->Items())
 									{
@@ -142,7 +145,7 @@ ManagedLanguage_GetTypeSymbol_Type
 										case ManagedSymbolItem::Interface:
 										case ManagedSymbolItem::TypeRename:
 											{
-												ManagedTypeSymbol* type=argument.context.symbolManager->GetType(item, operandType);
+												ManagedTypeSymbol* type=argument.context.symbolManager->GetType(item, typeResult);
 												if(!newTypeResults.Contains(type))
 												{
 													newTypeResults.Add(type);
