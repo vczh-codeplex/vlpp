@@ -6,3 +6,4 @@ FullPathTypeNotExists(name)=Type {name} does not exist.
 FullPathTypeDuplicated(name)=Multiple types of {name} found.
 ScopedTypeNotExists(name)=Type {name} does not exist in the current scope.
 ScopedTypeDuplicated(name)=Multiple types of {name} found in the current scope.
+IllegalAutoRefer(autoRefType)=The Auto refer type \"{autoRefType}\" can only be used in variable declaration statement, using statement, foreach statement and lambda expression parameter/return type.

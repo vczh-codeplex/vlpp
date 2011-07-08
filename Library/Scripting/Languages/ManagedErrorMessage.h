@@ -31,6 +31,7 @@ namespace vl
 				static WString FullPathTypeDuplicated(const WString& name);
 				static WString ScopedTypeNotExists(const WString& name);
 				static WString ScopedTypeDuplicated(const WString& name);
+				static WString IllegalAutoRefer(const WString& autoRefType);
 			};
 		}
 	}

@@ -55,6 +55,10 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::ScopedTypeDuplicated(TypeToString(dynamic_cast<ManagedType*>(error->GetManagedLanguageElement())));
 					}
 					break;
+				case ManagedLanguageCodeException::IllegalAutoRefer:
+					{
+						message=ManagedErrorMessage::IllegalAutoRefer(TypeToString(dynamic_cast<ManagedAutoReferType*>(error->GetManagedLanguageElement())));
+					}
 				default:
 					return 0;
 				}

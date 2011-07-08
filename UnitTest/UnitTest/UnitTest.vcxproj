@@ -328,6 +328,7 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Array.txt.fpm" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Attribute.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Common.fpm" />
+    <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Dynamic.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Enumeration.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Exception.txt" />
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Function.txt" />

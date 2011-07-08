@@ -29,6 +29,7 @@ namespace vl
 					SystemTypeDuplicated,	// <all>								:name
 					TypeNotExists,			// <ManagedType>
 					TypeDuplicated,			// <ManagedType>
+					IllegalAutoRefer,		// <ManagedAutoReferType>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -51,6 +52,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetSystemTypeDuplicated(ManagedLanguageElement* element, const WString& name);
 				static Ptr<ManagedLanguageCodeException>						GetTypeNotExists(ManagedType* element);
 				static Ptr<ManagedLanguageCodeException>						GetTypeDuplicated(ManagedType* element);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefer(ManagedAutoReferType* element);
 			};
 		}
 	}

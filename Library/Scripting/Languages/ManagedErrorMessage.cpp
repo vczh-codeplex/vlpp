@@ -36,6 +36,11 @@ namespace vl
 				return L"Multiple types of "+name+L" found in the current scope.";
 			}
 
+			WString ManagedErrorMessage::IllegalAutoRefer(const WString& autoRefType)
+			{
+				return L"The Auto refer type \""+autoRefType+L"\" can only be used in variable declaration statement, using statement, foreach statement and lambda expression parameter/return type.";
+			}
+
 		}
 	}
 }

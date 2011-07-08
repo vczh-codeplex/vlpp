@@ -175,6 +175,11 @@ Extended Types
 				collections::List<Ptr<ManagedType>>					parameterTypes;
 			};
 
+			// lambda parameter
+			// lambda return type
+			// using
+			// foreach
+			// variable statement
 			class ManagedAutoReferType : public ManagedExtendedType
 			{
 			public:

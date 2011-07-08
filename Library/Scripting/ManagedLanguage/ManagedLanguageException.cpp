@@ -95,6 +95,12 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(element, TypeDuplicated, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalAutoRefer(ManagedAutoReferType* element)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, IllegalAutoRefer, parameters.Wrap());
+			}
 		}
 	}
 }

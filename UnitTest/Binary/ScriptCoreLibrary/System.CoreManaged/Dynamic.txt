@@ -1,0 +1,13 @@
+namespace System
+{
+	public interface IDynamic
+	{
+		public abstract IDynamic GetProperty(string name);
+		public abstract void SetProperty(string name, IDynamic value);
+		public abstract IDynamic Invoke(string name, params IDynamic[] arguments);
+
+		public abstract bool ContainsProperty(string name);
+		public abstract bool ContainsInvokable(string name);
+		public abstract bool CanModify{get;}
+	}
+}
