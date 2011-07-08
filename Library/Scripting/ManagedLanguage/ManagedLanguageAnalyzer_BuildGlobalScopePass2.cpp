@@ -138,15 +138,7 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
 					MAP newArgument(argument, symbol);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, newArgument);
-
-					FOREACH(Ptr<ManagedType>, type, node->baseTypes.Wrap())
-					{
-						ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
-						if(typeSymbol)
-						{
-							symbol->baseTypes.Add(typeSymbol);
-						}
-					}
+					EnsureSymbolBaseTypesCompleted(symbol, argument);
 
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
@@ -179,11 +171,7 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedEnumerationDeclaration)
 				{
 					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
-
-					if(ManagedTypeSymbol* baseType=GetSystemType(node, L"EnumItemBase", argument))
-					{
-						symbol->baseTypes.Add(baseType);
-					}
+					EnsureSymbolBaseTypesCompleted(symbol, argument);
 
 					FOREACH(Ptr<ManagedEnumItem>, enumItem, node->items.Wrap())
 					{
@@ -206,37 +194,8 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
-					ManagedSymbolItem* currentNamespace=argument.symbolManager->Global();
-
-					FOREACH(WString, name, node->namespaceFragments.Wrap())
-					{
-						if(currentNamespace)
-						{
-							if(ManagedSymbolItemGroup* group=currentNamespace->ItemGroup(name))
-							{
-								ManagedSymbolItem* nextNamespace=0;
-								FOREACH(ManagedSymbolItem*, item, group->Items())
-								{
-									if(item->GetSymbolType()==ManagedSymbolItem::Namespace)
-									{
-										nextNamespace=item;
-										break;
-									}
-								}
-								currentNamespace=nextNamespace;
-							}
-						}
-					}
-
-					if(currentNamespace && currentNamespace->GetSymbolType()==ManagedSymbolItem::Namespace)
-					{
-						ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
-						symbol->associatedNamespace=dynamic_cast<ManagedSymbolNamespace*>(currentNamespace);
-					}
-					else
-					{
-						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(node));
-					}
+					ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
+					EnsureUsingNamespaceSymbolCompleted(symbol, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration)
