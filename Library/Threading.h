@@ -233,7 +233,7 @@ namespace vl
 	class SpinLock : public Object, public NotCopyable
 	{
 	protected:
-		LockedInt									token;
+		volatile LockedInt							token;
 	public:
 		SpinLock();
 		~SpinLock();
