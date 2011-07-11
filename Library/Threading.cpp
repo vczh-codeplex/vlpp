@@ -742,11 +742,15 @@ SpinLock
 
 	void SpinLock::Enter()
 	{
-		while(_InterlockedExchange(&token, 1)==1);
+		while(_InterlockedCompareExchange(&token, 1, 0)!=0)
+		{
+			while(token!=0) _mm_pause();
+		}
 	}
 
 	void SpinLock::Leave()
 	{
-		_InterlockedExchange(&token, 0);
+		_mm_mfence();
+		token=0;
 	}
 }
