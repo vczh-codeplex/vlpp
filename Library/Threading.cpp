@@ -750,7 +750,6 @@ SpinLock
 
 	void SpinLock::Leave()
 	{
-		_mm_mfence();
-		token=0;
+		_InterlockedExchange(&token, 0);
 	}
 }
