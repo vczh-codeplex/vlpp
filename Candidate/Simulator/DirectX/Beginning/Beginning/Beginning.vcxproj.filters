@@ -124,5 +124,8 @@
     <None Include="TextureVertexShader.txt">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="TextureColumn.jpg">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

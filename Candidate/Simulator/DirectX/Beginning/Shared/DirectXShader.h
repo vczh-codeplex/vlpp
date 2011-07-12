@@ -1,3 +1,13 @@
+/***********************************************************************
+DirectX Helper
+
+Classes:
+	DirectXShader<VertexType>
+	DirectXVertexBuffer<VertexType>
+	DirectXConstantBuffer<ContentType>
+	DirectXTextureBuffer
+	DirectXSamplerBuffer
+***********************************************************************/
 #ifndef VCZH_DIRECTXSHADER
 #define VCZH_DIRECTXSHADER
 
@@ -217,6 +227,44 @@ Constant Buffer
 			{
 				env->context->PSSetConstantBuffers(index, 1, &buffer);
 			}
+		};
+
+/***********************************************************************
+Texture Buffer
+***********************************************************************/
+
+		class DirectXTextureBuffer : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+			ID3D11ShaderResourceView*	texture;
+		public:
+			DirectXTextureBuffer(const DirectXEnvironment* _env);
+			~DirectXTextureBuffer();
+			
+			void						VSBindToRegisterTN(int index);
+			void						PSBindToRegisterTN(int index);
+
+			void						Update(const WString& fileName);
+		};
+
+/***********************************************************************
+Sampler Buffer
+***********************************************************************/
+
+		class DirectXSamplerBuffer : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+			ID3D11SamplerState*			sampler;
+		public:
+			DirectXSamplerBuffer(const DirectXEnvironment* _env);
+			~DirectXSamplerBuffer();
+
+			void						VSBindToRegisterSN(int index);
+			void						PSBindToRegisterSN(int index);
+
+			void						Update(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode, D3DXCOLOR borderColor);
 		};
 	}
 }
