@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{594f64e7-6e71-4742-a1fe-8ddb6d20d48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{373ff6bd-4049-4e22-a37e-2fd8fe869b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic">
+      <UniqueIdentifier>{985d809f-4dba-4564-bb1e-9488d6fa68ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections">
+      <UniqueIdentifier>{9d342c26-1ca9-479d-9b38-cd91ac11d021}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{411d3e4c-3b5c-4058-b069-ccfad3995cf5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\DirectXSetup.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\DirectXShader.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\Basic.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\String.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\Collections\Operation.cpp">
+      <Filter>Library\Collections</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Shared\DirectXSetup.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\DirectXShader.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Basic.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\String.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Dictionary.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\DictionaryWrappers.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Interfaces.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\List.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\ListWrappers.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Operation.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationAggregate.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationConcat.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationCopyFrom.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationEnumerable.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationForEach.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationPair.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSelect.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSequence.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSet.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationString.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationWhere.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Pair.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ColorVertexShader.txt">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TextureVertexShader.txt">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
