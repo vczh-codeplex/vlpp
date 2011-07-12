@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorVertexShader.txt" />
+    <None Include="TextureColumn.jpg" />
     <None Include="TextureVertexShader.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
