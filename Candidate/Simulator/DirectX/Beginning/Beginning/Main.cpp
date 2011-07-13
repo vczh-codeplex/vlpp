@@ -9,6 +9,10 @@ struct ConstantBufferType
 	D3DXMATRIX world;
 	D3DXMATRIX view;
 	D3DXMATRIX projection;
+	D3DXVECTOR4 lightPosition;
+	D3DXCOLOR lightColor;
+	float lightMinimunDistanceSquare[4];
+	D3DXCOLOR environmentColor;
 };
 
 struct ColorVertex
@@ -43,8 +47,6 @@ private:
 	void WriteConstantBuffer(int worldMatrixIndex)
 	{
 		D3DXMatrixTranspose(&constantBuffer->world, &worldMatrix[worldMatrixIndex]);
-		D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
-		D3DXMatrixTranspose(&constantBuffer->projection, &env->projectionMatrix);
 		constantBuffer.Update();
 	}
 public:
@@ -199,6 +201,14 @@ public:
 			D3DXMatrixTranslation(&worldMatrix[1], 2, 0, 0);
 			D3DXMatrixTranslation(&viewMatrix, 0, 0, 10.0);
 		}
+		{
+			constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
+			D3DXVec4Transform(&constantBuffer->lightPosition, &constantBuffer->lightPosition, &worldMatrix[2]);
+			constantBuffer->lightMinimunDistanceSquare[0]=1;
+
+			D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
+			D3DXMatrixTranspose(&constantBuffer->projection, &env->projectionMatrix);
+		}
 	}
 
 	~World()
@@ -211,6 +221,7 @@ public:
 		env->context->ClearDepthStencilView(env->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 		{
 			constantBuffer.VSBindToRegisterBN(0);
+			constantBuffer.PSBindToRegisterBN(0);
 
 			WriteConstantBuffer(0);
 			cube1.SetCurrentAndRender(&colorShader);
