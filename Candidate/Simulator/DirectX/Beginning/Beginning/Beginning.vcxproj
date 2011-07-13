@@ -116,9 +116,10 @@
     <ClInclude Include="..\Shared\DirectXShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColorVertexShader.txt" />
+    <None Include="ColorShader.txt" />
+    <None Include="LightShader.txt" />
     <None Include="TextureColumn.jpg" />
-    <None Include="TextureVertexShader.txt" />
+    <None Include="TextureShader.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

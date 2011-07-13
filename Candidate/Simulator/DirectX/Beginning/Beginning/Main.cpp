@@ -15,15 +15,22 @@ struct ConstantBufferType
 	D3DXCOLOR environmentColor;
 };
 
+struct LightVertex
+{
+    D3DXVECTOR3 Position;
+};
+
 struct ColorVertex
 {
     D3DXVECTOR3 Position;
+	D3DXVECTOR3 Normal;
     D3DXCOLOR Color;
 };
 
 struct TextureVertex
 {
     D3DXVECTOR3 Position;
+	D3DXVECTOR3 Normal;
     D3DXVECTOR2 Texcoord0;
 };
 
@@ -35,10 +42,11 @@ private:
 
 	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
 	
-	DirectXVertexBuffer<ColorVertex>			lightGeometry;
+	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
 	DirectXVertexBuffer<TextureVertex>			cube2;
 
+	DirectXShader<LightVertex>					lightShader;
 	DirectXShader<ColorVertex>					colorShader;
 	DirectXShader<TextureVertex>				textureShader;
 	DirectXTextureBuffer						texture;
@@ -56,20 +64,21 @@ public:
 		,lightGeometry(_env)
 		,cube1(_env)
 		,cube2(_env)
+		,lightShader(_env)
 		,colorShader(_env)
 		,textureShader(_env)
 		,texture(_env)
 		,sampler(_env)
 	{
 		{
-			ColorVertex vertices[] =
+			LightVertex vertices[] =
 			{
-				{D3DXVECTOR3( 0,  1,  0),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 1,  0,  0),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 0,  0,  1),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3(-1,  0,  0),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 0,  0, -1),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 0, -1,  0),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 0,  1,  0)},
+				{D3DXVECTOR3( 1,  0,  0)},
+				{D3DXVECTOR3( 0,  0,  1)},
+				{D3DXVECTOR3(-1,  0,  0)},
+				{D3DXVECTOR3( 0,  0, -1)},
+				{D3DXVECTOR3( 0, -1,  0)},
 			};
 
 			unsigned int indices[] =
@@ -89,30 +98,51 @@ public:
 		{
 			ColorVertex vertices[] =
 			{
-				{D3DXVECTOR3(-1, -1, -1),	D3DXCOLOR(0, 0, 0, 1)},
-				{D3DXVECTOR3( 1, -1, -1),	D3DXCOLOR(1, 0, 0, 1)},
-				{D3DXVECTOR3( 1,  1, -1),	D3DXCOLOR(1, 1, 0, 1)},
-				{D3DXVECTOR3(-1,  1, -1),	D3DXCOLOR(0, 1, 0, 1)},
-				{D3DXVECTOR3(-1, -1,  1),	D3DXCOLOR(0, 0, 1, 1)},
-				{D3DXVECTOR3( 1, -1,  1),	D3DXCOLOR(1, 0, 1, 1)},
-				{D3DXVECTOR3( 1,  1,  1),	D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3(-1,  1,  1),	D3DXCOLOR(0, 1, 1, 1)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3( 0,  0, -1), D3DXCOLOR(0, 0, 0, 1)},
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 0,  0, -1), D3DXCOLOR(1, 0, 0, 1)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 0,  0, -1), D3DXCOLOR(1, 1, 0, 1)},
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3( 0,  0, -1), D3DXCOLOR(0, 1, 0, 1)},
+
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 1,  0,  0), D3DXCOLOR(1, 0, 0, 1)},
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 1,  0,  0), D3DXCOLOR(1, 0, 1, 1)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 1,  0,  0), D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 1,  0,  0), D3DXCOLOR(1, 1, 0, 1)},
+
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 0,  0,  1), D3DXCOLOR(1, 0, 1, 1)},
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3( 0,  0,  1), D3DXCOLOR(0, 0, 1, 1)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3( 0,  0,  1), D3DXCOLOR(0, 1, 1, 1)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 0,  0,  1), D3DXCOLOR(1, 1, 1, 1)},
+
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3(-1,  0,  0), D3DXCOLOR(0, 0, 1, 1)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3(-1,  0,  0), D3DXCOLOR(0, 0, 0, 1)},
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3(-1,  0,  0), D3DXCOLOR(0, 1, 0, 1)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3(-1,  0,  0), D3DXCOLOR(0, 1, 1, 1)},
+
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3( 0,  1,  0), D3DXCOLOR(0, 1, 0, 1)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 0,  1,  0), D3DXCOLOR(1, 1, 0, 1)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 0,  1,  0), D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3( 0,  1,  0), D3DXCOLOR(0, 1, 1, 1)},
+
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3( 0, -1,  0), D3DXCOLOR(0, 0, 1, 1)},
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 0, -1,  0), D3DXCOLOR(1, 0, 1, 1)},
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 0, -1,  0), D3DXCOLOR(1, 0, 0, 1)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3( 0, -1,  0), D3DXCOLOR(0, 0, 0, 1)},
 			};
 
-			unsigned int indices[] = 
+			unsigned int indices[] =
 			{
 				0, 3, 2,
 				0, 2, 1,
-				1, 2, 6,
-				1, 6, 5,
-				5, 6, 7,
-				5, 7, 4,
-				4, 7, 3,
-				4, 3, 0,
-				3, 7, 6,
-				3, 6, 2,
-				4, 0, 1,
-				4, 1, 5,
+				4, 7, 6,
+				4, 6, 5,
+				8, 11,10,
+				8, 10,9,
+				12,15,14,
+				12,14,13,
+				16,19,18,
+				16,18,17,
+				20,23,22,
+				20,22,21,
 			};
 
 			cube1.Fill(vertices, indices);
@@ -120,35 +150,35 @@ public:
 		{
 			TextureVertex vertices[] =
 			{
-				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3( 0,  0, -1), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 0,  0, -1), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 0,  0, -1), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3( 0,  0, -1), D3DXVECTOR2(0, 0)},
 
-				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 1,  0,  0), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 1,  0,  0), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 1,  0,  0), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 1,  0,  0), D3DXVECTOR2(0, 0)},
 
-				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 0,  0,  1), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3( 0,  0,  1), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3( 0,  0,  1), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 0,  0,  1), D3DXVECTOR2(0, 0)},
 
-				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3(-1,  0,  0), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3(-1,  0,  0), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3(-1,  0,  0), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3(-1,  0,  0), D3DXVECTOR2(0, 0)},
 
-				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3(-1,  1, -1), D3DXVECTOR3( 0,  1,  0), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3( 1,  1, -1), D3DXVECTOR3( 0,  1,  0), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3( 1,  1,  1), D3DXVECTOR3( 0,  1,  0), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3(-1,  1,  1), D3DXVECTOR3( 0,  1,  0), D3DXVECTOR2(0, 0)},
 
-				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR2(0, 1)},
-				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR2(1, 1)},
-				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR2(1, 0)},
-				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR2(0, 0)},
+				{D3DXVECTOR3(-1, -1,  1), D3DXVECTOR3( 0, -1,  0), D3DXVECTOR2(0, 1)},
+				{D3DXVECTOR3( 1, -1,  1), D3DXVECTOR3( 0, -1,  0), D3DXVECTOR2(1, 1)},
+				{D3DXVECTOR3( 1, -1, -1), D3DXVECTOR3( 0, -1,  0), D3DXVECTOR2(1, 0)},
+				{D3DXVECTOR3(-1, -1, -1), D3DXVECTOR3( 0, -1,  0), D3DXVECTOR2(0, 0)},
 			};
 
 			unsigned int indices[] =
@@ -170,13 +200,19 @@ public:
 			cube2.Fill(vertices, indices);
 		}
 		{
-			colorShader.Fill(L"ColorVertexShader.txt", L"VShader", L"PShader")
+			lightShader.Fill(L"LightShader.txt", L"VShader", L"PShader")
+				.Field(L"POSITION", &LightVertex::Position)
+				;
+
+			colorShader.Fill(L"ColorShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &ColorVertex::Position)
+				.Field(L"NORMAL", &ColorVertex::Normal)
 				.Field(L"COLOR", &ColorVertex::Color)
 				;
 
-			textureShader.Fill(L"TextureVertexShader.txt", L"VShader", L"PShader")
+			textureShader.Fill(L"TextureShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &TextureVertex::Position)
+				.Field(L"NORMAL", &TextureVertex::Normal)
 				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
 				;
 
@@ -232,7 +268,7 @@ public:
 			cube2.SetCurrentAndRender(&textureShader);
 
 			WriteConstantBuffer(2);
-			lightGeometry.SetCurrentAndRender(&colorShader);
+			lightGeometry.SetCurrentAndRender(&lightShader);
 		}
 		env->swapChain->Present(0, 0);
 	}
