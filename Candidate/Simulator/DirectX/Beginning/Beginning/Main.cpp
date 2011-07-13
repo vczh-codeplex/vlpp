@@ -27,15 +27,16 @@ struct World
 {
 private:
 	const DirectXEnvironment*					env;
-	D3DXMATRIX									viewMatrix, worldMatrix[2];
+	D3DXMATRIX									viewMatrix, worldMatrix[3];
 
 	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
-
+	
+	DirectXVertexBuffer<ColorVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
-	DirectXShader<ColorVertex>					shader1;
-
 	DirectXVertexBuffer<TextureVertex>			cube2;
-	DirectXShader<TextureVertex>				shader2;
+
+	DirectXShader<ColorVertex>					colorShader;
+	DirectXShader<TextureVertex>				textureShader;
 	DirectXTextureBuffer						texture;
 	DirectXSamplerBuffer						sampler;
 
@@ -50,13 +51,39 @@ public:
 	World(const DirectXEnvironment* _env)
 		:env(_env)
 		,constantBuffer(_env)
+		,lightGeometry(_env)
 		,cube1(_env)
-		,shader1(_env)
 		,cube2(_env)
-		,shader2(_env)
+		,colorShader(_env)
+		,textureShader(_env)
 		,texture(_env)
 		,sampler(_env)
 	{
+		{
+			ColorVertex vertices[] =
+			{
+				{D3DXVECTOR3( 0,  1,  0),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 1,  0,  0),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 0,  0,  1),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3(-1,  0,  0),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 0,  0, -1),	D3DXCOLOR(1, 1, 1, 1)},
+				{D3DXVECTOR3( 0, -1,  0),	D3DXCOLOR(1, 1, 1, 1)},
+			};
+
+			unsigned int indices[] =
+			{
+				0, 1, 4,
+				0, 4, 3,
+				0, 3, 2,
+				0, 2, 1,
+				5, 1, 2,
+				5, 2, 3,
+				5, 3, 4,
+				5, 4, 1,
+			};
+
+			lightGeometry.Fill(vertices, indices);
+		}
 		{
 			ColorVertex vertices[] =
 			{
@@ -87,11 +114,6 @@ public:
 			};
 
 			cube1.Fill(vertices, indices);
-
-			shader1.Fill(L"ColorVertexShader.txt", L"VShader", L"PShader")
-				.Field(L"POSITION", &ColorVertex::Position)
-				.Field(L"COLOR", &ColorVertex::Color)
-				;
 		}
 		{
 			TextureVertex vertices[] =
@@ -144,8 +166,14 @@ public:
 			};
 
 			cube2.Fill(vertices, indices);
+		}
+		{
+			colorShader.Fill(L"ColorVertexShader.txt", L"VShader", L"PShader")
+				.Field(L"POSITION", &ColorVertex::Position)
+				.Field(L"COLOR", &ColorVertex::Color)
+				;
 
-			shader2.Fill(L"TextureVertexShader.txt", L"VShader", L"PShader")
+			textureShader.Fill(L"TextureVertexShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &TextureVertex::Position)
 				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
 				;
@@ -154,6 +182,19 @@ public:
 			sampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
 		}
 		{
+			{
+				D3DXMATRIX matrix;
+				D3DXMatrixScaling(&worldMatrix[2], 0.2f, 0.2f, 0.2f);
+
+				D3DXMatrixTranslation(&matrix, 3.5f, 0, 0);
+				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
+
+				D3DXMatrixRotationY(&matrix, (float)D3DX_PI/4);
+				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
+
+				D3DXMatrixRotationX(&matrix, (float)D3DX_PI/4);
+				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
+			}
 			D3DXMatrixTranslation(&worldMatrix[0], -2, 0, 0);
 			D3DXMatrixTranslation(&worldMatrix[1], 2, 0, 0);
 			D3DXMatrixTranslation(&viewMatrix, 0, 0, 10.0);
@@ -172,12 +213,15 @@ public:
 			constantBuffer.VSBindToRegisterBN(0);
 
 			WriteConstantBuffer(0);
-			cube1.SetCurrentAndRender(&shader1);
+			cube1.SetCurrentAndRender(&colorShader);
 			
 			WriteConstantBuffer(1);
 			texture.PSBindToRegisterTN(0);
 			sampler.PSBindToRegisterSN(0);
-			cube2.SetCurrentAndRender(&shader2);
+			cube2.SetCurrentAndRender(&textureShader);
+
+			WriteConstantBuffer(2);
+			lightGeometry.SetCurrentAndRender(&colorShader);
 		}
 		env->swapChain->Present(0, 0);
 	}
