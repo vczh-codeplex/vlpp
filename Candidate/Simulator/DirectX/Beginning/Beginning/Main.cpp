@@ -243,7 +243,7 @@ public:
 			constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
 			D3DXVec4Transform(&constantBuffer->lightPosition, &constantBuffer->lightPosition, &worldMatrix[2]);
 			constantBuffer->lightColor=D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
-			constantBuffer->lightMinimunDistanceSquare=1;
+			constantBuffer->lightMinimunDistanceSquare=9;
 			constantBuffer->lightMinimumStrenght=3;
 			constantBuffer->environmentColor=D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 

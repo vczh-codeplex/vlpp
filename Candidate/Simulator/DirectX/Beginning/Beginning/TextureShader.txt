@@ -52,7 +52,7 @@ float4 PShader(PIn input) : SV_TARGET
 	float4 lightDirection = lightPosition-input.worldPosition;
 	float lightCos = max(0, dot(normalize(lightDirection), input.worldNormal));
 	float lightDistance = length(lightDirection);
-	float lightStrength = 1/max(1, (lightDistance*lightDistance)/lightProperty.x)*lightProperty.y;
+	float lightStrength = lightCos/max(1, (lightDistance*lightDistance)/lightProperty.x)*lightProperty.y;
 	float4 diffuseColor = environmentColor+lightColor*float4(lightStrength,lightStrength,lightStrength,1);
 
 	float4 color = materialColor*diffuseColor;
