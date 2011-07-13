@@ -3,6 +3,10 @@ cbuffer MatrixBuffer : register(b0)
     matrix worldMatrix;
     matrix viewMatrix;
     matrix projectionMatrix;
+	float4 lightPosition;
+	float4 lightColor;
+	float lightMinimumDistanceSquare;
+	float4 environmentColor;
 };
 
 Texture2D shaderTexture : register(t0);
@@ -17,6 +21,7 @@ struct VIn
 struct PIn
 {
     float4 position : SV_POSITION;
+	float4 worldPosition : POSITION;
 	float2 texcoord0 : TEXCOORD0;
 };
 
@@ -26,6 +31,7 @@ PIn VShader(VIn input)
     input.position.w = 1.0f;
 
     output.position = mul(input.position, worldMatrix);
+	output.worldPosition = output.position;
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectionMatrix);
     
@@ -36,7 +42,7 @@ PIn VShader(VIn input)
 
 float4 PShader(PIn input) : SV_TARGET
 {
-	float4 textureColor;
-	textureColor = shaderTexture.Sample(shaderSampler, input.texcoord0);
-	return textureColor;
+	float4 materialColor=shaderTexture.Sample(shaderSampler, input.texcoord0);
+	float4 color=materialColor;
+	return color;
 }

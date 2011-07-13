@@ -200,7 +200,9 @@ Constant Buffer
 				:env(_env)
 				,buffer(0)
 			{
-				CreateConstantBuffer(env, sizeof(T), &buffer);
+				int size=sizeof(T);
+				if(size%16) size=(size/16+1)*16;
+				CreateConstantBuffer(env, size, &buffer);
 			}
 
 			~DirectXConstantBuffer()
