@@ -11,7 +11,9 @@ struct ConstantBufferType
 	D3DXMATRIX projection;
 	D3DXVECTOR4 lightPosition;
 	D3DXCOLOR lightColor;
-	float lightMinimunDistanceSquare[4];
+	float lightMinimunDistanceSquare;
+	float lightMinimumStrenght;
+	float unused0[2];
 	D3DXCOLOR environmentColor;
 };
 
@@ -240,7 +242,10 @@ public:
 		{
 			constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
 			D3DXVec4Transform(&constantBuffer->lightPosition, &constantBuffer->lightPosition, &worldMatrix[2]);
-			constantBuffer->lightMinimunDistanceSquare[0]=1;
+			constantBuffer->lightColor=D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+			constantBuffer->lightMinimunDistanceSquare=1;
+			constantBuffer->lightMinimumStrenght=3;
+			constantBuffer->environmentColor=D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 
 			D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
 			D3DXMatrixTranspose(&constantBuffer->projection, &env->projectionMatrix);
