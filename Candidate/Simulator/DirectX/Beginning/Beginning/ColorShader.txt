@@ -12,6 +12,7 @@ cbuffer MatrixBuffer : register(b0)
 struct VIn
 {
 	float4 position : POSITION;
+	float3 normal : NORMAL;
 	float4 color : COLOR;
 };
 
@@ -19,6 +20,7 @@ struct PIn
 {
     float4 position : SV_POSITION;
 	float4 worldPosition : POSITION;
+	float3 worldNormal : NORMAL;
     float4 color : COLOR;
 };
 
@@ -32,6 +34,9 @@ PIn VShader(VIn input)
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectionMatrix);
     
+	output.worldNormal = mul(input.normal, (float3x3)worldMatrix);
+	output.worldNormal = normalize(output.worldNormal);
+
     output.color = input.color;
     
     return output;

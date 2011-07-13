@@ -118,13 +118,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColorVertexShader.txt">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="TextureVertexShader.txt">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="TextureColumn.jpg">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="LightShader.txt">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ColorShader.txt">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="TextureShader.txt">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

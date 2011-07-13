@@ -9,20 +9,14 @@ cbuffer MatrixBuffer : register(b0)
 	float4 environmentColor;
 };
 
-Texture2D shaderTexture : register(t0);
-SamplerState shaderSampler : register(s0);
-
 struct VIn
 {
 	float4 position : POSITION;
-	float2 texcoord0 : TEXCOORD0;
 };
 
 struct PIn
 {
     float4 position : SV_POSITION;
-	float4 worldPosition : POSITION;
-	float2 texcoord0 : TEXCOORD0;
 };
 
 PIn VShader(VIn input)
@@ -31,18 +25,13 @@ PIn VShader(VIn input)
     input.position.w = 1.0f;
 
     output.position = mul(input.position, worldMatrix);
-	output.worldPosition = output.position;
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectionMatrix);
-    
-    output.texcoord0 = input.texcoord0;
     
     return output;
 }
 
 float4 PShader(PIn input) : SV_TARGET
 {
-	float4 materialColor=shaderTexture.Sample(shaderSampler, input.texcoord0);
-	float4 color=materialColor;
-	return color;
+	return float4(1, 1, 1, 1);
 }
