@@ -43,7 +43,8 @@ private:
 	DirectXShader<TextureVertex>				textureShader;
 	DirectXTextureBuffer						textureColumn;
 	DirectXTextureBuffer						textureEarth;
-	DirectXSamplerBuffer						sampler;
+	DirectXSamplerBuffer						textureSampler;
+	DirectXShader<TextureVertex>				cubeShader;
 
 	void WriteConstantBuffer(int worldMatrixIndex)
 	{
@@ -61,7 +62,8 @@ public:
 		,cubeMapTextures(_env), cubeMapDepthBuffer(_env), cubeMap(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
-		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
+		,textureColumn(_env) ,textureEarth(_env) ,textureSampler(_env)
+		,cubeShader(_env)
 	{
 		{
 			depthBuffer.Update(clientWidth, clientHeight);
@@ -97,7 +99,13 @@ public:
 
 			textureColumn.Update(L"TextureColumn.jpg");
 			textureEarth.Update(L"earth.bmp");
-			sampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
+			textureSampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
+
+			cubeShader.Fill(L"CubeShader.txt", L"VShader", L"PShader")
+				.Field(L"POSITION", &TextureVertex::Position)
+				.Field(L"NORMAL", &TextureVertex::Normal)
+				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
+				;
 		}
 		{
 			{
@@ -177,7 +185,7 @@ public:
 			
 				WriteConstantBuffer(1);
 				textureColumn.PSBindToRegisterTN(0);
-				sampler.PSBindToRegisterSN(0);
+				textureSampler.PSBindToRegisterSN(0);
 				cube2.SetCurrentAndRender(&textureShader);
 
 				WriteConstantBuffer(2);
@@ -199,7 +207,7 @@ public:
 			
 			WriteConstantBuffer(1);
 			textureColumn.PSBindToRegisterTN(0);
-			sampler.PSBindToRegisterSN(0);
+			textureSampler.PSBindToRegisterSN(0);
 			cube2.SetCurrentAndRender(&textureShader);
 
 			WriteConstantBuffer(2);
@@ -207,8 +215,9 @@ public:
 			
 			WriteConstantBuffer(3);
 			textureEarth.PSBindToRegisterTN(0);
-			sampler.PSBindToRegisterSN(0);
-			sphere.SetCurrentAndRender(&textureShader);
+			textureSampler.PSBindToRegisterSN(0);
+			cubeMap.PSBindToRegisterTN(1);
+			sphere.SetCurrentAndRender(&cubeShader);
 		}
 		env->swapChain->Present(0, 0);
 	}
