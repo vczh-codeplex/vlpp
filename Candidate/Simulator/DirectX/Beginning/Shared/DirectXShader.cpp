@@ -47,8 +47,18 @@ DirectXTextureBuffer
 			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &shaderResourceView, NULL);
 		}
 
-		void DirectXTextureBuffer::Update(int width, int height)
+		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap)
 		{
+			if(texture)
+			{
+				texture->Release();
+				texture=0;
+			}
+			if(shaderResourceView)
+			{
+				shaderResourceView->Release();
+				shaderResourceView=0;
+			}
 			HRESULT hr=S_OK;
 			DXGI_FORMAT format=DXGI_FORMAT_R32G32B32A32_FLOAT;
 			{
@@ -57,25 +67,81 @@ DirectXTextureBuffer
 				textureDesc.Width = width;
 				textureDesc.Height = height;
 				textureDesc.MipLevels = 1;
-				textureDesc.ArraySize = 1;
+				textureDesc.ArraySize = arraySize==-1?1:arraySize;
 				textureDesc.Format = format;
 				textureDesc.SampleDesc.Count = 1;
 				textureDesc.Usage = D3D11_USAGE_DEFAULT;
 				textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 				textureDesc.CPUAccessFlags = 0;
-				textureDesc.MiscFlags = 0;
+				textureDesc.MiscFlags = forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
 				if(FAILED(hr=env->device->CreateTexture2D(&textureDesc, NULL, &texture)))
 					return;
 			}
 			{
 				D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
 				shaderResourceViewDesc.Format = format;
-				shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-				shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-				shaderResourceViewDesc.Texture2D.MipLevels = 1;
+				if(arraySize==-1)
+				{
+					shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+					shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+					shaderResourceViewDesc.Texture2D.MipLevels = 1;
+				}
+				else if(!forCubeMap)
+				{
+					shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+					shaderResourceViewDesc.Texture2DArray.MostDetailedMip = 0;
+					shaderResourceViewDesc.Texture2DArray.MipLevels = 1;
+					shaderResourceViewDesc.Texture2DArray.FirstArraySlice = 0;
+					shaderResourceViewDesc.Texture2DArray.ArraySize = arraySize;
+				}
 				if(FAILED(hr=env->device->CreateShaderResourceView(texture, &shaderResourceViewDesc, &shaderResourceView)))
 					return;
 			}
+		}
+
+/***********************************************************************
+DirectXTextureBuffer
+***********************************************************************/
+
+		DirectXCubeMapReference::DirectXCubeMapReference(const DirectXEnvironment* _env)
+			:env(_env)
+			,shaderResourceView(0)
+		{
+		}
+
+		DirectXCubeMapReference::~DirectXCubeMapReference()
+		{
+			if(shaderResourceView) shaderResourceView->Release();
+		}
+			
+		void DirectXCubeMapReference::VSBindToRegisterTN(int index)
+		{
+			env->context->VSSetShaderResources(index, 1, &shaderResourceView);
+		}
+
+		void DirectXCubeMapReference::PSBindToRegisterTN(int index)
+		{
+			env->context->PSSetShaderResources(index, 1, &shaderResourceView);
+		}
+
+		void DirectXCubeMapReference::Update(DirectXTextureBuffer* textureArray)
+		{
+			if(shaderResourceView)
+			{
+				shaderResourceView->Release();
+				shaderResourceView=0;
+			}
+			
+			HRESULT hr=S_OK;
+			D3D11_TEXTURE2D_DESC textureDesc;
+			textureArray->RawTexture()->GetDesc(&textureDesc);
+			D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+			shaderResourceViewDesc.Format = textureDesc.Format;
+			shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+			shaderResourceViewDesc.TextureCube.MostDetailedMip = 0;
+			shaderResourceViewDesc.TextureCube.MipLevels = 1;
+			if(FAILED(hr=env->device->CreateShaderResourceView(textureArray->RawTexture(), &shaderResourceViewDesc, &shaderResourceView)))
+				return;
 		}
 
 /***********************************************************************
@@ -283,7 +349,7 @@ DirectXTextureRenderTarget
 		{
 		}
 
-		void DirectXTextureRenderTarget::Update(DirectXTextureBuffer* textureBuffer)
+		void DirectXTextureRenderTarget::Update(DirectXTextureBuffer* textureBuffer, int arrayIndex)
 		{
 			if(renderTargetView)
 			{
@@ -297,8 +363,18 @@ DirectXTextureRenderTarget
 
 			D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
 			renderTargetViewDesc.Format = textureDesc.Format;
-			renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-			renderTargetViewDesc.Texture2D.MipSlice = 0;
+			if(arrayIndex==-1)
+			{
+				renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+				renderTargetViewDesc.Texture2D.MipSlice = 0;
+			}
+			else
+			{
+				renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+				renderTargetViewDesc.Texture2DArray.MipSlice = 0;
+				renderTargetViewDesc.Texture2DArray.FirstArraySlice = arrayIndex;
+				renderTargetViewDesc.Texture2DArray.ArraySize = 1;
+			}
 			if(FAILED(hr=env->device->CreateRenderTargetView(textureBuffer->RawTexture(), &renderTargetViewDesc, &renderTargetView)))
 				return;
 		}

@@ -6,6 +6,7 @@ Classes:
 	DirectXVertexBuffer<VertexType>
 	DirectXConstantBuffer<ContentType>
 	DirectXTextureBuffer
+	DirectXCubeMapReference
 	DirectXSamplerBuffer
 	DirectXDepthBuffer
 	DirectXRenderTarget
@@ -267,7 +268,28 @@ Texture Buffer
 			void						PSBindToRegisterTN(int index);
 
 			void						Update(const WString& fileName);
-			void						Update(int width, int height);
+			void						Update(int width, int height, int arraySize=-1, bool forCubeMap=false);
+		};
+
+/***********************************************************************
+Cube Map
+***********************************************************************/
+
+		class DirectXCubeMapReference : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+			ID3D11ShaderResourceView*	shaderResourceView;
+		public:
+			DirectXCubeMapReference(const DirectXEnvironment* _env);
+			~DirectXCubeMapReference();
+
+			ID3D11ShaderResourceView*	RawResourceView(){return shaderResourceView;}
+			
+			void						VSBindToRegisterTN(int index);
+			void						PSBindToRegisterTN(int index);
+
+			void						Update(DirectXTextureBuffer* textureArray);
 		};
 
 /***********************************************************************
@@ -346,7 +368,7 @@ Render Target
 			DirectXTextureRenderTarget(const DirectXEnvironment* _env);
 			~DirectXTextureRenderTarget();
 
-			void						Update(DirectXTextureBuffer* textureBuffer);
+			void						Update(DirectXTextureBuffer* textureBuffer, int arrayIndex=-1);
 		};
 
 /***********************************************************************
