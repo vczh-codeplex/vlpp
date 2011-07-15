@@ -7,6 +7,10 @@ Classes:
 	DirectXConstantBuffer<ContentType>
 	DirectXTextureBuffer
 	DirectXSamplerBuffer
+	DirectXDepthBuffer
+	DirectXRenderTarget
+		DirectXWindowRenderTarget
+	DirectXRenderer
 ***********************************************************************/
 #ifndef VCZH_DIRECTXSHADER
 #define VCZH_DIRECTXSHADER
@@ -116,6 +120,10 @@ Shader
 				env->context->VSSetShader(vertexShader, 0, 0);
 				env->context->IASetInputLayout(vertexLayout);
 			}
+
+			ID3D11VertexShader* RawVertexShader(){return vertexShader;}
+			ID3D11InputLayout* RawVertexLayout(){return vertexLayout;}
+			ID3D11PixelShader* RawPixelShader(){return pixelShader;}
 		};
 
 /***********************************************************************
@@ -182,6 +190,9 @@ Vertex Buffer
 				SetCurrent();
 				Render();
 			}
+
+			ID3D11Buffer* RawVertexBuffer(){return vertexBuffer;}
+			ID3D11Buffer* RawIndexBuffer(){return indexBuffer;}
 		};
 
 /***********************************************************************
@@ -229,6 +240,8 @@ Constant Buffer
 			{
 				env->context->PSSetConstantBuffers(index, 1, &buffer);
 			}
+
+			ID3D11Buffer* RawBuffer(){return buffer;}
 		};
 
 /***********************************************************************
@@ -243,6 +256,8 @@ Texture Buffer
 		public:
 			DirectXTextureBuffer(const DirectXEnvironment* _env);
 			~DirectXTextureBuffer();
+
+			ID3D11ShaderResourceView*	RawResourceView(){return texture;}
 			
 			void						VSBindToRegisterTN(int index);
 			void						PSBindToRegisterTN(int index);
@@ -263,10 +278,74 @@ Sampler Buffer
 			DirectXSamplerBuffer(const DirectXEnvironment* _env);
 			~DirectXSamplerBuffer();
 
+			ID3D11SamplerState*			RawSampler(){return sampler;}
+
 			void						VSBindToRegisterSN(int index);
 			void						PSBindToRegisterSN(int index);
 
 			void						Update(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE mode, D3DXCOLOR borderColor);
+		};
+
+/***********************************************************************
+Depth Buffer
+***********************************************************************/
+
+		class DirectXDepthBuffer : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+			ID3D11Texture2D*			depthStencilBuffer;
+			ID3D11DepthStencilState*	depthStencilState;
+			ID3D11DepthStencilView*		depthStencilView;
+		public:
+			DirectXDepthBuffer(const DirectXEnvironment* _env, int width, int height);
+			~DirectXDepthBuffer();
+
+			ID3D11Texture2D*			RawDepthStencilBuffer(){return depthStencilBuffer;}
+			ID3D11DepthStencilState*	RawDepthStencilState(){return depthStencilState;}
+			ID3D11DepthStencilView*		RawDepthStencilView(){return depthStencilView;}
+
+			void						Clear();
+		};
+
+/***********************************************************************
+Render Target
+***********************************************************************/
+
+		class DirectXRenderTarget : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+			ID3D11RenderTargetView*		renderTargetView;
+		public:
+			DirectXRenderTarget(const DirectXEnvironment* _env);
+			~DirectXRenderTarget();
+
+			ID3D11RenderTargetView*		RawRenderTargetView(){return renderTargetView;}
+
+			void						Clear(D3DXCOLOR color);
+		};
+
+		class DirectXWindowRenderTarget : public DirectXRenderTarget
+		{
+		public:
+			DirectXWindowRenderTarget(const DirectXEnvironment* _env);
+			~DirectXWindowRenderTarget();
+		};
+
+/***********************************************************************
+Renderer
+***********************************************************************/
+
+		class DirectXRenderer : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+		public:
+			DirectXRenderer(const DirectXEnvironment* _env);
+			~DirectXRenderer();
+
+			void						SetRenderTarget(DirectXRenderTarget* target, DirectXDepthBuffer* depthBuffer);
 		};
 	}
 }

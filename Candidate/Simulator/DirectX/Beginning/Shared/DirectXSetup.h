@@ -18,10 +18,6 @@ namespace vl
 			ID3D11DeviceContext*			context;
 			D3D_FEATURE_LEVEL				featureLevel;
 			
-			ID3D11RenderTargetView*			renderTargetView;
-			ID3D11Texture2D*				depthStencilBuffer;
-			ID3D11DepthStencilState*		depthStencilState;
-			ID3D11DepthStencilView*			depthStencilView;
 			ID3D11RasterizerState*			rasterizerState;
 
 			D3DXMATRIX						projectionMatrix;
@@ -96,6 +92,7 @@ namespace vl
 		};
 
 		extern void							WindowTrackMouse(HWND handle, bool enable);
+		extern SIZE							WindowGetClient(HWND handle);
 
 		/*
 		WM_LBUTTONDOWN

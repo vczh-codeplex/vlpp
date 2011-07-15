@@ -20,6 +20,9 @@ private:
 	D3DXMATRIX									viewMatrix, worldMatrix[4];
 
 	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
+	DirectXDepthBuffer							depthBuffer;
+	DirectXWindowRenderTarget					windowRenderTarget;
+	DirectXRenderer								renderer;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
@@ -38,13 +41,17 @@ private:
 		constantBuffer.Update();
 	}
 public:
-	World(const DirectXEnvironment* _env)
+	World(const DirectXEnvironment* _env, int clientWidth, int clientHeight)
 		:env(_env)
 		,constantBuffer(_env)
+		,depthBuffer(_env, clientWidth, clientHeight), windowRenderTarget(_env), renderer(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
 		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
 	{
+		{
+			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
+		}
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
 		BuildTextureCube(cube2);
@@ -117,8 +124,8 @@ public:
 
 	void Render()
 	{
-		env->context->ClearRenderTargetView(env->renderTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-		env->context->ClearDepthStencilView(env->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+		windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+		depthBuffer.Clear();
 		{
 			constantBuffer.VSBindToRegisterBN(0);
 			constantBuffer.PSBindToRegisterBN(0);
@@ -174,8 +181,9 @@ LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 			{
 				if(!world)
 				{
+					SIZE size=WindowGetClient(hwnd);
 					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd, 0.1f, 100.0f);
-					world=new World(env);
+					world=new World(env, size.cx, size.cy);
 				}
 			}
 		}
