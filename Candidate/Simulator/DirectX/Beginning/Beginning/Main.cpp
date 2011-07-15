@@ -17,6 +17,7 @@ struct World
 {
 private:
 	const DirectXEnvironment*					env;
+	int											clientWidth, clientHeight;
 	D3DXMATRIX									viewMatrix, worldMatrix[4];
 
 	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
@@ -24,6 +25,10 @@ private:
 	DirectXWindowRenderTarget					windowRenderTarget;
 	DirectXRenderer								renderer;
 	DirectXViewport								viewport;
+
+	DirectXTextureBuffer						textureTemporary;
+	DirectXDepthBuffer							depthBufferTemporary;
+	DirectXTextureRenderTarget					renderTargetTemporary;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
@@ -44,17 +49,21 @@ private:
 		constantBuffer.Update();
 	}
 public:
-	World(const DirectXEnvironment* _env, int clientWidth, int clientHeight)
+	World(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
 		:env(_env)
+		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
-		,depthBuffer(_env, clientWidth, clientHeight), windowRenderTarget(_env), renderer(_env), viewport(_env)
+		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
+		,textureTemporary(_env), depthBufferTemporary(_env), renderTargetTemporary(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
 		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
 	{
 		{
-			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
-			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
+			depthBuffer.Update(clientWidth, clientHeight);
+			textureTemporary.Update(512, 512);
+			depthBufferTemporary.Update(512, 512);
+			renderTargetTemporary.Update(&textureTemporary);
 		}
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
@@ -125,9 +134,12 @@ public:
 
 	void Render()
 	{
-		windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-		depthBuffer.Clear();
 		{
+			renderer.SetRenderTarget(&renderTargetTemporary, &depthBufferTemporary);
+			viewport.SetViewport(512, 512, (float)D3DX_PI/4, 0.1f, 100.0f);
+			renderTargetTemporary.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+			depthBufferTemporary.Clear();
+
 			constantBuffer.VSBindToRegisterBN(0);
 			constantBuffer.PSBindToRegisterBN(0);
 
@@ -136,6 +148,31 @@ public:
 			
 			WriteConstantBuffer(1);
 			textureColumn.PSBindToRegisterTN(0);
+			sampler.PSBindToRegisterSN(0);
+			cube2.SetCurrentAndRender(&textureShader);
+
+			WriteConstantBuffer(2);
+			lightGeometry.SetCurrentAndRender(&lightShader);
+			
+			WriteConstantBuffer(3);
+			textureEarth.PSBindToRegisterTN(0);
+			sampler.PSBindToRegisterSN(0);
+			sphere.SetCurrentAndRender(&textureShader);
+		}
+		{
+			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
+			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
+			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+			depthBuffer.Clear();
+
+			constantBuffer.VSBindToRegisterBN(0);
+			constantBuffer.PSBindToRegisterBN(0);
+
+			WriteConstantBuffer(0);
+			cube1.SetCurrentAndRender(&colorShader);
+			
+			WriteConstantBuffer(1);
+			textureTemporary.PSBindToRegisterTN(0);
 			sampler.PSBindToRegisterSN(0);
 			cube2.SetCurrentAndRender(&textureShader);
 

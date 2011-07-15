@@ -135,12 +135,30 @@ SamplerBuffer
 DirectXDepthBuffer
 ***********************************************************************/
 
-		DirectXDepthBuffer::DirectXDepthBuffer(const DirectXEnvironment* _env, int width, int height)
+		DirectXDepthBuffer::DirectXDepthBuffer(const DirectXEnvironment* _env)
 			:env(_env)
 			,depthStencilBuffer(0)
 			,depthStencilState(0)
 			,depthStencilView(0)
 		{
+		}
+
+		DirectXDepthBuffer::~DirectXDepthBuffer()
+		{
+			if(depthStencilView) depthStencilView->Release();
+			if(depthStencilState) depthStencilState->Release();
+			if(depthStencilBuffer) depthStencilBuffer->Release();
+		}
+
+		void DirectXDepthBuffer::Update(int width, int height)
+		{
+			if(depthStencilView) depthStencilView->Release();
+			if(depthStencilState) depthStencilState->Release();
+			if(depthStencilBuffer) depthStencilBuffer->Release();
+			depthStencilView=0;
+			depthStencilState=0;
+			depthStencilBuffer=0;
+
 			HRESULT hr=S_OK;
 			//=========================================
 			// create depth buffer
@@ -204,13 +222,6 @@ DirectXDepthBuffer
 				if(FAILED(hr=env->device->CreateDepthStencilView(depthStencilBuffer, &depthStencilViewDesc, &depthStencilView)))
 					return;
 			}
-		}
-
-		DirectXDepthBuffer::~DirectXDepthBuffer()
-		{
-			if(depthStencilView) depthStencilView->Release();
-			if(depthStencilState) depthStencilState->Release();
-			if(depthStencilBuffer) depthStencilBuffer->Release();
 		}
 
 		void DirectXDepthBuffer::Clear()
