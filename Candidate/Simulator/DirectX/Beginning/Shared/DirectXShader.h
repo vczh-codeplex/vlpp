@@ -303,13 +303,14 @@ Depth Buffer
 			ID3D11DepthStencilState*	depthStencilState;
 			ID3D11DepthStencilView*		depthStencilView;
 		public:
-			DirectXDepthBuffer(const DirectXEnvironment* _env, int width, int height);
+			DirectXDepthBuffer(const DirectXEnvironment* _env);
 			~DirectXDepthBuffer();
 
 			ID3D11Texture2D*			RawDepthStencilBuffer(){return depthStencilBuffer;}
 			ID3D11DepthStencilState*	RawDepthStencilState(){return depthStencilState;}
 			ID3D11DepthStencilView*		RawDepthStencilView(){return depthStencilView;}
 
+			void						Update(int width, int height);
 			void						Clear();
 		};
 
