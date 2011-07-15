@@ -112,6 +112,7 @@
     <ClInclude Include="..\..\..\..\..\Library\Collections\OperationString.h" />
     <ClInclude Include="..\..\..\..\..\Library\Collections\OperationWhere.h" />
     <ClInclude Include="..\..\..\..\..\Library\Collections\Pair.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Pointer.h" />
     <ClInclude Include="..\..\..\..\..\Library\String.h" />
     <ClInclude Include="..\Shared\DirectXSetup.h" />
     <ClInclude Include="..\Shared\DirectXShader.h" />

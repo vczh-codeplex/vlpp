@@ -1,4 +1,7 @@
 #include "ModelBuilder.h"
+#include "..\..\..\..\..\Library\Pointer.h"
+
+using namespace vl;
 
 struct ConstantBufferType
 {
@@ -26,9 +29,9 @@ private:
 	DirectXRenderer								renderer;
 	DirectXViewport								viewport;
 
-	DirectXTextureBuffer						textureTemporary;
-	DirectXDepthBuffer							depthBufferTemporary;
-	DirectXTextureRenderTarget					renderTargetTemporary;
+	Ptr<DirectXTextureBuffer>					cubeMapTextures[6];
+	Ptr<DirectXTextureRenderTarget>				cubeMapRenderTargets[6];
+	DirectXDepthBuffer							cubeMapDepthBuffer;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
@@ -54,16 +57,21 @@ public:
 		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
 		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
-		,textureTemporary(_env), depthBufferTemporary(_env), renderTargetTemporary(_env)
+		,cubeMapDepthBuffer(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
 		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
 	{
 		{
 			depthBuffer.Update(clientWidth, clientHeight);
-			textureTemporary.Update(512, 512);
-			depthBufferTemporary.Update(512, 512);
-			renderTargetTemporary.Update(&textureTemporary);
+			cubeMapDepthBuffer.Update(512, 512);
+			for(int i=0;i<6;i++)
+			{
+				cubeMapTextures[i]=new DirectXTextureBuffer(_env);
+				cubeMapTextures[i]->Update(512, 512);
+				cubeMapRenderTargets[i]=new DirectXTextureRenderTarget(_env);
+				cubeMapRenderTargets[i]->Update(cubeMapTextures[i].Obj());
+			}
 		}
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
@@ -116,7 +124,6 @@ public:
 			{
 				D3DXMatrixScaling(&worldMatrix[3], 1.0f, 1.0f, 1.0f);
 			}
-			D3DXMatrixTranslation(&viewMatrix, 0, 0, 10.0);
 		}
 		{
 			constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
@@ -135,31 +142,49 @@ public:
 	void Render()
 	{
 		{
-			renderer.SetRenderTarget(&renderTargetTemporary, &depthBufferTemporary);
-			viewport.SetViewport(512, 512, (float)D3DX_PI/4, 0.1f, 100.0f);
-			renderTargetTemporary.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-			depthBufferTemporary.Clear();
+			D3DXVECTOR3 ats[]=
+			{
+				D3DXVECTOR3( 0,  0,  1),
+				D3DXVECTOR3( 1,  0,  0),
+				D3DXVECTOR3( 0,  0, -1),
+				D3DXVECTOR3(-1,  0,  0),
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0, -1,  0),
+			};
+			D3DXVECTOR3 ups[]=
+			{
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0,  0, -1),
+				D3DXVECTOR3( 0,  0,  1),
+			};
+			for(int i=0;i<6;i++)
+			{
+				D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, 0), &ats[i], &ups[i]);
+				renderer.SetRenderTarget(cubeMapRenderTargets[i].Obj(), &cubeMapDepthBuffer);
+				viewport.SetViewport(512, 512, (float)D3DX_PI/2, 0.1f, 100.0f);
+				cubeMapRenderTargets[i]->Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+				cubeMapDepthBuffer.Clear();
 
-			constantBuffer.VSBindToRegisterBN(0);
-			constantBuffer.PSBindToRegisterBN(0);
+				constantBuffer.VSBindToRegisterBN(0);
+				constantBuffer.PSBindToRegisterBN(0);
 
-			WriteConstantBuffer(0);
-			cube1.SetCurrentAndRender(&colorShader);
+				WriteConstantBuffer(0);
+				cube1.SetCurrentAndRender(&colorShader);
 			
-			WriteConstantBuffer(1);
-			textureColumn.PSBindToRegisterTN(0);
-			sampler.PSBindToRegisterSN(0);
-			cube2.SetCurrentAndRender(&textureShader);
+				WriteConstantBuffer(1);
+				textureColumn.PSBindToRegisterTN(0);
+				sampler.PSBindToRegisterSN(0);
+				cube2.SetCurrentAndRender(&textureShader);
 
-			WriteConstantBuffer(2);
-			lightGeometry.SetCurrentAndRender(&lightShader);
-			
-			WriteConstantBuffer(3);
-			textureEarth.PSBindToRegisterTN(0);
-			sampler.PSBindToRegisterSN(0);
-			sphere.SetCurrentAndRender(&textureShader);
+				WriteConstantBuffer(2);
+				lightGeometry.SetCurrentAndRender(&lightShader);
+			}
 		}
 		{
+			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -10), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
 			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
 			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
 			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
@@ -172,7 +197,7 @@ public:
 			cube1.SetCurrentAndRender(&colorShader);
 			
 			WriteConstantBuffer(1);
-			textureTemporary.PSBindToRegisterTN(0);
+			textureColumn.PSBindToRegisterTN(0);
 			sampler.PSBindToRegisterSN(0);
 			cube2.SetCurrentAndRender(&textureShader);
 
