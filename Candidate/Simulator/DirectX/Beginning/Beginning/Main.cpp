@@ -23,6 +23,7 @@ private:
 	DirectXDepthBuffer							depthBuffer;
 	DirectXWindowRenderTarget					windowRenderTarget;
 	DirectXRenderer								renderer;
+	DirectXViewport								viewport;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
@@ -38,19 +39,22 @@ private:
 	void WriteConstantBuffer(int worldMatrixIndex)
 	{
 		D3DXMatrixTranspose(&constantBuffer->world, &worldMatrix[worldMatrixIndex]);
+		D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
+		D3DXMatrixTranspose(&constantBuffer->projection, &viewport.projectionMatrix);
 		constantBuffer.Update();
 	}
 public:
 	World(const DirectXEnvironment* _env, int clientWidth, int clientHeight)
 		:env(_env)
 		,constantBuffer(_env)
-		,depthBuffer(_env, clientWidth, clientHeight), windowRenderTarget(_env), renderer(_env)
+		,depthBuffer(_env, clientWidth, clientHeight), windowRenderTarget(_env), renderer(_env), viewport(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
 		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
 	{
 		{
 			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
+			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
 		}
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
@@ -112,9 +116,6 @@ public:
 			constantBuffer->lightMinimunDistanceSquare=9;
 			constantBuffer->lightMinimumStrenght=3;
 			constantBuffer->environmentColor=D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
-
-			D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
-			D3DXMatrixTranspose(&constantBuffer->projection, &env->projectionMatrix);
 		}
 	}
 
@@ -182,7 +183,7 @@ LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 				if(!world)
 				{
 					SIZE size=WindowGetClient(hwnd);
-					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd, 0.1f, 100.0f);
+					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd);
 					world=new World(env, size.cx, size.cy);
 				}
 			}

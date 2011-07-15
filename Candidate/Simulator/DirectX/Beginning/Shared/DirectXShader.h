@@ -10,7 +10,9 @@ Classes:
 	DirectXDepthBuffer
 	DirectXRenderTarget
 		DirectXWindowRenderTarget
+		DirectXTextureRenderTarget
 	DirectXRenderer
+	DirectXViewport
 ***********************************************************************/
 #ifndef VCZH_DIRECTXSHADER
 #define VCZH_DIRECTXSHADER
@@ -252,17 +254,20 @@ Texture Buffer
 		{
 		protected:
 			const DirectXEnvironment*	env;
-			ID3D11ShaderResourceView*	texture;
+			ID3D11Texture2D*			texture;
+			ID3D11ShaderResourceView*	shaderResourceView;
 		public:
 			DirectXTextureBuffer(const DirectXEnvironment* _env);
 			~DirectXTextureBuffer();
 
-			ID3D11ShaderResourceView*	RawResourceView(){return texture;}
+			ID3D11Texture2D*			RawTexture(){return texture;}
+			ID3D11ShaderResourceView*	RawResourceView(){return shaderResourceView;}
 			
 			void						VSBindToRegisterTN(int index);
 			void						PSBindToRegisterTN(int index);
 
 			void						Update(const WString& fileName);
+			void						Update(int width, int height);
 		};
 
 /***********************************************************************
@@ -333,6 +338,16 @@ Render Target
 			~DirectXWindowRenderTarget();
 		};
 
+		class DirectXTextureRenderTarget : public DirectXRenderTarget
+		{
+		protected:
+		public:
+			DirectXTextureRenderTarget(const DirectXEnvironment* _env);
+			~DirectXTextureRenderTarget();
+
+			void						Update(DirectXTextureBuffer* textureBuffer);
+		};
+
 /***********************************************************************
 Renderer
 ***********************************************************************/
@@ -346,6 +361,23 @@ Renderer
 			~DirectXRenderer();
 
 			void						SetRenderTarget(DirectXRenderTarget* target, DirectXDepthBuffer* depthBuffer);
+		};
+
+/***********************************************************************
+Viewport
+***********************************************************************/
+
+		class DirectXViewport : public Object
+		{
+		protected:
+			const DirectXEnvironment*	env;
+		public:
+			DirectXViewport(const DirectXEnvironment* _env);
+			~DirectXViewport();
+
+			D3DXMATRIX					projectionMatrix;
+
+			void						SetViewport(int width, int height, float fieldOfView, float screenNear, float screenFar);
 		};
 	}
 }

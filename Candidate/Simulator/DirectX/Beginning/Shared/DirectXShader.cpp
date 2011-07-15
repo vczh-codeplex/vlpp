@@ -12,22 +12,24 @@ DirectXTextureBuffer
 		DirectXTextureBuffer::DirectXTextureBuffer(const DirectXEnvironment* _env)
 			:env(_env)
 			,texture(0)
+			,shaderResourceView(0)
 		{
 		}
 
 		DirectXTextureBuffer::~DirectXTextureBuffer()
 		{
 			if(texture) texture->Release();
+			if(shaderResourceView) shaderResourceView->Release();
 		}
 			
 		void DirectXTextureBuffer::VSBindToRegisterTN(int index)
 		{
-			env->context->VSSetShaderResources(index, 1, &texture);
+			env->context->VSSetShaderResources(index, 1, &shaderResourceView);
 		}
 
 		void DirectXTextureBuffer::PSBindToRegisterTN(int index)
 		{
-			env->context->PSSetShaderResources(index, 1, &texture);
+			env->context->PSSetShaderResources(index, 1, &shaderResourceView);
 		}
 
 		void DirectXTextureBuffer::Update(const WString& fileName)
@@ -37,7 +39,43 @@ DirectXTextureBuffer
 				texture->Release();
 				texture=0;
 			}
-			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &texture, NULL);
+			if(shaderResourceView)
+			{
+				shaderResourceView->Release();
+				shaderResourceView=0;
+			}
+			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &shaderResourceView, NULL);
+		}
+
+		void DirectXTextureBuffer::Update(int width, int height)
+		{
+			HRESULT hr=S_OK;
+			DXGI_FORMAT format=DXGI_FORMAT_R32G32B32A32_FLOAT;
+			{
+				D3D11_TEXTURE2D_DESC textureDesc;
+				ZeroMemory(&textureDesc, sizeof(textureDesc));
+				textureDesc.Width = width;
+				textureDesc.Height = height;
+				textureDesc.MipLevels = 1;
+				textureDesc.ArraySize = 1;
+				textureDesc.Format = format;
+				textureDesc.SampleDesc.Count = 1;
+				textureDesc.Usage = D3D11_USAGE_DEFAULT;
+				textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+				textureDesc.CPUAccessFlags = 0;
+				textureDesc.MiscFlags = 0;
+				if(FAILED(hr=env->device->CreateTexture2D(&textureDesc, NULL, &texture)))
+					return;
+			}
+			{
+				D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+				shaderResourceViewDesc.Format = format;
+				shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+				shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+				shaderResourceViewDesc.Texture2D.MipLevels = 1;
+				if(FAILED(hr=env->device->CreateShaderResourceView(texture, &shaderResourceViewDesc, &shaderResourceView)))
+					return;
+			}
 		}
 
 /***********************************************************************
@@ -222,6 +260,39 @@ DirectXWindowRenderTarget
 		}
 
 /***********************************************************************
+DirectXTextureRenderTarget
+***********************************************************************/
+
+		DirectXTextureRenderTarget::DirectXTextureRenderTarget(const DirectXEnvironment* _env)
+			:DirectXRenderTarget(_env)
+		{
+		}
+
+		DirectXTextureRenderTarget::~DirectXTextureRenderTarget()
+		{
+		}
+
+		void DirectXTextureRenderTarget::Update(DirectXTextureBuffer* textureBuffer)
+		{
+			if(renderTargetView)
+			{
+				renderTargetView->Release();
+				renderTargetView=0;
+			}
+
+			HRESULT hr=S_OK;
+			D3D11_TEXTURE2D_DESC textureDesc;
+			textureBuffer->RawTexture()->GetDesc(&textureDesc);
+
+			D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+			renderTargetViewDesc.Format = textureDesc.Format;
+			renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			renderTargetViewDesc.Texture2D.MipSlice = 0;
+			if(FAILED(hr=env->device->CreateRenderTargetView(textureBuffer->RawTexture(), &renderTargetViewDesc, &renderTargetView)))
+				return;
+		}
+
+/***********************************************************************
 DirectXRenderer
 ***********************************************************************/
 
@@ -238,6 +309,35 @@ DirectXRenderer
 		{
 			ID3D11RenderTargetView* renderTargetView=target->RawRenderTargetView();
 			env->context->OMSetRenderTargets(1, &renderTargetView, (depthBuffer?depthBuffer->RawDepthStencilView():NULL));
+		}
+
+/***********************************************************************
+DirectXViewport
+***********************************************************************/
+
+		DirectXViewport::DirectXViewport(const DirectXEnvironment* _env)
+			:env(_env)
+		{
+		}
+
+		DirectXViewport::~DirectXViewport()
+		{
+		}
+
+		void DirectXViewport::SetViewport(int width, int height, float fieldOfView, float screenNear, float screenFar)
+		{
+			D3D11_VIEWPORT viewport;
+			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+			viewport.TopLeftX = 0;
+			viewport.TopLeftY = 0;
+			viewport.Width = (FLOAT)width;
+			viewport.Height = (FLOAT)height;
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1;
+			env->context->RSSetViewports(1, &viewport);
+
+			float screenAspect = (float)width / (float)height;
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, fieldOfView, screenAspect, screenNear, screenFar);
 		}
 	}
 }
