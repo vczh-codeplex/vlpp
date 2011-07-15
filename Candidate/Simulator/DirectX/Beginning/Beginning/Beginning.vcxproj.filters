@@ -125,6 +125,9 @@
     <ClInclude Include="ModelBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Pointer.h">
+      <Filter>Dependence\Library\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TextureColumn.jpg">
