@@ -144,21 +144,21 @@ public:
 		{
 			D3DXVECTOR3 ats[]=
 			{
-				D3DXVECTOR3( 0,  0,  1),
 				D3DXVECTOR3( 1,  0,  0),
-				D3DXVECTOR3( 0,  0, -1),
 				D3DXVECTOR3(-1,  0,  0),
 				D3DXVECTOR3( 0,  1,  0),
 				D3DXVECTOR3( 0, -1,  0),
+				D3DXVECTOR3( 0,  0,  1),
+				D3DXVECTOR3( 0,  0, -1),
 			};
 			D3DXVECTOR3 ups[]=
 			{
 				D3DXVECTOR3( 0,  1,  0),
 				D3DXVECTOR3( 0,  1,  0),
-				D3DXVECTOR3( 0,  1,  0),
-				D3DXVECTOR3( 0,  1,  0),
 				D3DXVECTOR3( 0,  0, -1),
 				D3DXVECTOR3( 0,  0,  1),
+				D3DXVECTOR3( 0,  1,  0),
+				D3DXVECTOR3( 0,  1,  0),
 			};
 			for(int i=0;i<6;i++)
 			{
