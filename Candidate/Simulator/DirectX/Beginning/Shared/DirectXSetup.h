@@ -17,12 +17,9 @@ namespace vl
 			ID3D11Device*					device;
 			ID3D11DeviceContext*			context;
 			D3D_FEATURE_LEVEL				featureLevel;
-			
 			ID3D11RasterizerState*			rasterizerState;
-
-			D3DXMATRIX						projectionMatrix;
 		};
-		extern const DirectXEnvironment*	CreateDirectXEnvironment(HWND mainWindowHandle, float screenNear, float screenFar);
+		extern const DirectXEnvironment*	CreateDirectXEnvironment(HWND mainWindowHandle);
 		extern const void					DestroyDirectXEnvironment();
 
 		extern void							CreatePixelShader(

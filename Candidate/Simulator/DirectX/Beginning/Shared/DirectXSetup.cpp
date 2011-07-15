@@ -18,7 +18,7 @@ using namespace vl::directx;
 DirectXSetup
 ***********************************************************************/
 
-HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int clientWidth, int clientHeight, float screenNear, float screenFar)
+HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int clientWidth, int clientHeight)
 {
 	//=========================================
 	// define device
@@ -82,30 +82,6 @@ HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int 
 	}
 	
 	//=========================================
-	// set viewport
-	{
-		D3D11_VIEWPORT viewport;
-		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.Width = (FLOAT)clientWidth;
-		viewport.Height = (FLOAT)clientHeight;
-		viewport.MinDepth = 0;
-		viewport.MaxDepth = 1;
-		env->context->RSSetViewports(1, &viewport);
-	}
-	
-	//=========================================
-	// create projection
-	{
-		float fieldOfView = (float)D3DX_PI / 4.0f;
-		float screenAspect = (float)clientWidth / (float)clientHeight;
-
-		// Create the projection matrix for 3D rendering.
-		D3DXMatrixPerspectiveFovLH(&env->projectionMatrix, fieldOfView, screenAspect, screenNear, screenFar);
-	}
-	
-	//=========================================
 	// succeeded
 	return S_OK;
 }
@@ -128,14 +104,14 @@ namespace vl
 	{
 		DirectXEnvironment* directXEnvironment=0;
 
-		const DirectXEnvironment* CreateDirectXEnvironment(HWND mainWindowHandle, float screenNear, float screenFar)
+		const DirectXEnvironment* CreateDirectXEnvironment(HWND mainWindowHandle)
 		{
 			if(!directXEnvironment)
 			{
 				directXEnvironment=new DirectXEnvironment;
 				SIZE client=WindowGetClient(mainWindowHandle);
 
-				SetupDirectXEnvironment(directXEnvironment, mainWindowHandle, client.cx, client.cy, screenNear, screenFar);
+				SetupDirectXEnvironment(directXEnvironment, mainWindowHandle, client.cx, client.cy);
 			}
 			return directXEnvironment;
 		}
