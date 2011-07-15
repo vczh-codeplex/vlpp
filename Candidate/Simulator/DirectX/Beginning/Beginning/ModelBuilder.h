@@ -29,5 +29,6 @@ struct TextureVertex
 extern void			BuildLightGeometry(DirectXVertexBuffer<LightVertex>& lightGeometry);
 extern void			BuildColorCube(DirectXVertexBuffer<ColorVertex>& colorCube);
 extern void			BuildTextureCube(DirectXVertexBuffer<TextureVertex>& textureCube);
+extern void			BuildTextureSphere(DirectXVertexBuffer<TextureVertex>& textureSphere);
 
 #endif

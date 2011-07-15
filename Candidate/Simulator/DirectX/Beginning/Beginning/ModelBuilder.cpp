@@ -134,3 +134,58 @@ void BuildTextureCube(DirectXVertexBuffer<TextureVertex>& textureCube)
 
 	textureCube.Fill(vertices, indices);
 }
+
+void BuildTextureSphere(DirectXVertexBuffer<TextureVertex>& textureSphere)
+{
+	const int levels = 25;
+	const int vertexCount = (levels+1)*(levels+1);
+	const int triangleCount = 2*levels*(levels-1);
+	TextureVertex* vertices = new TextureVertex[vertexCount];
+	unsigned int* indices = new unsigned int[triangleCount*3];
+
+	for(int i=0;i<=levels;i++)
+	{
+		float ty = i*(float)D3DX_PI/levels;
+		float y = cosf(ty);
+		float r = sinf(ty);
+		for(int j=0;j<=levels;j++)
+		{
+			float tx = j*(float)D3DX_PI*2/levels;
+			float x = -cosf(tx)*r;
+			float z = -sinf(tx)*r;
+			float ix = (float)j/levels;
+			float iy = (float)i/levels;
+
+			TextureVertex* vertex=&vertices[i*(levels+1)+j];
+			vertex->Position=D3DXVECTOR3(x, y, z);
+			vertex->Normal=D3DXVECTOR3(x, y, z);
+			vertex->Texcoord0=D3DXVECTOR2(ix, iy);
+		}
+	}
+
+	int currentTriangle=0;
+	for(int i=0;i<levels;i++)
+	{
+		for(int j=0;j<levels;j++)
+		{
+			if(i<levels-1)
+			{
+				indices[currentTriangle*3+0] = i*(levels+1)+j;
+				indices[currentTriangle*3+1] = (i+1)*(levels+1)+j+1;
+				indices[currentTriangle*3+2] = (i+1)*(levels+1)+j;
+				currentTriangle++;
+			}
+			if(i>0)
+			{
+				indices[currentTriangle*3+0] = i*(levels+1)+j;
+				indices[currentTriangle*3+1] = i*(levels+1)+j+1;
+				indices[currentTriangle*3+2] = (i+1)*(levels+1)+j+1;
+				currentTriangle++;
+			}
+		}
+	}
+
+	textureSphere.Fill(vertices, vertexCount, indices, triangleCount*3);
+	delete[] vertices;
+	delete[] indices;
+}
