@@ -29,9 +29,10 @@ private:
 	DirectXRenderer								renderer;
 	DirectXViewport								viewport;
 
-	Ptr<DirectXTextureBuffer>					cubeMapTextures[6];
+	DirectXTextureBuffer						cubeMapTextures;
 	Ptr<DirectXTextureRenderTarget>				cubeMapRenderTargets[6];
 	DirectXDepthBuffer							cubeMapDepthBuffer;
+	DirectXCubeMapReference						cubeMap;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
@@ -57,7 +58,7 @@ public:
 		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
 		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
-		,cubeMapDepthBuffer(_env)
+		,cubeMapTextures(_env), cubeMapDepthBuffer(_env), cubeMap(_env)
 		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
 		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
 		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
@@ -65,13 +66,13 @@ public:
 		{
 			depthBuffer.Update(clientWidth, clientHeight);
 			cubeMapDepthBuffer.Update(512, 512);
+			cubeMapTextures.Update(512, 512, 6, true);
 			for(int i=0;i<6;i++)
 			{
-				cubeMapTextures[i]=new DirectXTextureBuffer(_env);
-				cubeMapTextures[i]->Update(512, 512);
 				cubeMapRenderTargets[i]=new DirectXTextureRenderTarget(_env);
-				cubeMapRenderTargets[i]->Update(cubeMapTextures[i].Obj());
+				cubeMapRenderTargets[i]->Update(&cubeMapTextures, i);
 			}
+			cubeMap.Update(&cubeMapTextures);
 		}
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
