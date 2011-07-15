@@ -17,18 +17,19 @@ struct World
 {
 private:
 	const DirectXEnvironment*					env;
-	D3DXMATRIX									viewMatrix, worldMatrix[3];
+	D3DXMATRIX									viewMatrix, worldMatrix[4];
 
 	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
 	
 	DirectXVertexBuffer<LightVertex>			lightGeometry;
 	DirectXVertexBuffer<ColorVertex>			cube1;
-	DirectXVertexBuffer<TextureVertex>			cube2;
+	DirectXVertexBuffer<TextureVertex>			cube2, sphere;
 
 	DirectXShader<LightVertex>					lightShader;
 	DirectXShader<ColorVertex>					colorShader;
 	DirectXShader<TextureVertex>				textureShader;
-	DirectXTextureBuffer						texture;
+	DirectXTextureBuffer						textureColumn;
+	DirectXTextureBuffer						textureEarth;
 	DirectXSamplerBuffer						sampler;
 
 	void WriteConstantBuffer(int worldMatrixIndex)
@@ -40,18 +41,14 @@ public:
 	World(const DirectXEnvironment* _env)
 		:env(_env)
 		,constantBuffer(_env)
-		,lightGeometry(_env)
-		,cube1(_env)
-		,cube2(_env)
-		,lightShader(_env)
-		,colorShader(_env)
-		,textureShader(_env)
-		,texture(_env)
-		,sampler(_env)
+		,lightGeometry(_env) ,cube1(_env) ,cube2(_env) ,sphere(_env)
+		,lightShader(_env) ,colorShader(_env) ,textureShader(_env)
+		,textureColumn(_env) ,textureEarth(_env) ,sampler(_env)
 	{
 		BuildLightGeometry(lightGeometry);
 		BuildColorCube(cube1);
 		BuildTextureCube(cube2);
+		BuildTextureSphere(sphere);
 		{
 			lightShader.Fill(L"LightShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &LightVertex::Position)
@@ -69,25 +66,36 @@ public:
 				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
 				;
 
-			texture.Update(L"TextureColumn.jpg");
+			textureColumn.Update(L"TextureColumn.jpg");
+			textureEarth.Update(L"earth.bmp");
 			sampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
 		}
 		{
 			{
+				D3DXMATRIX scaling;
+				D3DXMatrixScaling(&scaling, 1.4f, 1.4f, 1.4f);
+
+				D3DXMatrixTranslation(&worldMatrix[0], -2, 0, 0);
+				D3DXMatrixMultiply(&worldMatrix[0], &worldMatrix[0], &scaling);
+				D3DXMatrixTranslation(&worldMatrix[1], 2, 0, 0);
+				D3DXMatrixMultiply(&worldMatrix[1], &worldMatrix[1], &scaling);
+			}
+			{
 				D3DXMATRIX matrix;
 				D3DXMatrixScaling(&worldMatrix[2], 0.2f, 0.2f, 0.2f);
 
-				D3DXMatrixTranslation(&matrix, 3.5f, 0, 0);
+				D3DXMatrixTranslation(&matrix, 4.7f, 0, 0);
 				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
 
 				D3DXMatrixRotationY(&matrix, (float)D3DX_PI/4);
 				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
 
-				D3DXMatrixRotationX(&matrix, (float)D3DX_PI/4);
+				D3DXMatrixRotationX(&matrix, (float)D3DX_PI/5);
 				D3DXMatrixMultiply(&worldMatrix[2], &worldMatrix[2], &matrix);
 			}
-			D3DXMatrixTranslation(&worldMatrix[0], -2, 0, 0);
-			D3DXMatrixTranslation(&worldMatrix[1], 2, 0, 0);
+			{
+				D3DXMatrixScaling(&worldMatrix[3], 1.0f, 1.0f, 1.0f);
+			}
 			D3DXMatrixTranslation(&viewMatrix, 0, 0, 10.0);
 		}
 		{
@@ -119,12 +127,17 @@ public:
 			cube1.SetCurrentAndRender(&colorShader);
 			
 			WriteConstantBuffer(1);
-			texture.PSBindToRegisterTN(0);
+			textureColumn.PSBindToRegisterTN(0);
 			sampler.PSBindToRegisterSN(0);
 			cube2.SetCurrentAndRender(&textureShader);
 
 			WriteConstantBuffer(2);
 			lightGeometry.SetCurrentAndRender(&lightShader);
+			
+			WriteConstantBuffer(3);
+			textureEarth.PSBindToRegisterTN(0);
+			sampler.PSBindToRegisterSN(0);
+			sphere.SetCurrentAndRender(&textureShader);
 		}
 		env->swapChain->Present(0, 0);
 	}
@@ -135,6 +148,7 @@ public:
 		D3DXMatrixRotationYawPitchRoll(&rotation, -x, -y, 0);
 		D3DXMatrixMultiply(&worldMatrix[0], &worldMatrix[0], &rotation);
 		D3DXMatrixMultiply(&worldMatrix[1], &worldMatrix[1], &rotation);
+		D3DXMatrixMultiply(&worldMatrix[3], &worldMatrix[3], &rotation);
 	}
 };
 World* world=0;

@@ -119,6 +119,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorShader.txt" />
+    <None Include="earth.bmp" />
+    <None Include="earthbump.bmp" />
     <None Include="LightShader.txt" />
     <None Include="TextureColumn.jpg" />
     <None Include="TextureShader.txt" />

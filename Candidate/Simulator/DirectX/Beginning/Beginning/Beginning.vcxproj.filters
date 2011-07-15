@@ -139,5 +139,11 @@
     <None Include="TextureShader.txt">
       <Filter>Dependence\Shaders</Filter>
     </None>
+    <None Include="earth.bmp">
+      <Filter>Dependence\Shaders</Filter>
+    </None>
+    <None Include="earthbump.bmp">
+      <Filter>Dependence\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
