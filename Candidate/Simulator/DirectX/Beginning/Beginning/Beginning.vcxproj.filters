@@ -34,6 +34,9 @@
     <Filter Include="Dependence\Shaders\SmdFemale">
       <UniqueIdentifier>{6ac50455-88e8-470d-a454-34bb75632297}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependence\Library\Stream">
+      <UniqueIdentifier>{e147ff94-931b-45c9-9036-e3741ff2ce91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="ModelBuilder.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\Stream\Accessor.cpp">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CharFormat.cpp">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp">
+      <Filter>Dependence\Library\Stream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +143,18 @@
     <ClInclude Include="..\..\..\..\..\Library\Pointer.h">
       <Filter>Dependence\Library\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Accessor.h">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CharFormat.h">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Stream\FileStream.h">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h">
+      <Filter>Dependence\Library\Stream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\ColorShader.txt">
@@ -164,6 +188,27 @@
       <Filter>Dependence\Shaders\SmdFemale</Filter>
     </None>
     <None Include="Shaders\SmdFemale\joey_facemap.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\eyeball_r.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\eyeball_l.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\joey_facemap.jpg">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\citizen_sheet.jpg">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\eyeball_l.jpg">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\eyeball_r.jpg">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\fmouth.jpg">
       <Filter>Dependence\Shaders\SmdFemale</Filter>
     </None>
   </ItemGroup>

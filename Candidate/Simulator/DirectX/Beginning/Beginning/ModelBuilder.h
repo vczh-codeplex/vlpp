@@ -3,9 +3,11 @@
 
 #include "..\Shared\DirectXSetup.h"
 #include "..\Shared\DirectXShader.h"
+#include "..\..\..\..\..\Library\Pointer.h"
 
 using namespace vl;
 using namespace vl::directx;
+using namespace vl::collections;
 
 struct LightVertex
 {
@@ -30,5 +32,18 @@ extern void			BuildLightGeometry(DirectXVertexBuffer<LightVertex>& lightGeometry
 extern void			BuildColorCube(DirectXVertexBuffer<ColorVertex>& colorCube);
 extern void			BuildTextureCube(DirectXVertexBuffer<TextureVertex>& textureCube);
 extern void			BuildTextureSphere(DirectXVertexBuffer<TextureVertex>& textureSphere);
+
+struct SmdModel
+{
+	List<Ptr<DirectXTextureBuffer>>				textures;
+	List<Pair<int, int>>						indices; //startIndex, textureIndex
+	Ptr<DirectXVertexBuffer<TextureVertex>>		vertexBuffer;
+	int											totalIndices;
+
+	SmdModel(const DirectXEnvironment* _env);
+	~SmdModel();
+
+	void										SetCurrentAndRender();
+};
 
 #endif

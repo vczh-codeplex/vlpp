@@ -86,6 +86,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Library\Basic.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\Collections\Operation.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\Accessor.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CharFormat.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\Shared\DirectXSetup.cpp" />
     <ClCompile Include="..\Shared\DirectXShader.cpp" />
@@ -113,6 +116,10 @@
     <ClInclude Include="..\..\..\..\..\Library\Collections\OperationWhere.h" />
     <ClInclude Include="..\..\..\..\..\Library\Collections\Pair.h" />
     <ClInclude Include="..\..\..\..\..\Library\Pointer.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Accessor.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CharFormat.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\FileStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\..\Library\String.h" />
     <ClInclude Include="..\Shared\DirectXSetup.h" />
     <ClInclude Include="..\Shared\DirectXShader.h" />
@@ -124,9 +131,16 @@
     <None Include="Shaders\earth.bmp" />
     <None Include="Shaders\earthbump.bmp" />
     <None Include="Shaders\LightShader.txt" />
+    <None Include="Shaders\SmdFemale\citizen_sheet.jpg" />
     <None Include="Shaders\SmdFemale\citizen_sheet.tga" />
+    <None Include="Shaders\SmdFemale\eyeball_l.jpg" />
+    <None Include="Shaders\SmdFemale\eyeball_l.tga" />
+    <None Include="Shaders\SmdFemale\eyeball_r.jpg" />
+    <None Include="Shaders\SmdFemale\eyeball_r.tga" />
     <None Include="Shaders\SmdFemale\female_01_reference.smd" />
+    <None Include="Shaders\SmdFemale\fmouth.jpg" />
     <None Include="Shaders\SmdFemale\fmouth.tga" />
+    <None Include="Shaders\SmdFemale\joey_facemap.jpg" />
     <None Include="Shaders\SmdFemale\joey_facemap.tga" />
     <None Include="Shaders\TextureColumn.jpg" />
     <None Include="Shaders\TextureShader.txt" />

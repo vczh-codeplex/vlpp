@@ -1,5 +1,4 @@
 #include "ModelBuilder.h"
-#include "..\..\..\..\..\Library\Pointer.h"
 
 using namespace vl;
 
@@ -30,6 +29,10 @@ World* world=0;
 int oldX=0;
 int oldY=0;
 bool mouseTracking=false;
+
+/***********************************************************************
+Message Handler
+***********************************************************************/
 
 void CALLBACK DirectXProcIdle()
 {
@@ -345,6 +348,7 @@ private:
 	DirectXViewport								viewport;
 	
 	DirectXVertexBuffer<TextureVertex>			cube;
+	SmdModel									smdModel;
 	DirectXShader<TextureVertex>				textureShader;
 	DirectXTextureBuffer						textureColumn;
 	DirectXSamplerBuffer						textureSampler;
@@ -362,7 +366,7 @@ public:
 		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
 		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
-		,cube(_env) ,textureShader(_env) ,textureColumn(_env) ,textureSampler(_env)
+		,cube(_env) ,smdModel(_env) ,textureShader(_env) ,textureColumn(_env) ,textureSampler(_env)
 	{
 		depthBuffer.Update(clientWidth, clientHeight);
 		BuildTextureCube(cube);
@@ -374,7 +378,7 @@ public:
 		textureColumn.Update(L"Shaders/TextureColumn.jpg");
 		textureSampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
 
-		D3DXMatrixScaling(&worldMatrix, 20.0f, 20.0f, 20.0f);
+		D3DXMatrixScaling(&worldMatrix, 10.0f, 10.0f, 10.0f);
 		constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
 		constantBuffer->lightColor=D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 		constantBuffer->lightMinimunDistanceSquare=900;
@@ -417,6 +421,7 @@ public:
 			textureColumn.PSBindToRegisterTN(0);
 			textureSampler.PSBindToRegisterSN(0);
 			cube.SetCurrentAndRender(&textureShader);
+			smdModel.SetCurrentAndRender();
 		}
 		env->swapChain->Present(0, 0);
 	}
