@@ -225,20 +225,143 @@ EnsureSymbolBaseTypesCompleted
 EnsureTypeVisibility
 ***********************************************************************/
 
-			void EnsureTypeVisibility(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			ManagedTypeSymbol* GetThisType(ManagedSymbolDeclaration* declaration, const MAP& argument)
 			{
-				if(type->GetGenericDeclaration())
+				ManagedTypeSymbol* declarationType=argument.symbolManager->GetType(declaration);
+				if(declaration->orderedGenericParameterNames.Count()>0)
 				{
-					EnsureTypeVisibility(languageElement, type->GetGenericDeclaration(), scopeItem, argument);
-					FOREACH(ManagedTypeSymbol*, genericArgument, type->GetGenericArguments())
+					List<ManagedTypeSymbol*> genericArguments;
+					FOREACH(WString, name, declaration->orderedGenericParameterNames.Wrap())
 					{
-						EnsureTypeVisibility(languageElement, genericArgument, scopeItem, argument);
+						genericArguments.Add(argument.symbolManager->GetType(declaration->ItemGroup(name)->Items()[0]));
+					}
+					return argument.symbolManager->GetInstiantiatedType(declarationType, genericArguments.Wrap());
+				}
+				else
+				{
+					return declarationType;
+				}
+			}
+
+			void EnsureTypeVisibility(
+				ManagedLanguageElement* languageElement,
+				ManagedTypeSymbol* type,
+				const MAP& argument,
+				ManagedTypeSymbol* thisType,
+				List<ManagedTypeSymbol*>& baseTypes
+				)
+			{
+				List<ManagedTypeSymbol*> typeLevels;
+				{
+					ManagedTypeSymbol* currentType=type;
+					while(currentType)
+					{
+						typeLevels.Add(currentType);
+						currentType=currentType->GetGenericDeclaration()
+							?currentType->GetGenericDeclaration()->GetParentType()
+							:currentType->GetParentType()
+							;
 					}
 				}
-				else if(type->GetParentType())
+
+				ManagedTypeSymbol* parentType=0;
+				for(vint i=typeLevels.Count()-1;i>=0;i--)
 				{
-					EnsureTypeVisibility(languageElement, type->GetParentType(), scopeItem, argument);
+					ManagedTypeSymbol* currentType=typeLevels[i];
+					ManagedTypeSymbol* currentDeclaration=currentType->GetGenericDeclaration()
+						?currentType->GetGenericDeclaration()
+						:currentType
+						;
+					if(currentType->GetGenericDeclaration())
+					{
+						FOREACH(ManagedTypeSymbol*, genericArgument, currentType->GetGenericArguments())
+						{
+							EnsureTypeVisibility(languageElement, genericArgument, argument, thisType, baseTypes);
+						}
+					}
+
+					ManagedSymbolItem* currentSymbol=currentDeclaration->GetSymbol();
+					declatt::Accessor currentAccessor=declatt::Public;
+					switch(currentSymbol->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
+						{
+							ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(currentSymbol);
+							currentAccessor=symbol->accessor;
+						}
+						break;
+					case ManagedSymbolItem::TypeRename:
+						{
+							ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(currentSymbol);
+							currentAccessor=symbol->accessor;
+						}
+						break;
+					case ManagedSymbolItem::GenericParameter:
+						break;
+					default:
+						argument.errors.Add(ManagedLanguageCodeException::GetTypeInvisible(languageElement, currentType));
+						return;
+					}
+
+					if(!parentType)
+					{
+						ManagedSymbolItem* parentSymbol=currentSymbol->GetParentItem();
+						switch(parentSymbol->GetSymbolType())
+						{
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Structure:
+						case ManagedSymbolItem::Interface:
+							{
+								ManagedSymbolDeclaration* parentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(parentSymbol);
+								parentType=GetThisType(parentDeclaration, argument);
+							}
+							break;
+						}
+					}
+					if(parentType && parentType!=thisType)
+					{
+						if(baseTypes.Contains(parentType))
+						{
+							switch(currentAccessor)
+							{
+							case declatt::Public:
+							case declatt::Protected:
+							case declatt::Internal:
+							case declatt::ProtectedInternal:
+								break;
+							default:
+								argument.errors.Add(ManagedLanguageCodeException::GetTypeInvisible(languageElement, currentType));
+								return;
+							}
+						}
+						else
+						{
+							switch(currentAccessor)
+							{
+							case declatt::Public:
+							case declatt::Internal:
+							case declatt::ProtectedInternal:
+								break;
+							default:
+								argument.errors.Add(ManagedLanguageCodeException::GetTypeInvisible(languageElement, currentType));
+								return;
+							}
+						}
+					}
 				}
+			}
+
+			void EnsureTypeVisibility(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			{
+				CHECK_ERROR(
+					!scopeItem
+					|| scopeItem->GetSymbolType()==ManagedSymbolItem::Class
+					|| scopeItem->GetSymbolType()==ManagedSymbolItem::Structure
+					|| scopeItem->GetSymbolType()==ManagedSymbolItem::Interface,
+					L"EnsureTypeVisibility(ManagedLanguageElement*, ManagedTypeSymbol*, ManagedSymbolItem*, const MAP&)#scopeItemÄÚÈÝ·Ç·¨¡£"
+					);
 			}
 		}
 	}
