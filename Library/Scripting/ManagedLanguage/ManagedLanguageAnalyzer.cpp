@@ -46,6 +46,13 @@ ManagedLanguage_AnalyzeProgram
 					ManagedLanguage_BuildGlobalScope2_Declaration(declaration, argument);
 				}
 				if(argument.errors.Count()>0) return;
+				
+				// check symbol item
+				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+				{
+					ManagedLanguage_BuildGlobalScope3_Declaration(declaration, argument);
+				}
+				if(argument.errors.Count()>0) return;
 			}
 
 /***********************************************************************
@@ -212,6 +219,14 @@ EnsureSymbolBaseTypesCompleted
 						}
 					}
 				}
+			}
+
+/***********************************************************************
+EnsureTypeVisibility
+***********************************************************************/
+
+			void EnsureTypeVisibility(ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			{
 			}
 		}
 	}

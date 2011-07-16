@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass1.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass2.cpp" />
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass3.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_GetTypeSymbol.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageException.cpp" />
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageExpression.cpp" />
