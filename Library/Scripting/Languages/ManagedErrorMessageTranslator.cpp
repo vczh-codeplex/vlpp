@@ -70,6 +70,11 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::IllegalNestedDeclaration();
 					}
 					break;
+				case ManagedLanguageCodeException::TypeInvisible:
+					{
+						message=ManagedErrorMessage::TypeInvisible(TypeToString(error->GetTypeParameter()));
+					}
+					break;
 				default:
 					return 0;
 				}

@@ -34,6 +34,7 @@ namespace vl
 				static WString IllegalAutoRefer(const WString& autoRefType);
 				static WString CannotDirectReferTypeRenameAsToplevel(const WString& name);
 				static WString IllegalNestedDeclaration();
+				static WString TypeInvisible(const WString& name);
 			};
 		}
 	}

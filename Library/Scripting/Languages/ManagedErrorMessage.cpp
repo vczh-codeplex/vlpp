@@ -51,6 +51,11 @@ namespace vl
 				return L"Only class, structure, interface, enumeration and type rename can be defined as a nested type.";
 			}
 
+			WString ManagedErrorMessage::TypeInvisible(const WString& name)
+			{
+				return L"Type "+name+L" is invisible at the current scope.";
+			}
+
 		}
 	}
 }

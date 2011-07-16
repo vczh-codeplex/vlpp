@@ -225,8 +225,20 @@ EnsureSymbolBaseTypesCompleted
 EnsureTypeVisibility
 ***********************************************************************/
 
-			void EnsureTypeVisibility(ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			void EnsureTypeVisibility(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
 			{
+				if(type->GetGenericDeclaration())
+				{
+					EnsureTypeVisibility(languageElement, type->GetGenericDeclaration(), scopeItem, argument);
+					FOREACH(ManagedTypeSymbol*, genericArgument, type->GetGenericArguments())
+					{
+						EnsureTypeVisibility(languageElement, genericArgument, scopeItem, argument);
+					}
+				}
+				else if(type->GetParentType())
+				{
+					EnsureTypeVisibility(languageElement, type->GetParentType(), scopeItem, argument);
+				}
 			}
 		}
 	}
