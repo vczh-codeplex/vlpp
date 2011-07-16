@@ -119,13 +119,17 @@
     <ClInclude Include="ModelBuilder.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColorShader.txt" />
-    <None Include="CubeShader.txt" />
-    <None Include="earth.bmp" />
-    <None Include="earthbump.bmp" />
-    <None Include="LightShader.txt" />
-    <None Include="TextureColumn.jpg" />
-    <None Include="TextureShader.txt" />
+    <None Include="Shaders\ColorShader.txt" />
+    <None Include="Shaders\CubeShader.txt" />
+    <None Include="Shaders\earth.bmp" />
+    <None Include="Shaders\earthbump.bmp" />
+    <None Include="Shaders\LightShader.txt" />
+    <None Include="Shaders\SmdFemale\citizen_sheet.tga" />
+    <None Include="Shaders\SmdFemale\female_01_reference.smd" />
+    <None Include="Shaders\SmdFemale\fmouth.tga" />
+    <None Include="Shaders\SmdFemale\joey_facemap.tga" />
+    <None Include="Shaders\TextureColumn.jpg" />
+    <None Include="Shaders\TextureShader.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

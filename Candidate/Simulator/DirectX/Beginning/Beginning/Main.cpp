@@ -81,27 +81,27 @@ public:
 		BuildTextureCube(cube2);
 		BuildTextureSphere(sphere);
 		{
-			lightShader.Fill(L"LightShader.txt", L"VShader", L"PShader")
+			lightShader.Fill(L"Shaders/LightShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &LightVertex::Position)
 				;
 
-			colorShader.Fill(L"ColorShader.txt", L"VShader", L"PShader")
+			colorShader.Fill(L"Shaders/ColorShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &ColorVertex::Position)
 				.Field(L"NORMAL", &ColorVertex::Normal)
 				.Field(L"COLOR", &ColorVertex::Color)
 				;
 
-			textureShader.Fill(L"TextureShader.txt", L"VShader", L"PShader")
+			textureShader.Fill(L"Shaders/TextureShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &TextureVertex::Position)
 				.Field(L"NORMAL", &TextureVertex::Normal)
 				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
 				;
 
-			textureColumn.Update(L"TextureColumn.jpg");
-			textureEarth.Update(L"earth.bmp");
+			textureColumn.Update(L"Shaders/TextureColumn.jpg");
+			textureEarth.Update(L"Shaders/earth.bmp");
 			textureSampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
 
-			cubeShader.Fill(L"CubeShader.txt", L"VShader", L"PShader")
+			cubeShader.Fill(L"Shaders/CubeShader.txt", L"VShader", L"PShader")
 				.Field(L"POSITION", &TextureVertex::Position)
 				.Field(L"NORMAL", &TextureVertex::Normal)
 				.Field(L"TEXCOORD", &TextureVertex::Texcoord0)

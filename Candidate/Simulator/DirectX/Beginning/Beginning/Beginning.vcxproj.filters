@@ -31,6 +31,9 @@
     <Filter Include="Dependence\Library\Collections">
       <UniqueIdentifier>{9d342c26-1ca9-479d-9b38-cd91ac11d021}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependence\Shaders\SmdFemale">
+      <UniqueIdentifier>{6ac50455-88e8-470d-a454-34bb75632297}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -130,26 +133,38 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TextureColumn.jpg">
+    <None Include="Shaders\ColorShader.txt">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="LightShader.txt">
+    <None Include="Shaders\CubeShader.txt">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="ColorShader.txt">
+    <None Include="Shaders\earth.bmp">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="TextureShader.txt">
+    <None Include="Shaders\earthbump.bmp">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="earth.bmp">
+    <None Include="Shaders\LightShader.txt">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="earthbump.bmp">
+    <None Include="Shaders\TextureColumn.jpg">
       <Filter>Dependence\Shaders</Filter>
     </None>
-    <None Include="CubeShader.txt">
+    <None Include="Shaders\TextureShader.txt">
       <Filter>Dependence\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\citizen_sheet.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\female_01_reference.smd">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\fmouth.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdFemale\joey_facemap.tga">
+      <Filter>Dependence\Shaders\SmdFemale</Filter>
     </None>
   </ItemGroup>
 </Project>
