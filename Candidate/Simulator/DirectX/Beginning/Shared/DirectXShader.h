@@ -187,6 +187,11 @@ Vertex Buffer
 				env->context->DrawIndexed(indexBufferLength, 0, 0);
 			}
 
+			void Render(int indexStart, int indexCount)
+			{
+				env->context->DrawIndexed(indexCount, indexStart, 0);
+			}
+
 			void SetCurrentAndRender(DirectXShader<T>* shader)
 			{
 				shader->SetCurrent();
