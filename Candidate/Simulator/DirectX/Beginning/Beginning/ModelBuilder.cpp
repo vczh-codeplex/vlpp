@@ -256,7 +256,7 @@ SmdModel::SmdModel(const DirectXEnvironment* _env)
 		}
 		vertices[i].Position=D3DXVECTOR3(values[0], values[1], values[2]);
 		vertices[i].Normal=D3DXVECTOR3(values[3], values[4], values[5]);
-		vertices[i].Texcoord0=D3DXVECTOR2(values[6], values[7]);
+		vertices[i].Texcoord0=D3DXVECTOR2(values[6], -values[7]);
 	}
 
 	vertexBuffer=new DirectXVertexBuffer<TextureVertex>(_env);

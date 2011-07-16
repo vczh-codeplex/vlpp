@@ -347,10 +347,8 @@ private:
 	DirectXRenderer								renderer;
 	DirectXViewport								viewport;
 	
-	DirectXVertexBuffer<TextureVertex>			cube;
 	SmdModel									smdModel;
 	DirectXShader<TextureVertex>				textureShader;
-	DirectXTextureBuffer						textureColumn;
 	DirectXSamplerBuffer						textureSampler;
 
 	void WriteConstantBuffer()
@@ -366,19 +364,17 @@ public:
 		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
 		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
-		,cube(_env) ,smdModel(_env) ,textureShader(_env) ,textureColumn(_env) ,textureSampler(_env)
+		,smdModel(_env) ,textureShader(_env) ,textureSampler(_env)
 	{
 		depthBuffer.Update(clientWidth, clientHeight);
-		BuildTextureCube(cube);
 		textureShader.Fill(L"Shaders/TextureShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &TextureVertex::Position)
 			.Field(L"NORMAL", &TextureVertex::Normal)
 			.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
 			;
-		textureColumn.Update(L"Shaders/TextureColumn.jpg");
 		textureSampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
 
-		D3DXMatrixScaling(&worldMatrix, 10.0f, 10.0f, 10.0f);
+		D3DXMatrixTranslation(&worldMatrix, 0.0f, 0.0f, -30.0f);
 		constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
 		constantBuffer->lightColor=D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
 		constantBuffer->lightMinimunDistanceSquare=900;
@@ -408,7 +404,7 @@ public:
 	void Render()
 	{
 		{
-			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -200), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
+			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -100), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
 			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
 			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 1000.0f);
 			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
@@ -418,9 +414,8 @@ public:
 			constantBuffer.PSBindToRegisterBN(0);
 			
 			WriteConstantBuffer();
-			textureColumn.PSBindToRegisterTN(0);
 			textureSampler.PSBindToRegisterSN(0);
-			cube.SetCurrentAndRender(&textureShader);
+			textureShader.SetCurrent();
 			smdModel.SetCurrentAndRender();
 		}
 		env->swapChain->Present(0, 0);
