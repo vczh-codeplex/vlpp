@@ -1,0 +1,37 @@
+cbuffer MatrixBuffer : register(b0)
+{
+    matrix worldMatrix;
+    matrix viewMatrix;
+    matrix projectionMatrix;
+	float4 lightPosition;
+	float4 lightColor;
+	float lightMinimumDistanceSquare;
+	float4 environmentColor;
+};
+
+struct VIn
+{
+	float4 position : POSITION;
+};
+
+struct PIn
+{
+    float4 position : SV_POSITION;
+};
+
+PIn VShader(VIn input)
+{
+    PIn output;
+    input.position.w = 1.0f;
+
+    output.position = mul(input.position, worldMatrix);
+    output.position = mul(output.position, viewMatrix);
+    output.position = mul(output.position, projectionMatrix);
+    
+    return output;
+}
+
+float4 PShader(PIn input) : SV_TARGET
+{
+	return float4(1, 1, 1, 1);
+}
