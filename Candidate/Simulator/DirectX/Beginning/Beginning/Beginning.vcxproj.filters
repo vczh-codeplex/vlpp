@@ -37,6 +37,9 @@
     <Filter Include="Dependence\Library\Stream">
       <UniqueIdentifier>{e147ff94-931b-45c9-9036-e3741ff2ce91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependence\Shaders\SmdCamera">
+      <UniqueIdentifier>{525e16fe-7649-4709-92f4-88db615605f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -210,6 +213,18 @@
     </None>
     <None Include="Shaders\SmdFemale\fmouth.jpg">
       <Filter>Dependence\Shaders\SmdFemale</Filter>
+    </None>
+    <None Include="Shaders\SmdCamera\camera_reference.smd">
+      <Filter>Dependence\Shaders\SmdCamera</Filter>
+    </None>
+    <None Include="Shaders\SmdCamera\lightning000.jpg">
+      <Filter>Dependence\Shaders\SmdCamera</Filter>
+    </None>
+    <None Include="Shaders\SmdCamera\cameraFINAL.jpg">
+      <Filter>Dependence\Shaders\SmdCamera</Filter>
+    </None>
+    <None Include="Shaders\SmdCamera\cameralowFINAL.jpg">
+      <Filter>Dependence\Shaders\SmdCamera</Filter>
     </None>
   </ItemGroup>
 </Project>
