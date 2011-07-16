@@ -131,6 +131,10 @@
     <None Include="Shaders\earth.bmp" />
     <None Include="Shaders\earthbump.bmp" />
     <None Include="Shaders\LightShader.txt" />
+    <None Include="Shaders\SmdCamera\cameraFINAL.jpg" />
+    <None Include="Shaders\SmdCamera\cameralowFINAL.jpg" />
+    <None Include="Shaders\SmdCamera\camera_reference.smd" />
+    <None Include="Shaders\SmdCamera\lightning000.jpg" />
     <None Include="Shaders\SmdFemale\citizen_sheet.jpg" />
     <None Include="Shaders\SmdFemale\citizen_sheet.tga" />
     <None Include="Shaders\SmdFemale\eyeball_l.jpg" />

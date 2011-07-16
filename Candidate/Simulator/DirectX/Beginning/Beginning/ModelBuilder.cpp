@@ -202,7 +202,7 @@ SmdModel
 SmdModel::SmdModel(const DirectXEnvironment* _env)
 	:totalIndices(0)
 {
-	FileStream fileStream(L"Shaders/SmdFemale/female_01_reference.smd", FileStream::ReadOnly);
+	FileStream fileStream(L"Shaders/SmdCamera/camera_reference.smd", FileStream::ReadOnly);
 	BomDecoder decoder;
 	DecoderStream decoderStream(fileStream, decoder);
 	StreamReader streamReader(decoderStream);
@@ -224,7 +224,7 @@ SmdModel::SmdModel(const DirectXEnvironment* _env)
 		{
 			textureNames.Add(line);
 			DirectXTextureBuffer* texture=new DirectXTextureBuffer(_env);
-			texture->Update(L"Shaders/SmdFemale/"+line.Left(line.Length()-4)+L".jpg");
+			texture->Update(L"Shaders/SmdCamera/"+line.Left(line.Length()-4)+L".jpg");
 			textures.Add(texture);
 		}
 		if(lastTexture!=line)
