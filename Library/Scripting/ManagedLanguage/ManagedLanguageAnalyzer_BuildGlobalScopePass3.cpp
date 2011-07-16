@@ -9,14 +9,14 @@ namespace vl
 		{
 			using namespace collections;
 
-			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedSymbolItem* symbol, ManagedSymbolItem* scopeItem, const List<WString>& orderedGenericParameterNames, const MAP& argument)
+			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedLanguageElement* languageElement, ManagedSymbolItem* symbol, ManagedSymbolItem* scopeItem, const List<WString>& orderedGenericParameterNames, const MAP& argument)
 			{
 				FOREACH(WString, name, orderedGenericParameterNames.Wrap())
 				{
 					ManagedSymbolGenericParameter* genericParameter=dynamic_cast<ManagedSymbolGenericParameter*>(symbol->ItemGroup(name)->Items()[0]);
 					FOREACH(ManagedTypeSymbol*, typeConstraint, genericParameter->typeConstraints.Wrap())
 					{
-						EnsureTypeVisibility(typeConstraint, scopeItem, argument);
+						EnsureTypeVisibility(languageElement, typeConstraint, scopeItem, argument);
 					}
 				}
 			}
@@ -31,20 +31,20 @@ ManagedLanguage_BuildGlobalScope3_Member
 				{
 					ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(symbol->type, scopeItem, argument);
+					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
 					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(symbol->returnType, scopeItem, argument);
+					EnsureTypeVisibility(node, symbol->returnType, scopeItem, argument);
 					FOREACH(WString, name, symbol->orderedMethodParameterNames.Wrap())
 					{
 						ManagedSymbolMethodParameter* methodParameter=dynamic_cast<ManagedSymbolMethodParameter*>(symbol->ItemGroup(name)->Items()[0]);
-						EnsureTypeVisibility(methodParameter->type, scopeItem, argument);
+						EnsureTypeVisibility(node, methodParameter->type, scopeItem, argument);
 					}
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
@@ -54,7 +54,7 @@ ManagedLanguage_BuildGlobalScope3_Member
 					FOREACH(WString, name, symbol->orderedMethodParameterNames.Wrap())
 					{
 						ManagedSymbolMethodParameter* methodParameter=dynamic_cast<ManagedSymbolMethodParameter*>(symbol->ItemGroup(name)->Items()[0]);
-						EnsureTypeVisibility(methodParameter->type, scopeItem, argument);
+						EnsureTypeVisibility(node, methodParameter->type, scopeItem, argument);
 					}
 				}
 
@@ -80,15 +80,15 @@ ManagedLanguage_BuildGlobalScope3_ExtendedMember
 				{
 					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(symbol->type, scopeItem, argument);
+					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
 					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(symbol->targetType, scopeItem, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					EnsureTypeVisibility(node, symbol->targetType, scopeItem, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_ExtendedMember)
@@ -105,13 +105,13 @@ ManagedLanguage_BuildGlobalScope3_Declaration
 					ManagedSymbolItem* scopeItem=symbol;
 					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
 					{
-						EnsureTypeVisibility(baseType, scopeItem, argument);
+						EnsureTypeVisibility(node, baseType, scopeItem, argument);
 					}
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
 						ManagedLanguage_BuildGlobalScope3_Member(member, argument);
 					}
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNamespaceDeclaration)
@@ -141,7 +141,7 @@ ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration
 					ManagedSymbolItem* scopeItem=symbol;
 					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
 					{
-						EnsureTypeVisibility(baseType, scopeItem, argument);
+						EnsureTypeVisibility(node, baseType, scopeItem, argument);
 					}
 				}
 
@@ -158,8 +158,8 @@ ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration
 					default:
 						scopeItem=0;
 					}
-					EnsureTypeVisibility(symbol->type, scopeItem, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
+					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)

@@ -23,6 +23,7 @@ namespace vl
 			protected:
 				virtual WString					SymbolsToString(const collections::IReadonlyList<WString>& symbols)=0;
 				virtual WString					TypeToString(ManagedType* type)=0;
+				virtual WString					TypeToString(ManagedTypeSymbol* type)=0;
 			public:
 				Ptr<LanguageException>			Translate(Ptr<ManagedLanguageCodeException> error, vint codeIndex);
 			};

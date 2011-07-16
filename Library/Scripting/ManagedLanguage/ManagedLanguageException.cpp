@@ -114,6 +114,12 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(element, IllegalNestedDeclaration, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeInvisible(ManagedLanguageElement* element, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, TypeInvisible, parameters.Wrap(), type);
+			}
 		}
 	}
 }
