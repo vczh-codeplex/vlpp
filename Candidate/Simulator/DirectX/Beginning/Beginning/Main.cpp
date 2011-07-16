@@ -16,7 +16,97 @@ struct ConstantBufferType
 	D3DXCOLOR environmentColor;
 };
 
-struct World
+class World : public Object
+{
+public:
+	virtual void Render()=0;
+	virtual void Rotate(float x, float y)=0;
+};
+
+World* CreateCubeAndSphereWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight);
+World* CreateSmdWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight);
+
+World* world=0;
+int oldX=0;
+int oldY=0;
+bool mouseTracking=false;
+
+void CALLBACK DirectXProcIdle()
+{
+	if(world)
+	{
+		world->Render();
+	}
+}
+
+LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool& callDefWindowProc)
+{
+	switch(uMsg)
+	{
+	case WM_SHOWWINDOW:
+		{
+			if(wParam==TRUE)
+			{
+				if(!world)
+				{
+					SIZE size=WindowGetClient(hwnd);
+					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd);
+					world=CreateSmdWorld(env, size.cx, size.cy);
+				}
+			}
+		}
+		break;
+	case WM_DESTROY:
+		{
+			if(world)
+			{
+				delete world;
+				world=0;
+				DestroyDirectXEnvironment();
+			}
+		}
+		break;
+	case WM_LBUTTONDOWN:
+		{
+			SetCapture(hwnd);
+			WindowMouseInfo info(wParam, lParam, false);
+			oldX=info.x;
+			oldY=info.y;
+			mouseTracking=true;
+		}
+		break;
+	case WM_MOUSEMOVE:
+		{
+			if(mouseTracking)
+			{
+				WindowMouseInfo info(wParam, lParam, false);
+
+				int offsetX=info.x-oldX;
+				int offsetY=info.y-oldY;
+				float rotateX=(float)D3DX_PI*offsetX/200;
+				float rotateY=(float)D3DX_PI*offsetY/200;
+				world->Rotate(rotateX, rotateY);
+
+				oldX=info.x;
+				oldY=info.y;
+			}
+		}
+		break;
+	case WM_LBUTTONUP:
+		{
+			ReleaseCapture();
+			mouseTracking=false;
+		}
+		break;
+	}
+	return 0;
+}
+
+/***********************************************************************
+CubeAndSphereWorld
+***********************************************************************/
+
+class CubeAndSphereWorld : public World
 {
 private:
 	const DirectXEnvironment*					env;
@@ -54,7 +144,7 @@ private:
 		constantBuffer.Update();
 	}
 public:
-	World(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
+	CubeAndSphereWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
 		:env(_env)
 		,clientWidth(_clientWidth), clientHeight(_clientHeight)
 		,constantBuffer(_env)
@@ -144,7 +234,7 @@ public:
 		}
 	}
 
-	~World()
+	~CubeAndSphereWorld()
 	{
 	}
 
@@ -231,78 +321,115 @@ public:
 		D3DXMatrixMultiply(&worldMatrix[3], &worldMatrix[3], &rotation);
 	}
 };
-World* world=0;
-int oldX=0;
-int oldY=0;
-bool mouseTracking=false;
 
-void CALLBACK DirectXProcIdle()
+World* CreateCubeAndSphereWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
 {
-	if(world)
-	{
-		world->Render();
-	}
+	return new CubeAndSphereWorld(_env, _clientWidth, _clientHeight);
 }
 
-LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool& callDefWindowProc)
+/***********************************************************************
+SmdWorld
+***********************************************************************/
+
+class SmdWorld : public World
 {
-	switch(uMsg)
+private:
+	const DirectXEnvironment*					env;
+	int											clientWidth, clientHeight;
+	D3DXMATRIX									viewMatrix, worldMatrix;
+
+	DirectXConstantBuffer<ConstantBufferType>	constantBuffer;
+	DirectXDepthBuffer							depthBuffer;
+	DirectXWindowRenderTarget					windowRenderTarget;
+	DirectXRenderer								renderer;
+	DirectXViewport								viewport;
+	
+	DirectXVertexBuffer<TextureVertex>			cube;
+	DirectXShader<TextureVertex>				textureShader;
+	DirectXTextureBuffer						textureColumn;
+	DirectXSamplerBuffer						textureSampler;
+
+	void WriteConstantBuffer()
 	{
-	case WM_SHOWWINDOW:
-		{
-			if(wParam==TRUE)
-			{
-				if(!world)
-				{
-					SIZE size=WindowGetClient(hwnd);
-					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd);
-					world=new World(env, size.cx, size.cy);
-				}
-			}
-		}
-		break;
-	case WM_DESTROY:
-		{
-			if(world)
-			{
-				delete world;
-				world=0;
-				DestroyDirectXEnvironment();
-			}
-		}
-		break;
-	case WM_LBUTTONDOWN:
-		{
-			SetCapture(hwnd);
-			WindowMouseInfo info(wParam, lParam, false);
-			oldX=info.x;
-			oldY=info.y;
-			mouseTracking=true;
-		}
-		break;
-	case WM_MOUSEMOVE:
-		{
-			if(mouseTracking)
-			{
-				WindowMouseInfo info(wParam, lParam, false);
-
-				int offsetX=info.x-oldX;
-				int offsetY=info.y-oldY;
-				float rotateX=(float)D3DX_PI*offsetX/200;
-				float rotateY=(float)D3DX_PI*offsetY/200;
-				world->Rotate(rotateX, rotateY);
-
-				oldX=info.x;
-				oldY=info.y;
-			}
-		}
-		break;
-	case WM_LBUTTONUP:
-		{
-			ReleaseCapture();
-			mouseTracking=false;
-		}
-		break;
+		D3DXMatrixTranspose(&constantBuffer->world, &worldMatrix);
+		D3DXMatrixTranspose(&constantBuffer->view, &viewMatrix);
+		D3DXMatrixTranspose(&constantBuffer->projection, &viewport.projectionMatrix);
+		constantBuffer.Update();
 	}
-	return 0;
+public:
+	SmdWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
+		:env(_env)
+		,clientWidth(_clientWidth), clientHeight(_clientHeight)
+		,constantBuffer(_env)
+		,depthBuffer(_env), windowRenderTarget(_env), renderer(_env), viewport(_env)
+		,cube(_env) ,textureShader(_env) ,textureColumn(_env) ,textureSampler(_env)
+	{
+		depthBuffer.Update(clientWidth, clientHeight);
+		BuildTextureCube(cube);
+		textureShader.Fill(L"Shaders/TextureShader.txt", L"VShader", L"PShader")
+			.Field(L"POSITION", &TextureVertex::Position)
+			.Field(L"NORMAL", &TextureVertex::Normal)
+			.Field(L"TEXCOORD", &TextureVertex::Texcoord0)
+			;
+		textureColumn.Update(L"Shaders/TextureColumn.jpg");
+		textureSampler.Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3DXCOLOR(1, 1, 1, 1));
+
+		D3DXMatrixScaling(&worldMatrix, 20.0f, 20.0f, 20.0f);
+		constantBuffer->lightPosition=D3DXVECTOR4(0, 0, 0, 1);
+		constantBuffer->lightColor=D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+		constantBuffer->lightMinimunDistanceSquare=900;
+		constantBuffer->lightMinimumStrenght=3;
+		constantBuffer->environmentColor=D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+		{
+			D3DXMATRIX matrix, lightMatrix;
+			D3DXMatrixScaling(&lightMatrix, 0.2f, 0.2f, 0.2f);
+
+			D3DXMatrixTranslation(&matrix, 40.0f, 0, 0);
+			D3DXMatrixMultiply(&lightMatrix, &lightMatrix, &matrix);
+
+			D3DXMatrixRotationY(&matrix, (float)D3DX_PI/3);
+			D3DXMatrixMultiply(&lightMatrix, &lightMatrix, &matrix);
+
+			D3DXMatrixRotationX(&matrix, (float)D3DX_PI/6);
+			D3DXMatrixMultiply(&lightMatrix, &lightMatrix, &matrix);
+
+			D3DXVec4Transform(&constantBuffer->lightPosition, &constantBuffer->lightPosition, &lightMatrix);
+		}
+	}
+
+	~SmdWorld()
+	{
+	}
+
+	void Render()
+	{
+		{
+			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -200), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
+			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
+			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 1000.0f);
+			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+			depthBuffer.Clear();
+
+			constantBuffer.VSBindToRegisterBN(0);
+			constantBuffer.PSBindToRegisterBN(0);
+			
+			WriteConstantBuffer();
+			textureColumn.PSBindToRegisterTN(0);
+			textureSampler.PSBindToRegisterSN(0);
+			cube.SetCurrentAndRender(&textureShader);
+		}
+		env->swapChain->Present(0, 0);
+	}
+
+	void Rotate(float x, float y)
+	{
+		D3DXMATRIX rotation;
+		D3DXMatrixRotationYawPitchRoll(&rotation, -x, -y, 0);
+		D3DXMatrixMultiply(&worldMatrix, &worldMatrix, &rotation);
+	}
+};
+
+World* CreateSmdWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight)
+{
+	return new SmdWorld(_env, _clientWidth, _clientHeight);
 }
