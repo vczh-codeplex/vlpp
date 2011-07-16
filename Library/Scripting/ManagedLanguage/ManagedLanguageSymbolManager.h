@@ -406,9 +406,11 @@ ManagedSymbolManager
 				
 				ManagedTypeSymbol*			GetType(ManagedSymbolItem* item, ManagedTypeSymbol* parentType=0);
 				ManagedTypeSymbol*			GetInstiantiatedType(ManagedTypeSymbol* genericDeclaration, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments);
+				ManagedTypeSymbol*			ReplaceGenericArguments(ManagedTypeSymbol* type, const collections::IReadonlyDictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>& replacement);
 
 				void						SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem);
 				ManagedSymbolItem*			GetSymbol(ManagedLanguageElement* element);
+				ManagedTypeSymbol*			GetThisType(ManagedSymbolDeclaration* declaration);
 
 				template<typename T>
 				T* GetTypedSymbol(ManagedLanguageElement* element)

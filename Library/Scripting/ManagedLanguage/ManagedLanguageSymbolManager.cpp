@@ -224,6 +224,34 @@ ManagedSymbolItemGroup
 				return instantiated;
 			}
 
+			ManagedTypeSymbol* ManagedSymbolManager::ReplaceGenericArguments(ManagedTypeSymbol* type, const collections::IReadonlyDictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>& replacement)
+			{
+				vint index=replacement.Keys().IndexOf(type);
+				if(index!=-1)
+				{
+					return replacement.Values()[index];
+				}
+				else if(type->GetGenericDeclaration())
+				{
+					List<ManagedTypeSymbol*> genericArguments;
+					FOREACH(ManagedTypeSymbol*, genericArgument, type->GetGenericArguments())
+					{
+						genericArguments.Add(ReplaceGenericArguments(genericArgument, replacement));
+					}
+					ManagedTypeSymbol* genericDeclaration=ReplaceGenericArguments(type->GetGenericDeclaration(), replacement);
+					return GetInstiantiatedType(genericDeclaration, genericArguments.Wrap());
+				}
+				else if(type->GetParentType())
+				{
+					ManagedTypeSymbol* parentType=ReplaceGenericArguments(type->GetParentType(), replacement);
+					return GetType(type->GetSymbol(), parentType);
+				}
+				else
+				{
+					return type;
+				}
+			}
+
 			void ManagedSymbolManager::SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem)
 			{
 				elementSymbolMap.Add(element, symbolItem);
@@ -232,6 +260,24 @@ ManagedSymbolItemGroup
 			ManagedSymbolItem* ManagedSymbolManager::GetSymbol(ManagedLanguageElement* element)
 			{
 				return elementSymbolMap[element];
+			}
+
+			ManagedTypeSymbol* ManagedSymbolManager::GetThisType(ManagedSymbolDeclaration* declaration)
+			{
+				ManagedTypeSymbol* declarationType=GetType(declaration);
+				if(declaration->orderedGenericParameterNames.Count()>0)
+				{
+					List<ManagedTypeSymbol*> genericArguments;
+					FOREACH(WString, name, declaration->orderedGenericParameterNames.Wrap())
+					{
+						genericArguments.Add(GetType(declaration->ItemGroup(name)->Items()[0]));
+					}
+					return GetInstiantiatedType(declarationType, genericArguments.Wrap());
+				}
+				else
+				{
+					return declarationType;
+				}
 			}
 
 /***********************************************************************

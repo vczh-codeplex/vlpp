@@ -225,29 +225,11 @@ EnsureSymbolBaseTypesCompleted
 EnsureTypeVisibility
 ***********************************************************************/
 
-			ManagedTypeSymbol* GetThisType(ManagedSymbolDeclaration* declaration, const MAP& argument)
-			{
-				ManagedTypeSymbol* declarationType=argument.symbolManager->GetType(declaration);
-				if(declaration->orderedGenericParameterNames.Count()>0)
-				{
-					List<ManagedTypeSymbol*> genericArguments;
-					FOREACH(WString, name, declaration->orderedGenericParameterNames.Wrap())
-					{
-						genericArguments.Add(argument.symbolManager->GetType(declaration->ItemGroup(name)->Items()[0]));
-					}
-					return argument.symbolManager->GetInstiantiatedType(declarationType, genericArguments.Wrap());
-				}
-				else
-				{
-					return declarationType;
-				}
-			}
-
 			void EnsureTypeVisibility(
 				ManagedLanguageElement* languageElement,
 				ManagedTypeSymbol* type,
 				const MAP& argument,
-				ManagedTypeSymbol* thisType,
+				List<ManagedTypeSymbol*>& thisTypes,
 				List<ManagedTypeSymbol*>& baseTypes
 				)
 			{
@@ -276,7 +258,7 @@ EnsureTypeVisibility
 					{
 						FOREACH(ManagedTypeSymbol*, genericArgument, currentType->GetGenericArguments())
 						{
-							EnsureTypeVisibility(languageElement, genericArgument, argument, thisType, baseTypes);
+							EnsureTypeVisibility(languageElement, genericArgument, argument, thisTypes, baseTypes);
 						}
 					}
 
@@ -315,12 +297,12 @@ EnsureTypeVisibility
 						case ManagedSymbolItem::Interface:
 							{
 								ManagedSymbolDeclaration* parentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(parentSymbol);
-								parentType=GetThisType(parentDeclaration, argument);
+								parentType=argument.symbolManager->GetThisType(parentDeclaration);
 							}
 							break;
 						}
 					}
-					if(parentType && parentType!=thisType)
+					if(parentType && !thisTypes.Contains(parentType))
 					{
 						if(baseTypes.Contains(parentType))
 						{
@@ -350,6 +332,71 @@ EnsureTypeVisibility
 							}
 						}
 					}
+
+					if(currentSymbol->GetSymbolType()==ManagedSymbolItem::TypeRename)
+					{
+						ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(currentSymbol);
+						if(currentType->GetGenericDeclaration())
+						{
+							Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> replacement;
+							for(vint i=0;i<symbol->orderedGenericParameterNames.Count();i++)
+							{
+								ManagedTypeSymbol* key=argument.symbolManager->GetType(symbol->ItemGroup(symbol->orderedGenericParameterNames[i])->Items()[0]);
+								ManagedTypeSymbol* value=currentType->GetGenericArguments()[i];
+								replacement.Add(key, value);
+							}
+							parentType=argument.symbolManager->ReplaceGenericArguments(currentType, replacement.Wrap());
+						}
+						else
+						{
+							parentType=symbol->type;
+						}
+					}
+					else
+					{
+						parentType=currentType;
+					}
+				}
+			}
+
+			void CollectBaseTypes(ManagedTypeSymbol* thisType, List<ManagedTypeSymbol*>& baseTypes, const MAP& argument)
+			{
+				vint oldCount=baseTypes.Count();
+				if(thisType->GetGenericDeclaration())
+				{
+					ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(thisType->GetGenericDeclaration()->GetSymbol());
+
+					Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> replacement;
+					for(vint i=0;i<symbol->orderedGenericParameterNames.Count();i++)
+					{
+						ManagedTypeSymbol* key=argument.symbolManager->GetType(symbol->ItemGroup(symbol->orderedGenericParameterNames[i])->Items()[0]);
+						ManagedTypeSymbol* value=thisType->GetGenericArguments()[i];
+						replacement.Add(key, value);
+					}
+
+					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
+					{
+						ManagedTypeSymbol* translatedBaseType=argument.symbolManager->ReplaceGenericArguments(baseType, replacement.Wrap());
+						if(!baseTypes.Contains(translatedBaseType))
+						{
+							baseTypes.Add(translatedBaseType);
+						}
+					}
+				}
+				else
+				{
+					ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(thisType->GetSymbol());
+					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
+					{
+						if(!baseTypes.Contains(baseType))
+						{
+							baseTypes.Add(baseType);
+						}
+					}
+				}
+				for(vint i=oldCount;i<baseTypes.Count();i++)
+				{
+					CollectBaseTypes(baseTypes[i], baseTypes, argument);
 				}
 			}
 
@@ -362,6 +409,21 @@ EnsureTypeVisibility
 					|| scopeItem->GetSymbolType()==ManagedSymbolItem::Interface,
 					L"EnsureTypeVisibility(ManagedLanguageElement*, ManagedTypeSymbol*, ManagedSymbolItem*, const MAP&)#scopeItemÄÚÈÝ·Ç·¨¡£"
 					);
+
+				List<ManagedTypeSymbol*> thisTypes, baseTypes;
+				{
+					ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(scopeItem);
+					while(currentDeclaration)
+					{
+						thisTypes.Add(argument.symbolManager->GetThisType(currentDeclaration));
+						currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(currentDeclaration->GetParentItem());
+					}
+				}
+				FOREACH(ManagedTypeSymbol*, thisType, thisTypes.Wrap())
+				{
+					CollectBaseTypes(thisType, baseTypes, argument);
+				}
+				EnsureTypeVisibility(languageElement, type, argument, thisTypes, baseTypes);
 			}
 		}
 	}
