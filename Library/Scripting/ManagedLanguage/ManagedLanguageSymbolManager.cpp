@@ -16,7 +16,6 @@ ManagedSymbolItem
 			ManagedSymbolItem::ManagedSymbolItem(ManagedSymbolManager* _manager, ManagedSymbolType _symbolType)
 				:manager(_manager)
 				,parent(0)
-				,associatedType(0)
 				,symbolType(_symbolType)
 			{
 				manager->Register(this);
@@ -195,11 +194,17 @@ ManagedSymbolItemGroup
 
 			ManagedTypeSymbol* ManagedSymbolManager::GetType(ManagedSymbolItem* item, ManagedTypeSymbol* parentType)
 			{
-				if(item->associatedType==0)
+				vint index=item->associatedTypes.Keys().IndexOf(parentType);
+				if(index==-1)
 				{
-					item->associatedType=new ManagedTypeSymbol(this, item, parentType);
+					ManagedTypeSymbol* result=new ManagedTypeSymbol(this, item, parentType);
+					item->associatedTypes.Add(parentType, result);
+					return result;
 				}
-				return item->associatedType;
+				else
+				{
+					return item->associatedTypes.Values()[index];
+				}
 			}
 
 			ManagedTypeSymbol* ManagedSymbolManager::GetInstiantiatedType(ManagedTypeSymbol* genericDeclaration, const collections::IReadonlyList<ManagedTypeSymbol*>& genericArguments)

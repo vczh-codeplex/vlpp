@@ -33,6 +33,7 @@ Basic Constructions
 
 				typedef collections::Dictionary<WString, ManagedSymbolItemGroup*>			GroupMap;
 				typedef collections::IReadonlyDictionary<WString, ManagedSymbolItemGroup*>	IGroupMap;
+				typedef collections::Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>		AssociatedTypeMap;
 			public:
 				enum ManagedSymbolType
 				{
@@ -55,7 +56,7 @@ Basic Constructions
 			protected:
 				ManagedSymbolManager*		manager;
 				ManagedSymbolItemGroup*		parent;
-				ManagedTypeSymbol*			associatedType;
+				AssociatedTypeMap			associatedTypes;
 				WString						name;
 				ManagedSymbolType			symbolType;
 				GroupMap					itemGroups;
