@@ -269,7 +269,7 @@ public:
 			{
 				D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, 0), &ats[i], &ups[i]);
 				renderer.SetRenderTarget(cubeMapRenderTargets[i].Obj(), &cubeMapDepthBuffer);
-				viewport.SetViewport(512, 512, (float)D3DX_PI/2, 0.1f, 100.0f);
+				viewport.SetViewport(0, 0, 512, 512, (float)D3DX_PI/2, 0.1f, 100.0f);
 				cubeMapRenderTargets[i]->Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 				cubeMapDepthBuffer.Clear();
 
@@ -291,7 +291,7 @@ public:
 		{
 			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -10), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
 			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
-			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
+			viewport.SetViewport(0, 0, clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 100.0f);
 			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 			depthBuffer.Clear();
 
@@ -410,7 +410,7 @@ public:
 		{
 			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -120), &D3DXVECTOR3(0, 0, 1), &D3DXVECTOR3(0, 1, 0));
 			renderer.SetRenderTarget(&windowRenderTarget, &depthBuffer);
-			viewport.SetViewport(clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 1000.0f);
+			viewport.SetViewport(0, 0, clientWidth, clientHeight, (float)D3DX_PI/4, 0.1f, 1000.0f);
 			windowRenderTarget.Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 			depthBuffer.Clear();
 

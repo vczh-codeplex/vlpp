@@ -411,12 +411,12 @@ DirectXViewport
 		{
 		}
 
-		void DirectXViewport::SetViewport(int width, int height, float fieldOfView, float screenNear, float screenFar)
+		void DirectXViewport::SetViewport(int left, int top, int width, int height, float fieldOfView, float screenNear, float screenFar)
 		{
 			D3D11_VIEWPORT viewport;
 			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-			viewport.TopLeftX = 0;
-			viewport.TopLeftY = 0;
+			viewport.TopLeftX = (FLOAT)left;
+			viewport.TopLeftY = (FLOAT)top;
 			viewport.Width = (FLOAT)width;
 			viewport.Height = (FLOAT)height;
 			viewport.MinDepth = 0;
