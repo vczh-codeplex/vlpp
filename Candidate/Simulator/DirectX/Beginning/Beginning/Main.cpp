@@ -1,3 +1,4 @@
+#include "..\Shared\WindowSetup.h"
 #include "ModelBuilder.h"
 
 using namespace vl;
@@ -26,6 +27,7 @@ World* CreateCubeAndSphereWorld(const DirectXEnvironment* _env, int _clientWidth
 World* CreateSmdWorld(const DirectXEnvironment* _env, int _clientWidth, int _clientHeight);
 
 World* world=0;
+DirectXEnvironment* dxenv=0;
 int oldX=0;
 int oldY=0;
 bool mouseTracking=false;
@@ -53,8 +55,8 @@ LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 				if(!world)
 				{
 					SIZE size=WindowGetClient(hwnd);
-					const DirectXEnvironment* env=CreateDirectXEnvironment(hwnd);
-					world=CreateSmdWorld(env, size.cx, size.cy);
+					dxenv=new DirectXEnvironment(hwnd, size.cx, size.cy);
+					world=CreateSmdWorld(dxenv, size.cx, size.cy);
 				}
 			}
 		}
@@ -64,8 +66,9 @@ LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 			if(world)
 			{
 				delete world;
+				delete dxenv;
 				world=0;
-				DestroyDirectXEnvironment();
+				dxenv=0;
 			}
 		}
 		break;
