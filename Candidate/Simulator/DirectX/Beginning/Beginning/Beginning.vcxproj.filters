@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp">
       <Filter>Dependence\Library\Stream</Filter>
     </ClCompile>
+    <ClCompile Include="..\Shared\WindowSetup.cpp">
+      <Filter>Dependence\Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared\DirectXSetup.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h">
       <Filter>Dependence\Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\WindowSetup.h">
+      <Filter>Dependence\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

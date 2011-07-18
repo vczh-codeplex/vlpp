@@ -1,7 +1,6 @@
 #ifndef VCZH_BEGINNING_MODELBUILDER
 #define VCZH_BEGINNING_MODELBUILDER
 
-#include "..\Shared\DirectXSetup.h"
 #include "..\Shared\DirectXShader.h"
 #include "..\..\..\..\..\Library\Pointer.h"
 

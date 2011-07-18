@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\Shared\DirectXSetup.cpp" />
     <ClCompile Include="..\Shared\DirectXShader.cpp" />
+    <ClCompile Include="..\Shared\WindowSetup.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModelBuilder.cpp" />
   </ItemGroup>
@@ -123,6 +124,7 @@
     <ClInclude Include="..\..\..\..\..\Library\String.h" />
     <ClInclude Include="..\Shared\DirectXSetup.h" />
     <ClInclude Include="..\Shared\DirectXShader.h" />
+    <ClInclude Include="..\Shared\WindowSetup.h" />
     <ClInclude Include="ModelBuilder.h" />
   </ItemGroup>
   <ItemGroup>
