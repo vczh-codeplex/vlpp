@@ -1,9 +1,11 @@
 #include "ModelBuilder.h"
+#include "..\..\..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\..\..\Library\Stream\Accessor.h"
 #include "..\..\..\..\..\Library\Stream\CharFormat.h"
 #include "..\..\..\..\..\Library\Stream\FileStream.h"
 
 using namespace vl::stream;
+using namespace vl::collections;
 
 void BuildLightGeometry(DirectXVertexBuffer<LightVertex>& lightGeometry)
 {
@@ -209,6 +211,22 @@ SmdModel::~SmdModel()
 {
 }
 
+struct SmdModelBone
+{
+	int parent;
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 rot;
+
+	bool operator==(const SmdModelBone& bone){return false;}
+	bool operator!=(const SmdModelBone& bone){return true;}
+};
+
+struct SmdVertexBone
+{
+	int parent;
+	Array<Pair<int, float>> boneWeights;
+};
+
 void SmdModel::Load(const WString& folder, const WString& smdFile)
 {
 	textures.Clear();
@@ -221,56 +239,132 @@ void SmdModel::Load(const WString& folder, const WString& smdFile)
 	DecoderStream decoderStream(fileStream, decoder);
 	StreamReader streamReader(decoderStream);
 
-	List<WString> vertexLines;
+	Dictionary<int, SmdModelBone> bones;
 	List<WString> textureNames;
+	List<WString> vertexLines;
+	Array<Ptr<SmdVertexBone>> vertexBones;
 	WString lastTexture;
 
-	while(streamReader.ReadLine()!=L"triangles");
-	while(true)
+	while(!streamReader.IsEnd())
 	{
-		WString line=streamReader.ReadLine();
-		if(line==L"end")
+		WString section=streamReader.ReadLine();
+		if(section==L"nodes")
 		{
-			break;
-		}
-		
-		if(!textureNames.Contains(line))
-		{
-			textureNames.Add(line);
-			DirectXTextureBuffer* texture=new DirectXTextureBuffer(env);
-			texture->Update(folder+line.Left(line.Length()-4)+L".jpg");
-			textures.Add(texture);
-		}
-		if(lastTexture!=line)
-		{
-			lastTexture=line;
-			indices.Add(Pair<int, int>(vertexLines.Count(), textureNames.IndexOf(lastTexture)));
-		}
+			while(true)
+			{
+				WString line=streamReader.ReadLine();
+				if(line==L"end")
+				{
+					break;
+				}
+				const wchar_t* reading=line.Buffer();
+				wchar_t* endptr=0;
+				int key=wcstol(reading, &endptr, 10);
+				reading=endptr;
+				while(*reading++!=L'\"');
+				while(*reading++!=L'\"');
+				int parent=wcstol(reading, &endptr, 10);
 
-		vertexLines.Add(streamReader.ReadLine());
-		vertexLines.Add(streamReader.ReadLine());
-		vertexLines.Add(streamReader.ReadLine());
+				SmdModelBone bone;
+				bone.parent=parent;
+				bones.Add(key, bone);
+			}
+		}
+		else if(section==L"time 0")
+		{
+			while(true)
+			{
+				WString line=streamReader.ReadLine();
+				if(line==L"end")
+				{
+					break;
+				}
+
+				const wchar_t* reading=line.Buffer();
+				wchar_t* endptr=0;
+
+				int key=wcstol(reading, &endptr, 10);
+				reading=endptr;
+				SmdModelBone& bone=const_cast<SmdModelBone&>(bones[key]);
+
+				float values[6];
+				for(int i=0;i<6;i++)
+				{
+					values[i]=(float)wcstod(reading, &endptr);
+					reading=endptr;
+				}
+				bone.pos=D3DXVECTOR3(values[0], values[1], values[2]);
+				bone.rot=D3DXVECTOR3(values[3], values[4], values[5]);
+			}
+		}
+		else if(section==L"triangles")
+		{
+			while(true)
+			{
+				WString line=streamReader.ReadLine();
+				if(line==L"end")
+				{
+					break;
+				}
+		
+				if(!textureNames.Contains(line))
+				{
+					textureNames.Add(line);
+					DirectXTextureBuffer* texture=new DirectXTextureBuffer(env);
+					texture->Update(folder+line.Left(line.Length()-4)+L".jpg");
+					textures.Add(texture);
+				}
+				if(lastTexture!=line)
+				{
+					lastTexture=line;
+					indices.Add(Pair<int, int>(vertexLines.Count(), textureNames.IndexOf(lastTexture)));
+				}
+
+				vertexLines.Add(streamReader.ReadLine());
+				vertexLines.Add(streamReader.ReadLine());
+				vertexLines.Add(streamReader.ReadLine());
+			}
+		}
 	}
 	
 	totalIndices=vertexLines.Count();
 	TextureVertex* vertices=new TextureVertex[totalIndices];
 	unsigned int* indices=new unsigned int[totalIndices];
+	vertexBones.Resize(totalIndices);
 
 	for(int i=0;i<totalIndices;i++)
 	{
 		indices[i]=i;
-		const wchar_t* vertexLine=vertexLines[i].Buffer();
-		while(*vertexLine++==L' ');
+		const wchar_t* reading=vertexLines[i].Buffer();
+		wchar_t* endptr=0;
+		int parentBone=wcstol(reading, &endptr, 0);
+		reading=endptr;
+
 		float values[8];
 		for(int j=0;j<8;j++)
 		{
-			wchar_t* endptr=0;
-			values[j]=(float)wcstod(vertexLine, &endptr);
-			vertexLine=endptr;
+			values[j]=(float)wcstod(reading, &endptr);
+			reading=endptr;
 		}
 		vertices[i].Position=D3DXVECTOR3(values[0], values[1], values[2]);
 		vertices[i].Normal=D3DXVECTOR3(values[3], values[4], values[5]);
 		vertices[i].Texcoord0=D3DXVECTOR2(values[6], -values[7]);
+
+		SmdVertexBone* vertexBone=new SmdVertexBone;
+		vertexBones[i]=vertexBone;
+		vertexBone->parent=parentBone;
+
+		int links=wcstol(reading, &endptr, 0);
+		reading=endptr;
+		vertexBone->boneWeights.Resize(links);
+		for(int j=0;j<links;j++)
+		{
+			int bone=wcstol(reading, &endptr, 0);
+			reading=endptr;
+			float weight=(float)wcstod(reading, &endptr);
+			reading=endptr;
+			vertexBone->boneWeights[j]=Pair<int, float>(bone, weight);
+		}
 	}
 
 	vertexBuffer=new DirectXVertexBuffer<TextureVertex>(env);
