@@ -39,10 +39,12 @@ struct SmdModel
 	List<Pair<int, int>>						indices; //startIndex, textureIndex
 	Ptr<DirectXVertexBuffer<TextureVertex>>		vertexBuffer;
 	int											totalIndices;
+	const DirectXEnvironment*					env;
 
 	SmdModel(const DirectXEnvironment* _env);
 	~SmdModel();
 
+	void										Load(const WString& folder, const WString& smdFile);
 	void										SetCurrentAndRender();
 };
 
