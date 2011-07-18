@@ -201,8 +201,22 @@ SmdModel
 
 SmdModel::SmdModel(const DirectXEnvironment* _env)
 	:totalIndices(0)
+	,env(_env)
 {
-	FileStream fileStream(L"Shaders/SmdCamera/camera_reference.smd", FileStream::ReadOnly);
+}
+
+SmdModel::~SmdModel()
+{
+}
+
+void SmdModel::Load(const WString& folder, const WString& smdFile)
+{
+	textures.Clear();
+	indices.Clear();
+	vertexBuffer=0;
+	totalIndices=0;
+
+	FileStream fileStream(folder+smdFile, FileStream::ReadOnly);
 	BomDecoder decoder;
 	DecoderStream decoderStream(fileStream, decoder);
 	StreamReader streamReader(decoderStream);
@@ -223,8 +237,8 @@ SmdModel::SmdModel(const DirectXEnvironment* _env)
 		if(!textureNames.Contains(line))
 		{
 			textureNames.Add(line);
-			DirectXTextureBuffer* texture=new DirectXTextureBuffer(_env);
-			texture->Update(L"Shaders/SmdCamera/"+line.Left(line.Length()-4)+L".jpg");
+			DirectXTextureBuffer* texture=new DirectXTextureBuffer(env);
+			texture->Update(folder+line.Left(line.Length()-4)+L".jpg");
 			textures.Add(texture);
 		}
 		if(lastTexture!=line)
@@ -259,14 +273,10 @@ SmdModel::SmdModel(const DirectXEnvironment* _env)
 		vertices[i].Texcoord0=D3DXVECTOR2(values[6], -values[7]);
 	}
 
-	vertexBuffer=new DirectXVertexBuffer<TextureVertex>(_env);
+	vertexBuffer=new DirectXVertexBuffer<TextureVertex>(env);
 	vertexBuffer->Fill(vertices, totalIndices, indices, totalIndices);
 	delete[] vertices;
 	delete[] indices;
-}
-
-SmdModel::~SmdModel()
-{
 }
 
 void SmdModel::SetCurrentAndRender()
