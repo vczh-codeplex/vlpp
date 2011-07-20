@@ -38,14 +38,14 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEditorWindow.Location = new System.Drawing.Point(12, 12);
             this.panelEditorWindow.Name = "panelEditorWindow";
-            this.panelEditorWindow.Size = new System.Drawing.Size(586, 467);
+            this.panelEditorWindow.Size = new System.Drawing.Size(905, 647);
             this.panelEditorWindow.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 491);
+            this.ClientSize = new System.Drawing.Size(929, 671);
             this.Controls.Add(this.panelEditorWindow);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
