@@ -9,23 +9,45 @@ using namespace vl::directx;
 
 namespace modeleditor
 {
-	struct ModelEditorWindow
+	struct VertexAxis
 	{
-		HWND							editorControl;
-		UINT							subclass;
-		SIZE							clientSize;
+		D3DXVECTOR3								position;
+	};
 
-		DirectXEnvironment*				env;
-		DirectXDepthBuffer*				depthBuffer;
-		DirectXWindowRenderTarget*		renderTarget;
-		DirectXRenderer*				renderer;
-		DirectXViewport*				viewport;
+	struct ConstantBuffer
+	{
+		D3DXMATRIX								worldMatrix;
+		D3DXMATRIX								viewMatrix;
+		D3DXMATRIX								projectionMatrix;
+	};
 
-		ModelEditorWindow(HWND _editorControl);
+	class ModelEditorWindow
+	{
+	public:
+		HWND									editorControl;
+		UINT									subclass;
+		SIZE									clientSize;
+
+	protected:
+		WString									workingDirectory;
+		DirectXEnvironment*						env;
+		DirectXDepthBuffer*						depthBuffer;
+		DirectXWindowRenderTarget*				renderTarget;
+		DirectXRenderer*						renderer;
+		DirectXViewport*						viewport;
+
+		DirectXConstantBuffer<ConstantBuffer>*	constantBuffer;
+		DirectXVertexBuffer<VertexAxis>*		geometryAxis;
+		DirectXShader<VertexAxis>*				shaderAxis;
+
+		void									UpdateConstantBuffer();
+		void									UpdateGeometryAxis();
+	public:
+		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
 		~ModelEditorWindow();
 
-		void							Resize();
-		void							Render();
+		void									Resize();
+		void									Render();
 	};
 }
 

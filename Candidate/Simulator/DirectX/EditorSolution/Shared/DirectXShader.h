@@ -173,13 +173,13 @@ Vertex Buffer
 				Fill(vertices, VertexCount, indices, IndexCount);
 			}
 
-			void SetCurrent()
+			void SetCurrent(D3D11_PRIMITIVE_TOPOLOGY topology=D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 			{
 				UINT stride=sizeof(T);
 				UINT offset=0;
 				env->context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 				env->context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-				env->context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+				env->context->IASetPrimitiveTopology(topology);
 			}
 
 			void Render()
@@ -192,10 +192,10 @@ Vertex Buffer
 				env->context->DrawIndexed(indexCount, indexStart, 0);
 			}
 
-			void SetCurrentAndRender(DirectXShader<T>* shader)
+			void SetCurrentAndRender(DirectXShader<T>* shader, D3D11_PRIMITIVE_TOPOLOGY topology=D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 			{
 				shader->SetCurrent();
-				SetCurrent();
+				SetCurrent(topology);
 				Render();
 			}
 

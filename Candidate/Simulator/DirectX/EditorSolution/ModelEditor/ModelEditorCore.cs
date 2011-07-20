@@ -8,10 +8,10 @@ namespace ModelEditor
 {
     static class ModelEditorCore
     {
-        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern IntPtr CreateEditorWindow(IntPtr editorControl);
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateEditorWindow(IntPtr editorControl, string workingDirectory);
 
-        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern IntPtr DestroyEditorWindow(IntPtr window);
     }
 }

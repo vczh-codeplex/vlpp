@@ -11,13 +11,13 @@
 
 namespace modeleditor
 {
-	struct ModelEditorWindow;
+	class ModelEditorWindow;
 }
 using namespace modeleditor;
 
 extern "C"
 {
-	MODELEDITORCORE_API ModelEditorWindow*		__stdcall CreateEditorWindow(HWND editorControl);
+	MODELEDITORCORE_API ModelEditorWindow*		__stdcall CreateEditorWindow(HWND editorControl, const wchar_t* workingDirectory);
 	MODELEDITORCORE_API void					__stdcall DestroyEditorWindow(ModelEditorWindow* window);
 }
 
