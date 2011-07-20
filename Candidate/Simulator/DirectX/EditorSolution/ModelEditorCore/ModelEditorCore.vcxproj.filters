@@ -28,6 +28,9 @@
     <Filter Include="Vlpp\Stream">
       <UniqueIdentifier>{9156b7a0-1851-48b6-931e-d4de825b2953}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{93583a07-5262-409d-8718-31e27aa422db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp">
       <Filter>Vlpp\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelEditorRenderer.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h">
       <Filter>Vlpp\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelEditorRenderer.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

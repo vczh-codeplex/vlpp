@@ -9,10 +9,14 @@
 
 #include <Windows.h>
 
-extern "C"
+namespace modeleditor
 {
 	struct ModelEditorWindow;
+}
+using namespace modeleditor;
 
+extern "C"
+{
 	MODELEDITORCORE_API ModelEditorWindow*		__stdcall CreateEditorWindow(HWND editorControl);
 	MODELEDITORCORE_API void					__stdcall DestroyEditorWindow(ModelEditorWindow* window);
 }
