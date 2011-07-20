@@ -29,6 +29,7 @@ HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int 
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
+	sd.Flags=DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	
 	//=========================================
 	// create device
@@ -86,6 +87,18 @@ void ReleaseDirectXEnvironment(DirectXEnvironment* env)
 	env->device->Release();
 	env->context->Release();
 }
+
+void ResizeDirectXEnvironment(DirectXEnvironment* env, int clientWidth, int clientHeight)
+{
+	DXGI_SWAP_CHAIN_DESC sd;
+	env->swapChain->GetDesc(&sd);
+	sd.BufferDesc.Width=clientWidth;
+	sd.BufferDesc.Height=clientHeight;
+	HRESULT hr=env->swapChain->ResizeBuffers(sd.BufferCount, clientWidth, clientHeight, sd.BufferDesc.Format, sd.Flags);
+	//HRESULT hr=env->swapChain->ResizeTarget(&sd.BufferDesc);
+}
+
+
 using namespace vl;
 using namespace vl::directx;
 
@@ -98,14 +111,20 @@ namespace vl
 DirectXEnvironment
 ***********************************************************************/
 
-		DirectXEnvironment::DirectXEnvironment(HWND outputWindow, int clientWidth, int clientHeight)
+		DirectXEnvironment::DirectXEnvironment(HWND _outputWindow, int clientWidth, int clientHeight)
 		{
-			SetupDirectXEnvironment(this, outputWindow, clientWidth, clientHeight);
+			SetupDirectXEnvironment(this, _outputWindow, clientWidth, clientHeight);
+			outputWindow=_outputWindow;
 		}
 
 		DirectXEnvironment::~DirectXEnvironment()
 		{
 			ReleaseDirectXEnvironment(this);
+		}
+
+		void DirectXEnvironment::Resize(int clientWidth, int clientHeight)
+		{
+			ResizeDirectXEnvironment(this, clientWidth, clientHeight);
 		}
 
 /***********************************************************************

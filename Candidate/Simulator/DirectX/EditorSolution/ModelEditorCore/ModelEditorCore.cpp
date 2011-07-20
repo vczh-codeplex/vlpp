@@ -15,10 +15,10 @@ namespace modeleditor
 		case WM_ERASEBKGND:
 			return 0;
 		case WM_PAINT:
-			editorWindow->Render();
 			return 0;
 		case WM_SIZE:
 			editorWindow->Resize();
+			editorWindow->Render();
 			break;
 		}
 		return DefSubclassProc(hWnd, uMsg, wParam, lParam);
