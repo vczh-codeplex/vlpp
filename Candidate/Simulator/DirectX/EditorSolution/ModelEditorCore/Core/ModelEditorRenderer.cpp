@@ -24,6 +24,7 @@ ModelEditorWindow
 		D3DXMatrixTranspose(&(*constantBuffer)->worldMatrix, &worldMatrix);
 		D3DXMatrixTranspose(&(*constantBuffer)->viewMatrix, &viewMatrix);
 		D3DXMatrixTranspose(&(*constantBuffer)->projectionMatrix, &viewport->projectionMatrix);
+		constantBuffer->Update();
 	}
 
 	void ModelEditorWindow::UpdateGeometryAxis()
@@ -33,12 +34,12 @@ ModelEditorWindow
 		unsigned int indices[(size+1)*4];
 		int currentVertex=0;
 		
-		for(int i=size/2;i<=size/2;i++)
+		for(int i=-size/2;i<=size/2;i++)
 		{
 			vertices[currentVertex++].position=D3DXVECTOR3((float)i, 0, -size/2);
 			vertices[currentVertex++].position=D3DXVECTOR3((float)i, 0, size/2);
 		}
-		for(int i=size/2;i<=size/2;i++)
+		for(int i=-size/2;i<=size/2;i++)
 		{
 			vertices[currentVertex++].position=D3DXVECTOR3(-size/2, 0, (float)i);
 			vertices[currentVertex++].position=D3DXVECTOR3(size/2, 0, (float)i);
@@ -78,7 +79,9 @@ ModelEditorWindow
 			.Field(L"POSITION", &VertexAxis::position)
 			;
 			
-		Resize();
+		depthBuffer->Update(clientSize.cx, clientSize.cy);
+		renderer->SetRenderTarget(renderTarget, depthBuffer);
+
 		Render();
 	}
 
@@ -97,7 +100,14 @@ ModelEditorWindow
 	void ModelEditorWindow::Resize()
 	{
 		clientSize=WindowGetClient(editorControl);
+		renderer->SetRenderTarget(0, 0);
+		delete renderTarget;
+		delete depthBuffer;
+
+		renderTarget=new DirectXWindowRenderTarget(env);
+		depthBuffer=new DirectXDepthBuffer(env);
 		depthBuffer->Update(clientSize.cx, clientSize.cy);
+		env->Resize(clientSize.cx, clientSize.cy);
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 

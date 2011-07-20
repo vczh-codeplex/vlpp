@@ -13,14 +13,17 @@ namespace vl
 	{
 		struct DirectXEnvironment
 		{
+			HWND							outputWindow;
 			IDXGISwapChain*					swapChain;
 			ID3D11Device*					device;
 			ID3D11DeviceContext*			context;
 			D3D_FEATURE_LEVEL				featureLevel;
 			ID3D11RasterizerState*			rasterizerState;
 
-			DirectXEnvironment(HWND outputWindow, int clientWidth, int clientHeight);
+			DirectXEnvironment(HWND _outputWindow, int clientWidth, int clientHeight);
 			~DirectXEnvironment();
+
+			void							Resize(int clientWidth, int clientHeight);
 		};
 
 		extern void							CreatePixelShader(

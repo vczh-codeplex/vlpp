@@ -394,8 +394,8 @@ DirectXRenderer
 
 		void DirectXRenderer::SetRenderTarget(DirectXRenderTarget* target, DirectXDepthBuffer* depthBuffer)
 		{
-			ID3D11RenderTargetView* renderTargetView=target->RawRenderTargetView();
-			env->context->OMSetRenderTargets(1, &renderTargetView, (depthBuffer?depthBuffer->RawDepthStencilView():NULL));
+			ID3D11RenderTargetView* renderTargetView=target?target->RawRenderTargetView():NULL;
+			env->context->OMSetRenderTargets((target?1:0), &renderTargetView, (depthBuffer?depthBuffer->RawDepthStencilView():NULL));
 		}
 
 /***********************************************************************
