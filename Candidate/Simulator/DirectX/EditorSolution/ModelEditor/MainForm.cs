@@ -6,12 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ModelEditor
 {
     public partial class MainForm : Form
     {
         private IntPtr editorWindow = IntPtr.Zero;
+        private string workingDirectory = null;
 
         public MainForm()
         {
@@ -20,7 +22,8 @@ namespace ModelEditor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.editorWindow = ModelEditorCore.CreateEditorWindow(panelEditorWindow.Handle);
+            this.workingDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            this.editorWindow = ModelEditorCore.CreateEditorWindow(panelEditorWindow.Handle, this.workingDirectory);
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

@@ -28,9 +28,9 @@ using namespace modeleditor;
 
 extern "C"
 {
-	MODELEDITORCORE_API ModelEditorWindow* __stdcall CreateEditorWindow(HWND editorControl)
+	MODELEDITORCORE_API ModelEditorWindow* __stdcall CreateEditorWindow(HWND editorControl, const wchar_t* workingDirectory)
 	{
-		ModelEditorWindow* editorWindow=new ModelEditorWindow(editorControl);
+		ModelEditorWindow* editorWindow=new ModelEditorWindow(editorControl, workingDirectory);
 		SetWindowSubclass(editorControl, &EditorWindowSubclassProc, (UINT_PTR)&editorWindow->subclass,(DWORD_PTR)editorWindow);
 		return editorWindow;
 	}
