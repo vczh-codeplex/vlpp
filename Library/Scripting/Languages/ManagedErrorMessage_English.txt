@@ -10,3 +10,7 @@ IllegalAutoRefer(autoRefType)=The Auto refer type \"{autoRefType}\" can only be 
 CannotDirectReferTypeRenameAsToplevel(name)=Type rename declaration {name} cannot target to a type whose top level type is another type rename declaration.
 IllegalNestedDeclaration=Only class, structure, interface, enumeration and type rename can be defined as a nested type.
 TypeInvisible(name)=Type {name} is invisible at the current scope.
+CannotUseUninstantiatedGenericType(name)=Cannot use uninstantiated type {name} as generic argument or to declare object.
+GenericTypeArgumentCountNotMatches(name)=Generic argument count of type {name} do not match the declaration.
+GenericTypeTypeConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required type constraint.
+GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required new constraint.

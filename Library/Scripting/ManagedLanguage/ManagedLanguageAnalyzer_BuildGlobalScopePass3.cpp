@@ -16,7 +16,7 @@ namespace vl
 					ManagedSymbolGenericParameter* genericParameter=dynamic_cast<ManagedSymbolGenericParameter*>(symbol->ItemGroup(name)->Items()[0]);
 					FOREACH(ManagedTypeSymbol*, typeConstraint, genericParameter->typeConstraints.Wrap())
 					{
-						EnsureTypeVisibility(languageElement, typeConstraint, scopeItem, argument);
+						CheckType(languageElement, typeConstraint, scopeItem, argument);
 					}
 				}
 			}
@@ -31,18 +31,18 @@ ManagedLanguage_BuildGlobalScope3_Member
 				{
 					ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
+					CheckType(node, symbol->type, scopeItem, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
 					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(node, symbol->returnType, scopeItem, argument);
+					CheckType(node, symbol->returnType, scopeItem, argument);
 					FOREACH(WString, name, symbol->orderedMethodParameterNames.Wrap())
 					{
 						ManagedSymbolMethodParameter* methodParameter=dynamic_cast<ManagedSymbolMethodParameter*>(symbol->ItemGroup(name)->Items()[0]);
-						EnsureTypeVisibility(node, methodParameter->type, scopeItem, argument);
+						CheckType(node, methodParameter->type, scopeItem, argument);
 					}
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
@@ -54,7 +54,7 @@ ManagedLanguage_BuildGlobalScope3_Member
 					FOREACH(WString, name, symbol->orderedMethodParameterNames.Wrap())
 					{
 						ManagedSymbolMethodParameter* methodParameter=dynamic_cast<ManagedSymbolMethodParameter*>(symbol->ItemGroup(name)->Items()[0]);
-						EnsureTypeVisibility(node, methodParameter->type, scopeItem, argument);
+						CheckType(node, methodParameter->type, scopeItem, argument);
 					}
 				}
 
@@ -80,14 +80,14 @@ ManagedLanguage_BuildGlobalScope3_ExtendedMember
 				{
 					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
+					CheckType(node, symbol->type, scopeItem, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
 					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
-					EnsureTypeVisibility(node, symbol->targetType, scopeItem, argument);
+					CheckType(node, symbol->targetType, scopeItem, argument);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
@@ -105,7 +105,7 @@ ManagedLanguage_BuildGlobalScope3_Declaration
 					ManagedSymbolItem* scopeItem=symbol;
 					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
 					{
-						EnsureTypeVisibility(node, baseType, scopeItem, argument);
+						CheckType(node, baseType, scopeItem, argument);
 					}
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
@@ -141,7 +141,7 @@ ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration
 					ManagedSymbolItem* scopeItem=symbol;
 					FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
 					{
-						EnsureTypeVisibility(node, baseType, scopeItem, argument);
+						CheckType(node, baseType, scopeItem, argument);
 					}
 				}
 
@@ -158,7 +158,7 @@ ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration
 					default:
 						scopeItem=0;
 					}
-					EnsureTypeVisibility(node, symbol->type, scopeItem, argument);
+					CheckType(node, symbol->type, scopeItem, argument);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 

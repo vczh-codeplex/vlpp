@@ -75,6 +75,28 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::TypeInvisible(TypeToString(error->GetTypeParameter()));
 					}
 					break;
+				case ManagedLanguageCodeException::CannotUseUninstantiatedGenericType:
+					{
+						message=ManagedErrorMessage::CannotUseUninstantiatedGenericType(TypeToString(error->GetTypeParameter()));
+					}
+					break;
+				case ManagedLanguageCodeException::GenericTypeArgumentCountNotMatches:
+					{
+						message=ManagedErrorMessage::GenericTypeArgumentCountNotMatches(TypeToString(error->GetTypeParameter()));
+					}
+					break;
+				case ManagedLanguageCodeException::GenericTypeTypeConstraintNotSatisfied:
+					{
+						vint index=wtoi(error->GetParameters()[0])+1;
+						message=ManagedErrorMessage::GenericTypeTypeConstraintNotSatisfied(TypeToString(error->GetTypeParameter()), itow(index));
+					}
+					break;
+				case ManagedLanguageCodeException::GenericTypeNewConstraintNotSatisfied:
+					{
+						vint index=wtoi(error->GetParameters()[0])+1;
+						message=ManagedErrorMessage::GenericTypeNewConstraintNotSatisfied(TypeToString(error->GetTypeParameter()), itow(index));
+					}
+					break;
 				default:
 					return 0;
 				}

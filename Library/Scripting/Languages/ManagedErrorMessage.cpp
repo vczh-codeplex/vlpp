@@ -56,6 +56,26 @@ namespace vl
 				return L"Type "+name+L" is invisible at the current scope.";
 			}
 
+			WString ManagedErrorMessage::CannotUseUninstantiatedGenericType(const WString& name)
+			{
+				return L"Cannot use uninstantiated type "+name+L" as generic argument or to declare object.";
+			}
+
+			WString ManagedErrorMessage::GenericTypeArgumentCountNotMatches(const WString& name)
+			{
+				return L"Generic argument count of type "+name+L" do not match the declaration.";
+			}
+
+			WString ManagedErrorMessage::GenericTypeTypeConstraintNotSatisfied(const WString& name, const WString& index)
+			{
+				return L"The "+index+L"th generic argument of type "+name+L" does not satisfies the required type constraint.";
+			}
+
+			WString ManagedErrorMessage::GenericTypeNewConstraintNotSatisfied(const WString& name, const WString& index)
+			{
+				return L"The "+index+L"th generic argument of type "+name+L" does not satisfies the required new constraint.";
+			}
+
 		}
 	}
 }
