@@ -427,7 +427,7 @@ EnsureTypeVisibility
 			}
 
 /***********************************************************************
-EnsureTypeSatisfiesConstraintsInternal
+GetOrderedGenericParameterNames
 ***********************************************************************/
 
 			List<WString>* GetOrderedGenericParameterNames(ManagedSymbolItem* declSymbol)
@@ -453,6 +453,157 @@ EnsureTypeSatisfiesConstraintsInternal
 				}
 			}
 
+/***********************************************************************
+GetSymbolDeclaration
+***********************************************************************/
+
+			ManagedSymbolItem* GetRealSymbol(ManagedSymbolItem* declSymbol)
+			{
+				while(true)
+				{
+					switch(declSymbol->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
+					case ManagedSymbolItem::GenericParameter:
+						return declSymbol;
+					case ManagedSymbolItem::TypeRename:
+						declSymbol=dynamic_cast<ManagedSymbolTypeRename*>(declSymbol)->type->GetSymbol();
+						break;
+					default:
+						return 0;
+					}
+				}
+			}
+
+/***********************************************************************
+IsInheritedFrom
+***********************************************************************/
+
+			bool IsInheritedFrom(ManagedSymbolItem* realSymbol, ManagedSymbolItem* parentSymbol)
+			{
+				switch(realSymbol->GetSymbolType())
+				{
+				case ManagedSymbolItem::Class:
+				case ManagedSymbolItem::Structure:
+				case ManagedSymbolItem::Interface:
+					{
+						ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(realSymbol);
+						FOREACH(ManagedTypeSymbol*, type, symbol->baseTypes.Wrap())
+						{
+							ManagedSymbolItem* typeSymbol=type->GetSymbol();
+							if(typeSymbol==parentSymbol || IsInheritedFrom(typeSymbol, parentSymbol))
+							{
+								return true;
+							}
+						}
+						return false;
+					}
+					break;
+				case ManagedSymbolItem::GenericParameter:
+					{
+						ManagedSymbolGenericParameter* symbol=dynamic_cast<ManagedSymbolGenericParameter*>(realSymbol);
+						FOREACH(ManagedTypeSymbol*, type, symbol->typeConstraints.Wrap())
+						{
+							ManagedSymbolItem* typeSymbol=type->GetSymbol();
+							if(typeSymbol==parentSymbol || IsInheritedFrom(typeSymbol, parentSymbol))
+							{
+								return true;
+							}
+						}
+						return false;
+					}
+					break;
+				default:
+					return false;
+				}
+			}
+
+			bool IsInheritedFrom(ManagedTypeSymbol* type, ManagedTypeSymbol* parentType, const MAP& argument)
+			{
+				if(type==parentType)
+				{
+					return true;
+				}
+				else
+				{
+					ManagedSymbolItem* realSymbol=GetRealSymbol(type->GetSymbol());
+					switch(realSymbol->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
+						{
+							ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(realSymbol);
+							if(type->GetGenericDeclaration())
+							{
+								if(symbol->orderedGenericParameterNames.Count()==type->GetGenericArguments().Count())
+								{
+									Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> replacement;
+									for(vint i=0;i<symbol->orderedGenericParameterNames.Count();i++)
+									{
+										ManagedTypeSymbol* key=argument.symbolManager->GetType(symbol->ItemGroup(symbol->orderedGenericParameterNames[i])->Items()[0]);
+										ManagedTypeSymbol* value=type->GetGenericArguments()[i];
+										replacement.Add(key, value);
+									}
+									FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
+									{
+										if(IsInheritedFrom(argument.symbolManager->ReplaceGenericArguments(baseType, replacement.Wrap()), parentType, argument))
+										{
+											return true;
+										}
+									}
+									return false;
+								}
+								else
+								{
+									return false;
+								}
+							}
+							else
+							{
+								if(symbol->orderedGenericParameterNames.Count()==0)
+								{
+									FOREACH(ManagedTypeSymbol*, baseType, symbol->baseTypes.Wrap())
+									{
+										if(IsInheritedFrom(baseType, parentType, argument))
+										{
+											return true;
+										}
+									}
+									return false;
+								}
+								else
+								{
+									return false;
+								}
+							}
+						}
+						break;
+					case ManagedSymbolItem::GenericParameter:
+						{
+							ManagedSymbolGenericParameter* symbol=dynamic_cast<ManagedSymbolGenericParameter*>(realSymbol);
+							FOREACH(ManagedTypeSymbol*, typeConstraint, symbol->typeConstraints.Wrap())
+							{
+								if(IsInheritedFrom(typeConstraint, parentType, argument))
+								{
+									return true;
+								}
+							}
+							return false;
+						}
+						break;
+					default:
+						return false;
+					}
+				}
+			}
+
+/***********************************************************************
+EnsureTypeSatisfiesConstraintsInternal
+***********************************************************************/
+
 			void EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument)
 			{
 				ManagedTypeSymbol* decl=type->GetGenericDeclaration();
@@ -477,7 +628,51 @@ EnsureTypeSatisfiesConstraintsInternal
 						if(i<orderedGenericParameterNames.Count())
 						{
 							ManagedSymbolGenericParameter* genericParameter=dynamic_cast<ManagedSymbolGenericParameter*>(declSymbol->ItemGroup(orderedGenericParameterNames[i])->Items()[0]);
-							// insert checking
+							FOREACH(ManagedTypeSymbol*, typeConstraint, genericParameter->typeConstraints.Wrap())
+							{
+								if(!IsInheritedFrom(genericArgument, typeConstraint, argument))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetGenericTypeNewConstraintNotSatisfied(languageElement, type, i));
+									break;
+								}
+							}
+							if(genericParameter->newConstraint)
+							{
+								ManagedSymbolItem* genericArgumentSymbol=GetRealSymbol(genericArgument->GetSymbol());
+								switch(genericArgumentSymbol->GetSymbolType())
+								{
+								case ManagedSymbolItem::Class:
+								case ManagedSymbolItem::Structure:
+								case ManagedSymbolItem::Interface:
+									{
+										ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(genericArgumentSymbol);
+										ManagedSymbolItemGroup* constructors=symbol->ItemGroup(ManagedSymbolConstructor::SymbolName);
+										bool find=false;
+										FOREACH(ManagedSymbolItem*, constructor, constructors->Items())
+										{
+											if(dynamic_cast<ManagedSymbolConstructor*>(constructor)->accessor==declatt::Public)
+											{
+												find=true;
+												break;
+											}
+										}
+										if(!find)
+										{
+											argument.errors.Add(ManagedLanguageCodeException::GetGenericTypeNewConstraintNotSatisfied(languageElement, type, i));
+										}
+									}
+									break;
+								case ManagedSymbolItem::GenericParameter:
+									{
+										ManagedSymbolGenericParameter* symbol=dynamic_cast<ManagedSymbolGenericParameter*>(genericArgumentSymbol);
+										if(!symbol->newConstraint)
+										{
+											argument.errors.Add(ManagedLanguageCodeException::GetGenericTypeNewConstraintNotSatisfied(languageElement, type, i));
+										}
+									}
+									break;
+								}
+							}
 						}
 					}
 				}
