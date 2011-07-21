@@ -24,7 +24,7 @@ PIn VShader(VIn input)
     output.position = mul(input.position, worldMatrix);
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectionMatrix);
-	output.color = float4(1.0, 1.0, 1.0, 1.0);
+	output.color = float4(0.6, 0.6, 0.6, 1.0);
     
     return output;
 }

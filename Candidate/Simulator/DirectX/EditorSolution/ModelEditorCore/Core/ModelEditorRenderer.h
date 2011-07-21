@@ -42,6 +42,9 @@ namespace modeleditor
 
 		void									UpdateConstantBuffer();
 		void									UpdateGeometryAxis();
+
+		void									Initialize();
+		void									Finalize();
 	public:
 		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
 		~ModelEditorWindow();
