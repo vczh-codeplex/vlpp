@@ -120,6 +120,32 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(element, TypeInvisible, parameters.Wrap(), type);
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotUseUninstantiatedGenericType(ManagedLanguageElement* element, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, CannotUseUninstantiatedGenericType, parameters.Wrap(), type);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetGenericTypeArgumentCountNotMatches(ManagedLanguageElement* element, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, GenericTypeArgumentCountNotMatches, parameters.Wrap(), type);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=itow(index);
+				return new ManagedLanguageCodeException(element, GenericTypeTypeConstraintNotSatisfied, parameters.Wrap(), genericType);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=itow(index);
+				return new ManagedLanguageCodeException(element, GenericTypeNewConstraintNotSatisfied, parameters.Wrap(), genericType);
+			}
 		}
 	}
 }

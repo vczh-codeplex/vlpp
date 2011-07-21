@@ -225,7 +225,7 @@ EnsureSymbolBaseTypesCompleted
 EnsureTypeVisibility
 ***********************************************************************/
 
-			void EnsureTypeVisibility(
+			void EnsureTypeVisibilityInternal(
 				ManagedLanguageElement* languageElement,
 				ManagedTypeSymbol* type,
 				const MAP& argument,
@@ -258,7 +258,7 @@ EnsureTypeVisibility
 					{
 						FOREACH(ManagedTypeSymbol*, genericArgument, currentType->GetGenericArguments())
 						{
-							EnsureTypeVisibility(languageElement, genericArgument, argument, thisTypes, baseTypes);
+							EnsureTypeVisibilityInternal(languageElement, genericArgument, argument, thisTypes, baseTypes);
 						}
 					}
 
@@ -400,7 +400,7 @@ EnsureTypeVisibility
 				}
 			}
 
-			void EnsureTypeVisibility(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			void EnsureTypeVisibilityInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
 			{
 				CHECK_ERROR(
 					!scopeItem
@@ -423,7 +423,86 @@ EnsureTypeVisibility
 				{
 					CollectBaseTypes(thisType, baseTypes, argument);
 				}
-				EnsureTypeVisibility(languageElement, type, argument, thisTypes, baseTypes);
+				EnsureTypeVisibilityInternal(languageElement, type, argument, thisTypes, baseTypes);
+			}
+
+/***********************************************************************
+EnsureTypeSatisfiesConstraintsInternal
+***********************************************************************/
+
+			List<WString>* GetOrderedGenericParameterNames(ManagedSymbolItem* declSymbol)
+			{
+				switch(declSymbol->GetSymbolType())
+				{
+				case ManagedSymbolItem::Class:
+				case ManagedSymbolItem::Structure:
+				case ManagedSymbolItem::Interface:
+					{
+						ManagedSymbolDeclaration* symbol=dynamic_cast<ManagedSymbolDeclaration*>(declSymbol);
+						return &symbol->orderedGenericParameterNames;
+					}
+					break;
+				case ManagedSymbolItem::TypeRename:
+					{
+						ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(declSymbol);
+						return &symbol->orderedGenericParameterNames;
+					}
+					break;
+				default:
+					return 0;
+				}
+			}
+
+			void EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument)
+			{
+				ManagedTypeSymbol* decl=type->GetGenericDeclaration();
+				if(decl)
+				{
+					if(decl->GetParentType())
+					{
+						EnsureTypeSatisfiesConstraintsInternal(languageElement, decl->GetParentType(), argument);
+					}
+					ManagedSymbolItem* declSymbol=decl->GetSymbol();
+					List<WString>& orderedGenericParameterNames=*GetOrderedGenericParameterNames(declSymbol);
+
+					if(orderedGenericParameterNames.Count()!=type->GetGenericArguments().Count())
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetGenericTypeArgumentCountNotMatches(languageElement, type));
+					}
+					for(int i=0;i<type->GetGenericArguments().Count();i++)
+					{
+						ManagedTypeSymbol* genericArgument=type->GetGenericArguments()[i];
+						EnsureTypeSatisfiesConstraintsInternal(languageElement, genericArgument, argument);
+
+						if(i<orderedGenericParameterNames.Count())
+						{
+							ManagedSymbolGenericParameter* genericParameter=dynamic_cast<ManagedSymbolGenericParameter*>(declSymbol->ItemGroup(orderedGenericParameterNames[i])->Items()[0]);
+							// insert checking
+						}
+					}
+				}
+				else
+				{
+					List<WString>* orderedGenericParameterNames=GetOrderedGenericParameterNames(type->GetSymbol());
+					if(orderedGenericParameterNames && orderedGenericParameterNames->Count()>0)
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetCannotUseUninstantiatedGenericType(languageElement, type));
+					}
+				}
+				if(type->GetParentType())
+				{
+					EnsureTypeSatisfiesConstraintsInternal(languageElement, type->GetParentType(), argument);
+				}
+			}
+
+/***********************************************************************
+CheckType
+***********************************************************************/
+
+			void CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			{
+				EnsureTypeVisibilityInternal(languageElement, type, scopeItem, argument);
+				EnsureTypeSatisfiesConstraintsInternal(languageElement, type, argument);
 			}
 		}
 	}

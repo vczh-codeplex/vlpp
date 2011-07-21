@@ -33,6 +33,10 @@ namespace vl
 					CannotDirectReferTypeRenameAsToplevel,		// <ManagedTypeRenameDeclaration>		:name
 					IllegalNestedDeclaration,					// <ManagedTypeMember>
 					TypeInvisible,								// <all>
+					CannotUseUninstantiatedGenericType,			// <all>
+					GenericTypeArgumentCountNotMatches,			// <all>
+					GenericTypeTypeConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
+					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -59,6 +63,10 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetCannotDirectReferTypeRenameAsToplevel(ManagedTypeRenameDeclaration* element);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalNestedDeclaration(ManagedTypeMember* element);
 				static Ptr<ManagedLanguageCodeException>						GetTypeInvisible(ManagedLanguageElement* element, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetCannotUseUninstantiatedGenericType(ManagedLanguageElement* element, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetGenericTypeArgumentCountNotMatches(ManagedLanguageElement* element, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
+				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 			};
 		}
 	}
