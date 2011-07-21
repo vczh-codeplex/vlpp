@@ -11,6 +11,7 @@
 
 namespace modeleditor
 {
+	class Model;
 	class ModelEditorWindow;
 }
 using namespace modeleditor;
@@ -19,6 +20,10 @@ extern "C"
 {
 	MODELEDITORCORE_API ModelEditorWindow*		__stdcall CreateEditorWindow(HWND editorControl, const wchar_t* workingDirectory);
 	MODELEDITORCORE_API void					__stdcall DestroyEditorWindow(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall RenderEditorWindow(ModelEditorWindow* window);
+	
+	MODELEDITORCORE_API void					__stdcall DestroyModel(ModelEditorWindow* window, Model* model);
+	MODELEDITORCORE_API Model*					__stdcall CreateModelCube(ModelEditorWindow* window);
 }
 
 #endif

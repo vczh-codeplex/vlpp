@@ -1,5 +1,6 @@
 #include "ModelEditorCore.h"
 #include "Core\ModelEditorRenderer.h"
+#include "Core\ModelBuilder.h"
 
 #include <CommCtrl.h>
 
@@ -39,5 +40,24 @@ extern "C"
 	{
 		RemoveWindowSubclass(window->editorControl, &EditorWindowSubclassProc, (UINT_PTR)&window->subclass);
 		delete window;
+	}
+
+	MODELEDITORCORE_API void __stdcall RenderEditorWindow(ModelEditorWindow* window)
+	{
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall DestroyModel(ModelEditorWindow* window, Model* model)
+	{
+		window->RemoveModel(model);
+	}
+
+	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
+	{
+		Model* model=new Model(window->Env());
+		BuildCube(model);
+		model->Update();
+		window->AddModel(model);
+		return model;
 	}
 }

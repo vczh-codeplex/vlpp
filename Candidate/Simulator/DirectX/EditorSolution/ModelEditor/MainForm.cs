@@ -24,6 +24,8 @@ namespace ModelEditor
         {
             this.workingDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             this.editorWindow = ModelEditorCore.CreateEditorWindow(panelEditorWindow.Handle, this.workingDirectory);
+            ModelEditorCore.CreateModelCube(this.editorWindow);
+            ModelEditorCore.RenderEditorWindow(this.editorWindow);
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

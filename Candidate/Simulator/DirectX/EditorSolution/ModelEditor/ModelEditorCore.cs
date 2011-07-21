@@ -12,6 +12,15 @@ namespace ModelEditor
         public static extern IntPtr CreateEditorWindow(IntPtr editorControl, string workingDirectory);
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
-        public static extern IntPtr DestroyEditorWindow(IntPtr window);
+        public static extern void DestroyEditorWindow(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void RenderEditorWindow(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void DestroyModel(IntPtr window, IntPtr model);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateModelCube(IntPtr window);
     }
 }
