@@ -69,6 +69,9 @@
     <ClCompile Include="Core\ModelEditorRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ModelBuilder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelEditorCore.h">
@@ -159,6 +162,9 @@
       <Filter>Vlpp\Stream</Filter>
     </ClInclude>
     <ClInclude Include="Core\ModelEditorRenderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelBuilder.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

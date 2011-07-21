@@ -3,16 +3,59 @@
 
 namespace modeleditor
 {
+
+	template<typename T>
+	void DeleteAndZero(T*& object)
+	{
+		delete object;
+		object=0;
+	}
+
+/***********************************************************************
+Model
+***********************************************************************/
+
+	Model::Model(DirectXEnvironment* _env)
+		:env(0)
+		,geometry(0)
+	{
+		D3DXMatrixIdentity(&worldMatrix);
+		Rebuild(_env);
+	}
+
+	Model::~Model()
+	{
+		delete geometry;
+	}
+
+	void Model::Update()
+	{
+		if(vertices.Count()>0 && indices.Count()>0)
+		{
+			geometry->Fill(&vertices[0], vertices.Count(), &indices[0], indices.Count());
+		}
+	}
+
+	void Model::Rebuild(DirectXEnvironment* _env)
+	{
+		env=_env;
+		delete geometry;
+		geometry=new DirectXVertexBuffer<VertexObject>(env);
+		Update();
+	}
+
+	DirectXVertexBuffer<VertexObject>* Model::Geometry()
+	{
+		return geometry;
+	}
+
 /***********************************************************************
 ModelEditorWindow
 ***********************************************************************/
 
-	void ModelEditorWindow::UpdateConstantBuffer()
+	void ModelEditorWindow::UpdateConstantBuffer(const D3DXMATRIX& worldMatrix)
 	{
-		D3DXMATRIX worldMatrix, viewMatrix;
-		{
-			D3DXMatrixIdentity(&worldMatrix);
-		}
+		D3DXMATRIX viewMatrix;
 		{
 			D3DXVECTOR3 at(-1, -1, -1);
 			D3DXVECTOR3 up(-1, 1, -1);
@@ -81,20 +124,20 @@ ModelEditorWindow
 		shaderAxis->Fill(workingDirectory+L"Shaders\\AxisShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &VertexAxis::position)
 			;
+		shaderObject=new DirectXShader<VertexObject>(env);
+		shaderObject->Fill(workingDirectory+L"Shaders\\ObjectShader.txt", L"VShader", L"PShader")
+			.Field(L"POSITION", &VertexObject::Position)
+			.Field(L"NORMAL", &VertexObject::Normal)
+			.Field(L"COLOR", &VertexObject::Color)
+			;
 			
 		depthBuffer->Update(clientSize.cx, clientSize.cy);
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 
-	template<typename T>
-	void DeleteAndZero(T*& object)
-	{
-		delete object;
-		object=0;
-	}
-
 	void ModelEditorWindow::Finalize()
 	{
+		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
 		DeleteAndZero(geometryAxis);
 		DeleteAndZero(constantBuffer);
@@ -103,6 +146,14 @@ ModelEditorWindow
 		DeleteAndZero(renderTarget);
 		DeleteAndZero(depthBuffer);
 		DeleteAndZero(env);
+	}
+
+	void ModelEditorWindow::RebuildModels()
+	{
+		for(int i=0;i<models.Count();i++)
+		{
+			models[i]->Rebuild(env);
+		}
 	}
 
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
@@ -120,7 +171,6 @@ ModelEditorWindow
 	{
 		clientSize=WindowGetClient(editorControl);
 		Initialize();
-		Render();
 	}
 
 	ModelEditorWindow::~ModelEditorWindow()
@@ -128,11 +178,37 @@ ModelEditorWindow
 		Finalize();
 	}
 
+	DirectXEnvironment* ModelEditorWindow::Env()
+	{
+		return env;
+	}
+
+	void ModelEditorWindow::AddModel(Model* model)
+	{
+		models.Add(model);
+	}
+
+	void ModelEditorWindow::RemoveModel(Model* model)
+	{
+		models.Remove(model);
+	}
+
+	int ModelEditorWindow::ModelCount()
+	{
+		return models.Count();
+	}
+
+	Model* ModelEditorWindow::GetModel(int index)
+	{
+		return models[index].Obj();
+	}
+
 	void ModelEditorWindow::Resize()
 	{
 		clientSize=WindowGetClient(editorControl);
 		Finalize();
 		Initialize();
+		RebuildModels();
 	}
 
 	void ModelEditorWindow::Render()
@@ -140,12 +216,23 @@ ModelEditorWindow
 		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
 		depthBuffer->Clear();
 		renderTarget->Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-
-		UpdateConstantBuffer();
-		UpdateGeometryAxis();
+		
 		constantBuffer->VSBindToRegisterBN(0);
 		constantBuffer->PSBindToRegisterBN(0);
-		geometryAxis->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+
+		{
+			D3DXMATRIX axisWorldMatrix;
+			D3DXMatrixIdentity(&axisWorldMatrix);
+			UpdateConstantBuffer(axisWorldMatrix);
+			UpdateGeometryAxis();
+			geometryAxis->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			UpdateConstantBuffer(model->worldMatrix);
+			model->Geometry()->SetCurrentAndRender(shaderObject);
+		}
 
 		env->swapChain->Present(0, 0);
 	}
