@@ -47,6 +47,10 @@ Helper Functions
 			extern void							EnsureUsingNamespaceSymbolCompleted(ManagedSymbolUsingNamespace* symbol, const MAP& argument);
 			extern void							EnsureSymbolBaseTypesCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument);
 			extern void							EnsureTypeVisibilityInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument);
+			extern collections::List<WString>*	GetOrderedGenericParameterNames(ManagedSymbolItem* declSymbol);
+			extern ManagedSymbolItem*			GetRealSymbol(ManagedSymbolItem* declSymbol);
+			extern bool							IsInheritedFrom(ManagedSymbolItem* realSymbol, ManagedSymbolItem* parentSymbol);
+			extern bool							IsInheritedFrom(ManagedTypeSymbol* type, ManagedTypeSymbol* parentType, const MAP& argument);
 			extern void							EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument);
 			extern void							CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument);
 
