@@ -75,6 +75,11 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::TypeInvisible(TypeToString(error->GetTypeParameter()));
 					}
 					break;
+				case ManagedLanguageCodeException::TypeInvisibleOutSideOfAssembly:
+					{
+						message=ManagedErrorMessage::TypeInvisibleOutSideOfAssembly(TypeToString(error->GetTypeParameter()));
+					}
+					break;
 				case ManagedLanguageCodeException::CannotUseUninstantiatedGenericType:
 					{
 						message=ManagedErrorMessage::CannotUseUninstantiatedGenericType(TypeToString(error->GetTypeParameter()));

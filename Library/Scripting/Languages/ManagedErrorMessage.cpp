@@ -56,6 +56,11 @@ namespace vl
 				return L"Type "+name+L" is invisible at the current scope.";
 			}
 
+			WString ManagedErrorMessage::TypeInvisibleOutSideOfAssembly(const WString& name)
+			{
+				return L"The accessor of type "+name+L" is incompatible of the current declaration so that it is invisible out side of the assembly.";
+			}
+
 			WString ManagedErrorMessage::CannotUseUninstantiatedGenericType(const WString& name)
 			{
 				return L"Cannot use uninstantiated type "+name+L" as generic argument or to declare object.";

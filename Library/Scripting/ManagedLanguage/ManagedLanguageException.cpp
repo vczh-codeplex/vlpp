@@ -121,6 +121,12 @@ ManagedLanguageCodeException::ExceptionCode
 				return new ManagedLanguageCodeException(element, TypeInvisible, parameters.Wrap(), type);
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeInvisibleOutSideOfAssembly(ManagedLanguageElement* element, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(element, TypeInvisibleOutSideOfAssembly, parameters.Wrap(), type);
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotUseUninstantiatedGenericType(ManagedLanguageElement* element, ManagedTypeSymbol* type)
 			{
 				Array<WString> parameters(0);
