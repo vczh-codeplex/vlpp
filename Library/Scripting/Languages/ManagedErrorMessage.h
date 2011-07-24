@@ -35,6 +35,7 @@ namespace vl
 				static WString CannotDirectReferTypeRenameAsToplevel(const WString& name);
 				static WString IllegalNestedDeclaration();
 				static WString TypeInvisible(const WString& name);
+				static WString TypeInvisibleOutSideOfAssembly(const WString& name);
 				static WString CannotUseUninstantiatedGenericType(const WString& name);
 				static WString GenericTypeArgumentCountNotMatches(const WString& name);
 				static WString GenericTypeTypeConstraintNotSatisfied(const WString& name, const WString& index);

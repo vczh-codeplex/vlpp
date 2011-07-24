@@ -691,13 +691,129 @@ EnsureTypeSatisfiesConstraintsInternal
 			}
 
 /***********************************************************************
+EnsureTypeVisibilityOutSideOfAssemblyInternal
+***********************************************************************/
+			
+			// -1==unspecified
+			// 0==public
+			// 1==protected
+			// 2==private
+			void GetAccessor(declatt::Accessor accessor, vint& publicLevel, vint& internalLevel)
+			{
+				switch(accessor)
+				{
+				case declatt::Public:
+					if(publicLevel<0) publicLevel=0;
+					break;
+				case declatt::Protected:
+					if(publicLevel<1) publicLevel=1;
+					break;
+				case declatt::Private:
+					if(publicLevel<2) publicLevel=2;
+					break;
+				case declatt::Internal:
+					if(internalLevel<0) internalLevel=0;
+					break;
+				case declatt::ProtectedInternal:
+					if(internalLevel<1) internalLevel=1;
+					break;
+				}
+			}
+
+			void GetSymbolAccessor(ManagedSymbolItem* item, vint& publicLevel, vint& internalLevel)
+			{
+				switch(item->GetSymbolType())
+				{
+				case ManagedSymbolItem::Global:
+				case ManagedSymbolItem::Namespace:
+				case ManagedSymbolItem::UsingNamespace:
+				case ManagedSymbolItem::PropertySetterValue:
+				case ManagedSymbolItem::GenericParameter:
+				case ManagedSymbolItem::MethodParameter:
+					GetAccessor(declatt::Public, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::TypeRename:
+					GetAccessor(dynamic_cast<ManagedSymbolTypeRename*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::Class:
+				case ManagedSymbolItem::Structure:
+				case ManagedSymbolItem::Interface:
+					GetAccessor(dynamic_cast<ManagedSymbolDeclaration*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::Field:
+					GetAccessor(dynamic_cast<ManagedSymbolField*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::Property:
+					break;
+				case ManagedSymbolItem::Method:
+					GetAccessor(dynamic_cast<ManagedSymbolMethod*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::Constructor:
+					GetAccessor(dynamic_cast<ManagedSymbolConstructor*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				case ManagedSymbolItem::ConverterOperator:
+					GetAccessor(dynamic_cast<ManagedSymbolConverterOperator*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				}
+			}
+
+			void GetSymbolAccessorRecursively(ManagedSymbolItem* item, vint& publicLevel, vint& internalLevel)
+			{
+				ManagedSymbolItem* currentItem=item;
+				while(currentItem)
+				{
+					GetSymbolAccessor(currentItem, publicLevel, internalLevel);
+					currentItem=currentItem->GetParentItem();
+				}
+				if(internalLevel==-1)
+				{
+					internalLevel=publicLevel;
+				}
+			}
+
+			void EnsureTypeVisibilityOutSideOfAssemblyInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, vint publicLevel, vint internalLevel, const MAP& argument)
+			{
+				if(type->GetGenericDeclaration())
+				{
+					FOREACH(ManagedTypeSymbol*, genericArgument, type->GetGenericArguments())
+					{
+						EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, genericArgument, publicLevel, internalLevel, argument);
+					}
+					EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, type->GetGenericDeclaration(), publicLevel, internalLevel, argument);
+				}
+				else
+				{
+					vint typePublicLevel=-1;
+					vint typeInternalLevel=-1;
+					GetSymbolAccessorRecursively(type->GetSymbol(), typePublicLevel, typeInternalLevel);
+					if(publicLevel<typePublicLevel || internalLevel<typeInternalLevel)
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetTypeInvisibleOutSideOfAssembly(languageElement, type));
+					}
+				}
+				if(type->GetParentType())
+				{
+					EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, type->GetParentType(), publicLevel, internalLevel, argument);
+				}
+			}
+
+			void EnsureTypeVisibilityOutSideOfAssemblyInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* memberItem, const MAP& argument)
+			{
+				vint publicLevel=-1;
+				vint internalLevel=-1;
+				GetSymbolAccessorRecursively(memberItem, publicLevel, internalLevel);
+				EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, type, publicLevel, internalLevel, argument);
+			}
+
+/***********************************************************************
 CheckType
 ***********************************************************************/
 
-			void CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument)
+			void CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, ManagedSymbolItem* memberItem, const MAP& argument)
 			{
 				EnsureTypeVisibilityInternal(languageElement, type, scopeItem, argument);
 				EnsureTypeSatisfiesConstraintsInternal(languageElement, type, argument);
+				EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, type, memberItem, argument);
 			}
 		}
 	}

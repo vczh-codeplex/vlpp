@@ -1,6 +1,6 @@
 namespace System
 {
-	enum StringEncoding
+	public enum StringEncoding
 	{
 		MBCS,
 		Utf16,
@@ -8,7 +8,7 @@ namespace System
 		Utf8
 	}
 
-	enum StringComparisons
+	public enum StringComparisons
 	{
 		Ordinal,
 		Invariant,
@@ -20,7 +20,7 @@ namespace System
 		UserDefaultIgnoreCase
 	}
 
-	class String
+	public class String
 	{
 		public constructor();
 		public constructor(char[] chars, bool copy=true);
