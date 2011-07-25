@@ -93,7 +93,7 @@ namespace modeleditor
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 
-		D3DXVECTOR3								viewCenterPosition, viewAt, viewUp, viewLeft;
+		D3DXVECTOR3								viewAt, viewFront, viewUp, viewLeft;
 		float									viewAngleVertical;
 		float									viewAngleHorizontal;
 		float									viewDistance;
@@ -103,7 +103,7 @@ namespace modeleditor
 
 	protected:
 
-		void									ViewCalculateUpAt();
+		void									ViewCalculateDirection();
 		void									UpdateConstantBuffer(const D3DXMATRIX& worldMatrix);
 		void									UpdateGeometryAxis();
 
@@ -127,8 +127,7 @@ namespace modeleditor
 		void									ViewReset();
 		void									ViewRotateVertical(float angle);
 		void									ViewRotateHorizontal(float angle);
-		void									ViewWalk(float distance);
-		void									ViewMove(float left, float up);
+		void									ViewMove(float left, float up, float front);
 	};
 }
 
