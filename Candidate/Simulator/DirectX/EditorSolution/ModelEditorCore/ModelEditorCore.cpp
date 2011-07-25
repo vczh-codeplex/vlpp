@@ -158,7 +158,7 @@ namespace modeleditor
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
 							float distance=(float)deltaY/20;
 
-							editorWindow->ViewWalk(distance);
+							editorWindow->ViewMove(0, 0, distance);
 							editorWindow->Render();
 
 							editorWindow->modelEditorData.originX=info.x;
@@ -172,7 +172,7 @@ namespace modeleditor
 
 							if(deltaX!=0 || deltaY!=0)
 							{
-								editorWindow->ViewMove(-(float)deltaX/20, -(float)deltaY/20);
+								editorWindow->ViewMove((float)deltaX/20, (float)deltaY/20, 0);
 								editorWindow->Render();
 							}
 

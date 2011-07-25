@@ -69,21 +69,21 @@ ModelEditorData
 ModelEditorWindow
 ***********************************************************************/
 
-	void ModelEditorWindow::ViewCalculateUpAt()
+	void ModelEditorWindow::ViewCalculateDirection()
 	{
 		D3DXMATRIX v, h, m;
 		D3DXMatrixRotationX(&v, viewAngleVertical);
 		D3DXMatrixRotationY(&h, viewAngleHorizontal);
 		D3DXMatrixMultiply(&m, &v, &h);
 
-		D3DXVECTOR4 at(0, 0, 1, 1);
+		D3DXVECTOR4 front(0, 0, 1, 1);
 		D3DXVECTOR4 up(0, 1, 0, 1);
 		D3DXVECTOR4 left(-1, 0, 0, 1);
-		D3DXVec4Transform(&at, &at, &m);
+		D3DXVec4Transform(&front, &front, &m);
 		D3DXVec4Transform(&up, &up, &m);
 		D3DXVec4Transform(&left, &left, &m);
 
-		viewAt=D3DXVECTOR3(at.x/at.w, at.y/at.w, at.z/at.w);
+		viewFront=D3DXVECTOR3(front.x/front.w, front.y/front.w, front.z/front.w);
 		viewUp=D3DXVECTOR3(up.x/up.w, up.y/up.w, up.z/up.w);
 		viewLeft=D3DXVECTOR3(left.x/left.w, left.y/left.w, left.z/left.w);
 	}
@@ -93,9 +93,9 @@ ModelEditorWindow
 		D3DXMATRIX viewMatrix;
 		{
 			D3DXVECTOR3 eye=D3DXVECTOR3(
-				viewCenterPosition.x-viewAt.x*viewDistance,
-				viewCenterPosition.y-viewAt.y*viewDistance,
-				viewCenterPosition.z-viewAt.z*viewDistance
+				viewAt.x-viewFront.x*viewDistance,
+				viewAt.y-viewFront.y*viewDistance,
+				viewAt.z-viewFront.z*viewDistance
 				);
 			D3DXMatrixLookAtLH(&viewMatrix, &eye, &viewAt, &viewUp);
 		}
@@ -276,40 +276,31 @@ ModelEditorWindow
 
 	void ModelEditorWindow::ViewReset()
 	{
-		viewCenterPosition=D3DXVECTOR3(0, 0, 0);
+		viewAt=D3DXVECTOR3(0, 0, 0);
 		viewAngleVertical=asinf(1/1.732f);
 		viewAngleHorizontal=-(float)D3DX_PI*3/4;
 		viewDistance=20;
-		ViewCalculateUpAt();
+		ViewCalculateDirection();
 	}
 
 	void ModelEditorWindow::ViewRotateVertical(float angle)
 	{
 		viewAngleVertical+=angle;
-		ViewCalculateUpAt();
+		ViewCalculateDirection();
 	}
 
 	void ModelEditorWindow::ViewRotateHorizontal(float angle)
 	{
 		viewAngleHorizontal+=angle;
-		ViewCalculateUpAt();
+		ViewCalculateDirection();
 	}
 
-	void ModelEditorWindow::ViewWalk(float distance)
+	void ModelEditorWindow::ViewMove(float left, float up, float front)
 	{
-		viewCenterPosition=D3DXVECTOR3(
-			viewCenterPosition.x+distance*viewAt.x,
-			viewCenterPosition.y+distance*viewAt.y,
-			viewCenterPosition.z+distance*viewAt.z
-			);
-	}
-
-	void ModelEditorWindow::ViewMove(float left, float up)
-	{
-		viewCenterPosition=D3DXVECTOR3(
-			viewCenterPosition.x + left*viewLeft.x + up*viewUp.x,
-			viewCenterPosition.y + left*viewLeft.y + up*viewUp.y,
-			viewCenterPosition.z + left*viewLeft.z + up*viewUp.z
+		viewAt=D3DXVECTOR3(
+			viewAt.x + left*viewLeft.x + up*viewUp.x + front*viewFront.x,
+			viewAt.y + left*viewLeft.y + up*viewUp.y + front*viewFront.y,
+			viewAt.z + left*viewLeft.z + up*viewUp.z + front*viewFront.z
 			);
 	}
 }
