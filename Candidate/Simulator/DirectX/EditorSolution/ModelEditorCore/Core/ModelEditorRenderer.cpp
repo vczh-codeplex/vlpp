@@ -166,6 +166,7 @@ ModelEditorWindow
 			.Field(L"POSITION", &VertexObject::position)
 			.Field(L"NORMAL", &VertexObject::normal)
 			.Field(L"COLOR", &VertexObject::color)
+			.Field(L"TEXCOORD", &VertexObject::id)
 			;
 			
 		depthBuffer->Update(clientSize.cx, clientSize.cy);

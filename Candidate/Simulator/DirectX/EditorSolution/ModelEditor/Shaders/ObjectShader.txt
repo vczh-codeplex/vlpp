@@ -17,6 +17,7 @@ struct PIn
     float4 position : SV_POSITION;
 	float3 viewNormal : NORMAL;
     float4 color : COLOR;
+	uint4 id : TEXCOORD;
 };
 
 PIn VShader(VIn input)
