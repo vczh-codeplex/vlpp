@@ -89,11 +89,14 @@ namespace modeleditor
 		DirectXWindowRenderTarget*				renderTarget;
 		DirectXRenderer*						renderer;
 		DirectXViewport*						viewport;
+		DirectXTextureBuffer*					selectorBuffer;
+		DirectXTextureRenderTarget*				selectorRenderTarget;
 
 		DirectXConstantBuffer<ConstantBuffer>*	constantBuffer;
 		DirectXVertexBuffer<VertexAxis>*		geometryAxis;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
+		DirectXShader<VertexObject>*			shaderSelector;
 
 		D3DXVECTOR3								viewAt, viewFront, viewUp, viewLeft;
 		float									viewAngleVertical;
@@ -125,6 +128,7 @@ namespace modeleditor
 
 		void									Resize();
 		void									Render();
+		void									RenderSelector();
 
 		void									ViewReset();
 		void									ViewRotateVertical(float angle);

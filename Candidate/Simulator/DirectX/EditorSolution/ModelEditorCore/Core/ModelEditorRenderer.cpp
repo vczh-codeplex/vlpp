@@ -153,6 +153,8 @@ ModelEditorWindow
 		renderTarget=new DirectXWindowRenderTarget(env);
 		renderer=new DirectXRenderer(env);
 		viewport=new DirectXViewport(env);
+		selectorBuffer=new DirectXTextureBuffer(env);
+		selectorRenderTarget=new DirectXTextureRenderTarget(env);
 
 		constantBuffer=new DirectXConstantBuffer<ConstantBuffer>(env);
 		geometryAxis=new DirectXVertexBuffer<VertexAxis>(env);
@@ -168,17 +170,29 @@ ModelEditorWindow
 			.Field(L"COLOR", &VertexObject::color)
 			.Field(L"TEXCOORD", &VertexObject::id)
 			;
+		shaderSelector=new DirectXShader<VertexObject>(env);
+		shaderSelector->Fill(workingDirectory+L"Shaders\\SelectorShader.txt", L"VShader", L"PShader")
+			.Field(L"POSITION", &VertexObject::position)
+			.Field(L"NORMAL", &VertexObject::normal)
+			.Field(L"COLOR", &VertexObject::color)
+			.Field(L"TEXCOORD", &VertexObject::id)
+			;
 			
 		depthBuffer->Update(clientSize.cx, clientSize.cy);
+		selectorBuffer->UpdateUint(clientSize.cx, clientSize.cy);
+		selectorRenderTarget->Update(selectorBuffer);
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 
 	void ModelEditorWindow::Finalize()
 	{
+		DeleteAndZero(shaderSelector);
 		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
 		DeleteAndZero(geometryAxis);
 		DeleteAndZero(constantBuffer);
+		DeleteAndZero(selectorRenderTarget);
+		DeleteAndZero(selectorBuffer);
 		DeleteAndZero(viewport);
 		DeleteAndZero(renderer);
 		DeleteAndZero(renderTarget);
@@ -274,6 +288,25 @@ ModelEditorWindow
 		}
 
 		env->swapChain->Present(0, 0);
+	}
+
+	void ModelEditorWindow::RenderSelector()
+	{
+		renderer->SetRenderTarget(selectorRenderTarget, depthBuffer);
+		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
+		depthBuffer->Clear();
+		selectorRenderTarget->Clear(D3DXCOLOR(0xFFFFFFFF));
+		
+		constantBuffer->VSBindToRegisterBN(0);
+		constantBuffer->PSBindToRegisterBN(0);
+
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			UpdateConstantBuffer(model->worldMatrix);
+			model->Geometry()->SetCurrentAndRender(shaderSelector);
+		}
+		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 
 	void ModelEditorWindow::ViewReset()

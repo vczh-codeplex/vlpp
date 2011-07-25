@@ -276,7 +276,8 @@ Texture Buffer
 			void						PSBindToRegisterTN(int index);
 
 			void						Update(const WString& fileName);
-			void						Update(int width, int height, int arraySize=-1, bool forCubeMap=false);
+			void						Update(int width, int height, int arraySize=-1, bool forCubeMap=false, DXGI_FORMAT format=DXGI_FORMAT_R32G32B32A32_FLOAT);
+			void						UpdateUint(int width, int height);
 		};
 
 /***********************************************************************
