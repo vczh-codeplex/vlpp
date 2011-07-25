@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace ModelEditor
 {
@@ -18,6 +19,10 @@ namespace ModelEditor
         public MainForm()
         {
             InitializeComponent();
+            panelEditorWindow.GetType()
+                .GetMethod("SetStyle", BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(panelEditorWindow, new object[] { ControlStyles.Selectable, true });
+            panelEditorWindow.Select();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
