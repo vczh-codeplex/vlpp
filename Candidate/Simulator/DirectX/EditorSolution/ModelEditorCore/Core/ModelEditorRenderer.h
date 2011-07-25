@@ -19,9 +19,10 @@ namespace modeleditor
 	
 	struct VertexObject
 	{
-		D3DXVECTOR3 position;
-		D3DXVECTOR3 normal;
-		D3DXCOLOR color;
+		D3DXVECTOR3								position;
+		D3DXVECTOR3								normal;
+		D3DXCOLOR								color;
+		unsigned __int32						id;
 
 		bool operator==(const VertexObject& vertex){return false;}
 		bool operator!=(const VertexObject& vertex){return true;}
