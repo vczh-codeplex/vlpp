@@ -14,13 +14,14 @@ namespace modeleditor
 	struct VertexAxis
 	{
 		D3DXVECTOR3								position;
+		D3DXCOLOR								color;
 	};
 	
 	struct VertexObject
 	{
-		D3DXVECTOR3 Position;
-		D3DXVECTOR3 Normal;
-		D3DXCOLOR Color;
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 normal;
+		D3DXCOLOR color;
 
 		bool operator==(const VertexObject& vertex){return false;}
 		bool operator!=(const VertexObject& vertex){return true;}

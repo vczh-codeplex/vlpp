@@ -111,32 +111,32 @@ ModelEditorWindow
 		const int size=16;
 		const float cellSize=2.0f;
 		const float centerSize=0.2f;
-		VertexAxis vertices[(size+3)*4];
+		VertexAxis vertices[(size+1)*4+2];
 		unsigned int indices[(size+3)*4];
 		int currentVertex=0;
 		
 		for(int i=-size/2;i<=size/2;i++)
 		{
+			D3DXCOLOR color=(i==0?D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
+			vertices[currentVertex].color=color;
 			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, -cellSize*size/2);
+			vertices[currentVertex].color=color;
 			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, cellSize*size/2);
 		}
 		for(int i=-size/2;i<=size/2;i++)
 		{
+			D3DXCOLOR color=(i==0?D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
+			vertices[currentVertex].color=color;
 			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*size/2, 0, cellSize*i);
+			vertices[currentVertex].color=color;
 			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*size/2, 0, cellSize*i);
 		}
 		{
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*centerSize, 0, -cellSize*size/2);
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*centerSize, 0, cellSize*size/2);
-			
-			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*centerSize, 0, -cellSize*size/2);
-			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*centerSize, 0, cellSize*size/2);
-
-			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*size/2, 0, cellSize*centerSize);
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*size/2, 0, cellSize*centerSize);
-			
-			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*size/2, 0, -cellSize*centerSize);
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*size/2, 0, -cellSize*centerSize);
+			D3DXCOLOR color=D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+			vertices[currentVertex].color=color;
+			vertices[currentVertex++].position=D3DXVECTOR3(0, 0, 0);
+			vertices[currentVertex].color=color;
+			vertices[currentVertex++].position=D3DXVECTOR3(0, cellSize*size/2, 0);
 		}
 		for(int i=0;i<(size+3)*4;i++)
 		{
@@ -159,12 +159,13 @@ ModelEditorWindow
 		shaderAxis=new DirectXShader<VertexAxis>(env);
 		shaderAxis->Fill(workingDirectory+L"Shaders\\AxisShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &VertexAxis::position)
+			.Field(L"COLOR", &VertexAxis::color)
 			;
 		shaderObject=new DirectXShader<VertexObject>(env);
 		shaderObject->Fill(workingDirectory+L"Shaders\\ObjectShader.txt", L"VShader", L"PShader")
-			.Field(L"POSITION", &VertexObject::Position)
-			.Field(L"NORMAL", &VertexObject::Normal)
-			.Field(L"COLOR", &VertexObject::Color)
+			.Field(L"POSITION", &VertexObject::position)
+			.Field(L"NORMAL", &VertexObject::normal)
+			.Field(L"COLOR", &VertexObject::color)
 			;
 			
 		depthBuffer->Update(clientSize.cx, clientSize.cy);
