@@ -47,7 +47,7 @@ DirectXTextureBuffer
 			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &shaderResourceView, NULL);
 		}
 
-		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap)
+		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap, DXGI_FORMAT format)
 		{
 			if(texture)
 			{
@@ -60,7 +60,6 @@ DirectXTextureBuffer
 				shaderResourceView=0;
 			}
 			HRESULT hr=S_OK;
-			DXGI_FORMAT format=DXGI_FORMAT_R32G32B32A32_FLOAT;
 			{
 				D3D11_TEXTURE2D_DESC textureDesc;
 				ZeroMemory(&textureDesc, sizeof(textureDesc));
@@ -97,6 +96,11 @@ DirectXTextureBuffer
 				if(FAILED(hr=env->device->CreateShaderResourceView(texture, &shaderResourceViewDesc, &shaderResourceView)))
 					return;
 			}
+		}
+
+		void DirectXTextureBuffer::UpdateUint(int width, int height)
+		{
+			Update(width, height, -1, false, DXGI_FORMAT_R8G8B8A8_UINT);
 		}
 
 /***********************************************************************
