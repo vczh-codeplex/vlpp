@@ -51,12 +51,34 @@ namespace modeleditor
 		DirectXVertexBuffer<VertexObject>*		Geometry();
 	};
 
+	namespace ViewOperation
+	{
+		enum Enum
+		{
+			None,
+			Rotation,
+			Zooming,
+			Moving,
+		};
+	};
+
+	struct ModelEditorData
+	{
+		int										originX, originY;
+		ViewOperation::Enum						viewOperation;
+		bool									viewOperationActivated;
+
+		ModelEditorData();
+		~ModelEditorData();
+	};
+
 	class ModelEditorWindow
 	{
 	public:
 		HWND									editorControl;
 		UINT									subclass;
 		SIZE									clientSize;
+		ModelEditorData							modelEditorData;
 
 	protected:
 		WString									workingDirectory;
@@ -71,11 +93,17 @@ namespace modeleditor
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 
+		D3DXVECTOR3								viewCenterPosition, viewAt, viewUp, viewLeft;
+		float									viewAngleVertical;
+		float									viewAngleHorizontal;
+		float									viewDistance;
+
 	protected:
 		List<Ptr<Model>>						models;
 
 	protected:
 
+		void									ViewCalculateUpAt();
 		void									UpdateConstantBuffer(const D3DXMATRIX& worldMatrix);
 		void									UpdateGeometryAxis();
 
@@ -95,6 +123,12 @@ namespace modeleditor
 
 		void									Resize();
 		void									Render();
+
+		void									ViewReset();
+		void									ViewRotateVertical(float angle);
+		void									ViewRotateHorizontal(float angle);
+		void									ViewWalk(float distance);
+		void									ViewMove(float left, float up);
 	};
 }
 
