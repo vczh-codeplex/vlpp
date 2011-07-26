@@ -48,6 +48,18 @@ float4 PShader(PIn input) : SV_TARGET
 
 	float4 color = materialColor * brightness;
 
+	color.w=1.0;
+	return color;
+}
+
+float4 PShaderSelected(PIn input) : SV_TARGET
+{
+	float4 materialColor = input.color;
+	float3 lightDirection = normalize(float3(1, 1, -1));
+	float brightness = 0.5 + max(0, dot(input.viewNormal, lightDirection))*0.5;
+
+	float4 color = materialColor * brightness;
+
 	uint selectedModel = selectorTexture.Load(int3(input.position.x, input.position.y, 0));
 	if(selectedModel==1)
 	{
