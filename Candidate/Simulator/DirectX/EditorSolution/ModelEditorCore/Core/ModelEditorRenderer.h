@@ -52,6 +52,7 @@ namespace modeleditor
 		Array<unsigned int>						indices;
 		D3DXMATRIX								worldMatrix;
 		bool									selected;
+		bool									mainSelected;
 
 		Model(DirectXEnvironment* _env);
 		~Model();
@@ -139,7 +140,8 @@ namespace modeleditor
 		DirectXTextureRenderTarget*				selectorRenderTarget;
 
 		DirectXConstantBuffer<ConstantBuffer>*	constantBuffer;
-		DirectXVertexBuffer<VertexAxis>*		geometryAxisLine;
+		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineGlobal;
+		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineLocal;
 		Model*									geometryAxisObject;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
@@ -156,6 +158,8 @@ namespace modeleditor
 		DirectXVertexBuffer<VertexImage>*		editorModeRectangle;
 		DirectXShader<VertexImage>*				editorModeShader;
 		DirectXSamplerBuffer*					editorModeSampler;
+
+		Model*									mainSelectedModel;
 
 	protected:
 		List<Ptr<Model>>						models;
@@ -193,11 +197,13 @@ namespace modeleditor
 		void									Render();
 		int										QueryModel(int x, int y);
 		void									SelectModel(int index);
+		Model*									GetMainSelectedModel();
 
 		void									ViewReset();
 		void									ViewRotateVertical(float angle);
 		void									ViewRotateHorizontal(float angle);
 		void									ViewMove(float left, float up, float front);
+		float									GetViewDistance();
 
 		void									SetEditorMode(ModelEditorMode::Enum value);
 		void									SetEditorAxis(ModelEditorAxis::Enum value);
