@@ -115,6 +115,9 @@ namespace modeleditor
 		void									Initialize();
 		void									Finalize();
 		void									RebuildModels();
+
+		void									RenderSelector();
+		unsigned __int32						GetSelectorResult(int x, int y);
 	public:
 		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
 		~ModelEditorWindow();
@@ -128,7 +131,7 @@ namespace modeleditor
 
 		void									Resize();
 		void									Render();
-		void									RenderSelector();
+		int										SelectModel(int x, int y);
 
 		void									ViewReset();
 		void									ViewRotateVertical(float angle);
