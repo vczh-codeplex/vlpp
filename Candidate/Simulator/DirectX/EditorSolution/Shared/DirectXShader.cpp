@@ -100,7 +100,7 @@ DirectXTextureBuffer
 
 		void DirectXTextureBuffer::UpdateUint(int width, int height)
 		{
-			Update(width, height, -1, false, DXGI_FORMAT_R8G8B8A8_UINT);
+			Update(width, height, -1, false, DXGI_FORMAT_R32_UINT);
 		}
 
 /***********************************************************************
