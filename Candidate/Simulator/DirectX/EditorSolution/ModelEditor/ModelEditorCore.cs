@@ -8,6 +8,10 @@ namespace ModelEditor
 {
     static class ModelEditorCore
     {
+        /***************************************************************
+         * Editor Window
+        ***************************************************************/
+
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateEditorWindow(IntPtr editorControl, string workingDirectory);
 
@@ -17,6 +21,10 @@ namespace ModelEditor
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void RenderEditorWindow(IntPtr window);
 
+        /***************************************************************
+         * Model
+        ***************************************************************/
+
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void DestroyModel(IntPtr window, IntPtr model);
 
@@ -25,5 +33,34 @@ namespace ModelEditor
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateModelCube(IntPtr window);
+
+        /***************************************************************
+         * View
+        ***************************************************************/
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void ResetView(IntPtr window);
+
+        /***************************************************************
+         * Editor Mode
+        ***************************************************************/
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeSelection(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeTranslation(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeRotation(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeScaling(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorAxisGlobal(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorAxisLocal(IntPtr window);
     }
 }

@@ -60,6 +60,8 @@ ModelEditorData
 		,originY(0)
 		,modelEditorOperation(ModelEditorOperation::None)
 		,modelEditorOperationActivated(false)
+		,modelEditorMode(ModelEditorMode::ObjectSelection)
+		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
 	{
 	}
 
@@ -295,6 +297,32 @@ ModelEditorWindow
 		return result;
 	}
 
+	void ModelEditorWindow::RenderAxisLine()
+	{
+		D3DXMATRIX axisWorldMatrix;
+		D3DXMatrixIdentity(&axisWorldMatrix);
+		UpdateConstantBuffer(axisWorldMatrix);
+		UpdateGeometryAxis();
+		geometryAxisLine->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+	}
+
+	void ModelEditorWindow::RenderAxisObject()
+	{
+		viewport->SetViewport(0, clientSize.cy-100, 100, 100, (float)D3DX_PI/2, 0.1f, 1000.0f);
+		depthBuffer->Clear();
+
+		D3DXMATRIX axisWorldMatrix, axisTranslation;
+		D3DXMatrixScaling(&axisWorldMatrix, 2.0f, 2.0f, 2.0f);
+		D3DXMatrixTranslation(&axisTranslation, viewAt.x, viewAt.y, viewAt.z);
+		D3DXMatrixMultiply(&axisWorldMatrix, &axisWorldMatrix, &axisTranslation);
+		UpdateConstantBuffer(axisWorldMatrix);
+		geometryAxisObject->Geometry()->SetCurrentAndRender(shaderObject);
+	}
+
+	void ModelEditorWindow::RenderEditorMode()
+	{
+	}
+
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
 		:editorControl(_editorControl)
 		,subclass(0)
@@ -376,24 +404,9 @@ ModelEditorWindow
 			UpdateConstantBuffer(model->worldMatrix);
 			model->Geometry()->SetCurrentAndRender(model->selected?shaderSelectedObject:shaderObject);
 		}
-		{
-			D3DXMATRIX axisWorldMatrix;
-			D3DXMatrixIdentity(&axisWorldMatrix);
-			UpdateConstantBuffer(axisWorldMatrix);
-			UpdateGeometryAxis();
-			geometryAxisLine->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
-		}
-		{
-			viewport->SetViewport(0, clientSize.cy-100, 100, 100, (float)D3DX_PI/2, 0.1f, 1000.0f);
-			depthBuffer->Clear();
-
-			D3DXMATRIX axisWorldMatrix, axisTranslation;
-			D3DXMatrixScaling(&axisWorldMatrix, 2.0f, 2.0f, 2.0f);
-			D3DXMatrixTranslation(&axisTranslation, viewAt.x, viewAt.y, viewAt.z);
-			D3DXMatrixMultiply(&axisWorldMatrix, &axisWorldMatrix, &axisTranslation);
-			UpdateConstantBuffer(axisWorldMatrix);
-			geometryAxisObject->Geometry()->SetCurrentAndRender(shaderObject);
-		}
+		RenderAxisLine();
+		RenderAxisObject();
+		RenderEditorMode();
 
 		env->swapChain->Present(0, 0);
 	}

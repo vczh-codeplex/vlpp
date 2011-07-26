@@ -59,9 +59,29 @@ namespace modeleditor
 		enum Enum
 		{
 			None,
-			Rotation,
-			Zooming,
-			Moving,
+			ViewRotation,
+			ViewZooming,
+			ViewMoving,
+		};
+	};
+
+	namespace ModelEditorMode
+	{
+		enum Enum
+		{
+			ObjectSelection,
+			ObjectTranslation,
+			ObjectRotation,
+			ObjectScaling,
+		};
+	};
+
+	namespace ModelEditorAxis
+	{
+		enum Enum
+		{
+			AxisGlobal,
+			AxisLocal,
 		};
 	};
 
@@ -70,6 +90,8 @@ namespace modeleditor
 		int										originX, originY;
 		ModelEditorOperation::Enum				modelEditorOperation;
 		bool									modelEditorOperationActivated;
+		ModelEditorMode::Enum					modelEditorMode;
+		ModelEditorAxis::Enum					modelEditorAxis;
 
 		ModelEditorData();
 		~ModelEditorData();
@@ -124,6 +146,9 @@ namespace modeleditor
 		void									RenderSelectorModelIndexIncremented();
 		void									RenderSelectorSelected();
 		unsigned __int32						GetSelectorResult(int x, int y);
+		void									RenderAxisLine();
+		void									RenderAxisObject();
+		void									RenderEditorMode();
 	public:
 		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
 		~ModelEditorWindow();

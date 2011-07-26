@@ -18,8 +18,6 @@ namespace modeleditor
 		{
 		case WM_ERASEBKGND:
 			return 0;
-		case WM_PAINT:
-			return 0;
 		case WM_SIZE:
 			editorWindow->Resize();
 			editorWindow->Render();
@@ -34,7 +32,7 @@ namespace modeleditor
 						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
 						case ModelEditorOperation::None:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Moving;
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewMoving;
 							break;
 						}
 					}
@@ -44,10 +42,28 @@ namespace modeleditor
 						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
 						case ModelEditorOperation::None:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Zooming;
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewZooming;
 							break;
 						}
 					}
+					break;
+				case 'C':
+					EditorModeSelection(editorWindow);
+					break;
+				case 'T':
+					EditorModeTranslation(editorWindow);
+					break;
+				case 'R':
+					EditorModeRotation(editorWindow);
+					break;
+				case 'S':
+					EditorModeScaling(editorWindow);
+					break;
+				case 'G':
+					EditorAxisGlobal(editorWindow);
+					break;
+				case 'L':
+					EditorAxisLocal(editorWindow);
 					break;
 				}
 			}
@@ -61,7 +77,7 @@ namespace modeleditor
 					{
 						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ModelEditorOperation::Moving:
+						case ModelEditorOperation::ViewMoving:
 							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
 							break;
 						}
@@ -71,7 +87,7 @@ namespace modeleditor
 					{
 						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ModelEditorOperation::Zooming:
+						case ModelEditorOperation::ViewZooming:
 							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
 							break;
 						}
@@ -83,9 +99,9 @@ namespace modeleditor
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
-				switch(editorWindow->modelEditorData.modelEditorOperation)
+				switch(editorWindow->modelEditorData.modelEditorMode)
 				{
-				case ModelEditorOperation::None:
+				case ModelEditorMode::ObjectSelection:
 					{
 						WindowMouseInfo info(wParam, lParam, false);
 						int index=editorWindow->QueryModel(info.x, info.y);
@@ -103,14 +119,14 @@ namespace modeleditor
 				{
 				case ModelEditorOperation::None:
 					{
-						editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Rotation;
+						editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewRotation;
 						editorWindow->modelEditorData.modelEditorOperationActivated=true;
 						editorWindow->modelEditorData.originX=info.x;
 						editorWindow->modelEditorData.originY=info.y;
 					}
 					break;
-				case ModelEditorOperation::Zooming:
-				case ModelEditorOperation::Moving:
+				case ModelEditorOperation::ViewZooming:
+				case ModelEditorOperation::ViewMoving:
 					{
 						editorWindow->modelEditorData.modelEditorOperationActivated=true;
 						editorWindow->modelEditorData.originX=info.x;
@@ -125,14 +141,14 @@ namespace modeleditor
 				WindowMouseInfo info(wParam, lParam, false);
 				switch(editorWindow->modelEditorData.modelEditorOperation)
 				{
-				case ModelEditorOperation::Rotation:
+				case ModelEditorOperation::ViewRotation:
 					{
 						editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
 						editorWindow->modelEditorData.modelEditorOperationActivated=false;
 					}
 					break;
-				case ModelEditorOperation::Zooming:
-				case ModelEditorOperation::Moving:
+				case ModelEditorOperation::ViewZooming:
+				case ModelEditorOperation::ViewMoving:
 					{
 						editorWindow->modelEditorData.modelEditorOperationActivated=false;
 					}
@@ -147,7 +163,7 @@ namespace modeleditor
 				{
 					switch(editorWindow->modelEditorData.modelEditorOperation)
 					{
-					case ModelEditorOperation::Rotation:
+					case ModelEditorOperation::ViewRotation:
 						{
 							int deltaX=info.x-editorWindow->modelEditorData.originX;
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
@@ -164,7 +180,7 @@ namespace modeleditor
 							editorWindow->modelEditorData.originY=info.y;
 						}
 						break;
-					case ModelEditorOperation::Zooming:
+					case ModelEditorOperation::ViewZooming:
 						{
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
 							float distance=(float)deltaY/20;
@@ -176,7 +192,7 @@ namespace modeleditor
 							editorWindow->modelEditorData.originY=info.y;
 						}
 						break;
-					case ModelEditorOperation::Moving:
+					case ModelEditorOperation::ViewMoving:
 						{
 							int deltaX=info.x-editorWindow->modelEditorData.originX;
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
@@ -219,6 +235,7 @@ extern "C"
 	MODELEDITORCORE_API void __stdcall RenderEditorWindow(ModelEditorWindow* window)
 	{
 		window->Render();
+		SendMessage(window->editorControl, WM_PAINT, 0, 0);
 	}
 
 	MODELEDITORCORE_API void __stdcall DestroyModel(ModelEditorWindow* window, Model* model)
@@ -243,5 +260,47 @@ extern "C"
 	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
 	{
 		return CreateModel(window, BuildCube);
+	}
+
+	MODELEDITORCORE_API void __stdcall ResetView(ModelEditorWindow* window)
+	{
+		window->ViewReset();
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorModeSelection(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectSelection;
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorModeTranslation(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectTranslation;
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorModeRotation(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectRotation;
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorModeScaling(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectScaling;
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorAxisGlobal(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorAxis=ModelEditorAxis::AxisGlobal;
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorAxisLocal(ModelEditorWindow* window)
+	{
+		window->modelEditorData.modelEditorAxis=ModelEditorAxis::AxisLocal;
+		window->Render();
 	}
 }

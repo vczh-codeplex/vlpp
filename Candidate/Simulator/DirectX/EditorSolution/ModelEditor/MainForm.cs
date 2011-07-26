@@ -38,5 +38,45 @@ namespace ModelEditor
             ModelEditorCore.DestroyEditorWindow(this.editorWindow);
             this.editorWindow = IntPtr.Zero;
         }
+
+        private void timerRenderer_Tick(object sender, EventArgs e)
+        {
+            ModelEditorCore.RenderEditorWindow(this.editorWindow);
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.ResetView(this.editorWindow);
+        }
+
+        private void cSelectionModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeSelection(this.editorWindow);
+        }
+
+        private void tTranslationModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeTranslation(this.editorWindow);
+        }
+
+        private void rRotationModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeRotation(this.editorWindow);
+        }
+
+        private void sScalingModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeScaling(this.editorWindow);
+        }
+
+        private void gGlobalAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorAxisGlobal(this.editorWindow);
+        }
+
+        private void lLocalAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorAxisLocal(this.editorWindow);
+        }
     }
 }
