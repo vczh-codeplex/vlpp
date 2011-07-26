@@ -8,16 +8,17 @@ cbuffer MatrixBuffer : register(b0)
 struct VIn
 {
 	float4 position : POSITION;
-	float3 normal : NORMAL;
-	float4 color : COLOR;
-	uint id : TEXCOORD;
+	float2 tex : TEXCOORD;
 };
 
 struct PIn
 {
     float4 position : SV_POSITION;
-    uint color : COLOR;
+	float2 tex : TEXCOORD;
 };
+
+Texture2D shaderTexture : register(t0);
+SamplerState shaderSampler : register(s0);
 
 PIn VShader(VIn input)
 {
@@ -28,12 +29,13 @@ PIn VShader(VIn input)
     output.position = mul(output.position, viewMatrix);
     output.position = mul(output.position, projectionMatrix);
 
-    output.color = input.id;
+    output.tex = input.tex;
     
     return output;
 }
 
-uint PShader(PIn input) : SV_TARGET
+float4 PShader(PIn input) : SV_TARGET
 {
-	return input.color;
+	float4 color=shaderTexture.Sample(shaderSampler, input.tex);
+	return color;
 }

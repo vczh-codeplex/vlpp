@@ -3,6 +3,7 @@
 
 #include "..\..\Shared\DirectXSetup.h"
 #include "..\..\Shared\DirectXShader.h"
+#include "..\..\Shared\WindowGDI.h"
 #include "..\..\..\..\..\..\Library\Pointer.h"
 
 using namespace vl;
@@ -15,6 +16,12 @@ namespace modeleditor
 	{
 		D3DXVECTOR3								position;
 		D3DXCOLOR								color;
+	};
+
+	struct VertexImage
+	{
+		D3DXVECTOR3								position;
+		D3DXVECTOR2								texcoord;
 	};
 	
 	struct VertexObject
@@ -99,6 +106,8 @@ namespace modeleditor
 
 	class ModelEditorWindow
 	{
+	private:
+		static const int						EditorModeTextureSize=256;
 	public:
 		HWND									editorControl;
 		UINT									subclass;
@@ -129,6 +138,12 @@ namespace modeleditor
 		float									viewAngleHorizontal;
 		float									viewDistance;
 
+		Ptr<WinBitmap>							editorModeBitmap;
+		DirectXTextureBuffer*					editorModeTexture;
+		DirectXVertexBuffer<VertexImage>*		editorModeRectangle;
+		DirectXShader<VertexImage>*				editorModeShader;
+		DirectXSamplerBuffer*					editorModeSampler;
+
 	protected:
 		List<Ptr<Model>>						models;
 
@@ -148,6 +163,7 @@ namespace modeleditor
 		unsigned __int32						GetSelectorResult(int x, int y);
 		void									RenderAxisLine();
 		void									RenderAxisObject();
+		void									UpdateEditorMode();
 		void									RenderEditorMode();
 	public:
 		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
@@ -169,6 +185,9 @@ namespace modeleditor
 		void									ViewRotateVertical(float angle);
 		void									ViewRotateHorizontal(float angle);
 		void									ViewMove(float left, float up, float front);
+
+		void									SetEditorMode(ModelEditorMode::Enum value);
+		void									SetEditorAxis(ModelEditorAxis::Enum value);
 	};
 }
 

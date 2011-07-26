@@ -266,6 +266,13 @@ Texture Buffer
 			ID3D11Texture2D*			texture;
 			ID3D11ShaderResourceView*	shaderResourceView;
 		public:
+			enum Access
+			{
+				GpuOnly,
+				CpuRead,
+				CpuWrite,
+			};
+		public:
 			DirectXTextureBuffer(const DirectXEnvironment* _env);
 			~DirectXTextureBuffer();
 
@@ -276,11 +283,12 @@ Texture Buffer
 			void						PSBindToRegisterTN(int index);
 
 			void						Update(const WString& fileName);
-			void						Update(int width, int height, int arraySize, bool forCubeMap, bool forStaging, DXGI_FORMAT format);
+			void						Update(int width, int height, int arraySize, bool forCubeMap, Access access, DXGI_FORMAT format);
 			void						UpdateSingle(int width, int height);
 			void						UpdateArray(int width, int height, int arraySize);
 			void						UpdateCube(int width, int height);
-			void						UpdateUint(int width, int height, bool forStaging);
+			void						UpdateUint(int width, int height, Access access);
+			void						UpdateRGBA(int width, int height, Access access);
 		};
 
 /***********************************************************************

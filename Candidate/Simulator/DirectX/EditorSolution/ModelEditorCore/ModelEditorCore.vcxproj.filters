@@ -72,6 +72,9 @@
     <ClCompile Include="Core\ModelBuilder.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Shared\WindowGDI.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelEditorCore.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Core\ModelBuilder.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\WindowGDI.h">
+      <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
