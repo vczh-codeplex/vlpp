@@ -504,7 +504,7 @@ ModelEditorWindow
 
 		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
 		depthBuffer->Clear();
-		renderTarget->Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+		renderTarget->Clear(D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f));
 		
 		constantBuffer->VSBindToRegisterBN(0);
 		constantBuffer->PSBindToRegisterBN(0);
