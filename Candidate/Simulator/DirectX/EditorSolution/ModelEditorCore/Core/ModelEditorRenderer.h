@@ -69,6 +69,7 @@ namespace modeleditor
 			ViewRotation,
 			ViewZooming,
 			ViewMoving,
+			ObjectEditing,
 		};
 	};
 
@@ -92,6 +93,17 @@ namespace modeleditor
 		};
 	};
 
+	namespace ModelEditorAxisDirection
+	{
+		enum Enum
+		{
+			None,
+			X,
+			Y,
+			Z,
+		};
+	};
+
 	struct ModelEditorData
 	{
 		int										originX, originY;
@@ -99,6 +111,7 @@ namespace modeleditor
 		bool									modelEditorOperationActivated;
 		ModelEditorMode::Enum					modelEditorMode;
 		ModelEditorAxis::Enum					modelEditorAxis;
+		ModelEditorAxisDirection::Enum			modelEditorAxisDirection;
 
 		ModelEditorData();
 		~ModelEditorData();
@@ -107,7 +120,7 @@ namespace modeleditor
 	class ModelEditorWindow
 	{
 	private:
-		static const int						EditorModeTextureSize=256;
+		static const int						EditorModeTextureSize=512;
 	public:
 		HWND									editorControl;
 		UINT									subclass;
@@ -157,7 +170,7 @@ namespace modeleditor
 		void									Finalize();
 		void									RebuildModels();
 
-		void									RenderSelector();
+		void									RenderSelector(bool onlySelected);
 		void									RenderSelectorModelIndexIncremented();
 		void									RenderSelectorSelected();
 		unsigned __int32						GetSelectorResult(int x, int y);
@@ -188,6 +201,7 @@ namespace modeleditor
 
 		void									SetEditorMode(ModelEditorMode::Enum value);
 		void									SetEditorAxis(ModelEditorAxis::Enum value);
+		void									SetEditorAxisDirection(ModelEditorAxisDirection::Enum value);
 	};
 }
 

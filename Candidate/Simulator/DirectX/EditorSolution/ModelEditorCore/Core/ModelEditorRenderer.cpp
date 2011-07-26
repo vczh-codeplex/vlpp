@@ -61,6 +61,7 @@ ModelEditorData
 		,modelEditorOperationActivated(false)
 		,modelEditorMode(ModelEditorMode::ObjectSelection)
 		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
+		,modelEditorAxisDirection(ModelEditorAxisDirection::None)
 	{
 	}
 
@@ -267,7 +268,7 @@ ModelEditorWindow
 		}
 	}
 
-	void ModelEditorWindow::RenderSelector()
+	void ModelEditorWindow::RenderSelector(bool onlySelected)
 	{
 		renderer->SetRenderTarget(selectorRenderTarget, depthBuffer);
 		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
@@ -280,8 +281,11 @@ ModelEditorWindow
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			UpdateConstantBuffer(model->worldMatrix);
-			model->Geometry()->SetCurrentAndRender(shaderSelector);
+			if(!onlySelected || model->selected)
+			{
+				UpdateConstantBuffer(model->worldMatrix);
+				model->Geometry()->SetCurrentAndRender(shaderSelector);
+			}
 		}
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
@@ -297,7 +301,7 @@ ModelEditorWindow
 			}
 			model->Update();
 		}
-		RenderSelector();
+		RenderSelector(false);
 	}
 
 	void ModelEditorWindow::RenderSelectorSelected()
@@ -312,7 +316,7 @@ ModelEditorWindow
 			}
 			model->Update();
 		}
-		RenderSelector();
+		RenderSelector(true);
 	}
 
 	unsigned __int32 ModelEditorWindow::GetSelectorResult(int x, int y)
@@ -363,28 +367,44 @@ ModelEditorWindow
 	{
 		WinDC* dc=editorModeBitmap->GetWinDC();
 		dc->FillRect(0, 0, EditorModeTextureSize, EditorModeTextureSize);
+
+		WString axisDirection;
+		switch(modelEditorData.modelEditorAxisDirection)
+		{
+		case ModelEditorAxisDirection::X:
+			axisDirection=L"(X)";
+			break;
+		case ModelEditorAxisDirection::Y:
+			axisDirection=L"(Y)";
+			break;
+		case ModelEditorAxisDirection::Z:
+			axisDirection=L"(Z)";
+			break;
+		}
+
+		dc->DrawString(10, 10, L"Change View\t\t\t\t\t{RBUTTON + (CTRL|SHIFT|NONE)}", 32, 10);
 		switch(modelEditorData.modelEditorMode)
 		{
 		case ModelEditorMode::ObjectSelection:
-			dc->DrawString(10, 10, L"Editor Mode: Selection");
+			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Select\t\t{LBUTTON}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectTranslation:
-			dc->DrawString(10, 10, L"Editor Mode: Translation");
+			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Move"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectRotation:
-			dc->DrawString(10, 10, L"Editor Mode: Rotation");
+			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(10, 10, L"Editor Mode: Scaling");
+			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Scale\t\t{LBUTTON}", 32, 10);
 			break;
 		}
 		switch(modelEditorData.modelEditorAxis)
 		{
 		case ModelEditorAxis::AxisGlobal:
-			dc->DrawString(10, 30, L"Relative Axis: Global");
+			dc->DrawString(10, 50, L"Relative Axis[GL]\t\t: Global", 32, 10);
 			break;
 		case ModelEditorAxis::AxisLocal:
-			dc->DrawString(10, 30, L"Relative Axis: Local");
+			dc->DrawString(10, 50, L"Relative Axis[GL]\t\t: Local", 32, 10);
 			break;
 		}
 		
@@ -473,6 +493,11 @@ ModelEditorWindow
 	void ModelEditorWindow::AddModel(Model* model)
 	{
 		models.Add(model);
+		D3DXMatrixTranslation(&model->worldMatrix, viewAt.x, viewAt.y, viewAt.z);
+		for(int i=0;i<models.Count();i++)
+		{
+			models[i]->selected=i==models.Count()-1;
+		}
 	}
 
 	void ModelEditorWindow::RemoveModel(Model* model)
@@ -577,6 +602,12 @@ ModelEditorWindow
 	void ModelEditorWindow::SetEditorAxis(ModelEditorAxis::Enum value)
 	{
 		modelEditorData.modelEditorAxis=value;
+		UpdateEditorMode();
+	}
+
+	void ModelEditorWindow::SetEditorAxisDirection(ModelEditorAxisDirection::Enum value)
+	{
+		modelEditorData.modelEditorAxisDirection=value;
 		UpdateEditorMode();
 	}
 }
