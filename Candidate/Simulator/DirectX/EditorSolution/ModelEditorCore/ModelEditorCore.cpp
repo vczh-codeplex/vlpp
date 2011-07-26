@@ -270,37 +270,37 @@ extern "C"
 
 	MODELEDITORCORE_API void __stdcall EditorModeSelection(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectSelection;
+		window->SetEditorMode(ModelEditorMode::ObjectSelection);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeTranslation(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectTranslation;
+		window->SetEditorMode(ModelEditorMode::ObjectTranslation);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeRotation(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectRotation;
+		window->SetEditorMode(ModelEditorMode::ObjectRotation);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeScaling(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorMode=ModelEditorMode::ObjectScaling;
+		window->SetEditorMode(ModelEditorMode::ObjectScaling);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorAxisGlobal(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorAxis=ModelEditorAxis::AxisGlobal;
+		window->SetEditorAxis(ModelEditorAxis::AxisGlobal);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorAxisLocal(ModelEditorWindow* window)
 	{
-		window->modelEditorData.modelEditorAxis=ModelEditorAxis::AxisLocal;
+		window->SetEditorAxis(ModelEditorAxis::AxisLocal);
 		window->Render();
 	}
 }

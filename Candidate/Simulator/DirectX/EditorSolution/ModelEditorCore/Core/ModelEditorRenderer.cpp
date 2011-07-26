@@ -4,7 +4,6 @@
 
 namespace modeleditor
 {
-
 	template<typename T>
 	void DeleteAndZero(T*& object)
 	{
@@ -154,12 +153,16 @@ ModelEditorWindow
 		env=new DirectXEnvironment(editorControl, clientSize.cx, clientSize.cy);
 
 		depthBuffer=new DirectXDepthBuffer(env);
+		depthBuffer->Update(clientSize.cx, clientSize.cy);
 		renderTarget=new DirectXWindowRenderTarget(env);
 		renderer=new DirectXRenderer(env);
 		viewport=new DirectXViewport(env);
 		selectorStagingBuffer=new DirectXTextureBuffer(env);
+		selectorStagingBuffer->UpdateUint(clientSize.cx, clientSize.cy, DirectXTextureBuffer::CpuRead);
 		selectorBuffer=new DirectXTextureBuffer(env);
+		selectorBuffer->UpdateUint(clientSize.cx, clientSize.cy, DirectXTextureBuffer::GpuOnly);
 		selectorRenderTarget=new DirectXTextureRenderTarget(env);
+		selectorRenderTarget->Update(selectorBuffer);
 
 		constantBuffer=new DirectXConstantBuffer<ConstantBuffer>(env);
 		geometryAxisLine=new DirectXVertexBuffer<VertexAxis>(env);
@@ -192,16 +195,53 @@ ModelEditorWindow
 			.Field(L"COLOR", &VertexObject::color)
 			.Field(L"TEXCOORD", &VertexObject::id)
 			;
-			
-		depthBuffer->Update(clientSize.cx, clientSize.cy);
-		selectorStagingBuffer->UpdateUint(clientSize.cx, clientSize.cy, true);
-		selectorBuffer->UpdateUint(clientSize.cx, clientSize.cy, false);
-		selectorRenderTarget->Update(selectorBuffer);
+		
+		if(!editorModeBitmap)
+		{
+			editorModeBitmap=new WinBitmap(EditorModeTextureSize, EditorModeTextureSize, WinBitmap::vbb32Bits, true);
+			editorModeBitmap->GetWinDC()->SetBackTransparent(true);
+			editorModeBitmap->GetWinDC()->SetBrush(new WinBrush(RGB(0, 0, 0)));
+			editorModeBitmap->GetWinDC()->SetTextColor(RGB(255, 255, 255));
+		}
+		editorModeTexture=new DirectXTextureBuffer(env);
+		editorModeTexture->UpdateRGBA(EditorModeTextureSize, EditorModeTextureSize, DirectXTextureBuffer::CpuWrite);
+		UpdateEditorMode();
+
+		editorModeRectangle=new DirectXVertexBuffer<VertexImage>(env);
+		{
+			VertexImage vertices[4] =
+			{
+				{D3DXVECTOR3(-1, -1, 0), D3DXVECTOR2( 0,  1)},
+				{D3DXVECTOR3( 1, -1, 0), D3DXVECTOR2( 1,  1)},
+				{D3DXVECTOR3( 1,  1, 0), D3DXVECTOR2( 1,  0)},
+				{D3DXVECTOR3(-1,  1, 0), D3DXVECTOR2( 0,  0)},
+			};
+
+			unsigned __int32 indices[6] =
+			{
+				0, 3, 2,
+				0, 2, 1,
+			};
+
+			editorModeRectangle->Fill(vertices, indices);
+		}
+		editorModeShader=new DirectXShader<VertexImage>(env);
+		editorModeShader->Fill(workingDirectory+L"Shaders\\ImageShader.txt", L"VShader", L"PShader")
+			.Field(L"POSITION", &VertexImage::position)
+			.Field(L"TEXCOORD", &VertexImage::texcoord)
+			;
+		editorModeSampler=new DirectXSamplerBuffer(env);
+		editorModeSampler->Update(D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_BORDER, D3DXCOLOR(0, 0, 0, 0));
+
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 
 	void ModelEditorWindow::Finalize()
 	{
+		DeleteAndZero(editorModeSampler);
+		DeleteAndZero(editorModeShader);
+		DeleteAndZero(editorModeRectangle);
+		DeleteAndZero(editorModeTexture);
 		DeleteAndZero(shaderSelector);
 		DeleteAndZero(shaderSelectedObject);
 		DeleteAndZero(shaderObject);
@@ -319,8 +359,76 @@ ModelEditorWindow
 		geometryAxisObject->Geometry()->SetCurrentAndRender(shaderObject);
 	}
 
+	void ModelEditorWindow::UpdateEditorMode()
+	{
+		WinDC* dc=editorModeBitmap->GetWinDC();
+		dc->FillRect(0, 0, EditorModeTextureSize, EditorModeTextureSize);
+		switch(modelEditorData.modelEditorMode)
+		{
+		case ModelEditorMode::ObjectSelection:
+			dc->DrawString(0, 0, L"Editor Mode: Selection");
+			break;
+		case ModelEditorMode::ObjectTranslation:
+			dc->DrawString(0, 0, L"Editor Mode: Translation");
+			break;
+		case ModelEditorMode::ObjectRotation:
+			dc->DrawString(0, 0, L"Editor Mode: Rotation");
+			break;
+		case ModelEditorMode::ObjectScaling:
+			dc->DrawString(0, 0, L"Editor Mode: Scaling");
+			break;
+		}
+		switch(modelEditorData.modelEditorAxis)
+		{
+		case ModelEditorAxis::AxisGlobal:
+			dc->DrawString(0, 20, L"Relative Axis: Global");
+			break;
+		case ModelEditorAxis::AxisLocal:
+			dc->DrawString(0, 20, L"Relative Axis: Local");
+			break;
+		}
+		
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		ZeroMemory(&mappedResource, sizeof(mappedResource));
+		env->context->Map(editorModeTexture->RawTexture(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+		for(int y=0;y<EditorModeTextureSize;y++)
+		{
+			unsigned char* src=editorModeBitmap->GetScanLines()[y];
+			unsigned char* dst=(unsigned char*)mappedResource.pData+y*mappedResource.RowPitch;
+			for(int x=0;x<EditorModeTextureSize;x++)
+			{
+				dst[0]=255;
+				dst[1]=255;
+				dst[2]=0;
+				dst[3]=(src[0]+src[1]+src[2])/3;
+
+				src+=4;
+				dst+=4;
+			}
+		}
+
+		env->context->Unmap(editorModeTexture->RawTexture(), 0);
+	}
+
 	void ModelEditorWindow::RenderEditorMode()
 	{
+		viewport->SetViewport(0, 0, EditorModeTextureSize, EditorModeTextureSize, (float)D3DX_PI/2, 0.1f, 1000.0f);
+		depthBuffer->Clear();
+
+		{
+			D3DXMATRIX worldMatrix, viewMatrix;
+			D3DXMatrixIdentity(&worldMatrix);
+			D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -1), &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 1, 0));
+			D3DXMatrixTranspose(&(*constantBuffer)->worldMatrix, &worldMatrix);
+			D3DXMatrixTranspose(&(*constantBuffer)->viewMatrix, &viewMatrix);
+			D3DXMatrixTranspose(&(*constantBuffer)->projectionMatrix, &viewport->projectionMatrix);
+			constantBuffer->Update();
+		}
+
+		editorModeTexture->PSBindToRegisterTN(0);
+		editorModeSampler->PSBindToRegisterSN(0);
+		editorModeRectangle->SetCurrentAndRender(editorModeShader);
 	}
 
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
@@ -342,6 +450,10 @@ ModelEditorWindow
 		,shaderObject(0)
 		,shaderSelectedObject(0)
 		,shaderSelector(0)
+		,editorModeTexture(0)
+		,editorModeRectangle(0)
+		,editorModeShader(0)
+		,editorModeSampler(0)
 	{
 		clientSize=WindowGetClient(editorControl);
 		Initialize();
@@ -454,5 +566,17 @@ ModelEditorWindow
 			viewAt.y + left*viewLeft.y + up*viewUp.y + front*viewFront.y,
 			viewAt.z + left*viewLeft.z + up*viewUp.z + front*viewFront.z
 			);
+	}
+
+	void ModelEditorWindow::SetEditorMode(ModelEditorMode::Enum value)
+	{
+		modelEditorData.modelEditorMode=value;
+		UpdateEditorMode();
+	}
+
+	void ModelEditorWindow::SetEditorAxis(ModelEditorAxis::Enum value)
+	{
+		modelEditorData.modelEditorAxis=value;
+		UpdateEditorMode();
 	}
 }

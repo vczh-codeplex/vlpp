@@ -47,7 +47,7 @@ DirectXTextureBuffer
 			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &shaderResourceView, NULL);
 		}
 
-		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap, bool forStaging, DXGI_FORMAT format)
+		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap, Access access, DXGI_FORMAT format)
 		{
 			if(texture)
 			{
@@ -69,14 +69,37 @@ DirectXTextureBuffer
 				textureDesc.ArraySize = arraySize==-1?1:arraySize;
 				textureDesc.Format = format;
 				textureDesc.SampleDesc.Count = 1;
-				textureDesc.Usage = (forStaging?D3D11_USAGE_STAGING:D3D11_USAGE_DEFAULT);
-				textureDesc.BindFlags = (forStaging?0:D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
-				textureDesc.CPUAccessFlags = (forStaging?D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE:0);
-				textureDesc.MiscFlags = forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
+				switch(access)
+				{
+				case GpuOnly:
+					{
+						textureDesc.Usage=D3D11_USAGE_DEFAULT;
+						textureDesc.BindFlags=D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+						textureDesc.CPUAccessFlags=0;
+						textureDesc.MiscFlags=forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
+					}
+					break;
+				case CpuRead:
+					{
+						textureDesc.Usage=D3D11_USAGE_STAGING;
+						textureDesc.BindFlags=0;
+						textureDesc.CPUAccessFlags=D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+						textureDesc.MiscFlags=forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
+					}
+					break;
+				case CpuWrite:
+					{
+						textureDesc.Usage=D3D11_USAGE_DYNAMIC;
+						textureDesc.BindFlags=D3D11_BIND_SHADER_RESOURCE;
+						textureDesc.CPUAccessFlags=D3D11_CPU_ACCESS_WRITE;
+						textureDesc.MiscFlags=forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
+					}
+					break;
+				}
 				if(FAILED(hr=env->device->CreateTexture2D(&textureDesc, NULL, &texture)))
 					return;
 			}
-			if(!forStaging)
+			if(access!=CpuRead)
 			{
 				D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
 				shaderResourceViewDesc.Format = format;
@@ -101,22 +124,27 @@ DirectXTextureBuffer
 
 		void DirectXTextureBuffer::UpdateSingle(int width, int height)
 		{
-			Update(width, height, -1, false, false, DXGI_FORMAT_R32G32B32A32_FLOAT);
+			Update(width, height, -1, false, GpuOnly, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		}
 
 		void DirectXTextureBuffer::UpdateArray(int width, int height, int arraySize)
 		{
-			Update(width, height, arraySize, false, false, DXGI_FORMAT_R32G32B32A32_FLOAT);
+			Update(width, height, arraySize, false, GpuOnly, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		}
 
 		void DirectXTextureBuffer::UpdateCube(int width, int height)
 		{
-			Update(width, height, 6, true, false, DXGI_FORMAT_R32G32B32A32_FLOAT);
+			Update(width, height, 6, true, GpuOnly, DXGI_FORMAT_R32G32B32A32_FLOAT);
 		}
 
-		void DirectXTextureBuffer::UpdateUint(int width, int height, bool forStaging)
+		void DirectXTextureBuffer::UpdateUint(int width, int height, Access access)
 		{
-			Update(width, height, -1, false, forStaging, DXGI_FORMAT_R32_UINT);
+			Update(width, height, -1, false, access, DXGI_FORMAT_R32_UINT);
+		}
+
+		void DirectXTextureBuffer::UpdateRGBA(int width, int height, Access access)
+		{
+			Update(width, height, -1, false, access, DXGI_FORMAT_R8G8B8A8_UINT);
 		}
 
 /***********************************************************************
