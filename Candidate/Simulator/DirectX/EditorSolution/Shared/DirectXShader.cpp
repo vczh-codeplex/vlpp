@@ -144,7 +144,7 @@ DirectXTextureBuffer
 
 		void DirectXTextureBuffer::UpdateRGBA(int width, int height, Access access)
 		{
-			Update(width, height, -1, false, access, DXGI_FORMAT_R8G8B8A8_UINT);
+			Update(width, height, -1, false, access, DXGI_FORMAT_R8G8B8A8_UNORM);
 		}
 
 /***********************************************************************
