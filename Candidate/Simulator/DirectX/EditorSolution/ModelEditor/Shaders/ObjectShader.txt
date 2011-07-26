@@ -61,7 +61,7 @@ float4 PShader(PIn input) : SV_TARGET
 			}
 		}
 
-		float selectedBlend = 0.9*counter/25.0;
+		float selectedBlend = 0.7*counter/25.0;
 		float4 selectedColor = float4(1.0, 0.5, 0.0, 1.0);
 		color = color * selectedBlend + selectedColor * (1-selectedBlend);
 	}

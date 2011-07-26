@@ -1,4 +1,5 @@
 #include "ModelEditorRenderer.h"
+#include "ModelBuilder.h"
 #include "..\..\Shared\WindowSetup.h"
 
 namespace modeleditor
@@ -135,7 +136,7 @@ ModelEditorWindow
 		{
 			D3DXCOLOR color=D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
 			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(0, 0, 0);
+			vertices[currentVertex++].position=D3DXVECTOR3(0, -cellSize*size/2, 0);
 			vertices[currentVertex].color=color;
 			vertices[currentVertex++].position=D3DXVECTOR3(0, cellSize*size/2, 0);
 		}
@@ -143,7 +144,7 @@ ModelEditorWindow
 		{
 			indices[i]=i;
 		}
-		geometryAxis->Fill(vertices, indices);
+		geometryAxisLine->Fill(vertices, indices);
 	}
 
 	void ModelEditorWindow::Initialize()
@@ -159,7 +160,10 @@ ModelEditorWindow
 		selectorRenderTarget=new DirectXTextureRenderTarget(env);
 
 		constantBuffer=new DirectXConstantBuffer<ConstantBuffer>(env);
-		geometryAxis=new DirectXVertexBuffer<VertexAxis>(env);
+		geometryAxisLine=new DirectXVertexBuffer<VertexAxis>(env);
+		geometryAxisObject = new Model(env);
+		BuildAxis(geometryAxisObject);
+		geometryAxisObject->Update();
 		shaderAxis=new DirectXShader<VertexAxis>(env);
 		shaderAxis->Fill(workingDirectory+L"Shaders\\AxisShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &VertexAxis::position)
@@ -192,7 +196,8 @@ ModelEditorWindow
 		DeleteAndZero(shaderSelector);
 		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
-		DeleteAndZero(geometryAxis);
+		DeleteAndZero(geometryAxisObject);
+		DeleteAndZero(geometryAxisLine);
 		DeleteAndZero(constantBuffer);
 		DeleteAndZero(selectorRenderTarget);
 		DeleteAndZero(selectorBuffer);
@@ -295,8 +300,11 @@ ModelEditorWindow
 		,selectorBuffer(0)
 		,selectorRenderTarget(0)
 		,constantBuffer(0)
-		,geometryAxis(0)
+		,geometryAxisLine(0)
+		,geometryAxisObject(0)
 		,shaderAxis(0)
+		,shaderObject(0)
+		,shaderSelector(0)
 	{
 		clientSize=WindowGetClient(editorControl);
 		Initialize();
@@ -353,18 +361,29 @@ ModelEditorWindow
 		constantBuffer->PSBindToRegisterBN(0);
 		selectorBuffer->PSBindToRegisterTN(0);
 
-		{
-			D3DXMATRIX axisWorldMatrix;
-			D3DXMatrixIdentity(&axisWorldMatrix);
-			UpdateConstantBuffer(axisWorldMatrix);
-			UpdateGeometryAxis();
-			geometryAxis->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
-		}
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
 			UpdateConstantBuffer(model->worldMatrix);
 			model->Geometry()->SetCurrentAndRender(shaderObject);
+		}
+		{
+			D3DXMATRIX axisWorldMatrix;
+			D3DXMatrixIdentity(&axisWorldMatrix);
+			UpdateConstantBuffer(axisWorldMatrix);
+			UpdateGeometryAxis();
+			geometryAxisLine->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
+		{
+			viewport->SetViewport(0, clientSize.cy-100, 100, 100, (float)D3DX_PI/2, 0.1f, 1000.0f);
+			depthBuffer->Clear();
+
+			D3DXMATRIX axisWorldMatrix, axisTranslation;
+			D3DXMatrixScaling(&axisWorldMatrix, 2.0f, 2.0f, 2.0f);
+			D3DXMatrixTranslation(&axisTranslation, viewAt.x, viewAt.y, viewAt.z);
+			D3DXMatrixMultiply(&axisWorldMatrix, &axisWorldMatrix, &axisTranslation);
+			UpdateConstantBuffer(axisWorldMatrix);
+			geometryAxisObject->Geometry()->SetCurrentAndRender(shaderObject);
 		}
 
 		env->swapChain->Present(0, 0);

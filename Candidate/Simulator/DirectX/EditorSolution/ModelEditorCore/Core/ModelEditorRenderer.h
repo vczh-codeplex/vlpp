@@ -95,7 +95,8 @@ namespace modeleditor
 		DirectXTextureRenderTarget*				selectorRenderTarget;
 
 		DirectXConstantBuffer<ConstantBuffer>*	constantBuffer;
-		DirectXVertexBuffer<VertexAxis>*		geometryAxis;
+		DirectXVertexBuffer<VertexAxis>*		geometryAxisLine;
+		Model*									geometryAxisObject;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 		DirectXShader<VertexObject>*			shaderSelector;

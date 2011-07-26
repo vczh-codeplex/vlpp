@@ -21,6 +21,9 @@ namespace ModelEditor
         public static extern void DestroyModel(IntPtr window, IntPtr model);
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateModelAxis(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateModelCube(IntPtr window);
     }
 }
