@@ -52,16 +52,16 @@ float4 PShader(PIn input) : SV_TARGET
 	if(selectedModel==1)
 	{
 		uint counter=0;
-		for(int i=-5;i<=5;i++)
+		for(int i=-2;i<=2;i++)
 		{
-			for(int j=-5;j<=5;j++)
+			for(int j=-2;j<=2;j++)
 			{
 				uint selected = selectorTexture.Load(int3(input.position.x+i, input.position.y+j, 0));
 				counter += selected;
 			}
 		}
 
-		float selectedBlend = 0.9*counter/121.0;
+		float selectedBlend = 0.9*counter/25.0;
 		float4 selectedColor = float4(1.0, 0.5, 0.0, 1.0);
 		color = color * selectedBlend + selectedColor * (1-selectedBlend);
 	}
