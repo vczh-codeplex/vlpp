@@ -366,25 +366,25 @@ ModelEditorWindow
 		switch(modelEditorData.modelEditorMode)
 		{
 		case ModelEditorMode::ObjectSelection:
-			dc->DrawString(0, 0, L"Editor Mode: Selection");
+			dc->DrawString(10, 10, L"Editor Mode: Selection");
 			break;
 		case ModelEditorMode::ObjectTranslation:
-			dc->DrawString(0, 0, L"Editor Mode: Translation");
+			dc->DrawString(10, 10, L"Editor Mode: Translation");
 			break;
 		case ModelEditorMode::ObjectRotation:
-			dc->DrawString(0, 0, L"Editor Mode: Rotation");
+			dc->DrawString(10, 10, L"Editor Mode: Rotation");
 			break;
 		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(0, 0, L"Editor Mode: Scaling");
+			dc->DrawString(10, 10, L"Editor Mode: Scaling");
 			break;
 		}
 		switch(modelEditorData.modelEditorAxis)
 		{
 		case ModelEditorAxis::AxisGlobal:
-			dc->DrawString(0, 20, L"Relative Axis: Global");
+			dc->DrawString(10, 30, L"Relative Axis: Global");
 			break;
 		case ModelEditorAxis::AxisLocal:
-			dc->DrawString(0, 20, L"Relative Axis: Local");
+			dc->DrawString(10, 30, L"Relative Axis: Local");
 			break;
 		}
 		
