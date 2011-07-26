@@ -65,6 +65,18 @@ namespace modeleditor
 				case 'L':
 					EditorAxisLocal(editorWindow);
 					break;
+				case 'X':
+					editorWindow->SetEditorAxisDirection(ModelEditorAxisDirection::X);
+					editorWindow->Render();
+					break;
+				case 'Y':
+					editorWindow->SetEditorAxisDirection(ModelEditorAxisDirection::Y);
+					editorWindow->Render();
+					break;
+				case 'Z':
+					editorWindow->SetEditorAxisDirection(ModelEditorAxisDirection::Z);
+					editorWindow->Render();
+					break;
 				}
 			}
 			break;
@@ -93,22 +105,50 @@ namespace modeleditor
 						}
 					}
 					break;
+				case 'X':
+				case 'Y':
+				case 'Z':
+					editorWindow->SetEditorAxisDirection(ModelEditorAxisDirection::None);
+					editorWindow->Render();
+					break;
 				}
 			}
 			break;
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
-				switch(editorWindow->modelEditorData.modelEditorMode)
+				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::None)
 				{
-				case ModelEditorMode::ObjectSelection:
+					WindowMouseInfo info(wParam, lParam, false);
+					switch(editorWindow->modelEditorData.modelEditorMode)
 					{
-						WindowMouseInfo info(wParam, lParam, false);
-						int index=editorWindow->QueryModel(info.x, info.y);
-						editorWindow->SelectModel(index);
-						editorWindow->Render();
+					case ModelEditorMode::ObjectSelection:
+						{
+							int index=editorWindow->QueryModel(info.x, info.y);
+							editorWindow->SelectModel(index);
+							editorWindow->Render();
+						}
+						break;
+					case ModelEditorMode::ObjectTranslation:
+					case ModelEditorMode::ObjectRotation:
+					case ModelEditorMode::ObjectScaling:
+						{
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ObjectEditing;
+							editorWindow->modelEditorData.modelEditorOperationActivated=true;
+							editorWindow->modelEditorData.originX=info.x;
+							editorWindow->modelEditorData.originY=info.y;
+						}
+						break;
 					}
-					break;
+				}
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::ObjectEditing)
+				{
+					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
+					editorWindow->modelEditorData.modelEditorOperationActivated=false;
 				}
 			}
 			break;
@@ -205,6 +245,111 @@ namespace modeleditor
 
 							editorWindow->modelEditorData.originX=info.x;
 							editorWindow->modelEditorData.originY=info.y;
+						}
+						break;
+					case ModelEditorOperation::ObjectEditing:
+						{
+							D3DXVECTOR3 axis;
+							bool available=true;
+							switch(editorWindow->modelEditorData.modelEditorAxisDirection)
+							{
+							case ModelEditorAxisDirection::None:
+								available=false;
+								break;
+							case ModelEditorAxisDirection::X:
+								axis=D3DXVECTOR3(1, 0, 0);
+								break;
+							case ModelEditorAxisDirection::Y:
+								axis=D3DXVECTOR3(0, 1, 0);
+								break;
+							case ModelEditorAxisDirection::Z:
+								axis=D3DXVECTOR3(0, 0, 1);
+								break;
+							}
+							if(available)
+							{
+								switch(editorWindow->modelEditorData.modelEditorMode)
+								{
+								case ModelEditorMode::ObjectTranslation:
+									{
+										int deltaY=info.y-editorWindow->modelEditorData.originY;
+										float distance=(float)deltaY/20;
+										D3DXMATRIX translation;
+										D3DXMatrixTranslation(&translation, axis.x*distance, axis.y*distance, axis.z*distance);
+
+										int count=editorWindow->ModelCount();
+										for(int i=0;i<count;i++)
+										{
+											Model* model=editorWindow->GetModel(i);
+											if(model->selected)
+											{
+												D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &translation);
+											}
+										}
+
+										editorWindow->Render();
+										editorWindow->modelEditorData.originX=info.x;
+										editorWindow->modelEditorData.originY=info.y;
+									}
+									break;
+								case ModelEditorMode::ObjectRotation:
+									{
+										int deltaY=info.y-editorWindow->modelEditorData.originY;
+										SIZE clientSize=WindowGetClient(hWnd);
+										float angle=(float)D3DX_PI*2*deltaY/clientSize.cy;
+										D3DXMATRIX rotation;
+										D3DXMatrixRotationAxis(&rotation, &axis, angle);
+
+										int count=editorWindow->ModelCount();
+										for(int i=0;i<count;i++)
+										{
+											Model* model=editorWindow->GetModel(i);
+											if(model->selected)
+											{
+												D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &rotation);
+											}
+										}
+
+										editorWindow->Render();
+										editorWindow->modelEditorData.originX=info.x;
+										editorWindow->modelEditorData.originY=info.y;
+									}
+									break;
+								}
+							}
+							else
+							{
+								switch(editorWindow->modelEditorData.modelEditorMode)
+								{
+								case ModelEditorMode::ObjectScaling:
+									{
+										int deltaY=info.y-editorWindow->modelEditorData.originY;
+										SIZE clientSize=WindowGetClient(hWnd);
+										float distance=
+											deltaY>0
+											?1+(float)deltaY/clientSize.cy*3
+											:1/(1-(float)deltaY/clientSize.cy*3)
+											;
+										D3DXMATRIX scaling;
+										D3DXMatrixScaling(&scaling, distance, distance, distance);
+
+										int count=editorWindow->ModelCount();
+										for(int i=0;i<count;i++)
+										{
+											Model* model=editorWindow->GetModel(i);
+											if(model->selected)
+											{
+												D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &scaling);
+											}
+										}
+
+										editorWindow->Render();
+										editorWindow->modelEditorData.originX=info.x;
+										editorWindow->modelEditorData.originY=info.y;
+									}
+									break;
+								}
+							}
 						}
 						break;
 					}

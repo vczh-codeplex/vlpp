@@ -78,5 +78,10 @@ namespace ModelEditor
         {
             ModelEditorCore.EditorAxisLocal(this.editorWindow);
         }
+
+        private void cubeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.CreateModelCube(this.editorWindow);
+        }
     }
 }

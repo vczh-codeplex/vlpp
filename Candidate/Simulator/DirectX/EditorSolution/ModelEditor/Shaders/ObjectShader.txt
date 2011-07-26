@@ -40,19 +40,7 @@ PIn VShader(VIn input)
     return output;
 }
 
-float4 PShader(PIn input) : SV_TARGET
-{
-	float4 materialColor = input.color;
-	float3 lightDirection = normalize(float3(1, 1, -1));
-	float brightness = 0.5 + max(0, dot(input.viewNormal, lightDirection))*0.5;
-
-	float4 color = materialColor * brightness;
-
-	color.a=1.0;
-	return color;
-}
-
-float4 PShaderSelected(PIn input) : SV_TARGET
+float4 PShaderCommon(PIn input, float4 selectionColor)
 {
 	float4 materialColor = input.color;
 	float3 lightDirection = normalize(float3(1, 1, -1));
@@ -73,11 +61,21 @@ float4 PShaderSelected(PIn input) : SV_TARGET
 			}
 		}
 
-		float selectedBlend = 0.7*counter/25.0;
-		float4 selectedColor = float4(1.0, 0.5, 0.0, 1.0);
+		float selectedBlend = 0.85*counter/25.0;
+		float4 selectedColor = selectionColor;
 		color = color * selectedBlend + selectedColor * (1-selectedBlend);
 	}
 
 	color.a=1.0;
 	return color;
+}
+
+float4 PShader(PIn input) : SV_TARGET
+{
+	return PShaderCommon(input, float4(0.6, 0.3, 0.0, 1.0));
+}
+
+float4 PShaderSelected(PIn input) : SV_TARGET
+{
+	return PShaderCommon(input, float4(1.0, 0.5, 0.0, 1.0));
 }
