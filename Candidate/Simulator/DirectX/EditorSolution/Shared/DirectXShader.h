@@ -47,7 +47,7 @@ Type Format Lookup
 		struct DirectXTypeFormatLookup<D3DXCOLOR>{static const DXGI_FORMAT Format = DXGI_FORMAT_R32G32B32A32_FLOAT;};
 
 		template<>
-		struct DirectXTypeFormatLookup<unsigned __int32>{static const DXGI_FORMAT Format = DXGI_FORMAT_R8G8B8A8_UINT;};
+		struct DirectXTypeFormatLookup<unsigned __int32>{static const DXGI_FORMAT Format = DXGI_FORMAT_R32_UINT;};
 
 /***********************************************************************
 Shader

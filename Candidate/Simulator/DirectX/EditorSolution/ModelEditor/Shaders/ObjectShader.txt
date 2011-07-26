@@ -10,7 +10,7 @@ struct VIn
 	float4 position : POSITION;
 	float3 normal : NORMAL;
 	float4 color : COLOR;
-	uint4 id : TEXCOORD;
+	uint id : TEXCOORD;
 };
 
 struct PIn
