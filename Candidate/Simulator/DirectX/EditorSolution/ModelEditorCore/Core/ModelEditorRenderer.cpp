@@ -176,6 +176,13 @@ ModelEditorWindow
 			.Field(L"COLOR", &VertexObject::color)
 			.Field(L"TEXCOORD", &VertexObject::id)
 			;
+		shaderSelectedObject=new DirectXShader<VertexObject>(env);
+		shaderSelectedObject->Fill(workingDirectory+L"Shaders\\ObjectShader.txt", L"VShader", L"PShaderSelected")
+			.Field(L"POSITION", &VertexObject::position)
+			.Field(L"NORMAL", &VertexObject::normal)
+			.Field(L"COLOR", &VertexObject::color)
+			.Field(L"TEXCOORD", &VertexObject::id)
+			;
 		shaderSelector=new DirectXShader<VertexObject>(env);
 		shaderSelector->Fill(workingDirectory+L"Shaders\\SelectorShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &VertexObject::position)
@@ -194,6 +201,7 @@ ModelEditorWindow
 	void ModelEditorWindow::Finalize()
 	{
 		DeleteAndZero(shaderSelector);
+		DeleteAndZero(shaderSelectedObject);
 		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
 		DeleteAndZero(geometryAxisObject);
@@ -304,6 +312,7 @@ ModelEditorWindow
 		,geometryAxisObject(0)
 		,shaderAxis(0)
 		,shaderObject(0)
+		,shaderSelectedObject(0)
 		,shaderSelector(0)
 	{
 		clientSize=WindowGetClient(editorControl);
@@ -365,7 +374,7 @@ ModelEditorWindow
 		{
 			Model* model=models[i].Obj();
 			UpdateConstantBuffer(model->worldMatrix);
-			model->Geometry()->SetCurrentAndRender(shaderObject);
+			model->Geometry()->SetCurrentAndRender(model->selected?shaderSelectedObject:shaderObject);
 		}
 		{
 			D3DXMATRIX axisWorldMatrix;

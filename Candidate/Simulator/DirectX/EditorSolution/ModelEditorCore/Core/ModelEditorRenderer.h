@@ -99,6 +99,7 @@ namespace modeleditor
 		Model*									geometryAxisObject;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
+		DirectXShader<VertexObject>*			shaderSelectedObject;
 		DirectXShader<VertexObject>*			shaderSelector;
 
 		D3DXVECTOR3								viewAt, viewFront, viewUp, viewLeft;
