@@ -19,6 +19,7 @@ Model
 		:env(0)
 		,geometry(0)
 		,selected(false)
+		,mainSelected(false)
 	{
 		D3DXMatrixIdentity(&worldMatrix);
 		Rebuild(_env);
@@ -112,41 +113,63 @@ ModelEditorWindow
 
 	void ModelEditorWindow::UpdateGeometryAxis()
 	{
-		const int size=16;
-		const float cellSize=2.0f;
-		const float centerSize=0.2f;
-		VertexAxis vertices[(size+1)*4+2];
-		unsigned int indices[(size+3)*4];
-		int currentVertex=0;
+		{
+			const int size=32;
+			const float cellSize=2.0f;
+			const float centerSize=0.2f;
+			VertexAxis vertices[(size+1)*4+2];
+			unsigned int indices[(size+3)*4];
+			int currentVertex=0;
 		
-		for(int i=-size/2;i<=size/2;i++)
-		{
-			D3DXCOLOR color=(i==0?D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, -cellSize*size/2);
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, cellSize*size/2);
+			for(int i=-size/2;i<=size/2;i++)
+			{
+				D3DXCOLOR color=(i==0?D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, -cellSize*size/2);
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(cellSize*i, 0, cellSize*size/2);
+			}
+			for(int i=-size/2;i<=size/2;i++)
+			{
+				D3DXCOLOR color=(i==0?D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*size/2, 0, cellSize*i);
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(cellSize*size/2, 0, cellSize*i);
+			}
+			{
+				D3DXCOLOR color=D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(0, -cellSize*size/2, 0);
+				vertices[currentVertex].color=color;
+				vertices[currentVertex++].position=D3DXVECTOR3(0, cellSize*size/2, 0);
+			}
+			for(int i=0;i<(size+3)*4;i++)
+			{
+				indices[i]=i;
+			}
+			geometryAxisLineGlobal->Fill(vertices, indices);
 		}
-		for(int i=-size/2;i<=size/2;i++)
 		{
-			D3DXCOLOR color=(i==0?D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f):D3DXCOLOR(0.6f, 0.6f, 0.6f, 1.0f));
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(-cellSize*size/2, 0, cellSize*i);
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(cellSize*size/2, 0, cellSize*i);
+			VertexAxis vertices[6] =
+			{
+				{D3DXVECTOR3(0, 0, 0), D3DXCOLOR(1, 0, 0, 1)},
+				{D3DXVECTOR3(2, 0, 0), D3DXCOLOR(1, 0, 0, 1)},
+				{D3DXVECTOR3(0, 0, 0), D3DXCOLOR(0, 1, 0, 1)},
+				{D3DXVECTOR3(0, 2, 0), D3DXCOLOR(0, 1, 0, 1)},
+				{D3DXVECTOR3(0, 0, 0), D3DXCOLOR(0, 0, 1, 1)},
+				{D3DXVECTOR3(0, 0, 2), D3DXCOLOR(0, 0, 1, 1)},
+			};
+
+			unsigned int indices[6] =
+			{
+				0, 1,
+				2, 3,
+				4, 5,
+			};
+
+			geometryAxisLineLocal->Fill(vertices, indices);
 		}
-		{
-			D3DXCOLOR color=D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(0, -cellSize*size/2, 0);
-			vertices[currentVertex].color=color;
-			vertices[currentVertex++].position=D3DXVECTOR3(0, cellSize*size/2, 0);
-		}
-		for(int i=0;i<(size+3)*4;i++)
-		{
-			indices[i]=i;
-		}
-		geometryAxisLine->Fill(vertices, indices);
 	}
 
 	void ModelEditorWindow::Initialize()
@@ -166,7 +189,8 @@ ModelEditorWindow
 		selectorRenderTarget->Update(selectorBuffer);
 
 		constantBuffer=new DirectXConstantBuffer<ConstantBuffer>(env);
-		geometryAxisLine=new DirectXVertexBuffer<VertexAxis>(env);
+		geometryAxisLineGlobal=new DirectXVertexBuffer<VertexAxis>(env);
+		geometryAxisLineLocal=new DirectXVertexBuffer<VertexAxis>(env);
 		geometryAxisObject = new Model(env);
 		BuildAxis(geometryAxisObject);
 		geometryAxisObject->Update();
@@ -248,7 +272,8 @@ ModelEditorWindow
 		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
 		DeleteAndZero(geometryAxisObject);
-		DeleteAndZero(geometryAxisLine);
+		DeleteAndZero(geometryAxisLineLocal);
+		DeleteAndZero(geometryAxisLineGlobal);
 		DeleteAndZero(constantBuffer);
 		DeleteAndZero(selectorRenderTarget);
 		DeleteAndZero(selectorBuffer);
@@ -347,7 +372,14 @@ ModelEditorWindow
 		D3DXMatrixIdentity(&axisWorldMatrix);
 		UpdateConstantBuffer(axisWorldMatrix);
 		UpdateGeometryAxis();
-		geometryAxisLine->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+		geometryAxisLineGlobal->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+
+		if(mainSelectedModel)
+		{
+			depthBuffer->Clear();
+			UpdateConstantBuffer(mainSelectedModel->worldMatrix);
+			geometryAxisLineLocal->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+		}
 	}
 
 	void ModelEditorWindow::RenderAxisObject()
@@ -464,7 +496,8 @@ ModelEditorWindow
 		,selectorBuffer(0)
 		,selectorRenderTarget(0)
 		,constantBuffer(0)
-		,geometryAxisLine(0)
+		,geometryAxisLineGlobal(0)
+		,geometryAxisLineLocal(0)
 		,geometryAxisObject(0)
 		,shaderAxis(0)
 		,shaderObject(0)
@@ -474,6 +507,7 @@ ModelEditorWindow
 		,editorModeRectangle(0)
 		,editorModeShader(0)
 		,editorModeSampler(0)
+		,mainSelectedModel(0)
 	{
 		clientSize=WindowGetClient(editorControl);
 		Initialize();
@@ -494,15 +528,16 @@ ModelEditorWindow
 	{
 		models.Add(model);
 		D3DXMatrixTranslation(&model->worldMatrix, viewAt.x, viewAt.y, viewAt.z);
-		for(int i=0;i<models.Count();i++)
-		{
-			models[i]->selected=i==models.Count()-1;
-		}
+		SelectModel(models.Count()-1);
 	}
 
 	void ModelEditorWindow::RemoveModel(Model* model)
 	{
 		models.Remove(model);
+		if(mainSelectedModel==model)
+		{
+			mainSelectedModel=0;
+		}
 	}
 
 	int ModelEditorWindow::ModelCount()
@@ -557,10 +592,21 @@ ModelEditorWindow
 
 	void ModelEditorWindow::SelectModel(int index)
 	{
+		mainSelectedModel=0;
 		for(int i=0;i<models.Count();i++)
 		{
 			models[i]->selected=i==index;
+			models[i]->mainSelected=i==index;
+			if(i==index)
+			{
+				mainSelectedModel=models[i].Obj();
+			}
 		}
+	}
+
+	Model* ModelEditorWindow::GetMainSelectedModel()
+	{
+		return mainSelectedModel;
 	}
 
 	void ModelEditorWindow::ViewReset()
@@ -591,6 +637,11 @@ ModelEditorWindow
 			viewAt.y + left*viewLeft.y + up*viewUp.y + front*viewFront.y,
 			viewAt.z + left*viewLeft.z + up*viewUp.z + front*viewFront.z
 			);
+	}
+
+	float ModelEditorWindow::GetViewDistance()
+	{
+		return viewDistance;
 	}
 
 	void ModelEditorWindow::SetEditorMode(ModelEditorMode::Enum value)

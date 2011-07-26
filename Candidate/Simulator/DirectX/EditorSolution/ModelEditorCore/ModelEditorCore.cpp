@@ -223,7 +223,7 @@ namespace modeleditor
 					case ModelEditorOperation::ViewZooming:
 						{
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
-							float distance=(float)deltaY/20;
+							float distance=(float)deltaY/editorWindow->GetViewDistance();
 
 							editorWindow->ViewMove(0, 0, distance);
 							editorWindow->Render();
@@ -239,7 +239,7 @@ namespace modeleditor
 
 							if(deltaX!=0 || deltaY!=0)
 							{
-								editorWindow->ViewMove((float)deltaX/20, (float)deltaY/20, 0);
+								editorWindow->ViewMove((float)deltaX/editorWindow->GetViewDistance(), (float)deltaY/editorWindow->GetViewDistance(), 0);
 								editorWindow->Render();
 							}
 
@@ -266,6 +266,19 @@ namespace modeleditor
 								axis=D3DXVECTOR3(0, 0, 1);
 								break;
 							}
+							Model* selectedLocalModel=0;
+							if(editorWindow->modelEditorData.modelEditorAxis==ModelEditorAxis::AxisLocal)
+							{
+								if(editorWindow->GetMainSelectedModel())
+								{
+									selectedLocalModel=editorWindow->GetMainSelectedModel();
+								}
+							}
+							if(selectedLocalModel)
+							{
+								D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->worldMatrix);
+								D3DXVec3Normalize(&axis, &axis);
+							}
 							if(available)
 							{
 								switch(editorWindow->modelEditorData.modelEditorMode)
@@ -273,7 +286,7 @@ namespace modeleditor
 								case ModelEditorMode::ObjectTranslation:
 									{
 										int deltaY=info.y-editorWindow->modelEditorData.originY;
-										float distance=(float)deltaY/20;
+										float distance=(float)deltaY/editorWindow->GetViewDistance();
 										D3DXMATRIX translation;
 										D3DXMatrixTranslation(&translation, axis.x*distance, axis.y*distance, axis.z*distance);
 
@@ -299,6 +312,25 @@ namespace modeleditor
 										float angle=(float)D3DX_PI*2*deltaY/clientSize.cy;
 										D3DXMATRIX rotation;
 										D3DXMatrixRotationAxis(&rotation, &axis, angle);
+
+										if(selectedLocalModel)
+										{
+											D3DXMATRIX r, m;
+											D3DXVECTOR3 o(0, 0, 0);
+											D3DXVECTOR4 ot;
+
+											D3DXVec3Transform(&ot, &o,&selectedLocalModel->worldMatrix);
+											o=D3DXVECTOR3(ot.x/ot.w, ot.y/ot.w, ot.z/ot.w);
+
+											D3DXMatrixIdentity(&r);
+											D3DXMatrixTranslation(&m, -o.x, -o.y, -o.z);
+											D3DXMatrixMultiply(&r, &r, &m);
+											D3DXMatrixMultiply(&r, &r, &rotation);
+											D3DXMatrixTranslation(&m, o.x, o.y, o.z);
+											D3DXMatrixMultiply(&r, &r, &m);
+
+											rotation=r;
+										}
 
 										int count=editorWindow->ModelCount();
 										for(int i=0;i<count;i++)
@@ -332,6 +364,25 @@ namespace modeleditor
 											;
 										D3DXMATRIX scaling;
 										D3DXMatrixScaling(&scaling, distance, distance, distance);
+
+										if(selectedLocalModel)
+										{
+											D3DXMATRIX r, m;
+											D3DXVECTOR3 o(0, 0, 0);
+											D3DXVECTOR4 ot;
+
+											D3DXVec3Transform(&ot, &o,&selectedLocalModel->worldMatrix);
+											o=D3DXVECTOR3(ot.x/ot.w, ot.y/ot.w, ot.z/ot.w);
+
+											D3DXMatrixIdentity(&r);
+											D3DXMatrixTranslation(&m, -o.x, -o.y, -o.z);
+											D3DXMatrixMultiply(&r, &r, &m);
+											D3DXMatrixMultiply(&r, &r, &scaling);
+											D3DXMatrixTranslation(&m, o.x, o.y, o.z);
+											D3DXMatrixMultiply(&r, &r, &m);
+
+											scaling=r;
+										}
 
 										int count=editorWindow->ModelCount();
 										for(int i=0;i<count;i++)
