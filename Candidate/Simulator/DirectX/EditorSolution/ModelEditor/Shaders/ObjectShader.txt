@@ -20,6 +20,8 @@ struct PIn
     float4 color : COLOR;
 };
 
+Texture2D<uint> selectorTexture : register(t0);
+
 PIn VShader(VIn input)
 {
     PIn output;
@@ -45,6 +47,25 @@ float4 PShader(PIn input) : SV_TARGET
 	float brightness = 0.5 + max(0, dot(input.viewNormal, lightDirection))*0.5;
 
 	float4 color = materialColor * brightness;
+
+	uint selectedModel = selectorTexture.Load(int3(input.position.x, input.position.y, 0));
+	if(selectedModel==1)
+	{
+		uint counter=0;
+		for(int i=-5;i<=5;i++)
+		{
+			for(int j=-5;j<=5;j++)
+			{
+				uint selected = selectorTexture.Load(int3(input.position.x+i, input.position.y+j, 0));
+				counter += selected;
+			}
+		}
+
+		float selectedBlend = 0.9*counter/121.0;
+		float4 selectedColor = float4(1.0, 0.5, 0.0, 1.0);
+		color = color * selectedBlend + selectedColor * (1-selectedBlend);
+	}
+
 	color.w=1.0;
 	return color;
 }
