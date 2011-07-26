@@ -48,7 +48,7 @@ float4 PShader(PIn input) : SV_TARGET
 
 	float4 color = materialColor * brightness;
 
-	color.w=1.0;
+	color.a=1.0;
 	return color;
 }
 
@@ -78,6 +78,6 @@ float4 PShaderSelected(PIn input) : SV_TARGET
 		color = color * selectedBlend + selectedColor * (1-selectedBlend);
 	}
 
-	color.w=1.0;
+	color.a=1.0;
 	return color;
 }

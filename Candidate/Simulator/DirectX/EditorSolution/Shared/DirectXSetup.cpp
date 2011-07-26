@@ -55,6 +55,30 @@ HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int 
     }
 	
 	//=========================================
+	// create blend state
+	{
+		D3D11_BLEND_DESC blendDesc;
+		ZeroMemory(&blendDesc, sizeof(blendDesc));
+		blendDesc.AlphaToCoverageEnable=FALSE;
+		blendDesc.IndependentBlendEnable=FALSE;
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
+		blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		
+		if(FAILED(hr=env->device->CreateBlendState(&blendDesc, &env->blendState)))
+			return hr;
+		D3DXCOLOR blendFactor(0, 0, 0, 0);
+		UINT sampleMask = 0xffffffff; 
+		env->context->OMSetBlendState(env->blendState, blendFactor, sampleMask); 
+
+	}
+	
+	//=========================================
 	// create rasterizer state
 	{
 		D3D11_RASTERIZER_DESC rasterDesc;
@@ -82,6 +106,7 @@ HRESULT SetupDirectXEnvironment(DirectXEnvironment* env, HWND outputWindow, int 
 
 void ReleaseDirectXEnvironment(DirectXEnvironment* env)
 {
+	env->blendState->Release();
 	env->rasterizerState->Release();
 	env->swapChain->Release();
 	env->device->Release();

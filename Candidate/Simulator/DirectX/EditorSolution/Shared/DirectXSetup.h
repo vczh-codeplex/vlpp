@@ -19,6 +19,7 @@ namespace vl
 			ID3D11DeviceContext*			context;
 			D3D_FEATURE_LEVEL				featureLevel;
 			ID3D11RasterizerState*			rasterizerState;
+			ID3D11BlendState*				blendState;
 
 			DirectXEnvironment(HWND _outputWindow, int clientWidth, int clientHeight);
 			~DirectXEnvironment();
