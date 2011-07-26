@@ -47,7 +47,7 @@ DirectXTextureBuffer
 			D3DX11CreateShaderResourceViewFromFile(env->device, fileName.Buffer(), NULL, NULL, &shaderResourceView, NULL);
 		}
 
-		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap, DXGI_FORMAT format)
+		void DirectXTextureBuffer::Update(int width, int height, int arraySize, bool forCubeMap, bool forRenderTarget, DXGI_FORMAT format)
 		{
 			if(texture)
 			{
@@ -70,7 +70,7 @@ DirectXTextureBuffer
 				textureDesc.Format = format;
 				textureDesc.SampleDesc.Count = 1;
 				textureDesc.Usage = D3D11_USAGE_DEFAULT;
-				textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+				textureDesc.BindFlags = (forRenderTarget?D3D11_BIND_RENDER_TARGET:0) | D3D11_BIND_SHADER_RESOURCE;
 				textureDesc.CPUAccessFlags = 0;
 				textureDesc.MiscFlags = forCubeMap?D3D11_RESOURCE_MISC_TEXTURECUBE:0;
 				if(FAILED(hr=env->device->CreateTexture2D(&textureDesc, NULL, &texture)))
@@ -98,9 +98,24 @@ DirectXTextureBuffer
 			}
 		}
 
+		void DirectXTextureBuffer::UpdateSingle(int width, int height)
+		{
+			Update(width, height, -1, false, true, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		}
+
+		void DirectXTextureBuffer::UpdateArray(int width, int height, int arraySize)
+		{
+			Update(width, height, arraySize, false, true, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		}
+
+		void DirectXTextureBuffer::UpdateCube(int width, int height)
+		{
+			Update(width, height, 6, true, true, DXGI_FORMAT_R32G32B32A32_FLOAT);
+		}
+
 		void DirectXTextureBuffer::UpdateUint(int width, int height)
 		{
-			Update(width, height, -1, false, DXGI_FORMAT_R32_UINT);
+			Update(width, height, -1, false, true, DXGI_FORMAT_R32_UINT);
 		}
 
 /***********************************************************************

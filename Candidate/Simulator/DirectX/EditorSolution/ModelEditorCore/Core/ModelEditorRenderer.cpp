@@ -208,6 +208,87 @@ ModelEditorWindow
 		}
 	}
 
+	void ModelEditorWindow::RenderSelector()
+	{
+		renderer->SetRenderTarget(selectorRenderTarget, depthBuffer);
+		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
+		depthBuffer->Clear();
+		selectorRenderTarget->Clear(D3DXCOLOR((UINT)0));
+		
+		constantBuffer->VSBindToRegisterBN(0);
+		constantBuffer->PSBindToRegisterBN(0);
+
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			UpdateConstantBuffer(model->worldMatrix);
+			model->Geometry()->SetCurrentAndRender(shaderSelector);
+		}
+		renderer->SetRenderTarget(renderTarget, depthBuffer);
+	}
+
+	unsigned __int32 ModelEditorWindow::GetSelectorResult(int x, int y)
+	{
+		if(x<0 || x>=clientSize.cx || y<0 || y>=clientSize.cy)
+		{
+			return 0;
+		}
+		ID3D11Texture2D* texture=selectorBuffer->RawTexture();
+
+		D3DX11_TEXTURE_LOAD_INFO loadInfo;
+		{
+			D3D11_BOX srcBox, dstBox;
+
+			srcBox.back=0;
+			srcBox.front=0;
+			srcBox.left=x;
+			srcBox.top=y;
+			srcBox.right=x+1;
+			srcBox.bottom=y+1;
+
+			dstBox.back=0;
+			dstBox.front=0;
+			dstBox.left=0;
+			dstBox.top=0;
+			dstBox.right=1;
+			dstBox.bottom=1;
+
+			ZeroMemory(&loadInfo, sizeof(loadInfo));
+			loadInfo.pSrcBox=&srcBox;
+			loadInfo.pDstBox=&dstBox;
+			loadInfo.SrcFirstMip=0;
+			loadInfo.DstFirstMip=0;
+			loadInfo.NumMips=D3DX11_DEFAULT;
+			loadInfo.SrcFirstElement=0;
+			loadInfo.DstFirstElement=0;
+			loadInfo.NumElements=D3DX11_DEFAULT;
+			loadInfo.Filter=D3DX11_FILTER_NONE;
+			loadInfo.MipFilter=D3DX11_FILTER_NONE;
+		}
+		
+		HRESULT hr=S_OK;
+		ID3D11Texture2D* dest=0;
+		{
+			D3D11_TEXTURE2D_DESC textureDesc;
+			texture->GetDesc(&textureDesc);
+			textureDesc.Usage=D3D11_USAGE_STAGING;
+			textureDesc.BindFlags=0;
+			textureDesc.CPUAccessFlags=D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+			hr=env->device->CreateTexture2D(&textureDesc, NULL, &dest);
+		}
+
+		env->context->CopyResource(dest, texture);
+		unsigned __int32 result=0;
+
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		ZeroMemory(&mappedResource, sizeof(mappedResource));
+		hr=env->context->Map(dest, 0, D3D11_MAP_READ, 0, &mappedResource);
+		result=*(unsigned __int32*)((char*)mappedResource.pData + y*mappedResource.RowPitch + x*sizeof(unsigned __int32));
+
+		dest->Release();
+		return result;
+	}
+
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
 		:editorControl(_editorControl)
 		,subclass(0)
@@ -290,23 +371,20 @@ ModelEditorWindow
 		env->swapChain->Present(0, 0);
 	}
 
-	void ModelEditorWindow::RenderSelector()
+	int ModelEditorWindow::SelectModel(int x, int y)
 	{
-		renderer->SetRenderTarget(selectorRenderTarget, depthBuffer);
-		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
-		depthBuffer->Clear();
-		selectorRenderTarget->Clear(D3DXCOLOR(0xFFFFFFFF));
-		
-		constantBuffer->VSBindToRegisterBN(0);
-		constantBuffer->PSBindToRegisterBN(0);
-
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			UpdateConstantBuffer(model->worldMatrix);
-			model->Geometry()->SetCurrentAndRender(shaderSelector);
+			for(int j=0;j<model->vertices.Count();j++)
+			{
+				model->vertices[j].id=i+1;
+			}
+			model->Update();
 		}
-		renderer->SetRenderTarget(renderTarget, depthBuffer);
+		RenderSelector();
+		unsigned __int32 result=GetSelectorResult(x, y);
+		return (int)result-1;
 	}
 
 	void ModelEditorWindow::ViewReset()

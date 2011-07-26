@@ -83,6 +83,8 @@ namespace modeleditor
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
+				WindowMouseInfo info(wParam, lParam, false);
+				editorWindow->SelectModel(info.x, info.y);
 			}
 			break;
 		case WM_RBUTTONDOWN:
