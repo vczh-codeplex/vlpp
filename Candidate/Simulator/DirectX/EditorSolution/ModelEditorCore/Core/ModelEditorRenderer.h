@@ -44,6 +44,7 @@ namespace modeleditor
 		Array<VertexObject>						vertices;
 		Array<unsigned int>						indices;
 		D3DXMATRIX								worldMatrix;
+		bool									selected;
 
 		Model(DirectXEnvironment* _env);
 		~Model();
@@ -53,7 +54,7 @@ namespace modeleditor
 		DirectXVertexBuffer<VertexObject>*		Geometry();
 	};
 
-	namespace ViewOperation
+	namespace ModelEditorOperation
 	{
 		enum Enum
 		{
@@ -67,8 +68,8 @@ namespace modeleditor
 	struct ModelEditorData
 	{
 		int										originX, originY;
-		ViewOperation::Enum						viewOperation;
-		bool									viewOperationActivated;
+		ModelEditorOperation::Enum				modelEditorOperation;
+		bool									modelEditorOperationActivated;
 
 		ModelEditorData();
 		~ModelEditorData();
@@ -118,6 +119,8 @@ namespace modeleditor
 		void									RebuildModels();
 
 		void									RenderSelector();
+		void									RenderSelectorModelIndexIncremented();
+		void									RenderSelectorSelected();
 		unsigned __int32						GetSelectorResult(int x, int y);
 	public:
 		ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory);
@@ -132,7 +135,8 @@ namespace modeleditor
 
 		void									Resize();
 		void									Render();
-		int										SelectModel(int x, int y);
+		int										QueryModel(int x, int y);
+		void									SelectModel(int index);
 
 		void									ViewReset();
 		void									ViewRotateVertical(float angle);

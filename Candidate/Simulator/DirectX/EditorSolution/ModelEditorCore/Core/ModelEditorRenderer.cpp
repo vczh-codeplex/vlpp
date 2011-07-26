@@ -18,6 +18,7 @@ Model
 	Model::Model(DirectXEnvironment* _env)
 		:env(0)
 		,geometry(0)
+		,selected(false)
 	{
 		D3DXMatrixIdentity(&worldMatrix);
 		Rebuild(_env);
@@ -56,8 +57,8 @@ ModelEditorData
 	ModelEditorData::ModelEditorData()
 		:originX(0)
 		,originY(0)
-		,viewOperation(ViewOperation::None)
-		,viewOperationActivated(false)
+		,modelEditorOperation(ModelEditorOperation::None)
+		,modelEditorOperationActivated(false)
 	{
 	}
 
@@ -230,6 +231,35 @@ ModelEditorWindow
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
 
+	void ModelEditorWindow::RenderSelectorModelIndexIncremented()
+	{
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			for(int j=0;j<model->vertices.Count();j++)
+			{
+				model->vertices[j].id=i+1;
+			}
+			model->Update();
+		}
+		RenderSelector();
+	}
+
+	void ModelEditorWindow::RenderSelectorSelected()
+	{
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			unsigned __int32 id=model->selected?1:0;
+			for(int j=0;j<model->vertices.Count();j++)
+			{
+				model->vertices[j].id=id;
+			}
+			model->Update();
+		}
+		RenderSelector();
+	}
+
 	unsigned __int32 ModelEditorWindow::GetSelectorResult(int x, int y)
 	{
 		if(x<0 || x>=clientSize.cx || y<0 || y>=clientSize.cy)
@@ -313,12 +343,15 @@ ModelEditorWindow
 
 	void ModelEditorWindow::Render()
 	{
+		RenderSelectorSelected();
+
 		viewport->SetViewport(0, 0, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
 		depthBuffer->Clear();
 		renderTarget->Clear(D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 		
 		constantBuffer->VSBindToRegisterBN(0);
 		constantBuffer->PSBindToRegisterBN(0);
+		selectorBuffer->PSBindToRegisterTN(0);
 
 		{
 			D3DXMATRIX axisWorldMatrix;
@@ -337,20 +370,19 @@ ModelEditorWindow
 		env->swapChain->Present(0, 0);
 	}
 
-	int ModelEditorWindow::SelectModel(int x, int y)
+	int ModelEditorWindow::QueryModel(int x, int y)
+	{
+		RenderSelectorModelIndexIncremented();
+		unsigned __int32 result=GetSelectorResult(x, y);
+		return (int)result-1;
+	}
+
+	void ModelEditorWindow::SelectModel(int index)
 	{
 		for(int i=0;i<models.Count();i++)
 		{
-			Model* model=models[i].Obj();
-			for(int j=0;j<model->vertices.Count();j++)
-			{
-				model->vertices[j].id=i+1;
-			}
-			model->Update();
+			models[i]->selected=i==index;
 		}
-		RenderSelector();
-		unsigned __int32 result=GetSelectorResult(x, y);
-		return (int)result-1;
 	}
 
 	void ModelEditorWindow::ViewReset()

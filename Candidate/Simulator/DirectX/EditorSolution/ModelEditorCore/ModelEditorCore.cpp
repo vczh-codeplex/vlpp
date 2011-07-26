@@ -31,20 +31,20 @@ namespace modeleditor
 				{
 				case VK_CONTROL:
 					{
-						switch(editorWindow->modelEditorData.viewOperation)
+						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ViewOperation::None:
-							editorWindow->modelEditorData.viewOperation=ViewOperation::Moving;
+						case ModelEditorOperation::None:
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Moving;
 							break;
 						}
 					}
 					break;
 				case VK_SHIFT:
 					{
-						switch(editorWindow->modelEditorData.viewOperation)
+						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ViewOperation::None:
-							editorWindow->modelEditorData.viewOperation=ViewOperation::Zooming;
+						case ModelEditorOperation::None:
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Zooming;
 							break;
 						}
 					}
@@ -59,20 +59,20 @@ namespace modeleditor
 				{
 				case VK_CONTROL:
 					{
-						switch(editorWindow->modelEditorData.viewOperation)
+						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ViewOperation::Moving:
-							editorWindow->modelEditorData.viewOperation=ViewOperation::None;
+						case ModelEditorOperation::Moving:
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
 							break;
 						}
 					}
 					break;
 				case VK_SHIFT:
 					{
-						switch(editorWindow->modelEditorData.viewOperation)
+						switch(editorWindow->modelEditorData.modelEditorOperation)
 						{
-						case ViewOperation::Zooming:
-							editorWindow->modelEditorData.viewOperation=ViewOperation::None;
+						case ModelEditorOperation::Zooming:
+							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
 							break;
 						}
 					}
@@ -83,27 +83,36 @@ namespace modeleditor
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
-				WindowMouseInfo info(wParam, lParam, false);
-				editorWindow->SelectModel(info.x, info.y);
+				switch(editorWindow->modelEditorData.modelEditorOperation)
+				{
+				case ModelEditorOperation::None:
+					{
+						WindowMouseInfo info(wParam, lParam, false);
+						int index=editorWindow->QueryModel(info.x, info.y);
+						editorWindow->SelectModel(index);
+						editorWindow->Render();
+					}
+					break;
+				}
 			}
 			break;
 		case WM_RBUTTONDOWN:
 			{
 				WindowMouseInfo info(wParam, lParam, false);
-				switch(editorWindow->modelEditorData.viewOperation)
+				switch(editorWindow->modelEditorData.modelEditorOperation)
 				{
-				case ViewOperation::None:
+				case ModelEditorOperation::None:
 					{
-						editorWindow->modelEditorData.viewOperation=ViewOperation::Rotation;
-						editorWindow->modelEditorData.viewOperationActivated=true;
+						editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::Rotation;
+						editorWindow->modelEditorData.modelEditorOperationActivated=true;
 						editorWindow->modelEditorData.originX=info.x;
 						editorWindow->modelEditorData.originY=info.y;
 					}
 					break;
-				case ViewOperation::Zooming:
-				case ViewOperation::Moving:
+				case ModelEditorOperation::Zooming:
+				case ModelEditorOperation::Moving:
 					{
-						editorWindow->modelEditorData.viewOperationActivated=true;
+						editorWindow->modelEditorData.modelEditorOperationActivated=true;
 						editorWindow->modelEditorData.originX=info.x;
 						editorWindow->modelEditorData.originY=info.y;
 					}
@@ -114,18 +123,18 @@ namespace modeleditor
 		case WM_RBUTTONUP:
 			{
 				WindowMouseInfo info(wParam, lParam, false);
-				switch(editorWindow->modelEditorData.viewOperation)
+				switch(editorWindow->modelEditorData.modelEditorOperation)
 				{
-				case ViewOperation::Rotation:
+				case ModelEditorOperation::Rotation:
 					{
-						editorWindow->modelEditorData.viewOperation=ViewOperation::None;
-						editorWindow->modelEditorData.viewOperationActivated=false;
+						editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
+						editorWindow->modelEditorData.modelEditorOperationActivated=false;
 					}
 					break;
-				case ViewOperation::Zooming:
-				case ViewOperation::Moving:
+				case ModelEditorOperation::Zooming:
+				case ModelEditorOperation::Moving:
 					{
-						editorWindow->modelEditorData.viewOperationActivated=false;
+						editorWindow->modelEditorData.modelEditorOperationActivated=false;
 					}
 					break;
 				}
@@ -134,11 +143,11 @@ namespace modeleditor
 		case WM_MOUSEMOVE:
 			{
 				WindowMouseInfo info(wParam, lParam, false);
-				if(editorWindow->modelEditorData.viewOperationActivated)
+				if(editorWindow->modelEditorData.modelEditorOperationActivated)
 				{
-					switch(editorWindow->modelEditorData.viewOperation)
+					switch(editorWindow->modelEditorData.modelEditorOperation)
 					{
-					case ViewOperation::Rotation:
+					case ModelEditorOperation::Rotation:
 						{
 							int deltaX=info.x-editorWindow->modelEditorData.originX;
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
@@ -155,7 +164,7 @@ namespace modeleditor
 							editorWindow->modelEditorData.originY=info.y;
 						}
 						break;
-					case ViewOperation::Zooming:
+					case ModelEditorOperation::Zooming:
 						{
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
 							float distance=(float)deltaY/20;
@@ -167,7 +176,7 @@ namespace modeleditor
 							editorWindow->modelEditorData.originY=info.y;
 						}
 						break;
-					case ViewOperation::Moving:
+					case ModelEditorOperation::Moving:
 						{
 							int deltaX=info.x-editorWindow->modelEditorData.originX;
 							int deltaY=info.y-editorWindow->modelEditorData.originY;
