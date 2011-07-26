@@ -5,6 +5,7 @@
 
 namespace modeleditor
 {
+	extern void				BuildAxis(Model* model);
 	extern void				BuildCube(Model* model);
 }
 

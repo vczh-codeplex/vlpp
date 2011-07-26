@@ -226,12 +226,22 @@ extern "C"
 		window->RemoveModel(model);
 	}
 
-	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
+	Model* CreateModel(ModelEditorWindow* window, void(*modelBuilder)(Model*))
 	{
 		Model* model=new Model(window->Env());
-		BuildCube(model);
+		modelBuilder(model);
 		model->Update();
 		window->AddModel(model);
 		return model;
+	}
+
+	MODELEDITORCORE_API Model* __stdcall CreateModelAxis(ModelEditorWindow* window)
+	{
+		return CreateModel(window, BuildAxis);
+	}
+
+	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
+	{
+		return CreateModel(window, BuildCube);
 	}
 }
