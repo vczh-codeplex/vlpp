@@ -153,6 +153,7 @@ ModelEditorWindow
 		renderTarget=new DirectXWindowRenderTarget(env);
 		renderer=new DirectXRenderer(env);
 		viewport=new DirectXViewport(env);
+		selectorStagingBuffer=new DirectXTextureBuffer(env);
 		selectorBuffer=new DirectXTextureBuffer(env);
 		selectorRenderTarget=new DirectXTextureRenderTarget(env);
 
@@ -179,7 +180,8 @@ ModelEditorWindow
 			;
 			
 		depthBuffer->Update(clientSize.cx, clientSize.cy);
-		selectorBuffer->UpdateUint(clientSize.cx, clientSize.cy);
+		selectorStagingBuffer->UpdateUint(clientSize.cx, clientSize.cy, true);
+		selectorBuffer->UpdateUint(clientSize.cx, clientSize.cy, false);
 		selectorRenderTarget->Update(selectorBuffer);
 		renderer->SetRenderTarget(renderTarget, depthBuffer);
 	}
@@ -193,6 +195,7 @@ ModelEditorWindow
 		DeleteAndZero(constantBuffer);
 		DeleteAndZero(selectorRenderTarget);
 		DeleteAndZero(selectorBuffer);
+		DeleteAndZero(selectorStagingBuffer);
 		DeleteAndZero(viewport);
 		DeleteAndZero(renderer);
 		DeleteAndZero(renderTarget);
@@ -234,48 +237,9 @@ ModelEditorWindow
 			return 0;
 		}
 		ID3D11Texture2D* texture=selectorBuffer->RawTexture();
-
-		D3DX11_TEXTURE_LOAD_INFO loadInfo;
-		{
-			D3D11_BOX srcBox, dstBox;
-
-			srcBox.back=0;
-			srcBox.front=0;
-			srcBox.left=x;
-			srcBox.top=y;
-			srcBox.right=x+1;
-			srcBox.bottom=y+1;
-
-			dstBox.back=0;
-			dstBox.front=0;
-			dstBox.left=0;
-			dstBox.top=0;
-			dstBox.right=1;
-			dstBox.bottom=1;
-
-			ZeroMemory(&loadInfo, sizeof(loadInfo));
-			loadInfo.pSrcBox=&srcBox;
-			loadInfo.pDstBox=&dstBox;
-			loadInfo.SrcFirstMip=0;
-			loadInfo.DstFirstMip=0;
-			loadInfo.NumMips=D3DX11_DEFAULT;
-			loadInfo.SrcFirstElement=0;
-			loadInfo.DstFirstElement=0;
-			loadInfo.NumElements=D3DX11_DEFAULT;
-			loadInfo.Filter=D3DX11_FILTER_NONE;
-			loadInfo.MipFilter=D3DX11_FILTER_NONE;
-		}
+		ID3D11Texture2D* dest=selectorStagingBuffer->RawTexture();
 		
 		HRESULT hr=S_OK;
-		ID3D11Texture2D* dest=0;
-		{
-			D3D11_TEXTURE2D_DESC textureDesc;
-			texture->GetDesc(&textureDesc);
-			textureDesc.Usage=D3D11_USAGE_STAGING;
-			textureDesc.BindFlags=0;
-			textureDesc.CPUAccessFlags=D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-			hr=env->device->CreateTexture2D(&textureDesc, NULL, &dest);
-		}
 
 		env->context->CopyResource(dest, texture);
 		unsigned __int32 result=0;
@@ -284,8 +248,7 @@ ModelEditorWindow
 		ZeroMemory(&mappedResource, sizeof(mappedResource));
 		hr=env->context->Map(dest, 0, D3D11_MAP_READ, 0, &mappedResource);
 		result=*(unsigned __int32*)((char*)mappedResource.pData + y*mappedResource.RowPitch + x*sizeof(unsigned __int32));
-
-		dest->Release();
+		env->context->Unmap(dest, 0);
 		return result;
 	}
 
@@ -298,6 +261,9 @@ ModelEditorWindow
 		,renderTarget(0)
 		,renderer(0)
 		,viewport(0)
+		,selectorStagingBuffer(0)
+		,selectorBuffer(0)
+		,selectorRenderTarget(0)
 		,constantBuffer(0)
 		,geometryAxis(0)
 		,shaderAxis(0)

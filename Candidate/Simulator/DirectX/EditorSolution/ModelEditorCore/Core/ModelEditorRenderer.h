@@ -89,6 +89,7 @@ namespace modeleditor
 		DirectXWindowRenderTarget*				renderTarget;
 		DirectXRenderer*						renderer;
 		DirectXViewport*						viewport;
+		DirectXTextureBuffer*					selectorStagingBuffer;
 		DirectXTextureBuffer*					selectorBuffer;
 		DirectXTextureRenderTarget*				selectorRenderTarget;
 

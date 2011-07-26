@@ -276,11 +276,11 @@ Texture Buffer
 			void						PSBindToRegisterTN(int index);
 
 			void						Update(const WString& fileName);
-			void						Update(int width, int height, int arraySize, bool forCubeMap, bool forRenderTarget, DXGI_FORMAT format);
+			void						Update(int width, int height, int arraySize, bool forCubeMap, bool forStaging, DXGI_FORMAT format);
 			void						UpdateSingle(int width, int height);
 			void						UpdateArray(int width, int height, int arraySize);
 			void						UpdateCube(int width, int height);
-			void						UpdateUint(int width, int height);
+			void						UpdateUint(int width, int height, bool forStaging);
 		};
 
 /***********************************************************************
