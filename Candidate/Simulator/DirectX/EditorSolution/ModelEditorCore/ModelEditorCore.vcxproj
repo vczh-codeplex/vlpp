@@ -96,6 +96,8 @@
     <ClCompile Include="..\Shared\WindowSetup.cpp" />
     <ClCompile Include="Core\ModelBuilder.cpp" />
     <ClCompile Include="Core\ModelEditorRenderer.cpp" />
+    <ClCompile Include="Core\ModelObject.cpp" />
+    <ClCompile Include="Core\ModelSceneRenderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModelEditorCore.cpp" />
   </ItemGroup>
@@ -130,7 +132,10 @@
     <ClInclude Include="..\Shared\WindowGDI.h" />
     <ClInclude Include="..\Shared\WindowSetup.h" />
     <ClInclude Include="Core\ModelBuilder.h" />
+    <ClInclude Include="Core\ModelDataStructure.h" />
     <ClInclude Include="Core\ModelEditorRenderer.h" />
+    <ClInclude Include="Core\ModelObject.h" />
+    <ClInclude Include="Core\ModelSceneRenderer.h" />
     <ClInclude Include="ModelEditorCore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

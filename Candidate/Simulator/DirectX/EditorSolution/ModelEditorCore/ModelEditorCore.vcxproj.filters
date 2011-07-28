@@ -75,6 +75,12 @@
     <ClCompile Include="..\Shared\WindowGDI.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ModelObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelSceneRenderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelEditorCore.h">
@@ -172,6 +178,15 @@
     </ClInclude>
     <ClInclude Include="..\Shared\WindowGDI.h">
       <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelDataStructure.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelSceneRenderer.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
