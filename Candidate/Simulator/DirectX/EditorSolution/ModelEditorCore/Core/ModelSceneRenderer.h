@@ -2,7 +2,6 @@
 #define VCZH_DIRECTX_MODELSCENERENDERER
 
 #include "ModelDataStructure.h"
-#include "ModelObject.h"
 #include "..\..\Shared\WindowGDI.h"
 #include "..\..\..\..\..\..\Library\Pointer.h"
 
@@ -33,7 +32,7 @@ namespace modeleditor
 		DirectXConstantBuffer<ConstantBuffer>*	constantBuffer;
 		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineGlobal;
 		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineLocal;
-		Model*									geometryAxisObject;
+		DirectXVertexBuffer<VertexObject>*		geometryAxisObject;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 		DirectXShader<VertexObject>*			shaderSelectedObject;
