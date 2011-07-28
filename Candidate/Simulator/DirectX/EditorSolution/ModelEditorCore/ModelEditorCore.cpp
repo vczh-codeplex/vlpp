@@ -448,11 +448,6 @@ extern "C"
 		return model;
 	}
 
-	MODELEDITORCORE_API Model* __stdcall CreateModelAxis(ModelEditorWindow* window)
-	{
-		return CreateModel(window, BuildAxis);
-	}
-
 	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
 	{
 		return CreateModel(window, BuildCube);

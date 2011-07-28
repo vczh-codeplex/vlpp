@@ -23,7 +23,6 @@ extern "C"
 	MODELEDITORCORE_API void					__stdcall RenderEditorWindow(ModelEditorWindow* window);
 	
 	MODELEDITORCORE_API void					__stdcall DestroyModel(ModelEditorWindow* window, Model* model);
-	MODELEDITORCORE_API Model*					__stdcall CreateModelAxis(ModelEditorWindow* window);
 	MODELEDITORCORE_API Model*					__stdcall CreateModelCube(ModelEditorWindow* window);
 
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);

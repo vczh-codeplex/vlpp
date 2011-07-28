@@ -1,9 +1,28 @@
 #include "ModelSceneRenderer.h"
-#include "ModelBuilder.h"
 #include "..\..\Shared\WindowSetup.h"
 
 namespace modeleditor
 {
+	void CreateNormalNoSmooth(VertexObject* vertices, int count)
+	{
+		for(int i=0;i<count;i+=3)
+		{
+			VertexObject* p1=&vertices[i];
+			VertexObject* p2=&vertices[i+1];
+			VertexObject* p3=&vertices[i+2];
+
+			D3DXVECTOR3 x = p3->position-p2->position;
+			D3DXVECTOR3 y = p1->position-p2->position;
+			D3DXVECTOR3 z;
+			D3DXVec3Cross(&z, &x, &y);
+			D3DXVec3Normalize(&z, &z);
+
+			p1->normal=z;
+			p2->normal=z;
+			p3->normal=z;
+		}
+	}
+
 /***********************************************************************
 ModelSceneRenderer
 ***********************************************************************/
@@ -104,6 +123,66 @@ ModelSceneRenderer
 
 			geometryAxisLineLocal->Fill(vertices, indices);
 		}
+		{
+			VertexObject vertices[36];
+			unsigned int indices[36];
+
+			vertices[ 0+ 0].position=D3DXVECTOR3(5, 0, 0);
+			vertices[ 0+12].position=D3DXVECTOR3(0, 5, 0);
+			vertices[ 0+24].position=D3DXVECTOR3(0, 0, 5);
+			vertices[ 1+ 0].position=D3DXVECTOR3(0, 0, 0);
+			vertices[ 1+12].position=D3DXVECTOR3(0, 0, 0);
+			vertices[ 1+24].position=D3DXVECTOR3(0, 0, 0);
+			vertices[ 2+ 0].position=D3DXVECTOR3(1, 1, 0);
+			vertices[ 2+12].position=D3DXVECTOR3(0, 1, 1);
+			vertices[ 2+24].position=D3DXVECTOR3(1, 0, 1);
+
+			vertices[ 3+ 0].position=D3DXVECTOR3(5, 0, 0);
+			vertices[ 3+12].position=D3DXVECTOR3(0, 5, 0);
+			vertices[ 3+24].position=D3DXVECTOR3(0, 0, 5);
+			vertices[ 4+ 0].position=D3DXVECTOR3(1, 0, 1);
+			vertices[ 4+12].position=D3DXVECTOR3(1, 1, 0);
+			vertices[ 4+24].position=D3DXVECTOR3(0, 1, 1);
+			vertices[ 5+ 0].position=D3DXVECTOR3(0, 0, 0);
+			vertices[ 5+12].position=D3DXVECTOR3(0, 0, 0);
+			vertices[ 5+24].position=D3DXVECTOR3(0, 0, 0);
+
+			vertices[ 6+ 0].position=D3DXVECTOR3(5, 0, 0);
+			vertices[ 6+12].position=D3DXVECTOR3(0, 5, 0);
+			vertices[ 6+24].position=D3DXVECTOR3(0, 0, 5);
+			vertices[ 7+ 0].position=D3DXVECTOR3(1, 1, 1);
+			vertices[ 7+12].position=D3DXVECTOR3(1, 1, 1);
+			vertices[ 7+24].position=D3DXVECTOR3(1, 1, 1);
+			vertices[ 8+ 0].position=D3DXVECTOR3(1, 0, 1);
+			vertices[ 8+12].position=D3DXVECTOR3(1, 1, 0);
+			vertices[ 8+24].position=D3DXVECTOR3(0, 1, 1);
+
+			vertices[ 9+ 0].position=D3DXVECTOR3(5, 0, 0);
+			vertices[ 9+12].position=D3DXVECTOR3(0, 5, 0);
+			vertices[ 9+24].position=D3DXVECTOR3(0, 0, 5);
+			vertices[10+ 0].position=D3DXVECTOR3(1, 1, 0);
+			vertices[10+12].position=D3DXVECTOR3(0, 1, 1);
+			vertices[10+24].position=D3DXVECTOR3(1, 0, 1);
+			vertices[11+ 0].position=D3DXVECTOR3(1, 1, 1);
+			vertices[11+12].position=D3DXVECTOR3(1, 1, 1);
+			vertices[11+24].position=D3DXVECTOR3(1, 1, 1);
+
+			CreateNormalNoSmooth(vertices, sizeof(vertices)/sizeof(*vertices));
+			for(int i=0;i<12;i++)
+			{
+				vertices[i].color=D3DXCOLOR(1, 0, 0, 1);
+				vertices[i+12].color=D3DXCOLOR(0, 1, 0, 1);
+				vertices[i+24].color=D3DXCOLOR(0, 0, 1, 1);
+				vertices[i].id=0;
+			}
+
+			for(int i=0;i<sizeof(indices)/sizeof(*indices);i++)
+			{
+				indices[i]=i;
+			}
+
+			geometryAxisObject->Fill(vertices, indices);
+		}
 	}
 
 	void ModelSceneRenderer::Initialize()
@@ -125,9 +204,9 @@ ModelSceneRenderer
 		constantBuffer=new DirectXConstantBuffer<ConstantBuffer>(env);
 		geometryAxisLineGlobal=new DirectXVertexBuffer<VertexAxis>(env);
 		geometryAxisLineLocal=new DirectXVertexBuffer<VertexAxis>(env);
-		geometryAxisObject = new Model(env);
-		BuildAxis(geometryAxisObject);
-		geometryAxisObject->Update();
+		geometryAxisObject=new DirectXVertexBuffer<VertexObject>(env);
+		UpdateGeometryAxis();
+
 		shaderAxis=new DirectXShader<VertexAxis>(env);
 		shaderAxis->Fill(workingDirectory+L"Shaders\\AxisShader.txt", L"VShader", L"PShader")
 			.Field(L"POSITION", &VertexAxis::position)
@@ -224,7 +303,6 @@ ModelSceneRenderer
 		D3DXMATRIX axisWorldMatrix;
 		D3DXMatrixIdentity(&axisWorldMatrix);
 		UpdateConstantBuffer(axisWorldMatrix);
-		UpdateGeometryAxis();
 		geometryAxisLineGlobal->SetCurrentAndRender(shaderAxis, D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
 
 		if(CallbackRenderLocalAxis(axisWorldMatrix))
@@ -245,7 +323,7 @@ ModelSceneRenderer
 		D3DXMatrixTranslation(&axisTranslation, viewAt.x, viewAt.y, viewAt.z);
 		D3DXMatrixMultiply(&axisWorldMatrix, &axisWorldMatrix, &axisTranslation);
 		UpdateConstantBuffer(axisWorldMatrix);
-		geometryAxisObject->Geometry()->SetCurrentAndRender(shaderObject);
+		geometryAxisObject->SetCurrentAndRender(shaderObject);
 	}
 
 	void ModelSceneRenderer::UpdateEditorMode()
