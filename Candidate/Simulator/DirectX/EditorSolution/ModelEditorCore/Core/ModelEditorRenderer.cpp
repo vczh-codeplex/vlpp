@@ -4,29 +4,10 @@ namespace modeleditor
 {
 
 /***********************************************************************
-ModelEditorData
+ModelEditorRenderer
 ***********************************************************************/
 
-	ModelEditorData::ModelEditorData()
-		:originX(0)
-		,originY(0)
-		,modelEditorOperation(ModelEditorOperation::None)
-		,modelEditorOperationActivated(false)
-		,modelEditorMode(ModelEditorMode::ObjectSelection)
-		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
-		,modelEditorAxisDirection(ModelEditorAxisDirection::None)
-	{
-	}
-
-	ModelEditorData::~ModelEditorData()
-	{
-	}
-
-/***********************************************************************
-ModelEditorWindow
-***********************************************************************/
-
-	void ModelEditorWindow::CallbackRebuildModels()
+	void ModelEditorRenderer::CallbackRebuildModels()
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -34,50 +15,7 @@ ModelEditorWindow
 		}
 	}
 
-	void ModelEditorWindow::CallbackDrawEditorMode(WinDC* dc)
-	{
-		WString axisDirection;
-		switch(modelEditorData.modelEditorAxisDirection)
-		{
-		case ModelEditorAxisDirection::X:
-			axisDirection=L"(X)";
-			break;
-		case ModelEditorAxisDirection::Y:
-			axisDirection=L"(Y)";
-			break;
-		case ModelEditorAxisDirection::Z:
-			axisDirection=L"(Z)";
-			break;
-		}
-
-		dc->DrawString(10, 10, L"Change View\t\t\t\t\t{RBUTTON + (CTRL|SHIFT|NONE)}", 32, 10);
-		switch(modelEditorData.modelEditorMode)
-		{
-		case ModelEditorMode::ObjectSelection:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Select\t\t{LBUTTON}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectTranslation:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Move"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectRotation:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Scale\t\t{LBUTTON}", 32, 10);
-			break;
-		}
-		switch(modelEditorData.modelEditorAxis)
-		{
-		case ModelEditorAxis::AxisGlobal:
-			dc->DrawString(10, 50, L"Relative Axis[GL]\t\t: Global", 32, 10);
-			break;
-		case ModelEditorAxis::AxisLocal:
-			dc->DrawString(10, 50, L"Relative Axis[GL]\t\t: Local", 32, 10);
-			break;
-		}
-	}
-
-	void ModelEditorWindow::CallbackRenderModels(bool onlySelected, DirectXShader<VertexObject>* normalObjectShader, DirectXShader<VertexObject>* selectedObjectShader)
+	void ModelEditorRenderer::CallbackRenderModels(bool onlySelected, DirectXShader<VertexObject>* normalObjectShader, DirectXShader<VertexObject>* selectedObjectShader)
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -90,12 +28,12 @@ ModelEditorWindow
 		}
 	}
 
-	void ModelEditorWindow::CallbackRenderSelectorSelected()
+	void ModelEditorRenderer::CallbackRenderSelectorSelected()
 	{
 		RenderSelectorSelected();
 	}
 
-	bool ModelEditorWindow::CallbackRenderLocalAxis(D3DXMATRIX& worldMatrix)
+	bool ModelEditorRenderer::CallbackRenderLocalAxis(D3DXMATRIX& worldMatrix)
 	{
 		if(mainSelectedModel)
 		{
@@ -108,7 +46,7 @@ ModelEditorWindow
 		}
 	}
 
-	void ModelEditorWindow::RenderSelectorModelIndexIncremented()
+	void ModelEditorRenderer::RenderSelectorModelIndexIncremented()
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -122,7 +60,7 @@ ModelEditorWindow
 		ToolRenderSelector(false);
 	}
 
-	void ModelEditorWindow::RenderSelectorSelected()
+	void ModelEditorRenderer::RenderSelectorSelected()
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -137,19 +75,17 @@ ModelEditorWindow
 		ToolRenderSelector(true);
 	}
 
-	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
+	ModelEditorRenderer::ModelEditorRenderer(HWND _editorControl, const WString& _workingDirectory)
 		:ModelSceneRenderer(_editorControl, _workingDirectory)
 		,mainSelectedModel(0)
 	{
-		Constructor();
 	}
 
-	ModelEditorWindow::~ModelEditorWindow()
+	ModelEditorRenderer::~ModelEditorRenderer()
 	{
-		Destructor();
 	}
 
-	void ModelEditorWindow::AddModel(Model* model)
+	void ModelEditorRenderer::AddModel(Model* model)
 	{
 		D3DXVECTOR3 at=GetViewAt();
 		models.Add(model);
@@ -157,7 +93,7 @@ ModelEditorWindow
 		SelectModel(models.Count()-1);
 	}
 
-	void ModelEditorWindow::RemoveModel(Model* model)
+	void ModelEditorRenderer::RemoveModel(Model* model)
 	{
 		models.Remove(model);
 		if(mainSelectedModel==model)
@@ -166,24 +102,24 @@ ModelEditorWindow
 		}
 	}
 
-	int ModelEditorWindow::ModelCount()
+	int ModelEditorRenderer::ModelCount()
 	{
 		return models.Count();
 	}
 
-	Model* ModelEditorWindow::GetModel(int index)
+	Model* ModelEditorRenderer::GetModel(int index)
 	{
 		return models[index].Obj();
 	}
 
-	int ModelEditorWindow::QueryModel(int x, int y)
+	int ModelEditorRenderer::QueryModel(int x, int y)
 	{
 		RenderSelectorModelIndexIncremented();
 		unsigned __int32 result=ToolGetSelectorResult(x, y);
 		return (int)result-1;
 	}
 
-	void ModelEditorWindow::SelectModel(int index)
+	void ModelEditorRenderer::SelectModel(int index)
 	{
 		mainSelectedModel=0;
 		for(int i=0;i<models.Count();i++)
@@ -197,26 +133,8 @@ ModelEditorWindow
 		}
 	}
 
-	Model* ModelEditorWindow::GetMainSelectedModel()
+	Model* ModelEditorRenderer::GetMainSelectedModel()
 	{
 		return mainSelectedModel;
-	}
-
-	void ModelEditorWindow::SetEditorMode(ModelEditorMode::Enum value)
-	{
-		modelEditorData.modelEditorMode=value;
-		ToolDrawEditorMode();
-	}
-
-	void ModelEditorWindow::SetEditorAxis(ModelEditorAxis::Enum value)
-	{
-		modelEditorData.modelEditorAxis=value;
-		ToolDrawEditorMode();
-	}
-
-	void ModelEditorWindow::SetEditorAxisDirection(ModelEditorAxisDirection::Enum value)
-	{
-		modelEditorData.modelEditorAxisDirection=value;
-		ToolDrawEditorMode();
 	}
 }

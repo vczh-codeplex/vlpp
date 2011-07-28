@@ -81,6 +81,12 @@
     <ClCompile Include="Core\ModelSceneRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ModelEditorWindow.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelEditorWindowSubclass.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelEditorCore.h">
@@ -186,6 +192,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\ModelSceneRenderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelEditorWindow.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelEditorWindowSubclass.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
