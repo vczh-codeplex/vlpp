@@ -11,7 +11,6 @@ ModelEditorData
 		:originX(0)
 		,originY(0)
 		,modelEditorOperation(ModelEditorOperation::None)
-		,modelEditorOperationActivated(false)
 		,modelEditorMode(ModelEditorMode::ObjectSelection)
 		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
 		,modelEditorAxisDirection(ModelEditorAxisDirection::None)
@@ -71,6 +70,7 @@ ModelEditorWindow
 
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
 		:ModelEditorRenderer(_editorControl, _workingDirectory)
+		,currentToolMessageProc(0)
 	{
 		Constructor();
 	}
