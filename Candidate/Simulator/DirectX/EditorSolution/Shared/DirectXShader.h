@@ -20,6 +20,7 @@ Classes:
 
 #include "DirectXSetup.h"
 #include "..\..\..\..\..\Library\Collections\List.h"
+#include "..\..\..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\..\..\Library\Collections\Pair.h"
 
 namespace vl

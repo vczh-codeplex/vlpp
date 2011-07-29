@@ -52,7 +52,6 @@ namespace modeleditor
 	{
 		int										originX, originY;
 		ModelEditorOperation::Enum				modelEditorOperation;
-		bool									modelEditorOperationActivated;
 		ModelEditorMode::Enum					modelEditorMode;
 		ModelEditorAxis::Enum					modelEditorAxis;
 		ModelEditorAxisDirection::Enum			modelEditorAxisDirection;
@@ -63,6 +62,8 @@ namespace modeleditor
 
 	class ModelEditorWindow : public ModelEditorRenderer
 	{
+	public:
+		typedef void(*ToolMessageProc)(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 	protected:
 		void									CallbackDrawEditorMode(WinDC* dc);
 	public:
@@ -70,6 +71,7 @@ namespace modeleditor
 		~ModelEditorWindow();
 
 		ModelEditorData							modelEditorData;
+		ToolMessageProc							currentToolMessageProc;
 
 		void									SetEditorMode(ModelEditorMode::Enum value);
 		void									SetEditorAxis(ModelEditorAxis::Enum value);
