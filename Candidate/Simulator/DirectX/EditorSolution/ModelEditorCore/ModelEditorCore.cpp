@@ -37,7 +37,7 @@ extern "C"
 	{
 		Model* model=new Model(window->Env());
 		modelBuilder(model);
-		model->Update();
+		model->UpdateVertexBuffer();
 		window->AddModel(model);
 		return model;
 	}

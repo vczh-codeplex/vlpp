@@ -53,9 +53,9 @@ namespace modeleditor
 			20,22,21,
 		};
 
-		model->vertices.Resize(sizeof(vertices)/sizeof(*vertices));
-		memcpy(&model->vertices[0], vertices, sizeof(vertices));
-		model->indices.Resize(sizeof(indices)/sizeof(*indices));
-		memcpy(&model->indices[0], indices, sizeof(indices));
+		model->vertexBufferVertices.Resize(sizeof(vertices)/sizeof(*vertices));
+		memcpy(&model->vertexBufferVertices[0], vertices, sizeof(vertices));
+		model->vertexBufferIndices.Resize(sizeof(indices)/sizeof(*indices));
+		memcpy(&model->vertexBufferIndices[0], indices, sizeof(indices));
 	}
 }
