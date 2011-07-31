@@ -16,11 +16,16 @@ namespace modeleditor
 		{
 			D3DXVECTOR3							position;
 			D3DXCOLOR							diffuse;
+
+			List<int>							referencedFaces;
+			List<int>							referencedVertexBufferVertices;
 		};
 
 		struct Face
 		{
 			List<int>							vertexIndices;
+
+			int									referencedStartVertexBufferVertex;
 		};
 	protected:
 		DirectXEnvironment*						env;
