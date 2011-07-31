@@ -24,6 +24,56 @@ Model
 
 	void Model::RebuildVertexBuffer()
 	{
+		for(int i=0;i<modelVertices.Count();i++)
+		{
+			Vertex* vertex=modelVertices[i].Obj();
+			vertex->referencedFaces.Clear();
+			vertex->referencedVertexBufferVertices.Clear();
+		}
+
+		int currentVertexBufferVertex=0;
+		for(int i=0;i<modelFaces.Count();i++)
+		{
+			Face* face=modelFaces[i].Obj();
+			face->referencedStartVertexBufferVertex=currentVertexBufferVertex;
+			for(int j=0;j<face->vertexIndices.Count();j++)
+			{
+				Vertex* vertex=modelVertices[face->vertexIndices[j]].Obj();
+				vertex->referencedFaces.Add(i);
+			}
+			currentVertexBufferVertex+=(face->vertexIndices.Count()-2)*3;
+		}
+
+		int totalCount=currentVertexBufferVertex;
+		vertexBufferVertices.Resize(totalCount);
+		vertexBufferIndices.Resize(totalCount);
+		for(int i=0;i<totalCount;i++)
+		{
+			vertexBufferIndices[i]=i;
+		}
+		
+		currentVertexBufferVertex=0;
+		for(int i=0;i<modelFaces.Count();i++)
+		{
+			Face* face=modelFaces[i].Obj();
+			int triangleCount=face->vertexIndices.Count()-2;
+			for(int j=0;j<triangleCount;j++)
+			{
+				int triangleVertices[]={0, j+1, j+2};
+				for(int k=0;k<sizeof(triangleVertices)/sizeof(*triangleVertices);k++)
+				{
+					VertexObject* vertexObject=&vertexBufferVertices[currentVertexBufferVertex];
+					Vertex* vertex=modelVertices[face->vertexIndices[triangleVertices[k]]].Obj();
+					vertex->referencedVertexBufferVertices.Add(currentVertexBufferVertex);
+					currentVertexBufferVertex++;
+
+					vertexObject->position=vertex->position;
+					vertexObject->color=vertex->diffuse;
+				}
+			}
+		}
+		CreateNormalNoSmooth(&vertexBufferVertices[0], totalCount);
+
 		UpdateVertexBuffer();
 	}
 
