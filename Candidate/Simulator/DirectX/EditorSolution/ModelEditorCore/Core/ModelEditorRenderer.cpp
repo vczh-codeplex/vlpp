@@ -51,11 +51,11 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			for(int j=0;j<model->vertices.Count();j++)
+			for(int j=0;j<model->vertexBufferVertices.Count();j++)
 			{
-				model->vertices[j].id=i+1;
+				model->vertexBufferVertices[j].id=i+1;
 			}
-			model->Update();
+			model->UpdateVertexBuffer();
 		}
 		ToolRenderSelector(false);
 	}
@@ -66,11 +66,11 @@ ModelEditorRenderer
 		{
 			Model* model=models[i].Obj();
 			unsigned __int32 id=model->selected?1:0;
-			for(int j=0;j<model->vertices.Count();j++)
+			for(int j=0;j<model->vertexBufferVertices.Count();j++)
 			{
-				model->vertices[j].id=id;
+				model->vertexBufferVertices[j].id=id;
 			}
-			model->Update();
+			model->UpdateVertexBuffer();
 		}
 		ToolRenderSelector(true);
 	}

@@ -1,27 +1,9 @@
 #include "ModelSceneRenderer.h"
+#include "ModelObject.h"
 #include "..\..\Shared\WindowSetup.h"
 
 namespace modeleditor
 {
-	void CreateNormalNoSmooth(VertexObject* vertices, int count)
-	{
-		for(int i=0;i<count;i+=3)
-		{
-			VertexObject* p1=&vertices[i];
-			VertexObject* p2=&vertices[i+1];
-			VertexObject* p3=&vertices[i+2];
-
-			D3DXVECTOR3 x = p3->position-p2->position;
-			D3DXVECTOR3 y = p1->position-p2->position;
-			D3DXVECTOR3 z;
-			D3DXVec3Cross(&z, &x, &y);
-			D3DXVec3Normalize(&z, &z);
-
-			p1->normal=z;
-			p2->normal=z;
-			p3->normal=z;
-		}
-	}
 
 /***********************************************************************
 ModelSceneRenderer
