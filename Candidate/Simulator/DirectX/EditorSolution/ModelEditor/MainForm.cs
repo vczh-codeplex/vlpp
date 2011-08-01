@@ -93,13 +93,13 @@ namespace ModelEditor
                     switch (form.Geometry)
                     {
                         case GeometryConicType.Sphere:
-                            ModelEditorCore.CreateModelSphere(this.editorWindow, form.Rows, form.Cols);
+                            ModelEditorCore.CreateModelSphere(this.editorWindow, Math.Max(2, form.Rows), Math.Max(3, form.Cols));
                             break;
                         case GeometryConicType.Cylinder:
-                            ModelEditorCore.CreateModelCylinder(this.editorWindow, form.Rows, form.Cols);
+                            ModelEditorCore.CreateModelCylinder(this.editorWindow, Math.Max(1, form.Rows), Math.Max(3, form.Cols));
                             break;
                         case GeometryConicType.Cone:
-                            ModelEditorCore.CreateModelCone(this.editorWindow, form.Rows, form.Cols);
+                            ModelEditorCore.CreateModelCone(this.editorWindow, Math.Max(1, form.Rows), Math.Max(3, form.Cols));
                             break;
                     }
                 }
