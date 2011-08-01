@@ -31,6 +31,9 @@ namespace ModelEditor
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateModelCube(IntPtr window);
 
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateModelSphere(IntPtr window, int rows, int cols);
+
         /***************************************************************
          * View
         ***************************************************************/

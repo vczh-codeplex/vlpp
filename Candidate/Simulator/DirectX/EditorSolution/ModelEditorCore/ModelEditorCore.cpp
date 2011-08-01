@@ -33,18 +33,20 @@ extern "C"
 		window->RemoveModel(model);
 	}
 
-	Model* CreateModel(ModelEditorWindow* window, void(*modelBuilder)(Model*))
+	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
 	{
 		Model* model=new Model(window->Env());
-		modelBuilder(model);
-		model->UpdateVertexBuffer();
+		BuildCube(model);
 		window->AddModel(model);
 		return model;
 	}
 
-	MODELEDITORCORE_API Model* __stdcall CreateModelCube(ModelEditorWindow* window)
+	MODELEDITORCORE_API Model* __stdcall CreateModelSphere(ModelEditorWindow* window, int rows, int cols)
 	{
-		return CreateModel(window, BuildCube);
+		Model* model=new Model(window->Env());
+		BuildSphere(model, rows, cols);
+		window->AddModel(model);
+		return model;
 	}
 
 	MODELEDITORCORE_API void __stdcall ResetView(ModelEditorWindow* window)

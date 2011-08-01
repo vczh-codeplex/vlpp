@@ -49,4 +49,73 @@ namespace modeleditor
 
 		model->RebuildVertexBuffer();
 	}
+
+	void BuildSphere(Model* model, int rows, int cols)
+	{
+		for(int i=1;i<rows;i++)
+		{
+			float r=(float)D3DX_PI*i/rows;
+			float sinr=sinf(r);
+			float cosr=cosf(r);
+			for(int j=0;j<cols;j++)
+			{
+				float c=(float)D3DX_PI*2*j/cols;
+				float sinc=sinf(c);
+				float cosc=cosf(c);
+
+				Model::Vertex* vertex=new Model::Vertex;
+				vertex->position=D3DXVECTOR3(cosc*sinr, cosr, sinc*sinr);
+				vertex->diffuse=D3DXCOLOR(1, 1, 1, 1);
+				model->modelVertices.Add(vertex);
+			}
+		}
+		{
+			Model::Vertex* vertex=new Model::Vertex;
+			vertex->position=D3DXVECTOR3(0, 1, 0);
+			vertex->diffuse=D3DXCOLOR(1, 1, 1, 1);
+			model->modelVertices.Add(vertex);
+		}
+		{
+			Model::Vertex* vertex=new Model::Vertex;
+			vertex->position=D3DXVECTOR3(0, -1, 0);
+			vertex->diffuse=D3DXCOLOR(1, 1, 1, 1);
+			model->modelVertices.Add(vertex);
+		}
+		int topVertex=(rows-1)*cols;
+		int bottomVertex=(rows-1)*cols+1;
+
+		for(int i=0;i<rows;i++)
+		{
+			int r1=(i-1)*cols;
+			int r2=i*cols;
+			for(int j=0;j<cols;j++)
+			{
+				int c1=j;
+				int c2=(j+1)%cols;
+				Model::Face* face=new Model::Face;
+				if(i==0)
+				{
+					face->vertexIndices.Add(topVertex);
+					face->vertexIndices.Add(r2+c2);
+					face->vertexIndices.Add(r2+c1);
+				}
+				else if(i==rows-1)
+				{
+					face->vertexIndices.Add(bottomVertex);
+					face->vertexIndices.Add(r1+c1);
+					face->vertexIndices.Add(r1+c2);
+				}
+				else
+				{
+					face->vertexIndices.Add(r1+c1);
+					face->vertexIndices.Add(r1+c2);
+					face->vertexIndices.Add(r2+c2);
+					face->vertexIndices.Add(r2+c1);
+				}
+				model->modelFaces.Add(face);
+			}
+		}
+
+		model->RebuildVertexBuffer();
+	}
 }

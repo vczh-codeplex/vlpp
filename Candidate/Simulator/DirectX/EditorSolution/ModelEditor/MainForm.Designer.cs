@@ -46,6 +46,7 @@
             this.modelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geometryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,9 +55,9 @@
             this.panelEditorWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelEditorWindow.Location = new System.Drawing.Point(12, 28);
+            this.panelEditorWindow.Location = new System.Drawing.Point(12, 30);
             this.panelEditorWindow.Name = "panelEditorWindow";
-            this.panelEditorWindow.Size = new System.Drawing.Size(905, 631);
+            this.panelEditorWindow.Size = new System.Drawing.Size(905, 684);
             this.panelEditorWindow.TabIndex = 0;
             // 
             // timerRenderer
@@ -73,14 +74,14 @@
             this.modelToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(929, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(929, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // editToolStripMenuItem
@@ -94,53 +95,53 @@
             this.gGlobalAxisToolStripMenuItem,
             this.lLocalAxisToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // cSelectionModeToolStripMenuItem
             // 
             this.cSelectionModeToolStripMenuItem.Name = "cSelectionModeToolStripMenuItem";
-            this.cSelectionModeToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.cSelectionModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.cSelectionModeToolStripMenuItem.Text = "[&C] Selection Mode";
             this.cSelectionModeToolStripMenuItem.Click += new System.EventHandler(this.cSelectionModeToolStripMenuItem_Click);
             // 
             // tTranslationModeToolStripMenuItem
             // 
             this.tTranslationModeToolStripMenuItem.Name = "tTranslationModeToolStripMenuItem";
-            this.tTranslationModeToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.tTranslationModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.tTranslationModeToolStripMenuItem.Text = "[&T] Translation Mode";
             this.tTranslationModeToolStripMenuItem.Click += new System.EventHandler(this.tTranslationModeToolStripMenuItem_Click);
             // 
             // rRotationModeToolStripMenuItem
             // 
             this.rRotationModeToolStripMenuItem.Name = "rRotationModeToolStripMenuItem";
-            this.rRotationModeToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.rRotationModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.rRotationModeToolStripMenuItem.Text = "[&R] Rotation Mode";
             this.rRotationModeToolStripMenuItem.Click += new System.EventHandler(this.rRotationModeToolStripMenuItem_Click);
             // 
             // sScalingModeToolStripMenuItem
             // 
             this.sScalingModeToolStripMenuItem.Name = "sScalingModeToolStripMenuItem";
-            this.sScalingModeToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.sScalingModeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.sScalingModeToolStripMenuItem.Text = "[S] Scaling Mode";
             this.sScalingModeToolStripMenuItem.Click += new System.EventHandler(this.sScalingModeToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(182, 6);
             // 
             // gGlobalAxisToolStripMenuItem
             // 
             this.gGlobalAxisToolStripMenuItem.Name = "gGlobalAxisToolStripMenuItem";
-            this.gGlobalAxisToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.gGlobalAxisToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.gGlobalAxisToolStripMenuItem.Text = "[&G] Global Axis";
             this.gGlobalAxisToolStripMenuItem.Click += new System.EventHandler(this.gGlobalAxisToolStripMenuItem_Click);
             // 
             // lLocalAxisToolStripMenuItem
             // 
             this.lLocalAxisToolStripMenuItem.Name = "lLocalAxisToolStripMenuItem";
-            this.lLocalAxisToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.lLocalAxisToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.lLocalAxisToolStripMenuItem.Text = "[&L] Local Axis";
             this.lLocalAxisToolStripMenuItem.Click += new System.EventHandler(this.lLocalAxisToolStripMenuItem_Click);
             // 
@@ -149,13 +150,13 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resetToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.resetToolStripMenuItem.Text = "&Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
@@ -164,13 +165,14 @@
             this.modelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.geometryToolStripMenuItem});
             this.modelToolStripMenuItem.Name = "modelToolStripMenuItem";
-            this.modelToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
+            this.modelToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.modelToolStripMenuItem.Text = "&Model";
             // 
             // geometryToolStripMenuItem
             // 
             this.geometryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cubeToolStripMenuItem});
+            this.cubeToolStripMenuItem,
+            this.sphereToolStripMenuItem});
             this.geometryToolStripMenuItem.Name = "geometryToolStripMenuItem";
             this.geometryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.geometryToolStripMenuItem.Text = "&Geometry";
@@ -182,11 +184,18 @@
             this.cubeToolStripMenuItem.Text = "&Cube";
             this.cubeToolStripMenuItem.Click += new System.EventHandler(this.cubeToolStripMenuItem_Click);
             // 
+            // sphereToolStripMenuItem
+            // 
+            this.sphereToolStripMenuItem.Name = "sphereToolStripMenuItem";
+            this.sphereToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sphereToolStripMenuItem.Text = "&Sphere...";
+            this.sphereToolStripMenuItem.Click += new System.EventHandler(this.sphereToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 671);
+            this.ClientSize = new System.Drawing.Size(929, 727);
             this.Controls.Add(this.panelEditorWindow);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -222,6 +231,7 @@
         private System.Windows.Forms.ToolStripMenuItem lLocalAxisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem geometryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sphereToolStripMenuItem;
     }
 }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
+using ModelEditor.GeometryForms;
 
 namespace ModelEditor
 {
@@ -29,7 +30,6 @@ namespace ModelEditor
         {
             this.workingDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             this.editorWindow = ModelEditorCore.CreateEditorWindow(panelEditorWindow.Handle, this.workingDirectory);
-            ModelEditorCore.CreateModelCube(this.editorWindow);
             ModelEditorCore.RenderEditorWindow(this.editorWindow);
         }
 
@@ -82,6 +82,31 @@ namespace ModelEditor
         private void cubeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModelEditorCore.CreateModelCube(this.editorWindow);
+        }
+
+        private void CreateConicCommon(GeometryConicType geometry)
+        {
+            using (GeometryConicForm form = new GeometryConicForm(geometry))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    switch (form.Geometry)
+                    {
+                        case GeometryConicType.Sphere:
+                            ModelEditorCore.CreateModelSphere(this.editorWindow, form.Rows, form.Cols);
+                            break;
+                        case GeometryConicType.Cylinder:
+                            break;
+                        case GeometryConicType.Cone:
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void sphereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateConicCommon(GeometryConicType.Sphere);
         }
     }
 }
