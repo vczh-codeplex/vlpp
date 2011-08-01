@@ -47,6 +47,8 @@
             this.geometryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cubeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cylnderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.coneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -172,7 +174,9 @@
             // 
             this.geometryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cubeToolStripMenuItem,
-            this.sphereToolStripMenuItem});
+            this.sphereToolStripMenuItem,
+            this.cylnderToolStripMenuItem,
+            this.coneToolStripMenuItem});
             this.geometryToolStripMenuItem.Name = "geometryToolStripMenuItem";
             this.geometryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.geometryToolStripMenuItem.Text = "&Geometry";
@@ -190,6 +194,20 @@
             this.sphereToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sphereToolStripMenuItem.Text = "&Sphere...";
             this.sphereToolStripMenuItem.Click += new System.EventHandler(this.sphereToolStripMenuItem_Click);
+            // 
+            // cylnderToolStripMenuItem
+            // 
+            this.cylnderToolStripMenuItem.Name = "cylnderToolStripMenuItem";
+            this.cylnderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cylnderToolStripMenuItem.Text = "C&ylnder...";
+            this.cylnderToolStripMenuItem.Click += new System.EventHandler(this.cylnderToolStripMenuItem_Click);
+            // 
+            // coneToolStripMenuItem
+            // 
+            this.coneToolStripMenuItem.Name = "coneToolStripMenuItem";
+            this.coneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.coneToolStripMenuItem.Text = "C&one...";
+            this.coneToolStripMenuItem.Click += new System.EventHandler(this.coneToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -232,6 +250,8 @@
         private System.Windows.Forms.ToolStripMenuItem geometryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cubeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sphereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cylnderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem coneToolStripMenuItem;
     }
 }
 

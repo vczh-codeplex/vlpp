@@ -96,8 +96,10 @@ namespace ModelEditor
                             ModelEditorCore.CreateModelSphere(this.editorWindow, form.Rows, form.Cols);
                             break;
                         case GeometryConicType.Cylinder:
+                            ModelEditorCore.CreateModelCylinder(this.editorWindow, form.Rows, form.Cols);
                             break;
                         case GeometryConicType.Cone:
+                            ModelEditorCore.CreateModelCone(this.editorWindow, form.Rows, form.Cols);
                             break;
                     }
                 }
@@ -107,6 +109,16 @@ namespace ModelEditor
         private void sphereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateConicCommon(GeometryConicType.Sphere);
+        }
+
+        private void cylnderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateConicCommon(GeometryConicType.Cylinder);
+        }
+
+        private void coneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateConicCommon(GeometryConicType.Cone);
         }
     }
 }
