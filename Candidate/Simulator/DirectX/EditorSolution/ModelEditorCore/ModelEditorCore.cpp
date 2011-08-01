@@ -49,6 +49,22 @@ extern "C"
 		return model;
 	}
 
+	MODELEDITORCORE_API Model* __stdcall CreateModelCylinder(ModelEditorWindow* window, int rows, int cols)
+	{
+		Model* model=new Model(window->Env());
+		BuildCylinder(model, rows, cols);
+		window->AddModel(model);
+		return model;
+	}
+
+	MODELEDITORCORE_API Model* __stdcall CreateModelCone(ModelEditorWindow* window, int rows, int cols)
+	{
+		Model* model=new Model(window->Env());
+		BuildCone(model, rows, cols);
+		window->AddModel(model);
+		return model;
+	}
+
 	MODELEDITORCORE_API void __stdcall ResetView(ModelEditorWindow* window)
 	{
 		window->ViewReset();
