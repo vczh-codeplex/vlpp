@@ -24,6 +24,7 @@ extern "C"
 	
 	MODELEDITORCORE_API void					__stdcall DestroyModel(ModelEditorWindow* window, Model* model);
 	MODELEDITORCORE_API Model*					__stdcall CreateModelCube(ModelEditorWindow* window);
+	MODELEDITORCORE_API Model*					__stdcall CreateModelSphere(ModelEditorWindow* window, int rows, int cols);
 
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);
 
