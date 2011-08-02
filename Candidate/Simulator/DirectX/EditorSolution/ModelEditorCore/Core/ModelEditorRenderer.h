@@ -34,6 +34,7 @@ namespace modeleditor
 
 		int										QueryModel(int x, int y);
 		bool									QueryFace(int x, int y, int& modelIndex, int& faceIndex);
+		bool									QueryVertex(int x, int y, int& modelIndex, int& vertexIndex);
 		void									SelectModel(int index);
 		void									SelectFace(int index, int faceIndex);
 		void									SelectVertex(int index, int vertexIndex);
