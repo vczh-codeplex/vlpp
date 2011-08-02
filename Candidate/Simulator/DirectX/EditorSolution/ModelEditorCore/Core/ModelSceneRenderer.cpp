@@ -457,6 +457,7 @@ ModelSceneRenderer
 		viewport->CalculateProjectionMatrix(projectionMatrix, clientSize.cx, clientSize.cy, (float)D3DX_PI/4, 0.1f, 1000.0f);
 
 		D3DXVECTOR4 v(vertex.x, vertex.y, vertex.z, 1.0f);
+		D3DXVec4Transform(&v, &v, &worldMatrix);
 		D3DXVec4Transform(&v, &v, &viewMatrix);
 		D3DXVec4Transform(&v, &v, &projectionMatrix);
 		int x=(int)(clientSize.cx*(1.0f+v.x/v.w)/2.0f);

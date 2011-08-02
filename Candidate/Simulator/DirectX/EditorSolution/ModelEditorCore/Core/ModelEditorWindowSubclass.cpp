@@ -261,6 +261,17 @@ ModelEditorMode::ObjectVertexSelection
 		{
 		case WM_LBUTTONDOWN:
 			{
+				int modelIndex=-1;
+				int vertexIndex=-1;
+				if(editorWindow->QueryVertex(info.x, info.y, modelIndex, vertexIndex))
+				{
+					editorWindow->SelectVertex(modelIndex, vertexIndex);
+				}
+				else
+				{
+					editorWindow->SelectModel(-1);
+				}
+				editorWindow->Render();
 			}
 			break;
 		case WM_LBUTTONUP:

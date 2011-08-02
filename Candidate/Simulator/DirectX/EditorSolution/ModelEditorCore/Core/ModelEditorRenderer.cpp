@@ -20,10 +20,11 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			if(!onlySelected || model->editorInfo.selected)
+			bool selected=model->editorInfo.selected || model->editorInfo.selectedFace!=-1 || model->editorInfo.selectedVertex!=-1;
+			if(!onlySelected || selected)
 			{
 				ToolSetWorldMatrix(model->editorInfo.worldMatrix);
-				model->Geometry()->SetCurrentAndRender(model->editorInfo.selected?selectedObjectShader:normalObjectShader);
+				model->Geometry()->SetCurrentAndRender(selected?selectedObjectShader:normalObjectShader);
 			}
 		}
 	}
@@ -114,7 +115,8 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			unsigned __int32 id=model->editorInfo.selected?1:0;
+			bool selected=model->editorInfo.selected || model->editorInfo.selectedFace!=-1 || model->editorInfo.selectedVertex!=-1;
+			unsigned __int32 id=selected?1:0;
 			for(int j=0;j<model->vertexBufferVertices.Count();j++)
 			{
 				model->vertexBufferVertices[j].id=id;
@@ -193,6 +195,15 @@ ModelEditorRenderer
 			faceIndex=-1;
 			return false;
 		}
+	}
+
+	bool ModelEditorRenderer::QueryVertex(int x, int y, int& modelIndex, int& vertexIndex)
+	{
+		if(!QueryFace(x, y, modelIndex, vertexIndex))
+		{
+			return false;
+		}
+		return true;
 	}
 
 	void ModelEditorRenderer::SelectModel(int index)
