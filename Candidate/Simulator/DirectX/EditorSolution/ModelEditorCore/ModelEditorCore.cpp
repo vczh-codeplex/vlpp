@@ -77,6 +77,18 @@ extern "C"
 		window->Render();
 	}
 
+	MODELEDITORCORE_API void __stdcall EditorModeFaceSelection(ModelEditorWindow* window)
+	{
+		window->SetEditorMode(ModelEditorMode::ObjectFaceSelection);
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall EditorModeVertexSelection(ModelEditorWindow* window)
+	{
+		window->SetEditorMode(ModelEditorMode::ObjectVertexSelection);
+		window->Render();
+	}
+
 	MODELEDITORCORE_API void __stdcall EditorModeTranslation(ModelEditorWindow* window)
 	{
 		window->SetEditorMode(ModelEditorMode::ObjectTranslation);

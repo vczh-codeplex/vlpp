@@ -31,6 +31,12 @@
     <Filter Include="Core">
       <UniqueIdentifier>{93583a07-5262-409d-8718-31e27aa422db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Editor">
+      <UniqueIdentifier>{86da9eaf-c3ad-4bb0-8203-68c11a10ed56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Model">
+      <UniqueIdentifier>{b66bf904-3097-474a-b247-345040539b7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -66,26 +72,26 @@
     <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp">
       <Filter>Vlpp\Stream</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ModelEditorRenderer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ModelBuilder.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shared\WindowGDI.cpp">
       <Filter>Shared</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ModelObject.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\ModelSceneRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\ModelEditorWindow.cpp">
-      <Filter>Core</Filter>
+      <Filter>Core\Editor</Filter>
     </ClCompile>
     <ClCompile Include="Core\ModelEditorWindowSubclass.cpp">
-      <Filter>Core</Filter>
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelEditorRenderer.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelBuilder.cpp">
+      <Filter>Core\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelObject.cpp">
+      <Filter>Core\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,29 +182,29 @@
     <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h">
       <Filter>Vlpp\Stream</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ModelEditorRenderer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ModelBuilder.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\Shared\WindowGDI.h">
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="Core\ModelDataStructure.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ModelObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\ModelSceneRenderer.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\ModelEditorWindow.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Editor</Filter>
     </ClInclude>
     <ClInclude Include="Core\ModelEditorWindowSubclass.h">
-      <Filter>Core</Filter>
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelEditorRenderer.h">
+      <Filter>Core\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelBuilder.h">
+      <Filter>Core\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelObject.h">
+      <Filter>Core\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

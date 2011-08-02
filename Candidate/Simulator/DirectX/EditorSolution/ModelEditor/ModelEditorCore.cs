@@ -55,6 +55,12 @@ namespace ModelEditor
         public static extern void EditorModeSelection(IntPtr window);
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeFaceSelection(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void EditorModeVertexSelection(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void EditorModeTranslation(IntPtr window);
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]

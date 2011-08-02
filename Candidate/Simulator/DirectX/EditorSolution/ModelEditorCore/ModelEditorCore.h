@@ -31,6 +31,8 @@ extern "C"
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);
 
 	MODELEDITORCORE_API void					__stdcall EditorModeSelection(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall EditorModeFaceSelection(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall EditorModeVertexSelection(ModelEditorWindow* window);
 	MODELEDITORCORE_API void					__stdcall EditorModeTranslation(ModelEditorWindow* window);
 	MODELEDITORCORE_API void					__stdcall EditorModeRotation(ModelEditorWindow* window);
 	MODELEDITORCORE_API void					__stdcall EditorModeScaling(ModelEditorWindow* window);
