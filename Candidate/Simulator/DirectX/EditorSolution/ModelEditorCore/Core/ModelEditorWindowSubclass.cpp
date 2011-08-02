@@ -341,9 +341,9 @@ ModelEditorMode::ObjectTranslation
 					for(int i=0;i<count;i++)
 					{
 						Model* model=editorWindow->GetModel(i);
-						if(model->selected)
+						if(model->editorInfo.selected)
 						{
-							D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &translation);
+							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &translation);
 						}
 					}
 
@@ -401,7 +401,7 @@ ModelEditorMode::ObjectRotation
 						D3DXVECTOR3 o(0, 0, 0);
 						D3DXVECTOR4 ot;
 
-						D3DXVec3Transform(&ot, &o,&selectedLocalModel->worldMatrix);
+						D3DXVec3Transform(&ot, &o,&selectedLocalModel->editorInfo.worldMatrix);
 						o=D3DXVECTOR3(ot.x/ot.w, ot.y/ot.w, ot.z/ot.w);
 
 						D3DXMatrixIdentity(&r);
@@ -418,9 +418,9 @@ ModelEditorMode::ObjectRotation
 					for(int i=0;i<count;i++)
 					{
 						Model* model=editorWindow->GetModel(i);
-						if(model->selected)
+						if(model->editorInfo.selected)
 						{
-							D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &rotation);
+							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &rotation);
 						}
 					}
 
@@ -482,7 +482,7 @@ ModelEditorMode::ObjectScaling
 						D3DXVECTOR3 o(0, 0, 0);
 						D3DXVECTOR4 ot;
 
-						D3DXVec3Transform(&ot, &o,&selectedLocalModel->worldMatrix);
+						D3DXVec3Transform(&ot, &o,&selectedLocalModel->editorInfo.worldMatrix);
 						o=D3DXVECTOR3(ot.x/ot.w, ot.y/ot.w, ot.z/ot.w);
 
 						D3DXMatrixIdentity(&r);
@@ -499,9 +499,9 @@ ModelEditorMode::ObjectScaling
 					for(int i=0;i<count;i++)
 					{
 						Model* model=editorWindow->GetModel(i);
-						if(model->selected)
+						if(model->editorInfo.selected)
 						{
-							D3DXMatrixMultiply(&model->worldMatrix, &model->worldMatrix, &scaling);
+							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &scaling);
 						}
 					}
 
@@ -545,7 +545,7 @@ ToolObjectEditingInfo
 		}
 		if(selectedLocalModel)
 		{
-			D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->worldMatrix);
+			D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->editorInfo.worldMatrix);
 			D3DXVec3Normalize(&axis, &axis);
 		}
 		return available;

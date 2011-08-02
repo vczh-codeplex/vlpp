@@ -20,10 +20,10 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			if(!onlySelected || model->selected)
+			if(!onlySelected || model->editorInfo.selected)
 			{
-				ToolSetWorldMatrix(model->worldMatrix);
-				model->Geometry()->SetCurrentAndRender(model->selected?selectedObjectShader:normalObjectShader);
+				ToolSetWorldMatrix(model->editorInfo.worldMatrix);
+				model->Geometry()->SetCurrentAndRender(model->editorInfo.selected?selectedObjectShader:normalObjectShader);
 			}
 		}
 	}
@@ -37,7 +37,7 @@ ModelEditorRenderer
 	{
 		if(mainSelectedModel)
 		{
-			worldMatrix=mainSelectedModel->worldMatrix;
+			worldMatrix=mainSelectedModel->editorInfo.worldMatrix;
 			return true;
 		}
 		else
@@ -66,9 +66,15 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			for(int j=0;j<model->vertexBufferVertices.Count();j++)
+			for(int j=0;j<model->modelFaces.Count();j++)
 			{
-				model->vertexBufferVertices[j].id=faceIndex++;
+				Model::Face* face=model->modelFaces[j].Obj();
+				int vertexCount=(face->vertexIndices.Count()-2)*3;
+				for(int k=0;k<vertexCount;k++)
+				{
+					model->vertexBufferVertices[face->referencedStartVertexBufferVertex+k].id=faceIndex;
+				}
+				faceIndex++;
 			}
 			model->UpdateVertexBuffer();
 		}
@@ -80,7 +86,7 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
-			unsigned __int32 id=model->selected?1:0;
+			unsigned __int32 id=model->editorInfo.selected?1:0;
 			for(int j=0;j<model->vertexBufferVertices.Count();j++)
 			{
 				model->vertexBufferVertices[j].id=id;
@@ -104,7 +110,7 @@ ModelEditorRenderer
 	{
 		D3DXVECTOR3 at=GetViewAt();
 		models.Add(model);
-		D3DXMatrixTranslation(&model->worldMatrix, at.x, at.y, at.z);
+		D3DXMatrixTranslation(&model->editorInfo.worldMatrix, at.x, at.y, at.z);
 		SelectModel(models.Count()-1);
 	}
 
@@ -165,8 +171,7 @@ ModelEditorRenderer
 		mainSelectedModel=0;
 		for(int i=0;i<models.Count();i++)
 		{
-			models[i]->selected=i==index;
-			models[i]->mainSelected=i==index;
+			models[i]->editorInfo.selected=i==index;
 			if(i==index)
 			{
 				mainSelectedModel=models[i].Obj();

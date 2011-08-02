@@ -9,6 +9,7 @@ using namespace vl::collections;
 
 namespace modeleditor
 {
+
 	class Model
 	{
 	public:
@@ -27,19 +28,23 @@ namespace modeleditor
 
 			int									referencedStartVertexBufferVertex;
 		};
+
+		struct EditorInfo
+		{
+			D3DXMATRIX							worldMatrix;
+			bool								selected;
+
+			EditorInfo();
+		};
 	protected:
 		DirectXEnvironment*						env;
 		DirectXVertexBuffer<VertexObject>*		geometry;
 	public:
 		List<Ptr<Vertex>>						modelVertices;
 		List<Ptr<Face>>							modelFaces;
-
 		Array<VertexObject>						vertexBufferVertices;
 		Array<unsigned int>						vertexBufferIndices;
-
-		D3DXMATRIX								worldMatrix;
-		bool									selected;
-		bool									mainSelected;
+		EditorInfo								editorInfo;
 
 		Model(DirectXEnvironment* _env);
 		~Model();
