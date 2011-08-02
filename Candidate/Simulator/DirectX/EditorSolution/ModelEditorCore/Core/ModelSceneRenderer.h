@@ -33,6 +33,8 @@ namespace modeleditor
 		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineGlobal;
 		DirectXVertexBuffer<VertexAxis>*		geometryAxisLineLocal;
 		DirectXVertexBuffer<VertexObject>*		geometryAxisObject;
+		DirectXVertexBuffer<VertexAxis>*		geometryVertexHighlightOuter;
+		DirectXVertexBuffer<VertexAxis>*		geometryVertexHighlightInner;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 		DirectXShader<VertexObject>*			shaderSelectedObject;
@@ -51,6 +53,7 @@ namespace modeleditor
 
 	private:
 		void									ViewCalculateDirection();
+		void									ViewCalculateMatrix(D3DXMATRIX& viewMatrix);
 		void									UpdateConstantBuffer(const D3DXMATRIX& worldMatrix);
 		void									UpdateGeometryAxis();
 
@@ -61,11 +64,13 @@ namespace modeleditor
 		void									RenderAxisObject();
 		void									UpdateEditorMode();
 		void									RenderEditorMode();
+		void									RenderVertexHighlights();
 
 	protected:
 		virtual void							CallbackRebuildModels()=0;
 		virtual void							CallbackDrawEditorMode(WinDC* dc)=0;
 		virtual void							CallbackRenderModels(bool onlySelected, DirectXShader<VertexObject>* normalObjectShader, DirectXShader<VertexObject>* selectedObjectShader)=0;
+		virtual void							CallbackRenderVertexHighlights()=0;
 		virtual void							CallbackRenderSelectorSelected()=0;
 		virtual bool							CallbackRenderLocalAxis(D3DXMATRIX& worldMatrix)=0;
 
@@ -73,6 +78,7 @@ namespace modeleditor
 		unsigned __int32						ToolGetSelectorResult(int x, int y);
 		void									ToolSetWorldMatrix(const D3DXMATRIX& worldMatrix);
 		void									ToolDrawEditorMode();
+		void									ToolDrawVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex);
 
 		void									Constructor();
 		void									Destructor();

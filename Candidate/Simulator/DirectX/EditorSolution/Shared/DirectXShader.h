@@ -422,6 +422,7 @@ Viewport
 			D3DXMATRIX					projectionMatrix;
 
 			void						SetViewport(int left, int top, int width, int height, float fieldOfView, float screenNear, float screenFar);
+			void						CalculateProjectionMatrix(D3DXMATRIX& matrix, int width, int height, float fieldOfView, float screenNear, float screenFar);
 		};
 	}
 }
