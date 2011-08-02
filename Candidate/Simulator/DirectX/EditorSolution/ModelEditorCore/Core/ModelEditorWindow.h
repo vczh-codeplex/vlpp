@@ -22,6 +22,8 @@ namespace modeleditor
 		enum Enum
 		{
 			ObjectSelection,
+			ObjectFaceSelection,
+			ObjectVertexSelection,
 			ObjectTranslation,
 			ObjectRotation,
 			ObjectScaling,

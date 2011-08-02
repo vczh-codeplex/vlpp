@@ -60,6 +60,21 @@ ModelEditorRenderer
 		ToolRenderSelector(false);
 	}
 
+	void ModelEditorRenderer::RenderSelectorFaceIndexIncremented()
+	{
+		int faceIndex=1;
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			for(int j=0;j<model->vertexBufferVertices.Count();j++)
+			{
+				model->vertexBufferVertices[j].id=faceIndex++;
+			}
+			model->UpdateVertexBuffer();
+		}
+		ToolRenderSelector(false);
+	}
+
 	void ModelEditorRenderer::RenderSelectorSelected()
 	{
 		for(int i=0;i<models.Count();i++)
@@ -115,8 +130,34 @@ ModelEditorRenderer
 	int ModelEditorRenderer::QueryModel(int x, int y)
 	{
 		RenderSelectorModelIndexIncremented();
-		unsigned __int32 result=ToolGetSelectorResult(x, y);
-		return (int)result-1;
+		int result=(int)ToolGetSelectorResult(x, y);
+		return result-1;
+	}
+
+	bool ModelEditorRenderer::QueryFace(int x, int y, Model*& faceModel, int& faceIndex)
+	{
+		RenderSelectorModelIndexIncremented();
+		int result=(int)ToolGetSelectorResult(x, y);
+		if(result)
+		{
+			int currentFirstIndex=1;
+			for(int i=0;i<models.Count();i++)
+			{
+				Model* model=models[i].Obj();
+				if(currentFirstIndex<=faceIndex && faceIndex<currentFirstIndex+model->modelFaces.Count())
+				{
+					faceModel=model;
+					faceIndex=result-currentFirstIndex;
+				}
+			}
+			return true;
+		}
+		else
+		{
+			faceModel=0;
+			faceIndex=0;
+			return false;
+		}
 	}
 
 	void ModelEditorRenderer::SelectModel(int index)

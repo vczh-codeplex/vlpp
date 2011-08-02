@@ -180,6 +180,126 @@ ModelEditorMode::ObjectSelection
 	}
 
 /***********************************************************************
+ModelEditorMode::ObjectFaceSelection
+***********************************************************************/
+
+	void ToolObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	{
+		WindowMouseInfo info(wParam, lParam, false);
+		switch(uMsg)
+		{
+		case WM_LBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+			}
+			break;
+		case WM_RBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_RBUTTONUP:
+			{
+			}
+			break;
+		case WM_MOUSEMOVE:
+			{
+			}
+			break;
+		}
+	}
+
+	void IdleObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	{
+		WindowMouseInfo info(wParam, lParam, false);
+		switch(uMsg)
+		{
+		case WM_LBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+			}
+			break;
+		case WM_RBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_RBUTTONUP:
+			{
+			}
+			break;
+		case WM_MOUSEMOVE:
+			{
+			}
+			break;
+		}
+	}
+
+/***********************************************************************
+ModelEditorMode::ObjectVertexSelection
+***********************************************************************/
+
+	void ToolObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	{
+		WindowMouseInfo info(wParam, lParam, false);
+		switch(uMsg)
+		{
+		case WM_LBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+			}
+			break;
+		case WM_RBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_RBUTTONUP:
+			{
+			}
+			break;
+		case WM_MOUSEMOVE:
+			{
+			}
+			break;
+		}
+	}
+
+	void IdleObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	{
+		WindowMouseInfo info(wParam, lParam, false);
+		switch(uMsg)
+		{
+		case WM_LBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+			}
+			break;
+		case WM_RBUTTONDOWN:
+			{
+			}
+			break;
+		case WM_RBUTTONUP:
+			{
+			}
+			break;
+		case WM_MOUSEMOVE:
+			{
+			}
+			break;
+		}
+	}
+
+/***********************************************************************
 ModelEditorMode::ObjectTranslation
 ***********************************************************************/
 
@@ -435,7 +555,7 @@ ToolObjectEditingInfo
 EditorWindowSubclassProc
 ***********************************************************************/
 
-	ModelEditorWindow::ToolMessageProc ChooseToolMouseProc(ModelEditorWindow* editorWindow)
+	ModelEditorWindow::ToolMessageProc ChooseActivatedToolMouseProc(ModelEditorWindow* editorWindow)
 	{
 		switch(editorWindow->modelEditorData.modelEditorOperation)
 		{
@@ -450,12 +570,35 @@ EditorWindowSubclassProc
 			{
 			case ModelEditorMode::ObjectSelection:
 				return &ToolObjectSelection;
+			case ModelEditorMode::ObjectFaceSelection:
+				return &ToolObjectFaceSelection;
+			case ModelEditorMode::ObjectVertexSelection:
+				return &ToolObjectVertexSelection;
 			case ModelEditorMode::ObjectTranslation:
 				return &ToolObjectTranslation;
 			case ModelEditorMode::ObjectRotation:
 				return &ToolObjectRotation;
 			case ModelEditorMode::ObjectScaling:
 				return &ToolObjectScaling;
+			default:
+				return 0;
+			}
+		default:
+			return 0;
+		}
+	}
+
+	ModelEditorWindow::ToolMessageProc ChooseIdleMouseProc(ModelEditorWindow* editorWindow)
+	{
+		switch(editorWindow->modelEditorData.modelEditorOperation)
+		{
+		case ModelEditorOperation::ObjectEditing:
+			switch(editorWindow->modelEditorData.modelEditorMode)
+			{
+			case ModelEditorMode::ObjectFaceSelection:
+				return &IdleObjectFaceSelection;
+			case ModelEditorMode::ObjectVertexSelection:
+				return &IdleObjectVertexSelection;
 			default:
 				return 0;
 			}
@@ -502,6 +645,12 @@ EditorWindowSubclassProc
 					break;
 				case 'C':
 					EditorModeSelection(editorWindow);
+					break;
+				case 'F':
+					EditorModeFaceSelection(editorWindow);
+					break;
+				case 'V':
+					EditorModeVertexSelection(editorWindow);
 					break;
 				case 'T':
 					EditorModeTranslation(editorWindow);
@@ -575,7 +724,7 @@ EditorWindowSubclassProc
 					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ObjectEditing;
 				}
 
-				editorWindow->currentToolMessageProc=ChooseToolMouseProc(editorWindow);
+				editorWindow->currentToolMessageProc=ChooseActivatedToolMouseProc(editorWindow);
 				if(editorWindow->currentToolMessageProc)
 				{
 					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
@@ -603,7 +752,7 @@ EditorWindowSubclassProc
 					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewRotation;
 				}
 
-				editorWindow->currentToolMessageProc=ChooseToolMouseProc(editorWindow);
+				editorWindow->currentToolMessageProc=ChooseActivatedToolMouseProc(editorWindow);
 				if(editorWindow->currentToolMessageProc)
 				{
 					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
@@ -629,6 +778,14 @@ EditorWindowSubclassProc
 				if(editorWindow->currentToolMessageProc)
 				{
 					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
+				}
+				else
+				{
+					ModelEditorWindow::ToolMessageProc proc=ChooseIdleMouseProc(editorWindow);
+					if(proc)
+					{
+						proc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
+					}
 				}
 			}
 			break;

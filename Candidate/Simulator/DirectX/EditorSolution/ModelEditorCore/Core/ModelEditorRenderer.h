@@ -22,6 +22,7 @@ namespace modeleditor
 		bool									CallbackRenderLocalAxis(D3DXMATRIX& worldMatrix);
 
 		void									RenderSelectorModelIndexIncremented();
+		void									RenderSelectorFaceIndexIncremented();
 		void									RenderSelectorSelected();
 	public:
 		ModelEditorRenderer(HWND _editorControl, const WString& _workingDirectory);
@@ -31,7 +32,9 @@ namespace modeleditor
 		void									RemoveModel(Model* model);
 		int										ModelCount();
 		Model*									GetModel(int index);
+
 		int										QueryModel(int x, int y);
+		bool									QueryFace(int x, int y, Model*& faceModel, int& faceIndex);
 		void									SelectModel(int index);
 		Model*									GetMainSelectedModel();
 	};

@@ -45,16 +45,22 @@ ModelEditorWindow
 		switch(modelEditorData.modelEditorMode)
 		{
 		case ModelEditorMode::ObjectSelection:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Select\t\t{LBUTTON}", 32, 10);
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select\t\t{LBUTTON}", 32, 10);
+			break;
+		case ModelEditorMode::ObjectFaceSelection:
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select Face\t{LBUTTON}", 32, 10);
+			break;
+		case ModelEditorMode::ObjectVertexSelection:
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select Vertex\t{LBUTTON}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectTranslation:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Move"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Move"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectRotation:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(10, 30, L"Editor Mode[CTRS]\t: Scale\t\t{LBUTTON}", 32, 10);
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Scale\t\t{LBUTTON}", 32, 10);
 			break;
 		}
 		switch(modelEditorData.modelEditorAxis)

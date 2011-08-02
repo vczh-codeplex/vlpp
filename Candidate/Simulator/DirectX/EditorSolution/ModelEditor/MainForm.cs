@@ -54,6 +54,16 @@ namespace ModelEditor
             ModelEditorCore.EditorModeSelection(this.editorWindow);
         }
 
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeFaceSelection(this.editorWindow);
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.EditorModeVertexSelection(this.editorWindow);
+        }
+
         private void tTranslationModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModelEditorCore.EditorModeTranslation(this.editorWindow);
