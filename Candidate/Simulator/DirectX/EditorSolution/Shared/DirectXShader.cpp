@@ -302,7 +302,7 @@ DirectXDepthBuffer
 		
 				depthStencilDesc.DepthEnable = true;
 				depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-				depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+				depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
 				depthStencilDesc.StencilEnable = false;
 				depthStencilDesc.StencilReadMask = 0xFF;
@@ -471,8 +471,13 @@ DirectXViewport
 			viewport.MaxDepth = 1;
 			env->context->RSSetViewports(1, &viewport);
 
+			CalculateProjectionMatrix(projectionMatrix, width, height, fieldOfView, screenNear, screenFar);
+		}
+
+		void DirectXViewport::CalculateProjectionMatrix(D3DXMATRIX& matrix, int width, int height, float fieldOfView, float screenNear, float screenFar)
+		{
 			float screenAspect = (float)width / (float)height;
-			D3DXMatrixPerspectiveFovLH(&projectionMatrix, fieldOfView, screenAspect, screenNear, screenFar);
+			D3DXMatrixPerspectiveFovLH(&matrix, fieldOfView, screenAspect, screenNear, screenFar);
 		}
 	}
 }

@@ -190,6 +190,17 @@ ModelEditorMode::ObjectFaceSelection
 		{
 		case WM_LBUTTONDOWN:
 			{
+				int modelIndex=-1;
+				int faceIndex=-1;
+				if(editorWindow->QueryFace(info.x, info.y, modelIndex, faceIndex))
+				{
+					editorWindow->SelectFace(modelIndex, faceIndex);
+				}
+				else
+				{
+					editorWindow->SelectModel(-1);
+				}
+				editorWindow->Render();
 			}
 			break;
 		case WM_LBUTTONUP:

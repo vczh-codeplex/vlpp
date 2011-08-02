@@ -33,6 +33,8 @@ namespace modeleditor
 		{
 			D3DXMATRIX							worldMatrix;
 			bool								selected;
+			int									selectedFace;
+			int									selectedVertex;
 
 			EditorInfo();
 		};

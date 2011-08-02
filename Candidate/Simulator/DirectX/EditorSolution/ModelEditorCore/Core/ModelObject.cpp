@@ -9,6 +9,8 @@ Model
 
 	Model::EditorInfo::EditorInfo()
 		:selected(false)
+		,selectedFace(-1)
+		,selectedVertex(-1)
 	{
 		D3DXMatrixIdentity(&worldMatrix);
 	}

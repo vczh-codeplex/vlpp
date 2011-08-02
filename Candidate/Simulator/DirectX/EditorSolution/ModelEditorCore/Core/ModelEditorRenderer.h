@@ -16,6 +16,7 @@ namespace modeleditor
 	protected:
 		void									CallbackRebuildModels();
 		void									CallbackRenderModels(bool onlySelected, DirectXShader<VertexObject>* normalObjectShader, DirectXShader<VertexObject>* selectedObjectShader);
+		void									CallbackRenderVertexHighlights();
 		void									CallbackRenderSelectorSelected();
 		bool									CallbackRenderLocalAxis(D3DXMATRIX& worldMatrix);
 
@@ -32,8 +33,10 @@ namespace modeleditor
 		Model*									GetModel(int index);
 
 		int										QueryModel(int x, int y);
-		bool									QueryFace(int x, int y, Model*& faceModel, int& faceIndex);
+		bool									QueryFace(int x, int y, int& modelIndex, int& faceIndex);
 		void									SelectModel(int index);
+		void									SelectFace(int index, int faceIndex);
+		void									SelectVertex(int index, int vertexIndex);
 		Model*									GetMainSelectedModel();
 	};
 }

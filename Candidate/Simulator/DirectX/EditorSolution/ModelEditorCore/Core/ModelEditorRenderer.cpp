@@ -28,6 +28,34 @@ ModelEditorRenderer
 		}
 	}
 
+	void ModelEditorRenderer::CallbackRenderVertexHighlights()
+	{
+		for(int i=0;i<models.Count();i++)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedFace!=-1)
+			{
+				Model::Face* face=model->modelFaces[model->editorInfo.selectedFace].Obj();
+				for(int k=0;k<face->vertexIndices.Count();k++)
+				{
+					Model::Vertex* v=model->modelVertices[face->vertexIndices[k]].Obj();
+					ToolDrawVertexHighlight(
+						model->editorInfo.worldMatrix,
+						v->position
+						);
+				}
+			}
+			if(model->editorInfo.selectedVertex!=-1)
+			{
+				Model::Vertex* v=model->modelVertices[model->editorInfo.selectedVertex].Obj();
+				ToolDrawVertexHighlight(
+					model->editorInfo.worldMatrix,
+					v->position
+					);
+			}
+		}
+	}
+
 	void ModelEditorRenderer::CallbackRenderSelectorSelected()
 	{
 		RenderSelectorSelected();
@@ -140,9 +168,9 @@ ModelEditorRenderer
 		return result-1;
 	}
 
-	bool ModelEditorRenderer::QueryFace(int x, int y, Model*& faceModel, int& faceIndex)
+	bool ModelEditorRenderer::QueryFace(int x, int y, int& modelIndex, int& faceIndex)
 	{
-		RenderSelectorModelIndexIncremented();
+		RenderSelectorFaceIndexIncremented();
 		int result=(int)ToolGetSelectorResult(x, y);
 		if(result)
 		{
@@ -150,18 +178,19 @@ ModelEditorRenderer
 			for(int i=0;i<models.Count();i++)
 			{
 				Model* model=models[i].Obj();
-				if(currentFirstIndex<=faceIndex && faceIndex<currentFirstIndex+model->modelFaces.Count())
+				if(currentFirstIndex<=result && result<currentFirstIndex+model->modelFaces.Count())
 				{
-					faceModel=model;
+					modelIndex=i;
 					faceIndex=result-currentFirstIndex;
+					break;
 				}
 			}
 			return true;
 		}
 		else
 		{
-			faceModel=0;
-			faceIndex=0;
+			modelIndex=-1;
+			faceIndex=-1;
 			return false;
 		}
 	}
@@ -172,6 +201,38 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			models[i]->editorInfo.selected=i==index;
+			models[i]->editorInfo.selectedFace=-1;
+			models[i]->editorInfo.selectedVertex=-1;
+			if(i==index)
+			{
+				mainSelectedModel=models[i].Obj();
+			}
+		}
+	}
+
+	void ModelEditorRenderer::SelectFace(int index, int faceIndex)
+	{
+		mainSelectedModel=0;
+		for(int i=0;i<models.Count();i++)
+		{
+			models[i]->editorInfo.selected=false;
+			models[i]->editorInfo.selectedFace=faceIndex;
+			models[i]->editorInfo.selectedVertex=-1;
+			if(i==index)
+			{
+				mainSelectedModel=models[i].Obj();
+			}
+		}
+	}
+
+	void ModelEditorRenderer::SelectVertex(int index, int vertexIndex)
+	{
+		mainSelectedModel=0;
+		for(int i=0;i<models.Count();i++)
+		{
+			models[i]->editorInfo.selected=false;
+			models[i]->editorInfo.selectedFace=-1;
+			models[i]->editorInfo.selectedVertex=vertexIndex;
 			if(i==index)
 			{
 				mainSelectedModel=models[i].Obj();
