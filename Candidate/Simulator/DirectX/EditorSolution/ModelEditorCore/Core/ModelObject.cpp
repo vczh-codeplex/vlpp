@@ -7,13 +7,16 @@ namespace modeleditor
 Model
 ***********************************************************************/
 
+	Model::EditorInfo::EditorInfo()
+		:selected(false)
+	{
+		D3DXMatrixIdentity(&worldMatrix);
+	}
+
 	Model::Model(DirectXEnvironment* _env)
 		:env(0)
 		,geometry(0)
-		,selected(false)
-		,mainSelected(false)
 	{
-		D3DXMatrixIdentity(&worldMatrix);
 		Rebuild(_env);
 	}
 

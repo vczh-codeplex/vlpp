@@ -9,8 +9,6 @@ namespace modeleditor
 {
 	class ModelEditorRenderer : public ModelSceneRenderer
 	{
-	public:
-
 	protected:
 		List<Ptr<Model>>						models;
 		Model*									mainSelectedModel;
