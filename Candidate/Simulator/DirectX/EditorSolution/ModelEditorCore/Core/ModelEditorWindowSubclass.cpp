@@ -155,13 +155,13 @@ ModelEditorMode::ObjectSelection
 		{
 		case WM_LBUTTONDOWN:
 			{
-				int index=editorWindow->QueryModel(info.x, info.y);
-				editorWindow->SelectModel(index);
-				editorWindow->Render();
 			}
 			break;
 		case WM_LBUTTONUP:
 			{
+				int index=editorWindow->QueryModel(info.x, info.y);
+				editorWindow->SelectModel(index);
+				editorWindow->Render();
 			}
 			break;
 		case WM_RBUTTONDOWN:
@@ -190,21 +190,42 @@ ModelEditorMode::ObjectFaceSelection
 		{
 		case WM_LBUTTONDOWN:
 			{
-				int modelIndex=-1;
-				int faceIndex=-1;
-				if(editorWindow->QueryFace(info.x, info.y, modelIndex, faceIndex))
-				{
-					editorWindow->SelectFace(modelIndex, faceIndex);
-				}
-				else
-				{
-					editorWindow->SelectModel(-1);
-				}
+				editorWindow->StartRanging(info.x, info.y);
 				editorWindow->Render();
 			}
 			break;
 		case WM_LBUTTONUP:
 			{
+				int x=0, y=0, w=0, h=0;
+				if(editorWindow->GetRanging(x, y, w, h))
+				{
+					if(w==1 && h==1)
+					{
+						int modelIndex=-1;
+						int faceIndex=-1;
+						if(editorWindow->QueryFace(info.x, info.y, modelIndex, faceIndex))
+						{
+							editorWindow->SelectFace(modelIndex, faceIndex);
+						}
+						else
+						{
+							editorWindow->SelectModel(-1);
+						}
+					}
+					else
+					{
+						int count=editorWindow->ModelCount();
+						for(int i=0;i<count;i++)
+						{
+							Model* model=editorWindow->GetModel(i);
+							if(model->editorInfo.selected)
+							{
+							}
+						}
+					}
+				}
+				editorWindow->StopRanging();
+				editorWindow->Render();
 			}
 			break;
 		case WM_RBUTTONDOWN:
@@ -217,6 +238,8 @@ ModelEditorMode::ObjectFaceSelection
 			break;
 		case WM_MOUSEMOVE:
 			{
+				editorWindow->ContinueRanging(info.x, info.y);
+				editorWindow->Render();
 			}
 			break;
 		}
@@ -261,21 +284,42 @@ ModelEditorMode::ObjectVertexSelection
 		{
 		case WM_LBUTTONDOWN:
 			{
-				int modelIndex=-1;
-				int vertexIndex=-1;
-				if(editorWindow->QueryVertex(info.x, info.y, modelIndex, vertexIndex))
-				{
-					editorWindow->SelectVertex(modelIndex, vertexIndex);
-				}
-				else
-				{
-					editorWindow->SelectModel(-1);
-				}
+				editorWindow->StartRanging(info.x, info.y);
 				editorWindow->Render();
 			}
 			break;
 		case WM_LBUTTONUP:
 			{
+				int x=0, y=0, w=0, h=0;
+				if(editorWindow->GetRanging(x, y, w, h))
+				{
+					int modelIndex=-1;
+					int vertexIndex=-1;
+					if(w==1 && h==1)
+					{
+						if(editorWindow->QueryVertex(info.x, info.y, modelIndex, vertexIndex))
+						{
+							editorWindow->SelectVertex(modelIndex, vertexIndex);
+						}
+						else
+						{
+							editorWindow->SelectModel(-1);
+						}
+					}
+					else
+					{
+						int count=editorWindow->ModelCount();
+						for(int i=0;i<count;i++)
+						{
+							Model* model=editorWindow->GetModel(i);
+							if(model->editorInfo.selected)
+							{
+							}
+						}
+					}
+				}
+				editorWindow->StopRanging();
+				editorWindow->Render();
 			}
 			break;
 		case WM_RBUTTONDOWN:
@@ -288,6 +332,8 @@ ModelEditorMode::ObjectVertexSelection
 			break;
 		case WM_MOUSEMOVE:
 			{
+				editorWindow->ContinueRanging(info.x, info.y);
+				editorWindow->Render();
 			}
 			break;
 		}

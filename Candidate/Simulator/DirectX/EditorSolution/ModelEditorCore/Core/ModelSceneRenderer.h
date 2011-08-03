@@ -35,6 +35,7 @@ namespace modeleditor
 		DirectXVertexBuffer<VertexObject>*		geometryAxisObject;
 		DirectXVertexBuffer<VertexAxis>*		geometryVertexHighlightOuter;
 		DirectXVertexBuffer<VertexAxis>*		geometryVertexHighlightInner;
+		DirectXVertexBuffer<VertexAxis>*		geometryRanging;
 		DirectXShader<VertexAxis>*				shaderAxis;
 		DirectXShader<VertexObject>*			shaderObject;
 		DirectXShader<VertexObject>*			shaderSelectedObject;
@@ -51,12 +52,16 @@ namespace modeleditor
 		DirectXShader<VertexImage>*				editorModeShader;
 		DirectXSamplerBuffer*					editorModeSampler;
 
+		int										rangingX1, rangingX2, rangingY1, rangingY2;
+		bool									rangingVisible;
+
 	private:
 		void									ViewCalculateDirection();
 		void									ViewCalculateMatrix(D3DXMATRIX& viewMatrix);
 		void									UpdateConstantBuffer(const D3DXMATRIX& worldMatrix);
 		void									UpdateGeometryAxis();
 
+		void									CreateRectangle(DirectXVertexBuffer<VertexAxis>* geometry, D3DXCOLOR color);
 		void									Initialize();
 		void									Finalize();
 
@@ -65,6 +70,7 @@ namespace modeleditor
 		void									UpdateEditorMode();
 		void									RenderEditorMode();
 		void									RenderVertexHighlights();
+		void									RenderRanging();
 
 	protected:
 		virtual void							CallbackRebuildModels()=0;
@@ -96,6 +102,11 @@ namespace modeleditor
 		void									ViewRotateVertical(float angle);
 		void									ViewRotateHorizontal(float angle);
 		void									ViewMove(float left, float up, float front);
+
+		void									StartRanging(int x, int y);
+		void									ContinueRanging(int x, int y);
+		void									StopRanging();
+		bool									GetRanging(int& x, int& y, int& w, int& h);
 
 		D3DXVECTOR3								GetViewAt();
 		D3DXVECTOR3								GetViewFront();

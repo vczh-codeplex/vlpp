@@ -170,6 +170,25 @@ ModelSceneRenderer
 		}
 	}
 
+	void ModelSceneRenderer::CreateRectangle(DirectXVertexBuffer<VertexAxis>* geometry, D3DXCOLOR color)
+	{
+		VertexAxis vertices[4] =
+		{
+			{D3DXVECTOR3(-1, -1, 0), color},
+			{D3DXVECTOR3( 1, -1, 0), color},
+			{D3DXVECTOR3( 1,  1, 0), color},
+			{D3DXVECTOR3(-1,  1, 0), color},
+		};
+
+		unsigned __int32 indices[6] =
+		{
+			0, 3, 2,
+			0, 2, 1,
+		};
+
+		geometry->Fill(vertices, indices);
+	}
+
 	void ModelSceneRenderer::Initialize()
 	{
 		env=new DirectXEnvironment(editorControl, clientSize.cx, clientSize.cy);
@@ -191,41 +210,11 @@ ModelSceneRenderer
 		geometryAxisLineLocal=new DirectXVertexBuffer<VertexAxis>(env);
 		geometryAxisObject=new DirectXVertexBuffer<VertexObject>(env);
 		geometryVertexHighlightOuter=new DirectXVertexBuffer<VertexAxis>(env);
-		{
-			VertexAxis vertices[4] =
-			{
-				{D3DXVECTOR3(-1, -1, 0), D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 1, -1, 0), D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3( 1,  1, 0), D3DXCOLOR(1, 1, 1, 1)},
-				{D3DXVECTOR3(-1,  1, 0), D3DXCOLOR(1, 1, 1, 1)},
-			};
-
-			unsigned __int32 indices[6] =
-			{
-				0, 3, 2,
-				0, 2, 1,
-			};
-
-			geometryVertexHighlightOuter->Fill(vertices, indices);
-		}
+		CreateRectangle(geometryVertexHighlightOuter, D3DXCOLOR(1, 1, 1, 1));
 		geometryVertexHighlightInner=new DirectXVertexBuffer<VertexAxis>(env);
-		{
-			VertexAxis vertices[4] =
-			{
-				{D3DXVECTOR3(-1, -1, 0), D3DXCOLOR(0, 0, 0, 1)},
-				{D3DXVECTOR3( 1, -1, 0), D3DXCOLOR(0, 0, 0, 1)},
-				{D3DXVECTOR3( 1,  1, 0), D3DXCOLOR(0, 0, 0, 1)},
-				{D3DXVECTOR3(-1,  1, 0), D3DXCOLOR(0, 0, 0, 1)},
-			};
-
-			unsigned __int32 indices[6] =
-			{
-				0, 3, 2,
-				0, 2, 1,
-			};
-
-			geometryVertexHighlightInner->Fill(vertices, indices);
-		}
+		CreateRectangle(geometryVertexHighlightInner, D3DXCOLOR(0, 0, 0, 1));
+		geometryRanging=new DirectXVertexBuffer<VertexAxis>(env);
+		CreateRectangle(geometryRanging, D3DXCOLOR(0.7f, 0.3f, 1.0f, 0.5f));
 		UpdateGeometryAxis();
 
 		shaderAxis=new DirectXShader<VertexAxis>(env);
@@ -305,6 +294,7 @@ ModelSceneRenderer
 		DeleteAndZero(shaderSelectedObject);
 		DeleteAndZero(shaderObject);
 		DeleteAndZero(shaderAxis);
+		DeleteAndZero(geometryRanging);
 		DeleteAndZero(geometryVertexHighlightInner);
 		DeleteAndZero(geometryVertexHighlightOuter);
 		DeleteAndZero(geometryAxisObject);
@@ -380,7 +370,7 @@ ModelSceneRenderer
 
 	void ModelSceneRenderer::RenderEditorMode()
 	{
-		viewport->SetViewport(0, 0, EditorModeTextureSize, EditorModeTextureSize, (float)D3DX_PI/2, 0.1f, 1000.0f);
+		viewport->SetViewport(0, 0, EditorModeTextureSize, EditorModeTextureSize, (float)D3DX_PI/2, 0.1f, 1000.0f, true);
 		depthBuffer->Clear();
 
 		{
@@ -402,6 +392,28 @@ ModelSceneRenderer
 	{
 		depthBuffer->Clear();
 		CallbackRenderVertexHighlights();
+	}
+
+	void ModelSceneRenderer::RenderRanging()
+	{
+		int x=0, y=0, w=0, h=0;
+		if(GetRanging(x, y, w, h) && w>1 && h>1)
+		{
+			viewport->SetViewport(x, y, w, h, (float)D3DX_PI/2, 0.1f, 1000.0f, true);
+			depthBuffer->Clear();
+			{
+				D3DXMATRIX worldMatrix, viewMatrix;
+				D3DXMatrixIdentity(&worldMatrix);
+				D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0, 0, -1), &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 1, 0));
+				D3DXMatrixTranspose(&(*constantBuffer)->worldMatrix, &worldMatrix);
+				D3DXMatrixTranspose(&(*constantBuffer)->viewMatrix, &viewMatrix);
+				D3DXMatrixTranspose(&(*constantBuffer)->projectionMatrix, &viewport->projectionMatrix);
+				constantBuffer->Update();
+			}
+			constantBuffer->VSBindToRegisterBN(0);
+			constantBuffer->PSBindToRegisterBN(0);
+			geometryRanging->SetCurrentAndRender(shaderAxis);
+		}
 	}
 
 	void ModelSceneRenderer::ToolRenderSelector(bool onlySelected)
@@ -470,7 +482,7 @@ ModelSceneRenderer
 		int y=0;
 		ToolCalculateVertexHighlight(worldMatrix, vertex, x, y);
 
-		viewport->SetViewport(x-3, y-3, 7, 7, (float)D3DX_PI/2, 0.1f, 1000.0f);
+		viewport->SetViewport(x-3, y-3, 7, 7, (float)D3DX_PI/2, 0.1f, 1000.0f, true);
 		{
 			D3DXMATRIX worldMatrix, viewMatrix;
 			D3DXMatrixIdentity(&worldMatrix);
@@ -484,7 +496,7 @@ ModelSceneRenderer
 		constantBuffer->PSBindToRegisterBN(0);
 		geometryVertexHighlightOuter->SetCurrentAndRender(shaderAxis);
 
-		viewport->SetViewport(x-2, y-2, 5, 5, (float)D3DX_PI/2, 0.1f, 1000.0f);
+		viewport->SetViewport(x-2, y-2, 5, 5, (float)D3DX_PI/2, 0.1f, 1000.0f, true);
 		{
 			D3DXMatrixTranspose(&(*constantBuffer)->projectionMatrix, &viewport->projectionMatrix);
 			constantBuffer->Update();
@@ -524,6 +536,7 @@ ModelSceneRenderer
 		,geometryAxisObject(0)
 		,geometryVertexHighlightOuter(0)
 		,geometryVertexHighlightInner(0)
+		,geometryRanging(0)
 		,shaderAxis(0)
 		,shaderObject(0)
 		,shaderSelectedObject(0)
@@ -532,6 +545,11 @@ ModelSceneRenderer
 		,editorModeRectangle(0)
 		,editorModeShader(0)
 		,editorModeSampler(0)
+		,rangingX1(0)
+		,rangingX2(0)
+		,rangingY1(0)
+		,rangingY2(0)
+		,rangingVisible(false)
 	{
 	}
 
@@ -568,6 +586,7 @@ ModelSceneRenderer
 		RenderAxisLine();
 		RenderAxisObject();
 		RenderVertexHighlights();
+		RenderRanging();
 		RenderEditorMode();
 
 		env->swapChain->Present(0, 0);
@@ -601,6 +620,56 @@ ModelSceneRenderer
 			viewAt.y + left*viewLeft.y + up*viewUp.y + front*viewFront.y,
 			viewAt.z + left*viewLeft.z + up*viewUp.z + front*viewFront.z
 			);
+	}
+
+	void ModelSceneRenderer::StartRanging(int x, int y)
+	{
+		rangingVisible=true;
+		rangingX1=rangingX2=x;
+		rangingY1=rangingY2=y;
+	}
+
+	void ModelSceneRenderer::ContinueRanging(int x, int y)
+	{
+		rangingX2=x;
+		rangingY2=y;
+	}
+
+	void ModelSceneRenderer::StopRanging()
+	{
+		rangingVisible=false;
+	}
+
+	bool ModelSceneRenderer::GetRanging(int& x, int& y, int& w, int& h)
+	{
+		if(rangingVisible)
+		{
+			if(rangingX1<rangingX2)
+			{
+				x=rangingX1;
+				w=rangingX2-rangingX1+1;
+			}
+			else
+			{
+				x=rangingX2;
+				w=rangingX1-rangingX2+1;
+			}
+			if(rangingY1<rangingY2)
+			{
+				y=rangingY1;
+				h=rangingY2-rangingY1+1;
+			}
+			else
+			{
+				y=rangingY2;
+				h=rangingY1-rangingY2+1;
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	D3DXVECTOR3 ModelSceneRenderer::GetViewAt()
