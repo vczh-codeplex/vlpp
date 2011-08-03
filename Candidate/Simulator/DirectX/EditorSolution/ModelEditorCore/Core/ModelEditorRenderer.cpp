@@ -203,7 +203,32 @@ ModelEditorRenderer
 		{
 			return false;
 		}
-		return true;
+		int distance=-1;
+		Model* model=models[modelIndex].Obj();
+		Model::Face* face=model->modelFaces[vertexIndex].Obj();
+		vertexIndex=-1;
+
+		for(int i=0;i<face->vertexIndices.Count();i++)
+		{
+			int fx=0;
+			int fy=0;
+			ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, model->modelVertices[face->vertexIndices[i]]->position, fx, fy);
+			int fdistance=(x-fx)*(x-fx)+(y-fy)*(y-fy);
+			if(fdistance<25 && (fdistance<distance || distance==-1))
+			{
+				vertexIndex=face->vertexIndices[i];
+			}
+		}
+
+		if(vertexIndex==-1)
+		{
+			modelIndex=-1;
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	void ModelEditorRenderer::SelectModel(int index)

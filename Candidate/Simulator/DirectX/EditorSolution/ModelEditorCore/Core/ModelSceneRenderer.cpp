@@ -450,7 +450,7 @@ ModelSceneRenderer
 		UpdateEditorMode();
 	}
 
-	void ModelSceneRenderer::ToolDrawVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex)
+	void ModelSceneRenderer::ToolCalculateVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex, int& x, int& y)
 	{
 		D3DXMATRIX viewMatrix, projectionMatrix;
 		ViewCalculateMatrix(viewMatrix);
@@ -460,8 +460,15 @@ ModelSceneRenderer
 		D3DXVec4Transform(&v, &v, &worldMatrix);
 		D3DXVec4Transform(&v, &v, &viewMatrix);
 		D3DXVec4Transform(&v, &v, &projectionMatrix);
-		int x=(int)(clientSize.cx*(1.0f+v.x/v.w)/2.0f);
-		int y=(int)(clientSize.cy*(1.0f-v.y/v.w)/2.0f);
+		x=(int)(clientSize.cx*(1.0f+v.x/v.w)/2.0f);
+		y=(int)(clientSize.cy*(1.0f-v.y/v.w)/2.0f);
+	}
+
+	void ModelSceneRenderer::ToolDrawVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex)
+	{
+		int x=0;
+		int y=0;
+		ToolCalculateVertexHighlight(worldMatrix, vertex, x, y);
 
 		viewport->SetViewport(x-3, y-3, 7, 7, (float)D3DX_PI/2, 0.1f, 1000.0f);
 		{

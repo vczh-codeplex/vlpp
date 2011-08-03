@@ -78,6 +78,7 @@ namespace modeleditor
 		unsigned __int32						ToolGetSelectorResult(int x, int y);
 		void									ToolSetWorldMatrix(const D3DXMATRIX& worldMatrix);
 		void									ToolDrawEditorMode();
+		void									ToolCalculateVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex, int& x, int& y);
 		void									ToolDrawVertexHighlight(const D3DXMATRIX& worldMatrix, D3DXVECTOR3 vertex);
 
 		void									Constructor();
