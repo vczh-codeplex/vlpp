@@ -367,6 +367,10 @@ ModelEditorMode::ObjectTranslation
 						{
 							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &translation);
 						}
+						else if(model->editorInfo.selectedFace!=-1 || model->editorInfo.selectedVertex!=-1)
+						{
+							ToolObjectTransformSelectedVertices(model, translation);
+						}
 					}
 
 					editorWindow->Render();
@@ -443,6 +447,10 @@ ModelEditorMode::ObjectRotation
 						if(model->editorInfo.selected)
 						{
 							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &rotation);
+						}
+						else if(model->editorInfo.selectedFace!=-1 || model->editorInfo.selectedVertex!=-1)
+						{
+							ToolObjectTransformSelectedVertices(model, rotation);
 						}
 					}
 
@@ -525,6 +533,10 @@ ModelEditorMode::ObjectScaling
 						{
 							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &scaling);
 						}
+						else if(model->editorInfo.selectedFace!=-1 || model->editorInfo.selectedVertex!=-1)
+						{
+							ToolObjectTransformSelectedVertices(model, scaling);
+						}
 					}
 
 					editorWindow->Render();
@@ -537,7 +549,7 @@ ModelEditorMode::ObjectScaling
 	}
 
 /***********************************************************************
-ToolObjectEditingInfo
+Helper Functions
 ***********************************************************************/
 
 	bool ToolObjectEditingInfo(D3DXVECTOR3& axis, Model*& selectedLocalModel, ModelEditorWindow* editorWindow)
@@ -571,6 +583,36 @@ ToolObjectEditingInfo
 			D3DXVec3Normalize(&axis, &axis);
 		}
 		return available;
+	}
+
+	void ToolObjectTransformSelectedVertices(Model* model, const D3DXMATRIX& transformation)
+	{
+		D3DXMATRIX inverse;
+		D3DXMatrixInverse(&inverse, NULL, &model->editorInfo.worldMatrix);
+		if(model->editorInfo.selectedVertex!=-1)
+		{
+			D3DXVECTOR3& v=model->modelVertices[model->editorInfo.selectedVertex]->position;
+			v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
+		}
+		else
+		{
+			Model::Face* face=model->modelFaces[model->editorInfo.selectedFace].Obj();
+			for(int i=0;i<face->vertexIndices.Count();i++)
+			{
+				D3DXVECTOR3& v=model->modelVertices[face->vertexIndices[i]]->position;
+				v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
+			}
+		}
+		model->RebuildVertexBuffer();
+	}
+
+	D3DXVECTOR3 ToolObjectTransform(const D3DXMATRIX& worldMatrix, const D3DXMATRIX& inverseMatrix, const D3DXMATRIX& transformation, D3DXVECTOR3 modelVertex)
+	{
+		D3DXVECTOR4 temp;
+		D3DXVec3Transform(&temp, &modelVertex, &worldMatrix);
+		D3DXVec4Transform(&temp, &temp, &transformation);
+		D3DXVec4Transform(&temp, &temp, &inverseMatrix);
+		return D3DXVECTOR3(temp.x/temp.w, temp.y/temp.w, temp.z/temp.w);
 	}
 
 /***********************************************************************
