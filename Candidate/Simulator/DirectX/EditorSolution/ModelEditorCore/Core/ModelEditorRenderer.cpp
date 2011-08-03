@@ -252,7 +252,7 @@ ModelEditorRenderer
 		for(int i=0;i<models.Count();i++)
 		{
 			models[i]->editorInfo.selected=false;
-			models[i]->editorInfo.selectedFace=faceIndex;
+			models[i]->editorInfo.selectedFace=i==index?faceIndex:-1;
 			models[i]->editorInfo.selectedVertex=-1;
 			if(i==index)
 			{
@@ -268,7 +268,7 @@ ModelEditorRenderer
 		{
 			models[i]->editorInfo.selected=false;
 			models[i]->editorInfo.selectedFace=-1;
-			models[i]->editorInfo.selectedVertex=vertexIndex;
+			models[i]->editorInfo.selectedVertex=i==index?vertexIndex:-1;
 			if(i==index)
 			{
 				mainSelectedModel=models[i].Obj();
