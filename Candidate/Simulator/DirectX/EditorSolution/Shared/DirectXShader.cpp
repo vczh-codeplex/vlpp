@@ -459,7 +459,7 @@ DirectXViewport
 		{
 		}
 
-		void DirectXViewport::SetViewport(int left, int top, int width, int height, float fieldOfView, float screenNear, float screenFar)
+		void DirectXViewport::SetViewport(int left, int top, int width, int height, float fieldOfView, float screenNear, float screenFar, bool fixedAspect)
 		{
 			D3D11_VIEWPORT viewport;
 			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -471,12 +471,12 @@ DirectXViewport
 			viewport.MaxDepth = 1;
 			env->context->RSSetViewports(1, &viewport);
 
-			CalculateProjectionMatrix(projectionMatrix, width, height, fieldOfView, screenNear, screenFar);
+			CalculateProjectionMatrix(projectionMatrix, width, height, fieldOfView, screenNear, screenFar, fixedAspect);
 		}
 
-		void DirectXViewport::CalculateProjectionMatrix(D3DXMATRIX& matrix, int width, int height, float fieldOfView, float screenNear, float screenFar)
+		void DirectXViewport::CalculateProjectionMatrix(D3DXMATRIX& matrix, int width, int height, float fieldOfView, float screenNear, float screenFar, bool fixedAspect)
 		{
-			float screenAspect = (float)width / (float)height;
+			float screenAspect = fixedAspect?1.0f:(float)width / (float)height;
 			D3DXMatrixPerspectiveFovLH(&matrix, fieldOfView, screenAspect, screenNear, screenFar);
 		}
 	}
