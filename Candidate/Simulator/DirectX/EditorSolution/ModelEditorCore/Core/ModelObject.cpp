@@ -9,10 +9,12 @@ Model
 
 	Model::EditorInfo::EditorInfo()
 		:selected(false)
-		,selectedFace(-1)
-		,selectedVertex(-1)
 	{
 		D3DXMatrixIdentity(&worldMatrix);
+	}
+	bool Model::EditorInfo::IsGeneralSelected()
+	{
+		return selected || selectedFaces.Count()>0 || selectedVertices.Count()>0;
 	}
 
 	Model::Model(DirectXEnvironment* _env)
