@@ -98,6 +98,9 @@
     <ClCompile Include="Core\ModelEditorRenderer.cpp" />
     <ClCompile Include="Core\ModelEditorWindow.cpp" />
     <ClCompile Include="Core\ModelEditorWindowSubclass.cpp" />
+    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectSelection.cpp" />
+    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectTransformation.cpp" />
+    <ClCompile Include="Core\ModelEditorWindowSubclass_View.cpp" />
     <ClCompile Include="Core\ModelObject.cpp" />
     <ClCompile Include="Core\ModelSceneRenderer.cpp" />
     <ClCompile Include="Main.cpp" />

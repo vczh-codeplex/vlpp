@@ -33,10 +33,12 @@ namespace modeleditor
 		{
 			D3DXMATRIX							worldMatrix;
 			bool								selected;
-			int									selectedFace;
-			int									selectedVertex;
+			List<int>							selectedFaces;
+			List<int>							selectedVertices;
 
 			EditorInfo();
+
+			bool								IsGeneralSelected();
 		};
 	protected:
 		DirectXEnvironment*						env;

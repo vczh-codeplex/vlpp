@@ -93,6 +93,15 @@
     <ClCompile Include="Core\ModelObject.cpp">
       <Filter>Core\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Core\ModelEditorWindowSubclass_View.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectSelection.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectTransformation.cpp">
+      <Filter>Core\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelEditorCore.h">
