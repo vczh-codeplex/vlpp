@@ -135,5 +135,20 @@ namespace ModelEditor
         {
             ModelEditorCore.DeleteSelection(this.editorWindow);
         }
+
+        private void addLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.AddLineBetweenSelectionPoints(this.editorWindow);
+        }
+
+        private void deleteLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.DeleteSelectedLineBetweenSelectionPoints(this.editorWindow);
+        }
+
+        private void addPointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.AddPointBetweenSelectionPoints(this.editorWindow);
+        }
     }
 }

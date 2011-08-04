@@ -29,6 +29,9 @@ extern "C"
 	MODELEDITORCORE_API Model*					__stdcall CreateModelCone(ModelEditorWindow* window, int rows, int cols);
 
 	MODELEDITORCORE_API void					__stdcall DeleteSelection(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall DeleteSelectedLineBetweenSelectionPoints(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall AddLineBetweenSelectionPoints(ModelEditorWindow* window);
+	MODELEDITORCORE_API void					__stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window);
 
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);
 
