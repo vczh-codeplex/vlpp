@@ -5,18 +5,6 @@
 
 namespace modeleditor
 {
-	namespace ModelEditorOperation
-	{
-		enum Enum
-		{
-			None,
-			ViewRotation,
-			ViewZooming,
-			ViewMoving,
-			ObjectEditing,
-		};
-	};
-
 	namespace ModelEditorMode
 	{
 		enum Enum
@@ -53,7 +41,6 @@ namespace modeleditor
 	struct ModelEditorData
 	{
 		int										originX, originY;
-		ModelEditorOperation::Enum				modelEditorOperation;
 		ModelEditorMode::Enum					modelEditorMode;
 		ModelEditorAxis::Enum					modelEditorAxis;
 		ModelEditorAxisDirection::Enum			modelEditorAxisDirection;

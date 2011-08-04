@@ -23,18 +23,6 @@ ModelEditorMode::ObjectTranslation
 				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
 		case WM_MOUSEMOVE:
 			{
 				D3DXVECTOR3 axis;
@@ -82,18 +70,6 @@ ModelEditorMode::ObjectRotation
 			{
 				editorWindow->modelEditorData.originX=info.x;
 				editorWindow->modelEditorData.originY=info.y;
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
 			}
 			break;
 		case WM_MOUSEMOVE:
@@ -165,17 +141,6 @@ ModelEditorMode::ObjectScaling
 				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
 			break;
 		case WM_MOUSEMOVE:
 			{

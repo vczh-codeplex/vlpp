@@ -601,16 +601,26 @@ ModelSceneRenderer
 		ViewCalculateDirection();
 	}
 
-	void ModelSceneRenderer::ViewRotateVertical(float angle)
+	void ModelSceneRenderer::ViewRotate(float vertical, float horizontal, D3DXVECTOR3 center)
 	{
-		viewAngleVertical+=angle;
+		viewAngleVertical+=vertical;
+		viewAngleHorizontal+=horizontal;
 		ViewCalculateDirection();
-	}
+		
+		D3DXMATRIX t, m;
+		D3DXMatrixIdentity(&m);
+		D3DXMatrixTranslation(&t, -center.x, -center.y, -center.z);
+		D3DXMatrixMultiply(&m, &m, &t);
+		D3DXMatrixRotationX(&t, vertical);
+		D3DXMatrixMultiply(&m, &m, &t);
+		D3DXMatrixRotationY(&t, horizontal);
+		D3DXMatrixMultiply(&m, &m, &t);
+		D3DXMatrixTranslation(&t, center.x, center.y, center.z);
+		D3DXMatrixMultiply(&m, &m, &t);
 
-	void ModelSceneRenderer::ViewRotateHorizontal(float angle)
-	{
-		viewAngleHorizontal+=angle;
-		ViewCalculateDirection();
+		D3DXVECTOR4 a;
+		D3DXVec3Transform(&a, &viewAt, &m);
+		viewAt=D3DXVECTOR3(a.x/a.w, a.y/a.w, a.z/a.w);
 	}
 
 	void ModelSceneRenderer::ViewMove(float left, float up, float front)

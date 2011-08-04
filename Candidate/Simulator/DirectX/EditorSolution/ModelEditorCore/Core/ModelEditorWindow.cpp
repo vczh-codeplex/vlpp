@@ -10,7 +10,6 @@ ModelEditorData
 	ModelEditorData::ModelEditorData()
 		:originX(0)
 		,originY(0)
-		,modelEditorOperation(ModelEditorOperation::None)
 		,modelEditorMode(ModelEditorMode::ObjectSelection)
 		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
 		,modelEditorAxisDirection(ModelEditorAxisDirection::None)
@@ -41,7 +40,7 @@ ModelEditorWindow
 			break;
 		}
 
-		dc->DrawString(10, 10, L"Change View\t\t\t\t\t{RBUTTON + (CTRL|SHIFT|NONE)}", 32, 10);
+		dc->DrawString(10, 10, L"Change View\t\t\t\t\t{RBUTTON|MBUTTON|WHEEL}", 32, 10);
 		switch(modelEditorData.modelEditorMode)
 		{
 		case ModelEditorMode::ObjectSelection:
