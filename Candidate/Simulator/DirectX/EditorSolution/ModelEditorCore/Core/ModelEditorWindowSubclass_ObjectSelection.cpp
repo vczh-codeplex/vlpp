@@ -17,27 +17,11 @@ ModelEditorMode::ObjectSelection
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
 		{
-		case WM_LBUTTONDOWN:
-			{
-			}
-			break;
 		case WM_LBUTTONUP:
 			{
 				int index=editorWindow->QueryModel(info.x, info.y);
 				editorWindow->SelectModel(index);
 				editorWindow->Render();
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
 			}
 			break;
 		}
@@ -85,14 +69,6 @@ ModelEditorMode::ObjectFaceSelection
 				editorWindow->Render();
 			}
 			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
 		case WM_MOUSEMOVE:
 			{
 				editorWindow->ContinueRanging(info.x, info.y);
@@ -104,30 +80,6 @@ ModelEditorMode::ObjectFaceSelection
 
 	void IdleObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
 	{
-		WindowMouseInfo info(wParam, lParam, false);
-		switch(uMsg)
-		{
-		case WM_LBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-			}
-			break;
-		}
 	}
 
 /***********************************************************************
@@ -172,14 +124,6 @@ ModelEditorMode::ObjectVertexSelection
 				editorWindow->Render();
 			}
 			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
 		case WM_MOUSEMOVE:
 			{
 				editorWindow->ContinueRanging(info.x, info.y);
@@ -191,29 +135,5 @@ ModelEditorMode::ObjectVertexSelection
 
 	void IdleObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
 	{
-		WindowMouseInfo info(wParam, lParam, false);
-		switch(uMsg)
-		{
-		case WM_LBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-			}
-			break;
-		}
 	}
 }

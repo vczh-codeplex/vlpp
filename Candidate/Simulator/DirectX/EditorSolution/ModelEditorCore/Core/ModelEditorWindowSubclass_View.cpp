@@ -9,20 +9,18 @@ namespace modeleditor
 {
 
 /***********************************************************************
-ModelEditorOperation::ViewMoving
+ModelEditorOperation::ViewRotation
 ***********************************************************************/
 
-	void ToolViewMoving(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void ToolViewRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
 	{
-		WindowMouseInfo info(wParam, lParam, false);
+		WindowMouseInfo info(wParam, lParam, (uMsg==WM_MOUSEWHEEL));
 		switch(uMsg)
 		{
-		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
 			{
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
+				editorWindow->modelEditorData.originX=info.x;
+				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
 		case WM_RBUTTONDOWN:
@@ -31,59 +29,9 @@ ModelEditorOperation::ViewMoving
 				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
-		case WM_RBUTTONUP:
+		case WM_MOUSEWHEEL:
 			{
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-				int deltaX=info.x-editorWindow->modelEditorData.originX;
-				int deltaY=info.y-editorWindow->modelEditorData.originY;
-
-				if(deltaX!=0 || deltaY!=0)
-				{
-					editorWindow->ViewMove((float)deltaX/editorWindow->GetViewDistance(), (float)deltaY/editorWindow->GetViewDistance(), 0);
-					editorWindow->Render();
-				}
-
-				editorWindow->modelEditorData.originX=info.x;
-				editorWindow->modelEditorData.originY=info.y;
-			}
-			break;
-		}
-	}
-
-/***********************************************************************
-ModelEditorOperation::ViewZooming
-***********************************************************************/
-
-	void ToolViewZooming(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
-	{
-		WindowMouseInfo info(wParam, lParam, false);
-		switch(uMsg)
-		{
-		case WM_LBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-				editorWindow->modelEditorData.originX=info.x;
-				editorWindow->modelEditorData.originY=info.y;
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-				int deltaY=info.y-editorWindow->modelEditorData.originY;
-				float distance=(float)deltaY/editorWindow->GetViewDistance();
+				float distance=(float)info.wheel/120;
 
 				editorWindow->ViewMove(0, 0, distance);
 				editorWindow->Render();
@@ -92,51 +40,45 @@ ModelEditorOperation::ViewZooming
 				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
-		}
-	}
-
-/***********************************************************************
-ModelEditorOperation::ViewRotation
-***********************************************************************/
-
-	void ToolViewRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
-	{
-		WindowMouseInfo info(wParam, lParam, false);
-		switch(uMsg)
-		{
-		case WM_LBUTTONDOWN:
-			{
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-			}
-			break;
-		case WM_RBUTTONDOWN:
-			{
-				editorWindow->modelEditorData.originX=info.x;
-				editorWindow->modelEditorData.originY=info.y;
-			}
-			break;
-		case WM_RBUTTONUP:
-			{
-			}
-			break;
 		case WM_MOUSEMOVE:
 			{
-				int deltaX=info.x-editorWindow->modelEditorData.originX;
-				int deltaY=info.y-editorWindow->modelEditorData.originY;
-				SIZE clientSize=WindowGetClient(hWnd);
-				int minSize=clientSize.cx<clientSize.cy?clientSize.cx:clientSize.cy;
+				if(info.right)
+				{
+					int deltaX=info.x-editorWindow->modelEditorData.originX;
+					int deltaY=info.y-editorWindow->modelEditorData.originY;
+					SIZE clientSize=WindowGetClient(hWnd);
+					int minSize=clientSize.cx<clientSize.cy?clientSize.cx:clientSize.cy;
 					
-				float vertical=(float)D3DX_PI*2*deltaY/minSize;
-				float horizontal=(float)D3DX_PI*2*deltaX/minSize;
-				editorWindow->ViewRotateVertical(vertical);
-				editorWindow->ViewRotateHorizontal(horizontal);
-				editorWindow->Render();
+					float vertical=(float)D3DX_PI*2*deltaY/minSize;
+					float horizontal=(float)D3DX_PI*2*deltaX/minSize;
 
-				editorWindow->modelEditorData.originX=info.x;
-				editorWindow->modelEditorData.originY=info.y;
+					D3DXVECTOR3 center=editorWindow->GetViewAt();
+					if(editorWindow->GetMainSelectedModel())
+					{
+						D3DXVECTOR4 o(0, 0, 0, 1);
+						D3DXVec4Transform(&o, &o, &editorWindow->GetMainSelectedModel()->editorInfo.worldMatrix);
+						center=D3DXVECTOR3(o.x/o.w, o.y/o.w, o.z/o.w);
+					}
+					editorWindow->ViewRotate(vertical, horizontal, center);
+					editorWindow->Render();
+
+					editorWindow->modelEditorData.originX=info.x;
+					editorWindow->modelEditorData.originY=info.y;
+				}
+				else if(info.middle)
+				{
+					int deltaX=info.x-editorWindow->modelEditorData.originX;
+					int deltaY=info.y-editorWindow->modelEditorData.originY;
+
+					if(deltaX!=0 || deltaY!=0)
+					{
+						editorWindow->ViewMove((float)deltaX/editorWindow->GetViewDistance(), (float)deltaY/editorWindow->GetViewDistance(), 0);
+						editorWindow->Render();
+					}
+
+					editorWindow->modelEditorData.originX=info.x;
+					editorWindow->modelEditorData.originY=info.y;
+				}
 			}
 			break;
 		}

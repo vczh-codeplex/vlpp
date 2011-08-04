@@ -14,8 +14,6 @@ namespace modeleditor
 ModelEditorOperation
 ***********************************************************************/
 
-	extern void ToolViewMoving(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolViewZooming(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 	extern void ToolViewRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 
 	extern void ToolObjectSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
@@ -113,32 +111,20 @@ EditorWindowSubclassProc
 
 	ModelEditorWindow::ToolMessageProc ChooseActivatedToolMouseProc(ModelEditorWindow* editorWindow)
 	{
-		switch(editorWindow->modelEditorData.modelEditorOperation)
+		switch(editorWindow->modelEditorData.modelEditorMode)
 		{
-		case ModelEditorOperation::ViewRotation:
-			return &ToolViewRotation;
-		case ModelEditorOperation::ViewZooming:
-			return &ToolViewZooming;
-		case ModelEditorOperation::ViewMoving:
-			return &ToolViewMoving;
-		case ModelEditorOperation::ObjectEditing:
-			switch(editorWindow->modelEditorData.modelEditorMode)
-			{
-			case ModelEditorMode::ObjectSelection:
-				return &ToolObjectSelection;
-			case ModelEditorMode::ObjectFaceSelection:
-				return &ToolObjectFaceSelection;
-			case ModelEditorMode::ObjectVertexSelection:
-				return &ToolObjectVertexSelection;
-			case ModelEditorMode::ObjectTranslation:
-				return &ToolObjectTranslation;
-			case ModelEditorMode::ObjectRotation:
-				return &ToolObjectRotation;
-			case ModelEditorMode::ObjectScaling:
-				return &ToolObjectScaling;
-			default:
-				return 0;
-			}
+		case ModelEditorMode::ObjectSelection:
+			return &ToolObjectSelection;
+		case ModelEditorMode::ObjectFaceSelection:
+			return &ToolObjectFaceSelection;
+		case ModelEditorMode::ObjectVertexSelection:
+			return &ToolObjectVertexSelection;
+		case ModelEditorMode::ObjectTranslation:
+			return &ToolObjectTranslation;
+		case ModelEditorMode::ObjectRotation:
+			return &ToolObjectRotation;
+		case ModelEditorMode::ObjectScaling:
+			return &ToolObjectScaling;
 		default:
 			return 0;
 		}
@@ -146,18 +132,12 @@ EditorWindowSubclassProc
 
 	ModelEditorWindow::ToolMessageProc ChooseIdleMouseProc(ModelEditorWindow* editorWindow)
 	{
-		switch(editorWindow->modelEditorData.modelEditorOperation)
+		switch(editorWindow->modelEditorData.modelEditorMode)
 		{
-		case ModelEditorOperation::ObjectEditing:
-			switch(editorWindow->modelEditorData.modelEditorMode)
-			{
-			case ModelEditorMode::ObjectFaceSelection:
-				return &IdleObjectFaceSelection;
-			case ModelEditorMode::ObjectVertexSelection:
-				return &IdleObjectVertexSelection;
-			default:
-				return 0;
-			}
+		case ModelEditorMode::ObjectFaceSelection:
+			return &IdleObjectFaceSelection;
+		case ModelEditorMode::ObjectVertexSelection:
+			return &IdleObjectVertexSelection;
 		default:
 			return 0;
 		}
@@ -179,26 +159,6 @@ EditorWindowSubclassProc
 				WindowKeyInfo info(wParam, lParam);
 				switch(info.key)
 				{
-				case VK_CONTROL:
-					{
-						switch(editorWindow->modelEditorData.modelEditorOperation)
-						{
-						case ModelEditorOperation::None:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewMoving;
-							break;
-						}
-					}
-					break;
-				case VK_SHIFT:
-					{
-						switch(editorWindow->modelEditorData.modelEditorOperation)
-						{
-						case ModelEditorOperation::None:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewZooming;
-							break;
-						}
-					}
-					break;
 				case 'C':
 					EditorModeSelection(editorWindow);
 					break;
@@ -243,26 +203,6 @@ EditorWindowSubclassProc
 				WindowKeyInfo info(wParam, lParam);
 				switch(info.key)
 				{
-				case VK_CONTROL:
-					{
-						switch(editorWindow->modelEditorData.modelEditorOperation)
-						{
-						case ModelEditorOperation::ViewMoving:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
-							break;
-						}
-					}
-					break;
-				case VK_SHIFT:
-					{
-						switch(editorWindow->modelEditorData.modelEditorOperation)
-						{
-						case ModelEditorOperation::ViewZooming:
-							editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
-							break;
-						}
-					}
-					break;
 				case 'X':
 				case 'Y':
 				case 'Z':
@@ -275,11 +215,6 @@ EditorWindowSubclassProc
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
-				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::None)
-				{
-					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ObjectEditing;
-				}
-
 				editorWindow->currentToolMessageProc=ChooseActivatedToolMouseProc(editorWindow);
 				if(editorWindow->currentToolMessageProc)
 				{
@@ -294,39 +229,25 @@ EditorWindowSubclassProc
 					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 				}
 				editorWindow->currentToolMessageProc=0;
-
-				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::ObjectEditing)
-				{
-					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
-				}
 			}
 			break;
 		case WM_RBUTTONDOWN:
+		case WM_MBUTTONDOWN:
 			{
-				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::None)
-				{
-					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::ViewRotation;
-				}
-
-				editorWindow->currentToolMessageProc=ChooseActivatedToolMouseProc(editorWindow);
-				if(editorWindow->currentToolMessageProc)
-				{
-					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-				}
+				editorWindow->currentToolMessageProc=&ToolViewRotation;
+				ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 			}
 			break;
 		case WM_RBUTTONUP:
+		case WM_MBUTTONUP:
 			{
-				if(editorWindow->currentToolMessageProc)
-				{
-					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-				}
+				ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 				editorWindow->currentToolMessageProc=0;
-
-				if(editorWindow->modelEditorData.modelEditorOperation==ModelEditorOperation::ViewRotation)
-				{
-					editorWindow->modelEditorData.modelEditorOperation=ModelEditorOperation::None;
-				}
+			}
+			break;
+		case WM_MOUSEWHEEL:
+			{
+				ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 			}
 			break;
 		case WM_MOUSEMOVE:

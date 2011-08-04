@@ -99,8 +99,7 @@ namespace modeleditor
 		void									Render();
 
 		void									ViewReset();
-		void									ViewRotateVertical(float angle);
-		void									ViewRotateHorizontal(float angle);
+		void									ViewRotate(float vertical, float horizontal, D3DXVECTOR3 center);
 		void									ViewMove(float left, float up, float front);
 
 		void									StartRanging(int x, int y);
