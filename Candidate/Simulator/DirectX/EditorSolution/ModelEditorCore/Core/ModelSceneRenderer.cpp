@@ -30,11 +30,7 @@ ModelSceneRenderer
 
 	void ModelSceneRenderer::ViewCalculateMatrix(D3DXMATRIX& viewMatrix)
 	{
-		D3DXVECTOR3 eye=D3DXVECTOR3(
-			viewAt.x-viewFront.x*viewDistance,
-			viewAt.y-viewFront.y*viewDistance,
-			viewAt.z-viewFront.z*viewDistance
-			);
+		D3DXVECTOR3 eye=viewAt-viewFront*viewDistance;
 		D3DXMatrixLookAtLH(&viewMatrix, &eye, &viewAt, &viewUp);
 	}
 
@@ -601,26 +597,31 @@ ModelSceneRenderer
 		ViewCalculateDirection();
 	}
 
+	D3DXVECTOR3 Transform(D3DXVECTOR3 v, const D3DXMATRIX& m)
+	{
+		D3DXVECTOR4 a;
+		D3DXVec3Transform(&a, &v, &m);
+		return D3DXVECTOR3(a.x/a.w, a.y/a.w, a.z/a.w);
+	}
+
 	void ModelSceneRenderer::ViewRotate(float vertical, float horizontal, D3DXVECTOR3 center)
 	{
+		D3DXMATRIX vm, ivm;
+		ViewCalculateMatrix(vm);
+		D3DXVECTOR3 oldTransformedCenter=Transform(center, vm);
+
 		viewAngleVertical+=vertical;
 		viewAngleHorizontal+=horizontal;
 		ViewCalculateDirection();
-		
-		D3DXMATRIX t, m;
-		D3DXMatrixIdentity(&m);
-		D3DXMatrixTranslation(&t, -center.x, -center.y, -center.z);
-		D3DXMatrixMultiply(&m, &m, &t);
-		D3DXMatrixRotationX(&t, vertical);
-		D3DXMatrixMultiply(&m, &m, &t);
-		D3DXMatrixRotationY(&t, horizontal);
-		D3DXMatrixMultiply(&m, &m, &t);
-		D3DXMatrixTranslation(&t, center.x, center.y, center.z);
-		D3DXMatrixMultiply(&m, &m, &t);
 
-		D3DXVECTOR4 a;
-		D3DXVec3Transform(&a, &viewAt, &m);
-		viewAt=D3DXVECTOR3(a.x/a.w, a.y/a.w, a.z/a.w);
+		ViewCalculateMatrix(vm);
+		D3DXMatrixInverse(&ivm, NULL, &vm);
+		D3DXVECTOR3 newTransformedCenter=Transform(center, vm);
+		D3DXVECTOR3 transformedCenterMove=newTransformedCenter-oldTransformedCenter;
+		D3DXVECTOR3 centerMove;
+		D3DXVec3TransformNormal(&centerMove, &transformedCenterMove, &ivm);
+		
+		viewAt+=centerMove;
 	}
 
 	void ModelSceneRenderer::ViewMove(float left, float up, float front)
