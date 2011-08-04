@@ -9,6 +9,11 @@ using namespace modeleditor;
 
 extern "C"
 {
+
+/***************************************************************
+Editor Window
+***************************************************************/
+
 	MODELEDITORCORE_API ModelEditorWindow* __stdcall CreateEditorWindow(HWND editorControl, const wchar_t* workingDirectory)
 	{
 		ModelEditorWindow* editorWindow=new ModelEditorWindow(editorControl, workingDirectory);
@@ -27,6 +32,10 @@ extern "C"
 		window->Render();
 		SendMessage(window->editorControl, WM_PAINT, 0, 0);
 	}
+
+/***************************************************************
+Model
+***************************************************************/
 
 	MODELEDITORCORE_API void __stdcall DestroyModel(ModelEditorWindow* window, Model* model)
 	{
@@ -65,11 +74,29 @@ extern "C"
 		return model;
 	}
 
+/***************************************************************
+Editing
+***************************************************************/
+
+	MODELEDITORCORE_API void __stdcall DeleteSelection(ModelEditorWindow* window)
+	{
+		window->DeleteSelection();
+		window->Render();
+	}
+
+/***************************************************************
+View
+***************************************************************/
+
 	MODELEDITORCORE_API void __stdcall ResetView(ModelEditorWindow* window)
 	{
 		window->ViewReset();
 		window->Render();
 	}
+
+/***************************************************************
+Editor Mode
+***************************************************************/
 
 	MODELEDITORCORE_API void __stdcall EditorModeSelection(ModelEditorWindow* window)
 	{

@@ -130,5 +130,10 @@ namespace ModelEditor
         {
             CreateConicCommon(GeometryConicType.Cone);
         }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.DeleteSelection(this.editorWindow);
+        }
     }
 }
