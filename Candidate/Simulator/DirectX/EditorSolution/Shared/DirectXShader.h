@@ -144,12 +144,14 @@ Vertex Buffer
 			const DirectXEnvironment*	env;
 			ID3D11Buffer*				vertexBuffer;
 			ID3D11Buffer*				indexBuffer;
+			int							vertexBufferLength;
 			int							indexBufferLength;
 		public:
 			DirectXVertexBuffer(const DirectXEnvironment* _env)
 				:env(_env)
 				,vertexBuffer(0)
 				,indexBuffer(0)
+				,vertexBufferLength(0)
 				,indexBufferLength(0)
 			{
 			}
@@ -162,12 +164,23 @@ Vertex Buffer
 
 			void Fill(T* vertices, int vertexCount, unsigned int* indices, int indexCount)
 			{
+				if(vertexBuffer && vertexBufferLength!=vertexCount)
+				{
+					vertexBuffer->Release();
+					vertexBuffer=0;
+				}
+				if(indexBuffer && indexBufferLength!=indexCount)
+				{
+					indexBuffer->Release();
+					indexBuffer=0;
+				}
 				if(!vertexBuffer) CreateVertexBuffer(env, sizeof(T)*vertexCount, &vertexBuffer);
 				if(!indexBuffer) CreateIndexBuffer(env, sizeof(unsigned int)*indexCount, &indexBuffer);
 
 				WriteBuffer(env, vertexBuffer, vertices, sizeof(T)*vertexCount);
 				WriteBuffer(env, indexBuffer, indices, sizeof(unsigned int)*indexCount);
 
+				vertexBufferLength=vertexCount;
 				indexBufferLength=indexCount;
 			}
 

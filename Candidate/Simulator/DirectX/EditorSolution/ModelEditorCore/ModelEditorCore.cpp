@@ -84,6 +84,24 @@ Editing
 		window->Render();
 	}
 
+	MODELEDITORCORE_API void __stdcall DeleteSelectedLineBetweenSelectionPoints(ModelEditorWindow* window)
+	{
+		window->DeleteSelectedLineBetweenSelectionPoints();
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall AddLineBetweenSelectionPoints(ModelEditorWindow* window)
+	{
+		window->AddLineBetweenSelectionPoints();
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window)
+	{
+		window->AddPointBetweenSelectionPoints();
+		window->Render();
+	}
+
 /***************************************************************
 View
 ***************************************************************/

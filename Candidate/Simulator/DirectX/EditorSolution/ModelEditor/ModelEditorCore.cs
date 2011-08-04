@@ -47,6 +47,15 @@ namespace ModelEditor
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void DeleteSelection(IntPtr window);
 
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void DeleteSelectedLineBetweenSelectionPoints(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void AddLineBetweenSelectionPoints(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void AddPointBetweenSelectionPoints(IntPtr window);
+
         /***************************************************************
          * View
         ***************************************************************/

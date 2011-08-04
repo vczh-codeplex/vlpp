@@ -44,6 +44,9 @@ namespace modeleditor
 
 		void									DeleteSelectedFaces(Model* model);
 		void									DeleteSelection();
+		void									DeleteSelectedLineBetweenSelectionPoints();
+		void									AddLineBetweenSelectionPoints();
+		void									AddPointBetweenSelectionPoints();
 	};
 }
 

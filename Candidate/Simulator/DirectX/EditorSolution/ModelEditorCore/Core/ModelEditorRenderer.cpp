@@ -459,4 +459,135 @@ ModelEditorRenderer
 			}
 		}
 	}
+
+	void ModelEditorRenderer::DeleteSelectedLineBetweenSelectionPoints()
+	{
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedVertices.Count()==2)
+			{
+				int newVertexIndex=-1;
+				int v1=model->editorInfo.selectedVertices[0];
+				int v2=model->editorInfo.selectedVertices[1];
+				for(int j=0;j<model->modelFaces.Count();j++)
+				{
+					Model::Face* face=model->modelFaces[j].Obj();
+					int p1=face->vertexIndices.IndexOf(v1);
+					int p2=face->vertexIndices.IndexOf(v2);
+					if(p1!=-1 && p2!=-1)
+					{
+						if(p1-p2==1 || p2-p1==1 || (p1==0 && p2==face->vertexIndices.Count()-1) || (p2==0 && p1==face->vertexIndices.Count()-1))
+						{
+							model->editorInfo.selectedFaces.Add(j);
+						}
+					}
+				}
+				model->editorInfo.selectedVertices.Clear();
+				if(model->editorInfo.selectedFaces.Count()==model->modelFaces.Count())
+				{
+					models.RemoveAt(i);
+				}
+				else
+				{
+					DeleteSelectedFaces(model);
+				}
+			}
+		}
+	}
+
+	void ModelEditorRenderer::AddLineBetweenSelectionPoints()
+	{
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedVertices.Count()==2)
+			{
+				int newVertexIndex=-1;
+				int v1=model->editorInfo.selectedVertices[0];
+				int v2=model->editorInfo.selectedVertices[1];
+				int oldFaceCount=model->modelFaces.Count();
+				for(int j=0;j<oldFaceCount;j++)
+				{
+					Model::Face* face=model->modelFaces[j].Obj();
+					int p1=face->vertexIndices.IndexOf(v1);
+					int p2=face->vertexIndices.IndexOf(v2);
+					if(p1!=-1 && p2!=-1)
+					{
+						if(!(p1-p2==1 || p2-p1==1 || (p1==0 && p2==face->vertexIndices.Count()-1) || (p2==0 && p1==face->vertexIndices.Count()-1)))
+						{
+							if(p1>p2)
+							{
+								int t=p1;
+								p1=p2;
+								p2=t;
+							}
+
+							Model::Face* newFace=new Model::Face;
+							for(int k=p1;k<=p2;k++)
+							{
+								newFace->vertexIndices.Add(face->vertexIndices[k]);
+							}
+							model->modelFaces.Add(newFace);
+							for(int k=p1+1;k<p2;k++)
+							{
+								face->vertexIndices.RemoveAt(p1+1);
+							}
+						}
+					}
+				}
+				if(model->modelFaces.Count()!=oldFaceCount)
+				{
+					model->RebuildVertexBuffer();
+				}
+			}
+		}
+	}
+
+	void ModelEditorRenderer::AddPointBetweenSelectionPoints()
+	{
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedVertices.Count()==2)
+			{
+				int newVertexIndex=-1;
+				int v1=model->editorInfo.selectedVertices[0];
+				int v2=model->editorInfo.selectedVertices[1];
+				for(int j=0;j<model->modelFaces.Count();j++)
+				{
+					Model::Face* face=model->modelFaces[j].Obj();
+					int p1=face->vertexIndices.IndexOf(v1);
+					int p2=face->vertexIndices.IndexOf(v2);
+					if(p1!=-1 && p2!=-1)
+					{
+						if(p1-p2==1 || p2-p1==1 || (p1==0 && p2==face->vertexIndices.Count()-1) || (p2==0 && p1==face->vertexIndices.Count()-1))
+						{
+							if(newVertexIndex==-1)
+							{
+								Model::Vertex* vertex=new Model::Vertex;
+								vertex->position=(model->modelVertices[v1]->position+model->modelVertices[v2]->position)/2.0f;
+								vertex->diffuse=(model->modelVertices[v1]->diffuse+model->modelVertices[v2]->diffuse)/2.0f;
+								newVertexIndex=model->modelVertices.Add(vertex);
+							}
+							if(p1-p2==1 || p2-p1==1)
+							{
+								face->vertexIndices.Insert((p1>p2?p1:p2), newVertexIndex);
+							}
+							else
+							{
+								face->vertexIndices.Insert(0, newVertexIndex);
+							}
+						}
+					}
+				}
+				if(newVertexIndex!=-1)
+				{
+					model->editorInfo.selectedVertices.Clear();
+					model->editorInfo.selectedVertices.Add(newVertexIndex);
+					model->RebuildVertexBuffer();
+				}
+			}
+		}
+	}
 }
