@@ -1,4 +1,7 @@
 #include "ModelEditorRenderer.h"
+#include "..\..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
+
+using namespace vl::collections;
 
 namespace modeleditor
 {
@@ -342,5 +345,118 @@ ModelEditorRenderer
 	Model* ModelEditorRenderer::GetMainSelectedModel()
 	{
 		return mainSelectedModel;
+	}
+
+	void ModelEditorRenderer::DeleteSelectedFaces(Model* model)
+	{
+		SortedList<int> sortedFaces, removedVertices;
+		CopyFrom(sortedFaces.Wrap(), model->editorInfo.selectedFaces.Wrap());
+		for(int j=sortedFaces.Count()-1;j>=0;j--)
+		{
+			int faceIndex=sortedFaces[j];
+			Model::Face* face=model->modelFaces[faceIndex].Obj();
+			for(int k=0;k<face->vertexIndices.Count();k++)
+			{
+				Model::Vertex* vertex=model->modelVertices[face->vertexIndices[k]].Obj();
+				vertex->referencedFaces.Remove(faceIndex);
+				if(vertex->referencedFaces.Count()==0)
+				{
+					removedVertices.Add(face->vertexIndices[k]);
+				}
+			}
+			model->modelFaces.RemoveAt(faceIndex);
+		}
+		model->editorInfo.selectedFaces.Clear();
+
+		if(removedVertices.Count()>0)
+		{
+			Array<int> verticesMap(model->modelVertices.Count());
+			removedVertices.Add(model->modelVertices.Count());
+
+			int current=0;
+			for(int j=0;j<removedVertices.Count();j++)
+			{
+				int last=removedVertices[j];
+				for(int k=current;k<last;k++)
+				{
+					verticesMap[k]=k-j;
+				}
+				current=last+1;
+			}
+
+			for(int j=model->modelFaces.Count()-1;j>=0;j--)
+			{
+				Model::Face* face=model->modelFaces[j].Obj();
+				for(int k=0;k<face->vertexIndices.Count();k++)
+				{
+					int vertexIndex=face->vertexIndices[k];
+					int resultIndex=verticesMap[vertexIndex];
+					face->vertexIndices[k]=resultIndex;
+				}
+			}
+
+			for(int j=removedVertices.Count()-2;j>=0;j--)
+			{
+				model->modelVertices.RemoveAt(removedVertices[j]);
+			}
+		}
+		model->RebuildVertexBuffer();
+	}
+
+	void ModelEditorRenderer::DeleteSelection()
+	{
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selected)
+			{
+				models.RemoveAt(i);
+			}
+			else if(model->editorInfo.selectedFaces.Count()>0)
+			{
+				if(model->editorInfo.selectedFaces.Count()==model->modelFaces.Count())
+				{
+					models.RemoveAt(i);
+				}
+				else
+				{
+					DeleteSelectedFaces(model);
+				}
+			}
+			else if(model->editorInfo.selectedVertices.Count()>0)
+			{
+				if(model->editorInfo.selectedVertices.Count()==model->modelVertices.Count())
+				{
+					models.RemoveAt(i);
+				}
+				else
+				{
+					SortedList<int> selectedFaces;
+					for(int j=0;j<model->editorInfo.selectedVertices.Count();j++)
+					{
+						Model::Vertex* vertex=model->modelVertices[model->editorInfo.selectedVertices[j]].Obj();
+						for(int k=0;k<vertex->referencedFaces.Count();k++)
+						{
+							int faceIndex=vertex->referencedFaces[k];
+							if(!selectedFaces.Contains(faceIndex))
+							{
+								selectedFaces.Add(faceIndex);
+							}
+						}
+					}
+
+					if(selectedFaces.Count()==model->modelFaces.Count())
+					{
+						models.RemoveAt(i);
+					}
+					else
+					{
+						model->editorInfo.selectedVertices.Clear();
+						CopyFrom(model->editorInfo.selectedFaces.Wrap(), selectedFaces.Wrap());
+						DeleteSelectedFaces(model);
+					}
+				}
+			}
+		}
 	}
 }

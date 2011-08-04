@@ -41,6 +41,13 @@ namespace ModelEditor
         public static extern IntPtr CreateModelCone(IntPtr window, int rows, int cols);
 
         /***************************************************************
+         * Editing
+        ***************************************************************/
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void DeleteSelection(IntPtr window);
+
+        /***************************************************************
          * View
         ***************************************************************/
 

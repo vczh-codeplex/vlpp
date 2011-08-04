@@ -41,6 +41,9 @@ namespace modeleditor
 		void									SelectVertex(int index, int vertexIndex);
 		void									SelectVertexFromSelectedModels(int x, int y, int w, int h);
 		Model*									GetMainSelectedModel();
+
+		void									DeleteSelectedFaces(Model* model);
+		void									DeleteSelection();
 	};
 }
 

@@ -28,6 +28,8 @@ extern "C"
 	MODELEDITORCORE_API Model*					__stdcall CreateModelCylinder(ModelEditorWindow* window, int rows, int cols);
 	MODELEDITORCORE_API Model*					__stdcall CreateModelCone(ModelEditorWindow* window, int rows, int cols);
 
+	MODELEDITORCORE_API void					__stdcall DeleteSelection(ModelEditorWindow* window);
+
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);
 
 	MODELEDITORCORE_API void					__stdcall EditorModeSelection(ModelEditorWindow* window);
