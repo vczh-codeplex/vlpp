@@ -59,7 +59,7 @@ ModelEditorWindow
 			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
 			break;
 		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Scale\t\t{LBUTTON}", 32, 10);
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Scale\t\t{LBUTTON + [X|Y|Z|SHIFT]*}", 32, 10);
 			break;
 		}
 		switch(modelEditorData.modelEditorAxis)

@@ -30,23 +30,47 @@ ModelEditorOperation
 Helper Functions
 ***********************************************************************/
 
-	bool ToolObjectEditingInfo(D3DXVECTOR3& axis, Model*& selectedLocalModel, ModelEditorWindow* editorWindow)
+	bool ToolObjectEditingInfo(D3DXVECTOR3& axis, Model*& selectedLocalModel, ModelEditorWindow* editorWindow, bool enableAxisCombination)
 	{
 		bool available=true;
-		switch(editorWindow->modelEditorData.modelEditorAxisDirection)
+		if(enableAxisCombination)
 		{
-		case ModelEditorAxisDirection::None:
 			available=false;
-			break;
-		case ModelEditorAxisDirection::X:
-			axis=D3DXVECTOR3(1, 0, 0);
-			break;
-		case ModelEditorAxisDirection::Y:
-			axis=D3DXVECTOR3(0, 1, 0);
-			break;
-		case ModelEditorAxisDirection::Z:
-			axis=D3DXVECTOR3(0, 0, 1);
-			break;
+			bool s=(GetKeyState(VK_SHIFT)&0xFF00)!=0;
+			bool x=s^((GetKeyState('X')&0xFF00)!=0);
+			bool y=s^((GetKeyState('Y')&0xFF00)!=0);
+			bool z=s^((GetKeyState('Z')&0xFF00)!=0);
+
+			if(x||y||z)
+			{
+
+				D3DXVECTOR3 vx=x?D3DXVECTOR3(1, 0, 0):D3DXVECTOR3(0, 0, 0);
+				D3DXVECTOR3 vy=y?D3DXVECTOR3(0, 1, 0):D3DXVECTOR3(0, 0, 0);
+				D3DXVECTOR3 vz=z?D3DXVECTOR3(0, 0, 1):D3DXVECTOR3(0, 0, 0);
+				axis=vx+vy+vz;
+			}
+			else
+			{
+				axis=D3DXVECTOR3(1, 1, 1);
+			}
+		}
+		else
+		{
+			switch(editorWindow->modelEditorData.modelEditorAxisDirection)
+			{
+			case ModelEditorAxisDirection::None:
+				available=false;
+				break;
+			case ModelEditorAxisDirection::X:
+				axis=D3DXVECTOR3(1, 0, 0);
+				break;
+			case ModelEditorAxisDirection::Y:
+				axis=D3DXVECTOR3(0, 1, 0);
+				break;
+			case ModelEditorAxisDirection::Z:
+				axis=D3DXVECTOR3(0, 0, 1);
+				break;
+			}
 		}
 		if(editorWindow->modelEditorData.modelEditorAxis==ModelEditorAxis::AxisLocal)
 		{
@@ -55,7 +79,7 @@ Helper Functions
 				selectedLocalModel=editorWindow->GetMainSelectedModel();
 			}
 		}
-		if(selectedLocalModel)
+		if(!enableAxisCombination && selectedLocalModel)
 		{
 			D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->editorInfo.worldMatrix);
 			D3DXVec3Normalize(&axis, &axis);

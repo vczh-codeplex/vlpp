@@ -43,27 +43,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(12, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
+            this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "&Geometry:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 41);
+            this.label2.Location = new System.Drawing.Point(12, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 13);
+            this.label2.Size = new System.Drawing.Size(35, 12);
             this.label2.TabIndex = 2;
             this.label2.Text = "&Rows:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 67);
+            this.label3.Location = new System.Drawing.Point(12, 62);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.Size = new System.Drawing.Size(35, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "&Cols:";
             // 
@@ -73,36 +73,36 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxGeometry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxGeometry.FormattingEnabled = true;
-            this.comboBoxGeometry.Location = new System.Drawing.Point(100, 12);
+            this.comboBoxGeometry.Location = new System.Drawing.Point(100, 11);
             this.comboBoxGeometry.Name = "comboBoxGeometry";
-            this.comboBoxGeometry.Size = new System.Drawing.Size(153, 21);
+            this.comboBoxGeometry.Size = new System.Drawing.Size(153, 20);
             this.comboBoxGeometry.TabIndex = 1;
             // 
             // numericRows
             // 
             this.numericRows.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericRows.Location = new System.Drawing.Point(100, 39);
+            this.numericRows.Location = new System.Drawing.Point(100, 36);
             this.numericRows.Name = "numericRows";
-            this.numericRows.Size = new System.Drawing.Size(153, 20);
+            this.numericRows.Size = new System.Drawing.Size(153, 21);
             this.numericRows.TabIndex = 3;
             // 
             // numericCols
             // 
             this.numericCols.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericCols.Location = new System.Drawing.Point(100, 65);
+            this.numericCols.Location = new System.Drawing.Point(100, 60);
             this.numericCols.Name = "numericCols";
-            this.numericCols.Size = new System.Drawing.Size(153, 20);
+            this.numericCols.Size = new System.Drawing.Size(153, 21);
             this.numericCols.TabIndex = 5;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(178, 104);
+            this.buttonCancel.Location = new System.Drawing.Point(178, 96);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(75, 21);
             this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -111,9 +111,9 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(92, 104);
+            this.buttonOK.Location = new System.Drawing.Point(92, 96);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.Size = new System.Drawing.Size(75, 21);
             this.buttonOK.TabIndex = 6;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -122,10 +122,10 @@
             // GeometryConicForm
             // 
             this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(265, 139);
+            this.ClientSize = new System.Drawing.Size(265, 128);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.numericCols);
@@ -138,7 +138,7 @@
             this.MinimizeBox = false;
             this.Name = "GeometryConicForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "GeometryConicForm";
+            this.Text = "Geometry Properties";
             ((System.ComponentModel.ISupportInitialize)(this.numericRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericCols)).EndInit();
             this.ResumeLayout(false);

@@ -27,7 +27,7 @@ ModelEditorMode::ObjectTranslation
 			{
 				D3DXVECTOR3 axis;
 				Model* selectedLocalModel=0;
-				if(ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow))
+				if(ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow, false))
 				{
 					int deltaY=info.y-editorWindow->modelEditorData.originY;
 					float distance=(float)deltaY/editorWindow->GetViewDistance();
@@ -76,7 +76,7 @@ ModelEditorMode::ObjectRotation
 			{
 				D3DXVECTOR3 axis;
 				Model* selectedLocalModel=0;
-				if(ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow))
+				if(ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow, false))
 				{
 					int deltaY=info.y-editorWindow->modelEditorData.originY;
 					SIZE clientSize=WindowGetClient(hWnd);
@@ -146,7 +146,7 @@ ModelEditorMode::ObjectScaling
 			{
 				D3DXVECTOR3 axis;
 				Model* selectedLocalModel=0;
-				if(!ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow))
+				if(!ToolObjectEditingInfo(axis, selectedLocalModel, editorWindow, true))
 				{
 					int deltaY=info.y-editorWindow->modelEditorData.originY;
 					SIZE clientSize=WindowGetClient(hWnd);
@@ -156,7 +156,7 @@ ModelEditorMode::ObjectScaling
 						:1/(1-(float)deltaY/clientSize.cy*3)
 						;
 					D3DXMATRIX scaling;
-					D3DXMatrixScaling(&scaling, distance, distance, distance);
+					D3DXMatrixScaling(&scaling, distance*axis.x+(1-axis.x), distance*axis.y+(1-axis.y), distance*axis.z+(1-axis.z));
 
 					if(selectedLocalModel)
 					{
@@ -183,7 +183,10 @@ ModelEditorMode::ObjectScaling
 						Model* model=editorWindow->GetModel(i);
 						if(model->editorInfo.selected)
 						{
-							D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &scaling);
+							if(axis.x==axis.y && axis.y==axis.z)
+							{
+								D3DXMatrixMultiply(&model->editorInfo.worldMatrix, &model->editorInfo.worldMatrix, &scaling);
+							}
 						}
 						else if(model->editorInfo.IsGeneralSelected())
 						{

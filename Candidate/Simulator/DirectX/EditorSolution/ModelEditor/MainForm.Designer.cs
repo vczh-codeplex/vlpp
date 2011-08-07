@@ -45,10 +45,11 @@
             this.lLocalAxisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.addLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addMultiplePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,7 +112,8 @@
             this.deleteLineToolStripMenuItem,
             this.toolStripSeparator2,
             this.addLineToolStripMenuItem,
-            this.addPointToolStripMenuItem});
+            this.addPointToolStripMenuItem,
+            this.addMultiplePointsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -190,6 +192,13 @@
             this.deleteToolStripMenuItem.Text = "&Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // deleteLineToolStripMenuItem
+            // 
+            this.deleteLineToolStripMenuItem.Name = "deleteLineToolStripMenuItem";
+            this.deleteLineToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.deleteLineToolStripMenuItem.Text = "D&elete Selected Line";
+            this.deleteLineToolStripMenuItem.Click += new System.EventHandler(this.deleteLineToolStripMenuItem_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -202,19 +211,19 @@
             this.addLineToolStripMenuItem.Text = "Add L&ine";
             this.addLineToolStripMenuItem.Click += new System.EventHandler(this.addLineToolStripMenuItem_Click);
             // 
-            // deleteLineToolStripMenuItem
-            // 
-            this.deleteLineToolStripMenuItem.Name = "deleteLineToolStripMenuItem";
-            this.deleteLineToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.deleteLineToolStripMenuItem.Text = "D&elete Selected Line";
-            this.deleteLineToolStripMenuItem.Click += new System.EventHandler(this.deleteLineToolStripMenuItem_Click);
-            // 
             // addPointToolStripMenuItem
             // 
             this.addPointToolStripMenuItem.Name = "addPointToolStripMenuItem";
             this.addPointToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.addPointToolStripMenuItem.Text = "Add &Point";
             this.addPointToolStripMenuItem.Click += new System.EventHandler(this.addPointToolStripMenuItem_Click);
+            // 
+            // addMultiplePointsToolStripMenuItem
+            // 
+            this.addMultiplePointsToolStripMenuItem.Name = "addMultiplePointsToolStripMenuItem";
+            this.addMultiplePointsToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.addMultiplePointsToolStripMenuItem.Text = "Add &Multiple Points...";
+            this.addMultiplePointsToolStripMenuItem.Click += new System.EventHandler(this.addMultiplePointsToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -329,6 +338,7 @@
         private System.Windows.Forms.ToolStripMenuItem addLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addMultiplePointsToolStripMenuItem;
     }
 }
 
