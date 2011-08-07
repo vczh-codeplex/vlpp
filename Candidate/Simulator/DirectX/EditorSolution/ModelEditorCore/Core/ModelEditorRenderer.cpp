@@ -150,7 +150,7 @@ ModelEditorRenderer
 		D3DXVECTOR3 at=GetViewAt();
 		models.Add(model);
 		D3DXMatrixTranslation(&model->editorInfo.worldMatrix, at.x, at.y, at.z);
-		SelectModel(models.Count()-1);
+		SelectModel(models.Count()-1, false);
 	}
 
 	void ModelEditorRenderer::RemoveModel(Model* model)
@@ -240,8 +240,16 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::SelectModel(int index)
+	void ModelEditorRenderer::SelectModel(int index, bool append)
 	{
+		if(append && mainSelectedModel)
+		{
+			if(0<=index && index<models.Count())
+			{
+				models[index]->editorInfo.selected=true;
+				return;
+			}
+		}
 		mainSelectedModel=0;
 		for(int i=0;i<models.Count();i++)
 		{
@@ -255,23 +263,48 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::SelectFace(int index, int faceIndex)
+	void ModelEditorRenderer::SelectFace(int index, int faceIndex, bool append)
 	{
-		mainSelectedModel=0;
-		for(int i=0;i<models.Count();i++)
+		if(append && mainSelectedModel)
 		{
-			models[i]->editorInfo.selected=false;
-			models[i]->editorInfo.selectedFaces.Clear();
-			models[i]->editorInfo.selectedVertices.Clear();
-			if(i==index)
+			if(0<=index && index<models.Count())
 			{
-				models[i]->editorInfo.selectedFaces.Add(faceIndex);
-				mainSelectedModel=models[i].Obj();
+				Model* model=models[index].Obj();
+				if(0<=faceIndex && faceIndex<model->modelFaces.Count())
+				{
+					model->editorInfo.selected=false;
+					model->editorInfo.selectedVertices.Clear();
+
+					int selectedIndex=model->editorInfo.selectedFaces.IndexOf(faceIndex);
+					if(selectedIndex==-1)
+					{
+						model->editorInfo.selectedFaces.Add(faceIndex);
+					}
+					else
+					{
+						model->editorInfo.selectedFaces.RemoveAt(selectedIndex);
+					}
+				}
+			}
+		}
+		else
+		{
+			mainSelectedModel=0;
+			for(int i=0;i<models.Count();i++)
+			{
+				models[i]->editorInfo.selected=false;
+				models[i]->editorInfo.selectedFaces.Clear();
+				models[i]->editorInfo.selectedVertices.Clear();
+				if(i==index)
+				{
+					models[i]->editorInfo.selectedFaces.Add(faceIndex);
+					mainSelectedModel=models[i].Obj();
+				}
 			}
 		}
 	}
 
-	void ModelEditorRenderer::SelectFaceFromSelectedModels(int x, int y, int w, int h)
+	void ModelEditorRenderer::SelectFaceFromSelectedModels(int x, int y, int w, int h, bool append)
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -279,7 +312,10 @@ ModelEditorRenderer
 			if(model->editorInfo.IsGeneralSelected())
 			{
 				model->editorInfo.selected=false;
-				model->editorInfo.selectedFaces.Clear();
+				if(!append)
+				{
+					model->editorInfo.selectedFaces.Clear();
+				}
 				model->editorInfo.selectedVertices.Clear();
 				for(int j=0;j<model->modelFaces.Count();j++)
 				{
@@ -296,30 +332,63 @@ ModelEditorRenderer
 					}
 					if(counter==face->vertexIndices.Count())
 					{
-						model->editorInfo.selectedFaces.Add(j);
+						int selectedIndex=model->editorInfo.selectedFaces.IndexOf(j);
+						if(selectedIndex==-1)
+						{
+							model->editorInfo.selectedFaces.Add(j);
+						}
+						else
+						{
+							model->editorInfo.selectedFaces.RemoveAt(j);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	void ModelEditorRenderer::SelectVertex(int index, int vertexIndex)
+	void ModelEditorRenderer::SelectVertex(int index, int vertexIndex, bool append)
 	{
-		mainSelectedModel=0;
-		for(int i=0;i<models.Count();i++)
+		if(append && mainSelectedModel)
 		{
-			models[i]->editorInfo.selected=false;
-			models[i]->editorInfo.selectedFaces.Clear();
-			models[i]->editorInfo.selectedVertices.Clear();
-			if(i==index)
+			if(0<=index && index<models.Count())
 			{
-				models[i]->editorInfo.selectedVertices.Add(vertexIndex);
-				mainSelectedModel=models[i].Obj();
+				Model* model=models[index].Obj();
+				if(0<=vertexIndex && vertexIndex<model->modelVertices.Count())
+				{
+					model->editorInfo.selected=false;
+					model->editorInfo.selectedFaces.Clear();
+
+					int selectedIndex=model->editorInfo.selectedVertices.IndexOf(vertexIndex);
+					if(selectedIndex==-1)
+					{
+						model->editorInfo.selectedVertices.Add(vertexIndex);
+					}
+					else
+					{
+						model->editorInfo.selectedVertices.RemoveAt(selectedIndex);
+					}
+				}
+			}
+		}
+		else
+		{
+			mainSelectedModel=0;
+			for(int i=0;i<models.Count();i++)
+			{
+				models[i]->editorInfo.selected=false;
+				models[i]->editorInfo.selectedFaces.Clear();
+				models[i]->editorInfo.selectedVertices.Clear();
+				if(i==index)
+				{
+					models[i]->editorInfo.selectedVertices.Add(vertexIndex);
+					mainSelectedModel=models[i].Obj();
+				}
 			}
 		}
 	}
 
-	void ModelEditorRenderer::SelectVertexFromSelectedModels(int x, int y, int w, int h)
+	void ModelEditorRenderer::SelectVertexFromSelectedModels(int x, int y, int w, int h, bool append)
 	{
 		for(int i=0;i<models.Count();i++)
 		{
@@ -328,14 +397,25 @@ ModelEditorRenderer
 			{
 				model->editorInfo.selected=false;
 				model->editorInfo.selectedFaces.Clear();
-				model->editorInfo.selectedVertices.Clear();
+				if(!append)
+				{
+					model->editorInfo.selectedVertices.Clear();
+				}
 				for(int j=0;j<model->modelVertices.Count();j++)
 				{
 					int px=0, py=0;
 					ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, model->modelVertices[j]->position, px, py);
 					if(x<=px && px<x+w && y<=py && py<y+h)
 					{
-						model->editorInfo.selectedVertices.Add(j);
+						int selectedIndex=model->editorInfo.selectedVertices.IndexOf(j);
+						if(selectedIndex==-1)
+						{
+							model->editorInfo.selectedVertices.Add(j);
+						}
+						else
+						{
+							model->editorInfo.selectedVertices.RemoveAt(j);
+						}
 					}
 				}
 			}

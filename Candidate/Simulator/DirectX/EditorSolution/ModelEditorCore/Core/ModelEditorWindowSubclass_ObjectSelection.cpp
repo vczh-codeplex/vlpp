@@ -20,7 +20,7 @@ ModelEditorMode::ObjectSelection
 		case WM_LBUTTONUP:
 			{
 				int index=editorWindow->QueryModel(info.x, info.y);
-				editorWindow->SelectModel(index);
+				editorWindow->SelectModel(index, info.ctrl);
 				editorWindow->Render();
 			}
 			break;
@@ -53,16 +53,16 @@ ModelEditorMode::ObjectFaceSelection
 						int faceIndex=-1;
 						if(editorWindow->QueryFace(info.x, info.y, modelIndex, faceIndex))
 						{
-							editorWindow->SelectFace(modelIndex, faceIndex);
+							editorWindow->SelectFace(modelIndex, faceIndex, info.ctrl);
 						}
 						else
 						{
-							editorWindow->SelectModel(-1);
+							editorWindow->SelectModel(-1, info.ctrl);
 						}
 					}
 					else
 					{
-						editorWindow->SelectFaceFromSelectedModels(x, y, w, h);
+						editorWindow->SelectFaceFromSelectedModels(x, y, w, h, info.ctrl);
 					}
 				}
 				editorWindow->StopRanging();
@@ -108,16 +108,16 @@ ModelEditorMode::ObjectVertexSelection
 					{
 						if(editorWindow->QueryVertex(info.x, info.y, modelIndex, vertexIndex))
 						{
-							editorWindow->SelectVertex(modelIndex, vertexIndex);
+							editorWindow->SelectVertex(modelIndex, vertexIndex, info.ctrl);
 						}
 						else
 						{
-							editorWindow->SelectModel(-1);
+							editorWindow->SelectModel(-1, info.ctrl);
 						}
 					}
 					else
 					{
-						editorWindow->SelectVertexFromSelectedModels(x, y, w, h);
+						editorWindow->SelectVertexFromSelectedModels(x, y, w, h, info.ctrl);
 					}
 				}
 				editorWindow->StopRanging();
