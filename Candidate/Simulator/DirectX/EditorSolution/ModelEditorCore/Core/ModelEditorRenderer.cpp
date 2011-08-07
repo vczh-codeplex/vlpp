@@ -602,4 +602,51 @@ ModelEditorRenderer
 			}
 		}
 	}
+
+	void ModelEditorRenderer::PushSelectedFaces()
+	{
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedFaces.Count()>0)
+			{
+				for(int j=model->editorInfo.selectedFaces.Count()-1;j>=0;j--)
+				{
+					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[i]].Obj();
+
+					int newStart=model->modelVertices.Count();
+					for(int k=0;k<face->vertexIndices.Count();k++)
+					{
+						Model::Vertex* vertex=new Model::Vertex;
+						Model::Vertex* prototype=model->modelVertices[face->vertexIndices[k]].Obj();
+						vertex->position=prototype->position;
+						vertex->diffuse=prototype->diffuse;
+						model->modelVertices.Add(vertex);
+					}
+
+					List<int> oldVertexIndices;
+					CopyFrom(oldVertexIndices.Wrap(), face->vertexIndices.Wrap());
+					face->vertexIndices.Clear();
+					for(int k=0;k<oldVertexIndices.Count();k++)
+					{
+						face->vertexIndices.Add(newStart+k);
+					}
+
+					for(int k=0;k<oldVertexIndices.Count();k++)
+					{
+						Model::Face* newFace=new Model::Face();
+						int i1=k;
+						int i2=(k+1)%oldVertexIndices.Count();
+
+						newFace->vertexIndices.Add(oldVertexIndices[i1]);
+						newFace->vertexIndices.Add(oldVertexIndices[i2]);
+						newFace->vertexIndices.Add(newStart+i2);
+						newFace->vertexIndices.Add(newStart+i1);
+						model->modelFaces.Add(newFace);
+					}
+				}
+				model->RebuildVertexBuffer();
+			}
+		}
+	}
 }

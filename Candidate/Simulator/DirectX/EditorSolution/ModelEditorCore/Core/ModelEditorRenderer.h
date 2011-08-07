@@ -47,6 +47,7 @@ namespace modeleditor
 		void									DeleteSelectedLineBetweenSelectionPoints();
 		void									AddLineBetweenSelectionPoints();
 		void									AddPointBetweenSelectionPoints(int count);
+		void									PushSelectedFaces();
 	};
 }
 

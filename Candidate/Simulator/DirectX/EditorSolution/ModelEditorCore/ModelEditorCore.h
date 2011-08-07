@@ -32,6 +32,7 @@ extern "C"
 	MODELEDITORCORE_API void					__stdcall DeleteSelectedLineBetweenSelectionPoints(ModelEditorWindow* window);
 	MODELEDITORCORE_API void					__stdcall AddLineBetweenSelectionPoints(ModelEditorWindow* window);
 	MODELEDITORCORE_API void					__stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window, int count);
+	MODELEDITORCORE_API void					__stdcall PushSelectedFaces(ModelEditorWindow* window);
 
 	MODELEDITORCORE_API void					__stdcall ResetView(ModelEditorWindow* window);
 

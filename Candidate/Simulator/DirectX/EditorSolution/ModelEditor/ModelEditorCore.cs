@@ -56,6 +56,9 @@ namespace ModelEditor
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void AddPointBetweenSelectionPoints(IntPtr window, int count);
 
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void PushSelectedFaces(IntPtr window);
+
         /***************************************************************
          * View
         ***************************************************************/
