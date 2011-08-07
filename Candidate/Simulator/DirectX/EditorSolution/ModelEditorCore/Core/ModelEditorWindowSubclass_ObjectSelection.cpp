@@ -62,7 +62,7 @@ ModelEditorMode::ObjectFaceSelection
 					}
 					else
 					{
-						editorWindow->SelectFaceFromSelectedModels(x, y, w, h, info.ctrl);
+						editorWindow->SelectFaceFromSelectedModels(x, y, w, h, info.ctrl, !info.shift);
 					}
 				}
 				editorWindow->StopRanging();
@@ -117,7 +117,7 @@ ModelEditorMode::ObjectVertexSelection
 					}
 					else
 					{
-						editorWindow->SelectVertexFromSelectedModels(x, y, w, h, info.ctrl);
+						editorWindow->SelectVertexFromSelectedModels(x, y, w, h, info.ctrl, !info.shift);
 					}
 				}
 				editorWindow->StopRanging();
