@@ -717,4 +717,11 @@ ModelSceneRenderer
 	{
 		return viewDistance;
 	}
+
+	D3DXMATRIX ModelSceneRenderer::GetViewMatrix()
+	{
+		D3DXMATRIX viewMatrix;
+		ViewCalculateMatrix(viewMatrix);
+		return viewMatrix;
+	}
 }

@@ -114,6 +114,7 @@ namespace modeleditor
 		float									GetViewVertical();
 		float									GetViewHorizontal();
 		float									GetViewDistance();
+		D3DXMATRIX								GetViewMatrix();
 	};
 }
 

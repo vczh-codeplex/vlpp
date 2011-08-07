@@ -37,9 +37,9 @@ namespace modeleditor
 		bool									QueryVertex(int x, int y, int& modelIndex, int& vertexIndex);
 		void									SelectModel(int index, bool append);
 		void									SelectFace(int index, int faceIndex, bool append);
-		void									SelectFaceFromSelectedModels(int x, int y, int w, int h, bool append);
+		void									SelectFaceFromSelectedModels(int x, int y, int w, int h, bool append, bool includeBackFaces);
 		void									SelectVertex(int index, int vertexIndex, bool append);
-		void									SelectVertexFromSelectedModels(int x, int y, int w, int h, bool append);
+		void									SelectVertexFromSelectedModels(int x, int y, int w, int h, bool append, bool includeBackFaces);
 		Model*									GetMainSelectedModel();
 
 		void									DeleteSelectedFaces(Model* model);

@@ -304,8 +304,9 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::SelectFaceFromSelectedModels(int x, int y, int w, int h, bool append)
+	void ModelEditorRenderer::SelectFaceFromSelectedModels(int x, int y, int w, int h, bool append, bool includeBackFaces)
 	{
+		D3DXMATRIX viewMatrix=GetViewMatrix();
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
@@ -317,29 +318,56 @@ ModelEditorRenderer
 					model->editorInfo.selectedFaces.Clear();
 				}
 				model->editorInfo.selectedVertices.Clear();
+
+				D3DXMATRIX finalMatrix;
+				D3DXMatrixMultiply(&finalMatrix, &model->editorInfo.worldMatrix, &viewMatrix);
 				for(int j=0;j<model->modelFaces.Count();j++)
 				{
 					Model::Face* face=model->modelFaces[j].Obj();
 					int counter=0;
-					for(int k=0;k<face->vertexIndices.Count();k++)
+					bool available=true;
+					if(!includeBackFaces)
 					{
-						int px=0, py=0;
-						ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, model->modelVertices[face->vertexIndices[k]]->position, px, py);
-						if(x<=px && px<x+w && y<=py && py<y+h)
+						int start=face->referencedStartVertexBufferVertex;
+						int count=(face->vertexIndices.Count()-2)*3;
+						for(int k=start;k<start+count;k++)
 						{
-							counter++;
+							D3DXVECTOR3 p=model->vertexBufferVertices[k].position;
+							D3DXVECTOR3 n=model->vertexBufferVertices[k].normal;
+
+							D3DXVECTOR4 p4;
+							D3DXVec3Transform(&p4, &p, &finalMatrix);
+							p=D3DXVECTOR3(p4.x/p4.w, p4.y/p4.w, p4.z/p4.w);
+							D3DXVec3TransformNormal(&n, &n, &finalMatrix);
+							if(D3DXVec3Dot(&p, &n)>=0)
+							{
+								available=false;
+								break;
+							}
 						}
 					}
-					if(counter==face->vertexIndices.Count())
+					if(available)
 					{
-						int selectedIndex=model->editorInfo.selectedFaces.IndexOf(j);
-						if(selectedIndex==-1)
+						for(int k=0;k<face->vertexIndices.Count();k++)
 						{
-							model->editorInfo.selectedFaces.Add(j);
+							int px=0, py=0;
+							ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, model->modelVertices[face->vertexIndices[k]]->position, px, py);
+							if(x<=px && px<x+w && y<=py && py<y+h)
+							{
+								counter++;
+							}
 						}
-						else
+						if(counter==face->vertexIndices.Count())
 						{
-							model->editorInfo.selectedFaces.RemoveAt(j);
+							int selectedIndex=model->editorInfo.selectedFaces.IndexOf(j);
+							if(selectedIndex==-1)
+							{
+								model->editorInfo.selectedFaces.Add(j);
+							}
+							else
+							{
+								model->editorInfo.selectedFaces.RemoveAt(j);
+							}
 						}
 					}
 				}
@@ -388,8 +416,9 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::SelectVertexFromSelectedModels(int x, int y, int w, int h, bool append)
+	void ModelEditorRenderer::SelectVertexFromSelectedModels(int x, int y, int w, int h, bool append, bool includeBackFaces)
 	{
+		D3DXMATRIX viewMatrix=GetViewMatrix();
 		for(int i=0;i<models.Count();i++)
 		{
 			Model* model=models[i].Obj();
@@ -401,20 +430,47 @@ ModelEditorRenderer
 				{
 					model->editorInfo.selectedVertices.Clear();
 				}
+
+				D3DXMATRIX finalMatrix;
+				D3DXMatrixMultiply(&finalMatrix, &model->editorInfo.worldMatrix, &viewMatrix);
 				for(int j=0;j<model->modelVertices.Count();j++)
 				{
-					int px=0, py=0;
-					ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, model->modelVertices[j]->position, px, py);
-					if(x<=px && px<x+w && y<=py && py<y+h)
+					Model::Vertex* vertex=model->modelVertices[j].Obj();
+					bool available=true;
+					if(!includeBackFaces)
 					{
-						int selectedIndex=model->editorInfo.selectedVertices.IndexOf(j);
-						if(selectedIndex==-1)
+						available=false;
+						for(int k=0;k<vertex->referencedVertexBufferVertices.Count();k++)
 						{
-							model->editorInfo.selectedVertices.Add(j);
+							D3DXVECTOR3 p=model->vertexBufferVertices[vertex->referencedVertexBufferVertices[k]].position;
+							D3DXVECTOR3 n=model->vertexBufferVertices[vertex->referencedVertexBufferVertices[k]].normal;
+
+							D3DXVECTOR4 p4;
+							D3DXVec3Transform(&p4, &p, &finalMatrix);
+							p=D3DXVECTOR3(p4.x/p4.w, p4.y/p4.w, p4.z/p4.w);
+							D3DXVec3TransformNormal(&n, &n, &finalMatrix);
+							if(D3DXVec3Dot(&p, &n)<0)
+							{
+								available=true;
+								break;
+							}
 						}
-						else
+					}
+					if(available)
+					{
+						int px=0, py=0;
+						ToolCalculateVertexHighlight(model->editorInfo.worldMatrix, vertex->position, px, py);
+						if(x<=px && px<x+w && y<=py && py<y+h)
 						{
-							model->editorInfo.selectedVertices.RemoveAt(j);
+							int selectedIndex=model->editorInfo.selectedVertices.IndexOf(j);
+							if(selectedIndex==-1)
+							{
+								model->editorInfo.selectedVertices.Add(j);
+							}
+							else
+							{
+								model->editorInfo.selectedVertices.RemoveAt(j);
+							}
 						}
 					}
 				}
@@ -692,7 +748,7 @@ ModelEditorRenderer
 			{
 				for(int j=model->editorInfo.selectedFaces.Count()-1;j>=0;j--)
 				{
-					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[i]].Obj();
+					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[j]].Obj();
 
 					int newStart=model->modelVertices.Count();
 					for(int k=0;k<face->vertexIndices.Count();k++)
