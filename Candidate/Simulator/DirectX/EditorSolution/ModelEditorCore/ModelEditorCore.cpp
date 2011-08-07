@@ -103,6 +103,12 @@ Editing
 		window->Render();
 	}
 
+	MODELEDITORCORE_API void __stdcall PushSelectedFaces(ModelEditorWindow* window)
+	{
+		window->PushSelectedFaces();
+		window->Render();
+	}
+
 /***************************************************************
 View
 ***************************************************************/

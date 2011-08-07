@@ -58,6 +58,7 @@
             this.sphereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cylnderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.coneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pushFaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,7 +114,8 @@
             this.toolStripSeparator2,
             this.addLineToolStripMenuItem,
             this.addPointToolStripMenuItem,
-            this.addMultiplePointsToolStripMenuItem});
+            this.addMultiplePointsToolStripMenuItem,
+            this.pushFaceToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
             this.editToolStripMenuItem.Text = "&Edit";
@@ -287,6 +289,13 @@
             this.coneToolStripMenuItem.Text = "C&one...";
             this.coneToolStripMenuItem.Click += new System.EventHandler(this.coneToolStripMenuItem_Click);
             // 
+            // pushFaceToolStripMenuItem
+            // 
+            this.pushFaceToolStripMenuItem.Name = "pushFaceToolStripMenuItem";
+            this.pushFaceToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.pushFaceToolStripMenuItem.Text = "&Push Face";
+            this.pushFaceToolStripMenuItem.Click += new System.EventHandler(this.pushFaceToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -339,6 +348,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem deleteLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addMultiplePointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pushFaceToolStripMenuItem;
     }
 }
 

@@ -162,5 +162,10 @@ namespace ModelEditor
                 }
             }
         }
+
+        private void pushFaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.PushSelectedFaces(this.editorWindow);
+        }
     }
 }
