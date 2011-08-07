@@ -96,9 +96,10 @@ Editing
 		window->Render();
 	}
 
-	MODELEDITORCORE_API void __stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window)
+	MODELEDITORCORE_API void __stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window, int count)
 	{
-		window->AddPointBetweenSelectionPoints();
+		if(count<1) count=1;
+		window->AddPointBetweenSelectionPoints(count);
 		window->Render();
 	}
 

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using ModelEditor.GeometryForms;
+using ModelEditor.PropertyForms;
 
 namespace ModelEditor
 {
@@ -148,7 +149,18 @@ namespace ModelEditor
 
         private void addPointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ModelEditorCore.AddPointBetweenSelectionPoints(this.editorWindow);
+            ModelEditorCore.AddPointBetweenSelectionPoints(this.editorWindow, 1);
+        }
+
+        private void addMultiplePointsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CountForm form = new CountForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    ModelEditorCore.AddPointBetweenSelectionPoints(this.editorWindow, form.Count);
+                }
+            }
         }
     }
 }

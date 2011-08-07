@@ -54,7 +54,7 @@ namespace ModelEditor
         public static extern void AddLineBetweenSelectionPoints(IntPtr window);
 
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
-        public static extern void AddPointBetweenSelectionPoints(IntPtr window);
+        public static extern void AddPointBetweenSelectionPoints(IntPtr window, int count);
 
         /***************************************************************
          * View

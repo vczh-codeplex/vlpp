@@ -544,14 +544,14 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::AddPointBetweenSelectionPoints()
+	void ModelEditorRenderer::AddPointBetweenSelectionPoints(int count)
 	{
 		for(int i=models.Count()-1;i>=0;i--)
 		{
 			Model* model=models[i].Obj();
 			if(model->editorInfo.selectedVertices.Count()==2)
 			{
-				int newVertexIndex=-1;
+				List<int> newVertexIndices;
 				int v1=model->editorInfo.selectedVertices[0];
 				int v2=model->editorInfo.selectedVertices[1];
 				for(int j=0;j<model->modelFaces.Count();j++)
@@ -563,28 +563,40 @@ ModelEditorRenderer
 					{
 						if(p1-p2==1 || p2-p1==1 || (p1==0 && p2==face->vertexIndices.Count()-1) || (p2==0 && p1==face->vertexIndices.Count()-1))
 						{
-							if(newVertexIndex==-1)
+							if(newVertexIndices.Count()==0)
 							{
-								Model::Vertex* vertex=new Model::Vertex;
-								vertex->position=(model->modelVertices[v1]->position+model->modelVertices[v2]->position)/2.0f;
-								vertex->diffuse=(model->modelVertices[v1]->diffuse+model->modelVertices[v2]->diffuse)/2.0f;
-								newVertexIndex=model->modelVertices.Add(vertex);
+								for(int i=0;i<count;i++)
+								{
+									float c1=(float)(i+1)/(count+1);
+									float c2=1-c1;
+									Model::Vertex* vertex=new Model::Vertex;
+									vertex->position=model->modelVertices[v1]->position*c1+model->modelVertices[v2]->position*c2;
+									vertex->diffuse=model->modelVertices[v1]->diffuse*c1+model->modelVertices[v2]->diffuse*c2;
+									newVertexIndices.Add(model->modelVertices.Add(vertex));
+								}
 							}
-							if(p1-p2==1 || p2-p1==1)
+							int minp=p1<p2?p1:p2;
+							int maxp=p1>p2?p1:p2;
+							bool overflow=maxp-minp!=1;
+							bool reverse=overflow^(minp==p1);
+							int start=overflow?0:minp+1;
+							for(int i=0;i<count;i++)
 							{
-								face->vertexIndices.Insert((p1>p2?p1:p2), newVertexIndex);
-							}
-							else
-							{
-								face->vertexIndices.Insert(0, newVertexIndex);
+								if(reverse)
+								{
+									face->vertexIndices.Insert(start+i, newVertexIndices[count-i-1]);
+								}
+								else
+								{
+									face->vertexIndices.Insert(start+i, newVertexIndices[i]);
+								}
 							}
 						}
 					}
 				}
-				if(newVertexIndex!=-1)
+				if(newVertexIndices.Count()>0)
 				{
-					model->editorInfo.selectedVertices.Clear();
-					model->editorInfo.selectedVertices.Add(newVertexIndex);
+					CopyFrom(model->editorInfo.selectedVertices.Wrap(), newVertexIndices.Wrap());
 					model->RebuildVertexBuffer();
 				}
 			}
