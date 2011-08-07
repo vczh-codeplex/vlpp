@@ -261,12 +261,14 @@
             this.pushLineToolStripMenuItem.Name = "pushLineToolStripMenuItem";
             this.pushLineToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.pushLineToolStripMenuItem.Text = "Push L&ine";
+            this.pushLineToolStripMenuItem.Click += new System.EventHandler(this.pushLineToolStripMenuItem_Click);
             // 
             // pushVertexToolStripMenuItem
             // 
             this.pushVertexToolStripMenuItem.Name = "pushVertexToolStripMenuItem";
             this.pushVertexToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.pushVertexToolStripMenuItem.Text = "Push P&oint";
+            this.pushVertexToolStripMenuItem.Click += new System.EventHandler(this.pushVertexToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
