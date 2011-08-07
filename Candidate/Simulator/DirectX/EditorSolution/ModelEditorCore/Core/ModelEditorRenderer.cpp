@@ -785,4 +785,12 @@ ModelEditorRenderer
 			}
 		}
 	}
+
+	void ModelEditorRenderer::PushSelectedLines()
+	{
+	}
+
+	void ModelEditorRenderer::PushSelectedPoints()
+	{
+	}
 }

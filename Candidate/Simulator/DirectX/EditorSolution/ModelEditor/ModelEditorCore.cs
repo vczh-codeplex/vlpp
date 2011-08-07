@@ -59,6 +59,12 @@ namespace ModelEditor
         [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public static extern void PushSelectedFaces(IntPtr window);
 
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void PushSelectedLines(IntPtr window);
+
+        [DllImport("ModelEditorCore.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        public static extern void PushSelectedPoints(IntPtr window);
+
         /***************************************************************
          * View
         ***************************************************************/

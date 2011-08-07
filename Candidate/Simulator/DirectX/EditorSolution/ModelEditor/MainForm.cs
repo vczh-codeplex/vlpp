@@ -167,5 +167,15 @@ namespace ModelEditor
         {
             ModelEditorCore.PushSelectedFaces(this.editorWindow);
         }
+
+        private void pushLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.PushSelectedLines(this.editorWindow);
+        }
+
+        private void pushVertexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModelEditorCore.PushSelectedPoints(this.editorWindow);
+        }
     }
 }

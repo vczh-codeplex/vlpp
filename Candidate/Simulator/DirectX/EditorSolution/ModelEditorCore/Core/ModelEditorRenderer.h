@@ -48,6 +48,8 @@ namespace modeleditor
 		void									AddLineBetweenSelectionPoints();
 		void									AddPointBetweenSelectionPoints(int count);
 		void									PushSelectedFaces();
+		void									PushSelectedLines();
+		void									PushSelectedPoints();
 	};
 }
 

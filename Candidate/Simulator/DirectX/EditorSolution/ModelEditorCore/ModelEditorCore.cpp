@@ -109,6 +109,18 @@ Editing
 		window->Render();
 	}
 
+	MODELEDITORCORE_API void __stdcall PushSelectedLines(ModelEditorWindow* window)
+	{
+		window->PushSelectedLines();
+		window->Render();
+	}
+
+	MODELEDITORCORE_API void __stdcall PushSelectedPoints(ModelEditorWindow* window)
+	{
+		window->PushSelectedPoints();
+		window->Render();
+	}
+
 /***************************************************************
 View
 ***************************************************************/
