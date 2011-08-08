@@ -884,99 +884,263 @@ ModelEditorRenderer
 			Model* model=models[i].Obj();
 			if(model->editorInfo.selectedVertices.Count()>0)
 			{
-				SortedList<Pair<int, int>> lines;
-				Group<int, int> lineMapSelected;
-				Group<int, int> lineMapAll;
-				SortedList<int> selectedVertices;
-				CopyFrom(selectedVertices.Wrap(), model->editorInfo.selectedVertices.Wrap());
+				SortedList<Pair<int, int>> lines;		// [(startVertexIndex, endVertexIndex)]
+				Group<int, int> lineMapSelected;		// lineStartVertexIndex => [lineEndVertexIndex]
+				Group<int, Pair<int, int>> lineMapAll;	// lineStartVertexIndex => [(lineEndVertexIndex, faceIndexRightOfLine)]
+				SortedList<int> selectedVertices;		// [vertexIndex]
 
-				for(int j=0;j<selectedVertices.Count();j++)
+				// search for end vertex indices of available lines
 				{
-					Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
-					Dictionary<int, int> linePairs;
-					for(int k=0;k<vertex->referencedFaces.Count();k++)
+					SortedList<int> temporarySelectedVertices;
+					CopyFrom(temporarySelectedVertices.Wrap(), model->editorInfo.selectedVertices.Wrap());
+
+					for(int j=0;j<temporarySelectedVertices.Count();j++)
 					{
-						Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
-						int index=face->vertexIndices.IndexOf(selectedVertices[j]);
-						int is[]={
-							(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
-							(index+1)%face->vertexIndices.Count()
-						};
-						int ps[]={
-							face->vertexIndices[is[0]],
-							face->vertexIndices[is[1]]
-						};
-						linePairs.Add(ps[0], ps[1]);
-						for(int l=0;l<2;l++)
+						Model::Vertex* vertex=model->modelVertices[temporarySelectedVertices[j]].Obj();
+						for(int k=0;k<vertex->referencedFaces.Count();k++)
 						{
-							if(selectedVertices.Contains(ps[l]))
+							Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+							int index=face->vertexIndices.IndexOf(temporarySelectedVertices[j]);
+							int is[]={
+								(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
+								(index+1)%face->vertexIndices.Count()
+							};
+							int ps[]={
+								face->vertexIndices[is[0]],
+								face->vertexIndices[is[1]]
+							};
+							if(temporarySelectedVertices.Contains(ps[0]) || temporarySelectedVertices.Contains(ps[1]))
 							{
-								int p1=selectedVertices[j];
-								int p2=ps[l];
-								lineMapSelected.Add(p1, p2);
-								if(p1>p2)
+								selectedVertices.Add(temporarySelectedVertices[j]);
+							}
+						}
+					}
+				}
+
+				if(selectedVertices.Count()>0)
+				{
+					// scan available end vertex to build "star"
+					for(int j=0;j<selectedVertices.Count();j++)
+					{
+						Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
+						Dictionary<int, Pair<int, int>> linePairs; // lineEndVertexIndex1 => (lineEndVertexIndex2, faceIndex)
+						for(int k=0;k<vertex->referencedFaces.Count();k++)
+						{
+							Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+							int index=face->vertexIndices.IndexOf(selectedVertices[j]);
+							int is[]={
+								(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
+								(index+1)%face->vertexIndices.Count()
+							};
+							int ps[]={
+								face->vertexIndices[is[0]],
+								face->vertexIndices[is[1]]
+							};
+							linePairs.Add(ps[0], Pair<int, int>(ps[1], vertex->referencedFaces[k]));
+							for(int l=0;l<2;l++)
+							{
+								if(selectedVertices.Contains(ps[l]))
 								{
-									int t=p1;
-									p1=p2;
-									p2=t;
+									int p1=selectedVertices[j];
+									int p2=ps[l];
+									lineMapSelected.Add(p1, p2);
+									if(p1>p2)
+									{
+										int t=p1;
+										p1=p2;
+										p2=t;
+									}
+									Pair<int, int> key(p1, p2);
+									if(!lines.Contains(key))
+									{
+										lines.Add(key);
+									}
 								}
-								Pair<int, int> key(p1, p2);
-								if(!lines.Contains(key))
+							}
+						}
+
+						int count=linePairs.Count();
+						int current=linePairs.Keys()[0];
+						for(int k=0;k<count;k++)
+						{
+							Pair<int, int> lineEnd=linePairs[current];
+							lineMapAll.Add(selectedVertices[j], lineEnd);
+							current=lineEnd.key;
+						}
+					}
+
+					// create distance vertex
+					for(int j=0;j<selectedVertices.Count();j++)
+					{
+						Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
+						{
+							PushDataDistanceVertex distanceVertex;
+							distanceVertex.model=model;
+							distanceVertex.vertexIndex=selectedVertices[j];
+							distanceVertex.originalPosition=vertex->position;
+					
+							D3DXVECTOR3 normal(0, 0, 0);
+							for(int k=0;k<vertex->referencedFaces.Count();k++)
+							{
+								int f=vertex->referencedFaces[k];
+								normal+=model->vertexBufferVertices[model->modelFaces[f]->referencedStartVertexBufferVertex].normal;
+							}
+							D3DXVec3Normalize(&distanceVertex.normal, &normal);
+
+							pushData.distanceVertices.Add(distanceVertex);
+						}
+					}
+
+					// build pointsLeftOfLine and pointsRightOfLine, to extract to line quad structure
+					Dictionary<Pair<int, int>, int> pointsLeftOfLine; // (lineStartVertexIndex, lineEndVertexIndex) => [pointLeftOfRaisedLine]
+					Dictionary<Pair<int, int>, int> pointsRightOfLine; // (lineStartVertexIndex, lineEndVertexIndex) => [pointRightOfRaisedLine]
+					for(int j=0;j<selectedVertices.Count();j++)
+					{
+						int vertexIndex=selectedVertices[j];
+						const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
+						const IReadonlyList<Pair<int, int>>& allLines=lineMapAll[vertexIndex];
+						Dictionary<Pair<int, int>, int> linePercentVertexMap;
+
+						for(int k=0;k<allLines.Count();k++)
+						{
+							Pair<int, int> end1=allLines[k];
+							Pair<int, int> end2=allLines[(k+1)%allLines.Count()];
+
+							if(!selectedLines.Contains(end1.key))
+							{
+								Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
+								Model::Vertex* v1=model->modelVertices[end1.key].Obj();
+
+								Model::Vertex* newVertex=new Model::Vertex;
+								newVertex->position=v0->position*0.75f+v1->position*0.25f;
+								newVertex->diffuse=v0->diffuse;
+								int newVertexIndex=model->modelVertices.Add(newVertex);
+								linePercentVertexMap.Add(Pair<int, int>(vertexIndex, end1.key), newVertexIndex);
+
+								PushDataPercentVertex pv;
+								pv.model=model;
+								pv.vertexIndex=newVertexIndex;
+								pv.p1=v0->position;
+								pv.p2=(v0->position+v1->position)/2.0f;
+								pv.originalPercent=0.5f;
+								pv.percent=0.5f;
+								pushData.percentVertices.Add(pv);
+							}
+							else if(selectedLines.Contains(end2.key))
+							{
+								Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
+								Model::Vertex* v1=model->modelVertices[end1.key].Obj();
+								Model::Vertex* v2=model->modelVertices[end2.key].Obj();
+
+								// TODO: the length is calculated using a temporary solution
+								D3DXVECTOR3 n1=v1->position-v0->position;
+								D3DXVECTOR3 n2=v2->position-v0->position;
+								D3DXVec3Normalize(&n1, &n1);
+								D3DXVec3Normalize(&n2, &n2);
+								D3DXVECTOR3 n=(n1+n2)/2.0f;
+								float l1=D3DXVec3Length(&n1);
+								float l2=D3DXVec3Length(&n2);
+								float l=(l1<l2?l1:l2)/2;
+								D3DXVECTOR3 vn=v0->position+n*l;
+
+								Model::Vertex* newVertex=new Model::Vertex;
+								newVertex->position=v0->position+n*l/2;
+								newVertex->diffuse=v0->diffuse;
+								int newVertexIndex=model->modelVertices.Add(newVertex);
+								pointsRightOfLine.Add(Pair<int, int>(vertexIndex, end1.key), newVertexIndex);
+								pointsLeftOfLine.Add(Pair<int, int>(vertexIndex, end2.key), newVertexIndex);
+
+								PushDataPercentVertex pv;
+								pv.model=model;
+								pv.vertexIndex=newVertexIndex;
+								pv.p1=v0->position;
+								pv.p2=vn;
+								pv.originalPercent=0.5f;
+								pv.percent=0.5f;
+								pushData.percentVertices.Add(pv);
+							}
+						}
+
+						for(int k=0;k<selectedLines.Count();k++)
+						{
+							int end=selectedLines[k];
+							int right=-1;
+							int left=-1;
+							for(int l=0;l<allLines.Count();l++)
+							{
+								if(allLines[l].key==end)
 								{
-									lines.Add(key);
+									right=allLines[(l+1)%allLines.Count()].key;
+									if(selectedLines.Contains(right))
+									{
+										right=-1;
+									}
+
+									left=allLines[(l+allLines.Count()-1)%allLines.Count()].key;
+									if(selectedLines.Contains(left))
+									{
+										left=-1;
+									}
+
+									break;
 								}
+							}
+
+							if(right!=-1)
+							{
+								pointsRightOfLine.Add(Pair<int, int>(vertexIndex, end), right);
+							}
+							if(left!=-1)
+							{
+								pointsLeftOfLine.Add(Pair<int, int>(vertexIndex, end), left);
 							}
 						}
 					}
 
-					int count=linePairs.Count();
-					int current=linePairs.Keys()[0];
-					for(int k=0;k<count;k++)
+					// build line triangle face
+					for(int j=0;j<selectedVertices.Count();j++)
 					{
-						lineMapAll.Add(selectedVertices[j], current);
-						current=linePairs[current];
-					}
-				}
+						int vertexIndex=selectedVertices[j];
+						const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
+						const IReadonlyList<Pair<int, int>>& allLines=lineMapAll[vertexIndex];
+						Dictionary<Pair<int, int>, int> linePercentVertexMap;
 
-				Dictionary<Pair<int, int>, int> pointsRightOfLine;
-				for(int j=0;j<selectedVertices.Count();j++)
-				{
-					int vertexIndex=selectedVertices[j];
-					const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
-					const IReadonlyList<int>& allLines=lineMapAll[vertexIndex];
-					Dictionary<Pair<int, int>, int> linePercentVertexMap;
-
-					for(int k=0;k<allLines.Count();k++)
-					{
-						int end1=allLines[k];
-						int end2=allLines[(k+1)%allLines.Count()];
-
-						if(!selectedLines.Contains(end1))
+						for(int k=0;k<allLines.Count();k++)
 						{
-							Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
-							Model::Vertex* v1=model->modelVertices[end1].Obj();
-
-							Model::Vertex* newVertex=new Model::Vertex;
-							newVertex->position=v0->position*0.75f+v1->position*0.25f;
-							newVertex->diffuse=v0->diffuse;
-							int newVertexIndex=model->modelVertices.Add(newVertex);
-							linePercentVertexMap.Add(Pair<int, int>(vertexIndex, end1), newVertexIndex);
-
-							PushDataPercentVertex pv;
-							pv.model=model;
-							pv.vertexIndex=newVertexIndex;
-							pv.p1=v0->position;
-							pv.p2=(v0->position+v1->position)/2.0f;
-							pv.originalPercent=0.5f;
-							pv.percent=0.5f;
-						}
-						else if(selectedLines.Contains(end2))
-						{
-							Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
-							Model::Vertex* v1=model->modelVertices[end1].Obj();
-							Model::Vertex* v2=model->modelVertices[end2].Obj();
+							int end1=allLines[k].key;
+							int end2=allLines[(k+1)%allLines.Count()].key;
+							if(!selectedLines.Contains(end1) && !selectedLines.Contains(end2))
+							{
+								Model::Face* face=new Model::Face;
+								face->vertexIndices.Add(end1);
+								face->vertexIndices.Add(vertexIndex);
+								face->vertexIndices.Add(end2);
+								model->modelFaces.Add(face);
+							}
 						}
 					}
+
+					// build line quad face
+					for(int j=0;j<lineMapSelected.Count();j++)
+					{
+						int start=lineMapSelected.Keys()[j];
+						const IReadonlyList<int>& ends=lineMapSelected.GetByIndex(j);
+
+						for(int k=0;k<ends.Count();k++)
+						{
+							int end=ends[k];
+
+							Model::Face* face=new Model::Face;
+							face->vertexIndices.Add(end);
+							face->vertexIndices.Add(start);
+							face->vertexIndices.Add(pointsRightOfLine[Pair<int, int>(start, end)]);
+							face->vertexIndices.Add(pointsLeftOfLine[Pair<int, int>(end, start)]);
+							model->modelFaces.Add(face);
+						}
+					}
+
+					pushData.affectedModels.Add(model);
+					model->RebuildVertexBuffer();
 				}
 			}
 		}
