@@ -207,6 +207,7 @@ ModelEditorRenderer
 					faceIndex=result-currentFirstIndex;
 					break;
 				}
+				currentFirstIndex+=model->modelFaces.Count();
 			}
 			return true;
 		}
@@ -606,6 +607,7 @@ ModelEditorRenderer
 				}
 			}
 		}
+		SelectModel(-1, false);
 	}
 
 	void ModelEditorRenderer::DeleteSelectedLineBetweenSelectionPoints()
@@ -642,6 +644,7 @@ ModelEditorRenderer
 				}
 			}
 		}
+		SelectModel(-1, false);
 	}
 
 	void ModelEditorRenderer::AddLineBetweenSelectionPoints()
@@ -935,18 +938,44 @@ ModelEditorRenderer
 					}
 				}
 
+				Dictionary<Pair<int, int>, int> pointsRightOfLine;
 				for(int j=0;j<selectedVertices.Count();j++)
 				{
 					int vertexIndex=selectedVertices[j];
-					SortedList<int> connectedLines;
-					CopyFrom(connectedLines.Wrap(), lineMapSelected[vertexIndex]);
+					const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
 					const IReadonlyList<int>& allLines=lineMapAll[vertexIndex];
+					Dictionary<Pair<int, int>, int> linePercentVertexMap;
 
-					int allLineCount=allLines.Count();
-					for(int k=0;k<allLineCount;k++)
+					for(int k=0;k<allLines.Count();k++)
 					{
 						int end1=allLines[k];
-						int end2=allLines[(k+1)%allLineCount];
+						int end2=allLines[(k+1)%allLines.Count()];
+
+						if(!selectedLines.Contains(end1))
+						{
+							Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
+							Model::Vertex* v1=model->modelVertices[end1].Obj();
+
+							Model::Vertex* newVertex=new Model::Vertex;
+							newVertex->position=v0->position*0.75f+v1->position*0.25f;
+							newVertex->diffuse=v0->diffuse;
+							int newVertexIndex=model->modelVertices.Add(newVertex);
+							linePercentVertexMap.Add(Pair<int, int>(vertexIndex, end1), newVertexIndex);
+
+							PushDataPercentVertex pv;
+							pv.model=model;
+							pv.vertexIndex=newVertexIndex;
+							pv.p1=v0->position;
+							pv.p2=(v0->position+v1->position)/2.0f;
+							pv.originalPercent=0.5f;
+							pv.percent=0.5f;
+						}
+						else if(selectedLines.Contains(end2))
+						{
+							Model::Vertex* v0=model->modelVertices[vertexIndex].Obj();
+							Model::Vertex* v1=model->modelVertices[end1].Obj();
+							Model::Vertex* v2=model->modelVertices[end2].Obj();
+						}
 					}
 				}
 			}
