@@ -876,6 +876,81 @@ ModelEditorRenderer
 	bool ModelEditorRenderer::PushSelectedLines()
 	{
 		pushData.Clear();
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedVertices.Count()>0)
+			{
+				SortedList<Pair<int, int>> lines;
+				Group<int, int> lineMapSelected;
+				Group<int, int> lineMapAll;
+				SortedList<int> selectedVertices;
+				CopyFrom(selectedVertices.Wrap(), model->editorInfo.selectedVertices.Wrap());
+
+				for(int j=0;j<selectedVertices.Count();j++)
+				{
+					Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
+					Dictionary<int, int> linePairs;
+					for(int k=0;k<vertex->referencedFaces.Count();k++)
+					{
+						Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+						int index=face->vertexIndices.IndexOf(selectedVertices[j]);
+						int is[]={
+							(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
+							(index+1)%face->vertexIndices.Count()
+						};
+						int ps[]={
+							face->vertexIndices[is[0]],
+							face->vertexIndices[is[1]]
+						};
+						linePairs.Add(ps[0], ps[1]);
+						for(int l=0;l<2;l++)
+						{
+							if(selectedVertices.Contains(ps[l]))
+							{
+								int p1=selectedVertices[j];
+								int p2=ps[l];
+								lineMapSelected.Add(p1, p2);
+								if(p1>p2)
+								{
+									int t=p1;
+									p1=p2;
+									p2=t;
+								}
+								Pair<int, int> key(p1, p2);
+								if(!lines.Contains(key))
+								{
+									lines.Add(key);
+								}
+							}
+						}
+					}
+
+					int count=linePairs.Count();
+					int current=linePairs.Keys()[0];
+					for(int k=0;k<count;k++)
+					{
+						lineMapAll.Add(selectedVertices[j], current);
+						current=linePairs[current];
+					}
+				}
+
+				for(int j=0;j<selectedVertices.Count();j++)
+				{
+					int vertexIndex=selectedVertices[j];
+					SortedList<int> connectedLines;
+					CopyFrom(connectedLines.Wrap(), lineMapSelected[vertexIndex]);
+					const IReadonlyList<int>& allLines=lineMapAll[vertexIndex];
+
+					int allLineCount=allLines.Count();
+					for(int k=0;k<allLineCount;k++)
+					{
+						int end1=allLines[k];
+						int end2=allLines[(k+1)%allLineCount];
+					}
+				}
+			}
+		}
 		return pushData.Available();
 	}
 
