@@ -4,6 +4,7 @@
 #include "ModelDataStructure.h"
 #include "..\..\Shared\WindowGDI.h"
 #include "..\..\..\..\..\..\Library\Pointer.h"
+#include "..\..\..\..\..\..\Library\Tuple.h"
 
 using namespace vl;
 
