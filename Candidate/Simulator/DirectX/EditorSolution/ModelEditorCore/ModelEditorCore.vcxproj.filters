@@ -215,5 +215,8 @@
     <ClInclude Include="Core\ModelObject.h">
       <Filter>Core\Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Tuple.h">
+      <Filter>Vlpp\Basic</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

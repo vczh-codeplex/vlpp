@@ -132,6 +132,7 @@
     <ClInclude Include="..\..\..\..\..\Library\Stream\FileStream.h" />
     <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\..\Library\String.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Tuple.h" />
     <ClInclude Include="..\Shared\DirectXSetup.h" />
     <ClInclude Include="..\Shared\DirectXShader.h" />
     <ClInclude Include="..\Shared\WindowGDI.h" />

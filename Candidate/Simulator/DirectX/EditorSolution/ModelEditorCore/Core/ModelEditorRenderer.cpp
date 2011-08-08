@@ -759,39 +759,75 @@ ModelEditorRenderer
 			Model* model=models[i].Obj();
 			if(model->editorInfo.selectedFaces.Count()>0)
 			{
+				Dictionary<Pair<int, int>, int> lineCounter;
+				Array<int> vertexMap(model->modelVertices.Count());
+				for(int j=0;j<model->modelVertices.Count();j++)
+				{
+					vertexMap[j]=-1;
+				}
+
+				for(int j=model->editorInfo.selectedFaces.Count()-1;j>=0;j--)
+				{
+					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[j]].Obj();
+					
+					for(int k=0;k<face->vertexIndices.Count();k++)
+					{
+						int vi=face->vertexIndices[k];
+						if(vertexMap[vi]==-1)
+						{
+							Model::Vertex* vertex=new Model::Vertex;
+							Model::Vertex* prototype=model->modelVertices[vi].Obj();
+							vertex->position=prototype->position;
+							vertex->diffuse=prototype->diffuse;
+							vertexMap[vi]=model->modelVertices.Add(vertex);
+						}
+
+						int vi2=face->vertexIndices[(k+1)%face->vertexIndices.Count()];
+						if(vi>vi2)
+						{
+							int t=vi;
+							vi=vi2;
+							vi2=t;
+						}
+						Pair<int, int> key(vi, vi2);
+						int index=lineCounter.Keys().IndexOf(key);
+						if(index==-1)
+						{
+							lineCounter.Add(key, 1);
+						}
+						else
+						{
+							lineCounter.Set(key, lineCounter.Values()[index]+1);
+						}
+					}
+				}
+
 				for(int j=model->editorInfo.selectedFaces.Count()-1;j>=0;j--)
 				{
 					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[j]].Obj();
 
-					int newStart=model->modelVertices.Count();
-					for(int k=0;k<face->vertexIndices.Count();k++)
-					{
-						Model::Vertex* vertex=new Model::Vertex;
-						Model::Vertex* prototype=model->modelVertices[face->vertexIndices[k]].Obj();
-						vertex->position=prototype->position;
-						vertex->diffuse=prototype->diffuse;
-						model->modelVertices.Add(vertex);
-					}
-
 					List<int> oldVertexIndices;
 					CopyFrom(oldVertexIndices.Wrap(), face->vertexIndices.Wrap());
-					face->vertexIndices.Clear();
-					for(int k=0;k<oldVertexIndices.Count();k++)
+					for(int k=0;k<face->vertexIndices.Count();k++)
 					{
-						face->vertexIndices.Add(newStart+k);
+						face->vertexIndices[k]=vertexMap[face->vertexIndices[k]];
 					}
 
 					for(int k=0;k<oldVertexIndices.Count();k++)
 					{
-						Model::Face* newFace=new Model::Face();
 						int i1=k;
 						int i2=(k+1)%oldVertexIndices.Count();
-
-						newFace->vertexIndices.Add(oldVertexIndices[i1]);
-						newFace->vertexIndices.Add(oldVertexIndices[i2]);
-						newFace->vertexIndices.Add(newStart+i2);
-						newFace->vertexIndices.Add(newStart+i1);
-						model->modelFaces.Add(newFace);
+						int p1=oldVertexIndices[i1];
+						int p2=oldVertexIndices[i2];
+						if(lineCounter[Pair<int, int>((p1<p2?p1:p2), (p1>p2?p1:p2))]==1)
+						{
+							Model::Face* newFace=new Model::Face();
+							newFace->vertexIndices.Add(p1);
+							newFace->vertexIndices.Add(p2);
+							newFace->vertexIndices.Add(vertexMap[p2]);
+							newFace->vertexIndices.Add(vertexMap[p1]);
+							model->modelFaces.Add(newFace);
+						}
 					}
 				}
 				model->RebuildVertexBuffer();
@@ -843,9 +879,161 @@ ModelEditorRenderer
 		return pushData.Available();
 	}
 
+	struct PSP_FaceModifier
+	{
+		Model::Face*			face;
+		int						index;
+		int						newp1, newp2;
+
+		int Compare(const PSP_FaceModifier& value)
+		{
+			if(face>value.face) return -1;
+			else if(face<value.face) return 1;
+			else if(index>value.index) return -1;
+			else if(index<value.index) return 1;
+			return 0;
+		}
+
+		bool operator==(const PSP_FaceModifier& value){return Compare(value)==0;};
+		bool operator!=(const PSP_FaceModifier& value){return Compare(value)!=0;};
+		bool operator<(const PSP_FaceModifier& value){return Compare(value)<0;};
+		bool operator<=(const PSP_FaceModifier& value){return Compare(value)<=0;};
+		bool operator>(const PSP_FaceModifier& value){return Compare(value)>0;};
+		bool operator>=(const PSP_FaceModifier& value){return Compare(value)>=0;};
+	};
+
 	bool ModelEditorRenderer::PushSelectedPoints()
 	{
 		pushData.Clear();
+		for(int i=models.Count()-1;i>=0;i--)
+		{
+			Model* model=models[i].Obj();
+			if(model->editorInfo.selectedVertices.Count()>0)
+			{
+				bool half=false;
+				float percent=0.5f;
+				SortedList<int> selectedVertices;
+				CopyFrom(selectedVertices.Wrap(), model->editorInfo.selectedVertices.Wrap());
+
+				for(int j=0;j<selectedVertices.Count();j++)
+				{
+					Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
+					if(!half)
+					{
+						for(int k=0;k<vertex->referencedFaces.Count();k++)
+						{
+							Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+							int index=face->vertexIndices.IndexOf(selectedVertices[j]);
+							int i1=(index+1)%face->vertexIndices.Count();
+							int i2=(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count();
+							int p1=face->vertexIndices[i1];
+							int p2=face->vertexIndices[i2];
+							if(selectedVertices.Contains(p1) || selectedVertices.Contains(p2))
+							{
+								half=true;
+							}
+						}
+					}
+				}
+				if(half)
+				{
+					percent=0.25f;
+				}
+				
+				SortedList<PSP_FaceModifier> faceModifier;
+				for(int j=0;j<selectedVertices.Count();j++)
+				{
+					Model::Vertex* vertex=model->modelVertices[selectedVertices[j]].Obj();
+					{
+						PushDataDistanceVertex distanceVertex;
+						distanceVertex.model=model;
+						distanceVertex.vertexIndex=selectedVertices[j];
+						distanceVertex.originalPosition=vertex->position;
+					
+						D3DXVECTOR3 normal(0, 0, 0);
+						for(int k=0;k<vertex->referencedFaces.Count();k++)
+						{
+							int f=vertex->referencedFaces[k];
+							normal+=model->vertexBufferVertices[model->modelFaces[f]->referencedStartVertexBufferVertex].normal;
+						}
+						D3DXVec3Normalize(&distanceVertex.normal, &normal);
+
+						pushData.distanceVertices.Add(distanceVertex);
+					}
+					
+					Dictionary<int, int> vertexMap;
+					for(int k=0;k<vertex->referencedFaces.Count();k++)
+					{
+						Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+						int index=face->vertexIndices.IndexOf(selectedVertices[j]);
+						int is[]={
+							(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
+							(index+1)%face->vertexIndices.Count()
+						};
+						int ps[]={
+							face->vertexIndices[is[0]],
+							face->vertexIndices[is[1]]
+						};
+
+						int newps[2];
+						for(int l=0;l<2;l++)
+						{
+							int p=ps[l];
+							int mapIndex=vertexMap.Keys().IndexOf(p);
+							if(mapIndex==-1)
+							{
+								Model::Vertex* relatedVertex=model->modelVertices[p].Obj();
+								Model::Vertex* newVertex=new Model::Vertex;
+								newVertex->diffuse=vertex->diffuse;
+								newVertex->position=vertex->position*(1-percent)+relatedVertex->position*percent;
+								newps[l]=model->modelVertices.Add(newVertex);
+								vertexMap.Add(p, newps[l]);
+
+								PushDataPercentVertex percentVertex;
+								percentVertex.model=model;
+								percentVertex.vertexIndex=newps[l];
+								percentVertex.p1=vertex->position;
+								percentVertex.p2=(half?(vertex->position+relatedVertex->position)/2.0f:relatedVertex->position);
+								percentVertex.originalPercent=0.5f;
+								percentVertex.percent=0.5f;
+								pushData.percentVertices.Add(percentVertex);
+								model->editorInfo.selectedVertices.Add(newps[l]);
+							}
+							else
+							{
+								newps[l]=vertexMap.Values()[mapIndex];
+							}
+						}
+
+						{
+							PSP_FaceModifier item;
+							item.face=face;
+							item.index=index;
+							item.newp1=newps[0];
+							item.newp2=newps[1];
+							faceModifier.Add(item);
+						}
+						{
+							Model::Face* face=new Model::Face;
+							face->vertexIndices.Add(newps[0]);
+							face->vertexIndices.Add(selectedVertices[j]);
+							face->vertexIndices.Add(newps[1]);
+							model->modelFaces.Add(face);
+						}
+					}
+				}
+
+				for(int j=0;j<faceModifier.Count();j++)
+				{
+					const PSP_FaceModifier& fm=faceModifier[j];
+					fm.face->vertexIndices.RemoveAt(fm.index);
+					fm.face->vertexIndices.Insert(fm.index, fm.newp1);
+					fm.face->vertexIndices.Insert(fm.index+1, fm.newp2);
+				}
+				model->RebuildVertexBuffer();
+				pushData.affectedModels.Add(model);
+			}
+		}
 		return pushData.Available();
 	}
 
@@ -860,7 +1048,15 @@ ModelEditorRenderer
 		{
 			PushDataPercentVertex& v=pushData.percentVertices[i];
 			v.percent=v.originalPercent+percent;
-			v.model->modelVertices[v.vertexIndex]->position=v.p1*v.percent+v.p2*(1-v.percent);
+			if(v.percent<0)
+			{
+				v.percent=0;
+			}
+			else if(v.percent>1)
+			{
+				v.percent=1;
+			}
+			v.model->modelVertices[v.vertexIndex]->position=v.p1*(1-v.percent)+v.p2*v.percent;
 		}
 		for(int i=0;i<pushData.affectedModels.Count();i++)
 		{
