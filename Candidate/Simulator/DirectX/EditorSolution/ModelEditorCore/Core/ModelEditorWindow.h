@@ -15,6 +15,8 @@ namespace modeleditor
 			ObjectTranslation,
 			ObjectRotation,
 			ObjectScaling,
+
+			ObjectPushing,
 		};
 	};
 
@@ -63,6 +65,7 @@ namespace modeleditor
 		ToolMessageProc							currentToolMessageProc;
 
 		void									SetEditorMode(ModelEditorMode::Enum value);
+		void									StopTemporaryEditorMode();
 		void									SetEditorAxis(ModelEditorAxis::Enum value);
 		void									SetEditorAxisDirection(ModelEditorAxisDirection::Enum value);
 	};

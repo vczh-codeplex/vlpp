@@ -61,6 +61,9 @@ ModelEditorWindow
 		case ModelEditorMode::ObjectScaling:
 			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Scale\t\t{LBUTTON + [X|Y|Z|SHIFT]*}", 32, 10);
 			break;
+		case ModelEditorMode::ObjectPushing:
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Pushing\t\t{LBUTTON + SHIFT?}", 32, 10);
+			break;
 		}
 		switch(modelEditorData.modelEditorAxis)
 		{
@@ -89,6 +92,22 @@ ModelEditorWindow
 	{
 		modelEditorData.modelEditorMode=value;
 		ToolDrawEditorMode();
+	}
+
+	void ModelEditorWindow::StopTemporaryEditorMode()
+	{
+		switch(modelEditorData.modelEditorMode)
+		{
+		case ModelEditorMode::ObjectSelection:
+		case ModelEditorMode::ObjectFaceSelection:
+		case ModelEditorMode::ObjectVertexSelection:
+		case ModelEditorMode::ObjectTranslation:
+		case ModelEditorMode::ObjectRotation:
+		case ModelEditorMode::ObjectScaling:
+			break;
+		default:
+			SetEditorMode(ModelEditorMode::ObjectSelection);
+		}
 	}
 
 	void ModelEditorWindow::SetEditorAxis(ModelEditorAxis::Enum value)

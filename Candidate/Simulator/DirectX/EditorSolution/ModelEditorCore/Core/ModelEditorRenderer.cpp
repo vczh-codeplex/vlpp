@@ -6,6 +6,18 @@ using namespace vl::collections;
 namespace modeleditor
 {
 
+	void ModelEditorRenderer::PushData::Clear()
+	{
+		affectedModels.Clear();
+		distanceVertices.Clear();
+		percentVertices.Clear();
+	}
+
+	bool ModelEditorRenderer::PushData::Available()
+	{
+		return affectedModels.Count()>0;
+	}
+
 /***********************************************************************
 ModelEditorRenderer
 ***********************************************************************/
@@ -739,8 +751,9 @@ ModelEditorRenderer
 		}
 	}
 
-	void ModelEditorRenderer::PushSelectedFaces()
+	bool ModelEditorRenderer::PushSelectedFaces()
 	{
+		pushData.Clear();
 		for(int i=models.Count()-1;i>=0;i--)
 		{
 			Model* model=models[i].Obj();
@@ -782,15 +795,90 @@ ModelEditorRenderer
 					}
 				}
 				model->RebuildVertexBuffer();
+				pushData.affectedModels.Add(model);
+
+				SortedList<int> vertexIndices;
+				for(int j=0;j<model->editorInfo.selectedFaces.Count();j++)
+				{
+					Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[j]].Obj();
+					for(int k=0;k<face->vertexIndices.Count();k++)
+					{
+						int l=face->vertexIndices[k];
+						if(!vertexIndices.Contains(l))
+						{
+							vertexIndices.Add(l);
+						}
+					}
+				}
+
+				for(int j=0;j<vertexIndices.Count();j++)
+				{
+					Model::Vertex* vertex=model->modelVertices[vertexIndices[j]].Obj();
+					PushDataDistanceVertex dv;
+					dv.model=model;
+					dv.vertexIndex=vertexIndices[j];
+					dv.originalPosition=vertex->position;
+					
+					D3DXVECTOR3 normal(0, 0, 0);
+					for(int k=0;k<vertex->referencedFaces.Count();k++)
+					{
+						int f=vertex->referencedFaces[k];
+						if(model->editorInfo.selectedFaces.Contains(f))
+						{
+							normal+=model->vertexBufferVertices[model->modelFaces[f]->referencedStartVertexBufferVertex].normal;
+						}
+					}
+					D3DXVec3Normalize(&dv.normal, &normal);
+
+					pushData.distanceVertices.Add(dv);
+				}
 			}
+		}
+		return pushData.Available();
+	}
+
+	bool ModelEditorRenderer::PushSelectedLines()
+	{
+		pushData.Clear();
+		return pushData.Available();
+	}
+
+	bool ModelEditorRenderer::PushSelectedPoints()
+	{
+		pushData.Clear();
+		return pushData.Available();
+	}
+
+	void ModelEditorRenderer::PushModify(float distance, float percent)
+	{
+		for(int i=0;i<pushData.distanceVertices.Count();i++)
+		{
+			PushDataDistanceVertex& v=pushData.distanceVertices[i];
+			v.model->modelVertices[v.vertexIndex]->position=v.originalPosition+distance*v.normal;
+		}
+		for(int i=0;i<pushData.percentVertices.Count();i++)
+		{
+			PushDataPercentVertex& v=pushData.percentVertices[i];
+			v.percent=v.originalPercent+percent;
+			v.model->modelVertices[v.vertexIndex]->position=v.p1*v.percent+v.p2*(1-v.percent);
+		}
+		for(int i=0;i<pushData.affectedModels.Count();i++)
+		{
+			pushData.affectedModels[i]->RebuildVertexBuffer();
 		}
 	}
 
-	void ModelEditorRenderer::PushSelectedLines()
+	void ModelEditorRenderer::PushStopModify()
 	{
-	}
-
-	void ModelEditorRenderer::PushSelectedPoints()
-	{
+		for(int i=0;i<pushData.distanceVertices.Count();i++)
+		{
+			PushDataDistanceVertex& v=pushData.distanceVertices[i];
+			v.originalPosition=v.model->modelVertices[v.vertexIndex]->position;
+		}
+		for(int i=0;i<pushData.percentVertices.Count();i++)
+		{
+			PushDataPercentVertex& v=pushData.percentVertices[i];
+			v.originalPercent=v.percent;
+		}
 	}
 }

@@ -141,7 +141,6 @@ ModelEditorMode::ObjectScaling
 				editorWindow->modelEditorData.originY=info.y;
 			}
 			break;
-			break;
 		case WM_MOUSEMOVE:
 			{
 				D3DXVECTOR3 axis;
@@ -198,6 +197,41 @@ ModelEditorMode::ObjectScaling
 					editorWindow->modelEditorData.originX=info.x;
 					editorWindow->modelEditorData.originY=info.y;
 				}
+			}
+			break;
+		}
+	}
+
+/***********************************************************************
+ModelEditorMode::ObjectPushing
+***********************************************************************/
+
+	void ToolObjectPushing(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	{
+		WindowMouseInfo info(wParam, lParam, false);
+		switch(uMsg)
+		{
+		case WM_LBUTTONDOWN:
+			{
+				editorWindow->modelEditorData.originX=info.x;
+				editorWindow->modelEditorData.originY=info.y;
+			}
+			break;
+		case WM_LBUTTONUP:
+			{
+				editorWindow->PushStopModify();
+			}
+			break;
+		case WM_MOUSEMOVE:
+			{
+				int deltaX=info.x-editorWindow->modelEditorData.originX;
+				int deltaY=info.y-editorWindow->modelEditorData.originY;
+				SIZE clientSize=WindowGetClient(hWnd);
+				float percent=(float)deltaX/(clientSize.cx/2);
+				float distance=(float)deltaY/editorWindow->GetViewDistance();
+
+				editorWindow->PushModify(distance, percent);
+				editorWindow->Render();
 			}
 			break;
 		}

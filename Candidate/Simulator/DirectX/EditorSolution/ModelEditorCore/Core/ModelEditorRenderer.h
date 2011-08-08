@@ -10,8 +10,46 @@ namespace modeleditor
 	class ModelEditorRenderer : public ModelSceneRenderer
 	{
 	protected:
+		struct PushDataDistanceVertex
+		{
+			Model*								model;
+			int									vertexIndex;
+			D3DXVECTOR3							originalPosition;
+			D3DXVECTOR3							normal;
+
+			bool operator==(const PushDataDistanceVertex& value){return false;}
+			bool operator!=(const PushDataDistanceVertex& value){return true;}
+		};
+
+		struct PushDataPercentVertex
+		{
+			Model*								model;
+			int									vertexIndex;
+			D3DXVECTOR3							p1;
+			D3DXVECTOR3							p2;
+			float								originalPercent;
+			float								percent;
+
+			bool operator==(const PushDataPercentVertex& value){return false;}
+			bool operator!=(const PushDataPercentVertex& value){return true;}
+		};
+
+		friend class ReadonlyListEnumerator<PushDataDistanceVertex>;
+		friend class ReadonlyListEnumerator<PushDataPercentVertex>;
+
+		struct PushData
+		{
+			List<PushDataDistanceVertex>		distanceVertices;
+			List<PushDataPercentVertex>			percentVertices;
+			List<Model*>						affectedModels;
+
+			void								Clear();
+			bool								Available();
+		};
+	protected:
 		List<Ptr<Model>>						models;
 		Model*									mainSelectedModel;
+		PushData								pushData;
 
 	protected:
 		void									CallbackRebuildModels();
@@ -47,9 +85,12 @@ namespace modeleditor
 		void									DeleteSelectedLineBetweenSelectionPoints();
 		void									AddLineBetweenSelectionPoints();
 		void									AddPointBetweenSelectionPoints(int count);
-		void									PushSelectedFaces();
-		void									PushSelectedLines();
-		void									PushSelectedPoints();
+
+		bool									PushSelectedFaces();
+		bool									PushSelectedLines();
+		bool									PushSelectedPoints();
+		void									PushModify(float distance, float percent);
+		void									PushStopModify();
 	};
 }
 
