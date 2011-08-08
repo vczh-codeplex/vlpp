@@ -80,18 +80,21 @@ Editing
 
 	MODELEDITORCORE_API void __stdcall DeleteSelection(ModelEditorWindow* window)
 	{
+		window->StopTemporaryEditorMode();
 		window->DeleteSelection();
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall DeleteSelectedLineBetweenSelectionPoints(ModelEditorWindow* window)
 	{
+		window->StopTemporaryEditorMode();
 		window->DeleteSelectedLineBetweenSelectionPoints();
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall AddLineBetweenSelectionPoints(ModelEditorWindow* window)
 	{
+		window->StopTemporaryEditorMode();
 		window->AddLineBetweenSelectionPoints();
 		window->Render();
 	}
@@ -99,25 +102,35 @@ Editing
 	MODELEDITORCORE_API void __stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window, int count)
 	{
 		if(count<1) count=1;
+		window->StopTemporaryEditorMode();
 		window->AddPointBetweenSelectionPoints(count);
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall PushSelectedFaces(ModelEditorWindow* window)
 	{
-		window->PushSelectedFaces();
+		if(window->PushSelectedFaces())
+		{
+			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+		}
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall PushSelectedLines(ModelEditorWindow* window)
 	{
-		window->PushSelectedLines();
+		if(window->PushSelectedLines())
+		{
+			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+		}
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall PushSelectedPoints(ModelEditorWindow* window)
 	{
-		window->PushSelectedPoints();
+		if(window->PushSelectedPoints())
+		{
+			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+		}
 		window->Render();
 	}
 

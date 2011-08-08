@@ -25,6 +25,7 @@ ModelEditorOperation
 	extern void ToolObjectTranslation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 	extern void ToolObjectRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 	extern void ToolObjectScaling(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
+	extern void ToolObjectPushing(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 
 /***********************************************************************
 Helper Functions
@@ -149,6 +150,8 @@ EditorWindowSubclassProc
 			return &ToolObjectRotation;
 		case ModelEditorMode::ObjectScaling:
 			return &ToolObjectScaling;
+		case ModelEditorMode::ObjectPushing:
+			return &ToolObjectPushing;
 		default:
 			return 0;
 		}
