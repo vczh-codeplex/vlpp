@@ -1,4 +1,5 @@
 #include "ModelEditorWindow.h"
+#include "..\ModelEditorCore.h"
 
 namespace modeleditor
 {
@@ -10,13 +11,27 @@ ModelEditorData
 	ModelEditorData::ModelEditorData()
 		:originX(0)
 		,originY(0)
-		,modelEditorMode(ModelEditorMode::ObjectSelection)
 		,modelEditorAxis(ModelEditorAxis::AxisGlobal)
 		,modelEditorAxisDirection(ModelEditorAxisDirection::None)
+		,rotatingView(false)
+		,executingEditorTool(false)
 	{
 	}
 
 	ModelEditorData::~ModelEditorData()
+	{
+	}
+
+/***********************************************************************
+ModelEditorTool
+***********************************************************************/
+
+	ModelEditorTool::ModelEditorTool(ModelEditorWindow* _editorWindow)
+		:editorWindow(_editorWindow)
+	{
+	}
+
+	ModelEditorTool::~ModelEditorTool()
 	{
 	}
 
@@ -41,29 +56,9 @@ ModelEditorWindow
 		}
 
 		dc->DrawString(10, 10, L"Change View\t\t\t\t\t{RBUTTON|MBUTTON|WHEEL}", 32, 10);
-		switch(modelEditorData.modelEditorMode)
+		if(currentEditorTool)
 		{
-		case ModelEditorMode::ObjectSelection:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select\t\t{LBUTTON(click) + CTRL?}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectFaceSelection:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select Face\t{LBUTTON(click|drag + SHIFT?) + CTRL?}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectVertexSelection:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Select Vertex\t{LBUTTON(click|drag + SHIFT?) + CTRL?}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectTranslation:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Move"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectRotation:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Rotate"+axisDirection+L"\t\t{LBUTTON + [XYZ]}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectScaling:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Scale\t\t{LBUTTON + [X|Y|Z|SHIFT]*}", 32, 10);
-			break;
-		case ModelEditorMode::ObjectPushing:
-			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t: Pushing\t\t{LBUTTON + SHIFT?}", 32, 10);
-			break;
+			dc->DrawString(10, 30, L"Editor Mode[CFVTRS]\t:"+currentEditorTool->Name(), 32, 10);
 		}
 		switch(modelEditorData.modelEditorAxis)
 		{
@@ -78,9 +73,9 @@ ModelEditorWindow
 
 	ModelEditorWindow::ModelEditorWindow(HWND _editorControl, const WString& _workingDirectory)
 		:ModelEditorRenderer(_editorControl, _workingDirectory)
-		,currentToolMessageProc(0)
 	{
 		Constructor();
+		EditorModeSelection(this);
 	}
 
 	ModelEditorWindow::~ModelEditorWindow()
@@ -88,26 +83,15 @@ ModelEditorWindow
 		Destructor();
 	}
 
-	void ModelEditorWindow::SetEditorMode(ModelEditorMode::Enum value)
+	void ModelEditorWindow::SetEditorTool(ModelEditorTool* editorTool)
 	{
-		modelEditorData.modelEditorMode=value;
+		currentEditorTool=editorTool;
 		ToolDrawEditorMode();
 	}
 
-	void ModelEditorWindow::StopTemporaryEditorMode()
+	void ModelEditorWindow::StopTemporaryEditorTool()
 	{
-		switch(modelEditorData.modelEditorMode)
-		{
-		case ModelEditorMode::ObjectSelection:
-		case ModelEditorMode::ObjectFaceSelection:
-		case ModelEditorMode::ObjectVertexSelection:
-		case ModelEditorMode::ObjectTranslation:
-		case ModelEditorMode::ObjectRotation:
-		case ModelEditorMode::ObjectScaling:
-			break;
-		default:
-			SetEditorMode(ModelEditorMode::ObjectSelection);
-		}
+		EditorModeSelection(this);
 	}
 
 	void ModelEditorWindow::SetEditorAxis(ModelEditorAxis::Enum value)

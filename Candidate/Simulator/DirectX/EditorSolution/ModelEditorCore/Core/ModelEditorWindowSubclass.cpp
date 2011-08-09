@@ -11,164 +11,84 @@ namespace modeleditor
 {
 
 /***********************************************************************
-ModelEditorOperation
+ToolViewRotation
 ***********************************************************************/
 
-	extern void ToolViewRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-
-	extern void ToolObjectSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void IdleObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void IdleObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-
-	extern void ToolObjectTranslation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolObjectRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolObjectScaling(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-	extern void ToolObjectPushing(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
-
-/***********************************************************************
-Helper Functions
-***********************************************************************/
-
-	bool ToolObjectEditingInfo(D3DXVECTOR3& axis, Model*& selectedLocalModel, ModelEditorWindow* editorWindow, bool enableAxisCombination)
+	void ToolViewRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
 	{
-		bool available=true;
-		if(enableAxisCombination)
+		WindowMouseInfo info(wParam, lParam, (uMsg==WM_MOUSEWHEEL));
+		switch(uMsg)
 		{
-			available=false;
-			bool s=(GetKeyState(VK_SHIFT)&0xFF00)!=0;
-			bool x=s^((GetKeyState('X')&0xFF00)!=0);
-			bool y=s^((GetKeyState('Y')&0xFF00)!=0);
-			bool z=s^((GetKeyState('Z')&0xFF00)!=0);
+		case WM_MBUTTONDOWN:
+			{
+				editorWindow->modelEditorData.originX=info.x;
+				editorWindow->modelEditorData.originY=info.y;
+			}
+			break;
+		case WM_RBUTTONDOWN:
+			{
+				editorWindow->modelEditorData.originX=info.x;
+				editorWindow->modelEditorData.originY=info.y;
+			}
+			break;
+		case WM_MOUSEWHEEL:
+			{
+				float distance=(float)info.wheel/120;
 
-			if(x||y||z)
-			{
+				editorWindow->ViewMove(0, 0, distance);
+				editorWindow->Render();
 
-				D3DXVECTOR3 vx=x?D3DXVECTOR3(1, 0, 0):D3DXVECTOR3(0, 0, 0);
-				D3DXVECTOR3 vy=y?D3DXVECTOR3(0, 1, 0):D3DXVECTOR3(0, 0, 0);
-				D3DXVECTOR3 vz=z?D3DXVECTOR3(0, 0, 1):D3DXVECTOR3(0, 0, 0);
-				axis=vx+vy+vz;
+				editorWindow->modelEditorData.originX=info.x;
+				editorWindow->modelEditorData.originY=info.y;
 			}
-			else
+			break;
+		case WM_MOUSEMOVE:
 			{
-				axis=D3DXVECTOR3(1, 1, 1);
-			}
-		}
-		else
-		{
-			switch(editorWindow->modelEditorData.modelEditorAxisDirection)
-			{
-			case ModelEditorAxisDirection::None:
-				available=false;
-				break;
-			case ModelEditorAxisDirection::X:
-				axis=D3DXVECTOR3(1, 0, 0);
-				break;
-			case ModelEditorAxisDirection::Y:
-				axis=D3DXVECTOR3(0, 1, 0);
-				break;
-			case ModelEditorAxisDirection::Z:
-				axis=D3DXVECTOR3(0, 0, 1);
-				break;
-			}
-		}
-		if(editorWindow->modelEditorData.modelEditorAxis==ModelEditorAxis::AxisLocal)
-		{
-			if(editorWindow->GetMainSelectedModel())
-			{
-				selectedLocalModel=editorWindow->GetMainSelectedModel();
-			}
-		}
-		if(!enableAxisCombination && selectedLocalModel)
-		{
-			D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->editorInfo.worldMatrix);
-			D3DXVec3Normalize(&axis, &axis);
-		}
-		return available;
-	}
-
-	void ToolObjectTransformSelectedVertices(Model* model, const D3DXMATRIX& transformation)
-	{
-		D3DXMATRIX inverse;
-		D3DXMatrixInverse(&inverse, NULL, &model->editorInfo.worldMatrix);
-		if(model->editorInfo.selectedVertices.Count()>0)
-		{
-			for(int i=0;i<model->editorInfo.selectedVertices.Count();i++)
-			{
-				D3DXVECTOR3& v=model->modelVertices[model->editorInfo.selectedVertices[i]]->position;
-				v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
-			}
-		}
-		else
-		{
-			SortedList<int> transformedVertices;
-			for(int i=0;i<model->editorInfo.selectedFaces.Count();i++)
-			{
-				Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[i]].Obj();
-				for(int j=0;j<face->vertexIndices.Count();j++)
+				if(info.right)
 				{
-					int k=face->vertexIndices[j];
-					if(!transformedVertices.Contains(k))
+					int deltaX=info.x-editorWindow->modelEditorData.originX;
+					int deltaY=info.y-editorWindow->modelEditorData.originY;
+					SIZE clientSize=WindowGetClient(hWnd);
+					int minSize=clientSize.cx<clientSize.cy?clientSize.cx:clientSize.cy;
+					
+					float vertical=(float)D3DX_PI*2*deltaY/minSize;
+					float horizontal=(float)D3DX_PI*2*deltaX/minSize;
+
+					D3DXVECTOR3 center=editorWindow->GetViewAt();
+					if(editorWindow->GetMainSelectedModel())
 					{
-						transformedVertices.Add(k);
-						D3DXVECTOR3& v=model->modelVertices[k]->position;
-						v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
+						D3DXVECTOR4 o(0, 0, 0, 1);
+						D3DXVec4Transform(&o, &o, &editorWindow->GetMainSelectedModel()->editorInfo.worldMatrix);
+						center=D3DXVECTOR3(o.x/o.w, o.y/o.w, o.z/o.w);
 					}
+					editorWindow->ViewRotate(vertical, horizontal, center);
+					editorWindow->Render();
+
+					editorWindow->modelEditorData.originX=info.x;
+					editorWindow->modelEditorData.originY=info.y;
+				}
+				else if(info.middle)
+				{
+					int deltaX=info.x-editorWindow->modelEditorData.originX;
+					int deltaY=info.y-editorWindow->modelEditorData.originY;
+
+					if(deltaX!=0 || deltaY!=0)
+					{
+						editorWindow->ViewMove((float)deltaX/editorWindow->GetViewDistance(), (float)deltaY/editorWindow->GetViewDistance(), 0);
+						editorWindow->Render();
+					}
+
+					editorWindow->modelEditorData.originX=info.x;
+					editorWindow->modelEditorData.originY=info.y;
 				}
 			}
+			break;
 		}
-		model->RebuildVertexBuffer();
-	}
-
-	D3DXVECTOR3 ToolObjectTransform(const D3DXMATRIX& worldMatrix, const D3DXMATRIX& inverseMatrix, const D3DXMATRIX& transformation, D3DXVECTOR3 modelVertex)
-	{
-		D3DXVECTOR4 temp;
-		D3DXVec3Transform(&temp, &modelVertex, &worldMatrix);
-		D3DXVec4Transform(&temp, &temp, &transformation);
-		D3DXVec4Transform(&temp, &temp, &inverseMatrix);
-		return D3DXVECTOR3(temp.x/temp.w, temp.y/temp.w, temp.z/temp.w);
 	}
 
 /***********************************************************************
 EditorWindowSubclassProc
 ***********************************************************************/
-
-	ModelEditorWindow::ToolMessageProc ChooseActivatedToolMouseProc(ModelEditorWindow* editorWindow)
-	{
-		switch(editorWindow->modelEditorData.modelEditorMode)
-		{
-		case ModelEditorMode::ObjectSelection:
-			return &ToolObjectSelection;
-		case ModelEditorMode::ObjectFaceSelection:
-			return &ToolObjectFaceSelection;
-		case ModelEditorMode::ObjectVertexSelection:
-			return &ToolObjectVertexSelection;
-		case ModelEditorMode::ObjectTranslation:
-			return &ToolObjectTranslation;
-		case ModelEditorMode::ObjectRotation:
-			return &ToolObjectRotation;
-		case ModelEditorMode::ObjectScaling:
-			return &ToolObjectScaling;
-		case ModelEditorMode::ObjectPushing:
-			return &ToolObjectPushing;
-		default:
-			return 0;
-		}
-	}
-
-	ModelEditorWindow::ToolMessageProc ChooseIdleMouseProc(ModelEditorWindow* editorWindow)
-	{
-		switch(editorWindow->modelEditorData.modelEditorMode)
-		{
-		case ModelEditorMode::ObjectFaceSelection:
-			return &IdleObjectFaceSelection;
-		case ModelEditorMode::ObjectVertexSelection:
-			return &IdleObjectVertexSelection;
-		default:
-			return 0;
-		}
-	}
 
 	LRESULT CALLBACK EditorWindowSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 	{
@@ -242,26 +162,20 @@ EditorWindowSubclassProc
 		case WM_LBUTTONDOWN:
 			{
 				SetFocus(hWnd);
-				editorWindow->currentToolMessageProc=ChooseActivatedToolMouseProc(editorWindow);
-				if(editorWindow->currentToolMessageProc)
-				{
-					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-				}
+				editorWindow->modelEditorData.executingEditorTool=true;
+				editorWindow->currentEditorTool->Execute(hWnd, uMsg, wParam, lParam, uIdSubclass);
 			}
 			break;
 		case WM_LBUTTONUP:
 			{
-				if(editorWindow->currentToolMessageProc)
-				{
-					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-				}
-				editorWindow->currentToolMessageProc=0;
+				editorWindow->currentEditorTool->Execute(hWnd, uMsg, wParam, lParam, uIdSubclass);
+				editorWindow->modelEditorData.executingEditorTool=false;
 			}
 			break;
 		case WM_RBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 			{
-				editorWindow->currentToolMessageProc=&ToolViewRotation;
+				editorWindow->modelEditorData.rotatingView=true;
 				ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 			}
 			break;
@@ -269,7 +183,7 @@ EditorWindowSubclassProc
 		case WM_MBUTTONUP:
 			{
 				ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-				editorWindow->currentToolMessageProc=0;
+				editorWindow->modelEditorData.rotatingView=false;
 			}
 			break;
 		case WM_MOUSEWHEEL:
@@ -279,17 +193,13 @@ EditorWindowSubclassProc
 			break;
 		case WM_MOUSEMOVE:
 			{
-				if(editorWindow->currentToolMessageProc)
+				if(editorWindow->modelEditorData.rotatingView)
 				{
-					editorWindow->currentToolMessageProc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
+					ToolViewRotation(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
 				}
-				else
+				else if(editorWindow->modelEditorData.executingEditorTool)
 				{
-					ModelEditorWindow::ToolMessageProc proc=ChooseIdleMouseProc(editorWindow);
-					if(proc)
-					{
-						proc(hWnd, uMsg, wParam, lParam, uIdSubclass, editorWindow);
-					}
+					editorWindow->currentEditorTool->Execute(hWnd, uMsg, wParam, lParam, uIdSubclass);
 				}
 			}
 			break;

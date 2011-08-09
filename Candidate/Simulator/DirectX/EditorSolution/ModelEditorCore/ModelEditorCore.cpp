@@ -2,6 +2,7 @@
 #include "Core\ModelBuilder.h"
 #include "Core\ModelEditorWindow.h"
 #include "Core\ModelEditorWindowSubclass.h"
+#include "Core\ModelEditorTools\ModelEditorTools.h"
 
 #include <CommCtrl.h>
 
@@ -80,21 +81,21 @@ Editing
 
 	MODELEDITORCORE_API void __stdcall DeleteSelection(ModelEditorWindow* window)
 	{
-		window->StopTemporaryEditorMode();
+		window->StopTemporaryEditorTool();
 		window->DeleteSelection();
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall DeleteSelectedLineBetweenSelectionPoints(ModelEditorWindow* window)
 	{
-		window->StopTemporaryEditorMode();
+		window->StopTemporaryEditorTool();
 		window->DeleteSelectedLineBetweenSelectionPoints();
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall AddLineBetweenSelectionPoints(ModelEditorWindow* window)
 	{
-		window->StopTemporaryEditorMode();
+		window->StopTemporaryEditorTool();
 		window->AddLineBetweenSelectionPoints();
 		window->Render();
 	}
@@ -102,7 +103,7 @@ Editing
 	MODELEDITORCORE_API void __stdcall AddPointBetweenSelectionPoints(ModelEditorWindow* window, int count)
 	{
 		if(count<1) count=1;
-		window->StopTemporaryEditorMode();
+		window->StopTemporaryEditorTool();
 		window->AddPointBetweenSelectionPoints(count);
 		window->Render();
 	}
@@ -111,7 +112,7 @@ Editing
 	{
 		if(window->PushSelectedFaces())
 		{
-			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+			window->SetEditorTool(new MetPushing(window));
 		}
 		window->Render();
 	}
@@ -120,7 +121,7 @@ Editing
 	{
 		if(window->PushSelectedLines())
 		{
-			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+			window->SetEditorTool(new MetPushing(window));
 		}
 		window->Render();
 	}
@@ -129,7 +130,7 @@ Editing
 	{
 		if(window->PushSelectedPoints())
 		{
-			window->SetEditorMode(ModelEditorMode::ObjectPushing);
+			window->SetEditorTool(new MetPushing(window));
 		}
 		window->Render();
 	}
@@ -150,37 +151,37 @@ Editor Mode
 
 	MODELEDITORCORE_API void __stdcall EditorModeSelection(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectSelection);
+		window->SetEditorTool(new MetObjectSelection(window));
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeFaceSelection(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectFaceSelection);
+		window->SetEditorTool(new MetFaceSelection(window));
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeVertexSelection(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectVertexSelection);
+		window->SetEditorTool(new MetVertexSelection(window));
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeTranslation(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectTranslation);
+		window->SetEditorTool(new MetTranslation(window));
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeRotation(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectRotation);
+		window->SetEditorTool(new MetRotation(window));
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall EditorModeScaling(ModelEditorWindow* window)
 	{
-		window->SetEditorMode(ModelEditorMode::ObjectScaling);
+		window->SetEditorTool(new MetScaling(window));
 		window->Render();
 	}
 

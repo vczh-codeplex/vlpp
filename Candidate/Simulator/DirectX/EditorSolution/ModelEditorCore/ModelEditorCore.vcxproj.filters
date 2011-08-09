@@ -37,6 +37,9 @@
     <Filter Include="Core\Model">
       <UniqueIdentifier>{b66bf904-3097-474a-b247-345040539b7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Editor\ModelEditorTools">
+      <UniqueIdentifier>{cb8d8c19-604d-400d-b1a1-a212ed635b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -93,14 +96,14 @@
     <ClCompile Include="Core\ModelObject.cpp">
       <Filter>Core\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ModelEditorWindowSubclass_View.cpp">
-      <Filter>Core\Editor</Filter>
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_ObjectSelection.cpp">
+      <Filter>Core\Editor\ModelEditorTools</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectSelection.cpp">
-      <Filter>Core\Editor</Filter>
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_ObjectTransformation.cpp">
+      <Filter>Core\Editor\ModelEditorTools</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectTransformation.cpp">
-      <Filter>Core\Editor</Filter>
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_Pushing.cpp">
+      <Filter>Core\Editor\ModelEditorTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Library\Tuple.h">
       <Filter>Vlpp\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelEditorTools\ModelEditorTools.h">
+      <Filter>Core\Editor\ModelEditorTools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
