@@ -876,6 +876,29 @@ ModelEditorRenderer
 		return pushData.Available();
 	}
 
+	struct PSP_FaceModifier
+	{
+		Model::Face*			face;
+		int						index;
+		int						newp1, newp2;
+
+		int Compare(const PSP_FaceModifier& value)
+		{
+			if(face>value.face) return -1;
+			else if(face<value.face) return 1;
+			else if(index>value.index) return -1;
+			else if(index<value.index) return 1;
+			return 0;
+		}
+
+		bool operator==(const PSP_FaceModifier& value){return Compare(value)==0;};
+		bool operator!=(const PSP_FaceModifier& value){return Compare(value)!=0;};
+		bool operator<(const PSP_FaceModifier& value){return Compare(value)<0;};
+		bool operator<=(const PSP_FaceModifier& value){return Compare(value)<=0;};
+		bool operator>(const PSP_FaceModifier& value){return Compare(value)>0;};
+		bool operator>=(const PSP_FaceModifier& value){return Compare(value)>=0;};
+	};
+
 	bool ModelEditorRenderer::PushSelectedLines()
 	{
 		pushData.Clear();
@@ -884,9 +907,6 @@ ModelEditorRenderer
 			Model* model=models[i].Obj();
 			if(model->editorInfo.selectedVertices.Count()>0)
 			{
-				SortedList<Pair<int, int>> lines;		// [(startVertexIndex, endVertexIndex)]
-				Group<int, int> lineMapSelected;		// lineStartVertexIndex => [lineEndVertexIndex]
-				Group<int, Pair<int, int>> lineMapAll;	// lineStartVertexIndex => [(lineEndVertexIndex, faceIndexRightOfLine)]
 				SortedList<int> selectedVertices;		// [vertexIndex]
 
 				// search for end vertex indices of available lines
@@ -912,6 +932,7 @@ ModelEditorRenderer
 							if(temporarySelectedVertices.Contains(ps[0]) || temporarySelectedVertices.Contains(ps[1]))
 							{
 								selectedVertices.Add(temporarySelectedVertices[j]);
+								break;
 							}
 						}
 					}
@@ -919,6 +940,11 @@ ModelEditorRenderer
 
 				if(selectedVertices.Count()>0)
 				{
+					SortedList<Pair<int, int>> lines;		// [(startVertexIndex, endVertexIndex)]
+					Group<int, int> lineMapSelected;		// lineStartVertexIndex => [lineEndVertexIndex]
+					Group<int, Pair<int, int>> lineMapAll;	// lineStartVertexIndex => [(lineEndVertexIndex, faceIndexRightOfLine)]
+					SortedList<PSP_FaceModifier> faceModifier;
+
 					// scan available end vertex to build "star"
 					for(int j=0;j<selectedVertices.Count();j++)
 					{
@@ -926,7 +952,8 @@ ModelEditorRenderer
 						Dictionary<int, Pair<int, int>> linePairs; // lineEndVertexIndex1 => (lineEndVertexIndex2, faceIndex)
 						for(int k=0;k<vertex->referencedFaces.Count();k++)
 						{
-							Model::Face* face=model->modelFaces[vertex->referencedFaces[k]].Obj();
+							int faceIndex=vertex->referencedFaces[k];
+							Model::Face* face=model->modelFaces[faceIndex].Obj();
 							int index=face->vertexIndices.IndexOf(selectedVertices[j]);
 							int is[]={
 								(index+face->vertexIndices.Count()-1)%face->vertexIndices.Count(),
@@ -936,14 +963,17 @@ ModelEditorRenderer
 								face->vertexIndices[is[0]],
 								face->vertexIndices[is[1]]
 							};
-							linePairs.Add(ps[0], Pair<int, int>(ps[1], vertex->referencedFaces[k]));
+							linePairs.Add(ps[0], Pair<int, int>(ps[1], faceIndex));
 							for(int l=0;l<2;l++)
 							{
 								if(selectedVertices.Contains(ps[l]))
 								{
 									int p1=selectedVertices[j];
 									int p2=ps[l];
-									lineMapSelected.Add(p1, p2);
+									if(!lineMapSelected.Contains(p1, p2))
+									{
+										lineMapSelected.Add(p1, p2);
+									}
 									if(p1>p2)
 									{
 										int t=p1;
@@ -964,7 +994,7 @@ ModelEditorRenderer
 						for(int k=0;k<count;k++)
 						{
 							Pair<int, int> lineEnd=linePairs[current];
-							lineMapAll.Add(selectedVertices[j], lineEnd);
+							lineMapAll.Add(selectedVertices[j], Pair<int, int>(current, lineEnd.value));
 							current=lineEnd.key;
 						}
 					}
@@ -992,14 +1022,14 @@ ModelEditorRenderer
 					}
 
 					// build pointsLeftOfLine and pointsRightOfLine, to extract to line quad structure
-					Dictionary<Pair<int, int>, int> pointsLeftOfLine; // (lineStartVertexIndex, lineEndVertexIndex) => [pointLeftOfRaisedLine]
-					Dictionary<Pair<int, int>, int> pointsRightOfLine; // (lineStartVertexIndex, lineEndVertexIndex) => [pointRightOfRaisedLine]
+					Dictionary<Pair<int, int>, int> pointsLeftOfLine;		// (lineStartVertexIndex, lineEndVertexIndex) => [pointLeftOfRaisedLine]
+					Dictionary<Pair<int, int>, int> pointsRightOfLine;		// (lineStartVertexIndex, lineEndVertexIndex) => [pointRightOfRaisedLine]
+					Dictionary<Pair<int, int>, int> linePercentVertexMap;	// (lineStartVertexIndex, lineEndVertexIndex) => percentVertexIndex
 					for(int j=0;j<selectedVertices.Count();j++)
 					{
 						int vertexIndex=selectedVertices[j];
 						const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
 						const IReadonlyList<Pair<int, int>>& allLines=lineMapAll[vertexIndex];
-						Dictionary<Pair<int, int>, int> linePercentVertexMap;
 
 						for(int k=0;k<allLines.Count();k++)
 						{
@@ -1016,6 +1046,7 @@ ModelEditorRenderer
 								newVertex->diffuse=v0->diffuse;
 								int newVertexIndex=model->modelVertices.Add(newVertex);
 								linePercentVertexMap.Add(Pair<int, int>(vertexIndex, end1.key), newVertexIndex);
+								model->editorInfo.selectedVertices.Add(newVertexIndex);
 
 								PushDataPercentVertex pv;
 								pv.model=model;
@@ -1047,6 +1078,7 @@ ModelEditorRenderer
 								newVertex->position=v0->position+n*l/2;
 								newVertex->diffuse=v0->diffuse;
 								int newVertexIndex=model->modelVertices.Add(newVertex);
+								model->editorInfo.selectedVertices.Add(newVertexIndex);
 								pointsRightOfLine.Add(Pair<int, int>(vertexIndex, end1.key), newVertexIndex);
 								pointsLeftOfLine.Add(Pair<int, int>(vertexIndex, end2.key), newVertexIndex);
 
@@ -1088,11 +1120,11 @@ ModelEditorRenderer
 
 							if(right!=-1)
 							{
-								pointsRightOfLine.Add(Pair<int, int>(vertexIndex, end), right);
+								pointsRightOfLine.Add(Pair<int, int>(vertexIndex, end), linePercentVertexMap[Pair<int, int>(vertexIndex, right)]);
 							}
 							if(left!=-1)
 							{
-								pointsLeftOfLine.Add(Pair<int, int>(vertexIndex, end), left);
+								pointsLeftOfLine.Add(Pair<int, int>(vertexIndex, end), linePercentVertexMap[Pair<int, int>(vertexIndex, left)]);
 							}
 						}
 					}
@@ -1103,19 +1135,30 @@ ModelEditorRenderer
 						int vertexIndex=selectedVertices[j];
 						const IReadonlyList<int>& selectedLines=lineMapSelected[vertexIndex];
 						const IReadonlyList<Pair<int, int>>& allLines=lineMapAll[vertexIndex];
-						Dictionary<Pair<int, int>, int> linePercentVertexMap;
 
 						for(int k=0;k<allLines.Count();k++)
 						{
-							int end1=allLines[k].key;
-							int end2=allLines[(k+1)%allLines.Count()].key;
-							if(!selectedLines.Contains(end1) && !selectedLines.Contains(end2))
+							Pair<int, int> end1=allLines[k];
+							Pair<int, int> end2=allLines[(k+1)%allLines.Count()];
+							if(!selectedLines.Contains(end1.key) && !selectedLines.Contains(end2.key))
 							{
-								Model::Face* face=new Model::Face;
-								face->vertexIndices.Add(end1);
-								face->vertexIndices.Add(vertexIndex);
-								face->vertexIndices.Add(end2);
-								model->modelFaces.Add(face);
+								int percent1=linePercentVertexMap[Pair<int, int>(vertexIndex, end1.key)];
+								int percent2=linePercentVertexMap[Pair<int, int>(vertexIndex, end2.key)];
+								{
+									Model::Face* face=new Model::Face;
+									face->vertexIndices.Add(percent1);
+									face->vertexIndices.Add(vertexIndex);
+									face->vertexIndices.Add(percent2);
+									model->modelFaces.Add(face);
+								}
+								{
+									PSP_FaceModifier fm;
+									fm.face=model->modelFaces[end1.value].Obj();
+									fm.index=fm.face->vertexIndices.IndexOf(vertexIndex);
+									fm.newp1=percent1;
+									fm.newp2=percent2;
+									faceModifier.Add(fm);
+								}
 							}
 						}
 					}
@@ -1129,14 +1172,38 @@ ModelEditorRenderer
 						for(int k=0;k<ends.Count();k++)
 						{
 							int end=ends[k];
-
-							Model::Face* face=new Model::Face;
-							face->vertexIndices.Add(end);
-							face->vertexIndices.Add(start);
-							face->vertexIndices.Add(pointsRightOfLine[Pair<int, int>(start, end)]);
-							face->vertexIndices.Add(pointsLeftOfLine[Pair<int, int>(end, start)]);
-							model->modelFaces.Add(face);
+							int rightOfStart=pointsRightOfLine[Pair<int, int>(start, end)];
+							int leftOfEnd=pointsLeftOfLine[Pair<int, int>(end, start)];
+							{
+								Model::Face* face=new Model::Face;
+								face->vertexIndices.Add(end);
+								face->vertexIndices.Add(start);
+								face->vertexIndices.Add(rightOfStart);
+								face->vertexIndices.Add(leftOfEnd);
+								model->modelFaces.Add(face);
+							}
+							const IReadonlyList<Pair<int, int>>& allLines=lineMapAll[start];
+							for(int l=0;l<allLines.Count();l++)
+							{
+								Pair<int, int> lineEnd=allLines[l];
+								if(lineEnd.key==end)
+								{
+									Model::Face* face=model->modelFaces[lineEnd.value].Obj();
+									face->vertexIndices[face->vertexIndices.IndexOf(start)]=rightOfStart;
+									face->vertexIndices[face->vertexIndices.IndexOf(end)]=leftOfEnd;
+									break;
+								}
+							}
 						}
+					}
+
+					// fixed affected faces
+					for(int j=0;j<faceModifier.Count();j++)
+					{
+						const PSP_FaceModifier& fm=faceModifier[j];
+						fm.face->vertexIndices.RemoveAt(fm.index);
+						fm.face->vertexIndices.Insert(fm.index, fm.newp1);
+						fm.face->vertexIndices.Insert(fm.index+1, fm.newp2);
 					}
 
 					pushData.affectedModels.Add(model);
@@ -1146,29 +1213,6 @@ ModelEditorRenderer
 		}
 		return pushData.Available();
 	}
-
-	struct PSP_FaceModifier
-	{
-		Model::Face*			face;
-		int						index;
-		int						newp1, newp2;
-
-		int Compare(const PSP_FaceModifier& value)
-		{
-			if(face>value.face) return -1;
-			else if(face<value.face) return 1;
-			else if(index>value.index) return -1;
-			else if(index<value.index) return 1;
-			return 0;
-		}
-
-		bool operator==(const PSP_FaceModifier& value){return Compare(value)==0;};
-		bool operator!=(const PSP_FaceModifier& value){return Compare(value)!=0;};
-		bool operator<(const PSP_FaceModifier& value){return Compare(value)<0;};
-		bool operator<=(const PSP_FaceModifier& value){return Compare(value)<=0;};
-		bool operator>(const PSP_FaceModifier& value){return Compare(value)>0;};
-		bool operator>=(const PSP_FaceModifier& value){return Compare(value)>=0;};
-	};
 
 	bool ModelEditorRenderer::PushSelectedPoints()
 	{
