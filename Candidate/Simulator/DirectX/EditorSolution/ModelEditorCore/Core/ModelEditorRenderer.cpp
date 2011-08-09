@@ -1066,16 +1066,10 @@ ModelEditorRenderer
 								// TODO: the length is calculated using a temporary solution
 								D3DXVECTOR3 n1=v1->position-v0->position;
 								D3DXVECTOR3 n2=v2->position-v0->position;
-								D3DXVec3Normalize(&n1, &n1);
-								D3DXVec3Normalize(&n2, &n2);
-								D3DXVECTOR3 n=(n1+n2)/2.0f;
-								float l1=D3DXVec3Length(&n1);
-								float l2=D3DXVec3Length(&n2);
-								float l=(l1<l2?l1:l2)/2;
-								D3DXVECTOR3 vn=v0->position+n*l;
+								D3DXVECTOR3 vn=v0->position+(n1+n2)/2.0f;
 
 								Model::Vertex* newVertex=new Model::Vertex;
-								newVertex->position=v0->position+n*l/2;
+								newVertex->position=(v0->position+vn)/2.0f;
 								newVertex->diffuse=v0->diffuse;
 								int newVertexIndex=model->modelVertices.Add(newVertex);
 								model->editorInfo.selectedVertices.Add(newVertexIndex);
