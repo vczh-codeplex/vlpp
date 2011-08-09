@@ -379,7 +379,7 @@ ModelEditorRenderer
 							}
 							else
 							{
-								model->editorInfo.selectedFaces.RemoveAt(j);
+								model->editorInfo.selectedFaces.Remove(j);
 							}
 						}
 					}
@@ -482,7 +482,7 @@ ModelEditorRenderer
 							}
 							else
 							{
-								model->editorInfo.selectedVertices.RemoveAt(j);
+								model->editorInfo.selectedVertices.Remove(j);
 							}
 						}
 					}
@@ -1189,8 +1189,20 @@ ModelEditorRenderer
 								if(lineEnd.key==end)
 								{
 									Model::Face* face=model->modelFaces[lineEnd.value].Obj();
-									face->vertexIndices[face->vertexIndices.IndexOf(start)]=rightOfStart;
-									face->vertexIndices[face->vertexIndices.IndexOf(end)]=leftOfEnd;
+									{
+										int index=face->vertexIndices.IndexOf(start);
+										if(index!=-1)
+										{
+											face->vertexIndices[index]=rightOfStart;
+										}
+									}
+									{
+										int index=face->vertexIndices.IndexOf(end);
+										if(index!=-1)
+										{
+											face->vertexIndices[index]=leftOfEnd;
+										}
+									}
 									break;
 								}
 							}
