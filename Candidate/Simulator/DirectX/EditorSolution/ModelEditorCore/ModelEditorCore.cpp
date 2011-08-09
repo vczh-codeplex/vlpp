@@ -110,27 +110,42 @@ Editing
 
 	MODELEDITORCORE_API void __stdcall PushSelectedFaces(ModelEditorWindow* window)
 	{
-		if(window->PushSelectedFaces())
+		MetPushing* pushing=new MetPushing(window);
+		if(pushing->PushSelectedFaces())
 		{
-			window->SetEditorTool(new MetPushing(window));
+			window->SetEditorTool(pushing);
+		}
+		else
+		{
+			delete pushing;
 		}
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall PushSelectedLines(ModelEditorWindow* window)
 	{
-		if(window->PushSelectedLines())
+		MetPushing* pushing=new MetPushing(window);
+		if(pushing->PushSelectedLines())
 		{
-			window->SetEditorTool(new MetPushing(window));
+			window->SetEditorTool(pushing);
+		}
+		else
+		{
+			delete pushing;
 		}
 		window->Render();
 	}
 
 	MODELEDITORCORE_API void __stdcall PushSelectedPoints(ModelEditorWindow* window)
 	{
-		if(window->PushSelectedPoints())
+		MetPushing* pushing=new MetPushing(window);
+		if(pushing->PushSelectedLines())
 		{
-			window->SetEditorTool(new MetPushing(window));
+			window->SetEditorTool(pushing);
+		}
+		else
+		{
+			delete pushing;
 		}
 		window->Render();
 	}
