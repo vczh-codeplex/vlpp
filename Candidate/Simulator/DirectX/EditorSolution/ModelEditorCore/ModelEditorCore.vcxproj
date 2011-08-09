@@ -96,11 +96,11 @@
     <ClCompile Include="..\Shared\WindowSetup.cpp" />
     <ClCompile Include="Core\ModelBuilder.cpp" />
     <ClCompile Include="Core\ModelEditorRenderer.cpp" />
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_ObjectSelection.cpp" />
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_ObjectTransformation.cpp" />
+    <ClCompile Include="Core\ModelEditorTools\ModelEditorTool_Pushing.cpp" />
     <ClCompile Include="Core\ModelEditorWindow.cpp" />
     <ClCompile Include="Core\ModelEditorWindowSubclass.cpp" />
-    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectSelection.cpp" />
-    <ClCompile Include="Core\ModelEditorWindowSubclass_ObjectTransformation.cpp" />
-    <ClCompile Include="Core\ModelEditorWindowSubclass_View.cpp" />
     <ClCompile Include="Core\ModelObject.cpp" />
     <ClCompile Include="Core\ModelSceneRenderer.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -140,6 +140,7 @@
     <ClInclude Include="Core\ModelBuilder.h" />
     <ClInclude Include="Core\ModelDataStructure.h" />
     <ClInclude Include="Core\ModelEditorRenderer.h" />
+    <ClInclude Include="Core\ModelEditorTools\ModelEditorTools.h" />
     <ClInclude Include="Core\ModelEditorWindow.h" />
     <ClInclude Include="Core\ModelEditorWindowSubclass.h" />
     <ClInclude Include="Core\ModelObject.h" />

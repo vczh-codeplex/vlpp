@@ -5,21 +5,6 @@
 
 namespace modeleditor
 {
-	namespace ModelEditorMode
-	{
-		enum Enum
-		{
-			ObjectSelection,
-			ObjectFaceSelection,
-			ObjectVertexSelection,
-			ObjectTranslation,
-			ObjectRotation,
-			ObjectScaling,
-
-			ObjectPushing,
-		};
-	};
-
 	namespace ModelEditorAxis
 	{
 		enum Enum
@@ -43,18 +28,31 @@ namespace modeleditor
 	struct ModelEditorData
 	{
 		int										originX, originY;
-		ModelEditorMode::Enum					modelEditorMode;
 		ModelEditorAxis::Enum					modelEditorAxis;
 		ModelEditorAxisDirection::Enum			modelEditorAxisDirection;
+		bool									rotatingView;
+		bool									executingEditorTool;
 
 		ModelEditorData();
 		~ModelEditorData();
 	};
 
+	class ModelEditorWindow;
+
+	class ModelEditorTool : public Object
+	{
+	protected:
+		ModelEditorWindow*						editorWindow;
+	public:
+		ModelEditorTool(ModelEditorWindow* _editorWindow);
+		~ModelEditorTool();
+
+		virtual void							Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)=0;
+		virtual WString							Name()=0;
+	};
+
 	class ModelEditorWindow : public ModelEditorRenderer
 	{
-	public:
-		typedef void(*ToolMessageProc)(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow);
 	protected:
 		void									CallbackDrawEditorMode(WinDC* dc);
 	public:
@@ -62,10 +60,10 @@ namespace modeleditor
 		~ModelEditorWindow();
 
 		ModelEditorData							modelEditorData;
-		ToolMessageProc							currentToolMessageProc;
+		Ptr<ModelEditorTool>					currentEditorTool;
 
-		void									SetEditorMode(ModelEditorMode::Enum value);
-		void									StopTemporaryEditorMode();
+		void									SetEditorTool(ModelEditorTool* editorTool);
+		void									StopTemporaryEditorTool();
 		void									SetEditorAxis(ModelEditorAxis::Enum value);
 		void									SetEditorAxisDirection(ModelEditorAxisDirection::Enum value);
 	};

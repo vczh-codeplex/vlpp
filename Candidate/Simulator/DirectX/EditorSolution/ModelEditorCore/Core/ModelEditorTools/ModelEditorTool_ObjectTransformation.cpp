@@ -1,18 +1,120 @@
-#include "ModelEditorWindowSubclass.h"
-#include "..\..\Shared\WindowSetup.h"
-#include "..\ModelEditorCore.h"
+#include "ModelEditorTools.h"
+#include "..\..\ModelEditorCore.h"
+#include "..\..\..\Shared\WindowSetup.h"
 
 using namespace vl;
 using namespace vl::directx;
 
 namespace modeleditor
 {
-
 /***********************************************************************
-ModelEditorMode::ObjectTranslation
+Helper Functions
 ***********************************************************************/
 
-	void ToolObjectTranslation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	bool ToolObjectEditingInfo(D3DXVECTOR3& axis, Model*& selectedLocalModel, ModelEditorWindow* editorWindow, bool enableAxisCombination)
+	{
+		bool available=true;
+		if(enableAxisCombination)
+		{
+			available=false;
+			bool s=(GetKeyState(VK_SHIFT)&0xFF00)!=0;
+			bool x=s^((GetKeyState('X')&0xFF00)!=0);
+			bool y=s^((GetKeyState('Y')&0xFF00)!=0);
+			bool z=s^((GetKeyState('Z')&0xFF00)!=0);
+
+			if(x||y||z)
+			{
+
+				D3DXVECTOR3 vx=x?D3DXVECTOR3(1, 0, 0):D3DXVECTOR3(0, 0, 0);
+				D3DXVECTOR3 vy=y?D3DXVECTOR3(0, 1, 0):D3DXVECTOR3(0, 0, 0);
+				D3DXVECTOR3 vz=z?D3DXVECTOR3(0, 0, 1):D3DXVECTOR3(0, 0, 0);
+				axis=vx+vy+vz;
+			}
+			else
+			{
+				axis=D3DXVECTOR3(1, 1, 1);
+			}
+		}
+		else
+		{
+			switch(editorWindow->modelEditorData.modelEditorAxisDirection)
+			{
+			case ModelEditorAxisDirection::None:
+				available=false;
+				break;
+			case ModelEditorAxisDirection::X:
+				axis=D3DXVECTOR3(1, 0, 0);
+				break;
+			case ModelEditorAxisDirection::Y:
+				axis=D3DXVECTOR3(0, 1, 0);
+				break;
+			case ModelEditorAxisDirection::Z:
+				axis=D3DXVECTOR3(0, 0, 1);
+				break;
+			}
+		}
+		if(editorWindow->modelEditorData.modelEditorAxis==ModelEditorAxis::AxisLocal)
+		{
+			if(editorWindow->GetMainSelectedModel())
+			{
+				selectedLocalModel=editorWindow->GetMainSelectedModel();
+			}
+		}
+		if(!enableAxisCombination && selectedLocalModel)
+		{
+			D3DXVec3TransformNormal(&axis, &axis, &selectedLocalModel->editorInfo.worldMatrix);
+			D3DXVec3Normalize(&axis, &axis);
+		}
+		return available;
+	}
+
+	D3DXVECTOR3 ToolObjectTransform(const D3DXMATRIX& worldMatrix, const D3DXMATRIX& inverseMatrix, const D3DXMATRIX& transformation, D3DXVECTOR3 modelVertex)
+	{
+		D3DXVECTOR4 temp;
+		D3DXVec3Transform(&temp, &modelVertex, &worldMatrix);
+		D3DXVec4Transform(&temp, &temp, &transformation);
+		D3DXVec4Transform(&temp, &temp, &inverseMatrix);
+		return D3DXVECTOR3(temp.x/temp.w, temp.y/temp.w, temp.z/temp.w);
+	}
+
+	void ToolObjectTransformSelectedVertices(Model* model, const D3DXMATRIX& transformation)
+	{
+		D3DXMATRIX inverse;
+		D3DXMatrixInverse(&inverse, NULL, &model->editorInfo.worldMatrix);
+		if(model->editorInfo.selectedVertices.Count()>0)
+		{
+			for(int i=0;i<model->editorInfo.selectedVertices.Count();i++)
+			{
+				D3DXVECTOR3& v=model->modelVertices[model->editorInfo.selectedVertices[i]]->position;
+				v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
+			}
+		}
+		else
+		{
+			SortedList<int> transformedVertices;
+			for(int i=0;i<model->editorInfo.selectedFaces.Count();i++)
+			{
+				Model::Face* face=model->modelFaces[model->editorInfo.selectedFaces[i]].Obj();
+				for(int j=0;j<face->vertexIndices.Count();j++)
+				{
+					int k=face->vertexIndices[j];
+					if(!transformedVertices.Contains(k))
+					{
+						transformedVertices.Add(k);
+						D3DXVECTOR3& v=model->modelVertices[k]->position;
+						v=ToolObjectTransform(model->editorInfo.worldMatrix, inverse, transformation, v);
+					}
+				}
+			}
+		}
+		model->RebuildVertexBuffer();
+	}
+
+/***********************************************************************
+MetTranslation
+***********************************************************************/
+
+	void MetTranslation::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -58,10 +160,10 @@ ModelEditorMode::ObjectTranslation
 	}
 
 /***********************************************************************
-ModelEditorMode::ObjectRotation
+MetRotation
 ***********************************************************************/
 
-	void ToolObjectRotation(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void MetRotation::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -127,10 +229,10 @@ ModelEditorMode::ObjectRotation
 	}
 
 /***********************************************************************
-ModelEditorMode::ObjectScaling
+MetScaling
 ***********************************************************************/
 
-	void ToolObjectScaling(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void MetScaling::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -197,41 +299,6 @@ ModelEditorMode::ObjectScaling
 					editorWindow->modelEditorData.originX=info.x;
 					editorWindow->modelEditorData.originY=info.y;
 				}
-			}
-			break;
-		}
-	}
-
-/***********************************************************************
-ModelEditorMode::ObjectPushing
-***********************************************************************/
-
-	void ToolObjectPushing(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
-	{
-		WindowMouseInfo info(wParam, lParam, false);
-		switch(uMsg)
-		{
-		case WM_LBUTTONDOWN:
-			{
-				editorWindow->modelEditorData.originX=info.x;
-				editorWindow->modelEditorData.originY=info.y;
-			}
-			break;
-		case WM_LBUTTONUP:
-			{
-				editorWindow->PushStopModify();
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-				int deltaX=info.x-editorWindow->modelEditorData.originX;
-				int deltaY=info.y-editorWindow->modelEditorData.originY;
-				SIZE clientSize=WindowGetClient(hWnd);
-				float percent=(float)deltaX/(clientSize.cx/2);
-				float distance=(float)deltaY/editorWindow->GetViewDistance();
-
-				editorWindow->PushModify(distance, percent);
-				editorWindow->Render();
 			}
 			break;
 		}

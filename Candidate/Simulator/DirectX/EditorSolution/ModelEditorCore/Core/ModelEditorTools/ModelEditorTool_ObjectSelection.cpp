@@ -1,6 +1,6 @@
-#include "ModelEditorWindowSubclass.h"
-#include "..\..\Shared\WindowSetup.h"
-#include "..\ModelEditorCore.h"
+#include "ModelEditorTools.h"
+#include "..\..\ModelEditorCore.h"
+#include "..\..\..\Shared\WindowSetup.h"
 
 using namespace vl;
 using namespace vl::directx;
@@ -9,10 +9,10 @@ namespace modeleditor
 {
 
 /***********************************************************************
-ModelEditorMode::ObjectSelection
+MetObjectSelection
 ***********************************************************************/
 
-	void ToolObjectSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void MetObjectSelection::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -28,10 +28,10 @@ ModelEditorMode::ObjectSelection
 	}
 
 /***********************************************************************
-ModelEditorMode::ObjectFaceSelection
+MetFaceSelection
 ***********************************************************************/
 
-	void ToolObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void MetFaceSelection::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -78,15 +78,11 @@ ModelEditorMode::ObjectFaceSelection
 		}
 	}
 
-	void IdleObjectFaceSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
-	{
-	}
-
 /***********************************************************************
-ModelEditorMode::ObjectVertexSelection
+MetVertexSelection
 ***********************************************************************/
 
-	void ToolObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
+	void MetVertexSelection::Execute(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass)
 	{
 		WindowMouseInfo info(wParam, lParam, false);
 		switch(uMsg)
@@ -131,9 +127,5 @@ ModelEditorMode::ObjectVertexSelection
 			}
 			break;
 		}
-	}
-
-	void IdleObjectVertexSelection(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, ModelEditorWindow* editorWindow)
-	{
 	}
 }
