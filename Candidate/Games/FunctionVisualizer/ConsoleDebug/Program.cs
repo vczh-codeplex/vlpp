@@ -65,7 +65,7 @@ namespace ConsoleDebug
                     Console.WriteLine("parse:\t\t" + exp.ToCode());
                     for (int i = 0; i < 10; i++)
                     {
-                        Console.WriteLine("solve:\t\t" + exp.Solve("x", i).ToString());
+                        Console.WriteLine("solve:\t\t" + i.ToString() + " => " + exp.Solve("x", i).ToString());
                     }
                     Console.WriteLine();
                 }
