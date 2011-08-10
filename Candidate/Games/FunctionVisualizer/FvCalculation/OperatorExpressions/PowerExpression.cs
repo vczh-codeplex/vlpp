@@ -16,7 +16,36 @@ namespace FvCalculation.OperatorExpressions
         {
             double a = this.Left.Execute(variables);
             double b = this.Right.Execute(variables);
-            return Math.Exp(b * Math.Log(a));
+            double ib = (int)Math.Round(b);
+            if (b >= 0 && -Expression.ZeroNumber <= (ib - b) && (ib - b) <= Expression.ZeroNumber)
+            {
+                if (ib == 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    double result = 1;
+                    for (int i = 0; i < ib; i++)
+                    {
+                        result *= a;
+                    }
+                    return result;
+                }
+            }
+            else
+            {
+                return Math.Exp(b * Math.Log(a));
+            }
+        }
+
+        public override Expression Apply(Dictionary<string, double> variables)
+        {
+            return new PowerExpression
+            {
+                Left = this.Left.Apply(variables),
+                Right = this.Right.Apply(variables),
+            };
         }
 
         public override Expression Different(string variable)
@@ -93,7 +122,21 @@ namespace FvCalculation.OperatorExpressions
             Expression sright = this.Right.Simplify();
             NumberExpression nleft = sleft as NumberExpression;
             NumberExpression nright = sright as NumberExpression;
-            if (nleft != null)
+            if (nright != null)
+            {
+                if (nright.Number == 0)
+                {
+                    return new NumberExpression
+                    {
+                        Number = 1,
+                    };
+                }
+                else if (nright.Number == 1)
+                {
+                    return sleft;
+                }
+            }
+            else if (nleft != null)
             {
                 if (nleft.Number == 0)
                 {
@@ -108,20 +151,6 @@ namespace FvCalculation.OperatorExpressions
                     {
                         Number = 1,
                     };
-                }
-            }
-            else if (nright != null)
-            {
-                if (nright.Number == 0)
-                {
-                    return new NumberExpression
-                    {
-                        Number = 1,
-                    };
-                }
-                else if (nright.Number == 1)
-                {
-                    return sleft;
                 }
             }
             return new PowerExpression

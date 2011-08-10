@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expression.cs" />
+    <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="FunctionExpressions\ExpExpression.cs" />
     <Compile Include="FunctionExpressions\LnExpression.cs" />
