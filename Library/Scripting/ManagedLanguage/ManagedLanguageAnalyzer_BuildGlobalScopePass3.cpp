@@ -9,7 +9,7 @@ namespace vl
 		{
 			using namespace collections;
 
-			void ManagedLanguage_BuildGlobalScope2_GenericParameter(ManagedLanguageElement* languageElement, ManagedSymbolItem* symbol, ManagedSymbolItem* scopeItem, const List<WString>& orderedGenericParameterNames, const MAP& argument)
+			void ManagedLanguage_BuildGlobalScope3_GenericParameter(ManagedLanguageElement* languageElement, ManagedSymbolItem* symbol, ManagedSymbolItem* scopeItem, const List<WString>& orderedGenericParameterNames, const MAP& argument)
 			{
 				FOREACH(WString, name, orderedGenericParameterNames.Wrap())
 				{
@@ -44,7 +44,7 @@ ManagedLanguage_BuildGlobalScope3_Member
 						ManagedSymbolMethodParameter* methodParameter=dynamic_cast<ManagedSymbolMethodParameter*>(symbol->ItemGroup(name)->Items()[0]);
 						CheckType(node, methodParameter->type, scopeItem, symbol, argument);
 					}
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope3_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
@@ -88,7 +88,7 @@ ManagedLanguage_BuildGlobalScope3_ExtendedMember
 					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
 					ManagedSymbolItem* scopeItem=symbol->GetParentItem();
 					CheckType(node, symbol->targetType, scopeItem, symbol, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope3_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_ExtendedMember)
@@ -111,7 +111,7 @@ ManagedLanguage_BuildGlobalScope3_Declaration
 					{
 						ManagedLanguage_BuildGlobalScope3_Member(member, argument);
 					}
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope3_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNamespaceDeclaration)
@@ -159,7 +159,7 @@ ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration
 						scopeItem=0;
 					}
 					CheckType(node, symbol->type, scopeItem, symbol, argument);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
+					ManagedLanguage_BuildGlobalScope3_GenericParameter(node, symbol, scopeItem, symbol->orderedGenericParameterNames, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)

@@ -20,10 +20,11 @@ ManagedAnalyzerParameter
 			{
 			}
 
-			ManagedAnalyzerParameter::ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol)
+			ManagedAnalyzerParameter::ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol, ManagedTypeSymbol* _expectedType)
 				:symbolManager(parameter.symbolManager)
 				,currentSymbol(_currentSymbol)
 				,errors(parameter.errors)
+				,expectedType(_expectedType)
 			{
 			}
 
@@ -33,26 +34,22 @@ ManagedLanguage_AnalyzeProgram
 
 			void ManagedLanguage_AnalyzeProgram(Ptr<ManagedProgram> program, const MAP& argument)
 			{
-				// build symbol item place holder
-				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+				void (*builders[])(Ptr<ManagedDeclaration>, MAP)=
 				{
-					ManagedLanguage_BuildGlobalScope1_Declaration(declaration, argument);
-				}
-				if(argument.errors.Count()>0) return;
-				
-				// fill symbol item
-				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+					&ManagedLanguage_BuildGlobalScope1_Declaration,
+					&ManagedLanguage_BuildGlobalScope2_Declaration,
+					&ManagedLanguage_BuildGlobalScope3_Declaration,
+					&ManagedLanguage_BuildGlobalScope4_Declaration,
+				};
+
+				for(int i=0;i<sizeof(builders)/sizeof(*builders);i++)
 				{
-					ManagedLanguage_BuildGlobalScope2_Declaration(declaration, argument);
+					FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+					{
+						builders[i](declaration, argument);
+					}
+					if(argument.errors.Count()>0) return;
 				}
-				if(argument.errors.Count()>0) return;
-				
-				// check symbol item
-				FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
-				{
-					ManagedLanguage_BuildGlobalScope3_Declaration(declaration, argument);
-				}
-				if(argument.errors.Count()>0) return;
 			}
 
 /***********************************************************************
