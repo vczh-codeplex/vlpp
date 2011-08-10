@@ -8,12 +8,15 @@ namespace FvCalculation
 {
     public abstract class Expression
     {
+        public const double ZeroNumber = 0.000001;
+
         public static Expression Parse(string s)
         {
             return ExpressionParser.Parse(s);
         }
 
         public abstract double Execute(Dictionary<string, double> variables);
+        public abstract Expression Apply(Dictionary<string, double> variables);
         public abstract Expression Different(string variable);
         public abstract bool ContainsVariable(string variable);
         public abstract Expression SimplifyInternal();
@@ -79,6 +82,13 @@ namespace FvCalculation
                 }
                 return this.name;
             }
+        }
+
+        public override Expression Apply(Dictionary<string, double> variables)
+        {
+            FunctionExpression f = (FunctionExpression)this.GetType().GetConstructor(new Type[] { }).Invoke(new object[] { });
+            f.Op = this.Op.Apply(variables);
+            return f;
         }
 
         public override Expression SimplifyInternal()

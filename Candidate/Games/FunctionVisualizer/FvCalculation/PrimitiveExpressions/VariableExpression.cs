@@ -14,6 +14,22 @@ namespace FvCalculation.PrimitiveExpressions
             return variables[this.Name];
         }
 
+        public override Expression Apply(Dictionary<string, double> variables)
+        {
+            double value = 0;
+            if (variables.TryGetValue(this.Name, out value))
+            {
+                return new NumberExpression
+                {
+                    Number = value,
+                };
+            }
+            else
+            {
+                return this;
+            }
+        }
+
         public override Expression Different(string variable)
         {
             if (this.Name == variable)

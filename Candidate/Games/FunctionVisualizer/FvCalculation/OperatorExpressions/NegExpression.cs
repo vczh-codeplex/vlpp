@@ -15,6 +15,14 @@ namespace FvCalculation.OperatorExpressions
             return -this.Op.Execute(variables);
         }
 
+        public override Expression Apply(Dictionary<string, double> variables)
+        {
+            return new NegExpression
+            {
+                Op = this.Op.Apply(variables),
+            };
+        }
+
         public override Expression Different(string variable)
         {
             return new NegExpression

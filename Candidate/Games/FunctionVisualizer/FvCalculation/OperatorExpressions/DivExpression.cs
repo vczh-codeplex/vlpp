@@ -16,6 +16,15 @@ namespace FvCalculation.OperatorExpressions
             return this.Left.Execute(variables) / this.Right.Execute(variables);
         }
 
+        public override Expression Apply(Dictionary<string, double> variables)
+        {
+            return new DivExpression
+            {
+                Left = this.Left.Apply(variables),
+                Right = this.Right.Apply(variables),
+            };
+        }
+
         public override Expression Different(string variable)
         {
             return new DivExpression
