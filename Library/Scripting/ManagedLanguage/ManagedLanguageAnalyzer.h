@@ -30,9 +30,10 @@ ManagedAnalyzerParameter
 				ManagedSymbolManager*			symbolManager;
 				ManagedSymbolItem*				currentSymbol;
 				ErrorList&						errors;
+				ManagedTypeSymbol*				expectedType;
 
 				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ErrorList& _errors);
-				ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol);
+				ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol, ManagedTypeSymbol* _expectedType=0);
 			};
 			typedef ManagedAnalyzerParameter MAP;
 
@@ -81,13 +82,36 @@ Build Global Scope Pass 2 <after linking symbols from other assemblies>
 /***********************************************************************
 Build Global Scope Pass 3
   Check types in declarations
-  Check declarations and function bodies
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_Member, ManagedMember, MAP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_ExtendedMember, ManagedExtendedMember, MAP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_Declaration, ManagedDeclaration, MAP)
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope3_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
+
+/***********************************************************************
+Build Global Scope Pass 4
+  Check declarations and function bodies
+***********************************************************************/
+
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_Member, ManagedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_ExtendedMember, ManagedExtendedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_Declaration, ManagedDeclaration, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
+
+/***********************************************************************
+Check Statement And Build Local Scope
+***********************************************************************/
+
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_Statement, ManagedStatement, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_ExtendedStatement, ManagedExtendedStatement, MAP)
+
+/***********************************************************************
+Calculate Expression Type
+***********************************************************************/
+
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
 		}
 	}
 }

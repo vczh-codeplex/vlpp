@@ -648,6 +648,15 @@
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass3.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass4.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildLocalScope.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_GetType.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
