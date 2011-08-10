@@ -21,6 +21,11 @@ namespace FvCalculation
         {
             Expression f = e.Simplify();
             Expression df = f.Different(name).Simplify();
+            return f.Solve(df, name, ref start, maxCount);
+        }
+
+        private static double Solve(this Expression f, Expression df, string name, ref double start, int maxCount = 1000)
+        {
             for (int i = 0; i < maxCount; i++)
             {
                 double result = f.Execute(name, start);
