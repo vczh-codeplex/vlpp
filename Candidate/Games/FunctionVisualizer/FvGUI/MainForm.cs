@@ -17,7 +17,7 @@ namespace FvGUI
     {
         private const int SuggestedUnitPixel = 100;
 
-        private Expression function = null;
+        private RawExpression function = null;
         private int unitPixels = 0;
         private double originX = 0;
         private double originY = 0;
@@ -25,14 +25,14 @@ namespace FvGUI
 
         private void TextBoxChanged()
         {
-            Expression tempFunction = null;
+            RawExpression tempFunction = null;
             int tempUnitPixels = 0;
             double tempOriginX = 0;
             double tempOriginY = 0;
 
             try
             {
-                tempFunction = Expression.Parse(textBoxFunction.Text);
+                tempFunction = RawExpression.Parse(textBoxFunction.Text);
             }
             catch (Exception e)
             {

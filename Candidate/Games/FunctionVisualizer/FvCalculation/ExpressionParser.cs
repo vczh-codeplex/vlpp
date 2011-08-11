@@ -83,11 +83,11 @@ namespace FvCalculation
             return s == "" ? null : s;
         }
 
-        private static Expression Exp0(char** input)
+        private static RawExpression Exp0(char** input)
         {
             if (Char(input, '('))
             {
-                Expression e = Exp3(input);
+                RawExpression e = Exp3(input);
                 if (!Char(input, ')'))
                 {
                     throw new ArgumentException("Error encountered, at " + new string(*input));
@@ -136,9 +136,9 @@ namespace FvCalculation
             }
         }
 
-        private static Expression Exp1(char** input)
+        private static RawExpression Exp1(char** input)
         {
-            Expression e = Exp0(input);
+            RawExpression e = Exp0(input);
             while (true)
             {
                 if (Char(input, '^'))
@@ -157,9 +157,9 @@ namespace FvCalculation
             return e;
         }
 
-        private static Expression Exp2(char** input)
+        private static RawExpression Exp2(char** input)
         {
-            Expression e = Exp1(input);
+            RawExpression e = Exp1(input);
             while (true)
             {
                 if (Char(input, '*'))
@@ -186,9 +186,9 @@ namespace FvCalculation
             return e;
         }
 
-        private static Expression Exp3(char** input)
+        private static RawExpression Exp3(char** input)
         {
-            Expression e = Exp2(input);
+            RawExpression e = Exp2(input);
             while (true)
             {
                 if (Char(input, '+'))
@@ -215,9 +215,9 @@ namespace FvCalculation
             return e;
         }
 
-        private static Expression UnsafeParse(char* input)
+        private static RawExpression UnsafeParse(char* input)
         {
-            Expression result = Exp3(&input);
+            RawExpression result = Exp3(&input);
             if ((int)*input == 0)
             {
                 return result;
@@ -228,7 +228,7 @@ namespace FvCalculation
             }
         }
 
-        public static Expression Parse(string s)
+        public static RawExpression Parse(string s)
         {
             fixed (char* input = s.Trim())
             {

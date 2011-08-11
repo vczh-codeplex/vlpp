@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expression.cs" />
+    <Compile Include="RawExpression.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ExpressionParser.cs" />
     <Compile Include="FunctionExpressions\ExpExpression.cs" />

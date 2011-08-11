@@ -6,17 +6,17 @@ using FvCalculation.PrimitiveExpressions;
 
 namespace FvCalculation.OperatorExpressions
 {
-    class AddExpression : Expression
+    class AddExpression : RawExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
+        public RawExpression Left { get; set; }
+        public RawExpression Right { get; set; }
 
         public override double Execute(Dictionary<string, double> variables)
         {
             return this.Left.Execute(variables) + this.Right.Execute(variables);
         }
 
-        public override Expression Apply(Dictionary<string, double> variables)
+        public override RawExpression Apply(Dictionary<string, double> variables)
         {
             return new AddExpression
             {
@@ -25,7 +25,7 @@ namespace FvCalculation.OperatorExpressions
             };
         }
 
-        public override Expression Different(string variable)
+        public override RawExpression Different(string variable)
         {
             return new AddExpression
             {
@@ -39,10 +39,10 @@ namespace FvCalculation.OperatorExpressions
             return this.Left.ContainsVariable(variable) || this.Right.ContainsVariable(variable);
         }
 
-        public override Expression SimplifyInternal()
+        public override RawExpression SimplifyInternal()
         {
-            Expression sleft = this.Left.Simplify();
-            Expression sright = this.Right.Simplify();
+            RawExpression sleft = this.Left.Simplify();
+            RawExpression sright = this.Right.Simplify();
             NumberExpression nleft = sleft as NumberExpression;
             NumberExpression nright = sright as NumberExpression;
             if (nleft != null && nleft.Number == 0)

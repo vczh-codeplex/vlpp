@@ -14,7 +14,7 @@ namespace FvCalculation.FunctionExpressions
             return Math.Exp(this.Op.Execute(variables));
         }
 
-        public override Expression Different(string variable)
+        public override RawExpression Different(string variable)
         {
             return new MulExpression
             {

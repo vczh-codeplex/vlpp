@@ -6,16 +6,16 @@ using FvCalculation.PrimitiveExpressions;
 
 namespace FvCalculation.OperatorExpressions
 {
-    class NegExpression : Expression
+    class NegExpression : RawExpression
     {
-        public Expression Op { get; set; }
+        public RawExpression Op { get; set; }
 
         public override double Execute(Dictionary<string, double> variables)
         {
             return -this.Op.Execute(variables);
         }
 
-        public override Expression Apply(Dictionary<string, double> variables)
+        public override RawExpression Apply(Dictionary<string, double> variables)
         {
             return new NegExpression
             {
@@ -23,7 +23,7 @@ namespace FvCalculation.OperatorExpressions
             };
         }
 
-        public override Expression Different(string variable)
+        public override RawExpression Different(string variable)
         {
             return new NegExpression
             {
@@ -36,7 +36,7 @@ namespace FvCalculation.OperatorExpressions
             return this.Op.ContainsVariable(variable);
         }
 
-        public override Expression SimplifyInternal()
+        public override RawExpression SimplifyInternal()
         {
             return new NegExpression
             {

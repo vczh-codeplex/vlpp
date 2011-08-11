@@ -30,10 +30,10 @@ namespace ConsoleDebug
 
                 foreach (var e in expressions)
                 {
-                    Expression exp = Expression.Parse(e);
+                    RawExpression exp = RawExpression.Parse(e);
                     Console.WriteLine("input:\t\t" + e);
                     Console.WriteLine("parse:\t\t" + exp.ToCode());
-                    Console.WriteLine("reparse:\t" + Expression.Parse(exp.ToCode()).ToCode());
+                    Console.WriteLine("reparse:\t" + RawExpression.Parse(exp.ToCode()).ToCode());
                     Console.WriteLine("simplified:\t" + exp.Simplify().ToCode());
                     Console.WriteLine("contains x:\t" + exp.ContainsVariable("x").ToString());
                     Console.WriteLine("contains y:\t" + exp.ContainsVariable("y").ToString());
@@ -47,7 +47,7 @@ namespace ConsoleDebug
                     Console.WriteLine("simplified no y:" + exp.Apply("y", 0).Simplify().ToCode());
                     Console.WriteLine();
 
-                    Debug.Assert(exp.ToCode() == Expression.Parse(exp.ToCode()).ToCode());
+                    Debug.Assert(exp.ToCode() == RawExpression.Parse(exp.ToCode()).ToCode());
                 }
             }
 
@@ -60,7 +60,7 @@ namespace ConsoleDebug
                 };
                 foreach (var e in expressions)
                 {
-                    Expression exp = Expression.Parse(e);
+                    RawExpression exp = RawExpression.Parse(e);
                     Console.WriteLine("input:\t\t" + e);
                     Console.WriteLine("parse:\t\t" + exp.ToCode());
                     for (int i = 0; i < 10; i++)

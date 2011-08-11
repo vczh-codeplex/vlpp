@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FvCalculation.PrimitiveExpressions
 {
-    class NumberExpression : Expression
+    class NumberExpression : RawExpression
     {
         public double Number { get; set; }
 
@@ -14,12 +14,12 @@ namespace FvCalculation.PrimitiveExpressions
             return this.Number;
         }
 
-        public override Expression Apply(Dictionary<string, double> variables)
+        public override RawExpression Apply(Dictionary<string, double> variables)
         {
             return this;
         }
 
-        public override Expression Different(string variable)
+        public override RawExpression Different(string variable)
         {
             return new NumberExpression
             {
@@ -32,7 +32,7 @@ namespace FvCalculation.PrimitiveExpressions
             return false;
         }
 
-        public override Expression SimplifyInternal()
+        public override RawExpression SimplifyInternal()
         {
             return this;
         }
