@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionExpressions\CosExpression.cs" />
+    <Compile Include="FunctionExpressions\CotExpression.cs" />
+    <Compile Include="FunctionExpressions\CscExpression.cs" />
+    <Compile Include="FunctionExpressions\SecExpression.cs" />
+    <Compile Include="FunctionExpressions\SinExpression.cs" />
+    <Compile Include="FunctionExpressions\TanExpression.cs" />
     <Compile Include="RawExpression.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ExpressionParser.cs" />

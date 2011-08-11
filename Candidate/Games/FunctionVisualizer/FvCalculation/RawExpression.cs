@@ -106,6 +106,11 @@ namespace FvCalculation
             return f;
         }
 
+        public override bool ContainsVariable(string variable)
+        {
+            return this.Op.ContainsVariable(variable);
+        }
+
         public override RawExpression SimplifyInternal()
         {
             FunctionExpression f = (FunctionExpression)this.GetType().GetConstructor(new Type[] { }).Invoke(new object[] { });

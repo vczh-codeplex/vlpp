@@ -24,11 +24,6 @@ namespace FvCalculation.FunctionExpressions
             };
         }
 
-        public override bool ContainsVariable(string variable)
-        {
-            return this.Op.ContainsVariable(variable);
-        }
-
         public override Expression CompileInternal(Dictionary<string, Expression> parameters)
         {
             return Expression.Call(typeof(Math).GetMethod("Log", new Type[] { typeof(double) }), this.Op.CompileInternal(parameters));

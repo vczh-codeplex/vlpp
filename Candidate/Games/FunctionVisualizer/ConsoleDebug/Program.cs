@@ -25,7 +25,13 @@ namespace ConsoleDebug
                     "exp(x+y)",
                     "x+ln(y)",
                     "x/y",
-                    "exp(x)/ln(x)"
+                    "exp(x)/ln(x)",
+                    "sin(x)",
+                    "cos(x)",
+                    "tan(x)",
+                    "cot(x)",
+                    "sec(x)",
+                    "csc(x)",
                 };
 
                 foreach (var e in expressions)
@@ -33,18 +39,11 @@ namespace ConsoleDebug
                     RawExpression exp = RawExpression.Parse(e);
                     Console.WriteLine("input:\t\t" + e);
                     Console.WriteLine("parse:\t\t" + exp.ToCode());
-                    Console.WriteLine("reparse:\t" + RawExpression.Parse(exp.ToCode()).ToCode());
                     Console.WriteLine("simplified:\t" + exp.Simplify().ToCode());
-                    Console.WriteLine("contains x:\t" + exp.ContainsVariable("x").ToString());
-                    Console.WriteLine("contains y:\t" + exp.ContainsVariable("y").ToString());
-                    Console.WriteLine("dx:\t\t" + exp.Different("x").ToCode());
-                    Console.WriteLine("dy:\t\t" + exp.Different("y").ToCode());
-                    Console.WriteLine("no x:\t\t" + exp.Apply("x", 0).ToCode());
-                    Console.WriteLine("no y:\t\t" + exp.Apply("y", 0).ToCode());
-                    Console.WriteLine("simplified dx:\t" + exp.Different("x").Simplify().ToCode());
-                    Console.WriteLine("simplified dy:\t" + exp.Different("y").Simplify().ToCode());
-                    Console.WriteLine("simplified no x:" + exp.Apply("x", 0).Simplify().ToCode());
-                    Console.WriteLine("simplified no y:" + exp.Apply("y", 0).Simplify().ToCode());
+                    Console.WriteLine("dx:\t\t" + exp.Different("x").Simplify().ToCode());
+                    Console.WriteLine("dy:\t\t" + exp.Different("y").Simplify().ToCode());
+                    Console.WriteLine("no x:\t\t" + exp.Apply("x", 0).Simplify().ToCode());
+                    Console.WriteLine("no y:\t\t" + exp.Apply("y", 0).Simplify().ToCode());
                     Console.WriteLine();
 
                     Debug.Assert(exp.ToCode() == RawExpression.Parse(exp.ToCode()).ToCode());
