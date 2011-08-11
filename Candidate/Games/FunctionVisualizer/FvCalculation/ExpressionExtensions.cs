@@ -21,20 +21,25 @@ namespace FvCalculation
         {
             Expression f = e.Simplify();
             Expression df = f.Different(name).Simplify();
-            return f.Solve(df, name, ref start, maxCount);
+            return f.Solve(df, name, start, maxCount);
         }
 
-        private static double Solve(this Expression f, Expression df, string name, ref double start, int maxCount = 1000)
+        public static double Solve(this Expression f, Expression df, string name, double start, int maxCount = 1000)
+        {
+            return Solve((x) => f.Execute(name, x), (x) => df.Execute(name, x), start, maxCount);
+        }
+
+        public static double Solve(Func<double, double> f, Func<double, double> df, double start, int maxCount = 1000)
         {
             for (int i = 0; i < maxCount; i++)
             {
-                double result = f.Execute(name, start);
+                double result = f(start);
                 if (-Expression.ZeroNumber <= result && result <= Expression.ZeroNumber)
                 {
                     return start;
                 }
 
-                double d = df.Execute(name, start);
+                double d = df(start);
                 if (-Expression.ZeroNumber <= d && d <= Expression.ZeroNumber)
                 {
                     return double.NaN;
