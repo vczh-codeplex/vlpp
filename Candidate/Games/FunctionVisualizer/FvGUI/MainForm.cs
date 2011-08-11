@@ -14,6 +14,11 @@ using System.Threading;
 
 namespace FvGUI
 {
+    /*
+     * exp(sin(x)+cos(y)) - sin(exp(x+y))
+     * sin(sin(x)+cos(y)) - cos(sin(x*y)+cos(x))
+     * sin(x^2+y^2) - cos(x*y)
+     */
     public partial class MainForm : Form
     {
         private const int SuggestedUnitPixel = 100;
