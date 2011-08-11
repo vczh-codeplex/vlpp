@@ -10,6 +10,7 @@ using FvCalculation;
 using System.Reflection;
 using System.Globalization;
 using System.Drawing.Imaging;
+using System.Threading;
 
 namespace FvGUI
 {
@@ -94,6 +95,7 @@ namespace FvGUI
 
         private void RenderAxis()
         {
+            if (this.unitPixels == 0) return;
             int w = this.imageBuffer.Width;
             int h = this.imageBuffer.Height;
             using (Graphics g = Graphics.FromImage(this.imageBuffer))
@@ -167,8 +169,7 @@ namespace FvGUI
         private void buttonRender_Click(object sender, EventArgs e)
         {
             RenderAxis();
-            RenderFunction();
-            panelImage.Refresh();
+            RenderAsnyc(RenderFunction);
         }
 
         private void textBoxFunction_TextChanged(object sender, EventArgs e)

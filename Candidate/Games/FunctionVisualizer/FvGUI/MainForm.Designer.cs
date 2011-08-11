@@ -71,7 +71,7 @@
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(707, 606);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(707, 657);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
             // label1
@@ -79,57 +79,57 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 27);
+            this.label1.Size = new System.Drawing.Size(100, 29);
             this.label1.TabIndex = 0;
-            this.label1.Text = "f(x, y)=0:";
+            this.label1.Text = "&F(x, y)=0:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 27);
+            this.label2.Location = new System.Drawing.Point(3, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 27);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Unit Pixels:";
+            this.label2.Size = new System.Drawing.Size(100, 29);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "&Unit Pixels:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(238, 27);
+            this.label3.Location = new System.Drawing.Point(238, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 27);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Origin X";
+            this.label3.Size = new System.Drawing.Size(100, 29);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Origin &X";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(473, 27);
+            this.label4.Location = new System.Drawing.Point(473, 29);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 27);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Origin Y";
+            this.label4.Size = new System.Drawing.Size(100, 29);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Origin &Y";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // textBoxUnitPixels
             // 
             this.textBoxUnitPixels.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUnitPixels.Location = new System.Drawing.Point(109, 30);
+            this.textBoxUnitPixels.Location = new System.Drawing.Point(109, 32);
             this.textBoxUnitPixels.Name = "textBoxUnitPixels";
-            this.textBoxUnitPixels.Size = new System.Drawing.Size(123, 21);
-            this.textBoxUnitPixels.TabIndex = 4;
+            this.textBoxUnitPixels.Size = new System.Drawing.Size(123, 20);
+            this.textBoxUnitPixels.TabIndex = 3;
             this.textBoxUnitPixels.Text = "100";
             this.textBoxUnitPixels.TextChanged += new System.EventHandler(this.textBoxUnitPixels_TextChanged);
             // 
             // textBoxOriginX
             // 
             this.textBoxOriginX.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxOriginX.Location = new System.Drawing.Point(344, 30);
+            this.textBoxOriginX.Location = new System.Drawing.Point(344, 32);
             this.textBoxOriginX.Name = "textBoxOriginX";
-            this.textBoxOriginX.Size = new System.Drawing.Size(123, 21);
+            this.textBoxOriginX.Size = new System.Drawing.Size(123, 20);
             this.textBoxOriginX.TabIndex = 5;
             this.textBoxOriginX.Text = "0";
             this.textBoxOriginX.TextChanged += new System.EventHandler(this.textBoxOriginX_TextChanged);
@@ -137,10 +137,10 @@
             // textBoxOriginY
             // 
             this.textBoxOriginY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxOriginY.Location = new System.Drawing.Point(579, 30);
+            this.textBoxOriginY.Location = new System.Drawing.Point(579, 32);
             this.textBoxOriginY.Name = "textBoxOriginY";
-            this.textBoxOriginY.Size = new System.Drawing.Size(125, 21);
-            this.textBoxOriginY.TabIndex = 6;
+            this.textBoxOriginY.Size = new System.Drawing.Size(125, 20);
+            this.textBoxOriginY.TabIndex = 7;
             this.textBoxOriginY.Text = "0";
             this.textBoxOriginY.TextChanged += new System.EventHandler(this.textBoxOriginY_TextChanged);
             // 
@@ -150,19 +150,19 @@
             this.textBoxFunction.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxFunction.Location = new System.Drawing.Point(109, 3);
             this.textBoxFunction.Name = "textBoxFunction";
-            this.textBoxFunction.Size = new System.Drawing.Size(595, 21);
-            this.textBoxFunction.TabIndex = 7;
+            this.textBoxFunction.Size = new System.Drawing.Size(595, 20);
+            this.textBoxFunction.TabIndex = 1;
             this.textBoxFunction.Text = "x-y";
             this.textBoxFunction.TextChanged += new System.EventHandler(this.textBoxFunction_TextChanged);
             // 
             // buttonRender
             // 
             this.buttonRender.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonRender.Location = new System.Drawing.Point(3, 57);
+            this.buttonRender.Location = new System.Drawing.Point(3, 61);
             this.buttonRender.Name = "buttonRender";
-            this.buttonRender.Size = new System.Drawing.Size(100, 23);
+            this.buttonRender.Size = new System.Drawing.Size(100, 25);
             this.buttonRender.TabIndex = 8;
-            this.buttonRender.Text = "Render";
+            this.buttonRender.Text = "&Render";
             this.buttonRender.UseVisualStyleBackColor = true;
             this.buttonRender.Click += new System.EventHandler(this.buttonRender_Click);
             // 
@@ -171,9 +171,9 @@
             this.labelErrorMessage.AutoSize = true;
             this.tableLayoutPanelMain.SetColumnSpan(this.labelErrorMessage, 5);
             this.labelErrorMessage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelErrorMessage.Location = new System.Drawing.Point(109, 54);
+            this.labelErrorMessage.Location = new System.Drawing.Point(109, 58);
             this.labelErrorMessage.Name = "labelErrorMessage";
-            this.labelErrorMessage.Size = new System.Drawing.Size(595, 29);
+            this.labelErrorMessage.Size = new System.Drawing.Size(595, 31);
             this.labelErrorMessage.TabIndex = 9;
             this.labelErrorMessage.Text = "(Ready)";
             this.labelErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -182,18 +182,18 @@
             // 
             this.tableLayoutPanelMain.SetColumnSpan(this.panelImage, 6);
             this.panelImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelImage.Location = new System.Drawing.Point(3, 86);
+            this.panelImage.Location = new System.Drawing.Point(3, 92);
             this.panelImage.Name = "panelImage";
-            this.panelImage.Size = new System.Drawing.Size(701, 517);
+            this.panelImage.Size = new System.Drawing.Size(701, 562);
             this.panelImage.TabIndex = 10;
             this.panelImage.SizeChanged += new System.EventHandler(this.panelImage_SizeChanged);
             this.panelImage.Paint += new System.Windows.Forms.PaintEventHandler(this.panelImage_Paint);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 606);
+            this.ClientSize = new System.Drawing.Size(707, 657);
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
