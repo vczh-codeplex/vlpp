@@ -129,14 +129,14 @@ namespace FvGUI
                 for (int x = sx; x < w; x += up)
                 {
                     g.DrawLine((x == cx ? Pens.Black : Pens.LightGray), x, 0, x, h);
-                    g.DrawString(((cx - x) / up * u).ToString(), panelImage.Font, Brushes.Black, x, cy);
+                    g.DrawString(((x - cx) / up * u).ToString(), panelImage.Font, Brushes.Black, x, cy);
                 }
                 for (int y = sy; y < h; y += up)
                 {
                     g.DrawLine((y == cy ? Pens.Black : Pens.LightGray), 0, y, w, y);
                     if (y != cy)
                     {
-                        g.DrawString(((y - cy) / up * u).ToString(), panelImage.Font, Brushes.Black, cx, y);
+                        g.DrawString(((cy - y) / up * u).ToString(), panelImage.Font, Brushes.Black, cx, y);
                     }
                 }
 
