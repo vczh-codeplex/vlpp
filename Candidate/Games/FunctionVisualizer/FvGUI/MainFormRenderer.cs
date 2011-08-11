@@ -5,11 +5,48 @@ using System.Text;
 using FvCalculation;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace FvGUI
 {
     partial class MainForm
     {
+        private void UpdateMessage(string message)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                labelErrorMessage.Text = message;
+            }));
+        }
+
+        private void RenderAsnyc(Action renderer)
+        {
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o =>
+            {
+                Invoke(new MethodInvoker(() =>
+                {
+                    textBoxFunction.Enabled = false;
+                    textBoxUnitPixels.Enabled = false;
+                    textBoxOriginX.Enabled = false;
+                    textBoxOriginY.Enabled = false;
+                    buttonRender.Enabled = false;
+                }));
+
+                renderer();
+
+                Invoke(new MethodInvoker(() =>
+                {
+                    textBoxFunction.Enabled = true;
+                    textBoxUnitPixels.Enabled = true;
+                    textBoxOriginX.Enabled = true;
+                    textBoxOriginY.Enabled = true;
+                    buttonRender.Enabled = true;
+                    panelImage.Refresh();
+                }));
+            }), null);
+        }
+
         private void RenderFunction()
         {
             int w = this.imageBuffer.Width - 2;
@@ -42,8 +79,7 @@ namespace FvGUI
                 }
                 if (y % 10 == 0)
                 {
-                    labelErrorMessage.Text = y.ToString() + "/" + (w + h).ToString();
-                    labelErrorMessage.Refresh();
+                    UpdateMessage(y.ToString() + "/" + (w + h).ToString());
                 }
             }
 
@@ -58,13 +94,11 @@ namespace FvGUI
                 }
                 if (x % 10 == 0)
                 {
-                    labelErrorMessage.Text = (h + x).ToString() + "/" + (w + h).ToString();
-                    labelErrorMessage.Refresh();
+                    UpdateMessage((h + x).ToString() + "/" + (w + h).ToString());
                 }
             }
 
-            labelErrorMessage.Text = "Rendering...";
-            labelErrorMessage.Refresh();
+            UpdateMessage("Rendering...");
 
             BitmapData data = this.imageBuffer.LockBits(new Rectangle(0, 0, this.imageBuffer.Width, this.imageBuffer.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             for (int y = 1; y <= h; y++)
@@ -88,8 +122,7 @@ namespace FvGUI
             }
             this.imageBuffer.UnlockBits(data);
 
-            labelErrorMessage.Text = "(Ready)";
-            labelErrorMessage.Refresh();
+            UpdateMessage("(Ready)");
         }
     }
 }
