@@ -71,19 +71,19 @@ namespace FvGUI
 
             int done = 0;
             int max = w + h;
-            int total = Environment.ProcessorCount;
+            int total = Environment.ProcessorCount * 8;
             Parallel.For(0, total, (i) =>
             {
                 int dh = (h + total - h % total) / total;
                 int dw = (w + total - w % total) / total;
 
                 int starty = 1 + i * dh;
-                int endy = Math.Min(h, starty + dh);
+                int endy = Math.Min(h + 1, starty + dh);
                 int startx = 1 + i * dw;
-                int endx = Math.Min(w, startx + dw);
+                int endx = Math.Min(w + 1, startx + dw);
                 int loops = (endy - starty + 1) + (endx - startx + 1);
 
-                for (int y = starty; y <= endy; y++)
+                for (int y = starty; y < endy; y++)
                 {
                     double py = this.originY + (double)(y - cy) / this.unitPixels;
                     RawExpression efx = this.function.Apply("y", py).Simplify();
@@ -103,7 +103,7 @@ namespace FvGUI
                     }
                 }
 
-                for (int x = startx; x <= endx; x++)
+                for (int x = startx; x < endx; x++)
                 {
                     double px = this.originX + (double)(cx - x) / this.unitPixels;
                     RawExpression efy = this.function.Apply("x", px).Simplify();
