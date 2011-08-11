@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FvCalculation.OperatorExpressions;
+using System.Linq.Expressions;
 
 namespace FvCalculation.FunctionExpressions
 {
@@ -26,6 +27,11 @@ namespace FvCalculation.FunctionExpressions
         public override bool ContainsVariable(string variable)
         {
             return this.Op.ContainsVariable(variable);
+        }
+
+        public override Expression CompileInternal(Dictionary<string, Expression> parameters)
+        {
+            return Expression.Call(typeof(Math).GetMethod("Exp", new Type[] { typeof(double) }), this.Op.CompileInternal(parameters));
         }
     }
 }

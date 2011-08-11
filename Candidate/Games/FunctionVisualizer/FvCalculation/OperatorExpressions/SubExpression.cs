@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FvCalculation.PrimitiveExpressions;
+using System.Linq.Expressions;
 
 namespace FvCalculation.OperatorExpressions
 {
@@ -64,6 +65,11 @@ namespace FvCalculation.OperatorExpressions
                     Right = sright,
                 };
             }
+        }
+
+        public override Expression CompileInternal(Dictionary<string, Expression> parameters)
+        {
+            return Expression.Subtract(this.Left.CompileInternal(parameters), this.Right.CompileInternal(parameters));
         }
 
         public override string ToCode()

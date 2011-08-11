@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using FvCalculation.PrimitiveExpressions;
 using FvCalculation.FunctionExpressions;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace FvCalculation.OperatorExpressions
 {
@@ -12,10 +14,8 @@ namespace FvCalculation.OperatorExpressions
         public RawExpression Left { get; set; }
         public RawExpression Right { get; set; }
 
-        public override double Execute(Dictionary<string, double> variables)
+        private static double Calculate(double a, double b)
         {
-            double a = this.Left.Execute(variables);
-            double b = this.Right.Execute(variables);
             double ib = (int)Math.Round(b);
             if (b >= 0 && -RawExpression.ZeroNumber <= (ib - b) && (ib - b) <= RawExpression.ZeroNumber)
             {
@@ -37,6 +37,13 @@ namespace FvCalculation.OperatorExpressions
             {
                 return Math.Exp(b * Math.Log(a));
             }
+        }
+
+        public override double Execute(Dictionary<string, double> variables)
+        {
+            double a = this.Left.Execute(variables);
+            double b = this.Right.Execute(variables);
+            return Calculate(a, b);
         }
 
         public override RawExpression Apply(Dictionary<string, double> variables)
@@ -158,6 +165,12 @@ namespace FvCalculation.OperatorExpressions
                 Left = sleft,
                 Right = sright,
             };
+        }
+
+        public override Expression CompileInternal(Dictionary<string, Expression> parameters)
+        {
+            MethodInfo methodInfo = typeof(PowerExpression).GetMethod("Calculate", BindingFlags.NonPublic | BindingFlags.Static);
+            return Expression.Call(methodInfo, this.Left.CompileInternal(parameters), this.Right.CompileInternal(parameters));
         }
 
         public override string ToCode()

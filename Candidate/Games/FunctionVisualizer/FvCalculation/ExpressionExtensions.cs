@@ -29,7 +29,7 @@ namespace FvCalculation
             return Solve((x) => f.Execute(name, x), (x) => df.Execute(name, x), start, maxCount);
         }
 
-        public static double Solve(Func<double, double> f, Func<double, double> df, double start, int maxCount = 1000)
+        public static double Solve(this Func<double, double> f, Func<double, double> df, double start, int maxCount = 1000)
         {
             for (int i = 0; i < maxCount; i++)
             {

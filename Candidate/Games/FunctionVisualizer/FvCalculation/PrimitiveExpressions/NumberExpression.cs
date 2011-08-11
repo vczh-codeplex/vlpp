@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Linq.Expressions;
 
 namespace FvCalculation.PrimitiveExpressions
 {
@@ -35,6 +36,11 @@ namespace FvCalculation.PrimitiveExpressions
         public override RawExpression SimplifyInternal()
         {
             return this;
+        }
+
+        public override Expression CompileInternal(Dictionary<string, Expression> parameters)
+        {
+            return Expression.Constant(this.Number);
         }
 
         public override string ToCode()

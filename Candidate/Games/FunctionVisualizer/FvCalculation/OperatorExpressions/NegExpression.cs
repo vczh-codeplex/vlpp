@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FvCalculation.PrimitiveExpressions;
+using System.Linq.Expressions;
 
 namespace FvCalculation.OperatorExpressions
 {
@@ -42,6 +43,11 @@ namespace FvCalculation.OperatorExpressions
             {
                 Op = this.Op.Simplify(),
             };
+        }
+
+        public override Expression CompileInternal(Dictionary<string, Expression> parameters)
+        {
+            return Expression.Negate(this.Op.CompileInternal(parameters));
         }
 
         public override string ToCode()
