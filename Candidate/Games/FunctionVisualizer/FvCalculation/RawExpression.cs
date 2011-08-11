@@ -6,23 +6,23 @@ using FvCalculation.PrimitiveExpressions;
 
 namespace FvCalculation
 {
-    public abstract class Expression
+    public abstract class RawExpression
     {
         public const double ZeroNumber = 0.000001;
 
-        public static Expression Parse(string s)
+        public static RawExpression Parse(string s)
         {
             return ExpressionParser.Parse(s);
         }
 
         public abstract double Execute(Dictionary<string, double> variables);
-        public abstract Expression Apply(Dictionary<string, double> variables);
-        public abstract Expression Different(string variable);
+        public abstract RawExpression Apply(Dictionary<string, double> variables);
+        public abstract RawExpression Different(string variable);
         public abstract bool ContainsVariable(string variable);
-        public abstract Expression SimplifyInternal();
+        public abstract RawExpression SimplifyInternal();
         public abstract string ToCode();
 
-        public Expression Simplify()
+        public RawExpression Simplify()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace FvCalculation
             }
             catch (KeyNotFoundException)
             {
-                Expression s = SimplifyInternal();
+                RawExpression s = SimplifyInternal();
                 try
                 {
                     return new NumberExpression
@@ -64,13 +64,13 @@ namespace FvCalculation
         }
     };
 
-    public abstract class FunctionExpression : Expression
+    public abstract class FunctionExpression : RawExpression
     {
         private static Dictionary<string, Type> functionExpressionTypes = null;
 
         private string name = null;
 
-        public Expression Op { get; set; }
+        public RawExpression Op { get; set; }
 
         public string Name
         {
@@ -84,14 +84,14 @@ namespace FvCalculation
             }
         }
 
-        public override Expression Apply(Dictionary<string, double> variables)
+        public override RawExpression Apply(Dictionary<string, double> variables)
         {
             FunctionExpression f = (FunctionExpression)this.GetType().GetConstructor(new Type[] { }).Invoke(new object[] { });
             f.Op = this.Op.Apply(variables);
             return f;
         }
 
-        public override Expression SimplifyInternal()
+        public override RawExpression SimplifyInternal()
         {
             FunctionExpression f = (FunctionExpression)this.GetType().GetConstructor(new Type[] { }).Invoke(new object[] { });
             f.Op = this.Op.Simplify();

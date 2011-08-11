@@ -7,17 +7,17 @@ using FvCalculation.FunctionExpressions;
 
 namespace FvCalculation.OperatorExpressions
 {
-    class PowerExpression : Expression
+    class PowerExpression : RawExpression
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
+        public RawExpression Left { get; set; }
+        public RawExpression Right { get; set; }
 
         public override double Execute(Dictionary<string, double> variables)
         {
             double a = this.Left.Execute(variables);
             double b = this.Right.Execute(variables);
             double ib = (int)Math.Round(b);
-            if (b >= 0 && -Expression.ZeroNumber <= (ib - b) && (ib - b) <= Expression.ZeroNumber)
+            if (b >= 0 && -RawExpression.ZeroNumber <= (ib - b) && (ib - b) <= RawExpression.ZeroNumber)
             {
                 if (ib == 0)
                 {
@@ -39,7 +39,7 @@ namespace FvCalculation.OperatorExpressions
             }
         }
 
-        public override Expression Apply(Dictionary<string, double> variables)
+        public override RawExpression Apply(Dictionary<string, double> variables)
         {
             return new PowerExpression
             {
@@ -48,7 +48,7 @@ namespace FvCalculation.OperatorExpressions
             };
         }
 
-        public override Expression Different(string variable)
+        public override RawExpression Different(string variable)
         {
             bool lf = this.Left.ContainsVariable(variable);
             bool rf = this.Right.ContainsVariable(variable);
@@ -116,10 +116,10 @@ namespace FvCalculation.OperatorExpressions
             return this.Left.ContainsVariable(variable) || this.Right.ContainsVariable(variable);
         }
 
-        public override Expression SimplifyInternal()
+        public override RawExpression SimplifyInternal()
         {
-            Expression sleft = this.Left.Simplify();
-            Expression sright = this.Right.Simplify();
+            RawExpression sleft = this.Left.Simplify();
+            RawExpression sright = this.Right.Simplify();
             NumberExpression nleft = sleft as NumberExpression;
             NumberExpression nright = sright as NumberExpression;
             if (nright != null)

@@ -7,24 +7,24 @@ namespace FvCalculation
 {
     public static class ExpressionExtensions
     {
-        public static double Execute(this Expression e, string name, double value)
+        public static double Execute(this RawExpression e, string name, double value)
         {
             return e.Execute(new Dictionary<string, double> { { name, value } });
         }
 
-        public static Expression Apply(this Expression e, string name, double value)
+        public static RawExpression Apply(this RawExpression e, string name, double value)
         {
             return e.Apply(new Dictionary<string, double> { { name, value } });
         }
 
-        public static double Solve(this Expression e, string name, double start, int maxCount = 1000)
+        public static double Solve(this RawExpression e, string name, double start, int maxCount = 1000)
         {
-            Expression f = e.Simplify();
-            Expression df = f.Different(name).Simplify();
+            RawExpression f = e.Simplify();
+            RawExpression df = f.Different(name).Simplify();
             return f.Solve(df, name, start, maxCount);
         }
 
-        public static double Solve(this Expression f, Expression df, string name, double start, int maxCount = 1000)
+        public static double Solve(this RawExpression f, RawExpression df, string name, double start, int maxCount = 1000)
         {
             return Solve((x) => f.Execute(name, x), (x) => df.Execute(name, x), start, maxCount);
         }
@@ -34,13 +34,13 @@ namespace FvCalculation
             for (int i = 0; i < maxCount; i++)
             {
                 double result = f(start);
-                if (-Expression.ZeroNumber <= result && result <= Expression.ZeroNumber)
+                if (-RawExpression.ZeroNumber <= result && result <= RawExpression.ZeroNumber)
                 {
                     return start;
                 }
 
                 double d = df(start);
-                if (-Expression.ZeroNumber <= d && d <= Expression.ZeroNumber)
+                if (-RawExpression.ZeroNumber <= d && d <= RawExpression.ZeroNumber)
                 {
                     return double.NaN;
                 }

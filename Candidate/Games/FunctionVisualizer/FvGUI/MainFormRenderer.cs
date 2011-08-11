@@ -34,8 +34,8 @@ namespace FvGUI
             for (int y = 1; y <= h; y++)
             {
                 double py = this.originY + (double)(y - cy) / this.unitPixels;
-                Expression fx = this.function.Apply("y", py).Simplify();
-                Expression dfx = fx.Different("x").Simplify();
+                RawExpression fx = this.function.Apply("y", py).Simplify();
+                RawExpression dfx = fx.Different("x").Simplify();
                 for (int x = 1; x <= w; x++)
                 {
                     points[y - 1, x - 1, 0] = fx.Solve(dfx, "x", points[y - 1, x - 1, 0]);
@@ -50,8 +50,8 @@ namespace FvGUI
             for (int x = 1; x <= w; x++)
             {
                 double px = this.originX + (double)(cx - x) / this.unitPixels;
-                Expression fy = this.function.Apply("x", px).Simplify();
-                Expression dfy = fy.Different("y").Simplify();
+                RawExpression fy = this.function.Apply("x", px).Simplify();
+                RawExpression dfy = fy.Different("y").Simplify();
                 for (int y = 1; y <= h; y++)
                 {
                     points[y - 1, x - 1, 3] = fy.Solve(dfy, "y", points[y - 1, x - 1, 3]);
