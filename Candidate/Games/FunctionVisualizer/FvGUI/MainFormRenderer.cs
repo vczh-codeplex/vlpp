@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FvGUI
 {
@@ -68,41 +69,60 @@ namespace FvGUI
                 }
             }
 
-            for (int y = 1; y <= h; y++)
+            int done = 0;
+            int max = w + h;
+            int total = Environment.ProcessorCount;
+            Parallel.For(0, total, (i) =>
             {
-                double py = this.originY + (double)(y - cy) / this.unitPixels;
-                RawExpression efx = this.function.Apply("y", py).Simplify();
-                RawExpression edfx = efx.Different("x").Simplify();
-                Func<double, double> fx = efx.Compile("x");
-                Func<double, double> dfx = edfx.Compile("x");
+                int dh = (h + total - h % total) / total;
+                int dw = (w + total - w % total) / total;
 
-                for (int x = 1; x <= w; x++)
-                {
-                    points[y - 1, x - 1, 0] = fx.Solve(dfx, points[y - 1, x - 1, 0]);
-                }
-                if (y % 10 == 0)
-                {
-                    UpdateMessage(y.ToString() + "/" + (w + h).ToString());
-                }
-            }
+                int starty = 1 + i * dh;
+                int endy = Math.Min(h, starty + dh);
+                int startx = 1 + i * dw;
+                int endx = Math.Min(w, startx + dw);
+                int loops = (endy - starty + 1) + (endx - startx + 1);
 
-            for (int x = 1; x <= w; x++)
-            {
-                double px = this.originX + (double)(cx - x) / this.unitPixels;
-                RawExpression efy = this.function.Apply("x", px).Simplify();
-                RawExpression edfy = efy.Different("y").Simplify();
-                Func<double, double> fy = efy.Compile("y");
-                Func<double, double> dfy = edfy.Compile("y");
+                for (int y = starty; y <= endy; y++)
+                {
+                    double py = this.originY + (double)(y - cy) / this.unitPixels;
+                    RawExpression efx = this.function.Apply("y", py).Simplify();
+                    RawExpression edfx = efx.Different("x").Simplify();
+                    Func<double, double> fx = efx.Compile("x");
+                    Func<double, double> dfx = edfx.Compile("x");
 
-                for (int y = 1; y <= h; y++)
-                {
-                    points[y - 1, x - 1, 3] = fy.Solve(dfy, points[y - 1, x - 1, 3]);
+                    for (int x = 1; x <= w; x++)
+                    {
+                        points[y - 1, x - 1, 0] = fx.Solve(dfx, points[y - 1, x - 1, 0]);
+                    }
+
+                    int current = Interlocked.Increment(ref done);
+                    if (current % 10 == 0)
+                    {
+                        UpdateMessage(current.ToString() + "/" + max.ToString());
+                    }
                 }
-                if (x % 10 == 0)
+
+                for (int x = startx; x <= endx; x++)
                 {
-                    UpdateMessage((h + x).ToString() + "/" + (w + h).ToString());
+                    double px = this.originX + (double)(cx - x) / this.unitPixels;
+                    RawExpression efy = this.function.Apply("x", px).Simplify();
+                    RawExpression edfy = efy.Different("y").Simplify();
+                    Func<double, double> fy = efy.Compile("y");
+                    Func<double, double> dfy = edfy.Compile("y");
+
+                    for (int y = 1; y <= h; y++)
+                    {
+                        points[y - 1, x - 1, 3] = fy.Solve(dfy, points[y - 1, x - 1, 3]);
+                    }
+
+                    int current = Interlocked.Increment(ref done);
+                    if (current % 10 == 0)
+                    {
+                        UpdateMessage(current.ToString() + "/" + max.ToString());
+                    }
                 }
-            }
+            });
 
             UpdateMessage("Rendering...");
 
