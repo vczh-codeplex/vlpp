@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FvCalculation.PrimitiveExpressions;
+using System.Linq.Expressions;
 
 namespace FvCalculation
 {
@@ -20,6 +21,7 @@ namespace FvCalculation
         public abstract RawExpression Different(string variable);
         public abstract bool ContainsVariable(string variable);
         public abstract RawExpression SimplifyInternal();
+        public abstract Expression CompileInternal(Dictionary<string, Expression> parameters);
         public abstract string ToCode();
 
         public RawExpression Simplify()
@@ -46,6 +48,19 @@ namespace FvCalculation
                     return s;
                 }
             }
+        }
+
+        public Func<double, double> Compile(string variable)
+        {
+            Dictionary<string, Expression> parameters = new Dictionary<string, Expression>();
+            ParameterExpression parameter = Expression.Parameter(typeof(double), variable);
+            parameters.Add(variable, parameter);
+
+            return Expression.Lambda<Func<double, double>>(
+                        CompileInternal(parameters),
+                        parameter
+                    )
+                    .Compile();
         }
 
         public override string ToString()

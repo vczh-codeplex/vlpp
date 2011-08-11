@@ -71,11 +71,14 @@ namespace FvGUI
             for (int y = 1; y <= h; y++)
             {
                 double py = this.originY + (double)(y - cy) / this.unitPixels;
-                RawExpression fx = this.function.Apply("y", py).Simplify();
-                RawExpression dfx = fx.Different("x").Simplify();
+                RawExpression efx = this.function.Apply("y", py).Simplify();
+                RawExpression edfx = efx.Different("x").Simplify();
+                Func<double, double> fx = efx.Compile("x");
+                Func<double, double> dfx = edfx.Compile("x");
+
                 for (int x = 1; x <= w; x++)
                 {
-                    points[y - 1, x - 1, 0] = fx.Solve(dfx, "x", points[y - 1, x - 1, 0]);
+                    points[y - 1, x - 1, 0] = fx.Solve(dfx, points[y - 1, x - 1, 0]);
                 }
                 if (y % 10 == 0)
                 {
@@ -86,11 +89,14 @@ namespace FvGUI
             for (int x = 1; x <= w; x++)
             {
                 double px = this.originX + (double)(cx - x) / this.unitPixels;
-                RawExpression fy = this.function.Apply("x", px).Simplify();
-                RawExpression dfy = fy.Different("y").Simplify();
+                RawExpression efy = this.function.Apply("x", px).Simplify();
+                RawExpression edfy = efy.Different("y").Simplify();
+                Func<double, double> fy = efy.Compile("y");
+                Func<double, double> dfy = edfy.Compile("y");
+
                 for (int y = 1; y <= h; y++)
                 {
-                    points[y - 1, x - 1, 3] = fy.Solve(dfy, "y", points[y - 1, x - 1, 3]);
+                    points[y - 1, x - 1, 3] = fy.Solve(dfy, points[y - 1, x - 1, 3]);
                 }
                 if (x % 10 == 0)
                 {
