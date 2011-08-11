@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using FvCalculation;
 using System.Reflection;
 using System.Globalization;
+using System.Drawing.Imaging;
 
 namespace FvGUI
 {
@@ -136,64 +137,20 @@ namespace FvGUI
             }
         }
 
-        private void RenderFunction()
+        private void Fill(BitmapData data, double x, double y, int cx, int cy, int w, int h)
         {
-            int w = this.imageBuffer.Width - 2;
-            int h = this.imageBuffer.Height - 2;
-            int cx = this.imageBuffer.Width / 2;
-            int cy = this.imageBuffer.Height / 2;
-            double[, ,] points = new double[h, w, 4];
-
-            for (int y = 1; y <= h; y++)
+            int ix = (int)Math.Round((x - this.originX) * this.unitPixels) + cx;
+            int iy = (int)Math.Round((this.originY - y) * this.unitPixels) + cy;
+            if (1 <= ix && ix <= w && 1 <= iy && iy <= h)
             {
-                double py = this.originY + (double)(y - cy) / this.unitPixels;
-                for (int x = 1; x <= w; x++)
+                unsafe
                 {
-                    double px = this.originX + (double)(cx - x) / this.unitPixels;
-                    points[y - 1, x - 1, 0] = px;
-                    points[y - 1, x - 1, 1] = py;
-                    points[y - 1, x - 1, 2] = px;
-                    points[y - 1, x - 1, 3] = py;
+                    byte* color = (byte*)data.Scan0 + iy * data.Stride + ix * 3;
+                    color[0] = 255;
+                    color[1] = 0;
+                    color[2] = 0;
                 }
             }
-
-            for (int y = 1; y <= h; y++)
-            {
-                double py = this.originY + (double)(y - cy) / this.unitPixels;
-                Expression fx = this.function.Apply("y", py).Simplify();
-                Expression dfx = fx.Different("x").Simplify();
-                for (int x = 1; x <= w; x++)
-                {
-                    points[y - 1, x - 1, 0] = fx.Solve(dfx, "x", points[y - 1, x - 1, 0]);
-                }
-                if (y % 10 == 0)
-                {
-                    labelErrorMessage.Text = y.ToString() + "/" + (w + h).ToString();
-                    labelErrorMessage.Refresh();
-                }
-            }
-
-            for (int x = 1; x <= w; x++)
-            {
-                double px = this.originX + (double)(cx - x) / this.unitPixels;
-                Expression fy = this.function.Apply("x", px).Simplify();
-                Expression dfy = fy.Different("y").Simplify();
-                for (int y = 1; y <= h; y++)
-                {
-                    points[y - 1, x - 1, 3] = fy.Solve(dfy, "y", points[y - 1, x - 1, 3]);
-                }
-                if (x % 10 == 0)
-                {
-                    labelErrorMessage.Text = (h + x).ToString() + "/" + (w + h).ToString();
-                    labelErrorMessage.Refresh();
-                }
-            }
-
-            labelErrorMessage.Text = "Rendering...";
-            labelErrorMessage.Refresh();
-
-            labelErrorMessage.Text = "(Ready)";
-            labelErrorMessage.Refresh();
         }
 
         public MainForm()
