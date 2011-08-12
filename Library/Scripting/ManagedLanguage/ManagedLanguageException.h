@@ -38,6 +38,8 @@ namespace vl
 					GenericTypeArgumentCountNotMatches,			// <all>
 					GenericTypeTypeConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
+
+					ExpressionCannotConvertToType,				// <ManagedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -69,6 +71,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeArgumentCountNotMatches(ManagedLanguageElement* element, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
+
+				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
 			};
 		}
 	}

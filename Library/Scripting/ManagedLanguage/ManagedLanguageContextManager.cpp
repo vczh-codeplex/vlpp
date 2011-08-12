@@ -21,6 +21,32 @@ ManagedContextManager
 			{
 			}
 
+			ManagedTypeSymbol* ManagedContextManager::GetExpressionType(ManagedExpression* expression)
+			{
+				return expressionTypes[expression];
+			}
+
+			ManagedSymbolItem* ManagedContextManager::GetExpressionScope(ManagedExpression* expression)
+			{
+				return expressionScopes[expression];
+			}
+
+			void ManagedContextManager::SetExpression(ManagedExpression* expression, ManagedTypeSymbol* type, ManagedSymbolItem* scope)
+			{
+				expressionTypes.Add(expression, type);
+				expressionScopes.Add(expression, scope);
+			}
+
+			ManagedSymbolItem* ManagedContextManager::GetStatementScope(ManagedStatement* statement)
+			{
+				return statementScopes[statement];
+			}
+
+			void ManagedContextManager::SetStatement(ManagedStatement* statement, ManagedSymbolItem* scope)
+			{
+				statementScopes.Add(statement, scope);
+			}
+
 /***********************************************************************
 InitializeContextManager
 ***********************************************************************/

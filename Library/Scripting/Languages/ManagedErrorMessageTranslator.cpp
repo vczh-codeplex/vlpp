@@ -102,6 +102,11 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::GenericTypeNewConstraintNotSatisfied(TypeToString(error->GetTypeParameter()), itow(index));
 					}
 					break;
+				case ManagedLanguageCodeException::ExpressionCannotConvertToType:
+					{
+						message=ManagedErrorMessage::ExpressionCannotConvertToType(TypeToString(error->GetTypeParameter()));
+					}
+					break;
 				default:
 					return 0;
 				}

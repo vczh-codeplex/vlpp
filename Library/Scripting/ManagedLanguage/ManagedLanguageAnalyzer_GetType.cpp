@@ -10,10 +10,22 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-ManagedLanguage_GetType_Expression
+GetType
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
+			ManagedTypeSymbol* GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument)
+			{
+				MAP newArgument(argument, argument.currentSymbol, expectedType);
+				ManagedTypeSymbol* result=ManagedLanguage_GetTypeInternal_Expression(node, argument);
+				argument.contextManager->SetExpression(node, result, argument.currentSymbol);
+				return result;
+			}
+
+/***********************************************************************
+ManagedLanguage_GetTypeInternal_Expression
+***********************************************************************/
+
+			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
 
 				ALGORITHM_FUNCTION_MATCH(ManagedNullExpression)
 				{
@@ -92,16 +104,16 @@ ManagedLanguage_GetType_Expression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedExtendedExpression)
 				{
-					throw ManagedLanguage_GetType_ExtendedExpression(node, argument);
+					throw ManagedLanguage_GetTypeInternal_ExtendedExpression(node, argument);
 				}
 
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetType_Expression)
+			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression)
 
 /***********************************************************************
-ManagedLanguage_GetType_ExtendedExpression
+ManagedLanguage_GetTypeInternal_ExtendedExpression
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
+			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
 
 				ALGORITHM_FUNCTION_MATCH(ManagedLambdaExpression)
 				{
@@ -158,7 +170,7 @@ ManagedLanguage_GetType_ExtendedExpression
 					throw 0;
 				}
 
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetType_ExtendedExpression)
+			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression)
 		}
 	}
 }

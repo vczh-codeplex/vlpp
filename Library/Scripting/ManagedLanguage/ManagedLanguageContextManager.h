@@ -19,6 +19,9 @@ namespace vl
 		{
 			class ManagedContextManager : public Object
 			{
+				typedef collections::Dictionary<ManagedExpression*, ManagedTypeSymbol*>		ExpressionTypeMap;
+				typedef collections::Dictionary<ManagedExpression*, ManagedSymbolItem*>		ExpressionScopeMap;
+				typedef collections::Dictionary<ManagedStatement*, ManagedSymbolItem*>		StatementScopeMap;
 			public:
 				struct PredefinedTypes
 				{
@@ -40,10 +43,21 @@ namespace vl
 				};
 
 				PredefinedTypes								predefinedTypes;
+			protected:
+				ExpressionTypeMap							expressionTypes;
+				ExpressionScopeMap							expressionScopes;
+				StatementScopeMap							statementScopes;
 			public:
 
 				ManagedContextManager();
 				~ManagedContextManager();
+
+				ManagedTypeSymbol*							GetExpressionType(ManagedExpression* expression);
+				ManagedSymbolItem*							GetExpressionScope(ManagedExpression* expression);
+				void										SetExpression(ManagedExpression* expression, ManagedTypeSymbol* type, ManagedSymbolItem* scope);
+
+				ManagedSymbolItem*							GetStatementScope(ManagedStatement* statement);
+				void										SetStatement(ManagedStatement* statement, ManagedSymbolItem* scope);
 			};
 		}
 	}

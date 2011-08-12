@@ -60,6 +60,8 @@ Helper Functions
 			extern void							CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, ManagedSymbolItem* memberItem, const MAP& argument);
 
 			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);
+			extern void							BuildLocalScope(ManagedStatement* node, const MAP& argument);
+			extern ManagedTypeSymbol*			GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument);
 
 /***********************************************************************
 Build Global Scope Pass 1 <before linking symbols from other assemblies>
@@ -108,15 +110,15 @@ Build Global Scope Pass 4
 Check Statement And Build Local Scope
 ***********************************************************************/
 
-			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_Statement, ManagedStatement, MAP)
-			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_ExtendedStatement, ManagedExtendedStatement, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_Statement, ManagedStatement, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement, ManagedExtendedStatement, MAP)
 
 /***********************************************************************
 Calculate Expression Type
 ***********************************************************************/
 
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetType_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
+			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
 		}
 	}
 }

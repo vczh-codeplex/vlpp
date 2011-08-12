@@ -10,10 +10,20 @@ namespace vl
 			using namespace collections;
 
 /***********************************************************************
-ManagedLanguage_BuildLocalScope_Statement
+BuildLocalScope
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_Statement, ManagedStatement, MAP)
+			void BuildLocalScope(ManagedStatement* node, const MAP& argument)
+			{
+				ManagedLanguage_BuildLocalScopeInternal_Statement(node, argument);
+				argument.contextManager->SetStatement(node, argument.currentSymbol);
+			}
+
+/***********************************************************************
+ManagedLanguage_BuildLocalScopeInternal_Statement
+***********************************************************************/
+
+			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_Statement, ManagedStatement, MAP)
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedEmptyStatement)
 				{
@@ -61,16 +71,16 @@ ManagedLanguage_BuildLocalScope_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedStatement)
 				{
-					ManagedLanguage_BuildLocalScope_ExtendedStatement(node, argument);
+					ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement(node, argument);
 				}
 
-			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_Statement)
+			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_Statement)
 
 /***********************************************************************
-ManagedLanguage_BuildLocalScope_ExtendedStatement
+ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_ExtendedStatement, ManagedExtendedStatement, MAP)
+			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement, ManagedExtendedStatement, MAP)
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingStatement)
 				{
@@ -92,7 +102,7 @@ ManagedLanguage_BuildLocalScope_ExtendedStatement
 				{
 				}
 
-			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScope_ExtendedStatement)
+			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement)
 		}
 	}
 }
