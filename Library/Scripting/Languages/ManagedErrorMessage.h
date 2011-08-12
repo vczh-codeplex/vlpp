@@ -40,6 +40,7 @@ namespace vl
 				static WString GenericTypeArgumentCountNotMatches(const WString& name);
 				static WString GenericTypeTypeConstraintNotSatisfied(const WString& name, const WString& index);
 				static WString GenericTypeNewConstraintNotSatisfied(const WString& name, const WString& index);
+				static WString ExpressionCannotConvertToType(const WString& type);
 			};
 		}
 	}

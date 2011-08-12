@@ -15,3 +15,4 @@ CannotUseUninstantiatedGenericType(name)=Cannot use uninstantiated type {name} a
 GenericTypeArgumentCountNotMatches(name)=Generic argument count of type {name} do not match the declaration.
 GenericTypeTypeConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required type constraint.
 GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required new constraint.
+ExpressionCannotConvertToType(type)=Expression cannot convert to type {type}.

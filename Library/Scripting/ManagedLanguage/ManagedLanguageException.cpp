@@ -152,6 +152,12 @@ ManagedLanguageCodeException::ExceptionCode
 				parameters[0]=itow(index);
 				return new ManagedLanguageCodeException(element, GenericTypeNewConstraintNotSatisfied, parameters.Wrap(), genericType);
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, ExpressionCannotConvertToType, parameters.Wrap(), type);
+			}
 		}
 	}
 }

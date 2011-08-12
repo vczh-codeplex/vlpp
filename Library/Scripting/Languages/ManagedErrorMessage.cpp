@@ -81,6 +81,11 @@ namespace vl
 				return L"The "+index+L"th generic argument of type "+name+L" does not satisfies the required new constraint.";
 			}
 
+			WString ManagedErrorMessage::ExpressionCannotConvertToType(const WString& type)
+			{
+				return L"Expression cannot convert to type "+type+L".";
+			}
+
 		}
 	}
 }

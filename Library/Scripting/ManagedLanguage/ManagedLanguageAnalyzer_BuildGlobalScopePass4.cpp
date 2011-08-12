@@ -23,13 +23,17 @@ ManagedLanguage_BuildGlobalScope4_Member
 				{
 					if(node->body)
 					{
-						ManagedLanguage_BuildLocalScope_Statement(node->body, argument);
+						ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
+						MAP newArgument(argument, symbol);
+						BuildLocalScope(node->body.Obj(), newArgument);
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
-					ManagedLanguage_BuildLocalScope_Statement(node->body, argument);
+					ManagedSymbolConstructor* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConstructor>(node);
+					MAP newArgument(argument, symbol);
+					BuildLocalScope(node->body.Obj(), newArgument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
@@ -51,13 +55,15 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
+					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
+					MAP newArgument(argument, symbol);
 					if(node->getter)
 					{
-						ManagedLanguage_BuildLocalScope_Statement(node->getter, argument);
+						BuildLocalScope(node->getter.Obj(), newArgument);
 					}
 					if(node->setter)
 					{
-						ManagedLanguage_BuildLocalScope_Statement(node->setter, argument);
+						BuildLocalScope(node->setter.Obj(), newArgument);
 					}
 				}
 
@@ -65,7 +71,9 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 				{
 					if(node->body)
 					{
-						ManagedLanguage_BuildLocalScope_Statement(node->body, argument);
+						ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
+						MAP newArgument(argument, symbol);
+						BuildLocalScope(node->body.Obj(), newArgument);
 					}
 				}
 
