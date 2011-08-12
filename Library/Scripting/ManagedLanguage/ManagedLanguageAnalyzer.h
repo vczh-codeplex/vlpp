@@ -61,6 +61,7 @@ Helper Functions
 
 			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);
 			extern void							BuildLocalScope(ManagedStatement* node, const MAP& argument);
+			extern bool							CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument);
 			extern ManagedTypeSymbol*			GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument);
 
 /***********************************************************************
