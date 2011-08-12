@@ -13,15 +13,18 @@ namespace vl
 ManagedAnalyzerParameter
 ***********************************************************************/
 
-			ManagedAnalyzerParameter::ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ErrorList& _errors)
+			ManagedAnalyzerParameter::ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors)
 				:symbolManager(_symbolManager)
+				,contextManager(_contextManager)
 				,currentSymbol(_symbolManager->Global())
 				,errors(_errors)
+				,expectedType(0)
 			{
 			}
 
 			ManagedAnalyzerParameter::ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol, ManagedTypeSymbol* _expectedType)
 				:symbolManager(parameter.symbolManager)
+				,contextManager(parameter.contextManager)
 				,currentSymbol(_currentSymbol)
 				,errors(parameter.errors)
 				,expectedType(_expectedType)
@@ -34,19 +37,29 @@ ManagedLanguage_AnalyzeProgram
 
 			void ManagedLanguage_AnalyzeProgram(Ptr<ManagedProgram> program, const MAP& argument)
 			{
-				void (*builders[])(Ptr<ManagedDeclaration>, MAP)=
+				typedef void (*ScopeBuilder)(Ptr<ManagedDeclaration>, MAP);
+				ScopeBuilder builders[]=
 				{
 					&ManagedLanguage_BuildGlobalScope1_Declaration,
 					&ManagedLanguage_BuildGlobalScope2_Declaration,
 					&ManagedLanguage_BuildGlobalScope3_Declaration,
+					0,
 					&ManagedLanguage_BuildGlobalScope4_Declaration,
 				};
 
 				for(int i=0;i<sizeof(builders)/sizeof(*builders);i++)
 				{
-					FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+					ScopeBuilder builder=builders[i];
+					if(builder)
 					{
-						builders[i](declaration, argument);
+						FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+						{
+							builders[i](declaration, argument);
+						}
+					}
+					else
+					{
+						InitializeContextManager(program.Obj(), argument);
 					}
 					if(argument.errors.Count()>0) return;
 				}
@@ -123,13 +136,17 @@ GetSystemType
 				end=symbolItems.Count();
 			}
 
-			ManagedTypeSymbol* GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount)
+			ManagedTypeSymbol* GetSystemType(ManagedLanguageElement* element, const WString& extraNamespace, const WString& name, const MAP& argument, vint genericParameterCount)
 			{
 				List<ManagedSymbolItem*> symbolItems;
 				symbolItems.Add(argument.symbolManager->Global());
 				vint start=0;
 				vint end=symbolItems.Count();
 				SearchType(symbolItems, start, end, L"System", 0);
+				if(extraNamespace!=L"")
+				{
+					SearchType(symbolItems, start, end, extraNamespace, 0);
+				}
 				SearchType(symbolItems, start, end, name, genericParameterCount);
 				FilterType(symbolItems, start, end);
 				if(start==end)
@@ -147,6 +164,11 @@ GetSystemType
 					ManagedSymbolItem* baseType=symbolItems[start];
 					return argument.symbolManager->GetType(baseType);
 				}
+			}
+
+			ManagedTypeSymbol* GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount)
+			{
+				return GetSystemType(element, L"", name, argument, genericParameterCount);
 			}
 
 /***********************************************************************

@@ -657,6 +657,9 @@
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_GetType.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageContextManager.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1986,6 +1989,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\Languages\ManagedErrorMessageTranslator.h">
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageContextManager.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
