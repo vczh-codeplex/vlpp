@@ -116,7 +116,8 @@ namespace TestManagedXParserHelper
 	{
 		List<Ptr<ManagedLanguageCodeException>> errors;
 		ManagedSymbolManager sm;
-		MAP argument(&sm, errors);
+		ManagedContextManager cm;
+		MAP argument(&sm, &cm, errors);
 
 		ManagedLanguage_AnalyzeProgram(program, argument);
 		TEST_ASSERT(errors.Count()==0);

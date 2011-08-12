@@ -10,6 +10,7 @@ Classes:
 #define VCZH_SCRIPTING_MANAGEDLANGUAGE_MANAGEDLANGUAGEANALYZER
 
 #include "ManagedLanguageSymbolManager.h"
+#include "ManagedLanguageContextManager.h"
 #include "ManagedLanguageException.h"
 
 namespace vl
@@ -28,11 +29,12 @@ ManagedAnalyzerParameter
 				typedef collections::List<Ptr<ManagedLanguageCodeException>>		ErrorList;
 			public:
 				ManagedSymbolManager*			symbolManager;
+				ManagedContextManager*			contextManager;
 				ManagedSymbolItem*				currentSymbol;
 				ErrorList&						errors;
 				ManagedTypeSymbol*				expectedType;
 
-				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ErrorList& _errors);
+				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors);
 				ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol, ManagedTypeSymbol* _expectedType=0);
 			};
 			typedef ManagedAnalyzerParameter MAP;
@@ -43,6 +45,7 @@ ManagedAnalyzerParameter
 Helper Functions
 ***********************************************************************/
 			
+			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& extraNamespace, const WString& name, const MAP& argument, vint genericParameterCount=0);
 			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount=0);
 			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument, ManagedSymbolItem* extraGenericParameterContainer=0);
 			extern void							EnsureUsingNamespaceSymbolCompleted(ManagedSymbolUsingNamespace* symbol, const MAP& argument);
@@ -55,6 +58,8 @@ Helper Functions
 			extern void							EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument);
 			extern void							EnsureTypeVisibilityOutSideOfAssemblyInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* memberItem, const MAP& argument);
 			extern void							CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, ManagedSymbolItem* memberItem, const MAP& argument);
+
+			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);
 
 /***********************************************************************
 Build Global Scope Pass 1 <before linking symbols from other assemblies>
