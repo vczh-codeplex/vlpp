@@ -17,6 +17,12 @@ ManagedLanguage_BuildGlobalScope4_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
 				{
+					if(node->initializer)
+					{
+						ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
+						MAP newArgument(argument, symbol);
+						GetType(node->initializer.Obj(), symbol->type, newArgument);
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)

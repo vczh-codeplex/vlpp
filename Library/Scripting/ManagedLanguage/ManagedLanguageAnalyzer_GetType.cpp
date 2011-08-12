@@ -13,11 +13,20 @@ namespace vl
 GetType
 ***********************************************************************/
 
+			bool CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument)
+			{
+				return from==to;
+			}
+
 			ManagedTypeSymbol* GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument)
 			{
 				MAP newArgument(argument, argument.currentSymbol, expectedType);
-				ManagedTypeSymbol* result=ManagedLanguage_GetTypeInternal_Expression(node, argument);
-				argument.contextManager->SetExpression(node, result, argument.currentSymbol);
+				ManagedTypeSymbol* result=ManagedLanguage_GetTypeInternal_Expression(node, newArgument);
+				argument.contextManager->SetExpression(node, result, newArgument.currentSymbol);
+				if(!result || !CanImplicitlyConvertTo(result, newArgument.expectedType, argument))
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, argument.expectedType));
+				}
 				return result;
 			}
 
@@ -29,32 +38,72 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedNullExpression)
 				{
-					throw 0;
+					ManagedSymbolItem* symbol=GetRealSymbol(argument.expectedType->GetSymbol());
+					switch(symbol->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Interface:
+						return argument.expectedType;
+					default:
+						return 0;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedIntegerExpression)
 				{
-					throw 0;
+					if(
+						argument.expectedType==argument.contextManager->predefinedTypes.sint8 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.sint16 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.sint32 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.sint64)
+					{
+						return argument.expectedType;
+					}
+					else if(!node->sign && (
+						argument.expectedType==argument.contextManager->predefinedTypes.uint8 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.uint16 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.uint32 ||
+						argument.expectedType==argument.contextManager->predefinedTypes.uint64))
+					{
+						return argument.expectedType;
+					}
+					else if(
+						argument.expectedType==argument.contextManager->predefinedTypes.singleType ||
+						argument.expectedType==argument.contextManager->predefinedTypes.doubleType)
+					{
+						return argument.expectedType;
+					}
+					else
+					{
+						return argument.contextManager->predefinedTypes.sint32;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedFloatExpression)
 				{
-					throw 0;
+					if(argument.expectedType==argument.contextManager->predefinedTypes.singleType)
+					{
+						return argument.contextManager->predefinedTypes.singleType;
+					}
+					else
+					{
+						return argument.contextManager->predefinedTypes.doubleType;
+					}
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedBooleanExpression)
 				{
-					throw 0;
+					return argument.contextManager->predefinedTypes.boolType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedCharExpression)
 				{
-					throw 0;
+					return argument.contextManager->predefinedTypes.charType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedStringExpression)
 				{
-					throw 0;
+					return argument.contextManager->predefinedTypes.stringType;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedReferenceExpression)
