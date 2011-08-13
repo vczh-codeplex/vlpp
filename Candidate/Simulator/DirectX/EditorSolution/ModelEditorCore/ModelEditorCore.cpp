@@ -139,7 +139,7 @@ Editing
 	MODELEDITORCORE_API void __stdcall PushSelectedPoints(ModelEditorWindow* window)
 	{
 		MetPushing* pushing=new MetPushing(window);
-		if(pushing->PushSelectedLines())
+		if(pushing->PushSelectedPoints())
 		{
 			window->SetEditorTool(pushing);
 		}
