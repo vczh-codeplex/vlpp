@@ -743,14 +743,6 @@ EnsureTypeVisibilityOutSideOfAssemblyInternal
 			{
 				switch(item->GetSymbolType())
 				{
-				case ManagedSymbolItem::Global:
-				case ManagedSymbolItem::Namespace:
-				case ManagedSymbolItem::UsingNamespace:
-				case ManagedSymbolItem::PropertySetterValue:
-				case ManagedSymbolItem::GenericParameter:
-				case ManagedSymbolItem::MethodParameter:
-					GetAccessor(declatt::Public, publicLevel, internalLevel);
-					break;
 				case ManagedSymbolItem::TypeRename:
 					GetAccessor(dynamic_cast<ManagedSymbolTypeRename*>(item)->accessor, publicLevel, internalLevel);
 					break;
@@ -772,6 +764,9 @@ EnsureTypeVisibilityOutSideOfAssemblyInternal
 					break;
 				case ManagedSymbolItem::ConverterOperator:
 					GetAccessor(dynamic_cast<ManagedSymbolConverterOperator*>(item)->accessor, publicLevel, internalLevel);
+					break;
+				default:
+					GetAccessor(declatt::Public, publicLevel, internalLevel);
 					break;
 				}
 			}

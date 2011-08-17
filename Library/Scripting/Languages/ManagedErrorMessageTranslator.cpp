@@ -107,6 +107,19 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::ExpressionCannotConvertToType(TypeToString(error->GetTypeParameter()));
 					}
 					break;
+				case ManagedLanguageCodeException::IllegalAutoRefWithoutInitializer:
+					{
+						WString name=error->GetParameters()[0];
+						WString autoref=TypeToString(dynamic_cast<ManagedVariableStatement*>(error->GetManagedLanguageElement())->type.Obj());
+						message=ManagedErrorMessage::IllegalAutoRefWithoutInitializer(name, autoref);
+					}
+					break;
+				case ManagedLanguageCodeException::VariableAlreadyExists:
+					{
+						WString name=error->GetParameters()[0];
+						message=ManagedErrorMessage::VariableAlreadyExists(name);
+					}
+					break;
 				default:
 					return 0;
 				}

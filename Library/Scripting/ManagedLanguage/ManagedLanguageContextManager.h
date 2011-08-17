@@ -40,6 +40,7 @@ namespace vl
 					ManagedTypeSymbol*						stringType;
 					ManagedTypeSymbol*						typeType;
 					ManagedTypeSymbol*						attributeType;
+					ManagedTypeSymbol*						exceptionType;
 				};
 
 				PredefinedTypes								predefinedTypes;

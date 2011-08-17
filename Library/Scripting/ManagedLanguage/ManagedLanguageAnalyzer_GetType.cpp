@@ -23,7 +23,7 @@ GetType
 				MAP newArgument(argument, argument.currentSymbol, expectedType);
 				ManagedTypeSymbol* result=ManagedLanguage_GetTypeInternal_Expression(node, newArgument);
 				argument.contextManager->SetExpression(node, result, newArgument.currentSymbol);
-				if(!result || !CanImplicitlyConvertTo(result, newArgument.expectedType, argument))
+				if(!result || newArgument.expectedType && !CanImplicitlyConvertTo(result, newArgument.expectedType, argument))
 				{
 					argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, argument.expectedType));
 				}

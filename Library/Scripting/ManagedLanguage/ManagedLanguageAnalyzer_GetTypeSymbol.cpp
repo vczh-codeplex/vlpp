@@ -173,7 +173,9 @@ ManagedLanguage_GetTypeSymbol_Type
 									}
 								}
 								break;
-							default:
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
 								{
 									argument.typeResults.Add(argument.context.symbolManager->GetType(currentSymbol));
 								}

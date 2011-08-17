@@ -19,6 +19,7 @@ ManagedLanguage_BuildGlobalScope4_Member
 				{
 					if(node->initializer)
 					{
+						// TODO: check constant/readonly
 						ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
 						MAP newArgument(argument, symbol);
 						GetType(node->initializer.Obj(), symbol->type, newArgument);

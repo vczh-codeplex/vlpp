@@ -40,6 +40,8 @@ namespace vl
 					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 
 					ExpressionCannotConvertToType,				// <ManagedExpression>
+					IllegalAutoRefWithoutInitializer,			// <ManagedVariableStatement>			:name
+					VariableAlreadyExists,						// <ManagedVariableStatement>			:name
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -73,6 +75,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 
 				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement);
+				static Ptr<ManagedLanguageCodeException>						GetVariableAlreadyExists(ManagedVariableStatement* statement);
 			};
 		}
 	}
