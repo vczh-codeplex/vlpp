@@ -109,7 +109,7 @@ ManagedSymbolItemGroup
 			}
 
 /***********************************************************************
-ManagedSymbolItemGroup
+ManagedTypeSymbol
 ***********************************************************************/
 
 			ManagedTypeSymbol::ManagedTypeSymbol(ManagedSymbolManager* _manager, ManagedSymbolItem* _typeSymbol, ManagedTypeSymbol* _parentType)
@@ -160,7 +160,7 @@ ManagedSymbolItemGroup
 			}
 
 /***********************************************************************
-ManagedSymbolItemGroup
+ManagedSymbolManager
 ***********************************************************************/
 
 			ManagedSymbolManager::ManagedSymbolManager()
@@ -288,6 +288,8 @@ Symbol Names
 			const wchar_t* const ManagedSymbolUsingNamespace::SymbolName = L"$SpecialName$UsingNamespace";
 			const wchar_t* const ManagedSymbolConverterOperator::SymbolName = L"$SpecialName$ConverterOperator";
 			const wchar_t* const ManagedSymbolGlobal::SymbolName = L"$SpecialName$Global";
+			const wchar_t* const ManagedSymbolBlock::SymbolName = L"$SpecialName$Block";
+			const wchar_t* const ManagedSymbolLambda::SymbolName = L"$SpecialName$Lambda";
 
 /***********************************************************************
 Symbol Constructors
@@ -406,9 +408,42 @@ Symbol Constructors
 			}
 
 			ManagedSymbolGlobal::ManagedSymbolGlobal(ManagedSymbolManager* _manager)
-				:ManagedSymbolItem(_manager, Global)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Global)
 			{
 				SetName(SymbolName);
+			}
+
+			ManagedSymbolBlock::ManagedSymbolBlock(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Block)
+				,languageElement(0)
+			{
+				SetName(SymbolName);
+			}
+
+			ManagedSymbolVariable::ManagedSymbolVariable(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Variable)
+				,variableLanguageElement(0)
+				,catchLanguageElement(0)
+				,usingLanguageElement(0)
+				,forEachLanguageElement(0)
+				,type(0)
+				,constant(false)
+			{
+			}
+
+			ManagedSymbolLambda::ManagedSymbolLambda(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::Lambda)
+				,languageElement(0)
+				,returnType(0)
+			{
+				SetName(SymbolName);
+			}
+
+			ManagedSymbolLambdaParameter::ManagedSymbolLambdaParameter(ManagedSymbolManager* _manager)
+				:ManagedSymbolItem(_manager, ManagedSymbolItem::LambdaParameter)
+				,languageElement(0)
+				,type(0)
+			{
 			}
 		}
 	}

@@ -16,3 +16,5 @@ GenericTypeArgumentCountNotMatches(name)=Generic argument count of type {name} d
 GenericTypeTypeConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required type constraint.
 GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required new constraint.
 ExpressionCannotConvertToType(type)=Expression cannot convert to type {type}.
+IllegalAutoRefWithoutInitializer(name,autoRefType)=Variable type cannot be \"{autoRefType}\" if it doesn't have an initializer.
+VariableAlreadyExists(name)=Variable {name} already exists.

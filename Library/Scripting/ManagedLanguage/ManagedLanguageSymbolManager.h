@@ -38,18 +38,25 @@ Basic Constructions
 				enum ManagedSymbolType
 				{
 					Global,
+					Block,
+					Variable,
+					Lambda,
+					LambdaParameter,
+
 					Namespace,
 					UsingNamespace,
 					TypeRename,
 					Class,
 					Structure,
 					Interface,
+
 					Field,
 					Property,
 					PropertySetterValue,
 					Method,
 					Constructor,
 					ConverterOperator,
+
 					GenericParameter,
 					MethodParameter,
 				};
@@ -256,7 +263,7 @@ Data Members
 				ManagedSymbolProperty*									associatedProperty;
 			};
 
-			// ConverterOperator {GenericParameter}
+			// ConverterOperator {GenericParameter, Block}
 			class ManagedSymbolConverterOperator : public ManagedSymbolItem
 			{
 			public:
@@ -275,7 +282,7 @@ Data Members
 				collections::List<WString>								orderedGenericParameterNames;
 			};
 
-			// Method {GenericParameter, MethodParameter}
+			// Method {GenericParameter, MethodParameter, Block}
 			class ManagedSymbolMethod : public ManagedSymbolItem
 			{
 			public:
@@ -293,7 +300,7 @@ Data Members
 				collections::List<WString>								orderedMethodParameterNames;
 			};
 
-			// Constructor {MethodParameter}
+			// Constructor {MethodParameter, Block}
 			class ManagedSymbolConstructor : public ManagedSymbolItem
 			{
 			public:
@@ -367,7 +374,7 @@ Declarations
 			};
 
 /***********************************************************************
-Global
+Others
 ***********************************************************************/
 
 			// Global {Namespace, UsingNamespace, TypeRename, Class, Structure, Interface}
@@ -377,6 +384,56 @@ Global
 				static const wchar_t* const								SymbolName;
 			public:
 				ManagedSymbolGlobal(ManagedSymbolManager* _manager);
+			};
+
+			// Block {Block, Variable, Lambda}
+			class ManagedSymbolBlock : public ManagedSymbolItem
+			{
+			public:
+				static const wchar_t* const								SymbolName;
+			public:
+				ManagedSymbolBlock(ManagedSymbolManager* _manager);
+
+				ManagedStatement*										languageElement;
+			};
+
+			// Variable
+			class ManagedSymbolVariable : public ManagedSymbolItem
+			{
+			public:
+				ManagedSymbolVariable(ManagedSymbolManager* _manager);
+
+				ManagedVariableStatement*								variableLanguageElement;
+				ManagedCatchClause*										catchLanguageElement;
+				ManagedUsingStatement*									usingLanguageElement;
+				ManagedForEachStatement*								forEachLanguageElement;
+
+				ManagedTypeSymbol*										type;
+				bool													constant;
+			};
+
+			// Lambda {Block, LambdaParameter}
+			class ManagedSymbolLambda : public ManagedSymbolItem
+			{
+			public:
+				static const wchar_t* const								SymbolName;
+			public:
+				ManagedSymbolLambda(ManagedSymbolManager* _manager);
+
+				ManagedLambdaExpression*								languageElement;
+
+				ManagedTypeSymbol*										returnType;
+			};
+
+			// LambdaParameter
+			class ManagedSymbolLambdaParameter : public ManagedSymbolItem
+			{
+			public:
+				ManagedSymbolLambdaParameter(ManagedSymbolManager* _manager);
+
+				ManagedLambdaParameter*									languageElement;
+
+				ManagedTypeSymbol*										type;
 			};
 
 /***********************************************************************

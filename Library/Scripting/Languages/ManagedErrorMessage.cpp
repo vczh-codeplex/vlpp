@@ -86,6 +86,16 @@ namespace vl
 				return L"Expression cannot convert to type "+type+L".";
 			}
 
+			WString ManagedErrorMessage::IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType)
+			{
+				return L"Variable type cannot be \""+autoRefType+L"\" if it doesn't have an initializer.";
+			}
+
+			WString ManagedErrorMessage::VariableAlreadyExists(const WString& name)
+			{
+				return L"Variable "+name+L" already exists.";
+			}
+
 		}
 	}
 }

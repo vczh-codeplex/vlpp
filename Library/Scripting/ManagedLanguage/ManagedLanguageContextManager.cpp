@@ -69,6 +69,7 @@ InitializeContextManager
 				pt.stringType		=GetSystemType(program, L"String", argument);
 				pt.typeType			=GetSystemType(program, L"Reflection", L"Type", argument);
 				pt.attributeType	=GetSystemType(program, L"Attribute", argument);
+				pt.exceptionType	=GetSystemType(program, L"Exception", argument);
 			}
 		}
 	}

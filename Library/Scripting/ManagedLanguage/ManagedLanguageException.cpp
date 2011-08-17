@@ -158,6 +158,20 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, ExpressionCannotConvertToType, parameters.Wrap(), type);
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=statement->name;
+				return new ManagedLanguageCodeException(statement, IllegalAutoRefWithoutInitializer, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetVariableAlreadyExists(ManagedVariableStatement* statement)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=statement->name;
+				return new ManagedLanguageCodeException(statement, VariableAlreadyExists, parameters.Wrap());
+			}
 		}
 	}
 }
