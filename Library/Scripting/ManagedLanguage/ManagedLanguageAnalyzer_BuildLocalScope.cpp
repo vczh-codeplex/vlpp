@@ -121,7 +121,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 					BuildLocalScope(node->tryStatement.Obj(), argument);
 					FOREACH(Ptr<ManagedCatchClause>, catchClause, node->catches.Wrap())
 					{
-						ManagedTypeSymbol* exceptionType=GetTypeSymbol(catchClause->exceptionType, argument);
+						ManagedTypeSymbol* exceptionType=GetTypeSymbolInMethod(catchClause->exceptionType, argument);
 						if(exceptionType && !IsInheritedFrom(exceptionType, argument.contextManager->predefinedTypes.exceptionType, argument))
 						{
 							argument.errors.Add(ManagedLanguageCodeException::GetExceptionTypeShouldDerivedFromException(catchClause->exceptionType.Obj(), argument.contextManager->predefinedTypes.exceptionType));
@@ -131,12 +131,15 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 						block->languageElement=catchClause->exceptionHandler.Obj();
 						argument.currentSymbol->Add(block);
 
-						ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
-						variable->SetName(catchClause->exceptionName);
-						variable->type=exceptionType;
-						variable->constant=true;
-						variable->catchLanguageElement=catchClause.Obj();
-						block->Add(variable);
+						if(catchClause->exceptionName!=L"")
+						{
+							ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
+							variable->SetName(catchClause->exceptionName);
+							variable->type=exceptionType;
+							variable->constant=true;
+							variable->catchLanguageElement=catchClause.Obj();
+							block->Add(variable);
+						}
 
 						argument.contextManager->PushCatch(catchClause.Obj());
 						MAP newArgument(argument, block);
