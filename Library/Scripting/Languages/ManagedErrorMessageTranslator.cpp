@@ -120,6 +120,21 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::VariableAlreadyExists(name);
 					}
 					break;
+				case ManagedLanguageCodeException::IllegalBreak:
+					{
+						message=ManagedErrorMessage::IllegalBreak();
+					}
+					break;
+				case ManagedLanguageCodeException::IllegalContinue:
+					{
+						message=ManagedErrorMessage::IllegalContinue();
+					}
+					break;
+				case ManagedLanguageCodeException::IllegalThrow:
+					{
+						message=ManagedErrorMessage::IllegalThrow();
+					}
+					break;
 				default:
 					return 0;
 				}

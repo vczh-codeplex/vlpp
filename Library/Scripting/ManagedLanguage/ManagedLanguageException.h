@@ -42,6 +42,9 @@ namespace vl
 					ExpressionCannotConvertToType,				// <ManagedExpression>
 					IllegalAutoRefWithoutInitializer,			// <ManagedVariableStatement>			:name
 					VariableAlreadyExists,						// <ManagedVariableStatement>			:name
+					IllegalBreak,								// <ManagedBreakStatement>
+					IllegalContinue,							// <ManagedContinueStatement>
+					IllegalThrow,								// <ManagedThrowStatement>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -77,6 +80,9 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetVariableAlreadyExists(ManagedVariableStatement* statement);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalBreak(ManagedBreakStatement* statement);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalContinue(ManagedContinueStatement* statement);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalThrow(ManagedThrowStatement* statement);
 			};
 		}
 	}

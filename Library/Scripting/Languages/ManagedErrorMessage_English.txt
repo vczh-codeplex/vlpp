@@ -18,3 +18,6 @@ GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument 
 ExpressionCannotConvertToType(type)=Expression cannot convert to type {type}.
 IllegalAutoRefWithoutInitializer(name,autoRefType)=Variable type cannot be \"{autoRefType}\" if it doesn't have an initializer.
 VariableAlreadyExists(name)=Variable {name} already exists.
+IllegalBreak=Break statement can only be used in loop or switch statement.
+IllegalContinue=Continue statement can only be used in loop statement.
+IllegalThrow=Rethrow statement can only be used in catch clause.

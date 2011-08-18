@@ -166,6 +166,7 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedLambdaExpression)
 				{
+					// TODO: push lambda expression
 					throw 0;
 				}
 

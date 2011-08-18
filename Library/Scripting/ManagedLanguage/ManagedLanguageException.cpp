@@ -172,6 +172,24 @@ ManagedLanguageCodeException::ExceptionCode
 				parameters[0]=statement->name;
 				return new ManagedLanguageCodeException(statement, VariableAlreadyExists, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalBreak(ManagedBreakStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(statement, IllegalBreak, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalContinue(ManagedContinueStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(statement, IllegalContinue, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalThrow(ManagedThrowStatement* statement)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(statement, IllegalThrow, parameters.Wrap());
+			}
 		}
 	}
 }

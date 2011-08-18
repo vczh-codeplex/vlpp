@@ -96,6 +96,21 @@ namespace vl
 				return L"Variable "+name+L" already exists.";
 			}
 
+			WString ManagedErrorMessage::IllegalBreak()
+			{
+				return L"Break statement can only be used in loop or switch statement.";
+			}
+
+			WString ManagedErrorMessage::IllegalContinue()
+			{
+				return L"Continue statement can only be used in loop statement.";
+			}
+
+			WString ManagedErrorMessage::IllegalThrow()
+			{
+				return L"Rethrow statement can only be used in catch clause.";
+			}
+
 		}
 	}
 }
