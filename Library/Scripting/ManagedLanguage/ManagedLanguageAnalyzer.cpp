@@ -829,6 +829,35 @@ CheckType
 				EnsureTypeSatisfiesConstraintsInternal(languageElement, type, argument);
 				EnsureTypeVisibilityOutSideOfAssemblyInternal(languageElement, type, memberItem, argument);
 			}
+
+/***********************************************************************
+GetTypeSymbolInMethod
+***********************************************************************/
+
+			ManagedSymbolItem* FindScopeItemInMethod(const MAP& argument)
+			{
+				ManagedSymbolItem* symbol=argument.currentSymbol;
+				while(true)
+				{
+					switch(symbol->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
+						return symbol;
+					default:
+						symbol=symbol->GetParentItem();
+					}
+				}
+			}
+
+			ManagedTypeSymbol* GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument)
+			{
+				ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
+				EnsureTypeVisibilityInternal(type.Obj(), typeSymbol, FindScopeItemInMethod(argument) ,argument);
+				EnsureTypeSatisfiesConstraintsInternal(type.Obj(), typeSymbol, argument);
+				return typeSymbol;
+			}
 		}
 	}
 }
