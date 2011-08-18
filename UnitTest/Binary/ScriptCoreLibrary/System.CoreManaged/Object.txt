@@ -2,8 +2,8 @@
 v as T throws exception when failure
 
 a op b only search for
-  1. A.op(b)
-  2. B.op(a)
+  1. A.op(a, b)
+  2. B.op(a, b)
   operator should be static
   child's operator declaration hides parent's
 

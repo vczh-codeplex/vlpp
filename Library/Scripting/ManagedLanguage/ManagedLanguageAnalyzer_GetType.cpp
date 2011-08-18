@@ -108,11 +108,13 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedReferenceExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedMemberExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 
@@ -192,11 +194,13 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedUnaryExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedBinaryExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 

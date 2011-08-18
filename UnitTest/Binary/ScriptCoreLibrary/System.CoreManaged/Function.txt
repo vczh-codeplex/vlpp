@@ -74,7 +74,8 @@ namespace System
 				DelegateLink current=this.first;
 				while(current!=null)
 				{
-					if(current.invokee.Equals(delegate))
+					bool found=current.invokee.Equals(delegate);
+					if(found)
 					{
 						return current;
 					}
