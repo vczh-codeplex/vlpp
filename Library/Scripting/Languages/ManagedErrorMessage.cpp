@@ -111,6 +111,11 @@ namespace vl
 				return L"Rethrow statement can only be used in catch clause.";
 			}
 
+			WString ManagedErrorMessage::ExceptionTypeShouldDerivedFromException(const WString& type, const WString& exceptionType)
+			{
+				return L"Exceptions should derived from "+exceptionType+L", but "+type+L" does not.";
+			}
+
 		}
 	}
 }

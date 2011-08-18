@@ -135,6 +135,20 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::IllegalThrow();
 					}
 					break;
+				case ManagedLanguageCodeException::ExceptionTypeShouldDerivedFromException:
+					{
+						WString exceptionType;
+						if(ManagedType* type=dynamic_cast<ManagedType*>(error->GetManagedLanguageElement()))
+						{
+							exceptionType=TypeToString(type);
+						}
+						else if(ManagedExpression* expression=dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement()))
+						{
+							exceptionType=TypeToString(ExpressionToType(expression));
+						}
+						message=ManagedErrorMessage::ExceptionTypeShouldDerivedFromException(exceptionType, TypeToString(error->GetTypeParameter()));
+					}
+					break;
 				default:
 					return 0;
 				}

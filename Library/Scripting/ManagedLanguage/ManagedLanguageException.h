@@ -45,6 +45,7 @@ namespace vl
 					IllegalBreak,								// <ManagedBreakStatement>
 					IllegalContinue,							// <ManagedContinueStatement>
 					IllegalThrow,								// <ManagedThrowStatement>
+					ExceptionTypeShouldDerivedFromException,	// <ManagedType | ManagedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -83,6 +84,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetIllegalBreak(ManagedBreakStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalContinue(ManagedContinueStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalThrow(ManagedThrowStatement* statement);
+				static Ptr<ManagedLanguageCodeException>						GetExceptionTypeShouldDerivedFromException(ManagedType* type, ManagedTypeSymbol* exceptionType);
+				static Ptr<ManagedLanguageCodeException>						GetExceptionTypeShouldDerivedFromException(ManagedExpression* expression, ManagedTypeSymbol* exceptionType);
 			};
 		}
 	}
