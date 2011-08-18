@@ -91,17 +91,25 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 				ALGORITHM_PROCEDURE_MATCH(ManagedWhileStatement)
 				{
 					// TODO: check condition;
+					argument.contextManager->PushLoop(node);
 					BuildLocalScope(node->statement.Obj(), argument);
+					argument.contextManager->PopStatement();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBreakStatement)
 				{
-					// TODO: check loop or switch
+					if(!argument.contextManager->GetBreakTarget())
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetIllegalBreak(node));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedContinueStatement)
 				{
-					// TODO: check loop
+					if(!argument.contextManager->GetContinueTarget())
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetIllegalContinue(node));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReturnStatement)
@@ -128,8 +136,10 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 						variable->catchLanguageElement=catchClause.Obj();
 						block->Add(variable);
 
+						argument.contextManager->PushCatch(catchClause.Obj());
 						MAP newArgument(argument, block);
 						BuildLocalScope(catchClause->exceptionHandler.Obj(), newArgument);
+						argument.contextManager->PopStatement();
 					}
 					if(node->finallyStatement)
 					{
@@ -139,7 +149,17 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedThrowStatement)
 				{
-					// TODO: check try catch
+					if(node->expression)
+					{
+						// TODO: check derived from System.Exception
+					}
+					else
+					{
+						if(!argument.contextManager->GetThrowTarget())
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetIllegalThrow(node));
+						}
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedStatement)
@@ -184,6 +204,7 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedSelectStatement)
 				{
+					argument.contextManager->PushSwitch(node);
 					// TODO: check expression;
 					FOREACH(Ptr<ManagedCaseClause>, caseClause, node->cases.Wrap())
 					{
@@ -194,6 +215,7 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 					{
 						BuildLocalScope(node->defaultStatement.Obj(), argument);
 					}
+					argument.contextManager->PopStatement();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedForStatement)
@@ -209,7 +231,9 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 					}
 					// TODO: check condition
 					// TODO: check side effects
+					argument.contextManager->PushLoop(node);
 					BuildLocalScope(node->statement.Obj(), newArgument);
+					argument.contextManager->PopStatement();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedForEachStatement)
@@ -229,8 +253,10 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 					variable->forEachLanguageElement=node;
 					block->Add(variable);
 
+					argument.contextManager->PushLoop(node);
 					MAP newArgument(argument, block);
 					BuildLocalScope(node->statement.Obj(), newArgument);
+					argument.contextManager->PopStatement();
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement)

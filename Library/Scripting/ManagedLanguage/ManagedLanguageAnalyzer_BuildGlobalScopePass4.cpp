@@ -31,16 +31,20 @@ ManagedLanguage_BuildGlobalScope4_Member
 					if(node->body)
 					{
 						ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
+						argument.contextManager->PushFunction(symbol->returnType, node);
 						MAP newArgument(argument, symbol);
 						BuildLocalScope(node->body.Obj(), newArgument);
+						argument.contextManager->PopStatement();
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
 					ManagedSymbolConstructor* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConstructor>(node);
+					argument.contextManager->PushFunction(argument.contextManager->predefinedTypes.voidType, node);
 					MAP newArgument(argument, symbol);
 					BuildLocalScope(node->body.Obj(), newArgument);
+					argument.contextManager->PopStatement();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
@@ -79,8 +83,10 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 					if(node->body)
 					{
 						ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
+						argument.contextManager->PushFunction(symbol->targetType, node);
 						MAP newArgument(argument, symbol);
 						BuildLocalScope(node->body.Obj(), newArgument);
+						argument.contextManager->PopStatement();
 					}
 				}
 

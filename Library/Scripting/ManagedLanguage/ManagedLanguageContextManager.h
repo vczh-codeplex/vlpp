@@ -41,13 +41,39 @@ namespace vl
 					ManagedTypeSymbol*						typeType;
 					ManagedTypeSymbol*						attributeType;
 					ManagedTypeSymbol*						exceptionType;
+					ManagedTypeSymbol*						voidType;
 				};
 
 				PredefinedTypes								predefinedTypes;
 			protected:
+				struct StatementContext
+				{
+					enum ContextType
+					{
+						Method,
+						Lambda,
+						Loop,
+						Switch,
+						Catch,
+					};
+
+					ContextType								contextType;
+					StatementContext*						previous;
+					union
+					{
+						ManagedMember*						member;
+						ManagedLambdaExpression*			lambdaExpression;
+						ManagedStatement*					statement;
+						ManagedCatchClause*					catchClause;
+					}										languageElement;
+				};
+			protected:
 				ExpressionTypeMap							expressionTypes;
 				ExpressionScopeMap							expressionScopes;
 				StatementScopeMap							statementScopes;
+				StatementContext*							currentStatementContext;
+
+				StatementContext*							PushStatement();
 			public:
 
 				ManagedContextManager();
@@ -59,6 +85,17 @@ namespace vl
 
 				ManagedSymbolItem*							GetStatementScope(ManagedStatement* statement);
 				void										SetStatement(ManagedStatement* statement, ManagedSymbolItem* scope);
+
+				void										PushFunction(ManagedTypeSymbol* returnType, ManagedMember* member);
+				void										PushFunction(ManagedTypeSymbol* returnType, ManagedLambdaExpression* lambdaExpression);
+				void										PushLoop(ManagedStatement* statement);
+				void										PushSwitch(ManagedStatement* statement);
+				void										PushCatch(ManagedCatchClause* catchClause);
+				bool										PopStatement();
+				ManagedStatement*							GetBreakTarget();
+				ManagedStatement*							GetContinueTarget();
+				ManagedCatchClause*							GetThrowTarget();
+				bool										GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression);
 			};
 		}
 	}

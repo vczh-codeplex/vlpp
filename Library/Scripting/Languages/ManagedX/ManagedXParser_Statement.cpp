@@ -348,8 +348,8 @@ ManagedXParserImpl
 										| SEMICOLON(NeedStatement)[ToEmptyStat]
 										| (BREAK << SEMICOLON(NeedSemicolon))[ToBreakStat]
 										| (CONTINUE << SEMICOLON(NeedSemicolon))[ToContinueStat]
-										| (EXIT << SEMICOLON(NeedSemicolon))[ToReturnStat]
 										| ((RETURN + expression) << SEMICOLON(NeedSemicolon))[ToSetResultAndExitStat]
+										| ((EXIT|RETURN) << SEMICOLON(NeedSemicolon))[ToReturnStat]
 										| (IF + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + opt(ELSE >> statement))[ToIfStat]
 										| (WHILE + (OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace)) + statement + 
 											opt(WHEN >> OPEN_EXP_BRACE(NeedOpenExpBrace) >> expression << CLOSE_EXP_BRACE(NeedCloseExpBrace) << SEMICOLON(NeedSemicolon))

@@ -43,6 +43,9 @@ namespace vl
 				static WString ExpressionCannotConvertToType(const WString& type);
 				static WString IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType);
 				static WString VariableAlreadyExists(const WString& name);
+				static WString IllegalBreak();
+				static WString IllegalContinue();
+				static WString IllegalThrow();
 			};
 		}
 	}

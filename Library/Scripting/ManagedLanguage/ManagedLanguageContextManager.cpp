@@ -12,13 +12,24 @@ namespace vl
 ManagedContextManager
 ***********************************************************************/
 
+			ManagedContextManager::StatementContext* ManagedContextManager::PushStatement()
+			{
+				StatementContext* context=new StatementContext;
+				memset(context, 0, sizeof(*context));
+				context->previous=currentStatementContext;
+				currentStatementContext=context;
+				return context;
+			}
+
 			ManagedContextManager::ManagedContextManager()
+				:currentStatementContext(0)
 			{
 				memset(&predefinedTypes, 0, sizeof(predefinedTypes));
 			}
 
 			ManagedContextManager::~ManagedContextManager()
 			{
+				while(PopStatement());
 			}
 
 			ManagedTypeSymbol* ManagedContextManager::GetExpressionType(ManagedExpression* expression)
@@ -47,6 +58,123 @@ ManagedContextManager
 				statementScopes.Add(statement, scope);
 			}
 
+			void ManagedContextManager::PushFunction(ManagedTypeSymbol* returnType, ManagedMember* member)
+			{
+				StatementContext* context=PushStatement();
+				context->contextType=StatementContext::Method;
+				context->languageElement.member=member;
+			}
+
+			void ManagedContextManager::PushFunction(ManagedTypeSymbol* returnType, ManagedLambdaExpression* lambdaExpression)
+			{
+				StatementContext* context=PushStatement();
+				context->contextType=StatementContext::Lambda;
+				context->languageElement.lambdaExpression=lambdaExpression;
+			}
+
+			void ManagedContextManager::PushLoop(ManagedStatement* statement)
+			{
+				StatementContext* context=PushStatement();
+				context->contextType=StatementContext::Loop;
+				context->languageElement.statement=statement;
+			}
+
+			void ManagedContextManager::PushSwitch(ManagedStatement* statement)
+			{
+				StatementContext* context=PushStatement();
+				context->contextType=StatementContext::Switch;
+				context->languageElement.statement=statement;
+			}
+
+			void ManagedContextManager::PushCatch(ManagedCatchClause* catchClause)
+			{
+				StatementContext* context=PushStatement();
+				context->contextType=StatementContext::Catch;
+				context->languageElement.catchClause=catchClause;
+			}
+
+			bool ManagedContextManager::PopStatement()
+			{
+				if(currentStatementContext)
+				{
+					StatementContext* previous=currentStatementContext->previous;
+					delete currentStatementContext;
+					currentStatementContext=previous;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			ManagedStatement* ManagedContextManager::GetBreakTarget()
+			{
+				StatementContext* context=currentStatementContext;
+				while(context && context->contextType!=StatementContext::Method && context->contextType!=StatementContext::Lambda)
+				{
+					if(context->contextType==StatementContext::Loop || context->contextType==StatementContext::Switch)
+					{
+						return context->languageElement.statement;
+					}
+					context=context->previous;
+				}
+				return 0;
+			}
+
+			ManagedStatement* ManagedContextManager::GetContinueTarget()
+			{
+				StatementContext* context=currentStatementContext;
+				while(context && context->contextType!=StatementContext::Method && context->contextType!=StatementContext::Lambda)
+				{
+					if(context->contextType==StatementContext::Loop)
+					{
+						return context->languageElement.statement;
+					}
+					context=context->previous;
+				}
+				return 0;
+			}
+
+			ManagedCatchClause* ManagedContextManager::GetThrowTarget()
+			{
+				StatementContext* context=currentStatementContext;
+				while(context && context->contextType!=StatementContext::Method && context->contextType!=StatementContext::Lambda)
+				{
+					if(context->contextType==StatementContext::Catch)
+					{
+						return context->languageElement.catchClause;
+					}
+					context=context->previous;
+				}
+				return 0;
+			}
+
+			bool ManagedContextManager::GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression)
+			{
+				StatementContext* context=currentStatementContext;
+				while(context && context->contextType!=StatementContext::Method && context->contextType!=StatementContext::Lambda)
+				{
+					context=context->previous;
+				}
+				if(context)
+				{
+					if(context->contextType==StatementContext::Method)
+					{
+						member=context->languageElement.member;
+						lambdaExpression=0;
+						return true;
+					}
+					else if(context->contextType==StatementContext::Lambda)
+					{
+						member=0;
+						lambdaExpression=context->languageElement.lambdaExpression;
+						return true;
+					}
+				}
+				return false;
+			}
+
 /***********************************************************************
 InitializeContextManager
 ***********************************************************************/
@@ -70,6 +198,7 @@ InitializeContextManager
 				pt.typeType			=GetSystemType(program, L"Reflection", L"Type", argument);
 				pt.attributeType	=GetSystemType(program, L"Attribute", argument);
 				pt.exceptionType	=GetSystemType(program, L"Exception", argument);
+				pt.voidType			=GetSystemType(program, L"Void", argument);
 			}
 		}
 	}
