@@ -140,11 +140,13 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_FUNCTION_MATCH(ManagedThisExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 
 				ALGORITHM_FUNCTION_MATCH(ManagedBaseExpression)
 				{
+					// TODO: do this first
 					throw 0;
 				}
 
