@@ -190,6 +190,18 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(statement, IllegalThrow, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExceptionTypeShouldDerivedFromException(ManagedType* type, ManagedTypeSymbol* exceptionType)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(type, ExceptionTypeShouldDerivedFromException, parameters.Wrap(), exceptionType);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExceptionTypeShouldDerivedFromException(ManagedExpression* expression, ManagedTypeSymbol* exceptionType)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, ExceptionTypeShouldDerivedFromException, parameters.Wrap(), exceptionType);
+			}
 		}
 	}
 }

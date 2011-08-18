@@ -114,7 +114,6 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReturnStatement)
 				{
-					// TODO: check function return type
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTryCatchStatement)
@@ -123,7 +122,10 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 					FOREACH(Ptr<ManagedCatchClause>, catchClause, node->catches.Wrap())
 					{
 						ManagedTypeSymbol* exceptionType=GetTypeSymbol(catchClause->exceptionType, argument);
-						// TODO: check derived from System.Exception
+						if(exceptionType && !IsInheritedFrom(exceptionType, argument.contextManager->predefinedTypes.exceptionType, argument))
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetExceptionTypeShouldDerivedFromException(catchClause->exceptionType.Obj(), argument.contextManager->predefinedTypes.exceptionType));
+						}
 
 						ManagedSymbolBlock* block=new ManagedSymbolBlock(argument.symbolManager);
 						block->languageElement=catchClause->exceptionHandler.Obj();

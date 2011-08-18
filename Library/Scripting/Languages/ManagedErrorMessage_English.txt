@@ -21,3 +21,4 @@ VariableAlreadyExists(name)=Variable {name} already exists.
 IllegalBreak=Break statement can only be used in loop or switch statement.
 IllegalContinue=Continue statement can only be used in loop statement.
 IllegalThrow=Rethrow statement can only be used in catch clause.
+ExceptionTypeShouldDerivedFromException(type,exceptionType)=Exceptions should derived from {exceptionType}, but {type} does not.
