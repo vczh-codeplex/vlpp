@@ -102,6 +102,10 @@ Build Global Scope Pass 3
 /***********************************************************************
 Build Global Scope Pass 4
   Check declarations and function bodies
+  TODO:
+	check in/out/inout (function parameter=in, function result=out, others=inout)
+	check abstract class/interface method overridding
+	check abstract method cannot have an implementation
 ***********************************************************************/
 
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_Member, ManagedMember, MAP)
