@@ -102,6 +102,19 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::GenericTypeNewConstraintNotSatisfied(TypeToString(error->GetTypeParameter()), itow(index));
 					}
 					break;
+				case ManagedLanguageCodeException::ExpressionResolvedToDuplicatedTargets:
+					{
+						ManagedTypeSymbol* type=error->GetTypeParameter();
+						if(type)
+						{
+							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets(TypeToString(type));
+						}
+						else
+						{
+							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets();
+						}
+					}
+					break;
 				case ManagedLanguageCodeException::ExpressionCannotConvertToType:
 					{
 						message=ManagedErrorMessage::ExpressionCannotConvertToType(TypeToString(error->GetTypeParameter()));

@@ -9,6 +9,38 @@ namespace vl
 		{
 			using namespace collections;
 
+			class ManagedAnalyzerGetExpressionTypeParameter : public Object
+			{
+			public:
+				struct Choice
+				{
+					ManagedTypeSymbol*					type;
+					ManagedSymbolItem*					symbol;
+
+					Choice(ManagedTypeSymbol* _type=0, ManagedSymbolItem* _symbol=0)
+						:type(_type)
+						,symbol(_symbol)
+					{
+					}
+
+					bool operator==(const Choice& value){return false;}
+					bool operator!=(const Choice& value){return true;}
+				};
+			public:
+				const MAP&								context;
+				List<Choice>&							choices;
+
+				ManagedAnalyzerGetExpressionTypeParameter(const MAP& _context, List<Choice>& _choices)
+					:context(_context)
+					,choices(_choices)
+				{
+				}
+			};
+			typedef ManagedAnalyzerGetExpressionTypeParameter MAGETP;
+
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAGETP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAGETP)
+
 /***********************************************************************
 GetType
 ***********************************************************************/
@@ -20,213 +52,233 @@ GetType
 
 			ManagedTypeSymbol* GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument)
 			{
-				MAP newArgument(argument, argument.currentSymbol, expectedType);
-				ManagedTypeSymbol* result=ManagedLanguage_GetTypeInternal_Expression(node, newArgument);
-				argument.contextManager->SetExpression(node, result, newArgument.currentSymbol);
-				if(!result || newArgument.expectedType && !CanImplicitlyConvertTo(result, newArgument.expectedType, argument))
+				List<MAGETP::Choice> choices;
+				MAP a1(argument, argument.currentSymbol, expectedType);
+				MAGETP a2(a1, choices);
+				ManagedLanguage_GetTypeInternal_Expression(node, a2);
+
+				if(expectedType)
 				{
-					argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, argument.expectedType));
+					for(int i=choices.Count()-1;i>=0;i--)
+					{
+						if(!CanImplicitlyConvertTo(choices[i].type, expectedType, argument))
+						{
+							choices.RemoveAt(i);
+						}
+					}
 				}
-				return result;
+
+				if(choices.Count()>1)
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, expectedType));
+				}
+				else if(choices.Count()==1)
+				{
+					ManagedTypeSymbol* result=a2.choices[0].type;
+					if(expectedType && !CanImplicitlyConvertTo(result, expectedType, argument))
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, expectedType));
+					}
+					return result;
+				}
+				return 0;
 			}
 
 /***********************************************************************
 ManagedLanguage_GetTypeInternal_Expression
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
+			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAGETP)
 
-				ALGORITHM_FUNCTION_MATCH(ManagedNullExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedNullExpression)
 				{
-					ManagedSymbolItem* symbol=GetRealSymbol(argument.expectedType->GetSymbol());
+					ManagedSymbolItem* symbol=GetRealSymbol(argument.context.expectedType->GetSymbol());
 					switch(symbol->GetSymbolType())
 					{
 					case ManagedSymbolItem::Class:
 					case ManagedSymbolItem::Interface:
-						return argument.expectedType;
-					default:
-						return 0;
+						argument.choices.Add(argument.context.expectedType);
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedIntegerExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedIntegerExpression)
 				{
 					if(
-						argument.expectedType==argument.contextManager->predefinedTypes.sint8 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.sint16 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.sint32 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.sint64)
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint8 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint16 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint32 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint64)
 					{
-						return argument.expectedType;
+						argument.choices.Add(argument.context.expectedType);
 					}
 					else if(!node->sign && (
-						argument.expectedType==argument.contextManager->predefinedTypes.uint8 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.uint16 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.uint32 ||
-						argument.expectedType==argument.contextManager->predefinedTypes.uint64))
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint8 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint16 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint32 ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint64))
 					{
-						return argument.expectedType;
+						argument.choices.Add(argument.context.expectedType);
 					}
 					else if(
-						argument.expectedType==argument.contextManager->predefinedTypes.singleType ||
-						argument.expectedType==argument.contextManager->predefinedTypes.doubleType)
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.singleType ||
+						argument.context.expectedType==argument.context.contextManager->predefinedTypes.doubleType)
 					{
-						return argument.expectedType;
+						argument.choices.Add(argument.context.expectedType);
 					}
 					else
 					{
-						return argument.contextManager->predefinedTypes.sint32;
+						argument.choices.Add(argument.context.contextManager->predefinedTypes.sint32);
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedFloatExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedFloatExpression)
 				{
-					if(argument.expectedType==argument.contextManager->predefinedTypes.singleType)
+					if(argument.context.expectedType==argument.context.contextManager->predefinedTypes.singleType)
 					{
-						return argument.contextManager->predefinedTypes.singleType;
+						argument.choices.Add(argument.context.contextManager->predefinedTypes.singleType);
 					}
 					else
 					{
-						return argument.contextManager->predefinedTypes.doubleType;
+						argument.choices.Add(argument.context.contextManager->predefinedTypes.doubleType);
 					}
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedBooleanExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedBooleanExpression)
 				{
-					return argument.contextManager->predefinedTypes.boolType;
+					argument.choices.Add(argument.context.contextManager->predefinedTypes.boolType);
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedCharExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedCharExpression)
 				{
-					return argument.contextManager->predefinedTypes.charType;
+					argument.choices.Add(argument.context.contextManager->predefinedTypes.charType);
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedStringExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedStringExpression)
 				{
-					return argument.contextManager->predefinedTypes.stringType;
+					argument.choices.Add(argument.context.contextManager->predefinedTypes.stringType);
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedReferenceExpression)
-				{
-					// TODO: do this first
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedMemberExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedReferenceExpression)
 				{
 					// TODO: do this first
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedInstantiatedExpression)
-				{
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedInvokeExpression)
-				{
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedNewObjectExpression)
-				{
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedFunctionResultExpression)
-				{
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedThisExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedMemberExpression)
 				{
 					// TODO: do this first
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedBaseExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedExpression)
+				{
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedInvokeExpression)
+				{
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedNewObjectExpression)
+				{
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedFunctionResultExpression)
+				{
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedThisExpression)
 				{
 					// TODO: do this first
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedAssignmentExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedBaseExpression)
+				{
+					// TODO: do this first
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedAssignmentExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedExtendedExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedExpression)
 				{
-					throw ManagedLanguage_GetTypeInternal_ExtendedExpression(node, argument);
+					ManagedLanguage_GetTypeInternal_ExtendedExpression(node, argument);
 				}
 
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression)
+			END_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_Expression)
 
 /***********************************************************************
 ManagedLanguage_GetTypeInternal_ExtendedExpression
 ***********************************************************************/
 
-			BEGIN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
+			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAGETP)
 
-				ALGORITHM_FUNCTION_MATCH(ManagedLambdaExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedLambdaExpression)
 				{
 					// TODO: push lambda expression
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedChoiceExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedChoiceExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedNullChoiceExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedNullChoiceExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedTypeofExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedTypeofExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedDefaultExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedDefaultExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedUnaryExpression)
-				{
-					// TODO: do this first
-					throw 0;
-				}
-
-				ALGORITHM_FUNCTION_MATCH(ManagedBinaryExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
 				{
 					// TODO: do this first
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedNewArrayExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedBinaryExpression)
+				{
+					// TODO: do this first
+					throw 0;
+				}
+
+				ALGORITHM_PROCEDURE_MATCH(ManagedNewArrayExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedIsTypeExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedIsTypeExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedCastingExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedCastingExpression)
 				{
 					throw 0;
 				}
 
-				ALGORITHM_FUNCTION_MATCH(ManagedIndexExpression)
+				ALGORITHM_PROCEDURE_MATCH(ManagedIndexExpression)
 				{
 					throw 0;
 				}
 
-			END_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression)
+			END_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_ExtendedExpression)
 		}
 	}
 }

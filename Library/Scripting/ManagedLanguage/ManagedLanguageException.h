@@ -39,6 +39,7 @@ namespace vl
 					GenericTypeTypeConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 
+					ExpressionResolvedToDuplicatedTargets,		// <ManagedExpression>
 					ExpressionCannotConvertToType,				// <ManagedExpression>
 					IllegalAutoRefWithoutInitializer,			// <ManagedVariableStatement>			:name
 					VariableAlreadyExists,						// <ManagedVariableStatement>			:name
@@ -78,6 +79,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 
+				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetVariableAlreadyExists(ManagedVariableStatement* statement);

@@ -9,6 +9,9 @@ namespace vl
 		{
 			using namespace collections;
 
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_Statement, ManagedStatement, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement, ManagedExtendedStatement, MAP)
+
 /***********************************************************************
 BuildLocalScope
 ***********************************************************************/

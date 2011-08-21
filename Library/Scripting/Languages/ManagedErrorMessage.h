@@ -40,6 +40,8 @@ namespace vl
 				static WString GenericTypeArgumentCountNotMatches(const WString& name);
 				static WString GenericTypeTypeConstraintNotSatisfied(const WString& name, const WString& index);
 				static WString GenericTypeNewConstraintNotSatisfied(const WString& name, const WString& index);
+				static WString ExpressionResolvedToDuplicatedTargets();
+				static WString ExpressionResolvedToDuplicatedTargets(const WString& type);
 				static WString ExpressionCannotConvertToType(const WString& type);
 				static WString IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType);
 				static WString VariableAlreadyExists(const WString& name);
