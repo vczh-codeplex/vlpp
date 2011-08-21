@@ -117,15 +117,9 @@ Build Global Scope Pass 4
 Check Statement And Build Local Scope
 ***********************************************************************/
 
-			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_Statement, ManagedStatement, MAP)
-			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement, ManagedExtendedStatement, MAP)
-
 /***********************************************************************
 Calculate Expression Type
 ***********************************************************************/
-
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_Expression, ManagedExpression, MAP, ManagedTypeSymbol*)
-			EXTERN_ALGORITHM_FUNCTION(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAP, ManagedTypeSymbol*)
 		}
 	}
 }

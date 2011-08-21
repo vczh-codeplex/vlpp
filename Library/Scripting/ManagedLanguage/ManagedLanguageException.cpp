@@ -153,6 +153,12 @@ ManagedLanguageCodeException::ExceptionCode
 				return new ManagedLanguageCodeException(element, GenericTypeNewConstraintNotSatisfied, parameters.Wrap(), genericType);
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, ExpressionResolvedToDuplicatedTargets, parameters.Wrap(), type);
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type)
 			{
 				Array<WString> parameters(0);
