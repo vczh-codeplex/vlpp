@@ -96,6 +96,7 @@ namespace vl
 				ManagedStatement*							GetContinueTarget();
 				ManagedCatchClause*							GetThrowTarget();
 				bool										GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression);
+				ManagedMember*								GetThisTargetMember();
 			};
 		}
 	}
