@@ -145,29 +145,7 @@ GetType
 
 				if(firstBaseType)
 				{
-					ManagedTypeSymbol* currentType=type;
-					Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> map;
-					while(currentType)
-					{
-						if(currentType->GetGenericDeclaration())
-						{
-							ManagedTypeSymbol* currentDeclarationType=currentType->GetGenericDeclaration();
-							ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(GetRealSymbol(currentDeclarationType->GetSymbol()));
-							for(vint i=0;i<currentDeclaration->orderedGenericParameterNames.Count();i++)
-							{
-								WString genericParameterName=currentDeclaration->orderedGenericParameterNames[i];
-								ManagedTypeSymbol* key=argument.symbolManager->GetType(currentDeclaration->ItemGroup(genericParameterName)->Items()[0]);
-								ManagedTypeSymbol* value=currentType->GetGenericArguments()[i];
-								map.Set(key, value);
-							}
-							currentType=currentDeclarationType;
-						}
-						else
-						{
-							currentType=currentType->GetParentType();
-						}
-					}
-					return argument.symbolManager->ReplaceGenericArguments(firstBaseType, map.Wrap());
+					return argument.symbolManager->ReplaceGenericArguments(firstBaseType, type);
 				}
 				else
 				{
