@@ -89,12 +89,90 @@ GetType
 
 			ManagedTypeSymbol* GetThisType(const MAP& argument)
 			{
-				return 0;
+				List<ManagedSymbolDeclaration*> types;
+				{
+					ManagedSymbolItem* symbol=argument.currentSymbol;
+					while(symbol)
+					{
+						switch(symbol->GetSymbolType())
+						{
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Structure:
+						case ManagedSymbolItem::Interface:
+							types.Add(dynamic_cast<ManagedSymbolDeclaration*>(symbol));
+							break;
+						}
+						symbol=symbol->GetParentItem();
+					}
+				}
+
+				ManagedTypeSymbol* type=0;
+				for(vint i=types.Count()-1;i<=0;i--)
+				{
+					ManagedSymbolDeclaration* declaration=types[i];
+					ManagedTypeSymbol* declarationType=argument.symbolManager->GetType(declaration, type);
+					if(declaration->orderedGenericParameterNames.Count()>0)
+					{
+						List<ManagedTypeSymbol*> genericArguments;
+						FOREACH(WString, genericParameterName, declaration->orderedGenericParameterNames.Wrap())
+						{
+							ManagedSymbolItem* genericParameter=declaration->ItemGroup(genericParameterName)->Items()[0];
+							ManagedTypeSymbol* genericParameterType=argument.symbolManager->GetType(genericParameter);
+							genericArguments.Add(genericParameterType);
+						}
+						declarationType=argument.symbolManager->GetInstiantiatedType(declarationType, genericArguments.Wrap());
+					}
+					type=declarationType;
+				}
+				return type;
 			}
 
 			ManagedTypeSymbol* GetBaseType(ManagedTypeSymbol* type, const MAP& argument)
 			{
-				return 0;
+				ManagedSymbolDeclaration* declaration=dynamic_cast<ManagedSymbolDeclaration*>(GetRealSymbol(type->GetSymbol()));
+				ManagedTypeSymbol* firstBaseType=0;
+				FOREACH(ManagedTypeSymbol*, baseType, declaration->baseTypes.Wrap())
+				{
+					if(firstBaseType) break;
+					switch(GetRealSymbol(baseType->GetSymbol())->GetSymbolType())
+					{
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Interface:
+						firstBaseType=baseType;
+						break;
+					}
+				}
+
+				if(firstBaseType)
+				{
+					ManagedTypeSymbol* currentType=type;
+					Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> map;
+					while(currentType)
+					{
+						if(currentType->GetGenericDeclaration())
+						{
+							ManagedTypeSymbol* currentDeclarationType=currentType->GetGenericDeclaration();
+							ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(GetRealSymbol(currentDeclarationType->GetSymbol()));
+							for(vint i=0;i<currentDeclaration->orderedGenericParameterNames.Count();i++)
+							{
+								WString genericParameterName=currentDeclaration->orderedGenericParameterNames[i];
+								ManagedTypeSymbol* key=argument.symbolManager->GetType(currentDeclaration->ItemGroup(genericParameterName)->Items()[0]);
+								ManagedTypeSymbol* value=currentType->GetGenericArguments()[i];
+								map.Set(key, value);
+							}
+							currentType=currentDeclarationType;
+						}
+						else
+						{
+							currentType=currentType->GetParentType();
+						}
+					}
+					return argument.symbolManager->ReplaceGenericArguments(firstBaseType, map.Wrap());
+				}
+				else
+				{
+					return 0;
+				}
 			}
 
 /***********************************************************************
