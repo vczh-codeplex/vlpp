@@ -47,6 +47,8 @@ namespace vl
 					IllegalContinue,							// <ManagedContinueStatement>
 					IllegalThrow,								// <ManagedThrowStatement>
 					ExceptionTypeShouldDerivedFromException,	// <ManagedType | ManagedExpression>
+					IllegalThis,								// <ManagedThisExpression>
+					IllegalBase,								// <ManagedBaseExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -88,6 +90,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetIllegalThrow(ManagedThrowStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetExceptionTypeShouldDerivedFromException(ManagedType* type, ManagedTypeSymbol* exceptionType);
 				static Ptr<ManagedLanguageCodeException>						GetExceptionTypeShouldDerivedFromException(ManagedExpression* expression, ManagedTypeSymbol* exceptionType);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalThis(ManagedThisExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalBase(ManagedBaseExpression* expression);
 			};
 		}
 	}

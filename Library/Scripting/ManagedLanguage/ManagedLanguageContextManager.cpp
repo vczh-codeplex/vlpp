@@ -175,6 +175,20 @@ ManagedContextManager
 				return false;
 			}
 
+			ManagedMember* ManagedContextManager::GetThisTargetMember()
+			{
+				StatementContext* context=currentStatementContext;
+				while(context)
+				{
+					if(context->contextType==StatementContext::Method)
+					{
+						return context->languageElement.member;
+					}
+					context=context->previous;
+				}
+				return 0;
+			}
+
 /***********************************************************************
 InitializeContextManager
 ***********************************************************************/

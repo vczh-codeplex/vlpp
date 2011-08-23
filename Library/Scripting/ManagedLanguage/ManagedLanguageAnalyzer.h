@@ -63,6 +63,8 @@ Helper Functions
 			extern void							BuildLocalScope(ManagedStatement* node, const MAP& argument);
 			extern bool							CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument);
 			extern ManagedTypeSymbol*			GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument);
+			extern ManagedTypeSymbol*			GetThisType(const MAP& argument);
+			extern ManagedTypeSymbol*			GetBaseType(ManagedTypeSymbol* type, const MAP& argument);
 			extern ManagedSymbolItem*			FindScopeItemInMethod(const MAP& argument);
 			extern ManagedTypeSymbol*			GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument);
 

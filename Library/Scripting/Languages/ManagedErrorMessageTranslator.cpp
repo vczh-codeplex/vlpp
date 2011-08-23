@@ -162,6 +162,16 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::ExceptionTypeShouldDerivedFromException(exceptionType, TypeToString(error->GetTypeParameter()));
 					}
 					break;
+				case ManagedLanguageCodeException::IllegalThis:
+					{
+						message=ManagedErrorMessage::IllegalThis(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
+				case ManagedLanguageCodeException::IllegalBase:
+					{
+						message=ManagedErrorMessage::IllegalBase(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
 				default:
 					return 0;
 				}

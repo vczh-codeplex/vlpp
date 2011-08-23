@@ -59,7 +59,7 @@ GetType
 
 				if(expectedType)
 				{
-					for(int i=choices.Count()-1;i>=0;i--)
+					for(vint i=choices.Count()-1;i>=0;i--)
 					{
 						if(!CanImplicitlyConvertTo(choices[i].type, expectedType, argument))
 						{
@@ -74,13 +74,26 @@ GetType
 				}
 				else if(choices.Count()==1)
 				{
-					ManagedTypeSymbol* result=a2.choices[0].type;
-					if(expectedType && !CanImplicitlyConvertTo(result, expectedType, argument))
+					ManagedSymbolItem* symbol=a2.choices[0].symbol;
+					ManagedTypeSymbol* type=a2.choices[0].type;
+					// TODO: check non-expression symbol
+					// TODO: check incomplete type
+					if(expectedType && !CanImplicitlyConvertTo(type, expectedType, argument))
 					{
 						argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, expectedType));
 					}
-					return result;
+					return type;
 				}
+				return 0;
+			}
+
+			ManagedTypeSymbol* GetThisType(const MAP& argument)
+			{
+				return 0;
+			}
+
+			ManagedTypeSymbol* GetBaseType(ManagedTypeSymbol* type, const MAP& argument)
+			{
 				return 0;
 			}
 
@@ -192,14 +205,117 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedThisExpression)
 				{
-					// TODO: do this first
-					throw 0;
+					bool fail=true;
+					ManagedMember* target=argument.context.contextManager->GetThisTargetMember();
+					if(target)
+					{
+						ManagedSymbolItem* targetSymbol=argument.context.symbolManager->GetSymbol(target);
+						switch(targetSymbol->GetSymbolType())
+						{
+						case ManagedSymbolItem::Method:
+							{
+								ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(targetSymbol);
+								if(method->memberType==declatt::Instance)
+								{
+									fail=false;
+								}
+							}
+							break;
+						case ManagedSymbolItem::Constructor:
+							fail=false;
+							break;
+						case ManagedSymbolItem::ConverterOperator:
+							{
+								ManagedSymbolConverterOperator* converterOperator=dynamic_cast<ManagedSymbolConverterOperator*>(targetSymbol);
+								if(converterOperator->memberType==declatt::Instance)
+								{
+									fail=false;
+								}
+							}
+							break;
+						}
+					}
+
+					if(fail)
+					{
+						argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalThis(node));
+					}
+					else
+					{
+						ManagedTypeSymbol* thisType=GetThisType(argument.context);
+						argument.choices.Add(MAGETP::Choice(thisType, thisType->GetSymbol()));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBaseExpression)
 				{
-					// TODO: do this first
-					throw 0;
+					bool fail=true;
+					ManagedMember* target=argument.context.contextManager->GetThisTargetMember();
+					if(target)
+					{
+						ManagedSymbolItem* targetSymbol=argument.context.symbolManager->GetSymbol(target);
+						ManagedSymbolItem* definitionType=targetSymbol->GetParentItem();
+						bool containsBaseClassOrStructure=false;
+
+						switch(definitionType->GetSymbolType())
+						{
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Structure:
+						case ManagedSymbolItem::Interface:
+							{
+								ManagedSymbolDeclaration* declaration=dynamic_cast<ManagedSymbolDeclaration*>(definitionType);
+								FOREACH(ManagedTypeSymbol*, baseType, declaration->baseTypes.Wrap())
+								{
+									switch(GetRealSymbol(baseType->GetSymbol())->GetSymbolType())
+									{
+									case ManagedSymbolItem::Class:
+									case ManagedSymbolItem::Structure:
+										containsBaseClassOrStructure=true;
+										break;
+									}
+								}
+							}
+							break;
+						}
+
+						if(containsBaseClassOrStructure)
+						{
+							switch(targetSymbol->GetSymbolType())
+							{
+							case ManagedSymbolItem::Method:
+								{
+									ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(targetSymbol);
+									if(method->memberType==declatt::Instance)
+									{
+										fail=false;
+									}
+								}
+								break;
+							case ManagedSymbolItem::Constructor:
+								fail=false;
+								break;
+							case ManagedSymbolItem::ConverterOperator:
+								{
+									ManagedSymbolConverterOperator* converterOperator=dynamic_cast<ManagedSymbolConverterOperator*>(targetSymbol);
+									if(converterOperator->memberType==declatt::Instance)
+									{
+										fail=false;
+									}
+								}
+								break;
+							}
+						}
+					}
+
+					if(fail)
+					{
+						argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalBase(node));
+					}
+					else
+					{
+						ManagedTypeSymbol* thisType=GetBaseType(GetThisType(argument.context), argument.context);
+						argument.choices.Add(MAGETP::Choice(thisType, thisType->GetSymbol()));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAssignmentExpression)

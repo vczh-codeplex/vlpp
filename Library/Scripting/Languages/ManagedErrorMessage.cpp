@@ -126,6 +126,16 @@ namespace vl
 				return L"Exceptions should derived from "+exceptionType+L", but "+type+L" does not.";
 			}
 
+			WString ManagedErrorMessage::IllegalThis(const WString& expr)
+			{
+				return L"Expression "+expr+L" is only accessible in non-static methods, non-static converter operators and constructors.";
+			}
+
+			WString ManagedErrorMessage::IllegalBase(const WString& expr)
+			{
+				return L"Expression "+expr+L" is only accessible in non-static methods, non-static converter operators and constructors of a class or structure that has a base class or structure.";
+			}
+
 		}
 	}
 }

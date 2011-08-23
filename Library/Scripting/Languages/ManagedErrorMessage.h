@@ -49,6 +49,8 @@ namespace vl
 				static WString IllegalContinue();
 				static WString IllegalThrow();
 				static WString ExceptionTypeShouldDerivedFromException(const WString& type, const WString& exceptionType);
+				static WString IllegalThis(const WString& expr);
+				static WString IllegalBase(const WString& expr);
 			};
 		}
 	}

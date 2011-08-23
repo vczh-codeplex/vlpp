@@ -208,6 +208,18 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, ExceptionTypeShouldDerivedFromException, parameters.Wrap(), exceptionType);
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalThis(ManagedThisExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, IllegalThis, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalBase(ManagedBaseExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, IllegalBase, parameters.Wrap());
+			}
 		}
 	}
 }
