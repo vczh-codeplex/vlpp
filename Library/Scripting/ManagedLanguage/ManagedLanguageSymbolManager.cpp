@@ -1,4 +1,5 @@
 #include "ManagedLanguageSymbolManager.h"
+#include "ManagedLanguageAnalyzer.h"
 #include "..\..\Collections\Operation.h"
 
 namespace vl
@@ -250,6 +251,33 @@ ManagedSymbolManager
 				{
 					return type;
 				}
+			}
+
+			ManagedTypeSymbol* ManagedSymbolManager::ReplaceGenericArguments(ManagedTypeSymbol* type, ManagedTypeSymbol* contextType)
+			{
+				ManagedTypeSymbol* currentType=contextType;
+				Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> map;
+				while(currentType)
+				{
+					if(currentType->GetGenericDeclaration())
+					{
+						ManagedTypeSymbol* currentDeclarationType=currentType->GetGenericDeclaration();
+						ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(GetRealSymbol(currentDeclarationType->GetSymbol()));
+						for(vint i=0;i<currentDeclaration->orderedGenericParameterNames.Count();i++)
+						{
+							WString genericParameterName=currentDeclaration->orderedGenericParameterNames[i];
+							ManagedTypeSymbol* key=GetType(currentDeclaration->ItemGroup(genericParameterName)->Items()[0]);
+							ManagedTypeSymbol* value=currentType->GetGenericArguments()[i];
+							map.Set(key, value);
+						}
+						currentType=currentDeclarationType;
+					}
+					else
+					{
+						currentType=currentType->GetParentType();
+					}
+				}
+				return ReplaceGenericArguments(type, map.Wrap());
 			}
 
 			void ManagedSymbolManager::SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem)
