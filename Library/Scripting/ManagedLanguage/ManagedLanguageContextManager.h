@@ -42,6 +42,8 @@ namespace vl
 					ManagedTypeSymbol*						attributeType;
 					ManagedTypeSymbol*						exceptionType;
 					ManagedTypeSymbol*						voidType;
+					ManagedTypeSymbol*						idynamicType;
+					ManagedTypeSymbol*						dynamicProxyType;
 				};
 
 				PredefinedTypes								predefinedTypes;

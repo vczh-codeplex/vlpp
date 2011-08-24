@@ -213,6 +213,8 @@ InitializeContextManager
 				pt.attributeType	=GetSystemType(program, L"Attribute", argument);
 				pt.exceptionType	=GetSystemType(program, L"Exception", argument);
 				pt.voidType			=GetSystemType(program, L"Void", argument);
+				pt.idynamicType		=GetSystemType(program, L"IDynamic", argument);
+				pt.dynamicProxyType	=GetSystemType(program, L"DynamicProxy", argument);
 			}
 		}
 	}
