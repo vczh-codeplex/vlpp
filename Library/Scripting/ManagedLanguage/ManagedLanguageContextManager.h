@@ -42,8 +42,13 @@ namespace vl
 					ManagedTypeSymbol*						attributeType;
 					ManagedTypeSymbol*						exceptionType;
 					ManagedTypeSymbol*						voidType;
+					ManagedTypeSymbol*						idisposableType;
 					ManagedTypeSymbol*						idynamicType;
 					ManagedTypeSymbol*						dynamicProxyType;
+					ManagedTypeSymbol*						ienumeratorType;
+					ManagedTypeSymbol*						ienumerableType;
+					ManagedTypeSymbol*						ienumeratorOfTType;
+					ManagedTypeSymbol*						ienumerableOfTType;
 				};
 
 				PredefinedTypes								predefinedTypes;

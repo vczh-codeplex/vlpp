@@ -78,7 +78,7 @@ $( )
 			{
 				throw new ArgumentOutOfRangeException("indices");
 			}
-			return GetStartIndex[$loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,))];
+			return GetStartIndex($loopsep($elements,0,$DIMENTION_PARAMETER_NAME_IN_ARRAY,$(,)));
 		}
 $( )
 		public int GetStartIndex($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
