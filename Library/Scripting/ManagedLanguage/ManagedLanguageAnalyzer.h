@@ -58,15 +58,18 @@ Helper Functions
 			extern void							EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument);
 			extern void							EnsureTypeVisibilityOutSideOfAssemblyInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* memberItem, const MAP& argument);
 			extern void							CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, ManagedSymbolItem* memberItem, const MAP& argument);
+			extern ManagedSymbolItem*			FindScopeItemInMethod(const MAP& argument);
+			extern ManagedTypeSymbol*			GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument);
 
 			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);
 			extern void							BuildLocalScope(ManagedStatement* node, const MAP& argument);
+
 			extern bool							CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument);
 			extern ManagedTypeSymbol*			GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument);
+			extern bool							IsInStaticMethod(const MAP& argument);
+			extern ManagedTypeSymbol*			GetTypeFromInsideScope(ManagedSymbolItem* symbol, const MAP& argument);
 			extern ManagedTypeSymbol*			GetThisType(const MAP& argument);
 			extern ManagedTypeSymbol*			GetBaseType(ManagedTypeSymbol* type, const MAP& argument);
-			extern ManagedSymbolItem*			FindScopeItemInMethod(const MAP& argument);
-			extern ManagedTypeSymbol*			GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument);
 
 /***********************************************************************
 Build Global Scope Pass 1 <before linking symbols from other assemblies>

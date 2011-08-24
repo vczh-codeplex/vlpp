@@ -10,4 +10,8 @@ namespace System
 		public abstract bool ContainsInvokable(string name);
 		public abstract bool CanModify{get;}
 	}
+
+	public abstract class DynamicProxy : IDynamic
+	{
+	}
 }
