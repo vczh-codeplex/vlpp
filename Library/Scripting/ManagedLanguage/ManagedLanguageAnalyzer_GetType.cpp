@@ -195,6 +195,121 @@ Helper Functions
 			}
 
 /***********************************************************************
+SearchMember
+***********************************************************************/
+
+			void SearchMemberOfNamespace(ManagedSymbolItem* namespaceItem, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			{
+				List<ManagedSymbolItem*> namespaces;
+				namespaces.Add(namespaceItem);
+				if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(ManagedSymbolUsingNamespace::SymbolName))
+				{
+					FOREACH(ManagedSymbolItem*, item, group->Items())
+					{
+						ManagedSymbolUsingNamespace* symbol=dynamic_cast<ManagedSymbolUsingNamespace*>(item);
+						EnsureUsingNamespaceSymbolCompleted(symbol, argument);
+						ManagedSymbolItem* namespaceReference=symbol->associatedNamespace;
+						if(namespaceReference && !namespaces.Contains(namespaceReference))
+						{
+							namespaces.Add(namespaceReference);
+						}
+					}
+				}
+
+				FOREACH(ManagedSymbolItem*, namespaceItem, namespaces.Wrap())
+				{
+					if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(name))
+					{
+						FOREACH(ManagedSymbolItem*, item, group->Items())
+						{
+							switch(item->GetSymbolType())
+							{
+							case ManagedSymbolItem::Class:
+							case ManagedSymbolItem::Structure:
+							case ManagedSymbolItem::Interface:
+								{
+									choices.Add(MAGETP::Choice(GetTypeFromInsideScope(item, argument), item));
+								}
+								break;
+							case ManagedSymbolItem::Namespace:
+								{
+									choices.Add(MAGETP::Choice(0, item));
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			bool IsVisible(bool staticOnly, declatt::MemberType memberType)
+			{
+				return memberType==declatt::Static || !staticOnly;
+			}
+
+			void SearchMemberOfType(ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, bool enableProtected, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			{
+				// TODO: check enableProtected and base types
+				ManagedSymbolItem* containerScope=GetRealSymbol(containerType->GetSymbol());
+				if(ManagedSymbolItemGroup* group=containerScope->ItemGroup(name))
+				{
+					FOREACH(ManagedSymbolItem*, item, group->Items())
+					{
+						switch(item->GetSymbolType())
+						{
+						case ManagedSymbolItem::Field:
+							{
+								ManagedSymbolField* symbol=dynamic_cast<ManagedSymbolField*>(item);
+								if(IsVisible(staticOnly, symbol->memberType))
+								{
+									ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
+									choices.Add(MAGETP::Choice(symbolType, item));
+								}
+							}
+							break;
+						case ManagedSymbolItem::Property:
+							{
+								ManagedSymbolProperty* symbol=dynamic_cast<ManagedSymbolProperty*>(item);
+								if(IsVisible(staticOnly, symbol->memberType) && !symbol->implementedInterfaceType)
+								{
+									ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
+									choices.Add(MAGETP::Choice(symbolType, item));
+								}
+							}
+							break;
+						case ManagedSymbolItem::Method:
+							{
+								ManagedSymbolMethod* symbol=dynamic_cast<ManagedSymbolMethod*>(item);
+								if(IsVisible(staticOnly, symbol->memberType) && !symbol->implementedInterfaceType)
+								{
+									choices.Add(MAGETP::Choice(containerType, item));
+								}
+							}
+							break;
+						case ManagedSymbolItem::GenericParameter:
+							{
+								choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
+							}
+							break;
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Structure:
+						case ManagedSymbolItem::Interface:
+							{
+								ManagedTypeSymbol* symbolType=argument.symbolManager->GetType(item, containerType);
+								choices.Add(MAGETP::Choice(symbolType, item));
+							}
+							break;
+						case ManagedSymbolItem::Namespace:
+							{
+								choices.Add(MAGETP::Choice(0, item));
+							}
+							break;
+						}
+					}
+				}
+			}
+
+/***********************************************************************
 ManagedLanguage_GetTypeInternal_Expression
 ***********************************************************************/
 
@@ -272,8 +387,10 @@ ManagedLanguage_GetTypeInternal_Expression
 				{
 					bool inStaticMethod=IsInStaticMethod(argument.context);
 					ManagedSymbolItem* currentScope=argument.context.currentSymbol;
+					ManagedTypeSymbol* thisType=GetThisType(argument.context);
 					while(argument.choices.Count()==0 && currentScope!=0)
 					{
+						int typeCounter=0;
 						switch(currentScope->GetSymbolType())
 						{
 						case ManagedSymbolItem::Block:
@@ -324,100 +441,19 @@ ManagedLanguage_GetTypeInternal_Expression
 								}
 							}
 							break;
-						case ManagedSymbolItem::Global:
-						case ManagedSymbolItem::Namespace:
-							{
-								List<ManagedSymbolItem*> namespaces;
-								namespaces.Add(currentScope);
-								if(ManagedSymbolItemGroup* group=currentScope->ItemGroup(ManagedSymbolUsingNamespace::SymbolName))
-								{
-									FOREACH(ManagedSymbolItem*, item, group->Items())
-									{
-										ManagedSymbolUsingNamespace* symbol=dynamic_cast<ManagedSymbolUsingNamespace*>(item);
-										EnsureUsingNamespaceSymbolCompleted(symbol, argument.context);
-										ManagedSymbolItem* namespaceReference=symbol->associatedNamespace;
-										if(namespaceReference && !namespaces.Contains(namespaceReference))
-										{
-											namespaces.Add(namespaceReference);
-										}
-									}
-								}
-
-								FOREACH(ManagedSymbolItem*, namespaceItem, namespaces.Wrap())
-								{
-									if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(node->name))
-									{
-										FOREACH(ManagedSymbolItem*, item, group->Items())
-										{
-											switch(item->GetSymbolType())
-											{
-											case ManagedSymbolItem::Class:
-											case ManagedSymbolItem::Structure:
-											case ManagedSymbolItem::Interface:
-												{
-													argument.choices.Add(MAGETP::Choice(GetTypeFromInsideScope(item, argument.context), item));
-												}
-												break;
-											case ManagedSymbolItem::Namespace:
-												{
-													argument.choices.Add(MAGETP::Choice(0, item));
-												}
-												break;
-											}
-										}
-									}
-								}
-							}
-							break;
 						case ManagedSymbolItem::Class:
 						case ManagedSymbolItem::Structure:
 						case ManagedSymbolItem::Interface:
 							{
-								if(ManagedSymbolItemGroup* group=currentScope->ItemGroup(node->name))
-								{
-									FOREACH(ManagedSymbolItem*, item, group->Items())
-									{
-										switch(item->GetSymbolType())
-										{
-										case ManagedSymbolItem::Field:
-											{
-												ManagedSymbolField* symbol=dynamic_cast<ManagedSymbolField*>(item);
-												argument.choices.Add(MAGETP::Choice(symbol->type, item));
-											}
-											break;
-										case ManagedSymbolItem::Property:
-											{
-												ManagedSymbolProperty* symbol=dynamic_cast<ManagedSymbolProperty*>(item);
-												argument.choices.Add(MAGETP::Choice(symbol->type, item));
-											}
-											break;
-										case ManagedSymbolItem::Method:
-											{
-												ManagedSymbolMethod* symbol=dynamic_cast<ManagedSymbolMethod*>(item);
-												ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
-												argument.choices.Add(MAGETP::Choice(containerType, item));
-											}
-											break;
-										case ManagedSymbolItem::GenericParameter:
-											{
-												argument.choices.Add(MAGETP::Choice(argument.context.symbolManager->GetType(item), item));
-											}
-											break;
-										case ManagedSymbolItem::Class:
-										case ManagedSymbolItem::Structure:
-										case ManagedSymbolItem::Interface:
-											{
-												argument.choices.Add(MAGETP::Choice(GetTypeFromInsideScope(item, argument.context), item));
-											}
-											break;
-										case ManagedSymbolItem::Namespace:
-											{
-												argument.choices.Add(MAGETP::Choice(0, item));
-											}
-											break;
-										}
-									}
-								}
+								typeCounter++;
+								ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
+								SearchMemberOfType(thisType, containerType, (typeCounter>1 || inStaticMethod), true, node->name, argument.context, argument.choices);
+							}
+							break;
+						case ManagedSymbolItem::Global:
+						case ManagedSymbolItem::Namespace:
+							{
+								SearchMemberOfNamespace(currentScope, node->name, argument.context, argument.choices);
 							}
 							break;
 						}
