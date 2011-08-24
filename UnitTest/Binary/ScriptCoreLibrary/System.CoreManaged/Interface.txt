@@ -1,5 +1,10 @@
 namespace System
 {
+	public interface IDisposable
+	{
+		public abstract void Dispose();
+	}
+
 	public interface IEnumerator
 	{
 		public abstract bool MoveNext();
