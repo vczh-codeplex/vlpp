@@ -53,7 +53,8 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 				ALGORITHM_PROCEDURE_MATCH(ManagedVariableStatement)
 				{
 					bool autoref=dynamic_cast<ManagedAutoReferType*>(node->type.Obj())!=0;
-					ManagedTypeSymbol* variableType=0;
+					ManagedMember* member=argument.contextManager->GetThisTargetMember();
+					ManagedTypeSymbol* variableType=autoref?0:GetTypeSymbol(node->type, argument, member?argument.symbolManager->GetSymbol(member):0);
 					if(!node->initializer)
 					{
 						if(autoref)
@@ -83,7 +84,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIfStatement)
 				{
-					// TODO: check condition;
+					GetType(node->condition.Obj(), argument.contextManager->predefinedTypes.boolType, argument);
 					BuildLocalScope(node->trueStatement.Obj(), argument);
 					if(node->falseStatement)
 					{

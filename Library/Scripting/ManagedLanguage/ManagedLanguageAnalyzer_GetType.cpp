@@ -48,7 +48,7 @@ GetType
 
 			bool CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument)
 			{
-				return from==to;
+				return from==to || IsInheritedFrom(from, to, argument);
 			}
 
 			bool IsValue(ManagedSymbolItem* symbol)
@@ -386,7 +386,7 @@ SearchMember
 						}
 					}
 
-					if(choices.Count()!=oldChoicesCount)
+					if(choices.Count()==oldChoicesCount)
 					{
 						FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerScope)->baseTypes.Wrap())
 						{
@@ -408,12 +408,19 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedNullExpression)
 				{
-					ManagedSymbolItem* symbol=GetRealSymbol(argument.context.expectedType->GetSymbol());
-					switch(symbol->GetSymbolType())
+					if(argument.context.expectedType)
 					{
-					case ManagedSymbolItem::Class:
-					case ManagedSymbolItem::Interface:
-						argument.choices.Add(argument.context.expectedType);
+						ManagedSymbolItem* symbol=GetRealSymbol(argument.context.expectedType->GetSymbol());
+						switch(symbol->GetSymbolType())
+						{
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Interface:
+							argument.choices.Add(argument.context.expectedType);
+						}
+					}
+					if(argument.choices.Count()==0)
+					{
+						//argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalNull(node));
 					}
 				}
 
@@ -738,7 +745,7 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 
 				bool FitOperatorParameter(ManagedSymbolMethod* method, vint parameterIndex, ManagedTypeSymbol* operandType, ManagedTypeSymbol* containerType, const MAP& argument)
 				{
-					ManagedSymbolMethodParameter* operand=dynamic_cast<ManagedSymbolMethodParameter*>(method->ItemGroup(method->orderedMethodParameterNames[0]));
+					ManagedSymbolMethodParameter* operand=dynamic_cast<ManagedSymbolMethodParameter*>(method->ItemGroup(method->orderedMethodParameterNames[parameterIndex])->Items()[0]);
 					if(CanImplicitlyConvertTo(operandType, argument.symbolManager->ReplaceGenericArguments(operand->type, containerType), argument))
 					{
 						return true;
@@ -789,7 +796,7 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 
 						FOREACH(MAGETP::Choice, operatorChoice, leftOperatorChoices.Wrap())
 						{
-							ManagedSymbolMethod* method=GetOperator(operatorChoice, 1, thisType, argument.context);
+							ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
 							if(method
 								&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
 								&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
@@ -803,7 +810,7 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 						{
 							FOREACH(MAGETP::Choice, operatorChoice, rightOperatorChoices.Wrap())
 							{
-								ManagedSymbolMethod* method=GetOperator(operatorChoice, 1, thisType, argument.context);
+								ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
 								if(method
 									&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
 									&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
