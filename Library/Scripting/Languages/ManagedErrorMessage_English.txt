@@ -27,4 +27,6 @@ IllegalThrow=Rethrow statement can only be used in catch clause.
 ExceptionTypeShouldDerivedFromException(type,exceptionType)=Exceptions should derived from {exceptionType}, but {type} does not.
 IllegalThis(expr)=Expression {expr} is only accessible in non-static methods, non-static converter operators and constructors.
 IllegalBase(expr)=Expression {expr} is only accessible in non-static methods, non-static converter operators and constructors of a class or structure that has a base class or structure.
-ExpressionIsNotValue(expr)=Expression {expr} cannot be evaluated to a value.
+ExpressionIsNotValue(expr)=Expression \"{expr}\" cannot be evaluated to a value.
+MatchedMethodNotExists(expr)=Cannot find a matched method or operator of expression \"{expr}\".
+MatchedMethodTooMuch(expr)=Matched method or operator of expression \"{expr}\" too much.

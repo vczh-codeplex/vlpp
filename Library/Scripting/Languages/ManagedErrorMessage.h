@@ -53,6 +53,8 @@ namespace vl
 				static WString IllegalThis(const WString& expr);
 				static WString IllegalBase(const WString& expr);
 				static WString ExpressionIsNotValue(const WString& expr);
+				static WString MatchedMethodNotExists(const WString& expr);
+				static WString MatchedMethodTooMuch(const WString& expr);
 			};
 		}
 	}

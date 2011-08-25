@@ -51,6 +51,8 @@ namespace vl
 					IllegalThis,								// <ManagedThisExpression>
 					IllegalBase,								// <ManagedBaseExpression>
 					ExpressionIsNotValue,						// <ManagedExpression>
+					MatchedMethodNotExists,						// <ManagedExpression>
+					MatchedMethodTooMuch,						// <ManagedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -97,6 +99,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetIllegalThis(ManagedThisExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalBase(ManagedBaseExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionIsNotValue(ManagedExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodNotExists(ManagedExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodTooMuch(ManagedExpression* expression);
 			};
 		}
 	}
