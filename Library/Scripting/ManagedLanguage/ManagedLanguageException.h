@@ -40,6 +40,7 @@ namespace vl
 					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 
 					ExpressionResolvedToDuplicatedTargets,		// <ManagedExpression>
+					ExpressionResolvingFailed,					// <ManagedExpression>					:name
 					ExpressionCannotConvertToType,				// <ManagedExpression>
 					IllegalAutoRefWithoutInitializer,			// <ManagedVariableStatement>			:name
 					VariableAlreadyExists,						// <ManagedVariableStatement>			:name
@@ -49,6 +50,7 @@ namespace vl
 					ExceptionTypeShouldDerivedFromException,	// <ManagedType | ManagedExpression>
 					IllegalThis,								// <ManagedThisExpression>
 					IllegalBase,								// <ManagedBaseExpression>
+					ExpressionIsNotValue,						// <ManagedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -82,6 +84,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedReferenceExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedMemberExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetVariableAlreadyExists(ManagedVariableStatement* statement);
@@ -92,6 +96,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetExceptionTypeShouldDerivedFromException(ManagedExpression* expression, ManagedTypeSymbol* exceptionType);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalThis(ManagedThisExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalBase(ManagedBaseExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetExpressionIsNotValue(ManagedExpression* expression);
 			};
 		}
 	}

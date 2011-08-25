@@ -42,6 +42,7 @@ namespace vl
 				static WString GenericTypeNewConstraintNotSatisfied(const WString& name, const WString& index);
 				static WString ExpressionResolvedToDuplicatedTargets();
 				static WString ExpressionResolvedToDuplicatedTargets(const WString& type);
+				static WString ExpressionResolvingFailed(const WString& name);
 				static WString ExpressionCannotConvertToType(const WString& type);
 				static WString IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType);
 				static WString VariableAlreadyExists(const WString& name);
@@ -51,6 +52,7 @@ namespace vl
 				static WString ExceptionTypeShouldDerivedFromException(const WString& type, const WString& exceptionType);
 				static WString IllegalThis(const WString& expr);
 				static WString IllegalBase(const WString& expr);
+				static WString ExpressionIsNotValue(const WString& expr);
 			};
 		}
 	}

@@ -59,6 +59,7 @@ Helper Functions
 			extern void							EnsureTypeVisibilityOutSideOfAssemblyInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* memberItem, const MAP& argument);
 			extern void							CheckType(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, ManagedSymbolItem* memberItem, const MAP& argument);
 			extern ManagedSymbolItem*			FindScopeItemInMethod(const MAP& argument);
+			extern void							CheckTypeInMethod(ManagedLanguageElement* languageElement, ManagedTypeSymbol* typeSymbol, const MAP& argument);
 			extern ManagedTypeSymbol*			GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument);
 
 			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);

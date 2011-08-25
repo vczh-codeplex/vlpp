@@ -76,11 +76,27 @@ GetType
 				{
 					ManagedSymbolItem* symbol=a2.choices[0].symbol;
 					ManagedTypeSymbol* type=a2.choices[0].type;
-					// TODO: check non-expression symbol
-					// TODO: check incomplete type
-					if(expectedType && !CanImplicitlyConvertTo(type, expectedType, argument))
+					
+					switch(symbol->GetSymbolType())
 					{
-						argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, expectedType));
+					case ManagedSymbolItem::Variable:
+					case ManagedSymbolItem::Lambda:
+					case ManagedSymbolItem::LambdaParameter:
+					case ManagedSymbolItem::Field:
+					case ManagedSymbolItem::Property:
+					case ManagedSymbolItem::PropertySetterValue:
+					case ManagedSymbolItem::MethodParameter:
+						break;
+					default:
+						argument.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
+					}
+					if(type)
+					{
+						CheckTypeInMethod(node, type, argument);
+						if(expectedType && !CanImplicitlyConvertTo(type, expectedType, argument))
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, expectedType));
+						}
 					}
 					return type;
 				}
@@ -228,7 +244,7 @@ SearchMember
 							case ManagedSymbolItem::Structure:
 							case ManagedSymbolItem::Interface:
 								{
-									choices.Add(MAGETP::Choice(GetTypeFromInsideScope(item, argument), item));
+									choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
 								}
 								break;
 							case ManagedSymbolItem::Namespace:
@@ -247,9 +263,24 @@ SearchMember
 				return memberType==declatt::Static || !staticOnly;
 			}
 
-			void SearchMemberOfType(ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, bool enableProtected, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			bool IsVisible(ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, declatt::Accessor accessor, const MAP& argument)
 			{
-				// TODO: check enableProtected and base types
+				if(thisType==containerType)
+				{
+					return true;
+				}
+				else if(IsInheritedFrom(thisType, containerType, argument))
+				{
+					return accessor!=declatt::Private;
+				}
+				else
+				{
+					return accessor!=declatt::Private && accessor!=declatt::Protected;
+				}
+			}
+
+			void SearchMemberOfType(ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			{
 				ManagedSymbolItem* containerScope=GetRealSymbol(containerType->GetSymbol());
 				if(ManagedSymbolItemGroup* group=containerScope->ItemGroup(name))
 				{
@@ -260,7 +291,7 @@ SearchMember
 						case ManagedSymbolItem::Field:
 							{
 								ManagedSymbolField* symbol=dynamic_cast<ManagedSymbolField*>(item);
-								if(IsVisible(staticOnly, symbol->memberType))
+								if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument))
 								{
 									ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
 									choices.Add(MAGETP::Choice(symbolType, item));
@@ -270,7 +301,7 @@ SearchMember
 						case ManagedSymbolItem::Property:
 							{
 								ManagedSymbolProperty* symbol=dynamic_cast<ManagedSymbolProperty*>(item);
-								if(IsVisible(staticOnly, symbol->memberType) && !symbol->implementedInterfaceType)
+								if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument) && !symbol->implementedInterfaceType)
 								{
 									ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
 									choices.Add(MAGETP::Choice(symbolType, item));
@@ -280,7 +311,7 @@ SearchMember
 						case ManagedSymbolItem::Method:
 							{
 								ManagedSymbolMethod* symbol=dynamic_cast<ManagedSymbolMethod*>(item);
-								if(IsVisible(staticOnly, symbol->memberType) && !symbol->implementedInterfaceType)
+								if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument) && !symbol->implementedInterfaceType)
 								{
 									choices.Add(MAGETP::Choice(containerType, item));
 								}
@@ -295,8 +326,11 @@ SearchMember
 						case ManagedSymbolItem::Structure:
 						case ManagedSymbolItem::Interface:
 							{
-								ManagedTypeSymbol* symbolType=argument.symbolManager->GetType(item, containerType);
-								choices.Add(MAGETP::Choice(symbolType, item));
+								if(IsVisible(thisType, containerType, dynamic_cast<ManagedSymbolDeclaration*>(item)->accessor, argument))
+								{
+									ManagedTypeSymbol* symbolType=argument.symbolManager->GetType(item, containerType);
+									choices.Add(MAGETP::Choice(symbolType, item));
+								}
 							}
 							break;
 						case ManagedSymbolItem::Namespace:
@@ -305,6 +339,14 @@ SearchMember
 							}
 							break;
 						}
+					}
+				}
+
+				if(choices.Count()==0)
+				{
+					FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerScope)->baseTypes.Wrap())
+					{
+						SearchMemberOfType(thisType, argument.symbolManager->ReplaceGenericArguments(baseType, containerType), staticOnly, name, argument, choices);
 					}
 				}
 			}
@@ -447,7 +489,7 @@ ManagedLanguage_GetTypeInternal_Expression
 							{
 								typeCounter++;
 								ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
-								SearchMemberOfType(thisType, containerType, (typeCounter>1 || inStaticMethod), true, node->name, argument.context, argument.choices);
+								SearchMemberOfType(thisType, containerType, (typeCounter>1 || inStaticMethod), node->name, argument.context, argument.choices);
 							}
 							break;
 						case ManagedSymbolItem::Global:
