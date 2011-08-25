@@ -88,13 +88,20 @@ ManagedLanguage_BuildGlobalScope1_Member
 
 					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
 					{
-						symbol->orderedMethodParameterNames.Add(parameter->name);
-						ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
-						argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
+						if(ManagedSymbolItemGroup* group=symbol->ItemGroup(parameter->name))
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(parameter.Obj(), parameter->name));
+						}
+						else
+						{
+							symbol->orderedMethodParameterNames.Add(parameter->name);
+							ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
+							argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
 
-						parameterSymbol->languageElement=parameter.Obj();
-						parameterSymbol->SetName(parameter->name);
-						symbol->Add(parameterSymbol);
+							parameterSymbol->languageElement=parameter.Obj();
+							parameterSymbol->SetName(parameter->name);
+							symbol->Add(parameterSymbol);
+						}
 					}
 				}
 
@@ -122,13 +129,20 @@ ManagedLanguage_BuildGlobalScope1_Member
 
 					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
 					{
-						symbol->orderedMethodParameterNames.Add(parameter->name);
-						ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
-						argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
+						if(ManagedSymbolItemGroup* group=symbol->ItemGroup(parameter->name))
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(parameter.Obj(), parameter->name));
+						}
+						else
+						{
+							symbol->orderedMethodParameterNames.Add(parameter->name);
+							ManagedSymbolMethodParameter* parameterSymbol=new ManagedSymbolMethodParameter(argument.symbolManager);
+							argument.symbolManager->SetSymbol(parameter.Obj(), parameterSymbol);
 
-						parameterSymbol->languageElement=parameter.Obj();
-						parameterSymbol->SetName(parameter->name);
-						symbol->Add(parameterSymbol);
+							parameterSymbol->languageElement=parameter.Obj();
+							parameterSymbol->SetName(parameter->name);
+							symbol->Add(parameterSymbol);
+						}
 					}
 				}
 

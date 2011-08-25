@@ -143,7 +143,17 @@ namespace vl
 
 			WString ManagedErrorMessage::ExpressionIsNotValue(const WString& expr)
 			{
-				return L"Expression "+expr+L" cannot be evaluated to a value.";
+				return L"Expression \""+expr+L"\" cannot be evaluated to a value.";
+			}
+
+			WString ManagedErrorMessage::MatchedMethodNotExists(const WString& expr)
+			{
+				return L"Cannot find a matched method or operator of expression \""+expr+L"\".";
+			}
+
+			WString ManagedErrorMessage::MatchedMethodTooMuch(const WString& expr)
+			{
+				return L"Matched method or operator of expression \""+expr+L"\" too much.";
 			}
 
 		}

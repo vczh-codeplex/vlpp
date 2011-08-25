@@ -182,6 +182,16 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::ExpressionIsNotValue(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
 					}
 					break;
+				case ManagedLanguageCodeException::MatchedMethodNotExists:
+					{
+						message=ManagedErrorMessage::MatchedMethodNotExists(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
+				case ManagedLanguageCodeException::MatchedMethodTooMuch:
+					{
+						message=ManagedErrorMessage::MatchedMethodTooMuch(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
 				default:
 					return 0;
 				}

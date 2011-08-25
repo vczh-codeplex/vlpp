@@ -706,7 +706,7 @@ ManagedXParserImpl
 																		), ToLrecExpression);
 
 				expression				= binop(exp0)
-											.pre(ADD_SUB, ToPreUnary).pre(NOT_BITNOT, ToPreUnary).pre(INC_DEC, ToPreUnary).precedence()
+											.pre(INC_DEC, ToPreUnary).pre(ADD_SUB, ToPreUnary).pre(NOT_BITNOT, ToPreUnary).precedence()
 											.lbin(MUL_DIV_MOD, ToBinary).precedence()
 											.lbin(ADD_SUB, ToBinary).precedence()
 											.lbin(LT << LT, ToBinaryShift).lbin(GT >> GT, ToBinaryShift).precedence()
