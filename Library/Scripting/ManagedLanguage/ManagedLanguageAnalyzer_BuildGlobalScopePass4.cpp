@@ -17,38 +17,19 @@ ManagedLanguage_BuildGlobalScope4_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
 				{
-					if(node->initializer)
-					{
-						// TODO: check constant/readonly
-						ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
-						MAP newArgument(argument, symbol);
-						GetType(node->initializer.Obj(), symbol->type, newArgument);
-					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
-					if(node->body)
-					{
-						ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
-						argument.contextManager->PushFunction(symbol->returnType, node);
-						MAP newArgument(argument, symbol);
-						BuildLocalScope(node->body.Obj(), newArgument);
-						argument.contextManager->PopStatement();
-					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
-					ManagedSymbolConstructor* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConstructor>(node);
-					argument.contextManager->PushFunction(argument.contextManager->predefinedTypes.voidType, node);
-					MAP newArgument(argument, symbol);
-					BuildLocalScope(node->body.Obj(), newArgument);
-					argument.contextManager->PopStatement();
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
 				{
+					ManagedLanguage_BuildGlobalScope4_Declaration(node->declaration, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedMember)
@@ -66,28 +47,10 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
-					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
-					MAP newArgument(argument, symbol);
-					if(node->getter)
-					{
-						BuildLocalScope(node->getter.Obj(), newArgument);
-					}
-					if(node->setter)
-					{
-						BuildLocalScope(node->setter.Obj(), newArgument);
-					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
-					if(node->body)
-					{
-						ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
-						argument.contextManager->PushFunction(symbol->targetType, node);
-						MAP newArgument(argument, symbol);
-						BuildLocalScope(node->body.Obj(), newArgument);
-						argument.contextManager->PopStatement();
-					}
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_ExtendedMember)

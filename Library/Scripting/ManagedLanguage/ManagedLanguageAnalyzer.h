@@ -108,8 +108,9 @@ Build Global Scope Pass 3
 
 /***********************************************************************
 Build Global Scope Pass 4
-  Check declarations and function bodies
+  Check declarations
   TODO:
+    check overriding relations
 	check in/out/inout (function parameter=in, function result=out, others=inout)
 	check abstract class/interface method overridding
 	check abstract method cannot have an implementation
@@ -123,12 +124,14 @@ Build Global Scope Pass 4
 			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
 
 /***********************************************************************
-Check Statement And Build Local Scope
+Build Global Scope Pass 5
+  Check statements and expressions
 ***********************************************************************/
 
-/***********************************************************************
-Calculate Expression Type
-***********************************************************************/
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope5_Member, ManagedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope5_ExtendedMember, ManagedExtendedMember, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope5_Declaration, ManagedDeclaration, MAP)
+			EXTERN_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope5_ExtendedDeclaration, ManagedExtendedDeclaration, MAP)
 		}
 	}
 }
