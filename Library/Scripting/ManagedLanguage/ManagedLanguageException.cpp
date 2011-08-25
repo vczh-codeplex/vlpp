@@ -159,6 +159,20 @@ ManagedLanguageCodeException::ExceptionCode
 				return new ManagedLanguageCodeException(expression, ExpressionResolvedToDuplicatedTargets, parameters.Wrap(), type);
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionResolvingFailed(ManagedReferenceExpression* expression)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=expression->name;
+				return new ManagedLanguageCodeException(expression, ExpressionResolvingFailed, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionResolvingFailed(ManagedMemberExpression* expression)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=expression->member;
+				return new ManagedLanguageCodeException(expression, ExpressionResolvingFailed, parameters.Wrap());
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type)
 			{
 				Array<WString> parameters(0);
@@ -219,6 +233,12 @@ ManagedLanguageCodeException::ExceptionCode
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, IllegalBase, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionIsNotValue(ManagedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, ExpressionIsNotValue, parameters.Wrap());
 			}
 		}
 	}

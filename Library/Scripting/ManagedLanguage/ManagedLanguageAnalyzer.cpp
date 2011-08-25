@@ -851,11 +851,16 @@ GetTypeSymbolInMethod
 				}
 			}
 
+			void CheckTypeInMethod(ManagedLanguageElement* languageElement, ManagedTypeSymbol* typeSymbol, const MAP& argument)
+			{
+				EnsureTypeVisibilityInternal(languageElement, typeSymbol, FindScopeItemInMethod(argument) ,argument);
+				EnsureTypeSatisfiesConstraintsInternal(languageElement, typeSymbol, argument);
+			}
+
 			ManagedTypeSymbol* GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument)
 			{
 				ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
-				EnsureTypeVisibilityInternal(type.Obj(), typeSymbol, FindScopeItemInMethod(argument) ,argument);
-				EnsureTypeSatisfiesConstraintsInternal(type.Obj(), typeSymbol, argument);
+				CheckTypeInMethod(type.Obj(), typeSymbol, argument);
 				return typeSymbol;
 			}
 		}

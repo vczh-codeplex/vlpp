@@ -91,6 +91,11 @@ namespace vl
 				return L"Expression resolved to duplicated targets which converts to type "+type+L".";
 			}
 
+			WString ManagedErrorMessage::ExpressionResolvingFailed(const WString& name)
+			{
+				return L"Failed to resolve symbol "+name+L".";
+			}
+
 			WString ManagedErrorMessage::ExpressionCannotConvertToType(const WString& type)
 			{
 				return L"Expression cannot convert to type "+type+L".";
@@ -134,6 +139,11 @@ namespace vl
 			WString ManagedErrorMessage::IllegalBase(const WString& expr)
 			{
 				return L"Expression "+expr+L" is only accessible in non-static methods, non-static converter operators and constructors of a class or structure that has a base class or structure.";
+			}
+
+			WString ManagedErrorMessage::ExpressionIsNotValue(const WString& expr)
+			{
+				return L"Expression "+expr+L" cannot be evaluated to a value.";
 			}
 
 		}

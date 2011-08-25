@@ -115,6 +115,11 @@ ManagedErrorMessageTranslator
 						}
 					}
 					break;
+				case ManagedLanguageCodeException::ExpressionResolvingFailed:
+					{
+						message=ManagedErrorMessage::ExpressionResolvingFailed(error->GetParameters()[0]);
+					}
+					break;
 				case ManagedLanguageCodeException::ExpressionCannotConvertToType:
 					{
 						message=ManagedErrorMessage::ExpressionCannotConvertToType(TypeToString(error->GetTypeParameter()));
@@ -170,6 +175,11 @@ ManagedErrorMessageTranslator
 				case ManagedLanguageCodeException::IllegalBase:
 					{
 						message=ManagedErrorMessage::IllegalBase(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
+				case ManagedLanguageCodeException::ExpressionIsNotValue:
+					{
+						message=ManagedErrorMessage::ExpressionIsNotValue(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
 					}
 					break;
 				default:
