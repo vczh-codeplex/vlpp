@@ -45,6 +45,7 @@ ManagedLanguage_AnalyzeProgram
 					&ManagedLanguage_BuildGlobalScope3_Declaration,
 					0,
 					&ManagedLanguage_BuildGlobalScope4_Declaration,
+					&ManagedLanguage_BuildGlobalScope5_Declaration,
 				};
 
 				for(int i=0;i<sizeof(builders)/sizeof(*builders);i++)
