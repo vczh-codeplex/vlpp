@@ -252,6 +252,12 @@ ManagedLanguageCodeException::ExceptionCode
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, MatchedMethodTooMuch, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalNull(ManagedNullExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, IllegalNull, parameters.Wrap());
+			}
 		}
 	}
 }

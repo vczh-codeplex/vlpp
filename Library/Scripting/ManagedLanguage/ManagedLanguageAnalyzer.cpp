@@ -219,14 +219,33 @@ EnsureSymbolBaseTypesCompleted
 			{
 				if(symbol->baseTypes.Count()==0)
 				{
-					if(symbol->typeLanguageElement && symbol->typeLanguageElement->baseTypes.Count()>0)
+					if(symbol->typeLanguageElement)
 					{
-						FOREACH(Ptr<ManagedType>, type, symbol->typeLanguageElement->baseTypes.Wrap())
+						bool containsNonInterface=false;
+						if(symbol->typeLanguageElement->baseTypes.Count()>0)
 						{
-							ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument, symbol);
-							if(typeSymbol)
+							FOREACH(Ptr<ManagedType>, type, symbol->typeLanguageElement->baseTypes.Wrap())
 							{
-								symbol->baseTypes.Add(typeSymbol);
+								ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument, symbol);
+								if(typeSymbol)
+								{
+									switch(GetRealSymbol(typeSymbol->GetSymbol())->GetSymbolType())
+									{
+									case ManagedSymbolItem::Class:
+									case ManagedSymbolItem::Structure:
+										containsNonInterface=true;
+										break;
+									}
+									symbol->baseTypes.Add(typeSymbol);
+								}
+							}
+						}
+						if(symbol->GetSymbolType()!=ManagedSymbolItem::Interface && !containsNonInterface)
+						{
+							ManagedTypeSymbol* objectType=GetSystemType(symbol->typeLanguageElement, L"Object", argument);
+							if(objectType->GetSymbol()!=symbol)
+							{
+								symbol->baseTypes.Add(objectType);
 							}
 						}
 					}

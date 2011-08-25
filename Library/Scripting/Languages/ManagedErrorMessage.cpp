@@ -156,6 +156,11 @@ namespace vl
 				return L"Matched method or operator of expression \""+expr+L"\" too much.";
 			}
 
+			WString ManagedErrorMessage::IllegalNull(const WString& expr)
+			{
+				return L"Cannot use "+expr+L" without context.";
+			}
+
 		}
 	}
 }

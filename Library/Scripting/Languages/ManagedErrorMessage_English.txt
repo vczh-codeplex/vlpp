@@ -30,3 +30,4 @@ IllegalBase(expr)=Expression {expr} is only accessible in non-static methods, no
 ExpressionIsNotValue(expr)=Expression \"{expr}\" cannot be evaluated to a value.
 MatchedMethodNotExists(expr)=Cannot find a matched method or operator of expression \"{expr}\".
 MatchedMethodTooMuch(expr)=Matched method or operator of expression \"{expr}\" too much.
+IllegalNull(expr)=Cannot use {expr} without context.

@@ -192,6 +192,11 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::MatchedMethodTooMuch(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
 					}
 					break;
+				case ManagedLanguageCodeException::IllegalNull:
+					{
+						message=ManagedErrorMessage::IllegalNull(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
+					}
+					break;
 				default:
 					return 0;
 				}

@@ -53,6 +53,7 @@ namespace vl
 					ExpressionIsNotValue,						// <ManagedExpression>
 					MatchedMethodNotExists,						// <ManagedExpression>
 					MatchedMethodTooMuch,						// <ManagedExpression>
+					IllegalNull,								// <ManagedNullExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -101,6 +102,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetExpressionIsNotValue(ManagedExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodNotExists(ManagedExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodTooMuch(ManagedExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalNull(ManagedNullExpression* expression);
 			};
 		}
 	}
