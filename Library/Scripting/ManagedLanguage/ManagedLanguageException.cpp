@@ -54,7 +54,7 @@ ManagedLanguageCodeException
 			}
 
 /***********************************************************************
-ManagedLanguageCodeException::ExceptionCode
+ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
 ***********************************************************************/
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSymbolAlreadyDefined(ManagedLanguageElement* element, const WString& name)
@@ -152,6 +152,122 @@ ManagedLanguageCodeException::ExceptionCode
 				parameters[0]=itow(index);
 				return new ManagedLanguageCodeException(element, GenericTypeNewConstraintNotSatisfied, parameters.Wrap(), genericType);
 			}
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
+***********************************************************************/
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeCannotDerivedFromItself(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, TypeCannotDerivedFromItself, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetClassIllegalBaseClass(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, ClassIllegalBaseClass, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStructureIllegalBaseClass(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, StructureIllegalBaseClass, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalBaseClass(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, InterfaceIllegalBaseClass, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetClassStructureTooMuchBaseClasses(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, ClassStructureTooMuchBaseClasses, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetClassStructureIllegalInheritation(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, ClassStructureIllegalInheritation, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalInheritation(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, InterfaceIllegalInheritation, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeIllegalAccessor(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, TypeIllegalAccessor, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberType(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberType, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberAccessor, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberMemberType, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberInheritation, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSealedTypeMemberIllegalAccessor(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, SealedTypeMemberIllegalAccessor, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSealedTypeMemberIllegalInheritance(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, SealedTypeMemberIllegalInheritance, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetNonAbstractTypeMemberIllegalInheritance(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, NonAbstractTypeMemberIllegalInheritance, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetMemberImplementedInterfaceTypeNotExists(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, MemberImplementedInterfaceTypeNotExists, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, MemberOverridedTargetNotExists, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetMemberOverridedTargetIllegalAccessor(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, MemberOverridedTargetIllegalAccessor, parameters.Wrap());
+			}
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::SymbolResolving
+***********************************************************************/
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type)
 			{

@@ -81,6 +81,96 @@ namespace vl
 				return L"The "+index+L"th generic argument of type "+name+L" does not satisfies the required new constraint.";
 			}
 
+			WString ManagedErrorMessage::TypeCannotDerivedFromItself(const WString& name)
+			{
+				return L"Type "+name+L" cannot derived from itself directly or indirectly.";
+			}
+
+			WString ManagedErrorMessage::ClassIllegalBaseClass(const WString& name)
+			{
+				return L"Class "+name+L" can only derived from a non-sealed class.";
+			}
+
+			WString ManagedErrorMessage::StructureIllegalBaseClass(const WString& name)
+			{
+				return L"Structure "+name+L" can only derived from Object or a non-sealed structure with StructBaseAttribute.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalBaseClass(const WString& name)
+			{
+				return L"Interface "+name+L" can only derived from other interfaces.";
+			}
+
+			WString ManagedErrorMessage::ClassStructureTooMuchBaseClasses(const WString& name)
+			{
+				return L"Type "+name+L" can only derived from one non-interface type.";
+			}
+
+			WString ManagedErrorMessage::ClassStructureIllegalInheritation(const WString& name)
+			{
+				return L"Type "+name+L" cannot be virtual or overrided.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalInheritation(const WString& name)
+			{
+				return L"Interface "+name+L" should be abstract.";
+			}
+
+			WString ManagedErrorMessage::TypeIllegalAccessor(const WString& name)
+			{
+				return L"Type "+name+L" cannot be protected or protected internal when it is not a sub type.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalMemberType(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" cannot be declared in interface "+name+L" because it is not a property, a method or a converter operator.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalMemberAccessor(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in interface "+name+L" should be public.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalMemberMemberType(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in interface "+name+L" cannot be static.";
+			}
+
+			WString ManagedErrorMessage::InterfaceIllegalMemberInheritation(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in interface "+name+L" should be abstract.";
+			}
+
+			WString ManagedErrorMessage::SealedTypeMemberIllegalAccessor(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in sealed type "+name+L" can only be private, internal or public.";
+			}
+
+			WString ManagedErrorMessage::SealedTypeMemberIllegalInheritance(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in sealed type "+name+L" cannot be abstract, virtual or override.";
+			}
+
+			WString ManagedErrorMessage::NonAbstractTypeMemberIllegalInheritance(const WString& name, const WString& member)
+			{
+				return L"Abstract member "+member+L" cannot be declared in non-abstract type "+name+L".";
+			}
+
+			WString ManagedErrorMessage::MemberImplementedInterfaceTypeNotExists(const WString& name, const WString& member)
+			{
+				return L"The interface type specified in member "+member+L" is not derived by type "+L"{type}"+L".";
+			}
+
+			WString ManagedErrorMessage::MemberOverridedTargetNotExists(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in type "+L"{type}"+L" cannot find a correct member to override.";
+			}
+
+			WString ManagedErrorMessage::MemberOverridedTargetIllegalAccessor(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in type "+L"{type}"+L" find a correct member to override, but the accessor doesn't match.";
+			}
+
 			WString ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets()
 			{
 				return L"Expression resolved to duplicated targets.";

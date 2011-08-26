@@ -191,6 +191,20 @@ Types
 Others
 ***********************************************************************/
 
+			struct ManagedAbstractItem
+			{
+				typedef collections::List<ManagedAbstractItem>			ListType;
+
+				ManagedTypeSymbol*										type;
+				ManagedSymbolItem*										symbol;
+
+				ManagedAbstractItem();
+				~ManagedAbstractItem();
+
+				bool													operator==(const ManagedAbstractItem& value);
+				bool													operator!=(const ManagedAbstractItem& value);
+			};
+
 			// GenericParameter
 			class ManagedSymbolGenericParameter : public ManagedSymbolItem
 			{
@@ -252,6 +266,8 @@ Data Members
 				ManagedTypeSymbol*										implementedInterfaceType;
 				bool													containsGetter;
 				bool													containsSetter;
+
+				ManagedAbstractItem::ListType							_overridedTargets;
 			};
 
 			// PropertySetterValue
@@ -280,6 +296,8 @@ Data Members
 				bool													implicit;
 				ManagedTypeSymbol*										targetType;
 				collections::List<WString>								orderedGenericParameterNames;
+
+				ManagedAbstractItem::ListType							_overridedTargets;
 			};
 
 			// Method {GenericParameter, MethodParameter, Block}
@@ -298,6 +316,8 @@ Data Members
 				ManagedTypeSymbol*										implementedInterfaceType;
 				collections::List<WString>								orderedGenericParameterNames;
 				collections::List<WString>								orderedMethodParameterNames;
+
+				ManagedAbstractItem::ListType							_overridedTargets;
 			};
 
 			// Constructor {MethodParameter, Block}
@@ -371,6 +391,10 @@ Declarations
 				collections::List<ManagedTypeSymbol*>					baseTypes;
 				collections::List<WString>								orderedGenericParameterNames;
 				collections::List<WString>								orderedDataMemberNames;
+
+				ManagedTypeSymbol*										_baseType;
+				collections::List<ManagedTypeSymbol*>					_baseInterfaces;	// Flatten interface inheritence structure
+				ManagedAbstractItem::ListType							_abstractTargets;
 			};
 
 /***********************************************************************

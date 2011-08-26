@@ -184,11 +184,14 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeRenameDeclaration)
 				{
 					ManagedSymbolTypeRename* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolTypeRename>(node);
-					symbol->type=GetTypeSymbol(node->type, argument, symbol);
-					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
-					if(symbol->type->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
+					if(!symbol->type)
 					{
-						argument.errors.Add(ManagedLanguageCodeException::GetCannotDirectReferTypeRenameAsToplevel(node));
+						symbol->type=GetTypeSymbol(node->type, argument, symbol);
+						ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, MAP(argument, symbol));
+						if(symbol->type->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetCannotDirectReferTypeRenameAsToplevel(node));
+						}
 					}
 				}
 

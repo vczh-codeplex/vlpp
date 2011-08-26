@@ -196,6 +196,7 @@ InitializeContextManager
 			void InitializeContextManager(ManagedProgram* program, const MAP& argument)
 			{
 				ManagedContextManager::PredefinedTypes& pt=argument.contextManager->predefinedTypes;
+				pt.objectType			=GetSystemType(program, L"Object", argument);
 				pt.sint8				=GetSystemType(program, L"SInt8", argument);
 				pt.sint16				=GetSystemType(program, L"SInt16", argument);
 				pt.sint32				=GetSystemType(program, L"SInt32", argument);

@@ -75,21 +75,7 @@ Helper Functions
 			{
 				while(containerType && containerType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
 				{
-					ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(containerType->GetSymbol());
-					ManagedTypeSymbol* targetType=
-						symbol->type
-						?symbol->type
-						:symbol->languageElement
-							?GetTypeSymbol(symbol->languageElement->type, MAP(argument, symbol))
-							:0;
-					if(targetType)
-					{
-						containerType=argument.symbolManager->ReplaceGenericArguments(targetType, containerType);
-					}
-					else
-					{
-						containerType=0;
-					}
+					containerType=GetRealType(containerType, argument);
 				}
 				if(containerType)
 				{

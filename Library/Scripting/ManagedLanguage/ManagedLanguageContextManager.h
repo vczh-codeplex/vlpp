@@ -25,6 +25,7 @@ namespace vl
 			public:
 				struct PredefinedTypes
 				{
+					ManagedTypeSymbol*						objectType;
 					ManagedTypeSymbol*						sint8;
 					ManagedTypeSymbol*						sint16;
 					ManagedTypeSymbol*						sint32;
