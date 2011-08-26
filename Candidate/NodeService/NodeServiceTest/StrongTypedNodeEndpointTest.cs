@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NodeServiceTest.Endpoints;
 using NodeServiceTest.EndpointRequests;
+using NodeService;
 
 namespace NodeServiceTest
 {
@@ -57,6 +58,38 @@ namespace NodeServiceTest
                 .AddParameter("a", 2)
                 .AddParameter("b", 1)
                 );
+        }
+
+        [TestMethod]
+        public void TestSimpleEndpointClient()
+        {
+            CalculationEndpoint calculation = new CalculationEndpoint();
+            Assert.AreEqual("Calculation", calculation.EndpointName);
+            Assert.AreEqual(false, calculation.EnableAsynchronization);
+
+            PrimitiveEndpointClientProvider provider = new PrimitiveEndpointClientProvider(calculation);
+            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClient.Create<ICalculationEndpoint>(provider);
+
+            Assert.AreEqual(3, calculationEndpoint.Add(2, 1));
+            Assert.AreEqual(1, calculationEndpoint.Sub(2, 1));
+            Assert.AreEqual(2, calculationEndpoint.Mul(2, 1));
+            Assert.AreEqual(2, calculationEndpoint.Div(2, 1));
+
+            calculationEndpoint.SendMessage("Vczh is a genius!");
+            Assert.AreEqual("Vczh is a genius!", calculation.Message);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestSimpleEndpointClientThrowException()
+        {
+            CalculationEndpoint calculation = new CalculationEndpoint();
+            Assert.AreEqual("Calculation", calculation.EndpointName);
+            Assert.AreEqual(false, calculation.EnableAsynchronization);
+
+            PrimitiveEndpointClientProvider provider = new PrimitiveEndpointClientProvider(calculation);
+            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClient.Create<ICalculationEndpoint>(provider);
+            calculationEndpoint.ThrowException();
         }
     }
 }

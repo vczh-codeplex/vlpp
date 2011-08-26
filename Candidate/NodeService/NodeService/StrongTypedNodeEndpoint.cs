@@ -62,7 +62,8 @@ namespace NodeService
             try
             {
                 MethodInfo method = this.methods[request.Method];
-                if (method.GetParameters()[0].ParameterType == typeof(INodeEndpointRequest))
+                ParameterInfo firstParameter = method.GetParameters().FirstOrDefault();
+                if (firstParameter != null && firstParameter.ParameterType == typeof(INodeEndpointRequest))
                 {
                     method.Invoke(this,
                         new object[] { request }
@@ -72,12 +73,20 @@ namespace NodeService
                 }
                 else
                 {
-                    Respond(request, method.Invoke(this, Translate(method.GetParameters(), request.Body)));
+                    object result = method.Invoke(this, Translate(method.GetParameters(), request.Body));
+                    if (method.ReturnType == typeof(void))
+                    {
+                        request.Respond();
+                    }
+                    else
+                    {
+                        Respond(request, result);
+                    }
                 }
             }
-            catch (Exception exception)
+            catch (TargetInvocationException exception)
             {
-                request.Respond(exception);
+                request.Respond(exception.InnerException);
             }
         }
     }

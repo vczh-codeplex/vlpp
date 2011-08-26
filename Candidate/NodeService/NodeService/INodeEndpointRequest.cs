@@ -16,5 +16,6 @@ namespace NodeService
 
         void Respond(XNode response);
         void Respond(Exception exception);
+        void Respond();
     }
 }
