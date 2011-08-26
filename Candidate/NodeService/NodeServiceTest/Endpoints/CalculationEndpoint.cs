@@ -9,6 +9,8 @@ namespace NodeServiceTest.Endpoints
     [NodeEndpoint("Calculation")]
     class CalculationEndpoint : StrongTypedNodeEndpoint
     {
+        public string Message { get; private set; }
+
         [NodeEndpointMethod]
         public int Add(int a, int b)
         {
@@ -32,13 +34,27 @@ namespace NodeServiceTest.Endpoints
         {
             Respond(request, a / b);
         }
+
+        [NodeEndpointMethod]
+        public void SendMessage(string message)
+        {
+            this.Message = message;
+        }
+
+        [NodeEndpointMethod]
+        public void ThrowException()
+        {
+            throw new InvalidOperationException("ThrowException");
+        }
     }
 
-    interface ICalculationEndpoint
+    public interface ICalculationEndpoint : INodeEndpointClient
     {
         int Add(int a, int b);
         int Sub(int a, int b);
         int Mul(int a, int b);
         int Div(int a, int b);
+        void SendMessage(string message);
+        void ThrowException();
     }
 }

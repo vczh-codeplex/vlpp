@@ -79,7 +79,14 @@ namespace NodeServiceTest.EndpointRequests
 
         public void Respond(Exception exception)
         {
+            this.waitingForResponse = true;
             throw exception;
+        }
+
+
+        public void Respond()
+        {
+            this.waitingForResponse = true;
         }
     }
 }
