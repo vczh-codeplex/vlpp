@@ -372,7 +372,8 @@ SearchMember
 									ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(item);
 									if(IsVisible(thisType, containerType, symbol->accessor, argument))
 									{
-										ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
+										// TODO: this is wrong
+										ManagedTypeSymbol* symbolType=GetRealType(symbol->type, argument);
 										choices.Add(MAGETP::Choice(symbolType, item));
 									}
 								}

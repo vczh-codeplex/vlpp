@@ -39,6 +39,25 @@ namespace vl
 					GenericTypeTypeConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
 
+					TypeCannotDerivedFromItself,				// <ManagedTypeDeclaration>
+					ClassIllegalBaseClass,						// <ManagedTypeDeclaration>
+					StructureIllegalBaseClass,					// <ManagedTypeDeclaration>
+					InterfaceIllegalBaseClass,					// <ManagedTypeDeclaration>
+					ClassStructureTooMuchBaseClasses,			// <ManagedTypeDeclaration>
+					ClassStructureIllegalInheritation,			// <ManagedTypeDeclaration>
+					InterfaceIllegalInheritation,				// <ManagedTypeDeclaration>
+					TypeIllegalAccessor,						// <ManagedTypeDeclaration>
+					InterfaceIllegalMemberType,					// <ManagedMember>
+					InterfaceIllegalMemberAccessor,				// <ManagedMember>
+					InterfaceIllegalMemberMemberType,			// <ManagedMember>
+					InterfaceIllegalMemberInheritation,			// <ManagedMember>
+					SealedTypeMemberIllegalAccessor,			// <ManagedMember>
+					SealedTypeMemberIllegalInheritance,			// <ManagedMember>
+					NonAbstractTypeMemberIllegalInheritance,	// <ManagedMember>
+					MemberImplementedInterfaceTypeNotExists,	// <ManagedMember>
+					MemberOverridedTargetNotExists,				// <ManagedMember>
+					MemberOverridedTargetIllegalAccessor,		// <ManagedMember>
+
 					ExpressionResolvedToDuplicatedTargets,		// <ManagedExpression>
 					ExpressionResolvingFailed,					// <ManagedExpression>					:name
 					ExpressionCannotConvertToType,				// <ManagedExpression>
@@ -85,6 +104,25 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeArgumentCountNotMatches(ManagedLanguageElement* element, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
+
+				static Ptr<ManagedLanguageCodeException>						GetTypeCannotDerivedFromItself(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetClassIllegalBaseClass(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetStructureIllegalBaseClass(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalBaseClass(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetClassStructureTooMuchBaseClasses(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetClassStructureIllegalInheritation(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalInheritation(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetTypeIllegalAccessor(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberType(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberAccessor(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberMemberType(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberInheritation(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalAccessor(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalInheritance(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetNonAbstractTypeMemberIllegalInheritance(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetMemberImplementedInterfaceTypeNotExists(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetNotExists(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetIllegalAccessor(ManagedMember* member);
 
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedReferenceExpression* expression);

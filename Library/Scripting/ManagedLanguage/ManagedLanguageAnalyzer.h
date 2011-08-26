@@ -53,6 +53,7 @@ Helper Functions
 			extern void							EnsureTypeVisibilityInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument);
 			extern collections::List<WString>*	GetOrderedGenericParameterNames(ManagedSymbolItem* declSymbol);
 			extern ManagedSymbolItem*			GetRealSymbol(ManagedSymbolItem* declSymbol);
+			extern ManagedTypeSymbol*			GetRealType(ManagedTypeSymbol* typeRenameType, const MAP& argument);
 			extern bool							IsInheritedFrom(ManagedSymbolItem* realSymbol, ManagedSymbolItem* parentSymbol);
 			extern bool							IsInheritedFrom(ManagedTypeSymbol* type, ManagedTypeSymbol* parentType, const MAP& argument);
 			extern void							EnsureTypeSatisfiesConstraintsInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, const MAP& argument);
@@ -109,6 +110,7 @@ Build Global Scope Pass 3
 /***********************************************************************
 Build Global Scope Pass 4
   Check declarations
+  Fill _xxx symbol information
   TODO:
     check overriding relations
 	check in/out/inout (function parameter=in, function result=out, others=inout)

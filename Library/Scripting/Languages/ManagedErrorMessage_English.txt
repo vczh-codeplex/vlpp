@@ -15,6 +15,26 @@ CannotUseUninstantiatedGenericType(name)=Cannot use uninstantiated type {name} a
 GenericTypeArgumentCountNotMatches(name)=Generic argument count of type {name} do not match the declaration.
 GenericTypeTypeConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required type constraint.
 GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required new constraint.
+
+TypeCannotDerivedFromItself(name)=Type {name} cannot derived from itself directly or indirectly.
+ClassIllegalBaseClass(name)=Class {name} can only derived from a non-sealed class.
+StructureIllegalBaseClass(name)=Structure {name} can only derived from Object or a non-sealed structure with StructBaseAttribute.
+InterfaceIllegalBaseClass(name)=Interface {name} can only derived from other interfaces.
+ClassStructureTooMuchBaseClasses(name)=Type {name} can only derived from one non-interface type.
+ClassStructureIllegalInheritation(name)=Type {name} cannot be virtual or overrided.
+InterfaceIllegalInheritation(name)=Interface {name} should be abstract.
+TypeIllegalAccessor(name)=Type {name} cannot be protected or protected internal when it is not a sub type.
+InterfaceIllegalMemberType(name,member)=Member {member} cannot be declared in interface {name} because it is not a property, a method or a converter operator.
+InterfaceIllegalMemberAccessor(name,member)=Member {member} in interface {name} should be public.
+InterfaceIllegalMemberMemberType(name,member)=Member {member} in interface {name} cannot be static.
+InterfaceIllegalMemberInheritation(name,member)=Member {member} in interface {name} should be abstract.
+SealedTypeMemberIllegalAccessor(name,member)=Member {member} in sealed type {name} can only be private, internal or public.
+SealedTypeMemberIllegalInheritance(name,member)=Member {member} in sealed type {name} cannot be abstract, virtual or override.
+NonAbstractTypeMemberIllegalInheritance(name,member)=Abstract member {member} cannot be declared in non-abstract type {name}.
+MemberImplementedInterfaceTypeNotExists(name,member)=The interface type specified in member {member} is not derived by type {type}.
+MemberOverridedTargetNotExists(name,member)=Member {member} in type {type} cannot find a correct member to override.
+MemberOverridedTargetIllegalAccessor(name,member)=Member {member} in type {type} find a correct member to override, but the accessor doesn't match.
+
 ExpressionResolvedToDuplicatedTargets=Expression resolved to duplicated targets.
 ExpressionResolvedToDuplicatedTargets(type)=Expression resolved to duplicated targets which converts to type {type}.
 ExpressionResolvingFailed(name)=Failed to resolve symbol {name}.

@@ -161,6 +161,30 @@ ManagedTypeSymbol
 			}
 
 /***********************************************************************
+ManagedAbstractItem
+***********************************************************************/
+
+			ManagedAbstractItem::ManagedAbstractItem()
+				:type(0)
+				,symbol(0)
+			{
+			}
+
+			ManagedAbstractItem::~ManagedAbstractItem()
+			{
+			}
+
+			bool ManagedAbstractItem::operator==(const ManagedAbstractItem& value)
+			{
+				return type==value.type && symbol==value.symbol;
+			}
+
+			bool ManagedAbstractItem::operator!=(const ManagedAbstractItem& value)
+			{
+				return type!=value.type || symbol!=value.symbol;
+			}
+
+/***********************************************************************
 ManagedSymbolManager
 ***********************************************************************/
 
@@ -429,6 +453,7 @@ Symbol Constructors
 				,enumerationLanguageElement(0)
 				,accessor(declatt::Private)
 				,inheritation(declatt::Sealed)
+				,_baseType(0)
 			{
 				CHECK_ERROR(_symbolType==ManagedSymbolItem::Class || _symbolType==ManagedSymbolItem::Structure || _symbolType==ManagedSymbolItem::Interface,
 					L"ManagedSymbolDeclaration::ManagedSymbolDeclaration(ManagedSymbolManager*, ManagedSymbolType)#符号类型不在规定范围内。"

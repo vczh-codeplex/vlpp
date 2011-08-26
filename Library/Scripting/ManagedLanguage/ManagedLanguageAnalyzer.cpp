@@ -516,6 +516,48 @@ GetSymbolDeclaration
 				}
 			}
 
+			ManagedTypeSymbol* GetRealType(ManagedTypeSymbol* typeRenameType, const MAP& argument)
+			{
+				if(typeRenameType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::TypeRename)
+				{
+					ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(typeRenameType->GetSymbol());
+					if(!symbol->type)
+					{
+						MAP newArgument(argument, symbol->GetParentItem());
+						ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration(symbol->languageElement, newArgument);
+					}
+
+					if(symbol->type && typeRenameType->GetGenericDeclaration())
+					{
+						vint count=typeRenameType->GetGenericArguments().Count();
+						if(symbol->orderedGenericParameterNames.Count()>0)
+						{
+							if(count>symbol->orderedGenericParameterNames.Count())
+							{
+								count=symbol->orderedGenericParameterNames.Count();
+							}
+
+							Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> map;
+							for(vint i=0;i<count;i++)
+							{
+								ManagedTypeSymbol* key=argument.symbolManager->GetType(symbol->ItemGroup(symbol->orderedGenericParameterNames[i])->Items()[0]);
+								ManagedTypeSymbol* value=typeRenameType->GetGenericArguments()[i];
+							}
+							return argument.symbolManager->ReplaceGenericArguments(symbol->type, map.Wrap());
+						}
+						return 0;
+					}
+					else
+					{
+						return symbol->type;
+					}
+				}
+				else
+				{
+					return typeRenameType;
+				}
+			}
+
 /***********************************************************************
 IsInheritedFrom
 ***********************************************************************/
