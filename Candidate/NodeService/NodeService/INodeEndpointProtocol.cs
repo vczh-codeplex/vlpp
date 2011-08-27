@@ -54,13 +54,21 @@ namespace NodeService
 
     public interface INodeEndpointProtocolFactory
     {
-        INodeEndpointProtocolServer CreateServer();
+        INodeEndpointProtocolServerListener CreateServerListener();
         INodeEndpointProtocolClient CreateClient();
+    }
+
+    public interface INodeEndpointProtocolServerListener
+    {
+        bool Connected { get; }
+
+        void Connect(string address, string endpointName);
+        void Disconnect();
+        INodeEndpointProtocolServer Listen();
     }
 
     public interface INodeEndpointProtocolServer : INodeEndpointProtocol
     {
-        bool Listen(string address, string endpointName);
         void SetOuterProtocol(INodeEndpointProtocolServer protocol);
 
         void OnOuterProtocolListened();
