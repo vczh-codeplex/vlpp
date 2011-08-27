@@ -43,6 +43,12 @@ namespace NodeServiceTest.Endpoints
         }
 
         [NodeEndpointMethod]
+        public string ReceiveMessage()
+        {
+            return this.Message;
+        }
+
+        [NodeEndpointMethod]
         public void ThrowException()
         {
             throw new InvalidOperationException("ThrowException");
@@ -56,6 +62,7 @@ namespace NodeServiceTest.Endpoints
         int Mul(int a, int b);
         int Div(int a, int b);
         void SendMessage(string message);
+        string ReceiveMessage();
         void ThrowException();
     }
 }

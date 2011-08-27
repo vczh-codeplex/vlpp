@@ -20,6 +20,7 @@ namespace NodeService
     public interface INodeEndpointProtocolListener : INodeEndpointProtocol
     {
         INodeEndpointProtocolRequestListener Listener { get; set; }
+        void BeginListen();
     }
 
     public interface INodeEndpointProtocolSender : INodeEndpointProtocol
