@@ -24,7 +24,7 @@ namespace NodeService
             where T : INodeEndpointClient
         {
             INodeEndpointProtocolClient client = protocolFactory.CreateClient();
-            if (client.Connect("localhost/CalculationService", "CalculationEndpoint", timeout))
+            if (client.Connect(address, endpointName, timeout))
             {
                 INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
                 provider.Protocol = client;

@@ -24,11 +24,11 @@ namespace NodeServiceTest
             Thread serverThread = new Thread(() =>
             {
                 INodeEndpointProtocolServerListener serverListener = protocolFactory.CreateServerListener();
-                server = serverListener.WaitForServer("CalculationService", new CalculationEndpoint());
+                server = serverListener.WaitForServer("CalculationService", new CalculationEndpoint(true));
             });
             serverThread.Start();
 
-            ICalculationEndpoint client = protocolFactory.WaitForClient<ICalculationEndpoint>("CalculationService", "Calculation");
+            ICalculationEndpoint client = protocolFactory.WaitForClient<ICalculationEndpoint>("localhost/CalculationService", "Calculation");
             Assert.IsNotNull(client);
             Assert.IsNotNull(server);
 

@@ -74,7 +74,7 @@ namespace NodeService.Providers
 
             public void Respond(XNode response)
             {
-                if (this.waitingForResponse)
+                if (!this.waitingForResponse)
                 {
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }
@@ -91,7 +91,7 @@ namespace NodeService.Providers
 
             public void Respond(Exception exception)
             {
-                if (this.waitingForResponse)
+                if (!this.waitingForResponse)
                 {
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }
@@ -101,7 +101,7 @@ namespace NodeService.Providers
 
             public void Respond()
             {
-                if (this.waitingForResponse)
+                if (!this.waitingForResponse)
                 {
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }

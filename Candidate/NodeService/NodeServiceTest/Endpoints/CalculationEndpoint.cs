@@ -12,6 +12,11 @@ namespace NodeServiceTest.Endpoints
     {
         public string Message { get; private set; }
 
+        public CalculationEndpoint(bool enableAsynchronization)
+        {
+            this.EnableAsynchronization = enableAsynchronization;
+        }
+
         [NodeEndpointMethod]
         public int Add(int a, int b)
         {
