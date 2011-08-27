@@ -12,13 +12,18 @@ namespace NodeService.Providers
         {
             private INodeEndpoint endpoint;
             private INodeEndpointProtocolRequest request;
+            private Guid guid;
+            private string method;
             private XElement body;
             private bool waitingForResponse = true;
 
-            public Request(INodeEndpoint endpoint, INodeEndpointProtocolRequest request)
+            public Request(INodeEndpoint endpoint, INodeEndpointProtocolRequest request, Guid guid, string method, XElement body)
             {
                 this.endpoint = endpoint;
                 this.request = request;
+                this.guid = guid;
+                this.method = method;
+                this.body = body;
             }
 
             public string EndpointName
@@ -33,7 +38,7 @@ namespace NodeService.Providers
             {
                 get
                 {
-                    return this.request.Method;
+                    return this.method;
                 }
             }
 
@@ -41,7 +46,7 @@ namespace NodeService.Providers
             {
                 get
                 {
-                    return this.request.PeerAddress;
+                    return null;
                 }
             }
 
@@ -49,18 +54,7 @@ namespace NodeService.Providers
             {
                 get
                 {
-                    try
-                    {
-                        if (this.body == null)
-                        {
-                            this.body = XElement.Parse(this.request.Message);
-                        }
-                        return this.body;
-                    }
-                    catch (Exception exception)
-                    {
-                        throw new NodeEndpointMessageException("Cannot understand the request format.", exception);
-                    }
+                    return this.body;
                 }
             }
 
@@ -81,11 +75,11 @@ namespace NodeService.Providers
                 this.waitingForResponse = false;
                 if (response is XElement)
                 {
-                    this.request.Respond("[XELEMENT]" + response.ToString());
+                    Respond("[XELEMENT]" + response.ToString());
                 }
                 else
                 {
-                    this.request.Respond("[XTEXT]" + response.ToString());
+                    Respond("[XTEXT]" + response.ToString());
                 }
             }
 
@@ -96,7 +90,7 @@ namespace NodeService.Providers
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }
                 this.waitingForResponse = false;
-                this.request.Respond("[EXCEPTION]" + exception.Message);
+                Respond("[EXCEPTION]" + exception.Message);
             }
 
             public void Respond()
@@ -106,7 +100,13 @@ namespace NodeService.Providers
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }
                 this.waitingForResponse = false;
-                this.request.Respond("[XTEXT]");
+                Respond("[XTEXT]");
+            }
+
+            private void Respond(string message)
+            {
+                string protocolMessage = ProtocolEnabledHelper.BuildResponse(guid, message);
+                this.request.Respond(protocolMessage);
             }
         }
 
@@ -119,8 +119,25 @@ namespace NodeService.Providers
 
         public void OnReceivedRequest(INodeEndpointProtocolRequest request)
         {
-            Request wrapper = new Request(this.endpoint, request);
-            this.endpoint.QueueRequest(wrapper);
+            if (request.Message.StartsWith("[REQUEST]"))
+            {
+                Guid guid;
+                string method;
+                string message;
+                if (ProtocolEnabledHelper.SplitRequest(request.Message, out guid, out method, out message))
+                {
+                    try
+                    {
+                        XElement body = XElement.Parse(message);
+                        Request wrapper = new Request(this.endpoint, request, guid, method, body);
+                        this.endpoint.QueueRequest(wrapper);
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new NodeEndpointMessageException("Cannot understand the request format.", exception);
+                    }
+                }
+            }
         }
     }
 }

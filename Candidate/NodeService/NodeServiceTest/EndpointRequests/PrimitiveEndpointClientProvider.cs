@@ -25,6 +25,10 @@ namespace NodeServiceTest.EndpointRequests
             this.endpoint.QueueRequest(request);
             return request.Response;
         }
+
+        public void Disconnect()
+        {
+        }
     }
 
     class PrimitiveEndpointClientRequest : INodeEndpointRequest

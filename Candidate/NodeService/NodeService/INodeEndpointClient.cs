@@ -21,6 +21,7 @@ namespace NodeService
     {
         INodeEndpointProtocol Protocol { get; set; }
         INodeEndpointResponse Send(string method, XElement body);
+        void Disconnect();
     }
 
     public enum RequestState

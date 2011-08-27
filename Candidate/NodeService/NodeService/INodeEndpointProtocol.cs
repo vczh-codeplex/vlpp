@@ -11,11 +11,12 @@ namespace NodeService
         bool Connected { get; }
         INodeEndpointProtocol OuterProtocol { get; }
         INodeEndpointProtocol InnerProtocol { get; }
-        INodeEndpointProtocolRequestListener Listener { get; set; }
 
         void Disconnect();
         void BeginListen();
-        INodeEndpointProtocolResponse Send(string method, string message);
+        void AddListener(INodeEndpointProtocolRequestListener listener);
+        void RemoveListener(INodeEndpointProtocolRequestListener listener);
+        void Send(string message);
     }
 
     public interface INodeEndpointProtocolRequestListener
@@ -25,22 +26,10 @@ namespace NodeService
 
     public interface INodeEndpointProtocolRequest
     {
-        string Session { get; }
-        string PeerAddress { get; }
-        string Method { get; }
+        bool CanRespond { get; }
         string Message { get; }
 
         void Respond(string response);
-    }
-
-    public interface INodeEndpointProtocolResponse : IDisposable
-    {
-        bool EnableAsynchronization { get; }
-        bool ReceivedResponse { get; }
-        string Response { get; }
-
-        void WaitForResponse();
-        void RegisterCallback(Action<INodeEndpointProtocolResponse> callback);
     }
 
     public interface INodeEndpointProtocolFactory
