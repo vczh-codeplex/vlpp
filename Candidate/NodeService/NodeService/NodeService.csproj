@@ -45,13 +45,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="INodeEndpoint.cs" />
+    <Compile Include="INodeEndpointClient.cs" />
+    <Compile Include="INodeEndpointClientProvider.cs" />
+    <Compile Include="INodeEndpointProtocol.cs" />
     <Compile Include="INodeEndpointRequest.cs" />
     <Compile Include="INodeEndpointResponse.cs" />
-    <Compile Include="NodeEndpointBase.cs" />
+    <Compile Include="Endpoints\NodeEndpointBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StrongTypedNodeEndpoint.cs" />
-    <Compile Include="StrongTypedNodeEndpointClient.cs" />
-    <Compile Include="StrongTypedNodeEndpointSerializer.cs" />
+    <Compile Include="Endpoints\StrongTypedNodeEndpoint.cs" />
+    <Compile Include="Endpoints\StrongTypedNodeEndpointClient.cs" />
+    <Compile Include="Endpoints\StrongTypedNodeEndpointSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using System.Xml.Linq;
+using NodeService.Endpoints;
 
 namespace NodeServiceTest.EndpointRequests
 {
@@ -24,23 +25,13 @@ namespace NodeServiceTest.EndpointRequests
             }
         }
 
-        public bool Connected
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public INodeEndpointProtocol Protocol { get; set; }
 
         public INodeEndpointResponse Send(string method, XElement body)
         {
             PrimitiveEndpointClientRequest request = new PrimitiveEndpointClientRequest(this.endpoint, method, body);
             this.endpoint.QueueRequest(request);
             return request.Response;
-        }
-
-        public void Disconnect()
-        {
         }
     }
 
