@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace NodeService
 {
@@ -10,5 +11,18 @@ namespace NodeService
         string EndpointName { get; }
 
         void QueueRequest(INodeEndpointRequest request);
+    }
+
+    public interface INodeEndpointRequest
+    {
+        string EndpointName { get; }
+        string Method { get; }
+        string PeerAddress { get; }
+        XElement Body { get; }
+        bool WaitingForResponse { get; }
+
+        void Respond(XNode response);
+        void Respond(Exception exception);
+        void Respond();
     }
 }
