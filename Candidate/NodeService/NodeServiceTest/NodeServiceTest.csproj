@@ -51,6 +51,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuplexNodeEndpointTest.cs" />
     <Compile Include="EndpointRequests\PrimitiveEndpointClientProvider.cs" />
     <Compile Include="EndpointRequests\PrimitiveEndpointRequest.cs" />
     <Compile Include="Endpoints\CalculationEndpoint.cs" />
