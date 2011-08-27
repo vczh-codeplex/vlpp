@@ -17,14 +17,6 @@ namespace NodeServiceTest.EndpointRequests
             this.endpoint = endpoint;
         }
 
-        public bool EnableAsynchronization
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public INodeEndpointProtocol Protocol { get; set; }
 
         public INodeEndpointResponse Send(string method, XElement body)

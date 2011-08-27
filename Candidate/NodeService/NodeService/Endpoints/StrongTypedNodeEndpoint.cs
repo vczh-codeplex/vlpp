@@ -12,7 +12,7 @@ namespace NodeService.Endpoints
         private Dictionary<string, MethodInfo> methods = new Dictionary<string, MethodInfo>();
         public StrongTypedNodeEndpointSerializer Serializer { get; private set; }
 
-        private void FindMethods()
+        private void Initialize()
         {
             this.Serializer = new StrongTypedNodeEndpointSerializer();
             foreach (var methodInfo in this.GetType()
@@ -35,13 +35,13 @@ namespace NodeService.Endpoints
 
         public StrongTypedNodeEndpoint()
         {
-            FindMethods();
+            Initialize();
         }
 
         public StrongTypedNodeEndpoint(string name)
             : base(name)
         {
-            FindMethods();
+            Initialize();
         }
 
         private object[] Translate(IEnumerable<ParameterInfo> parameters, XElement body)

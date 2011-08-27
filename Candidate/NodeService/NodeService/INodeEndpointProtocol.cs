@@ -25,17 +25,19 @@ namespace NodeService
 
     public interface INodeEndpointProtocolSender : INodeEndpointProtocol
     {
-        INodeEndpointProtocolResponse Send(string message);
+        INodeEndpointProtocolResponse Send(string method, string message);
     }
 
     public interface INodeEndpointProtocolRequestListener
     {
-        void OnReceivedRequest(INodeEndpointRequest request);
+        void OnReceivedRequest(INodeEndpointProtocolRequest request);
     }
 
     public interface INodeEndpointProtocolRequest
     {
         string Session { get; }
+        string PeerAddress { get; }
+        string Method { get; }
         string Message { get; }
 
         void Respond(string response);
@@ -43,6 +45,7 @@ namespace NodeService
 
     public interface INodeEndpointProtocolResponse
     {
+        bool EnableAsynchronization { get; }
         bool ReceivedResponse { get; }
         string Response { get; }
 

@@ -25,4 +25,20 @@ namespace NodeService
         void Respond(Exception exception);
         void Respond();
     }
+
+    public class NodeEndpointRequestException : Exception
+    {
+        public NodeEndpointRequestException(string message)
+            : base(message)
+        {
+        }
+    }
+
+    public class NodeEndpointMessageException : Exception
+    {
+        public NodeEndpointMessageException(string message, Exception innerException = null)
+            : base(message, innerException)
+        {
+        }
+    }
 }
