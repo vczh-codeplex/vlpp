@@ -58,6 +58,7 @@
     <Compile Include="Protocols\NamedPipeProtocolFactory.cs" />
     <Compile Include="NodeEndpointProtocolFactoryExtension.cs" />
     <Compile Include="Providers\ProtocolEnabledClientProvider.cs" />
+    <Compile Include="Providers\ProtocolEnabledHelper.cs" />
     <Compile Include="Providers\ProtocolEnabledRequestListener.cs" />
   </ItemGroup>
   <ItemGroup />
