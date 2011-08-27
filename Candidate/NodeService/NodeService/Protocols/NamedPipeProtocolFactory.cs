@@ -8,9 +8,9 @@ namespace NodeService.Protocols
 {
     public class NamedPipeProtocolFactory : INodeEndpointProtocolFactory
     {
-        public INodeEndpointProtocolServer CreateServer()
+        public INodeEndpointProtocolServerListener CreateServerListener()
         {
-            return new Server();
+            return new ServerListener();
         }
 
         public INodeEndpointProtocolClient CreateClient()
@@ -84,13 +84,63 @@ namespace NodeService.Protocols
             }
         }
 
+        class ServerListener : INodeEndpointProtocolServerListener
+        {
+            private string pipeName;
+
+            public bool Connected
+            {
+                get
+                {
+                    return this.pipeName != null;
+                }
+            }
+
+            public void Connect(string address, string endpointName)
+            {
+                if (this.Connected)
+                {
+                    Disconnect();
+                }
+                this.pipeName = address + "/" + endpointName;
+            }
+
+            public void Disconnect()
+            {
+                this.pipeName = null;
+            }
+
+            public INodeEndpointProtocolServer Listen()
+            {
+                NamedPipeServerStream stream = new NamedPipeServerStream(this.pipeName, PipeDirection.InOut, 255, PipeTransmissionMode.Message, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+                try
+                {
+                    stream.WaitForConnection();
+                    if (stream.IsConnected)
+                    {
+                        return new Server(stream);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
+                if (stream != null)
+                {
+                    stream.Close();
+                    stream.Disconnect();
+                }
+                return null;
+            }
+        }
+
         class Server : Pipe, INodeEndpointProtocolServer
         {
             private INodeEndpointProtocolServer innerProtocol;
 
-            public bool Listen(string address, string endpointName)
+            public Server(NamedPipeServerStream stream)
             {
-                throw new NotImplementedException();
+                this.stream = stream;
             }
 
             public void SetOuterProtocol(INodeEndpointProtocolServer protocol)
@@ -131,22 +181,29 @@ namespace NodeService.Protocols
                 string serverName = address.Substring(0, index - 1);
                 string pipeName = address.Substring(index + 1) + "/" + endpointName;
                 NamedPipeClientStream clientStream = new NamedPipeClientStream(serverName, pipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
-                clientStream.Connect(timeout);
-                if (this.stream.IsConnected)
+                try
                 {
-                    this.stream = clientStream;
-                    if (this.innerProtocol != null)
+                    clientStream.Connect(timeout);
+                    if (this.stream.IsConnected)
                     {
-                        this.innerProtocol.OnOuterProtocolConnected();
+                        this.stream = clientStream;
+                        if (this.innerProtocol != null)
+                        {
+                            this.innerProtocol.OnOuterProtocolConnected();
+                        }
+                        return true;
                     }
-                    return true;
                 }
-                else
+                catch (Exception)
+                {
+                }
+
+                if (clientStream != null)
                 {
                     clientStream.Close();
                     clientStream.Dispose();
-                    return false;
                 }
+                return false;
             }
 
             public void SetOuterProtocol(INodeEndpointProtocolClient protocol)
