@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NodeServiceTest.Endpoints;
 using NodeServiceTest.EndpointRequests;
 using NodeService;
+using NodeService.Endpoints;
 
 namespace NodeServiceTest
 {

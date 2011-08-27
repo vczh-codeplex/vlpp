@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Reflection;
 
-namespace NodeService
+namespace NodeService.Endpoints
 {
     public class StrongTypedNodeEndpoint : NodeEndpointBase
     {

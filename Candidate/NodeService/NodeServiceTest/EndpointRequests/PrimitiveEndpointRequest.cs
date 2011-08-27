@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using System.Xml.Linq;
+using NodeService.Endpoints;
 
 namespace NodeServiceTest.EndpointRequests
 {
