@@ -129,9 +129,8 @@ namespace NodeService.Providers
         {
             if (this.Protocol == null) throw new InvalidOperationException("Cannot send message when procotol has not been set.");
             if (!this.Protocol.Connected) throw new InvalidOperationException("Cannot send message when protocol does not connected to server.");
-            if (this.Protocol.ProtocolSender == null) throw new InvalidOperationException("The protocol does not able to send message.");
 
-            INodeEndpointProtocolResponse protocolResponse = this.Protocol.ProtocolSender.Send(method, body.ToString());
+            INodeEndpointProtocolResponse protocolResponse = this.Protocol.Send(method, body.ToString());
             return new Response(protocolResponse);
         }
     }

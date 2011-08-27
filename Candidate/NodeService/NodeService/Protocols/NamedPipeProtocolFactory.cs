@@ -161,7 +161,7 @@ namespace NodeService.Protocols
             }
         }
 
-        abstract class ProtocolBase : INodeEndpointProtocol, INodeEndpointProtocolListener, INodeEndpointProtocolSender
+        abstract class ProtocolBase : INodeEndpointProtocol
         {
             protected PipeStream stream;
             private Dictionary<Guid, Response> responses = new Dictionary<Guid, Response>();
@@ -192,22 +192,6 @@ namespace NodeService.Protocols
 
             public abstract INodeEndpointProtocol InnerProtocol { get; }
 
-            public INodeEndpointProtocolListener ProtocolListener
-            {
-                get
-                {
-                    return this.Connected ? this : null;
-                }
-            }
-
-            public INodeEndpointProtocolSender ProtocolSender
-            {
-                get
-                {
-                    return this.Connected ? this : null;
-                }
-            }
-
             public void Disconnect()
             {
                 if (this.stream != null)
@@ -230,12 +214,14 @@ namespace NodeService.Protocols
 
             public void BeginListen()
             {
+                if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 byte[] lead = new byte[sizeof(int)];
                 this.stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
             }
 
             public INodeEndpointProtocolResponse Send(string method, string message)
             {
+                if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 Guid guid = Guid.NewGuid();
                 string protocolMessage = BuildRequest(guid, method, message);
                 Response response = new Response();
@@ -247,7 +233,7 @@ namespace NodeService.Protocols
                 return response;
             }
 
-            public void Respond(Guid guid, string message)
+            internal void Respond(Guid guid, string message)
             {
                 string protocolMessage = BuildResponse(guid, message);
                 Write(protocolMessage);
