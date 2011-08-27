@@ -42,7 +42,7 @@ namespace NodeService
         void Respond(string response);
     }
 
-    public interface INodeEndpointProtocolResponse
+    public interface INodeEndpointProtocolResponse : IDisposable
     {
         bool EnableAsynchronization { get; }
         bool ReceivedResponse { get; }

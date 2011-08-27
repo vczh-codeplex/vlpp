@@ -24,7 +24,7 @@ namespace NodeService
         RaisedException,
     }
 
-    public interface INodeEndpointResponse
+    public interface INodeEndpointResponse : IDisposable
     {
         bool EnableAsynchronization { get; }
         RequestState RequestState { get; }
