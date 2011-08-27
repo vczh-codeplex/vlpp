@@ -5,6 +5,8 @@ using System.Text;
 using System.Xml.Linq;
 using System.CodeDom.Compiler;
 using System.CodeDom;
+using System.Threading.Tasks;
+using System.Reflection;
 
 namespace NodeService.Endpoints
 {
@@ -37,10 +39,17 @@ namespace NodeService.Endpoints
                     .GetParameters()
                     .Select(p => p.ParameterType)
                     .Concat(new Type[] { methodInfo.ReturnType })
-                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void))
+                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void) && t != typeof(Task))
                     )
                 {
-                    this.Serializer.AddDefaultSerializer(type);
+                    if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+                    {
+                        this.Serializer.AddDefaultSerializer(type.GetGenericArguments()[0]);
+                    }
+                    else
+                    {
+                        this.Serializer.AddDefaultSerializer(type);
+                    }
                 }
             }
         }
@@ -66,6 +75,81 @@ namespace NodeService.Endpoints
             {
                 return null;
             }
+        }
+
+        protected Task ExecuteTask(string method, string[] names, object[] arguments)
+        {
+            Task task = new Task(() => Execute(method, typeof(void), names, arguments));
+            task.Start();
+            return task;
+        }
+
+        protected Task<T> ExecuteTask<T>(string method, string[] names, object[] arguments)
+        {
+            Task<T> task = new Task<T>(() => (T)Execute(method, typeof(T), names, arguments));
+            task.Start();
+            return task;
+        }
+
+        private static CodeExpression PassParameterNames(MethodInfo methodInfo)
+        {
+            return new CodeArrayCreateExpression(
+                typeof(string),
+                methodInfo
+                    .GetParameters()
+                    .Select(p => new CodePrimitiveExpression(p.Name))
+                    .ToArray()
+                );
+        }
+
+        private static CodeExpression PassParameterValues(MethodInfo methodInfo)
+        {
+            return new CodeArrayCreateExpression(
+                typeof(object),
+                methodInfo
+                    .GetParameters()
+                    .Select(p => new CodeArgumentReferenceExpression(p.Name))
+                    .ToArray()
+                );
+        }
+
+        private static CodeExpression InvokeExecute(MethodInfo methodInfo)
+        {
+            CodeExpression execution = new CodeMethodInvokeExpression(
+                new CodeThisReferenceExpression(),
+                "Execute",
+                new CodeExpression[] { 
+                    new CodePrimitiveExpression(methodInfo.Name),
+                    new CodeTypeOfExpression(methodInfo.ReturnType),
+                    PassParameterNames(methodInfo),
+                    PassParameterValues(methodInfo),
+                    }
+                .ToArray()
+                );
+            return execution;
+        }
+
+        private static CodeExpression InvokeExecuteTask(MethodInfo methodInfo)
+        {
+            CodeExpression execution = new CodeMethodInvokeExpression(
+                methodInfo.ReturnType == typeof(Task) ?
+                    new CodeMethodReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        "ExecuteTask"
+                        ) :
+                    new CodeMethodReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        "ExecuteTask",
+                        new CodeTypeReference(methodInfo.ReturnType.GetGenericArguments()[0])
+                        ),
+                new CodeExpression[] { 
+                    new CodePrimitiveExpression(methodInfo.Name),
+                    PassParameterNames(methodInfo),
+                    PassParameterValues(methodInfo),
+                    }
+                .ToArray()
+                );
+            return execution;
         }
 
         private static Type CreateClientImplementation(Type infertaceType)
@@ -116,35 +200,28 @@ namespace NodeService.Endpoints
                             clientMethod.Parameters.Add(new CodeParameterDeclarationExpression(parameterInfo.ParameterType, parameterInfo.Name));
                         }
 
-                        CodeExpression execution = new CodeMethodInvokeExpression(
-                            new CodeThisReferenceExpression(),
-                            "Execute",
-                            new CodeExpression[] { 
-                            new CodePrimitiveExpression(methodInfo.Name) ,
-                            new CodeTypeOfExpression(methodInfo.ReturnType),
-                            new CodeArrayCreateExpression(
-                                typeof(string),
-                                methodInfo
-                                    .GetParameters()
-                                    .Select(p => new CodePrimitiveExpression(p.Name))
-                                    .ToArray()
-                                ),
-                            new CodeArrayCreateExpression(
-                                typeof(object),
-                                methodInfo
-                                    .GetParameters()
-                                    .Select(p => new CodeArgumentReferenceExpression(p.Name))
-                                    .ToArray()
-                                ),
-                        }
-                            .ToArray()
-                        );
 
                         if (methodInfo.ReturnType == typeof(void))
                         {
                             clientMethod.Statements.Add(
                                 new CodeExpressionStatement(
-                                    execution
+                                    InvokeExecute(methodInfo)
+                                    )
+                                );
+                        }
+                        else if (methodInfo.ReturnType == typeof(Task))
+                        {
+                            clientMethod.Statements.Add(
+                                new CodeMethodReturnStatement(
+                                    InvokeExecuteTask(methodInfo)
+                                    )
+                                );
+                        }
+                        else if (methodInfo.ReturnType.IsGenericType && methodInfo.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+                        {
+                            clientMethod.Statements.Add(
+                                new CodeMethodReturnStatement(
+                                    InvokeExecuteTask(methodInfo)
                                     )
                                 );
                         }
@@ -154,7 +231,7 @@ namespace NodeService.Endpoints
                                 new CodeMethodReturnStatement(
                                     new CodeCastExpression(
                                         methodInfo.ReturnType,
-                                        execution
+                                        InvokeExecute(methodInfo)
                                         )
                                     )
                                 );

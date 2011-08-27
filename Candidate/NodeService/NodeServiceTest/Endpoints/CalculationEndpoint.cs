@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using NodeService.Endpoints;
+using System.Threading.Tasks;
 
 namespace NodeServiceTest.Endpoints
 {
@@ -69,5 +70,16 @@ namespace NodeServiceTest.Endpoints
         void SendMessage(string message);
         string ReceiveMessage();
         void ThrowException();
+    }
+
+    public interface ICalculationEndpointAsync : INodeEndpointClient
+    {
+        Task<int> Add(int a, int b);
+        Task<int> Sub(int a, int b);
+        Task<int> Mul(int a, int b);
+        Task<int> Div(int a, int b);
+        Task SendMessage(string message);
+        Task<string> ReceiveMessage();
+        Task ThrowException();
     }
 }
