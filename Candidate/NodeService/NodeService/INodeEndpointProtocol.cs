@@ -11,20 +11,10 @@ namespace NodeService
         bool Connected { get; }
         INodeEndpointProtocol OuterProtocol { get; }
         INodeEndpointProtocol InnerProtocol { get; }
-        INodeEndpointProtocolListener ProtocolListener { get; }
-        INodeEndpointProtocolSender ProtocolSender { get; }
+        INodeEndpointProtocolRequestListener Listener { get; set; }
 
         void Disconnect();
-    }
-
-    public interface INodeEndpointProtocolListener : INodeEndpointProtocol
-    {
-        INodeEndpointProtocolRequestListener Listener { get; set; }
         void BeginListen();
-    }
-
-    public interface INodeEndpointProtocolSender : INodeEndpointProtocol
-    {
         INodeEndpointProtocolResponse Send(string method, string message);
     }
 

@@ -19,7 +19,7 @@ namespace NodeService
             INodeEndpointProtocolServer server = serverListener.Listen();
 
             INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(endpoint);
-            server.ProtocolListener.Listener = endpointListener;
+            server.Listener = endpointListener;
             return server;
         }
 
@@ -30,7 +30,7 @@ namespace NodeService
             )
         {
             INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint);
-            server.ProtocolListener.BeginListen();
+            server.BeginListen();
             return server;
         }
 
@@ -48,7 +48,7 @@ namespace NodeService
                 T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
                 endpoint.Callback = endpointInterface;
             }
-            server.ProtocolListener.BeginListen();
+            server.BeginListen();
             return server;
         }
 
@@ -88,7 +88,7 @@ namespace NodeService
             if (!object.ReferenceEquals(client, default(T)))
             {
                 INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(callback);
-                client.Provider.Protocol.ProtocolListener.Listener = endpointListener;
+                client.Provider.Protocol.Listener = endpointListener;
                 client.Callback = callback;
             }
             return client;
