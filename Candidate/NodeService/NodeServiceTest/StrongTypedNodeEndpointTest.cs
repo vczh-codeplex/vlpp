@@ -69,7 +69,7 @@ namespace NodeServiceTest
             Assert.AreEqual(false, calculation.EnableAsynchronization);
 
             PrimitiveEndpointClientProvider provider = new PrimitiveEndpointClientProvider(calculation);
-            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClient.Create<ICalculationEndpoint>(provider);
+            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClientBuilder.Create<ICalculationEndpoint>(provider);
 
             Assert.AreEqual(3, calculationEndpoint.Add(2, 1));
             Assert.AreEqual(1, calculationEndpoint.Sub(2, 1));
@@ -90,7 +90,7 @@ namespace NodeServiceTest
             Assert.AreEqual(false, calculation.EnableAsynchronization);
 
             PrimitiveEndpointClientProvider provider = new PrimitiveEndpointClientProvider(calculation);
-            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClient.Create<ICalculationEndpoint>(provider);
+            ICalculationEndpoint calculationEndpoint = StrongTypedNodeEndpointClientBuilder.Create<ICalculationEndpoint>(provider);
             calculationEndpoint.ThrowException();
         }
     }
