@@ -40,5 +40,31 @@ namespace NodeServiceTest
             client.SendMessage("Vczh is a genius!");
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage());
         }
+
+        [TestMethod]
+        public void TestNamedPipeProtocolAsync()
+        {
+            NamedPipeProtocolFactory protocolFactory = new NamedPipeProtocolFactory();
+            INodeEndpointProtocolServer server = null;
+
+            Thread serverThread = new Thread(() =>
+            {
+                INodeEndpointProtocolServerListener serverListener = protocolFactory.CreateServerListener();
+                server = serverListener.WaitForServer("CalculationService", new CalculationEndpoint(true));
+            });
+            serverThread.Start();
+
+            ICalculationEndpointAsync client = protocolFactory.WaitForClient<ICalculationEndpointAsync>("localhost/CalculationService", "Calculation");
+            Assert.IsNotNull(client);
+            Assert.IsNotNull(server);
+
+            Assert.AreEqual(3, client.Add(2, 1).Result);
+            Assert.AreEqual(1, client.Sub(2, 1).Result);
+            Assert.AreEqual(2, client.Mul(2, 1).Result);
+            Assert.AreEqual(2, client.Div(2, 1).Result);
+
+            client.SendMessage("Vczh is a genius!").Wait();
+            Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage().Result);
+        }
     }
 }
