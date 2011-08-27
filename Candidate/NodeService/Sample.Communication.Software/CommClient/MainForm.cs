@@ -42,7 +42,7 @@ namespace CommClient
         {
             if (this.service != null)
             {
-                this.service.Provider.Protocol.Disconnect();
+                this.service.Provider.Disconnect();
                 this.service = null;
             }
 

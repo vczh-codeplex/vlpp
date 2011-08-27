@@ -9,8 +9,6 @@ namespace NodeService
     {
         bool EnableDuplex { get; }
         bool Connected { get; }
-        INodeEndpointProtocol OuterProtocol { get; }
-        INodeEndpointProtocol InnerProtocol { get; }
 
         void Disconnect();
         void BeginListen();
@@ -49,14 +47,18 @@ namespace NodeService
 
     public interface INodeEndpointProtocolServer : INodeEndpointProtocol
     {
-        void SetOuterProtocol(INodeEndpointProtocolServer protocol);
+        INodeEndpointProtocolServer OuterProtocol { get; }
+        INodeEndpointProtocolServer InnerProtocol { get; }
 
-        void OnOuterProtocolListened();
+        void SetOuterProtocol(INodeEndpointProtocolServer protocol);
         void OnInnerProtocolSet(INodeEndpointProtocolServer protocol);
     }
 
     public interface INodeEndpointProtocolClient : INodeEndpointProtocol
     {
+        INodeEndpointProtocolClient OuterProtocol { get; }
+        INodeEndpointProtocolClient InnerProtocol { get; }
+
         bool Connect(string address, string endpointName, int timeout);
         void SetOuterProtocol(INodeEndpointProtocolClient protocol);
 
