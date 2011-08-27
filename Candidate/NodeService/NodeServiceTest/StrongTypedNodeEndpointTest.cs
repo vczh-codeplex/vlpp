@@ -16,7 +16,7 @@ namespace NodeServiceTest
         [TestMethod]
         public void TestSimpleEndpointSerialization()
         {
-            CalculationEndpoint calculation = new CalculationEndpoint();
+            CalculationEndpoint calculation = new CalculationEndpoint(false);
             Assert.AreEqual("Calculation", calculation.EndpointName);
             Assert.AreEqual(false, calculation.EnableAsynchronization);
 
@@ -64,7 +64,7 @@ namespace NodeServiceTest
         [TestMethod]
         public void TestSimpleEndpointClient()
         {
-            CalculationEndpoint calculation = new CalculationEndpoint();
+            CalculationEndpoint calculation = new CalculationEndpoint(false);
             Assert.AreEqual("Calculation", calculation.EndpointName);
             Assert.AreEqual(false, calculation.EnableAsynchronization);
 
@@ -85,7 +85,7 @@ namespace NodeServiceTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestSimpleEndpointClientThrowException()
         {
-            CalculationEndpoint calculation = new CalculationEndpoint();
+            CalculationEndpoint calculation = new CalculationEndpoint(false);
             Assert.AreEqual("Calculation", calculation.EndpointName);
             Assert.AreEqual(false, calculation.EnableAsynchronization);
 

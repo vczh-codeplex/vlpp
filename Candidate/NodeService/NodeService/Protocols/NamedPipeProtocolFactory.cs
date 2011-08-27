@@ -253,8 +253,8 @@ namespace NodeService.Protocols
                 Write(protocolMessage);
             }
 
-            private static Regex requestString = new Regex(@"^\[REQUEST\]\[(?<GUID>[^\]]+)\]\[(?<METHOD>\w+)\](?<MESSAGE>.*)$");
-            private static Regex responseString = new Regex(@"^\[RESPONSE\]\[(?<GUID>[^\]]+)\](?<MESSAGE>.*)$");
+            private static Regex requestString = new Regex(@"^\[REQUEST\]\[(?<GUID>[a-zA-Z0-9-]+)\]\[(?<METHOD>\w+)\](?<MESSAGE>.*)$", RegexOptions.Singleline);
+            private static Regex responseString = new Regex(@"^\[RESPONSE\]\[(?<GUID>[a-zA-Z0-9-]+)\](?<MESSAGE>.*)$", RegexOptions.Singleline);
 
             private static string BuildRequest(Guid guid, string method, string message)
             {
@@ -315,7 +315,7 @@ namespace NodeService.Protocols
                         lead[i] = plead[i];
                     }
                 }
-                this.stream.Write(lead.Concat(bytes).ToArray(), 0, length);
+                this.stream.Write(lead.Concat(bytes).ToArray(), 0, lead.Length + length);
             }
 
             private void ReadCallback(IAsyncResult asyncResult, byte[] lead)
@@ -340,25 +340,29 @@ namespace NodeService.Protocols
                             Guid guid;
                             string method;
                             string message;
-                            SplitRequest(protocolMessage, out guid, out method, out message);
-                            if (this.Listener != null)
+                            if (SplitRequest(protocolMessage, out guid, out method, out message))
                             {
-                                Request request = new Request(this, guid, null, method, message);
-                                this.Listener.OnReceivedRequest(request);
+                                if (this.Listener != null)
+                                {
+                                    Request request = new Request(this, guid, null, method, message);
+                                    this.Listener.OnReceivedRequest(request);
+                                }
                             }
                         }
                         else if (protocolMessage.StartsWith("[RESPONSE]"))
                         {
                             Guid guid;
                             string message;
-                            SplitResponse(protocolMessage, out guid, out message);
-                            lock (this.responses)
+                            if (SplitResponse(protocolMessage, out guid, out message))
                             {
-                                Response response;
-                                if (this.responses.TryGetValue(guid, out response))
+                                lock (this.responses)
                                 {
-                                    this.responses.Remove(guid);
-                                    response.SetResponse(message);
+                                    Response response;
+                                    if (this.responses.TryGetValue(guid, out response))
+                                    {
+                                        this.responses.Remove(guid);
+                                        response.SetResponse(message);
+                                    }
                                 }
                             }
                         }
@@ -480,7 +484,7 @@ namespace NodeService.Protocols
                 try
                 {
                     clientStream.Connect(timeout);
-                    if (this.stream.IsConnected)
+                    if (clientStream.IsConnected)
                     {
                         clientStream.ReadMode = PipeTransmissionMode.Message;
                         this.stream = clientStream;
@@ -488,6 +492,7 @@ namespace NodeService.Protocols
                         {
                             this.innerProtocol.OnOuterProtocolConnected();
                         }
+                        BeginListen();
                         return true;
                     }
                 }
