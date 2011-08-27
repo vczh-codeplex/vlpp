@@ -77,6 +77,7 @@ namespace NodeServiceTest
             Assert.AreEqual(2, calculationEndpoint.Div(2, 1));
 
             calculationEndpoint.SendMessage("Vczh is a genius!");
+            Assert.AreEqual("Vczh is a genius!", calculationEndpoint.ReceiveMessage());
             Assert.AreEqual("Vczh is a genius!", calculation.Message);
         }
 

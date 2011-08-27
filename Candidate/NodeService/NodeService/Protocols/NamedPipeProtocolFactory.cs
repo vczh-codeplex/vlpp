@@ -228,6 +228,12 @@ namespace NodeService.Protocols
 
             public INodeEndpointProtocolRequestListener Listener { get; set; }
 
+            public void BeginListen()
+            {
+                byte[] lead = new byte[sizeof(int)];
+                this.stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
+            }
+
             public INodeEndpointProtocolResponse Send(string method, string message)
             {
                 Guid guid = Guid.NewGuid();
@@ -360,12 +366,6 @@ namespace NodeService.Protocols
                 }
                 BeginListen();
             }
-
-            protected void BeginListen()
-            {
-                byte[] lead = new byte[sizeof(int)];
-                this.stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
-            }
         }
 
         class ServerListener : INodeEndpointProtocolServerListener
@@ -396,13 +396,19 @@ namespace NodeService.Protocols
 
             public INodeEndpointProtocolServer Listen()
             {
-                NamedPipeServerStream serverStream = new NamedPipeServerStream(this.pipeName, PipeDirection.InOut, 255, PipeTransmissionMode.Message, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+                NamedPipeServerStream serverStream = new NamedPipeServerStream(
+                    this.pipeName,
+                    PipeDirection.InOut,
+                    NamedPipeServerStream.MaxAllowedServerInstances,
+                    PipeTransmissionMode.Message,
+                    PipeOptions.Asynchronous | PipeOptions.WriteThrough
+                    );
                 try
                 {
+                    serverStream.ReadMode = PipeTransmissionMode.Message;
                     serverStream.WaitForConnection();
                     if (serverStream.IsConnected)
                     {
-                        serverStream.ReadMode = PipeTransmissionMode.Message;
                         return new Server(serverStream);
                     }
                 }
@@ -426,7 +432,6 @@ namespace NodeService.Protocols
             public Server(NamedPipeServerStream stream)
             {
                 this.stream = stream;
-                BeginListen();
             }
 
             public void SetOuterProtocol(INodeEndpointProtocolServer protocol)
@@ -464,9 +469,14 @@ namespace NodeService.Protocols
                 }
 
                 int index = address.IndexOf('/');
-                string serverName = address.Substring(0, index - 1);
+                string serverName = address.Substring(0, index);
                 string pipeName = address.Substring(index + 1) + "/" + endpointName;
-                NamedPipeClientStream clientStream = new NamedPipeClientStream(serverName, pipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+                NamedPipeClientStream clientStream = new NamedPipeClientStream(
+                    serverName,
+                    pipeName,
+                    PipeDirection.InOut,
+                    PipeOptions.Asynchronous | PipeOptions.WriteThrough
+                    );
                 try
                 {
                     clientStream.Connect(timeout);
@@ -474,7 +484,6 @@ namespace NodeService.Protocols
                     {
                         clientStream.ReadMode = PipeTransmissionMode.Message;
                         this.stream = clientStream;
-                        BeginListen();
                         if (this.innerProtocol != null)
                         {
                             this.innerProtocol.OnOuterProtocolConnected();
