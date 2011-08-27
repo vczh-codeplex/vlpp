@@ -30,7 +30,6 @@ namespace NodeServiceTest
 
             ICalculationEndpoint client = protocolFactory.WaitForClient<ICalculationEndpoint>("localhost/CalculationService", "Calculation");
             Assert.IsNotNull(client);
-            Assert.IsNotNull(server);
 
             Assert.AreEqual(3, client.Add(2, 1));
             Assert.AreEqual(1, client.Sub(2, 1));
@@ -56,7 +55,6 @@ namespace NodeServiceTest
 
             ICalculationEndpointAsync client = protocolFactory.WaitForClient<ICalculationEndpointAsync>("localhost/CalculationService", "Calculation");
             Assert.IsNotNull(client);
-            Assert.IsNotNull(server);
 
             Assert.AreEqual(3, client.Add(2, 1).Result);
             Assert.AreEqual(1, client.Sub(2, 1).Result);
