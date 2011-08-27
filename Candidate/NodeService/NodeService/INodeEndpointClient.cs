@@ -13,7 +13,6 @@ namespace NodeService
 
     public interface INodeEndpointClientProvider
     {
-        bool EnableAsynchronization { get; }
         INodeEndpointProtocol Protocol { get; set; }
         INodeEndpointResponse Send(string method, XElement body);
     }

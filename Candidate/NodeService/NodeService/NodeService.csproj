@@ -53,6 +53,8 @@
     <Compile Include="Endpoints\StrongTypedNodeEndpointClient.cs" />
     <Compile Include="Endpoints\StrongTypedNodeEndpointSerializer.cs" />
     <Compile Include="Protocols\NamedPipeProtocolFactory.cs" />
+    <Compile Include="Providers\ProtocolEnabledClientProvider.cs" />
+    <Compile Include="Providers\ProtocolEnabledRequestListener.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

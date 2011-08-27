@@ -12,28 +12,36 @@ namespace NodeService.Endpoints
     {
         private static Dictionary<Type, Type> clientImplementations = new Dictionary<Type, Type>();
 
-        private INodeEndpointClientProvider provider;
-        private StrongTypedNodeEndpointSerializer serializer;
+        public INodeEndpointClientProvider Provider { get; private set; }
+        public StrongTypedNodeEndpointSerializer Serializer { get; private set; }
 
         public StrongTypedNodeEndpointClient(INodeEndpointClientProvider provider)
         {
-            this.provider = provider;
-            this.serializer = new StrongTypedNodeEndpointSerializer();
-        }
-
-        public INodeEndpointClientProvider Provider
-        {
-            get
-            {
-                return this.provider;
-            }
+            this.Provider = provider;
         }
 
         public void Dispose()
         {
-            if (this.provider.Protocol != null)
+            if (this.Provider.Protocol != null)
             {
-                this.provider.Protocol.Disconnect();
+                this.Provider.Protocol.Disconnect();
+            }
+        }
+
+        protected void Initialize(Type interfceType)
+        {
+            this.Serializer = new StrongTypedNodeEndpointSerializer();
+            foreach (var methodInfo in this.GetType().GetMethods())
+            {
+                foreach (var type in methodInfo
+                    .GetParameters()
+                    .Select(p => p.ParameterType)
+                    .Concat(new Type[] { methodInfo.ReturnType })
+                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void))
+                    )
+                {
+                    this.Serializer.AddDefaultSerializer(type);
+                }
             }
         }
 
@@ -42,9 +50,9 @@ namespace NodeService.Endpoints
             XElement body = new XElement("Parameters",
                 names
                 .Zip(arguments, (a, b) => Tuple.Create(a, b))
-                .Select(t => new XElement(t.Item1, this.serializer.Serialize(t.Item2)))
+                .Select(t => new XElement(t.Item1, this.Serializer.Serialize(t.Item2)))
                 );
-            var response = this.provider.Send(method, body);
+            var response = this.Provider.Send(method, body);
             response.WaitForResponse();
             if (response.RequestState == RequestState.RaisedException)
             {
@@ -52,7 +60,7 @@ namespace NodeService.Endpoints
             }
             else if (type != typeof(void))
             {
-                return this.serializer.Deserialize(response.Response, type);
+                return this.Serializer.Deserialize(response.Response, type);
             }
             else
             {
@@ -85,6 +93,15 @@ namespace NodeService.Endpoints
                     clientConstructor.Attributes = MemberAttributes.Public;
                     clientConstructor.Parameters.Add(new CodeParameterDeclarationExpression(typeof(INodeEndpointClientProvider), "provider"));
                     clientConstructor.BaseConstructorArgs.Add(new CodeArgumentReferenceExpression("provider"));
+                    clientConstructor.Statements.Add(
+                        new CodeExpressionStatement(
+                            new CodeMethodInvokeExpression(
+                                new CodeThisReferenceExpression(),
+                                "Initialize",
+                                new CodeTypeOfExpression(typeof(Type))
+                                )
+                            )
+                        );
 
                     foreach (var methodInfo in infertaceType.GetMethods())
                     {
