@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Endpoints\StrongTypedNodeEndpointClientBuilder.cs" />
     <Compile Include="INodeEndpoint.cs" />
     <Compile Include="INodeEndpointClient.cs" />
     <Compile Include="INodeEndpointProtocol.cs" />

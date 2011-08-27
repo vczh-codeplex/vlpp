@@ -13,6 +13,12 @@ namespace NodeService
         void QueueRequest(INodeEndpointRequest request);
     }
 
+    public interface IDuplexNodeEndpoint<T> : INodeEndpoint
+        where T : INodeEndpointClient
+    {
+        T Callback { get; set; }
+    }
+
     public interface INodeEndpointRequest
     {
         string EndpointName { get; }

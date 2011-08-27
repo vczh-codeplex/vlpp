@@ -34,21 +34,19 @@ namespace NodeService
             return server;
         }
 
-        public static INodeEndpointProtocolServer WaitForServerAndCallback<T, U>(
+        public static INodeEndpointProtocolServer WaitForServer<T>(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
-            T endpoint,
-            Action<T, U> setupCallback)
-            where T : INodeEndpoint
-            where U : INodeEndpointClient
+            IDuplexNodeEndpoint<T> endpoint)
+            where T : INodeEndpointClient
         {
             INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint);
             if (server != null)
             {
                 INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
                 provider.Protocol = server;
-                U endpointInterface = StrongTypedNodeEndpointClient.Create<U>(provider);
-                setupCallback(endpoint, endpointInterface);
+                T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
+                endpoint.Callback = endpointInterface;
             }
             server.ProtocolListener.BeginListen();
             return server;
@@ -67,7 +65,7 @@ namespace NodeService
             {
                 INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
                 provider.Protocol = client;
-                T endpointInterface = StrongTypedNodeEndpointClient.Create<T>(provider);
+                T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
                 return endpointInterface;
             }
             else
@@ -76,15 +74,14 @@ namespace NodeService
             }
         }
 
-        public static T WaitForClientAndCallback<T, U>(
+        public static T WaitForClient<T, U>(
             this INodeEndpointProtocolFactory protocolFactory,
             string address,
             string endpointName,
             U callback,
-            Action<T, U> setupCallback = null,
             int timeout = 5000
             )
-            where T : INodeEndpointClient
+            where T : IDuplexNodeEndpointClient<U>
             where U : INodeEndpoint
         {
             T client = WaitForClient<T>(protocolFactory, address, endpointName, timeout);
@@ -92,10 +89,7 @@ namespace NodeService
             {
                 INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(callback);
                 client.Provider.Protocol.ProtocolListener.Listener = endpointListener;
-                if (setupCallback != null)
-                {
-                    setupCallback(client, callback);
-                }
+                client.Callback = callback;
             }
             return client;
         }

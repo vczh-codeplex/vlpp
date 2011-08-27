@@ -11,6 +11,12 @@ namespace NodeService
         INodeEndpointClientProvider Provider { get; }
     }
 
+    public interface IDuplexNodeEndpointClient<T> : INodeEndpointClient
+        where T : INodeEndpoint
+    {
+        T Callback { get; set; }
+    }
+
     public interface INodeEndpointClientProvider
     {
         INodeEndpointProtocol Protocol { get; set; }
