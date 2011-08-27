@@ -14,7 +14,6 @@ namespace NodeService
         INodeEndpointProtocolListener ProtocolListener { get; }
         INodeEndpointProtocolSender ProtocolSender { get; }
 
-        void SetOuterProtocol(INodeEndpointProtocol protocol);
         void Disconnect();
     }
 
@@ -62,14 +61,18 @@ namespace NodeService
     public interface INodeEndpointProtocolServer : INodeEndpointProtocol
     {
         bool Listen(string address, string endpointName);
+        void SetOuterProtocol(INodeEndpointProtocolServer protocol);
 
         void OnOuterProtocolListened();
+        void OnInnerProtocolSet(INodeEndpointProtocolServer protocol);
     }
 
     public interface INodeEndpointProtocolClient : INodeEndpointProtocol
     {
-        bool Connect(string address, string endpointName);
+        bool Connect(string address, string endpointName, int timeout);
+        void SetOuterProtocol(INodeEndpointProtocolClient protocol);
 
         void OnOuterProtocolConnected();
+        void OnInnerProtocolSet(INodeEndpointProtocolClient protocol);
     }
 }
