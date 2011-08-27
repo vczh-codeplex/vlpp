@@ -116,6 +116,11 @@ namespace NodeService.Providers
                     }
                 }
             }
+
+            public void Dispose()
+            {
+                this.protocolResponse.Dispose();
+            }
         }
 
         public INodeEndpointProtocol Protocol { get; set; }

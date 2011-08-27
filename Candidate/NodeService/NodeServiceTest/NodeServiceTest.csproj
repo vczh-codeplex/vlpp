@@ -54,6 +54,7 @@
     <Compile Include="EndpointRequests\PrimitiveEndpointClientProvider.cs" />
     <Compile Include="EndpointRequests\PrimitiveEndpointRequest.cs" />
     <Compile Include="Endpoints\CalculationEndpoint.cs" />
+    <Compile Include="NamedPipeProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StrongTypedNodeEndpointTest.cs" />
   </ItemGroup>

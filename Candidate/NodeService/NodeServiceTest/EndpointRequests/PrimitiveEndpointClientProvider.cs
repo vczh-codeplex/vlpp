@@ -110,7 +110,7 @@ namespace NodeServiceTest.EndpointRequests
         }
     }
 
-    class PrimitiveEndpointClientResponse : INodeEndpointResponse
+    class PrimitiveEndpointClientResponse : INodeEndpointResponse, IDisposable
     {
         private StrongTypedNodeEndpoint endpoint;
         private RequestState requestState;
@@ -170,6 +170,10 @@ namespace NodeServiceTest.EndpointRequests
         public void RegisterCallback(Action<INodeEndpointResponse> callback)
         {
             callback(this);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
