@@ -115,6 +115,7 @@ namespace NodeService.Protocols
                     }
                 }
                 this.Stream.Write(lead.Concat(bytes).ToArray(), 0, lead.Length + length);
+                this.Stream.Flush();
             }
 
             private void ReadCallback(IAsyncResult asyncResult, byte[] lead)
