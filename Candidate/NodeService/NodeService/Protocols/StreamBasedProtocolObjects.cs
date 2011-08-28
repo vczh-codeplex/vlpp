@@ -175,7 +175,7 @@ namespace NodeService.Protocols
 
             public virtual void SetOuterProtocol(INodeEndpointProtocolServer protocol)
             {
-                throw new InvalidOperationException("Named pipe protocol client cannot have a outer protocol.");
+                throw new InvalidOperationException("The protocol server cannot have a outer protocol.");
             }
 
             public virtual void OnInnerProtocolSet(INodeEndpointProtocolServer protocol)
@@ -209,7 +209,7 @@ namespace NodeService.Protocols
 
             public virtual void SetOuterProtocol(INodeEndpointProtocolClient protocol)
             {
-                throw new InvalidOperationException("Named pipe protocol client cannot have a outer protocol.");
+                throw new InvalidOperationException("The protocol client cannot have a outer protocol.");
             }
 
             public virtual void OnOuterProtocolConnected()
