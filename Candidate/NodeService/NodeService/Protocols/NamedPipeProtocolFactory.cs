@@ -119,7 +119,6 @@ namespace NodeService.Protocols
                         {
                             this.InnerProtocol.OnOuterProtocolConnected();
                         }
-                        BeginListen();
                         return true;
                     }
                 }
