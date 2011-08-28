@@ -50,5 +50,17 @@ namespace NodeServiceTest
         {
             NodeEndpointTestCases.TestProtocolDuplex(new TcpProtocolFactory(), "8767", "127.0.0.1:8767");
         }
+
+        [TestMethod]
+        public void TestHttpProtocol()
+        {
+            NodeEndpointTestCases.TestProtocol(new HttpProtocolFactory(), "http://+:8768/CalculationService/", "http://localhost:8768/CalculationService/");
+        }
+
+        [TestMethod]
+        public void TestHttpProtocolAsync()
+        {
+            NodeEndpointTestCases.TestProtocolAsync(new HttpProtocolFactory(), "http://+:8769/CalculationService/", "http://localhost:8769/CalculationService/");
+        }
     }
 }

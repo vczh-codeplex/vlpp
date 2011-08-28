@@ -15,7 +15,10 @@ namespace NodeService
             INodeEndpoint endpoint
             )
         {
-            serverListener.Connect(address, endpoint.EndpointName);
+            if (!serverListener.Connected)
+            {
+                serverListener.Connect(address, endpoint.EndpointName);
+            }
             INodeEndpointProtocolServer server = serverListener.Listen();
 
             INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(endpoint);

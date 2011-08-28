@@ -21,12 +21,16 @@ namespace NodeService.Protocols
 
         class Request : INodeEndpointProtocolRequest
         {
-            private HttpListenerRequest request = null;
+            private HttpListenerContext context = null;
             private string message = null;
 
-            public Request(HttpListenerRequest request)
+            public Request(HttpListenerContext context)
             {
-                this.request = request;
+                this.context = context;
+                using (StreamReader reader = new StreamReader(this.context.Request.InputStream, Encoding.UTF8))
+                {
+                    this.message = reader.ReadToEnd();
+                }
             }
 
             public Request(string message)
@@ -38,7 +42,7 @@ namespace NodeService.Protocols
             {
                 get
                 {
-                    return this.request != null;
+                    return this.context != null;
                 }
             }
 
@@ -52,36 +56,89 @@ namespace NodeService.Protocols
 
             public void Respond(string response)
             {
-                throw new NotImplementedException();
+                if (this.context != null)
+                {
+                    Stream stream = this.context.Response.OutputStream;
+                    byte[] bytes = Encoding.UTF8.GetBytes(response);
+                    stream.Write(bytes, 0, bytes.Length);
+                    stream.Close();
+                }
             }
         }
 
         class ServerListener : INodeEndpointProtocolServerListener
         {
+            private HttpListener listener = null;
+            private Server server = null;
+
             public bool Connected
             {
-                get { throw new NotImplementedException(); }
+                get
+                {
+                    return this.listener != null && this.listener.IsListening;
+                }
             }
 
             public void Connect(string address, string endpointName)
             {
-                throw new NotImplementedException();
+                if (this.Connected)
+                {
+                    Disconnect();
+                }
+                this.listener = new HttpListener();
+                this.listener.Prefixes.Add(address + endpointName + "/");
+                try
+                {
+                    this.listener.Start();
+                }
+                catch (HttpListenerException)
+                {
+                    this.listener.Stop();
+                    this.listener.Close();
+                    this.listener = null;
+                }
             }
 
             public void Disconnect()
             {
-                throw new NotImplementedException();
+                if (this.listener != null)
+                {
+                    this.listener.Stop();
+                    this.listener.Close();
+                    this.listener = null;
+
+                    if (this.server != null)
+                    {
+                        this.server.Disconnect();
+                        this.server = null;
+                    }
+                }
             }
 
             public INodeEndpointProtocolServer Listen()
             {
-                throw new NotImplementedException();
+                if (this.Connected && this.server == null)
+                {
+                    this.server = new Server(this.listener);
+                    return this.server;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
         class Server : INodeEndpointProtocolServer
         {
+            private HttpListener listener = null;
             private INodeEndpointProtocolServer innerProtocol;
+            private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
+
+            public Server(HttpListener listener)
+            {
+                this.listener = listener;
+            }
 
             public INodeEndpointProtocolServer OuterProtocol
             {
@@ -111,37 +168,79 @@ namespace NodeService.Protocols
 
             public bool EnableDuplex
             {
-                get { throw new NotImplementedException(); }
+                get
+                {
+                    return false;
+                }
             }
 
             public bool Connected
             {
-                get { throw new NotImplementedException(); }
+                get
+                {
+                    return this.listener != null;
+                }
             }
 
             public void Disconnect()
             {
-                throw new NotImplementedException();
+                if (this.listener != null)
+                {
+                    this.listener.Stop();
+                    this.listener = null;
+                }
             }
 
             public void BeginListen()
             {
-                throw new NotImplementedException();
+                if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
+                this.listener.BeginGetContext(a =>
+                {
+                    HttpListenerContext context = this.listener.EndGetContext(a);
+                    Request request = new Request(context);
+                    if (request.Message == "[CONNECT]")
+                    {
+                        request.Respond("[CONNECTED]");
+                    }
+                    else
+                    {
+                        lock (this.listeners)
+                        {
+                            foreach (var listener in this.listeners)
+                            {
+                                listener.OnReceivedRequest(request);
+                            }
+                        }
+                    }
+                    if (this.Connected)
+                    {
+                        BeginListen();
+                    }
+                }, null);
             }
 
             public void AddListener(INodeEndpointProtocolRequestListener listener)
             {
-                throw new NotImplementedException();
+                lock (this.listeners)
+                {
+                    if (!this.listeners.Contains(listener))
+                    {
+                        this.listeners.Add(listener);
+                    }
+                }
             }
 
             public void RemoveListener(INodeEndpointProtocolRequestListener listener)
             {
-                throw new NotImplementedException();
+                lock (this.listeners)
+                {
+                    this.listeners.Remove(listener);
+                }
             }
 
             public void Send(string message)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException("The protocol is not able to send data directly.");
             }
         }
 
@@ -157,7 +256,7 @@ namespace NodeService.Protocols
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(body);
 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(address + "/" + endpointName + "/");
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(address + endpointName + "/");
                 request.UserAgent = "Vczh-NodeService-Http";
                 request.Method = "POST";
                 request.ContentType = "text/html; charset=UTF-8";
@@ -302,7 +401,7 @@ namespace NodeService.Protocols
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 SendHttpRequest(message, true, (a, b, m) =>
                 {
-                    Request request = new Request(message);
+                    Request request = new Request(m);
                     lock (this.listeners)
                     {
                         foreach (var listener in this.listeners)
