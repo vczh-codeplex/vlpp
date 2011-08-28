@@ -42,13 +42,13 @@ namespace NodeServiceTest
         [TestMethod]
         public void TestTcpProtocolAsync()
         {
-            NodeEndpointTestCases.TestProtocolAsync(new TcpProtocolFactory(), "8765", "127.0.0.1:8765");
+            NodeEndpointTestCases.TestProtocolAsync(new TcpProtocolFactory(), "8766", "127.0.0.1:8766");
         }
 
         [TestMethod]
         public void TestTcpProtocolDuplex()
         {
-            NodeEndpointTestCases.TestProtocolDuplex(new TcpProtocolFactory(), "8765", "127.0.0.1:8765");
+            NodeEndpointTestCases.TestProtocolDuplex(new TcpProtocolFactory(), "8767", "127.0.0.1:8767");
         }
     }
 }

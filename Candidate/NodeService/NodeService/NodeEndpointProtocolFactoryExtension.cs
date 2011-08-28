@@ -66,6 +66,7 @@ namespace NodeService
                 INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
                 provider.Protocol = client;
                 T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
+                client.BeginListen();
                 return endpointInterface;
             }
             else
