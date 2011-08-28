@@ -20,10 +20,7 @@ namespace NodeService.Endpoints
 
         public void Dispose()
         {
-            if (this.Provider.Protocol != null)
-            {
-                this.Provider.Protocol.Disconnect();
-            }
+            this.Provider.Disconnect();
         }
 
         protected void Initialize(Type interfceType)

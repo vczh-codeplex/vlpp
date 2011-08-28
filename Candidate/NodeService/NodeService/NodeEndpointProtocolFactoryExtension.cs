@@ -43,10 +43,18 @@ namespace NodeService
             INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint);
             if (server != null)
             {
-                INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
-                provider.Protocol = server;
-                T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
-                endpoint.Callback = endpointInterface;
+                if (server.EnableDuplex)
+                {
+                    INodeEndpointClientProvider provider = new ProtocolEnabledClientProvider();
+                    provider.Protocol = server;
+                    T endpointInterface = StrongTypedNodeEndpointClientBuilder.Create<T>(provider);
+                    endpoint.Callback = endpointInterface;
+                }
+                else
+                {
+                    server.Disconnect();
+                    throw new InvalidOperationException("The protocol does not support duplex communication.");
+                }
             }
             server.BeginListen();
             return server;
@@ -88,9 +96,17 @@ namespace NodeService
             T client = WaitForClient<T>(protocolFactory, address, endpointName, timeout);
             if (!object.ReferenceEquals(client, default(T)))
             {
-                INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(callback);
-                client.Provider.Protocol.AddListener(endpointListener);
-                client.Callback = callback;
+                if (client.Provider.Protocol.EnableDuplex)
+                {
+                    INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(callback);
+                    client.Provider.Protocol.AddListener(endpointListener);
+                    client.Callback = callback;
+                }
+                else
+                {
+                    client.Dispose();
+                    throw new InvalidOperationException("The protocol does not support duplex communication.");
+                }
             }
             return client;
         }
