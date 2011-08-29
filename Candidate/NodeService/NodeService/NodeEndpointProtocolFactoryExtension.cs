@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService.Providers;
 using NodeService.Endpoints;
+using System.IO;
 
 namespace NodeService
 {
@@ -112,6 +113,40 @@ namespace NodeService
                 }
             }
             return client;
+        }
+
+        public static void Send(this INodeEndpointProtocol protocol, string message)
+        {
+            protocol.Send(message.NodeServiceEncode());
+        }
+
+        public static string RequestMessage(this INodeEndpointProtocolRequest request)
+        {
+            return request.Message.NodeServiceDecode();
+        }
+
+        public static void Respond(this INodeEndpointProtocolRequest request, string message)
+        {
+            request.Respond(message.NodeServiceEncode());
+        }
+
+        public static byte[] NodeServiceEncode(this string message)
+        {
+            return Encoding.UTF8.GetBytes(message);
+        }
+
+        public static string NodeServiceDecode(this byte[] bytes)
+        {
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        public static byte[] ReadAllBytesAndClose(this Stream stream)
+        {
+            int length = (int)stream.Length;
+            byte[] bytes = new byte[length];
+            stream.Read(bytes, 0, length);
+            stream.Close();
+            return bytes;
         }
     }
 }

@@ -22,18 +22,15 @@ namespace NodeService.Protocols
         class Request : INodeEndpointProtocolRequest
         {
             private HttpListenerContext context = null;
-            private string message = null;
+            private byte[] message = null;
 
             public Request(HttpListenerContext context)
             {
                 this.context = context;
-                using (StreamReader reader = new StreamReader(this.context.Request.InputStream, Encoding.UTF8))
-                {
-                    this.message = reader.ReadToEnd();
-                }
+                this.message = this.context.Request.InputStream.ReadAllBytesAndClose();
             }
 
-            public Request(string message)
+            public Request(byte[] message)
             {
                 this.message = message;
             }
@@ -46,7 +43,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public string Message
+            public byte[] Message
             {
                 get
                 {
@@ -54,13 +51,12 @@ namespace NodeService.Protocols
                 }
             }
 
-            public void Respond(string response)
+            public void Respond(byte[] response)
             {
                 if (this.context != null)
                 {
                     Stream stream = this.context.Response.OutputStream;
-                    byte[] bytes = Encoding.UTF8.GetBytes(response);
-                    stream.Write(bytes, 0, bytes.Length);
+                    stream.Write(response, 0, response.Length);
                     stream.Close();
                 }
             }
@@ -198,7 +194,7 @@ namespace NodeService.Protocols
                 {
                     HttpListenerContext context = this.listener.EndGetContext(a);
                     Request request = new Request(context);
-                    if (request.Message == "[CONNECT]")
+                    if (request.RequestMessage() == "[CONNECT]")
                     {
                         request.Respond("[CONNECTED]");
                     }
@@ -238,7 +234,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public void Send(string message)
+            public void Send(byte[] message)
             {
                 throw new NotSupportedException("The protocol is not able to send data directly.");
             }
@@ -252,17 +248,15 @@ namespace NodeService.Protocols
             private bool connected = false;
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
 
-            private bool SendHttpRequest(string body, bool asynchronized, Action<HttpWebRequest, HttpWebResponse, string> callback)
+            private bool SendHttpRequest(byte[] body, bool asynchronized, Action<HttpWebRequest, HttpWebResponse, byte[]> callback)
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(body);
-
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(address + endpointName + "/");
                 request.UserAgent = "Vczh-NodeService-Http";
                 request.Method = "POST";
                 request.ContentType = "text/html; charset=UTF-8";
-                request.ContentLength = bytes.Length;
+                request.ContentLength = body.Length;
                 Stream requestStream = request.GetRequestStream();
-                requestStream.Write(bytes, 0, bytes.Length);
+                requestStream.Write(body, 0, body.Length);
                 requestStream.Close();
 
                 if (asynchronized)
@@ -270,11 +264,8 @@ namespace NodeService.Protocols
                     request.BeginGetResponse((a) =>
                     {
                         HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(a);
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-                        {
-                            string message = reader.ReadToEnd();
-                            callback(request, response, message);
-                        }
+                        byte[] message = response.GetResponseStream().ReadAllBytesAndClose();
+                        callback(request, response, message);
                     }, null);
                 }
                 else
@@ -282,11 +273,8 @@ namespace NodeService.Protocols
                     try
                     {
                         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-                        {
-                            string message = reader.ReadToEnd();
-                            callback(request, response, message);
-                        }
+                        byte[] message = response.GetResponseStream().ReadAllBytesAndClose();
+                        callback(request, response, message);
                     }
                     catch (WebException)
                     {
@@ -318,9 +306,9 @@ namespace NodeService.Protocols
                 this.address = address;
                 this.endpointName = endpointName;
 
-                string message = "";
-                SendHttpRequest("[CONNECT]", false, (a, b, m) => message = m);
-                if (message == "[CONNECTED]")
+                byte[] message = null;
+                SendHttpRequest("[CONNECT]".NodeServiceEncode(), false, (a, b, m) => message = m);
+                if (message.NodeServiceDecode() == "[CONNECTED]")
                 {
                     if (this.innerProtocol != null)
                     {
@@ -396,7 +384,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public void Send(string message)
+            public void Send(byte[] message)
             {
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 SendHttpRequest(message, true, (a, b, m) =>

@@ -119,12 +119,13 @@ namespace NodeService.Providers
 
         public void OnReceivedRequest(INodeEndpointProtocolRequest request)
         {
-            if (request.Message.StartsWith("[REQUEST]"))
+            string requestMessage = request.RequestMessage();
+            if (requestMessage.StartsWith("[REQUEST]"))
             {
                 Guid guid;
                 string method;
                 string message;
-                if (ProtocolEnabledHelper.SplitRequest(request.Message, out guid, out method, out message))
+                if (ProtocolEnabledHelper.SplitRequest(requestMessage, out guid, out method, out message))
                 {
                     try
                     {

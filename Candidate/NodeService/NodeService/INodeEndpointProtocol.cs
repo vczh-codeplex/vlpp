@@ -14,7 +14,7 @@ namespace NodeService
         void BeginListen();
         void AddListener(INodeEndpointProtocolRequestListener listener);
         void RemoveListener(INodeEndpointProtocolRequestListener listener);
-        void Send(string message);
+        void Send(byte[] message);
     }
 
     public interface INodeEndpointProtocolRequestListener
@@ -25,9 +25,9 @@ namespace NodeService
     public interface INodeEndpointProtocolRequest
     {
         bool CanRespond { get; }
-        string Message { get; }
+        byte[] Message { get; }
 
-        void Respond(string response);
+        void Respond(byte[] message);
     }
 
     public interface INodeEndpointProtocolFactory
