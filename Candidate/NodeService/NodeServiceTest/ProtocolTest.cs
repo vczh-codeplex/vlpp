@@ -62,5 +62,48 @@ namespace NodeServiceTest
         {
             NodeEndpointTestCases.TestProtocolAsync(new HttpProtocolFactory(), "http://+:8769/CalculationService/", "http://localhost:8769/CalculationService/");
         }
+
+        private INodeEndpointProtocolFactory CreateReversedNamePipeProtocolFactory()
+        {
+            INodeEndpointProtocolFactory factory =
+                new TranslatorProtocolFactory(
+                    new NamedPipeProtocolFactory(),
+                    new TranslatorProtocolHandlerFactorySimple(
+                        new TranslatorHandlerSimple()
+                        )
+                    );
+            return factory;
+        }
+
+        [TestMethod]
+        public void TestTranslatorProtocol()
+        {
+            NodeEndpointTestCases.TestProtocol(CreateReversedNamePipeProtocolFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestTranslatorProtocolAsync()
+        {
+            NodeEndpointTestCases.TestProtocolAsync(CreateReversedNamePipeProtocolFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestTranslatorProtocolDuplex()
+        {
+            NodeEndpointTestCases.TestProtocolDuplex(CreateReversedNamePipeProtocolFactory(), "DuplexService", "localhost/DuplexService");
+        }
+    }
+
+    class TranslatorHandlerSimple : ITranslatorProtocolHandlerSimple
+    {
+        public byte[] Decode(byte[] bytes)
+        {
+            return bytes.Reverse().ToArray();
+        }
+
+        public byte[] Encode(byte[] bytes)
+        {
+            return bytes.Reverse().ToArray();
+        }
     }
 }
