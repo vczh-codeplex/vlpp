@@ -151,9 +151,10 @@ namespace NodeService.Providers
 
             public void OnReceivedRequest(INodeEndpointProtocolRequest request)
             {
-                if (request.Message.StartsWith("[RESPONSE]"))
+                string requestMessage = request.RequestMessage();
+                if (requestMessage.StartsWith("[RESPONSE]"))
                 {
-                    this.clientProvider.Receive(request.Message);
+                    this.clientProvider.Receive(requestMessage);
                 }
             }
         }

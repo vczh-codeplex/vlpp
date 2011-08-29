@@ -12,9 +12,9 @@ namespace NodeService.Protocols
             where StreamType : Stream
         {
             private StreamProtocol<StreamType> protocolBase;
-            private string message;
+            private byte[] message;
 
-            public StreamProtocolRequest(StreamProtocol<StreamType> protocolBase, string message)
+            public StreamProtocolRequest(StreamProtocol<StreamType> protocolBase, byte[] message)
             {
                 this.protocolBase = protocolBase;
                 this.message = message;
@@ -28,7 +28,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public virtual string Message
+            public virtual byte[] Message
             {
                 get
                 {
@@ -36,7 +36,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public virtual void Respond(string response)
+            public virtual void Respond(byte[] response)
             {
                 this.protocolBase.Send(response);
             }
@@ -95,17 +95,16 @@ namespace NodeService.Protocols
                 }
             }
 
-            public virtual void Send(string message)
+            public virtual void Send(byte[] message)
             {
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 Write(message);
             }
 
-            private void Write(string message)
+            private void Write(byte[] message)
             {
                 byte[] lead = new byte[sizeof(int)];
-                byte[] bytes = Encoding.UTF8.GetBytes(message);
-                int length = bytes.Length;
+                int length = message.Length;
                 unsafe
                 {
                     byte* plead = (byte*)&length;
@@ -114,7 +113,7 @@ namespace NodeService.Protocols
                         lead[i] = plead[i];
                     }
                 }
-                this.Stream.Write(lead.Concat(bytes).ToArray(), 0, lead.Length + length);
+                this.Stream.Write(lead.Concat(message).ToArray(), 0, lead.Length + length);
                 this.Stream.Flush();
             }
 
@@ -134,8 +133,7 @@ namespace NodeService.Protocols
                     int messageLength = this.Stream.Read(bytes, 0, bytes.Length);
                     if (messageLength == leadLength)
                     {
-                        string protocolMessage = Encoding.UTF8.GetString(bytes);
-                        StreamProtocolRequest<StreamType> request = new StreamProtocolRequest<StreamType>(this, protocolMessage);
+                        StreamProtocolRequest<StreamType> request = new StreamProtocolRequest<StreamType>(this, bytes);
                         lock (this.listeners)
                         {
                             foreach (var listener in this.listeners)
