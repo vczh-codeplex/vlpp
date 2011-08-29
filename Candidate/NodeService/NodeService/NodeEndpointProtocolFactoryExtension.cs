@@ -142,11 +142,20 @@ namespace NodeService
 
         public static byte[] ReadAllBytesAndClose(this Stream stream)
         {
-            int length = (int)stream.Length;
-            byte[] bytes = new byte[length];
-            stream.Read(bytes, 0, length);
-            stream.Close();
-            return bytes;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                byte[] buffer = new byte[65536];
+                int read = -1;
+                while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    memoryStream.Write(buffer, 0, read);
+                }
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                buffer = new byte[memoryStream.Length];
+                memoryStream.Read(buffer, 0, buffer.Length);
+                return buffer;
+            }
         }
     }
 }
