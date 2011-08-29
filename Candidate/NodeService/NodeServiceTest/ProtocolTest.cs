@@ -65,14 +65,7 @@ namespace NodeServiceTest
 
         private INodeEndpointProtocolFactory CreateReversedNamePipeProtocolFactory()
         {
-            INodeEndpointProtocolFactory factory =
-                new TranslatorProtocolFactory(
-                    new NamedPipeProtocolFactory(),
-                    new TranslatorProtocolHandlerFactorySimple(
-                        new TranslatorHandlerSimple()
-                        )
-                    );
-            return factory;
+            return new TranslatorHandlerSimple().CreateFactory(new NamedPipeProtocolFactory());
         }
 
         [TestMethod]
