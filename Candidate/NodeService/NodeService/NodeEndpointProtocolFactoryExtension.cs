@@ -5,6 +5,7 @@ using System.Text;
 using NodeService.Providers;
 using NodeService.Endpoints;
 using System.IO;
+using NodeService.Protocols;
 
 namespace NodeService
 {
@@ -156,6 +157,16 @@ namespace NodeService
                 memoryStream.Read(buffer, 0, buffer.Length);
                 return buffer;
             }
+        }
+
+        public static INodeEndpointProtocolFactory CreateFactory(this ITranslatorProtocolHandlerFactory handlerFactory, INodeEndpointProtocolFactory factory)
+        {
+            return new TranslatorProtocolFactory(factory, handlerFactory);
+        }
+
+        public static INodeEndpointProtocolFactory CreateFactory(this ITranslatorProtocolHandlerSimple handler, INodeEndpointProtocolFactory factory)
+        {
+            return new TranslatorProtocolHandlerFactorySimple(handler).CreateFactory(factory);
         }
     }
 }
