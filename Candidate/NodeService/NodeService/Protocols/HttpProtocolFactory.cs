@@ -111,7 +111,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public INodeEndpointProtocolServer Listen()
+            public INodeEndpointProtocolServer Listen(int timeout)
             {
                 if (this.Connected && this.server == null)
                 {

@@ -47,7 +47,7 @@ namespace NodeService.Protocols
                 this.pipeName = null;
             }
 
-            public INodeEndpointProtocolServer Listen()
+            public INodeEndpointProtocolServer Listen(int timeout)
             {
                 NamedPipeServerStream serverStream = new NamedPipeServerStream(
                     this.pipeName,

@@ -54,6 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuplexNodeEndpointServer.cs" />
+    <Compile Include="INodeEndpointServer.cs" />
+    <Compile Include="NodeEndpointServer.cs" />
+    <Compile Include="NodeEndpointServerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
