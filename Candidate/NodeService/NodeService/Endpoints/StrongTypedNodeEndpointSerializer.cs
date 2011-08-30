@@ -67,6 +67,10 @@ namespace NodeService.Endpoints
                 if (type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0)
                 {
                     new DataTypeSerializer(this, type);
+                    foreach (NodeEndpointKnownTypeAttribute att in type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), false))
+                    {
+                        AddDefaultSerializer(att.KnownType);
+                    }
                 }
                 else
                 {

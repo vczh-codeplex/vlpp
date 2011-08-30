@@ -106,7 +106,7 @@ namespace NodeService.Endpoints
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
     public class NodeEndpointKnownTypeAttribute : Attribute
     {
         public Type KnownType { get; private set; }
