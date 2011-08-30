@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2943196F-EBC2-4ED4-AD91-5DD2D172AC84}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{61B60E25-2DED-449A-959D-DB7BAA500AB8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NodeServiceHost</RootNamespace>
-    <AssemblyName>NodeServiceHost</AssemblyName>
+    <RootNamespace>NodeServiceLauncher</RootNamespace>
+    <AssemblyName>NodeServiceLauncher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -38,9 +37,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -63,7 +60,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -76,6 +72,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NodeServiceGuard\NodeServiceGuard.csproj">
+      <Project>{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}</Project>
+      <Name>NodeServiceGuard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NodeServiceHost\NodeServiceHost.csproj">
+      <Project>{2943196F-EBC2-4ED4-AD91-5DD2D172AC84}</Project>
+      <Name>NodeServiceHost</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NodeService\NodeService.csproj">
       <Project>{62C0BACC-8486-4421-8DF7-E296E5E383FF}</Project>
       <Name>NodeService</Name>

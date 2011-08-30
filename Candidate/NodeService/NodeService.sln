@@ -20,9 +20,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommServer", "Sample.Commun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommClient", "Sample.Communication.Software\CommClient\CommClient.csproj", "{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeServiceGuard", "NodeServiceGuard\NodeServiceGuard.csproj", "{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeServiceLauncher", "NodeServiceLauncher\NodeServiceLauncher.csproj", "{61B60E25-2DED-449A-959D-DB7BAA500AB8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -43,6 +47,12 @@ Global
 		SccProjectTopLevelParentUniqueName5 = NodeService.sln
 		SccProjectName5 = Sample.Communication.Software/CommClient
 		SccLocalPath5 = Sample.Communication.Software\\CommClient
+		SccProjectUniqueName6 = NodeServiceGuard\\NodeServiceGuard.csproj
+		SccProjectName6 = NodeServiceGuard
+		SccLocalPath6 = NodeServiceGuard
+		SccProjectUniqueName7 = NodeServiceLauncher\\NodeServiceLauncher.csproj
+		SccProjectName7 = NodeServiceLauncher
+		SccLocalPath7 = NodeServiceLauncher
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -106,6 +116,26 @@ Global
 		{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842}.Release|x86.ActiveCfg = Release|x86
 		{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842}.Release|x86.Build.0 = Release|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Debug|x86.ActiveCfg = Debug|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Debug|x86.Build.0 = Debug|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Release|Any CPU.ActiveCfg = Release|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Release|x86.ActiveCfg = Release|x86
+		{6A95A4E9-74EE-4331-855D-4A6ACA36ADA8}.Release|x86.Build.0 = Release|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Debug|x86.ActiveCfg = Debug|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Debug|x86.Build.0 = Debug|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|Any CPU.ActiveCfg = Release|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|x86.ActiveCfg = Release|x86
+		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
