@@ -14,14 +14,15 @@ namespace NodeService
         private static INodeEndpointProtocolServer WaitForServerBase(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
-            INodeEndpoint endpoint
+            INodeEndpoint endpoint,
+            int timeout = 5000
             )
         {
             if (!serverListener.Connected)
             {
                 serverListener.Connect(address, endpoint.EndpointName);
             }
-            INodeEndpointProtocolServer server = serverListener.Listen();
+            INodeEndpointProtocolServer server = serverListener.Listen(timeout);
 
             INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(endpoint);
             server.AddListener(endpointListener);
@@ -31,10 +32,11 @@ namespace NodeService
         public static INodeEndpointProtocolServer WaitForServer(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
-            INodeEndpoint endpoint
+            INodeEndpoint endpoint,
+            int timeout = 5000
             )
         {
-            INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint);
+            INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint, timeout);
             server.BeginListen();
             return server;
         }
@@ -42,10 +44,12 @@ namespace NodeService
         public static INodeEndpointProtocolServer WaitForServer<T>(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
-            IDuplexNodeEndpoint<T> endpoint)
+            IDuplexNodeEndpoint<T> endpoint,
+            int timeout = 5000
+            )
             where T : INodeEndpointClient
         {
-            INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint);
+            INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint, timeout);
             if (server != null)
             {
                 if (server.EnableDuplex)

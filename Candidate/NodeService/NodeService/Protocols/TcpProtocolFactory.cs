@@ -90,7 +90,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public INodeEndpointProtocolServer Listen()
+            public INodeEndpointProtocolServer Listen(int timeout)
             {
                 try
                 {

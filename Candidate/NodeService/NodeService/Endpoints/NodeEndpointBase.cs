@@ -49,6 +49,10 @@ namespace NodeService.Endpoints
             }
         }
 
+        public virtual void Dispose()
+        {
+        }
+
         protected abstract void OnQueueRequest(INodeEndpointRequest request);
     }
 

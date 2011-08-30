@@ -42,7 +42,7 @@ namespace NodeService
 
         void Connect(string address, string endpointName);
         void Disconnect();
-        INodeEndpointProtocolServer Listen();
+        INodeEndpointProtocolServer Listen(int timeout);
     }
 
     public interface INodeEndpointProtocolServer : INodeEndpointProtocol

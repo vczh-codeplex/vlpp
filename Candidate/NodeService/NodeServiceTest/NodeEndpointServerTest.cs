@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NodeService.Endpoints;
+using NodeService;
+using NodeServiceHost;
+using NodeService.Protocols;
+using System.Threading;
+
+namespace NodeServiceTest
+{
+    [TestClass]
+    public class NodeEndpointServerTest
+    {
+        [NodeEndpoint("EndpointService")]
+        public class Endpoint : StrongTypedNodeEndpoint
+        {
+            [NodeEndpointMethod]
+            public string Concat(string a, string b)
+            {
+                return a + b;
+            }
+        }
+
+        public interface IEndpoint : INodeEndpointClient
+        {
+            string Concat(string a, string b);
+        }
+
+        public class EndpointServerCallback : INodeEndpointServerCallback<Endpoint>
+        {
+            private INodeEndpointProtocolFactory protocolFactory = new NamedPipeProtocolFactory();
+
+            public int endpointStartedCounter = 0;
+            public int endpointStoppedCounter = 0;
+
+            public INodeEndpointProtocolFactory ProtocolFactory
+            {
+                get
+                {
+                    return this.protocolFactory;
+                }
+            }
+
+            public string ProtocolAddress
+            {
+                get
+                {
+                    return "ConcatStringEndpointServer";
+                }
+            }
+
+            public Endpoint CreateEndpoint()
+            {
+                return new Endpoint();
+            }
+
+            public void OnEndpointStart(Endpoint endpoint, INodeEndpointProtocolServer protocolServer)
+            {
+                Interlocked.Increment(ref this.endpointStartedCounter);
+            }
+
+            public void OnEndpointStopped(Endpoint endpoint, INodeEndpointProtocolServer protocolServer)
+            {
+                Interlocked.Increment(ref this.endpointStoppedCounter);
+            }
+        }
+
+        [TestMethod]
+        public void TestNodeEndpointServerStartAndStop()
+        {
+            EndpointServerCallback callback = new EndpointServerCallback();
+            NodeEndpointServer<Endpoint> server = new NodeEndpointServer<Endpoint>();
+            Assert.AreEqual(NodeEndpointServerState.Ready, server.ServerState);
+            server.Start(callback);
+            Assert.AreEqual(NodeEndpointServerState.Running, server.ServerState);
+            server.Stop();
+            Assert.AreEqual(NodeEndpointServerState.Stopped, server.ServerState);
+        }
+
+        [TestMethod]
+        public void TestNodeEndpointServer()
+        {
+        }
+    }
+}

@@ -116,9 +116,9 @@ namespace NodeService.Protocols
                 this.outerServerListener.Disconnect();
             }
 
-            public INodeEndpointProtocolServer Listen()
+            public INodeEndpointProtocolServer Listen(int timeout)
             {
-                INodeEndpointProtocolServer server = this.outerServerListener.Listen();
+                INodeEndpointProtocolServer server = this.outerServerListener.Listen(timeout);
                 if (server == null)
                 {
                     return null;

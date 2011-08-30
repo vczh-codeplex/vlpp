@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace NodeService
 {
-    public interface INodeEndpoint
+    public interface INodeEndpoint : IDisposable
     {
         string EndpointName { get; }
 

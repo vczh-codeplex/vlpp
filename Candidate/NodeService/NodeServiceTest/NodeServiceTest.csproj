@@ -51,6 +51,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NodeEndpointServerTest.cs" />
     <Compile Include="NodeEndpointTestCases.cs" />
     <Compile Include="EndpointRequests\PrimitiveEndpointClientProvider.cs" />
     <Compile Include="EndpointRequests\PrimitiveEndpointRequest.cs" />
@@ -60,6 +61,10 @@
     <Compile Include="StrongTypedNodeEndpointTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NodeServiceHost\NodeServiceHost.csproj">
+      <Project>{2943196F-EBC2-4ED4-AD91-5DD2D172AC84}</Project>
+      <Name>NodeServiceHost</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NodeService\NodeService.csproj">
       <Project>{62C0BACC-8486-4421-8DF7-E296E5E383FF}</Project>
       <Name>NodeService</Name>

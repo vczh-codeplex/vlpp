@@ -27,6 +27,7 @@
               <Regular>
                 <CodeCoverageItem binaryFile="NodeService\bin\Debug\NodeService.dll" pdbFile="NodeService\bin\Debug\NodeService.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="NodeServiceTest\bin\Debug\NodeServiceTest.dll" pdbFile="NodeServiceTest\bin\Debug\NodeServiceTest.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="NodeServiceHost\bin\Debug\NodeServiceHost.dll" pdbFile="NodeServiceHost\bin\Debug\NodeServiceHost.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
