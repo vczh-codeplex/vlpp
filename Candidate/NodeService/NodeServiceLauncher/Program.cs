@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace NodeServiceHost
+namespace NodeServiceLauncher
 {
     static class Program
     {
@@ -11,7 +11,7 @@ namespace NodeServiceHost
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
         }
     }
