@@ -15,6 +15,8 @@ namespace NodeServiceTest
     [TestClass]
     public class ProtocolTest
     {
+        #region Network Protocol Test Cases
+
         [TestMethod]
         public void TestNamedPipeProtocol()
         {
@@ -63,6 +65,10 @@ namespace NodeServiceTest
             NodeEndpointTestCases.TestProtocolAsync(new HttpProtocolFactory(), "http://+:8769/CalculationService/", "http://localhost:8769/CalculationService/");
         }
 
+        #endregion
+
+        #region Translator Protocol Test Cases
+
         private INodeEndpointProtocolFactory CreateReversedNamePipeProtocolFactory()
         {
             return
@@ -88,6 +94,38 @@ namespace NodeServiceTest
         {
             NodeEndpointTestCases.TestProtocolDuplex(CreateReversedNamePipeProtocolFactory(), "DuplexService", "localhost/DuplexService");
         }
+
+        #endregion
+
+        #region Gzip Test Cases
+
+        private INodeEndpointProtocolFactory CreateGzipNamePipeProtocolFactory()
+        {
+            return
+                new NamedPipeProtocolFactory()
+                .With(new GzipProtocolHandler())
+                ;
+        }
+
+        [TestMethod]
+        public void TestGzipProtocol()
+        {
+            NodeEndpointTestCases.TestProtocol(CreateGzipNamePipeProtocolFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestGzipProtocolAsync()
+        {
+            NodeEndpointTestCases.TestProtocolAsync(CreateGzipNamePipeProtocolFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestGzipProtocolDuplex()
+        {
+            NodeEndpointTestCases.TestProtocolDuplex(CreateGzipNamePipeProtocolFactory(), "DuplexService", "localhost/DuplexService");
+        }
+
+        #endregion
     }
 
     class TranslatorHandlerSimple : ITranslatorProtocolHandlerSimple
