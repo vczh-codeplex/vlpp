@@ -116,7 +116,7 @@ namespace NodeService.Endpoints
                             new CodeMethodInvokeExpression(
                                 new CodeThisReferenceExpression(),
                                 "Initialize",
-                                new CodeTypeOfExpression(typeof(Type))
+                                new CodeTypeOfExpression(infertaceType)
                                 )
                             )
                         );

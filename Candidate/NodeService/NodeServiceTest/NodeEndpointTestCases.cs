@@ -31,6 +31,10 @@ namespace NodeServiceTest
             Assert.AreEqual(2, client.Mul(2, 1));
             Assert.AreEqual(2, client.Div(2, 1));
 
+            Point point = client.Swap(new Point { X = 1, Y = 2 });
+            Assert.AreEqual(2, point.X);
+            Assert.AreEqual(1, point.Y);
+
             client.SendMessage("Vczh is a genius!");
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage());
         }
@@ -53,6 +57,10 @@ namespace NodeServiceTest
             Assert.AreEqual(1, client.Sub(2, 1).Result);
             Assert.AreEqual(2, client.Mul(2, 1).Result);
             Assert.AreEqual(2, client.Div(2, 1).Result);
+
+            Point point = client.Swap(new Point { X = 1, Y = 2 }).Result;
+            Assert.AreEqual(2, point.X);
+            Assert.AreEqual(1, point.Y);
 
             client.SendMessage("Vczh is a genius!").Wait();
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage().Result);

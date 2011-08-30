@@ -95,4 +95,25 @@ namespace NodeService.Endpoints
     public class NodeEndpointMethodAttribute : Attribute
     {
     }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class NodeEndpointDataTypeAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class NodeEndpointDataMemberAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class NodeEndpointKnownTypeAttribute : Attribute
+    {
+        public Type KnownType { get; private set; }
+
+        public NodeEndpointKnownTypeAttribute(Type knownType)
+        {
+            this.KnownType = knownType;
+        }
+    }
 }
