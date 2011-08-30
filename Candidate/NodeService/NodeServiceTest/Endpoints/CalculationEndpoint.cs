@@ -69,6 +69,12 @@ namespace NodeServiceTest.Endpoints
                 Y = p.X,
             };
         }
+
+        [NodeEndpointMethod]
+        public Animal CopyAnimal(Animal animal)
+        {
+            return animal;
+        }
     }
 
     [NodeEndpointDataType]
@@ -81,6 +87,29 @@ namespace NodeServiceTest.Endpoints
         public int Y { get; set; }
     }
 
+    [NodeEndpointDataType]
+    [NodeEndpointKnownType(typeof(Cat))]
+    [NodeEndpointKnownType(typeof(Dog))]
+    public class Animal
+    {
+        [NodeEndpointDataMember]
+        public string name;
+    }
+
+    [NodeEndpointDataType]
+    public class Cat : Animal
+    {
+        [NodeEndpointDataMember]
+        public string catName;
+    }
+
+    [NodeEndpointDataType]
+    public class Dog : Animal
+    {
+        [NodeEndpointDataMember]
+        public string dogName;
+    }
+
     public interface ICalculationEndpoint : INodeEndpointClient
     {
         int Add(int a, int b);
@@ -91,6 +120,7 @@ namespace NodeServiceTest.Endpoints
         string ReceiveMessage();
         void ThrowException();
         Point Swap(Point p);
+        Animal CopyAnimal(Animal animal);
     }
 
     public interface ICalculationEndpointAsync : INodeEndpointClient
@@ -103,5 +133,6 @@ namespace NodeServiceTest.Endpoints
         Task<string> ReceiveMessage();
         Task ThrowException();
         Task<Point> Swap(Point p);
+        Task<Animal> CopyAnimal(Animal animal);
     }
 }

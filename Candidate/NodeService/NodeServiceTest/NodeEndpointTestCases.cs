@@ -35,6 +35,14 @@ namespace NodeServiceTest
             Assert.AreEqual(2, point.X);
             Assert.AreEqual(1, point.Y);
 
+            Cat cat = (Cat)client.CopyAnimal(new Cat { name = "cat", catName = "bigcat" });
+            Assert.AreEqual("cat", cat.name);
+            Assert.AreEqual("bigcat", cat.catName);
+
+            Dog dog = (Dog)client.CopyAnimal(new Dog { name = "dog", dogName = "bigdog" });
+            Assert.AreEqual("dog", dog.name);
+            Assert.AreEqual("bigdog", dog.dogName);
+
             client.SendMessage("Vczh is a genius!");
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage());
         }
@@ -61,6 +69,14 @@ namespace NodeServiceTest
             Point point = client.Swap(new Point { X = 1, Y = 2 }).Result;
             Assert.AreEqual(2, point.X);
             Assert.AreEqual(1, point.Y);
+
+            Cat cat = (Cat)client.CopyAnimal(new Cat { name = "cat", catName = "bigcat" }).Result;
+            Assert.AreEqual("cat", cat.name);
+            Assert.AreEqual("bigcat", cat.catName);
+
+            Dog dog = (Dog)client.CopyAnimal(new Dog { name = "dog", dogName = "bigdog" }).Result;
+            Assert.AreEqual("dog", dog.name);
+            Assert.AreEqual("bigdog", dog.dogName);
 
             client.SendMessage("Vczh is a genius!").Wait();
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage().Result);
