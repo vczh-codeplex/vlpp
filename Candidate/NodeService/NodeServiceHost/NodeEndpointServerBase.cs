@@ -111,6 +111,8 @@ namespace NodeServiceHost
                 this.serverListenerThread.Abort();
             }
             ClearServices(false);
+            this.ServerListener.Disconnect();
+            this.ServerListener = null;
             this.serverState = NodeEndpointServerState.Stopped;
         }
     }

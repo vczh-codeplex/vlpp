@@ -73,7 +73,13 @@ namespace NodeService.Protocols
             {
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 byte[] lead = new byte[sizeof(int)];
-                this.Stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
+                try
+                {
+                    this.Stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
+                }
+                catch (ObjectDisposedException)
+                {
+                }
             }
 
             public virtual void AddListener(INodeEndpointProtocolRequestListener listener)
@@ -119,6 +125,7 @@ namespace NodeService.Protocols
 
             private void ReadCallback(IAsyncResult asyncResult, byte[] lead)
             {
+                if (!this.Connected) return;
                 int leadLength = this.Stream.EndRead(asyncResult);
                 if (leadLength == lead.Length)
                 {

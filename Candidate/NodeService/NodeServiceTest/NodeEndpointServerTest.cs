@@ -83,6 +83,20 @@ namespace NodeServiceTest
         [TestMethod]
         public void TestNodeEndpointServer()
         {
+            EndpointServerCallback callback = new EndpointServerCallback();
+            NodeEndpointServer<Endpoint> server = new NodeEndpointServer<Endpoint>();
+            server.Start(callback);
+
+            for (int i = 0; i < 3; i++)
+            {
+                IEndpoint client = callback.ProtocolFactory.WaitForClient<IEndpoint>("localhost/" + callback.ProtocolAddress, "EndpointService");
+                Assert.AreEqual("AB", client.Concat("A", "B"));
+                client.Dispose();
+            }
+
+            server.Stop();
+            Assert.AreEqual(3, callback.endpointStartedCounter);
+            Assert.AreEqual(3, callback.endpointStoppedCounter);
         }
     }
 }
