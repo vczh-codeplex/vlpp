@@ -57,6 +57,7 @@
     <Compile Include="Endpoints\StrongTypedNodeEndpoint.cs" />
     <Compile Include="Endpoints\StrongTypedNodeEndpointClient.cs" />
     <Compile Include="Endpoints\StrongTypedNodeEndpointSerializer.cs" />
+    <Compile Include="Protocols\GzipProtocolHandler.cs" />
     <Compile Include="Protocols\HttpProtocolFactory.cs" />
     <Compile Include="Protocols\NamedPipeProtocolFactory.cs" />
     <Compile Include="NodeEndpointProtocolFactoryExtension.cs" />
