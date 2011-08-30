@@ -3,45 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using NodeService.Endpoints.StrongTypedNodeEndpointSerializers;
 
 namespace NodeService.Endpoints
 {
     public class StrongTypedNodeEndpointSerializer
     {
-        public interface ITypedSerializer
-        {
-            Type TargetType { get; }
-
-            XNode Serialize(object data);
-            object Deserialize(XNode data, Type type);
-        }
-
-        public interface INamedSerializer : ITypedSerializer
-        {
-            string ElementName { get; }
-        }
-
-        private class PrimitiveTypeSerializer<T> : ITypedSerializer
-        {
-            public Type TargetType
-            {
-                get
-                {
-                    return typeof(T);
-                }
-            }
-
-            public XNode Serialize(object data)
-            {
-                return new XText((string)Convert.ChangeType(data, typeof(string)));
-            }
-
-            public object Deserialize(XNode data, Type type)
-            {
-                return Convert.ChangeType((string)((XText)data).Value, typeof(T));
-            }
-        }
-
         private Dictionary<Type, ITypedSerializer> typedSerializer = new Dictionary<Type, ITypedSerializer>();
         private Dictionary<string, INamedSerializer> namedSerializer = new Dictionary<string, INamedSerializer>();
 
@@ -95,6 +62,33 @@ namespace NodeService.Endpoints
 
         public void AddDefaultSerializer(Type type)
         {
+            if (!this.typedSerializer.ContainsKey(type))
+            {
+                if (type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0)
+                {
+                    new DataTypeSerializer(this, type);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Don't know how to serialize type " + type.FullName + ".");
+                }
+            }
+        }
+    }
+
+    namespace StrongTypedNodeEndpointSerializers
+    {
+        public interface ITypedSerializer
+        {
+            Type TargetType { get; }
+
+            XNode Serialize(object data);
+            object Deserialize(XNode data, Type type);
+        }
+
+        public interface INamedSerializer : ITypedSerializer
+        {
+            string ElementName { get; }
         }
     }
 }

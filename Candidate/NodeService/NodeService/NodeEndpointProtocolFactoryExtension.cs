@@ -159,14 +159,14 @@ namespace NodeService
             }
         }
 
-        public static INodeEndpointProtocolFactory CreateFactory(this ITranslatorProtocolHandlerFactory handlerFactory, INodeEndpointProtocolFactory factory)
+        public static INodeEndpointProtocolFactory With(this INodeEndpointProtocolFactory factory, ITranslatorProtocolHandlerFactory handlerFactory)
         {
             return new TranslatorProtocolFactory(factory, handlerFactory);
         }
 
-        public static INodeEndpointProtocolFactory CreateFactory(this ITranslatorProtocolHandlerSimple handler, INodeEndpointProtocolFactory factory)
+        public static INodeEndpointProtocolFactory With(this INodeEndpointProtocolFactory factory, ITranslatorProtocolHandlerSimple handler)
         {
-            return new TranslatorProtocolHandlerFactorySimple(handler).CreateFactory(factory);
+            return factory.With(new TranslatorProtocolHandlerFactorySimple(handler));
         }
     }
 }

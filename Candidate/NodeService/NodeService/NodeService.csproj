@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Endpoints\StrongTypedNodeEndpointClientBuilder.cs" />
+    <Compile Include="Endpoints\StrongTypedNodeEndpointSerializers\DataTypeSerializer.cs" />
+    <Compile Include="Endpoints\StrongTypedNodeEndpointSerializers\PrimitiveTypeSerializer.cs" />
     <Compile Include="INodeEndpoint.cs" />
     <Compile Include="INodeEndpointClient.cs" />
     <Compile Include="INodeEndpointProtocol.cs" />

@@ -59,6 +59,26 @@ namespace NodeServiceTest.Endpoints
         {
             throw new InvalidOperationException("ThrowException");
         }
+
+        [NodeEndpointMethod]
+        public Point Swap(Point p)
+        {
+            return new Point
+            {
+                X = p.Y,
+                Y = p.X,
+            };
+        }
+    }
+
+    [NodeEndpointDataType]
+    public class Point
+    {
+        [NodeEndpointDataMember]
+        public int X { get; set; }
+
+        [NodeEndpointDataMember]
+        public int Y { get; set; }
     }
 
     public interface ICalculationEndpoint : INodeEndpointClient
@@ -70,6 +90,7 @@ namespace NodeServiceTest.Endpoints
         void SendMessage(string message);
         string ReceiveMessage();
         void ThrowException();
+        Point Swap(Point p);
     }
 
     public interface ICalculationEndpointAsync : INodeEndpointClient
@@ -81,5 +102,6 @@ namespace NodeServiceTest.Endpoints
         Task SendMessage(string message);
         Task<string> ReceiveMessage();
         Task ThrowException();
+        Task<Point> Swap(Point p);
     }
 }
