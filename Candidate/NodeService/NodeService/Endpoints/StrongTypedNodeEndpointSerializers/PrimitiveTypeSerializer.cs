@@ -23,7 +23,8 @@ namespace NodeService.Endpoints.StrongTypedNodeEndpointSerializers
 
         public object Deserialize(XNode data, Type type)
         {
-            return Convert.ChangeType((string)((XText)data).Value, typeof(T));
+            string stringValue = data == null ? "" : (string)((XText)data).Value;
+            return Convert.ChangeType(stringValue, typeof(T));
         }
     }
 }

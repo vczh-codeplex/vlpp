@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace NodeServiceGuard
 {
@@ -15,7 +16,21 @@ namespace NodeServiceGuard
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            bool creatednew = false;
+            using (Semaphore semaphore = new Semaphore(0, 1, "NodeServerGuardedService", out creatednew))
+            {
+                MainForm mainForm = new MainForm();
+                if (creatednew)
+                {
+                    Application.Run(mainForm);
+                }
+                else
+                {
+                    MessageBox.Show("Node Service Guard already has a running instance.", mainForm.Text);
+                    mainForm.Dispose();
+                }
+            }
         }
     }
 }

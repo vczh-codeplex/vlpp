@@ -11,10 +11,17 @@ namespace NodeServiceHost.GuardService
     public class GuardServiceEndpointServer : DuplexNodeEndpointServer<GuardService, IGuardServiceCallback>
     {
         public GuardServiceSharedData SharedData { get; private set; }
+        public GuardServiceEndpointServerCallback callback = null;
 
         public GuardServiceEndpointServer()
         {
             this.SharedData = new GuardServiceSharedData();
+            this.callback = new GuardServiceEndpointServerCallback(this.SharedData);
+        }
+
+        public void Start()
+        {
+            Start(this.callback);
         }
 
         public override void Start(INodeEndpointServerCallback<GuardService> callback)

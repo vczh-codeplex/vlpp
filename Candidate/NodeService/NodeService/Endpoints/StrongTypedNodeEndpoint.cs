@@ -15,9 +15,21 @@ namespace NodeService.Endpoints
         private void Initialize()
         {
             this.Serializer = new StrongTypedNodeEndpointSerializer();
-            foreach (var methodInfo in this.GetType()
-                .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(m => m.GetCustomAttributes(typeof(NodeEndpointMethodAttribute), false).Length > 0)
+
+            List<Type> baseTypes = new List<Type>();
+            Type currentType = this.GetType();
+            while (currentType != null)
+            {
+                baseTypes.Add(currentType);
+                currentType = currentType.BaseType;
+            }
+
+            foreach (var methodInfo in baseTypes
+                .SelectMany(
+                    type=>type
+                    .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(m => m.GetCustomAttributes(typeof(NodeEndpointMethodAttribute), false).Length > 0)
+                    )
                 )
             {
                 this.methods.Add(methodInfo.Name, methodInfo);

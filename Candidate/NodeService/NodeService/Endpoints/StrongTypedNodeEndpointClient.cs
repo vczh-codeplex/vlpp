@@ -23,15 +23,12 @@ namespace NodeService.Endpoints
             this.Provider.Disconnect();
         }
 
-        protected void Initialize(Type interfceType)
+        protected void Initialize(Type interfaceType)
         {
             this.Serializer = new StrongTypedNodeEndpointSerializer();
-            foreach (var methodInfo in interfceType
-                .GetMethods()
-                .Where(m => 
-                    m.DeclaringType != typeof(INodeEndpointClient) && 
-                    (!m.DeclaringType.IsGenericType || m.DeclaringType.GetGenericTypeDefinition() != typeof(IDuplexNodeEndpointClient<>)))
-                )
+            var methodInfos = StrongTypedNodeEndpointClientBuilder.GetMethodInfos(interfaceType);
+
+            foreach (var methodInfo in methodInfos)
             {
                 foreach (var type in methodInfo
                     .GetParameters()

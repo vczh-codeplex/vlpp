@@ -40,11 +40,6 @@ namespace NodeServiceHost.GuardService
         void Unregister(Guid token);
     }
 
-    public interface IGuardService<T> : IGuardService, IDuplexNodeEndpointClient<T>
-        where T : INodeEndpoint
-    {
-    }
-
     [NodeEndpointDataType]
     public class GuardedServiceDescription
     {
