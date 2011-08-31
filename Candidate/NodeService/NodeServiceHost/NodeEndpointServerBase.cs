@@ -81,7 +81,7 @@ namespace NodeServiceHost
             }
         }
 
-        public void Start(INodeEndpointServerCallback<T> callback)
+        public virtual void Start(INodeEndpointServerCallback<T> callback)
         {
             if (this.serverState != NodeEndpointServerState.Ready)
             {
@@ -98,7 +98,7 @@ namespace NodeServiceHost
             this.serverState = NodeEndpointServerState.Running;
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             if (this.serverState != NodeEndpointServerState.Running)
             {
