@@ -26,10 +26,12 @@ namespace NodeServiceHost.GuardService
         {
         }
 
-        public static IGuardService ConnectGuardServiceFacade()
+        public static IGuardService ConnectGuardServiceFacade(Action<INodeEndpointServer<TService>> startEventHandler, Action stopEventHandler)
         {
             var serverCallback = new TCallback();
             var guardServiceCallback = new NodeEndpointGuardServiceCallback<TService>(serverCallback);
+            guardServiceCallback.StartEventHandler = startEventHandler;
+            guardServiceCallback.StopEventHandler = stopEventHandler;
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
                     IGuardServiceInterface,
@@ -52,10 +54,12 @@ namespace NodeServiceHost.GuardService
         {
         }
 
-        public static IGuardService ConnectGuardServiceFacade()
+        public static IGuardService ConnectGuardServiceFacade(Action<INodeEndpointServer<TDuplexService>> startEventHandler, Action stopEventHandler)
         {
             var serverCallback = new TCallback();
             var guardServiceCallback = new DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>(serverCallback);
+            guardServiceCallback.StartEventHandler = startEventHandler;
+            guardServiceCallback.StopEventHandler = stopEventHandler;
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
                     IGuardServiceInterface,
