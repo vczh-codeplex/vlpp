@@ -79,7 +79,7 @@ namespace NodeServiceHost.GuardService
             }
         }
 
-        public void StopAll()
+        public void StopAll(Action<Guid> callback = null)
         {
             lock (this.guardedServices)
             {
@@ -91,6 +91,10 @@ namespace NodeServiceHost.GuardService
                     }
                     catch (Exception)
                     {
+                    }
+                    if (callback != null)
+                    {
+                        callback(pair.Value.Token);
                     }
                 }
                 this.guardedServices.Clear();

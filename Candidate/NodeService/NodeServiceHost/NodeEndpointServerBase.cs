@@ -48,7 +48,7 @@ namespace NodeServiceHost
             while (!this.needToStop)
             {
                 T endpoint = this.callback.CreateEndpoint();
-                INodeEndpointProtocolServer server = CreateProtocolServer(endpoint, 5000);
+                INodeEndpointProtocolServer server = CreateProtocolServer(endpoint, NodeEndpointProtocolFactoryExtension.DefaultTimeout);
                 if (server == null)
                 {
                     endpoint.Dispose();
@@ -106,7 +106,7 @@ namespace NodeServiceHost
             }
 
             this.needToStop = true;
-            if (!this.serverListenerThread.Join(5000))
+            if (!this.serverListenerThread.Join(NodeEndpointProtocolFactoryExtension.DefaultTimeout))
             {
                 this.serverListenerThread.Abort();
             }

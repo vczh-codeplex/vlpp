@@ -31,6 +31,17 @@ namespace NodeServiceGuard
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
+            this.server.SharedData.StopAll(token =>
+            {
+                ListViewItem item = listViewServices.Items.Cast<ListViewItem>()
+                    .Where(i => token == (Guid)i.Tag)
+                    .FirstOrDefault();
+                if (item != null)
+                {
+                    listViewServices.Items.Remove(item);
+                    listViewServices.Refresh();
+                }
+            });
             this.server.Stop();
         }
 
@@ -40,6 +51,7 @@ namespace NodeServiceGuard
             foreach (var service in this.server.SharedData.GuardedServices)
             {
                 ListViewItem item = new ListViewItem();
+                item.Tag = service.Token;
                 item.Text = service.Description.Name;
                 item.SubItems.Add(service.Token.ToString());
                 item.SubItems.Add(service.Description.ExecutablePath);

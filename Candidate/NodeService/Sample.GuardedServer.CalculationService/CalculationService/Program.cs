@@ -23,7 +23,14 @@ namespace CalculationService
             });
             Console.WriteLine("Press [ENTER] to stop");
             Console.ReadLine();
-            guardService.Unregister(token);
+
+            try
+            {
+                guardService.Unregister(token);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 
