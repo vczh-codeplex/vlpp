@@ -24,9 +24,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeServiceGuard", "NodeSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeServiceLauncher", "NodeServiceLauncher\NodeServiceLauncher.csproj", "{61B60E25-2DED-449A-959D-DB7BAA500AB8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample.GuardedServer.CalculationService", "Sample.GuardedServer.CalculationService", "{A666C33A-4F3B-40C5-A915-60D940C70E32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationService", "Sample.GuardedServer.CalculationService\CalculationService\CalculationService.csproj", "{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationClient", "Sample.GuardedServer.CalculationService\CalculationClient\CalculationClient.csproj", "{2F759436-0551-4992-8CC8-EEEC45A7BD18}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -53,6 +59,14 @@ Global
 		SccProjectUniqueName7 = NodeServiceLauncher\\NodeServiceLauncher.csproj
 		SccProjectName7 = NodeServiceLauncher
 		SccLocalPath7 = NodeServiceLauncher
+		SccProjectUniqueName8 = Sample.GuardedServer.CalculationService\\CalculationService\\CalculationService.csproj
+		SccProjectTopLevelParentUniqueName8 = NodeService.sln
+		SccProjectName8 = Sample.GuardedServer.CalculationService/CalculationService
+		SccLocalPath8 = Sample.GuardedServer.CalculationService\\CalculationService
+		SccProjectUniqueName9 = Sample.GuardedServer.CalculationService\\CalculationClient\\CalculationClient.csproj
+		SccProjectTopLevelParentUniqueName9 = NodeService.sln
+		SccProjectName9 = Sample.GuardedServer.CalculationService/CalculationClient
+		SccLocalPath9 = Sample.GuardedServer.CalculationService\\CalculationClient
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -136,6 +150,26 @@ Global
 		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|x86.ActiveCfg = Release|x86
 		{61B60E25-2DED-449A-959D-DB7BAA500AB8}.Release|x86.Build.0 = Release|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Debug|x86.ActiveCfg = Debug|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Debug|x86.Build.0 = Debug|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Release|Any CPU.ActiveCfg = Release|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Release|x86.ActiveCfg = Release|x86
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A}.Release|x86.Build.0 = Release|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Debug|x86.ActiveCfg = Debug|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Debug|x86.Build.0 = Debug|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|Any CPU.ActiveCfg = Release|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|x86.ActiveCfg = Release|x86
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,5 +177,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AF45D5E8-40CF-456B-9E40-45BA087A6EE7} = {BC4F3DFF-F87D-412A-B119-94967B5832CA}
 		{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842} = {BC4F3DFF-F87D-412A-B119-94967B5832CA}
+		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A} = {A666C33A-4F3B-40C5-A915-60D940C70E32}
+		{2F759436-0551-4992-8CC8-EEEC45A7BD18} = {A666C33A-4F3B-40C5-A915-60D940C70E32}
 	EndGlobalSection
 EndGlobal

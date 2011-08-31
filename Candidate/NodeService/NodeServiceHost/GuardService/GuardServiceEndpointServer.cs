@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NodeService;
+using System.Threading;
+using System.Diagnostics;
 
 namespace NodeServiceHost.GuardService
 {
@@ -46,6 +48,26 @@ namespace NodeServiceHost.GuardService
                 lock (this.guardedServices)
                 {
                     return this.guardedServices.Values.ToArray();
+                }
+            }
+        }
+
+        public void RestartFailedServices()
+        {
+            lock (this.guardedServices)
+            {
+                foreach (var pair in this.guardedServices.ToArray())
+                {
+                    bool createdNew = false;
+                    using (Semaphore semaphore = new Semaphore(0, 1, pair.Value.SemaphoreName, out createdNew))
+                    {
+                        semaphore.Close();
+                    }
+                    if (createdNew)
+                    {
+                        this.guardedServices.Remove(pair.Key);
+                        Process.Start(pair.Value.Description.ExecutablePath, pair.Value.Description.Arguments);
+                    }
                 }
             }
         }

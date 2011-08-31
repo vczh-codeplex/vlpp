@@ -18,7 +18,7 @@ namespace NodeService.Endpoints
             this.Provider = provider;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.Provider.Disconnect();
         }
