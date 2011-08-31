@@ -15,12 +15,19 @@ namespace NodeServiceHost.GuardService
 
         protected abstract NodeEndpointServerBase<T> CreateNodeEndpointServer();
 
+        public Action<INodeEndpointServer<T>> StartEventHandler { get; set; }
+        public Action StopEventHandler { get; set; }
+
         private void StartServer()
         {
             if (this.server == null)
             {
                 this.server = CreateNodeEndpointServer();
                 this.server.Start(this.callback);
+                if (this.StartEventHandler != null)
+                {
+                    this.StartEventHandler(this.server);
+                }
             }
         }
 
@@ -48,6 +55,10 @@ namespace NodeServiceHost.GuardService
         {
             StopServer();
             base.Stop();
+            if (this.StopEventHandler != null)
+            {
+                this.StopEventHandler();
+            }
         }
 
         public override void Dispose()
