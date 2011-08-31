@@ -11,11 +11,13 @@ namespace NodeService
 {
     public static class NodeEndpointProtocolFactoryExtension
     {
+        public const int DefaultTimeout = 1000;
+
         private static INodeEndpointProtocolServer WaitForServerBase(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
             INodeEndpoint endpoint,
-            int timeout = 5000
+            int timeout = DefaultTimeout
             )
         {
             if (!serverListener.Connected)
@@ -33,7 +35,7 @@ namespace NodeService
             this INodeEndpointProtocolServerListener serverListener,
             string address,
             INodeEndpoint endpoint,
-            int timeout = 5000
+            int timeout = DefaultTimeout
             )
         {
             INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint, timeout);
@@ -45,7 +47,7 @@ namespace NodeService
             this INodeEndpointProtocolServerListener serverListener,
             string address,
             IDuplexNodeEndpoint<T> endpoint,
-            int timeout = 5000
+            int timeout = DefaultTimeout
             )
             where T : INodeEndpointClient
         {
@@ -73,7 +75,7 @@ namespace NodeService
             this INodeEndpointProtocolFactory protocolFactory,
             string address,
             string endpointName,
-            int timeout = 5000
+            int timeout = DefaultTimeout
             )
             where T : INodeEndpointClient
         {
