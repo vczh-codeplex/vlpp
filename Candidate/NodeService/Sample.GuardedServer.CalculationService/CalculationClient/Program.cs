@@ -12,9 +12,10 @@ namespace CalculationClient
         static void Main(string[] args)
         {
             INodeEndpointProtocolFactory protocolFactory = new NamedPipeProtocolFactory();
-            ICalculationService client = protocolFactory.WaitForClient<ICalculationService>("GuardedServiceTest", "CalculationService");
+            ICalculationService client = protocolFactory.WaitForClient<ICalculationService>("localhost/GuardedServiceTest", "CalculationService");
             Console.WriteLine("ICalculationService.Add(1, 2) == " + client.Add(1, 2).ToString());
             client.Dispose();
+            Console.ReadLine();
         }
     }
 

@@ -14,30 +14,13 @@ namespace CalculationService
 {
     class Program
     {
-        static ManualResetEvent exitEvent = null;
-
-        static void StartEventHandler(INodeEndpointServer<CalculationService> server)
-        {
-        }
-
-        static void StopEventHandler()
-        {
-            exitEvent.Set();
-        }
-
         static void Main(string[] args)
         {
-            exitEvent = new ManualResetEvent(false);
-
-            var guardService = GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.ConnectGuardServiceFacade(StartEventHandler, StopEventHandler);
-            Guid token = guardService.Register(new GuardedServiceDescription()
-            {
-                ExecutablePath = typeof(Program).Assembly.CodeBase,
-                Arguments = "",
-                Name = "pipe://./GuardedServiceTest/CalculationService",
-            });
-            Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
-            exitEvent.WaitOne();
+            GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.LaunchService(
+                typeof(Program).Assembly.CodeBase,
+                "",
+                "pipe://./GuardedServiceTest/CalculationService"
+                );
         }
     }
 

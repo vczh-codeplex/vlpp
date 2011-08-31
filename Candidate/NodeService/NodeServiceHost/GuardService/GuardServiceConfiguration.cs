@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using NodeService.Protocols;
+using System.Threading;
 
 namespace NodeServiceHost.GuardService
 {
@@ -43,6 +44,20 @@ namespace NodeServiceHost.GuardService
                 );
             return guardService;
         }
+
+        public static void LaunchService(string executablePath, string arguments, string name)
+        {
+            ManualResetEvent exitEvent = new ManualResetEvent(false);
+            var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set());
+            guardService.Register(new GuardedServiceDescription()
+            {
+                ExecutablePath = executablePath,
+                Arguments = arguments,
+                Name = name,
+            });
+            Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
+            exitEvent.WaitOne();
+        }
     }
 
     public static class DuplexGuardServiceStarter<TDuplexService, TDuplexCallback, TCallback>
@@ -70,6 +85,20 @@ namespace NodeServiceHost.GuardService
                     guardServiceCallback
                 );
             return guardService;
+        }
+
+        public static void LaunchService(string executablePath, string arguments, string name)
+        {
+            ManualResetEvent exitEvent = new ManualResetEvent(false);
+            var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set());
+            guardService.Register(new GuardedServiceDescription()
+            {
+                ExecutablePath = executablePath,
+                Arguments = arguments,
+                Name = name,
+            });
+            Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
+            exitEvent.WaitOne();
         }
     }
 }
