@@ -16,43 +16,55 @@ namespace NodeServiceHost.GuardService
         {
             return new NamedPipeProtocolFactory();
         }
+    }
 
-        public static IGuardService ConnectGuardServiceFacade<TService, TCallback>()
-            where TService : INodeEndpoint
-            where TCallback : INodeEndpointServerCallback<TService>, new()
+    public static class GuardServiceStarter<TService, TCallback>
+        where TService : INodeEndpoint
+        where TCallback : INodeEndpointServerCallback<TService>, new()
+    {
+        public interface IGuardServiceInterface : IGuardService, IDuplexNodeEndpointClient<NodeEndpointGuardServiceCallback<TService>>
+        {
+        }
+
+        public static IGuardService ConnectGuardServiceFacade()
         {
             var serverCallback = new TCallback();
             var guardServiceCallback = new NodeEndpointGuardServiceCallback<TService>(serverCallback);
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
-                    IGuardService<
-                        NodeEndpointGuardServiceCallback<TService>>,
-                        NodeEndpointGuardServiceCallback<TService>
-                    >(
+                    IGuardServiceInterface,
+                    NodeEndpointGuardServiceCallback<TService>
+                >(
                     "localhost/" + GuardServiceConfiguration.Address,
                     GuardServiceConfiguration.EndpointName,
                     guardServiceCallback
-                    );
+                );
             return guardService;
         }
+    }
 
-        public static IGuardService ConnectGuardServiceFacade<TDuplexService, TDuplexCallback, TCallback>()
-            where TDuplexService : IDuplexNodeEndpoint<TDuplexCallback>
-            where TDuplexCallback : INodeEndpointClient
-            where TCallback : INodeEndpointServerCallback<TDuplexService>, new()
+    public static class DuplexGuardServiceStarter<TDuplexService, TDuplexCallback, TCallback>
+        where TDuplexService : IDuplexNodeEndpoint<TDuplexCallback>
+        where TDuplexCallback : INodeEndpointClient
+        where TCallback : INodeEndpointServerCallback<TDuplexService>, new()
+    {
+        public interface IGuardServiceInterface : IGuardService, IDuplexNodeEndpointClient<DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>>
+        {
+        }
+
+        public static IGuardService ConnectGuardServiceFacade()
         {
             var serverCallback = new TCallback();
             var guardServiceCallback = new DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>(serverCallback);
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
-                    IGuardService<
-                        DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>>,
-                        DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>
-                    >(
+                    IGuardServiceInterface,
+                    DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>
+                >(
                     "localhost/" + GuardServiceConfiguration.Address,
                     GuardServiceConfiguration.EndpointName,
                     guardServiceCallback
-                    );
+                );
             return guardService;
         }
     }

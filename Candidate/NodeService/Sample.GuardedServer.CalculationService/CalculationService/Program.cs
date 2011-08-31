@@ -14,7 +14,7 @@ namespace CalculationService
     {
         static void Main(string[] args)
         {
-            var guardService = GuardServiceConfiguration.ConnectGuardServiceFacade<CalculationService, CalculationServiceEndpointServerCallback>();
+            var guardService = GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.ConnectGuardServiceFacade();
             Guid token = guardService.Register(new GuardedServiceDescription()
             {
                 ExecutablePath = typeof(Program).Assembly.CodeBase,
