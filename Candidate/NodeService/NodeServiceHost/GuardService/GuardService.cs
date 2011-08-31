@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService.Endpoints;
 using NodeService;
+using System.Threading;
 
 namespace NodeServiceHost.GuardService
 {
@@ -33,10 +34,15 @@ namespace NodeServiceHost.GuardService
         }
     }
 
-    public interface IGuardService : IDuplexNodeEndpoint<IGuardServiceCallback>
+    public interface IGuardService
     {
         Guid Register(GuardedServiceDescription description);
         void Unregister(Guid token);
+    }
+
+    public interface IGuardService<T> : IGuardService, IDuplexNodeEndpointClient<T>
+        where T : INodeEndpoint
+    {
     }
 
     [NodeEndpointDataType]
