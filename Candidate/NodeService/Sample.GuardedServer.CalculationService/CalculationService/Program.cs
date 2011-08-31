@@ -16,8 +16,9 @@ namespace CalculationService
     {
         static void Main(string[] args)
         {
+            Console.Title = "CalculationService";
             GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.LaunchService(
-                typeof(Program).Assembly.CodeBase,
+                typeof(Program).Assembly.Location,
                 "",
                 "pipe://./GuardedServiceTest/CalculationService"
                 );
