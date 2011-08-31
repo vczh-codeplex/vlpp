@@ -7,7 +7,7 @@ using NodeService;
 namespace NodeServiceHost
 {
     public class NodeEndpointServer<T> : NodeEndpointServerBase<T>
-        where T : INodeEndpoint, new()
+        where T : INodeEndpoint
     {
         protected override INodeEndpointProtocolServer CreateProtocolServer(T endpoint, int timeout)
         {

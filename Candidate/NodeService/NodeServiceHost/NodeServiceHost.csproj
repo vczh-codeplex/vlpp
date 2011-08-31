@@ -55,6 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DuplexNodeEndpointServer.cs" />
+    <Compile Include="GuardService\GuardService.cs" />
+    <Compile Include="GuardService\GuardServiceConfiguration.cs" />
+    <Compile Include="GuardService\GuardServiceEndpointServer.cs" />
+    <Compile Include="GuardService\GuardServiceEndpointServerCallback.cs" />
     <Compile Include="INodeEndpointServer.cs" />
     <Compile Include="NodeEndpointServer.cs" />
     <Compile Include="NodeEndpointServerBase.cs" />

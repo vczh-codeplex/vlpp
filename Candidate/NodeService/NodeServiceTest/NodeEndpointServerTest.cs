@@ -22,11 +22,18 @@ namespace NodeServiceTest
             {
                 return a + b;
             }
+
+            [NodeEndpointMethod]
+            public Guid CopyGuid(Guid guid)
+            {
+                return guid;
+            }
         }
 
         public interface IEndpoint : INodeEndpointClient
         {
             string Concat(string a, string b);
+            Guid CopyGuid(Guid guid);
         }
 
         public class EndpointServerCallback : INodeEndpointServerCallback<Endpoint>
@@ -91,6 +98,8 @@ namespace NodeServiceTest
             {
                 IEndpoint client = callback.ProtocolFactory.WaitForClient<IEndpoint>("localhost/" + callback.ProtocolAddress, "EndpointService");
                 Assert.AreEqual("AB", client.Concat("A", "B"));
+                Guid guid = Guid.NewGuid();
+                Assert.AreEqual(guid, client.CopyGuid(guid));
                 client.Dispose();
             }
 
