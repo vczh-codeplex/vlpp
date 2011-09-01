@@ -91,7 +91,11 @@ namespace NodeService.Endpoints
 
         public void AddDefaultSerializer(Type type)
         {
-            if (!type.IsArray && !this.typedSerializer.ContainsKey(type))
+            if (type.IsArray)
+            {
+                AddDefaultSerializer(type.GetElementType());
+            }
+            else if (!this.typedSerializer.ContainsKey(type))
             {
                 if (IsDataType(type))
                 {
@@ -110,7 +114,14 @@ namespace NodeService.Endpoints
                         AddDefaultSerializer(currentType);
                     }
                 }
-                else if (!type.IsGenericType || !this.typedSerializer.ContainsKey(type.GetGenericTypeDefinition()))
+                else if (type.IsGenericType && this.typedSerializer.ContainsKey(type.GetGenericTypeDefinition()))
+                {
+                    foreach (var argument in type.GetGenericArguments())
+                    {
+                        AddDefaultSerializer(argument);
+                    }
+                }
+                else
                 {
                     throw new InvalidOperationException("Don't know how to serialize type " + type.FullName + ".");
                 }

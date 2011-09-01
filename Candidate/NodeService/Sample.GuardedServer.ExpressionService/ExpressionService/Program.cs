@@ -63,6 +63,13 @@ namespace ExpressionService
         }
 
         [NodeEndpointMethod]
+        public double EvaluateWithArguments(RawExpression expression, Dictionary<string, double> arguments)
+        {
+            Console.WriteLine("received request: EvaluateWithArguments({0})", expression);
+            return expression.Execute(arguments);
+        }
+
+        [NodeEndpointMethod]
         public double Solve(RawExpression expression, string variable, double start)
         {
             Console.WriteLine("received request: Solve({0}, {1}, {2})", expression, variable, start);
