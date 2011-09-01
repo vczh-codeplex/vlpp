@@ -14,6 +14,7 @@ namespace ExpressionContract
         RawExpression Different(RawExpression expression, string variable);
         RawExpression Apply(RawExpression expression, string variable, double value);
         double Evaluate(RawExpression expression);
+        double EvaluateWithArguments(RawExpression expression, Dictionary<string, double> arguments);
         double Solve(RawExpression expression, string variable, double start);
         string ToCode(RawExpression expression);
     }

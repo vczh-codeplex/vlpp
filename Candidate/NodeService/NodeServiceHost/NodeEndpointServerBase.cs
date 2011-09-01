@@ -121,18 +121,6 @@ namespace NodeServiceHost
 
         #region Contract Builder
 
-        private static void CollectType(MethodInfo methodInfo, List<Type> types)
-        {
-            if (methodInfo.ReturnType != typeof(void))
-            {
-                CollectType(methodInfo.ReturnType, types);
-            }
-            foreach (var parameterInfo in methodInfo.GetParameters())
-            {
-                CollectType(parameterInfo.ParameterType, types);
-            }
-        }
-
         private static bool IsDataType(Type type)
         {
             return type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0;
@@ -140,7 +128,18 @@ namespace NodeServiceHost
 
         private static void CollectType(Type type, List<Type> types)
         {
-            if (!types.Contains(type))
+            if (type.IsArray)
+            {
+                CollectType(type.GetElementType(), types);
+            }
+            else if (type.IsGenericType)
+            {
+                foreach (var argument in type.GetGenericArguments())
+                {
+                    CollectType(argument, types);
+                }
+            }
+            else if (!types.Contains(type))
             {
                 types.Add(type);
                 if (IsDataType(type))
@@ -153,9 +152,32 @@ namespace NodeServiceHost
             }
         }
 
+        private static void CollectType(MethodInfo methodInfo, List<Type> types)
+        {
+            if (methodInfo.ReturnType != typeof(void))
+            {
+                CollectType(methodInfo.ReturnType, types);
+            }
+            foreach (var parameterInfo in methodInfo.GetParameters())
+            {
+                CollectType(parameterInfo.ParameterType, types);
+            }
+        }
+
         private static string GetTypeName(Type type)
         {
-            return IsDataType(type) ? type.Name : type.FullName;
+            if (type.IsGenericType)
+            {
+                string fullName = type.GetGenericTypeDefinition().FullName;
+                return fullName.Substring(0, fullName.IndexOf('`'))
+                    + "<"
+                    + type.GetGenericArguments().Select(GetTypeName).Aggregate((a, b) => a + ", " + b)
+                    + ">";
+            }
+            else
+            {
+                return IsDataType(type) ? type.Name : type.FullName;
+            }
         }
 
         private static XElement GetTypeContractDescription(Type type)

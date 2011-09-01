@@ -30,8 +30,11 @@ namespace ExpressionClient
             RawExpression differentiated = client.Simplify(client.Different(simplified, "x"));
             Console.WriteLine("Different(x) = " + client.ToCode(differentiated));
 
-            double evaluated = client.Evaluate(client.Apply(differentiated, "x", 1));
-            Console.WriteLine("Evaluate(x=1) = " + evaluated.ToString());
+            double evaluated1 = client.Evaluate(client.Apply(expression, "x", 1));
+            Console.WriteLine("Evaluate(x=1) = " + evaluated1.ToString());
+
+            double evaluated2 = client.EvaluateWithArguments(expression, new Dictionary<string, double>() { { "x", 2 } });
+            Console.WriteLine("Evaluate(x=2) = " + evaluated2.ToString());
 
             double solved = client.Solve(expression, "x", 0);
             Console.WriteLine("Solve(x) = " + solved.ToString());
