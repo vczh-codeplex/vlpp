@@ -6,6 +6,7 @@ using System.CodeDom;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace NodeService.Endpoints
 {
@@ -178,18 +179,20 @@ namespace NodeService.Endpoints
                 List<Type> interfaceTypes = new List<Type>();
                 CollectType(interfaceType, interfaceTypes);
 
+                string[] assemblies = new string[] { typeof(StrongTypedNodeEndpointClient).Assembly.Location }
+                    .Concat(typeof(StrongTypedNodeEndpointClient).Assembly.GetReferencedAssemblies().Select(n => Assembly.Load(n).Location))
+                    .Concat(typeof(XElement).Assembly.GetReferencedAssemblies().Select(n => Assembly.Load(n).Location))
+                    .Concat(interfaceTypes.Select(t => t.Assembly.Location))
+                    .Concat(interfaceTypes.SelectMany(t => t.Assembly.GetReferencedAssemblies().Select(n => Assembly.Load(n).Location)))
+                    .Where(s => s != null)
+                    .Distinct()
+                    .ToArray();
+
                 CompilerParameters options = new CompilerParameters();
                 options.GenerateExecutable = false;
                 options.GenerateInMemory = true;
                 options.IncludeDebugInformation = false;
-                options.ReferencedAssemblies.AddRange(
-                    new string[] { typeof(StrongTypedNodeEndpointClient).Assembly.Location }
-                    .Concat(typeof(StrongTypedNodeEndpointClient).Assembly.GetReferencedAssemblies().Select(n => n.CodeBase))
-                    .Concat(interfaceTypes.Select(t => t.Assembly.Location))
-                    .Concat(interfaceTypes.SelectMany(t => t.Assembly.GetReferencedAssemblies().Select(n => n.CodeBase)))
-                    .Distinct()
-                    .ToArray()
-                );
+                options.ReferencedAssemblies.AddRange(assemblies);
 
                 CompilerResults result = codedomProvider.CompileAssemblyFromDom(options, codeCompileUnit);
                 codedomProvider.Dispose();

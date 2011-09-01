@@ -55,6 +55,14 @@ namespace CalculationService
             }
         }
 
+        public string EndpointName
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public CalculationService CreateEndpoint()
         {
             return new CalculationService();

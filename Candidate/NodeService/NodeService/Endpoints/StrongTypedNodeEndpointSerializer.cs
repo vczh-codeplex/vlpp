@@ -29,6 +29,7 @@ namespace NodeService.Endpoints
             AddSerializer(new PrimitiveTypeSerializer<Char>());
             AddSerializer(new PrimitiveTypeSerializer<Boolean>());
             AddSerializer(new GuidTypeSerializer());
+            AddSerializer(new XElementTypeSerializer());
         }
 
         public XNode Serialize(object data)

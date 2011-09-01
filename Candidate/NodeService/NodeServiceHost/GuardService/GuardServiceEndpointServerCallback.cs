@@ -36,6 +36,14 @@ namespace NodeServiceHost.GuardService
             }
         }
 
+        public string EndpointName
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public GuardService CreateEndpoint()
         {
             return new GuardService(this.sharedData);

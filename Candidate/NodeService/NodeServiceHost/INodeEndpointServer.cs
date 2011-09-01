@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NodeService;
+using System.Xml.Linq;
 
 namespace NodeServiceHost
 {
@@ -14,6 +15,7 @@ namespace NodeServiceHost
 
         void Start(INodeEndpointServerCallback<T> callback);
         void Stop();
+        XElement GetServiceDescription();
     }
 
     public enum NodeEndpointServerState
@@ -28,6 +30,7 @@ namespace NodeServiceHost
     {
         INodeEndpointProtocolFactory ProtocolFactory { get; }
         string ProtocolAddress { get; }
+        string EndpointName { get; }
 
         T CreateEndpoint();
         void OnEndpointStart(T endpoint, INodeEndpointProtocolServer protocolServer);

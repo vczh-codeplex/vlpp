@@ -5,6 +5,7 @@ using System.Text;
 using NodeService.Endpoints;
 using System.Threading;
 using NodeService;
+using System.Xml.Linq;
 
 namespace NodeServiceHost.GuardService
 {
@@ -48,6 +49,14 @@ namespace NodeServiceHost.GuardService
         public virtual void Stop()
         {
             CloseSemaphore();
+        }
+
+        [NodeEndpointMethod]
+        public virtual XElement GetServiceDescription()
+        {
+            return new XElement("BackgroundService",
+                new XComment("This service does not contains any accessible node endpoint.")
+                );
         }
 
         public override void Dispose()
