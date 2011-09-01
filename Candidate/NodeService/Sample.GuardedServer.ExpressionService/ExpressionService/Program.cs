@@ -62,6 +62,12 @@ namespace ExpressionService
         {
             return expression.Solve(variable, start);
         }
+
+        [NodeEndpointMethod]
+        public string ToCode(RawExpression expression)
+        {
+            return expression.ToCode();
+        }
     }
 
     public class ExpressionServiceEndpointServerCallback : INodeEndpointServerCallback<ExpressionService>
