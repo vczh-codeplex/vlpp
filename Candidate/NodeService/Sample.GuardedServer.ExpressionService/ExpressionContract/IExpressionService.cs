@@ -15,6 +15,7 @@ namespace ExpressionContract
         RawExpression Apply(RawExpression expression, string variable, double value);
         double Evaluate(RawExpression expression);
         double Solve(RawExpression expression, string variable, double start);
+        string ToCode(RawExpression expression);
     }
 
     public interface IExpressionServiceClient : IExpressionService, INodeEndpointClient
