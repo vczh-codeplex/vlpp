@@ -6,6 +6,7 @@ using NodeService;
 using System.Threading;
 using System.Xml.Linq;
 using NodeService.Endpoints;
+using System.Reflection;
 
 namespace NodeServiceHost
 {
@@ -118,6 +119,130 @@ namespace NodeServiceHost
             this.serverState = NodeEndpointServerState.Stopped;
         }
 
+        #region Contract Builder
+
+        private static void CollectType(MethodInfo methodInfo, List<Type> types)
+        {
+            if (methodInfo.ReturnType != typeof(void))
+            {
+                CollectType(methodInfo.ReturnType, types);
+            }
+            foreach (var parameterInfo in methodInfo.GetParameters())
+            {
+                CollectType(parameterInfo.ParameterType, types);
+            }
+        }
+
+        private static bool IsDataType(Type type)
+        {
+            return type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0;
+        }
+
+        private static void CollectType(Type type, List<Type> types)
+        {
+            if (!types.Contains(type))
+            {
+                types.Add(type);
+                if (IsDataType(type))
+                {
+                    foreach (NodeEndpointKnownTypeAttribute att in type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), true))
+                    {
+                        CollectType(att.KnownType, types);
+                    }
+                }
+            }
+        }
+
+        private static string GetTypeName(Type type)
+        {
+            return IsDataType(type) ? type.Name : type.FullName;
+        }
+
+        private static XElement GetTypeContractDescription(Type type)
+        {
+            if (IsDataType(type))
+            {
+                return new XElement(
+                    "Type",
+                    new XElement("BaseType", GetTypeName(type.BaseType)),
+                    new XElement(
+                        "KnownTypes",
+                        type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), true)
+                        .Cast<NodeEndpointKnownTypeAttribute>()
+                        .Select(att => new XElement("KnownType", GetTypeName(att.KnownType)))
+                        .ToArray()
+                        ),
+                    new XElement(
+                        "Members",
+                        type
+                        .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                        .Where(f => f.GetCustomAttributes(typeof(NodeEndpointDataMemberAttribute), false).Length > 0)
+                        .Where(f => f.DeclaringType == type)
+                        .Select(f => new XElement(
+                                "Member",
+                                new XElement("Name", f.Name),
+                                new XElement("Type", GetTypeName(f.FieldType))
+                                )
+                            )
+                        .Concat(
+                            type
+                            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                            .Where(f => f.GetCustomAttributes(typeof(NodeEndpointDataMemberAttribute), false).Length > 0)
+                            .Where(f => f.DeclaringType == type)
+                            .Select(f => new XElement(
+                                    "Member",
+                                    new XElement("Name", f.Name),
+                                    new XElement("Type", GetTypeName(f.PropertyType))
+                                    )
+                                )
+                            )
+                        )
+                    );
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static XElement GetMethodContractDescription(MethodInfo methodInfo)
+        {
+            return new XElement(
+                "Method",
+                new XElement("Name", methodInfo.Name),
+                new XElement("ReturnType", GetTypeName(methodInfo.ReturnType)),
+                new XElement(
+                    "Parameters",
+                    methodInfo.GetParameters().Select(
+                        p => new XElement(
+                            "Parameter",
+                            new XElement("Name", p.Name),
+                            new XElement("Type", GetTypeName(p.ParameterType))
+                            )
+                    )
+                    .ToArray()
+                    )
+                );
+        }
+
+        private static XElement GetContractDescription(Type serviceType)
+        {
+            List<Type> types = new List<Type>();
+            MethodInfo[] methodInfos = StrongTypedNodeEndpoint.GetMethodInfos(serviceType);
+            foreach (var methodInfo in methodInfos)
+            {
+                CollectType(methodInfo, types);
+            }
+
+            return new XElement(
+                "Contract",
+                new XElement("Methods", methodInfos.Select(GetMethodContractDescription).ToArray()),
+                new XElement("Types", types.Select(GetTypeContractDescription).Where(e => e != null).ToArray())
+                );
+        }
+
+        #endregion
+
         public virtual XElement GetServiceDescription()
         {
             string endpointName = this.callback.EndpointName;
@@ -136,9 +261,7 @@ namespace NodeServiceHost
                     new XElement("ProtocolAddress", this.callback.ProtocolAddress),
                     new XElement("EndpointName", endpointName)
                     ),
-                new XElement(
-                    "Contract"
-                    )
+                GetContractDescription(typeof(T))
                 );
         }
     }

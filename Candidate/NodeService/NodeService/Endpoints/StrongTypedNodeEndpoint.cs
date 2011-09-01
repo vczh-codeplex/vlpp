@@ -12,25 +12,31 @@ namespace NodeService.Endpoints
         private Dictionary<string, MethodInfo> methods = new Dictionary<string, MethodInfo>();
         public StrongTypedNodeEndpointSerializer Serializer { get; private set; }
 
-        private void Initialize()
+        public static MethodInfo[] GetMethodInfos(Type serviceType)
         {
-            this.Serializer = new StrongTypedNodeEndpointSerializer();
-
             List<Type> baseTypes = new List<Type>();
-            Type currentType = this.GetType();
+            Type currentType = serviceType;
             while (currentType != null)
             {
                 baseTypes.Add(currentType);
                 currentType = currentType.BaseType;
             }
 
-            foreach (var methodInfo in baseTypes
+            MethodInfo[] methodInfos = baseTypes
                 .SelectMany(
-                    type=>type
+                    type => type
                     .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(m => m.GetCustomAttributes(typeof(NodeEndpointMethodAttribute), false).Length > 0)
                     )
-                )
+                .ToArray();
+            return methodInfos;
+        }
+
+        private void Initialize()
+        {
+            this.Serializer = new StrongTypedNodeEndpointSerializer();
+
+            foreach (var methodInfo in GetMethodInfos(this.GetType()))
             {
                 this.methods.Add(methodInfo.Name, methodInfo);
                 foreach (var type in methodInfo
