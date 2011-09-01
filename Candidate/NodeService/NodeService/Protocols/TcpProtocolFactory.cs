@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Net;
 using System.Security;
+using System.Xml.Linq;
 
 namespace NodeService.Protocols
 {
@@ -26,24 +27,37 @@ namespace NodeService.Protocols
 
         public INodeEndpointProtocolServerListener CreateServerListener()
         {
-            return new ServerListener(this.AddressFamily, this.ProtocolType);
+            return new ServerListener(this.AddressFamily, this.ProtocolType, this);
         }
 
         public INodeEndpointProtocolClient CreateClient()
         {
-            return new Client(this.AddressFamily, this.ProtocolType);
+            return new Client(this.AddressFamily, this.ProtocolType, this);
+        }
+
+        public XElement[] GetFactoryDescription()
+        {
+            return new XElement[] 
+            { 
+                new XElement("TcpProtocolFactory",
+                    new XElement("AddressFamily", this.AddressFamily.ToString()),
+                    new XElement("ProtocolType", this.ProtocolType.ToString())
+                    )
+            };
         }
 
         class ServerListener : INodeEndpointProtocolServerListener
         {
+            private TcpProtocolFactory factory;
             private Socket listenedSocket = null;
             private AddressFamily addressFamily;
             private ProtocolType protocolType;
 
-            public ServerListener(AddressFamily addressFamily, ProtocolType protocolType)
+            public ServerListener(AddressFamily addressFamily, ProtocolType protocolType, TcpProtocolFactory factory)
             {
                 this.addressFamily = addressFamily;
                 this.protocolType = protocolType;
+                this.factory = factory;
             }
 
             public bool Connected
@@ -51,6 +65,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.listenedSocket != null && this.listenedSocket.Connected;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
                 }
             }
 
@@ -96,7 +118,7 @@ namespace NodeService.Protocols
                 {
                     this.listenedSocket.Listen((int)SocketOptionName.MaxConnections);
                     Socket acceptedSocket = this.listenedSocket.Accept();
-                    return new Server(acceptedSocket);
+                    return new Server(acceptedSocket, this);
                 }
                 catch (SocketException)
                 {
@@ -109,7 +131,8 @@ namespace NodeService.Protocols
         {
             private Socket acceptedSocket;
 
-            public Server(Socket acceptedSocket)
+            public Server(Socket acceptedSocket, ServerListener serverListener)
+                : base(serverListener)
             {
                 this.acceptedSocket = acceptedSocket;
                 this.Stream = new NetworkStream(this.acceptedSocket, FileAccess.ReadWrite, false);
@@ -141,7 +164,8 @@ namespace NodeService.Protocols
             private AddressFamily addressFamily;
             private ProtocolType protocolType;
 
-            public Client(AddressFamily addressFamily, ProtocolType protocolType)
+            public Client(AddressFamily addressFamily, ProtocolType protocolType, TcpProtocolFactory factory)
+                : base(factory)
             {
                 this.addressFamily = addressFamily;
                 this.protocolType = protocolType;

@@ -46,8 +46,14 @@ namespace NodeService.Protocols
             where StreamType : Stream
         {
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
+            private INodeEndpointProtocolFactory factory = null;
 
             protected StreamType Stream { get; set; }
+
+            public StreamProtocol(INodeEndpointProtocolFactory factory)
+            {
+                this.factory = factory;
+            }
 
             public virtual bool EnableDuplex
             {
@@ -58,6 +64,14 @@ namespace NodeService.Protocols
             }
 
             public abstract bool Connected { get; }
+
+            public virtual INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
+                }
+            }
 
             public virtual void Disconnect()
             {
@@ -160,7 +174,14 @@ namespace NodeService.Protocols
         abstract class StreamServerProtocol<StreamType> : StreamProtocol<StreamType>, INodeEndpointProtocolServer
             where StreamType : Stream
         {
+            private INodeEndpointProtocolServerListener serverListener;
             private INodeEndpointProtocolServer innerProtocol;
+
+            public StreamServerProtocol(INodeEndpointProtocolServerListener serverListener)
+                : base(serverListener.Factory)
+            {
+                this.serverListener = serverListener;
+            }
 
             public virtual INodeEndpointProtocolServer OuterProtocol
             {
@@ -175,6 +196,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.innerProtocol;
+                }
+            }
+
+            public virtual INodeEndpointProtocolServerListener ServerListener
+            {
+                get
+                {
+                    return this.serverListener;
                 }
             }
 
@@ -193,6 +222,11 @@ namespace NodeService.Protocols
             where StreamType : Stream
         {
             private INodeEndpointProtocolClient innerProtocol;
+
+            public StreamClientProtocol(INodeEndpointProtocolFactory factory)
+                : base(factory)
+            {
+            }
 
             public virtual INodeEndpointProtocolClient OuterProtocol
             {

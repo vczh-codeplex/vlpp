@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace NodeService
 {
@@ -9,6 +10,7 @@ namespace NodeService
     {
         bool EnableDuplex { get; }
         bool Connected { get; }
+        INodeEndpointProtocolFactory Factory { get; }
 
         void Disconnect();
         void BeginListen();
@@ -34,11 +36,13 @@ namespace NodeService
     {
         INodeEndpointProtocolServerListener CreateServerListener();
         INodeEndpointProtocolClient CreateClient();
+        XElement[] GetFactoryDescription();
     }
 
     public interface INodeEndpointProtocolServerListener
     {
         bool Connected { get; }
+        INodeEndpointProtocolFactory Factory { get; }
 
         void Connect(string address, string endpointName);
         void Disconnect();
@@ -49,6 +53,7 @@ namespace NodeService
     {
         INodeEndpointProtocolServer OuterProtocol { get; }
         INodeEndpointProtocolServer InnerProtocol { get; }
+        INodeEndpointProtocolServerListener ServerListener { get; }
 
         void SetOuterProtocol(INodeEndpointProtocolServer protocol);
         void OnInnerProtocolSet(INodeEndpointProtocolServer protocol);

@@ -6,6 +6,7 @@ using System.IO.Pipes;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NodeService.Protocols.StreamBasedProtocolObjects;
+using System.Xml.Linq;
 
 namespace NodeService.Protocols
 {
@@ -13,23 +14,45 @@ namespace NodeService.Protocols
     {
         public INodeEndpointProtocolServerListener CreateServerListener()
         {
-            return new ServerListener();
+            return new ServerListener(this);
         }
 
         public INodeEndpointProtocolClient CreateClient()
         {
-            return new Client();
+            return new Client(this);
+        }
+
+        public XElement[] GetFactoryDescription()
+        {
+            return new XElement[]
+            { 
+                new XElement("NamedPipeProtocolFactory")
+            };
         }
 
         class ServerListener : INodeEndpointProtocolServerListener
         {
+            private NamedPipeProtocolFactory factory;
             private string pipeName;
+
+            public ServerListener(NamedPipeProtocolFactory factory)
+            {
+                this.factory = factory;
+            }
 
             public bool Connected
             {
                 get
                 {
                     return this.pipeName != null;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
                 }
             }
 
@@ -62,7 +85,7 @@ namespace NodeService.Protocols
                     serverStream.WaitForConnection();
                     if (serverStream.IsConnected)
                     {
-                        return new Server(serverStream);
+                        return new Server(serverStream, this);
                     }
                 }
                 catch (Exception)
@@ -80,7 +103,8 @@ namespace NodeService.Protocols
 
         class Server : StreamServerProtocol<NamedPipeServerStream>
         {
-            public Server(NamedPipeServerStream stream)
+            public Server(NamedPipeServerStream stream, ServerListener serverListener)
+                : base(serverListener)
             {
                 this.Stream = stream;
             }
@@ -96,6 +120,11 @@ namespace NodeService.Protocols
 
         class Client : StreamClientProtocol<NamedPipeClientStream>
         {
+            public Client(NamedPipeProtocolFactory factory)
+                : base(factory)
+            {
+            }
+
             public override bool Connect(string address, string endpointName, int timeout)
             {
                 Disconnect();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Xml.Linq;
 
 namespace NodeService.Protocols
 {
@@ -11,12 +12,20 @@ namespace NodeService.Protocols
     {
         public INodeEndpointProtocolServerListener CreateServerListener()
         {
-            return new ServerListener();
+            return new ServerListener(this);
         }
 
         public INodeEndpointProtocolClient CreateClient()
         {
-            return new Client();
+            return new Client(this);
+        }
+
+        public XElement[] GetFactoryDescription()
+        {
+            return new XElement[]
+            { 
+                new XElement("HttpProtocolFactory")
+            };
         }
 
         class Request : INodeEndpointProtocolRequest
@@ -64,14 +73,28 @@ namespace NodeService.Protocols
 
         class ServerListener : INodeEndpointProtocolServerListener
         {
+            private HttpProtocolFactory factory = null;
             private HttpListener listener = null;
             private Server server = null;
+
+            public ServerListener(HttpProtocolFactory factory)
+            {
+                this.factory = factory;
+            }
 
             public bool Connected
             {
                 get
                 {
                     return this.listener != null && this.listener.IsListening;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
                 }
             }
 
@@ -115,7 +138,7 @@ namespace NodeService.Protocols
             {
                 if (this.Connected && this.server == null)
                 {
-                    this.server = new Server(this.listener);
+                    this.server = new Server(this.listener, this);
                     return this.server;
                 }
                 else
@@ -127,13 +150,15 @@ namespace NodeService.Protocols
 
         class Server : INodeEndpointProtocolServer
         {
+            private ServerListener serverListener = null;
             private HttpListener listener = null;
             private INodeEndpointProtocolServer innerProtocol;
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
 
-            public Server(HttpListener listener)
+            public Server(HttpListener listener, ServerListener serverListener)
             {
                 this.listener = listener;
+                this.serverListener = serverListener;
             }
 
             public INodeEndpointProtocolServer OuterProtocol
@@ -149,6 +174,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.innerProtocol;
+                }
+            }
+
+            public INodeEndpointProtocolServerListener ServerListener
+            {
+                get
+                {
+                    return this.serverListener;
                 }
             }
 
@@ -175,6 +208,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.listener != null;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.serverListener.Factory;
                 }
             }
 
@@ -242,11 +283,17 @@ namespace NodeService.Protocols
 
         class Client : INodeEndpointProtocolClient
         {
+            private HttpProtocolFactory factory = null;
             private INodeEndpointProtocolClient innerProtocol;
             private string address;
             private string endpointName;
             private bool connected = false;
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
+
+            public Client(HttpProtocolFactory factory)
+            {
+                this.factory = factory;
+            }
 
             private bool SendHttpRequest(byte[] body, bool asynchronized, Action<HttpWebRequest, HttpWebResponse, byte[]> callback)
             {
@@ -351,6 +398,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.connected;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
                 }
             }
 

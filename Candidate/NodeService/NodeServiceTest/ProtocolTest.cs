@@ -9,6 +9,7 @@ using NodeService;
 using System.Threading;
 using NodeService.Providers;
 using NodeService.Endpoints;
+using System.Xml.Linq;
 
 namespace NodeServiceTest
 {
@@ -138,6 +139,15 @@ namespace NodeServiceTest
         public byte[] Encode(byte[] bytes)
         {
             return bytes.Reverse().ToArray();
+        }
+
+
+        public XElement[] GetHandlerDescription()
+        {
+            return new XElement[]
+            {
+                new XElement("NodeServiceTest.TranslatorHandlerSimple")
+            };
         }
     }
 }
