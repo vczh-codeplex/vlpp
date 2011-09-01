@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace NodeService.Protocols
 {
@@ -18,12 +19,24 @@ namespace NodeService.Protocols
 
         public INodeEndpointProtocolServerListener CreateServerListener()
         {
-            return new ServerListener(this.OuterFactory.CreateServerListener(), this.HandlerFactory);
+            return new ServerListener(this.OuterFactory.CreateServerListener(), this.HandlerFactory, this);
         }
 
         public INodeEndpointProtocolClient CreateClient()
         {
-            return new Client(this.OuterFactory.CreateClient(), this.HandlerFactory);
+            return new Client(this.OuterFactory.CreateClient(), this.HandlerFactory, this);
+        }
+
+        public XElement[] GetFactoryDescription()
+        {
+            return new XElement[]
+            { 
+                new XElement("TranslatorProtocolFactory",
+                    this.HandlerFactory.GetFactoryDescription()
+                    )
+            }
+            .Concat(this.OuterFactory.GetFactoryDescription())
+            .ToArray();
         }
 
         class Request : INodeEndpointProtocolRequest
@@ -89,11 +102,13 @@ namespace NodeService.Protocols
 
         class ServerListener : INodeEndpointProtocolServerListener
         {
+            private TranslatorProtocolFactory factory;
             private INodeEndpointProtocolServerListener outerServerListener;
             private ITranslatorProtocolHandlerFactory handlerFactory;
 
-            public ServerListener(INodeEndpointProtocolServerListener outerServerListener, ITranslatorProtocolHandlerFactory handlerFactory)
+            public ServerListener(INodeEndpointProtocolServerListener outerServerListener, ITranslatorProtocolHandlerFactory handlerFactory, TranslatorProtocolFactory factory)
             {
+                this.factory = factory;
                 this.outerServerListener = outerServerListener;
                 this.handlerFactory = handlerFactory;
             }
@@ -103,6 +118,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.outerServerListener.Connected;
+                }
+            }
+
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
                 }
             }
 
@@ -125,21 +148,23 @@ namespace NodeService.Protocols
                 }
                 else
                 {
-                    return new Server(server, this.handlerFactory);
+                    return new Server(server, this.handlerFactory, this);
                 }
             }
         }
 
         class ProtocolBase : INodeEndpointProtocol
         {
+            private TranslatorProtocolFactory factory;
             private INodeEndpointProtocol parentProtocol;
             private RequestListener requestListener;
 
             public ITranslatorProtocolHandler Handler { get; protected set; }
             public List<INodeEndpointProtocolRequestListener> Listeners { get; private set; }
 
-            public ProtocolBase()
+            public ProtocolBase(TranslatorProtocolFactory factory)
             {
+                this.factory = factory;
                 this.Listeners = new List<INodeEndpointProtocolRequestListener>();
                 this.requestListener = new RequestListener(this);
             }
@@ -180,6 +205,14 @@ namespace NodeService.Protocols
                 }
             }
 
+            public INodeEndpointProtocolFactory Factory
+            {
+                get
+                {
+                    return this.factory;
+                }
+            }
+
             public void Disconnect()
             {
                 this.ParentProtocol.Disconnect();
@@ -217,12 +250,15 @@ namespace NodeService.Protocols
 
         class Server : ProtocolBase, INodeEndpointProtocolServer
         {
+            private ServerListener serverListener;
             private INodeEndpointProtocolServer outerProtocol;
             private INodeEndpointProtocolServer innerProtocol;
             private ITranslatorProtocolServerHandler serverHandler;
 
-            public Server(INodeEndpointProtocolServer outerProtocol, ITranslatorProtocolHandlerFactory handlerFactory)
+            public Server(INodeEndpointProtocolServer outerProtocol, ITranslatorProtocolHandlerFactory handlerFactory, ServerListener serverListener)
+                : base((TranslatorProtocolFactory)serverListener.Factory)
             {
+                this.serverListener = serverListener;
                 this.serverHandler = handlerFactory.CreateServerHandler();
                 SetOuterProtocol(outerProtocol);
                 this.Handler = this.serverHandler;
@@ -242,6 +278,14 @@ namespace NodeService.Protocols
                 get
                 {
                     return this.innerProtocol;
+                }
+            }
+
+            public INodeEndpointProtocolServerListener ServerListener
+            {
+                get
+                {
+                    return this.serverListener;
                 }
             }
 
@@ -271,7 +315,8 @@ namespace NodeService.Protocols
             private INodeEndpointProtocolClient innerProtocol;
             private ITranslatorProtocolClientHandler clientHandler;
 
-            public Client(INodeEndpointProtocolClient outerProtocol, ITranslatorProtocolHandlerFactory handlerFactory)
+            public Client(INodeEndpointProtocolClient outerProtocol, ITranslatorProtocolHandlerFactory handlerFactory, TranslatorProtocolFactory factory)
+                : base(factory)
             {
                 this.clientHandler = handlerFactory.CreateClientHandler();
                 SetOuterProtocol(outerProtocol);
@@ -335,6 +380,7 @@ namespace NodeService.Protocols
     {
         ITranslatorProtocolServerHandler CreateServerHandler();
         ITranslatorProtocolClientHandler CreateClientHandler();
+        XElement[] GetFactoryDescription();
     }
 
     public interface ITranslatorProtocolHandler
@@ -359,6 +405,7 @@ namespace NodeService.Protocols
     {
         byte[] Decode(byte[] bytes);
         byte[] Encode(byte[] bytes);
+        XElement[] GetHandlerDescription();
     }
 
     public class TranslatorProtocolHandlerFactorySimple : ITranslatorProtocolHandlerFactory
@@ -378,6 +425,16 @@ namespace NodeService.Protocols
         public ITranslatorProtocolClientHandler CreateClientHandler()
         {
             return new Handler(this.handler);
+        }
+
+        public XElement[] GetFactoryDescription()
+        {
+            return new XElement[]
+            {
+                new XElement("TranslatorProtocolHandlerFactorySimple",
+                    this.handler.GetHandlerDescription()
+                    )
+            };
         }
 
         public class Handler : ITranslatorProtocolServerHandler, ITranslatorProtocolClientHandler

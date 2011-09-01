@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO.Compression;
 using System.IO;
+using System.Xml.Linq;
 
 namespace NodeService.Protocols
 {
@@ -38,6 +39,14 @@ namespace NodeService.Protocols
                 memoryStream.Read(result, 0, result.Length);
                 return result;
             }
+        }
+
+        public XElement[] GetHandlerDescription()
+        {
+            return new XElement[]
+            {
+                new XElement("GzipProtocolHandler")
+            };
         }
     }
 }
