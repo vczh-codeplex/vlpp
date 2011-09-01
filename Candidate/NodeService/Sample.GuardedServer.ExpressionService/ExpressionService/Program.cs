@@ -30,36 +30,42 @@ namespace ExpressionService
         [NodeEndpointMethod]
         public RawExpression Parse(string input)
         {
+            Console.WriteLine("received request: Parse({0})", input);
             return RawExpression.Parse(input);
         }
 
         [NodeEndpointMethod]
         public RawExpression Simplify(RawExpression expression)
         {
+            Console.WriteLine("received request: Simplify({0})", expression);
             return expression.Simplify();
         }
 
         [NodeEndpointMethod]
         public RawExpression Different(RawExpression expression, string variable)
         {
+            Console.WriteLine("received request: Different({0}, {1})", expression, variable);
             return expression.Different(variable);
         }
 
         [NodeEndpointMethod]
         public RawExpression Apply(RawExpression expression, string variable, double value)
         {
+            Console.WriteLine("received request: Apply({0}, {1}, {2})", expression, variable, value);
             return expression.Apply(variable, value);
         }
 
         [NodeEndpointMethod]
         public double Evaluate(RawExpression expression)
         {
+            Console.WriteLine("received request: Evaluate({0})", expression);
             return expression.Execute(new Dictionary<string, double>());
         }
 
         [NodeEndpointMethod]
         public double Solve(RawExpression expression, string variable, double start)
         {
+            Console.WriteLine("received request: Solve({0}, {1}, {2})", expression, variable, start);
             return expression.Solve(variable, start);
         }
 
