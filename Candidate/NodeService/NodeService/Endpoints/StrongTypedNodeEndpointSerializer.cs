@@ -62,16 +62,30 @@ namespace NodeService.Endpoints
             this.typedSerializer[serializer.TargetType] = serializer;
         }
 
+        private bool IsDataType(Type type)
+        {
+            return type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0;
+        }
+
         public void AddDefaultSerializer(Type type)
         {
             if (!this.typedSerializer.ContainsKey(type))
             {
-                if (type.GetCustomAttributes(typeof(NodeEndpointDataTypeAttribute), false).Length > 0)
+                if (IsDataType(type))
                 {
                     new DataTypeSerializer(this, type);
-                    foreach (NodeEndpointKnownTypeAttribute att in type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), true))
+                    foreach (NodeEndpointKnownTypeAttribute att in type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), false))
                     {
                         AddDefaultSerializer(att.KnownType);
+                    }
+                    Type currentType = type.BaseType;
+                    while (currentType != null && !IsDataType(currentType))
+                    {
+                        currentType = currentType.BaseType;
+                    }
+                    if (currentType != null)
+                    {
+                        AddDefaultSerializer(currentType);
                     }
                 }
                 else

@@ -164,10 +164,11 @@ namespace NodeServiceHost
             {
                 return new XElement(
                     "Type",
+                    new XElement("Name", GetTypeName(type)),
                     new XElement("BaseType", GetTypeName(type.BaseType)),
                     new XElement(
                         "KnownTypes",
-                        type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), true)
+                        type.GetCustomAttributes(typeof(NodeEndpointKnownTypeAttribute), false)
                         .Cast<NodeEndpointKnownTypeAttribute>()
                         .Select(att => new XElement("KnownType", GetTypeName(att.KnownType)))
                         .ToArray()

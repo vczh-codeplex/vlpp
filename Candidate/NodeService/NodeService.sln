@@ -30,9 +30,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationService", "Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculationClient", "Sample.GuardedServer.CalculationService\CalculationClient\CalculationClient.csproj", "{2F759436-0551-4992-8CC8-EEEC45A7BD18}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample.GuardedServer.ExpressionService", "Sample.GuardedServer.ExpressionService", "{FC096E1E-AEFA-4DE4-9979-5B9721658CF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionService", "Sample.GuardedServer.ExpressionService\ExpressionService\ExpressionService.csproj", "{C7D85D65-0221-45A6-A355-AB75641A4235}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionClient", "Sample.GuardedServer.ExpressionService\ExpressionClient\ExpressionClient.csproj", "{7519B541-2764-4AE7-9EE5-90D498712D72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionContract", "Sample.GuardedServer.ExpressionService\ExpressionContract\ExpressionContract.csproj", "{C26E5256-40C4-4FDD-AF19-B2F088D46127}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -67,6 +75,18 @@ Global
 		SccProjectTopLevelParentUniqueName9 = NodeService.sln
 		SccProjectName9 = Sample.GuardedServer.CalculationService/CalculationClient
 		SccLocalPath9 = Sample.GuardedServer.CalculationService\\CalculationClient
+		SccProjectUniqueName10 = Sample.GuardedServer.ExpressionService\\ExpressionService\\ExpressionService.csproj
+		SccProjectTopLevelParentUniqueName10 = NodeService.sln
+		SccProjectName10 = Sample.GuardedServer.ExpressionService/ExpressionService
+		SccLocalPath10 = Sample.GuardedServer.ExpressionService\\ExpressionService
+		SccProjectUniqueName11 = Sample.GuardedServer.ExpressionService\\ExpressionClient\\ExpressionClient.csproj
+		SccProjectTopLevelParentUniqueName11 = NodeService.sln
+		SccProjectName11 = Sample.GuardedServer.ExpressionService/ExpressionClient
+		SccLocalPath11 = Sample.GuardedServer.ExpressionService\\ExpressionClient
+		SccProjectUniqueName12 = Sample.GuardedServer.ExpressionService\\ExpressionContract\\ExpressionContract.csproj
+		SccProjectTopLevelParentUniqueName12 = NodeService.sln
+		SccProjectName12 = Sample.GuardedServer.ExpressionService/ExpressionContract
+		SccLocalPath12 = Sample.GuardedServer.ExpressionService\\ExpressionContract
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -170,6 +190,36 @@ Global
 		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|x86.ActiveCfg = Release|x86
 		{2F759436-0551-4992-8CC8-EEEC45A7BD18}.Release|x86.Build.0 = Release|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Debug|x86.ActiveCfg = Debug|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Debug|x86.Build.0 = Debug|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Release|Any CPU.ActiveCfg = Release|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Release|x86.ActiveCfg = Release|x86
+		{C7D85D65-0221-45A6-A355-AB75641A4235}.Release|x86.Build.0 = Release|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Debug|x86.ActiveCfg = Debug|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Debug|x86.Build.0 = Debug|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Release|Any CPU.ActiveCfg = Release|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Release|x86.ActiveCfg = Release|x86
+		{7519B541-2764-4AE7-9EE5-90D498712D72}.Release|x86.Build.0 = Release|x86
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,5 +229,8 @@ Global
 		{F22C083D-1F17-48AD-BB8F-FDEC6BD3F842} = {BC4F3DFF-F87D-412A-B119-94967B5832CA}
 		{3F38CB84-E638-4F1B-870E-1651A4AFCE2A} = {A666C33A-4F3B-40C5-A915-60D940C70E32}
 		{2F759436-0551-4992-8CC8-EEEC45A7BD18} = {A666C33A-4F3B-40C5-A915-60D940C70E32}
+		{C7D85D65-0221-45A6-A355-AB75641A4235} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
+		{7519B541-2764-4AE7-9EE5-90D498712D72} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
+		{C26E5256-40C4-4FDD-AF19-B2F088D46127} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C26E5256-40C4-4FDD-AF19-B2F088D46127}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExpressionContract</RootNamespace>
+    <AssemblyName>ExpressionContract</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExpressionExtensions.cs" />
+    <Compile Include="ExpressionParser.cs" />
+    <Compile Include="ExpressionServiceConfiguration.cs" />
+    <Compile Include="FunctionExpressions\CosExpression.cs" />
+    <Compile Include="FunctionExpressions\CotExpression.cs" />
+    <Compile Include="FunctionExpressions\CscExpression.cs" />
+    <Compile Include="FunctionExpressions\ExpExpression.cs" />
+    <Compile Include="FunctionExpressions\LnExpression.cs" />
+    <Compile Include="FunctionExpressions\SecExpression.cs" />
+    <Compile Include="FunctionExpressions\SinExpression.cs" />
+    <Compile Include="FunctionExpressions\TanExpression.cs" />
+    <Compile Include="IExpressionService.cs" />
+    <Compile Include="OperatorExpressions\AddExpression.cs" />
+    <Compile Include="OperatorExpressions\DivExpression.cs" />
+    <Compile Include="OperatorExpressions\MulExpression.cs" />
+    <Compile Include="OperatorExpressions\NegExpression.cs" />
+    <Compile Include="OperatorExpressions\PowerExpression.cs" />
+    <Compile Include="OperatorExpressions\SubExpression.cs" />
+    <Compile Include="PrimitiveExpressions\NumberExpression.cs" />
+    <Compile Include="PrimitiveExpressions\VariableExpression.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RawExpression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NodeService\NodeService.csproj">
+      <Project>{62C0BACC-8486-4421-8DF7-E296E5E383FF}</Project>
+      <Name>NodeService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
