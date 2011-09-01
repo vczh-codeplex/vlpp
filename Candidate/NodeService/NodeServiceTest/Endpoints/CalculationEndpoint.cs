@@ -75,6 +75,66 @@ namespace NodeServiceTest.Endpoints
         {
             return animal;
         }
+
+        [NodeEndpointMethod]
+        public int[] CopyArray(int[] value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public List<int> CopyList(List<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public HashSet<int> CopyHashSet(HashSet<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public LinkedList<int> CopyLinkedList(LinkedList<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public Queue<int> CopyQueue(Queue<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public SortedSet<int> CopySortedSet(SortedSet<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public Stack<int> CopyStack(Stack<int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public Dictionary<int, int> CopyDictionary(Dictionary<int, int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public SortedDictionary<int, int> CopySortedDictionary(SortedDictionary<int, int> value)
+        {
+            return value;
+        }
+
+        [NodeEndpointMethod]
+        public SortedList<int, int> CopySortedList(SortedList<int, int> value)
+        {
+            return value;
+        }
     }
 
     [NodeEndpointDataType]
@@ -121,6 +181,17 @@ namespace NodeServiceTest.Endpoints
         void ThrowException();
         Point Swap(Point p);
         Animal CopyAnimal(Animal animal);
+
+        int[] CopyArray(int[] value);
+        List<int> CopyList(List<int> value);
+        HashSet<int> CopyHashSet(HashSet<int> value);
+        LinkedList<int> CopyLinkedList(LinkedList<int> value);
+        Queue<int> CopyQueue(Queue<int> value);
+        SortedSet<int> CopySortedSet(SortedSet<int> value);
+        Stack<int> CopyStack(Stack<int> value);
+        Dictionary<int, int> CopyDictionary(Dictionary<int, int> value);
+        SortedDictionary<int, int> CopySortedDictionary(SortedDictionary<int, int> value);
+        SortedList<int, int> CopySortedList(SortedList<int, int> value);
     }
 
     public interface ICalculationEndpointAsync : INodeEndpointClient
