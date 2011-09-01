@@ -12,6 +12,22 @@ namespace NodeServiceTest
 {
     public static class NodeEndpointTestCases
     {
+        private static void AssertCollection(IEnumerable<int> enumerable)
+        {
+            int[] numbers = enumerable.ToArray();
+            Assert.AreEqual(10, numbers.Length);
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreEqual(i, numbers[i]);
+            }
+        }
+
+        private static void AssertCollection(IDictionary<int, int> dictionary)
+        {
+            AssertCollection(dictionary.Keys);
+            AssertCollection(dictionary.Values);
+        }
+
         public static void TestProtocol(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
         {
             INodeEndpointProtocolServer server = null;
@@ -45,6 +61,19 @@ namespace NodeServiceTest
 
             client.SendMessage("Vczh is a genius!");
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage());
+
+            AssertCollection(client.CopyArray(Enumerable.Range(0, 10).ToArray()));
+            AssertCollection(client.CopyList(new List<int>(Enumerable.Range(0, 10))));
+            AssertCollection(client.CopyHashSet(new HashSet<int>(Enumerable.Range(0, 10))));
+            AssertCollection(client.CopyLinkedList(new LinkedList<int>(Enumerable.Range(0, 10))));
+            AssertCollection(client.CopyQueue(new Queue<int>(Enumerable.Range(0, 10))));
+            AssertCollection(client.CopySortedSet(new SortedSet<int>(Enumerable.Range(0, 10))));
+            AssertCollection(client.CopyStack(new Stack<int>(Enumerable.Range(0, 10).Reverse())));
+
+            Dictionary<int, int> dictionary = Enumerable.Range(0, 10).ToDictionary(i => i);
+            AssertCollection(client.CopyDictionary(dictionary));
+            AssertCollection(client.CopySortedDictionary(new SortedDictionary<int, int>(dictionary)));
+            AssertCollection(client.CopySortedList(new SortedList<int, int>(dictionary)));
         }
 
         public static void TestProtocolAsync(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)

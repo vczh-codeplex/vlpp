@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using NodeService.Endpoints.StrongTypedNodeEndpointSerializers;
+using System.Reflection;
+using System.Collections;
 
 namespace NodeService.Endpoints
 {
@@ -30,11 +32,30 @@ namespace NodeService.Endpoints
             AddSerializer(new PrimitiveTypeSerializer<Boolean>());
             AddSerializer(new GuidTypeSerializer());
             AddSerializer(new XElementTypeSerializer());
+            AddSerializer(new ArrayTypeSerializer(this));
+            AddSerializer(new ListTypeSerializer(this));
+            AddSerializer(new HashSetTypeSerializer(this));
+            AddSerializer(new LinkedListTypeSerializer(this));
+            AddSerializer(new QueueTypeSerializer(this));
+            AddSerializer(new SortedSetTypeSerializer(this));
+            AddSerializer(new StackTypeSerializer(this));
+            AddSerializer(new DictionaryTypeSerializer(this));
+            AddSerializer(new SortedDictionaryTypeSerializer(this));
+            AddSerializer(new SortedListTypeSerializer(this));
         }
 
         public XNode Serialize(object data)
         {
-            return this.typedSerializer[data.GetType()].Serialize(data);
+            Type dataType = data.GetType();
+            if (dataType.IsArray)
+            {
+                return this.typedSerializer[typeof(Array)].Serialize(data);
+            }
+            else
+            {
+                Type serializerType = dataType.IsGenericType ? dataType.GetGenericTypeDefinition() : dataType;
+                return this.typedSerializer[serializerType].Serialize(data);
+            }
         }
 
         public object Deserialize(XNode data, Type type)
@@ -48,7 +69,8 @@ namespace NodeService.Endpoints
                     return serializer.Deserialize(data, type);
                 }
             }
-            return this.typedSerializer[type].Deserialize(data, type);
+            Type serializerType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+            return this.typedSerializer[serializerType].Deserialize(data, type);
         }
 
         public void AddSerializer(ITypedSerializer serializer)
@@ -69,7 +91,7 @@ namespace NodeService.Endpoints
 
         public void AddDefaultSerializer(Type type)
         {
-            if (!this.typedSerializer.ContainsKey(type))
+            if (!type.IsArray && !this.typedSerializer.ContainsKey(type))
             {
                 if (IsDataType(type))
                 {
@@ -88,11 +110,36 @@ namespace NodeService.Endpoints
                         AddDefaultSerializer(currentType);
                     }
                 }
-                else
+                else if (!type.IsGenericType || !this.typedSerializer.ContainsKey(type.GetGenericTypeDefinition()))
                 {
                     throw new InvalidOperationException("Don't know how to serialize type " + type.FullName + ".");
                 }
             }
+        }
+
+        public XNode SerializeFromArray(string elementName, IEnumerable data)
+        {
+            return new XElement(
+                elementName,
+                data
+                    .Cast<object>()
+                    .Select(i => new XElement("Item", Serialize(i)))
+                    .ToArray()
+                );
+        }
+
+        public IList DeserializeToArray(XNode data, Type elementType)
+        {
+            Type arrayType = elementType.MakeArrayType();
+            ConstructorInfo arrayConstructor = arrayType.GetConstructor(new Type[] { typeof(int) });
+
+            XElement[] items = ((XElement)data).Elements("Item").ToArray();
+            IList array = (IList)arrayConstructor.Invoke(new object[] { items.Length });
+            for (int i = 0; i < items.Length; i++)
+            {
+                array[i] = Deserialize(items[i].FirstNode, elementType);
+            }
+            return array;
         }
     }
 
