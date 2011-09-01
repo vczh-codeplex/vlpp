@@ -10,13 +10,18 @@ namespace NodeService.Endpoints
     {
         private string name;
 
-        public NodeEndpointBase()
+        public static string GetDefaultNodeEndpointName(Type type)
         {
-            this.name = GetType()
+            return type
                 .GetCustomAttributes(typeof(NodeEndpointAttribute), false)
                 .Cast<NodeEndpointAttribute>()
                 .First()
                 .Name;
+        }
+
+        public NodeEndpointBase()
+        {
+            this.name = GetDefaultNodeEndpointName(GetType());
         }
 
         public NodeEndpointBase(string name)

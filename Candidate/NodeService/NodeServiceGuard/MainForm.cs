@@ -9,12 +9,45 @@ using System.Windows.Forms;
 using System.Reflection;
 using NodeServiceHost;
 using NodeServiceHost.GuardService;
+using System.Xml.Linq;
 
 namespace NodeServiceGuard
 {
     public partial class MainForm : Form
     {
         private GuardServiceEndpointServer server = null;
+
+        private void DoService(Action<GuardServiceSharedData.ServiceData> action)
+        {
+            ListViewItem item = listViewServices.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            if (item != null)
+            {
+                Guid token = (Guid)item.Tag;
+                GuardServiceSharedData.ServiceData data = this.server.SharedData.GetGuardedService(token);
+                if (data != null)
+                {
+                    this.Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        action(data);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("The service is down.", this.Text);
+                    }
+                    this.Cursor = Cursors.Default;
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Cannot find the service", this.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a service.", this.Text);
+            }
+        }
 
         public MainForm()
         {
@@ -59,6 +92,48 @@ namespace NodeServiceGuard
                 listViewServices.Items.Add(item);
             }
             this.server.SharedData.RestartFailedServices();
+        }
+
+        private void contextMenuService_Opening(object sender, CancelEventArgs e)
+        {
+            ListViewItem item = listViewServices.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            contextMenuServiceViewDescription.Enabled = item != null;
+            contextMenuServiceStop.Enabled = item != null;
+            timerRestart.Enabled = false;
+        }
+
+        private void contextMenuService_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            timerRestart.Enabled = true;
+        }
+
+        private void contextMenuServiceViewDescription_Click(object sender, EventArgs e)
+        {
+            DoService(data =>
+            {
+                XElement description = data.Service.Callback.GetServiceDescription();
+                using (var form = new ServiceDescriptionForm())
+                {
+                    form.ShowDescription(description);
+                }
+            });
+        }
+
+        private void contextMenuServiceRestart_Click(object sender, EventArgs e)
+        {
+            DoService(data =>
+            {
+                data.Service.Callback.Stop();
+            });
+        }
+
+        private void contextMenuServiceStop_Click(object sender, EventArgs e)
+        {
+            DoService(data =>
+            {
+                this.server.SharedData.Unregister(data.Token);
+                data.Service.Callback.Stop();
+            });
         }
     }
 }

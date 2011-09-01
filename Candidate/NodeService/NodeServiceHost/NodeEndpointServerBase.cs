@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using System.Threading;
+using System.Xml.Linq;
+using NodeService.Endpoints;
 
 namespace NodeServiceHost
 {
@@ -114,6 +116,30 @@ namespace NodeServiceHost
             this.ServerListener.Disconnect();
             this.ServerListener = null;
             this.serverState = NodeEndpointServerState.Stopped;
+        }
+
+        public virtual XElement GetServiceDescription()
+        {
+            string endpointName = this.callback.EndpointName;
+            if (endpointName == null)
+            {
+                endpointName = NodeEndpointBase.GetDefaultNodeEndpointName(typeof(T));
+            }
+            return new XElement(
+                "ServiceDescription",
+                new XElement(
+                    "Protocol",
+                    this.ProtocolFactory.GetFactoryDescription()
+                    ),
+                new XElement(
+                    "Address",
+                    new XElement("ProtocolAddress", this.callback.ProtocolAddress),
+                    new XElement("EndpointName", endpointName)
+                    ),
+                new XElement(
+                    "Contract"
+                    )
+                );
         }
     }
 }

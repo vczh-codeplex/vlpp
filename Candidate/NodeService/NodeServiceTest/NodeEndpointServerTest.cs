@@ -59,6 +59,14 @@ namespace NodeServiceTest
                 }
             }
 
+            public string EndpointName
+            {
+                get
+                {
+                    return null;
+                }
+            }
+
             public Endpoint CreateEndpoint()
             {
                 return new Endpoint();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NodeService;
 using NodeService.Endpoints;
+using System.Xml.Linq;
 
 namespace NodeServiceHost.GuardService
 {
@@ -49,6 +50,11 @@ namespace NodeServiceHost.GuardService
         {
             base.Start(semaphoreName);
             StartServer();
+        }
+
+        public override XElement GetServiceDescription()
+        {
+            return this.server.GetServiceDescription();
         }
 
         public override void Stop()

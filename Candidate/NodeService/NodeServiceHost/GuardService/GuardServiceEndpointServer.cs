@@ -59,6 +59,16 @@ namespace NodeServiceHost.GuardService
             }
         }
 
+        public ServiceData GetGuardedService(Guid token)
+        {
+            lock (this.guardedServices)
+            {
+                ServiceData data = null;
+                this.guardedServices.TryGetValue(token, out data);
+                return data;
+            }
+        }
+
         public void RestartFailedServices()
         {
             lock (this.guardedServices)

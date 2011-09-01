@@ -5,6 +5,7 @@ using System.Text;
 using NodeService.Endpoints;
 using NodeService;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace NodeServiceHost.GuardService
 {
@@ -57,5 +58,6 @@ namespace NodeServiceHost.GuardService
     {
         void Start(string semaphoreName);
         void Stop();
+        XElement GetServiceDescription();
     }
 }
