@@ -98,6 +98,7 @@ namespace NodeServiceGuard
         {
             ListViewItem item = listViewServices.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
             contextMenuServiceViewDescription.Enabled = item != null;
+            contextMenuServiceRestart.Enabled = item != null;
             contextMenuServiceStop.Enabled = item != null;
             timerRestart.Enabled = false;
         }
