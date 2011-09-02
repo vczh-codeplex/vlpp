@@ -25,6 +25,21 @@ namespace NodeService
         void OnReceivedRequest(INodeEndpointProtocolRequest request);
     }
 
+    public interface INodeEndpointProtocolRequestTracableListener : INodeEndpointProtocolRequestListener
+    {
+        void AddTracer(INodeEndpointProtocolRequestListenerTracer tracer);
+        void RemoveTracer(INodeEndpointProtocolRequestListenerTracer tracer);
+        INodeEndpointProtocolRequestListenerTracer[] GetTracers();
+    }
+
+    public interface INodeEndpointProtocolRequestListenerTracer
+    {
+        void OnReceivedRequest(DateTime time, INodeEndpointRequest request);
+        void OnResponded(DateTime time, XNode node);
+        void OnResponded(DateTime time, Exception exception);
+        void OnResponded(DateTime time);
+    }
+
     public interface INodeEndpointProtocolRequest
     {
         bool CanRespond { get; }

@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace NodeService.Providers
 {
-    public class ProtocolEnabledRequestListener : INodeEndpointProtocolRequestListener
+    public class ProtocolEnabledRequestListener : INodeEndpointProtocolRequestTracableListener
     {
         private class Request : INodeEndpointRequest
         {
@@ -117,9 +117,9 @@ namespace NodeService.Providers
 
         class TracerBroadcaster
         {
-            private List<IProtocolEnabledRequestListenerTracer> tracers;
+            private List<INodeEndpointProtocolRequestListenerTracer> tracers;
 
-            public TracerBroadcaster(List<IProtocolEnabledRequestListenerTracer> tracers)
+            public TracerBroadcaster(List<INodeEndpointProtocolRequestListenerTracer> tracers)
             {
                 this.tracers = tracers;
             }
@@ -174,13 +174,13 @@ namespace NodeService.Providers
         }
 
         private INodeEndpoint endpoint;
-        private List<IProtocolEnabledRequestListenerTracer> tracers;
+        private List<INodeEndpointProtocolRequestListenerTracer> tracers;
         private TracerBroadcaster tracerBroadcaster;
 
         public ProtocolEnabledRequestListener(INodeEndpoint endpoint)
         {
             this.endpoint = endpoint;
-            this.tracers = new List<IProtocolEnabledRequestListenerTracer>();
+            this.tracers = new List<INodeEndpointProtocolRequestListenerTracer>();
             this.tracerBroadcaster = new TracerBroadcaster(this.tracers);
         }
 
@@ -209,7 +209,7 @@ namespace NodeService.Providers
             }
         }
 
-        public void AddTracer(IProtocolEnabledRequestListenerTracer tracer)
+        public void AddTracer(INodeEndpointProtocolRequestListenerTracer tracer)
         {
             lock (this.tracers)
             {
@@ -220,7 +220,7 @@ namespace NodeService.Providers
             }
         }
 
-        public void RemoveTracer(IProtocolEnabledRequestListenerTracer tracer)
+        public void RemoveTracer(INodeEndpointProtocolRequestListenerTracer tracer)
         {
             lock (this.tracers)
             {
@@ -228,20 +228,12 @@ namespace NodeService.Providers
             }
         }
 
-        public IProtocolEnabledRequestListenerTracer[] GetTracers()
+        public INodeEndpointProtocolRequestListenerTracer[] GetTracers()
         {
             lock (this.tracers)
             {
                 return this.tracers.ToArray();
             }
         }
-    }
-
-    public interface IProtocolEnabledRequestListenerTracer
-    {
-        void OnReceivedRequest(DateTime time, INodeEndpointRequest request);
-        void OnResponded(DateTime time, XNode node);
-        void OnResponded(DateTime time, Exception exception);
-        void OnResponded(DateTime time);
     }
 }
