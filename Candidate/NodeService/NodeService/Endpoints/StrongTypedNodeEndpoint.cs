@@ -79,32 +79,47 @@ namespace NodeService.Endpoints
         {
             try
             {
-                MethodInfo method = this.methods[request.Method];
-                ParameterInfo firstParameter = method.GetParameters().FirstOrDefault();
-                if (firstParameter != null && firstParameter.ParameterType == typeof(INodeEndpointRequest))
+                MethodInfo method = null;
+                if (this.methods.TryGetValue(request.Method, out method))
                 {
-                    method.Invoke(this,
-                        new object[] { request }
-                        .Concat(Translate(method.GetParameters().Skip(1), request.Body))
-                        .ToArray()
-                        );
-                }
-                else
-                {
-                    object result = method.Invoke(this, Translate(method.GetParameters(), request.Body));
-                    if (method.ReturnType == typeof(void))
+                    ParameterInfo firstParameter = method.GetParameters().FirstOrDefault();
+                    if (firstParameter != null && firstParameter.ParameterType == typeof(INodeEndpointRequest))
                     {
-                        request.Respond();
+                        method.Invoke(this,
+                            new object[] { request }
+                            .Concat(Translate(method.GetParameters().Skip(1), request.Body))
+                            .ToArray()
+                            );
                     }
                     else
                     {
-                        Respond(request, result);
+                        object result = method.Invoke(this, Translate(method.GetParameters(), request.Body));
+                        if (method.ReturnType == typeof(void))
+                        {
+                            request.Respond();
+                        }
+                        else
+                        {
+                            Respond(request, result);
+                        }
                     }
+                }
+                else
+                {
+                    request.Respond(new InvalidOperationException("Method \"" + request.Method + "\" not exists."));
                 }
             }
             catch (TargetInvocationException exception)
             {
                 request.Respond(exception.InnerException);
+            }
+            catch (ArgumentException)
+            {
+                request.Respond(new InvalidOperationException("Cannot parse parameters."));
+            }
+            catch (TargetParameterCountException)
+            {
+                request.Respond(new InvalidOperationException("Cannot parse parameters."));
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace NodeServiceHost.GuardService
 {
-    public class GuardServiceEndpointServer : DuplexNodeEndpointServer<GuardService, IGuardServiceCallback>
+    public class GuardServiceEndpointServer : DuplexNodeEndpointServer<GuardService, IGuardServiceCallbackClient>
     {
         public GuardServiceSharedData SharedData { get; private set; }
         public GuardServiceEndpointServerCallback callback = null;
