@@ -38,6 +38,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionClient", "Sample.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionContract", "Sample.GuardedServer.ExpressionService\ExpressionContract\ExpressionContract.csproj", "{C26E5256-40C4-4FDD-AF19-B2F088D46127}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{EB7E551E-4404-4563-8DC7-9EA456DF3D73}"
+	ProjectSection(SolutionItems) = preProject
+		Architecture.docx = Architecture.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 13

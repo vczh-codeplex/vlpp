@@ -6,8 +6,16 @@ using System.Xml.Linq;
 
 namespace NodeService.Endpoints.StrongTypedNodeEndpointSerializers
 {
-    class XElementTypeSerializer : ITypedSerializer
+    class XElementTypeSerializer : INamedSerializer
     {
+        public string ElementName
+        {
+            get
+            {
+                return "XElement";
+            }
+        }
+
         public Type TargetType
         {
             get
@@ -18,12 +26,12 @@ namespace NodeService.Endpoints.StrongTypedNodeEndpointSerializers
 
         public XNode Serialize(object data)
         {
-            return (XElement)data;
+            return new XElement(this.ElementName, (XElement)data);
         }
 
         public object Deserialize(XNode data, Type type)
         {
-            return (XElement)data;
+            return ((XElement)data).FirstNode;
         }
     }
 }
