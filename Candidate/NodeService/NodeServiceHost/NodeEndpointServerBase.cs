@@ -75,7 +75,7 @@ namespace NodeServiceHost
         {
             foreach (var listener in server.GetListeners())
             {
-                var acceptableListener = listener as ProtocolEnabledRequestListener;
+                var acceptableListener = listener as INodeEndpointProtocolRequestTracableListener;
                 if (acceptableListener != null)
                 {
                     acceptableListener.AddTracer(this.tracer);

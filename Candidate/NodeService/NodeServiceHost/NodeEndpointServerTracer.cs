@@ -8,7 +8,7 @@ using NodeService;
 
 namespace NodeServiceHost
 {
-    public class NodeEndpointServerTracer : INodeEndpointServerTracer, IProtocolEnabledRequestListenerTracer
+    public class NodeEndpointServerTracer : INodeEndpointServerTracer, INodeEndpointProtocolRequestListenerTracer
     {
         private volatile bool isTracing = false;
         private List<XElement> tracingResults = new List<XElement>();
@@ -47,9 +47,9 @@ namespace NodeServiceHost
 
         #endregion
 
-        #region IProtocolEnabledRequestListenerTracer Members
+        #region INodeEndpointProtocolRequestListenerTracer Members
 
-        void IProtocolEnabledRequestListenerTracer.OnReceivedRequest(DateTime time, INodeEndpointRequest request)
+        void INodeEndpointProtocolRequestListenerTracer.OnReceivedRequest(DateTime time, INodeEndpointRequest request)
         {
             if (this.isTracing)
             {
@@ -68,7 +68,7 @@ namespace NodeServiceHost
             }
         }
 
-        void IProtocolEnabledRequestListenerTracer.OnResponded(DateTime time, XNode node)
+        void INodeEndpointProtocolRequestListenerTracer.OnResponded(DateTime time, XNode node)
         {
             if (this.isTracing)
             {
@@ -84,7 +84,7 @@ namespace NodeServiceHost
             }
         }
 
-        void IProtocolEnabledRequestListenerTracer.OnResponded(DateTime time, Exception exception)
+        void INodeEndpointProtocolRequestListenerTracer.OnResponded(DateTime time, Exception exception)
         {
             if (this.isTracing)
             {
@@ -100,7 +100,7 @@ namespace NodeServiceHost
             }
         }
 
-        void IProtocolEnabledRequestListenerTracer.OnResponded(DateTime time)
+        void INodeEndpointProtocolRequestListenerTracer.OnResponded(DateTime time)
         {
             if (this.isTracing)
             {
