@@ -61,6 +61,7 @@
     <Compile Include="GuardService\GuardServiceEndpointServer.cs" />
     <Compile Include="GuardService\GuardServiceEndpointServerCallback.cs" />
     <Compile Include="GuardService\NodeEndpointGuardServiceCallbackBase.cs" />
+    <Compile Include="NodeEndpointServerTracer.cs" />
     <Compile Include="INodeEndpointServer.cs" />
     <Compile Include="NodeEndpointServer.cs" />
     <Compile Include="NodeEndpointServerBase.cs" />

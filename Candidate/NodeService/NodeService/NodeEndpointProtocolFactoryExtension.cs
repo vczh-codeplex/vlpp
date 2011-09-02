@@ -13,11 +13,13 @@ namespace NodeService
     {
         public const int DefaultTimeout = 1000;
 
+        #region Server Utilities
+
         private static INodeEndpointProtocolServer WaitForServerBase(
             this INodeEndpointProtocolServerListener serverListener,
             string address,
             INodeEndpoint endpoint,
-            int timeout = DefaultTimeout
+            int timeout
             )
         {
             if (!serverListener.Connected)
@@ -71,6 +73,10 @@ namespace NodeService
             return server;
         }
 
+        #endregion
+
+        #region Client Utilities
+
         public static T WaitForClient<T>(
             this INodeEndpointProtocolFactory protocolFactory,
             string address,
@@ -122,6 +128,10 @@ namespace NodeService
             return client;
         }
 
+        #endregion
+
+        #region String Encoding
+
         public static void Send(this INodeEndpointProtocol protocol, string message)
         {
             protocol.Send(message.NodeServiceEncode());
@@ -165,6 +175,10 @@ namespace NodeService
             }
         }
 
+        #endregion
+
+        #region Factory Building
+
         public static INodeEndpointProtocolFactory With(this INodeEndpointProtocolFactory factory, ITranslatorProtocolHandlerFactory handlerFactory)
         {
             return new TranslatorProtocolFactory(factory, handlerFactory);
@@ -174,5 +188,7 @@ namespace NodeService
         {
             return factory.With(new TranslatorProtocolHandlerFactorySimple(handler));
         }
+
+        #endregion
     }
 }

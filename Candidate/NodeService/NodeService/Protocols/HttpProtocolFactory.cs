@@ -275,6 +275,14 @@ namespace NodeService.Protocols
                 }
             }
 
+            public INodeEndpointProtocolRequestListener[] GetListeners()
+            {
+                lock (this.listeners)
+                {
+                    return this.listeners.ToArray();
+                }
+            }
+
             public void Send(byte[] message)
             {
                 throw new NotSupportedException("The protocol is not able to send data directly.");
@@ -436,6 +444,14 @@ namespace NodeService.Protocols
                 lock (this.listeners)
                 {
                     this.listeners.Remove(listener);
+                }
+            }
+
+            public INodeEndpointProtocolRequestListener[] GetListeners()
+            {
+                lock (this.listeners)
+                {
+                    return this.listeners.ToArray();
                 }
             }
 

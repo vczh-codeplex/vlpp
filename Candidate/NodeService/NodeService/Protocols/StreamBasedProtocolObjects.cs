@@ -115,6 +115,14 @@ namespace NodeService.Protocols
                 }
             }
 
+            public virtual INodeEndpointProtocolRequestListener[] GetListeners()
+            {
+                lock (this.listeners)
+                {
+                    return this.listeners.ToArray();
+                }
+            }
+
             public virtual void Send(byte[] message)
             {
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");

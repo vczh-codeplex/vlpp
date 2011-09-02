@@ -159,13 +159,13 @@ namespace NodeServiceGuard
             if (selectedItem == null)
             {
                 this.selectedServerToken = Guid.Empty;
-                UpdateServiceProperties();
             }
             else
             {
                 listViewServiceInformation.SelectedIndices.Clear();
                 listViewServiceInformation.SelectedIndices.Add(selectedItem.Index);
             }
+            UpdateServiceProperties();
         }
 
         private void contextMenuService_Opening(object sender, CancelEventArgs e)
@@ -229,7 +229,7 @@ namespace NodeServiceGuard
             DoService(this.selectedServerToken, data =>
             {
                 data.Service.Callback.StartTracing();
-                labelServiceTracing.Text = "Tracing: Getting information...";
+                labelServiceTracing.Text = "Tracing: ...";
                 buttonStartTracing.Enabled = false;
                 buttonStopTracing.Enabled = false;
             });
@@ -240,7 +240,7 @@ namespace NodeServiceGuard
             DoService(this.selectedServerToken, data =>
             {
                 data.Service.Callback.StopTracing();
-                labelServiceTracing.Text = "Tracing: Getting information...";
+                labelServiceTracing.Text = "Tracing: ...";
                 buttonStartTracing.Enabled = false;
                 buttonStopTracing.Enabled = false;
             });
