@@ -7,6 +7,7 @@ using System.Threading;
 using System.Xml.Linq;
 using NodeService.Endpoints;
 using System.Reflection;
+using NodeService.Providers;
 
 namespace NodeServiceHost
 {
@@ -15,6 +16,7 @@ namespace NodeServiceHost
     {
         private NodeEndpointServerState serverState = NodeEndpointServerState.Ready;
         private INodeEndpointServerCallback<T> callback = null;
+        private NodeEndpointServerTracer tracer = null;
 
         public INodeEndpointProtocolFactory ProtocolFactory { get; private set; }
         public INodeEndpointProtocolServerListener ServerListener { get; private set; }
@@ -58,6 +60,7 @@ namespace NodeServiceHost
                 }
                 else
                 {
+                    InstallServerTracer(server);
                     lock (this.runningServices)
                     {
                         this.runningServices.Add(Tuple.Create(endpoint, server));
@@ -66,6 +69,23 @@ namespace NodeServiceHost
                 }
                 ClearServices(true);
             }
+        }
+
+        protected virtual void InstallServerTracer(INodeEndpointProtocolServer server)
+        {
+            foreach (var listener in server.GetListeners())
+            {
+                var acceptableListener = listener as ProtocolEnabledRequestListener;
+                if (acceptableListener != null)
+                {
+                    acceptableListener.AddTracer(this.tracer);
+                }
+            }
+        }
+
+        public NodeEndpointServerBase()
+        {
+            this.tracer = new NodeEndpointServerTracer();
         }
 
         public NodeEndpointServerState ServerState
@@ -84,11 +104,11 @@ namespace NodeServiceHost
             }
         }
 
-        public INodeEndpointServerTracer Tracer
+        public virtual INodeEndpointServerTracer Tracer
         {
             get
             {
-                return null;
+                return this.tracer;
             }
         }
 

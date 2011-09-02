@@ -16,6 +16,7 @@ namespace NodeService
         void BeginListen();
         void AddListener(INodeEndpointProtocolRequestListener listener);
         void RemoveListener(INodeEndpointProtocolRequestListener listener);
+        INodeEndpointProtocolRequestListener[] GetListeners();
         void Send(byte[] message);
     }
 

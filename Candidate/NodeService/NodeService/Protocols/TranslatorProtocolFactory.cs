@@ -242,6 +242,14 @@ namespace NodeService.Protocols
                 }
             }
 
+            public INodeEndpointProtocolRequestListener[] GetListeners()
+            {
+                lock (this.Listeners)
+                {
+                    return this.Listeners.ToArray();
+                }
+            }
+
             public void Send(byte[] message)
             {
                 this.parentProtocol.Send(this.Handler.Encode(message));
