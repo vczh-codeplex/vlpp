@@ -12,11 +12,20 @@ namespace NodeServiceHost
     {
         NodeEndpointServerState ServerState { get; }
         INodeEndpointServerCallback<T> Callback { get; }
+        INodeEndpointServerTracer Tracer { get; }
 
         void Start(INodeEndpointServerCallback<T> callback);
         void Stop();
         XElement GetServiceDescription();
     }
+
+    public interface INodeEndpointServerTracer
+    {
+        void StartTracing();
+        void StopTracing();
+        bool IsTracing();
+        XElement GetTracingResult();
+    };
 
     public enum NodeEndpointServerState
     {

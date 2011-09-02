@@ -10,9 +10,9 @@ using System.Xml.Linq;
 namespace NodeServiceHost.GuardService
 {
     [NodeEndpoint(GuardServiceConfiguration.EndpointName)]
-    public class GuardService : StrongTypedNodeEndpoint, IDuplexNodeEndpoint<IGuardServiceCallback>
+    public class GuardService : StrongTypedNodeEndpoint, IDuplexNodeEndpoint<IGuardServiceCallbackClient>
     {
-        public IGuardServiceCallback Callback { get; set; }
+        public IGuardServiceCallbackClient Callback { get; set; }
         public GuardServiceSharedData SharedData { get; private set; }
 
         public GuardService(GuardServiceSharedData sharedData)
@@ -54,10 +54,19 @@ namespace NodeServiceHost.GuardService
         public string Name { get; set; }
     }
 
-    public interface IGuardServiceCallback : INodeEndpointClient
+    public interface IGuardServiceCallback
     {
         void Start(string semaphoreName);
         void Stop();
         XElement GetServiceDescription();
+
+        void StartTracing();
+        void StopTracing();
+        bool IsTracing();
+        XElement GetTracingResult();
+    }
+
+    public interface IGuardServiceCallbackClient : IGuardServiceCallback, INodeEndpointClient
+    {
     }
 }

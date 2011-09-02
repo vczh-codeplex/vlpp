@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace NodeServiceHost.GuardService
 {
-    public abstract class GuardServiceCallback : StrongTypedNodeEndpoint
+    public abstract class GuardServiceCallback : StrongTypedNodeEndpoint, IGuardServiceCallback
     {
         private Semaphore semaphore = null;
 
@@ -26,6 +26,12 @@ namespace NodeServiceHost.GuardService
         public GuardServiceCallback()
         {
             this.EnableAsynchronization = true;
+        }
+
+        public override void Dispose()
+        {
+            CloseSemaphore();
+            base.Dispose();
         }
 
         [NodeEndpointMethod]
@@ -59,10 +65,16 @@ namespace NodeServiceHost.GuardService
                 );
         }
 
-        public override void Dispose()
-        {
-            CloseSemaphore();
-            base.Dispose();
-        }
+        [NodeEndpointMethod]
+        public abstract void StartTracing();
+
+        [NodeEndpointMethod]
+        public abstract void StopTracing();
+
+        [NodeEndpointMethod]
+        public abstract bool IsTracing();
+
+        [NodeEndpointMethod]
+        public abstract XElement GetTracingResult();
     }
 }

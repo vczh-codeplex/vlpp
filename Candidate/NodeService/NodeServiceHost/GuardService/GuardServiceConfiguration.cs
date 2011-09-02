@@ -23,7 +23,7 @@ namespace NodeServiceHost.GuardService
         where TService : INodeEndpoint
         where TCallback : INodeEndpointServerCallback<TService>, new()
     {
-        public interface IGuardServiceInterface : IGuardService, IDuplexNodeEndpointClient<NodeEndpointGuardServiceCallback<TService>>
+        public interface IGuardServiceClient : IGuardService, IDuplexNodeEndpointClient<NodeEndpointGuardServiceCallback<TService>>
         {
         }
 
@@ -35,7 +35,7 @@ namespace NodeServiceHost.GuardService
             guardServiceCallback.StopEventHandler = stopEventHandler;
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
-                    IGuardServiceInterface,
+                    IGuardServiceClient,
                     NodeEndpointGuardServiceCallback<TService>
                 >(
                     "localhost/" + GuardServiceConfiguration.Address,
@@ -65,7 +65,7 @@ namespace NodeServiceHost.GuardService
         where TDuplexCallback : INodeEndpointClient
         where TCallback : INodeEndpointServerCallback<TDuplexService>, new()
     {
-        public interface IGuardServiceInterface : IGuardService, IDuplexNodeEndpointClient<DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>>
+        public interface IGuardServiceClient : IGuardService, IDuplexNodeEndpointClient<DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>>
         {
         }
 
@@ -77,7 +77,7 @@ namespace NodeServiceHost.GuardService
             guardServiceCallback.StopEventHandler = stopEventHandler;
             var guardService = GuardServiceConfiguration.CreateProtocolFactory()
                 .WaitForClient<
-                    IGuardServiceInterface,
+                    IGuardServiceClient,
                     DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>
                 >(
                     "localhost/" + GuardServiceConfiguration.Address,

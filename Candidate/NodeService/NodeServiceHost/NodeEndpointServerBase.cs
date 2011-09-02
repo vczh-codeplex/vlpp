@@ -84,6 +84,14 @@ namespace NodeServiceHost
             }
         }
 
+        public INodeEndpointServerTracer Tracer
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public virtual void Start(INodeEndpointServerCallback<T> callback)
         {
             if (this.serverState != NodeEndpointServerState.Ready)

@@ -11,10 +11,10 @@ namespace NodeServiceHost.GuardService
     public abstract class NodeEndpointGuardServiceCallbackBase<T> : GuardServiceCallback
         where T : INodeEndpoint
     {
-        private NodeEndpointServerBase<T> server = null;
+        private INodeEndpointServer<T> server = null;
         private INodeEndpointServerCallback<T> callback = null;
 
-        protected abstract NodeEndpointServerBase<T> CreateNodeEndpointServer();
+        protected abstract INodeEndpointServer<T> CreateNodeEndpointServer();
 
         public Action<INodeEndpointServer<T>> StartEventHandler { get; set; }
         public Action StopEventHandler { get; set; }
@@ -46,6 +46,12 @@ namespace NodeServiceHost.GuardService
             this.callback = callback;
         }
 
+        public override void Dispose()
+        {
+            StopServer();
+            base.Dispose();
+        }
+
         public override void Start(string semaphoreName)
         {
             base.Start(semaphoreName);
@@ -67,10 +73,44 @@ namespace NodeServiceHost.GuardService
             }
         }
 
-        public override void Dispose()
+        public override void StartTracing()
         {
-            StopServer();
-            base.Dispose();
+            INodeEndpointServerTracer tracer = this.server.Tracer;
+            if (tracer == null)
+            {
+                throw new InvalidOperationException("This server does not support tracing.");
+            }
+            tracer.StartTracing();
+        }
+
+        public override void StopTracing()
+        {
+            INodeEndpointServerTracer tracer = this.server.Tracer;
+            if (tracer == null)
+            {
+                throw new InvalidOperationException("This server does not support tracing.");
+            }
+            tracer.StopTracing();
+        }
+
+        public override bool IsTracing()
+        {
+            INodeEndpointServerTracer tracer = this.server.Tracer;
+            if (tracer == null)
+            {
+                return false;
+            }
+            return tracer.IsTracing();
+        }
+
+        public override XElement GetTracingResult()
+        {
+            INodeEndpointServerTracer tracer = this.server.Tracer;
+            if (tracer == null)
+            {
+                throw new InvalidOperationException("This server does not support tracing.");
+            }
+            return tracer.GetTracingResult();
         }
     }
 
@@ -78,7 +118,7 @@ namespace NodeServiceHost.GuardService
     public class NodeEndpointGuardServiceCallback<T> : NodeEndpointGuardServiceCallbackBase<T>
         where T : INodeEndpoint
     {
-        protected override NodeEndpointServerBase<T> CreateNodeEndpointServer()
+        protected override INodeEndpointServer<T> CreateNodeEndpointServer()
         {
             return new NodeEndpointServer<T>();
         }
@@ -94,7 +134,7 @@ namespace NodeServiceHost.GuardService
         where T : IDuplexNodeEndpoint<U>
         where U : INodeEndpointClient
     {
-        protected override NodeEndpointServerBase<T> CreateNodeEndpointServer()
+        protected override INodeEndpointServer<T> CreateNodeEndpointServer()
         {
             return new DuplexNodeEndpointServer<T, U>();
         }
