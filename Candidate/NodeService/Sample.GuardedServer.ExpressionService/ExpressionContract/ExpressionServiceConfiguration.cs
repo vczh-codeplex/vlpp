@@ -14,7 +14,9 @@ namespace ExpressionContract
 
         public static INodeEndpointProtocolFactory CreateProtocolFactory()
         {
-            return new NamedPipeProtocolFactory();
+            return new NamedPipeProtocolFactory()
+                .With(new GzipProtocolHandler())
+                ;
         }
     }
 }
