@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Name");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Token");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Semaphore Name");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Execution Path");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Arguments");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Name");
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("Token");
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("Semaphore Name");
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("Execution Path");
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("Arguments");
             this.listViewServices = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,6 +55,7 @@
             this.buttonStopTracing = new System.Windows.Forms.Button();
             this.buttonStartTracing = new System.Windows.Forms.Button();
             this.labelServiceTracing = new System.Windows.Forms.Label();
+            this.contextMenuServiceConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerService)).BeginInit();
             this.splitContainerService.Panel1.SuspendLayout();
@@ -78,7 +79,7 @@
             this.listViewServices.Location = new System.Drawing.Point(0, 0);
             this.listViewServices.MultiSelect = false;
             this.listViewServices.Name = "listViewServices";
-            this.listViewServices.Size = new System.Drawing.Size(777, 409);
+            this.listViewServices.Size = new System.Drawing.Size(777, 355);
             this.listViewServices.TabIndex = 0;
             this.listViewServices.UseCompatibleStateImageBehavior = false;
             this.listViewServices.View = System.Windows.Forms.View.Details;
@@ -98,11 +99,12 @@
             // 
             this.contextMenuService.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contextMenuServiceViewDescription,
+            this.contextMenuServiceConnect,
             this.toolStripMenuItem1,
             this.contextMenuServiceRestart,
             this.contextMenuServiceStop});
             this.contextMenuService.Name = "contextMenuService";
-            this.contextMenuService.Size = new System.Drawing.Size(183, 98);
+            this.contextMenuService.Size = new System.Drawing.Size(183, 120);
             this.contextMenuService.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuService_Closing);
             this.contextMenuService.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuService_Opening);
             // 
@@ -144,7 +146,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainerService.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerService.Location = new System.Drawing.Point(12, 12);
+            this.splitContainerService.Location = new System.Drawing.Point(12, 11);
             this.splitContainerService.Name = "splitContainerService";
             this.splitContainerService.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -155,8 +157,8 @@
             // splitContainerService.Panel2
             // 
             this.splitContainerService.Panel2.Controls.Add(this.tabControlProperties);
-            this.splitContainerService.Size = new System.Drawing.Size(777, 706);
-            this.splitContainerService.SplitterDistance = 409;
+            this.splitContainerService.Size = new System.Drawing.Size(777, 652);
+            this.splitContainerService.SplitterDistance = 355;
             this.splitContainerService.TabIndex = 1;
             // 
             // tabControlProperties
@@ -191,11 +193,11 @@
             this.listViewServiceInformation.GridLines = true;
             this.listViewServiceInformation.HideSelection = false;
             this.listViewServiceInformation.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5});
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9,
+            listViewItem10});
             this.listViewServiceInformation.Location = new System.Drawing.Point(3, 3);
             this.listViewServiceInformation.MultiSelect = false;
             this.listViewServiceInformation.Name = "listViewServiceInformation";
@@ -224,7 +226,7 @@
             this.tabPageTracing.Location = new System.Drawing.Point(4, 22);
             this.tabPageTracing.Name = "tabPageTracing";
             this.tabPageTracing.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTracing.Size = new System.Drawing.Size(769, 267);
+            this.tabPageTracing.Size = new System.Drawing.Size(769, 244);
             this.tabPageTracing.TabIndex = 1;
             this.tabPageTracing.Text = "Tracing";
             this.tabPageTracing.UseVisualStyleBackColor = true;
@@ -234,7 +236,7 @@
             this.buttonReadTracingResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonReadTracingResult.Location = new System.Drawing.Point(620, 6);
             this.buttonReadTracingResult.Name = "buttonReadTracingResult";
-            this.buttonReadTracingResult.Size = new System.Drawing.Size(143, 23);
+            this.buttonReadTracingResult.Size = new System.Drawing.Size(143, 21);
             this.buttonReadTracingResult.TabIndex = 4;
             this.buttonReadTracingResult.Text = "Read Tracing Result";
             this.buttonReadTracingResult.UseVisualStyleBackColor = true;
@@ -245,19 +247,19 @@
             this.textBoxTracingResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTracingResult.Location = new System.Drawing.Point(9, 35);
+            this.textBoxTracingResult.Location = new System.Drawing.Point(9, 32);
             this.textBoxTracingResult.Multiline = true;
             this.textBoxTracingResult.Name = "textBoxTracingResult";
             this.textBoxTracingResult.ReadOnly = true;
             this.textBoxTracingResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxTracingResult.Size = new System.Drawing.Size(754, 226);
+            this.textBoxTracingResult.Size = new System.Drawing.Size(754, 209);
             this.textBoxTracingResult.TabIndex = 3;
             // 
             // buttonStopTracing
             // 
             this.buttonStopTracing.Location = new System.Drawing.Point(183, 6);
             this.buttonStopTracing.Name = "buttonStopTracing";
-            this.buttonStopTracing.Size = new System.Drawing.Size(75, 23);
+            this.buttonStopTracing.Size = new System.Drawing.Size(75, 21);
             this.buttonStopTracing.TabIndex = 2;
             this.buttonStopTracing.Text = "Stop";
             this.buttonStopTracing.UseVisualStyleBackColor = true;
@@ -267,7 +269,7 @@
             // 
             this.buttonStartTracing.Location = new System.Drawing.Point(102, 6);
             this.buttonStartTracing.Name = "buttonStartTracing";
-            this.buttonStartTracing.Size = new System.Drawing.Size(75, 23);
+            this.buttonStartTracing.Size = new System.Drawing.Size(75, 21);
             this.buttonStartTracing.TabIndex = 1;
             this.buttonStartTracing.Text = "Start";
             this.buttonStartTracing.UseVisualStyleBackColor = true;
@@ -276,17 +278,24 @@
             // labelServiceTracing
             // 
             this.labelServiceTracing.AutoSize = true;
-            this.labelServiceTracing.Location = new System.Drawing.Point(6, 11);
+            this.labelServiceTracing.Location = new System.Drawing.Point(6, 10);
             this.labelServiceTracing.Name = "labelServiceTracing";
-            this.labelServiceTracing.Size = new System.Drawing.Size(63, 13);
+            this.labelServiceTracing.Size = new System.Drawing.Size(77, 12);
             this.labelServiceTracing.TabIndex = 0;
             this.labelServiceTracing.Text = "Tracing: Off";
             // 
+            // contextMenuServiceConnect
+            // 
+            this.contextMenuServiceConnect.Name = "contextMenuServiceConnect";
+            this.contextMenuServiceConnect.Size = new System.Drawing.Size(182, 22);
+            this.contextMenuServiceConnect.Text = "Connect...";
+            this.contextMenuServiceConnect.Click += new System.EventHandler(this.contextMenuServiceConnect_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(801, 730);
+            this.ClientSize = new System.Drawing.Size(801, 674);
             this.Controls.Add(this.splitContainerService);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -328,6 +337,7 @@
         private System.Windows.Forms.Label labelServiceTracing;
         private System.Windows.Forms.TextBox textBoxTracingResult;
         private System.Windows.Forms.Button buttonReadTracingResult;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuServiceConnect;
     }
 }
 

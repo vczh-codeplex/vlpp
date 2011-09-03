@@ -64,6 +64,7 @@
             this.ClientSize = new System.Drawing.Size(592, 581);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.buttonOK);
+            this.MinimizeBox = false;
             this.Name = "ServiceDescriptionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View Service Description";
