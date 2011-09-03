@@ -202,6 +202,10 @@ namespace NodeServiceHost
                     + type.GetGenericArguments().Select(GetTypeName).Aggregate((a, b) => a + ", " + b)
                     + ">";
             }
+            else if (type.IsArray)
+            {
+                return GetTypeName(type.GetElementType()) + "[]";
+            }
             else
             {
                 return IsDataType(type) ? type.Name : type.FullName;
