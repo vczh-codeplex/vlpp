@@ -64,6 +64,13 @@
     <Compile Include="ServiceDescriptionForm.Designer.cs">
       <DependentUpon>ServiceDescriptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServiceReflectoring\ServiceTestClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceReflectoring\ServiceTestClientForm.Designer.cs">
+      <DependentUpon>ServiceTestClientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceReflectoring\ServiceReflector.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +85,9 @@
     </Compile>
     <EmbeddedResource Include="ServiceDescriptionForm.resx">
       <DependentUpon>ServiceDescriptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceReflectoring\ServiceTestClientForm.resx">
+      <DependentUpon>ServiceTestClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

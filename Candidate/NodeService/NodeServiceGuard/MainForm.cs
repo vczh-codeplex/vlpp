@@ -11,6 +11,7 @@ using NodeServiceHost;
 using NodeServiceHost.GuardService;
 using System.Xml.Linq;
 using NodeService;
+using NodeServiceGuard.ServiceReflectoring;
 
 namespace NodeServiceGuard
 {
@@ -171,9 +172,10 @@ namespace NodeServiceGuard
         private void contextMenuService_Opening(object sender, CancelEventArgs e)
         {
             ListViewItem item = listViewServices.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            contextMenuServiceViewDescription.Enabled = item != null;
-            contextMenuServiceRestart.Enabled = item != null;
-            contextMenuServiceStop.Enabled = item != null;
+            foreach (ToolStripItem menuItem in contextMenuService.Items)
+            {
+                menuItem.Enabled = item != null;
+            }
             timerRestart.Enabled = false;
         }
 
@@ -192,6 +194,32 @@ namespace NodeServiceGuard
                     form.ShowDescription(description);
                 }
             });
+        }
+
+        private void contextMenuServiceConnect_Click(object sender, EventArgs e)
+        {
+            XElement description = null;
+            DoService(data =>
+            {
+                description = data.Service.Callback.GetServiceDescription();
+            });
+
+            if (description != null)
+            {
+                try
+                {
+                    ServiceReflector reflector = new ServiceReflector(description);
+                    using (var form = new ServiceTestClientForm())
+                    {
+                        form.Reflector = reflector;
+                        form.ShowDialog();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, this.Text);
+                }
+            }
         }
 
         private void contextMenuServiceRestart_Click(object sender, EventArgs e)
