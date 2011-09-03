@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using NodeService;
 using NodeService.Providers;
+using System.Xml.Linq;
 
 namespace NodeServiceGuard.ServiceReflectoring
 {
@@ -17,12 +18,14 @@ namespace NodeServiceGuard.ServiceReflectoring
         private Thread connectionThread = null;
         private INodeEndpointProtocolClient protocolClient = null;
         private INodeEndpointClientProvider clientProvider = null;
+        private INodeEndpointResponse currentResponse = null;
 
         public ServiceReflector Reflector { get; set; }
 
         public ServiceTestClientForm()
         {
             InitializeComponent();
+            buttonSend.Enabled = false;
         }
 
         private void ConnectionThreadProc(string address, string endpointName)
@@ -36,6 +39,7 @@ namespace NodeServiceGuard.ServiceReflectoring
                     this.protocolClient = client;
                     this.clientProvider = new ProtocolEnabledClientProvider();
                     this.clientProvider.Protocol = this.protocolClient;
+                    this.protocolClient.BeginListen();
                 }
             }
             catch (ThreadAbortException)
@@ -59,6 +63,7 @@ namespace NodeServiceGuard.ServiceReflectoring
                     else
                     {
                         labelConnectionState.Text = "Connected to the service.";
+                        buttonSend.Enabled = true;
                     }
                     this.connectionThread = null;
                 }));
@@ -84,11 +89,17 @@ namespace NodeServiceGuard.ServiceReflectoring
             textBoxAddress.Text = this.Reflector.SuggestedAddress;
             textBoxProtocolAddress.Text = this.Reflector.ProtocolAddress;
             textBoxEndpointName.Text = this.Reflector.EndpointName;
+            comboBoxMethod.Items.AddRange(this.Reflector.Methods.ToArray());
+            if (comboBoxMethod.Items.Count > 0)
+            {
+                comboBoxMethod.SelectedIndex = 0;
+            }
             buttonConnect_Click(buttonConnect, new EventArgs());
         }
 
         private void ServiceTestClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             if (this.connectionThread != null)
             {
                 this.connectionThread.Abort();
@@ -96,6 +107,69 @@ namespace NodeServiceGuard.ServiceReflectoring
             if (this.clientProvider != null)
             {
                 this.clientProvider.Disconnect();
+            }
+            this.Cursor = Cursors.Default;
+        }
+
+        private void buttonSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                XElement body = XElement.Parse(textBoxParameterXml.Text);
+                this.currentResponse = this.clientProvider.Send(comboBoxMethod.SelectedItem.ToString(), body);
+                textBoxResponseXml.Text = "Waiting for response...";
+                buttonSend.Enabled = false;
+                this.currentResponse.RegisterCallback((r) =>
+                {
+                    try
+                    {
+                        if (r == this.currentResponse)
+                        {
+                            this.Invoke(new MethodInvoker(() =>
+                            {
+                                switch (r.RequestState)
+                                {
+                                    case RequestState.RaisedException:
+                                        {
+                                            textBoxResponseXml.Text = r.Exception.Message;
+                                        }
+                                        break;
+                                    case RequestState.ReceivedResponse:
+                                        {
+                                            textBoxResponseXml.Text = r.Response.ToString();
+                                        }
+                                        break;
+                                }
+                                buttonSend.Enabled = true;
+                            }));
+                            this.currentResponse = null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Sending Request");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, this.Text);
+            }
+        }
+
+        private void comboBoxMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxMethod.SelectedIndex != -1)
+            {
+                var method = (ServiceReflector.MethodContract)comboBoxMethod.SelectedItem;
+                XElement parameters = new XElement(
+                    "Parameters",
+                    method
+                        .Parameters
+                        .Select(p => new XElement(p.Name, " "))
+                        .ToArray()
+                    );
+                textBoxParameterXml.Text = parameters.ToString();
             }
         }
     }

@@ -12,16 +12,77 @@ namespace NodeServiceGuard.ServiceReflectoring
 {
     public class ServiceReflector
     {
+        public class TypeContract
+        {
+            public string FullName { get; private set; }
+
+            public TypeContract(string fullname)
+            {
+                this.FullName = fullname;
+            }
+
+            public override string ToString()
+            {
+                return this.FullName;
+            }
+        };
+
+        public class ParameterContract
+        {
+            public string Name { get; private set; }
+            public TypeContract Type { get; private set; }
+
+            public ParameterContract(XElement elementParameter)
+            {
+                this.Name = elementParameter.Element("Name").Value;
+                this.Type = new TypeContract(elementParameter.Element("Type").Value);
+            }
+
+            public override string ToString()
+            {
+                return this.Name;
+            }
+        };
+
+        public class MethodContract
+        {
+            public string Name { get; private set; }
+            public IEnumerable<ParameterContract> Parameters { get; private set; }
+
+            public MethodContract(XElement elementMethod)
+            {
+                this.Name = elementMethod.Element("Name").Value;
+                this.Parameters = elementMethod
+                    .Element("Parameters")
+                    .Elements("Parameter")
+                    .Select(p => new ParameterContract(p))
+                    .ToArray();
+            }
+
+            public override string ToString()
+            {
+                return this.Name;
+            }
+        };
+
         private INodeEndpointProtocolFactory factory;
         private INodeEndpointProtocolFactory outestFactory;
         private string protocolAddress;
         private string endpointName;
+        private MethodContract[] methods;
 
         public ServiceReflector(XElement serviceDescription)
         {
             this.factory = BuildFactory(serviceDescription.Element("Protocol"), out this.outestFactory);
             this.protocolAddress = serviceDescription.Element("Address").Element("ProtocolAddress").Value;
             this.endpointName = serviceDescription.Element("Address").Element("EndpointName").Value;
+
+            this.methods = serviceDescription
+                .Element("Contract")
+                .Element("Methods")
+                .Elements("Method")
+                .Select(m => new MethodContract(m))
+                .ToArray();
         }
 
         public INodeEndpointProtocolFactory Factory
@@ -79,6 +140,14 @@ namespace NodeServiceGuard.ServiceReflectoring
                 {
                     return "";
                 }
+            }
+        }
+
+        public IEnumerable<MethodContract> Methods
+        {
+            get
+            {
+                return this.methods;
             }
         }
 
