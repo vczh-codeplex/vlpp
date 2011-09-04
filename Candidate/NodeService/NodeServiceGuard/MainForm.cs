@@ -124,7 +124,8 @@ namespace NodeServiceGuard
             this.server = new GuardServiceEndpointServer(9000);
             this.server.Start();
 
-            this.Text += " (" + this.server.GetHttpListenerAddress("localhost") + ")";
+            this.Text += " (" + this.server.GetHttpListenerAddress(Environment.MachineName) + ")";
+            textBoxRemoteServiceGuard.Text = Environment.MachineName;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

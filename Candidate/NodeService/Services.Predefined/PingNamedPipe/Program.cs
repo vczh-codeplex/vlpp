@@ -20,7 +20,7 @@ namespace PingNamedPipe
             GuardServiceStarter<PingService, PingServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName + " (pipe://./PredefinedServices/" + ServiceName + "/)"
+                ServiceName
                 );
         }
     }

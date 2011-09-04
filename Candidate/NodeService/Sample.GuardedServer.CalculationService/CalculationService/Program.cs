@@ -20,7 +20,7 @@ namespace CalculationService
             GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                "pipe://./GuardedServiceTest/CalculationService"
+                "CalculationService"
                 );
         }
     }

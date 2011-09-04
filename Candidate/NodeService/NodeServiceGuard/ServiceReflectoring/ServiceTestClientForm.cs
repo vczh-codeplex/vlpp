@@ -25,7 +25,7 @@ namespace NodeServiceGuard.ServiceReflectoring
 
         public ServiceTestClientForm()
         {
-            this.Host = "localhost";
+            this.Host = Environment.MachineName;
             InitializeComponent();
             buttonSend.Enabled = false;
         }

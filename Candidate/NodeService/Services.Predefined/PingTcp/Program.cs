@@ -20,7 +20,7 @@ namespace PingTcp
             GuardServiceStarter<PingService, PingServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName + " (127.0.0.1:9001)"
+                ServiceName
                 );
         }
     }
