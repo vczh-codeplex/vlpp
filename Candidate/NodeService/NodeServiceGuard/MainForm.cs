@@ -290,6 +290,7 @@ namespace NodeServiceGuard
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
+            this.Cursor = Cursors.WaitCursor;
             try
             {
                 request.BeginGetResponse((a) =>
@@ -336,6 +337,10 @@ namespace NodeServiceGuard
             {
                 MessageBox.Show(ex.Message, this.Text);
             }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
         }
 
         private void buttonConnectRemoteServiceGuard_Click(object sender, EventArgs e)
@@ -344,9 +349,10 @@ namespace NodeServiceGuard
             string urlTemplate = this.server.GetHttpListenerAddress(host) + "/{0}.xml";
             string url = string.Format(urlTemplate, "ServiceList");
 
-            buttonConnectRemoteServiceGuard.Enabled = false;
             listViewRemoteServices.Items.Clear();
-            listViewRemoteServices.Enabled = false;
+            labelConnectedRemoteServiceGuard.Text = "Connecting...";
+            labelConnectedRemoteServiceGuard.Refresh();
+            bool connected = false;
 
             QueryHttp(
                 url,
@@ -360,11 +366,15 @@ namespace NodeServiceGuard
                         item.Tag = host;
                         listViewRemoteServices.Items.Add(item);
                     }
+                    labelConnectedRemoteServiceGuard.Text = "Currently connected to: " + host;
+                    connected = true;
                 },
                 () =>
                 {
-                    buttonConnectRemoteServiceGuard.Enabled = true;
-                    listViewRemoteServices.Enabled = true;
+                    if (!connected)
+                    {
+                        labelConnectedRemoteServiceGuard.Text = "Currently connected to: (not connected)";
+                    }
                 }
             );
         }
@@ -392,6 +402,7 @@ namespace NodeServiceGuard
         {
             ListViewItem item = listViewRemoteServices.SelectedItems[0];
             string url = item.SubItems[1].Text;
+            string host = (string)item.Tag;
 
             QueryHttp(
                 url,
@@ -402,6 +413,7 @@ namespace NodeServiceGuard
                     using (var form = new ServiceTestClientForm())
                     {
                         form.Reflector = reflector;
+                        form.Host = host;
                         form.ShowDialog();
                     }
                 },
