@@ -21,9 +21,11 @@ namespace NodeServiceGuard.ServiceReflectoring
         private INodeEndpointResponse currentResponse = null;
 
         public ServiceReflector Reflector { get; set; }
+        public string Host { get; set; }
 
         public ServiceTestClientForm()
         {
+            this.Host = "localhost";
             InitializeComponent();
             buttonSend.Enabled = false;
         }
@@ -86,7 +88,7 @@ namespace NodeServiceGuard.ServiceReflectoring
 
         private void ServiceTestClientForm_Shown(object sender, EventArgs e)
         {
-            textBoxAddress.Text = this.Reflector.SuggestedAddress;
+            textBoxAddress.Text = this.Reflector.GetSuggestedAddress(this.Host);
             textBoxProtocolAddress.Text = this.Reflector.ProtocolAddress;
             textBoxEndpointName.Text = this.Reflector.EndpointName;
             comboBoxMethod.Items.AddRange(this.Reflector.Methods.ToArray());
