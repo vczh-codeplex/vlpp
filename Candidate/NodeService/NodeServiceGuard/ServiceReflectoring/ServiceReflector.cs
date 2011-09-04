@@ -119,9 +119,10 @@ namespace NodeServiceGuard.ServiceReflectoring
             }
             else if (this.outestFactory is TcpProtocolFactory)
             {
+                AddressFamily addressFamily = ((TcpProtocolFactory)this.outestFactory).AddressFamily;
                 foreach (var ip in Dns.GetHostAddresses(host))
                 {
-                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    if (ip.AddressFamily == addressFamily)
                     {
                         return ip.ToString() + ":" + this.protocolAddress;
                     }
