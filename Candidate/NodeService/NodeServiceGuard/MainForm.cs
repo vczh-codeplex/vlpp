@@ -148,7 +148,11 @@ namespace NodeServiceGuard
                         writer.Write(
                             new XElement("Services",
                                 this.server.SharedData.GuardedServices
-                                .Select(s => new XElement("Service", s.Token.ToString()))
+                                .Select(s => new XElement(
+                                    "Service",
+                                    new XElement("Name", s.Description.Name),
+                                    new XElement("Token", s.Token)
+                                    ))
                                 .ToArray()
                                 )
                             );

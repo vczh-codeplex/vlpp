@@ -20,15 +20,14 @@ namespace NodeServiceGuard
             bool creatednew = false;
             using (Semaphore semaphore = new Semaphore(0, 1, "NodeServerGuardedService", out creatednew))
             {
-                MainForm mainForm = new MainForm();
                 if (creatednew)
                 {
+                    MainForm mainForm = new MainForm();
                     Application.Run(mainForm);
                 }
                 else
                 {
-                    MessageBox.Show("Node Service Guard already has a running instance.", mainForm.Text);
-                    mainForm.Dispose();
+                    MessageBox.Show("Node Service Guard already has a running instance.", "Node Service Guard v1.0");
                 }
             }
         }
