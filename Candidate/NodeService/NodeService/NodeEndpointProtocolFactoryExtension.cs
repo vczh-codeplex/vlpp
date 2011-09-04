@@ -27,9 +27,11 @@ namespace NodeService
                 serverListener.Connect(address, endpoint.EndpointName);
             }
             INodeEndpointProtocolServer server = serverListener.Listen(timeout);
-
-            INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(endpoint);
-            server.AddListener(endpointListener);
+            if (server != null)
+            {
+                INodeEndpointProtocolRequestListener endpointListener = new ProtocolEnabledRequestListener(endpoint);
+                server.AddListener(endpointListener);
+            }
             return server;
         }
 
@@ -41,7 +43,10 @@ namespace NodeService
             )
         {
             INodeEndpointProtocolServer server = WaitForServerBase(serverListener, address, endpoint, timeout);
-            server.BeginListen();
+            if (server != null)
+            {
+                server.BeginListen();
+            }
             return server;
         }
 
@@ -68,8 +73,8 @@ namespace NodeService
                     server.Disconnect();
                     throw new InvalidOperationException("The protocol does not support duplex communication.");
                 }
+                server.BeginListen();
             }
-            server.BeginListen();
             return server;
         }
 

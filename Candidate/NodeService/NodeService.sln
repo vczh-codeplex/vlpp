@@ -43,9 +43,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		Architecture.docx = Architecture.docx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.Predefined", "Services.Predefined", "{DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingNamedPipe", "Services.Predefined\PingNamedPipe\PingNamedPipe.csproj", "{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingTcp", "Services.Predefined\PingTcp\PingTcp.csproj", "{16BEB928-49ED-4CF8-A41D-5795B9137C48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingHttp", "Services.Predefined\PingHttp\PingHttp.csproj", "{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -92,6 +100,18 @@ Global
 		SccProjectTopLevelParentUniqueName12 = NodeService.sln
 		SccProjectName12 = Sample.GuardedServer.ExpressionService/ExpressionContract
 		SccLocalPath12 = Sample.GuardedServer.ExpressionService\\ExpressionContract
+		SccProjectUniqueName13 = Services.Predefined\\PingNamedPipe\\PingNamedPipe.csproj
+		SccProjectTopLevelParentUniqueName13 = NodeService.sln
+		SccProjectName13 = Services.Predefined/PingNamedPipe
+		SccLocalPath13 = Services.Predefined\\PingNamedPipe
+		SccProjectUniqueName14 = Services.Predefined\\PingTcp\\PingTcp.csproj
+		SccProjectTopLevelParentUniqueName14 = NodeService.sln
+		SccProjectName14 = Services.Predefined/PingTcp
+		SccLocalPath14 = Services.Predefined\\PingTcp
+		SccProjectUniqueName15 = Services.Predefined\\PingHttp\\PingHttp.csproj
+		SccProjectTopLevelParentUniqueName15 = NodeService.sln
+		SccProjectName15 = Services.Predefined/PingHttp
+		SccLocalPath15 = Services.Predefined\\PingHttp
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -225,6 +245,36 @@ Global
 		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C26E5256-40C4-4FDD-AF19-B2F088D46127}.Release|x86.ActiveCfg = Release|Any CPU
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Debug|x86.ActiveCfg = Debug|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Debug|x86.Build.0 = Debug|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Release|Any CPU.ActiveCfg = Release|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Release|x86.ActiveCfg = Release|x86
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6}.Release|x86.Build.0 = Release|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Debug|x86.ActiveCfg = Debug|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Debug|x86.Build.0 = Debug|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Release|Any CPU.ActiveCfg = Release|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Release|Mixed Platforms.Build.0 = Release|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Release|x86.ActiveCfg = Release|x86
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48}.Release|x86.Build.0 = Release|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Debug|x86.ActiveCfg = Debug|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Debug|x86.Build.0 = Debug|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Release|Any CPU.ActiveCfg = Release|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Release|x86.ActiveCfg = Release|x86
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -237,5 +287,8 @@ Global
 		{C7D85D65-0221-45A6-A355-AB75641A4235} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
 		{7519B541-2764-4AE7-9EE5-90D498712D72} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
 		{C26E5256-40C4-4FDD-AF19-B2F088D46127} = {FC096E1E-AEFA-4DE4-9979-5B9721658CF5}
+		{31C837BC-43E0-4B1A-9E1A-6FFCDE2E26A6} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{16BEB928-49ED-4CF8-A41D-5795B9137C48} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 	EndGlobalSection
 EndGlobal

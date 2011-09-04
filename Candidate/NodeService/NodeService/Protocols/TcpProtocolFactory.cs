@@ -64,7 +64,7 @@ namespace NodeService.Protocols
             {
                 get
                 {
-                    return this.listenedSocket != null && this.listenedSocket.Connected;
+                    return this.listenedSocket != null;
                 }
             }
 
