@@ -12,8 +12,8 @@ using NodeServiceHost.GuardService;
 using System.Xml.Linq;
 using NodeService;
 using NodeServiceGuard.ServiceReflectoring;
-using System.Net;
 using System.IO;
+using System.Net;
 
 namespace NodeServiceGuard
 {
@@ -21,7 +21,6 @@ namespace NodeServiceGuard
     {
         private GuardServiceEndpointServer server = null;
         private Guid selectedServerToken = Guid.Empty;
-        private HttpListener httpListener = null;
 
         private void DoService(Guid token, Action<GuardServiceSharedData.ServiceData> action)
         {
@@ -116,103 +115,21 @@ namespace NodeServiceGuard
                 .SetValue(listViewServices, true, new object[] { });
         }
 
-        private void HttpListenerFillResponse(string url, HttpListenerContext context)
-        {
-            if (url == "/NODESERVICES/" || url == "/NODESERVICES/INDEX.HTM")
-            {
-                context.Response.ContentType = "text/html; charset=utf-8";
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                {
-                    writer.Write("<html><header><title>Node Services</title></header><body>");
-                    writer.Write("<p>Welcome to Node Services!</p>");
-                    writer.Write("<p>To get a complete service token list, go to <a href=\"ServiceList.xml\">ServiceList.xml</a>.</p>");
-                    writer.Write("<p>Here are the descriptions of all available services:</p>");
-                    foreach (var service in this.server.SharedData.GuardedServices)
-                    {
-                        writer.Write(string.Format("<p><a href=\"{0}.xml\">{1}</a></p>", service.Token, service.Description.Name));
-                    }
-                    writer.Write("<p>Powered by: Vczh Node Services Library for .NET <a href=\"http://vlpp.codeplex.com\">http://vlpp.codeplex.com</a></p>");
-                    writer.Write("</body></html>");
-                }
-            }
-            else if (url == "/NODESERVICES/SERVICELIST.XML")
-            {
-                context.Response.ContentType = "text/xml; charset=utf-8";
-
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                {
-                    writer.Write(
-                        new XElement("Services",
-                            this.server.SharedData.GuardedServices
-                            .Select(s => new XElement(
-                                "Service",
-                                new XElement("Name", s.Description.Name),
-                                new XElement("Token", s.Token)
-                                ))
-                            .ToArray()
-                            )
-                        );
-                    writer.Flush();
-                }
-            }
-            else if (url.StartsWith("/NODESERVICES/") && url.EndsWith(".XML"))
-            {
-                context.Response.ContentType = "text/xml; charset=utf-8";
-                Guid token = Guid.Parse(url.Substring(14, url.Length - 18));
-                GuardServiceSharedData.ServiceData data = this.server.SharedData.GetGuardedService(token);
-                XElement serviceDescription = data.Service.Callback.GetServiceDescription();
-
-                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                {
-                    writer.Write(serviceDescription.ToString());
-                    writer.Flush();
-                }
-            }
-        }
-
-        private void HttpListenerProc(HttpListener listener, IAsyncResult asyncResult)
-        {
-            try
-            {
-                HttpListenerContext context = listener.EndGetContext(asyncResult);
-                string url = context.Request.Url.AbsolutePath.ToUpper();
-                try
-                {
-                    HttpListenerFillResponse(url, context);
-                }
-                catch (Exception)
-                {
-                    context.Response.StatusCode = 404;
-                    context.Response.Close();
-                }
-                listener.BeginGetContext((a) => HttpListenerProc(listener, a), null);
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-        }
-
         public MainForm()
         {
             InitializeComponent();
             EnableDoubleBuffer(listViewServices);
             EnableDoubleBuffer(listViewServiceInformation);
 
-            this.server = new GuardServiceEndpointServer();
+            this.server = new GuardServiceEndpointServer(9000);
             this.server.Start();
 
-            this.httpListener = new HttpListener();
-            this.httpListener.Prefixes.Add("http://+:9000/NodeServices/");
-            this.httpListener.Start();
-            this.httpListener.BeginGetContext((a) => HttpListenerProc(this.httpListener, a), null);
-
-            this.Text += " (http://localhost:9000/NodeServices/";
+            this.Text += " (" + this.server.GetHttpListenerAddress("localhost") + ")";
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            this.httpListener.Close();
             this.server.SharedData.StopAll(token =>
             {
                 ListViewItem item = listViewServices.Items.Cast<ListViewItem>()
@@ -369,16 +286,8 @@ namespace NodeServiceGuard
             });
         }
 
-        private void buttonConnectRemoteServiceGuard_Click(object sender, EventArgs e)
+        private void QueryHttp(string url, Action<string> callback, Action callbackEnd)
         {
-            string host = textBoxRemoteServiceGuard.Text;
-            string urlTemplate = "http://" + host + ":9000/NodeServices/{0}.xml";
-            string url = string.Format(urlTemplate, "ServiceList");
-
-            buttonConnectRemoteServiceGuard.Enabled = false;
-            listViewRemoteServices.Items.Clear();
-            listViewRemoteServices.Enabled = false;
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             try
@@ -388,21 +297,22 @@ namespace NodeServiceGuard
                     try
                     {
                         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                        XElement serviceList = null;
+                        string message = "";
 
                         using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                         {
-                            serviceList = XElement.Parse(reader.ReadToEnd());
+                            message = reader.ReadToEnd();
                         }
 
                         this.Invoke(new MethodInvoker(() =>
                         {
-                            foreach (XElement elementService in serviceList.Elements("Service"))
+                            try
                             {
-                                ListViewItem item = new ListViewItem(elementService.Element("Name").Value);
-                                item.SubItems.Add(string.Format(urlTemplate, elementService.Element("Token").Value));
-                                item.Tag = host;
-                                listViewRemoteServices.Items.Add(item);
+                                callback(message);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, this.Text);
                             }
                         }));
                     }
@@ -417,8 +327,7 @@ namespace NodeServiceGuard
                     {
                         this.Invoke(new MethodInvoker(() =>
                         {
-                            buttonConnectRemoteServiceGuard.Enabled = true;
-                            listViewRemoteServices.Enabled = true;
+                            callbackEnd();
                         }));
                     }
                 }, null);
@@ -429,12 +338,75 @@ namespace NodeServiceGuard
             }
         }
 
+        private void buttonConnectRemoteServiceGuard_Click(object sender, EventArgs e)
+        {
+            string host = textBoxRemoteServiceGuard.Text;
+            string urlTemplate = this.server.GetHttpListenerAddress(host) + "/{0}.xml";
+            string url = string.Format(urlTemplate, "ServiceList");
+
+            buttonConnectRemoteServiceGuard.Enabled = false;
+            listViewRemoteServices.Items.Clear();
+            listViewRemoteServices.Enabled = false;
+
+            QueryHttp(
+                url,
+                message =>
+                {
+                    XElement serviceList = XElement.Parse(message);
+                    foreach (XElement elementService in serviceList.Elements("Service"))
+                    {
+                        ListViewItem item = new ListViewItem(elementService.Element("Name").Value);
+                        item.SubItems.Add(string.Format(urlTemplate, elementService.Element("Token").Value));
+                        item.Tag = host;
+                        listViewRemoteServices.Items.Add(item);
+                    }
+                },
+                () =>
+                {
+                    buttonConnectRemoteServiceGuard.Enabled = true;
+                    listViewRemoteServices.Enabled = true;
+                }
+            );
+        }
+
         private void buttonViewRemoteServiceDescription_Click(object sender, EventArgs e)
         {
+            ListViewItem item = listViewRemoteServices.SelectedItems[0];
+            string url = item.SubItems[1].Text;
+
+            QueryHttp(
+                url,
+                message =>
+                {
+                    XElement description = XElement.Parse(message);
+                    using (var form = new ServiceDescriptionForm())
+                    {
+                        form.ShowDescription(description);
+                    }
+                },
+                () => { }
+            );
         }
 
         private void buttonConnectRemoteService_Click(object sender, EventArgs e)
         {
+            ListViewItem item = listViewRemoteServices.SelectedItems[0];
+            string url = item.SubItems[1].Text;
+
+            QueryHttp(
+                url,
+                message =>
+                {
+                    XElement description = XElement.Parse(message);
+                    ServiceReflector reflector = new ServiceReflector(description);
+                    using (var form = new ServiceTestClientForm())
+                    {
+                        form.Reflector = reflector;
+                        form.ShowDialog();
+                    }
+                },
+                () => { }
+            );
         }
 
         private void listViewRemoteServices_SelectedIndexChanged(object sender, EventArgs e)

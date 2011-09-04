@@ -7,6 +7,8 @@ using NodeService;
 using NodeService.Protocols;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace NodeServiceGuard.ServiceReflectoring
 {
@@ -109,36 +111,36 @@ namespace NodeServiceGuard.ServiceReflectoring
             }
         }
 
-        public string SuggestedAddress
+        public string GetSuggestedAddress(string host)
         {
-            get
+            if (this.outestFactory is NamedPipeProtocolFactory)
             {
-                if (this.outestFactory is NamedPipeProtocolFactory)
+                return host + "/" + this.protocolAddress;
+            }
+            else if (this.outestFactory is TcpProtocolFactory)
+            {
+                foreach (var ip in Dns.GetHostAddresses(host))
                 {
-                    return "localhost/" + this.protocolAddress;
-                }
-                else if (this.outestFactory is TcpProtocolFactory)
-                {
-                    return "127.0.0.1:" + this.protocolAddress;
-                }
-                else if (this.outestFactory is HttpProtocolFactory)
-                {
-                    int index = this.protocolAddress.IndexOfAny("+*".ToCharArray());
-                    if (index == -1)
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        return this.protocolAddress;
+                        return ip.ToString() + ":" + this.protocolAddress;
                     }
-                    else
-                    {
-                        string result = this.protocolAddress.Remove(index, 1).Insert(index, "localhost");
-                        return result;
-                    }
+                }
+            }
+            else if (this.outestFactory is HttpProtocolFactory)
+            {
+                int index = this.protocolAddress.IndexOfAny("+*".ToCharArray());
+                if (index == -1)
+                {
+                    return this.protocolAddress;
                 }
                 else
                 {
-                    return "";
+                    string result = this.protocolAddress.Remove(index, 1).Insert(index, host);
+                    return result;
                 }
             }
+            return "";
         }
 
         public IEnumerable<MethodContract> Methods
