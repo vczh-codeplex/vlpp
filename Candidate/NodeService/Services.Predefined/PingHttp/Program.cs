@@ -20,7 +20,7 @@ namespace PingHttp
             GuardServiceStarter<PingService, PingServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName + " (http://localhost:9002/" + ServiceName + "/)"
+                ServiceName
                 );
         }
     }

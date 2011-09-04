@@ -19,7 +19,7 @@ namespace ExpressionService
             GuardServiceStarter<ExpressionService, ExpressionServiceEndpointServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                "pipe://./" + ExpressionServiceConfiguration.ProtocolName + "/" + ExpressionServiceConfiguration.EndpointName
+                ExpressionServiceConfiguration.EndpointName
                 );
         }
     }
