@@ -363,5 +363,76 @@ namespace NodeServiceGuard
                 textBoxTracingResult.Text = data.Service.Callback.GetTracingResult().ToString();
             });
         }
+
+        private void buttonConnectRemoteServiceGuard_Click(object sender, EventArgs e)
+        {
+            string urlTemplate = "http://" + textBoxRemoteServiceGuard.Text + ":9000/NodeServices/{0}.xml";
+            string url = string.Format(urlTemplate, "ServiceList");
+            buttonConnectRemoteServiceGuard.Enabled = false;
+            listViewRemoteServices.Items.Clear();
+            listViewRemoteServices.Enabled = false;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            try
+            {
+                request.BeginGetResponse((a) =>
+                {
+                    try
+                    {
+                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                        XElement serviceList = null;
+
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                        {
+                            serviceList = XElement.Parse(reader.ReadToEnd());
+                        }
+
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            foreach (XElement elementService in serviceList.Elements("Service"))
+                            {
+                                ListViewItem item = new ListViewItem(elementService.Element("Name").Value);
+                                item.SubItems.Add(string.Format(urlTemplate, elementService.Element("Token").Value));
+                                listViewRemoteServices.Items.Add(item);
+                            }
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            MessageBox.Show(ex.Message, this.Text);
+                        }));
+                    }
+                    finally
+                    {
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            buttonConnectRemoteServiceGuard.Enabled = true;
+                            listViewRemoteServices.Enabled = true;
+                        }));
+                    }
+                }, null);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show(ex.Message, this.Text);
+            }
+        }
+
+        private void buttonViewRemoteServiceDescription_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void buttonConnectRemoteService_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void listViewRemoteServices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonViewRemoteServiceDescription.Enabled = listViewRemoteServices.SelectedIndices.Count > 0;
+            buttonConnectRemoteService.Enabled = listViewRemoteServices.SelectedIndices.Count > 0;
+        }
     }
 }
