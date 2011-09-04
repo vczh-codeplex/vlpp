@@ -116,73 +116,78 @@ namespace NodeServiceGuard
                 .SetValue(listViewServices, true, new object[] { });
         }
 
+        private void HttpListenerFillResponse(string url, HttpListenerContext context)
+        {
+            if (url == "/NODESERVICES/" || url == "/NODESERVICES/INDEX.HTM")
+            {
+                context.Response.ContentType = "text/html; charset=utf-8";
+                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
+                {
+                    writer.Write("<html><header><title>Node Services</title></header><body>");
+                    writer.Write("<p>Welcome to Node Services!</p>");
+                    writer.Write("<p>To get a complete service token list, go to <a href=\"ServiceList.xml\">ServiceList.xml</a>.</p>");
+                    writer.Write("<p>Here are the descriptions of all available services:</p>");
+                    foreach (var service in this.server.SharedData.GuardedServices)
+                    {
+                        writer.Write(string.Format("<p><a href=\"{0}.xml\">{1}</a></p>", service.Token, service.Description.Name));
+                    }
+                    writer.Write("<p>Powered by: Vczh Node Services Library for .NET <a href=\"http://vlpp.codeplex.com\">http://vlpp.codeplex.com</a></p>");
+                    writer.Write("</body></html>");
+                }
+            }
+            else if (url == "/NODESERVICES/SERVICELIST.XML")
+            {
+                context.Response.ContentType = "text/xml; charset=utf-8";
+
+                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
+                {
+                    writer.Write(
+                        new XElement("Services",
+                            this.server.SharedData.GuardedServices
+                            .Select(s => new XElement(
+                                "Service",
+                                new XElement("Name", s.Description.Name),
+                                new XElement("Token", s.Token)
+                                ))
+                            .ToArray()
+                            )
+                        );
+                    writer.Flush();
+                }
+            }
+            else if (url.StartsWith("/NODESERVICES/") && url.EndsWith(".XML"))
+            {
+                context.Response.ContentType = "text/xml; charset=utf-8";
+                Guid token = Guid.Parse(url.Substring(14, url.Length - 18));
+                GuardServiceSharedData.ServiceData data = this.server.SharedData.GetGuardedService(token);
+                XElement serviceDescription = data.Service.Callback.GetServiceDescription();
+
+                using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
+                {
+                    writer.Write(serviceDescription.ToString());
+                    writer.Flush();
+                }
+            }
+        }
+
         private void HttpListenerProc(HttpListener listener, IAsyncResult asyncResult)
         {
-            HttpListenerContext context = listener.EndGetContext(asyncResult);
-            string url = context.Request.Url.AbsolutePath.ToUpper();
             try
             {
-                if (url == "/NODESERVICES/" || url == "/NODESERVICES/INDEX.HTM")
+                HttpListenerContext context = listener.EndGetContext(asyncResult);
+                string url = context.Request.Url.AbsolutePath.ToUpper();
+                try
                 {
-                    context.Response.ContentType = "text/html; charset=utf-8";
-                    using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                    {
-                        writer.Write("<html><header><title>Node Services</title></header><body>");
-                        writer.Write("<p>Welcome to Node Services!</p>");
-                        writer.Write("<p>To get a complete service token list, go to <a href=\"ServiceList.xml\">ServiceList.xml</a>.</p>");
-                        writer.Write("<p>Here are the descriptions of all available services:</p>");
-                        foreach (var service in this.server.SharedData.GuardedServices)
-                        {
-                            writer.Write(string.Format("<p><a href=\"{0}.xml\">{1}</a></p>", service.Token, service.Description.Name));
-                        }
-                        writer.Write("<p>Powered by: Vczh Node Services Library for .NET <a href=\"http://vlpp.codeplex.com\">http://vlpp.codeplex.com</a></p>");
-                        writer.Write("</body></html>");
-                    }
+                    HttpListenerFillResponse(url, context);
                 }
-                else if (url == "/NODESERVICES/SERVICELIST.XML")
+                catch (Exception)
                 {
-                    context.Response.ContentType = "text/xml; charset=utf-8";
-
-                    using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                    {
-                        writer.Write(
-                            new XElement("Services",
-                                this.server.SharedData.GuardedServices
-                                .Select(s => new XElement(
-                                    "Service",
-                                    new XElement("Name", s.Description.Name),
-                                    new XElement("Token", s.Token)
-                                    ))
-                                .ToArray()
-                                )
-                            );
-                        writer.Flush();
-                    }
+                    context.Response.StatusCode = 404;
+                    context.Response.Close();
                 }
-                else if (url.StartsWith("/NODESERVICES/") && url.EndsWith(".XML"))
-                {
-                    context.Response.ContentType = "text/xml; charset=utf-8";
-                    Guid token = Guid.Parse(url.Substring(14, url.Length - 18));
-                    GuardServiceSharedData.ServiceData data = this.server.SharedData.GetGuardedService(token);
-                    XElement serviceDescription = data.Service.Callback.GetServiceDescription();
-
-                    using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
-                    {
-                        writer.Write(serviceDescription.ToString());
-                        writer.Flush();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                context.Response.StatusCode = 404;
-                context.Response.Close();
-            }
-            try
-            {
                 listener.BeginGetContext((a) => HttpListenerProc(listener, a), null);
             }
-            catch (Exception)
+            catch (ObjectDisposedException)
             {
             }
         }
@@ -366,8 +371,10 @@ namespace NodeServiceGuard
 
         private void buttonConnectRemoteServiceGuard_Click(object sender, EventArgs e)
         {
-            string urlTemplate = "http://" + textBoxRemoteServiceGuard.Text + ":9000/NodeServices/{0}.xml";
+            string host = textBoxRemoteServiceGuard.Text;
+            string urlTemplate = "http://" + host + ":9000/NodeServices/{0}.xml";
             string url = string.Format(urlTemplate, "ServiceList");
+
             buttonConnectRemoteServiceGuard.Enabled = false;
             listViewRemoteServices.Items.Clear();
             listViewRemoteServices.Enabled = false;
@@ -394,6 +401,7 @@ namespace NodeServiceGuard
                             {
                                 ListViewItem item = new ListViewItem(elementService.Element("Name").Value);
                                 item.SubItems.Add(string.Format(urlTemplate, elementService.Element("Token").Value));
+                                item.Tag = host;
                                 listViewRemoteServices.Items.Add(item);
                             }
                         }));

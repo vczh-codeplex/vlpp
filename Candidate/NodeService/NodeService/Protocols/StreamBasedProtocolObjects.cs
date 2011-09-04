@@ -141,36 +141,48 @@ namespace NodeService.Protocols
                         lead[i] = plead[i];
                     }
                 }
-                this.Stream.Write(lead.Concat(message).ToArray(), 0, lead.Length + length);
-                this.Stream.Flush();
+                try
+                {
+                    this.Stream.Write(lead.Concat(message).ToArray(), 0, lead.Length + length);
+                    this.Stream.Flush();
+                }
+                catch (IOException)
+                {
+                }
             }
 
             private void ReadCallback(IAsyncResult asyncResult, byte[] lead)
             {
                 if (!this.Connected) return;
-                int leadLength = this.Stream.EndRead(asyncResult);
-                if (leadLength == lead.Length)
+                try
                 {
-                    unsafe
+                    int leadLength = this.Stream.EndRead(asyncResult);
+                    if (leadLength == lead.Length)
                     {
-                        fixed (byte* plead = lead)
+                        unsafe
                         {
-                            leadLength = *(int*)plead;
-                        }
-                    }
-                    byte[] bytes = new byte[leadLength];
-                    int messageLength = this.Stream.Read(bytes, 0, bytes.Length);
-                    if (messageLength == leadLength)
-                    {
-                        StreamProtocolRequest<StreamType> request = new StreamProtocolRequest<StreamType>(this, bytes);
-                        lock (this.listeners)
-                        {
-                            foreach (var listener in this.listeners)
+                            fixed (byte* plead = lead)
                             {
-                                listener.OnReceivedRequest(request);
+                                leadLength = *(int*)plead;
+                            }
+                        }
+                        byte[] bytes = new byte[leadLength];
+                        int messageLength = this.Stream.Read(bytes, 0, bytes.Length);
+                        if (messageLength == leadLength)
+                        {
+                            StreamProtocolRequest<StreamType> request = new StreamProtocolRequest<StreamType>(this, bytes);
+                            lock (this.listeners)
+                            {
+                                foreach (var listener in this.listeners)
+                                {
+                                    listener.OnReceivedRequest(request);
+                                }
                             }
                         }
                     }
+                }
+                catch (IOException)
+                {
                 }
                 if (this.Connected)
                 {

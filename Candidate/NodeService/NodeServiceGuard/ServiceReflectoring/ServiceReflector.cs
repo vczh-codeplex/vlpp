@@ -130,9 +130,7 @@ namespace NodeServiceGuard.ServiceReflectoring
                     }
                     else
                     {
-                        string result = this.protocolAddress;
-                        result.Remove(index, 1);
-                        result.Insert(index, "localhost");
+                        string result = this.protocolAddress.Remove(index, 1).Insert(index, "localhost");
                         return result;
                     }
                 }

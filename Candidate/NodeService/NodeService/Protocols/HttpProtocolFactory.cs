@@ -233,25 +233,31 @@ namespace NodeService.Protocols
                 if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
                 this.listener.BeginGetContext(a =>
                 {
-                    HttpListenerContext context = this.listener.EndGetContext(a);
-                    Request request = new Request(context);
-                    if (request.RequestMessage() == "[CONNECT]")
+                    try
                     {
-                        request.Respond("[CONNECTED]");
-                    }
-                    else
-                    {
-                        lock (this.listeners)
+                        HttpListenerContext context = this.listener.EndGetContext(a);
+                        Request request = new Request(context);
+                        if (request.RequestMessage() == "[CONNECT]")
                         {
-                            foreach (var listener in this.listeners)
+                            request.Respond("[CONNECTED]");
+                        }
+                        else
+                        {
+                            lock (this.listeners)
                             {
-                                listener.OnReceivedRequest(request);
+                                foreach (var listener in this.listeners)
+                                {
+                                    listener.OnReceivedRequest(request);
+                                }
                             }
                         }
+                        if (this.Connected)
+                        {
+                            BeginListen();
+                        }
                     }
-                    if (this.Connected)
+                    catch (ObjectDisposedException)
                     {
-                        BeginListen();
                     }
                 }, null);
             }
