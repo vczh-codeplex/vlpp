@@ -7,6 +7,7 @@ using NodeServiceHost;
 using NodeService;
 using NodeServiceHost.GuardService;
 using NodeService.Protocols;
+using System.IO;
 
 namespace PingHttp
 {
@@ -17,10 +18,13 @@ namespace PingHttp
         static void Main(string[] args)
         {
             Console.Title = ServiceName;
-            GuardServiceStarter<PingService, PingServerCallback>.LaunchService(
+            GuardServiceStarter<PingService>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName
+                ServiceName,
+                new HttpProtocolFactory(),
+                "http://+:9002/",
+                Program.ServiceName
                 );
         }
     }
@@ -38,52 +42,11 @@ namespace PingHttp
         {
             return string.Format("Hi, {0}. I am {1}.", name, Program.ServiceName);
         }
-    }
 
-    public class PingServerCallback : INodeEndpointServerCallback<PingService>
-    {
-        private INodeEndpointProtocolFactory protocolFactory;
-
-        public PingServerCallback()
+        [NodeEndpointMethod]
+        public Stream HelloStream(string name)
         {
-            this.protocolFactory = new HttpProtocolFactory();
-        }
-
-        public INodeEndpointProtocolFactory ProtocolFactory
-        {
-            get
-            {
-                return this.protocolFactory;
-            }
-        }
-
-        public string ProtocolAddress
-        {
-            get
-            {
-                return "http://+:9002/";
-            }
-        }
-
-        public string EndpointName
-        {
-            get
-            {
-                return Program.ServiceName;
-            }
-        }
-
-        public PingService CreateEndpoint()
-        {
-            return new PingService();
-        }
-
-        public void OnEndpointStart(PingService endpoint, INodeEndpointProtocolServer protocolServer)
-        {
-        }
-
-        public void OnEndpointStopped(PingService endpoint, INodeEndpointProtocolServer protocolServer)
-        {
+            return new MemoryStream(Hello(name).NodeServiceEncode());
         }
     }
 }

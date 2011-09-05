@@ -7,6 +7,7 @@ using NodeServiceHost;
 using NodeService;
 using NodeServiceHost.GuardService;
 using NodeService.Protocols;
+using System.IO;
 
 namespace PingTcp
 {
@@ -17,10 +18,13 @@ namespace PingTcp
         static void Main(string[] args)
         {
             Console.Title = ServiceName;
-            GuardServiceStarter<PingService, PingServerCallback>.LaunchService(
+            GuardServiceStarter<PingService>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName
+                ServiceName,
+                new TcpProtocolFactory(),
+                "9001",
+                Program.ServiceName
                 );
         }
     }
@@ -38,52 +42,11 @@ namespace PingTcp
         {
             return string.Format("Hi, {0}. I am {1}.", name, Program.ServiceName);
         }
-    }
 
-    public class PingServerCallback : INodeEndpointServerCallback<PingService>
-    {
-        private INodeEndpointProtocolFactory protocolFactory;
-
-        public PingServerCallback()
+        [NodeEndpointMethod]
+        public Stream HelloStream(string name)
         {
-            this.protocolFactory = new TcpProtocolFactory();
-        }
-
-        public INodeEndpointProtocolFactory ProtocolFactory
-        {
-            get
-            {
-                return this.protocolFactory;
-            }
-        }
-
-        public string ProtocolAddress
-        {
-            get
-            {
-                return "9001";
-            }
-        }
-
-        public string EndpointName
-        {
-            get
-            {
-                return Program.ServiceName;
-            }
-        }
-
-        public PingService CreateEndpoint()
-        {
-            return new PingService();
-        }
-
-        public void OnEndpointStart(PingService endpoint, INodeEndpointProtocolServer protocolServer)
-        {
-        }
-
-        public void OnEndpointStopped(PingService endpoint, INodeEndpointProtocolServer protocolServer)
-        {
+            return new MemoryStream(Hello(name).NodeServiceEncode());
         }
     }
 }

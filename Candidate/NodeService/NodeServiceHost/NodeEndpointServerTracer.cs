@@ -10,7 +10,6 @@ namespace NodeServiceHost
 {
     public class NodeEndpointServerTracer : INodeEndpointServerTracer, INodeEndpointProtocolRequestListenerTracer
     {
-        private const string Hex = "0123456789ABCDEF";
         private volatile bool isTracing = false;
         private List<XElement> tracingResults = new List<XElement>();
 
@@ -95,7 +94,7 @@ namespace NodeServiceHost
                         "RespondStream",
                         new XElement("Date", time.ToLongDateString()),
                         new XElement("Time", time.ToLongTimeString()),
-                        new XElement("Body", stream.Select(b => Hex[b / 16] + Hex[b % 16]).Aggregate("", (a, b) => a + b))
+                        new XElement("Body", stream.ByteArrayToHex())
                         ));
                 }
             }

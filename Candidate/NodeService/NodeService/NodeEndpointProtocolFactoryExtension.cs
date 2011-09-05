@@ -11,6 +11,8 @@ namespace NodeService
 {
     public static class NodeEndpointProtocolFactoryExtension
     {
+        private const string Hex = "0123456789ABCDEF";
+
         public const int DefaultTimeout = 1000;
 
         #region Server Utilities
@@ -185,6 +187,11 @@ namespace NodeService
             byte[] bytes = stream.ReadAllBytes();
             stream.Close();
             return bytes;
+        }
+
+        public static string ByteArrayToHex(this byte[] bytes)
+        {
+            return bytes.Select(b => Hex[b / 16].ToString() + Hex[b % 16].ToString()).Aggregate("", (a, b) => a + b);
         }
 
         #endregion
