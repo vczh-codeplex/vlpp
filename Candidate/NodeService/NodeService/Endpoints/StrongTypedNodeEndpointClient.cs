@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.IO;
 
 namespace NodeService.Endpoints
 {
@@ -34,7 +35,7 @@ namespace NodeService.Endpoints
                     .GetParameters()
                     .Select(p => p.ParameterType)
                     .Concat(new Type[] { methodInfo.ReturnType })
-                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void) && t != typeof(Task))
+                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void) && t != typeof(Task) && t != typeof(Stream))
                     )
                 {
                     if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
@@ -58,18 +59,32 @@ namespace NodeService.Endpoints
                 );
             var response = this.Provider.Send(method, body);
             response.WaitForResponse();
-            if (response.RequestState == RequestState.RaisedException)
+            switch (response.RequestState)
             {
-                throw response.Exception;
+                case RequestState.ReceivedResponse:
+                    if (type != typeof(void))
+                    {
+                        return this.Serializer.Deserialize(response.Response, type);
+                    }
+                    break;
+                case RequestState.ReceivedStream:
+                    if (type == typeof(Stream))
+                    {
+                        return response.Stream;
+                    }
+                    else if (type == typeof(byte[]))
+                    {
+                        return response.Stream.ReadAllBytesAndClose();
+                    }
+                    else if (type != typeof(void))
+                    {
+                        throw new InvalidOperationException("Streaming response should be get as a " + typeof(Stream).FullName + " or a byte array.");
+                    }
+                    break;
+                case RequestState.RaisedException:
+                    throw response.Exception;
             }
-            else if (type != typeof(void))
-            {
-                return this.Serializer.Deserialize(response.Response, type);
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         protected Task ExecuteTask(string method, string[] names, object[] arguments)

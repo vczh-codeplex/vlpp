@@ -94,6 +94,7 @@ namespace NodeService.Providers
                     throw new InvalidOperationException("Cannot respond more than once.");
                 }
                 this.waitingForResponse = false;
+                stream.Seek(0, SeekOrigin.Begin);
                 byte[] bytes = stream.ReadAllBytesAndClose();
                 byte[] body = ProtocolEnabledHelper.BuildResponse(this.guid, bytes);
                 this.request.Respond(body);

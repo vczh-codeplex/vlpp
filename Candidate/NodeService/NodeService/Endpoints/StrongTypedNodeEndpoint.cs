@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Reflection;
+using System.IO;
 
 namespace NodeService.Endpoints
 {
@@ -43,7 +44,7 @@ namespace NodeService.Endpoints
                     .GetParameters()
                     .Select(p => p.ParameterType)
                     .Concat(new Type[] { methodInfo.ReturnType })
-                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void))
+                    .Where(t => t != typeof(INodeEndpointRequest) && t != typeof(void) && t != typeof(Stream))
                     )
                 {
                     this.Serializer.AddDefaultSerializer(type);
@@ -72,7 +73,15 @@ namespace NodeService.Endpoints
 
         protected void Respond(INodeEndpointRequest request, object response)
         {
-            request.Respond(this.Serializer.Serialize(response));
+            Stream streamResponse = response as Stream;
+            if (streamResponse != null)
+            {
+                request.Respond(streamResponse);
+            }
+            else
+            {
+                request.Respond(this.Serializer.Serialize(response));
+            }
         }
 
         protected override void OnQueueRequest(INodeEndpointRequest request)
