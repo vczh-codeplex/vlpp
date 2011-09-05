@@ -14,6 +14,11 @@ namespace MachineInfo
     [NodeEndpoint(Program.ServiceName)]
     public class MachineInfoService : StrongTypedNodeEndpoint
     {
+        public MachineInfoService()
+        {
+            this.EnableAsynchronization = true;
+        }
+
         [NodeEndpointMethod]
         public int GetScreenCount()
         {
