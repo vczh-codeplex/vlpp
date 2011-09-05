@@ -10,6 +10,7 @@ using System.Threading;
 using NodeService;
 using NodeService.Providers;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NodeServiceGuard.ServiceReflectoring
 {
@@ -139,6 +140,14 @@ namespace NodeServiceGuard.ServiceReflectoring
                                     case RequestState.ReceivedResponse:
                                         {
                                             textBoxResponseXml.Text = r.Response.ToString();
+                                        }
+                                        break;
+                                    case RequestState.ReceivedStream:
+                                        {
+                                            using (Stream stream = r.Stream)
+                                            {
+                                                textBoxResponseXml.Text = stream.ReadAllBytes().ByteArrayToHex();
+                                            }
                                         }
                                         break;
                                 }

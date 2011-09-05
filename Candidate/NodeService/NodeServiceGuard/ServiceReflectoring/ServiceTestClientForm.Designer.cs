@@ -40,13 +40,13 @@
             this.splitContainerData = new System.Windows.Forms.SplitContainer();
             this.tabControlParameter = new System.Windows.Forms.TabControl();
             this.tabPageParameterXml = new System.Windows.Forms.TabPage();
+            this.textBoxParameterXml = new System.Windows.Forms.TextBox();
             this.tabControlResponse = new System.Windows.Forms.TabControl();
             this.tabPageResponseXml = new System.Windows.Forms.TabPage();
+            this.textBoxResponseXml = new System.Windows.Forms.TextBox();
             this.buttonSend = new System.Windows.Forms.Button();
             this.comboBoxMethod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxParameterXml = new System.Windows.Forms.TextBox();
-            this.textBoxResponseXml = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerData)).BeginInit();
             this.splitContainerData.Panel1.SuspendLayout();
             this.splitContainerData.Panel2.SuspendLayout();
@@ -61,55 +61,55 @@
             // 
             this.textBoxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAddress.Location = new System.Drawing.Point(125, 12);
+            this.textBoxAddress.Location = new System.Drawing.Point(125, 13);
             this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(425, 21);
+            this.textBoxAddress.Size = new System.Drawing.Size(425, 20);
             this.textBoxAddress.TabIndex = 0;
             // 
             // textBoxProtocolAddress
             // 
             this.textBoxProtocolAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxProtocolAddress.Location = new System.Drawing.Point(125, 39);
+            this.textBoxProtocolAddress.Location = new System.Drawing.Point(125, 42);
             this.textBoxProtocolAddress.Name = "textBoxProtocolAddress";
             this.textBoxProtocolAddress.ReadOnly = true;
-            this.textBoxProtocolAddress.Size = new System.Drawing.Size(425, 21);
+            this.textBoxProtocolAddress.Size = new System.Drawing.Size(425, 20);
             this.textBoxProtocolAddress.TabIndex = 1;
             // 
             // textBoxEndpointName
             // 
             this.textBoxEndpointName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxEndpointName.Location = new System.Drawing.Point(125, 66);
+            this.textBoxEndpointName.Location = new System.Drawing.Point(125, 72);
             this.textBoxEndpointName.Name = "textBoxEndpointName";
             this.textBoxEndpointName.ReadOnly = true;
-            this.textBoxEndpointName.Size = new System.Drawing.Size(425, 21);
+            this.textBoxEndpointName.Size = new System.Drawing.Size(425, 20);
             this.textBoxEndpointName.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Location = new System.Drawing.Point(12, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Address:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 42);
+            this.label2.Location = new System.Drawing.Point(12, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 12);
+            this.label2.Size = new System.Drawing.Size(90, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Protocol Address:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 69);
+            this.label3.Location = new System.Drawing.Point(12, 75);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 12);
+            this.label3.Size = new System.Drawing.Size(83, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Endpoint Name:";
             // 
@@ -117,9 +117,9 @@
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonClose.Location = new System.Drawing.Point(475, 549);
+            this.buttonClose.Location = new System.Drawing.Point(475, 595);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
+            this.buttonClose.Size = new System.Drawing.Size(75, 25);
             this.buttonClose.TabIndex = 6;
             this.buttonClose.Text = "Close";
             this.buttonClose.UseVisualStyleBackColor = true;
@@ -128,9 +128,9 @@
             // buttonConnect
             // 
             this.buttonConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConnect.Location = new System.Drawing.Point(475, 93);
+            this.buttonConnect.Location = new System.Drawing.Point(475, 101);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(75, 23);
+            this.buttonConnect.Size = new System.Drawing.Size(75, 25);
             this.buttonConnect.TabIndex = 7;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -139,9 +139,9 @@
             // labelConnectionState
             // 
             this.labelConnectionState.AutoSize = true;
-            this.labelConnectionState.Location = new System.Drawing.Point(12, 98);
+            this.labelConnectionState.Location = new System.Drawing.Point(12, 106);
             this.labelConnectionState.Name = "labelConnectionState";
-            this.labelConnectionState.Size = new System.Drawing.Size(83, 12);
+            this.labelConnectionState.Size = new System.Drawing.Size(70, 13);
             this.labelConnectionState.TabIndex = 8;
             this.labelConnectionState.Text = "Connecting...";
             // 
@@ -150,7 +150,7 @@
             this.splitContainerData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainerData.Location = new System.Drawing.Point(14, 148);
+            this.splitContainerData.Location = new System.Drawing.Point(14, 160);
             this.splitContainerData.Name = "splitContainerData";
             this.splitContainerData.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -161,8 +161,8 @@
             // splitContainerData.Panel2
             // 
             this.splitContainerData.Panel2.Controls.Add(this.tabControlResponse);
-            this.splitContainerData.Size = new System.Drawing.Size(536, 395);
-            this.splitContainerData.SplitterDistance = 197;
+            this.splitContainerData.Size = new System.Drawing.Size(536, 428);
+            this.splitContainerData.SplitterDistance = 213;
             this.splitContainerData.TabIndex = 9;
             // 
             // tabControlParameter
@@ -172,7 +172,7 @@
             this.tabControlParameter.Location = new System.Drawing.Point(0, 0);
             this.tabControlParameter.Name = "tabControlParameter";
             this.tabControlParameter.SelectedIndex = 0;
-            this.tabControlParameter.Size = new System.Drawing.Size(536, 197);
+            this.tabControlParameter.Size = new System.Drawing.Size(536, 213);
             this.tabControlParameter.TabIndex = 0;
             // 
             // tabPageParameterXml
@@ -181,10 +181,20 @@
             this.tabPageParameterXml.Location = new System.Drawing.Point(4, 22);
             this.tabPageParameterXml.Name = "tabPageParameterXml";
             this.tabPageParameterXml.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageParameterXml.Size = new System.Drawing.Size(528, 171);
+            this.tabPageParameterXml.Size = new System.Drawing.Size(528, 187);
             this.tabPageParameterXml.TabIndex = 0;
             this.tabPageParameterXml.Text = "Request (XML)";
             this.tabPageParameterXml.UseVisualStyleBackColor = true;
+            // 
+            // textBoxParameterXml
+            // 
+            this.textBoxParameterXml.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxParameterXml.Location = new System.Drawing.Point(3, 3);
+            this.textBoxParameterXml.Multiline = true;
+            this.textBoxParameterXml.Name = "textBoxParameterXml";
+            this.textBoxParameterXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxParameterXml.Size = new System.Drawing.Size(522, 181);
+            this.textBoxParameterXml.TabIndex = 0;
             // 
             // tabControlResponse
             // 
@@ -193,7 +203,7 @@
             this.tabControlResponse.Location = new System.Drawing.Point(0, 0);
             this.tabControlResponse.Name = "tabControlResponse";
             this.tabControlResponse.SelectedIndex = 0;
-            this.tabControlResponse.Size = new System.Drawing.Size(536, 194);
+            this.tabControlResponse.Size = new System.Drawing.Size(536, 211);
             this.tabControlResponse.TabIndex = 0;
             // 
             // tabPageResponseXml
@@ -202,17 +212,28 @@
             this.tabPageResponseXml.Location = new System.Drawing.Point(4, 22);
             this.tabPageResponseXml.Name = "tabPageResponseXml";
             this.tabPageResponseXml.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageResponseXml.Size = new System.Drawing.Size(528, 168);
+            this.tabPageResponseXml.Size = new System.Drawing.Size(528, 185);
             this.tabPageResponseXml.TabIndex = 0;
             this.tabPageResponseXml.Text = "Response (XML)";
             this.tabPageResponseXml.UseVisualStyleBackColor = true;
             // 
+            // textBoxResponseXml
+            // 
+            this.textBoxResponseXml.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxResponseXml.Location = new System.Drawing.Point(3, 3);
+            this.textBoxResponseXml.Multiline = true;
+            this.textBoxResponseXml.Name = "textBoxResponseXml";
+            this.textBoxResponseXml.ReadOnly = true;
+            this.textBoxResponseXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxResponseXml.Size = new System.Drawing.Size(522, 179);
+            this.textBoxResponseXml.TabIndex = 0;
+            // 
             // buttonSend
             // 
             this.buttonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSend.Location = new System.Drawing.Point(394, 549);
+            this.buttonSend.Location = new System.Drawing.Point(394, 595);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(75, 23);
+            this.buttonSend.Size = new System.Drawing.Size(75, 25);
             this.buttonSend.TabIndex = 10;
             this.buttonSend.Text = "Send";
             this.buttonSend.UseVisualStyleBackColor = true;
@@ -224,48 +245,27 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMethod.FormattingEnabled = true;
-            this.comboBoxMethod.Location = new System.Drawing.Point(125, 122);
+            this.comboBoxMethod.Location = new System.Drawing.Point(125, 132);
             this.comboBoxMethod.Name = "comboBoxMethod";
-            this.comboBoxMethod.Size = new System.Drawing.Size(425, 20);
+            this.comboBoxMethod.Size = new System.Drawing.Size(425, 21);
             this.comboBoxMethod.TabIndex = 11;
             this.comboBoxMethod.SelectedIndexChanged += new System.EventHandler(this.comboBoxMethod_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 125);
+            this.label4.Location = new System.Drawing.Point(12, 135);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 12);
+            this.label4.Size = new System.Drawing.Size(46, 13);
             this.label4.TabIndex = 12;
             this.label4.Text = "Method:";
             // 
-            // textBoxParameterXml
-            // 
-            this.textBoxParameterXml.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxParameterXml.Location = new System.Drawing.Point(3, 3);
-            this.textBoxParameterXml.Multiline = true;
-            this.textBoxParameterXml.Name = "textBoxParameterXml";
-            this.textBoxParameterXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxParameterXml.Size = new System.Drawing.Size(522, 165);
-            this.textBoxParameterXml.TabIndex = 0;
-            // 
-            // textBoxResponseXml
-            // 
-            this.textBoxResponseXml.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxResponseXml.Location = new System.Drawing.Point(3, 3);
-            this.textBoxResponseXml.Multiline = true;
-            this.textBoxResponseXml.Name = "textBoxResponseXml";
-            this.textBoxResponseXml.ReadOnly = true;
-            this.textBoxResponseXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxResponseXml.Size = new System.Drawing.Size(522, 162);
-            this.textBoxResponseXml.TabIndex = 0;
-            // 
             // ServiceTestClientForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonClose;
-            this.ClientSize = new System.Drawing.Size(562, 584);
+            this.ClientSize = new System.Drawing.Size(562, 633);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxMethod);
             this.Controls.Add(this.buttonSend);
