@@ -136,6 +136,12 @@ namespace MachineInfo
             }
         }
 
+        [NodeEndpointMethod]
+        public void KeyEvent(byte key, bool down)
+        {
+            KeyController.keybd_event(key, 0, (down ? 0 : 2), IntPtr.Zero);
+        }
+
         private static class MouseController
         {
             public const int MOUSEEVENTF_ABSOLUTE = 0x8000;
@@ -153,6 +159,12 @@ namespace MachineInfo
 
             [DllImport("user32.dll")]
             public extern static int mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+        }
+
+        private static class KeyController
+        {
+            [DllImport("user32.dll")]
+            public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, IntPtr dwExtraInfo);
         }
     }
 }
