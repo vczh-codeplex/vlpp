@@ -20,6 +20,7 @@ namespace NodeServiceGuard.ServiceReflectoring
         private INodeEndpointProtocolClient protocolClient = null;
         private INodeEndpointClientProvider clientProvider = null;
         private INodeEndpointResponse currentResponse = null;
+        private byte[] currentResponseStream = null;
 
         public ServiceReflector Reflector { get; set; }
         public string Host { get; set; }
@@ -118,10 +119,13 @@ namespace NodeServiceGuard.ServiceReflectoring
         {
             try
             {
+                tabControlResponse.SelectedTab = tabPageResponseXml;
+                this.currentResponseStream = null;
                 XElement body = XElement.Parse(textBoxParameterXml.Text);
                 this.currentResponse = this.clientProvider.Send(comboBoxMethod.SelectedItem.ToString(), body);
                 textBoxResponseXml.Text = "Waiting for response...";
                 buttonSend.Enabled = false;
+
                 this.currentResponse.RegisterCallback((r) =>
                 {
                     try
@@ -146,7 +150,9 @@ namespace NodeServiceGuard.ServiceReflectoring
                                         {
                                             using (Stream stream = r.Stream)
                                             {
-                                                textBoxResponseXml.Text = stream.ReadAllBytes().ByteArrayToHex();
+                                                this.currentResponseStream = stream.ReadAllBytes();
+                                                byte[] show = this.currentResponseStream.Take(1024).ToArray();
+                                                textBoxResponseXml.Text = show.ByteArrayToHex() + (this.currentResponseStream.Length > show.Length ? "..." : "");
                                             }
                                         }
                                         break;
@@ -181,6 +187,72 @@ namespace NodeServiceGuard.ServiceReflectoring
                         .ToArray()
                     );
                 textBoxParameterXml.Text = parameters.ToString();
+            }
+        }
+
+        private void ShowTextBoxResponseString(TextBox textBox, Encoding encoding)
+        {
+            if (this.currentResponseStream != null)
+            {
+                try
+                {
+                    textBox.Text = "[" + encoding.GetType().Name + "]" + encoding.GetString(this.currentResponseStream);
+                }
+                catch (Exception ex)
+                {
+                    textBox.Text = "[EXCEPTION]" + ex.Message;
+                }
+            }
+            else
+            {
+                textBox.Text = "";
+            }
+        }
+
+        private void tabControlResponse_Selected(object sender, TabControlEventArgs e)
+        {
+            if (e.TabPage == tabPageResponseString)
+            {
+                ShowTextBoxResponseString(textBoxResponseStringAscii, Encoding.ASCII);
+                ShowTextBoxResponseString(textBoxResponseStringUtf16, Encoding.Unicode);
+                ShowTextBoxResponseString(textBoxResponseStringUtf16BE, Encoding.BigEndianUnicode);
+                ShowTextBoxResponseString(textBoxResponseStringUtf8, Encoding.UTF8);
+            }
+            else if (e.TabPage == tabPageResponseImage)
+            {
+                e.TabPage.AutoScrollPosition = new Point(0, 0);
+                pictureBoxResponseImage.Visible = false;
+                labelResponseImageException.Visible = false;
+                if (this.currentResponseStream != null)
+                {
+                    try
+                    {
+                        Image oldImage = pictureBoxResponseImage.Image;
+                        Bitmap newImage = null;
+                        using (Stream stream = new MemoryStream(this.currentResponseStream, false))
+                        {
+                            newImage = new Bitmap(stream);
+                        }
+
+                        pictureBoxResponseImage.Image = newImage;
+                        if (oldImage != null)
+                        {
+                            oldImage.Dispose();
+                        }
+                        pictureBoxResponseImage.Bounds = new Rectangle(0, 0, newImage.Width, newImage.Height);
+                        pictureBoxResponseImage.Visible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        labelResponseImageException.Text = ex.Message;
+                        labelResponseImageException.Visible = true;
+                    }
+                }
+                else
+                {
+                    labelResponseImageException.Text = "(Empty)";
+                    labelResponseImageException.Visible = true;
+                }
             }
         }
     }
