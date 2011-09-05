@@ -122,11 +122,7 @@ namespace NodeService.Endpoints
             {
                 request.Respond(exception.InnerException);
             }
-            catch (ArgumentException)
-            {
-                request.Respond(new InvalidOperationException("Cannot parse parameters."));
-            }
-            catch (TargetParameterCountException)
+            catch (Exception)
             {
                 request.Respond(new InvalidOperationException("Cannot parse parameters."));
             }
