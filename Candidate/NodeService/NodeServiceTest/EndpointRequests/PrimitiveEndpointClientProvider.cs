@@ -5,6 +5,7 @@ using System.Text;
 using NodeService;
 using System.Xml.Linq;
 using NodeService.Endpoints;
+using System.IO;
 
 namespace NodeServiceTest.EndpointRequests
 {
@@ -101,6 +102,12 @@ namespace NodeServiceTest.EndpointRequests
             this.response = new PrimitiveEndpointClientResponse(this.endpoint, response);
         }
 
+        public void Respond(Stream stream)
+        {
+            this.waitingForResponse = true;
+            this.response = new PrimitiveEndpointClientResponse(this.endpoint, stream);
+        }
+
         public void Respond(Exception exception)
         {
             this.waitingForResponse = true;
@@ -119,6 +126,7 @@ namespace NodeServiceTest.EndpointRequests
         private StrongTypedNodeEndpoint endpoint;
         private RequestState requestState;
         private XNode response;
+        private Stream stream;
         private Exception exception;
 
         public PrimitiveEndpointClientResponse(StrongTypedNodeEndpoint endpoint, XNode response)
@@ -126,6 +134,14 @@ namespace NodeServiceTest.EndpointRequests
             this.endpoint = endpoint;
             this.requestState = NodeService.RequestState.ReceivedResponse;
             this.response = response;
+        }
+
+        public PrimitiveEndpointClientResponse(StrongTypedNodeEndpoint endpoint, Stream stream)
+        {
+            this.endpoint = endpoint;
+            this.requestState = NodeService.RequestState.ReceivedStream;
+            this.stream = stream;
+            this.stream.Seek(0, SeekOrigin.Begin);
         }
 
         public PrimitiveEndpointClientResponse(StrongTypedNodeEndpoint endpoint, Exception exception)
@@ -156,6 +172,14 @@ namespace NodeServiceTest.EndpointRequests
             get
             {
                 return this.response;
+            }
+        }
+
+        public Stream Stream
+        {
+            get
+            {
+                return this.stream;
             }
         }
 

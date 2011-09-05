@@ -162,7 +162,7 @@ namespace NodeService
             return Encoding.UTF8.GetString(bytes);
         }
 
-        public static byte[] ReadAllBytesAndClose(this Stream stream)
+        public static byte[] ReadAllBytes(this Stream stream)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -178,6 +178,13 @@ namespace NodeService
                 memoryStream.Read(buffer, 0, buffer.Length);
                 return buffer;
             }
+        }
+
+        public static byte[] ReadAllBytesAndClose(this Stream stream)
+        {
+            byte[] bytes = stream.ReadAllBytes();
+            stream.Close();
+            return bytes;
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NodeService
 {
@@ -28,6 +29,7 @@ namespace NodeService
         bool WaitingForResponse { get; }
 
         void Respond(XNode response);
+        void Respond(Stream stream);
         void Respond(Exception exception);
         void Respond();
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NodeService.Providers
 {
@@ -86,6 +87,19 @@ namespace NodeService.Providers
                 this.tracerBroadcaster.OnResponded(response);
             }
 
+            public void Respond(Stream stream)
+            {
+                if (!this.waitingForResponse)
+                {
+                    throw new InvalidOperationException("Cannot respond more than once.");
+                }
+                this.waitingForResponse = false;
+                byte[] bytes = stream.ReadAllBytesAndClose();
+                byte[] body = ProtocolEnabledHelper.BuildResponse(this.guid, bytes);
+                this.request.Respond(body);
+                this.tracerBroadcaster.OnResponded(bytes);
+            }
+
             public void Respond(Exception exception)
             {
                 if (!this.waitingForResponse)
@@ -110,7 +124,7 @@ namespace NodeService.Providers
 
             private void Respond(string message)
             {
-                string protocolMessage = ProtocolEnabledHelper.BuildResponse(guid, message);
+                string protocolMessage = ProtocolEnabledHelper.BuildResponse(this.guid, message);
                 this.request.Respond(protocolMessage);
             }
         }
@@ -144,6 +158,18 @@ namespace NodeService.Providers
                     foreach (var tracer in this.tracers)
                     {
                         tracer.OnResponded(time, node);
+                    }
+                }
+            }
+
+            public void OnResponded(byte[] stream)
+            {
+                DateTime time = DateTime.Now;
+                lock (this.tracers)
+                {
+                    foreach (var tracer in this.tracers)
+                    {
+                        tracer.OnResponded(time, stream);
                     }
                 }
             }

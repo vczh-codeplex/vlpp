@@ -5,6 +5,7 @@ using System.Text;
 using NodeService;
 using System.Xml.Linq;
 using NodeService.Endpoints;
+using System.IO;
 
 namespace NodeServiceTest.EndpointRequests
 {
@@ -77,6 +78,11 @@ namespace NodeServiceTest.EndpointRequests
             this.callback((T)this.endpoint.Serializer.Deserialize(response, typeof(T)));
         }
 
+        public void Respond(Stream stream)
+        {
+            this.waitingForResponse = true;
+            throw new InvalidOperationException("Streaming response is not supported.");
+        }
 
         public void Respond(Exception exception)
         {

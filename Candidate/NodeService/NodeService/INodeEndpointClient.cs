@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NodeService
 {
@@ -28,6 +29,7 @@ namespace NodeService
     {
         WaitingForResponse,
         ReceivedResponse,
+        ReceivedStream,
         RaisedException,
     }
 
@@ -36,6 +38,7 @@ namespace NodeService
         bool EnableAsynchronization { get; }
         RequestState RequestState { get; }
         XNode Response { get; }
+        Stream Stream { get; }
         Exception Exception { get; }
 
         void WaitForResponse();

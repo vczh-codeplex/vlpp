@@ -84,22 +84,18 @@ namespace NodeService.Protocols
                 }
                 this.listenedSocket = new Socket(this.addressFamily, SocketType.Stream, this.protocolType);
 
-                foreach (IPAddress hostIP in Dns.GetHostAddresses(Environment.MachineName))
+                IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, int.Parse(address));
+                try
                 {
-                    IPEndPoint endpoint = new IPEndPoint(hostIP, int.Parse(address));
-                    try
-                    {
-                        this.listenedSocket.Bind(endpoint);
-                        return;
-                    }
-                    catch (SocketException)
-                    {
-                    }
-                    catch (SecurityException)
-                    {
-                    }
+                    this.listenedSocket.Bind(endpoint);
+                    return;
                 }
-                Disconnect();
+                catch (SocketException)
+                {
+                }
+                catch (SecurityException)
+                {
+                }
             }
 
             public void Disconnect()
