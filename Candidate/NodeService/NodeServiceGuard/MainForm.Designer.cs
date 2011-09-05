@@ -52,23 +52,23 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPageTracing = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTracing = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxTracingResult = new System.Windows.Forms.TextBox();
             this.buttonReadTracingResult = new System.Windows.Forms.Button();
+            this.textBoxTracingResult = new System.Windows.Forms.TextBox();
             this.buttonStopTracing = new System.Windows.Forms.Button();
             this.labelServiceTracing = new System.Windows.Forms.Label();
             this.buttonStartTracing = new System.Windows.Forms.Button();
             this.tabPageRemote = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelRemote = new System.Windows.Forms.TableLayoutPanel();
             this.buttonViewRemoteServiceDescription = new System.Windows.Forms.Button();
-            this.buttonConnectRemoteService = new System.Windows.Forms.Button();
             this.listViewRemoteServices = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelConnectedRemoteServiceGuard = new System.Windows.Forms.Label();
             this.buttonConnectRemoteServiceGuard = new System.Windows.Forms.Button();
+            this.buttonConnectRemoteService = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxRemoteServiceGuard = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanelRemote = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuService.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerService)).BeginInit();
             this.splitContainerService.Panel1.SuspendLayout();
@@ -95,7 +95,7 @@
             this.listViewServices.Location = new System.Drawing.Point(0, 0);
             this.listViewServices.MultiSelect = false;
             this.listViewServices.Name = "listViewServices";
-            this.listViewServices.Size = new System.Drawing.Size(770, 322);
+            this.listViewServices.Size = new System.Drawing.Size(794, 346);
             this.listViewServices.TabIndex = 0;
             this.listViewServices.UseCompatibleStateImageBehavior = false;
             this.listViewServices.View = System.Windows.Forms.View.Details;
@@ -165,11 +165,9 @@
             // 
             // splitContainerService
             // 
-            this.splitContainerService.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainerService.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerService.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainerService.Location = new System.Drawing.Point(12, 12);
+            this.splitContainerService.Location = new System.Drawing.Point(0, 0);
             this.splitContainerService.Name = "splitContainerService";
             this.splitContainerService.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -180,8 +178,8 @@
             // splitContainerService.Panel2
             // 
             this.splitContainerService.Panel2.Controls.Add(this.tabControlProperties);
-            this.splitContainerService.Size = new System.Drawing.Size(770, 628);
-            this.splitContainerService.SplitterDistance = 322;
+            this.splitContainerService.Size = new System.Drawing.Size(794, 652);
+            this.splitContainerService.SplitterDistance = 346;
             this.splitContainerService.TabIndex = 1;
             // 
             // tabControlProperties
@@ -193,7 +191,7 @@
             this.tabControlProperties.Location = new System.Drawing.Point(0, 0);
             this.tabControlProperties.Name = "tabControlProperties";
             this.tabControlProperties.SelectedIndex = 0;
-            this.tabControlProperties.Size = new System.Drawing.Size(770, 302);
+            this.tabControlProperties.Size = new System.Drawing.Size(794, 302);
             this.tabControlProperties.TabIndex = 0;
             // 
             // tabPageInformation
@@ -202,7 +200,7 @@
             this.tabPageInformation.Location = new System.Drawing.Point(4, 22);
             this.tabPageInformation.Name = "tabPageInformation";
             this.tabPageInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInformation.Size = new System.Drawing.Size(769, 267);
+            this.tabPageInformation.Size = new System.Drawing.Size(786, 276);
             this.tabPageInformation.TabIndex = 0;
             this.tabPageInformation.Text = "Information";
             this.tabPageInformation.UseVisualStyleBackColor = true;
@@ -225,7 +223,7 @@
             this.listViewServiceInformation.Location = new System.Drawing.Point(3, 3);
             this.listViewServiceInformation.MultiSelect = false;
             this.listViewServiceInformation.Name = "listViewServiceInformation";
-            this.listViewServiceInformation.Size = new System.Drawing.Size(763, 261);
+            this.listViewServiceInformation.Size = new System.Drawing.Size(780, 270);
             this.listViewServiceInformation.TabIndex = 0;
             this.listViewServiceInformation.UseCompatibleStateImageBehavior = false;
             this.listViewServiceInformation.View = System.Windows.Forms.View.Details;
@@ -273,6 +271,17 @@
             this.tableLayoutPanelTracing.Size = new System.Drawing.Size(756, 270);
             this.tableLayoutPanelTracing.TabIndex = 5;
             // 
+            // buttonReadTracingResult
+            // 
+            this.buttonReadTracingResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonReadTracingResult.Location = new System.Drawing.Point(610, 3);
+            this.buttonReadTracingResult.Name = "buttonReadTracingResult";
+            this.buttonReadTracingResult.Size = new System.Drawing.Size(143, 23);
+            this.buttonReadTracingResult.TabIndex = 4;
+            this.buttonReadTracingResult.Text = "Read Tracing Result";
+            this.buttonReadTracingResult.UseVisualStyleBackColor = true;
+            this.buttonReadTracingResult.Click += new System.EventHandler(this.buttonReadTracingResult_Click);
+            // 
             // textBoxTracingResult
             // 
             this.tableLayoutPanelTracing.SetColumnSpan(this.textBoxTracingResult, 5);
@@ -284,17 +293,6 @@
             this.textBoxTracingResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxTracingResult.Size = new System.Drawing.Size(750, 235);
             this.textBoxTracingResult.TabIndex = 3;
-            // 
-            // buttonReadTracingResult
-            // 
-            this.buttonReadTracingResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonReadTracingResult.Location = new System.Drawing.Point(610, 3);
-            this.buttonReadTracingResult.Name = "buttonReadTracingResult";
-            this.buttonReadTracingResult.Size = new System.Drawing.Size(143, 23);
-            this.buttonReadTracingResult.TabIndex = 4;
-            this.buttonReadTracingResult.Text = "Read Tracing Result";
-            this.buttonReadTracingResult.UseVisualStyleBackColor = true;
-            this.buttonReadTracingResult.Click += new System.EventHandler(this.buttonReadTracingResult_Click);
             // 
             // buttonStopTracing
             // 
@@ -340,30 +338,45 @@
             this.tabPageRemote.Text = "Remote Node Service Guard";
             this.tabPageRemote.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanelRemote
+            // 
+            this.tableLayoutPanelRemote.ColumnCount = 5;
+            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.55882F));
+            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.44118F));
+            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelRemote.Controls.Add(this.buttonConnectRemoteServiceGuard, 4, 0);
+            this.tableLayoutPanelRemote.Controls.Add(this.listViewRemoteServices, 0, 2);
+            this.tableLayoutPanelRemote.Controls.Add(this.buttonViewRemoteServiceDescription, 0, 3);
+            this.tableLayoutPanelRemote.Controls.Add(this.labelConnectedRemoteServiceGuard, 0, 1);
+            this.tableLayoutPanelRemote.Controls.Add(this.buttonConnectRemoteService, 4, 3);
+            this.tableLayoutPanelRemote.Controls.Add(this.label2, 2, 0);
+            this.tableLayoutPanelRemote.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanelRemote.Controls.Add(this.textBoxRemoteServiceGuard, 1, 0);
+            this.tableLayoutPanelRemote.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelRemote.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanelRemote.Name = "tableLayoutPanelRemote";
+            this.tableLayoutPanelRemote.RowCount = 4;
+            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelRemote.Size = new System.Drawing.Size(756, 270);
+            this.tableLayoutPanelRemote.TabIndex = 8;
+            // 
             // buttonViewRemoteServiceDescription
             // 
             this.buttonViewRemoteServiceDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelRemote.SetColumnSpan(this.buttonViewRemoteServiceDescription, 4);
             this.buttonViewRemoteServiceDescription.Enabled = false;
-            this.buttonViewRemoteServiceDescription.Location = new System.Drawing.Point(307, 242);
+            this.buttonViewRemoteServiceDescription.Location = new System.Drawing.Point(306, 242);
             this.buttonViewRemoteServiceDescription.Name = "buttonViewRemoteServiceDescription";
             this.buttonViewRemoteServiceDescription.Size = new System.Drawing.Size(218, 25);
             this.buttonViewRemoteServiceDescription.TabIndex = 7;
             this.buttonViewRemoteServiceDescription.Text = "View Service Description...";
             this.buttonViewRemoteServiceDescription.UseVisualStyleBackColor = true;
             this.buttonViewRemoteServiceDescription.Click += new System.EventHandler(this.buttonViewRemoteServiceDescription_Click);
-            // 
-            // buttonConnectRemoteService
-            // 
-            this.buttonConnectRemoteService.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonConnectRemoteService.Enabled = false;
-            this.buttonConnectRemoteService.Location = new System.Drawing.Point(531, 242);
-            this.buttonConnectRemoteService.Name = "buttonConnectRemoteService";
-            this.buttonConnectRemoteService.Size = new System.Drawing.Size(222, 25);
-            this.buttonConnectRemoteService.TabIndex = 6;
-            this.buttonConnectRemoteService.Text = "Connect to Remote Service...";
-            this.buttonConnectRemoteService.UseVisualStyleBackColor = true;
-            this.buttonConnectRemoteService.Click += new System.EventHandler(this.buttonConnectRemoteService_Click);
             // 
             // listViewRemoteServices
             // 
@@ -407,13 +420,25 @@
             // buttonConnectRemoteServiceGuard
             // 
             this.buttonConnectRemoteServiceGuard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonConnectRemoteServiceGuard.Location = new System.Drawing.Point(531, 3);
+            this.buttonConnectRemoteServiceGuard.Location = new System.Drawing.Point(530, 3);
             this.buttonConnectRemoteServiceGuard.Name = "buttonConnectRemoteServiceGuard";
-            this.buttonConnectRemoteServiceGuard.Size = new System.Drawing.Size(222, 25);
+            this.buttonConnectRemoteServiceGuard.Size = new System.Drawing.Size(223, 25);
             this.buttonConnectRemoteServiceGuard.TabIndex = 3;
             this.buttonConnectRemoteServiceGuard.Text = "Connect to Remote Service Guard";
             this.buttonConnectRemoteServiceGuard.UseVisualStyleBackColor = true;
             this.buttonConnectRemoteServiceGuard.Click += new System.EventHandler(this.buttonConnectRemoteServiceGuard_Click);
+            // 
+            // buttonConnectRemoteService
+            // 
+            this.buttonConnectRemoteService.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonConnectRemoteService.Enabled = false;
+            this.buttonConnectRemoteService.Location = new System.Drawing.Point(530, 242);
+            this.buttonConnectRemoteService.Name = "buttonConnectRemoteService";
+            this.buttonConnectRemoteService.Size = new System.Drawing.Size(223, 25);
+            this.buttonConnectRemoteService.TabIndex = 6;
+            this.buttonConnectRemoteService.Text = "Connect to Remote Service...";
+            this.buttonConnectRemoteService.UseVisualStyleBackColor = true;
+            this.buttonConnectRemoteService.Click += new System.EventHandler(this.buttonConnectRemoteService_Click);
             // 
             // label2
             // 
@@ -421,7 +446,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(192, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(281, 31);
+            this.label2.Size = new System.Drawing.Size(280, 31);
             this.label2.TabIndex = 2;
             this.label2.Text = ":9000/NodeServices/ServiceList.xml";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -444,33 +469,6 @@
             this.textBoxRemoteServiceGuard.Size = new System.Drawing.Size(139, 20);
             this.textBoxRemoteServiceGuard.TabIndex = 0;
             this.textBoxRemoteServiceGuard.Text = "localhost";
-            // 
-            // tableLayoutPanelRemote
-            // 
-            this.tableLayoutPanelRemote.ColumnCount = 5;
-            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.55882F));
-            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.44118F));
-            this.tableLayoutPanelRemote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelRemote.Controls.Add(this.buttonConnectRemoteServiceGuard, 4, 0);
-            this.tableLayoutPanelRemote.Controls.Add(this.listViewRemoteServices, 0, 2);
-            this.tableLayoutPanelRemote.Controls.Add(this.buttonViewRemoteServiceDescription, 0, 3);
-            this.tableLayoutPanelRemote.Controls.Add(this.labelConnectedRemoteServiceGuard, 0, 1);
-            this.tableLayoutPanelRemote.Controls.Add(this.buttonConnectRemoteService, 4, 3);
-            this.tableLayoutPanelRemote.Controls.Add(this.label2, 2, 0);
-            this.tableLayoutPanelRemote.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanelRemote.Controls.Add(this.textBoxRemoteServiceGuard, 1, 0);
-            this.tableLayoutPanelRemote.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelRemote.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanelRemote.Name = "tableLayoutPanelRemote";
-            this.tableLayoutPanelRemote.RowCount = 4;
-            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelRemote.Size = new System.Drawing.Size(756, 270);
-            this.tableLayoutPanelRemote.TabIndex = 8;
             // 
             // MainForm
             // 
