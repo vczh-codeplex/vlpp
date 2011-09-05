@@ -70,7 +70,7 @@ namespace NodeService.Providers
 
         public static bool SplitResponse(string response, out Guid guid)
         {
-            Match match = responseString.Match(response);
+            Match match = responseStreamString.Match(response);
             if (match.Success)
             {
                 guid = new Guid(match.Groups["GUID"].Value);

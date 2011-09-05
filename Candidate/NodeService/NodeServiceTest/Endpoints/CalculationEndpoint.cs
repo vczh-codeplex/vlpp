@@ -5,6 +5,7 @@ using System.Text;
 using NodeService;
 using NodeService.Endpoints;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NodeServiceTest.Endpoints
 {
@@ -135,6 +136,12 @@ namespace NodeServiceTest.Endpoints
         {
             return value;
         }
+
+        [NodeEndpointMethod]
+        public Stream CopyStream(byte[] stream)
+        {
+            return new MemoryStream(stream);
+        }
     }
 
     [NodeEndpointDataType]
@@ -192,6 +199,7 @@ namespace NodeServiceTest.Endpoints
         Dictionary<int, int> CopyDictionary(Dictionary<int, int> value);
         SortedDictionary<int, int> CopySortedDictionary(SortedDictionary<int, int> value);
         SortedList<int, int> CopySortedList(SortedList<int, int> value);
+        Stream CopyStream(byte[] stream);
     }
 
     public interface ICalculationEndpointAsync : INodeEndpointClient

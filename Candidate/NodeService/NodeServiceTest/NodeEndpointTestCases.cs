@@ -7,6 +7,7 @@ using NodeServiceTest.Endpoints;
 using NodeService.Endpoints;
 using NodeService;
 using System.Threading;
+using System.IO;
 
 namespace NodeServiceTest
 {
@@ -74,6 +75,13 @@ namespace NodeServiceTest
             AssertCollection(client.CopyDictionary(dictionary));
             AssertCollection(client.CopySortedDictionary(new SortedDictionary<int, int>(dictionary)));
             AssertCollection(client.CopySortedList(new SortedList<int, int>(dictionary)));
+
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5 };
+            using (Stream stream = client.CopyStream(bytes))
+            {
+                byte[] copied = stream.ReadAllBytes();
+                Assert.AreEqual("[1][2][3][4][5]", bytes.Select(b => "[" + b.ToString() + "]").Aggregate("", (a, b) => a + b));
+            }
         }
 
         public static void TestProtocolAsync(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
