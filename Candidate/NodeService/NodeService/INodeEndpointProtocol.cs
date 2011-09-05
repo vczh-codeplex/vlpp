@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.IO;
 
 namespace NodeService
 {
@@ -36,6 +37,7 @@ namespace NodeService
     {
         void OnReceivedRequest(DateTime time, INodeEndpointRequest request);
         void OnResponded(DateTime time, XNode node);
+        void OnResponded(DateTime time, byte[] stream);
         void OnResponded(DateTime time, Exception exception);
         void OnResponded(DateTime time);
     }

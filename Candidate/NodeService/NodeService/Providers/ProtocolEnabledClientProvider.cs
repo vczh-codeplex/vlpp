@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Threading;
+using System.IO;
 
 namespace NodeService.Providers
 {
     public class ProtocolEnabledClientProvider : INodeEndpointClientProvider
     {
-        private class Response : INodeEndpointResponse
+        private class ClientResponse : INodeEndpointResponse
         {
             private volatile RequestState requestState;
             private XNode response;
+            private byte[] stream;
             private Exception exception;
             private List<Action<INodeEndpointResponse>> callbacks = new List<Action<INodeEndpointResponse>>();
 
-            public Response()
+            public ClientResponse()
             {
                 this.ResponseEvent = new ManualResetEvent(false);
             }
@@ -37,7 +39,7 @@ namespace NodeService.Providers
                 }
             }
 
-            XNode INodeEndpointResponse.Response
+            public XNode Response
             {
                 get
                 {
@@ -46,6 +48,18 @@ namespace NodeService.Providers
                         throw new InvalidOperationException("Response does not exist.");
                     }
                     return this.response;
+                }
+            }
+
+            public Stream Stream
+            {
+                get
+                {
+                    if (this.requestState != RequestState.ReceivedStream)
+                    {
+                        throw new InvalidOperationException("Stream does not exist.");
+                    }
+                    return new MemoryStream(this.stream, false);
                 }
             }
 
@@ -91,6 +105,20 @@ namespace NodeService.Providers
                     this.ResponseEvent.Close();
                     this.ResponseEvent.Dispose();
                     this.ResponseEvent = null;
+                }
+            }
+
+            public void SetResponse(byte[] stream)
+            {
+                lock (this.callbacks)
+                {
+                    this.requestState = NodeService.RequestState.ReceivedStream;
+                    this.stream = stream;
+                    foreach (var callback in this.callbacks)
+                    {
+                        callback(this);
+                    }
+                    CloseEvent();
                 }
             }
 
@@ -151,6 +179,20 @@ namespace NodeService.Providers
 
             public void OnReceivedRequest(INodeEndpointProtocolRequest request)
             {
+                const int streamHeaderLength = 54;
+                if (request.Message.Length >= streamHeaderLength)
+                {
+                    byte[] header = new byte[streamHeaderLength];
+                    Array.Copy(request.Message, header, streamHeaderLength);
+                    string headerString = header.NodeServiceDecode();
+                    if (headerString.StartsWith("[RESPONSESTREAM"))
+                    {
+                        byte[] stream = new byte[request.Message.Length - streamHeaderLength];
+                        Array.Copy(request.Message, streamHeaderLength, stream, 0, stream.Length);
+                        this.clientProvider.Receive(headerString, stream);
+                    }
+                }
+
                 string requestMessage = request.RequestMessage();
                 if (requestMessage.StartsWith("[RESPONSE]"))
                 {
@@ -161,7 +203,7 @@ namespace NodeService.Providers
 
         private ResponseListener responseListener;
         private INodeEndpointProtocol protocol;
-        private Dictionary<Guid, Response> responses = new Dictionary<Guid, Response>();
+        private Dictionary<Guid, ClientResponse> responses = new Dictionary<Guid, ClientResponse>();
 
         public ProtocolEnabledClientProvider()
         {
@@ -199,7 +241,7 @@ namespace NodeService.Providers
             Guid guid = Guid.NewGuid();
             string protocolMessage = ProtocolEnabledHelper.BuildRequest(guid, method, body.ToString());
 
-            Response response = new Response();
+            ClientResponse response = new ClientResponse();
             lock (this.responses)
             {
                 this.responses.Add(guid, response);
@@ -225,6 +267,23 @@ namespace NodeService.Providers
             }
         }
 
+        private void Receive(string protocolMessage, byte[] stream)
+        {
+            lock (this.responses)
+            {
+                Guid guid;
+                if (ProtocolEnabledHelper.SplitResponse(protocolMessage, out guid))
+                {
+                    ClientResponse response;
+                    if (this.responses.TryGetValue(guid, out response))
+                    {
+                        this.responses.Remove(guid);
+                        response.SetResponse(stream);
+                    }
+                }
+            }
+        }
+
         private void Receive(string protocolMessage)
         {
             lock (this.responses)
@@ -233,7 +292,7 @@ namespace NodeService.Providers
                 string message;
                 if (ProtocolEnabledHelper.SplitResponse(protocolMessage, out guid, out message))
                 {
-                    Response response;
+                    ClientResponse response;
                     if (this.responses.TryGetValue(guid, out response))
                     {
                         this.responses.Remove(guid);
