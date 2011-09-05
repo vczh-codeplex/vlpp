@@ -172,7 +172,7 @@
             // 
             this.splitContainerData.Panel2.Controls.Add(this.tabControlResponse);
             this.splitContainerData.Size = new System.Drawing.Size(516, 460);
-            this.splitContainerData.SplitterDistance = 227;
+            this.splitContainerData.SplitterDistance = 226;
             this.splitContainerData.TabIndex = 9;
             // 
             // tabControlParameter
@@ -182,7 +182,7 @@
             this.tabControlParameter.Location = new System.Drawing.Point(0, 0);
             this.tabControlParameter.Name = "tabControlParameter";
             this.tabControlParameter.SelectedIndex = 0;
-            this.tabControlParameter.Size = new System.Drawing.Size(516, 227);
+            this.tabControlParameter.Size = new System.Drawing.Size(516, 226);
             this.tabControlParameter.TabIndex = 0;
             // 
             // tabPageParameterXml
@@ -191,7 +191,7 @@
             this.tabPageParameterXml.Location = new System.Drawing.Point(4, 22);
             this.tabPageParameterXml.Name = "tabPageParameterXml";
             this.tabPageParameterXml.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageParameterXml.Size = new System.Drawing.Size(508, 201);
+            this.tabPageParameterXml.Size = new System.Drawing.Size(508, 200);
             this.tabPageParameterXml.TabIndex = 0;
             this.tabPageParameterXml.Text = "Request (XML)";
             this.tabPageParameterXml.UseVisualStyleBackColor = true;
@@ -203,7 +203,7 @@
             this.textBoxParameterXml.Multiline = true;
             this.textBoxParameterXml.Name = "textBoxParameterXml";
             this.textBoxParameterXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxParameterXml.Size = new System.Drawing.Size(502, 195);
+            this.textBoxParameterXml.Size = new System.Drawing.Size(502, 194);
             this.textBoxParameterXml.TabIndex = 0;
             // 
             // tabControlResponse
@@ -213,7 +213,7 @@
             this.tabControlResponse.Location = new System.Drawing.Point(0, 0);
             this.tabControlResponse.Name = "tabControlResponse";
             this.tabControlResponse.SelectedIndex = 0;
-            this.tabControlResponse.Size = new System.Drawing.Size(516, 229);
+            this.tabControlResponse.Size = new System.Drawing.Size(516, 230);
             this.tabControlResponse.TabIndex = 0;
             // 
             // tabPageResponseXml
@@ -222,7 +222,7 @@
             this.tabPageResponseXml.Location = new System.Drawing.Point(4, 22);
             this.tabPageResponseXml.Name = "tabPageResponseXml";
             this.tabPageResponseXml.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageResponseXml.Size = new System.Drawing.Size(508, 203);
+            this.tabPageResponseXml.Size = new System.Drawing.Size(508, 204);
             this.tabPageResponseXml.TabIndex = 0;
             this.tabPageResponseXml.Text = "Response (XML)";
             this.tabPageResponseXml.UseVisualStyleBackColor = true;
@@ -235,7 +235,7 @@
             this.textBoxResponseXml.Name = "textBoxResponseXml";
             this.textBoxResponseXml.ReadOnly = true;
             this.textBoxResponseXml.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxResponseXml.Size = new System.Drawing.Size(502, 197);
+            this.textBoxResponseXml.Size = new System.Drawing.Size(502, 198);
             this.textBoxResponseXml.TabIndex = 0;
             // 
             // buttonSend
