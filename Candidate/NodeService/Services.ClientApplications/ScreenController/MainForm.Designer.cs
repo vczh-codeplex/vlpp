@@ -107,9 +107,9 @@
             this.pictureBoxScreen.Size = new System.Drawing.Size(32, 32);
             this.pictureBoxScreen.TabIndex = 0;
             this.pictureBoxScreen.TabStop = false;
-            this.pictureBoxScreen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelScreen_MouseDown);
-            this.pictureBoxScreen.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelScreen_MouseMove);
-            this.pictureBoxScreen.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelScreen_MouseUp);
+            this.pictureBoxScreen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScreen_MouseDown);
+            this.pictureBoxScreen.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScreen_MouseMove);
+            this.pictureBoxScreen.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScreen_MouseUp);
             // 
             // MainForm
             // 
