@@ -91,7 +91,7 @@ namespace ScreenController
             }
         }
 
-        private void panelScreen_MouseDown(object sender, MouseEventArgs e)
+        private void pictureBoxScreen_MouseDown(object sender, MouseEventArgs e)
         {
             DoService(() =>
             {
@@ -108,9 +108,10 @@ namespace ScreenController
                         break;
                 }
             });
+            pictureBoxScreen.Focus();
         }
 
-        private void panelScreen_MouseUp(object sender, MouseEventArgs e)
+        private void pictureBoxScreen_MouseUp(object sender, MouseEventArgs e)
         {
             DoService(() =>
             {
@@ -129,7 +130,7 @@ namespace ScreenController
             });
         }
 
-        private void panelScreen_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBoxScreen_MouseMove(object sender, MouseEventArgs e)
         {
             DoService(() =>
             {
