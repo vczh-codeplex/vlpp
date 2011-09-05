@@ -59,12 +59,12 @@
             this.buttonStartTracing = new System.Windows.Forms.Button();
             this.tabPageRemote = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelRemote = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonViewRemoteServiceDescription = new System.Windows.Forms.Button();
+            this.buttonConnectRemoteServiceGuard = new System.Windows.Forms.Button();
             this.listViewRemoteServices = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonViewRemoteServiceDescription = new System.Windows.Forms.Button();
             this.labelConnectedRemoteServiceGuard = new System.Windows.Forms.Label();
-            this.buttonConnectRemoteServiceGuard = new System.Windows.Forms.Button();
             this.buttonConnectRemoteService = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -244,7 +244,7 @@
             this.tabPageTracing.Location = new System.Drawing.Point(4, 22);
             this.tabPageTracing.Name = "tabPageTracing";
             this.tabPageTracing.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTracing.Size = new System.Drawing.Size(762, 276);
+            this.tabPageTracing.Size = new System.Drawing.Size(786, 276);
             this.tabPageTracing.TabIndex = 1;
             this.tabPageTracing.Text = "Tracing";
             this.tabPageTracing.UseVisualStyleBackColor = true;
@@ -333,7 +333,7 @@
             this.tabPageRemote.Location = new System.Drawing.Point(4, 22);
             this.tabPageRemote.Name = "tabPageRemote";
             this.tabPageRemote.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRemote.Size = new System.Drawing.Size(762, 276);
+            this.tabPageRemote.Size = new System.Drawing.Size(786, 276);
             this.tabPageRemote.TabIndex = 2;
             this.tabPageRemote.Text = "Remote Node Service Guard";
             this.tabPageRemote.UseVisualStyleBackColor = true;
@@ -362,21 +362,19 @@
             this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelRemote.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelRemote.Size = new System.Drawing.Size(756, 270);
+            this.tableLayoutPanelRemote.Size = new System.Drawing.Size(780, 270);
             this.tableLayoutPanelRemote.TabIndex = 8;
             // 
-            // buttonViewRemoteServiceDescription
+            // buttonConnectRemoteServiceGuard
             // 
-            this.buttonViewRemoteServiceDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelRemote.SetColumnSpan(this.buttonViewRemoteServiceDescription, 4);
-            this.buttonViewRemoteServiceDescription.Enabled = false;
-            this.buttonViewRemoteServiceDescription.Location = new System.Drawing.Point(306, 242);
-            this.buttonViewRemoteServiceDescription.Name = "buttonViewRemoteServiceDescription";
-            this.buttonViewRemoteServiceDescription.Size = new System.Drawing.Size(218, 25);
-            this.buttonViewRemoteServiceDescription.TabIndex = 7;
-            this.buttonViewRemoteServiceDescription.Text = "View Service Description...";
-            this.buttonViewRemoteServiceDescription.UseVisualStyleBackColor = true;
-            this.buttonViewRemoteServiceDescription.Click += new System.EventHandler(this.buttonViewRemoteServiceDescription_Click);
+            this.buttonConnectRemoteServiceGuard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonConnectRemoteServiceGuard.Location = new System.Drawing.Point(553, 3);
+            this.buttonConnectRemoteServiceGuard.Name = "buttonConnectRemoteServiceGuard";
+            this.buttonConnectRemoteServiceGuard.Size = new System.Drawing.Size(224, 25);
+            this.buttonConnectRemoteServiceGuard.TabIndex = 3;
+            this.buttonConnectRemoteServiceGuard.Text = "Connect to Remote Service Guard";
+            this.buttonConnectRemoteServiceGuard.UseVisualStyleBackColor = true;
+            this.buttonConnectRemoteServiceGuard.Click += new System.EventHandler(this.buttonConnectRemoteServiceGuard_Click);
             // 
             // listViewRemoteServices
             // 
@@ -391,7 +389,7 @@
             this.listViewRemoteServices.Location = new System.Drawing.Point(3, 47);
             this.listViewRemoteServices.MultiSelect = false;
             this.listViewRemoteServices.Name = "listViewRemoteServices";
-            this.listViewRemoteServices.Size = new System.Drawing.Size(750, 189);
+            this.listViewRemoteServices.Size = new System.Drawing.Size(774, 189);
             this.listViewRemoteServices.TabIndex = 5;
             this.listViewRemoteServices.UseCompatibleStateImageBehavior = false;
             this.listViewRemoteServices.View = System.Windows.Forms.View.Details;
@@ -407,6 +405,19 @@
             this.columnHeader6.Text = "Service Description URL";
             this.columnHeader6.Width = 500;
             // 
+            // buttonViewRemoteServiceDescription
+            // 
+            this.buttonViewRemoteServiceDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelRemote.SetColumnSpan(this.buttonViewRemoteServiceDescription, 4);
+            this.buttonViewRemoteServiceDescription.Enabled = false;
+            this.buttonViewRemoteServiceDescription.Location = new System.Drawing.Point(329, 242);
+            this.buttonViewRemoteServiceDescription.Name = "buttonViewRemoteServiceDescription";
+            this.buttonViewRemoteServiceDescription.Size = new System.Drawing.Size(218, 25);
+            this.buttonViewRemoteServiceDescription.TabIndex = 7;
+            this.buttonViewRemoteServiceDescription.Text = "View Service Description...";
+            this.buttonViewRemoteServiceDescription.UseVisualStyleBackColor = true;
+            this.buttonViewRemoteServiceDescription.Click += new System.EventHandler(this.buttonViewRemoteServiceDescription_Click);
+            // 
             // labelConnectedRemoteServiceGuard
             // 
             this.labelConnectedRemoteServiceGuard.AutoSize = true;
@@ -417,24 +428,13 @@
             this.labelConnectedRemoteServiceGuard.TabIndex = 4;
             this.labelConnectedRemoteServiceGuard.Text = "Currently connected to: (not connected)";
             // 
-            // buttonConnectRemoteServiceGuard
-            // 
-            this.buttonConnectRemoteServiceGuard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonConnectRemoteServiceGuard.Location = new System.Drawing.Point(530, 3);
-            this.buttonConnectRemoteServiceGuard.Name = "buttonConnectRemoteServiceGuard";
-            this.buttonConnectRemoteServiceGuard.Size = new System.Drawing.Size(223, 25);
-            this.buttonConnectRemoteServiceGuard.TabIndex = 3;
-            this.buttonConnectRemoteServiceGuard.Text = "Connect to Remote Service Guard";
-            this.buttonConnectRemoteServiceGuard.UseVisualStyleBackColor = true;
-            this.buttonConnectRemoteServiceGuard.Click += new System.EventHandler(this.buttonConnectRemoteServiceGuard_Click);
-            // 
             // buttonConnectRemoteService
             // 
             this.buttonConnectRemoteService.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonConnectRemoteService.Enabled = false;
-            this.buttonConnectRemoteService.Location = new System.Drawing.Point(530, 242);
+            this.buttonConnectRemoteService.Location = new System.Drawing.Point(553, 242);
             this.buttonConnectRemoteService.Name = "buttonConnectRemoteService";
-            this.buttonConnectRemoteService.Size = new System.Drawing.Size(223, 25);
+            this.buttonConnectRemoteService.Size = new System.Drawing.Size(224, 25);
             this.buttonConnectRemoteService.TabIndex = 6;
             this.buttonConnectRemoteService.Text = "Connect to Remote Service...";
             this.buttonConnectRemoteService.UseVisualStyleBackColor = true;
@@ -446,7 +446,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(192, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(280, 31);
+            this.label2.Size = new System.Drawing.Size(300, 31);
             this.label2.TabIndex = 2;
             this.label2.Text = ":9000/NodeServices/ServiceList.xml";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
