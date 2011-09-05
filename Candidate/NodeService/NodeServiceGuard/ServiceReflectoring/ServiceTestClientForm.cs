@@ -152,7 +152,11 @@ namespace NodeServiceGuard.ServiceReflectoring
                                             {
                                                 this.currentResponseStream = stream.ReadAllBytes();
                                                 byte[] show = this.currentResponseStream.Take(1024).ToArray();
-                                                textBoxResponseXml.Text = show.ByteArrayToHex() + (this.currentResponseStream.Length > show.Length ? "..." : "");
+                                                textBoxResponseXml.Text =
+                                                    show.ByteArrayToHex()
+                                                    + (this.currentResponseStream.Length > show.Length ? "..." : "")
+                                                    + " (" + this.currentResponseStream.Length.ToString() + " bytes)"
+                                                    ;
                                             }
                                         }
                                         break;
