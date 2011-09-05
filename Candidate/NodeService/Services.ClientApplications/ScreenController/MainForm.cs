@@ -36,15 +36,12 @@ namespace ScreenController
                 {
                     DoService(() =>
                     {
-                        Thread.Sleep(1);
+                        Thread.Sleep(10);
+                        Bitmap oldScreen = null;
                         using (Stream stream = this.machineInfoService.GetScreenImage(0))
                         {
                             Bitmap newScreen = new Bitmap(stream);
-                            if (this.screen != null)
-                            {
-                                this.screen.Dispose();
-                                this.screen = null;
-                            }
+                            oldScreen = this.screen;
                             this.screen = newScreen;
                         }
                         if (this.screen != null)
@@ -60,6 +57,10 @@ namespace ScreenController
                                 }
                                 pictureBoxScreen.Image = this.screen;
                             }));
+                        }
+                        if (oldScreen != null)
+                        {
+                            oldScreen.Dispose();
                         }
                     });
                 }
@@ -136,10 +137,19 @@ namespace ScreenController
             });
         }
 
-        private void timerScreen_Tick(object sender, EventArgs e)
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             DoService(() =>
             {
+                this.machineInfoService.KeyEvent((byte)e.KeyValue, true);
+            });
+        }
+
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            DoService(() =>
+            {
+                this.machineInfoService.KeyEvent((byte)e.KeyValue, false);
             });
         }
 
@@ -184,6 +194,7 @@ namespace ScreenController
         Stream GetScreenImage(int index);
         void MouseMove(int x, int y);
         void MouseEvent(string operation, int data);
+        void KeyEvent(byte key, bool down);
     }
 
     [NodeEndpointDataType]
