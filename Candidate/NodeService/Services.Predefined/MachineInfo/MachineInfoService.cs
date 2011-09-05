@@ -60,7 +60,7 @@ namespace MachineInfo
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.CopyFromScreen(screen.Bounds.Location, new Point(0, 0), screen.Bounds.Size);
-                    bitmap.Save(stream, ImageFormat.Png);
+                    bitmap.Save(stream, ImageFormat.Jpeg);
                 }
             }
             return stream;
