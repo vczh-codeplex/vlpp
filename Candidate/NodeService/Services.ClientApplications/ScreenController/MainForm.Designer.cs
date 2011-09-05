@@ -28,12 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxMachineName = new System.Windows.Forms.TextBox();
             this.buttonConnect = new System.Windows.Forms.Button();
-            this.timerScreen = new System.Windows.Forms.Timer(this.components);
             this.panelScreen = new System.Windows.Forms.Panel();
             this.pictureBoxScreen = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -91,13 +89,9 @@
             this.buttonConnect.UseVisualStyleBackColor = true;
             this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
-            // timerScreen
-            // 
-            this.timerScreen.Enabled = true;
-            this.timerScreen.Tick += new System.EventHandler(this.timerScreen_Tick);
-            // 
             // panelScreen
             // 
+            this.panelScreen.AutoScroll = true;
             this.tableLayoutPanelMain.SetColumnSpan(this.panelScreen, 4);
             this.panelScreen.Controls.Add(this.pictureBoxScreen);
             this.panelScreen.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -127,6 +121,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ScreenController (http://+:9010/MachineInfo/)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelMain.PerformLayout();
             this.panelScreen.ResumeLayout(false);
@@ -141,7 +137,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxMachineName;
         private System.Windows.Forms.Button buttonConnect;
-        private System.Windows.Forms.Timer timerScreen;
         private System.Windows.Forms.Panel panelScreen;
         private System.Windows.Forms.PictureBox pictureBoxScreen;
     }
