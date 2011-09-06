@@ -10,7 +10,7 @@ namespace ServiceConfigurations
     public static class TcpShareProviderServiceConfiguration
     {
         public const string EndpointName = "TcpShareService";
-        public const string ServerAddress = "9003";
+        public const string ServerAddress = "9004";
 
         public static INodeEndpointProtocolFactory CreateFactory()
         {
