@@ -28,7 +28,7 @@ namespace PingTcpShare
         }
     }
 
-    [NodeEndpoint(PingServiceTcpConfiguration.EndpointName)]
+    [NodeEndpoint(PingServiceTcpShareConfiguration.EndpointName)]
     public class PingService : StrongTypedNodeEndpoint, IPingService
     {
         public PingService()

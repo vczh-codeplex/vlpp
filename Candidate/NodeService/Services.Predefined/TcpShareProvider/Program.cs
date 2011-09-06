@@ -76,11 +76,13 @@ namespace TcpShareProvider
                     {
                         string endpointName = message.Substring(17);
                         INodeEndpointProtocolClient protocolClient = this.protocolFactory.CreateClient();
-                        if (protocolClient.Connect(TcpShareProtocolFactory.GetInternalPipeAddress(port), endpointName, NodeEndpointProtocolFactoryExtension.DefaultTimeout))
+                        if (protocolClient.Connect("localhost/" + TcpShareProtocolFactory.GetInternalPipeAddress(port), endpointName, NodeEndpointProtocolFactoryExtension.DefaultTimeout))
                         {
                             this.client = protocolClient;
                             this.client.AddListener(new ResponseListener(this.server));
                             this.client.BeginListen();
+                            request.Respond("[CONNECTED]");
+                            return;
                         }
                         else
                         {
@@ -201,6 +203,7 @@ namespace TcpShareProvider
                     };
                     portListeningThreads.Add(port, listeningThread);
                     thread.Start();
+                    return;
                 }
 
                 throw new InvalidOperationException("Failed to listen to port " + port.ToString() + ".");
