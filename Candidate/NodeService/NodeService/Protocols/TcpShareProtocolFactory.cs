@@ -11,7 +11,7 @@ namespace NodeService.Protocols
     {
         public static string GetInternalPipeAddress(int port)
         {
-            return "TcpShareServices\\" + port.ToString();
+            return "TcpShareServices/" + port.ToString();
         }
 
         public INodeEndpointProtocolServerListener CreateServerListener()

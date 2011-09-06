@@ -6,21 +6,30 @@ using System.IO;
 using NodeService;
 using NodeService.Protocols;
 
+/*
+ * PingNamedPipe        : \\.\pipe\PingServiceNamedPipe/PredefinedServices
+ * PingTcp              : .:9001
+ * PingHttp             : http://.:9002/PingServiceHttp/
+ * PingTcpShare         : .:9003/PingServiceTcpShare
+ * TcpShareProvider     : .:9004
+ * MachineInfo          : http://.:9010/MachineInfo/
+ */
+
 namespace ServiceConfigurations
 {
-    public static class PingServiceHttpConfiguration
+    public static class PingServiceNamedPipeConfiguration
     {
-        public const string EndpointName = "PingServiceHttp";
-        public const string ServerAddress = "http://+:9002/";
+        public const string EndpointName = "PingServiceNamedPipe";
+        public const string ServerAddress = "PredefinedServices";
 
         public static INodeEndpointProtocolFactory CreateFactory()
         {
-            return new HttpProtocolFactory();
+            return new NamedPipeProtocolFactory();
         }
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return ServerAddress.Replace("+", machineAddress);
+            return machineAddress + "/" + ServerAddress;
         }
     }
 
@@ -40,19 +49,35 @@ namespace ServiceConfigurations
         }
     }
 
-    public static class PingServiceNamedPipeConfiguration
+    public static class PingServiceHttpConfiguration
     {
-        public const string EndpointName = "PingServiceNamedPipe";
-        public const string ServerAddress = "PredefinedServices";
+        public const string EndpointName = "PingServiceHttp";
+        public const string ServerAddress = "http://+:9002/";
 
         public static INodeEndpointProtocolFactory CreateFactory()
         {
-            return new NamedPipeProtocolFactory();
+            return new HttpProtocolFactory();
         }
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return machineAddress + "/" + ServerAddress;
+            return ServerAddress.Replace("+", machineAddress);
+        }
+    }
+
+    public static class PingServiceTcpShareConfiguration
+    {
+        public const string EndpointName = "PingServiceTcpShare";
+        public const string ServerAddress = "9003";
+
+        public static INodeEndpointProtocolFactory CreateFactory()
+        {
+            return new TcpShareProtocolFactory();
+        }
+
+        public static string CreateClientAddress(string machineAddress)
+        {
+            return machineAddress + ":" + ServerAddress;
         }
     }
 

@@ -99,6 +99,12 @@ namespace NodeService.Protocols
                 catch (FormatException)
                 {
                 }
+
+                if (this.listenedSocket != null)
+                {
+                    this.listenedSocket.Dispose();
+                    this.listenedSocket = null;
+                }
             }
 
             public virtual void Disconnect()
