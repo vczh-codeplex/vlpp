@@ -94,6 +94,9 @@ namespace NodeService.Protocols
                 catch (ObjectDisposedException)
                 {
                 }
+                catch (IOException)
+                {
+                }
             }
 
             public virtual void AddListener(INodeEndpointProtocolRequestListener listener)
@@ -201,6 +204,9 @@ namespace NodeService.Protocols
                             }
                         }
                     }
+                }
+                catch (ObjectDisposedException)
+                {
                 }
                 catch (IOException)
                 {

@@ -21,7 +21,7 @@ namespace NodeService.Protocols
 
         public INodeEndpointProtocolClient CreateClient()
         {
-            throw new NotImplementedException();
+            return new Client(this);
         }
 
         public XElement[] GetFactoryDescription()
