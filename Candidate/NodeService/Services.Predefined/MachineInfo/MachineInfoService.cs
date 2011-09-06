@@ -8,11 +8,12 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using ServiceConfigurations;
 
 namespace MachineInfo
 {
-    [NodeEndpoint(Program.ServiceName)]
-    public class MachineInfoService : StrongTypedNodeEndpoint
+    [NodeEndpoint(MachineInfoServiceConfiguration.EndpointName)]
+    public class MachineInfoService : StrongTypedNodeEndpoint, IMachineInfoService
     {
         public MachineInfoService()
         {

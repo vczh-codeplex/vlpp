@@ -9,23 +9,24 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using ServiceConfigurations;
 
 namespace MachineInfo
 {
     class Program
     {
-        public const string ServiceName = "MachineInfo";
-
         static void Main(string[] args)
         {
-            Console.Title = ServiceName;
+            string serviceName = MachineInfoServiceConfiguration.EndpointName;
+
+            Console.Title = serviceName;
             GuardServiceStarter<MachineInfoService>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName,
-                new HttpProtocolFactory(),
-                "http://+:9010/",
-                Program.ServiceName
+                serviceName,
+                MachineInfoServiceConfiguration.CreateFactory(),
+                MachineInfoServiceConfiguration.ServerAddress,
+                serviceName
                 );
         }
     }

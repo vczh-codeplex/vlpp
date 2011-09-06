@@ -8,29 +8,30 @@ using NodeService;
 using NodeServiceHost.GuardService;
 using NodeService.Protocols;
 using System.IO;
+using ServiceConfigurations;
 
 namespace PingTcp
 {
     class Program
     {
-        public const string ServiceName = "PingServiceTcp";
-
         static void Main(string[] args)
         {
-            Console.Title = ServiceName;
+            string serviceName = PingServiceTcpConfiguration.EndpointName;
+
+            Console.Title = serviceName;
             GuardServiceStarter<PingService>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
-                ServiceName,
-                new TcpProtocolFactory(),
-                "9001",
-                Program.ServiceName
+                serviceName,
+                PingServiceTcpConfiguration.CreateFactory(),
+                PingServiceTcpConfiguration.ServerAddress,
+                serviceName
                 );
         }
     }
 
-    [NodeEndpoint(Program.ServiceName)]
-    public class PingService : StrongTypedNodeEndpoint
+    [NodeEndpoint(PingServiceTcpConfiguration.EndpointName)]
+    public class PingService : StrongTypedNodeEndpoint, IPingService
     {
         public PingService()
         {
@@ -40,7 +41,7 @@ namespace PingTcp
         [NodeEndpointMethod]
         public string Hello(string name)
         {
-            return string.Format("Hi, {0}. I am {1}.", name, Program.ServiceName);
+            return string.Format("Hi, {0}. I am {1}.", name, this.EndpointName);
         }
 
         [NodeEndpointMethod]

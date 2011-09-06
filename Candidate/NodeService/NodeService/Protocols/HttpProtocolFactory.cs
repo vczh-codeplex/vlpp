@@ -312,13 +312,20 @@ namespace NodeService.Protocols
             private bool SendHttpRequest(byte[] body, bool asynchronized, Action<HttpWebRequest, HttpWebResponse, byte[]> callback)
             {
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(address + endpointName + "/");
-                request.UserAgent = "Vczh-NodeService-Http";
-                request.Method = "POST";
-                request.ContentType = "text/html; charset=UTF-8";
-                request.ContentLength = body.Length;
-                Stream requestStream = request.GetRequestStream();
-                requestStream.Write(body, 0, body.Length);
-                requestStream.Close();
+                try
+                {
+                    request.UserAgent = "Vczh-NodeService-Http";
+                    request.Method = "POST";
+                    request.ContentType = "text/html; charset=UTF-8";
+                    request.ContentLength = body.Length;
+                    Stream requestStream = request.GetRequestStream();
+                    requestStream.Write(body, 0, body.Length);
+                    requestStream.Close();
+                }
+                catch (WebException)
+                {
+                    return false;
+                }
 
                 if (asynchronized)
                 {
@@ -366,23 +373,21 @@ namespace NodeService.Protocols
                 Disconnect();
                 this.address = address;
                 this.endpointName = endpointName;
+                this.connected = false;
 
                 byte[] message = null;
-                SendHttpRequest("[CONNECT]".NodeServiceEncode(), false, (a, b, m) => message = m);
-                if (message.NodeServiceDecode() == "[CONNECTED]")
+                if (SendHttpRequest("[CONNECT]".NodeServiceEncode(), false, (a, b, m) => message = m))
                 {
-                    if (this.innerProtocol != null)
+                    if (message.NodeServiceDecode() == "[CONNECTED]")
                     {
-                        this.innerProtocol.OnOuterProtocolConnected();
+                        if (this.innerProtocol != null)
+                        {
+                            this.innerProtocol.OnOuterProtocolConnected();
+                        }
+                        this.connected = true;
                     }
-                    this.connected = true;
-                    return true;
                 }
-                else
-                {
-                    this.connected = false;
-                    return false;
-                }
+                return this.connected;
             }
 
             public void SetOuterProtocol(INodeEndpointProtocolClient protocol)
