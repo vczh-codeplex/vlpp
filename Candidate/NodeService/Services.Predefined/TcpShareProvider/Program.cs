@@ -181,6 +181,20 @@ namespace TcpShareProvider
             this.EnableAsynchronization = true;
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            lock (portListeningThreads)
+            {
+                foreach (var listeningThread in portListeningThreads.Values)
+                {
+                    listeningThread.Thread.Abort();
+                    listeningThread.ServerListener.Disconnect();
+                }
+                portListeningThreads.Clear();
+            }
+        }
+
         [NodeEndpointMethod]
         public void StartListeningPort(int port)
         {

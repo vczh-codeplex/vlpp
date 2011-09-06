@@ -19,7 +19,7 @@ namespace ServiceConfigurations
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return ServerAddress.Replace("+", machineAddress);
+            return ClientAddress.BuildTcpAddress(ServerAddress, machineAddress);
         }
     }
 

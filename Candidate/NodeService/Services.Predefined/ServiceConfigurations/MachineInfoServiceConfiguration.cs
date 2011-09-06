@@ -12,16 +12,16 @@ namespace ServiceConfigurations
     public static class MachineInfoServiceConfiguration
     {
         public const string EndpointName = "MachineInfo";
-        public const string ServerAddress = "http://+:9010/";
+        public const string ServerAddress = "9010";
 
         public static INodeEndpointProtocolFactory CreateFactory()
         {
-            return new HttpProtocolFactory();
+            return new TcpShareProtocolFactory();
         }
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return ServerAddress.Replace("+", machineAddress);
+            return ClientAddress.BuildTcpAddress(ServerAddress, machineAddress);
         }
     }
 
