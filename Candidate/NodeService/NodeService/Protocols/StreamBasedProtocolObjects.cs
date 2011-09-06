@@ -129,9 +129,9 @@ namespace NodeService.Protocols
                 Write(message);
             }
 
-            private void Write(byte[] message)
+            public static byte[] InstallLeadBytes(byte[] message)
             {
-                byte[] lead = new byte[sizeof(int)];
+                byte[] lead = new byte[sizeof(int) + message.Length];
                 int length = message.Length;
                 unsafe
                 {
@@ -141,9 +141,38 @@ namespace NodeService.Protocols
                         lead[i] = plead[i];
                     }
                 }
+                Array.Copy(message, 0, lead, sizeof(int), message.Length);
+                return lead;
+            }
+
+            public static byte[] UninstallLeadBytes(byte[] leadBytes, Stream readingStream)
+            {
+                int leadLength = 0;
+                unsafe
+                {
+                    fixed (byte* plead = leadBytes)
+                    {
+                        leadLength = *(int*)plead;
+                    }
+                }
+                byte[] bytes = new byte[leadLength];
+                int messageLength = readingStream.Read(bytes, 0, bytes.Length);
+                if (messageLength == leadLength)
+                {
+                    return bytes;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            private void Write(byte[] message)
+            {
                 try
                 {
-                    this.Stream.Write(lead.Concat(message).ToArray(), 0, lead.Length + length);
+                    byte[] installed = InstallLeadBytes(message);
+                    this.Stream.Write(installed, 0, installed.Length);
                     this.Stream.Flush();
                 }
                 catch (IOException)
@@ -159,16 +188,8 @@ namespace NodeService.Protocols
                     int leadLength = this.Stream.EndRead(asyncResult);
                     if (leadLength == lead.Length)
                     {
-                        unsafe
-                        {
-                            fixed (byte* plead = lead)
-                            {
-                                leadLength = *(int*)plead;
-                            }
-                        }
-                        byte[] bytes = new byte[leadLength];
-                        int messageLength = this.Stream.Read(bytes, 0, bytes.Length);
-                        if (messageLength == leadLength)
+                        byte[] bytes = UninstallLeadBytes(lead, this.Stream);
+                        if (bytes != null)
                         {
                             StreamProtocolRequest<StreamType> request = new StreamProtocolRequest<StreamType>(this, bytes);
                             lock (this.listeners)

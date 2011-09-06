@@ -141,6 +141,16 @@ namespace NodeServiceGuard.ServiceReflectoring
                     return result;
                 }
             }
+            else if (this.outestFactory is TcpShareProtocolFactory)
+            {
+                foreach (var ip in Dns.GetHostAddresses(host))
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return ip.ToString() + ":" + this.protocolAddress;
+                    }
+                }
+            }
             return "";
         }
 
@@ -202,6 +212,14 @@ namespace NodeServiceGuard.ServiceReflectoring
                             throw new ArgumentException(factoryName + " should be the outest protocol.");
                         }
                         return new HttpProtocolFactory();
+                    }
+                case "TcpShareProtocolFactory":
+                    {
+                        if (previousFactory != null)
+                        {
+                            throw new ArgumentException(factoryName + " should be the outest protocol.");
+                        }
+                        return new TcpShareProtocolFactory();
                     }
                 case "TranslatorProtocolFactory":
                     {

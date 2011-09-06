@@ -68,6 +68,7 @@
     <Compile Include="NodeEndpointProtocolFactoryExtension.cs" />
     <Compile Include="Protocols\TcpProtocolFactory.cs" />
     <Compile Include="Protocols\StreamBasedProtocolObjects.cs" />
+    <Compile Include="Protocols\TcpShareProtocolFactory.cs" />
     <Compile Include="Protocols\TranslatorProtocolFactory.cs" />
     <Compile Include="Providers\ProtocolEnabledClientProvider.cs" />
     <Compile Include="Providers\ProtocolEnabledHelper.cs" />
