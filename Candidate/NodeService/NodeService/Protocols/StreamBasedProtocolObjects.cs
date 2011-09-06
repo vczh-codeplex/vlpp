@@ -159,8 +159,23 @@ namespace NodeService.Protocols
                     }
                 }
                 byte[] bytes = new byte[leadLength];
-                int messageLength = readingStream.Read(bytes, 0, bytes.Length);
-                if (messageLength == leadLength)
+                int readLength = 0;
+                int remainLength = bytes.Length;
+                while (true)
+                {
+                    int currentLength = readingStream.Read(bytes, readLength, remainLength);
+                    if (currentLength == 0)
+                    {
+                        break;
+                    }
+                    readLength += currentLength;
+                    remainLength -= currentLength;
+                    if (remainLength == 0)
+                    {
+                        break;
+                    }
+                }
+                if (readLength == leadLength)
                 {
                     return bytes;
                 }

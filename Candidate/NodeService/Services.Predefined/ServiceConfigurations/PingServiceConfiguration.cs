@@ -29,7 +29,7 @@ namespace ServiceConfigurations
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return machineAddress + "/" + ServerAddress;
+            return ClientAddress.BuildNamedPipeAddress(ServerAddress, machineAddress);
         }
     }
 
@@ -45,7 +45,7 @@ namespace ServiceConfigurations
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return machineAddress + ":" + ServerAddress;
+            return ClientAddress.BuildTcpAddress(ServerAddress, machineAddress);
         }
     }
 
@@ -61,7 +61,7 @@ namespace ServiceConfigurations
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return ServerAddress.Replace("+", machineAddress);
+            return ClientAddress.BuildHttpAddress(ServerAddress, machineAddress);
         }
     }
 
@@ -77,7 +77,7 @@ namespace ServiceConfigurations
 
         public static string CreateClientAddress(string machineAddress)
         {
-            return machineAddress + ":" + ServerAddress;
+            return ClientAddress.BuildTcpAddress(ServerAddress, machineAddress);
         }
     }
 
