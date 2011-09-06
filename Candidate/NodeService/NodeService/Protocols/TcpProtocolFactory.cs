@@ -46,21 +46,21 @@ namespace NodeService.Protocols
             };
         }
 
-        class ServerListener : INodeEndpointProtocolServerListener
+        internal class ServerListener : INodeEndpointProtocolServerListener
         {
-            private TcpProtocolFactory factory;
+            private INodeEndpointProtocolFactory factory;
             private Socket listenedSocket = null;
             private AddressFamily addressFamily;
             private ProtocolType protocolType;
 
-            public ServerListener(AddressFamily addressFamily, ProtocolType protocolType, TcpProtocolFactory factory)
+            public ServerListener(AddressFamily addressFamily, ProtocolType protocolType, INodeEndpointProtocolFactory factory)
             {
                 this.addressFamily = addressFamily;
                 this.protocolType = protocolType;
                 this.factory = factory;
             }
 
-            public bool Connected
+            public virtual bool Connected
             {
                 get
                 {
@@ -68,7 +68,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public INodeEndpointProtocolFactory Factory
+            public virtual INodeEndpointProtocolFactory Factory
             {
                 get
                 {
@@ -76,7 +76,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public void Connect(string address, string endpointName)
+            public virtual void Connect(string address, string endpointName)
             {
                 if (this.Connected)
                 {
@@ -84,9 +84,9 @@ namespace NodeService.Protocols
                 }
                 this.listenedSocket = new Socket(this.addressFamily, SocketType.Stream, this.protocolType);
 
-                IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, int.Parse(address));
                 try
                 {
+                    IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, int.Parse(address));
                     this.listenedSocket.Bind(endpoint);
                     return;
                 }
@@ -96,9 +96,12 @@ namespace NodeService.Protocols
                 catch (SecurityException)
                 {
                 }
+                catch (FormatException)
+                {
+                }
             }
 
-            public void Disconnect()
+            public virtual void Disconnect()
             {
                 if (this.listenedSocket != null)
                 {
@@ -108,7 +111,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public INodeEndpointProtocolServer Listen(int timeout)
+            public virtual INodeEndpointProtocolServer Listen(int timeout)
             {
                 try
                 {
@@ -123,11 +126,11 @@ namespace NodeService.Protocols
             }
         }
 
-        class Server : StreamServerProtocol<NetworkStream>
+        internal class Server : StreamServerProtocol<NetworkStream>
         {
             private Socket acceptedSocket;
 
-            public Server(Socket acceptedSocket, ServerListener serverListener)
+            public Server(Socket acceptedSocket, INodeEndpointProtocolServerListener serverListener)
                 : base(serverListener)
             {
                 this.acceptedSocket = acceptedSocket;
@@ -154,13 +157,13 @@ namespace NodeService.Protocols
             }
         }
 
-        class Client : StreamClientProtocol<NetworkStream>
+        internal class Client : StreamClientProtocol<NetworkStream>
         {
             private Socket connectedSocket;
             private AddressFamily addressFamily;
             private ProtocolType protocolType;
 
-            public Client(AddressFamily addressFamily, ProtocolType protocolType, TcpProtocolFactory factory)
+            public Client(AddressFamily addressFamily, ProtocolType protocolType, INodeEndpointProtocolFactory factory)
                 : base(factory)
             {
                 this.addressFamily = addressFamily;

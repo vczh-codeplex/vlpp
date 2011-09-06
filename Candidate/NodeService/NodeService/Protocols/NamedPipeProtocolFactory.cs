@@ -30,17 +30,17 @@ namespace NodeService.Protocols
             };
         }
 
-        class ServerListener : INodeEndpointProtocolServerListener
+        internal class ServerListener : INodeEndpointProtocolServerListener
         {
-            private NamedPipeProtocolFactory factory;
+            private INodeEndpointProtocolFactory factory;
             private string pipeName;
 
-            public ServerListener(NamedPipeProtocolFactory factory)
+            public ServerListener(INodeEndpointProtocolFactory factory)
             {
                 this.factory = factory;
             }
 
-            public bool Connected
+            public virtual bool Connected
             {
                 get
                 {
@@ -48,7 +48,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public INodeEndpointProtocolFactory Factory
+            public virtual INodeEndpointProtocolFactory Factory
             {
                 get
                 {
@@ -56,7 +56,7 @@ namespace NodeService.Protocols
                 }
             }
 
-            public void Connect(string address, string endpointName)
+            public virtual void Connect(string address, string endpointName)
             {
                 if (this.Connected)
                 {
@@ -65,12 +65,12 @@ namespace NodeService.Protocols
                 this.pipeName = address + "/" + endpointName;
             }
 
-            public void Disconnect()
+            public virtual void Disconnect()
             {
                 this.pipeName = null;
             }
 
-            public INodeEndpointProtocolServer Listen(int timeout)
+            public virtual INodeEndpointProtocolServer Listen(int timeout)
             {
                 NamedPipeServerStream serverStream = new NamedPipeServerStream(
                     this.pipeName,
@@ -101,9 +101,9 @@ namespace NodeService.Protocols
             }
         }
 
-        class Server : StreamServerProtocol<NamedPipeServerStream>
+        internal class Server : StreamServerProtocol<NamedPipeServerStream>
         {
-            public Server(NamedPipeServerStream stream, ServerListener serverListener)
+            public Server(NamedPipeServerStream stream, INodeEndpointProtocolServerListener serverListener)
                 : base(serverListener)
             {
                 this.Stream = stream;
@@ -118,9 +118,9 @@ namespace NodeService.Protocols
             }
         }
 
-        class Client : StreamClientProtocol<NamedPipeClientStream>
+        internal class Client : StreamClientProtocol<NamedPipeClientStream>
         {
-            public Client(NamedPipeProtocolFactory factory)
+            public Client(INodeEndpointProtocolFactory factory)
                 : base(factory)
             {
             }
