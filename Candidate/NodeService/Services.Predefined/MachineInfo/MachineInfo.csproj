@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MachineInfoDataTypes.cs" />
     <Compile Include="MachineInfoService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +61,10 @@
     <ProjectReference Include="..\..\NodeService\NodeService.csproj">
       <Project>{62C0BACC-8486-4421-8DF7-E296E5E383FF}</Project>
       <Name>NodeService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceConfigurations\ServiceConfigurations.csproj">
+      <Project>{DC761586-A9DD-4C4D-B073-041CFDB92E25}</Project>
+      <Name>ServiceConfigurations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

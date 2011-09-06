@@ -11,20 +11,21 @@ using System.IO;
 using NodeService;
 using NodeService.Protocols;
 using System.Threading;
+using ServiceConfigurations;
 
 namespace ScreenController
 {
     public partial class MainForm : Form
     {
         private INodeEndpointProtocolFactory protocolFactory;
-        private IMachineInfoService machineInfoService;
+        private IMachineInfoServiceClient machineInfoService;
         private Bitmap screen = null;
         private ScreenInfo screenInfo = null;
         private Thread screenRefresher = null;
 
         public MainForm()
         {
-            this.protocolFactory = new HttpProtocolFactory();
+            this.protocolFactory = MachineInfoServiceConfiguration.CreateFactory();
             InitializeComponent();
         }
 
@@ -157,7 +158,11 @@ namespace ScreenController
         private void buttonConnect_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            var service = protocolFactory.WaitForClient<IMachineInfoService>("http://" + textBoxMachineName.Text + ":9010/", "MachineInfo");
+            var service = protocolFactory.WaitForClient<IMachineInfoServiceClient>(
+                MachineInfoServiceConfiguration.CreateClientAddress(textBoxMachineName.Text),
+                MachineInfoServiceConfiguration.EndpointName
+                );
+
             if (service != null)
             {
                 if (this.machineInfoService != null)
@@ -186,47 +191,5 @@ namespace ScreenController
             this.screenRefresher.Abort();
             this.screenRefresher.Join();
         }
-    }
-
-    public interface IMachineInfoService : INodeEndpointClient
-    {
-        int GetScreenCount();
-        ScreenInfo GetScreenInfo(int index);
-        Stream GetScreenImage(int index);
-        void MouseMove(int x, int y);
-        void MouseEvent(string operation, int data);
-        void KeyEvent(byte key, bool down);
-    }
-
-    [NodeEndpointDataType]
-    public class ScreenBounds
-    {
-        [NodeEndpointDataMember]
-        public int Left { get; set; }
-
-        [NodeEndpointDataMember]
-        public int Top { get; set; }
-
-        [NodeEndpointDataMember]
-        public int Width { get; set; }
-
-        [NodeEndpointDataMember]
-        public int Height { get; set; }
-    }
-
-    [NodeEndpointDataType]
-    public class ScreenInfo
-    {
-        [NodeEndpointDataMember]
-        public string DeviceName { get; set; }
-
-        [NodeEndpointDataMember]
-        public bool IsPrimary { get; set; }
-
-        [NodeEndpointDataMember]
-        public ScreenBounds Bounds { get; set; }
-
-        [NodeEndpointDataMember]
-        public ScreenBounds WorkingArea { get; set; }
     }
 }

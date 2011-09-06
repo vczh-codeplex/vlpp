@@ -57,9 +57,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services.ClientApplications
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenController", "Services.ClientApplications\ScreenController\ScreenController.csproj", "{9658761C-B9DD-4DB2-B1A6-5EE367589C5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceConfigurations", "Services.Predefined\ServiceConfigurations\ServiceConfigurations.csproj", "{DC761586-A9DD-4C4D-B073-041CFDB92E25}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 18
+		SccNumberOfProjects = 19
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -126,6 +128,10 @@ Global
 		SccProjectTopLevelParentUniqueName17 = NodeService.sln
 		SccProjectName17 = Services.ClientApplications/ScreenController
 		SccLocalPath17 = Services.ClientApplications\\ScreenController
+		SccProjectUniqueName18 = Services.Predefined\\ServiceConfigurations\\ServiceConfigurations.csproj
+		SccProjectTopLevelParentUniqueName18 = NodeService.sln
+		SccProjectName18 = Services.Predefined/ServiceConfigurations
+		SccLocalPath18 = Services.Predefined\\ServiceConfigurations
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -309,6 +315,16 @@ Global
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D}.Release|x86.ActiveCfg = Release|x86
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D}.Release|x86.Build.0 = Release|x86
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -325,6 +341,7 @@ Global
 		{16BEB928-49ED-4CF8-A41D-5795B9137C48} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{42B2EBD4-6F6A-482C-9430-79CEACD43DD8} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{B842CDD0-B75C-4A73-AA81-9B1BA4DF3677} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{DC761586-A9DD-4C4D-B073-041CFDB92E25} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D} = {BC97FA28-6C77-4FF8-AC44-A3A8E67AC736}
 	EndGlobalSection
 EndGlobal
