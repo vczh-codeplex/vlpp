@@ -168,8 +168,8 @@ namespace NodeServiceGuard
             }
             else
             {
-                listViewServiceInformation.SelectedIndices.Clear();
-                listViewServiceInformation.SelectedIndices.Add(selectedItem.Index);
+                listViewServices.SelectedIndices.Clear();
+                listViewServices.SelectedIndices.Add(selectedItem.Index);
             }
             UpdateServiceProperties();
         }

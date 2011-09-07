@@ -49,14 +49,24 @@ namespace NodeServiceHost.GuardService
         {
             ManualResetEvent exitEvent = new ManualResetEvent(false);
             var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set(), callback);
-            guardService.Register(new GuardedServiceDescription()
+            try
             {
-                ExecutablePath = executablePath,
-                Arguments = arguments,
-                Name = name,
-            });
-            Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
-            exitEvent.WaitOne();
+                guardService.Register(new GuardedServiceDescription()
+                {
+                    ExecutablePath = executablePath,
+                    Arguments = arguments,
+                    Name = name,
+                });
+                Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
+                exitEvent.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Press [ENTER] to stop.");
+                Console.ReadLine();
+            }
+            exitEvent.Close();
         }
     }
 
@@ -161,14 +171,24 @@ namespace NodeServiceHost.GuardService
         {
             ManualResetEvent exitEvent = new ManualResetEvent(false);
             var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set());
-            guardService.Register(new GuardedServiceDescription()
+            try
             {
-                ExecutablePath = executablePath,
-                Arguments = arguments,
-                Name = name,
-            });
-            Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
-            exitEvent.WaitOne();
+                guardService.Register(new GuardedServiceDescription()
+                {
+                    ExecutablePath = executablePath,
+                    Arguments = arguments,
+                    Name = name,
+                });
+                Console.WriteLine("Server started. To close this server, use NodeServiceGuard.exe.");
+                exitEvent.WaitOne();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Press [ENTER] to stop.");
+                Console.ReadLine();
+            }
+            exitEvent.Close();
         }
     }
 }

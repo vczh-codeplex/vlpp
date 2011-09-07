@@ -212,6 +212,26 @@ namespace NodeServiceHost.GuardService
         {
             lock (this.guardedServices)
             {
+                bool nameConflict = false;
+                bool pathConflict = false;
+                foreach (var s in this.guardedServices.Values)
+                {
+                    nameConflict |= s.Description.Name == description.Name;
+                    pathConflict |= s.Description.ExecutablePath == description.ExecutablePath && s.Description.Arguments == description.Arguments;
+                    if (nameConflict || pathConflict)
+                    {
+                        break;
+                    }
+                }
+                if (nameConflict)
+                {
+                    throw new InvalidOperationException("A service that has the same name is already registered.");
+                }
+                if (pathConflict)
+                {
+                    throw new InvalidOperationException("A service that has the same path and argument is already registered.");
+                }
+
                 Guid token = Guid.NewGuid();
                 ServiceData serviceData = new ServiceData()
                 {
