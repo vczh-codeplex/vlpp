@@ -38,13 +38,19 @@ namespace ConfigurationStorage
         public IConfigurationStorageCallbackClient Callback { get; set; }
 
         [NodeEndpointMethod]
-        public void SetConfig(string applicationName, string configuration)
+        public void ConnectConfig(string applicationName)
         {
             throw new NotImplementedException();
         }
 
         [NodeEndpointMethod]
-        public string GetConfig(string applicationName)
+        public void SetConfig(string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        [NodeEndpointMethod]
+        public string GetConfig(string content)
         {
             throw new NotImplementedException();
         }

@@ -25,8 +25,9 @@ namespace ServiceConfigurations
 
     public interface IConfigurationStorageService
     {
-        void SetConfig(string applicationName, string configuration);
-        string GetConfig(string applicationName);
+        void ConnectConfig(string applicationName);
+        void SetConfig(string content);
+        string GetConfig(string content);
     }
 
     public interface IConfigurationStorageCallback
