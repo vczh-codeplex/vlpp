@@ -65,9 +65,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpShareProvider", "Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingTcpShare", "Services.Predefined\PingTcpShare\PingTcpShare.csproj", "{AFEB7240-B2BA-46B4-8863-C0FD359997B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryStorage", "Services.Predefined\MemoryStorage\MemoryStorage.csproj", "{684204B7-F126-4193-800B-13F301824460}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskStorage", "Services.Predefined\DiskStorage\DiskStorage.csproj", "{214746EE-4DB3-4FD4-9801-3A80173DD88C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationStorage", "ConfigurationStorage\ConfigurationStorage.csproj", "{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 21
+		SccNumberOfProjects = 24
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -146,6 +152,18 @@ Global
 		SccProjectTopLevelParentUniqueName20 = NodeService.sln
 		SccProjectName20 = Services.Predefined/PingTcpShare
 		SccLocalPath20 = Services.Predefined\\PingTcpShare
+		SccProjectUniqueName21 = Services.Predefined\\MemoryStorage\\MemoryStorage.csproj
+		SccProjectTopLevelParentUniqueName21 = NodeService.sln
+		SccProjectName21 = Services.Predefined/MemoryStorage
+		SccLocalPath21 = Services.Predefined\\MemoryStorage
+		SccProjectUniqueName22 = Services.Predefined\\DiskStorage\\DiskStorage.csproj
+		SccProjectTopLevelParentUniqueName22 = NodeService.sln
+		SccProjectName22 = Services.Predefined/DiskStorage
+		SccLocalPath22 = Services.Predefined\\DiskStorage
+		SccProjectUniqueName23 = ConfigurationStorage\\ConfigurationStorage.csproj
+		SccProjectTopLevelParentUniqueName23 = NodeService.sln
+		SccProjectName23 = ConfigurationStorage
+		SccLocalPath23 = ConfigurationStorage
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -359,6 +377,36 @@ Global
 		{AFEB7240-B2BA-46B4-8863-C0FD359997B2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{AFEB7240-B2BA-46B4-8863-C0FD359997B2}.Release|x86.ActiveCfg = Release|x86
 		{AFEB7240-B2BA-46B4-8863-C0FD359997B2}.Release|x86.Build.0 = Release|x86
+		{684204B7-F126-4193-800B-13F301824460}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{684204B7-F126-4193-800B-13F301824460}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{684204B7-F126-4193-800B-13F301824460}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{684204B7-F126-4193-800B-13F301824460}.Debug|x86.ActiveCfg = Debug|x86
+		{684204B7-F126-4193-800B-13F301824460}.Debug|x86.Build.0 = Debug|x86
+		{684204B7-F126-4193-800B-13F301824460}.Release|Any CPU.ActiveCfg = Release|x86
+		{684204B7-F126-4193-800B-13F301824460}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{684204B7-F126-4193-800B-13F301824460}.Release|Mixed Platforms.Build.0 = Release|x86
+		{684204B7-F126-4193-800B-13F301824460}.Release|x86.ActiveCfg = Release|x86
+		{684204B7-F126-4193-800B-13F301824460}.Release|x86.Build.0 = Release|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Debug|x86.ActiveCfg = Debug|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Debug|x86.Build.0 = Debug|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Release|Any CPU.ActiveCfg = Release|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Release|x86.ActiveCfg = Release|x86
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C}.Release|x86.Build.0 = Release|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Debug|x86.ActiveCfg = Debug|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Debug|x86.Build.0 = Debug|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|Any CPU.ActiveCfg = Release|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|x86.ActiveCfg = Release|x86
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -382,6 +430,9 @@ Global
 		{DC761586-A9DD-4C4D-B073-041CFDB92E25} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{AAA6E0A8-248A-43A0-A165-5A73ECD8F4FB} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{AFEB7240-B2BA-46B4-8863-C0FD359997B2} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{684204B7-F126-4193-800B-13F301824460} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{214746EE-4DB3-4FD4-9801-3A80173DD88C} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D} = {BC97FA28-6C77-4FF8-AC44-A3A8E67AC736}
 	EndGlobalSection
 EndGlobal
