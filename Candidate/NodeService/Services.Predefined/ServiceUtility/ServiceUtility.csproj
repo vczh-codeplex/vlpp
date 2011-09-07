@@ -2,24 +2,22 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{214746EE-4DB3-4FD4-9801-3A80173DD88C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{B437391B-D204-4E6E-910B-754987A87EE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DiskStorage</RootNamespace>
-    <AssemblyName>DiskStorage</AssemblyName>
+    <RootNamespace>ServiceUtility</RootNamespace>
+    <AssemblyName>ServiceUtility</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,8 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,25 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="KeyPathGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NodeServiceHost\NodeServiceHost.csproj">
-      <Project>{2943196F-EBC2-4ED4-AD91-5DD2D172AC84}</Project>
-      <Name>NodeServiceHost</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NodeService\NodeService.csproj">
       <Project>{62C0BACC-8486-4421-8DF7-E296E5E383FF}</Project>
       <Name>NodeService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceConfigurations\ServiceConfigurations.csproj">
-      <Project>{DC761586-A9DD-4C4D-B073-041CFDB92E25}</Project>
-      <Name>ServiceConfigurations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceUtility\ServiceUtility.csproj">
-      <Project>{B437391B-D204-4E6E-910B-754987A87EE9}</Project>
-      <Name>ServiceUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
