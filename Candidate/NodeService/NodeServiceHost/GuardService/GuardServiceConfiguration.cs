@@ -19,7 +19,64 @@ namespace NodeServiceHost.GuardService
         }
     }
 
-    public static class GuardServiceStarter<TService, TCallback>
+    public class GuardServiceStarterServerCallback<TService> : INodeEndpointServerCallback<TService>
+        where TService : INodeEndpoint, new()
+    {
+        private INodeEndpointProtocolFactory protocolFactory;
+        private string protocolAddress;
+        private string endpointName;
+
+        public GuardServiceStarterServerCallback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public GuardServiceStarterServerCallback(INodeEndpointProtocolFactory protocolFactory, string protocolAddress, string endpointName)
+        {
+            this.protocolFactory = protocolFactory;
+            this.protocolAddress = protocolAddress;
+            this.endpointName = endpointName;
+        }
+
+        public INodeEndpointProtocolFactory ProtocolFactory
+        {
+            get
+            {
+                return this.protocolFactory;
+            }
+        }
+
+        public string ProtocolAddress
+        {
+            get
+            {
+                return this.protocolAddress;
+            }
+        }
+
+        public string EndpointName
+        {
+            get
+            {
+                return this.endpointName;
+            }
+        }
+
+        public TService CreateEndpoint()
+        {
+            return new TService();
+        }
+
+        public void OnEndpointStart(TService endpoint, INodeEndpointProtocolServer protocolServer)
+        {
+        }
+
+        public void OnEndpointStopped(TService endpoint, INodeEndpointProtocolServer protocolServer)
+        {
+        }
+    }
+
+    public static class GuardServiceStarterInternal<TService, TCallback>
         where TService : INodeEndpoint
         where TCallback : INodeEndpointServerCallback<TService>, new()
     {
@@ -70,77 +127,7 @@ namespace NodeServiceHost.GuardService
         }
     }
 
-    public static class GuardServiceStarter<TService>
-        where TService : INodeEndpoint, new()
-    {
-        public class ServerCallback : INodeEndpointServerCallback<TService>
-        {
-            private INodeEndpointProtocolFactory protocolFactory;
-            private string protocolAddress;
-            private string endpointName;
-
-            public ServerCallback()
-            {
-                throw new NotSupportedException();
-            }
-
-            public ServerCallback(INodeEndpointProtocolFactory protocolFactory, string protocolAddress, string endpointName)
-            {
-                this.protocolFactory = protocolFactory;
-                this.protocolAddress = protocolAddress;
-                this.endpointName = endpointName;
-            }
-
-            public INodeEndpointProtocolFactory ProtocolFactory
-            {
-                get
-                {
-                    return this.protocolFactory;
-                }
-            }
-
-            public string ProtocolAddress
-            {
-                get
-                {
-                    return this.protocolAddress;
-                }
-            }
-
-            public string EndpointName
-            {
-                get
-                {
-                    return this.endpointName;
-                }
-            }
-
-            public TService CreateEndpoint()
-            {
-                return new TService();
-            }
-
-            public void OnEndpointStart(TService endpoint, INodeEndpointProtocolServer protocolServer)
-            {
-            }
-
-            public void OnEndpointStopped(TService endpoint, INodeEndpointProtocolServer protocolServer)
-            {
-            }
-        }
-
-        public static void LaunchService(string executablePath, string arguments, string name, INodeEndpointProtocolFactory protocolFactory, string protocolAddress, string endpointName)
-        {
-            GuardServiceStarter<TService, ServerCallback>.LaunchService(
-                executablePath,
-                arguments,
-                name,
-                new ServerCallback(protocolFactory, protocolAddress, endpointName)
-                );
-        }
-    }
-
-    public static class DuplexGuardServiceStarter<TDuplexService, TDuplexCallback, TCallback>
+    public static class DuplexGuardServiceStarterInternal<TDuplexService, TDuplexCallback, TCallback>
         where TDuplexService : IDuplexNodeEndpoint<TDuplexCallback>
         where TDuplexCallback : INodeEndpointClient
         where TCallback : INodeEndpointServerCallback<TDuplexService>, new()
@@ -149,9 +136,9 @@ namespace NodeServiceHost.GuardService
         {
         }
 
-        public static IGuardService ConnectGuardServiceFacade(Action<INodeEndpointServer<TDuplexService>> startEventHandler, Action stopEventHandler)
+        public static IGuardService ConnectGuardServiceFacade(Action<INodeEndpointServer<TDuplexService>> startEventHandler, Action stopEventHandler, TCallback callback)
         {
-            var serverCallback = new TCallback();
+            var serverCallback = object.ReferenceEquals(callback, default(TCallback)) ? new TCallback() : callback;
             var guardServiceCallback = new DuplexNodeEndpointGuardServiceCallback<TDuplexService, TDuplexCallback>(serverCallback);
             guardServiceCallback.StartEventHandler = startEventHandler;
             guardServiceCallback.StopEventHandler = stopEventHandler;
@@ -167,10 +154,10 @@ namespace NodeServiceHost.GuardService
             return guardService;
         }
 
-        public static void LaunchService(string executablePath, string arguments, string name)
+        public static void LaunchService(string executablePath, string arguments, string name, TCallback callback = default(TCallback))
         {
             ManualResetEvent exitEvent = new ManualResetEvent(false);
-            var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set());
+            var guardService = ConnectGuardServiceFacade((s) => { }, () => exitEvent.Set(), callback);
             try
             {
                 guardService.Register(new GuardedServiceDescription()
@@ -189,6 +176,35 @@ namespace NodeServiceHost.GuardService
                 Console.ReadLine();
             }
             exitEvent.Close();
+        }
+    }
+
+    public static class GuardServiceStarter<TService>
+        where TService : INodeEndpoint, new()
+    {
+        public static void LaunchService(string executablePath, string arguments, string name, INodeEndpointProtocolFactory protocolFactory, string protocolAddress, string endpointName)
+        {
+            GuardServiceStarterInternal<TService, GuardServiceStarterServerCallback<TService>>.LaunchService(
+                executablePath,
+                arguments,
+                name,
+                new GuardServiceStarterServerCallback<TService>(protocolFactory, protocolAddress, endpointName)
+                );
+        }
+    }
+
+    public static class DuplexGuardServiceStarter<TService, TCallback>
+        where TService : IDuplexNodeEndpoint<TCallback>, new()
+        where TCallback : INodeEndpointClient
+    {
+        public static void LaunchService(string executablePath, string arguments, string name, INodeEndpointProtocolFactory protocolFactory, string protocolAddress, string endpointName)
+        {
+            DuplexGuardServiceStarterInternal<TService, TCallback, GuardServiceStarterServerCallback<TService>>.LaunchService(
+                executablePath,
+                arguments,
+                name,
+                new GuardServiceStarterServerCallback<TService>(protocolFactory, protocolAddress, endpointName)
+                );
         }
     }
 }

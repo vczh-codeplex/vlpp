@@ -16,7 +16,7 @@ namespace ExpressionService
         static void Main(string[] args)
         {
             Console.Title = ExpressionServiceConfiguration.EndpointName;
-            GuardServiceStarter<ExpressionService, ExpressionServiceEndpointServerCallback>.LaunchService(
+            GuardServiceStarterInternal<ExpressionService, ExpressionServiceEndpointServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
                 ExpressionServiceConfiguration.EndpointName
