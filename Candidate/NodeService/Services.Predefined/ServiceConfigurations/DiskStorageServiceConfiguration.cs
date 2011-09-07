@@ -27,6 +27,7 @@ namespace ServiceConfigurations
     {
         void SetCache(string applicationName, string[] keyPath, string content, bool exceptionIfNotExists);
         string GetCache(string applicationName, string[] keyPath, bool exceptionIfNotExists);
+        string GetCacheFullPath(string applicationName, string[] keyPath, bool exceptionIfNotExists);
         bool IsCacheExists(string applicationName, string[] keyPath);
         string[][] GetKeyPaths(string applicationName);
     }

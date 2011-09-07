@@ -112,6 +112,20 @@ namespace DiskStorage
         [NodeEndpointMethod]
         public string GetCache(string applicationName, string[] keyPath, bool exceptionIfNotExists)
         {
+            string fullPath = GetCacheFullPath(applicationName, keyPath, exceptionIfNotExists);
+            if (fullPath != "")
+            {
+                return File.ReadAllText(fullPath);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        [NodeEndpointMethod]
+        public string GetCacheFullPath(string applicationName, string[] keyPath, bool exceptionIfNotExists)
+        {
             string[] keys = new string[] { applicationName }.Concat(keyPath).ToArray();
             string[] hexs = keys.Select(k => KeyPathGenerator.GenerateKey(k)).ToArray();
             lock (indexXml)
@@ -143,11 +157,11 @@ namespace DiskStorage
                 }
 
                 string guid = contentElement.Value;
-                return File.ReadAllText(GetDataFile(guid));
+                return GetDataFile(guid);
             }
         }
-        [NodeEndpointMethod]
 
+        [NodeEndpointMethod]
         public bool IsCacheExists(string applicationName, string[] keyPath)
         {
             string[] keys = new string[] { applicationName }.Concat(keyPath).ToArray();
