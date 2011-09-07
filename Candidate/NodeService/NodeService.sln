@@ -71,9 +71,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskStorage", "Services.Pre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationStorage", "ConfigurationStorage\ConfigurationStorage.csproj", "{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceUtility", "Services.Predefined\ServiceUtility\ServiceUtility.csproj", "{B437391B-D204-4E6E-910B-754987A87EE9}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 25
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -164,6 +166,10 @@ Global
 		SccProjectTopLevelParentUniqueName23 = NodeService.sln
 		SccProjectName23 = ConfigurationStorage
 		SccLocalPath23 = ConfigurationStorage
+		SccProjectUniqueName24 = Services.Predefined\\ServiceUtility\\ServiceUtility.csproj
+		SccProjectTopLevelParentUniqueName24 = NodeService.sln
+		SccProjectName24 = Services.Predefined/ServiceUtility
+		SccLocalPath24 = Services.Predefined\\ServiceUtility
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NodeService.vsmdi
@@ -407,6 +413,16 @@ Global
 		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|Mixed Platforms.Build.0 = Release|x86
 		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|x86.ActiveCfg = Release|x86
 		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6}.Release|x86.Build.0 = Release|x86
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B437391B-D204-4E6E-910B-754987A87EE9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -433,6 +449,7 @@ Global
 		{684204B7-F126-4193-800B-13F301824460} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{214746EE-4DB3-4FD4-9801-3A80173DD88C} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{59DDA73D-8EFA-4419-B024-4C0D6BA628E6} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
+		{B437391B-D204-4E6E-910B-754987A87EE9} = {DB330BA7-6A82-4FF4-94C0-0E6D79D708CC}
 		{9658761C-B9DD-4DB2-B1A6-5EE367589C5D} = {BC97FA28-6C77-4FF8-AC44-A3A8E67AC736}
 	EndGlobalSection
 EndGlobal

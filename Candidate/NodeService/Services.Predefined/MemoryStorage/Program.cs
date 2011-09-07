@@ -6,6 +6,7 @@ using ServiceConfigurations;
 using NodeServiceHost.GuardService;
 using NodeService.Endpoints;
 using NodeService;
+using ServiceUtility;
 
 namespace MemoryStorage
 {
@@ -30,8 +31,6 @@ namespace MemoryStorage
     [NodeEndpoint(MemoryStorageServiceConfiguration.EndpointName)]
     public class MemoryStorageServive : StrongTypedNodeEndpoint, IMemoryStorage
     {
-        private static char[] HexTable = "0123456789ABCDEF".ToCharArray();
-
         private class StorageContent
         {
             public string[] KeyPath { get; set; }
@@ -39,27 +38,6 @@ namespace MemoryStorage
         }
 
         private static Dictionary<string, Dictionary<string, StorageContent>> storages = new Dictionary<string, Dictionary<string, StorageContent>>();
-
-        private static string GenerateKey(string[] keyPath)
-        {
-            byte[][] bytes = keyPath.Select(s => s.NodeServiceEncode()).ToArray();
-            int totalLength = bytes.Sum(b => b.Length) * 2 + bytes.Length + 1;
-            char[] chars = new char[totalLength];
-            chars[0] = '|';
-            int currentPosition = 1;
-            foreach (var fragment in bytes)
-            {
-                for (int i = 0; i < fragment.Length; i++)
-                {
-                    byte b = fragment[i];
-                    chars[currentPosition + i * 2] = HexTable[b / 16];
-                    chars[currentPosition + i * 2 + 1] = HexTable[b % 16];
-                }
-                chars[currentPosition + bytes.Length * 2] = '|';
-                int nextPosition = currentPosition + fragment.Length * 2 + 1;
-            }
-            return new string(chars);
-        }
 
         public MemoryStorageServive()
         {
@@ -69,7 +47,7 @@ namespace MemoryStorage
         [NodeEndpointMethod]
         public void SetCache(string applicationName, string[] keyPath, string content, bool exceptionIfNotExists)
         {
-            string key = GenerateKey(keyPath);
+            string key = KeyPathGenerator.GenerateKey(keyPath);
             lock (storages)
             {
                 Dictionary<string, StorageContent> storage = null;
@@ -102,7 +80,7 @@ namespace MemoryStorage
         [NodeEndpointMethod]
         public string GetCache(string applicationName, string[] keyPath, bool exceptionIfNotExists)
         {
-            string key = GenerateKey(keyPath);
+            string key = KeyPathGenerator.GenerateKey(keyPath);
             lock (storages)
             {
                 Dictionary<string, StorageContent> storage = null;
@@ -138,7 +116,7 @@ namespace MemoryStorage
 
         public bool IsCacheExists(string applicationName, string[] keyPath)
         {
-            string key = GenerateKey(keyPath);
+            string key = KeyPathGenerator.GenerateKey(keyPath);
             lock (storages)
             {
                 Dictionary<string, StorageContent> storage = null;

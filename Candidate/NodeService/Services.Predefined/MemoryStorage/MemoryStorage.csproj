@@ -63,6 +63,10 @@
       <Project>{DC761586-A9DD-4C4D-B073-041CFDB92E25}</Project>
       <Name>ServiceConfigurations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceUtility\ServiceUtility.csproj">
+      <Project>{B437391B-D204-4E6E-910B-754987A87EE9}</Project>
+      <Name>ServiceUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
