@@ -17,7 +17,7 @@ namespace CalculationService
         static void Main(string[] args)
         {
             Console.Title = "CalculationService";
-            GuardServiceStarter<CalculationService, CalculationServiceEndpointServerCallback>.LaunchService(
+            GuardServiceStarterInternal<CalculationService, CalculationServiceEndpointServerCallback>.LaunchService(
                 typeof(Program).Assembly.Location,
                 "",
                 "CalculationService"
