@@ -31,16 +31,31 @@ namespace NodeServiceTest
 
         public static void TestProtocol(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
         {
+            TestProtocol(factory, factory, serverAddress, clientAddress);
+        }
+
+        public static void TestProtocolAsync(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
+        {
+            TestProtocolAsync(factory, factory, serverAddress, clientAddress);
+        }
+
+        public static void TestProtocolDuplex(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
+        {
+            TestProtocolDuplex(factory, factory, serverAddress, clientAddress);
+        }
+
+        public static void TestProtocol(INodeEndpointProtocolFactory serverFactory, INodeEndpointProtocolFactory clientFactory, string serverAddress, string clientAddress)
+        {
             INodeEndpointProtocolServer server = null;
 
             Thread serverThread = new Thread(() =>
             {
-                INodeEndpointProtocolServerListener serverListener = factory.CreateServerListener();
+                INodeEndpointProtocolServerListener serverListener = serverFactory.CreateServerListener();
                 server = serverListener.WaitForServer(serverAddress, new CalculationEndpoint(true));
             });
             serverThread.Start();
 
-            ICalculationEndpoint client = factory.WaitForClient<ICalculationEndpoint>(clientAddress, "Calculation");
+            ICalculationEndpoint client = clientFactory.WaitForClient<ICalculationEndpoint>(clientAddress, "Calculation");
             Assert.IsNotNull(client);
 
             Assert.AreEqual(3, client.Add(2, 1));
@@ -84,18 +99,18 @@ namespace NodeServiceTest
             }
         }
 
-        public static void TestProtocolAsync(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
+        public static void TestProtocolAsync(INodeEndpointProtocolFactory serverFactory, INodeEndpointProtocolFactory clientFactory, string serverAddress, string clientAddress)
         {
             INodeEndpointProtocolServer server = null;
 
             Thread serverThread = new Thread(() =>
             {
-                INodeEndpointProtocolServerListener serverListener = factory.CreateServerListener();
+                INodeEndpointProtocolServerListener serverListener = serverFactory.CreateServerListener();
                 server = serverListener.WaitForServer(serverAddress, new CalculationEndpoint(true));
             });
             serverThread.Start();
 
-            ICalculationEndpointAsync client = factory.WaitForClient<ICalculationEndpointAsync>(clientAddress, "Calculation");
+            ICalculationEndpointAsync client = clientFactory.WaitForClient<ICalculationEndpointAsync>(clientAddress, "Calculation");
             Assert.IsNotNull(client);
 
             Assert.AreEqual(3, client.Add(2, 1).Result);
@@ -119,18 +134,18 @@ namespace NodeServiceTest
             Assert.AreEqual("Vczh is a genius!", client.ReceiveMessage().Result);
         }
 
-        public static void TestProtocolDuplex(INodeEndpointProtocolFactory factory, string serverAddress, string clientAddress)
+        public static void TestProtocolDuplex(INodeEndpointProtocolFactory serverFactory, INodeEndpointProtocolFactory clientFactory, string serverAddress, string clientAddress)
         {
             INodeEndpointProtocolServer server = null;
 
             Thread serverThread = new Thread(() =>
             {
-                INodeEndpointProtocolServerListener listener = factory.CreateServerListener();
+                INodeEndpointProtocolServerListener listener = serverFactory.CreateServerListener();
                 server = listener.WaitForServer(serverAddress, new DuplexServer());
             });
             serverThread.Start();
 
-            IDuplexServer client = factory.WaitForClient<IDuplexServer, DuplexCallback>(clientAddress, "DuplexServer", new DuplexCallback());
+            IDuplexServer client = clientFactory.WaitForClient<IDuplexServer, DuplexCallback>(clientAddress, "DuplexServer", new DuplexCallback());
             Assert.IsNotNull(client);
 
             Assert.AreEqual(15, client.Add(5));

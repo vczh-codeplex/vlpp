@@ -127,6 +127,56 @@ namespace NodeServiceTest
         }
 
         #endregion
+
+        #region Auth Test Cases
+
+        private class AuthProvider : IAuthenticationProvider
+        {
+            public byte[] GetUserNamePasswordMD5(string userName)
+            {
+                return userName == "username" ? CreateAuthPasswordMD5() : null;
+            }
+        }
+
+        private static byte[] CreateAuthPasswordMD5()
+        {
+            return AuthenticationProtocolHandlerFactory.MD5String("password");
+        }
+
+        private INodeEndpointProtocolFactory CreateAuthNamePipeProtocolServerFactory()
+        {
+            return
+                new NamedPipeProtocolFactory()
+                .With(new AuthenticationProtocolHandlerFactory(new AuthProvider()))
+                ;
+        }
+
+        private INodeEndpointProtocolFactory CreateAuthNamePipeProtocolClientFactory()
+        {
+            return
+                new NamedPipeProtocolFactory()
+                .With(new AuthenticationProtocolHandlerFactory("username", CreateAuthPasswordMD5()));
+        }
+
+        [TestMethod]
+        public void TestAuthProtocol()
+        {
+            NodeEndpointTestCases.TestProtocol(CreateAuthNamePipeProtocolServerFactory(), CreateAuthNamePipeProtocolClientFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestAuthProtocolAsync()
+        {
+            NodeEndpointTestCases.TestProtocolAsync(CreateAuthNamePipeProtocolServerFactory(), CreateAuthNamePipeProtocolClientFactory(), "CalculationService", "localhost/CalculationService");
+        }
+
+        [TestMethod]
+        public void TestAuthProtocolDuplex()
+        {
+            NodeEndpointTestCases.TestProtocolDuplex(CreateAuthNamePipeProtocolServerFactory(), CreateAuthNamePipeProtocolClientFactory(), "DuplexService", "localhost/DuplexService");
+        }
+
+        #endregion
     }
 
     class TranslatorHandlerSimple : ITranslatorProtocolHandlerSimple
