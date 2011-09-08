@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace NodeService.Protocols
 {
@@ -154,6 +155,7 @@ namespace NodeService.Protocols
             private HttpListener listener = null;
             private INodeEndpointProtocolServer innerProtocol;
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
+            private int beginListenCalled = 0;
 
             public Server(HttpListener listener, ServerListener serverListener)
             {
@@ -230,36 +232,44 @@ namespace NodeService.Protocols
 
             public void BeginListen()
             {
-                if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
-                this.listener.BeginGetContext(a =>
+                if (!this.Connected)
                 {
-                    try
+                    this.beginListenCalled = 0;
+                    throw new InvalidOperationException("The protocol is not connected.");
+                }
+                if (Interlocked.Exchange(ref this.beginListenCalled, 1) == 0)
+                {
+                    this.listener.BeginGetContext(a =>
                     {
-                        HttpListenerContext context = this.listener.EndGetContext(a);
-                        Request request = new Request(context);
-                        if (request.RequestMessage() == "[CONNECT]")
+                        try
                         {
-                            request.Respond("[CONNECTED]");
-                        }
-                        else
-                        {
-                            lock (this.listeners)
+                            HttpListenerContext context = this.listener.EndGetContext(a);
+                            this.beginListenCalled = 0;
+                            Request request = new Request(context);
+                            if (request.RequestMessage() == "[CONNECT]")
                             {
-                                foreach (var listener in this.listeners)
+                                request.Respond("[CONNECTED]");
+                            }
+                            else
+                            {
+                                lock (this.listeners)
                                 {
-                                    listener.OnReceivedRequest(request);
+                                    foreach (var listener in this.listeners)
+                                    {
+                                        listener.OnReceivedRequest(request);
+                                    }
                                 }
                             }
+                            if (this.Connected)
+                            {
+                                BeginListen();
+                            }
                         }
-                        if (this.Connected)
+                        catch (ObjectDisposedException)
                         {
-                            BeginListen();
                         }
-                    }
-                    catch (ObjectDisposedException)
-                    {
-                    }
-                }, null);
+                    }, null);
+                }
             }
 
             public void AddListener(INodeEndpointProtocolRequestListener listener)

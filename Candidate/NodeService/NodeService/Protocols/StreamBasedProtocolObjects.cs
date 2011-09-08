@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace NodeService.Protocols
 {
@@ -47,6 +48,7 @@ namespace NodeService.Protocols
         {
             private List<INodeEndpointProtocolRequestListener> listeners = new List<INodeEndpointProtocolRequestListener>();
             private INodeEndpointProtocolFactory factory = null;
+            private int beginListenCalled = 0;
 
             protected StreamType Stream { get; set; }
 
@@ -85,17 +87,24 @@ namespace NodeService.Protocols
 
             public void BeginListen()
             {
-                if (!this.Connected) throw new InvalidOperationException("The protocol is not connected.");
-                byte[] lead = new byte[sizeof(int)];
-                try
+                if (!this.Connected)
                 {
-                    this.Stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
+                    this.beginListenCalled = 0;
+                    throw new InvalidOperationException("The protocol is not connected.");
                 }
-                catch (ObjectDisposedException)
+                if (Interlocked.Exchange(ref this.beginListenCalled, 1) == 0)
                 {
-                }
-                catch (IOException)
-                {
+                    byte[] lead = new byte[sizeof(int)];
+                    try
+                    {
+                        this.Stream.BeginRead(lead, 0, lead.Length, r => ReadCallback(r, lead), null);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                    }
+                    catch (IOException)
+                    {
+                    }
                 }
             }
 
@@ -215,6 +224,7 @@ namespace NodeService.Protocols
                 try
                 {
                     int leadLength = this.Stream.EndRead(asyncResult);
+                    this.beginListenCalled = 0;
                     if (leadLength == lead.Length)
                     {
                         byte[] bytes = UninstallLeadBytes(lead, this.Stream);
