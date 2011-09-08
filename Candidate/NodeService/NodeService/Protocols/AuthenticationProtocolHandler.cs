@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Security.Cryptography;
 using NodeService.Protocols.StreamBasedProtocolObjects;
 using System.IO;
+using System.Threading;
 
 namespace NodeService.Protocols
 {
@@ -47,6 +48,14 @@ namespace NodeService.Protocols
         public XElement[] GetFactoryDescription()
         {
             return new XElement[] { new XElement("AuthenticationProtocolHandlerFactory") };
+        }
+
+        public static byte[] MD5String(string password)
+        {
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                return md5.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
         }
 
         private abstract class HandlerBase : ITranslatorProtocolHandler
@@ -147,6 +156,7 @@ namespace NodeService.Protocols
                     {
                         case Step.WaitingForUserName:
                             {
+                                this.currentStep = Step.WaitingForEncryptedAuthData;
                                 string userName = request.RequestMessage();
                                 byte[] passwordMD5 = this.authenticationProvider.GetUserNamePasswordMD5(userName);
                                 byte[] authData = new byte[128];
@@ -157,7 +167,6 @@ namespace NodeService.Protocols
                                     this.expectedMixedAuthDataAndPassword = Md5AuthDataAndPassword(authData, passwordMD5);
                                 }
                                 request.Respond(authData);
-                                this.currentStep = Step.WaitingForEncryptedAuthData;
                             }
                             return false;
                         case Step.WaitingForEncryptedAuthData:
@@ -168,6 +177,7 @@ namespace NodeService.Protocols
                                 }
                                 else
                                 {
+                                    this.currentStep = Step.WaitingForPublicKey;
                                     byte[] expected = this.expectedMixedAuthDataAndPassword;
                                     byte[] actual = request.Message;
                                     this.expectedMixedAuthDataAndPassword = null;
@@ -190,26 +200,25 @@ namespace NodeService.Protocols
                                     }
 
                                     request.Respond(fail ? "FAIL" : "PASS");
-                                    this.currentStep = Step.WaitingForPublicKey;
                                 }
                             }
                             return false;
                         case Step.WaitingForPublicKey:
                             {
+                                this.currentStep = Step.Done;
                                 byte[] publicKey = request.Message;
                                 byte[] key, iv;
                                 Crypting.AesGenerateKey(out key, out iv);
 
                                 byte[] message = new byte[sizeof(int) + key.Length + iv.Length];
                                 StreamProtocol<Stream>.WriteLeadBytes(key.Length, message);
-                                Array.Copy(key, 0, message, sizeof(int), message.Length);
-                                Array.Copy(iv, 0, message, sizeof(int) + message.Length, iv.Length);
+                                Array.Copy(key, 0, message, sizeof(int), key.Length);
+                                Array.Copy(iv, 0, message, sizeof(int) + key.Length, iv.Length);
 
                                 byte[] encryptedMessage = Crypting.RsaEncrypt(message, publicKey);
                                 request.Respond(encryptedMessage);
 
                                 SetKey(key, iv);
-                                this.currentStep = Step.Done;
                             }
                             return false;
                     }
@@ -235,6 +244,7 @@ namespace NodeService.Protocols
             private INodeEndpointProtocolClient client;
             private Step currentStep = Step.Ready;
             private object stepLock = new object();
+            private ManualResetEvent connectionEvent;
 
             public ClientHandler(string userName, byte[] passwordMD5)
             {
@@ -249,7 +259,14 @@ namespace NodeService.Protocols
 
             public void OnClientConnected()
             {
+                this.connectionEvent = new ManualResetEvent(false);
+                this.currentStep = Step.WaitingForAuthData;
+                client.BeginListen();
                 client.Send(this.userName);
+                this.connectionEvent.WaitOne();
+                this.connectionEvent.Close();
+                this.connectionEvent.Dispose();
+                this.connectionEvent = null;
             }
 
             public override bool Pass(INodeEndpointProtocolRequest request)
@@ -260,14 +277,15 @@ namespace NodeService.Protocols
                     {
                         case Step.WaitingForAuthData:
                             {
+                                this.currentStep = Step.WaitingForAuthResult;
                                 byte[] authData = request.Message;
                                 byte[] encryptedAuthData = Md5AuthDataAndPassword(authData, this.passwordMD5);
                                 this.client.Send(encryptedAuthData);
-                                this.currentStep = Step.WaitingForAuthResult;
                             }
                             return false;
                         case Step.WaitingForAuthResult:
                             {
+                                this.currentStep = Step.WaitingForAesKey;
                                 if (request.RequestMessage() != "PASS")
                                 {
                                     this.client.Disconnect();
@@ -276,14 +294,16 @@ namespace NodeService.Protocols
                                 {
                                     byte[] publicKey, privateKey;
                                     Crypting.RsaGenerateKey(out publicKey, out privateKey);
+
                                     this.client.Send(publicKey);
                                     this.privateKey = privateKey;
-                                    this.currentStep = Step.WaitingForAesKey;
                                 }
                             }
                             return false;
                         case Step.WaitingForAesKey:
                             {
+                                this.currentStep = Step.Done;
+
                                 byte[] encryptedMessage = request.Message;
                                 byte[] message = Crypting.RsaDecrypt(encryptedMessage, this.privateKey);
                                 this.privateKey = null;
@@ -294,8 +314,7 @@ namespace NodeService.Protocols
                                 Array.Copy(message, sizeof(int), key, 0, key.Length);
                                 Array.Copy(message, sizeof(int) + keyLength, iv, 0, iv.Length);
                                 SetKey(key, iv);
-
-                                this.currentStep = Step.Done;
+                                this.connectionEvent.Set();
                             }
                             return false;
                     }
