@@ -86,7 +86,16 @@ namespace NodeService.Protocols
             public void OnReceivedRequest(INodeEndpointProtocolRequest request)
             {
                 ITranslatorProtocolHandler handler = this.protocolBase.Handler;
-                if (handler.Pass(request))
+                bool pass = false;
+                try
+                {
+                    pass = handler.Pass(request);
+                }
+                catch (Exception)
+                {
+                    this.protocolBase.Disconnect();
+                }
+                if (pass)
                 {
                     Request translatedRequest = new Request(request, handler);
                     lock (this.protocolBase.Listeners)

@@ -132,10 +132,8 @@ namespace NodeService.Protocols
                 Write(message);
             }
 
-            public static byte[] InstallLeadBytes(byte[] message)
+            public static void WriteLeadBytes(int length, byte[] lead)
             {
-                byte[] lead = new byte[sizeof(int) + message.Length];
-                int length = message.Length;
                 unsafe
                 {
                     byte* plead = (byte*)&length;
@@ -144,20 +142,33 @@ namespace NodeService.Protocols
                         lead[i] = plead[i];
                     }
                 }
+            }
+
+            public static int ReadLeadBytes(byte[] lead)
+            {
+                int length = 0;
+                unsafe
+                {
+                    fixed (byte* plead = lead)
+                    {
+                        length = *(int*)plead;
+                    }
+                }
+                return length;
+            }
+
+            public static byte[] InstallLeadBytes(byte[] message)
+            {
+                byte[] lead = new byte[sizeof(int) + message.Length];
+                int length = message.Length;
+                WriteLeadBytes(length, lead);
                 Array.Copy(message, 0, lead, sizeof(int), message.Length);
                 return lead;
             }
 
             public static byte[] UninstallLeadBytes(byte[] leadBytes, Stream readingStream)
             {
-                int leadLength = 0;
-                unsafe
-                {
-                    fixed (byte* plead = leadBytes)
-                    {
-                        leadLength = *(int*)plead;
-                    }
-                }
+                int leadLength = ReadLeadBytes(leadBytes);
                 byte[] bytes = new byte[leadLength];
                 int readLength = 0;
                 int remainLength = bytes.Length;
