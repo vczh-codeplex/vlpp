@@ -21,7 +21,7 @@ namespace ImagePattern
         {
             this.Width = width;
             this.Height = height;
-            this.SingleByte = SingleByte;
+            this.SingleByte = singleByte;
             this.ColorSize = singleByte ? 1 : 3;
             this.Stride = width * this.ColorSize;
             this.RawData = new byte[this.Stride * this.Height];
@@ -53,15 +53,22 @@ namespace ImagePattern
 
         public Bitmap GetBitmap()
         {
-            Bitmap bitmap = new Bitmap(this.Width, this.Height);
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, this.SingleByte ? PixelFormat.Format8bppIndexed : PixelFormat.Format24bppRgb);
-            for (int y = 0; y < bitmap.Height; y++)
+            if (this.SingleByte)
             {
-                IntPtr write = data.Scan0 + y * data.Stride;
-                Marshal.Copy(this.RawData, y * this.Stride, write, this.Stride);
+                return this.UnzipAndCopy().GetBitmap();
             }
-            bitmap.UnlockBits(data);
-            return bitmap;
+            else
+            {
+                Bitmap bitmap = new Bitmap(this.Width, this.Height);
+                BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    IntPtr write = data.Scan0 + y * data.Stride;
+                    Marshal.Copy(this.RawData, y * this.Stride, write, this.Stride);
+                }
+                bitmap.UnlockBits(data);
+                return bitmap;
+            }
         }
 
     };
