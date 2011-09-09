@@ -18,18 +18,65 @@ ManagedLanguage_BuildGlobalScope4_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedField)
 				{
+					ManagedSymbolField* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolField>(node);
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+						}
+						break;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
+					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							if(symbol->accessor!=declatt::Public)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+							}
+							if(symbol->memberType!=declatt::Instance)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+							}
+							if(symbol->inheritation!=declatt::Abstract)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+							}
+						}
+						break;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConstructor)
 				{
+					ManagedSymbolConstructor* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConstructor>(node);
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+						}
+						break;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
 				{
+					ManagedSymbolItem* symbol=argument.symbolManager->GetSymbol(node->declaration.Obj());
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+						}
+						break;
+					}
 					ManagedLanguage_BuildGlobalScope4_Declaration(node->declaration, argument);
 				}
 
@@ -48,10 +95,50 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedProperty)
 				{
+					ManagedSymbolProperty* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolProperty>(node);
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							if(symbol->accessor!=declatt::Public)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+							}
+							if(symbol->memberType!=declatt::Instance)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+							}
+							if(symbol->inheritation!=declatt::Abstract)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+							}
+						}
+						break;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
 				{
+					ManagedSymbolConverterOperator* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolConverterOperator>(node);
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Interface:
+						{
+							if(symbol->accessor!=declatt::Public)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+							}
+							if(symbol->memberType!=declatt::Instance)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+							}
+							if(symbol->inheritation!=declatt::Abstract)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+							}
+						}
+						break;
+					}
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope4_ExtendedMember)
