@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             this.panelImage = new System.Windows.Forms.Panel();
-            this.buttonNormal = new System.Windows.Forms.Button();
-            this.buttonDifferent = new System.Windows.Forms.Button();
-            this.buttonPaste = new System.Windows.Forms.Button();
             this.pictureBoxImage = new System.Windows.Forms.PictureBox();
+            this.buttonPaste = new System.Windows.Forms.Button();
+            this.comboBoxImage = new System.Windows.Forms.ComboBox();
             this.panelImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).BeginInit();
             this.SuspendLayout();
@@ -44,62 +43,54 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelImage.AutoScroll = true;
             this.panelImage.Controls.Add(this.pictureBoxImage);
-            this.panelImage.Location = new System.Drawing.Point(12, 48);
+            this.panelImage.Location = new System.Drawing.Point(12, 44);
             this.panelImage.Name = "panelImage";
-            this.panelImage.Size = new System.Drawing.Size(628, 479);
+            this.panelImage.Size = new System.Drawing.Size(628, 442);
             this.panelImage.TabIndex = 0;
-            // 
-            // buttonNormal
-            // 
-            this.buttonNormal.Location = new System.Drawing.Point(12, 12);
-            this.buttonNormal.Name = "buttonNormal";
-            this.buttonNormal.Size = new System.Drawing.Size(75, 23);
-            this.buttonNormal.TabIndex = 1;
-            this.buttonNormal.Text = "Normal";
-            this.buttonNormal.UseVisualStyleBackColor = true;
-            this.buttonNormal.Click += new System.EventHandler(this.buttonNormal_Click);
-            // 
-            // buttonDifferent
-            // 
-            this.buttonDifferent.Location = new System.Drawing.Point(93, 12);
-            this.buttonDifferent.Name = "buttonDifferent";
-            this.buttonDifferent.Size = new System.Drawing.Size(75, 23);
-            this.buttonDifferent.TabIndex = 1;
-            this.buttonDifferent.Text = "Different";
-            this.buttonDifferent.UseVisualStyleBackColor = true;
-            this.buttonDifferent.Click += new System.EventHandler(this.buttonDifferent_Click);
-            // 
-            // buttonPaste
-            // 
-            this.buttonPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPaste.Location = new System.Drawing.Point(565, 12);
-            this.buttonPaste.Name = "buttonPaste";
-            this.buttonPaste.Size = new System.Drawing.Size(75, 23);
-            this.buttonPaste.TabIndex = 2;
-            this.buttonPaste.Text = "Paste";
-            this.buttonPaste.UseVisualStyleBackColor = true;
-            this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
             // 
             // pictureBoxImage
             // 
             this.pictureBoxImage.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxImage.Name = "pictureBoxImage";
-            this.pictureBoxImage.Size = new System.Drawing.Size(32, 32);
+            this.pictureBoxImage.Size = new System.Drawing.Size(32, 30);
             this.pictureBoxImage.TabIndex = 2;
             this.pictureBoxImage.TabStop = false;
             // 
+            // buttonPaste
+            // 
+            this.buttonPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPaste.Location = new System.Drawing.Point(565, 11);
+            this.buttonPaste.Name = "buttonPaste";
+            this.buttonPaste.Size = new System.Drawing.Size(75, 21);
+            this.buttonPaste.TabIndex = 2;
+            this.buttonPaste.Text = "Paste";
+            this.buttonPaste.UseVisualStyleBackColor = true;
+            this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            // 
+            // comboBoxImage
+            // 
+            this.comboBoxImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxImage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxImage.FormattingEnabled = true;
+            this.comboBoxImage.Location = new System.Drawing.Point(12, 12);
+            this.comboBoxImage.Name = "comboBoxImage";
+            this.comboBoxImage.Size = new System.Drawing.Size(547, 20);
+            this.comboBoxImage.TabIndex = 3;
+            this.comboBoxImage.SelectedIndexChanged += new System.EventHandler(this.comboBoxImage_SelectedIndexChanged);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 539);
+            this.ClientSize = new System.Drawing.Size(652, 498);
+            this.Controls.Add(this.comboBoxImage);
             this.Controls.Add(this.buttonPaste);
-            this.Controls.Add(this.buttonDifferent);
-            this.Controls.Add(this.buttonNormal);
             this.Controls.Add(this.panelImage);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImageDisplayer";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelImage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).EndInit();
             this.ResumeLayout(false);
@@ -109,10 +100,9 @@
         #endregion
 
         private System.Windows.Forms.Panel panelImage;
-        private System.Windows.Forms.Button buttonNormal;
-        private System.Windows.Forms.Button buttonDifferent;
         private System.Windows.Forms.Button buttonPaste;
         private System.Windows.Forms.PictureBox pictureBoxImage;
+        private System.Windows.Forms.ComboBox comboBoxImage;
     }
 }
 
