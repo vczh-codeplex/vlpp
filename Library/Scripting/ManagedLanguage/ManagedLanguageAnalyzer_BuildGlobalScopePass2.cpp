@@ -136,6 +136,8 @@ ManagedLanguage_BuildGlobalScope2_Declaration
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeDeclaration)
 				{
 					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node);
+					EnsureUsingNamespaceSymbolCompleted(symbol, argument);
+
 					MAP newArgument(argument, symbol);
 					ManagedLanguage_BuildGlobalScope2_GenericParameter(symbol, &node->genericInfo, newArgument);
 					EnsureSymbolBaseTypesCompleted(symbol, argument);
@@ -197,8 +199,6 @@ ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
-					ManagedSymbolUsingNamespace* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(node);
-					EnsureUsingNamespaceSymbolCompleted(symbol, argument);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope2_ExtendedDeclaration)

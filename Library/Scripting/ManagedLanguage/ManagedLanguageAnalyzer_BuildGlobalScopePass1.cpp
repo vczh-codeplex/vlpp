@@ -1,5 +1,6 @@
 #include "ManagedLanguageAnalyzer.h"
 #include "..\..\Collections\OperationForEach.h"
+#include "..\..\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -301,6 +302,14 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 					symbol->memberType=node->memberType;
 					argument.currentSymbol->Add(symbol);
 
+					switch(symbol->GetParentItem()->GetSymbolType())
+					{
+					case ManagedSymbolItem::Global:
+					case ManagedSymbolItem::Namespace:
+						CopyFrom(symbol->availableUsingNamespaceLanguageElements.Wrap(), argument.availableUsingNamespaceLanguageElements.Wrap());
+						break;
+					}
+
 					MAP newArgument(argument, symbol);
 					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, symbol->orderedGenericParameterNames, newArgument);
 
@@ -355,10 +364,26 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 					argument.symbolManager->SetSymbol(node, symbol);
 					symbol->languageElements.Add(node);
 
+					vint usingNamespaceCount=0;
+					FOREACH(Ptr<ManagedDeclaration>, declaration, node->declarations.Wrap())
+					{
+						Ptr<ManagedUsingNamespaceDeclaration> usingNamespaceDeclaration=declaration.Cast<ManagedUsingNamespaceDeclaration>();
+						if(usingNamespaceDeclaration)
+						{
+							argument.availableUsingNamespaceLanguageElements.Add(usingNamespaceDeclaration.Obj());
+							usingNamespaceCount++;
+						}
+					}
+
 					MAP newArgument(argument, currentSymbol);
 					FOREACH(Ptr<ManagedDeclaration>, declaration, node->declarations.Wrap())
 					{
 						ManagedLanguage_BuildGlobalScope1_Declaration(declaration, newArgument);
+					}
+
+					while(usingNamespaceCount--)
+					{
+						argument.availableUsingNamespaceLanguageElements.RemoveAt(argument.availableUsingNamespaceLanguageElements.Count()-1);
 					}
 				}
 
@@ -468,23 +493,10 @@ ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingNamespaceDeclaration)
 				{
-					if(ManagedSymbolItemGroup* group=argument.currentSymbol->ItemGroup(ManagedSymbolUsingNamespace::SymbolName))
-					{
-						FOREACH(ManagedSymbolItem*, item, group->Items())
-						{
-							if(item->GetSymbolType()!=ManagedSymbolItem::UsingNamespace)
-							{
-								argument.errors.Add(ManagedLanguageCodeException::GetSymbolAlreadyDefined(node, ManagedSymbolUsingNamespace::SymbolName));
-								return;
-							}
-						}
-					}
-
 					ManagedSymbolUsingNamespace* symbol=new ManagedSymbolUsingNamespace(argument.symbolManager);
 					argument.symbolManager->SetSymbol(node, symbol);
 					
 					symbol->languageElement=node;
-					argument.currentSymbol->Add(symbol);
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_BuildGlobalScope1_ExtendedDeclaration)

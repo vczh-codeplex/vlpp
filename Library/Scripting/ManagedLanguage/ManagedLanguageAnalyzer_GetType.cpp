@@ -240,43 +240,24 @@ SearchMember
 
 			void SearchMemberOfNamespace(ManagedSymbolItem* namespaceItem, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
 			{
-				List<ManagedSymbolItem*> namespaces;
-				namespaces.Add(namespaceItem);
-				if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(ManagedSymbolUsingNamespace::SymbolName))
+				if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(name))
 				{
 					FOREACH(ManagedSymbolItem*, item, group->Items())
 					{
-						ManagedSymbolUsingNamespace* symbol=dynamic_cast<ManagedSymbolUsingNamespace*>(item);
-						EnsureUsingNamespaceSymbolCompleted(symbol, argument);
-						ManagedSymbolItem* namespaceReference=symbol->associatedNamespace;
-						if(namespaceReference && !namespaces.Contains(namespaceReference))
+						switch(item->GetSymbolType())
 						{
-							namespaces.Add(namespaceReference);
-						}
-					}
-				}
-
-				FOREACH(ManagedSymbolItem*, namespaceItem, namespaces.Wrap())
-				{
-					if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(name))
-					{
-						FOREACH(ManagedSymbolItem*, item, group->Items())
-						{
-							switch(item->GetSymbolType())
+						case ManagedSymbolItem::Class:
+						case ManagedSymbolItem::Structure:
+						case ManagedSymbolItem::Interface:
 							{
-							case ManagedSymbolItem::Class:
-							case ManagedSymbolItem::Structure:
-							case ManagedSymbolItem::Interface:
-								{
-									choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
-								}
-								break;
-							case ManagedSymbolItem::Namespace:
-								{
-									choices.Add(MAGETP::Choice(0, item));
-								}
-								break;
+								choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
 							}
+							break;
+						case ManagedSymbolItem::Namespace:
+							{
+								choices.Add(MAGETP::Choice(0, item));
+							}
+							break;
 						}
 					}
 				}
@@ -385,6 +366,10 @@ SearchMember
 								break;
 							}
 						}
+					}
+
+					if(thisType==containerType)
+					{
 					}
 
 					if(choices.Count()==oldChoicesCount)
@@ -547,6 +532,12 @@ ManagedLanguage_GetTypeInternal_Expression
 								typeCounter++;
 								ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
 								SearchMemberOfType(thisType, containerType, (typeCounter>1 || inStaticMethod), node->name, argument.context, argument.choices);
+
+								ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(currentScope);
+								FOREACH(ManagedSymbolNamespace*, namespaceSymbol, currentDeclaration->_availableUsingNamespaces.Wrap())
+								{
+									SearchMemberOfNamespace(namespaceSymbol, node->name, argument.context, argument.choices);
+								}
 							}
 							break;
 						case ManagedSymbolItem::Global:
