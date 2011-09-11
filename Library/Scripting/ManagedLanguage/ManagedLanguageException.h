@@ -43,16 +43,22 @@ namespace vl
 					ClassIllegalBaseClass,						// <ManagedTypeDeclaration>
 					StructureIllegalBaseClass,					// <ManagedTypeDeclaration>
 					InterfaceIllegalBaseClass,					// <ManagedTypeDeclaration>
+					StaticTypeIllegalBaseClass,					// <ManagedTypeDeclaration>
 					ClassStructureTooMuchBaseClasses,			// <ManagedTypeDeclaration>
 					ClassStructureIllegalInheritation,			// <ManagedTypeDeclaration>
 					InterfaceIllegalInheritation,				// <ManagedTypeDeclaration>
+					InterfaceIllegalMemberType,					// <ManagedTypeDeclaration>
+					StaticTypeIllegalInheritance,				// <ManagedTypeDeclaration>
 					TypeIllegalAccessor,						// <ManagedTypeDeclaration>
-					InterfaceIllegalMemberType,					// <ManagedMember>
-					InterfaceIllegalMemberAccessor,				// <ManagedMember>
-					InterfaceIllegalMemberMemberType,			// <ManagedMember>
-					InterfaceIllegalMemberInheritation,			// <ManagedMember>
+					InterfaceMemberIllegalType,					// <ManagedMember>
+					InterfaceMemberIllegalAccessor,				// <ManagedMember>
+					InterfaceMemberIllegalMemberType,			// <ManagedMember>
+					InterfaceMemberIllegalInheritation,			// <ManagedMember>
 					SealedTypeMemberIllegalAccessor,			// <ManagedMember>
 					SealedTypeMemberIllegalInheritance,			// <ManagedMember>
+					StaticTypeMemberIllegalAccessor,			// <ManagedMember>
+					StaticTypeMemberIllegalInheritance,			// <ManagedMember>
+					StaticTypeMemberIllegalMemberType,			// <ManagedMember>
 					NonAbstractTypeMemberIllegalInheritance,	// <ManagedMember>
 					MemberImplementedInterfaceTypeNotExists,	// <ManagedMember>
 					MemberOverridedTargetNotExists,				// <ManagedMember>
@@ -109,16 +115,22 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetClassIllegalBaseClass(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetStructureIllegalBaseClass(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalBaseClass(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetStaticTypeIllegalBaseClass(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetClassStructureTooMuchBaseClasses(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetClassStructureIllegalInheritation(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalInheritation(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberType(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetStaticTypeIllegalInheritance(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetTypeIllegalAccessor(ManagedTypeDeclaration* declaration);
-				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberType(ManagedMember* member);
-				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberAccessor(ManagedMember* member);
-				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberMemberType(ManagedMember* member);
-				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberInheritation(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalType(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalAccessor(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalMemberType(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalInheritation(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalAccessor(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalInheritance(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalAccessor(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalInheritance(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalMemberType(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetNonAbstractTypeMemberIllegalInheritance(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberImplementedInterfaceTypeNotExists(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetNotExists(ManagedMember* member);

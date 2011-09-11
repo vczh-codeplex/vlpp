@@ -453,6 +453,7 @@ Symbol Constructors
 				,enumerationLanguageElement(0)
 				,accessor(declatt::Private)
 				,inheritation(declatt::Sealed)
+				,memberType(declatt::Instance)
 				,_baseType(0)
 			{
 				CHECK_ERROR(_symbolType==ManagedSymbolItem::Class || _symbolType==ManagedSymbolItem::Structure || _symbolType==ManagedSymbolItem::Interface,

@@ -101,6 +101,11 @@ namespace vl
 				return L"Interface "+name+L" can only derived from other interfaces.";
 			}
 
+			WString ManagedErrorMessage::StaticTypeIllegalBaseClass(const WString& name)
+			{
+				return L"Static type "+name+L" can only derived from static type.";
+			}
+
 			WString ManagedErrorMessage::ClassStructureTooMuchBaseClasses(const WString& name)
 			{
 				return L"Type "+name+L" can only derived from one non-interface type.";
@@ -116,27 +121,37 @@ namespace vl
 				return L"Interface "+name+L" should be abstract.";
 			}
 
+			WString ManagedErrorMessage::InterfaceIllegalMemberType(const WString& name)
+			{
+				return L"Interface "+name+L" cannot be static.";
+			}
+
+			WString ManagedErrorMessage::StaticTypeIllegalInheritance(const WString& name)
+			{
+				return L"Static type "+name+L" cannot be abstract, virtual or override.";
+			}
+
 			WString ManagedErrorMessage::TypeIllegalAccessor(const WString& name)
 			{
 				return L"Type "+name+L" cannot be protected or protected internal when it is not a sub type.";
 			}
 
-			WString ManagedErrorMessage::InterfaceIllegalMemberType(const WString& name, const WString& member)
+			WString ManagedErrorMessage::InterfaceMemberIllegalType(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" cannot be declared in interface "+name+L" because it is not a property, a method or a converter operator.";
 			}
 
-			WString ManagedErrorMessage::InterfaceIllegalMemberAccessor(const WString& name, const WString& member)
+			WString ManagedErrorMessage::InterfaceMemberIllegalAccessor(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" in interface "+name+L" should be public.";
 			}
 
-			WString ManagedErrorMessage::InterfaceIllegalMemberMemberType(const WString& name, const WString& member)
+			WString ManagedErrorMessage::InterfaceMemberIllegalMemberType(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" in interface "+name+L" cannot be static.";
 			}
 
-			WString ManagedErrorMessage::InterfaceIllegalMemberInheritation(const WString& name, const WString& member)
+			WString ManagedErrorMessage::InterfaceMemberIllegalInheritation(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" in interface "+name+L" should be abstract.";
 			}
@@ -148,7 +163,22 @@ namespace vl
 
 			WString ManagedErrorMessage::SealedTypeMemberIllegalInheritance(const WString& name, const WString& member)
 			{
-				return L"Member "+member+L" in sealed type "+name+L" cannot be abstract, virtual or override.";
+				return L"Member "+member+L" in sealed type "+name+L" cannot be abstract or virtual.";
+			}
+
+			WString ManagedErrorMessage::StaticTypeMemberIllegalAccessor(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in static type "+name+L" can only be private, internal or public.";
+			}
+
+			WString ManagedErrorMessage::StaticTypeMemberIllegalInheritance(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in static type "+name+L" cannot be abstract, virtual or override.";
+			}
+
+			WString ManagedErrorMessage::StaticTypeMemberIllegalMemberType(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in static type "+name+L" can only be static.";
 			}
 
 			WString ManagedErrorMessage::NonAbstractTypeMemberIllegalInheritance(const WString& name, const WString& member)

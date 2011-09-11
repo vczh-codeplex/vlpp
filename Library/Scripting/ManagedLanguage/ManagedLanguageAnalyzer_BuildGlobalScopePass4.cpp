@@ -10,6 +10,75 @@ namespace vl
 		{
 			using namespace collections;
 
+			void AssertAccessor(ManagedMember* node, ManagedSymbolDeclaration* containingType, declatt::Accessor accessor, const MAP& argument)
+			{
+				if(containingType->inheritation==declatt::Sealed)
+				{
+					switch(accessor)
+					{
+					case declatt::Protected:
+					case declatt::ProtectedInternal:
+						argument.errors.Add(ManagedLanguageCodeException::GetSealedTypeMemberIllegalAccessor(node));
+						break;
+					}
+				}
+				if(containingType->memberType==declatt::Static)
+				{
+					switch(accessor)
+					{
+					case declatt::Protected:
+					case declatt::ProtectedInternal:
+						argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeMemberIllegalAccessor(node));
+						break;
+					}
+				}
+			}
+
+			void AssertInheritance(ManagedMember* node, ManagedSymbolDeclaration* containingType, declatt::Inheritation inheritance, const MAP& argument)
+			{
+				if(containingType->inheritation!=declatt::Abstract)
+				{
+					if(inheritance==declatt::Abstract)
+					{
+						argument.errors.Add(ManagedLanguageCodeException::GetNonAbstractTypeMemberIllegalInheritance(node));
+					}
+				}
+				if(containingType->inheritation==declatt::Sealed)
+				{
+					switch(inheritance)
+					{
+					case declatt::Abstract:
+					case declatt::Virtual:
+						argument.errors.Add(ManagedLanguageCodeException::GetSealedTypeMemberIllegalInheritance(node));
+						break;
+					}
+				}
+				if(containingType->memberType==declatt::Static)
+				{
+					switch(inheritance)
+					{
+					case declatt::Abstract:
+					case declatt::Override:
+					case declatt::Virtual:
+						argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeMemberIllegalInheritance(node));
+						break;
+					}
+				}
+			}
+
+			void AssertMemberType(ManagedMember* node, ManagedSymbolDeclaration* containingType, declatt::MemberType memberType, const MAP& argument)
+			{
+				if(containingType->memberType==declatt::Static)
+				{
+					switch(memberType)
+					{
+					case declatt::Instance:
+						argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeMemberIllegalMemberType(node));
+						break;
+					}
+				}
+			}
+
 /***********************************************************************
 ManagedLanguage_BuildGlobalScope4_Member
 ***********************************************************************/
@@ -23,7 +92,15 @@ ManagedLanguage_BuildGlobalScope4_Member
 					{
 					case ManagedSymbolItem::Interface:
 						{
-							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalType(node));
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
+							AssertMemberType(node, containingType, symbol->memberType, argument);
 						}
 						break;
 					}
@@ -38,16 +115,25 @@ ManagedLanguage_BuildGlobalScope4_Member
 						{
 							if(symbol->accessor!=declatt::Public)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalAccessor(node));
 							}
 							if(symbol->memberType!=declatt::Instance)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalMemberType(node));
 							}
 							if(symbol->inheritation!=declatt::Abstract)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(node));
 							}
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
+							AssertInheritance(node, containingType, symbol->inheritation, argument);
+							AssertMemberType(node, containingType, symbol->memberType, argument);
 						}
 						break;
 					}
@@ -60,7 +146,14 @@ ManagedLanguage_BuildGlobalScope4_Member
 					{
 					case ManagedSymbolItem::Interface:
 						{
-							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalType(node));
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
 						}
 						break;
 					}
@@ -68,12 +161,21 @@ ManagedLanguage_BuildGlobalScope4_Member
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedTypeMember)
 				{
-					ManagedSymbolItem* symbol=argument.symbolManager->GetSymbol(node->declaration.Obj());
+					ManagedSymbolDeclaration* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolDeclaration>(node->declaration.Obj());
 					switch(symbol->GetParentItem()->GetSymbolType())
 					{
 					case ManagedSymbolItem::Interface:
 						{
-							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+							argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalType(node));
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
+							AssertInheritance(node, containingType, symbol->inheritation, argument);
+							AssertMemberType(node, containingType, symbol->memberType, argument);
 						}
 						break;
 					}
@@ -102,16 +204,25 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 						{
 							if(symbol->accessor!=declatt::Public)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalAccessor(node));
 							}
 							if(symbol->memberType!=declatt::Instance)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalMemberType(node));
 							}
 							if(symbol->inheritation!=declatt::Abstract)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(node));
 							}
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
+							AssertInheritance(node, containingType, symbol->inheritation, argument);
+							AssertMemberType(node, containingType, symbol->memberType, argument);
 						}
 						break;
 					}
@@ -126,16 +237,25 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 						{
 							if(symbol->accessor!=declatt::Public)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalAccessor(node));
 							}
 							if(symbol->memberType!=declatt::Instance)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalMemberType(node));
 							}
 							if(symbol->inheritation!=declatt::Abstract)
 							{
-								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(node));
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(node));
 							}
+						}
+						break;
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+						{
+							ManagedSymbolDeclaration* containingType=dynamic_cast<ManagedSymbolDeclaration*>(symbol->GetParentItem());
+							AssertAccessor(node, containingType, symbol->accessor, argument);
+							AssertInheritance(node, containingType, symbol->inheritation, argument);
+							AssertMemberType(node, containingType, symbol->memberType, argument);
 						}
 						break;
 					}
@@ -171,11 +291,22 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalBaseClass(node));
 							}
 							{
+								if(symbol->memberType==declatt::Static)
+								{
+									if(dynamic_cast<ManagedSymbolDeclaration*>(baseType->GetSymbol())->memberType!=declatt::Static)
+									{
+										argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeIllegalBaseClass(node));
+									}
+								}
 								symbol->_baseType=baseType;
 							}
 							break;
 						case ManagedSymbolItem::Interface:
-							if(!derivedInterfaces.Contains(baseType))
+							if(symbol->memberType==declatt::Static)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeIllegalBaseClass(node));
+							}
+							else if(!derivedInterfaces.Contains(baseType))
 							{
 								derivedInterfaces.Add(baseType);
 							}
@@ -278,8 +409,24 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 							{
 								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalInheritation(node));
 							}
+							if(symbol->memberType==declatt::Static)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceIllegalMemberType(node));
+							}
 						}
 						break;
+					}
+
+					if(symbol->memberType==declatt::Static)
+					{
+						switch(symbol->inheritation)
+						{
+						case declatt::Abstract:
+						case declatt::Virtual:
+						case declatt::Override:
+							argument.errors.Add(ManagedLanguageCodeException::GetStaticTypeIllegalInheritance(node));
+							break;
+						}
 					}
 
 					switch(symbol->GetParentItem()->GetSymbolType())

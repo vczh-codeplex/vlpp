@@ -385,6 +385,7 @@ Basic Declarations
 					Ptr<ManagedAttributeInfo>,
 					ParsingList<Ptr<ManagedGenericInfo>>,
 					declatt::Accessor,
+					declatt::MemberType,
 					declatt::Inheritation,
 					ManagedTypeDeclaration::DeclarationType,
 					RegexToken,
@@ -397,6 +398,7 @@ Basic Declarations
 					x::ref(decl->attributeInfo)
 					.ref(decl->genericInfo)
 					.ref(decl->accessor)
+					.ref(decl->memberType)
 					.ref(decl->inheritation)
 					.ref(decl->declarationType)
 					.ref(decl->name)
@@ -604,6 +606,7 @@ ManagedXParserImpl
 											attributeInfo +
 											opt(genericInfo) +
 											accessor +
+											memberType +
 											inheritation +
 											(let(CLASS, ManagedTypeDeclaration::Class) | let(STRUCT, ManagedTypeDeclaration::Structure) | let(INTERFACE, ManagedTypeDeclaration::Interface)) +
 											ID(NeedId) +

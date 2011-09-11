@@ -941,6 +941,7 @@ Basic Declarations
 
 				declatt::Accessor									accessor;
 				declatt::Inheritation								inheritation;
+				declatt::MemberType									memberType;
 				ManagedGenericInfo									genericInfo;
 				ManagedAttributeInfo								attributeInfo;
 			};
