@@ -180,25 +180,19 @@ ManagedLanguage_GetTypeSymbol_Type
 									{
 										argument.namespaceResults.Add(currentSymbol);
 									}
-									if(ManagedSymbolItemGroup* group=currentSymbol->ItemGroup(ManagedSymbolUsingNamespace::SymbolName))
-									{
-										FOREACH(ManagedSymbolItem*, item, group->Items())
-										{
-											ManagedSymbolUsingNamespace* symbol=dynamic_cast<ManagedSymbolUsingNamespace*>(item);
-											EnsureUsingNamespaceSymbolCompleted(symbol, argument.context);
-											ManagedSymbolItem* namespaceReference=symbol->associatedNamespace;
-											if(namespaceReference && !argument.namespaceResults.Contains(namespaceReference))
-											{
-												argument.namespaceResults.Add(namespaceReference);
-											}
-										}
-									}
 								}
 								break;
 							case ManagedSymbolItem::Class:
 							case ManagedSymbolItem::Structure:
 							case ManagedSymbolItem::Interface:
 								{
+									FOREACH(ManagedSymbolNamespace*, item, dynamic_cast<ManagedSymbolDeclaration*>(currentSymbol)->_availableUsingNamespaces.Wrap())
+									{
+										if(!argument.namespaceResults.Contains(item))
+										{
+											argument.namespaceResults.Add(item);
+										}
+									}
 									argument.typeResults.Add(GetTypeFromInsideScope(currentSymbol, argument.context));
 								}
 								break;

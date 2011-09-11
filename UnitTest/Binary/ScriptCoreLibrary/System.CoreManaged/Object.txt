@@ -23,6 +23,8 @@ TODO:
   Clear NotImplementedException(EnumItemManager)
   Add Stacktrace in Exception
 */
+using System.Reflection;
+
 namespace System
 {
 	using System.CompilerModel;

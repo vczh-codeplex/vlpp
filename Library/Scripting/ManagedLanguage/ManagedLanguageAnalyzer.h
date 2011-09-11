@@ -27,14 +27,16 @@ ManagedAnalyzerParameter
 			class ManagedAnalyzerParameter : public Object
 			{
 				typedef collections::List<Ptr<ManagedLanguageCodeException>>		ErrorList;
+				typedef collections::List<ManagedUsingNamespaceDeclaration*>		UsingNamespaceList;
 			public:
 				ManagedSymbolManager*			symbolManager;
 				ManagedContextManager*			contextManager;
 				ManagedSymbolItem*				currentSymbol;
 				ErrorList&						errors;
+				UsingNamespaceList&				availableUsingNamespaceLanguageElements;
 				ManagedTypeSymbol*				expectedType;
 
-				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors);
+				ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors, UsingNamespaceList& _availableUsingNamespaceLanguageElements);
 				ManagedAnalyzerParameter(const ManagedAnalyzerParameter& parameter, ManagedSymbolItem* _currentSymbol, ManagedTypeSymbol* _expectedType=0);
 			};
 			typedef ManagedAnalyzerParameter MAP;
@@ -48,7 +50,7 @@ Helper Functions
 			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& extraNamespace, const WString& name, const MAP& argument, vint genericParameterCount=0);
 			extern ManagedTypeSymbol*			GetSystemType(ManagedLanguageElement* element, const WString& name, const MAP& argument, vint genericParameterCount=0);
 			extern ManagedTypeSymbol*			GetTypeSymbol(Ptr<ManagedType> type, const MAP& argument, ManagedSymbolItem* extraGenericParameterContainer=0);
-			extern void							EnsureUsingNamespaceSymbolCompleted(ManagedSymbolUsingNamespace* symbol, const MAP& argument);
+			extern void							EnsureUsingNamespaceSymbolCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument);
 			extern void							EnsureSymbolBaseTypesCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument);
 			extern void							EnsureTypeVisibilityInternal(ManagedLanguageElement* languageElement, ManagedTypeSymbol* type, ManagedSymbolItem* scopeItem, const MAP& argument);
 			extern collections::List<WString>*	GetOrderedGenericParameterNames(ManagedSymbolItem* declSymbol);

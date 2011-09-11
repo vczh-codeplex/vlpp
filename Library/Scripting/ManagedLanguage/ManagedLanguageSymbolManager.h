@@ -340,7 +340,7 @@ Data Members
 Declarations
 ***********************************************************************/
 
-			// Namespace {Namespace, UsingNamespace, TypeRename, Class, Structure, Interface}
+			// Namespace {Namespace, TypeRename, Class, Structure, Interface}
 			class ManagedSymbolNamespace : public ManagedSymbolItem
 			{
 			public:
@@ -384,6 +384,7 @@ Declarations
 
 				ManagedTypeDeclaration*									typeLanguageElement;
 				ManagedEnumerationDeclaration*							enumerationLanguageElement;
+				collections::List<ManagedUsingNamespaceDeclaration*>	availableUsingNamespaceLanguageElements;
 
 				declatt::Accessor										accessor;
 				declatt::Inheritation									inheritation;
@@ -394,8 +395,9 @@ Declarations
 				collections::List<WString>								orderedDataMemberNames;
 
 				ManagedTypeSymbol*										_baseType;
-				collections::List<ManagedTypeSymbol*>					_baseInterfaces;	// Flatten interface inheritence structure
+				collections::List<ManagedTypeSymbol*>					_baseInterfaces;			// Flatten interface inheritence structure
 				ManagedAbstractItem::ListType							_abstractTargets;
+				collections::List<ManagedSymbolNamespace*>				_availableUsingNamespaces;	// only for first level type
 			};
 
 /***********************************************************************

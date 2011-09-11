@@ -13,11 +13,12 @@ namespace vl
 ManagedAnalyzerParameter
 ***********************************************************************/
 
-			ManagedAnalyzerParameter::ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors)
+			ManagedAnalyzerParameter::ManagedAnalyzerParameter(ManagedSymbolManager* _symbolManager, ManagedContextManager* _contextManager, ErrorList& _errors, UsingNamespaceList& _availableUsingNamespaceLanguageElements)
 				:symbolManager(_symbolManager)
 				,contextManager(_contextManager)
 				,currentSymbol(_symbolManager->Global())
 				,errors(_errors)
+				,availableUsingNamespaceLanguageElements(_availableUsingNamespaceLanguageElements)
 				,expectedType(0)
 			{
 			}
@@ -27,6 +28,7 @@ ManagedAnalyzerParameter
 				,contextManager(parameter.contextManager)
 				,currentSymbol(_currentSymbol)
 				,errors(parameter.errors)
+				,availableUsingNamespaceLanguageElements(parameter.availableUsingNamespaceLanguageElements)
 				,expectedType(_expectedType)
 			{
 			}
@@ -53,9 +55,24 @@ ManagedLanguage_AnalyzeProgram
 					ScopeBuilder builder=builders[i];
 					if(builder)
 					{
+						if(i==0)
+						{
+							FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
+							{
+								Ptr<ManagedUsingNamespaceDeclaration> usingNamespaceDeclaration=declaration.Cast<ManagedUsingNamespaceDeclaration>();
+								if(usingNamespaceDeclaration)
+								{
+									argument.availableUsingNamespaceLanguageElements.Add(usingNamespaceDeclaration.Obj());
+								}
+							}
+						}
 						FOREACH(Ptr<ManagedDeclaration>, declaration, program->declarations.Wrap())
 						{
 							builders[i](declaration, argument);
+						}
+						if(i==0)
+						{
+							argument.availableUsingNamespaceLanguageElements.Clear();
 						}
 					}
 					else
@@ -208,6 +225,23 @@ EnsureUsingNamespaceSymbolCompleted
 					else
 					{
 						argument.errors.Add(ManagedLanguageCodeException::GetNamespaceNotExists(symbol->languageElement));
+					}
+				}
+			}
+
+			void EnsureUsingNamespaceSymbolCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument)
+			{
+				ManagedSymbolItem* currentNamespace=argument.symbolManager->Global();
+				if(symbol->availableUsingNamespaceLanguageElements.Count()!=0 && symbol->_availableUsingNamespaces.Count()==0)
+				{
+					FOREACH(ManagedUsingNamespaceDeclaration*, usingNamespaceDeclaration, symbol->availableUsingNamespaceLanguageElements.Wrap())
+					{
+						ManagedSymbolUsingNamespace* usingNamespaceSymbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolUsingNamespace>(usingNamespaceDeclaration);
+						EnsureUsingNamespaceSymbolCompleted(usingNamespaceSymbol, argument);
+						if(usingNamespaceSymbol->associatedNamespace && !symbol->_availableUsingNamespaces.Contains(usingNamespaceSymbol->associatedNamespace))
+						{
+							symbol->_availableUsingNamespaces.Add(usingNamespaceSymbol->associatedNamespace);
+						}
 					}
 				}
 			}

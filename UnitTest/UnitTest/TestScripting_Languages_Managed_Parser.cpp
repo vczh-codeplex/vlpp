@@ -115,9 +115,10 @@ namespace TestManagedXParserHelper
 	void AnalyzeManagedXPrograms(Ptr<ManagedProgram> program)
 	{
 		List<Ptr<ManagedLanguageCodeException>> errors;
+		List<ManagedUsingNamespaceDeclaration*> usingNamespaceList;
 		ManagedSymbolManager sm;
 		ManagedContextManager cm;
-		MAP argument(&sm, &cm, errors);
+		MAP argument(&sm, &cm, errors, usingNamespaceList);
 
 		ManagedLanguage_AnalyzeProgram(program, argument);
 		TEST_ASSERT(errors.Count()==0);
