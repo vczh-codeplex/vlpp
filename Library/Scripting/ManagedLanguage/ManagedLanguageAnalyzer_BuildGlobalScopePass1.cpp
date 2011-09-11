@@ -298,6 +298,7 @@ ManagedLanguage_BuildGlobalScope1_Declaration
 
 					symbol->accessor=node->accessor;
 					symbol->inheritation=node->inheritation;
+					symbol->memberType=node->memberType;
 					argument.currentSymbol->Add(symbol);
 
 					MAP newArgument(argument, symbol);

@@ -387,6 +387,7 @@ Declarations
 
 				declatt::Accessor										accessor;
 				declatt::Inheritation									inheritation;
+				declatt::MemberType										memberType;
 
 				collections::List<ManagedTypeSymbol*>					baseTypes;
 				collections::List<WString>								orderedGenericParameterNames;

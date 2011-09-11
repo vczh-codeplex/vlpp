@@ -26,6 +26,8 @@ namespace vl
 				virtual WString					TypeToString(ManagedTypeSymbol* type)=0;
 				virtual ManagedTypeSymbol*		ExpressionToType(ManagedExpression* expression)=0;
 				virtual WString					ExpressionToString(ManagedExpression* expression)=0;
+				virtual WString					MemberContainingTypeName(ManagedMember* member)=0;
+				virtual WString					MemberName(ManagedMember* member)=0;
 			public:
 				Ptr<LanguageException>			Translate(Ptr<ManagedLanguageCodeException> error, vint codeIndex);
 			};

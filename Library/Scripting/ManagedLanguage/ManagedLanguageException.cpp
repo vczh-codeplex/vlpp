@@ -181,6 +181,12 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 				return new ManagedLanguageCodeException(declaration, InterfaceIllegalBaseClass, parameters.Wrap());
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStaticTypeIllegalBaseClass(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, StaticTypeIllegalBaseClass, parameters.Wrap());
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetClassStructureTooMuchBaseClasses(ManagedTypeDeclaration* declaration)
 			{
 				Array<WString> parameters(0);
@@ -199,34 +205,46 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 				return new ManagedLanguageCodeException(declaration, InterfaceIllegalInheritation, parameters.Wrap());
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberType(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, InterfaceIllegalMemberType, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStaticTypeIllegalInheritance(ManagedTypeDeclaration* declaration)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, StaticTypeIllegalInheritance, parameters.Wrap());
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeIllegalAccessor(ManagedTypeDeclaration* declaration)
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(declaration, TypeIllegalAccessor, parameters.Wrap());
 			}
 
-			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberType(ManagedMember* member)
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalType(ManagedMember* member)
 			{
 				Array<WString> parameters(0);
-				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberType, parameters.Wrap());
+				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalType, parameters.Wrap());
 			}
 
-			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberAccessor(ManagedMember* member)
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalAccessor(ManagedMember* member)
 			{
 				Array<WString> parameters(0);
-				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberAccessor, parameters.Wrap());
+				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalAccessor, parameters.Wrap());
 			}
 
-			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberMemberType(ManagedMember* member)
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalMemberType(ManagedMember* member)
 			{
 				Array<WString> parameters(0);
-				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberMemberType, parameters.Wrap());
+				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalMemberType, parameters.Wrap());
 			}
 
-			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceIllegalMemberInheritation(ManagedMember* member)
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(ManagedMember* member)
 			{
 				Array<WString> parameters(0);
-				return new ManagedLanguageCodeException(member, InterfaceIllegalMemberInheritation, parameters.Wrap());
+				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalInheritation, parameters.Wrap());
 			}
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSealedTypeMemberIllegalAccessor(ManagedMember* member)
@@ -239,6 +257,24 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(member, SealedTypeMemberIllegalInheritance, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStaticTypeMemberIllegalAccessor(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, StaticTypeMemberIllegalAccessor, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStaticTypeMemberIllegalInheritance(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, StaticTypeMemberIllegalInheritance, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetStaticTypeMemberIllegalMemberType(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, StaticTypeMemberIllegalMemberType, parameters.Wrap());
 			}
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetNonAbstractTypeMemberIllegalInheritance(ManagedMember* member)
