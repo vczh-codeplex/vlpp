@@ -79,6 +79,87 @@ namespace vl
 				}
 			}
 
+			template<typename T>
+			ManagedAbstractItem FindOverrideTargetInternal(
+				T* member,
+				ManagedSymbolDeclaration* containingType,
+				ManagedTypeSymbol* abstractType,
+				bool(*checker)(T*, ManagedSymbolDeclaration*, T*, ManagedTypeSymbol*, const MAP&),
+				const MAP& argument
+				)
+			{
+				ManagedSymbolDeclaration* abstractSymbol=dynamic_cast<ManagedSymbolDeclaration*>(abstractType->GetSymbol());
+				if(ManagedSymbolItemGroup* group=abstractSymbol->ItemGroup(member->GetName()))
+				{
+					FOREACH(ManagedSymbolItem*, item, group->Items())
+					{
+						T* abstractMember=dynamic_cast<T*>(item);
+						if(abstractMember)
+						{
+							switch(abstractMember->inheritation)
+							{
+							case declatt::Virtual:
+							case declatt::Abstract:
+								{
+									if(checker(member, containingType, abstractMember, abstractType, argument))
+									{
+										ManagedAbstractItem result;
+										result.symbol=abstractMember;
+										result.type=abstractType;
+										return result;
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+
+				FOREACH(ManagedTypeSymbol*, baseType, abstractSymbol->baseTypes.Wrap())
+				{
+					if((abstractSymbol->GetSymbolType()==ManagedSymbolItem::Interface)==(baseType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::Interface))
+					{
+						baseType=argument.symbolManager->ReplaceGenericArguments(baseType, abstractType);
+						ManagedAbstractItem result=FindOverrideTargetInternal(member, containingType, baseType, checker, argument);
+						if(result)
+						{
+							return result;
+						}
+					}
+				}
+				return ManagedAbstractItem();
+			}
+
+			bool FindOverrideTargetInternalChecker(ManagedSymbolMethod* member, ManagedSymbolDeclaration* containingType, ManagedSymbolMethod* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return true;
+			}
+
+			bool FindOverrideTargetInternalChecker(ManagedSymbolProperty* member, ManagedSymbolDeclaration* containingType, ManagedSymbolProperty* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return true;
+			}
+
+			bool FindOverrideTargetInternalChecker(ManagedSymbolConverterOperator* member, ManagedSymbolDeclaration* containingType, ManagedSymbolConverterOperator* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return true;
+			}
+
+			ManagedAbstractItem FindOverrideTarget(ManagedSymbolMethod* member, ManagedSymbolDeclaration* containingType, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return FindOverrideTargetInternal(member, containingType, abstractType, &FindOverrideTargetInternalChecker, argument);
+			}
+
+			ManagedAbstractItem FindOverrideTarget(ManagedSymbolProperty* member, ManagedSymbolDeclaration* containingType, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return FindOverrideTargetInternal(member, containingType, abstractType, &FindOverrideTargetInternalChecker, argument);
+			}
+
+			ManagedAbstractItem FindOverrideTarget(ManagedSymbolConverterOperator* member, ManagedSymbolDeclaration* containingType, ManagedTypeSymbol* abstractType, const MAP& argument)
+			{
+				return FindOverrideTargetInternal(member, containingType, abstractType, &FindOverrideTargetInternalChecker, argument);
+			}
+
 /***********************************************************************
 ManagedLanguage_BuildGlobalScope4_Member
 ***********************************************************************/
@@ -152,6 +233,43 @@ ManagedLanguage_BuildGlobalScope4_Member
 								if(!containingType->_baseInterfaces.Contains(symbol->implementedInterfaceType))
 								{
 									argument.errors.Add(ManagedLanguageCodeException::GetMemberImplementedInterfaceTypeNotExists(node));
+								}
+								if(!FindOverrideTarget(symbol, containingType, symbol->implementedInterfaceType, argument))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(node));
+								}
+							}
+							else
+							{
+								switch(symbol->inheritation)
+								{
+								case declatt::Override:
+									{
+										ManagedTypeSymbol* thisType=GetTypeFromInsideScope(containingType, argument);
+										ManagedAbstractItem overridedMember=FindOverrideTarget(symbol, containingType, thisType, argument);
+										if(!overridedMember)
+										{
+											argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(node));
+										}
+										else
+										{
+											if(symbol->accessor!=dynamic_cast<ManagedSymbolMethod*>(overridedMember.symbol)->accessor)
+											{
+												argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetIllegalAccessor(node));
+											}
+											containingType->_abstractTargets.Remove(overridedMember);
+										}
+									}
+									break;
+								case declatt::Abstract:
+									{
+										ManagedTypeSymbol* thisType=GetTypeFromInsideScope(containingType, argument);
+										ManagedAbstractItem abstractItem;
+										abstractItem.type=thisType;
+										abstractItem.symbol=symbol;
+										containingType->_abstractTargets.Add(abstractItem);
+									}
+									break;
 								}
 							}
 						}
@@ -262,6 +380,42 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 								{
 									argument.errors.Add(ManagedLanguageCodeException::GetMemberImplementedInterfaceTypeNotExists(node));
 								}
+								if(!FindOverrideTarget(symbol, containingType, symbol->implementedInterfaceType, argument))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(node));
+								}
+							}
+							else
+							{
+								ManagedTypeSymbol* thisType=GetTypeFromInsideScope(containingType, argument);
+								switch(symbol->inheritation)
+								{
+								case declatt::Override:
+									{
+										ManagedAbstractItem overridedMember=FindOverrideTarget(symbol, containingType, thisType, argument);
+										if(!overridedMember)
+										{
+											argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(node));
+										}
+										else
+										{
+											if(symbol->accessor!=dynamic_cast<ManagedSymbolProperty*>(overridedMember.symbol)->accessor)
+											{
+												argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetIllegalAccessor(node));
+											}
+											containingType->_abstractTargets.Remove(overridedMember);
+										}
+									}
+									break;
+								case declatt::Abstract:
+									{
+										ManagedAbstractItem abstractItem;
+										abstractItem.type=thisType;
+										abstractItem.symbol=symbol;
+										containingType->_abstractTargets.Add(abstractItem);
+									}
+									break;
+								}
 							}
 						}
 						break;
@@ -296,6 +450,37 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 							AssertAccessor(node, containingType, symbol->accessor, argument);
 							AssertInheritance(node, containingType, symbol->inheritation, argument);
 							AssertMemberType(node, containingType, symbol->memberType, argument);
+
+							
+							ManagedTypeSymbol* thisType=GetTypeFromInsideScope(containingType, argument);
+							switch(symbol->inheritation)
+							{
+							case declatt::Override:
+								{
+									ManagedAbstractItem overridedMember=FindOverrideTarget(symbol, containingType, thisType, argument);
+									if(!overridedMember)
+									{
+										argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(node));
+									}
+									else
+									{
+										if(symbol->accessor!=dynamic_cast<ManagedSymbolConverterOperator*>(overridedMember.symbol)->accessor)
+										{
+											argument.errors.Add(ManagedLanguageCodeException::GetMemberOverridedTargetIllegalAccessor(node));
+										}
+										containingType->_abstractTargets.Remove(overridedMember);
+									}
+								}
+								break;
+							case declatt::Abstract:
+								{
+									ManagedAbstractItem abstractItem;
+									abstractItem.type=thisType;
+									abstractItem.symbol=symbol;
+									containingType->_abstractTargets.Add(abstractItem);
+								}
+								break;
+							}
 						}
 						break;
 					}
@@ -482,9 +667,37 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 						break;
 					}
 
+					if(symbol->_baseType)
+					{
+						ManagedTypeSymbol* thisType=GetTypeFromInsideScope(symbol, argument);
+						ManagedSymbolDeclaration* baseSymbol=dynamic_cast<ManagedSymbolDeclaration*>(symbol->_baseType->GetSymbol());
+						FOREACH(ManagedAbstractItem, abstractItem, baseSymbol->_abstractTargets.Wrap())
+						{
+							ManagedAbstractItem newAbstractItem;
+							newAbstractItem.symbol=abstractItem.symbol;
+							newAbstractItem.type=argument.symbolManager->ReplaceGenericArguments(abstractItem.type, thisType);
+							symbol->_abstractTargets.Add(newAbstractItem);
+						}
+					}
+
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
 						ManagedLanguage_BuildGlobalScope4_Member(member, argument);
+					}
+
+					if(symbol->GetSymbolType()!=ManagedSymbolItem::Interface)
+					{
+						if(symbol->inheritation!=declatt::Abstract && symbol->_abstractTargets.Count()>0)
+						{
+							for(vint i=0;i<symbol->_abstractTargets.Count();i++)
+							{
+								ManagedAbstractItem abstractItem=symbol->_abstractTargets[i];
+								argument.errors.Add(ManagedLanguageCodeException::GetAbstractMemberNotImplemented(node, abstractItem.type, abstractItem.symbol));
+							}
+						}
+						FOREACH(ManagedTypeSymbol*, interfaceType, symbol->_baseInterfaces.Wrap())
+						{
+						}
 					}
 				}
 

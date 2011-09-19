@@ -13,9 +13,11 @@ namespace vl
 ManagedLanguageCodeException
 ***********************************************************************/
 
-			ManagedLanguageCodeException::ManagedLanguageCodeException(ManagedLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, ManagedTypeSymbol* _typeParameter)
+			ManagedLanguageCodeException::ManagedLanguageCodeException(ManagedLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, ManagedTypeSymbol* _typeParameter, ManagedTypeSymbol* _memberTypeParameter, ManagedSymbolItem* _memberSymbolParameter)
 				:element(_element)
 				,typeParameter(_typeParameter)
+				,memberTypeParameter(_memberTypeParameter)
+				,memberSymbolParameter(_memberSymbolParameter)
 				,exceptionCode(_exceptionCode)
 			{
 				CopyFrom(parameters.Wrap(), _parameters);
@@ -41,6 +43,16 @@ ManagedLanguageCodeException
 			ManagedTypeSymbol* ManagedLanguageCodeException::GetTypeParameter()const
 			{
 				return typeParameter;
+			}
+
+			ManagedTypeSymbol* ManagedLanguageCodeException::GetMemberTypeParameter()const
+			{
+				return memberTypeParameter;
+			}
+
+			ManagedSymbolItem* ManagedLanguageCodeException::GetMemberSymbolParameter()const
+			{
+				return memberSymbolParameter;
 			}
 
 			ManagedLanguageCodeException::ExceptionCode ManagedLanguageCodeException::GetExceptionCode()const
@@ -221,6 +233,18 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(declaration, TypeIllegalAccessor, parameters.Wrap());
+			}
+			
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberNotImplemented(ManagedTypeDeclaration* declaration, ManagedTypeSymbol* abstractMemberType, ManagedSymbolItem* abstractMemberSymbol)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, InterfaceMemberNotImplemented, parameters.Wrap(), 0, abstractMemberType, abstractMemberSymbol);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetAbstractMemberNotImplemented(ManagedTypeDeclaration* declaration, ManagedTypeSymbol* abstractMemberType, ManagedSymbolItem* abstractMemberSymbol)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(declaration, AbstractMemberNotImplemented, parameters.Wrap(), 0, abstractMemberType, abstractMemberSymbol);
 			}
 
 /***********************************************************************

@@ -13,7 +13,7 @@ namespace System
 
 	public interface IEnumerable
 	{
-		public abstract IEnumerator GetEnunmerator();
+		public abstract IEnumerator GetEnumerator();
 	}
 
 	generic<inout T>
@@ -25,6 +25,6 @@ namespace System
 	generic<inout T>
 	public interface IEnumerable : IEnumerable
 	{
-		public abstract IEnumerator<T> GetEnunmerator();
+		public abstract IEnumerator<T> GetEnumerator();
 	}
 }
