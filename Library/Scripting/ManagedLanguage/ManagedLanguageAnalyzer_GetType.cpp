@@ -218,7 +218,7 @@ Helper Functions
 					switch(GetRealSymbol(baseType->GetSymbol())->GetSymbolType())
 					{
 					case ManagedSymbolItem::Class:
-					case ManagedSymbolItem::Interface:
+					case ManagedSymbolItem::Structure:
 						firstBaseType=baseType;
 						break;
 					}
@@ -226,7 +226,7 @@ Helper Functions
 
 				if(firstBaseType)
 				{
-					return argument.symbolManager->ReplaceGenericArguments(firstBaseType, type);
+					return argument.symbolManager->GetBaseType(firstBaseType, type);
 				}
 				else
 				{
@@ -378,7 +378,7 @@ SearchMember
 						{
 							if(containerScope->GetSymbolType()==ManagedSymbolItem::Interface || GetRealSymbol(baseType->GetSymbol())->GetSymbolType()!=ManagedSymbolItem::Interface)
 							{
-								SearchMemberOfType(thisType, argument.symbolManager->ReplaceGenericArguments(baseType, containerType), staticOnly, name, argument, choices);
+								SearchMemberOfType(thisType, argument.symbolManager->GetBaseType(baseType, containerType), staticOnly, name, argument, choices);
 							}
 						}
 					}

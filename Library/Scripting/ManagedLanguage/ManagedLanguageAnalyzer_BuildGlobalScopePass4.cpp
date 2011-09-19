@@ -119,7 +119,7 @@ namespace vl
 				{
 					if((abstractSymbol->GetSymbolType()==ManagedSymbolItem::Interface)==(baseType->GetSymbol()->GetSymbolType()==ManagedSymbolItem::Interface))
 					{
-						baseType=argument.symbolManager->ReplaceGenericArguments(baseType, abstractType);
+						baseType=argument.symbolManager->GetBaseType(baseType, abstractType);
 						ManagedAbstractItem result=FindOverrideTargetInternal(member, containingType, baseType, checker, argument);
 						if(result)
 						{
@@ -567,7 +567,7 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 								{
 									if(GetRealSymbol(baseType->GetSymbol())->GetSymbolType()==ManagedSymbolItem::Interface)
 									{
-										baseType=GetRealType(argument.symbolManager->ReplaceGenericArguments(baseType, derivedInterface), argument);
+										baseType=GetRealType(argument.symbolManager->GetBaseType(baseType, derivedInterface), argument);
 										if(!derivedInterfaces.Contains(baseType))
 										{
 											derivedInterfaces.Add(baseType);
@@ -675,7 +675,7 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 						{
 							ManagedAbstractItem newAbstractItem;
 							newAbstractItem.symbol=abstractItem.symbol;
-							newAbstractItem.type=argument.symbolManager->ReplaceGenericArguments(abstractItem.type, thisType);
+							newAbstractItem.type=argument.symbolManager->ReplaceGenericArguments(abstractItem.type, symbol->_baseType);
 							symbol->_abstractTargets.Add(newAbstractItem);
 						}
 					}
