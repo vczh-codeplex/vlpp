@@ -309,6 +309,11 @@ ManagedSymbolManager
 				return ReplaceGenericArguments(type, map.Wrap());
 			}
 
+			ManagedTypeSymbol* ManagedSymbolManager::GetBaseType(ManagedTypeSymbol* declaredBaseType, ManagedTypeSymbol* instantiatedThisType)
+			{
+				return ReplaceGenericArguments(declaredBaseType, instantiatedThisType);
+			}
+
 			void ManagedSymbolManager::SetSymbol(ManagedLanguageElement* element, ManagedSymbolItem* symbolItem)
 			{
 				elementSymbolMap.Add(element, symbolItem);

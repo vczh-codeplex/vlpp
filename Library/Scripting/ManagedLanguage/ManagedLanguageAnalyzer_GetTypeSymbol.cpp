@@ -116,7 +116,7 @@ Helper Functions
 					{
 						FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerType->GetSymbol())->baseTypes.Wrap())
 						{
-							SearchMemberOfType(argument.symbolManager->ReplaceGenericArguments(baseType, containerType), argument, member, newTypeResults);
+							SearchMemberOfType(argument.symbolManager->GetBaseType(baseType, containerType), argument, member, newTypeResults);
 						}
 					}
 				}
