@@ -55,12 +55,15 @@ namespace vl
 				static WString InterfaceMemberIllegalAccessor(const WString& name, const WString& member);
 				static WString InterfaceMemberIllegalMemberType(const WString& name, const WString& member);
 				static WString InterfaceMemberIllegalInheritation(const WString& name, const WString& member);
+				static WString InterfaceMemberIllegalImplementedInterface(const WString& name, const WString& member);
 				static WString SealedTypeMemberIllegalAccessor(const WString& name, const WString& member);
 				static WString SealedTypeMemberIllegalInheritance(const WString& name, const WString& member);
 				static WString StaticTypeMemberIllegalAccessor(const WString& name, const WString& member);
 				static WString StaticTypeMemberIllegalInheritance(const WString& name, const WString& member);
 				static WString StaticTypeMemberIllegalMemberType(const WString& name, const WString& member);
 				static WString NonAbstractTypeMemberIllegalInheritance(const WString& name, const WString& member);
+				static WString InterfaceImplementedMemberIllegalMemberType(const WString& name, const WString& member);
+				static WString InterfaceImplementedMemberIllegalInheritation(const WString& name, const WString& member);
 				static WString MemberImplementedInterfaceTypeNotExists(const WString& name, const WString& member);
 				static WString MemberOverridedTargetNotExists(const WString& name, const WString& member);
 				static WString MemberOverridedTargetIllegalAccessor(const WString& name, const WString& member);

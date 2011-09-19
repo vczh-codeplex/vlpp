@@ -125,6 +125,10 @@ ManagedLanguage_BuildGlobalScope4_Member
 							{
 								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(node));
 							}
+							if(symbol->implementedInterfaceType)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalImplementedInterface(node));
+							}
 						}
 						break;
 					case ManagedSymbolItem::Class:
@@ -134,6 +138,22 @@ ManagedLanguage_BuildGlobalScope4_Member
 							AssertAccessor(node, containingType, symbol->accessor, argument);
 							AssertInheritance(node, containingType, symbol->inheritation, argument);
 							AssertMemberType(node, containingType, symbol->memberType, argument);
+							
+							if(symbol->implementedInterfaceType)
+							{
+								if(symbol->memberType==declatt::Static)
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalMemberType(node));
+								}
+								if(symbol->inheritation==declatt::Override)
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalInheritation(node));
+								}
+								if(!containingType->_baseInterfaces.Contains(symbol->implementedInterfaceType))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetMemberImplementedInterfaceTypeNotExists(node));
+								}
+							}
 						}
 						break;
 					}
@@ -214,6 +234,10 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 							{
 								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalInheritation(node));
 							}
+							if(symbol->implementedInterfaceType)
+							{
+								argument.errors.Add(ManagedLanguageCodeException::GetInterfaceMemberIllegalImplementedInterface(node));
+							}
 						}
 						break;
 					case ManagedSymbolItem::Class:
@@ -223,6 +247,22 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 							AssertAccessor(node, containingType, symbol->accessor, argument);
 							AssertInheritance(node, containingType, symbol->inheritation, argument);
 							AssertMemberType(node, containingType, symbol->memberType, argument);
+							
+							if(symbol->implementedInterfaceType)
+							{
+								if(symbol->memberType==declatt::Static)
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalMemberType(node));
+								}
+								if(symbol->inheritation==declatt::Override)
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalInheritation(node));
+								}
+								if(!containingType->_baseInterfaces.Contains(symbol->implementedInterfaceType))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetMemberImplementedInterfaceTypeNotExists(node));
+								}
+							}
 						}
 						break;
 					}
