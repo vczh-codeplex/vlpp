@@ -136,6 +136,16 @@ namespace vl
 				return L"Type "+name+L" cannot be protected or protected internal when it is not a sub type.";
 			}
 
+			WString ManagedErrorMessage::InterfaceMemberNotImplemented(const WString& name, const WString& memberType, const WString& member)
+			{
+				return L"Type "+member+L" should implement member "+member+L" of interface "+memberType+L".";
+			}
+
+			WString ManagedErrorMessage::AbstractMemberNotImplemented(const WString& name, const WString& memberType, const WString& member)
+			{
+				return L"Type "+member+L" should implement member "+member+L" of abstract type "+memberType+L".";
+			}
+
 			WString ManagedErrorMessage::InterfaceMemberIllegalType(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" cannot be declared in interface "+name+L" because it is not a property, a method or a converter operator.";

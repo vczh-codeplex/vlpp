@@ -27,6 +27,9 @@ InterfaceIllegalInheritation(name)=Interface {name} should be abstract.
 InterfaceIllegalMemberType(name)=Interface {name} cannot be static.
 StaticTypeIllegalInheritance(name)=Static type {name} cannot be abstract, virtual or override.
 TypeIllegalAccessor(name)=Type {name} cannot be protected or protected internal when it is not a sub type.
+InterfaceMemberNotImplemented(name,memberType,member)=Type {member} should implement member {member} of interface {memberType}.
+AbstractMemberNotImplemented(name,memberType,member)=Type {member} should implement member {member} of abstract type {memberType}.
+
 InterfaceMemberIllegalType(name,member)=Member {member} cannot be declared in interface {name} because it is not a property, a method or a converter operator.
 InterfaceMemberIllegalAccessor(name,member)=Member {member} in interface {name} should be public.
 InterfaceMemberIllegalMemberType(name,member)=Member {member} in interface {name} cannot be static.

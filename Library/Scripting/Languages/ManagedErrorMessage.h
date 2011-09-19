@@ -51,6 +51,8 @@ namespace vl
 				static WString InterfaceIllegalMemberType(const WString& name);
 				static WString StaticTypeIllegalInheritance(const WString& name);
 				static WString TypeIllegalAccessor(const WString& name);
+				static WString InterfaceMemberNotImplemented(const WString& name, const WString& memberType, const WString& member);
+				static WString AbstractMemberNotImplemented(const WString& name, const WString& memberType, const WString& member);
 				static WString InterfaceMemberIllegalType(const WString& name, const WString& member);
 				static WString InterfaceMemberIllegalAccessor(const WString& name, const WString& member);
 				static WString InterfaceMemberIllegalMemberType(const WString& name, const WString& member);

@@ -174,6 +174,11 @@ ManagedAbstractItem
 			{
 			}
 
+			ManagedAbstractItem:: operator bool()const
+			{
+				return type!=0 && symbol!=0;
+			}
+
 			bool ManagedAbstractItem::operator==(const ManagedAbstractItem& value)
 			{
 				return type==value.type && symbol==value.symbol;

@@ -201,6 +201,8 @@ Others
 				ManagedAbstractItem();
 				~ManagedAbstractItem();
 
+				operator bool()const;
+
 				bool													operator==(const ManagedAbstractItem& value);
 				bool													operator!=(const ManagedAbstractItem& value);
 			};

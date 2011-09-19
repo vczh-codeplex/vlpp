@@ -50,6 +50,9 @@ namespace vl
 					InterfaceIllegalMemberType,							// <ManagedTypeDeclaration>
 					StaticTypeIllegalInheritance,						// <ManagedTypeDeclaration>
 					TypeIllegalAccessor,								// <ManagedTypeDeclaration>
+					InterfaceMemberNotImplemented,						// <ManagedTypeDeclaration>
+					AbstractMemberNotImplemented,						// <ManagedTypeDeclaration>
+
 					InterfaceMemberIllegalType,							// <ManagedMember>
 					InterfaceMemberIllegalAccessor,						// <ManagedMember>
 					InterfaceMemberIllegalMemberType,					// <ManagedMember>
@@ -86,15 +89,19 @@ namespace vl
 			protected:
 				ManagedLanguageElement*											element;
 				ManagedTypeSymbol*												typeParameter;
+				ManagedTypeSymbol*												memberTypeParameter;
+				ManagedSymbolItem*												memberSymbolParameter;
 				ExceptionCode													exceptionCode;
 				collections::List<WString>										parameters;
 			public:
-				ManagedLanguageCodeException(ManagedLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, ManagedTypeSymbol* _typeParameter=0);
+				ManagedLanguageCodeException(ManagedLanguageElement* _element, ExceptionCode _exceptionCode, const collections::IReadonlyList<WString>& _parameters, ManagedTypeSymbol* _typeParameter=0, ManagedTypeSymbol* _memberTypeParameter=0, ManagedSymbolItem* _memberSymbolParameter=0);
 				ManagedLanguageCodeException(const ManagedLanguageCodeException& exception);
 				~ManagedLanguageCodeException();
 
 				ManagedLanguageElement*											GetManagedLanguageElement()const;
 				ManagedTypeSymbol*												GetTypeParameter()const;
+				ManagedTypeSymbol*												GetMemberTypeParameter()const;
+				ManagedSymbolItem*												GetMemberSymbolParameter()const;
 				ExceptionCode													GetExceptionCode()const;
 				const collections::IReadonlyList<WString>&						GetParameters()const;
 
@@ -125,6 +132,9 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceIllegalMemberType(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetStaticTypeIllegalInheritance(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetTypeIllegalAccessor(ManagedTypeDeclaration* declaration);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberNotImplemented(ManagedTypeDeclaration* declaration, ManagedTypeSymbol* abstractMemberType, ManagedSymbolItem* abstractMemberSymbol);
+				static Ptr<ManagedLanguageCodeException>						GetAbstractMemberNotImplemented(ManagedTypeDeclaration* declaration, ManagedTypeSymbol* abstractMemberType, ManagedSymbolItem* abstractMemberSymbol);
+
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalType(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalAccessor(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalMemberType(ManagedMember* member);

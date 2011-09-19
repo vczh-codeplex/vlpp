@@ -18,6 +18,11 @@ ManagedErrorMessageTranslator
 				WString message;
 				switch(error->GetExceptionCode())
 				{
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
+***********************************************************************/
+
 				case ManagedLanguageCodeException::SymbolAlreadyDefined:
 					{
 						message=ManagedErrorMessage::SymbolAlreadyDefined(error->GetParameters()[0]);
@@ -115,6 +120,11 @@ ManagedErrorMessageTranslator
 						}
 					}
 					break;
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
+***********************************************************************/
+
 				case ManagedLanguageCodeException::TypeCannotDerivedFromItself:
 					{
 						ManagedTypeDeclaration* declaration=dynamic_cast<ManagedTypeDeclaration*>(error->GetManagedLanguageElement());
@@ -181,6 +191,27 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::TypeIllegalAccessor(declaration->name);
 					}
 					break;
+				case ManagedLanguageCodeException::InterfaceMemberNotImplemented:
+					{
+						ManagedTypeDeclaration* declaration=dynamic_cast<ManagedTypeDeclaration*>(error->GetManagedLanguageElement());
+						ManagedTypeSymbol* memberType=error->GetMemberTypeParameter();
+						ManagedSymbolItem* memberSymbol=error->GetMemberSymbolParameter();
+						message=ManagedErrorMessage::InterfaceMemberNotImplemented(declaration->name, TypeToString(memberType), MemberHeader(memberSymbol));
+					}
+					break;
+				case ManagedLanguageCodeException::AbstractMemberNotImplemented:
+					{
+						ManagedTypeDeclaration* declaration=dynamic_cast<ManagedTypeDeclaration*>(error->GetManagedLanguageElement());
+						ManagedTypeSymbol* memberType=error->GetMemberTypeParameter();
+						ManagedSymbolItem* memberSymbol=error->GetMemberSymbolParameter();
+						message=ManagedErrorMessage::AbstractMemberNotImplemented(declaration->name, TypeToString(memberType), MemberHeader(memberSymbol));
+					}
+					break;
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::DeclarationMemberChecking
+***********************************************************************/
+
 				case ManagedLanguageCodeException::InterfaceMemberIllegalType:
 					{
 						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
@@ -277,6 +308,11 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::MemberOverridedTargetIllegalAccessor(MemberContainingTypeName(member), MemberName(member));
 					}
 					break;
+
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::SymbolResolving
+***********************************************************************/
+
 				case ManagedLanguageCodeException::ExpressionResolvingFailed:
 					{
 						message=ManagedErrorMessage::ExpressionResolvingFailed(error->GetParameters()[0]);
