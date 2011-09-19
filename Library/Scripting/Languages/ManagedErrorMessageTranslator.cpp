@@ -205,6 +205,12 @@ ManagedErrorMessageTranslator
 						message=ManagedErrorMessage::InterfaceMemberIllegalInheritation(MemberContainingTypeName(member), MemberName(member));
 					}
 					break;
+				case ManagedLanguageCodeException::InterfaceMemberIllegalImplementedInterface:
+					{
+						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
+						message=ManagedErrorMessage::InterfaceMemberIllegalImplementedInterface(MemberContainingTypeName(member), MemberName(member));
+					}
+					break;
 				case ManagedLanguageCodeException::SealedTypeMemberIllegalAccessor:
 					{
 						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
@@ -239,6 +245,18 @@ ManagedErrorMessageTranslator
 					{
 						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
 						message=ManagedErrorMessage::NonAbstractTypeMemberIllegalInheritance(MemberContainingTypeName(member), MemberName(member));
+					}
+					break;
+				case ManagedLanguageCodeException::InterfaceImplementedMemberIllegalInheritation:
+					{
+						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
+						message=ManagedErrorMessage::InterfaceImplementedMemberIllegalInheritation(MemberContainingTypeName(member), MemberName(member));
+					}
+					break;
+				case ManagedLanguageCodeException::InterfaceImplementedMemberIllegalMemberType:
+					{
+						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
+						message=ManagedErrorMessage::InterfaceImplementedMemberIllegalMemberType(MemberContainingTypeName(member), MemberName(member));
 					}
 					break;
 				case ManagedLanguageCodeException::MemberImplementedInterfaceTypeNotExists:

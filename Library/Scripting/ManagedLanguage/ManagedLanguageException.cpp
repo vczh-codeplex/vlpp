@@ -154,7 +154,7 @@ ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
 			}
 
 /***********************************************************************
-ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
+ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
 ***********************************************************************/
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeCannotDerivedFromItself(ManagedTypeDeclaration* declaration)
@@ -223,6 +223,10 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 				return new ManagedLanguageCodeException(declaration, TypeIllegalAccessor, parameters.Wrap());
 			}
 
+/***********************************************************************
+ManagedLanguageCodeException::ExceptionCode::DeclarationMemberChecking
+***********************************************************************/
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalType(ManagedMember* member)
 			{
 				Array<WString> parameters(0);
@@ -245,6 +249,12 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalInheritation, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceMemberIllegalImplementedInterface(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceMemberIllegalImplementedInterface, parameters.Wrap());
 			}
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetSealedTypeMemberIllegalAccessor(ManagedMember* member)
@@ -287,6 +297,18 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationChecking
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(member, MemberImplementedInterfaceTypeNotExists, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalMemberType(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceImplementedMemberIllegalMemberType, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInterfaceImplementedMemberIllegalInheritation(ManagedMember* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, InterfaceImplementedMemberIllegalInheritation, parameters.Wrap());
 			}
 
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetMemberOverridedTargetNotExists(ManagedMember* member)

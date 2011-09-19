@@ -23,62 +23,65 @@ namespace vl
 			public:
 				enum ExceptionCode
 				{
-					SymbolAlreadyDefined,						// <all>								:name
-					NamespaceNotExists,							// <ManagedUsingNamespaceDeclaration>
-					SystemTypeNotExists,						// <all>								:name
-					SystemTypeDuplicated,						// <all>								:name
-					TypeNotExists,								// <ManagedType>
-					TypeDuplicated,								// <ManagedType>
-					IllegalAutoRefer,							// <ManagedAutoReferType>
-					CannotDirectReferTypeRenameAsToplevel,		// <ManagedTypeRenameDeclaration>		:name
-					IllegalNestedDeclaration,					// <ManagedTypeMember>
-					TypeInvisible,								// <all>
-					TypeInvisibleOutSideOfAssembly,				// <all>
-					CannotUseUninstantiatedGenericType,			// <all>
-					GenericTypeArgumentCountNotMatches,			// <all>
-					GenericTypeTypeConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
-					GenericTypeNewConstraintNotSatisfied,		// <all>								:index(type parameters generic argument index)
+					SymbolAlreadyDefined,								// <all>								:name
+					NamespaceNotExists,									// <ManagedUsingNamespaceDeclaration>
+					SystemTypeNotExists,								// <all>								:name
+					SystemTypeDuplicated,								// <all>								:name
+					TypeNotExists,										// <ManagedType>
+					TypeDuplicated,										// <ManagedType>
+					IllegalAutoRefer,									// <ManagedAutoReferType>
+					CannotDirectReferTypeRenameAsToplevel,				// <ManagedTypeRenameDeclaration>		:name
+					IllegalNestedDeclaration,							// <ManagedTypeMember>
+					TypeInvisible,										// <all>
+					TypeInvisibleOutSideOfAssembly,						// <all>
+					CannotUseUninstantiatedGenericType,					// <all>
+					GenericTypeArgumentCountNotMatches,					// <all>
+					GenericTypeTypeConstraintNotSatisfied,				// <all>								:index(type parameters generic argument index)
+					GenericTypeNewConstraintNotSatisfied,				// <all>								:index(type parameters generic argument index)
 
-					TypeCannotDerivedFromItself,				// <ManagedTypeDeclaration>
-					ClassIllegalBaseClass,						// <ManagedTypeDeclaration>
-					StructureIllegalBaseClass,					// <ManagedTypeDeclaration>
-					InterfaceIllegalBaseClass,					// <ManagedTypeDeclaration>
-					StaticTypeIllegalBaseClass,					// <ManagedTypeDeclaration>
-					ClassStructureTooMuchBaseClasses,			// <ManagedTypeDeclaration>
-					ClassStructureIllegalInheritation,			// <ManagedTypeDeclaration>
-					InterfaceIllegalInheritation,				// <ManagedTypeDeclaration>
-					InterfaceIllegalMemberType,					// <ManagedTypeDeclaration>
-					StaticTypeIllegalInheritance,				// <ManagedTypeDeclaration>
-					TypeIllegalAccessor,						// <ManagedTypeDeclaration>
-					InterfaceMemberIllegalType,					// <ManagedMember>
-					InterfaceMemberIllegalAccessor,				// <ManagedMember>
-					InterfaceMemberIllegalMemberType,			// <ManagedMember>
-					InterfaceMemberIllegalInheritation,			// <ManagedMember>
-					SealedTypeMemberIllegalAccessor,			// <ManagedMember>
-					SealedTypeMemberIllegalInheritance,			// <ManagedMember>
-					StaticTypeMemberIllegalAccessor,			// <ManagedMember>
-					StaticTypeMemberIllegalInheritance,			// <ManagedMember>
-					StaticTypeMemberIllegalMemberType,			// <ManagedMember>
-					NonAbstractTypeMemberIllegalInheritance,	// <ManagedMember>
-					MemberImplementedInterfaceTypeNotExists,	// <ManagedMember>
-					MemberOverridedTargetNotExists,				// <ManagedMember>
-					MemberOverridedTargetIllegalAccessor,		// <ManagedMember>
+					TypeCannotDerivedFromItself,						// <ManagedTypeDeclaration>
+					ClassIllegalBaseClass,								// <ManagedTypeDeclaration>
+					StructureIllegalBaseClass,							// <ManagedTypeDeclaration>
+					InterfaceIllegalBaseClass,							// <ManagedTypeDeclaration>
+					StaticTypeIllegalBaseClass,							// <ManagedTypeDeclaration>
+					ClassStructureTooMuchBaseClasses,					// <ManagedTypeDeclaration>
+					ClassStructureIllegalInheritation,					// <ManagedTypeDeclaration>
+					InterfaceIllegalInheritation,						// <ManagedTypeDeclaration>
+					InterfaceIllegalMemberType,							// <ManagedTypeDeclaration>
+					StaticTypeIllegalInheritance,						// <ManagedTypeDeclaration>
+					TypeIllegalAccessor,								// <ManagedTypeDeclaration>
+					InterfaceMemberIllegalType,							// <ManagedMember>
+					InterfaceMemberIllegalAccessor,						// <ManagedMember>
+					InterfaceMemberIllegalMemberType,					// <ManagedMember>
+					InterfaceMemberIllegalInheritation,					// <ManagedMember>
+					InterfaceMemberIllegalImplementedInterface,			// <ManagedMember>
+					SealedTypeMemberIllegalAccessor,					// <ManagedMember>
+					SealedTypeMemberIllegalInheritance,					// <ManagedMember>
+					StaticTypeMemberIllegalAccessor,					// <ManagedMember>
+					StaticTypeMemberIllegalInheritance,					// <ManagedMember>
+					StaticTypeMemberIllegalMemberType,					// <ManagedMember>
+					NonAbstractTypeMemberIllegalInheritance,			// <ManagedMember>
+					InterfaceImplementedMemberIllegalMemberType,		// <ManagedMember>
+					InterfaceImplementedMemberIllegalInheritation,		// <ManagedMember>
+					MemberImplementedInterfaceTypeNotExists,			// <ManagedMember>
+					MemberOverridedTargetNotExists,						// <ManagedMember>
+					MemberOverridedTargetIllegalAccessor,				// <ManagedMember>
 
-					ExpressionResolvedToDuplicatedTargets,		// <ManagedExpression>
-					ExpressionResolvingFailed,					// <ManagedExpression>					:name
-					ExpressionCannotConvertToType,				// <ManagedExpression>
-					IllegalAutoRefWithoutInitializer,			// <ManagedVariableStatement>			:name
-					VariableAlreadyExists,						// <ManagedVariableStatement>			:name
-					IllegalBreak,								// <ManagedBreakStatement>
-					IllegalContinue,							// <ManagedContinueStatement>
-					IllegalThrow,								// <ManagedThrowStatement>
-					ExceptionTypeShouldDerivedFromException,	// <ManagedType | ManagedExpression>
-					IllegalThis,								// <ManagedThisExpression>
-					IllegalBase,								// <ManagedBaseExpression>
-					ExpressionIsNotValue,						// <ManagedExpression>
-					MatchedMethodNotExists,						// <ManagedExpression>
-					MatchedMethodTooMuch,						// <ManagedExpression>
-					IllegalNull,								// <ManagedNullExpression>
+					ExpressionResolvedToDuplicatedTargets,				// <ManagedExpression>
+					ExpressionResolvingFailed,							// <ManagedExpression>					:name
+					ExpressionCannotConvertToType,						// <ManagedExpression>
+					IllegalAutoRefWithoutInitializer,					// <ManagedVariableStatement>			:name
+					VariableAlreadyExists,								// <ManagedVariableStatement>			:name
+					IllegalBreak,										// <ManagedBreakStatement>
+					IllegalContinue,									// <ManagedContinueStatement>
+					IllegalThrow,										// <ManagedThrowStatement>
+					ExceptionTypeShouldDerivedFromException,			// <ManagedType | ManagedExpression>
+					IllegalThis,										// <ManagedThisExpression>
+					IllegalBase,										// <ManagedBaseExpression>
+					ExpressionIsNotValue,								// <ManagedExpression>
+					MatchedMethodNotExists,								// <ManagedExpression>
+					MatchedMethodTooMuch,								// <ManagedExpression>
+					IllegalNull,										// <ManagedNullExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -126,12 +129,15 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalAccessor(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalMemberType(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalInheritation(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceMemberIllegalImplementedInterface(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalAccessor(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetSealedTypeMemberIllegalInheritance(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalAccessor(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalInheritance(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetStaticTypeMemberIllegalMemberType(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetNonAbstractTypeMemberIllegalInheritance(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceImplementedMemberIllegalMemberType(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetInterfaceImplementedMemberIllegalInheritation(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberImplementedInterfaceTypeNotExists(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetNotExists(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetIllegalAccessor(ManagedMember* member);

@@ -156,6 +156,11 @@ namespace vl
 				return L"Member "+member+L" in interface "+name+L" should be abstract.";
 			}
 
+			WString ManagedErrorMessage::InterfaceMemberIllegalImplementedInterface(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" in interface "+name+L" cannot specify an implemented interface type.";
+			}
+
 			WString ManagedErrorMessage::SealedTypeMemberIllegalAccessor(const WString& name, const WString& member)
 			{
 				return L"Member "+member+L" in sealed type "+name+L" can only be private, internal or public.";
@@ -184,6 +189,16 @@ namespace vl
 			WString ManagedErrorMessage::NonAbstractTypeMemberIllegalInheritance(const WString& name, const WString& member)
 			{
 				return L"Abstract member "+member+L" cannot be declared in non-abstract type "+name+L".";
+			}
+
+			WString ManagedErrorMessage::InterfaceImplementedMemberIllegalMemberType(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" with an implemented interface type in type "+name+L" cannot be static.";
+			}
+
+			WString ManagedErrorMessage::InterfaceImplementedMemberIllegalInheritation(const WString& name, const WString& member)
+			{
+				return L"Member "+member+L" with an implemented interface type in type "+name+L" cannot be override.";
 			}
 
 			WString ManagedErrorMessage::MemberImplementedInterfaceTypeNotExists(const WString& name, const WString& member)
