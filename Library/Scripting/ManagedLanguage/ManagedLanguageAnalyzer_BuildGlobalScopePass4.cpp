@@ -137,12 +137,21 @@ namespace vl
 
 			bool FindOverrideTargetInternalChecker(ManagedSymbolProperty* member, ManagedSymbolDeclaration* containingType, ManagedSymbolProperty* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
 			{
-				return true;
+				ManagedTypeSymbol* propertyType=argument.symbolManager->ReplaceGenericArguments(abstractMember->type, abstractType);
+				if(member->type==propertyType)
+				{
+					if((member->containsGetter==abstractMember->containsGetter) && (member->containsSetter==abstractMember->containsSetter))
+					{
+						return true;
+					}
+				}
+				return false;
 			}
 
 			bool FindOverrideTargetInternalChecker(ManagedSymbolConverterOperator* member, ManagedSymbolDeclaration* containingType, ManagedSymbolConverterOperator* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
 			{
-				return true;
+				ManagedTypeSymbol* targetType=argument.symbolManager->ReplaceGenericArguments(abstractMember->targetType, abstractType);
+				return member->targetType==targetType;
 			}
 
 			ManagedAbstractItem FindOverrideTarget(ManagedSymbolMethod* member, ManagedSymbolDeclaration* containingType, ManagedTypeSymbol* abstractType, const MAP& argument)
