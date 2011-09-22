@@ -133,7 +133,7 @@ $( )
 		public abstract T GetElement(params int[] indices);
 		public abstract void SetElement(T value, params int[] indices);
 $( )
-		private class Enumerator : IEnumerator
+		private class Enumerator : IEnumerator<T>
 		{
 			private Array<T> array;
 			private int index;
