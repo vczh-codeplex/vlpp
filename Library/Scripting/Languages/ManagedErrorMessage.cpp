@@ -228,7 +228,7 @@ namespace vl
 
 			WString ManagedErrorMessage::MethodWithGenericParametersCannotBeVirtual(const WString& name, const WString& member)
 			{
-				return L"Method "+member+L" in type "+L"{type}"+L" cannot be abstract, virtual or override because it contains generic arguments.";
+				return L"Member "+member+L" in type "+L"{type}"+L" cannot be abstract, virtual or override because it contains generic arguments.";
 			}
 
 			WString ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets()
