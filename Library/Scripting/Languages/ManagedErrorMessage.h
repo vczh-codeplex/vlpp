@@ -69,6 +69,7 @@ namespace vl
 				static WString MemberImplementedInterfaceTypeNotExists(const WString& name, const WString& member);
 				static WString MemberOverridedTargetNotExists(const WString& name, const WString& member);
 				static WString MemberOverridedTargetIllegalAccessor(const WString& name, const WString& member);
+				static WString MethodWithGenericParametersCannotBeVirtual(const WString& name, const WString& member);
 				static WString ExpressionResolvedToDuplicatedTargets();
 				static WString ExpressionResolvedToDuplicatedTargets(const WString& type);
 				static WString ExpressionResolvingFailed(const WString& name);

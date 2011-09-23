@@ -226,6 +226,11 @@ namespace vl
 				return L"Member "+member+L" in type "+L"{type}"+L" find a correct member to override, but the accessor doesn't match.";
 			}
 
+			WString ManagedErrorMessage::MethodWithGenericParametersCannotBeVirtual(const WString& name, const WString& member)
+			{
+				return L"Method "+member+L" in type "+L"{type}"+L" cannot be abstract, virtual or override because it contains generic arguments.";
+			}
+
 			WString ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets()
 			{
 				return L"Expression resolved to duplicated targets.";

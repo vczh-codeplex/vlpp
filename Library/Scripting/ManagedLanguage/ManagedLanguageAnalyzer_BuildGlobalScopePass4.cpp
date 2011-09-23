@@ -132,7 +132,32 @@ namespace vl
 
 			bool FindOverrideTargetInternalChecker(ManagedSymbolMethod* member, ManagedSymbolDeclaration* containingType, ManagedSymbolMethod* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
 			{
-				return true;
+				if(member->orderedMethodParameterNames.Count()==abstractMember->orderedMethodParameterNames.Count() && member->orderedGenericParameterNames.Count()==0)
+				{
+					ManagedTypeSymbol* returnType=argument.symbolManager->ReplaceGenericArguments(abstractMember->returnType, abstractType);
+					if(member->returnType==returnType)
+					{
+						for(vint i=0;i<member->orderedMethodParameterNames.Count();i++)
+						{
+							WString memberParameterName=member->orderedMethodParameterNames[i];
+							WString abstractParameterName=abstractMember->orderedMethodParameterNames[i];
+							ManagedSymbolMethodParameter* memberParameter=dynamic_cast<ManagedSymbolMethodParameter*>(member->ItemGroup(memberParameterName)->Items()[0]);
+							ManagedSymbolMethodParameter* abstractParameter=dynamic_cast<ManagedSymbolMethodParameter*>(abstractMember->ItemGroup(abstractParameterName)->Items()[0]);
+
+							if(memberParameter->parameterType!=abstractParameter->parameterType)
+							{
+								return false;
+							}
+							ManagedTypeSymbol* parameterType=argument.symbolManager->ReplaceGenericArguments(abstractParameter->type, abstractType);
+							if(memberParameter->type!=parameterType)
+							{
+								return false;
+							}
+						}
+						return true;
+					}
+				}
+				return false;
 			}
 
 			bool FindOverrideTargetInternalChecker(ManagedSymbolProperty* member, ManagedSymbolDeclaration* containingType, ManagedSymbolProperty* abstractMember, ManagedTypeSymbol* abstractType, const MAP& argument)
@@ -199,6 +224,19 @@ ManagedLanguage_BuildGlobalScope4_Member
 				ALGORITHM_PROCEDURE_MATCH(ManagedMethod)
 				{
 					ManagedSymbolMethod* symbol=argument.symbolManager->GetTypedSymbol<ManagedSymbolMethod>(node);
+
+					switch(symbol->inheritation)
+					{
+					case declatt::Abstract:
+					case declatt::Virtual:
+					case declatt::Override:
+						if(symbol->orderedGenericParameterNames.Count()>0)
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetMethodWithGenericParametersCannotBeVirtual(node));
+						}
+						break;
+					}
+
 					switch(symbol->GetParentItem()->GetSymbolType())
 					{
 					case ManagedSymbolItem::Interface:

@@ -347,6 +347,12 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationMemberChecking
 				return new ManagedLanguageCodeException(member, MemberOverridedTargetIllegalAccessor, parameters.Wrap());
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetMethodWithGenericParametersCannotBeVirtual(ManagedMethod* member)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(member, MethodWithGenericParametersCannotBeVirtual, parameters.Wrap());
+			}
+
 /***********************************************************************
 ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 ***********************************************************************/
