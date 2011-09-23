@@ -99,16 +99,6 @@ Helper Functions
 									}
 								}
 								break;
-							case ManagedSymbolItem::GenericParameter:
-								{
-									ManagedTypeSymbol* type=argument.symbolManager->GetType(item);
-									if(!newTypeResults.Contains(type))
-									{
-										newTypeResults.Add(type);
-										added=true;
-									}
-								}
-								break;
 							}
 						}
 					}
@@ -186,6 +176,17 @@ ManagedLanguage_GetTypeSymbol_Type
 							case ManagedSymbolItem::Structure:
 							case ManagedSymbolItem::Interface:
 								{
+									if(ManagedSymbolItemGroup* group=currentSymbol->ItemGroup(node->name))
+									{
+										FOREACH(ManagedSymbolItem*, item, group->Items())
+										{
+											if(item->GetSymbolType()==ManagedSymbolItem::GenericParameter)
+											{
+												argument.typeResults.Add(argument.context.symbolManager->GetType(item));
+												return;
+											}
+										}
+									}
 									FOREACH(ManagedSymbolNamespace*, item, dynamic_cast<ManagedSymbolDeclaration*>(currentSymbol)->_availableUsingNamespaces.Wrap())
 									{
 										if(!argument.namespaceResults.Contains(item))
