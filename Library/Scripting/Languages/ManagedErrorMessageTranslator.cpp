@@ -308,6 +308,12 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationMemberChecking
 						message=ManagedErrorMessage::MemberOverridedTargetIllegalAccessor(MemberContainingTypeName(member), MemberName(member));
 					}
 					break;
+				case ManagedLanguageCodeException::MethodWithGenericParametersCannotBeVirtual:
+					{
+						ManagedMember* member=dynamic_cast<ManagedMember*>(error->GetManagedLanguageElement());
+						message=ManagedErrorMessage::MethodWithGenericParametersCannotBeVirtual(MemberContainingTypeName(member), MemberName(member));
+					}
+					break;
 
 /***********************************************************************
 ManagedLanguageCodeException::ExceptionCode::SymbolResolving

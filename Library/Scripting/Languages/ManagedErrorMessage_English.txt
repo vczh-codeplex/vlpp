@@ -46,6 +46,7 @@ InterfaceImplementedMemberIllegalInheritation(name,member)=Member {member} with 
 MemberImplementedInterfaceTypeNotExists(name,member)=The interface type specified in member {member} is not derived by type {type}.
 MemberOverridedTargetNotExists(name,member)=Member {member} in type {type} cannot find a correct member to override.
 MemberOverridedTargetIllegalAccessor(name,member)=Member {member} in type {type} find a correct member to override, but the accessor doesn't match.
+MethodWithGenericParametersCannotBeVirtual(name,member)=Method {member} in type {type} cannot be abstract, virtual or override because it contains generic arguments.
 
 ExpressionResolvedToDuplicatedTargets=Expression resolved to duplicated targets.
 ExpressionResolvedToDuplicatedTargets(type)=Expression resolved to duplicated targets which converts to type {type}.

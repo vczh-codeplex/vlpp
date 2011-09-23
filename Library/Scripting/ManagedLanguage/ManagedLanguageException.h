@@ -69,6 +69,7 @@ namespace vl
 					MemberImplementedInterfaceTypeNotExists,			// <ManagedMember>
 					MemberOverridedTargetNotExists,						// <ManagedMember>
 					MemberOverridedTargetIllegalAccessor,				// <ManagedMember>
+					MethodWithGenericParametersCannotBeVirtual,			// <ManagedMethod>
 
 					ExpressionResolvedToDuplicatedTargets,				// <ManagedExpression>
 					ExpressionResolvingFailed,							// <ManagedExpression>					:name
@@ -151,6 +152,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetMemberImplementedInterfaceTypeNotExists(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetNotExists(ManagedMember* member);
 				static Ptr<ManagedLanguageCodeException>						GetMemberOverridedTargetIllegalAccessor(ManagedMember* member);
+				static Ptr<ManagedLanguageCodeException>						GetMethodWithGenericParametersCannotBeVirtual(ManagedMethod* member);
 
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvedToDuplicatedTargets(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedReferenceExpression* expression);
