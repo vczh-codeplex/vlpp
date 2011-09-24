@@ -10,30 +10,60 @@ namespace vl
 		{
 			using namespace collections;
 
+			struct ExpressionChoice
+			{
+				ManagedTypeSymbol*					type;	// symbol type if exists. for method and generic parameter, it this the owner type's type.
+				ManagedSymbolItem*					symbol;
+
+				ExpressionChoice(ManagedTypeSymbol* _type=0, ManagedSymbolItem* _symbol=0)
+					:type(_type)
+					,symbol(_symbol)
+				{
+				}
+
+				bool operator==(const ExpressionChoice& value){return false;}
+				bool operator!=(const ExpressionChoice& value){return true;}
+			};
+
+			struct ExpressionResolvingResult
+			{
+
+				ManagedTypeSymbol*						expressionResult;
+				ManagedSymbolNamespace*					namespaceResult;
+				ManagedTypeSymbol*						typeResult;
+				List<ExpressionChoice>					methodResults;
+
+				ExpressionResolvingResult()
+					:expressionResult(0)
+					,namespaceResult(0)
+					,typeResult(0)
+				{
+				}
+
+				bool IsEmpty()
+				{
+					return expressionResult==0 && namespaceResult==0 && typeResult==0 && methodResults.Count()==0;
+				}
+
+				void Clear()
+				{
+					expressionResult=0;
+					namespaceResult=0;
+					typeResult=0;
+					methodResults.Clear();
+				}
+			};
+
 			class ManagedAnalyzerGetExpressionTypeParameter : public Object
 			{
 			public:
-				struct Choice
-				{
-					ManagedTypeSymbol*					type;	// symbol type if exists. for method and generic parameter, it this the owner type's type.
-					ManagedSymbolItem*					symbol;
-
-					Choice(ManagedTypeSymbol* _type=0, ManagedSymbolItem* _symbol=0)
-						:type(_type)
-						,symbol(_symbol)
-					{
-					}
-
-					bool operator==(const Choice& value){return false;}
-					bool operator!=(const Choice& value){return true;}
-				};
 			public:
 				const MAP&								context;
-				List<Choice>&							choices;
+				ExpressionResolvingResult&				result;
 
-				ManagedAnalyzerGetExpressionTypeParameter(const MAP& _context, List<Choice>& _choices)
+				ManagedAnalyzerGetExpressionTypeParameter(const MAP& _context, ExpressionResolvingResult& _result)
 					:context(_context)
-					,choices(_choices)
+					,result(_result)
 				{
 				}
 			};
@@ -70,47 +100,28 @@ GetType
 
 			ManagedTypeSymbol* GetType(ManagedExpression* node, ManagedTypeSymbol* expectedType, const MAP& argument)
 			{
-				List<MAGETP::Choice> choices;
+				ExpressionResolvingResult expressionResolvingResult;
 				MAP a1(argument, argument.currentSymbol, expectedType);
-				MAGETP a2(a1, choices);
+				MAGETP a2(a1, expressionResolvingResult);
 				ManagedLanguage_GetTypeInternal_Expression(node, a2);
 
-				if(expectedType)
+				if(expressionResolvingResult.expressionResult)
 				{
-					for(vint i=choices.Count()-1;i>=0;i--)
+					if(expectedType)
 					{
-						if(!CanImplicitlyConvertTo(choices[i].type, expectedType, argument))
-						{
-							choices.RemoveAt(i);
-						}
-					}
-				}
-
-				if(choices.Count()>1)
-				{
-					argument.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, expectedType));
-				}
-				else if(choices.Count()==1)
-				{
-					ManagedSymbolItem* symbol=a2.choices[0].symbol;
-					ManagedTypeSymbol* type=a2.choices[0].type;
-					
-					if(symbol && !IsValue(symbol))
-					{
-						argument.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
-					}
-
-					if(type)
-					{
-						CheckTypeInMethod(node, type, argument);
-						if(expectedType && !CanImplicitlyConvertTo(type, expectedType, argument))
+						CheckTypeInMethod(node, expressionResolvingResult.expressionResult, argument);
+						if(!CanImplicitlyConvertTo(expressionResolvingResult.expressionResult, expectedType, argument))
 						{
 							argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node, expectedType));
 						}
 					}
-					return type;
 				}
-				return 0;
+				else if(!expressionResolvingResult.IsEmpty())
+				{
+					argument.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
+				}
+
+				return expressionResolvingResult.expressionResult;
 			}
 
 /***********************************************************************
@@ -238,7 +249,7 @@ Helper Functions
 SearchMember
 ***********************************************************************/
 
-			void SearchMemberOfNamespace(ManagedSymbolItem* namespaceItem, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			void SearchMemberOfNamespace(ManagedExpression* node, ManagedSymbolItem* namespaceItem, const WString& name, const MAGETP& argument)
 			{
 				if(ManagedSymbolItemGroup* group=namespaceItem->ItemGroup(name))
 				{
@@ -250,14 +261,29 @@ SearchMember
 						case ManagedSymbolItem::Structure:
 						case ManagedSymbolItem::Interface:
 							{
-								choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
+								if(argument.result.typeResult)
+								{
+									argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+								}
+								else
+								{
+									argument.result.typeResult=argument.context.symbolManager->GetType(item);
+								}
 							}
 							break;
 						case ManagedSymbolItem::Namespace:
 							{
-								choices.Add(MAGETP::Choice(0, item));
+								if(argument.result.typeResult)
+								{
+									argument.result.Clear();
+									argument.result.namespaceResult=dynamic_cast<ManagedSymbolNamespace*>(item);
+								}
+								else
+								{
+									argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+								}
 							}
-							break;
+							return;
 						}
 					}
 				}
@@ -284,9 +310,9 @@ SearchMember
 				}
 			}
 
-			void SearchMemberOfType(ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, const WString& name, const MAP& argument, List<MAGETP::Choice>& choices)
+			void SearchMemberOfType(ManagedExpression* node, ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, const WString& name, const MAGETP& argument, bool searchForMethodOnly=false, bool searchForOperator=false)
 			{
-				vint oldChoicesCount=choices.Count();
+				// TODO: Search methods in base types
 				ManagedSymbolItem* containerScope=GetRealSymbol(containerType->GetSymbol());
 				switch(containerScope->GetSymbolType())
 				{
@@ -304,81 +330,109 @@ SearchMember
 							switch(item->GetSymbolType())
 							{
 							case ManagedSymbolItem::Field:
+								if(!searchForMethodOnly)
 								{
 									ManagedSymbolField* symbol=dynamic_cast<ManagedSymbolField*>(item);
-									if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument))
+									if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument.context))
 									{
-										ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
-										choices.Add(MAGETP::Choice(symbolType, item));
+										ManagedTypeSymbol* symbolType=argument.context.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
+										if(argument.result.IsEmpty())
+										{
+											argument.result.expressionResult=symbolType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+										}
 									}
 								}
 								break;
 							case ManagedSymbolItem::Property:
+								if(!searchForMethodOnly)
 								{
 									ManagedSymbolProperty* symbol=dynamic_cast<ManagedSymbolProperty*>(item);
-									if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument) && !symbol->implementedInterfaceType)
+									if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument.context) && !symbol->implementedInterfaceType)
 									{
-										ManagedTypeSymbol* symbolType=argument.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
-										choices.Add(MAGETP::Choice(symbolType, item));
+										ManagedTypeSymbol* symbolType=argument.context.symbolManager->ReplaceGenericArguments(symbol->type, containerType);
+										if(argument.result.IsEmpty())
+										{
+											argument.result.expressionResult=symbolType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+										}
 									}
 								}
 								break;
 							case ManagedSymbolItem::Method:
 								{
 									ManagedSymbolMethod* symbol=dynamic_cast<ManagedSymbolMethod*>(item);
-									if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument) && !symbol->implementedInterfaceType)
+									if(symbol->inheritation!=declatt::Override)
 									{
-										choices.Add(MAGETP::Choice(containerType, item));
+										if(IsVisible(staticOnly, symbol->memberType) && IsVisible(thisType, containerType, symbol->accessor, argument.context) && !symbol->implementedInterfaceType)
+										{
+											if(!argument.result.IsEmpty() && argument.result.methodResults.Count()==0)
+											{
+												argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+											}
+											else
+											{
+												argument.result.methodResults.Add(ExpressionChoice(containerType, item));
+											}
+										}
 									}
-								}
-								break;
-							case ManagedSymbolItem::GenericParameter:
-								{
-									choices.Add(MAGETP::Choice(argument.symbolManager->GetType(item), item));
 								}
 								break;
 							case ManagedSymbolItem::Class:
 							case ManagedSymbolItem::Structure:
 							case ManagedSymbolItem::Interface:
+								if(!searchForMethodOnly)
 								{
-									if(IsVisible(thisType, containerType, dynamic_cast<ManagedSymbolDeclaration*>(item)->accessor, argument))
+									if(IsVisible(thisType, containerType, dynamic_cast<ManagedSymbolDeclaration*>(item)->accessor, argument.context))
 									{
-										ManagedTypeSymbol* symbolType=argument.symbolManager->GetType(item, containerType);
-										choices.Add(MAGETP::Choice(symbolType, item));
+										ManagedTypeSymbol* symbolType=argument.context.symbolManager->GetType(item, containerType);
+										if(argument.result.IsEmpty())
+										{
+											argument.result.typeResult=symbolType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+										}
 									}
 								}
 								break;
 							case ManagedSymbolItem::TypeRename:
+								if(!searchForMethodOnly)
 								{
 									ManagedSymbolTypeRename* symbol=dynamic_cast<ManagedSymbolTypeRename*>(item);
-									if(IsVisible(thisType, containerType, symbol->accessor, argument))
+									if(IsVisible(thisType, containerType, symbol->accessor, argument.context))
 									{
 										// TODO: this is wrong
-										ManagedTypeSymbol* symbolType=GetRealType(symbol->type, argument);
-										choices.Add(MAGETP::Choice(symbolType, item));
+										ManagedTypeSymbol* symbolType=GetRealType(symbol->type, argument.context);
+										if(argument.result.IsEmpty())
+										{
+											argument.result.typeResult=symbolType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
+										}
 									}
-								}
-								break;
-							case ManagedSymbolItem::Namespace:
-								{
-									choices.Add(MAGETP::Choice(0, item));
 								}
 								break;
 							}
 						}
 					}
 
-					if(thisType==containerType)
-					{
-					}
-
-					if(choices.Count()==oldChoicesCount)
+					if(argument.result.IsEmpty() || (argument.result.methodResults.Count()>0 && !searchForOperator))
 					{
 						FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerScope)->baseTypes.Wrap())
 						{
 							if(containerScope->GetSymbolType()==ManagedSymbolItem::Interface || GetRealSymbol(baseType->GetSymbol())->GetSymbolType()!=ManagedSymbolItem::Interface)
 							{
-								SearchMemberOfType(thisType, argument.symbolManager->GetBaseType(baseType, containerType), staticOnly, name, argument, choices);
+								SearchMemberOfType(node, thisType, argument.context.symbolManager->GetBaseType(baseType, containerType), staticOnly, name, argument, (argument.result.methodResults.Count()>0), searchForOperator);
 							}
 						}
 					}
@@ -401,10 +455,10 @@ ManagedLanguage_GetTypeInternal_Expression
 						{
 						case ManagedSymbolItem::Class:
 						case ManagedSymbolItem::Interface:
-							argument.choices.Add(argument.context.expectedType);
+							argument.result.expressionResult=argument.context.expectedType;
 						}
 					}
-					if(argument.choices.Count()==0)
+					if(!argument.result.expressionResult)
 					{
 						//argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalNull(node));
 					}
@@ -418,7 +472,7 @@ ManagedLanguage_GetTypeInternal_Expression
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint32 ||
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.sint64)
 					{
-						argument.choices.Add(argument.context.expectedType);
+						argument.result.expressionResult=argument.context.expectedType;
 					}
 					else if(!node->sign && (
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint8 ||
@@ -426,17 +480,17 @@ ManagedLanguage_GetTypeInternal_Expression
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint32 ||
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.uint64))
 					{
-						argument.choices.Add(argument.context.expectedType);
+						argument.result.expressionResult=argument.context.expectedType;
 					}
 					else if(
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.singleType ||
 						argument.context.expectedType==argument.context.contextManager->predefinedTypes.doubleType)
 					{
-						argument.choices.Add(argument.context.expectedType);
+						argument.result.expressionResult=argument.context.expectedType;
 					}
 					else
 					{
-						argument.choices.Add(argument.context.contextManager->predefinedTypes.sint32);
+						argument.result.expressionResult=argument.context.contextManager->predefinedTypes.sint32;
 					}
 				}
 
@@ -444,27 +498,27 @@ ManagedLanguage_GetTypeInternal_Expression
 				{
 					if(argument.context.expectedType==argument.context.contextManager->predefinedTypes.singleType)
 					{
-						argument.choices.Add(argument.context.contextManager->predefinedTypes.singleType);
+						argument.result.expressionResult=argument.context.contextManager->predefinedTypes.singleType;
 					}
 					else
 					{
-						argument.choices.Add(argument.context.contextManager->predefinedTypes.doubleType);
+						argument.result.expressionResult=argument.context.contextManager->predefinedTypes.doubleType;
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedBooleanExpression)
 				{
-					argument.choices.Add(argument.context.contextManager->predefinedTypes.boolType);
+					argument.result.expressionResult=argument.context.contextManager->predefinedTypes.boolType;
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedCharExpression)
 				{
-					argument.choices.Add(argument.context.contextManager->predefinedTypes.charType);
+					argument.result.expressionResult=argument.context.contextManager->predefinedTypes.charType;
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedStringExpression)
 				{
-					argument.choices.Add(argument.context.contextManager->predefinedTypes.stringType);
+					argument.result.expressionResult=argument.context.contextManager->predefinedTypes.stringType;
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedReferenceExpression)
@@ -472,9 +526,10 @@ ManagedLanguage_GetTypeInternal_Expression
 					bool inStaticMethod=IsInStaticMethod(argument.context);
 					ManagedSymbolItem* currentScope=argument.context.currentSymbol;
 					ManagedTypeSymbol* thisType=GetThisType(argument.context);
-					while(argument.choices.Count()==0 && currentScope!=0)
+					bool firstType=true;
+
+					while(argument.result.IsEmpty() && currentScope!=0)
 					{
-						int typeCounter=0;
 						switch(currentScope->GetSymbolType())
 						{
 						case ManagedSymbolItem::Block:
@@ -493,33 +548,33 @@ ManagedLanguage_GetTypeInternal_Expression
 										case ManagedSymbolItem::Variable:
 											{
 												ManagedSymbolVariable* symbol=dynamic_cast<ManagedSymbolVariable*>(item);
-												argument.choices.Add(MAGETP::Choice(symbol->type, item));
+												argument.result.expressionResult=symbol->type;
 											}
-											break;
+											return;
 										case ManagedSymbolItem::LambdaParameter:
 											{
 												ManagedSymbolLambdaParameter* symbol=dynamic_cast<ManagedSymbolLambdaParameter*>(item);
-												argument.choices.Add(MAGETP::Choice(symbol->type, item));
+												argument.result.expressionResult=symbol->type;
 											}
-											break;
+											return;
 										case ManagedSymbolItem::GenericParameter:
 											{
-												argument.choices.Add(MAGETP::Choice(thisType, item));
+												argument.result.typeResult=argument.context.symbolManager->GetType(item);
 											}
-											break;
+											return;
 										case ManagedSymbolItem::MethodParameter:
 											{
 												ManagedSymbolMethodParameter* symbol=dynamic_cast<ManagedSymbolMethodParameter*>(item);
-												argument.choices.Add(MAGETP::Choice(symbol->type, item));
+												argument.result.expressionResult=symbol->type;
 											}
-											break;
+											return;
 										case ManagedSymbolItem::PropertySetterValue:
 											{
 												ManagedSymbolPropertySetterValue* symbol=dynamic_cast<ManagedSymbolPropertySetterValue*>(item);
 												ManagedSymbolProperty* propertySymbol=dynamic_cast<ManagedSymbolProperty*>(item->GetParentItem());
-												argument.choices.Add(MAGETP::Choice(propertySymbol->type, item));
+												argument.result.expressionResult=propertySymbol->type;
 											}
-											break;
+											return;
 										}
 									}
 								}
@@ -529,28 +584,45 @@ ManagedLanguage_GetTypeInternal_Expression
 						case ManagedSymbolItem::Structure:
 						case ManagedSymbolItem::Interface:
 							{
-								typeCounter++;
-								ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
-								SearchMemberOfType(thisType, containerType, (typeCounter>1 || inStaticMethod), node->name, argument.context, argument.choices);
-
-								ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(currentScope);
-								FOREACH(ManagedSymbolNamespace*, namespaceSymbol, currentDeclaration->_availableUsingNamespaces.Wrap())
+								if(ManagedSymbolItemGroup* group=currentScope->ItemGroup(node->name))
 								{
-									SearchMemberOfNamespace(namespaceSymbol, node->name, argument.context, argument.choices);
+									FOREACH(ManagedSymbolItem*, item, group->Items())
+									{
+										switch(item->GetSymbolType())
+										{
+										case ManagedSymbolItem::GenericParameter:
+											{
+												argument.result.typeResult=argument.context.symbolManager->GetType(item);
+											}
+											return;
+										}
+									}
 								}
+								ManagedTypeSymbol* containerType=GetTypeFromInsideScope(currentScope, argument.context);
+								SearchMemberOfType(node, thisType, containerType, (!firstType || inStaticMethod), node->name, argument);
+
+								if(argument.result.IsEmpty())
+								{
+									ManagedSymbolDeclaration* currentDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(currentScope);
+									FOREACH(ManagedSymbolNamespace*, namespaceSymbol, currentDeclaration->_availableUsingNamespaces.Wrap())
+									{
+										SearchMemberOfNamespace(node, namespaceSymbol, node->name, argument);
+									}
+								}
+								firstType=false;
 							}
 							break;
 						case ManagedSymbolItem::Global:
 						case ManagedSymbolItem::Namespace:
 							{
-								SearchMemberOfNamespace(currentScope, node->name, argument.context, argument.choices);
+								SearchMemberOfNamespace(node, currentScope, node->name, argument);
 							}
 							break;
 						}
 						currentScope=currentScope->GetParentItem();
 					}
 
-					if(argument.choices.Count()==0)
+					if(argument.result.IsEmpty())
 					{
 						argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvingFailed(node));
 					}
@@ -559,31 +631,41 @@ ManagedLanguage_GetTypeInternal_Expression
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberExpression)
 				{
 					ManagedLanguage_GetTypeInternal_Expression(node->operand, argument);
-					if(argument.choices.Count()>0)
+					if(!argument.result.IsEmpty())
 					{
-						List<MAGETP::Choice> choices;
-					
-						bool inStaticMethod=IsInStaticMethod(argument.context);
-						ManagedTypeSymbol* thisType=GetThisType(argument.context);
-
-						FOREACH(MAGETP::Choice, choice, argument.choices.Wrap())
+						if(argument.result.methodResults.Count()>0)
 						{
-							if(choice.type==0)
+							argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
+						}
+						else
+						{
+							bool inStaticMethod=IsInStaticMethod(argument.context);
+							ManagedTypeSymbol* thisType=GetThisType(argument.context);
+							
+							if(argument.result.expressionResult)
 							{
-								SearchMemberOfNamespace(choice.symbol, node->member, argument.context, choices);
+								ManagedTypeSymbol* type=argument.result.expressionResult;
+								argument.result.Clear();
+								SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
 							}
-							else if(choice.symbol->GetSymbolType()!=ManagedSymbolItem::Method)
+							else if(argument.result.typeResult)
 							{
-								CheckTypeInMethod(node->operand.Obj(), choice.type, argument.context);
-								SearchMemberOfType(thisType, choice.type, inStaticMethod, node->member, argument.context, choices);
+								ManagedTypeSymbol* type=argument.result.typeResult;
+								argument.result.Clear();
+								SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
+							}
+							else if(argument.result.namespaceResult)
+							{
+								ManagedSymbolNamespace* namespaceResult=argument.result.namespaceResult;
+								argument.result.Clear();
+								SearchMemberOfNamespace(node, namespaceResult, node->member, argument);
+							}
+
+							if(argument.result.IsEmpty())
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvingFailed(node));
 							}
 						}
-
-						if(choices.Count()==0)
-						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvingFailed(node));
-						}
-						CopyFrom(argument.choices.Wrap(), choices.Wrap());
 					}
 				}
 
@@ -616,7 +698,7 @@ ManagedLanguage_GetTypeInternal_Expression
 					else
 					{
 						ManagedTypeSymbol* thisType=GetThisType(argument.context);
-						argument.choices.Add(MAGETP::Choice(thisType, thisType->GetSymbol()));
+						argument.result.expressionResult=thisType;
 					}
 				}
 
@@ -660,8 +742,8 @@ ManagedLanguage_GetTypeInternal_Expression
 					}
 					else
 					{
-						ManagedTypeSymbol* thisType=GetBaseType(GetThisType(argument.context), argument.context);
-						argument.choices.Add(MAGETP::Choice(thisType, thisType->GetSymbol()));
+						ManagedTypeSymbol* baseType=GetBaseType(GetThisType(argument.context), argument.context);
+						argument.result.expressionResult=baseType;
 					}
 				}
 
@@ -681,7 +763,7 @@ ManagedLanguage_GetTypeInternal_Expression
 ManagedLanguage_GetTypeInternal_ExtendedExpression
 ***********************************************************************/
 
-			ManagedSymbolMethod* GetOperator(MAGETP::Choice choice, vint operandCount, ManagedTypeSymbol* thisType, const MAP& argument)
+			ManagedSymbolMethod* GetOperator(ExpressionChoice choice, vint operandCount, ManagedTypeSymbol* thisType, const MAP& argument)
 			{
 				if(choice.symbol->GetSymbolType()==ManagedSymbolItem::Method)
 				{
@@ -705,6 +787,16 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 					}
 				}
 				return 0;
+			}
+
+			bool FitOperatorParameter(ManagedSymbolMethod* method, vint parameterIndex, ManagedTypeSymbol* operandType, ManagedTypeSymbol* containerType, const MAP& argument)
+			{
+				ManagedSymbolMethodParameter* operand=dynamic_cast<ManagedSymbolMethodParameter*>(method->ItemGroup(method->orderedMethodParameterNames[parameterIndex])->Items()[0]);
+				if(CanImplicitlyConvertTo(operandType, argument.symbolManager->ReplaceGenericArguments(operand->type, containerType), argument))
+				{
+					return true;
+				}
+				return false;
 			}
 
 			BEGIN_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_ExtendedExpression, ManagedExtendedExpression, MAGETP)
@@ -735,42 +827,47 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 					throw 0;
 				}
 
-				bool FitOperatorParameter(ManagedSymbolMethod* method, vint parameterIndex, ManagedTypeSymbol* operandType, ManagedTypeSymbol* containerType, const MAP& argument)
-				{
-					ManagedSymbolMethodParameter* operand=dynamic_cast<ManagedSymbolMethodParameter*>(method->ItemGroup(method->orderedMethodParameterNames[parameterIndex])->Items()[0]);
-					if(CanImplicitlyConvertTo(operandType, argument.symbolManager->ReplaceGenericArguments(operand->type, containerType), argument))
-					{
-						return true;
-					}
-					return false;
-				}
-
 				ALGORITHM_PROCEDURE_MATCH(ManagedUnaryExpression)
 				{
 					ManagedTypeSymbol* operandType=GetType(node->operand.Obj(), 0, argument.context);
 					if(operandType)
 					{
 						ManagedTypeSymbol* thisType=GetThisType(argument.context);
-						List<MAGETP::Choice> operatorChoices;
-						SearchMemberOfType(thisType, operandType, true, node->operatorName, argument.context, operatorChoices);
+						ExpressionResolvingResult operandResult;
+						MAGETP operandArgument(argument.context, operandResult);
+						SearchMemberOfType(node, thisType, operandType, true, node->operatorName, operandArgument, false, true);
 
-						FOREACH(MAGETP::Choice, operatorChoice, operatorChoices.Wrap())
+						if(!argument.result.IsEmpty())
 						{
-							ManagedSymbolMethod* method=GetOperator(operatorChoice, 1, thisType, argument.context);
-							if(method && FitOperatorParameter(method, 0, operandType, operatorChoice.type, argument.context))
+							if(operandResult.methodResults.Count()>0)
 							{
-								ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
-								argument.choices.Add(MAGETP::Choice(returnType));
-							}
-						}
+								FOREACH(ExpressionChoice, operatorChoice, operandResult.methodResults.Wrap())
+								{
+									ManagedSymbolMethod* method=GetOperator(operatorChoice, 1, thisType, argument.context);
+									if(method && FitOperatorParameter(method, 0, operandType, operatorChoice.type, argument.context))
+									{
+										if(argument.result.IsEmpty())
+										{
+											ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
+											argument.result.expressionResult=returnType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodTooMuch(node));
+											break;
+										}
+									}
+								}
 
-						if(argument.choices.Count()==0)
-						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
-						}
-						else if(argument.choices.Count()>1)
-						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodTooMuch(node));
+								if(argument.result.IsEmpty())
+								{
+									argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+								}
+							}
+							else
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+							}
 						}
 					}
 				}
@@ -782,44 +879,68 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 					if(leftType && rightType)
 					{
 						ManagedTypeSymbol* thisType=GetThisType(argument.context);
-						List<MAGETP::Choice> leftOperatorChoices, rightOperatorChoices;
-						SearchMemberOfType(thisType, leftType, true, node->operatorName, argument.context, leftOperatorChoices);
-						SearchMemberOfType(thisType, rightType, true, node->operatorName, argument.context, rightOperatorChoices);
+						ExpressionResolvingResult leftResult, rightResult;
+						MAGETP leftArgument(argument.context, leftResult), rightArgument(argument.context, rightResult);
+						SearchMemberOfType(node, thisType, leftType, true, node->operatorName, leftArgument, false, true);
+						SearchMemberOfType(node, thisType, rightType, true, node->operatorName, rightArgument, false, true);
 
-						FOREACH(MAGETP::Choice, operatorChoice, leftOperatorChoices.Wrap())
+						if(!leftResult.IsEmpty())
 						{
-							ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
-							if(method
-								&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
-								&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
+							if(leftResult.methodResults.Count()>0)
 							{
-								ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
-								argument.choices.Add(MAGETP::Choice(returnType));
-							}
-						}
-
-						if(argument.choices.Count()==0)
-						{
-							FOREACH(MAGETP::Choice, operatorChoice, rightOperatorChoices.Wrap())
-							{
-								ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
-								if(method
-									&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
-									&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
+								FOREACH(ExpressionChoice, operatorChoice, leftResult.methodResults.Wrap())
 								{
-									ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
-									argument.choices.Add(MAGETP::Choice(returnType));
+									ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
+									if(method
+										&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
+										&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
+									{
+										if(argument.result.IsEmpty())
+										{
+											ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
+											argument.result.expressionResult=returnType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodTooMuch(node));
+											break;
+										}
+									}
 								}
 							}
+							else
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+							}
 						}
-
-						if(argument.choices.Count()==0)
+						else if(!rightResult.IsEmpty())
 						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
-						}
-						else if(argument.choices.Count()>1)
-						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodTooMuch(node));
+							if(rightResult.methodResults.Count()>0)
+							{
+								FOREACH(ExpressionChoice, operatorChoice, rightResult.methodResults.Wrap())
+								{
+									ManagedSymbolMethod* method=GetOperator(operatorChoice, 2, thisType, argument.context);
+									if(method
+										&& FitOperatorParameter(method, 0, leftType, operatorChoice.type, argument.context)
+										&& FitOperatorParameter(method, 1, rightType, operatorChoice.type, argument.context))
+									{
+										if(argument.result.IsEmpty())
+										{
+											ManagedTypeSymbol* returnType=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, operatorChoice.type);
+											argument.result.expressionResult=returnType;
+										}
+										else
+										{
+											argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodTooMuch(node));
+											break;
+										}
+									}
+								}
+							}
+							else
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+							}
 						}
 					}
 				}
