@@ -326,6 +326,16 @@ namespace vl
 				return L"Cannot dispose an instance of type "+type+L" because it does not implemented IDisposable interface.";
 			}
 
+			WString ManagedErrorMessage::IllegalFunctionResult()
+			{
+				return L"Function result is only accessable in a method or a lambda expression that contains a return type.";
+			}
+
+			WString ManagedErrorMessage::IllegalInstanciation()
+			{
+				return L"Only types and methods can be instanciate.";
+			}
+
 		}
 	}
 }

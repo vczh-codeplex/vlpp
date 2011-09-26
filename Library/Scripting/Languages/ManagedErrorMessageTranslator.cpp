@@ -415,6 +415,17 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 					{
 						message=ManagedErrorMessage::CannotDisposeNonIDisposableType(TypeToString(error->GetTypeParameter()));
 					}
+					break;
+				case ManagedLanguageCodeException::IllegalFunctionResult:
+					{
+						message=ManagedErrorMessage::IllegalFunctionResult();
+					}
+					break;
+				case ManagedLanguageCodeException::IllegalInstanciation:
+					{
+						message=ManagedErrorMessage::IllegalInstanciation();
+					}
+					break;
 				default:
 					return 0;
 				}

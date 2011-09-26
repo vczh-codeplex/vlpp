@@ -79,35 +79,49 @@ Helper Functions
 				}
 				if(containerType)
 				{
-					bool added=false;
-					if(ManagedSymbolItemGroup* group=containerType->GetSymbol()->ItemGroup(member))
+					switch(containerType->GetSymbol()->GetSymbolType())
 					{
-						FOREACH(ManagedSymbolItem*, item, group->Items())
+					case ManagedSymbolItem::Class:
+					case ManagedSymbolItem::Structure:
+					case ManagedSymbolItem::Interface:
 						{
-							switch(item->GetSymbolType())
+							bool added=false;
+							if(ManagedSymbolItemGroup* group=containerType->GetSymbol()->ItemGroup(member))
 							{
-							case ManagedSymbolItem::Class:
-							case ManagedSymbolItem::Structure:
-							case ManagedSymbolItem::Interface:
-							case ManagedSymbolItem::TypeRename:
+								FOREACH(ManagedSymbolItem*, item, group->Items())
 								{
-									ManagedTypeSymbol* type=argument.symbolManager->GetType(item, containerType);
-									if(!newTypeResults.Contains(type))
+									switch(item->GetSymbolType())
 									{
-										newTypeResults.Add(type);
-										added=true;
+									case ManagedSymbolItem::Class:
+									case ManagedSymbolItem::Structure:
+									case ManagedSymbolItem::Interface:
+									case ManagedSymbolItem::TypeRename:
+										{
+											ManagedTypeSymbol* type=argument.symbolManager->GetType(item, containerType);
+											if(!newTypeResults.Contains(type))
+											{
+												newTypeResults.Add(type);
+												added=true;
+											}
+										}
+										break;
 									}
 								}
-								break;
+							}
+							if(!added)
+							{
+								FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerType->GetSymbol())->baseTypes.Wrap())
+								{
+									SearchMemberOfType(argument.symbolManager->GetBaseType(baseType, containerType), argument, member, newTypeResults);
+								}
 							}
 						}
-					}
-					if(!added)
-					{
-						FOREACH(ManagedTypeSymbol*, baseType, dynamic_cast<ManagedSymbolDeclaration*>(containerType->GetSymbol())->baseTypes.Wrap())
+						break;
+					case ManagedSymbolItem::GenericParameter:
 						{
-							SearchMemberOfType(argument.symbolManager->GetBaseType(baseType, containerType), argument, member, newTypeResults);
+							// TODO: 
 						}
+						break;
 					}
 				}
 			}

@@ -30,26 +30,25 @@ namespace vl
 
 				ManagedTypeSymbol*						expressionResult;
 				ManagedSymbolNamespace*					namespaceResult;
-				ManagedTypeSymbol*						typeResult;
+				List<ManagedTypeSymbol*>					typeResults;
 				List<ExpressionChoice>					methodResults;
 
 				ExpressionResolvingResult()
 					:expressionResult(0)
 					,namespaceResult(0)
-					,typeResult(0)
 				{
 				}
 
 				bool IsEmpty()
 				{
-					return expressionResult==0 && namespaceResult==0 && typeResult==0 && methodResults.Count()==0;
+					return expressionResult==0 && namespaceResult==0 && typeResults.Count()==0 && methodResults.Count()==0;
 				}
 
 				void Clear()
 				{
 					expressionResult=0;
 					namespaceResult=0;
-					typeResult=0;
+					typeResults.Clear();
 					methodResults.Clear();
 				}
 			};
@@ -261,19 +260,12 @@ SearchMember
 						case ManagedSymbolItem::Structure:
 						case ManagedSymbolItem::Interface:
 							{
-								if(argument.result.typeResult)
-								{
-									argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
-								}
-								else
-								{
-									argument.result.typeResult=argument.context.symbolManager->GetType(item);
-								}
+								argument.result.typeResults.Add(argument.context.symbolManager->GetType(item));
 							}
 							break;
 						case ManagedSymbolItem::Namespace:
 							{
-								if(argument.result.typeResult)
+								if(argument.result.namespaceResult==0)
 								{
 									argument.result.Clear();
 									argument.result.namespaceResult=dynamic_cast<ManagedSymbolNamespace*>(item);
@@ -392,14 +384,7 @@ SearchMember
 									if(IsVisible(thisType, containerType, dynamic_cast<ManagedSymbolDeclaration*>(item)->accessor, argument.context))
 									{
 										ManagedTypeSymbol* symbolType=argument.context.symbolManager->GetType(item, containerType);
-										if(argument.result.IsEmpty())
-										{
-											argument.result.typeResult=symbolType;
-										}
-										else
-										{
-											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
-										}
+										argument.result.typeResults.Add(symbolType);
 									}
 								}
 								break;
@@ -411,14 +396,7 @@ SearchMember
 									{
 										// TODO: this is wrong
 										ManagedTypeSymbol* symbolType=GetRealType(symbol->type, argument.context);
-										if(argument.result.IsEmpty())
-										{
-											argument.result.typeResult=symbolType;
-										}
-										else
-										{
-											argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node, 0));
-										}
+										argument.result.typeResults.Add(symbolType);
 									}
 								}
 								break;
@@ -658,6 +636,50 @@ Method Overloading
 				return ExpressionChoice();
 			}
 
+			bool ConvertArguments(List<Ptr<ExpressionResolvingResult>>& methodArgumentResults, List<MethodArgument>& methodArguments, List<Ptr<ManagedArgument>>& arguments, const MAGETP& argument)
+			{
+				FOREACH(Ptr<ManagedArgument>, methodArgument, arguments.Wrap())
+				{
+					// TODO: check defaultParameterName
+					// TODO: check out/ref right value
+					Ptr<ExpressionResolvingResult> result=new ExpressionResolvingResult;
+					methodArgumentResults.Add(result);
+					MAGETP newArgument(argument.context, *result.Obj());
+					ManagedLanguage_GetTypeInternal_Expression(methodArgument->value, newArgument);
+					if(result->IsEmpty())
+					{
+						return false;
+					}
+				}
+
+				for(vint i=0;i<arguments.Count();i++)
+				{
+					methodArguments.Add(MethodArgument(arguments[i]->argumentType, methodArgumentResults[i].Obj()));
+				}
+				return true;
+			}
+
+			bool ConvertArguments(List<Ptr<ExpressionResolvingResult>>& methodArgumentResults, List<MethodArgument>& methodArguments, List<Ptr<ManagedExpression>>& arguments, const MAGETP& argument)
+			{
+				FOREACH(Ptr<ManagedExpression>, methodArgument, arguments.Wrap())
+				{
+					Ptr<ExpressionResolvingResult> result=new ExpressionResolvingResult;
+					methodArgumentResults.Add(result);
+					MAGETP newArgument(argument.context, *result.Obj());
+					ManagedLanguage_GetTypeInternal_Expression(methodArgument, newArgument);
+					if(result->IsEmpty())
+					{
+						return false;
+					}
+				}
+
+				for(vint i=0;i<arguments.Count();i++)
+				{
+					methodArguments.Add(MethodArgument(ManagedArgument::Normal, methodArgumentResults[i].Obj()));
+				}
+				return true;
+			}
+
 /***********************************************************************
 ManagedLanguage_GetTypeInternal_Expression
 ***********************************************************************/
@@ -777,7 +799,7 @@ ManagedLanguage_GetTypeInternal_Expression
 											return;
 										case ManagedSymbolItem::GenericParameter:
 											{
-												argument.result.typeResult=argument.context.symbolManager->GetType(item);
+												argument.result.typeResults.Add(argument.context.symbolManager->GetType(item));
 											}
 											return;
 										case ManagedSymbolItem::MethodParameter:
@@ -810,7 +832,7 @@ ManagedLanguage_GetTypeInternal_Expression
 										{
 										case ManagedSymbolItem::GenericParameter:
 											{
-												argument.result.typeResult=argument.context.symbolManager->GetType(item);
+												argument.result.typeResults.Add(argument.context.symbolManager->GetType(item));
 											}
 											return;
 										}
@@ -848,70 +870,143 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedMemberExpression)
 				{
-					ManagedLanguage_GetTypeInternal_Expression(node->operand, argument);
-					if(!argument.result.IsEmpty())
+					if(node->operand)
 					{
-						if(argument.result.methodResults.Count()>0)
+						ManagedLanguage_GetTypeInternal_Expression(node->operand, argument);
+						if(!argument.result.IsEmpty())
 						{
-							argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
-						}
-						else
-						{
-							bool inStaticMethod=IsInStaticMethod(argument.context);
-							ManagedTypeSymbol* thisType=GetThisType(argument.context);
+							if(argument.result.methodResults.Count()>0)
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
+							}
+							else
+							{
+								bool inStaticMethod=IsInStaticMethod(argument.context);
+								ManagedTypeSymbol* thisType=GetThisType(argument.context);
 							
-							if(argument.result.expressionResult)
-							{
-								ManagedTypeSymbol* type=argument.result.expressionResult;
-								argument.result.Clear();
-								SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
-							}
-							else if(argument.result.typeResult)
-							{
-								ManagedTypeSymbol* type=argument.result.typeResult;
-								argument.result.Clear();
-								SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
-							}
-							else if(argument.result.namespaceResult)
-							{
-								ManagedSymbolNamespace* namespaceResult=argument.result.namespaceResult;
-								argument.result.Clear();
-								SearchMemberOfNamespace(node, namespaceResult, node->member, argument);
-							}
+								if(argument.result.expressionResult)
+								{
+									ManagedTypeSymbol* type=argument.result.expressionResult;
+									argument.result.Clear();
+									SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
+								}
+								else if(argument.result.typeResults.Count()==0)
+								{
+									ManagedTypeSymbol* type=0;
+									FOREACH(ManagedTypeSymbol*, typeResult, argument.result.typeResults.Wrap())
+									{
+										ManagedSymbolItem* typeSymbol=GetRealSymbol(typeResult->GetSymbol());
+										switch(typeSymbol->GetSymbolType())
+										{
+										case ManagedSymbolItem::Class:
+										case ManagedSymbolItem::Structure:
+										case ManagedSymbolItem::Interface:
+											{
+												ManagedSymbolDeclaration* typeDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(typeSymbol);
+												if(typeDeclaration->orderedGenericParameterNames.Count()>0)
+												{
+													break;
+												}
+											}
+										case ManagedSymbolItem::GenericParameter:
+											if(type==0)
+											{
+												type=typeResult;
+											}
+											else
+											{
+												argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node->operand.Obj(), 0));
+											}
+											break;
+										}
+									}
+									if(type)
+									{
+										SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
+									}
+								}
+								else if(argument.result.namespaceResult)
+								{
+									ManagedSymbolNamespace* namespaceResult=argument.result.namespaceResult;
+									argument.result.Clear();
+									SearchMemberOfNamespace(node, namespaceResult, node->member, argument);
+								}
 
-							if(argument.result.IsEmpty())
-							{
-								argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvingFailed(node));
+								if(argument.result.IsEmpty())
+								{
+									argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvingFailed(node));
+								}
 							}
 						}
+					}
+					else
+					{
+						SearchMemberOfNamespace(node, argument.context.symbolManager->Global(), node->member, argument);
 					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInstantiatedExpression)
 				{
-					throw 0;
-				}
-
-				bool ConvertArguments(List<Ptr<ExpressionResolvingResult>>& methodArgumentResults, List<MethodArgument>& methodArguments, List<Ptr<ManagedArgument>>& arguments, const MAGETP& argument)
-				{
-					FOREACH(Ptr<ManagedArgument>, methodArgument, arguments.Wrap())
+					List<ManagedTypeSymbol*> argumentTypes;
+					FOREACH(Ptr<ManagedType>, argumentType, node->argumentTypes.Wrap())
 					{
-						// TODO: check defaultParameterName
-						Ptr<ExpressionResolvingResult> result=new ExpressionResolvingResult;
-						methodArgumentResults.Add(result);
-						MAGETP newArgument(argument.context, *result.Obj());
-						ManagedLanguage_GetTypeInternal_Expression(methodArgument->value, newArgument);
-						if(result->IsEmpty())
+						ManagedTypeSymbol* type=GetTypeSymbolInMethod(argumentType, argument.context);
+						if(type)
 						{
-							return false;
+							argumentTypes.Add(type);
 						}
 					}
 
-					for(vint i=0;i<arguments.Count();i++)
+					ExpressionResolvingResult operandResult;
+					MAGETP newArgument(argument.context, operandResult);
+					ManagedLanguage_GetTypeInternal_Expression(node->operand, newArgument);
+
+					if(argumentTypes.Count()==node->argumentTypes.Count())
 					{
-						methodArguments.Add(MethodArgument(arguments[i]->argumentType, methodArgumentResults[i].Obj()));
+						if(operandResult.typeResults.Count()>0)
+						{
+							ManagedTypeSymbol* type=0;
+							FOREACH(ManagedTypeSymbol*, typeResult, argument.result.typeResults.Wrap())
+							{
+								ManagedSymbolItem* typeSymbol=GetRealSymbol(typeResult->GetSymbol());
+								switch(typeSymbol->GetSymbolType())
+								{
+								case ManagedSymbolItem::Class:
+								case ManagedSymbolItem::Structure:
+								case ManagedSymbolItem::Interface:
+									{
+										ManagedSymbolDeclaration* typeDeclaration=dynamic_cast<ManagedSymbolDeclaration*>(typeSymbol);
+										if(typeDeclaration->orderedGenericParameterNames.Count()==argumentTypes.Count())
+										{
+											if(type==0)
+											{
+												type=typeResult;
+											}
+											else
+											{
+												argument.context.errors.Add(ManagedLanguageCodeException::GetExpressionResolvedToDuplicatedTargets(node->operand.Obj(), 0));
+											}
+										}
+									}
+									break;
+								}
+							}
+
+							if(type)
+							{
+								ManagedTypeSymbol* instanciatedType=argument.context.symbolManager->GetInstiantiatedType(type, argumentTypes.Wrap());
+								CheckTypeInMethod(node, instanciatedType, argument.context);
+								argument.result.typeResults.Add(instanciatedType);
+							}
+						}
+						else if(operandResult.methodResults.Count()>0)
+						{
+						}
+						else
+						{
+							argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalInstanciation(node));
+						}
 					}
-					return true;
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedInvokeExpression)
@@ -972,7 +1067,18 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedFunctionResultExpression)
 				{
-					throw 0;
+					ManagedMember* member=0;
+					ManagedLambdaExpression* lambda=0;
+					ManagedTypeSymbol* returnType=argument.context.contextManager->GetResultTarget(member, lambda);
+					if(member)
+					{
+						argument.result.expressionResult=returnType;
+					}
+					else
+					{
+						// TODO: check lambda expression
+						argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalFunctionResult(node));
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedThisExpression)
@@ -1035,7 +1141,13 @@ ManagedLanguage_GetTypeInternal_Expression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedAssignmentExpression)
 				{
-					throw 0;
+					// TODO: check right value
+					ManagedTypeSymbol* toType=GetType(node->leftOperand.Obj(), 0, argument.context);
+					GetType(node->rightOperand.Obj(), toType, argument.context);
+					if(toType)
+					{
+						argument.result.expressionResult=toType;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExtendedExpression)
@@ -1087,14 +1199,21 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 						MAGETP operandArgument(argument.context, operandResult);
 						SearchMemberOfType(node, thisType, operandType, true, node->operatorName, operandArgument, false, true);
 
-						List<MethodArgument> methodArguments;
-						methodArguments.Add(MethodArgument(operandType));
-						ExpressionChoice matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, operandResult.methodResults, methodArguments, thisType, argument.context, true, true);
-
-						if(matchedOperator.symbol)
+						if(!operandResult.IsEmpty() && operandResult.methodResults.Count()==0)
 						{
-							ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(matchedOperator.symbol);
-							argument.result.expressionResult=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, matchedOperator.type);
+							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+						}
+						else
+						{
+							List<MethodArgument> methodArguments;
+							methodArguments.Add(MethodArgument(operandType));
+							ExpressionChoice matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, operandResult.methodResults, methodArguments, thisType, argument.context, true, true);
+
+							if(matchedOperator.symbol)
+							{
+								ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(matchedOperator.symbol);
+								argument.result.expressionResult=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, matchedOperator.type);
+							}
 						}
 					}
 				}
@@ -1114,20 +1233,27 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 						List<MethodArgument> methodArguments;
 						methodArguments.Add(MethodArgument(leftType));
 						methodArguments.Add(MethodArgument(rightType));
-
-						ExpressionChoice matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, leftArgument.result.methodResults, methodArguments, thisType, argument.context, false, true);
-						if(matchedOperator.symbol)
+						
+						if(!leftResult.IsEmpty() && leftResult.methodResults.Count()==0 && !rightResult.IsEmpty() && rightResult.methodResults.Count()==0)
 						{
-							ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(matchedOperator.symbol);
-							argument.result.expressionResult=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, matchedOperator.type);
+							argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
 						}
 						else
 						{
-							matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, rightArgument.result.methodResults, methodArguments, thisType, argument.context, true, true);
+							ExpressionChoice matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, leftArgument.result.methodResults, methodArguments, thisType, argument.context, false, true);
 							if(matchedOperator.symbol)
 							{
 								ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(matchedOperator.symbol);
 								argument.result.expressionResult=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, matchedOperator.type);
+							}
+							else
+							{
+								matchedOperator=SearchMatchedMethods<ManagedSymbolMethod>(node, rightArgument.result.methodResults, methodArguments, thisType, argument.context, true, true);
+								if(matchedOperator.symbol)
+								{
+									ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(matchedOperator.symbol);
+									argument.result.expressionResult=argument.context.symbolManager->ReplaceGenericArguments(method->returnType, matchedOperator.type);
+								}
 							}
 						}
 					}
@@ -1159,7 +1285,29 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIndexExpression)
 				{
-					throw 0;
+					List<Ptr<ExpressionResolvingResult>> methodArgumentResults;
+					List<MethodArgument> methodArguments;
+					if(ConvertArguments(methodArgumentResults, methodArguments, node->indices, argument))
+					{
+						WString operatorName=node->forRead?L"op_index_get":L"op_index_set";
+						ManagedTypeSymbol* operandType=GetType(node->operand.Obj(), 0, argument.context);
+						if(operandType)
+						{
+							ManagedTypeSymbol* thisType=GetThisType(argument.context);
+							ExpressionResolvingResult operandResult;
+							MAGETP operandArgument(argument.context, operandResult);
+							SearchMemberOfType(node, thisType, operandType, true, operatorName, operandArgument, false, true);
+							
+							if(!operandResult.IsEmpty() && operandResult.methodResults.Count()==0)
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
+							}
+							else
+							{
+								SearchMatchedMethods<ManagedSymbolMethod>(node, operandResult.methodResults, methodArguments, thisType, argument.context, true, true);
+							}
+						}
+					}
 				}
 
 			END_ALGORITHM_PROCEDURE(ManagedLanguage_GetTypeInternal_ExtendedExpression)

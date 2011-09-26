@@ -486,6 +486,7 @@ Extended Expressions
 
 				Ptr<ManagedExpression>								operand;
 				collections::List<Ptr<ManagedExpression>>			indices;
+				bool												forRead;
 			};
 
 #define MANAGED_EXTENDED_EXPRESSION_TARGETS(P, F)\

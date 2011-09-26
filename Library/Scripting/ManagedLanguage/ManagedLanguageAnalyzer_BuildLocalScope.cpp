@@ -47,7 +47,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedExpressionStatement)
 				{
-					// TODO: check expression
+					GetType(node->expression.Obj(), 0, argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedVariableStatement)

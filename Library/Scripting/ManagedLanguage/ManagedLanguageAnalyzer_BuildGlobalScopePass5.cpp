@@ -75,7 +75,9 @@ ManagedLanguage_BuildGlobalScope5_ExtendedMember
 					}
 					if(node->setter)
 					{
+						argument.contextManager->PushFunction(symbol->type, node);
 						BuildLocalScope(node->setter.Obj(), newArgument);
+						argument.contextManager->PopStatement();
 					}
 				}
 

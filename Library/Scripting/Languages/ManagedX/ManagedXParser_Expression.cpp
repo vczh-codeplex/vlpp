@@ -319,6 +319,7 @@ Extended Expressions
 			Ptr<explrec::ExpLrecBase> ToIndexLrec(const ParsingPair<RegexToken, ParsingList<Ptr<ManagedExpression>>>& input)
 			{
 				Ptr<ManagedIndexExpression> exp=CreateNode<ManagedIndexExpression>(input.First());
+				exp->forRead=true;
 				Ptr<ParsingList<Ptr<ManagedExpression>>::Node> current=input.Second().Head();
 				while(current)
 				{
@@ -430,6 +431,10 @@ Operator Expressions
 				Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(op);
 				exp->leftOperand=left;
 				exp->rightOperand=right;
+				if(Ptr<ManagedIndexExpression> index=exp->leftOperand.Cast<ManagedIndexExpression>())
+				{
+					index->forRead=false;
+				}
 				return exp;
 			}
 

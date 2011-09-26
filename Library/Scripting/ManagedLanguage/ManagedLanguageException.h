@@ -89,6 +89,8 @@ namespace vl
 					IllegalNull,										// <ManagedNullExpression>
 					CannotDetermineContainerElementType,				// <ManagedForEachStatement>
 					CannotDisposeNonIDisposableType,					// <ManagedUsingStatement>
+					IllegalFunctionResult,								// <ManagedFunctionResultExpression>
+					IllegalInstanciation,								// <ManagedInstantiatedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -177,6 +179,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetIllegalNull(ManagedNullExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetCannotDetermineContainerElementType(ManagedForEachStatement* statement, ManagedTypeSymbol* containerType);
 				static Ptr<ManagedLanguageCodeException>						GetCannotDisposeNonIDisposableType(ManagedUsingStatement* statement, ManagedTypeSymbol* containerType);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalFunctionResult(ManagedFunctionResultExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetIllegalInstanciation(ManagedInstantiatedExpression* expression);
 			};
 		}
 	}

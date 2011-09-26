@@ -296,6 +296,10 @@ Extended Statements
 					Ptr<ManagedAssignmentExpression> exp=CreateNode<ManagedAssignmentExpression>(input.First());
 					exp->leftOperand=CreateNode<ManagedFunctionResultExpression>(input.First());
 					exp->rightOperand=input.Second();
+					if(Ptr<ManagedIndexExpression> index=exp->leftOperand.Cast<ManagedIndexExpression>())
+					{
+						index->forRead=false;
+					}
 
 					Ptr<ManagedExpressionStatement> expstat=CreateNode<ManagedExpressionStatement>(input.First());
 					expstat->expression=exp;
@@ -314,6 +318,10 @@ Lambda Statement
 				Ptr<ManagedAssignmentExpression> assign=CreateNode<ManagedAssignmentExpression>(input);
 				assign->leftOperand=CreateNode<ManagedFunctionResultExpression>(input);
 				assign->rightOperand=input;
+				if(Ptr<ManagedIndexExpression> index=assign->leftOperand.Cast<ManagedIndexExpression>())
+				{
+					index->forRead=false;
+				}
 				
 				Ptr<ManagedExpressionStatement> exp=CreateNode<ManagedExpressionStatement>(input);
 				exp->expression=assign;
