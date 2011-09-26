@@ -117,11 +117,6 @@ Helper Functions
 							}
 						}
 						break;
-					case ManagedSymbolItem::GenericParameter:
-						{
-							// TODO: 
-						}
-						break;
 					}
 				}
 			}
