@@ -67,6 +67,7 @@ namespace vl
 					};
 
 					ContextType								contextType;
+					ManagedTypeSymbol*						returnType;
 					StatementContext*						previous;
 					union
 					{
@@ -104,7 +105,7 @@ namespace vl
 				ManagedStatement*							GetBreakTarget();
 				ManagedStatement*							GetContinueTarget();
 				ManagedCatchClause*							GetThrowTarget();
-				bool										GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression);
+				ManagedTypeSymbol*							GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression);
 				ManagedMember*								GetThisTargetMember();
 			};
 		}

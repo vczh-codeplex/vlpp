@@ -480,6 +480,18 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(statement, CannotDisposeNonIDisposableType, parameters.Wrap(), containerType);
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalFunctionResult(ManagedFunctionResultExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, IllegalFunctionResult, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalInstanciation(ManagedInstantiatedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, IllegalInstanciation, parameters.Wrap());
+			}
 		}
 	}
 }

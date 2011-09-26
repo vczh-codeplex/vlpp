@@ -67,3 +67,5 @@ MatchedMethodTooMuch(expr)=Matched constructor, method or operator of expression
 IllegalNull(expr)=Cannot use {expr} without context.
 CannotDetermineContainerElementType(containerType)=Cannot determine the element type from container type {containerType}, because it implemented multiple different generic IEnumerable interfaces.
 CannotDisposeNonIDisposableType(type)=Cannot dispose an instance of type {type} because it does not implemented IDisposable interface.
+IllegalFunctionResult=Function result is only accessable in a method or a lambda expression that contains a return type.
+IllegalInstanciation=Only types and methods can be instanciate.

@@ -89,6 +89,8 @@ namespace vl
 				static WString IllegalNull(const WString& expr);
 				static WString CannotDetermineContainerElementType(const WString& containerType);
 				static WString CannotDisposeNonIDisposableType(const WString& type);
+				static WString IllegalFunctionResult();
+				static WString IllegalInstanciation();
 			};
 		}
 	}

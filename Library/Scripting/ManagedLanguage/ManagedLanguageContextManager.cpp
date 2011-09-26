@@ -62,6 +62,7 @@ ManagedContextManager
 			{
 				StatementContext* context=PushStatement();
 				context->contextType=StatementContext::Method;
+				context->returnType=returnType;
 				context->languageElement.member=member;
 			}
 
@@ -69,6 +70,7 @@ ManagedContextManager
 			{
 				StatementContext* context=PushStatement();
 				context->contextType=StatementContext::Lambda;
+				context->returnType=returnType;
 				context->languageElement.lambdaExpression=lambdaExpression;
 			}
 
@@ -76,6 +78,7 @@ ManagedContextManager
 			{
 				StatementContext* context=PushStatement();
 				context->contextType=StatementContext::Loop;
+				context->returnType=0;
 				context->languageElement.statement=statement;
 			}
 
@@ -83,6 +86,7 @@ ManagedContextManager
 			{
 				StatementContext* context=PushStatement();
 				context->contextType=StatementContext::Switch;
+				context->returnType=0;
 				context->languageElement.statement=statement;
 			}
 
@@ -90,6 +94,7 @@ ManagedContextManager
 			{
 				StatementContext* context=PushStatement();
 				context->contextType=StatementContext::Catch;
+				context->returnType=0;
 				context->languageElement.catchClause=catchClause;
 			}
 
@@ -150,7 +155,7 @@ ManagedContextManager
 				return 0;
 			}
 
-			bool ManagedContextManager::GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression)
+			ManagedTypeSymbol* ManagedContextManager::GetResultTarget(ManagedMember*& member, ManagedLambdaExpression*& lambdaExpression)
 			{
 				StatementContext* context=currentStatementContext;
 				while(context && context->contextType!=StatementContext::Method && context->contextType!=StatementContext::Lambda)
@@ -163,16 +168,16 @@ ManagedContextManager
 					{
 						member=context->languageElement.member;
 						lambdaExpression=0;
-						return true;
+						return context->returnType;
 					}
 					else if(context->contextType==StatementContext::Lambda)
 					{
 						member=0;
 						lambdaExpression=context->languageElement.lambdaExpression;
-						return true;
+						return context->returnType;
 					}
 				}
-				return false;
+				return 0;
 			}
 
 			ManagedMember* ManagedContextManager::GetThisTargetMember()
