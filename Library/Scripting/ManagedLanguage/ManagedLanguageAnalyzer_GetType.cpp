@@ -1001,6 +1001,7 @@ ManagedLanguage_GetTypeInternal_Expression
 						}
 						else if(operandResult.methodResults.Count()>0)
 						{
+							throw 0;
 						}
 						else
 						{
