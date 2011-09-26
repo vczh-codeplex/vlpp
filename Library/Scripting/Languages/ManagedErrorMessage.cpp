@@ -346,6 +346,11 @@ namespace vl
 				return L"Failed to instanciation because the generic argument count not matched.";
 			}
 
+			WString ManagedErrorMessage::CannotAccessMembersOfNull()
+			{
+				return L"Cannot access members of null.";
+			}
+
 		}
 	}
 }

@@ -93,6 +93,7 @@ namespace vl
 					IllegalFunctionResult,								// <ManagedFunctionResultExpression>
 					IllegalInstanciation,								// <ManagedInstantiatedExpression>
 					InstanciationFailedGenericArgumentCountNotMatched,	// <ManagedInstantiatedExpression>
+					CannotAccessMembersOfNull,							// <ManagedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -185,6 +186,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetIllegalFunctionResult(ManagedFunctionResultExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalInstanciation(ManagedInstantiatedExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetInstanciationFailedGenericArgumentCountNotMatched(ManagedInstantiatedExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetCannotAccessMembersOfNull(ManagedExpression* expression);
 			};
 		}
 	}

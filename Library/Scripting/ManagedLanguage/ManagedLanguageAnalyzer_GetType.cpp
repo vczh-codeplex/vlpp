@@ -29,7 +29,7 @@ namespace vl
 
 			struct ExpressionResolvingResult
 			{
-
+				bool									nullResult;
 				ManagedTypeSymbol*						expressionResult;
 				ManagedSymbolNamespace*					namespaceResult;
 				List<ManagedTypeSymbol*>				typeResults;
@@ -37,18 +37,20 @@ namespace vl
 				List<ManagedTypeSymbol*>				sharedGenericArguments;
 
 				ExpressionResolvingResult()
-					:expressionResult(0)
+					:nullResult(false)
+					,expressionResult(0)
 					,namespaceResult(0)
 				{
 				}
 
 				bool IsEmpty()
 				{
-					return expressionResult==0 && namespaceResult==0 && typeResults.Count()==0 && methodResults.Count()==0;
+					return !nullResult && expressionResult==0 && namespaceResult==0 && typeResults.Count()==0 && methodResults.Count()==0;
 				}
 
 				void Clear()
 				{
+					nullResult=false;
 					expressionResult=0;
 					namespaceResult=0;
 					typeResults.Clear();
@@ -78,6 +80,18 @@ namespace vl
 /***********************************************************************
 GetType
 ***********************************************************************/
+
+			bool CanAssignedToNull(ManagedTypeSymbol* type, const MAP& argument)
+			{
+				switch(GetRealSymbol(type->GetSymbol())->GetSymbolType())
+				{
+				case ManagedSymbolItem::Class:
+				case ManagedSymbolItem::Interface:
+					return true;
+				default:
+					return false;
+				}
+			}
 
 			bool CanImplicitlyConvertTo(ManagedTypeSymbol* from, ManagedTypeSymbol* to, const MAP& argument)
 			{
@@ -119,7 +133,7 @@ GetType
 						}
 					}
 				}
-				else if(!expressionResolvingResult.IsEmpty())
+				else if(!expressionResolvingResult.IsEmpty() && !expressionResolvingResult.nullResult)
 				{
 					argument.errors.Add(ManagedLanguageCodeException::GetExpressionIsNotValue(node));
 				}
@@ -549,20 +563,24 @@ Method Overloading
 					{
 						return 1;
 					}
-					else
+				}
+				else if(methodArgument.value)
+				{
+					if(methodArgument.value->nullResult)
 					{
-						return  -1;
+						if(CanAssignedToNull(parameterType, argument))
+						{
+							return 3;
+						}
 					}
 				}
-				else
-				{
-					return -1;
-				}
+				return -1;
 			}
 			
 			// perfect = 3
 			// need type implicit conversion = 2
 			// need generic parameter in-out conversion = 1
+			// don't provide argument to parameter with default value = 0
 			// don't params expansion = +10
 			// failed = -1
 			vint GetOverloadingScore(
@@ -632,6 +650,10 @@ Method Overloading
 							vint currentScore=GetOverloadingScore(methodArguments[i], parameterType, parameter->parameterType, argument, forOperator);
 							if(score>currentScore) score=currentScore;
 						}
+						else if(parameter->containsDefaultValue)
+						{
+							score=0;
+						}
 						else
 						{
 							score=-1;
@@ -643,7 +665,7 @@ Method Overloading
 				{
 					if(parameterNames.Count()-1>methodArguments.Count()) return -1;
 				}
-				else if(parameterNames.Count()!=methodArguments.Count())
+				else if(parameterNames.Count()<methodArguments.Count())
 				{
 					return -1;
 				}
@@ -802,18 +824,12 @@ ManagedLanguage_GetTypeInternal_Expression
 				{
 					if(argument.context.expectedType)
 					{
-						ManagedSymbolItem* symbol=GetRealSymbol(argument.context.expectedType->GetSymbol());
-						switch(symbol->GetSymbolType())
+						if(!CanAssignedToNull(argument.context.expectedType, argument.context))
 						{
-						case ManagedSymbolItem::Class:
-						case ManagedSymbolItem::Interface:
-							argument.result.expressionResult=argument.context.expectedType;
+							argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalNull(node));
 						}
 					}
-					if(!argument.result.expressionResult)
-					{
-						//argument.context.errors.Add(ManagedLanguageCodeException::GetIllegalNull(node));
-					}
+					argument.result.nullResult=true;
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIntegerExpression)
@@ -994,8 +1010,13 @@ ManagedLanguage_GetTypeInternal_Expression
 							else
 							{
 								ManagedTypeSymbol* thisType=GetThisType(argument.context);
-							
-								if(argument.result.expressionResult)
+
+								if(argument.result.nullResult)
+								{
+									argument.result.Clear();
+									argument.context.errors.Add(ManagedLanguageCodeException::GetCannotAccessMembersOfNull(node));
+								}
+								else if(argument.result.expressionResult)
 								{
 									ManagedTypeSymbol* type=argument.result.expressionResult;
 									argument.result.Clear();

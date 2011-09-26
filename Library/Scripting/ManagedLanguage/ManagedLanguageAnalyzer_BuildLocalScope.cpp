@@ -87,6 +87,10 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 						symbol->variableLanguageElement=node;
 						argument.currentSymbol->Add(symbol);
 					}
+					else if(autoref)
+					{
+						// TODO:
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedIfStatement)
@@ -230,6 +234,10 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 						variable->usingLanguageElement=node;
 						block->Add(variable);
 					}
+					else if(autoref)
+					{
+						// TODO:
+					}
 
 					MAP newArgument(argument, block);
 					BuildLocalScope(node->statement.Obj(), newArgument);
@@ -347,6 +355,10 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 						variable->constant=true;
 						variable->forEachLanguageElement=node;
 						block->Add(variable);
+					}
+					else if(autoref)
+					{
+						// TODO:
 					}
 
 					argument.contextManager->PushLoop(node);
