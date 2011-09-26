@@ -286,7 +286,7 @@ EnsureSymbolBaseTypesCompleted
 					}
 					else if(symbol->enumerationLanguageElement)
 					{
-						if(ManagedTypeSymbol* baseType=GetSystemType(symbol->enumerationLanguageElement, L"EnumItemBase", argument))
+						if(ManagedTypeSymbol* baseType=GetSystemType(symbol->enumerationLanguageElement, L"EnumItem", argument))
 						{
 							symbol->baseTypes.Add(baseType);
 						}
@@ -637,7 +637,7 @@ IsInheritedFrom
 
 			bool IsInheritedFrom(ManagedTypeSymbol* type, ManagedTypeSymbol* parentType, const MAP& argument)
 			{
-				if(type==parentType)
+				if(type==parentType || parentType==argument.contextManager->predefinedTypes.objectType)
 				{
 					return true;
 				}

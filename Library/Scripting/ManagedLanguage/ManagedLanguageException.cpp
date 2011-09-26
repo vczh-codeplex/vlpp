@@ -169,6 +169,13 @@ ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
 ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
 ***********************************************************************/
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalTypeConstraint(ManagedLanguageElement* element, const WString& name)
+			{
+				Array<WString> parameters(1);
+				parameters[0]=name;
+				return new ManagedLanguageCodeException(element, IllegalTypeConstraint, parameters.Wrap());
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetTypeCannotDerivedFromItself(ManagedTypeDeclaration* declaration)
 			{
 				Array<WString> parameters(0);
@@ -491,6 +498,12 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, IllegalInstanciation, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetInstanciationFailedGenericArgumentCountNotMatched(ManagedInstantiatedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, InstanciationFailedGenericArgumentCountNotMatched, parameters.Wrap());
 			}
 		}
 	}

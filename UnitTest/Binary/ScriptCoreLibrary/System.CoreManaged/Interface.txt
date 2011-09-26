@@ -2,29 +2,29 @@ namespace System
 {
 	public interface IDisposable
 	{
-		public abstract void Dispose();
+		public void Dispose();
 	}
 
 	public interface IEnumerator
 	{
-		public abstract bool MoveNext();
-		public abstract object Current{get;}
+		public bool MoveNext();
+		public object Current{get;}
 	}
 
 	public interface IEnumerable
 	{
-		public abstract IEnumerator GetEnumerator();
+		public IEnumerator GetEnumerator();
 	}
 
 	generic<inout T>
 	public interface IEnumerator : IEnumerator
 	{
-		public abstract T Current{get;}
+		public T Current{get;}
 	}
 
 	generic<inout T>
 	public interface IEnumerable : IEnumerable
 	{
-		public abstract IEnumerator<T> GetEnumerator();
+		public IEnumerator<T> GetEnumerator();
 	}
 }

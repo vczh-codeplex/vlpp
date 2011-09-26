@@ -71,13 +71,13 @@ ManagedLanguage_BuildGlobalScope5_ExtendedMember
 					MAP newArgument(argument, symbol);
 					if(node->getter)
 					{
+						argument.contextManager->PushFunction(symbol->type, node);
 						BuildLocalScope(node->getter.Obj(), newArgument);
+						argument.contextManager->PopStatement();
 					}
 					if(node->setter)
 					{
-						argument.contextManager->PushFunction(symbol->type, node);
 						BuildLocalScope(node->setter.Obj(), newArgument);
-						argument.contextManager->PopStatement();
 					}
 				}
 

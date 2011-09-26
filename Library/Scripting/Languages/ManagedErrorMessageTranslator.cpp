@@ -111,7 +111,12 @@ ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
 /***********************************************************************
 ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
 ***********************************************************************/
-
+					
+				case ManagedLanguageCodeException::IllegalTypeConstraint:
+					{
+						message=ManagedErrorMessage::IllegalTypeConstraint(error->GetParameters()[0]);
+					}
+					break;
 				case ManagedLanguageCodeException::TypeCannotDerivedFromItself:
 					{
 						ManagedTypeDeclaration* declaration=dynamic_cast<ManagedTypeDeclaration*>(error->GetManagedLanguageElement());
@@ -424,6 +429,11 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 				case ManagedLanguageCodeException::IllegalInstanciation:
 					{
 						message=ManagedErrorMessage::IllegalInstanciation();
+					}
+					break;
+				case ManagedLanguageCodeException::InstanciationFailedGenericArgumentCountNotMatched:
+					{
+						message=ManagedErrorMessage::InstanciationFailedGenericArgumentCountNotMatched();
 					}
 					break;
 				default:

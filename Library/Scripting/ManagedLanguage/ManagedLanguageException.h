@@ -38,7 +38,8 @@ namespace vl
 					GenericTypeArgumentCountNotMatches,					// <all>
 					GenericTypeTypeConstraintNotSatisfied,				// <all>								:index(type parameters generic argument index)
 					GenericTypeNewConstraintNotSatisfied,				// <all>								:index(type parameters generic argument index)
-
+					
+					IllegalTypeConstraint,								// <ManagedTypeDeclaration>				:name
 					TypeCannotDerivedFromItself,						// <ManagedTypeDeclaration>
 					ClassIllegalBaseClass,								// <ManagedTypeDeclaration>
 					StructureIllegalBaseClass,							// <ManagedTypeDeclaration>
@@ -91,6 +92,7 @@ namespace vl
 					CannotDisposeNonIDisposableType,					// <ManagedUsingStatement>
 					IllegalFunctionResult,								// <ManagedFunctionResultExpression>
 					IllegalInstanciation,								// <ManagedInstantiatedExpression>
+					InstanciationFailedGenericArgumentCountNotMatched,	// <ManagedInstantiatedExpression>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -127,6 +129,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeTypeConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 				static Ptr<ManagedLanguageCodeException>						GetGenericTypeNewConstraintNotSatisfied(ManagedLanguageElement* element, ManagedTypeSymbol* genericType, vint index);
 
+				static Ptr<ManagedLanguageCodeException>						GetIllegalTypeConstraint(ManagedLanguageElement* element, const WString& name);
 				static Ptr<ManagedLanguageCodeException>						GetTypeCannotDerivedFromItself(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetClassIllegalBaseClass(ManagedTypeDeclaration* declaration);
 				static Ptr<ManagedLanguageCodeException>						GetStructureIllegalBaseClass(ManagedTypeDeclaration* declaration);
@@ -181,6 +184,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetCannotDisposeNonIDisposableType(ManagedUsingStatement* statement, ManagedTypeSymbol* containerType);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalFunctionResult(ManagedFunctionResultExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalInstanciation(ManagedInstantiatedExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetInstanciationFailedGenericArgumentCountNotMatched(ManagedInstantiatedExpression* expression);
 			};
 		}
 	}

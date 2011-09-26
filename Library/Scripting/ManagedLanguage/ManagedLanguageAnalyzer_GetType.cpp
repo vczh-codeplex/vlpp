@@ -14,10 +14,12 @@ namespace vl
 			{
 				ManagedTypeSymbol*					type;	// symbol type if exists. for method and generic parameter, it this the owner type's type.
 				ManagedSymbolItem*					symbol;
+				List<ManagedTypeSymbol*>*			genericArguments;
 
 				ExpressionChoice(ManagedTypeSymbol* _type=0, ManagedSymbolItem* _symbol=0)
 					:type(_type)
 					,symbol(_symbol)
+					,genericArguments(0)
 				{
 				}
 
@@ -30,8 +32,9 @@ namespace vl
 
 				ManagedTypeSymbol*						expressionResult;
 				ManagedSymbolNamespace*					namespaceResult;
-				List<ManagedTypeSymbol*>					typeResults;
+				List<ManagedTypeSymbol*>				typeResults;
 				List<ExpressionChoice>					methodResults;
+				List<ManagedTypeSymbol*>				sharedGenericArguments;
 
 				ExpressionResolvingResult()
 					:expressionResult(0)
@@ -50,6 +53,7 @@ namespace vl
 					namespaceResult=0;
 					typeResults.Clear();
 					methodResults.Clear();
+					sharedGenericArguments.Clear();
 				}
 			};
 
@@ -145,6 +149,7 @@ Helper Functions
 						}
 						break;
 					case ManagedSymbolItem::Constructor:
+					case ManagedSymbolItem::Property:
 						return false;
 					case ManagedSymbolItem::ConverterOperator:
 						{
@@ -302,15 +307,24 @@ SearchMember
 				}
 			}
 
-			void SearchMemberOfType(ManagedExpression* node, ManagedTypeSymbol* thisType, ManagedTypeSymbol* containerType, bool staticOnly, const WString& name, const MAGETP& argument, bool searchForMethodOnly=false, bool searchForOperator=false)
+			void SearchMemberOfTypeInternal(
+				ManagedExpression* node,
+				ManagedTypeSymbol* thisType,
+				ManagedTypeSymbol* containerType,
+				bool staticOnly,
+				const WString& name,
+				const MAGETP& argument,
+				bool searchForMethodOnly,
+				bool searchForOperator
+				)
 			{
 				// TODO: Search methods in base types
 				ManagedSymbolItem* containerScope=GetRealSymbol(containerType->GetSymbol());
 				switch(containerScope->GetSymbolType())
 				{
 				case ManagedSymbolItem::GenericParameter:
-					// TODO:
-					throw 0;
+					{
+					}
 					break;
 				case ManagedSymbolItem::Class:
 				case ManagedSymbolItem::Structure:
@@ -410,11 +424,35 @@ SearchMember
 						{
 							if(containerScope->GetSymbolType()==ManagedSymbolItem::Interface || GetRealSymbol(baseType->GetSymbol())->GetSymbolType()!=ManagedSymbolItem::Interface)
 							{
-								SearchMemberOfType(node, thisType, argument.context.symbolManager->GetBaseType(baseType, containerType), staticOnly, name, argument, (argument.result.methodResults.Count()>0), searchForOperator);
+								SearchMemberOfTypeInternal(node, thisType, argument.context.symbolManager->GetBaseType(baseType, containerType), staticOnly, name, argument, (argument.result.methodResults.Count()>0), searchForOperator);
 							}
 						}
 					}
 					break;
+				}
+			}
+
+			void SearchMemberOfType(
+				ManagedExpression* node,
+				ManagedTypeSymbol* thisType,
+				ManagedTypeSymbol* containerType,
+				bool staticOnly,
+				const WString& name,
+				const MAGETP& argument,
+				bool searchForMethodOnly=false,
+				bool searchForOperator=false
+				)
+			{
+				SearchMemberOfTypeInternal(node, thisType, containerType, staticOnly, name, argument, searchForMethodOnly, searchForOperator);
+				if(argument.result.IsEmpty())
+				{
+					switch(GetRealSymbol(containerType->GetSymbol())->GetSymbolType())
+					{
+					case ManagedSymbolItem::GenericParameter:
+					case ManagedSymbolItem::Interface:
+						SearchMemberOfTypeInternal(node, thisType, argument.context.contextManager->predefinedTypes.objectType, staticOnly, name, argument, searchForMethodOnly, searchForOperator);
+						break;
+					}
 				}
 			}
 
@@ -460,7 +498,13 @@ Method Overloading
 				bool operator!=(const MethodArgument& argument){return true;}
 			};
 
-			vint GetOverloadingScore(MethodArgument methodArgument, ManagedTypeSymbol* parameterType, ManagedParameter::ParameterType parameterAttribute, const MAP& argument, bool forOperator)
+			vint GetOverloadingScore(
+				MethodArgument methodArgument,
+				ManagedTypeSymbol* parameterType,
+				ManagedParameter::ParameterType parameterAttribute,
+				const MAP& argument,
+				bool forOperator
+				)
 			{
 				switch(parameterAttribute)
 				{
@@ -521,7 +565,15 @@ Method Overloading
 			// need generic parameter in-out conversion = 1
 			// don't params expansion = +10
 			// failed = -1
-			vint GetOverloadingScore(ManagedSymbolItem* parameterContainer, List<WString>& parameterNames, ManagedTypeSymbol* contextType, List<MethodArgument>& methodArguments, const MAP& argument, bool forOperator)
+			vint GetOverloadingScore(
+				ManagedSymbolItem* parameterContainer,
+				List<WString>& parameterNames,
+				ManagedTypeSymbol* contextType,
+				List<MethodArgument>& methodArguments,
+				const MAP& argument,
+				bool forOperator,
+				Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>* extraGenericArguments
+				)
 			{
 				vint score=3;
 				bool enableParamsExpansion=false;
@@ -534,6 +586,10 @@ Method Overloading
 						enableParamsExpansion=true;
 					}
 					ManagedTypeSymbol* parameterType=argument.symbolManager->ReplaceGenericArguments(parameter->type, contextType);
+					if(extraGenericArguments)
+					{
+						parameterType=argument.symbolManager->ReplaceGenericArguments(parameterType, extraGenericArguments->Wrap());
+					}
 
 					if(enableParamsExpansion)
 					{
@@ -561,13 +617,10 @@ Method Overloading
 							else
 							{
 								needParamsExpansion=true;
-								if(i<methodArguments.Count())
+								for(vint j=i;j<methodArguments.Count();j++)
 								{
-									for(vint j=i;j<methodArguments.Count();j++)
-									{
-										currentScore=GetOverloadingScore(methodArguments[j], paramsElementType, ManagedParameter::Normal, argument, forOperator)==-1;
-										if(score>currentScore) score=currentScore;
-									}
+									currentScore=GetOverloadingScore(methodArguments[j], paramsElementType, ManagedParameter::Normal, argument, forOperator)==-1;
+									if(score>currentScore) score=currentScore;
 								}
 							}
 						}
@@ -588,7 +641,7 @@ Method Overloading
 
 				if(enableParamsExpansion)
 				{
-					if(parameterNames.Count()>=methodArguments.Count()-1) return -1;
+					if(parameterNames.Count()-1>methodArguments.Count()) return -1;
 				}
 				else if(parameterNames.Count()!=methodArguments.Count())
 				{
@@ -598,17 +651,76 @@ Method Overloading
 			}
 
 			template<typename T>
+			struct __CalculateGenericArgumentMap
+			{
+				static Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>* CalculateGenericArgumentMap(
+					Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>& extraGenericArgumentMap,
+					List<ManagedTypeSymbol*>*& extraGenericArgumentCache,
+					List<ManagedTypeSymbol*>* extraGenericArgumentInput,
+					T* method,
+					const MAP& argument
+					)
+				{
+					if(extraGenericArgumentInput)
+					{
+						if(extraGenericArgumentCache!=extraGenericArgumentInput)
+						{
+							extraGenericArgumentCache=extraGenericArgumentInput;
+							extraGenericArgumentMap.Clear();
+							for(vint i=0;i<method->orderedGenericParameterNames.Count();i++)
+							{
+								ManagedTypeSymbol* key=argument.symbolManager->GetType(method->ItemGroup(method->orderedGenericParameterNames[i])->Items()[0]);
+								ManagedTypeSymbol* value=extraGenericArgumentCache->Get(i);
+								extraGenericArgumentMap.Add(key, value);
+							}
+						}
+						return &extraGenericArgumentMap;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			};
+
+			template<>
+			struct __CalculateGenericArgumentMap<ManagedSymbolConstructor>
+			{
+				static Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>* CalculateGenericArgumentMap(
+					Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>& extraGenericArgumentMap,
+					List<ManagedTypeSymbol*>*& extraGenericArgumentCache,
+					List<ManagedTypeSymbol*>* extraGenericArgumentInput,
+					ManagedSymbolConstructor* method,
+					const MAP& argument
+					)
+				{
+					return 0;
+				}
+			};
+
+			template<typename T>
 			ExpressionChoice SearchMatchedMethods(ManagedExpression* node, List<ExpressionChoice>& methodChoices, List<MethodArgument>& methodArguments, ManagedTypeSymbol* thisType, const MAP& argument, bool addErrorWhenNothingMatched, bool forOperator)
 			{
 				vint methodOverloadingScore=-1;
 				List<ExpressionChoice> methodOverloadingResult;
+
+				Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*> extraGenericArgumentMap;
+				List<ManagedTypeSymbol*>* extraGenericArgumentCache=0;
 
 				FOREACH(ExpressionChoice, methodChoice, methodChoices.Wrap())
 				{
 					T* method=dynamic_cast<T*>(methodChoice.symbol);
 					if(method && IsVisible(thisType, methodChoice.type, method->accessor, argument))
 					{
-						vint score=GetOverloadingScore(method, method->orderedMethodParameterNames, methodChoice.type, methodArguments, argument, forOperator);
+						Dictionary<ManagedTypeSymbol*, ManagedTypeSymbol*>* extraGenericArguments
+							= __CalculateGenericArgumentMap<T>::CalculateGenericArgumentMap(
+								extraGenericArgumentMap,
+								extraGenericArgumentCache,
+								methodChoice.genericArguments,
+								method,
+								argument
+							);
+						vint score=GetOverloadingScore(method, method->orderedMethodParameterNames, methodChoice.type, methodArguments, argument, forOperator, extraGenericArguments);
 						if(score!=-1 && score>=methodOverloadingScore)
 						{
 							if(score>methodOverloadingScore)
@@ -881,16 +993,15 @@ ManagedLanguage_GetTypeInternal_Expression
 							}
 							else
 							{
-								bool inStaticMethod=IsInStaticMethod(argument.context);
 								ManagedTypeSymbol* thisType=GetThisType(argument.context);
 							
 								if(argument.result.expressionResult)
 								{
 									ManagedTypeSymbol* type=argument.result.expressionResult;
 									argument.result.Clear();
-									SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
+									SearchMemberOfType(node, thisType, type, false, node->member, argument);
 								}
-								else if(argument.result.typeResults.Count()==0)
+								else if(argument.result.typeResults.Count()>0)
 								{
 									ManagedTypeSymbol* type=0;
 									FOREACH(ManagedTypeSymbol*, typeResult, argument.result.typeResults.Wrap())
@@ -920,9 +1031,10 @@ ManagedLanguage_GetTypeInternal_Expression
 											break;
 										}
 									}
+									argument.result.Clear();
 									if(type)
 									{
-										SearchMemberOfType(node, thisType, type, inStaticMethod, node->member, argument);
+										SearchMemberOfType(node, thisType, type, false, node->member, argument);
 									}
 								}
 								else if(argument.result.namespaceResult)
@@ -998,10 +1110,41 @@ ManagedLanguage_GetTypeInternal_Expression
 								CheckTypeInMethod(node, instanciatedType, argument.context);
 								argument.result.typeResults.Add(instanciatedType);
 							}
+							else
+							{
+								argument.context.errors.Add(ManagedLanguageCodeException::GetInstanciationFailedGenericArgumentCountNotMatched(node));
+							}
 						}
 						else if(operandResult.methodResults.Count()>0)
 						{
-							throw 0;
+							FOREACH(Ptr<ManagedType>, genericArgument, node->argumentTypes.Wrap())
+							{
+								ManagedTypeSymbol* genericArgumentType=GetTypeSymbolInMethod(genericArgument, argument.context);
+								if(genericArgumentType)
+								{
+									argument.result.sharedGenericArguments.Add(genericArgumentType);
+								}
+							}
+							if(argument.result.sharedGenericArguments.Count()==node->argumentTypes.Count())
+							{
+								FOREACH(ExpressionChoice, methodChoice, operandResult.methodResults.Wrap())
+								{
+									ManagedSymbolMethod* method=dynamic_cast<ManagedSymbolMethod*>(methodChoice.symbol);
+									if(method->orderedGenericParameterNames.Count()==node->argumentTypes.Count())
+									{
+										methodChoice.genericArguments=&argument.result.sharedGenericArguments;
+										argument.result.methodResults.Add(methodChoice);
+									}
+								}
+								if(argument.result.IsEmpty())
+								{
+									argument.context.errors.Add(ManagedLanguageCodeException::GetInstanciationFailedGenericArgumentCountNotMatched(node));
+								}
+							}
+							else
+							{
+								argument.result.Clear();
+							}
 						}
 						else
 						{
@@ -1297,9 +1440,9 @@ ManagedLanguage_GetTypeInternal_ExtendedExpression
 							ManagedTypeSymbol* thisType=GetThisType(argument.context);
 							ExpressionResolvingResult operandResult;
 							MAGETP operandArgument(argument.context, operandResult);
-							SearchMemberOfType(node, thisType, operandType, true, operatorName, operandArgument, false, true);
+							SearchMemberOfType(node, thisType, operandType, false, operatorName, operandArgument, false, true);
 							
-							if(!operandResult.IsEmpty() && operandResult.methodResults.Count()==0)
+							if(operandResult.IsEmpty() || operandResult.methodResults.Count()==0)
 							{
 								argument.context.errors.Add(ManagedLanguageCodeException::GetMatchedMethodNotExists(node));
 							}

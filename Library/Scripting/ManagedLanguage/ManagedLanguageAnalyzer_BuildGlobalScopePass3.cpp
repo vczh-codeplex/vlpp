@@ -17,6 +17,10 @@ namespace vl
 					FOREACH(ManagedTypeSymbol*, typeConstraint, genericParameter->typeConstraints.Wrap())
 					{
 						CheckType(languageElement, typeConstraint, scopeItem, scopeItem, argument);
+						if(GetRealSymbol(typeConstraint->GetSymbol())->GetSymbolType()!=ManagedSymbolItem::Interface)
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetIllegalTypeConstraint(languageElement, genericParameter->GetName()));
+						}
 					}
 				}
 			}
