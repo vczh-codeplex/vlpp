@@ -221,6 +221,7 @@ InitializeContextManager
 				pt.ienumerableType		=GetSystemType(program, L"IEnumerable", argument);
 				pt.ienumeratorOfTType	=GetSystemType(program, L"IEnumerator", argument, 1);
 				pt.ienumerableOfTType	=GetSystemType(program, L"IEnumerable", argument, 1);
+				pt.array1OfTType		=GetSystemType(program, L"Array1", argument, 1);
 			}
 		}
 	}

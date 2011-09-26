@@ -50,6 +50,7 @@ namespace vl
 					ManagedTypeSymbol*						ienumerableType;
 					ManagedTypeSymbol*						ienumeratorOfTType;
 					ManagedTypeSymbol*						ienumerableOfTType;
+					ManagedTypeSymbol*						array1OfTType;
 				};
 
 				PredefinedTypes								predefinedTypes;

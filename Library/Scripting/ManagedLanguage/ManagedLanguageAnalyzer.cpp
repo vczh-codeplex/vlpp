@@ -955,7 +955,8 @@ GetTypeSymbolInMethod
 
 			ManagedTypeSymbol* GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument)
 			{
-				ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument);
+				ManagedMember* member=argument.contextManager->GetThisTargetMember();
+				ManagedTypeSymbol* typeSymbol=GetTypeSymbol(type, argument, (member?argument.symbolManager->GetSymbol(member):0));
 				CheckTypeInMethod(type.Obj(), typeSymbol, argument);
 				return typeSymbol;
 			}
