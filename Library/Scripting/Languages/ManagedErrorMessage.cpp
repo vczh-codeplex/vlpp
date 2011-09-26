@@ -81,6 +81,11 @@ namespace vl
 				return L"The "+index+L"th generic argument of type "+name+L" does not satisfies the required new constraint.";
 			}
 
+			WString ManagedErrorMessage::IllegalTypeConstraint(const WString& name)
+			{
+				return L"Type constraint in generic parameter "+name+L" should be an interface.";
+			}
+
 			WString ManagedErrorMessage::TypeCannotDerivedFromItself(const WString& name)
 			{
 				return L"Type "+name+L" cannot derived from itself directly or indirectly.";
@@ -334,6 +339,11 @@ namespace vl
 			WString ManagedErrorMessage::IllegalInstanciation()
 			{
 				return L"Only types and methods can be instanciate.";
+			}
+
+			WString ManagedErrorMessage::InstanciationFailedGenericArgumentCountNotMatched()
+			{
+				return L"Failed to instanciation because the generic argument count not matched.";
 			}
 
 		}

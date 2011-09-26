@@ -85,6 +85,11 @@ ManagedLanguage_BuildGlobalScope1_Member
 					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
 
+					if(symbol->inheritation==declatt::Normal && argument.currentSymbol->GetSymbolType()==ManagedSymbolItem::Interface)
+					{
+						symbol->inheritation=declatt::Abstract;
+					}
+
 					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, symbol->orderedGenericParameterNames, MAP(argument, symbol));
 
 					FOREACH(Ptr<ManagedParameter>, parameter, node->parameters.Wrap())
@@ -210,6 +215,11 @@ ManagedLanguage_BuildGlobalScope1_ExtendedMember
 					symbol->memberType=node->memberType;
 					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
+
+					if(symbol->inheritation==declatt::Normal && argument.currentSymbol->GetSymbolType()==ManagedSymbolItem::Interface)
+					{
+						symbol->inheritation=declatt::Abstract;
+					}
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedConverterOperator)
@@ -235,6 +245,11 @@ ManagedLanguage_BuildGlobalScope1_ExtendedMember
 					symbol->memberType=node->memberType;
 					symbol->inheritation=node->inheritation;
 					argument.currentSymbol->Add(symbol);
+
+					if(symbol->inheritation==declatt::Normal && argument.currentSymbol->GetSymbolType()==ManagedSymbolItem::Interface)
+					{
+						symbol->inheritation=declatt::Abstract;
+					}
 
 					ManagedLanguage_BuildGlobalScope1_GenericParameter(&node->genericInfo, symbol->orderedGenericParameterNames, MAP(argument, symbol));
 				}

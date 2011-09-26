@@ -166,12 +166,12 @@ namespace System
  
 		public T operator get[](int _0)
 		{
-			return Get(_0);
+			return Get(GetStartIndexFromIndices(_0));
 		}
  
 		public T operator set[](T value, int _0)
 		{
-			return Set(value, _0);
+			return Set(value, GetStartIndexFromIndices(_0));
 		}
  
 	} 
@@ -255,12 +255,12 @@ namespace System
  
 		public T operator get[](int _0, int _1)
 		{
-			return Get(_0, _1);
+			return Get(GetStartIndexFromIndices(_0, _1));
 		}
  
 		public T operator set[](T value, int _0, int _1)
 		{
-			return Set(value, _0, _1);
+			return Set(value, GetStartIndexFromIndices(_0, _1));
 		}
  
 	} 
@@ -353,12 +353,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2)
 		{
-			return Get(_0, _1, _2);
+			return Get(GetStartIndexFromIndices(_0, _1, _2));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2)
 		{
-			return Set(value, _0, _1, _2);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2));
 		}
  
 	} 
@@ -460,12 +460,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3)
 		{
-			return Get(_0, _1, _2, _3);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3)
 		{
-			return Set(value, _0, _1, _2, _3);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3));
 		}
  
 	} 
@@ -576,12 +576,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4)
 		{
-			return Get(_0, _1, _2, _3, _4);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4)
 		{
-			return Set(value, _0, _1, _2, _3, _4);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4));
 		}
  
 	} 
@@ -701,12 +701,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5)
 		{
-			return Get(_0, _1, _2, _3, _4, _5);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5)
 		{
-			return Set(value, _0, _1, _2, _3, _4, _5);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5));
 		}
  
 	} 
@@ -835,12 +835,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6)
 		{
-			return Get(_0, _1, _2, _3, _4, _5, _6);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6)
 		{
-			return Set(value, _0, _1, _2, _3, _4, _5, _6);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6));
 		}
  
 	} 
@@ -978,12 +978,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
 		{
-			return Get(_0, _1, _2, _3, _4, _5, _6, _7);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7)
 		{
-			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7));
 		}
  
 	} 
@@ -1130,12 +1130,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
 		{
-			return Get(_0, _1, _2, _3, _4, _5, _6, _7, _8);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7, _8));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8)
 		{
-			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7, _8);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7, _8));
 		}
  
 	} 
@@ -1291,12 +1291,12 @@ namespace System
  
 		public T operator get[](int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
 		{
-			return Get(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9);
+			return Get(GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9));
 		}
  
 		public T operator set[](T value, int _0, int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9)
 		{
-			return Set(value, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9);
+			return Set(value, GetStartIndexFromIndices(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9));
 		}
  
 	}

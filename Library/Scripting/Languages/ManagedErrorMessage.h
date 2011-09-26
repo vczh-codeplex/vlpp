@@ -40,6 +40,7 @@ namespace vl
 				static WString GenericTypeArgumentCountNotMatches(const WString& name);
 				static WString GenericTypeTypeConstraintNotSatisfied(const WString& name, const WString& index);
 				static WString GenericTypeNewConstraintNotSatisfied(const WString& name, const WString& index);
+				static WString IllegalTypeConstraint(const WString& name);
 				static WString TypeCannotDerivedFromItself(const WString& name);
 				static WString ClassIllegalBaseClass(const WString& name);
 				static WString StructureIllegalBaseClass(const WString& name);
@@ -91,6 +92,7 @@ namespace vl
 				static WString CannotDisposeNonIDisposableType(const WString& type);
 				static WString IllegalFunctionResult();
 				static WString IllegalInstanciation();
+				static WString InstanciationFailedGenericArgumentCountNotMatched();
 			};
 		}
 	}

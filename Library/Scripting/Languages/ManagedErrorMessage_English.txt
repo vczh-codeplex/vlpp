@@ -16,6 +16,7 @@ GenericTypeArgumentCountNotMatches(name)=Generic argument count of type {name} d
 GenericTypeTypeConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required type constraint.
 GenericTypeNewConstraintNotSatisfied(name,index)=The {index}th generic argument of type {name} does not satisfies the required new constraint.
 
+IllegalTypeConstraint(name)=Type constraint in generic parameter {name} should be an interface.
 TypeCannotDerivedFromItself(name)=Type {name} cannot derived from itself directly or indirectly.
 ClassIllegalBaseClass(name)=Class {name} can only derived from a non-sealed class.
 StructureIllegalBaseClass(name)=Structure {name} can only derived from Object or a non-sealed structure with StructBaseAttribute.
@@ -69,3 +70,4 @@ CannotDetermineContainerElementType(containerType)=Cannot determine the element 
 CannotDisposeNonIDisposableType(type)=Cannot dispose an instance of type {type} because it does not implemented IDisposable interface.
 IllegalFunctionResult=Function result is only accessable in a method or a lambda expression that contains a return type.
 IllegalInstanciation=Only types and methods can be instanciate.
+InstanciationFailedGenericArgumentCountNotMatched=Failed to instanciation because the generic argument count not matched.

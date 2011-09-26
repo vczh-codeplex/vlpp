@@ -2,13 +2,13 @@ namespace System
 {
 	public interface IDynamic
 	{
-		public abstract IDynamic GetProperty(string name);
-		public abstract void SetProperty(string name, IDynamic value);
-		public abstract IDynamic Invoke(string name, params IDynamic[] arguments);
+		public IDynamic GetProperty(string name);
+		public void SetProperty(string name, IDynamic value);
+		public IDynamic Invoke(string name, params IDynamic[] arguments);
 
-		public abstract bool ContainsProperty(string name);
-		public abstract bool ContainsInvokable(string name);
-		public abstract bool CanModify{get;}
+		public bool ContainsProperty(string name);
+		public bool ContainsInvokable(string name);
+		public bool CanModify{get;}
 	}
 
 	public abstract class DynamicProxy : IDynamic

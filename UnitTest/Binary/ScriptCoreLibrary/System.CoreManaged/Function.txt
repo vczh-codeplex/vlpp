@@ -59,8 +59,8 @@ namespace System
 		{
 			public Delegate invokee;
 			public int counter;
-			DelegateLink previous;
-			DelegateLink next;
+			public DelegateLink previous;
+			public DelegateLink next;
 		}
  
 		private DelegateLink first;

@@ -67,6 +67,7 @@ namespace System
 			return Trim(null, false, true);
 		}
 
+		public static external string Format(string format, params string[] arguments);
 		public static external int Compare(string a, string b, StringComparisons sc=StringComparisons.Ordinal, bool DigitsAsNumbers=false);
 
 		public static bool operator<(string a, string b)

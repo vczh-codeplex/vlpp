@@ -102,12 +102,12 @@ $( )
 $( )
 		public T operator get[]($loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
-			return Get($loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) ));
+			return Get(GetStartIndexFromIndices($loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) )));
 		}
 $( )
 		public T operator set[](T value, $loopsep($elements,0,$DIMENTION_PARAMETER_DEFINITION,$(,) ))
 		{
-			return Set(value, $loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) ));
+			return Set(value, GetStartIndexFromIndices($loopsep($elements,0,$DIMENTION_PARAMETER_NAME,$(,) )));
 		}
 $( )
 	}

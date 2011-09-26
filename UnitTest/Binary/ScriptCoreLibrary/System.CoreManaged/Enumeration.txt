@@ -2,24 +2,40 @@ using System.Reflection;
 
 namespace System
 {
-	[StructBase]
-	public struct EnumItemBase
+	public interface IEnumItem
 	{
-		public int Value{get; protected internal set;}
+		public int Value{get;}
+	}
+
+	[StructBase]
+	public struct EnumItem : IEnumItem
+	{
+		private int value;
+
+		public int Value
+		{
+			get
+			{
+				return value;
+			}
+		}
 
 		public constructor()
 		{
+			this.value=0;
 		}
 
 		public constructor(int value)
 		{
-			this.Value=value;
+			this.value=value;
 		}
 	}
 
-	generic<inout T : EnumItemBase, new()>
+	generic<inout T : IEnumItem, new()>
 	public class EnumItemManager
 	{
+		private T[] predefinedItems;
+
 		public int GetPredefinedItemCount()
 		{
 			return this.predefinedItems.Length;
