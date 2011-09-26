@@ -93,6 +93,7 @@ namespace vl
 				static WString IllegalFunctionResult();
 				static WString IllegalInstanciation();
 				static WString InstanciationFailedGenericArgumentCountNotMatched();
+				static WString CannotAccessMembersOfNull();
 			};
 		}
 	}

@@ -71,3 +71,4 @@ CannotDisposeNonIDisposableType(type)=Cannot dispose an instance of type {type} 
 IllegalFunctionResult=Function result is only accessable in a method or a lambda expression that contains a return type.
 IllegalInstanciation=Only types and methods can be instanciate.
 InstanciationFailedGenericArgumentCountNotMatched=Failed to instanciation because the generic argument count not matched.
+CannotAccessMembersOfNull=Cannot access members of null.

@@ -505,6 +505,12 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, InstanciationFailedGenericArgumentCountNotMatched, parameters.Wrap());
 			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotAccessMembersOfNull(ManagedExpression* expression)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, CannotAccessMembersOfNull, parameters.Wrap());
+			}
 		}
 	}
 }

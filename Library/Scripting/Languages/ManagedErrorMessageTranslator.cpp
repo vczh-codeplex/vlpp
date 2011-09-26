@@ -436,6 +436,11 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 						message=ManagedErrorMessage::InstanciationFailedGenericArgumentCountNotMatched();
 					}
 					break;
+				case ManagedLanguageCodeException::CannotAccessMembersOfNull:
+					{
+						message=ManagedErrorMessage::CannotAccessMembersOfNull();
+					}
+					break;
 				default:
 					return 0;
 				}
