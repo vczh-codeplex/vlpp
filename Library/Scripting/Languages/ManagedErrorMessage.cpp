@@ -251,6 +251,11 @@ namespace vl
 				return L"Expression cannot convert to type "+type+L".";
 			}
 
+			WString ManagedErrorMessage::ExpressionCannotCastToType(const WString& type)
+			{
+				return L"Expression cannot cast to type "+type+L".";
+			}
+
 			WString ManagedErrorMessage::IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType)
 			{
 				return L"Variable type cannot be \""+autoRefType+L"\" if it doesn't have an initializer.";
@@ -298,17 +303,27 @@ namespace vl
 
 			WString ManagedErrorMessage::MatchedMethodNotExists(const WString& expr)
 			{
-				return L"Cannot find a matched method or operator of expression \""+expr+L"\".";
+				return L"Cannot find a matched constructor, method or operator of expression \""+expr+L"\".";
 			}
 
 			WString ManagedErrorMessage::MatchedMethodTooMuch(const WString& expr)
 			{
-				return L"Matched method or operator of expression \""+expr+L"\" too much.";
+				return L"Matched constructor, method or operator of expression \""+expr+L"\" too much.";
 			}
 
 			WString ManagedErrorMessage::IllegalNull(const WString& expr)
 			{
 				return L"Cannot use "+expr+L" without context.";
+			}
+
+			WString ManagedErrorMessage::CannotDetermineContainerElementType(const WString& containerType)
+			{
+				return L"Cannot determine the element type from container type "+containerType+L", because it implemented multiple different generic IEnumerable interfaces.";
+			}
+
+			WString ManagedErrorMessage::CannotDisposeNonIDisposableType(const WString& type)
+			{
+				return L"Cannot dispose an instance of type "+type+L" because it does not implemented IDisposable interface.";
 			}
 
 		}

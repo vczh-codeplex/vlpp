@@ -383,6 +383,12 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 				return new ManagedLanguageCodeException(expression, ExpressionCannotConvertToType, parameters.Wrap(), type);
 			}
 
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetExpressionCannotCastToType(ManagedExpression* expression, ManagedTypeSymbol* type)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(expression, ExpressionCannotCastToType, parameters.Wrap(), type);
+			}
+
 			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement)
 			{
 				Array<WString> parameters(1);
@@ -461,6 +467,18 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 			{
 				Array<WString> parameters(0);
 				return new ManagedLanguageCodeException(expression, IllegalNull, parameters.Wrap());
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotDetermineContainerElementType(ManagedForEachStatement* statement, ManagedTypeSymbol* containerType)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(statement, CannotDetermineContainerElementType, parameters.Wrap(), containerType);
+			}
+
+			Ptr<ManagedLanguageCodeException> ManagedLanguageCodeException::GetCannotDisposeNonIDisposableType(ManagedUsingStatement* statement, ManagedTypeSymbol* containerType)
+			{
+				Array<WString> parameters(0);
+				return new ManagedLanguageCodeException(statement, CannotDisposeNonIDisposableType, parameters.Wrap(), containerType);
 			}
 		}
 	}

@@ -74,6 +74,7 @@ namespace vl
 					ExpressionResolvedToDuplicatedTargets,				// <ManagedExpression>
 					ExpressionResolvingFailed,							// <ManagedExpression>					:name
 					ExpressionCannotConvertToType,						// <ManagedExpression>
+					ExpressionCannotCastToType,							// <ManagedExpression>
 					IllegalAutoRefWithoutInitializer,					// <ManagedVariableStatement>			:name
 					VariableAlreadyExists,								// <ManagedVariableStatement>			:name
 					IllegalBreak,										// <ManagedBreakStatement>
@@ -86,6 +87,8 @@ namespace vl
 					MatchedMethodNotExists,								// <ManagedExpression>
 					MatchedMethodTooMuch,								// <ManagedExpression>
 					IllegalNull,										// <ManagedNullExpression>
+					CannotDetermineContainerElementType,				// <ManagedForEachStatement>
+					CannotDisposeNonIDisposableType,					// <ManagedUsingStatement>
 				};
 			protected:
 				ManagedLanguageElement*											element;
@@ -158,6 +161,7 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedReferenceExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionResolvingFailed(ManagedMemberExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotConvertToType(ManagedExpression* expression, ManagedTypeSymbol* type);
+				static Ptr<ManagedLanguageCodeException>						GetExpressionCannotCastToType(ManagedExpression* expression, ManagedTypeSymbol* type);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalAutoRefWithoutInitializer(ManagedVariableStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetVariableAlreadyExists(ManagedVariableStatement* statement);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalBreak(ManagedBreakStatement* statement);
@@ -171,6 +175,8 @@ namespace vl
 				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodNotExists(ManagedExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetMatchedMethodTooMuch(ManagedExpression* expression);
 				static Ptr<ManagedLanguageCodeException>						GetIllegalNull(ManagedNullExpression* expression);
+				static Ptr<ManagedLanguageCodeException>						GetCannotDetermineContainerElementType(ManagedForEachStatement* statement, ManagedTypeSymbol* containerType);
+				static Ptr<ManagedLanguageCodeException>						GetCannotDisposeNonIDisposableType(ManagedUsingStatement* statement, ManagedTypeSymbol* containerType);
 			};
 		}
 	}

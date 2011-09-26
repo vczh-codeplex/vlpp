@@ -74,6 +74,7 @@ namespace vl
 				static WString ExpressionResolvedToDuplicatedTargets(const WString& type);
 				static WString ExpressionResolvingFailed(const WString& name);
 				static WString ExpressionCannotConvertToType(const WString& type);
+				static WString ExpressionCannotCastToType(const WString& type);
 				static WString IllegalAutoRefWithoutInitializer(const WString& name, const WString& autoRefType);
 				static WString VariableAlreadyExists(const WString& name);
 				static WString IllegalBreak();
@@ -86,6 +87,8 @@ namespace vl
 				static WString MatchedMethodNotExists(const WString& expr);
 				static WString MatchedMethodTooMuch(const WString& expr);
 				static WString IllegalNull(const WString& expr);
+				static WString CannotDetermineContainerElementType(const WString& containerType);
+				static WString CannotDisposeNonIDisposableType(const WString& type);
 			};
 		}
 	}

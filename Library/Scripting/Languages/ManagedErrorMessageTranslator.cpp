@@ -107,19 +107,6 @@ ManagedLanguageCodeException::ExceptionCode::ScopeBuilding
 						message=ManagedErrorMessage::GenericTypeNewConstraintNotSatisfied(TypeToString(error->GetTypeParameter()), itow(index));
 					}
 					break;
-				case ManagedLanguageCodeException::ExpressionResolvedToDuplicatedTargets:
-					{
-						ManagedTypeSymbol* type=error->GetTypeParameter();
-						if(type)
-						{
-							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets(TypeToString(type));
-						}
-						else
-						{
-							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets();
-						}
-					}
-					break;
 
 /***********************************************************************
 ManagedLanguageCodeException::ExceptionCode::DeclarationTypeChecking
@@ -318,7 +305,20 @@ ManagedLanguageCodeException::ExceptionCode::DeclarationMemberChecking
 /***********************************************************************
 ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 ***********************************************************************/
-
+					
+				case ManagedLanguageCodeException::ExpressionResolvedToDuplicatedTargets:
+					{
+						ManagedTypeSymbol* type=error->GetTypeParameter();
+						if(type)
+						{
+							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets(TypeToString(type));
+						}
+						else
+						{
+							message=ManagedErrorMessage::ExpressionResolvedToDuplicatedTargets();
+						}
+					}
+					break;
 				case ManagedLanguageCodeException::ExpressionResolvingFailed:
 					{
 						message=ManagedErrorMessage::ExpressionResolvingFailed(error->GetParameters()[0]);
@@ -327,6 +327,11 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 				case ManagedLanguageCodeException::ExpressionCannotConvertToType:
 					{
 						message=ManagedErrorMessage::ExpressionCannotConvertToType(TypeToString(error->GetTypeParameter()));
+					}
+					break;
+				case ManagedLanguageCodeException::ExpressionCannotCastToType:
+					{
+						message=ManagedErrorMessage::ExpressionCannotCastToType(TypeToString(error->GetTypeParameter()));
 					}
 					break;
 				case ManagedLanguageCodeException::IllegalAutoRefWithoutInitializer:
@@ -401,6 +406,15 @@ ManagedLanguageCodeException::ExceptionCode::SymbolResolving
 						message=ManagedErrorMessage::IllegalNull(ExpressionToString(dynamic_cast<ManagedExpression*>(error->GetManagedLanguageElement())));
 					}
 					break;
+				case ManagedLanguageCodeException::CannotDetermineContainerElementType:
+					{
+						message=ManagedErrorMessage::CannotDetermineContainerElementType(TypeToString(error->GetTypeParameter()));
+					}
+					break;
+				case ManagedLanguageCodeException::CannotDisposeNonIDisposableType:
+					{
+						message=ManagedErrorMessage::CannotDisposeNonIDisposableType(TypeToString(error->GetTypeParameter()));
+					}
 				default:
 					return 0;
 				}

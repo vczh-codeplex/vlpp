@@ -53,8 +53,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 				ALGORITHM_PROCEDURE_MATCH(ManagedVariableStatement)
 				{
 					bool autoref=dynamic_cast<ManagedAutoReferType*>(node->type.Obj())!=0;
-					ManagedMember* member=argument.contextManager->GetThisTargetMember();
-					ManagedTypeSymbol* variableType=autoref?0:GetTypeSymbol(node->type, argument, member?argument.symbolManager->GetSymbol(member):0);
+					ManagedTypeSymbol* variableType=autoref?0:GetTypeSymbolInMethod(node->type, argument);
 					if(!node->initializer)
 					{
 						if(autoref)
@@ -64,14 +63,22 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 					}
 					else
 					{
-						// TODO: check initializer (constant)
+						ManagedTypeSymbol* resultType=GetType(node->initializer.Obj(), variableType, argument);
+						if(variableType==0)
+						{
+							variableType=resultType;
+						}
+						if(node->constant)
+						{
+							// TODO: check initializer (constant)
+						}
 					}
 
 					if(argument.currentSymbol->ItemGroup(node->name))
 					{
 						argument.errors.Add(ManagedLanguageCodeException::GetVariableAlreadyExists(node));
 					}
-					else
+					else if(variableType)
 					{
 						ManagedSymbolVariable* symbol=new ManagedSymbolVariable(argument.symbolManager);
 						symbol->SetName(node->name);
@@ -94,7 +101,14 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedWhileStatement)
 				{
-					// TODO: check condition;
+					if(node->beginCondition)
+					{
+						GetType(node->beginCondition.Obj(), argument.contextManager->predefinedTypes.boolType, argument);
+					}
+					if(node->endCondition)
+					{
+						GetType(node->endCondition.Obj(), argument.contextManager->predefinedTypes.boolType, argument);
+					}
 					argument.contextManager->PushLoop(node);
 					BuildLocalScope(node->statement.Obj(), argument);
 					argument.contextManager->PopStatement();
@@ -135,7 +149,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 						block->languageElement=catchClause->exceptionHandler.Obj();
 						argument.currentSymbol->Add(block);
 
-						if(catchClause->exceptionName!=L"")
+						if(catchClause->exceptionName!=L"" && exceptionType)
 						{
 							ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
 							variable->SetName(catchClause->exceptionName);
@@ -160,7 +174,7 @@ ManagedLanguage_BuildLocalScopeInternal_Statement
 				{
 					if(node->expression)
 					{
-						// TODO: check derived from System.Exception
+						GetType(node->expression.Obj(), argument.contextManager->predefinedTypes.exceptionType, argument);
 					}
 					else
 					{
@@ -187,19 +201,35 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 				ALGORITHM_PROCEDURE_MATCH(ManagedUsingStatement)
 				{
 					bool autoref=dynamic_cast<ManagedAutoReferType*>(node->type.Obj())!=0;
-					ManagedTypeSymbol* type=0;
-					// TODO: check initializer
+					ManagedTypeSymbol* type=autoref?0:GetTypeSymbolInMethod(node->type, argument);
+					{
+						ManagedTypeSymbol* resultType=GetType(node->initialize.Obj(), type, argument);
+						if(type==0)
+						{
+							type=resultType;
+						}
+					}
+					if(type)
+					{
+						if(!CanImplicitlyConvertTo(type, argument.contextManager->predefinedTypes.idisposableType, argument))
+						{
+							argument.errors.Add(ManagedLanguageCodeException::GetCannotDisposeNonIDisposableType(node, type));
+						}
+					}
 
 					ManagedSymbolBlock* block=new ManagedSymbolBlock(argument.symbolManager);
 					block->languageElement=node;
 					argument.currentSymbol->Add(block);
 
-					ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
-					variable->SetName(node->name);
-					variable->type=type;
-					variable->constant=true;
-					variable->usingLanguageElement=node;
-					block->Add(variable);
+					if(type)
+					{
+						ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
+						variable->SetName(node->name);
+						variable->type=type;
+						variable->constant=true;
+						variable->usingLanguageElement=node;
+						block->Add(variable);
+					}
 
 					MAP newArgument(argument, block);
 					BuildLocalScope(node->statement.Obj(), newArgument);
@@ -207,17 +237,20 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedLockStatement)
 				{
-					// TODO: check lock;
+					GetType(node->lock.Obj(), 0, argument);
 					BuildLocalScope(node->statement.Obj(), argument);
 				}
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedSelectStatement)
 				{
 					argument.contextManager->PushSwitch(node);
-					// TODO: check expression;
+					ManagedTypeSymbol* expressionType=GetType(node->expression.Obj(), 0, argument);
 					FOREACH(Ptr<ManagedCaseClause>, caseClause, node->cases.Wrap())
 					{
-						// TODO: check conditions
+						FOREACH(Ptr<ManagedExpression>, condition, caseClause->conditions.Wrap())
+						{
+							GetType(condition.Obj(), expressionType, argument);
+						}
 						BuildLocalScope(caseClause->statement.Obj(), argument);
 					}
 					if(node->defaultStatement)
@@ -238,8 +271,14 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 					{
 						BuildLocalScope(variable.Obj(), newArgument);
 					}
-					// TODO: check condition
-					// TODO: check side effects
+					if(node->condition)
+					{
+						GetType(node->condition.Obj(), argument.contextManager->predefinedTypes.boolType, argument);
+					}
+					FOREACH(Ptr<ManagedExpression>, sideEffect, node->sideEffects.Wrap())
+					{
+						GetType(sideEffect.Obj(), 0, argument);
+					}
 					argument.contextManager->PushLoop(node);
 					BuildLocalScope(node->statement.Obj(), newArgument);
 					argument.contextManager->PopStatement();
@@ -247,20 +286,68 @@ ManagedLanguage_BuildLocalScopeInternal_ExtendedStatement
 
 				ALGORITHM_PROCEDURE_MATCH(ManagedForEachStatement)
 				{
-					ManagedTypeSymbol* type=0;
-					// TODO: check type
-					// TODO: check container
+					bool autoref=dynamic_cast<ManagedAutoReferType*>(node->type.Obj())!=0;
+					ManagedTypeSymbol* elementType=autoref?0:GetTypeSymbolInMethod(node->type, argument);
+					{
+						ManagedTypeSymbol* containerType=GetType(node->container.Obj(), 0, argument);
+						if(containerType)
+						{
+							if(autoref)
+							{
+								ManagedTypeSymbol* currentType=containerType;
+								while(currentType)
+								{
+									ManagedSymbolDeclaration* currentSymbol=dynamic_cast<ManagedSymbolDeclaration*>(GetRealSymbol(currentType->GetSymbol()));
+									FOREACH(ManagedTypeSymbol*, interfaceType, currentSymbol->_baseInterfaces.Wrap())
+									{
+										if(interfaceType->GetGenericDeclaration()==argument.contextManager->predefinedTypes.ienumerableOfTType)
+										{
+											ManagedTypeSymbol* currentElementType=argument.symbolManager->ReplaceGenericArguments(interfaceType, currentType->GetGenericArguments()[0]);
+											if(elementType==0)
+											{
+												elementType=currentElementType;
+											}
+											else if(elementType!=currentElementType)
+											{
+												argument.errors.Add(ManagedLanguageCodeException::GetCannotDetermineContainerElementType(node, containerType));
+												goto FINISH_ELEMENT_TYPE_CHECKING;
+											}
+										}
+									}
+									if(currentSymbol->_baseType)
+									{
+										currentType=argument.symbolManager->GetBaseType(currentSymbol->_baseType, currentType);
+									}
+								}
+							}
+							else if(elementType)
+							{
+								ManagedTypeSymbol* enumerableInterface=argument.contextManager->predefinedTypes.ienumerableOfTType;
+								List<ManagedTypeSymbol*> genericArguments;
+								genericArguments.Add(elementType);
+								ManagedTypeSymbol* elementEnumerableType=argument.symbolManager->GetInstiantiatedType(enumerableInterface, genericArguments.Wrap());
+								if(!CanImplicitlyConvertTo(containerType, elementEnumerableType, argument))
+								{
+									argument.errors.Add(ManagedLanguageCodeException::GetExpressionCannotConvertToType(node->container.Obj(), elementEnumerableType));
+								}
+							}
+						}
+					}
+				FINISH_ELEMENT_TYPE_CHECKING:
 
 					ManagedSymbolBlock* block=new ManagedSymbolBlock(argument.symbolManager);
 					block->languageElement=node;
 					argument.currentSymbol->Add(block);
 
-					ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
-					variable->SetName(node->name);
-					variable->type=type;
-					variable->constant=true;
-					variable->forEachLanguageElement=node;
-					block->Add(variable);
+					if(elementType)
+					{
+						ManagedSymbolVariable* variable=new ManagedSymbolVariable(argument.symbolManager);
+						variable->SetName(node->name);
+						variable->type=elementType;
+						variable->constant=true;
+						variable->forEachLanguageElement=node;
+						block->Add(variable);
+					}
 
 					argument.contextManager->PushLoop(node);
 					MAP newArgument(argument, block);
