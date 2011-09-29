@@ -209,8 +209,10 @@ namespace vl
 			class BasicILResourceNames
 			{
 			public:
-				static const wchar_t*const		BasicLanguageInterfaces;
-				static const wchar_t*const		ExportedSymbols;
+				static const wchar_t* const		ExportedSymbols;
+				static const wchar_t* const		BasicLanguageInterfaces;
+				static const wchar_t* const		ManagedLanguageInterfaces;
+				static const wchar_t* const		ManagedLanguageTransformedInterfaces;
 			};
 
 			struct BasicILLocalLabel
