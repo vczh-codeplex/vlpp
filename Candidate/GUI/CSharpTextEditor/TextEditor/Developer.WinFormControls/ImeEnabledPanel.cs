@@ -56,12 +56,8 @@ namespace Developer.WinFormControls
 
         public ImeEnabledPanel()
         {
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.DoubleBuffered = true;
-        }
-
-        protected override bool IsInputKey(Keys keyData)
-        {
-            return true;
         }
 
         public void UpdateCompositionForContent()
@@ -77,24 +73,24 @@ namespace Developer.WinFormControls
 
         protected override void WndProc(ref Message m)
         {
-            if (this.ParentControl != null)
+            if (m.Msg == WM_IME_STARTCOMPOSITION)
             {
-                if (m.Msg == WM_IME_STARTCOMPOSITION)
-                {
-                    UpdateCompositionForContent();
-                }
-                else if (m.Msg == 0xf)//WM_PAINT
-                {
-                    if (this.ParentControl.ScrollableContent != null)
-                    {
-                        using (Graphics g = Graphics.FromHwnd(this.Handle))
-                        {
-                            this.ParentControl.ScrollableContent.RenderContent(g);
-                        }
-                    }
-                }
+                UpdateCompositionForContent();
             }
             base.WndProc(ref m);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (this.ParentControl != null && this.ParentControl.ScrollableContent != null)
+            {
+                this.ParentControl.ScrollableContent.RenderContent(e.Graphics);
+            }
+        }
+
+        private void ImeEnabledPanel_Paint(object sender, PaintEventArgs e)
+        {
         }
     }
 }

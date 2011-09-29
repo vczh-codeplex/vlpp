@@ -37,6 +37,7 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ImeEnabledPanel";
             this.Size = new System.Drawing.Size(200, 200);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ImeEnabledPanel_Paint);
             this.ResumeLayout(false);
 
         }

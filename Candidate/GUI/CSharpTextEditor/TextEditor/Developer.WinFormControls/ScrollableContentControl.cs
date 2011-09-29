@@ -25,11 +25,15 @@ namespace Developer.WinFormControls
                 if (this.scrollableContent != null)
                 {
                     this.scrollableContent.ContentSizeChanged -= new EventHandler(scrollableContent_ContentSizeChanged);
+                    this.scrollableContent.ContentChanged -= new EventHandler(scrollableContent_ContentChanged);
                 }
                 this.scrollableContent = value;
                 if (this.scrollableContent != null)
                 {
+                    this.scrollableContent.Initialize(imeEnabledPanel, this);
                     this.scrollableContent.ContentSizeChanged += new EventHandler(scrollableContent_ContentSizeChanged);
+                    this.scrollableContent.ContentChanged += new EventHandler(scrollableContent_ContentChanged);
+                    this.scrollableContent.ControlSize = imeEnabledPanel.Size;
                 }
             }
         }
@@ -83,11 +87,11 @@ namespace Developer.WinFormControls
         {
             if (this.scrollableContent != null)
             {
-                this.supressScrollBarEvents = false;
+                this.supressScrollBarEvents = true;
                 Size s = this.scrollableContent.ContentSize;
                 SetScrollBar(horizontalScrollBar, s.Width, imeEnabledPanel.Width);
                 SetScrollBar(verticalScrollBar, s.Height, imeEnabledPanel.Height);
-                this.supressScrollBarEvents = true;
+                this.supressScrollBarEvents = false;
                 UpdateVisibleArea();
                 imeEnabledPanel.Refresh();
             }
@@ -150,8 +154,17 @@ namespace Developer.WinFormControls
             ResetScrollBar();
         }
 
+        private void scrollableContent_ContentChanged(object sender, EventArgs e)
+        {
+            imeEnabledPanel.Refresh();
+        }
+
         private void imeEnabledPanel_SizeChanged(object sender, EventArgs e)
         {
+            if (this.scrollableContent != null)
+            {
+                this.scrollableContent.ControlSize = imeEnabledPanel.Size;
+            }
             ResetScrollBar();
         }
     }
@@ -159,10 +172,12 @@ namespace Developer.WinFormControls
     public interface IScrollableContent
     {
         Size ContentSize { get; }
+        Size ControlSize { get; set; }
         Rectangle VisibleArea { get; set; }
         void Initialize(Control host, ScrollableContentControl container);
         void RenderContent(Graphics g);
 
         event EventHandler ContentSizeChanged;
+        event EventHandler ContentChanged;
     }
 }
