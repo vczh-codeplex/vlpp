@@ -7,8 +7,8 @@ Interfaces:
   IBasicLanguageProvider						：程序语言服务提供者
 ***********************************************************************/
 
-#ifndef VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDEREXTENSION
-#define VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDEREXTENSION
+#ifndef VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDERBASICEXTENSION
+#define VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDERBASICEXTENSION
 
 #include "LanguageProvider.h"
 #include "..\BasicLanguage\BasicLanguageExpression.h"
