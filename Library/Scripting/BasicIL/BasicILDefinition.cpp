@@ -137,8 +137,10 @@ BasicIns
 BasicILResourceNames
 ***********************************************************************/
 
-			const wchar_t* const BasicILResourceNames::BasicLanguageInterfaces	= L"[BASIC-LANGUAGE-INTERFACES]";
-			const wchar_t* const BasicILResourceNames::ExportedSymbols			= L"[EXPORTED-SYMBOLS]";
+			const wchar_t* const BasicILResourceNames::ExportedSymbols							= L"[EXPORTED-SYMBOLS]";
+			const wchar_t* const BasicILResourceNames::BasicLanguageInterfaces					= L"[BASIC-LANGUAGE-INTERFACES]";
+			const wchar_t* const BasicILResourceNames::ManagedLanguageInterfaces				= L"[MANAGED-LANGUAGE-INTERFACES]";
+			const wchar_t* const BasicILResourceNames::ManagedLanguageTransformedInterfaces		= L"[MANAGED-LANGUAGE-TRANSFORMED-INTERFACES]";
 
 /***********************************************************************
 BasicILLabel

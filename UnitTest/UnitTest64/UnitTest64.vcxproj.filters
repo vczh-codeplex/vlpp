@@ -600,6 +600,9 @@
     <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer_BuildGlobalScopePass5.cpp">
       <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageCodeGeneration_Resource.cpp">
+      <Filter>Library3\Scripting\ManagedLanguage\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\GenerateCode.bat">
@@ -1058,6 +1061,12 @@
       <Filter>Library3\Scripting\Languages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageContextManager.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageCodeGeneration.h">
+      <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Scripting\ManagedLanguage\ManagedLanguageResource.h">
       <Filter>Library3\Scripting\ManagedLanguage\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
