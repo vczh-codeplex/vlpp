@@ -83,6 +83,13 @@ Basic Constructions
 				ItemResource							symbol;
 			};
 
+			struct ManagedEntryRes
+			{
+			COMMON_TYPE_DEFINITION
+
+				ItemResource							globalNamespace;
+			};
+
 #undef COMMON_TYPE_DEFINITION
 
 /***********************************************************************
