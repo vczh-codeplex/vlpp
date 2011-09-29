@@ -75,10 +75,11 @@
             // imeEnabledPanel
             // 
             this.imeEnabledPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imeEnabledPanel.Location = new System.Drawing.Point(3, 3);
+            this.imeEnabledPanel.Location = new System.Drawing.Point(0, 0);
+            this.imeEnabledPanel.Margin = new System.Windows.Forms.Padding(0);
             this.imeEnabledPanel.Name = "imeEnabledPanel";
             this.imeEnabledPanel.ParentControl = null;
-            this.imeEnabledPanel.Size = new System.Drawing.Size(669, 617);
+            this.imeEnabledPanel.Size = new System.Drawing.Size(675, 623);
             this.imeEnabledPanel.TabIndex = 2;
             this.imeEnabledPanel.SizeChanged += new System.EventHandler(this.imeEnabledPanel_SizeChanged);
             // 
