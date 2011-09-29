@@ -81,15 +81,6 @@ namespace vl
 				{
 					ManagedX_GenerateCode_Program(program, writer);
 				}
-
-				bool GenerateHeader(
-					Ptr<LanguageAssembly> assembly,
-					Ptr<Object> inputExtra,
-					stream::TextWriter& writer
-					)
-				{
-					return false;
-				}
 			};
 		}
 

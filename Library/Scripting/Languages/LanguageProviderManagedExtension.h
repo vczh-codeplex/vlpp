@@ -7,8 +7,8 @@ Interfaces:
   IManagedLanguageProvider						：程序语言服务提供者
 ***********************************************************************/
 
-#ifndef VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDEREXTENSION
-#define VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDEREXTENSION
+#ifndef VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDERMANAGEDEXTENSION
+#define VCZH_SCRIPTING_LANGUAGES_LANGUAGEPROVIDERMANAGEDEXTENSION
 
 #include "LanguageProvider.h"
 #include "..\BasicLanguage\BasicLanguageExpression.h"
@@ -35,12 +35,6 @@ namespace vl
 
 			virtual void									GenerateCode(
 																Ptr<managedlanguage::ManagedProgram> program,
-																Ptr<Object> inputExtra,
-																stream::TextWriter& writer
-																)=0;
-
-			virtual bool									GenerateHeader(
-																Ptr<LanguageAssembly> assembly,
 																Ptr<Object> inputExtra,
 																stream::TextWriter& writer
 																)=0;
