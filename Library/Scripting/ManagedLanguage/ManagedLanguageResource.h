@@ -176,15 +176,12 @@ Members
 Declarations
 ***********************************************************************/
 
-			struct ManagedSymbolNamespaceRes : public ManagedSymbolItemRes
+			struct ManagedSymbolGlobalRes : public ManagedSymbolItemRes
 			{
 			};
 
-			struct ManagedSymbolUsingNamespaceRes : public ManagedSymbolItemRes
+			struct ManagedSymbolNamespaceRes : public ManagedSymbolItemRes
 			{
-				typedef ResourceHandle<ManagedSymbolNamespaceRes>	NamespaceResource;
-
-				NamespaceResource						associatedNamespace;
 			};
 
 			struct ManagedSymbolTypeRenameRes : public ManagedSymbolItemRes
@@ -205,34 +202,6 @@ Declarations
 				TypeResource							_basicType;
 				TypeArrayResource						_baseInterfaces;
 				TargetArrayResource						_abstractTargets;
-			};
-
-/***********************************************************************
-Others
-***********************************************************************/
-
-			struct ManagedSymbolGlobalRes : public ManagedSymbolItemRes
-			{
-			};
-
-			struct ManagedSymbolBlockRes : public ManagedSymbolItemRes
-			{
-			};
-
-			struct ManagedSymbolVariableRes : public ManagedSymbolItemRes
-			{
-				TypeResource							type;
-				bool									constant;
-			};
-
-			struct ManagedSymbolLambdaRes : public ManagedSymbolItemRes
-			{
-				TypeResource							returnType;
-			};
-
-			struct ManagedSymbolLambdaParameterRes : public ManagedSymbolItemRes
-			{
-				TypeResource							type;
 			};
 		}
 	}
