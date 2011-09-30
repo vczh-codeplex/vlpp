@@ -46,7 +46,26 @@ Basic Constructions
 			{
 			COMMON_TYPE_DEFINITION
 
-				ManagedSymbolItem::ManagedSymbolType	symbolType;
+				enum SymbolType
+				{
+					Global,
+					Namespace,
+					TypeRename,
+					TypeDeclaration,
+					ExternalDeclaration,
+
+					Field,
+					Property,
+					PropertySetterValue,
+					Method,
+					Constructor,
+					ConverterOperator,
+
+					GenericParameter,
+					MethodParameter,
+				};
+
+				SymbolType								symbolType;
 				GroupResource							parentGroup;
 				ResourceString							name;
 				GroupArrayResource						itemGroups;
@@ -193,6 +212,14 @@ Declarations
 
 			struct ManagedSymbolDeclarationRes : public ManagedSymbolItemRes
 			{
+				enum DeclarationType
+				{
+					Class,
+					Structure,
+					Interface,
+				};
+
+				DeclarationType							declarationType;
 				declatt::Accessor						accessor;
 				declatt::Inheritation					inheritation;
 				declatt::MemberType						memberType;

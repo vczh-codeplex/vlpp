@@ -18,6 +18,8 @@ namespace vl
 	{
 		namespace managedlanguage
 		{
+			extern ResourceHandle<ManagedEntryRes>		ManagedLanguage_GenerateResource(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager);
+			extern void									ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName);
 		}
 	}
 }
