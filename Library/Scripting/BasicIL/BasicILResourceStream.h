@@ -100,9 +100,19 @@ namespace vl
 		{
 			friend class ResourceStream;
 			template<typename T>
+			friend class ResourceHandle;
+			template<typename T>
 			friend class ResourceRecord;
 		public:
 			typedef T ResourceType;
+
+			template<typename U>
+			ResourceHandle<U> Cast()const
+			{
+				ResourceHandle<U> handle;
+				handle.pointer=pointer;
+				return handle;
+			}
 
 			static ResourceHandle<T> Null()
 			{
