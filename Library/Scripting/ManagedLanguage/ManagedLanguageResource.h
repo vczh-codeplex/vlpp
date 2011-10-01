@@ -94,14 +94,6 @@ Basic Constructions
 				ResourceString							stringValue;
 			};
 
-			struct ManagedAbstractItemRes
-			{
-			COMMON_TYPE_DEFINITION
-
-				TypeResource							type;
-				ItemResource							symbol;
-			};
-
 			struct ManagedEntryRes
 			{
 			COMMON_TYPE_DEFINITION
@@ -151,7 +143,6 @@ Members
 				TypeResource							implementedInterfaceType;
 				bool									containsGetter;
 				bool									containsSetter;
-				TargetArrayResource						_overridedTargets;
 			};
 
 			struct ManagedSymbolPropertySetterValueRes : public ManagedSymbolItemRes
@@ -169,7 +160,6 @@ Members
 				bool									implicit;
 				TypeResource							targetType;
 				StringArrayResource						orderedGenericParameterNames;
-				TargetArrayResource						_overridedTargets;
 			};
 
 			struct ManagedSymbolMethodRes : public ManagedSymbolItemRes
@@ -181,7 +171,6 @@ Members
 				TypeResource							implementedInterfaceType;
 				StringArrayResource						orderedGenericParameterNames;
 				StringArrayResource						orderedMethodParameterNames;
-				TargetArrayResource						_overridedTargets;
 			};
 
 			struct ManagedSymbolConstructorRes : public ManagedSymbolItemRes
@@ -228,7 +217,6 @@ Declarations
 				StringArrayResource						orderedDataMemberNames;
 				TypeResource							_basicType;
 				TypeArrayResource						_baseInterfaces;
-				TargetArrayResource						_abstractTargets;
 			};
 		}
 	}

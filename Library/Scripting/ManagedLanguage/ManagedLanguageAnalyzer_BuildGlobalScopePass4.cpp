@@ -131,6 +131,10 @@ Check override target
 								ManagedAbstractItem result;
 								result.symbol=abstractMember;
 								result.type=abstractType;
+								if(!member->_overridedTargets.Contains(result))
+								{
+									member->_overridedTargets.Add(result);
+								}
 								return result;
 							}
 						}
