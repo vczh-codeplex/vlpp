@@ -87,9 +87,13 @@ Symbol to Metadata
 									}
 									if(accepted)
 									{
-										CollectSymbol<ManagedSymbolDeclaration, ManagedSymbolDeclarationRes>(typedSymbol, (externalDeclaration?ManagedSymbolItemRes::ExternalDeclaration:ManagedSymbolItemRes::TypeDeclaration));
-										if(!externalDeclaration)
+										if(externalDeclaration)
 										{
+											CollectSymbol<ManagedSymbolDeclaration, ManagedSymbolDeclarationRes>(typedSymbol, ManagedSymbolItemRes::ExternalDeclaration);
+										}
+										else
+										{
+											CollectSymbol<ManagedSymbolDeclaration, ManagedSymbolDeclarationRes>(typedSymbol, ManagedSymbolItemRes::TypeDeclaration);
 											FOREACH(ManagedTypeSymbol*, baseType, typedSymbol->baseTypes.Wrap())
 											{
 												CollectType(baseType);
