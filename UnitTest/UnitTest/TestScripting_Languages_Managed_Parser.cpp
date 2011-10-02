@@ -4,6 +4,7 @@
 #include "..\..\Library\Scripting\Languages\ManagedX\ManagedX.h"
 #include "..\..\Library\Scripting\Languages\LanguageProviderManagedExtension.h"
 #include "..\..\Library\Scripting\ManagedLanguage\ManagedLanguageAnalyzer.h"
+#include "..\..\Library\Scripting\ManagedLanguage\ManagedLanguageCodeGeneration.h"
 #include "..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
 #include "..\..\Library\Stream\FileStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
@@ -112,17 +113,6 @@ TEST_CASE(Test_ManagedX_Parser)
 
 namespace TestManagedXParserHelper
 {
-	void AnalyzeManagedXPrograms(Ptr<ManagedProgram> program)
-	{
-		List<Ptr<ManagedLanguageCodeException>> errors;
-		List<ManagedUsingNamespaceDeclaration*> usingNamespaceList;
-		ManagedSymbolManager sm;
-		ManagedContextManager cm;
-		MAP argument(&sm, &cm, errors, usingNamespaceList);
-
-		ManagedLanguage_AnalyzeProgram(program, argument);
-		TEST_ASSERT(errors.Count()==0);
-	}
 }
 using namespace TestManagedXParserHelper;
 
@@ -174,5 +164,16 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 	{
 		CopyFrom(mergedProgram->declarations.Wrap(), program->declarations.Wrap(), true);
 	}
-	AnalyzeManagedXPrograms(mergedProgram);
+	
+	List<Ptr<ManagedLanguageCodeException>> errors;
+	List<ManagedUsingNamespaceDeclaration*> usingNamespaceList;
+	ManagedSymbolManager sm;
+	ManagedContextManager cm;
+	MAP argument(&sm, &cm, errors, usingNamespaceList);
+	ManagedLanguage_AnalyzeProgram(mergedProgram, argument);
+	TEST_ASSERT(errors.Count()==0);
+
+	vl::unittest::UnitTest::PrintInfo(L"Generating Resource for System.CoreManaged");
+	Ptr<ResourceStream> resourceStream=new ResourceStream;
+	ResourceHandle<ManagedEntryRes> entryHandle=ManagedLanguage_GenerateResource(resourceStream, &sm);
 }
