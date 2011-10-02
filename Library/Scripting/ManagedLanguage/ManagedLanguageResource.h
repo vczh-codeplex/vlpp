@@ -218,6 +218,11 @@ Declarations
 				TypeResource							_basicType;
 				TypeArrayResource						_baseInterfaces;
 			};
+
+			struct ManagedSymbolExternalDeclarationRes : public ManagedSymbolItemRes
+			{
+				ResourceString							foreignAssemblyName;
+			};
 		}
 	}
 }

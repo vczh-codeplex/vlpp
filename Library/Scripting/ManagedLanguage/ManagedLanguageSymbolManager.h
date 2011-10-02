@@ -387,6 +387,7 @@ Declarations
 				ManagedTypeDeclaration*									typeLanguageElement;
 				ManagedEnumerationDeclaration*							enumerationLanguageElement;
 				collections::List<ManagedUsingNamespaceDeclaration*>	availableUsingNamespaceLanguageElements;
+				WString													foreignAssemblyName;
 
 				declatt::Accessor										accessor;
 				declatt::Inheritation									inheritation;
