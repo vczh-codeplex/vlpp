@@ -64,6 +64,7 @@ Helper Functions
 			extern ManagedSymbolItem*			FindScopeItemInMethod(const MAP& argument);
 			extern void							CheckTypeInMethod(ManagedLanguageElement* languageElement, ManagedTypeSymbol* typeSymbol, const MAP& argument);
 			extern ManagedTypeSymbol*			GetTypeSymbolInMethod(Ptr<ManagedType> type, const MAP& argument);
+			extern void							EnsureAbstractTargetsCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument);
 
 			extern void							InitializeContextManager(ManagedProgram* program, const MAP& argument);
 			extern void							BuildLocalScope(ManagedStatement* node, const MAP& argument);

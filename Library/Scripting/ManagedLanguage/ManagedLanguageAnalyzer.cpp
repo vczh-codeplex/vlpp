@@ -960,6 +960,65 @@ GetTypeSymbolInMethod
 				CheckTypeInMethod(type.Obj(), typeSymbol, argument);
 				return typeSymbol;
 			}
+
+/***********************************************************************
+EnsureAbstractTargetsCompleted
+***********************************************************************/
+
+			void EnsureAbstractTargetsCompleted(ManagedSymbolDeclaration* symbol, const MAP& argument)
+			{
+				if(symbol->_abstractTargets.Count()==0 && symbol->GetSymbolType()!=ManagedSymbolItem::Interface)
+				{
+					if(symbol->_baseType)
+					{
+						ManagedSymbolDeclaration* baseSymbol=dynamic_cast<ManagedSymbolDeclaration*>(symbol->_baseType->GetSymbol());
+						EnsureAbstractTargetsCompleted(baseSymbol, argument);
+						if(baseSymbol->inheritation==declatt::Abstract)
+						{
+							FOREACH(ManagedAbstractItem, abstractItem, baseSymbol->_abstractTargets.Wrap())
+							{
+								ManagedAbstractItem newAbstractItem;
+								newAbstractItem.symbol=abstractItem.symbol;
+								newAbstractItem.type=argument.symbolManager->ReplaceGenericArguments(abstractItem.type, symbol->_baseType);
+								symbol->_abstractTargets.Add(newAbstractItem);
+							}
+						}
+					}
+					ManagedTypeSymbol* thisType=GetTypeFromInsideScope(symbol, argument);
+					FOREACH(ManagedSymbolItemGroup*, group, symbol->ItemGroups().Values())
+					{
+						FOREACH(ManagedSymbolItem*, item, group->Items())
+						{
+							bool abstractItem=false;
+							switch(item->GetSymbolType())
+							{
+							case ManagedSymbolItem::Method:
+								{
+									abstractItem=dynamic_cast<ManagedSymbolMethod*>(item)->inheritation==declatt::Abstract;
+								}
+								break;
+							case ManagedSymbolItem::Property:
+								{
+									abstractItem=dynamic_cast<ManagedSymbolProperty*>(item)->inheritation==declatt::Abstract;
+								}
+								break;
+							case ManagedSymbolItem::ConverterOperator:
+								{
+									abstractItem=dynamic_cast<ManagedSymbolConverterOperator*>(item)->inheritation==declatt::Abstract;
+								}
+								break;
+							}
+							if(abstractItem)
+							{
+								ManagedAbstractItem abstractItem;
+								abstractItem.type=thisType;
+								abstractItem.symbol=item;
+								symbol->_abstractTargets.Add(abstractItem);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

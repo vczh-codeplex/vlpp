@@ -395,15 +395,6 @@ ManagedLanguage_BuildGlobalScope4_Member
 										}
 									}
 									break;
-								case declatt::Abstract:
-									{
-										ManagedTypeSymbol* thisType=GetTypeFromInsideScope(containingType, argument);
-										ManagedAbstractItem abstractItem;
-										abstractItem.type=thisType;
-										abstractItem.symbol=symbol;
-										containingType->_abstractTargets.Add(abstractItem);
-									}
-									break;
 								}
 							}
 						}
@@ -541,14 +532,6 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 										}
 									}
 									break;
-								case declatt::Abstract:
-									{
-										ManagedAbstractItem abstractItem;
-										abstractItem.type=thisType;
-										abstractItem.symbol=symbol;
-										containingType->_abstractTargets.Add(abstractItem);
-									}
-									break;
 								}
 							}
 						}
@@ -617,14 +600,6 @@ ManagedLanguage_BuildGlobalScope4_ExtendedMember
 										}
 										containingType->_abstractTargets.Remove(overridedMember);
 									}
-								}
-								break;
-							case declatt::Abstract:
-								{
-									ManagedAbstractItem abstractItem;
-									abstractItem.type=thisType;
-									abstractItem.symbol=symbol;
-									containingType->_abstractTargets.Add(abstractItem);
 								}
 								break;
 							}
@@ -814,18 +789,7 @@ ManagedLanguage_BuildGlobalScope4_Declaration
 						break;
 					}
 
-					if(symbol->_baseType)
-					{
-						ManagedSymbolDeclaration* baseSymbol=dynamic_cast<ManagedSymbolDeclaration*>(symbol->_baseType->GetSymbol());
-						FOREACH(ManagedAbstractItem, abstractItem, baseSymbol->_abstractTargets.Wrap())
-						{
-							ManagedAbstractItem newAbstractItem;
-							newAbstractItem.symbol=abstractItem.symbol;
-							newAbstractItem.type=argument.symbolManager->ReplaceGenericArguments(abstractItem.type, symbol->_baseType);
-							symbol->_abstractTargets.Add(newAbstractItem);
-						}
-					}
-
+					EnsureAbstractTargetsCompleted(symbol, argument);
 					FOREACH(Ptr<ManagedMember>, member, node->members.Wrap())
 					{
 						ManagedLanguage_BuildGlobalScope4_Member(member, argument);
