@@ -32,11 +32,9 @@ Basic Constructions
 #define COMMON_TYPE_DEFINITION \
 			protected: \
 				typedef ResourceHandle<ManagedSymbolItemRes>			ItemResource; \
-				typedef ResourceHandle<ManagedSymbolItemGroupRes>		GroupResource; \
 				typedef ResourceHandle<ManagedTypeSymbolRes>			TypeResource; \
 				typedef ResourceHandle<ManagedAbstractItemRes>			TargetResource; \
 				typedef ResourceArrayHandle<ManagedSymbolItemRes>		ItemArrayResource; \
-				typedef ResourceArrayHandle<ManagedSymbolItemGroupRes>	GroupArrayResource; \
 				typedef ResourceArrayHandle<ManagedTypeSymbolRes>		TypeArrayResource; \
 				typedef ResourceArrayHandle<ManagedStringRes>			StringArrayResource; \
 				typedef ResourceArrayHandle<ManagedSymbolItemRes>		TargetArrayResource; \
@@ -66,17 +64,8 @@ Basic Constructions
 				};
 
 				SymbolType								symbolType;
-				GroupResource							parentGroup;
 				ResourceString							name;
-				GroupArrayResource						itemGroups;
-			};
-
-			struct ManagedSymbolItemGroupRes
-			{
-			COMMON_TYPE_DEFINITION
-
-				ItemResource							parentItem;
-				ItemArrayResource						items;
+				ItemArrayResource						subItems;
 			};
 
 			struct ManagedTypeSymbolRes

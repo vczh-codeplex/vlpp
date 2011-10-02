@@ -192,6 +192,13 @@ namespace vl
 				return (T*)resourceStream->GetPointer(pointer);
 			}
 
+			template<typename U>
+			ResourceRecord<U> Cast()const
+			{
+				ResourceHandle<T> handle=*this;
+				return resourceStream->ReadRecord(handle.Cast<U>());
+			}
+
 			operator ResourceHandle<T>()const
 			{
 				ResourceHandle<T> handle;
