@@ -19,7 +19,7 @@ namespace vl
 		namespace managedlanguage
 		{
 			extern ResourceHandle<ManagedEntryRes>		ManagedLanguage_GenerateResource(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager);
-			extern bool									ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName, collections::List<ResourceHandle<ManagedSymbolExternalDeclarationRes>>& unresolvedTypes);
+			extern bool									ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName, collections::List<ResourceHandle<ManagedSymbolItemRes>>& unresolvedTypes);
 		}
 	}
 }
