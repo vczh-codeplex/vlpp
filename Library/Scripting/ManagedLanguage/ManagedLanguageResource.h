@@ -211,6 +211,7 @@ Declarations
 			struct ManagedSymbolExternalDeclarationRes : public ManagedSymbolItemRes
 			{
 				ResourceString							foreignAssemblyName;
+				vint									genericParameterCount;
 			};
 		}
 	}
