@@ -113,6 +113,26 @@ TEST_CASE(Test_ManagedX_Parser)
 
 namespace TestManagedXParserHelper
 {
+	class ManagedAnalyzer
+	{
+	public:
+		List<Ptr<ManagedLanguageCodeException>> errors;
+		List<ManagedUsingNamespaceDeclaration*> usingNamespaceList;
+		ManagedSymbolManager sm;
+		ManagedContextManager cm;
+		MAP argument;
+
+		ManagedAnalyzer()
+			:argument(&sm, &cm, errors, usingNamespaceList)
+		{
+		}
+
+		void Analyze(Ptr<ManagedProgram> mergedProgram)
+		{
+			ManagedLanguage_AnalyzeProgram(mergedProgram, argument);
+			TEST_ASSERT(errors.Count()==0);
+		}
+	};
 }
 using namespace TestManagedXParserHelper;
 
@@ -165,15 +185,17 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 		CopyFrom(mergedProgram->declarations.Wrap(), program->declarations.Wrap(), true);
 	}
 	
-	List<Ptr<ManagedLanguageCodeException>> errors;
-	List<ManagedUsingNamespaceDeclaration*> usingNamespaceList;
-	ManagedSymbolManager sm;
-	ManagedContextManager cm;
-	MAP argument(&sm, &cm, errors, usingNamespaceList);
-	ManagedLanguage_AnalyzeProgram(mergedProgram, argument);
-	TEST_ASSERT(errors.Count()==0);
+	ManagedAnalyzer analyzerCoreManaged;
+	analyzerCoreManaged.Analyze(mergedProgram);
 
 	vl::unittest::UnitTest::PrintInfo(L"Generating Resource for System.CoreManaged");
 	Ptr<ResourceStream> resourceStream=new ResourceStream;
-	ResourceHandle<ManagedEntryRes> entryHandle=ManagedLanguage_GenerateResource(resourceStream, &sm);
+	ResourceHandle<ManagedEntryRes> entryHandle=ManagedLanguage_GenerateResource(resourceStream, &analyzerCoreManaged.sm);
+
+	{
+		ManagedSymbolManager sm;
+		List<ResourceHandle<ManagedSymbolItemRes>> unresolvedTypes;
+		ManagedLanguage_ImportSymbols(resourceStream, &sm, L"syscrman", unresolvedTypes);
+		TEST_ASSERT(unresolvedTypes.Count()==0);
+	}
 }

@@ -474,6 +474,7 @@ Metadata to Symbol
 					Dictionary<vint, ManagedTypeSymbol*>											symbolTypes;
 					Ptr<ResourceStream>																resourceStream;
 					ManagedSymbolManager*															symbolManager;
+					WString																			importAssemblyName;
 
 				protected:
 
@@ -572,15 +573,13 @@ Metadata to Symbol
 									{
 										if(!symbolItems.Keys().Contains(resource.Pointer()))
 										{
-											ResourceRecord<ManagedSymbolNamespaceRes> typedResource=resource.Cast<ManagedSymbolNamespaceRes>();
-											ManagedSymbolNamespace* typedSymbol=new ManagedSymbolNamespace(symbolManager);
+											createdSymbol=new ManagedSymbolNamespace(symbolManager);
 										}
 									}
 									break;
 								case ManagedSymbolItemRes::TypeRename:
 									{
-										ResourceRecord<ManagedSymbolTypeRenameRes> typedResource=resource.Cast<ManagedSymbolTypeRenameRes>();
-										ManagedSymbolTypeRename* typedSymbol=new ManagedSymbolTypeRename(symbolManager);
+										createdSymbol=new ManagedSymbolTypeRename(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::TypeDeclaration:
@@ -599,65 +598,60 @@ Metadata to Symbol
 											symbolType=ManagedSymbolItem::Interface;
 											break;
 										}
-										ManagedSymbolDeclaration* typedSymbol=new ManagedSymbolDeclaration(symbolManager, symbolType);
+										createdSymbol=new ManagedSymbolDeclaration(symbolManager, symbolType);
 									}
 									break;
 								case ManagedSymbolItemRes::Field:
 									{
-										ResourceRecord<ManagedSymbolFieldRes> typedResource=resource.Cast<ManagedSymbolFieldRes>();
-										ManagedSymbolField* typedSymbol=new ManagedSymbolField(symbolManager);
+										createdSymbol=new ManagedSymbolField(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::Property:
 									{
-										ResourceRecord<ManagedSymbolPropertyRes> typedResource=resource.Cast<ManagedSymbolPropertyRes>();
-										ManagedSymbolProperty* typedSymbol=new ManagedSymbolProperty(symbolManager);
+										createdSymbol=new ManagedSymbolProperty(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::PropertySetterValue:
 									{
-										ResourceRecord<ManagedSymbolPropertySetterValueRes> typedResource=resource.Cast<ManagedSymbolPropertySetterValueRes>();
-										ManagedSymbolPropertySetterValue* typedSymbol=new ManagedSymbolPropertySetterValue(symbolManager);
+										createdSymbol=new ManagedSymbolPropertySetterValue(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::Method:
 									{
-										ResourceRecord<ManagedSymbolMethodRes> typedResource=resource.Cast<ManagedSymbolMethodRes>();
-										ManagedSymbolMethod* typedSymbol=new ManagedSymbolMethod(symbolManager);
+										createdSymbol=new ManagedSymbolMethod(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::Constructor:
 									{
-										ResourceRecord<ManagedSymbolConstructorRes> typedResource=resource.Cast<ManagedSymbolConstructorRes>();
-										ManagedSymbolConstructor* typedSymbol=new ManagedSymbolConstructor(symbolManager);
+										createdSymbol=new ManagedSymbolConstructor(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::ConverterOperator:
 									{
-										ResourceRecord<ManagedSymbolConverterOperatorRes> typedResource=resource.Cast<ManagedSymbolConverterOperatorRes>();
-										ManagedSymbolConverterOperator* typedSymbol=new ManagedSymbolConverterOperator(symbolManager);
+										createdSymbol=new ManagedSymbolConverterOperator(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::GenericParameter:
 									{
-										ResourceRecord<ManagedSymbolGenericParameterRes> typedResource=resource.Cast<ManagedSymbolGenericParameterRes>();
-										ManagedSymbolGenericParameter* typedSymbol=new ManagedSymbolGenericParameter(symbolManager);
+										createdSymbol=new ManagedSymbolGenericParameter(symbolManager);
 									}
 									break;
 								case ManagedSymbolItemRes::MethodParameter:
 									{
-										ResourceRecord<ManagedSymbolMethodParameterRes> typedResource=resource.Cast<ManagedSymbolMethodParameterRes>();
-										ManagedSymbolMethodParameter* typedSymbol=new ManagedSymbolMethodParameter(symbolManager);
+										createdSymbol=new ManagedSymbolMethodParameter(symbolManager);
 									}
 									break;
 								}
-								if(createdSymbol && resource->subItems)
+								if(createdSymbol)
 								{
 									WString name=resourceStream->ReadString(resource->name);
 									createdSymbol->SetName(name);
 									containerSymbol->Add(createdSymbol);
 									symbolItems.Add(resource.Pointer(), createdSymbol);
-									CreateSymbol(createdSymbol, resource->subItems);
+									if(resource->subItems)
+									{
+										CreateSymbol(createdSymbol, resource->subItems);
+									}
 								}
 							}
 						}
@@ -707,6 +701,34 @@ Metadata to Symbol
 						}
 					}
 
+					void FillList(List<WString>& stringList, ResourceArrayHandle<ManagedStringRes> itemList)
+					{
+						if(itemList)
+						{
+							ResourceArrayRecord<ManagedStringRes> resourceList=resourceStream->ReadArrayRecord(itemList);
+							for(vint i=0;i<resourceList.Count();i++)
+							{
+								ResourceRecord<ManagedStringRes> resource=resourceList[i];
+								WString string=resourceStream->ReadString(resource->stringValue);
+								stringList.Add(string);
+							}
+						}
+					}
+
+					void FillList(List<ManagedTypeSymbol*>& typeList, ResourceArrayHandle<ManagedTypeSymbolRes> itemList)
+					{
+						if(itemList)
+						{
+							ResourceArrayRecord<ManagedTypeSymbolRes> resourceList=resourceStream->ReadArrayRecord(itemList);
+							for(vint i=0;i<resourceList.Count();i++)
+							{
+								ResourceRecord<ManagedTypeSymbolRes> resource=resourceList[i];
+								ManagedTypeSymbol* type=GetType(resource);
+								typeList.Add(type);
+							}
+						}
+					}
+
 					void FillSymbol(ManagedSymbolItem* containerSymbol, ResourceArrayHandle<ManagedSymbolItemRes> handleArray)
 					{
 						ResourceArrayRecord<ManagedSymbolItemRes> resource=resourceStream->ReadArrayRecord(handleArray);
@@ -722,76 +744,117 @@ Metadata to Symbol
 									ManagedSymbolItem* symbol=symbolItems.Values()[symbolIndex];
 									switch(resource->symbolType)
 									{
-									case ManagedSymbolItemRes::Namespace:
-										{
-											ResourceRecord<ManagedSymbolNamespaceRes> typedResource=resource.Cast<ManagedSymbolNamespaceRes>();
-											ManagedSymbolNamespace* typedSymbol=dynamic_cast<ManagedSymbolNamespace*>(symbol);
-										}
-										break;
 									case ManagedSymbolItemRes::TypeRename:
 										{
 											ResourceRecord<ManagedSymbolTypeRenameRes> typedResource=resource.Cast<ManagedSymbolTypeRenameRes>();
 											ManagedSymbolTypeRename* typedSymbol=dynamic_cast<ManagedSymbolTypeRename*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->type=GetType(typedResource->type);
+											FillList(typedSymbol->orderedGenericParameterNames, typedResource->orderedGenericParameterNames);
 										}
 										break;
 									case ManagedSymbolItemRes::TypeDeclaration:
 										{
 											ResourceRecord<ManagedSymbolDeclarationRes> typedResource=resource.Cast<ManagedSymbolDeclarationRes>();
 											ManagedSymbolDeclaration* typedSymbol=dynamic_cast<ManagedSymbolDeclaration*>(symbol);
+											typedSymbol->foreignAssemblyName=importAssemblyName;
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->inheritation=typedResource->inheritation;
+											typedSymbol->memberType=typedResource->memberType;
+											FillList(typedSymbol->baseTypes, typedResource->baseTypes);
+											FillList(typedSymbol->orderedGenericParameterNames, typedResource->orderedGenericParameterNames);
+											FillList(typedSymbol->orderedDataMemberNames, typedResource->orderedDataMemberNames);
+											typedSymbol->_baseType=GetType(typedResource->_basicType);
+											FillList(typedSymbol->_baseInterfaces, typedResource->_baseInterfaces);
 										}
 										break;
 									case ManagedSymbolItemRes::Field:
 										{
 											ResourceRecord<ManagedSymbolFieldRes> typedResource=resource.Cast<ManagedSymbolFieldRes>();
 											ManagedSymbolField* typedSymbol=dynamic_cast<ManagedSymbolField*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->memberType=typedResource->memberType;
+											typedSymbol->dataType=typedResource->dataType;
+											typedSymbol->type=GetType(typedResource->type);
 										}
 										break;
 									case ManagedSymbolItemRes::Property:
 										{
 											ResourceRecord<ManagedSymbolPropertyRes> typedResource=resource.Cast<ManagedSymbolPropertyRes>();
 											ManagedSymbolProperty* typedSymbol=dynamic_cast<ManagedSymbolProperty*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->setterAccessor=typedResource->setterAccessor;
+											typedSymbol->inheritation=typedResource->inheritation;
+											typedSymbol->memberType=typedResource->memberType;
+											typedSymbol->type=GetType(typedResource->type);
+											typedSymbol->implementedInterfaceType=GetType(typedResource->implementedInterfaceType);
+											typedSymbol->containsGetter=typedResource->containsGetter;
+											typedSymbol->containsSetter=typedResource->containsSetter;
 										}
 										break;
 									case ManagedSymbolItemRes::PropertySetterValue:
 										{
 											ResourceRecord<ManagedSymbolPropertySetterValueRes> typedResource=resource.Cast<ManagedSymbolPropertySetterValueRes>();
 											ManagedSymbolPropertySetterValue* typedSymbol=dynamic_cast<ManagedSymbolPropertySetterValue*>(symbol);
+											typedSymbol->associatedProperty=dynamic_cast<ManagedSymbolProperty*>(symbolItems[typedResource->associatedProperty.Pointer()]);
 										}
 										break;
 									case ManagedSymbolItemRes::Method:
 										{
 											ResourceRecord<ManagedSymbolMethodRes> typedResource=resource.Cast<ManagedSymbolMethodRes>();
 											ManagedSymbolMethod* typedSymbol=dynamic_cast<ManagedSymbolMethod*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->inheritation=typedResource->inheritation;
+											typedSymbol->memberType=typedResource->memberType;
+											typedSymbol->returnType=GetType(typedResource->returnType);
+											typedSymbol->implementedInterfaceType=GetType(typedResource->implementedInterfaceType);
+											FillList(typedSymbol->orderedGenericParameterNames, typedResource->orderedGenericParameterNames);
+											FillList(typedSymbol->orderedMethodParameterNames, typedResource->orderedMethodParameterNames);
 										}
 										break;
 									case ManagedSymbolItemRes::Constructor:
 										{
 											ResourceRecord<ManagedSymbolConstructorRes> typedResource=resource.Cast<ManagedSymbolConstructorRes>();
 											ManagedSymbolConstructor* typedSymbol=dynamic_cast<ManagedSymbolConstructor*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->implicit=typedResource->implicit;
+											FillList(typedSymbol->orderedMethodParameterNames, typedResource->orderedMethodParameterNames);
 										}
 										break;
 									case ManagedSymbolItemRes::ConverterOperator:
 										{
 											ResourceRecord<ManagedSymbolConverterOperatorRes> typedResource=resource.Cast<ManagedSymbolConverterOperatorRes>();
 											ManagedSymbolConverterOperator* typedSymbol=dynamic_cast<ManagedSymbolConverterOperator*>(symbol);
+											typedSymbol->accessor=typedResource->accessor;
+											typedSymbol->inheritation=typedResource->inheritation;
+											typedSymbol->memberType=typedResource->memberType;
+											typedSymbol->targetType=GetType(typedResource->targetType);
+											typedSymbol->implicit=typedResource->implicit;
+											FillList(typedSymbol->orderedGenericParameterNames, typedResource->orderedGenericParameterNames);
 										}
 										break;
 									case ManagedSymbolItemRes::GenericParameter:
 										{
 											ResourceRecord<ManagedSymbolGenericParameterRes> typedResource=resource.Cast<ManagedSymbolGenericParameterRes>();
 											ManagedSymbolGenericParameter* typedSymbol=dynamic_cast<ManagedSymbolGenericParameter*>(symbol);
+											typedSymbol->conversion=typedResource->conversion;
+											typedSymbol->newConstraint=typedResource->newConstraint;
+											FillList(typedSymbol->typeConstraints, typedResource->typeConstraints);
 										}
 										break;
 									case ManagedSymbolItemRes::MethodParameter:
 										{
 											ResourceRecord<ManagedSymbolMethodParameterRes> typedResource=resource.Cast<ManagedSymbolMethodParameterRes>();
 											ManagedSymbolMethodParameter* typedSymbol=dynamic_cast<ManagedSymbolMethodParameter*>(symbol);
+											typedSymbol->parameterType=typedResource->parameterType;
+											typedSymbol->containsDefaultValue=typedResource->containsDefaultValue;
+											typedSymbol->type=GetType(typedResource->type);
 										}
 										break;
 									}
 									if(resource->subItems)
 									{
-										CreateSymbol(symbol, resource->subItems);
+										FillSymbol(symbol, resource->subItems);
 									}
 								}
 							}
@@ -799,9 +862,10 @@ Metadata to Symbol
 					}
 
 				public:
-					SymbolImporter(Ptr<ResourceStream> _resourceStream, ManagedSymbolManager* _symbolManager)
+					SymbolImporter(Ptr<ResourceStream> _resourceStream, ManagedSymbolManager* _symbolManager, const WString& _importAssemblyName)
 						:resourceStream(_resourceStream)
 						,symbolManager(_symbolManager)
+						,importAssemblyName(_importAssemblyName)
 					{
 					}
 
@@ -826,7 +890,7 @@ Metadata to Symbol
 			bool ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName, List<ResourceHandle<ManagedSymbolItemRes>>& unresolvedTypes)
 			{
 				unresolvedTypes.Clear();
-				SymbolImporter symbolImporter(resourceStream, symbolManager);
+				SymbolImporter symbolImporter(resourceStream, symbolManager, assemblyName);
 				symbolImporter.CheckExternalDeclarations(unresolvedTypes);
 				if(unresolvedTypes.Count()>0)
 				{
