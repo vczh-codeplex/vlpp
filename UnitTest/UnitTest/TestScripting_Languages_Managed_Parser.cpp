@@ -7,6 +7,7 @@
 #include "..\..\Library\Scripting\ManagedLanguage\ManagedLanguageCodeGeneration.h"
 #include "..\..\Library\Scripting\Utility\ScriptingUtilityMake.h"
 #include "..\..\Library\Stream\FileStream.h"
+#include "..\..\Library\Stream\MemoryStream.h"
 #include "..\..\Library\Stream\CharFormat.h"
 #include "..\..\Library\Collections\OperationForEach.h"
 
@@ -133,10 +134,55 @@ namespace TestManagedXParserHelper
 			TEST_ASSERT(errors.Count()==0);
 		}
 	};
+
+	class ManagedCase
+	{
+	public:
+		WString					name;
+		bool					pass;
+		WString					code;
+
+		ManagedCase()
+			:pass(true)
+		{
+		}
+
+		static void ReadCase(const WString& casePath, List<Ptr<ManagedCase>>& cases)
+		{
+			FileStream fileStream(casePath, FileStream::ReadOnly);
+			BomDecoder decoder;
+			DecoderStream decoderStream(fileStream, decoder);
+			StreamReader streamReader(decoderStream);
+
+			Ptr<ManagedCase> currentCase;
+			while(!streamReader.IsEnd())
+			{
+				WString line=streamReader.ReadLine();
+				if(line.Length()>6 && line.Left(6)==L"#Case:")
+				{
+					currentCase=new ManagedCase;
+					currentCase->name=line.Right(line.Length()-6);
+					cases.Add(currentCase);
+				}
+				else if(line==L"#Pass")
+				{
+					currentCase->pass=true;
+				}
+				else if(line==L"#Fail")
+				{
+					currentCase->pass=false;
+				}
+				else
+				{
+					currentCase->code+=line+L"\r\n";
+				}
+			}
+		}
+	};
 }
 using namespace TestManagedXParserHelper;
 
-TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
+TEST_CASE(Test_ManagedX_Analyzer)
 {
 	vl::unittest::UnitTest::PrintInfo(L"Initializing ManagedX Provider...");
 	Ptr<ILanguageProvider> provider=CreateManagedXLanguageProvider();
@@ -197,5 +243,35 @@ TEST_CASE(Test_ManagedX_Parser_System_CoreManaged)
 		List<ResourceHandle<ManagedSymbolItemRes>> unresolvedTypes;
 		ManagedLanguage_ImportSymbols(resourceStream, &sm, L"syscrman", unresolvedTypes);
 		TEST_ASSERT(unresolvedTypes.Count()==0);
+	}
+
+	List<Ptr<ManagedCase>> cases;
+	WString casePath=GetPath()+L"Code\\ManagedX\\Parsing\\ManagedX.Analyzing.Cases.txt";
+	ManagedCase::ReadCase(casePath, cases);
+
+	FOREACH(Ptr<ManagedCase>, currentCase, cases.Wrap())
+	{
+		vl::unittest::UnitTest::PrintInfo(L"Analyzing "+currentCase->name+L"...");
+		Ptr<ManagedProgram> program;
+		{
+			Ptr<Object> extra;
+			List<Ptr<LanguageException>> errors;
+			program=managedProvider->ParseProgram(currentCase->code, extra, errors.Wrap());
+
+			for(vint i=0;i<errors.Count();i++)
+			{
+				vl::unittest::UnitTest::PrintError(L"ERROR ("+itow(errors[i]->LineIndex())+L"): "+errors[i]->Message());
+			}
+			TEST_ASSERT(program);
+			TEST_ASSERT(errors.Count()==0);
+		}
+
+		ManagedAnalyzer analyzerCase;
+		{
+			List<ResourceHandle<ManagedSymbolItemRes>> unresolvedTypes;
+			ManagedLanguage_ImportSymbols(resourceStream, &analyzerCase.sm, L"syscrman", unresolvedTypes);
+			TEST_ASSERT(unresolvedTypes.Count()==0);
+		}
+		analyzerCase.Analyze(program);
 	}
 }

@@ -1583,6 +1583,9 @@
     <None Include="..\Binary\ScriptCoreLibrary\System.CoreManaged\Dynamic.txt">
       <Filter>ScriptCoreLibrary\System.CoreManaged</Filter>
     </None>
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Analyzing.Cases.txt">
+      <Filter>TestFiles\ManagedX\Parsing</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Collections\Dictionary.h">
