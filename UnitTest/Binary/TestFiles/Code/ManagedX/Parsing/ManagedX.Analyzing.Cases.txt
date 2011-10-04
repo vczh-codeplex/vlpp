@@ -1,0 +1,5 @@
+#Case:Namespace.Empty
+#Pass
+namespace MyNamespace
+{
+}

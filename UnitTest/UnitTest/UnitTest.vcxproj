@@ -386,6 +386,7 @@
     <None Include="..\Binary\TestFiles\Baseline\RegexString.Nfa.txt" />
     <None Include="..\Binary\TestFiles\Code\Index.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\Index.txt" />
+    <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Analyzing.Cases.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.ClassStructInterface.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.EnumerationAndExpression.txt" />
     <None Include="..\Binary\TestFiles\Code\ManagedX\Parsing\ManagedX.Parsing.NamespaceAndUsing.txt" />
