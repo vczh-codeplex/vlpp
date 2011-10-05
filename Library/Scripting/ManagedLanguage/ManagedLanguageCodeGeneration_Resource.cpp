@@ -475,6 +475,7 @@ Metadata to Symbol
 					Ptr<ResourceStream>																resourceStream;
 					ManagedSymbolManager*															symbolManager;
 					WString																			importAssemblyName;
+					bool																			includingInternal;
 
 				protected:
 
@@ -557,6 +558,21 @@ Metadata to Symbol
 
 				protected:
 
+					bool IsAccessorAcceptable(declatt::Accessor accessor)
+					{
+						switch(accessor)
+						{
+						case declatt::Public:
+						case declatt::Protected:
+							return true;
+						case declatt::Internal:
+						case declatt::ProtectedInternal:
+							return includingInternal;
+						default:
+							return false;
+						}
+					}
+
 					void CreateSymbol(ManagedSymbolItem* containerSymbol, ResourceArrayHandle<ManagedSymbolItemRes> handleArray)
 					{
 						ResourceArrayRecord<ManagedSymbolItemRes> resource=resourceStream->ReadArrayRecord(handleArray);
@@ -579,36 +595,48 @@ Metadata to Symbol
 									break;
 								case ManagedSymbolItemRes::TypeRename:
 									{
-										createdSymbol=new ManagedSymbolTypeRename(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolTypeRenameRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolTypeRename(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::TypeDeclaration:
 									{
 										ResourceRecord<ManagedSymbolDeclarationRes> typedResource=resource.Cast<ManagedSymbolDeclarationRes>();
-										ManagedSymbolItem::ManagedSymbolType symbolType=ManagedSymbolItem::Class;
-										switch(typedResource->declarationType)
+										if(IsAccessorAcceptable(typedResource->accessor))
 										{
-										case ManagedSymbolDeclarationRes::Class:
-											symbolType=ManagedSymbolItem::Class;
-											break;
-										case ManagedSymbolDeclarationRes::Structure:
-											symbolType=ManagedSymbolItem::Structure;
-											break;
-										case ManagedSymbolDeclarationRes::Interface:
-											symbolType=ManagedSymbolItem::Interface;
-											break;
+											ManagedSymbolItem::ManagedSymbolType symbolType=ManagedSymbolItem::Class;
+											switch(typedResource->declarationType)
+											{
+											case ManagedSymbolDeclarationRes::Class:
+												symbolType=ManagedSymbolItem::Class;
+												break;
+											case ManagedSymbolDeclarationRes::Structure:
+												symbolType=ManagedSymbolItem::Structure;
+												break;
+											case ManagedSymbolDeclarationRes::Interface:
+												symbolType=ManagedSymbolItem::Interface;
+												break;
+											}
+											createdSymbol=new ManagedSymbolDeclaration(symbolManager, symbolType);
 										}
-										createdSymbol=new ManagedSymbolDeclaration(symbolManager, symbolType);
 									}
 									break;
 								case ManagedSymbolItemRes::Field:
 									{
-										createdSymbol=new ManagedSymbolField(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolFieldRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolField(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::Property:
 									{
-										createdSymbol=new ManagedSymbolProperty(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolPropertyRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolProperty(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::PropertySetterValue:
@@ -618,17 +646,26 @@ Metadata to Symbol
 									break;
 								case ManagedSymbolItemRes::Method:
 									{
-										createdSymbol=new ManagedSymbolMethod(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolMethodRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolMethod(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::Constructor:
 									{
-										createdSymbol=new ManagedSymbolConstructor(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolConstructorRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolConstructor(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::ConverterOperator:
 									{
-										createdSymbol=new ManagedSymbolConverterOperator(symbolManager);
+										if(IsAccessorAcceptable(resource.Cast<ManagedSymbolConverterOperatorRes>()->accessor))
+										{
+											createdSymbol=new ManagedSymbolConverterOperator(symbolManager);
+										}
 									}
 									break;
 								case ManagedSymbolItemRes::GenericParameter:
@@ -862,10 +899,11 @@ Metadata to Symbol
 					}
 
 				public:
-					SymbolImporter(Ptr<ResourceStream> _resourceStream, ManagedSymbolManager* _symbolManager, const WString& _importAssemblyName)
+					SymbolImporter(Ptr<ResourceStream> _resourceStream, ManagedSymbolManager* _symbolManager, const WString& _importAssemblyName, bool _includingInternal)
 						:resourceStream(_resourceStream)
 						,symbolManager(_symbolManager)
 						,importAssemblyName(_importAssemblyName)
+						,includingInternal(_includingInternal)
 					{
 					}
 
@@ -887,10 +925,10 @@ Metadata to Symbol
 			};
 			using namespace resource_transformation;
 
-			bool ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName, List<ResourceHandle<ManagedSymbolItemRes>>& unresolvedTypes)
+			bool ManagedLanguage_ImportSymbols(Ptr<ResourceStream> resourceStream, ManagedSymbolManager* symbolManager, const WString& assemblyName, bool includingInternal, List<ResourceHandle<ManagedSymbolItemRes>>& unresolvedTypes)
 			{
 				unresolvedTypes.Clear();
-				SymbolImporter symbolImporter(resourceStream, symbolManager, assemblyName);
+				SymbolImporter symbolImporter(resourceStream, symbolManager, assemblyName, includingInternal);
 				symbolImporter.CheckExternalDeclarations(unresolvedTypes);
 				if(unresolvedTypes.Count()>0)
 				{
