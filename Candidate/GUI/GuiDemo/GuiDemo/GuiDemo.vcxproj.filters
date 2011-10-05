@@ -55,6 +55,12 @@
     <Filter Include="GUI\NativeWindow\Windows\GDI">
       <UniqueIdentifier>{007d438e-2c4b-4b1b-9f11-8750257c99ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\GraphicsElement">
+      <UniqueIdentifier>{bad73a37-f7e1-48d0-993b-33dbc83a3e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GraphicsElement\WindowsGDI">
+      <UniqueIdentifier>{48092dd2-c4e1-4866-96ca-b3642ff725b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -92,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +208,15 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

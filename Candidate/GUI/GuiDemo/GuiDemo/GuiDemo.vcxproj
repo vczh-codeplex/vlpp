@@ -87,6 +87,9 @@
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
@@ -122,6 +125,9 @@
     <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\Library\String.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />

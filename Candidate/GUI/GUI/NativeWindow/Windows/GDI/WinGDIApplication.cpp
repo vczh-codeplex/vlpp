@@ -14,7 +14,7 @@ namespace vl
 		{
 			using namespace vl::collections;
 
-			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener, public IWindowsFormGraphicsHandler
+			class GdiWindowsNativeWindowListener : public Object, public INativeWindowListener
 			{
 			protected:
 				Ptr<WinBitmap>					buffer;
@@ -64,11 +64,6 @@ namespace vl
 					:window(_window)
 				{
 					IWindowsForm* form=GetWindowsForm(window);
-					form->SetGraphicsHandler(this);
-				}
-
-				void RedrawContent()
-				{
 				}
 
 				void Moved()
