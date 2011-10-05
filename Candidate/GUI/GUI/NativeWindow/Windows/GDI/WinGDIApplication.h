@@ -11,7 +11,6 @@ Interfaces:
 #include "WinGDI.h"
 #include "..\WinNativeWindow.h"
 #include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
-#include "..\..\..\GuiApplication.h"
 
 namespace vl
 {
