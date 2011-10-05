@@ -149,6 +149,14 @@ Native Window Provider
 
 			virtual bool				InstallListener(INativeControllerListener* listener)=0;
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
+
+			virtual void				StartHookMouse()=0;
+			virtual void				StopHookMouse()=0;
+			virtual bool				IsHookingMouse()=0;
+
+			virtual void				StartTimer()=0;
+			virtual void				StopTimer()=0;
+			virtual bool				IsTimerEnabled()=0;
 			
 			virtual int					GetScreenCount()=0;
 			virtual INativeScreen*		GetScreen(int index)=0;

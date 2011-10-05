@@ -793,7 +793,9 @@ WindowsController
 				Dictionary<HWND, WindowsForm*>		windows;
 				List<INativeControllerListener*>	listeners;
 				INativeWindow*						mainWindow;
+
 				HHOOK								mouseHook;
+				bool								isTimerEnabled;
 
 				List<Ptr<WindowsScreen>>			screens;
 			public:
@@ -802,16 +804,16 @@ WindowsController
 					,windowClass(L"VczhWindow", false, false, WndProc, _hInstance)
 					,godClass(L"GodWindow", false, false, GodProc, _hInstance)
 					,mainWindow(0)
+					,mouseHook(NULL)
+					,isTimerEnabled(false)
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
-					mouseHook=SetWindowsHookEx(WH_MOUSE_LL, MouseProc, NULL, NULL);
-					SetTimer(godWindow, 1, 16, NULL);
 				}
 
 				~WindowsController()
 				{
-					KillTimer(godWindow, 1);
-					UnhookWindowsHookEx(mouseHook);
+					StopTimer();
+					StopHookMouse();
 					DestroyWindow(godWindow);
 				}
 
@@ -856,61 +858,6 @@ WindowsController
 						}
 					}
 					return skipDefaultProcedure;
-				}
-
-				void InvokeMouseHook(WPARAM message, Point location)
-				{
-					switch(message)
-					{
-					case WM_LBUTTONDOWN:
-						{
-							for(int i=0;i<listeners.Count();i++)
-							{
-								listeners[i]->LeftButtonDown(location);
-							}
-						}
-						break;
-					case WM_LBUTTONUP:
-						{
-							for(int i=0;i<listeners.Count();i++)
-							{
-								listeners[i]->LeftButtonUp(location);
-							}
-						}
-						break;
-					case WM_RBUTTONDOWN:
-						{
-							for(int i=0;i<listeners.Count();i++)
-							{
-								listeners[i]->RightButtonDown(location);
-							}
-						}
-						break;
-					case WM_RBUTTONUP:
-						{
-							for(int i=0;i<listeners.Count();i++)
-							{
-								listeners[i]->RightButtonUp(location);
-							}
-						}
-						break;
-					case WM_MOUSEMOVE:
-						{
-							for(int i=0;i<listeners.Count();i++)
-							{
-								listeners[i]->MouseMoving(location);
-							}
-						}
-						break;
-					}
-				}
-
-				void InvokeGlobalTimer()
-				{
-					for(int i=0;i<listeners.Count();i++)
-					{
-						listeners[i]->GlobalTimer();
-					}
 				}
 
 				INativeWindow* CreateNativeWindow()
@@ -979,6 +926,110 @@ WindowsController
 					{
 						return false;
 					}
+				}
+
+				//=======================================================================
+
+				void InvokeMouseHook(WPARAM message, Point location)
+				{
+					switch(message)
+					{
+					case WM_LBUTTONDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonDown(location);
+							}
+						}
+						break;
+					case WM_LBUTTONUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->LeftButtonUp(location);
+							}
+						}
+						break;
+					case WM_RBUTTONDOWN:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonDown(location);
+							}
+						}
+						break;
+					case WM_RBUTTONUP:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->RightButtonUp(location);
+							}
+						}
+						break;
+					case WM_MOUSEMOVE:
+						{
+							for(int i=0;i<listeners.Count();i++)
+							{
+								listeners[i]->MouseMoving(location);
+							}
+						}
+						break;
+					}
+				}
+
+				void StartHookMouse()
+				{
+					if(!IsHookingMouse())
+					{
+						mouseHook=SetWindowsHookEx(WH_MOUSE_LL, MouseProc, NULL, NULL);
+					}
+				}
+
+				void StopHookMouse()
+				{
+					if(IsHookingMouse())
+					{
+						UnhookWindowsHookEx(mouseHook);
+						mouseHook=NULL;
+					}
+				}
+
+				bool IsHookingMouse()
+				{
+					return mouseHook!=NULL;
+				}
+
+				//=======================================================================
+
+				void InvokeGlobalTimer()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->GlobalTimer();
+					}
+				}
+
+				void StartTimer()
+				{
+					if(!IsTimerEnabled())
+					{
+						SetTimer(godWindow, 1, 16, NULL);
+						isTimerEnabled=true;
+					}
+				}
+
+				void StopTimer()
+				{
+					if(IsTimerEnabled())
+					{
+						KillTimer(godWindow, 1);
+						isTimerEnabled=false;
+					}
+				}
+
+				bool IsTimerEnabled()
+				{
+					return isTimerEnabled;
 				}
 
 				//=======================================================================
