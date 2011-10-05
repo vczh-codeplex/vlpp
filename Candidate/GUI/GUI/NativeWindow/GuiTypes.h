@@ -325,6 +325,40 @@ Margin
 				return left!=margin.left || top!=margin.top || right!=margin.right || bottom!=margin.bottom;
 			}
 		};
+
+/***********************************************************************
+Resources
+***********************************************************************/
+
+		struct FontProperties
+		{
+			WString				fontFamily;
+			int					size;
+			bool				bold;
+			bool				italic;
+			bool				underline;
+			bool				strikeline;
+
+			FontProperties()
+				:size(0)
+				,bold(false)
+				,italic(false)
+				,underline(false)
+				,strikeline(false)
+			{
+			}
+			
+
+			bool operator==(const FontProperties& value)const
+			{
+				return fontFamily==value.fontFamily && size==value.size && bold==value.bold && italic==value.italic && underline==value.underline && strikeline==value.strikeline;
+			}
+
+			bool operator!=(const FontProperties& value)const
+			{
+				return !(*this==value);
+			}
+		};
 	}
 }
 
