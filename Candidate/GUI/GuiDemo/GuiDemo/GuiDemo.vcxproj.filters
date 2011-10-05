@@ -93,30 +93,6 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.cpp">
-      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\GuiControl.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Main_NativeWindow_GuiSimple.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main_GuiApplication_Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\GuiWindow.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\GuiContainer.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\GuiButton.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\GuiGrid.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -217,27 +193,6 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h">
       <Filter>GUI\NativeWindow\Windows\GDI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDISimpleElement.h">
-      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiControl.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiWindow.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiApplication.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiContainer.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiButton.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\GuiGrid.h">
-      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
