@@ -241,7 +241,7 @@ TEST_CASE(Test_ManagedX_Analyzer)
 	{
 		ManagedSymbolManager sm;
 		List<ResourceHandle<ManagedSymbolItemRes>> unresolvedTypes;
-		ManagedLanguage_ImportSymbols(resourceStream, &sm, L"syscrman", unresolvedTypes);
+		ManagedLanguage_ImportSymbols(resourceStream, &sm, L"syscrman", true, unresolvedTypes);
 		TEST_ASSERT(unresolvedTypes.Count()==0);
 	}
 
@@ -269,7 +269,7 @@ TEST_CASE(Test_ManagedX_Analyzer)
 		ManagedAnalyzer analyzerCase;
 		{
 			List<ResourceHandle<ManagedSymbolItemRes>> unresolvedTypes;
-			ManagedLanguage_ImportSymbols(resourceStream, &analyzerCase.sm, L"syscrman", unresolvedTypes);
+			ManagedLanguage_ImportSymbols(resourceStream, &analyzerCase.sm, L"syscrman", false, unresolvedTypes);
 			TEST_ASSERT(unresolvedTypes.Count()==0);
 		}
 		analyzerCase.Analyze(program);

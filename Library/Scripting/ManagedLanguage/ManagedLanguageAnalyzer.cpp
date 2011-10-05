@@ -827,9 +827,11 @@ EnsureTypeVisibilityOutSideOfAssemblyInternal
 					if(publicLevel<2) publicLevel=2;
 					break;
 				case declatt::Internal:
+					if(publicLevel<2) publicLevel=2;
 					if(internalLevel<0) internalLevel=0;
 					break;
 				case declatt::ProtectedInternal:
+					if(publicLevel<1) publicLevel=1;
 					if(internalLevel<1) internalLevel=1;
 					break;
 				}
