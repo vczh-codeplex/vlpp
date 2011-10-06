@@ -25,7 +25,7 @@ Renderers
 
 			class GuiSolidBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsGDIRenderTarget)
 			protected:
 				Color					oldColor;
 				Ptr<windows::WinPen>	pen;
@@ -39,10 +39,23 @@ Renderers
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)
 			protected:
 				Color					oldColor;
 				Ptr<windows::WinBrush>	brush;
+
+				void					InitializeInternal();
+			public:
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
+
+			class GuiSolidLabelElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				FontProperties			oldFont;
+				Ptr<windows::WinFont>	font;
 
 				void					InitializeInternal();
 			public:

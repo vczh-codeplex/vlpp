@@ -74,6 +74,40 @@ GuiSolidBackgroundElementRenderer
 					brush=resourceManager->CreateGdiBrush(oldColor);
 				}
 			}
+
+/***********************************************************************
+GuiSolidLabelElementRenderer
+***********************************************************************/
+
+			void GuiSolidLabelElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldFont=element->GetFont();
+				font=resourceManager->CreateGdiFont(oldFont);
+			}
+
+			void GuiSolidLabelElementRenderer::Render(Rect bounds)
+			{
+				Color color=element->GetColor();
+				if(color.a>0)
+				{
+					renderTarget->GetDC()->SetFont(font);
+					renderTarget->GetDC()->SetTextColor(RGB(color.r, color.g, color.b));
+					renderTarget->GetDC()->DrawString(bounds.Left(), bounds.Top(), element->GetText());
+				}
+			}
+
+			void GuiSolidLabelElementRenderer::OnElementStateChanged()
+			{
+				FontProperties fontProperties=element->GetFont();
+				if(oldFont!=fontProperties)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiFont(oldFont);
+					oldFont=fontProperties;
+					font=resourceManager->CreateGdiFont(oldFont);
+				}
+			}
 		}
 	}
 }

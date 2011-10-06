@@ -347,6 +347,7 @@ Resources
 			bool				italic;
 			bool				underline;
 			bool				strikeline;
+			bool				antialias;
 
 			FontProperties()
 				:size(0)
@@ -354,6 +355,7 @@ Resources
 				,italic(false)
 				,underline(false)
 				,strikeline(false)
+				,antialias(true)
 			{
 			}
 			
@@ -377,6 +379,9 @@ Resources
 				if(result!=0) return result;
 
 				result=(int)strikeline-(int)value.strikeline;
+				if(result!=0) return result;
+
+				result=(int)antialias-(int)value.antialias;
 				if(result!=0) return result;
 
 				return 0;

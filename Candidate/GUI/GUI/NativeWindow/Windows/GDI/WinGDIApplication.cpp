@@ -57,6 +57,7 @@ namespace vl
 					if(!buffer)
 					{
 						buffer=new WinBitmap(size.x, size.y, WinBitmap::vbb32Bits, true);
+						buffer->GetWinDC()->SetBackTransparent(true);
 					}
 				}
 			public:
