@@ -40,6 +40,9 @@ void GuiMain()
 		background->GetRenderer()->Render(bounds);
 		border->GetRenderer()->Render(bounds);
 		renderTarget->StopRendering();
+
+		delete border;
+		delete background;
 	}
 
 	window->Show();
