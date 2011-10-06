@@ -100,126 +100,107 @@ Resource Manager
 Helpers
 ***********************************************************************/
 
-			template<typename TElement>
-			class GuiGraphicsElement : public Object, public IGuiGraphicsElement
-			{
-			public:
-				class Factory : public Object, public IGuiGraphicsElementFactory
-				{
-				public:
-					WString GetElementTypeName()
-					{
-						return TElement::GetElementTypeName();
-					}
+#define DEFINE_GUI_GRAPHICES_ELEMENT(TELEMENT, ELEMENT_TYPE_NAME)\
+			public:\
+				class Factory : public Object, public IGuiGraphicsElementFactory\
+				{\
+				public:\
+					WString GetElementTypeName()\
+					{\
+						return TELEMENT::GetElementTypeName();\
+					}\
+					IGuiGraphicsElement* Create()\
+					{\
+						TELEMENT* element=new TELEMENT;\
+						element->factory=this;\
+						element->renderer=GetGuiGraphicsResourceManager()->GetRendererFactory(GetElementTypeName())->Create();\
+						element->renderer->Initialize(element);\
+						return element;\
+					}\
+				};\
+			protected:\
+				IGuiGraphicsElementFactory*		factory;\
+				Ptr<IGuiGraphicsRenderer>		renderer;\
+			public:\
+				static WString GetElementTypeName()\
+				{\
+					return ELEMENT_TYPE_NAME;\
+				}\
+				static TELEMENT* Create()\
+				{\
+					return dynamic_cast<TELEMENT*>(GetGuiGraphicsResourceManager()->GetElementFactory(TELEMENT::GetElementTypeName())->Create());\
+				}\
+				IGuiGraphicsElementFactory* GetFactory()\
+				{\
+					return factory;\
+				}\
+				IGuiGraphicsRenderer* GetRenderer()\
+				{\
+					return renderer.Obj();\
+				}\
 
-					IGuiGraphicsElement* Create()
-					{
-						GuiGraphicsElement<TElement>* element=new TElement;
-						element->factory=this;
-						element->renderer=GetGuiGraphicsResourceManager()->GetRendererFactory(GetElementTypeName())->Create();
-						element->renderer->Initialize(element);
-						return element;
-					}
-				};
-			protected:
-				IGuiGraphicsElementFactory*		factory;
-				Ptr<IGuiGraphicsRenderer>		renderer;
-			public:
-				GuiGraphicsElement()
-					:factory(0)
-				{
-				}
-
-				static TElement* Create()
-				{
-					return dynamic_cast<TElement*>(GetGuiGraphicsResourceManager()->GetElementFactory(TElement::GetElementTypeName())->Create());
-				}
-
-				IGuiGraphicsElementFactory* GetFactory()
-				{
-					return factory;
-				}
-
-				IGuiGraphicsRenderer* GetRenderer()
-				{
-					return renderer.Obj();
-				}
-			};
-
-			template<typename TElement, typename TRenderer, typename TTarget>
-			class GuiGraphicsRenderer : public Object, public IGuiGraphicsRenderer
-			{
-			public:
-				class Factory : public Object, public IGuiGraphicsRendererFactory
-				{
-				public:
-					IGuiGraphicsRenderer* Create()
-					{
-						GuiGraphicsRenderer<TElement, TRenderer, TTarget>* renderer=new TRenderer;
-						renderer->factory=this;
-						return renderer;
-					}
-				};
-			protected:
-				IGuiGraphicsRendererFactory*	factory;
-				TElement*						element;
-				TTarget*						renderTarget;
-			public:
-				GuiGraphicsRenderer()
-					:factory(0)
-					,element(0)
-					,renderTarget(0)
-				{
-				}
-
-				static void Register()
-				{
-					RegisterFactories(new TElement::Factory, new TRenderer::Factory);
-				}
-
-				IGuiGraphicsRendererFactory* GetFactory()
-				{
-					return factory;
-				}
-
-				void Initialize(IGuiGraphicsElement* _element)
-				{
-					element=dynamic_cast<TElement*>(_element);
-				}
-
-				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)
-				{
-					renderTarget=dynamic_cast<TTarget*>(_renderTarget);
-				}
-			};
+#define DEFINE_GUI_GRAPHICS_ELEMENT(TELEMENT, TRENDERER, TTARGET)\
+			public:\
+				class Factory : public Object, public IGuiGraphicsRendererFactory\
+				{\
+				public:\
+					IGuiGraphicsRenderer* Create()\
+					{\
+						TRENDERER* renderer=new TRENDERER;\
+						renderer->factory=this;\
+						renderer->element=0;\
+						renderer->renderTarget=0;\
+						return renderer;\
+					}\
+				};\
+			protected:\
+				IGuiGraphicsRendererFactory*	factory;\
+				TELEMENT*						element;\
+				TTARGET*						renderTarget;\
+			public:\
+				static void Register()\
+				{\
+					RegisterFactories(new TELEMENT::Factory, new TRENDERER::Factory);\
+				}\
+				IGuiGraphicsRendererFactory* GetFactory()\
+				{\
+					return factory;\
+				}\
+				void Initialize(IGuiGraphicsElement* _element)\
+				{\
+					element=dynamic_cast<TELEMENT*>(_element);\
+					InitializeInternal();\
+				}\
+				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)\
+				{\
+					renderTarget=dynamic_cast<TTARGET*>(_renderTarget);\
+				}\
 
 /***********************************************************************
 Elements
 ***********************************************************************/
 
-			class GuiSolidBorderElement : public GuiGraphicsElement<GuiSolidBorderElement>
+			class GuiSolidBorderElement : public Object, public IGuiGraphicsElement
 			{
+				DEFINE_GUI_GRAPHICES_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
 			protected:
 				Color				color;
 			public:
 				GuiSolidBorderElement();
 				~GuiSolidBorderElement();
 
-				static WString		GetElementTypeName();
-
 				Color				GetColor();
 				void				SetColor(Color value);
 			};
 
-			class GuiSolidBackgroundElement : public GuiGraphicsElement<GuiSolidBackgroundElement>
+			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
 			{
+				DEFINE_GUI_GRAPHICES_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
 			protected:
 				Color				color;
 			public:
 				GuiSolidBackgroundElement();
 				~GuiSolidBackgroundElement();
-
-				static WString		GetElementTypeName();
 
 				Color				GetColor();
 				void				SetColor(Color value);

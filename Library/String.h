@@ -51,6 +51,8 @@ namespace vl
 			return CalculateLength(bufAOld)-strB.length;
 		}
 
+	public:
+
 		static vint Compare(const ObjectString<T>& strA, const ObjectString<T>& strB)
 		{
 			const T* bufA=strA.buffer+strA.start;
@@ -66,6 +68,8 @@ namespace vl
 			};
 			return strA.length-strB.length;
 		}
+
+	private:
 
 		void Inc()const
 		{
