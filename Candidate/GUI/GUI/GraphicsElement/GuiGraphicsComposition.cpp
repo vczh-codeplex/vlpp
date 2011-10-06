@@ -4,7 +4,7 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace windows
+		namespace elements
 		{
 		}
 	}
