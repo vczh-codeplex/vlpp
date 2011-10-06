@@ -9,9 +9,7 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSRENDERERSWINDOWSGDI
 #define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSRENDERERSWINDOWSGDI
 
-#include "..\..\NativeWindow\Windows\GDI\WinGDIApplication.h"
-#include "..\GuiGraphicsElement.h"
-#include "..\GuiGraphicsComposition.h"
+#include "GuiGraphicsWindowsGDI.h"
 
 namespace vl
 {
@@ -19,6 +17,26 @@ namespace vl
 	{
 		namespace elements
 		{
+
+/***********************************************************************
+Renderers
+***********************************************************************/
+
+			class GuiSolidBorderElementRenderer
+				: public GuiGraphicsRenderer<GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsGDIRenderTarget>
+			{
+			public:
+				void				Render(Rect bounds);
+				void				OnElementStateChanged();
+			};
+
+			class GuiSolidBackgroundElementRenderer
+				: public GuiGraphicsRenderer<GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget>
+			{
+			public:
+				void				Render(Rect bounds);
+				void				OnElementStateChanged();
+			};
 		}
 	}
 }
