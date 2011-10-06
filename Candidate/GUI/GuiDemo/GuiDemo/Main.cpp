@@ -45,8 +45,5 @@ void GuiMain()
 		delete background;
 	}
 
-	window->Show();
-	Rect x=window->GetBounds();
-
 	GetCurrentController()->Run(window);
 }
