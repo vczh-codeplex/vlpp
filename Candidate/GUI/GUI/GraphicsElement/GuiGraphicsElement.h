@@ -51,6 +51,7 @@ Basic Construction
 				virtual void							SetRenderTarget(IGuiGraphicsRenderTarget* renderTarget)=0;
 				virtual void							Render(Rect bounds)=0;
 				virtual void							OnElementStateChanged()=0;
+				virtual Size							GetMinSize()=0;
 			};
 
 			class IGuiGraphicsRendererFactory : public Interface
@@ -100,7 +101,7 @@ Resource Manager
 Helpers
 ***********************************************************************/
 
-#define DEFINE_GUI_GRAPHICES_ELEMENT(TELEMENT, ELEMENT_TYPE_NAME)\
+#define DEFINE_GUI_GRAPHICS_ELEMENT(TELEMENT, ELEMENT_TYPE_NAME)\
 			public:\
 				class Factory : public Object, public IGuiGraphicsElementFactory\
 				{\
@@ -139,7 +140,7 @@ Helpers
 					return renderer.Obj();\
 				}\
 
-#define DEFINE_GUI_GRAPHICS_ELEMENT(TELEMENT, TRENDERER, TTARGET)\
+#define DEFINE_GUI_GRAPHICS_RENDERER(TELEMENT, TRENDERER, TTARGET)\
 			public:\
 				class Factory : public Object, public IGuiGraphicsRendererFactory\
 				{\
@@ -157,6 +158,7 @@ Helpers
 				IGuiGraphicsRendererFactory*	factory;\
 				TELEMENT*						element;\
 				TTARGET*						renderTarget;\
+				Size							minSize;\
 			public:\
 				static void Register()\
 				{\
@@ -175,6 +177,10 @@ Helpers
 				{\
 					renderTarget=dynamic_cast<TTARGET*>(_renderTarget);\
 				}\
+				Size GetMinSize()\
+				{\
+					return minSize;\
+				}\
 
 /***********************************************************************
 Elements
@@ -182,28 +188,49 @@ Elements
 
 			class GuiSolidBorderElement : public Object, public IGuiGraphicsElement
 			{
-				DEFINE_GUI_GRAPHICES_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
 			protected:
-				Color				color;
+				Color					color;
 			public:
 				GuiSolidBorderElement();
 				~GuiSolidBorderElement();
 
-				Color				GetColor();
-				void				SetColor(Color value);
+				Color					GetColor();
+				void					SetColor(Color value);
 			};
 
 			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
 			{
-				DEFINE_GUI_GRAPHICES_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
 			protected:
-				Color				color;
+				Color					color;
 			public:
 				GuiSolidBackgroundElement();
 				~GuiSolidBackgroundElement();
 
-				Color				GetColor();
-				void				SetColor(Color value);
+				Color					GetColor();
+				void					SetColor(Color value);
+			};
+
+			class GuiSolidLabelElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidLabelElement, L"SolidLabel");
+			protected:
+				Color					color;
+				FontProperties			fontProperties;
+				WString					text;
+			public:
+				GuiSolidLabelElement();
+				~GuiSolidLabelElement();
+
+				Color					GetColor();
+				void					SetColor(Color value);
+
+				const FontProperties&	GetFont();
+				void					SetFont(const FontProperties& value);
+
+				const WString&			GetText();
+				void					SetText(const WString& value);
 			};
 		}
 	}

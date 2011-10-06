@@ -89,7 +89,7 @@ GuiSolidBorderElement
 ***********************************************************************/
 
 			GuiSolidBorderElement::GuiSolidBorderElement()
-				:color(0, 0, 0, 0)
+				:color(0, 0, 0)
 			{
 			}
 
@@ -116,7 +116,7 @@ GuiSolidBackgroundElement
 ***********************************************************************/
 
 			GuiSolidBackgroundElement::GuiSolidBackgroundElement()
-				:color(0, 0, 0, 0)
+				:color(255, 255, 255)
 			{
 			}
 
@@ -134,6 +134,63 @@ GuiSolidBackgroundElement
 				if(color!=value)
 				{
 					color=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
+GuiSolidLabelElement
+***********************************************************************/
+
+			GuiSolidLabelElement::GuiSolidLabelElement()
+				:color(0, 0, 0)
+			{
+				fontProperties.fontFamily=L"Lucida Console";
+				fontProperties.size=12;
+			}
+
+			GuiSolidLabelElement::~GuiSolidLabelElement()
+			{
+			}
+
+			Color GuiSolidLabelElement::GetColor()
+			{
+				return color;
+			}
+
+			void GuiSolidLabelElement::SetColor(Color value)
+			{
+				if(color!=value)
+				{
+					color=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			const FontProperties& GuiSolidLabelElement::GetFont()
+			{
+				return fontProperties;
+			}
+
+			void GuiSolidLabelElement::SetFont(const FontProperties& value)
+			{
+				if(fontProperties!=value)
+				{
+					fontProperties=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			const WString& GuiSolidLabelElement::GetText()
+			{
+				return text;
+			}
+
+			void GuiSolidLabelElement::SetText(const WString& value)
+			{
+				if(text!=value)
+				{
+					text=value;
 					renderer->OnElementStateChanged();
 				}
 			}

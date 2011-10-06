@@ -31,18 +31,34 @@ void GuiMain()
 		GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
 		border->SetColor(Color(255, 0, 0));
 
+		GuiSolidLabelElement* label=GuiSolidLabelElement::Create();
+		{
+			FontProperties font;
+			font.size=24;
+			font.fontFamily=L"Lucida Console";
+			label->SetFont(font);
+		}
+		label->SetText(L"Vczh GUI Demo");
+
 		IGuiGraphicsRenderTarget* renderTarget=GetGuiGraphicsResourceManager()->GetRenderTarget(window);
 		background->GetRenderer()->SetRenderTarget(renderTarget);
 		border->GetRenderer()->SetRenderTarget(renderTarget);
+		label->GetRenderer()->SetRenderTarget(renderTarget);
 
 		renderTarget->StartRendering();
-		Rect bounds(Point(0, 0), window->GetClientSize());
-		background->GetRenderer()->Render(bounds);
-		border->GetRenderer()->Render(bounds);
+		{
+			Rect clientBounds(Point(0, 0), window->GetClientSize());
+			background->GetRenderer()->Render(clientBounds);
+			border->GetRenderer()->Render(clientBounds);
+
+			Rect textBounds(Point(20, 20), label->GetRenderer()->GetMinSize());
+			label->GetRenderer()->Render(textBounds);
+		}
 		renderTarget->StopRendering();
 
-		delete border;
 		delete background;
+		delete border;
+		delete label;
 	}
 
 	GetCurrentController()->Run(window);

@@ -233,7 +233,7 @@ CachedResourceAllocator
 			public:
 				static Ptr<WinFont> CreateInternal(const FontProperties& value)
 				{
-					return 0;
+					return new WinFont(value.fontFamily, value.size, 0, 0, 0, (value.bold?FW_BOLD:FW_NORMAL), value.italic, value.underline, value.strikeline, value.antialias);
 				}
 			};
 
@@ -337,6 +337,7 @@ void NativeMain()
 
 	GuiSolidBorderElementRenderer::Register();
 	GuiSolidBackgroundElementRenderer::Register();
+	GuiSolidLabelElementRenderer::Register();
 
 	GuiMain();
 	SetWindowsGDIResourceManager(0);
