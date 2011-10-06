@@ -3,7 +3,7 @@
 using namespace vl;
 using namespace vl::presentation;
 
-void NativeMain()
+void GuiMain()
 {
 	INativeWindow* window=GetCurrentController()->CreateNativeWindow();
 	window->SetSizeBox(false);
