@@ -97,11 +97,6 @@ GuiSolidBorderElement
 			{
 			}
 
-			WString GuiSolidBorderElement::GetElementTypeName()
-			{
-				return L"SolidBorder";
-			}
-
 			Color GuiSolidBorderElement::GetColor()
 			{
 				return color;
@@ -127,11 +122,6 @@ GuiSolidBackgroundElement
 
 			GuiSolidBackgroundElement::~GuiSolidBackgroundElement()
 			{
-			}
-
-			WString GuiSolidBackgroundElement::GetElementTypeName()
-			{
-				return L"SolidBackground";
 			}
 
 			Color GuiSolidBackgroundElement::GetColor()

@@ -271,10 +271,17 @@ Color
 
 		struct Color
 		{
-			unsigned char r;
-			unsigned char g;
-			unsigned char b;
-			unsigned char a;
+			union
+			{
+				struct
+				{
+					unsigned char r;
+					unsigned char g;
+					unsigned char b;
+					unsigned char a;
+				};
+				unsigned __int32 value;
+			};
 
 			Color()
 				:r(0), g(0), b(0), a(255)
@@ -286,15 +293,17 @@ Color
 			{
 			}
 
-			bool operator==(Color color)const
+			int Compare(Color color)const
 			{
-				return r==color.r && g==color.g && b==color.b && a==color.a;
+				return value-color.value;
 			}
 
-			bool operator!=(Color color)const
-			{
-				return r!=color.r || g!=color.g || b!=color.b || a!=color.a;
-			}
+			bool operator==(Color color)const {return Compare(color)==0;}
+			bool operator!=(Color color)const {return Compare(color)!=0;}
+			bool operator<(Color color)const {return Compare(color)<0;}
+			bool operator<=(Color color)const {return Compare(color)<=0;}
+			bool operator>(Color color)const {return Compare(color)>0;}
+			bool operator>=(Color color)const {return Compare(color)>=0;}
 		};
 
 /***********************************************************************
@@ -348,16 +357,37 @@ Resources
 			{
 			}
 			
-
-			bool operator==(const FontProperties& value)const
+			int Compare(const FontProperties& value)const
 			{
-				return fontFamily==value.fontFamily && size==value.size && bold==value.bold && italic==value.italic && underline==value.underline && strikeline==value.strikeline;
+				int result=0;
+				
+				result=WString::Compare(fontFamily, value.fontFamily);
+				if(result!=0) return result;
+
+				result=size-value.size;
+				if(result!=0) return result;
+
+				result=(int)bold-(int)value.bold;
+				if(result!=0) return result;
+
+				result=(int)italic-(int)value.italic;
+				if(result!=0) return result;
+
+				result=(int)underline-(int)value.underline;
+				if(result!=0) return result;
+
+				result=(int)strikeline-(int)value.strikeline;
+				if(result!=0) return result;
+
+				return 0;
 			}
 
-			bool operator!=(const FontProperties& value)const
-			{
-				return !(*this==value);
-			}
+			bool operator==(const FontProperties& value)const {return Compare(value)==0;}
+			bool operator!=(const FontProperties& value)const {return Compare(value)!=0;}
+			bool operator<(const FontProperties& value)const {return Compare(value)<0;}
+			bool operator<=(const FontProperties& value)const {return Compare(value)<=0;}
+			bool operator>(const FontProperties& value)const {return Compare(value)>0;}
+			bool operator>=(const FontProperties& value)const {return Compare(value)>=0;}
 		};
 	}
 }

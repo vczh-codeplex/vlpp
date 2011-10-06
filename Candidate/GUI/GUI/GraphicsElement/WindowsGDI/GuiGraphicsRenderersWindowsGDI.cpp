@@ -4,24 +4,27 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace elements
+		namespace elements_windows_gdi
 		{
 			using namespace windows;
-			using namespace elements;
 			using namespace collections;
 
 /***********************************************************************
 GuiSolidBorderElementRenderer
 ***********************************************************************/
 
+			void GuiSolidBorderElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldColor=element->GetColor();
+				pen=resourceManager->CreateGdiPen(oldColor);
+				brush=resourceManager->CreateGdiBrush(Color(0, 0, 0, 0));
+			}
+
 			void GuiSolidBorderElementRenderer::Render(Rect bounds)
 			{
-				Color color=element->GetColor();
-				if(color.a>0)
+				if(oldColor.a>0)
 				{
-					// TODO: cache gdi resource
-					Ptr<WinBrush> brush=new WinBrush;
-					Ptr<WinPen> pen=new WinPen(PS_SOLID, 1, RGB(color.r, color.g, color.b));
 					renderTarget->GetDC()->SetBrush(brush);
 					renderTarget->GetDC()->SetPen(pen);
 					renderTarget->GetDC()->Rectangle(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1);
@@ -30,19 +33,31 @@ GuiSolidBorderElementRenderer
 
 			void GuiSolidBorderElementRenderer::OnElementStateChanged()
 			{
+				Color color=element->GetColor();
+				if(oldColor!=color)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor);
+					oldColor=color;
+					pen=resourceManager->CreateGdiPen(oldColor);
+				}
 			}
 
 /***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
 
+			void GuiSolidBackgroundElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldColor=element->GetColor();
+				brush=resourceManager->CreateGdiBrush(oldColor);
+			}
+
 			void GuiSolidBackgroundElementRenderer::Render(Rect bounds)
 			{
-				Color color=element->GetColor();
-				if(color.a>0)
+				if(oldColor.a>0)
 				{
-					// TODO: cache gdi resource
-					Ptr<WinBrush> brush=new WinBrush(RGB(color.r, color.g, color.b));
 					renderTarget->GetDC()->SetBrush(brush);
 					renderTarget->GetDC()->FillRect(bounds.Left(), bounds.Top(), bounds.Right(), bounds.Bottom());
 				}
@@ -50,6 +65,14 @@ GuiSolidBackgroundElementRenderer
 
 			void GuiSolidBackgroundElementRenderer::OnElementStateChanged()
 			{
+				Color color=element->GetColor();
+				if(oldColor!=color)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiBrush(oldColor);
+					oldColor=color;
+					brush=resourceManager->CreateGdiBrush(oldColor);
+				}
 			}
 		}
 	}
