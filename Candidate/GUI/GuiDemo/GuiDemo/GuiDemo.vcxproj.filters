@@ -108,6 +108,9 @@
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp">
       <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -216,6 +219,9 @@
       <Filter>GUI\GraphicsElement</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h">
       <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
     </ClInclude>
   </ItemGroup>
