@@ -62,8 +62,10 @@ Basic Construction
 			class IGuiGraphicsRenderTarget : public Interface
 			{
 			public:
-				virtual void							PushClipper(Rect clip)=0;
-				virtual void							PopClipper(Rect clipper)=0;
+				virtual void							StartRendering()=0;
+				virtual void							StopRendering()=0;
+				virtual void							PushClipper(Rect clipper)=0;
+				virtual void							PopClipper()=0;
 				virtual Rect							GetClipper()=0;
 				virtual bool							IsClipperCoverWholeTarget()=0;
 			};
@@ -115,6 +117,7 @@ Helpers
 						GuiGraphicsElement<TElement>* element=new TElement;
 						element->factory=this;
 						element->renderer=GetGuiGraphicsResourceManager()->GetRendererFactory(GetElementTypeName())->Create();
+						element->renderer->Initialize(element);
 						return element;
 					}
 				};
@@ -125,6 +128,11 @@ Helpers
 				GuiGraphicsElement()
 					:factory(0)
 				{
+				}
+
+				static TElement* Create()
+				{
+					return dynamic_cast<TElement*>(GetGuiGraphicsResourceManager()->GetElementFactory(TElement::GetElementTypeName())->Create());
 				}
 
 				IGuiGraphicsElementFactory* GetFactory()

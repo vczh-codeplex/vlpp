@@ -9,7 +9,7 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSRENDERERSWINDOWSGDI
 #define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSRENDERERSWINDOWSGDI
 
-#include "..\..\NativeWindow\Windows\WinNativeWindow.h"
+#include "..\..\NativeWindow\Windows\GDI\WinGDIApplication.h"
 #include "..\GuiGraphicsElement.h"
 #include "..\GuiGraphicsComposition.h"
 
