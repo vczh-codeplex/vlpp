@@ -48,7 +48,7 @@ WindiwsGDIRenderTarget
 
 				WinDC* GetDC()
 				{
-					return dc;
+					return dc?dc:GetNativeWindowDC(window);
 				}
 
 				void StartRendering()
@@ -78,8 +78,8 @@ WindiwsGDIRenderTarget
 
 						currentClipper.x1=(previousClipper.x1>clipper.x1?previousClipper.x1:clipper.x1);
 						currentClipper.y1=(previousClipper.y1>clipper.y1?previousClipper.y1:clipper.y1);
-						currentClipper.x2=(previousClipper.x2>clipper.x2?previousClipper.x2:clipper.x2);
-						currentClipper.y2=(previousClipper.y2>clipper.y2?previousClipper.y2:clipper.y2);
+						currentClipper.x2=(previousClipper.x2<clipper.x2?previousClipper.x2:clipper.x2);
+						currentClipper.y2=(previousClipper.y2<clipper.y2?previousClipper.y2:clipper.y2);
 
 						if(currentClipper.x1<currentClipper.x2 && currentClipper.y1<currentClipper.y2)
 						{

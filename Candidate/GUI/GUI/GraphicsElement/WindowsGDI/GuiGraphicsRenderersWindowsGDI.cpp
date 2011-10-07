@@ -21,6 +21,10 @@ GuiSolidBorderElementRenderer
 				brush=resourceManager->CreateGdiBrush(Color(0, 0, 0, 0));
 			}
 
+			void GuiSolidBorderElementRenderer::RenderTargetChangedInternal()
+			{
+			}
+
 			void GuiSolidBorderElementRenderer::Render(Rect bounds)
 			{
 				if(oldColor.a>0)
@@ -54,6 +58,10 @@ GuiSolidBackgroundElementRenderer
 				brush=resourceManager->CreateGdiBrush(oldColor);
 			}
 
+			void GuiSolidBackgroundElementRenderer::RenderTargetChangedInternal()
+			{
+			}
+
 			void GuiSolidBackgroundElementRenderer::Render(Rect bounds)
 			{
 				if(oldColor.a>0)
@@ -79,11 +87,30 @@ GuiSolidBackgroundElementRenderer
 GuiSolidLabelElementRenderer
 ***********************************************************************/
 
+			void GuiSolidLabelElementRenderer::UpdateMinSize()
+			{
+				if(renderTarget)
+				{
+					renderTarget->GetDC()->SetFont(font);
+					SIZE size=renderTarget->GetDC()->MeasureString(element->GetText());
+					minSize=Size(size.cx, size.cy);
+				}
+				else
+				{
+					minSize=Size();
+				}
+			}
+
 			void GuiSolidLabelElementRenderer::InitializeInternal()
 			{
 				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				oldFont=element->GetFont();
 				font=resourceManager->CreateGdiFont(oldFont);
+			}
+
+			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal()
+			{
+				UpdateMinSize();
 			}
 
 			void GuiSolidLabelElementRenderer::Render(Rect bounds)
@@ -107,6 +134,7 @@ GuiSolidLabelElementRenderer
 					oldFont=fontProperties;
 					font=resourceManager->CreateGdiFont(oldFont);
 				}
+				UpdateMinSize();
 			}
 		}
 	}

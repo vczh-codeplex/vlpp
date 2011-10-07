@@ -31,11 +31,13 @@ Basic Construction
 				GuiGraphicsComposition*				parent;
 				Ptr<IGuiGraphicsElement>			ownedElement;
 				bool								visible;
+				bool								minSizeLimitated;
 				IGuiGraphicsRenderTarget*			renderTarget;
-				Margin								margin;
+				Margin								margin, internalMargin;
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
+				Rect								GetBoundsInternal(Rect expectedBounds);
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -51,6 +53,8 @@ Basic Construction
 				void								SetOwnedElement(Ptr<IGuiGraphicsElement> element);
 				bool								GetVisible();
 				void								SetVisible(bool value);
+				bool								GetMinSizeLimited();
+				void								SetMinSizeLimited(bool value);
 				IGuiGraphicsRenderTarget*			GetRenderTarget();
 				void								SetRenderTarget(IGuiGraphicsRenderTarget* value);
 
@@ -58,6 +62,8 @@ Basic Construction
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);
+				virtual Margin						GetInternalMargin();
+				virtual void						SetInternalMargin(Margin value);
 				virtual Rect						GetBounds()=0;
 				virtual void						SetBounds(Rect value)=0;
 			};
