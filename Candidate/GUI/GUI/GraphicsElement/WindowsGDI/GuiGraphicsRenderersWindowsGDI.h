@@ -32,6 +32,7 @@ Renderers
 				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
+				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -45,6 +46,7 @@ Renderers
 				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
+				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -57,7 +59,10 @@ Renderers
 				FontProperties			oldFont;
 				Ptr<windows::WinFont>	font;
 
+				void					UpdateMinSize();
+
 				void					InitializeInternal();
+				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();

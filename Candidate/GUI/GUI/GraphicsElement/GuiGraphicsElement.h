@@ -176,6 +176,7 @@ Helpers
 				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)\
 				{\
 					renderTarget=dynamic_cast<TTARGET*>(_renderTarget);\
+					RenderTargetChangedInternal();\
 				}\
 				Size GetMinSize()\
 				{\

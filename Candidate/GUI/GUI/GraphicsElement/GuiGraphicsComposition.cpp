@@ -19,9 +19,28 @@ GuiGraphicsComposition
 			{
 			}
 
+			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds)
+			{
+				Size minSize;
+				if(ownedElement)
+				{
+					minSize=ownedElement->GetRenderer()->GetMinSize();
+				}
+				minSize.x+=margin.left+margin.right;
+				minSize.y+=margin.top+margin.bottom;
+
+				int w=expectedBounds.Width();
+				int h=expectedBounds.Height();
+				if(w<minSize.x) w=minSize.x;
+				if(h<minSize.y) w=minSize.y;
+
+				return Rect(expectedBounds.LeftTop(), Size(w, h));
+			}
+
 			GuiGraphicsComposition::GuiGraphicsComposition()
 				:parent(0)
 				,visible(true)
+				,minSizeLimitated(false)
 				,renderTarget(0)
 			{
 			}
@@ -107,6 +126,16 @@ GuiGraphicsComposition
 				visible=value;
 			}
 
+			bool GuiGraphicsComposition::GetMinSizeLimited()
+			{
+				return minSizeLimitated;
+			}
+
+			void GuiGraphicsComposition::SetMinSizeLimited(bool value)
+			{
+				minSizeLimitated=value;
+			}
+
 			IGuiGraphicsRenderTarget* GuiGraphicsComposition::GetRenderTarget()
 			{
 				return renderTarget;
@@ -148,16 +177,23 @@ GuiGraphicsComposition
 						}
 						if(children.Count()>0)
 						{
-							offset=bounds.GetSize();
-							renderTarget->PushClipper(bounds);
-							if(!renderTarget->IsClipperCoverWholeTarget())
+							bounds.x1+=internalMargin.left;
+							bounds.y1+=internalMargin.top;
+							bounds.x2-=internalMargin.right;
+							bounds.y2-=internalMargin.bottom;
+							if(bounds.x1<=bounds.x2 && bounds.y1<=bounds.y2)
 							{
-								for(int i=0;i<children.Count();i++)
+								offset=bounds.GetSize();
+								renderTarget->PushClipper(bounds);
+								if(!renderTarget->IsClipperCoverWholeTarget())
 								{
-									children[i]->Render(Size(bounds.x1, bounds.y1));
+									for(int i=0;i<children.Count();i++)
+									{
+										children[i]->Render(Size(bounds.x1, bounds.y1));
+									}
 								}
+								renderTarget->PopClipper();
 							}
-							renderTarget->PopClipper();
 						}
 					}
 				}
@@ -171,6 +207,16 @@ GuiGraphicsComposition
 			void GuiGraphicsComposition::SetMargin(Margin value)
 			{
 				margin=value;
+			}
+
+			Margin GuiGraphicsComposition::GetInternalMargin()
+			{
+				return internalMargin;
+			}
+
+			void GuiGraphicsComposition::SetInternalMargin(Margin value)
+			{
+				internalMargin=value;
 			}
 
 /***********************************************************************
@@ -228,7 +274,7 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				return bounds;
+				return GetBoundsInternal(bounds);
 			}
 
 			void GuiBoundsComposition::SetBounds(Rect value)
