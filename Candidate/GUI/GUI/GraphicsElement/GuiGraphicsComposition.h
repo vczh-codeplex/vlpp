@@ -37,6 +37,7 @@ Basic Construction
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
+				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				Rect								GetBoundsInternal(Rect expectedBounds);
 			public:
 				GuiGraphicsComposition();
@@ -69,7 +70,7 @@ Basic Construction
 			};
 
 /***********************************************************************
-Compositions
+Basic Compositions
 ***********************************************************************/
 
 			class GuiWindowComposition : public GuiGraphicsComposition
@@ -95,6 +96,97 @@ Compositions
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
+
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
+			};
+
+/***********************************************************************
+Table Compositions
+***********************************************************************/
+
+			class GuiTableComposition;
+			class GuiCellComposition;
+
+			struct GuiCellOption
+			{
+				enum ComposeType
+				{
+					Absolute,
+					Percentage,
+					MinSize,
+				};
+
+				ComposeType		composeType;
+				int				absolute;
+				double			percentage;
+
+				GuiCellOption()
+					:composeType(Absolute)
+					,absolute(20)
+					,percentage(0)
+				{
+				}
+
+				bool operator==(const GuiCellOption& value){return false;}
+				bool operator!=(const GuiCellOption& value){return true;}
+			};
+
+			class GuiTableComposition : public GuiBoundsComposition
+			{
+				friend class GuiCellComposition;
+			protected:
+				int											rows;
+				int											columns;
+				int											cellPadding;
+				collections::Array<GuiCellOption>			rowOptions;
+				collections::Array<GuiCellOption>			columnOptions;
+				collections::Array<GuiCellComposition*>		cellCompositions;
+
+				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
+				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
+			public:
+				GuiTableComposition();
+				~GuiTableComposition();
+
+				int									GetRows();
+				int									GetColumns();
+				bool								SetRowsAndColumns(int _rows, int _columns);
+				GuiCellComposition*					GetSitedCell(int _row, int _column);
+
+				int									GetCellPadding();
+				void								SetCellPadding(int value);
+				Rect								GetCellArea();
+			};
+
+			class GuiCellComposition : public GuiGraphicsComposition
+			{
+				friend class GuiTableComposition;
+			protected:
+				int									row;
+				int									rowSpan;
+				int									column;
+				int									columnSpan;
+				GuiTableComposition*				tableParent;
+				Rect								bounds;
+				
+				void								ClearSitedCells(GuiTableComposition* table);
+				void								SetSitedCells(GuiTableComposition* table);
+				void								ResetSiteInternal();
+				bool								SetSiteInternal(int _row, int _column, int _rowSpan, int _columnSpan);
+				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
+				void								OnTableRowsAndColumnsChanged();
+			public:
+				GuiCellComposition();
+				~GuiCellComposition();
+
+				GuiTableComposition*				GetTableParent();
+
+				int									GetRow();
+				int									GetRowSpan();
+				int									GetColumn();
+				int									GetColumnSpan();
+				bool								SetSite(int _row, int _column, int _rowSpan, int _columnSpan);
 
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
