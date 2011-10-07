@@ -19,6 +19,10 @@ GuiGraphicsComposition
 			{
 			}
 
+			void GuiGraphicsComposition::OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)
+			{
+			}
+
 			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds)
 			{
 				Size minSize;
@@ -70,18 +74,22 @@ GuiGraphicsComposition
 
 			bool GuiGraphicsComposition::InsertChild(int index, GuiGraphicsComposition* child)
 			{
+				if(!child) return false;
 				if(child->GetParent()) return false;
 				children.Insert(index, child);
 				child->parent=this;
 				child->SetRenderTarget(renderTarget);
 				OnChildInserted(child);
+				child->OnParentChanged(0, child->parent);
 				return true;
 			}
 
 			bool GuiGraphicsComposition::RemoveChild(GuiGraphicsComposition* child)
 			{
+				if(!child) return false;
 				int index=children.IndexOf(child);
 				if(index==-1) return false;
+				child->OnParentChanged(child->parent, 0);
 				OnChildRemoved(child);
 				child->SetRenderTarget(0);
 				child->parent=0;
@@ -91,6 +99,7 @@ GuiGraphicsComposition
 
 			bool GuiGraphicsComposition::MoveChild(GuiGraphicsComposition* child, int newIndex)
 			{
+				if(!child) return false;
 				int index=children.IndexOf(child);
 				if(index==-1) return false;
 				children.RemoveAt(index);
@@ -280,6 +289,228 @@ GuiBoundsComposition
 			void GuiBoundsComposition::SetBounds(Rect value)
 			{
 				bounds=value;
+			}
+
+/***********************************************************************
+GuiTableComposition
+***********************************************************************/
+
+			int GuiTableComposition::GetSiteIndex(int _rows, int _columns, int _row, int _column)
+			{
+				return _row*_rows+_column;
+			}
+
+			void GuiTableComposition::SetSitedCell(int _row, int _column, GuiCellComposition* cell)
+			{
+				cellCompositions[GetSiteIndex(rows, columns, _row, _column)]=cell;
+			}
+
+			GuiTableComposition::GuiTableComposition()
+				:rows(0)
+				,columns(0)
+				,cellPadding(0)
+			{
+				SetRowsAndColumns(1, 1);
+			}
+
+			GuiTableComposition::~GuiTableComposition()
+			{
+			}
+
+			int GuiTableComposition::GetRows()
+			{
+				return rows;
+			}
+
+			int GuiTableComposition::GetColumns()
+			{
+				return columns;
+			}
+
+			bool GuiTableComposition::SetRowsAndColumns(int _rows, int _columns)
+			{
+				if(_rows<=0 || _columns<=0) return false;
+				rowOptions.Resize(_rows);
+				columnOptions.Resize(_columns);
+				cellCompositions.Resize(_rows*_columns);
+				for(int i=0;i<_rows*_columns;i++)
+				{
+					cellCompositions[i]=0;
+				}
+				rows=_rows;
+				columns=_columns;
+				int childCount=Children().Count();
+				for(int i=0;i<childCount;i++)
+				{
+					GuiCellComposition* cell=dynamic_cast<GuiCellComposition*>(Children()[i]);
+					if(cell)
+					{
+						cell->OnTableRowsAndColumnsChanged();
+					}
+				}
+				return true;
+			}
+
+			GuiCellComposition* GuiTableComposition::GetSitedCell(int _row, int _column)
+			{
+				return cellCompositions[GetSiteIndex(rows, columns, _row, _column)];
+			}
+
+			int GuiTableComposition::GetCellPadding()
+			{
+				return cellPadding;
+			}
+
+			void GuiTableComposition::SetCellPadding(int value)
+			{
+				if(value<0) value=0;
+				cellPadding=value;
+			}
+
+			Rect GuiTableComposition::GetCellArea()
+			{
+				Rect bounds=GetBounds();
+				bounds.x1+=margin.left+internalMargin.left+cellPadding;
+				bounds.y1+=margin.top+internalMargin.top+cellPadding;
+				bounds.x2-=margin.right+internalMargin.right+cellPadding;
+				bounds.y2-=margin.bottom+internalMargin.bottom+cellPadding;
+				if(bounds.x2<bounds.x1) bounds.x2=bounds.x1;
+				if(bounds.y2<bounds.y1) bounds.y2=bounds.y1;
+				return bounds;
+			}
+
+/***********************************************************************
+GuiCellComposition
+***********************************************************************/
+
+			void GuiCellComposition::ClearSitedCells(GuiTableComposition* table)
+			{
+				for(int r=0;r<rowSpan;r++)
+				{
+					for(int c=0;c<columnSpan;c++)
+					{
+						table->SetSitedCell(row+r, column+c, 0);
+					}
+				}
+			}
+
+			void GuiCellComposition::SetSitedCells(GuiTableComposition* table)
+			{
+				for(int r=0;r<rowSpan;r++)
+				{
+					for(int c=0;c<columnSpan;c++)
+					{
+						table->SetSitedCell(row+r, column+c, this);
+					}
+				}
+			}
+
+			void GuiCellComposition::ResetSiteInternal()
+			{
+				row=-1;
+				column=-1;
+				rowSpan=1;
+				columnSpan=1;
+			}
+
+			bool GuiCellComposition::SetSiteInternal(int _row, int _column, int _rowSpan, int _columnSpan)
+			{
+				if(!tableParent) return false;
+				if(_row<0 || _row>=tableParent->rows || _column<0 || _column>=tableParent->columns) return false;
+				if(_rowSpan<1 || _row+_rowSpan>tableParent->rows || _columnSpan<1 || _column+_columnSpan>tableParent->columns) return false;
+
+				for(int r=0;r<_rowSpan;r++)
+				{
+					for(int c=0;c<_columnSpan;c++)
+					{
+						GuiCellComposition* cell=tableParent->GetSitedCell(_row+r, _column+c);
+						if(cell && cell!=this)
+						{
+							return false;
+						}
+					}
+				}
+				ClearSitedCells(tableParent);
+				row=_row;
+				column=_column;
+				rowSpan=_rowSpan;
+				columnSpan=_columnSpan;
+				SetSitedCells(tableParent);
+				return true;
+			}
+
+			void GuiCellComposition::OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)
+			{
+				if(tableParent)
+				{
+					ClearSitedCells(tableParent);
+				}
+				tableParent=dynamic_cast<GuiTableComposition*>(newParent);
+				if(!tableParent || !SetSiteInternal(row, column, rowSpan, columnSpan))
+				{
+					ResetSiteInternal();
+				}
+			}
+
+			void GuiCellComposition::OnTableRowsAndColumnsChanged()
+			{
+				if(!SetSiteInternal(row, column, rowSpan, columnSpan))
+				{
+					ResetSiteInternal();
+				}
+			}
+
+			GuiCellComposition::GuiCellComposition()
+				:row(-1)
+				,column(-1)
+				,rowSpan(1)
+				,columnSpan(1)
+				,tableParent(0)
+			{
+			}
+
+			GuiCellComposition::~GuiCellComposition()
+			{
+			}
+
+			GuiTableComposition* GuiCellComposition::GetTableParent()
+			{
+				return tableParent;
+			}
+
+			int GuiCellComposition::GetRow()
+			{
+				return row;
+			}
+
+			int GuiCellComposition::GetRowSpan()
+			{
+				return rowSpan;
+			}
+
+			int GuiCellComposition::GetColumn()
+			{
+				return column;
+			}
+
+			int GuiCellComposition::GetColumnSpan()
+			{
+				return columnSpan;
+			}
+
+			bool GuiCellComposition::SetSite(int _row, int _column, int _rowSpan, int _columnSpan)
+			{
+				return SetSiteInternal(_row, _column, _rowSpan, _columnSpan);
+			}
+
+			Rect GuiCellComposition::GetBounds()
+			{
+				return Rect();
+			}
+
+			void GuiCellComposition::SetBounds(Rect value)
+			{
+				value=bounds;
 			}
 		}
 	}
