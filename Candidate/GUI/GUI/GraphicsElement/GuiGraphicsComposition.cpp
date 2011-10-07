@@ -37,7 +37,7 @@ GuiGraphicsComposition
 				int w=expectedBounds.Width();
 				int h=expectedBounds.Height();
 				if(w<minSize.x) w=minSize.x;
-				if(h<minSize.y) w=minSize.y;
+				if(h<minSize.y) h=minSize.y;
 
 				return Rect(expectedBounds.LeftTop(), Size(w, h));
 			}
@@ -298,7 +298,7 @@ GuiTableComposition
 
 			int GuiTableComposition::GetSiteIndex(int _rows, int _columns, int _row, int _column)
 			{
-				return _row*_rows+_column;
+				return _row*_columns+_column;
 			}
 
 			void GuiTableComposition::SetSitedCell(int _row, int _column, GuiCellComposition* cell)
@@ -334,7 +334,7 @@ GuiTableComposition
 							for(int j=0;j<this->*dim2;j++)
 							{
 								GuiCellComposition* cell=GetSitedCell(getRow(i, j), getCol(i, j));
-								if(getSpan(cell)==1)
+								if(cell && getSpan(cell)==1)
 								{
 									int size=getSize(cell->GetMinSize());
 									if(dimSizes[i]<size)
@@ -387,7 +387,8 @@ GuiTableComposition
 			void GuiTableComposition::UpdateCellBoundsOffsets(
 				collections::Array<int>& offsets,
 				collections::Array<int>& sizes,
-				int start
+				int start,
+				int max
 				)
 			{
 				offsets[0]=start;
@@ -395,6 +396,13 @@ GuiTableComposition
 				{
 					start+=cellPadding+sizes[i-1];
 					offsets[i]=start;
+				}
+
+				int last=offsets.Count()-1;
+				int right=offsets[last]+sizes[last];
+				if(max>right)
+				{
+					sizes[last]+=max-right;
 				}
 			}
 
@@ -452,6 +460,26 @@ GuiTableComposition
 				return cellCompositions[GetSiteIndex(rows, columns, _row, _column)];
 			}
 
+			GuiCellOption GuiTableComposition::GetRowOption(int _row)
+			{
+				return rowOptions[_row];
+			}
+
+			void GuiTableComposition::SetRowOption(int _row, GuiCellOption option)
+			{
+				rowOptions[_row]=option;
+			}
+
+			GuiCellOption GuiTableComposition::GetColumnOption(int _column)
+			{
+				return columnOptions[_column];
+			}
+
+			void GuiTableComposition::SetColumnOption(int _column, GuiCellOption option)
+			{
+				columnOptions[_column]=option;
+			}
+
 			int GuiTableComposition::GetCellPadding()
 			{
 				return cellPadding;
@@ -465,7 +493,7 @@ GuiTableComposition
 
 			Rect GuiTableComposition::GetCellArea()
 			{
-				Rect bounds=GetBounds();
+				Rect bounds(Point(0, 0), GetBounds().GetSize());
 				bounds.x1+=margin.left+internalMargin.left+cellPadding;
 				bounds.y1+=margin.top+internalMargin.top+cellPadding;
 				bounds.x2-=margin.right+internalMargin.right+cellPadding;
@@ -517,7 +545,7 @@ GuiTableComposition
 
 				rowOffsets.Resize(rows);
 				rowSizes.Resize(rows);
-				columnSizes.Resize(columns);
+				columnOffsets.Resize(columns);
 				columnSizes.Resize(columns);
 
 				UpdateCellBoundsInternal(
@@ -544,17 +572,17 @@ GuiTableComposition
 					);
 
 				Rect area=GetCellArea();
-				UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Width(), rowOptions);
-				UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Height(), columnOptions);
-				UpdateCellBoundsOffsets(rowOffsets, rowSizes, area.Left());
-				UpdateCellBoundsOffsets(columnOffsets, columnSizes, area.Top());
+				UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Height(), rowOptions);
+				UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Width(), columnOptions);
+				UpdateCellBoundsOffsets(rowOffsets, rowSizes, area.Top(), area.Bottom());
+				UpdateCellBoundsOffsets(columnOffsets, columnSizes, area.Left(), area.Right());
 
 				for(int i=0;i<rows;i++)
 				{
 					for(int j=0;j<columns;j++)
 					{
 						int index=GetSiteIndex(rows, columns, i, j);
-						cellBounds[index]=Rect(Point(rowOffsets[i], columnOffsets[j]), Size(rowSizes[i], columnSizes[j]));
+						cellBounds[index]=Rect(Point(columnOffsets[j], rowOffsets[i]), Size(columnSizes[j], rowSizes[i]));
 					}
 				}
 			}
@@ -565,11 +593,14 @@ GuiCellComposition
 
 			void GuiCellComposition::ClearSitedCells(GuiTableComposition* table)
 			{
-				for(int r=0;r<rowSpan;r++)
+				if(row!=-1 && column!=-1)
 				{
-					for(int c=0;c<columnSpan;c++)
+					for(int r=0;r<rowSpan;r++)
 					{
-						table->SetSitedCell(row+r, column+c, 0);
+						for(int c=0;c<columnSpan;c++)
+						{
+							table->SetSitedCell(row+r, column+c, 0);
+						}
 					}
 				}
 			}
@@ -671,6 +702,7 @@ GuiCellComposition
 				,columnSpan(1)
 				,tableParent(0)
 			{
+				SetMinSizeLimited(true);
 			}
 
 			GuiCellComposition::~GuiCellComposition()
