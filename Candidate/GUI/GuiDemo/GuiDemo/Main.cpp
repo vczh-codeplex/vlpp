@@ -1,4 +1,5 @@
 #include "..\..\GUI\GraphicsElement\GuiGraphicsElement.h"
+#include "..\..\GUI\GraphicsElement\GuiGraphicsComposition.h"
 
 using namespace vl;
 using namespace vl::presentation;
@@ -25,40 +26,38 @@ void GuiMain()
 		));
 
 	{
-		GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
-		background->SetColor(Color(255, 255, 255));
-
-		GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
-		border->SetColor(Color(255, 0, 0));
-
-		GuiSolidLabelElement* label=GuiSolidLabelElement::Create();
+		GuiWindowComposition windowComposition;
+		windowComposition.SetAttachedWindow(window);
 		{
-			FontProperties font;
-			font.size=24;
-			font.fontFamily=L"Lucida Console";
-			label->SetFont(font);
+			GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
+			background->SetColor(Color(255, 255, 255));
+			windowComposition.SetOwnedElement(background);
+
+			GuiBoundsComposition* labelComposition=new GuiBoundsComposition;
+			{
+				GuiSolidLabelElement* label=GuiSolidLabelElement::Create();
+				{
+					FontProperties font;
+					font.size=24;
+					font.fontFamily=L"Lucida Console";
+					label->SetFont(font);
+				}
+				label->SetText(L"Vczh GUI Demo");
+
+				windowComposition.AddChild(labelComposition);
+				labelComposition->SetOwnedElement(label);
+				labelComposition->SetBounds(Rect(Point(10, 10), label->GetRenderer()->GetMinSize()));
+			}
 		}
-		label->SetText(L"Vczh GUI Demo");
-
-		IGuiGraphicsRenderTarget* renderTarget=GetGuiGraphicsResourceManager()->GetRenderTarget(window);
-		background->GetRenderer()->SetRenderTarget(renderTarget);
-		border->GetRenderer()->SetRenderTarget(renderTarget);
-		label->GetRenderer()->SetRenderTarget(renderTarget);
-
-		renderTarget->StartRendering();
 		{
-			Rect clientBounds(Point(0, 0), window->GetClientSize());
-			background->GetRenderer()->Render(clientBounds);
-			border->GetRenderer()->Render(clientBounds);
-
-			Rect textBounds(Point(20, 20), label->GetRenderer()->GetMinSize());
-			label->GetRenderer()->Render(textBounds);
+			windowComposition.GetRenderTarget()->StartRendering();
+			windowComposition.Render(Size());
+			windowComposition.GetRenderTarget()->StopRendering();
 		}
-		renderTarget->StopRendering();
 
-		delete background;
-		delete border;
-		delete label;
+		//GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
+		//border->SetColor(Color(255, 0, 0));
+
 	}
 
 	GetCurrentController()->Run(window);

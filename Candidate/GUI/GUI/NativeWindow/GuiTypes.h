@@ -312,10 +312,10 @@ Margin
 
 		struct Margin
 		{
-			int		left, top, right, bottom;		//-1 == no limitation
+			int		left, top, right, bottom;
 
 			Margin()
-				:left(-1), top(-1), right(-1), bottom(-1)
+				:left(0), top(0), right(0), bottom(0)
 			{
 			}
 
