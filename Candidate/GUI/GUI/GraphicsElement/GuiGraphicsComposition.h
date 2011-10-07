@@ -167,7 +167,8 @@ Table Compositions
 				void								UpdateCellBoundsOffsets(
 														collections::Array<int>& offsets,
 														collections::Array<int>& sizes,
-														int start
+														int start,
+														int max
 														);
 			public:
 				GuiTableComposition();
@@ -177,6 +178,11 @@ Table Compositions
 				int									GetColumns();
 				bool								SetRowsAndColumns(int _rows, int _columns);
 				GuiCellComposition*					GetSitedCell(int _row, int _column);
+
+				GuiCellOption						GetRowOption(int _row);
+				void								SetRowOption(int _row, GuiCellOption option);
+				GuiCellOption						GetColumnOption(int _column);
+				void								SetColumnOption(int _column, GuiCellOption option);
 
 				int									GetCellPadding();
 				void								SetCellPadding(int value);
