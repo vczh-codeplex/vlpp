@@ -171,7 +171,7 @@ void GuiMain()
 					table->SetOwnedElement(element);
 				}
 				table->SetRowsAndColumns(3, 3);
-				table->SetCellPadding(5);
+				table->SetCellPadding(2);
 				table->SetInternalMargin(Margin(1, 1, 1, 1));
 
 				{
