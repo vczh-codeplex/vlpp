@@ -220,6 +220,8 @@ Elements
 				Color					color;
 				FontProperties			fontProperties;
 				WString					text;
+				Alignment::Type			hAlignment;
+				Alignment::Type			vAlignment;
 			public:
 				GuiSolidLabelElement();
 				~GuiSolidLabelElement();
@@ -232,6 +234,10 @@ Elements
 
 				const WString&			GetText();
 				void					SetText(const WString& value);
+
+				Alignment::Type			GetHorizontalAlignment();
+				Alignment::Type			GetVerticalAlignment();
+				void					SetAlignments(Alignment::Type horizontal, Alignment::Type vertical);
 			};
 		}
 	}

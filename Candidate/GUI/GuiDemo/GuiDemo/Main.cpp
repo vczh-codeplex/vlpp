@@ -41,7 +41,7 @@ GuiBoundsComposition* CreateLabel(GuiGraphicsComposition* parent, Color color, P
 	return composition;
 }
 
-void CreateLabel(GuiCellComposition* cell, Color color, const WString& text)
+GuiBoundsComposition* CreateLabel(GuiCellComposition* cell, Color color, const WString& text)
 {
 	GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
 	{
@@ -57,6 +57,15 @@ void CreateLabel(GuiCellComposition* cell, Color color, const WString& text)
 	composition->SetOwnedElement(element);
 	composition->SetMargin(Margin(10, 10, 10, 10));
 	composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+	return composition;
+}
+
+GuiBoundsComposition* CreateCenteredLabel(GuiCellComposition* cell, Color color, const WString& text)
+{
+	GuiBoundsComposition* composition=CreateLabel(cell, color, text);
+	composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+	composition->GetOwnedElement().Cast<GuiSolidLabelElement>()->SetAlignments(Alignment::Center, Alignment::Center);
+	return composition;
 }
 
 void GuiMain()
@@ -95,6 +104,7 @@ void GuiMain()
 				GuiBoundsComposition* border2=CreateBorder(border1, Color(0, 255, 0), Rect(Point(0, 20), Size(100, 60)), false);
 				GuiBoundsComposition* border3=CreateBorder(border1, Color(0, 0, 255), Rect(Point(-1, 21), Size(102, 58)), false);
 			}
+			Rect tableBounds;
 			{
 				GuiTableComposition* table=new GuiTableComposition;
 				table->SetBounds(Rect(Point(200, 50), Size(550, 500)));
@@ -104,13 +114,14 @@ void GuiMain()
 					element->SetColor(Color(0, 0, 255));
 					table->SetOwnedElement(element);
 				}
+				table->SetRowsAndColumns(5, 3);
+				table->SetCellPadding(5);
+				table->SetInternalMargin(Margin(1, 1, 1, 1));
+				table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 
 				const wchar_t* rows[]={L"C++", L"C#", L"VB.NET", L"F#"};
 				const wchar_t* cols[]={L"Name", L"Properties"};
 				const wchar_t* contents[]={L"C Plus Plus", L"C Sharp", L"VB Dot NET", L"F Sharp"};
-				table->SetRowsAndColumns(5, 3);
-				table->SetCellPadding(5);
-				table->SetInternalMargin(Margin(1, 1, 1, 1));
 				for(int i=0;i<table->GetRows();i++)
 				{
 					GuiCellOption option;
@@ -146,6 +157,65 @@ void GuiMain()
 				for(int j=1;j<table->GetColumns();j++)
 				{
 					CreateLabel(table->GetSitedCell(0, j), Color(0, 0, 0), cols[j-1]);
+				}
+				table->UpdateCellBounds();
+				tableBounds=table->GetBounds();
+			}
+			{
+				GuiTableComposition* table=new GuiTableComposition;
+				table->SetBounds(Rect(Point(200, 20+tableBounds.Bottom()), Size(550, 250)));
+				redBorder->AddChild(table);
+				{
+					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					element->SetColor(Color(0, 128, 255));
+					table->SetOwnedElement(element);
+				}
+				table->SetRowsAndColumns(3, 3);
+				table->SetCellPadding(5);
+				table->SetInternalMargin(Margin(1, 1, 1, 1));
+
+				{
+					table->SetRowOption(0, GuiCellOption::MinSizeOption());
+					table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
+					table->SetRowOption(2, GuiCellOption::MinSizeOption());
+
+					table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+				}
+
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 0, 1, 3);
+					CreateLabel(cell, Color(0, 0, 0), L"This is the title");
+				}
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(1, 0, 1, 3);
+					cell->SetMinSizeLimitation(GuiGraphicsComposition::NoLimit);
+					{
+						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+						element->SetColor(Color(0, 128, 255));
+						cell->SetOwnedElement(element);
+						cell->SetInternalMargin(Margin(1, 1, 1, 1));
+					}
+					CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
+				}
+				const wchar_t* buttons[]={L"OK", L"Cancel"};
+				for(int i=0;i<2;i++)
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(2, i+1, 1, 1);
+					{
+						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+						element->SetColor(Color(255, 128, 128));
+						cell->SetOwnedElement(element);
+						cell->SetInternalMargin(Margin(1, 1, 1, 1));
+					}
+					CreateLabel(cell, Color(0, 0, 0),buttons[i]);
 				}
 				table->UpdateCellBounds();
 			}

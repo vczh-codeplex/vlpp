@@ -144,6 +144,8 @@ GuiSolidLabelElement
 
 			GuiSolidLabelElement::GuiSolidLabelElement()
 				:color(0, 0, 0)
+				,hAlignment(Alignment::Left)
+				,vAlignment(Alignment::Top)
 			{
 				fontProperties.fontFamily=L"Lucida Console";
 				fontProperties.size=12;
@@ -193,6 +195,23 @@ GuiSolidLabelElement
 					text=value;
 					renderer->OnElementStateChanged();
 				}
+			}
+
+			Alignment::Type GuiSolidLabelElement::GetHorizontalAlignment()
+			{
+				return hAlignment;
+			}
+
+			Alignment::Type GuiSolidLabelElement::GetVerticalAlignment()
+			{
+				return vAlignment;
+			}
+
+			void GuiSolidLabelElement::SetAlignments(Alignment::Type horizontal, Alignment::Type vertical)
+			{
+				hAlignment=horizontal;
+				vAlignment=vertical;
+				renderer->OnElementStateChanged();
 			}
 		}
 	}

@@ -120,7 +120,33 @@ GuiSolidLabelElementRenderer
 				{
 					renderTarget->GetDC()->SetFont(font);
 					renderTarget->GetDC()->SetTextColor(RGB(color.r, color.g, color.b));
-					renderTarget->GetDC()->DrawString(bounds.Left(), bounds.Top(), element->GetText());
+					int x=0;
+					int y=0;
+					switch(element->GetHorizontalAlignment())
+					{
+					case Alignment::Left:
+						x=bounds.Left();
+						break;
+					case Alignment::Center:
+						x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+						break;
+					case Alignment::Right:
+						x=bounds.Right()-minSize.x;
+						break;
+					}
+					switch(element->GetVerticalAlignment())
+					{
+					case Alignment::Top:
+						y=bounds.Top();
+						break;
+					case Alignment::Center:
+						y=bounds.Top()+(bounds.Height()-minSize.y)/2;
+						break;
+					case Alignment::Bottom:
+						y=bounds.Bottom()-minSize.y;
+						break;
+					}
+					renderTarget->GetDC()->DrawString(x, y, element->GetText());
 				}
 			}
 
