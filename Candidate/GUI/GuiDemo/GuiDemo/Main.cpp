@@ -130,7 +130,7 @@ void CreateButton(
 		}
 		table->UpdateCellBounds();
 	}
-	CreateLabel(cell, textColor, text);
+	CreateCenteredLabel(cell, textColor, text);
 }
 
 void GuiMain()
@@ -277,6 +277,7 @@ void GuiMain()
 					GuiCellComposition* cell=new GuiCellComposition;
 					table->AddChild(cell);
 					cell->SetSite(2, i+1, 1, 1);
+					cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
 				}
 				CreateButton(
 					table->GetSitedCell(2, 1),
