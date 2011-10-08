@@ -1,4 +1,5 @@
 #include "GuiGraphicsComposition.h"
+#include "..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -52,11 +53,6 @@ GuiGraphicsComposition
 				if(minSize.x<w) minSize.x=w;
 				if(minSize.y<h) minSize.y=h;
 				return Rect(expectedBounds.LeftTop(), minSize);
-			}
-
-			Rect GuiGraphicsComposition::GetMinNecessaryBounds()
-			{
-				return GetBounds();
 			}
 
 			GuiGraphicsComposition::GuiGraphicsComposition()
@@ -256,6 +252,11 @@ GuiGraphicsComposition
 				return bounds;
 			}
 
+			Rect GuiGraphicsComposition::GetMinNecessaryBounds()
+			{
+				return GetBoundsInternal(Rect(), GetMinSizeLimitation());
+			}
+
 /***********************************************************************
 GuiWindowComposition
 ***********************************************************************/
@@ -301,9 +302,23 @@ GuiWindowComposition
 GuiBoundsComposition
 ***********************************************************************/
 
+			Rect GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds()
+			{
+				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
+			}
+
+			GuiBoundsComposition::GuiBoundsComposition()
+			{
+				ClearAlignmentToParent();
+			}
+
+			GuiBoundsComposition::~GuiBoundsComposition()
+			{
+			}
+
 			Rect GuiBoundsComposition::GetMinNecessaryBounds()
 			{
-				Rect result=GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
+				Rect result=GetUnalignedBoundsForMinNecessaryBounds();
 				if(GetParent() && IsAlignedToParent())
 				{
 					if(alignmentToParent.left>=0)
@@ -328,15 +343,6 @@ GuiBoundsComposition
 					}
 				}
 				return result;
-			}
-
-			GuiBoundsComposition::GuiBoundsComposition()
-			{
-				ClearAlignmentToParent();
-			}
-
-			GuiBoundsComposition::~GuiBoundsComposition()
-			{
 			}
 
 			Rect GuiBoundsComposition::GetBounds()
@@ -501,6 +507,14 @@ GuiTableComposition
 				return max-right;
 			}
 
+			Rect GuiTableComposition::GetUnalignedBoundsForMinNecessaryBounds()
+			{
+				Rect bounds=GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds();
+				int w=margin.left+margin.right+internalMargin.left+internalMargin.right+tableContentMinSize.x;
+				int h=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom+tableContentMinSize.y;
+				return Rect(bounds.LeftTop(), Size(w, h));
+			}
+
 			GuiTableComposition::GuiTableComposition()
 				:rows(0)
 				,columns(0)
@@ -637,50 +651,97 @@ GuiTableComposition
 			void GuiTableComposition::UpdateCellBounds()
 			{
 				Array<int> rowOffsets, columnOffsets, rowSizes, columnSizes;
-				int rowTotal=(rows-1)*cellPadding;
-				int columnTotal=(columns-1)*cellPadding;
-
 				rowOffsets.Resize(rows);
 				rowSizes.Resize(rows);
 				columnOffsets.Resize(columns);
 				columnSizes.Resize(columns);
-
-				UpdateCellBoundsInternal(
-					rowSizes,
-					rowTotal,
-					rowOptions,
-					&GuiTableComposition::rows,
-					&GuiTableComposition::columns,
-					&Y,
-					&RS,
-					&First,
-					&Second
-					);
-				UpdateCellBoundsInternal(
-					columnSizes,
-					columnTotal,
-					columnOptions,
-					&GuiTableComposition::columns,
-					&GuiTableComposition::rows,
-					&X,
-					&CS,
-					&Second,
-					&First
-					);
-
-				Rect area=GetCellArea();
-				UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Height(), rowOptions);
-				UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Width(), columnOptions);
-				rowExtending=UpdateCellBoundsOffsets(rowOffsets, rowSizes, cellPadding, cellPadding+area.Height());
-				columnExtending=UpdateCellBoundsOffsets(columnOffsets, columnSizes, cellPadding, cellPadding+area.Width());
-
-				for(int i=0;i<rows;i++)
 				{
-					for(int j=0;j<columns;j++)
+					int rowTotal=(rows-1)*cellPadding;
+					int columnTotal=(columns-1)*cellPadding;
+
+					UpdateCellBoundsInternal(
+						rowSizes,
+						rowTotal,
+						rowOptions,
+						&GuiTableComposition::rows,
+						&GuiTableComposition::columns,
+						&Y,
+						&RS,
+						&First,
+						&Second
+						);
+					UpdateCellBoundsInternal(
+						columnSizes,
+						columnTotal,
+						columnOptions,
+						&GuiTableComposition::columns,
+						&GuiTableComposition::rows,
+						&X,
+						&CS,
+						&Second,
+						&First
+						);
+
+					Rect area=GetCellArea();
+					UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Height(), rowOptions);
+					UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Width(), columnOptions);
+					rowExtending=UpdateCellBoundsOffsets(rowOffsets, rowSizes, cellPadding, cellPadding+area.Height());
+					columnExtending=UpdateCellBoundsOffsets(columnOffsets, columnSizes, cellPadding, cellPadding+area.Width());
+
+					for(int i=0;i<rows;i++)
 					{
-						int index=GetSiteIndex(rows, columns, i, j);
-						cellBounds[index]=Rect(Point(columnOffsets[j], rowOffsets[i]), Size(columnSizes[j], rowSizes[i]));
+						for(int j=0;j<columns;j++)
+						{
+							int index=GetSiteIndex(rows, columns, i, j);
+							cellBounds[index]=Rect(Point(columnOffsets[j], rowOffsets[i]), Size(columnSizes[j], rowSizes[i]));
+						}
 					}
+				}
+				{
+					int rowTotal=(rows+1)*cellPadding;
+					int columnTotal=(columns+1)*cellPadding;
+
+					Array<GuiCellOption> rowOptionsMin, columnOptionsMin;
+					CopyFrom(rowOptionsMin.Wrap(), rowOptions.Wrap());
+					CopyFrom(columnOptionsMin.Wrap(), columnOptions.Wrap());
+					for(int i=0;i<rowOptionsMin.Count();i++)
+					{
+						if(rowOptionsMin[i].composeType==GuiCellOption::Percentage)
+						{
+							rowOptionsMin[i]=GuiCellOption::MinSizeOption();
+						}
+					}
+					for(int i=0;i<columnOptionsMin.Count();i++)
+					{
+						if(columnOptionsMin[i].composeType==GuiCellOption::Percentage)
+						{
+							columnOptionsMin[i]=GuiCellOption::MinSizeOption();
+						}
+					}
+
+					UpdateCellBoundsInternal(
+						rowSizes,
+						rowTotal,
+						rowOptionsMin,
+						&GuiTableComposition::rows,
+						&GuiTableComposition::columns,
+						&Y,
+						&RS,
+						&First,
+						&Second
+						);
+					UpdateCellBoundsInternal(
+						columnSizes,
+						columnTotal,
+						columnOptionsMin,
+						&GuiTableComposition::columns,
+						&GuiTableComposition::rows,
+						&X,
+						&CS,
+						&Second,
+						&First
+						);
+					tableContentMinSize=Size(columnTotal, rowTotal);
 				}
 			}
 
