@@ -46,7 +46,6 @@ Basic Construction
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
-				virtual Rect						GetMinNecessaryBounds();
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -74,6 +73,7 @@ Basic Construction
 				virtual Margin						GetInternalMargin();
 				virtual void						SetInternalMargin(Margin value);
 				virtual Rect						GetClientArea();
+				virtual Rect						GetMinNecessaryBounds();
 				virtual Rect						GetBounds()=0;
 				virtual void						SetBounds(Rect value)=0;
 			};
@@ -104,11 +104,12 @@ Basic Compositions
 				Rect								compositionBounds;
 				Margin								alignmentToParent;
 				
-				Rect								GetMinNecessaryBounds();
+				virtual Rect						GetUnalignedBoundsForMinNecessaryBounds();
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
 
+				Rect								GetMinNecessaryBounds();
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 
@@ -186,6 +187,7 @@ Table Compositions
 				collections::Array<GuiCellComposition*>		cellCompositions;
 				collections::Array<Rect>					cellBounds;
 				Rect										previousGetBoundsResult;
+				Size										tableContentMinSize;
 
 				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
 				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
@@ -213,6 +215,8 @@ Table Compositions
 														int start,
 														int max
 														);
+
+				Rect								GetUnalignedBoundsForMinNecessaryBounds();
 			public:
 				GuiTableComposition();
 				~GuiTableComposition();
@@ -231,7 +235,7 @@ Table Compositions
 				void								SetCellPadding(int value);
 				Rect								GetCellArea();
 				void								UpdateCellBounds();
-
+				
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 			};
