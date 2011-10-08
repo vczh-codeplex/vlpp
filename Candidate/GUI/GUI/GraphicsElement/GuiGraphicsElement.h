@@ -200,6 +200,23 @@ Elements
 				void					SetColor(Color value);
 			};
 
+			class GuiRoundBorderElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiRoundBorderElement, L"RoundBorder")
+			protected:
+				Color					color;
+				int						radius;
+			public:
+				GuiRoundBorderElement();
+				~GuiRoundBorderElement();
+
+				Color					GetColor();
+				void					SetColor(Color value);
+
+				int						GetRadius();
+				void					SetRadius(int value);
+			};
+
 			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
@@ -211,6 +228,30 @@ Elements
 
 				Color					GetColor();
 				void					SetColor(Color value);
+			};
+
+			class GuiGradientBackgroundElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiGradientBackgroundElement, L"GradientBackground")
+			public:
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				Color					color1, color2;
+				Direction				direction;
+			public:
+				GuiGradientBackgroundElement();
+				~GuiGradientBackgroundElement();
+
+				Color					GetColor1();
+				Color					GetColor2();
+				void					SetColors(Color value1, Color value2);
+
+				Direction				GetDirection();
+				void					SetDirection(Direction value);
 			};
 
 			class GuiSolidLabelElement : public Object, public IGuiGraphicsElement

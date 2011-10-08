@@ -38,6 +38,21 @@ Renderers
 				void					OnElementStateChanged();
 			};
 
+			class GuiRoundBorderElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				Color					oldColor;
+				Ptr<windows::WinPen>	pen;
+				Ptr<windows::WinBrush>	brush;
+
+				void					InitializeInternal();
+				void					RenderTargetChangedInternal();
+			public:
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
+
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)
@@ -45,6 +60,17 @@ Renderers
 				Color					oldColor;
 				Ptr<windows::WinBrush>	brush;
 
+				void					InitializeInternal();
+				void					RenderTargetChangedInternal();
+			public:
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
+
+			class GuiGradientBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IWindowsGDIRenderTarget)
+			protected:
 				void					InitializeInternal();
 				void					RenderTargetChangedInternal();
 			public:

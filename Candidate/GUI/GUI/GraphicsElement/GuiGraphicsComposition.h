@@ -100,7 +100,7 @@ Basic Compositions
 			class GuiBoundsComposition : public GuiGraphicsComposition
 			{
 			protected:
-				Rect								bounds;
+				Rect								compositionBounds;
 				Margin								alignmentToParent;
 			public:
 				GuiBoundsComposition();
@@ -112,6 +112,7 @@ Basic Compositions
 				void								ClearAlignmentToParent();
 				Margin								GetAlignmentToParent();
 				void								SetAlignmentToParent(Margin value);
+				bool								IsAlignedToParent();
 			};
 
 /***********************************************************************
@@ -168,7 +169,7 @@ Table Compositions
 				}
 			};
 
-			class GuiTableComposition : public GuiGraphicsComposition
+			class GuiTableComposition : public GuiBoundsComposition
 			{
 				friend class GuiCellComposition;
 			protected:
@@ -181,7 +182,7 @@ Table Compositions
 				collections::Array<GuiCellOption>			columnOptions;
 				collections::Array<GuiCellComposition*>		cellCompositions;
 				collections::Array<Rect>					cellBounds;
-				Rect										tableBounds;
+				Rect										previousGetBoundsResult;
 
 				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
 				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
@@ -229,7 +230,6 @@ Table Compositions
 				void								UpdateCellBounds();
 
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
 			};
 
 			class GuiCellComposition : public GuiGraphicsComposition

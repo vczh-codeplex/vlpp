@@ -112,6 +112,48 @@ GuiSolidBorderElement
 			}
 
 /***********************************************************************
+GuiRoundBorderElement
+***********************************************************************/
+
+			GuiRoundBorderElement::GuiRoundBorderElement()
+				:color(0, 0, 0)
+				,radius(10)
+			{
+			}
+
+			GuiRoundBorderElement::~GuiRoundBorderElement()
+			{
+			}
+
+			Color GuiRoundBorderElement::GetColor()
+			{
+				return color;
+			}
+
+			void GuiRoundBorderElement::SetColor(Color value)
+			{
+				if(color!=value)
+				{
+					color=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			int GuiRoundBorderElement::GetRadius()
+			{
+				return radius;
+			}
+
+			void GuiRoundBorderElement::SetRadius(int value)
+			{
+				if(radius!=value)
+				{
+					radius=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElement
 ***********************************************************************/
 
@@ -134,6 +176,53 @@ GuiSolidBackgroundElement
 				if(color!=value)
 				{
 					color=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
+GuiGradientBackgroundElement
+***********************************************************************/
+
+			GuiGradientBackgroundElement::GuiGradientBackgroundElement()
+				:direction(Horizontal)
+			{
+			}
+
+			GuiGradientBackgroundElement::~GuiGradientBackgroundElement()
+			{
+			}
+
+			Color GuiGradientBackgroundElement::GetColor1()
+			{
+				return color1;
+			}
+
+			Color GuiGradientBackgroundElement::GetColor2()
+			{
+				return color2;
+			}
+
+			void GuiGradientBackgroundElement::SetColors(Color value1, Color value2)
+			{
+				if(color1!=value1 || color2!=value2)
+				{
+					color1=value1;
+					color2=value2;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			GuiGradientBackgroundElement::Direction GuiGradientBackgroundElement::GetDirection()
+			{
+				return direction;
+			}
+
+			void GuiGradientBackgroundElement::SetDirection(Direction value)
+			{
+				if(direction!=value)
+				{
+					direction=value;
 					renderer->OnElementStateChanged();
 				}
 			}

@@ -48,6 +48,45 @@ GuiSolidBorderElementRenderer
 			}
 
 /***********************************************************************
+GuiRoundBorderElementRenderer
+***********************************************************************/
+
+			void GuiRoundBorderElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldColor=element->GetColor();
+				pen=resourceManager->CreateGdiPen(oldColor);
+				brush=resourceManager->CreateGdiBrush(Color(0, 0, 0, 0));
+			}
+
+			void GuiRoundBorderElementRenderer::RenderTargetChangedInternal()
+			{
+			}
+
+			void GuiRoundBorderElementRenderer::Render(Rect bounds)
+			{
+				if(oldColor.a>0)
+				{
+					int ellipse=element->GetRadius()*2;
+					renderTarget->GetDC()->SetBrush(brush);
+					renderTarget->GetDC()->SetPen(pen);
+					renderTarget->GetDC()->RoundRect(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1, ellipse, ellipse);
+				}
+			}
+
+			void GuiRoundBorderElementRenderer::OnElementStateChanged()
+			{
+				Color color=element->GetColor();
+				if(oldColor!=color)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor);
+					oldColor=color;
+					pen=resourceManager->CreateGdiPen(oldColor);
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
 
@@ -81,6 +120,96 @@ GuiSolidBackgroundElementRenderer
 					oldColor=color;
 					brush=resourceManager->CreateGdiBrush(oldColor);
 				}
+			}
+
+/***********************************************************************
+GuiGradientBackgroundElementRenderer
+***********************************************************************/
+
+			void GuiGradientBackgroundElementRenderer::InitializeInternal()
+			{
+			}
+
+			void GuiGradientBackgroundElementRenderer::RenderTargetChangedInternal()
+			{
+			}
+
+			void GuiGradientBackgroundElementRenderer::Render(Rect bounds)
+			{
+				Color color1=element->GetColor1();
+				Color color2=element->GetColor2();
+				if(color1.a>0 || color2.a>0)
+				{
+					TRIVERTEX vertices[4];
+					GRADIENT_TRIANGLE triangles[2];
+
+					vertices[0].x=bounds.x1;
+					vertices[0].y=bounds.y1;
+					vertices[1].x=bounds.x1;
+					vertices[1].y=bounds.y2;
+					vertices[2].x=bounds.x2;
+					vertices[2].y=bounds.y2;
+					vertices[3].x=bounds.x2;
+					vertices[3].y=bounds.y1;
+
+					triangles[0].Vertex1=0;
+					triangles[0].Vertex2=1;
+					triangles[0].Vertex3=2;
+					triangles[1].Vertex1=0;
+					triangles[1].Vertex2=2;
+					triangles[1].Vertex3=3;
+
+					if(element->GetDirection()==GuiGradientBackgroundElement::Horizontal)
+					{
+						vertices[0].Red=color1.r<<8;
+						vertices[0].Green=color1.g<<8;
+						vertices[0].Blue=color1.b<<8;
+						vertices[0].Alpha=0xFF00;
+						
+						vertices[1].Red=color1.r<<8;
+						vertices[1].Green=color1.g<<8;
+						vertices[1].Blue=color1.b<<8;
+						vertices[1].Alpha=0xFF00;
+						
+						vertices[2].Red=color2.r<<8;
+						vertices[2].Green=color2.g<<8;
+						vertices[2].Blue=color2.b<<8;
+						vertices[2].Alpha=0xFF00;
+						
+						vertices[3].Red=color2.r<<8;
+						vertices[3].Green=color2.g<<8;
+						vertices[3].Blue=color2.b<<8;
+						vertices[3].Alpha=0xFF00;
+					}
+					else
+					{
+						vertices[0].Red=color1.r<<8;
+						vertices[0].Green=color1.g<<8;
+						vertices[0].Blue=color1.b<<8;
+						vertices[0].Alpha=0xFF00;
+						
+						vertices[1].Red=color2.r<<8;
+						vertices[1].Green=color2.g<<8;
+						vertices[1].Blue=color2.b<<8;
+						vertices[1].Alpha=0xFF00;
+						
+						vertices[2].Red=color2.r<<8;
+						vertices[2].Green=color2.g<<8;
+						vertices[2].Blue=color2.b<<8;
+						vertices[2].Alpha=0xFF00;
+						
+						vertices[3].Red=color1.r<<8;
+						vertices[3].Green=color1.g<<8;
+						vertices[3].Blue=color1.b<<8;
+						vertices[3].Alpha=0xFF00;
+					}
+
+					renderTarget->GetDC()->GradientTriangle(vertices, 6, triangles, 2);
+				}
+			}
+
+			void GuiGradientBackgroundElementRenderer::OnElementStateChanged()
+			{
 			}
 
 /***********************************************************************
