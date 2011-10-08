@@ -45,7 +45,8 @@ Basic Construction
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
-				Rect								GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
+				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
+				virtual Rect						GetMinNecessaryBounds();
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -102,6 +103,8 @@ Basic Compositions
 			protected:
 				Rect								compositionBounds;
 				Margin								alignmentToParent;
+				
+				Rect								GetMinNecessaryBounds();
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();

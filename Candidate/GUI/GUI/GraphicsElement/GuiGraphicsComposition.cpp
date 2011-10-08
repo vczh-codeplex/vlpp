@@ -33,27 +33,30 @@ GuiGraphicsComposition
 					{
 						minSize=ownedElement->GetRenderer()->GetMinSize();
 					}
-					minSize.x+=margin.left+margin.right;
-					minSize.y+=margin.top+margin.bottom;
-				}
-				{
-					int w=expectedBounds.Width();
-					int h=expectedBounds.Height();
-					if(minSize.x<w) minSize.x=w;
-					if(minSize.y<h) minSize.y=h;
 				}
 				if(limitation==GuiGraphicsComposition::LimitToElementAndChildren)
 				{
 					int childCount=Children().Count();
 					for(int i=0;i<childCount;i++)
 					{
-						Rect childBounds=Children()[i]->GetBounds();
+						Rect childBounds=Children()[i]->GetMinNecessaryBounds();
 						if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
 						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
 					}
 				}
-
+				
+				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
+				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
+				int w=expectedBounds.Width();
+				int h=expectedBounds.Height();
+				if(minSize.x<w) minSize.x=w;
+				if(minSize.y<h) minSize.y=h;
 				return Rect(expectedBounds.LeftTop(), minSize);
+			}
+
+			Rect GuiGraphicsComposition::GetMinNecessaryBounds()
+			{
+				return GetBounds();
 			}
 
 			GuiGraphicsComposition::GuiGraphicsComposition()
@@ -298,6 +301,35 @@ GuiWindowComposition
 GuiBoundsComposition
 ***********************************************************************/
 
+			Rect GuiBoundsComposition::GetMinNecessaryBounds()
+			{
+				Rect result=GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
+				if(GetParent() && IsAlignedToParent())
+				{
+					if(alignmentToParent.left>=0)
+					{
+						int offset=alignmentToParent.left-result.x1;
+						result.x1+=offset;
+						result.x2+=offset;
+					}
+					if(alignmentToParent.top>=0)
+					{
+						int offset=alignmentToParent.top-result.y1;
+						result.y1+=offset;
+						result.y2+=offset;
+					}
+					if(alignmentToParent.right>=0)
+					{
+						result.x2+=alignmentToParent.right;
+					}
+					if(alignmentToParent.bottom>=0)
+					{
+						result.y2+=alignmentToParent.bottom;
+					}
+				}
+				return result;
+			}
+
 			GuiBoundsComposition::GuiBoundsComposition()
 			{
 				ClearAlignmentToParent();
@@ -310,7 +342,7 @@ GuiBoundsComposition
 			Rect GuiBoundsComposition::GetBounds()
 			{
 				Rect result=GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
-				if(GetParent())
+				if(GetParent() && IsAlignedToParent())
 				{
 					Size clientSize=GetParent()->GetClientArea().GetSize();
 					if(alignmentToParent.left>=0)
