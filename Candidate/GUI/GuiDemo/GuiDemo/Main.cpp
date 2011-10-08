@@ -56,6 +56,7 @@ void CreateLabel(GuiCellComposition* cell, Color color, const WString& text)
 	cell->AddChild(composition);
 	composition->SetOwnedElement(element);
 	composition->SetMargin(Margin(10, 10, 10, 10));
+	composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 }
 
 void GuiMain()
@@ -67,7 +68,7 @@ void GuiMain()
 	window->SetTitle(L"Vczh GUI Demo");
 	window->SetClientSize(Size(800, 600));
 
-	INativeScreen* screen=GetCurrentController()->GetScreen(0);
+	INativeScreen* screen=GetCurrentController()->GetScreen(window);
 	Rect windowBounds=window->GetBounds();
 	Rect screenBounds=screen->GetClientBounds();
 	window->SetBounds(Rect(
@@ -109,6 +110,7 @@ void GuiMain()
 				const wchar_t* contents[]={L"C Plus Plus", L"C Sharp", L"VB Dot NET", L"F Sharp"};
 				table->SetRowsAndColumns(5, 3);
 				table->SetCellPadding(5);
+				table->SetInternalMargin(Margin(1, 1, 1, 1));
 				for(int i=0;i<table->GetRows();i++)
 				{
 					GuiCellOption option;
@@ -132,6 +134,7 @@ void GuiMain()
 							GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
 							element->SetColor(Color(0, 0, 255));
 							cell->SetOwnedElement(element);
+							cell->SetInternalMargin(Margin(1, 1, 1, 1));
 						}
 					}
 				}
