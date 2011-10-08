@@ -230,6 +230,7 @@ Table Compositions
 				void								UpdateCellBounds();
 
 				Rect								GetBounds();
+				void								SetBounds(Rect value);
 			};
 
 			class GuiCellComposition : public GuiGraphicsComposition

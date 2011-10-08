@@ -61,6 +61,9 @@
     <Filter Include="GUI\GraphicsElement\WindowsGDI">
       <UniqueIdentifier>{48092dd2-c4e1-4866-96ca-b3642ff725b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Entity">
+      <UniqueIdentifier>{56516ae3-94a4-44e1-9d21-4ddbc2740fb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -110,6 +113,15 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp">
       <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeXml.cpp">
+      <Filter>Library\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeJson.cpp">
+      <Filter>Library\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeQuery.cpp">
+      <Filter>Library\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +235,15 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h">
       <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeXml.h">
+      <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeJson.h">
+      <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeQuery.h">
+      <Filter>Library\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

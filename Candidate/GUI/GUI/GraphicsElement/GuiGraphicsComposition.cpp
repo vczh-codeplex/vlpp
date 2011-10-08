@@ -670,6 +670,12 @@ GuiTableComposition
 				}
 			}
 
+			void GuiTableComposition::SetBounds(Rect value)
+			{
+				GuiBoundsComposition::SetBounds(value);
+				GetBounds();
+			}
+
 /***********************************************************************
 GuiCellComposition
 ***********************************************************************/
