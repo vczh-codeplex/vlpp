@@ -24,28 +24,42 @@ GuiGraphicsComposition
 			{
 			}
 
-			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds)
+			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)
 			{
 				Size minSize;
-				if(ownedElement)
+				if(limitation!=GuiGraphicsComposition::NoLimit)
 				{
-					minSize=ownedElement->GetRenderer()->GetMinSize();
+					if(ownedElement)
+					{
+						minSize=ownedElement->GetRenderer()->GetMinSize();
+					}
+					minSize.x+=margin.left+margin.right;
+					minSize.y+=margin.top+margin.bottom;
 				}
-				minSize.x+=margin.left+margin.right;
-				minSize.y+=margin.top+margin.bottom;
+				{
+					int w=expectedBounds.Width();
+					int h=expectedBounds.Height();
+					if(minSize.x<w) minSize.x=w;
+					if(minSize.y<h) minSize.y=h;
+				}
+				if(limitation==GuiGraphicsComposition::LimitToElementAndChildren)
+				{
+					int childCount=Children().Count();
+					for(int i=0;i<childCount;i++)
+					{
+						Rect childBounds=Children()[i]->GetBounds();
+						if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
+						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
+					}
+				}
 
-				int w=expectedBounds.Width();
-				int h=expectedBounds.Height();
-				if(w<minSize.x) w=minSize.x;
-				if(h<minSize.y) h=minSize.y;
-
-				return Rect(expectedBounds.LeftTop(), Size(w, h));
+				return Rect(expectedBounds.LeftTop(), minSize);
 			}
 
 			GuiGraphicsComposition::GuiGraphicsComposition()
 				:parent(0)
 				,visible(true)
-				,minSizeLimitated(false)
+				,minSizeLimitation(NoLimit)
 				,renderTarget(0)
 			{
 			}
@@ -136,14 +150,14 @@ GuiGraphicsComposition
 				visible=value;
 			}
 
-			bool GuiGraphicsComposition::GetMinSizeLimited()
+			GuiGraphicsComposition::MinSizeLimitation GuiGraphicsComposition::GetMinSizeLimitation()
 			{
-				return minSizeLimitated;
+				return minSizeLimitation;
 			}
 
-			void GuiGraphicsComposition::SetMinSizeLimited(bool value)
+			void GuiGraphicsComposition::SetMinSizeLimitation(MinSizeLimitation value)
 			{
-				minSizeLimitated=value;
+				minSizeLimitation=value;
 			}
 
 			IGuiGraphicsRenderTarget* GuiGraphicsComposition::GetRenderTarget()
@@ -284,7 +298,7 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				return GetBoundsInternal(bounds);
+				return GetBoundsInternal(bounds, GetMinSizeLimitation());
 			}
 
 			void GuiBoundsComposition::SetBounds(Rect value)
@@ -574,8 +588,8 @@ GuiTableComposition
 				Rect area=GetCellArea();
 				UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Height(), rowOptions);
 				UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Width(), columnOptions);
-				UpdateCellBoundsOffsets(rowOffsets, rowSizes, area.Top(), area.Bottom());
-				UpdateCellBoundsOffsets(columnOffsets, columnSizes, area.Left(), area.Right());
+				UpdateCellBoundsOffsets(rowOffsets, rowSizes, cellPadding, cellPadding+area.Height());
+				UpdateCellBoundsOffsets(columnOffsets, columnSizes, cellPadding, cellPadding+area.Width());
 
 				for(int i=0;i<rows;i++)
 				{
@@ -677,22 +691,7 @@ GuiCellComposition
 
 			Size GuiCellComposition::GetMinSize()
 			{
-				if(GetMinSizeLimited())
-				{
-					Size size=GetBoundsInternal(bounds).GetSize();
-					int childCount=Children().Count();
-					for(int i=0;i<childCount;i++)
-					{
-						Rect childBounds=Children()[i]->GetBounds();
-						if(size.x<childBounds.x2) size.x=childBounds.x2;
-						if(size.y<childBounds.y2) size.y=childBounds.y2;
-					}
-					return size;
-				}
-				else
-				{
-					return bounds.GetSize();
-				}
+				return GetBoundsInternal(bounds, GetMinSizeLimitation()).GetSize();
 			}
 
 			GuiCellComposition::GuiCellComposition()
@@ -702,7 +701,7 @@ GuiCellComposition
 				,columnSpan(1)
 				,tableParent(0)
 			{
-				SetMinSizeLimited(true);
+				SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 			}
 
 			GuiCellComposition::~GuiCellComposition()

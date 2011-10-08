@@ -26,19 +26,26 @@ Basic Construction
 			{
 				typedef collections::IReadonlyList<GuiGraphicsComposition*> ICompositionList;
 				typedef collections::List<GuiGraphicsComposition*> CompositionList;
+			public:
+				enum MinSizeLimitation
+				{
+					NoLimit,
+					LimitToElement,
+					LimitToElementAndChildren,
+				};
 			protected:
 				CompositionList						children;
 				GuiGraphicsComposition*				parent;
 				Ptr<IGuiGraphicsElement>			ownedElement;
 				bool								visible;
-				bool								minSizeLimitated;
+				MinSizeLimitation					minSizeLimitation;
 				IGuiGraphicsRenderTarget*			renderTarget;
 				Margin								margin, internalMargin;
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
-				Rect								GetBoundsInternal(Rect expectedBounds);
+				Rect								GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -54,8 +61,8 @@ Basic Construction
 				void								SetOwnedElement(Ptr<IGuiGraphicsElement> element);
 				bool								GetVisible();
 				void								SetVisible(bool value);
-				bool								GetMinSizeLimited();
-				void								SetMinSizeLimited(bool value);
+				MinSizeLimitation					GetMinSizeLimitation();
+				void								SetMinSizeLimitation(MinSizeLimitation value);
 				IGuiGraphicsRenderTarget*			GetRenderTarget();
 				void								SetRenderTarget(IGuiGraphicsRenderTarget* value);
 
