@@ -82,6 +82,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Library\Basic.cpp" />
     <ClCompile Include="..\..\..\..\Library\Collections\Operation.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeJson.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeQuery.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeXml.cpp" />
     <ClCompile Include="..\..\..\..\Library\Exception.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\Accessor.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
@@ -117,6 +120,9 @@
     <ClInclude Include="..\..\..\..\Library\Collections\OperationString.h" />
     <ClInclude Include="..\..\..\..\Library\Collections\OperationWhere.h" />
     <ClInclude Include="..\..\..\..\Library\Collections\Pair.h" />
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeJson.h" />
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeQuery.h" />
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeXml.h" />
     <ClInclude Include="..\..\..\..\Library\Event.h" />
     <ClInclude Include="..\..\..\..\Library\Exception.h" />
     <ClInclude Include="..\..\..\..\Library\Function.h" />
