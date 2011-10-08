@@ -72,6 +72,7 @@ Basic Construction
 				virtual void						SetMargin(Margin value);
 				virtual Margin						GetInternalMargin();
 				virtual void						SetInternalMargin(Margin value);
+				virtual Rect						GetClientArea();
 				virtual Rect						GetBounds()=0;
 				virtual void						SetBounds(Rect value)=0;
 			};
@@ -100,12 +101,17 @@ Basic Compositions
 			{
 			protected:
 				Rect								bounds;
+				Margin								alignmentToParent;
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
 
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
+
+				void								ClearAlignmentToParent();
+				Margin								GetAlignmentToParent();
+				void								SetAlignmentToParent(Margin value);
 			};
 
 /***********************************************************************
@@ -137,19 +143,45 @@ Table Compositions
 
 				bool operator==(const GuiCellOption& value){return false;}
 				bool operator!=(const GuiCellOption& value){return true;}
+
+				static GuiCellOption AbsoluteOption(int value)
+				{
+					GuiCellOption option;
+					option.composeType=Absolute;
+					option.absolute=value;
+					return option;
+				}
+
+				static GuiCellOption PercentageOption(double value)
+				{
+					GuiCellOption option;
+					option.composeType=Percentage;
+					option.percentage=value;
+					return option;
+				}
+
+				static GuiCellOption MinSizeOption()
+				{
+					GuiCellOption option;
+					option.composeType=MinSize;
+					return option;
+				}
 			};
 
-			class GuiTableComposition : public GuiBoundsComposition
+			class GuiTableComposition : public GuiGraphicsComposition
 			{
 				friend class GuiCellComposition;
 			protected:
 				int											rows;
 				int											columns;
 				int											cellPadding;
+				int											rowExtending;
+				int											columnExtending;
 				collections::Array<GuiCellOption>			rowOptions;
 				collections::Array<GuiCellOption>			columnOptions;
 				collections::Array<GuiCellComposition*>		cellCompositions;
 				collections::Array<Rect>					cellBounds;
+				Rect										tableBounds;
 
 				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
 				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
@@ -171,7 +203,7 @@ Table Compositions
 														int maxDimSize,
 														collections::Array<GuiCellOption>& dimOptions
 														);
-				void								UpdateCellBoundsOffsets(
+				int									UpdateCellBoundsOffsets(
 														collections::Array<int>& offsets,
 														collections::Array<int>& sizes,
 														int start,
@@ -195,6 +227,9 @@ Table Compositions
 				void								SetCellPadding(int value);
 				Rect								GetCellArea();
 				void								UpdateCellBounds();
+
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
 			};
 
 			class GuiCellComposition : public GuiGraphicsComposition

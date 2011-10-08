@@ -243,6 +243,16 @@ GuiGraphicsComposition
 				internalMargin=value;
 			}
 
+			Rect GuiGraphicsComposition::GetClientArea()
+			{
+				Rect bounds=GetBounds();
+				bounds.x1+=margin.left+internalMargin.left;
+				bounds.y1+=margin.top+internalMargin.top;
+				bounds.x2-=margin.right+internalMargin.right;
+				bounds.y2-=margin.bottom+internalMargin.bottom;
+				return bounds;
+			}
+
 /***********************************************************************
 GuiWindowComposition
 ***********************************************************************/
@@ -290,6 +300,7 @@ GuiBoundsComposition
 
 			GuiBoundsComposition::GuiBoundsComposition()
 			{
+				ClearAlignmentToParent();
 			}
 
 			GuiBoundsComposition::~GuiBoundsComposition()
@@ -298,12 +309,48 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				return GetBoundsInternal(bounds, GetMinSizeLimitation());
+				Rect result=GetBoundsInternal(bounds, GetMinSizeLimitation());
+				if(GetParent())
+				{
+					Size clientSize=GetParent()->GetClientArea().GetSize();
+					if(alignmentToParent.left>=0)
+					{
+						result.x1=alignmentToParent.left;
+					}
+					if(alignmentToParent.top>=0)
+					{
+						result.y1=alignmentToParent.top;
+					}
+					if(alignmentToParent.right>=0)
+					{
+						result.x2=clientSize.x-alignmentToParent.right;
+					}
+					if(alignmentToParent.bottom>=0)
+					{
+						result.y2=clientSize.y-alignmentToParent.bottom;
+					}
+				}
+				return result;
 			}
 
 			void GuiBoundsComposition::SetBounds(Rect value)
 			{
 				bounds=value;
+			}
+
+			void GuiBoundsComposition::ClearAlignmentToParent()
+			{
+				alignmentToParent=Margin(-1, -1, -1, -1);
+			}
+
+			Margin GuiBoundsComposition::GetAlignmentToParent()
+			{
+				return alignmentToParent;
+			}
+
+			void GuiBoundsComposition::SetAlignmentToParent(Margin value)
+			{
+				alignmentToParent=value;
 			}
 
 /***********************************************************************
@@ -398,7 +445,7 @@ GuiTableComposition
 				}
 			}
 
-			void GuiTableComposition::UpdateCellBoundsOffsets(
+			int GuiTableComposition::UpdateCellBoundsOffsets(
 				collections::Array<int>& offsets,
 				collections::Array<int>& sizes,
 				int start,
@@ -414,16 +461,15 @@ GuiTableComposition
 
 				int last=offsets.Count()-1;
 				int right=offsets[last]+sizes[last];
-				if(max>right)
-				{
-					sizes[last]+=max-right;
-				}
+				return max-right;
 			}
 
 			GuiTableComposition::GuiTableComposition()
 				:rows(0)
 				,columns(0)
 				,cellPadding(0)
+				,rowExtending(0)
+				,columnExtending(0)
 			{
 				SetRowsAndColumns(1, 1);
 			}
@@ -507,7 +553,7 @@ GuiTableComposition
 
 			Rect GuiTableComposition::GetCellArea()
 			{
-				Rect bounds(Point(0, 0), GetBounds().GetSize());
+				Rect bounds(Point(0, 0), tableBounds.GetSize());
 				bounds.x1+=margin.left+internalMargin.left+cellPadding;
 				bounds.y1+=margin.top+internalMargin.top+cellPadding;
 				bounds.x2-=margin.right+internalMargin.right+cellPadding;
@@ -588,8 +634,8 @@ GuiTableComposition
 				Rect area=GetCellArea();
 				UpdateCellBoundsPercentages(rowSizes, rowTotal, area.Height(), rowOptions);
 				UpdateCellBoundsPercentages(columnSizes, columnTotal, area.Width(), columnOptions);
-				UpdateCellBoundsOffsets(rowOffsets, rowSizes, cellPadding, cellPadding+area.Height());
-				UpdateCellBoundsOffsets(columnOffsets, columnSizes, cellPadding, cellPadding+area.Width());
+				rowExtending=UpdateCellBoundsOffsets(rowOffsets, rowSizes, cellPadding, cellPadding+area.Height());
+				columnExtending=UpdateCellBoundsOffsets(columnOffsets, columnSizes, cellPadding, cellPadding+area.Width());
 
 				for(int i=0;i<rows;i++)
 				{
@@ -599,6 +645,24 @@ GuiTableComposition
 						cellBounds[index]=Rect(Point(columnOffsets[j], rowOffsets[i]), Size(columnSizes[j], rowSizes[i]));
 					}
 				}
+			}
+
+			Rect GuiTableComposition::GetBounds()
+			{
+				if(GetMinSizeLimitation()==GuiGraphicsComposition::NoLimit)
+				{
+					return tableBounds;
+				}
+				else
+				{
+					return Rect(tableBounds.LeftTop(), tableBounds.GetSize()-Size(columnExtending, rowExtending));
+				}
+			}
+
+			void GuiTableComposition::SetBounds(Rect value)
+			{
+				tableBounds=value;
+				UpdateCellBounds();
 			}
 
 /***********************************************************************
@@ -758,18 +822,29 @@ GuiCellComposition
 					{
 						int index=tableParent->GetSiteIndex(tableParent->rows, tableParent->columns, row+rowSpan-1, column+columnSpan-1);
 						bounds2=tableParent->cellBounds[index];
+						if(tableParent->GetMinSizeLimitation()==GuiGraphicsComposition::NoLimit)
+						{
+							if(row+rowSpan==tableParent->rows)
+							{
+								bounds2.y2+=tableParent->rowExtending;
+							}
+							if(column+columnSpan==tableParent->columns)
+							{
+								bounds2.x2+=tableParent->columnExtending;
+							}
+						}
 					}
 					return Rect(bounds1.x1, bounds1.y1, bounds2.x2, bounds2.y2);
 				}
 				else
 				{
-					return Rect();
+					return bounds;
 				}
 			}
 
 			void GuiCellComposition::SetBounds(Rect value)
 			{
-				value=bounds;
+				bounds=value;
 			}
 		}
 	}
