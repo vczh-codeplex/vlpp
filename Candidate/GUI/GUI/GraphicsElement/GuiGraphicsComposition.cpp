@@ -309,7 +309,7 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				Rect result=GetBoundsInternal(bounds, GetMinSizeLimitation());
+				Rect result=GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
 				if(GetParent())
 				{
 					Size clientSize=GetParent()->GetClientArea().GetSize();
@@ -335,7 +335,7 @@ GuiBoundsComposition
 
 			void GuiBoundsComposition::SetBounds(Rect value)
 			{
-				bounds=value;
+				compositionBounds=value;
 			}
 
 			void GuiBoundsComposition::ClearAlignmentToParent()
@@ -351,6 +351,11 @@ GuiBoundsComposition
 			void GuiBoundsComposition::SetAlignmentToParent(Margin value)
 			{
 				alignmentToParent=value;
+			}
+
+			bool GuiBoundsComposition::IsAlignedToParent()
+			{
+				return alignmentToParent!=Margin(-1, -1, -1, -1);
 			}
 
 /***********************************************************************
@@ -427,7 +432,7 @@ GuiTableComposition
 						GuiCellOption option=dimOptions[i];
 						if(option.composeType==GuiCellOption::Percentage)
 						{
-							totalPercentage=option.percentage;
+							totalPercentage+=option.percentage;
 							percentageCount++;
 						}
 					}
@@ -553,7 +558,7 @@ GuiTableComposition
 
 			Rect GuiTableComposition::GetCellArea()
 			{
-				Rect bounds(Point(0, 0), tableBounds.GetSize());
+				Rect bounds(Point(0, 0), GuiBoundsComposition::GetBounds().GetSize());
 				bounds.x1+=margin.left+internalMargin.left+cellPadding;
 				bounds.y1+=margin.top+internalMargin.top+cellPadding;
 				bounds.x2-=margin.right+internalMargin.right+cellPadding;
@@ -649,20 +654,20 @@ GuiTableComposition
 
 			Rect GuiTableComposition::GetBounds()
 			{
-				if(GetMinSizeLimitation()==GuiGraphicsComposition::NoLimit)
+				if(!IsAlignedToParent() && GetMinSizeLimitation()!=GuiGraphicsComposition::NoLimit)
 				{
-					return tableBounds;
+					return Rect(compositionBounds.LeftTop(), compositionBounds.GetSize()-Size(columnExtending, rowExtending));
 				}
 				else
 				{
-					return Rect(tableBounds.LeftTop(), tableBounds.GetSize()-Size(columnExtending, rowExtending));
+					Rect result=GuiBoundsComposition::GetBounds();
+					if(previousGetBoundsResult!=result)
+					{
+						previousGetBoundsResult=result;
+						UpdateCellBounds();
+					}
+					return result;
 				}
-			}
-
-			void GuiTableComposition::SetBounds(Rect value)
-			{
-				tableBounds=value;
-				UpdateCellBounds();
 			}
 
 /***********************************************************************

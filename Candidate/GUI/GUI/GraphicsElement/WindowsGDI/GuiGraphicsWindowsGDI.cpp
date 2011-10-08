@@ -336,7 +336,9 @@ void NativeMain()
 	GetCurrentController()->InstallListener(&resourceManager);
 
 	GuiSolidBorderElementRenderer::Register();
+	GuiRoundBorderElementRenderer::Register();
 	GuiSolidBackgroundElementRenderer::Register();
+	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
 
 	GuiMain();
