@@ -220,7 +220,6 @@ struct ButtonComposition
 				cell->SetSite(1, 0, 1, 1);
 				cell->SetOwnedElement(element);
 			}
-			table->UpdateCellBounds();
 		}
 		{
 			GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
@@ -403,7 +402,6 @@ void SetupWindow(GuiGraphicsHost* host)
 			ButtonComposition button=ButtonComposition::Create(cell, buttonTexts[i]);
 			button.Apply(buttonColors[i]);
 		}
-		table->UpdateCellBounds();
 	}
 }
 

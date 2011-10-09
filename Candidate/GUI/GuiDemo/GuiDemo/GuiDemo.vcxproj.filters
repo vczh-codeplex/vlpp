@@ -135,6 +135,9 @@
     <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp">
       <Filter>GUI\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiWin7Styles.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -264,6 +267,9 @@
       <Filter>GUI\GraphicsElement</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h">
       <Filter>GUI\Controls</Filter>
     </ClInclude>
   </ItemGroup>
