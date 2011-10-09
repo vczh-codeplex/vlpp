@@ -60,8 +60,32 @@ Host
 				GuiGraphicsAnimationManager		animationManager;
 
 			private:
+				void							RaiseMouseEvent(GuiMouseEventArgs& arguments, GuiGraphicsComposition* composition, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
+				void							OnMouseInput(const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
+
 				void							Moving(Rect& bounds);
 				void							Moved();
+
+				void							LeftButtonDown(const NativeWindowMouseInfo& info);
+				void							LeftButtonUp(const NativeWindowMouseInfo& info);
+				void							LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
+				void							RightButtonDown(const NativeWindowMouseInfo& info);
+				void							RightButtonUp(const NativeWindowMouseInfo& info);
+				void							RightButtonDoubleClick(const NativeWindowMouseInfo& info);
+				void							MiddleButtonDown(const NativeWindowMouseInfo& info);
+				void							MiddleButtonUp(const NativeWindowMouseInfo& info);
+				void							MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
+				void							HorizontalWheel(const NativeWindowMouseInfo& info);
+				void							VerticalWheel(const NativeWindowMouseInfo& info);
+				void							MouseMoving(const NativeWindowMouseInfo& info);
+				void							MouseEntered();
+				void							MouseLeaved();
+
+				void							KeyDown(int code, bool alt);
+				void							KeyUp(int code, bool alt);
+				void							SysKeyDown(int code, bool alt);
+				void							SysKeyUp(int code, bool alt);
+				void							Char(wchar_t keyChar);
 
 				void							GlobalTimer();
 			public:

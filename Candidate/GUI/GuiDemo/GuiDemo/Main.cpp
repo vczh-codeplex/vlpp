@@ -365,10 +365,29 @@ void SetupWindow(GuiGraphicsHost* host)
 			}
 			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
 
-			ButtonComposition button=ButtonComposition::Create(cell, L"This is the button with animation");
-			button.Apply(ButtonColors::Normal());
-			button.mainComposition->SetAlignmentToParent(Margin(-1, 10, 10, -1));
-			host->GetAnimationManager()->AddAnimation(new ButtonAnimation(button, host));
+			{
+				ButtonComposition button=ButtonComposition::Create(cell, L"This is the button with animation");
+				button.Apply(ButtonColors::Normal());
+				button.mainComposition->SetAlignmentToParent(Margin(-1, 10, 10, -1));
+				host->GetAnimationManager()->AddAnimation(new ButtonAnimation(button, host));
+			}
+			{
+				ButtonComposition button=ButtonComposition::Create(cell, L"This is the button with interaction");
+				button.Apply(ButtonColors::Normal());
+				button.mainComposition->SetAlignmentToParent(Margin(-1, 60, 10, -1));
+
+				button.mainComposition->GetEventReceiver()->leftButtonDown.Attach(
+					new GuiMouseEvent::FunctionHandler(
+						[host, button](GuiGraphicsComposition* sender, GuiMouseEventArgs& arguments)
+						{
+							if(arguments.eventSource==sender)
+							{
+								host->GetNativeWindow()->SetTitle(L"LeftMouseDown "+i64tow(DateTime::UtcTime().totalMilliseconds));
+							}
+						}
+					)
+				);
+			}
 		}
 
 		const wchar_t* buttonTexts[]={L"Normal", L"Active", L"Selected", L"Pressed", L"Disabled"};
