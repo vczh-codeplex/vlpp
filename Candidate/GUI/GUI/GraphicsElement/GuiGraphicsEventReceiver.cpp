@@ -13,7 +13,6 @@ Event Receiver
 
 			GuiGraphicsEventReceiver::GuiGraphicsEventReceiver(GuiGraphicsComposition* _sender)
 				:sender(_sender)
-				,enabled(true)
 				,leftButtonDown(_sender)
 				,leftButtonUp(_sender)
 				,leftButtonDoubleClick(_sender)
@@ -38,16 +37,6 @@ Event Receiver
 
 			GuiGraphicsEventReceiver::~GuiGraphicsEventReceiver()
 			{
-			}
-
-			bool GuiGraphicsEventReceiver::GetEnabled()
-			{
-				return enabled;
-			}
-
-			void GuiGraphicsEventReceiver::SetEnabled(bool value)
-			{
-				enabled=value;
 			}
 
 			GuiGraphicsComposition* GuiGraphicsEventReceiver::GetAssociatedComposition()

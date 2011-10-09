@@ -63,7 +63,7 @@ Event
 				GuiGraphicsComposition*				sender;
 				Ptr<HandlerNode>					handlers;
 			public:
-				GuiGraphicsEvent(GuiGraphicsComposition* _sender)
+				GuiGraphicsEvent(GuiGraphicsComposition* _sender=0)
 					:sender(_sender)
 				{
 				}
@@ -75,6 +75,11 @@ Event
 				GuiGraphicsComposition* GetAssociatedComposition()
 				{
 					return sender;
+				}
+
+				void SetAssociatedComposition(GuiGraphicsComposition* _sender)
+				{
+					sender=_sender;
 				}
 
 				bool Attach(Ptr<IHandler> handler)
@@ -134,9 +139,9 @@ Predefined Events
 				GuiGraphicsComposition*		compositionSource;	// the deepest composition
 				GuiGraphicsComposition*		eventSource;		// the deepest composition that contains an event receiver
 
-				GuiEventArgs()
-					:compositionSource(0)
-					,eventSource(0)
+				GuiEventArgs(GuiGraphicsComposition* composition=0)
+					:compositionSource(composition)
+					,eventSource(composition)
 				{
 				}
 			};
@@ -175,13 +180,10 @@ Event Receiver
 			{
 			protected:
 				GuiGraphicsComposition*			sender;
-				bool							enabled;
 			public:
 				GuiGraphicsEventReceiver(GuiGraphicsComposition* _sender);
 				~GuiGraphicsEventReceiver();
 
-				bool							GetEnabled();
-				void							SetEnabled(bool value);
 				GuiGraphicsComposition*			GetAssociatedComposition();
 
 				GuiMouseEvent					leftButtonDown;

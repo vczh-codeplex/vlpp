@@ -16,6 +16,12 @@ namespace vl
 {
 	namespace presentation
 	{
+		namespace controls
+		{
+			class IGuiStyleController;
+			class GuiControl;
+		}
+
 		namespace elements
 		{
 
@@ -43,6 +49,7 @@ Basic Construction
 				IGuiGraphicsRenderTarget*			renderTarget;
 				Margin								margin, internalMargin;
 				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
+				controls::GuiControl*				associatedControl;
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
@@ -72,6 +79,9 @@ Basic Construction
 				GuiGraphicsEventReceiver*			GetEventReceiver();
 				bool								HasEventReceiver();
 				GuiGraphicsComposition*				FindComposition(Point location, Rect& compositionBounds);
+
+				controls::GuiControl*				GetAssociatedControl();
+				bool								SetAssociatedControl(controls::GuiControl* control);
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

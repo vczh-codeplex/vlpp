@@ -60,6 +60,7 @@ GuiGraphicsComposition
 				,visible(true)
 				,minSizeLimitation(NoLimit)
 				,renderTarget(0)
+				,associatedControl(0)
 			{
 			}
 
@@ -268,6 +269,18 @@ GuiGraphicsComposition
 				{
 					return 0;
 				}
+			}
+
+			controls::GuiControl* GuiGraphicsComposition::GetAssociatedControl()
+			{
+				return associatedControl;
+			}
+
+			bool GuiGraphicsComposition::SetAssociatedControl(controls::GuiControl* control)
+			{
+				if(associatedControl) return false;
+				associatedControl=control;
+				return true;
 			}
 
 			Margin GuiGraphicsComposition::GetMargin()
