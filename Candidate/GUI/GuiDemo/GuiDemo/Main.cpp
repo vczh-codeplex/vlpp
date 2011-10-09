@@ -68,69 +68,190 @@ GuiBoundsComposition* CreateCenteredLabel(GuiCellComposition* cell, Color color,
 	return composition;
 }
 
-void CreateButton(
-	GuiCellComposition* cell,
-	Color borderColor,
-	Color backgroundColor,
-	Color g1,
-	Color g2,
-	Color g3,
-	Color g4,
-	const WString& text,
-	Color textColor
-	)
+struct ButtonColors
 {
-	{
-		GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
-		element->SetColor(borderColor);
-		element->SetRadius(2);
+	Color		borderColor;
+	Color		backgroundColor;
+	Color		g1;
+	Color		g2;
+	Color		g3;
+	Color		g4;
+	Color		textColor;
 
-		GuiBoundsComposition* composition=new GuiBoundsComposition;
-		cell->AddChild(composition);
-		composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-		composition->SetOwnedElement(element);
-	}
+	static ButtonColors Normal()
 	{
-		GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-		element->SetColor(backgroundColor);
-
-		GuiBoundsComposition* composition=new GuiBoundsComposition;
-		cell->AddChild(composition);
-		composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
-		composition->SetOwnedElement(element);
-	}
-	{
-		GuiTableComposition* table=new GuiTableComposition;
-		table->SetAlignmentToParent(Margin(2, 2, 2, 2));
-		cell->AddChild(table);
-		table->SetRowsAndColumns(2, 1);
-		table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-		table->SetRowOption(1, GuiCellOption::PercentageOption(0.5));
-		table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+		ButtonColors colors=
 		{
-			GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
-			element->SetDirection(GuiGradientBackgroundElement::Vertical);
-			element->SetColors(g1, g2);
+			Color(122, 122, 122),
+			Color(251, 251, 251),
+			Color(250, 250, 250),
+			Color(235, 235, 235),
+			Color(221, 221, 221),
+			Color(207, 207, 207),
+			Color(0, 0, 0),
+		};
+		return colors;
+	}
 
-			GuiCellComposition* cell=new GuiCellComposition;
-			table->AddChild(cell);
-			cell->SetSite(0, 0, 1, 1);
-			cell->SetOwnedElement(element);
+	static ButtonColors Active()
+	{
+		ButtonColors colors=
+		{
+			Color(60, 127, 177),//Color(204, 240, 255),
+			Color(220, 244, 254),
+			Color(246, 252, 255),
+			Color(240, 250, 255),
+			Color(225, 245, 254),
+			Color(215, 245, 254),
+			Color(0, 0, 0),
+		};
+		return colors;
+	}
+
+	static ButtonColors Selected()
+	{
+		ButtonColors colors=
+		{
+			Color(60, 127, 177),//Color(128, 190, 247),
+			Color(232, 248, 255),
+			Color(225, 246, 255),
+			Color(204, 239, 254),
+			Color(181, 231, 253),
+			Color(164, 225, 251),
+			Color(0, 0, 0),
+		};
+		return colors;
+	}
+
+	static ButtonColors Pressed()
+	{
+		ButtonColors colors=
+		{
+			Color(44, 98, 139),
+			Color(158, 176, 186),
+			Color(225, 246, 255),
+			Color(204, 239, 254),
+			Color(181, 231, 253),
+			Color(164, 225, 251),
+			Color(0, 0, 0),
+		};
+		return colors;
+	}
+
+	static ButtonColors Disabled()
+	{
+		ButtonColors colors=
+		{
+			Color(173, 178, 181),
+			Color(252, 252, 252),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			Color(131, 131, 131),
+		};
+		return colors;
+	}
+};
+
+struct ButtonComposition
+{
+	GuiRoundBorderElement*					borderElement;
+	GuiSolidBackgroundElement*				backgroundElement;
+	GuiGradientBackgroundElement*			topGradientElement;
+	GuiGradientBackgroundElement*			bottomGradientElement;
+	GuiSolidLabelElement*					textElement;
+	GuiBoundsComposition*					mainComposition;
+
+	static ButtonComposition Create(GuiGraphicsComposition* parent, const WString& text)
+	{
+		ButtonComposition button;
+		{
+			button.mainComposition=new GuiBoundsComposition;
+			parent->AddChild(button.mainComposition);
+			button.mainComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 		}
 		{
-			GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
-			element->SetDirection(GuiGradientBackgroundElement::Vertical);
-			element->SetColors(g3, g4);
+			GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
+			element->SetRadius(2);
+			button.borderElement=element;
 
-			GuiCellComposition* cell=new GuiCellComposition;
-			table->AddChild(cell);
-			cell->SetSite(1, 0, 1, 1);
-			cell->SetOwnedElement(element);
+			GuiBoundsComposition* composition=new GuiBoundsComposition;
+			button.mainComposition->AddChild(composition);
+			composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			composition->SetOwnedElement(element);
 		}
-		table->UpdateCellBounds();
+		{
+			GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+			button.backgroundElement=element;
+
+			GuiBoundsComposition* composition=new GuiBoundsComposition;
+			button.mainComposition->AddChild(composition);
+			composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+			composition->SetOwnedElement(element);
+		}
+		{
+			GuiTableComposition* table=new GuiTableComposition;
+			table->SetAlignmentToParent(Margin(2, 2, 2, 2));
+			button.mainComposition->AddChild(table);
+			table->SetRowsAndColumns(2, 1);
+			table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+			table->SetRowOption(1, GuiCellOption::PercentageOption(0.5));
+			table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+			{
+				GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
+				element->SetDirection(GuiGradientBackgroundElement::Vertical);
+				button.topGradientElement=element;
+
+				GuiCellComposition* cell=new GuiCellComposition;
+				table->AddChild(cell);
+				cell->SetSite(0, 0, 1, 1);
+				cell->SetOwnedElement(element);
+			}
+			{
+				GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
+				element->SetDirection(GuiGradientBackgroundElement::Vertical);
+				button.bottomGradientElement=element;
+
+				GuiCellComposition* cell=new GuiCellComposition;
+				table->AddChild(cell);
+				cell->SetSite(1, 0, 1, 1);
+				cell->SetOwnedElement(element);
+			}
+			table->UpdateCellBounds();
+		}
+		{
+			GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
+			{
+				FontProperties font;
+				font.size=16;
+				font.fontFamily=L"Lucida Console";
+				element->SetFont(font);
+				element->SetText(text);
+				button.textElement=element;
+			}
+
+			GuiBoundsComposition* composition=new GuiBoundsComposition;
+			button.mainComposition->AddChild(composition);
+			composition->SetOwnedElement(element);
+			composition->SetMargin(Margin(10, 10, 10, 10));
+			composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+			composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			composition->GetOwnedElement().Cast<GuiSolidLabelElement>()->SetAlignments(Alignment::Center, Alignment::Center);
+		}
+		return button;
 	}
-	CreateCenteredLabel(cell, textColor, text);
-}
+
+	void Apply(ButtonColors colors)
+	{
+		borderElement->SetColor(colors.borderColor);
+		backgroundElement->SetColor(colors.backgroundColor);
+		topGradientElement->SetColors(colors.g1, colors.g2);
+		bottomGradientElement->SetColors(colors.g3, colors.g4);
+		textElement->SetColor(colors.textColor);
+	}
+};
 
 void SetupWindow(GuiGraphicsHost* host)
 {
@@ -177,70 +298,25 @@ void SetupWindow(GuiGraphicsHost* host)
 				cell->SetInternalMargin(Margin(1, 1, 1, 1));
 			}
 			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
+
+			ButtonComposition button=ButtonComposition::Create(cell, L"This is the button");
+			button.Apply(ButtonColors::Normal());
+			button.mainComposition->SetAlignmentToParent(Margin(-1, 10, 10, -1));
+			button.mainComposition->SetBounds(Rect(Point(0, 0), Size(0, 0)));
 		}
 
+		const wchar_t* buttonTexts[]={L"Normal", L"Active", L"Selected", L"Pressed", L"Disabled"};
+		ButtonColors buttonColors[]={ButtonColors::Normal(), ButtonColors::Active(), ButtonColors::Selected(), ButtonColors::Pressed(), ButtonColors::Disabled()};
 		for(int i=0;i<5;i++)
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
 			table->AddChild(cell);
 			cell->SetSite(2, i+1, 1, 1);
 			cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
+
+			ButtonComposition button=ButtonComposition::Create(cell, buttonTexts[i]);
+			button.Apply(buttonColors[i]);
 		}
-		CreateButton(
-			table->GetSitedCell(2, 1),
-			Color(122, 122, 122),
-			Color(251, 251, 251),
-			Color(250, 250, 250),
-			Color(235, 235, 235),
-			Color(221, 221, 221),
-			Color(207, 207, 207),
-			L"Normal",
-			Color(0, 0, 0)
-			);
-		CreateButton(
-			table->GetSitedCell(2, 2),
-			Color(60, 127, 177),//Color(204, 240, 255),
-			Color(220, 244, 254),
-			Color(246, 252, 255),
-			Color(240, 250, 255),
-			Color(225, 245, 254),
-			Color(215, 245, 254),
-			L"Active",
-			Color(0, 0, 0)
-			);
-		CreateButton(
-			table->GetSitedCell(2, 3),
-			Color(60, 127, 177),//Color(128, 190, 247),
-			Color(232, 248, 255),
-			Color(225, 246, 255),
-			Color(204, 239, 254),
-			Color(181, 231, 253),
-			Color(164, 225, 251),
-			L"Selected",
-			Color(0, 0, 0)
-			);
-		CreateButton(
-			table->GetSitedCell(2, 4),
-			Color(44, 98, 139),
-			Color(158, 176, 186),
-			Color(225, 246, 255),
-			Color(204, 239, 254),
-			Color(181, 231, 253),
-			Color(164, 225, 251),
-			L"Pressed",
-			Color(0, 0, 0)
-			);
-		CreateButton(
-			table->GetSitedCell(2, 5),
-			Color(173, 178, 181),
-			Color(252, 252, 252),
-			Color(244, 244, 244),
-			Color(244, 244, 244),
-			Color(244, 244, 244),
-			Color(244, 244, 244),
-			L"Disabled",
-			Color(131, 131, 131)
-			);
 		table->UpdateCellBounds();
 	}
 }
