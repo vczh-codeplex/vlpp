@@ -299,10 +299,9 @@ void SetupWindow(GuiGraphicsHost* host)
 			}
 			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
 
-			ButtonComposition button=ButtonComposition::Create(cell, L"This is the button");
+			ButtonComposition button=ButtonComposition::Create(cell, L"This is the button with animation");
 			button.Apply(ButtonColors::Normal());
 			button.mainComposition->SetAlignmentToParent(Margin(-1, 10, 10, -1));
-			button.mainComposition->SetBounds(Rect(Point(0, 0), Size(0, 0)));
 		}
 
 		const wchar_t* buttonTexts[]={L"Normal", L"Active", L"Selected", L"Pressed", L"Disabled"};

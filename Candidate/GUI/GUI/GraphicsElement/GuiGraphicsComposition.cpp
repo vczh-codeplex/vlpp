@@ -351,21 +351,40 @@ GuiBoundsComposition
 				if(GetParent() && IsAlignedToParent())
 				{
 					Size clientSize=GetParent()->GetClientArea().GetSize();
-					if(alignmentToParent.left>=0)
+					if(alignmentToParent.left>=0 && alignmentToParent.right>=0)
 					{
 						result.x1=alignmentToParent.left;
-					}
-					if(alignmentToParent.top>=0)
-					{
-						result.y1=alignmentToParent.top;
-					}
-					if(alignmentToParent.right>=0)
-					{
 						result.x2=clientSize.x-alignmentToParent.right;
 					}
-					if(alignmentToParent.bottom>=0)
+					else if(alignmentToParent.left>=0)
 					{
+						int width=result.Width();
+						result.x1=alignmentToParent.left;
+						result.x2=result.x1+width;
+					}
+					else if(alignmentToParent.right>=0)
+					{
+						int width=result.Width();
+						result.x2=clientSize.x-alignmentToParent.right;
+						result.x1=result.x2-width;
+					}
+
+					if(alignmentToParent.top>=0 && alignmentToParent.bottom>=0)
+					{
+						result.y1=alignmentToParent.top;
 						result.y2=clientSize.y-alignmentToParent.bottom;
+					}
+					else if(alignmentToParent.top>=0)
+					{
+						int height=result.Height();
+						result.y1=alignmentToParent.top;
+						result.y2=result.y1+height;
+					}
+					else if(alignmentToParent.bottom>=0)
+					{
+						int height=result.Height();
+						result.y2=clientSize.x-alignmentToParent.bottom;
+						result.y1=result.y2-height;
 					}
 				}
 				return result;
