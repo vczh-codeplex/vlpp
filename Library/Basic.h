@@ -159,6 +159,31 @@ typedef signed __int64	pos_t;
 	template<typename T>struct POD<const volatile T>{static const bool Result=POD<T>::Result;};
 
 /***********************************************************************
+时间
+***********************************************************************/
+
+	struct DateTime
+	{
+		vint				year;
+		vint				month;
+		vint				dayOfWeek;
+		vint				day;
+		vint				hour;
+		vint				minute;
+		vint				second;
+		vint				milliseconds;
+
+		unsigned __int64	totalMilliseconds;
+		unsigned __int64	filetime;
+
+		static DateTime		LocalTime();
+		static DateTime		UtcTime();
+
+		DateTime			ToLocalTime();
+		DateTime			ToUtcTime();
+	};
+
+/***********************************************************************
 接口
 ***********************************************************************/
 

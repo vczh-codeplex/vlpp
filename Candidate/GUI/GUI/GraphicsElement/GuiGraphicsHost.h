@@ -26,8 +26,9 @@ Animation
 			{
 			public:
 				virtual int						GetTotalLength()=0;
-				virtual int						GetCurrentLength()=0;
-				virtual void					Play()=0;
+				virtual int						GetCurrentPosition()=0;
+				virtual void					Play(int currentPosition, int totalLength)=0;
+				virtual void					Stop()=0;
 			};
 
 			class GuiGraphicsAnimationManager : public Object
@@ -48,7 +49,7 @@ Animation
 Host
 ***********************************************************************/
 
-			class GuiGraphicsHost : public Object, private INativeWindowListener
+			class GuiGraphicsHost : public Object, private INativeWindowListener, private INativeControllerListener
 			{
 			protected:
 				INativeWindow*					nativeWindow;
@@ -61,6 +62,8 @@ Host
 			private:
 				void							Moving(Rect& bounds);
 				void							Moved();
+
+				void							GlobalTimer();
 			public:
 				GuiGraphicsHost();
 				~GuiGraphicsHost();
@@ -74,8 +77,22 @@ Host
 			};
 
 /***********************************************************************
-Message Receiver
+Helpers
 ***********************************************************************/
+
+			class GuiTimeBasedAnimation : public IGuiGraphicsAnimation
+			{
+			protected:
+				unsigned __int64				startTime;
+				int								length;
+			public:
+				GuiTimeBasedAnimation(int totalMilliseconds);
+				~GuiTimeBasedAnimation();
+
+				void							Restart();
+				int								GetTotalLength();
+				int								GetCurrentPosition();
+			};
 		}
 	}
 }

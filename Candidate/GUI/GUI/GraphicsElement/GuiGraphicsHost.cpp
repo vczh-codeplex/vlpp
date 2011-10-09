@@ -8,7 +8,7 @@ namespace vl
 		{
 
 /***********************************************************************
-GuiGraphicsHost
+GuiGraphicsAnimationManager
 ***********************************************************************/
 
 			GuiGraphicsAnimationManager::GuiGraphicsAnimationManager()
@@ -34,10 +34,13 @@ GuiGraphicsHost
 				for(int i=playingAnimations.Count();i>=0;i--)
 				{
 					Ptr<IGuiGraphicsAnimation> animation=playingAnimations[i];
-					animation->Play();
-					if(animation->GetCurrentLength()>=animation->GetTotalLength())
+					int totalLength=animation->GetTotalLength();
+					int currentPosition=animation->GetCurrentPosition();
+					animation->Play(currentPosition, totalLength);
+					if(currentPosition>=totalLength)
 					{
 						playingAnimations.RemoveAt(i);
+						animation->Stop();
 					}
 				}
 			}
@@ -85,6 +88,15 @@ GuiGraphicsHost
 				}
 			}
 
+			void GuiGraphicsHost::GlobalTimer()
+			{
+				if(animationManager.HasAnimation())
+				{
+					animationManager.Play();
+					Render();
+				}
+			}
+
 			GuiGraphicsHost::GuiGraphicsHost()
 				:nativeWindow(0)
 				,windowComposition(0)
@@ -109,6 +121,7 @@ GuiGraphicsHost
 				{
 					if(nativeWindow)
 					{
+						GetCurrentController()->UninstallListener(this);
 						nativeWindow->UninstallListener(this);
 					}
 					nativeWindow=_nativeWindow;
@@ -116,6 +129,7 @@ GuiGraphicsHost
 					if(nativeWindow)
 					{
 						nativeWindow->InstallListener(this);
+						GetCurrentController()->InstallListener(this);
 						previousClientSize=nativeWindow->GetClientSize();
 						minSize=windowComposition->GetMinNecessaryBounds().GetSize();
 						Render();
@@ -138,6 +152,36 @@ GuiGraphicsHost
 			GuiGraphicsAnimationManager* GuiGraphicsHost::GetAnimationManager()
 			{
 				return &animationManager;
+			}
+
+/***********************************************************************
+GuiTimeBasedAnimation
+***********************************************************************/
+
+			GuiTimeBasedAnimation::GuiTimeBasedAnimation(int totalMilliseconds)
+				:startTime(0)
+				,length(totalMilliseconds)
+			{
+				Restart();
+			}
+
+			GuiTimeBasedAnimation::~GuiTimeBasedAnimation()
+			{
+			}
+
+			void GuiTimeBasedAnimation::Restart()
+			{
+				startTime=DateTime::LocalTime().totalMilliseconds;
+			}
+
+			int GuiTimeBasedAnimation::GetTotalLength()
+			{
+				return length;
+			}
+
+			int GuiTimeBasedAnimation::GetCurrentPosition()
+			{
+				return (int)(DateTime::LocalTime().totalMilliseconds-startTime);
 			}
 		}
 	}
