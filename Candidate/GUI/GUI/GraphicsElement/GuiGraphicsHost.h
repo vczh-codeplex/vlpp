@@ -120,7 +120,7 @@ Helpers
 				GuiTimeBasedAnimation(int totalMilliseconds);
 				~GuiTimeBasedAnimation();
 
-				void							Restart();
+				void							Restart(int totalMilliseconds=-1);
 				int								GetTotalLength();
 				int								GetCurrentPosition();
 			};

@@ -24,6 +24,7 @@ namespace vl
 
 		namespace elements
 		{
+			class GuiGraphicsHost;
 
 /***********************************************************************
 Basic Construction
@@ -33,6 +34,9 @@ Basic Construction
 			{
 				typedef collections::IReadonlyList<GuiGraphicsComposition*> ICompositionList;
 				typedef collections::List<GuiGraphicsComposition*> CompositionList;
+
+				friend class controls::GuiControl;
+				friend class GuiGraphicsHost;
 			public:
 				enum MinSizeLimitation
 				{
@@ -50,11 +54,15 @@ Basic Construction
 				Margin								margin, internalMargin;
 				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
 				controls::GuiControl*				associatedControl;
+				GuiGraphicsHost*					associatedHost;
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
+				
+				void								SetAssociatedControl(controls::GuiControl* control);
+				void								SetAssociatedHost(GuiGraphicsHost* host);
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -81,7 +89,10 @@ Basic Construction
 				GuiGraphicsComposition*				FindComposition(Point location, Rect& compositionBounds);
 
 				controls::GuiControl*				GetAssociatedControl();
-				bool								SetAssociatedControl(controls::GuiControl* control);
+				GuiGraphicsHost*					GetAssociatedHost();
+
+				controls::GuiControl*				GetRelatedControl();
+				GuiGraphicsHost*					GetRelatedHost();
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

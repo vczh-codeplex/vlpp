@@ -175,6 +175,7 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
 			{
+				LeftButtonDown(info);
 				OnMouseInput(GetMouseInputLocation(info), info, &GuiGraphicsEventReceiver::leftButtonDoubleClick);
 			}
 
@@ -192,6 +193,7 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::RightButtonDoubleClick(const NativeWindowMouseInfo& info)
 			{
+				RightButtonDown(info);
 				OnMouseInput(GetMouseInputLocation(info), info, &GuiGraphicsEventReceiver::rightButtonDoubleClick);
 			}
 
@@ -209,6 +211,7 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
 			{
+				MiddleButtonDown(info);
 				OnMouseInput(GetMouseInputLocation(info), info, &GuiGraphicsEventReceiver::middleButtonDoubleClick);
 			}
 
@@ -323,6 +326,7 @@ GuiGraphicsHost
 				,mouseCaptureCounter(0)
 			{
 				windowComposition=new GuiWindowComposition;
+				windowComposition->SetAssociatedHost(this);
 				windowComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 			}
 
@@ -389,9 +393,13 @@ GuiTimeBasedAnimation
 			{
 			}
 
-			void GuiTimeBasedAnimation::Restart()
+			void GuiTimeBasedAnimation::Restart(int totalMilliseconds)
 			{
 				startTime=DateTime::LocalTime().totalMilliseconds;
+				if(totalMilliseconds>-1)
+				{
+					length=totalMilliseconds;
+				}
 			}
 
 			int GuiTimeBasedAnimation::GetTotalLength()
