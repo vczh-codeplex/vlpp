@@ -126,6 +126,9 @@
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.cpp">
       <Filter>GUI\GraphicsElement</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -249,6 +252,9 @@
       <Filter>Library\Entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h">
       <Filter>GUI\GraphicsElement</Filter>
     </ClInclude>
   </ItemGroup>

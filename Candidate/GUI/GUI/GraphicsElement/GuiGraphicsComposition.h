@@ -10,6 +10,7 @@ Interfaces:
 #define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSCOMPOSITION
 
 #include "GuiGraphicsElement.h"
+#include "GuiGraphicsEventReceiver.h"
 
 namespace vl
 {
@@ -41,6 +42,7 @@ Basic Construction
 				MinSizeLimitation					minSizeLimitation;
 				IGuiGraphicsRenderTarget*			renderTarget;
 				Margin								margin, internalMargin;
+				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
@@ -67,6 +69,7 @@ Basic Construction
 				void								SetRenderTarget(IGuiGraphicsRenderTarget* value);
 
 				void								Render(Size offset);
+				GuiGraphicsEventReceiver*			GetEventReceiver();
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

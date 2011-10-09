@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h" />

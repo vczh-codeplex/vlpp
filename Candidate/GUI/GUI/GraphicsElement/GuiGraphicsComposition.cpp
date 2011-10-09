@@ -222,6 +222,15 @@ GuiGraphicsComposition
 				}
 			}
 
+			GuiGraphicsEventReceiver* GuiGraphicsComposition::GetEventReceiver()
+			{
+				if(!eventReceiver)
+				{
+					eventReceiver=new GuiGraphicsEventReceiver(this);
+				}
+				return eventReceiver.Obj();
+			}
+
 			Margin GuiGraphicsComposition::GetMargin()
 			{
 				return margin;
