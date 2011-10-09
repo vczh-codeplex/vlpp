@@ -65,10 +65,7 @@ GuiGraphicsHost
 							arguments.eventSource=composition;
 						}
 						GuiGraphicsEventReceiver* eventReceiver=composition->GetEventReceiver();
-						if(eventReceiver->GetEnabled())
-						{
-							(eventReceiver->*eventReceiverEvent).Execute(arguments);
-						}
+						(eventReceiver->*eventReceiverEvent).Execute(arguments);
 					}
 
 					GuiGraphicsComposition* parent=composition->GetParent();
