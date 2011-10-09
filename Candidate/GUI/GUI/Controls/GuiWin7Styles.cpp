@@ -249,7 +249,7 @@ Win7ButtonStyle
 
 			void Win7ButtonStyle::TransferringAnimation::Transfer(const Win7ItemColors& end)
 			{
-				Restart(250);
+				Restart(120);
 				if(stopped)
 				{
 					colorBegin=colorEnd;
