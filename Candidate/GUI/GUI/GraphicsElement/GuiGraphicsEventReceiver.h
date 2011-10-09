@@ -30,6 +30,8 @@ Event
 			class GuiGraphicsEvent : public Object
 			{
 			public:
+				typedef Func<void(GuiGraphicsComposition*, T&)>		FunctionType;
+
 				class IHandler : public Interface
 				{
 				public:
@@ -38,8 +40,6 @@ Event
 				
 				class FunctionHandler : public Object, public IHandler
 				{
-				public:
-					typedef Func<void(GuiGraphicsComposition*, T&)>		FunctionType;
 				protected:
 					FunctionType		handler;
 				public:

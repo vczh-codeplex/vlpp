@@ -155,7 +155,7 @@ GuiButton
 				}
 			}
 
-			void GuiButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			void GuiButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				if(arguments.eventSource==GetBoundsComposition())
 				{
@@ -168,7 +168,7 @@ GuiButton
 				}
 			}
 
-			void GuiButton::OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			void GuiButton::OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				if(arguments.eventSource==GetBoundsComposition())
 				{
@@ -190,6 +190,11 @@ GuiButton
 			{
 				TextChanged.SetAssociatedComposition(GetBoundsComposition());
 				Clicked.SetAssociatedComposition(GetBoundsComposition());
+
+				GetEventReceiver()->leftButtonDown.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonDown)));
+				GetEventReceiver()->leftButtonUp.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonUp)));
+				GetEventReceiver()->mouseEnter.Attach(new GuiNotifyEvent::FunctionHandler(GuiNotifyEvent::FunctionType(this, &GuiButton::OnMouseEnter)));
+				GetEventReceiver()->mouseLeave.Attach(new GuiNotifyEvent::FunctionHandler(GuiNotifyEvent::FunctionType(this, &GuiButton::OnMouseLeave)));
 			}
 
 			GuiButton::~GuiButton()
