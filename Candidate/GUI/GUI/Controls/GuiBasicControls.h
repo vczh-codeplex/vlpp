@@ -90,8 +90,8 @@ Controls
 				void									OnEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
-				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
-				void									OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
 				GuiButton(IStyleController* _styleController);
 				~GuiButton();
