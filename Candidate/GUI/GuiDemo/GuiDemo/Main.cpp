@@ -1,5 +1,4 @@
-#include "..\..\GUI\GraphicsElement\GuiGraphicsElement.h"
-#include "..\..\GUI\GraphicsElement\GuiGraphicsComposition.h"
+#include "..\..\GUI\GraphicsElement\GuiGraphicsHost.h"
 
 using namespace vl;
 using namespace vl::presentation;
@@ -133,186 +132,118 @@ void CreateButton(
 	CreateCenteredLabel(cell, textColor, text);
 }
 
-class WindowListener : public Object, public INativeWindowListener
+void SetupWindow(GuiGraphicsHost* host)
 {
-protected:
-	INativeWindow*			window;
-	GuiWindowComposition*	windowComposition;
-	Size					previousClientSize;
-	Size					minSize;
-public:
-	WindowListener(INativeWindow* _window)
 	{
-		window=_window;
-		previousClientSize=window->GetClientSize();
+		GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
+		background->SetColor(Color(255, 255, 255));
+		host->GetMainComposition()->SetOwnedElement(background);
+	}
+	{
+		GuiTableComposition* table=new GuiTableComposition;
+		table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+		host->GetMainComposition()->AddChild(table);
+		table->SetRowsAndColumns(3, 6);
+		table->SetCellPadding(2);
+		table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 
-		windowComposition=new GuiWindowComposition;
-		windowComposition->SetAttachedWindow(window);
-		windowComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 		{
-			GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
-			background->SetColor(Color(255, 255, 255));
-			windowComposition->SetOwnedElement(background);
+			table->SetRowOption(0, GuiCellOption::MinSizeOption());
+			table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
+			table->SetRowOption(2, GuiCellOption::MinSizeOption());
+
+			table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+			table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+			table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+			table->SetColumnOption(3, GuiCellOption::MinSizeOption());
+			table->SetColumnOption(4, GuiCellOption::MinSizeOption());
+			table->SetColumnOption(5, GuiCellOption::MinSizeOption());
+		}
+
+		{
+			GuiCellComposition* cell=new GuiCellComposition;
+			table->AddChild(cell);
+			cell->SetSite(0, 0, 1, 6);
+			CreateLabel(cell, Color(0, 0, 0), L"This is the title");
 		}
 		{
-			GuiTableComposition* table=new GuiTableComposition;
-			table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-			windowComposition->AddChild(table);
-			table->SetRowsAndColumns(3, 6);
-			table->SetCellPadding(2);
-			table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-
+			GuiCellComposition* cell=new GuiCellComposition;
+			table->AddChild(cell);
+			cell->SetSite(1, 0, 1, 6);
 			{
-				table->SetRowOption(0, GuiCellOption::MinSizeOption());
-				table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
-				table->SetRowOption(2, GuiCellOption::MinSizeOption());
-
-				table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
-				table->SetColumnOption(1, GuiCellOption::MinSizeOption());
-				table->SetColumnOption(2, GuiCellOption::MinSizeOption());
-				table->SetColumnOption(3, GuiCellOption::MinSizeOption());
-				table->SetColumnOption(4, GuiCellOption::MinSizeOption());
-				table->SetColumnOption(5, GuiCellOption::MinSizeOption());
+				GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+				element->SetColor(Color(0, 128, 255));
+				cell->SetOwnedElement(element);
+				cell->SetInternalMargin(Margin(1, 1, 1, 1));
 			}
-
-			{
-				GuiCellComposition* cell=new GuiCellComposition;
-				table->AddChild(cell);
-				cell->SetSite(0, 0, 1, 6);
-				CreateLabel(cell, Color(0, 0, 0), L"This is the title");
-			}
-			{
-				GuiCellComposition* cell=new GuiCellComposition;
-				table->AddChild(cell);
-				cell->SetSite(1, 0, 1, 6);
-				{
-					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-					element->SetColor(Color(0, 128, 255));
-					cell->SetOwnedElement(element);
-					cell->SetInternalMargin(Margin(1, 1, 1, 1));
-				}
-				CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
-			}
-
-			for(int i=0;i<5;i++)
-			{
-				GuiCellComposition* cell=new GuiCellComposition;
-				table->AddChild(cell);
-				cell->SetSite(2, i+1, 1, 1);
-				cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
-			}
-			CreateButton(
-				table->GetSitedCell(2, 1),
-				Color(122, 122, 122),
-				Color(251, 251, 251),
-				Color(250, 250, 250),
-				Color(235, 235, 235),
-				Color(221, 221, 221),
-				Color(207, 207, 207),
-				L"Normal",
-				Color(0, 0, 0)
-				);
-			CreateButton(
-				table->GetSitedCell(2, 2),
-				Color(60, 127, 177),//Color(204, 240, 255),
-				Color(220, 244, 254),
-				Color(246, 252, 255),
-				Color(240, 250, 255),
-				Color(225, 245, 254),
-				Color(215, 245, 254),
-				L"Active",
-				Color(0, 0, 0)
-				);
-			CreateButton(
-				table->GetSitedCell(2, 3),
-				Color(60, 127, 177),//Color(128, 190, 247),
-				Color(232, 248, 255),
-				Color(225, 246, 255),
-				Color(204, 239, 254),
-				Color(181, 231, 253),
-				Color(164, 225, 251),
-				L"Selected",
-				Color(0, 0, 0)
-				);
-			CreateButton(
-				table->GetSitedCell(2, 4),
-				Color(44, 98, 139),
-				Color(158, 176, 186),
-				Color(225, 246, 255),
-				Color(204, 239, 254),
-				Color(181, 231, 253),
-				Color(164, 225, 251),
-				L"Pressed",
-				Color(0, 0, 0)
-				);
-			CreateButton(
-				table->GetSitedCell(2, 5),
-				Color(173, 178, 181),
-				Color(252, 252, 252),
-				Color(244, 244, 244),
-				Color(244, 244, 244),
-				Color(244, 244, 244),
-				Color(244, 244, 244),
-				L"Disabled",
-				Color(131, 131, 131)
-				);
-			table->UpdateCellBounds();
+			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
 		}
-		minSize=windowComposition->GetMinNecessaryBounds().GetSize();
-		Render();
-	}
 
-	~WindowListener()
-	{
-		delete windowComposition;
-	}
-
-	void Render()
-	{
-		windowComposition->GetRenderTarget()->StartRendering();
-		windowComposition->Render(Size());
-		windowComposition->GetRenderTarget()->StopRendering();
-	}
-
-	void Moving(Rect& bounds)
-	{
-		Rect oldBounds=window->GetBounds();
-		Size minWindowSize=minSize+(oldBounds.GetSize()-window->GetClientSize());
-		if(bounds.Width()<minWindowSize.x)
+		for(int i=0;i<5;i++)
 		{
-			if(oldBounds.x1!=bounds.x1)
-			{
-				bounds.x1=oldBounds.x2-minWindowSize.x;
-			}
-			else if(oldBounds.x2!=bounds.x2)
-			{
-				bounds.x2=oldBounds.x1+minWindowSize.x;
-			}
+			GuiCellComposition* cell=new GuiCellComposition;
+			table->AddChild(cell);
+			cell->SetSite(2, i+1, 1, 1);
+			cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
 		}
-		if(bounds.Height()<minWindowSize.y)
-		{
-			if(oldBounds.y1!=bounds.y1)
-			{
-				bounds.y1=oldBounds.y2-minWindowSize.y;
-			}
-			else if(oldBounds.y2!=bounds.y2)
-			{
-				bounds.y2=oldBounds.y1+minWindowSize.y;
-			}
-		}
+		CreateButton(
+			table->GetSitedCell(2, 1),
+			Color(122, 122, 122),
+			Color(251, 251, 251),
+			Color(250, 250, 250),
+			Color(235, 235, 235),
+			Color(221, 221, 221),
+			Color(207, 207, 207),
+			L"Normal",
+			Color(0, 0, 0)
+			);
+		CreateButton(
+			table->GetSitedCell(2, 2),
+			Color(60, 127, 177),//Color(204, 240, 255),
+			Color(220, 244, 254),
+			Color(246, 252, 255),
+			Color(240, 250, 255),
+			Color(225, 245, 254),
+			Color(215, 245, 254),
+			L"Active",
+			Color(0, 0, 0)
+			);
+		CreateButton(
+			table->GetSitedCell(2, 3),
+			Color(60, 127, 177),//Color(128, 190, 247),
+			Color(232, 248, 255),
+			Color(225, 246, 255),
+			Color(204, 239, 254),
+			Color(181, 231, 253),
+			Color(164, 225, 251),
+			L"Selected",
+			Color(0, 0, 0)
+			);
+		CreateButton(
+			table->GetSitedCell(2, 4),
+			Color(44, 98, 139),
+			Color(158, 176, 186),
+			Color(225, 246, 255),
+			Color(204, 239, 254),
+			Color(181, 231, 253),
+			Color(164, 225, 251),
+			L"Pressed",
+			Color(0, 0, 0)
+			);
+		CreateButton(
+			table->GetSitedCell(2, 5),
+			Color(173, 178, 181),
+			Color(252, 252, 252),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			Color(244, 244, 244),
+			L"Disabled",
+			Color(131, 131, 131)
+			);
+		table->UpdateCellBounds();
 	}
-
-	void Moved()
-	{
-		Size size=window->GetClientSize();
-		if(previousClientSize!=size)
-		{
-			previousClientSize=size;
-			minSize=windowComposition->GetMinNecessaryBounds().GetSize();
-			Render();
-		}
-	}
-};
+}
 
 void GuiMain()
 {
@@ -331,8 +262,9 @@ void GuiMain()
 		windowBounds.GetSize()
 		));
 
-	WindowListener listener(window);
-	window->InstallListener(&listener);
+	GuiGraphicsHost host;
+	SetupWindow(&host);
+	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
 }

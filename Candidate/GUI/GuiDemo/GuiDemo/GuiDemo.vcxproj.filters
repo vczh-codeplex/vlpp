@@ -123,6 +123,9 @@
     <ClCompile Include="..\..\..\..\Library\Entity\TreeQuery.cpp">
       <Filter>Library\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Entity\TreeQuery.h">
       <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.h">
+      <Filter>GUI\GraphicsElement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
