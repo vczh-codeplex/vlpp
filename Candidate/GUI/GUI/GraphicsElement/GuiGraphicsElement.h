@@ -48,6 +48,7 @@ Basic Construction
 			public:
 				virtual IGuiGraphicsRendererFactory*	GetFactory()=0;
 				virtual void							Initialize(IGuiGraphicsElement* element)=0;
+				virtual void							Finalize()=0;
 				virtual void							SetRenderTarget(IGuiGraphicsRenderTarget* renderTarget)=0;
 				virtual void							Render(Rect bounds)=0;
 				virtual void							OnElementStateChanged()=0;
@@ -172,6 +173,10 @@ Helpers
 				{\
 					element=dynamic_cast<TELEMENT*>(_element);\
 					InitializeInternal();\
+				}\
+				void Finalize()\
+				{\
+					FinalizeInternal();\
 				}\
 				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)\
 				{\

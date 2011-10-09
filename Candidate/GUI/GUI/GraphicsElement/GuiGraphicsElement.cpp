@@ -95,6 +95,7 @@ GuiSolidBorderElement
 
 			GuiSolidBorderElement::~GuiSolidBorderElement()
 			{
+				renderer->Finalize();
 			}
 
 			Color GuiSolidBorderElement::GetColor()
@@ -123,6 +124,7 @@ GuiRoundBorderElement
 
 			GuiRoundBorderElement::~GuiRoundBorderElement()
 			{
+				renderer->Finalize();
 			}
 
 			Color GuiRoundBorderElement::GetColor()
@@ -164,6 +166,7 @@ GuiSolidBackgroundElement
 
 			GuiSolidBackgroundElement::~GuiSolidBackgroundElement()
 			{
+				renderer->Finalize();
 			}
 
 			Color GuiSolidBackgroundElement::GetColor()
@@ -191,6 +194,7 @@ GuiGradientBackgroundElement
 
 			GuiGradientBackgroundElement::~GuiGradientBackgroundElement()
 			{
+				renderer->Finalize();
 			}
 
 			Color GuiGradientBackgroundElement::GetColor1()
@@ -242,6 +246,7 @@ GuiSolidLabelElement
 
 			GuiSolidLabelElement::~GuiSolidLabelElement()
 			{
+				renderer->Finalize();
 			}
 
 			Color GuiSolidLabelElement::GetColor()

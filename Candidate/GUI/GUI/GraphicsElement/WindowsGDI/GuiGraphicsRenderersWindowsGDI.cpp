@@ -21,6 +21,13 @@ GuiSolidBorderElementRenderer
 				brush=resourceManager->CreateGdiBrush(Color(0, 0, 0, 0));
 			}
 
+			void GuiSolidBorderElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldColor);
+				resourceManager->DestroyGdiBrush(Color(0, 0, 0, 0));
+			}
+
 			void GuiSolidBorderElementRenderer::RenderTargetChangedInternal()
 			{
 			}
@@ -57,6 +64,13 @@ GuiRoundBorderElementRenderer
 				oldColor=element->GetColor();
 				pen=resourceManager->CreateGdiPen(oldColor);
 				brush=resourceManager->CreateGdiBrush(Color(0, 0, 0, 0));
+			}
+
+			void GuiRoundBorderElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldColor);
+				resourceManager->DestroyGdiBrush(Color(0, 0, 0, 0));
 			}
 
 			void GuiRoundBorderElementRenderer::RenderTargetChangedInternal()
@@ -97,6 +111,12 @@ GuiSolidBackgroundElementRenderer
 				brush=resourceManager->CreateGdiBrush(oldColor);
 			}
 
+			void GuiSolidBackgroundElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiBrush(oldColor);
+			}
+
 			void GuiSolidBackgroundElementRenderer::RenderTargetChangedInternal()
 			{
 			}
@@ -127,6 +147,10 @@ GuiGradientBackgroundElementRenderer
 ***********************************************************************/
 
 			void GuiGradientBackgroundElementRenderer::InitializeInternal()
+			{
+			}
+
+			void GuiGradientBackgroundElementRenderer::FinalizeInternal()
 			{
 			}
 
@@ -235,6 +259,12 @@ GuiSolidLabelElementRenderer
 				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				oldFont=element->GetFont();
 				font=resourceManager->CreateGdiFont(oldFont);
+			}
+
+			void GuiSolidLabelElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiFont(oldFont);
 			}
 
 			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal()

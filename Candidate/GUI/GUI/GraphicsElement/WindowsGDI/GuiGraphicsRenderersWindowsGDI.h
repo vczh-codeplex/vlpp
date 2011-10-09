@@ -32,6 +32,7 @@ Renderers
 				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
+				void					FinalizeInternal();
 				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
@@ -47,6 +48,7 @@ Renderers
 				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
+				void					FinalizeInternal();
 				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
@@ -61,6 +63,7 @@ Renderers
 				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
+				void					FinalizeInternal();
 				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
@@ -72,6 +75,7 @@ Renderers
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IWindowsGDIRenderTarget)
 			protected:
 				void					InitializeInternal();
+				void					FinalizeInternal();
 				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
@@ -88,6 +92,7 @@ Renderers
 				void					UpdateMinSize();
 
 				void					InitializeInternal();
+				void					FinalizeInternal();
 				void					RenderTargetChangedInternal();
 			public:
 				void					Render(Rect bounds);
