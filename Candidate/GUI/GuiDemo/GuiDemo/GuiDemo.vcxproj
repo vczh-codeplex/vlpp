@@ -90,6 +90,7 @@
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\Library\String.h" />
+    <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h" />

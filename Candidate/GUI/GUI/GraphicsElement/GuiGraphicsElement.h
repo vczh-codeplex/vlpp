@@ -6,8 +6,8 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSELEMENT
-#define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSELEMENT
+#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSELEMENT
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSELEMENT
 
 #include "..\NativeWindow\GuiNativeWindow.h"
 #include "..\..\..\..\Library\Pointer.h"

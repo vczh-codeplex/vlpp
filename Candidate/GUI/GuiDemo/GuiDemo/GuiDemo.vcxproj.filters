@@ -64,6 +64,9 @@
     <Filter Include="Library\Entity">
       <UniqueIdentifier>{56516ae3-94a4-44e1-9d21-4ddbc2740fb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Controls">
+      <UniqueIdentifier>{c320517e-a203-4e64-84ad-c1d03dc1609c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp">
       <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp">
+      <Filter>GUI\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h">
       <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h">
+      <Filter>GUI\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

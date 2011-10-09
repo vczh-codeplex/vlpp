@@ -1,8 +1,9 @@
-#include "..\..\GUI\GraphicsElement\GuiGraphicsHost.h"
+#include "..\..\GUI\Controls\GuiBasicControls.h"
 
 using namespace vl;
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
+using namespace vl::presentation::controls;
 
 GuiBoundsComposition* CreateBorder(GuiGraphicsComposition* parent, Color color, Rect bounds, bool internalMargin)
 {
