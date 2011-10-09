@@ -59,7 +59,7 @@ Host
 				Size							minSize;
 
 				GuiGraphicsAnimationManager		animationManager;
-				int								mouseCaptureCounter;
+				bool							mouseCapturing;
 				Point							mouseCaptureLocation;
 				CompositionList					mouseEnterCompositions;
 
