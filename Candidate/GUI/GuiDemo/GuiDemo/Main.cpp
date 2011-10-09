@@ -262,6 +262,7 @@ void GuiMain()
 		windowBounds.GetSize()
 		));
 
+	GetCurrentController()->StartTimer();
 	GuiGraphicsHost host;
 	SetupWindow(&host);
 	host.SetNativeWindow(window);
