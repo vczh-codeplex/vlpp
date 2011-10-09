@@ -34,7 +34,7 @@ GuiBoundsComposition* CreateCenteredLabel(GuiCellComposition* cell, Color color,
 	return composition;
 }
 
-void SetupWindow(GuiGraphicsHost* host, GuiButton* button)
+void SetupWindow(GuiGraphicsHost* host, GuiButton* buttonOK, GuiButton* buttonCancel)
 {
 	{
 		GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
@@ -45,8 +45,8 @@ void SetupWindow(GuiGraphicsHost* host, GuiButton* button)
 		GuiTableComposition* table=new GuiTableComposition;
 		table->SetAlignmentToParent(Margin(0, 0, 0, 0));
 		host->GetMainComposition()->AddChild(table);
-		table->SetRowsAndColumns(3, 6);
-		table->SetCellPadding(2);
+		table->SetRowsAndColumns(3, 3);
+		table->SetCellPadding(5);
 		table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 
 		{
@@ -57,21 +57,18 @@ void SetupWindow(GuiGraphicsHost* host, GuiButton* button)
 			table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
 			table->SetColumnOption(1, GuiCellOption::MinSizeOption());
 			table->SetColumnOption(2, GuiCellOption::MinSizeOption());
-			table->SetColumnOption(3, GuiCellOption::MinSizeOption());
-			table->SetColumnOption(4, GuiCellOption::MinSizeOption());
-			table->SetColumnOption(5, GuiCellOption::MinSizeOption());
 		}
 
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
 			table->AddChild(cell);
-			cell->SetSite(0, 0, 1, 6);
+			cell->SetSite(0, 0, 1, 3);
 			CreateLabel(cell, Color(0, 0, 0), L"This is the title");
 		}
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
 			table->AddChild(cell);
-			cell->SetSite(1, 0, 1, 6);
+			cell->SetSite(1, 0, 1, 3);
 			{
 				GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
 				element->SetColor(Color(0, 128, 255));
@@ -79,21 +76,29 @@ void SetupWindow(GuiGraphicsHost* host, GuiButton* button)
 				cell->SetInternalMargin(Margin(1, 1, 1, 1));
 			}
 			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
-			{
-				cell->AddChild(button->GetBoundsComposition());
-				button->GetBoundsComposition()->SetAlignmentToParent(Margin(-1, 10, 10, -1));
-				button->SetText(L"This is the button with interaction");
-			}
 		}
 
-		const wchar_t* buttonTexts[]={L"Normal", L"Active", L"Selected", L"Pressed", L"Disabled"};
-		for(int i=0;i<5;i++)
+		const wchar_t* buttonTexts[]={L"OK", L"Cancel"};
+		for(int i=0;i<2;i++)
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
 			table->AddChild(cell);
 			cell->SetSite(2, i+1, 1, 1);
 			cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
 			CreateCenteredLabel(cell, Color(0, 0, 0), buttonTexts[i]);
+
+			if(i==0)
+			{
+				cell->AddChild(buttonOK->GetBoundsComposition());
+				buttonOK->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				buttonOK->SetText(L"OK");
+			}
+			else
+			{
+				cell->AddChild(buttonCancel->GetBoundsComposition());
+				buttonCancel->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				buttonCancel->SetText(L"Cancel");
+			}
 		}
 	}
 }
@@ -117,8 +122,9 @@ void GuiMain()
 
 	GetCurrentController()->StartTimer();
 	GuiGraphicsHost host;
-	GuiButton button(new win7::Win7ButtonStyle());
-	SetupWindow(&host, &button);
+	GuiButton buttonOK(new win7::Win7ButtonStyle());
+	GuiButton buttonCancel(new win7::Win7ButtonStyle());
+	SetupWindow(&host, &buttonOK, &buttonCancel);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
