@@ -53,24 +53,26 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::MouseCapture(const NativeWindowMouseInfo& info)
 			{
-				if(mouseCaptureCounter++==0)
+				if(!mouseCapturing && (info.left || info.middle || info.right))
 				{
 					nativeWindow->RequireCapture();
 					mouseCaptureLocation=Point(info.x, info.y);
+					mouseCapturing=true;
 				}
 			}
 
 			void GuiGraphicsHost::MouseUncapture(const NativeWindowMouseInfo& info)
 			{
-				if(--mouseCaptureCounter==0)
+				if(mouseCapturing && !(info.left || info.middle || info.right))
 				{
 					nativeWindow->ReleaseCapture();
+					mouseCapturing=false;
 				}
 			}
 
 			Point GuiGraphicsHost::GetMouseInputLocation(const NativeWindowMouseInfo& info)
 			{
-				return mouseCaptureCounter>0?mouseCaptureLocation:Point(info.x, info.y);
+				return mouseCapturing?mouseCaptureLocation:Point(info.x, info.y);
 			}
 
 			void GuiGraphicsHost::RaiseMouseEvent(GuiMouseEventArgs& arguments, GuiGraphicsComposition* composition, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent)
@@ -323,7 +325,7 @@ GuiGraphicsHost
 			GuiGraphicsHost::GuiGraphicsHost()
 				:nativeWindow(0)
 				,windowComposition(0)
-				,mouseCaptureCounter(0)
+				,mouseCapturing(false)
 			{
 				windowComposition=new GuiWindowComposition;
 				windowComposition->SetAssociatedHost(this);
