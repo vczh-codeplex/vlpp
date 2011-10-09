@@ -253,6 +253,72 @@ struct ButtonComposition
 	}
 };
 
+class ButtonAnimation : public GuiTimeBasedAnimation
+{
+public:
+	ButtonComposition		button;
+	GuiGraphicsHost*		host;
+	int						state1;
+	int						state2;
+
+	ButtonAnimation(const ButtonComposition& _button, GuiGraphicsHost* _host, int _state1=0, int _state2=1)
+		:GuiTimeBasedAnimation(300)
+		,button(_button)
+		,host(_host)
+		,state1(_state1)
+		,state2(_state2)
+	{
+	}
+
+	ButtonColors GetColor(int state)
+	{
+		switch(state)
+		{
+		case 1:return ButtonColors::Active();
+		case 2:return ButtonColors::Selected();
+		case 3:return ButtonColors::Pressed();
+		case 4:return ButtonColors::Disabled();
+		default:return ButtonColors::Normal();
+		}
+	}
+
+	unsigned char ToByte(int color)
+	{
+		return color<0?0:color>255?255:(unsigned char)color;
+	}
+
+	Color GetColor(Color c1, Color c2, int currentPosition, int totalLength)
+	{
+		return Color(
+			(unsigned char)ToByte((c2.r*currentPosition+c1.r*(totalLength-currentPosition))/totalLength),
+			(unsigned char)ToByte((c2.g*currentPosition+c1.g*(totalLength-currentPosition))/totalLength),
+			(unsigned char)ToByte((c2.b*currentPosition+c1.b*(totalLength-currentPosition))/totalLength),
+			(unsigned char)ToByte((c2.a*currentPosition+c1.a*(totalLength-currentPosition))/totalLength)
+			);
+	}
+
+	void Play(int currentPosition, int totalLength)
+	{
+		ButtonColors c1=GetColor(state1);
+		ButtonColors c2=GetColor(state2);
+		ButtonColors result;
+
+		result.borderColor=GetColor(c1.borderColor, c2.borderColor, currentPosition, totalLength);
+		result.backgroundColor=GetColor(c1.backgroundColor, c2.backgroundColor, currentPosition, totalLength);
+		result.g1=GetColor(c1.g1, c2.g1, currentPosition, totalLength);
+		result.g2=GetColor(c1.g2, c2.g2, currentPosition, totalLength);
+		result.g3=GetColor(c1.g3, c2.g3, currentPosition, totalLength);
+		result.g4=GetColor(c1.g4, c2.g4, currentPosition, totalLength);
+		result.textColor=GetColor(c1.textColor, c2.textColor, currentPosition, totalLength);
+		button.Apply(result);
+	}
+
+	void Stop()
+	{
+		host->GetAnimationManager()->AddAnimation(new ButtonAnimation(button, host, (state1+1)%5, (state2+1)%5));
+	}
+};
+
 void SetupWindow(GuiGraphicsHost* host)
 {
 	{
@@ -302,6 +368,7 @@ void SetupWindow(GuiGraphicsHost* host)
 			ButtonComposition button=ButtonComposition::Create(cell, L"This is the button with animation");
 			button.Apply(ButtonColors::Normal());
 			button.mainComposition->SetAlignmentToParent(Margin(-1, 10, 10, -1));
+			host->GetAnimationManager()->AddAnimation(new ButtonAnimation(button, host));
 		}
 
 		const wchar_t* buttonTexts[]={L"Normal", L"Active", L"Selected", L"Pressed", L"Disabled"};

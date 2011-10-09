@@ -31,7 +31,7 @@ GuiGraphicsAnimationManager
 
 			void GuiGraphicsAnimationManager::Play()
 			{
-				for(int i=playingAnimations.Count();i>=0;i--)
+				for(int i=playingAnimations.Count()-1;i>=0;i--)
 				{
 					Ptr<IGuiGraphicsAnimation> animation=playingAnimations[i];
 					int totalLength=animation->GetTotalLength();
@@ -94,6 +94,7 @@ GuiGraphicsHost
 				{
 					animationManager.Play();
 					Render();
+					nativeWindow->RedrawContent();
 				}
 			}
 
