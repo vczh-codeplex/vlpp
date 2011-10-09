@@ -49,6 +49,58 @@ GuiGraphicsAnimationManager
 GuiGraphicsHost
 ***********************************************************************/
 
+			void GuiGraphicsHost::RaiseMouseEvent(GuiMouseEventArgs& arguments, GuiGraphicsComposition* composition, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent)
+			{
+				arguments.compositionSource=composition;
+				arguments.eventSource=0;
+				int x=arguments.x;
+				int y=arguments.y;
+
+				while(composition)
+				{
+					if(composition->HasEventReceiver())
+					{
+						if(!arguments.eventSource)
+						{
+							arguments.eventSource=composition;
+						}
+						GuiGraphicsEventReceiver* eventReceiver=composition->GetEventReceiver();
+						if(eventReceiver->GetEnabled())
+						{
+							(eventReceiver->*eventReceiverEvent).Execute(arguments);
+						}
+					}
+
+					GuiGraphicsComposition* parent=composition->GetParent();
+					if(parent)
+					{
+						Rect parentBounds=parent->GetBounds();
+						Rect clientArea=parent->GetClientArea();
+						Rect childBounds=composition->GetBounds();
+
+						x+=childBounds.x1+(clientArea.x1-parentBounds.x1);
+						y+=childBounds.y1+(clientArea.y1-parentBounds.y1);
+						arguments.x=x;
+						arguments.y=y;
+					}
+					composition=parent;
+				}
+			}
+
+			void GuiGraphicsHost::OnMouseInput(const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent)
+			{
+				Rect bounds;
+				GuiGraphicsComposition* composition=windowComposition->FindComposition(Point(info.x, info.y), bounds);
+				if(composition)
+				{
+					GuiMouseEventArgs arguments;
+					(NativeWindowMouseInfo&)arguments=info;
+					arguments.x-=bounds.x1;
+					arguments.y-=bounds.y1;
+					RaiseMouseEvent(arguments, composition, eventReceiverEvent);
+				}
+			}
+
 			void GuiGraphicsHost::Moving(Rect& bounds)
 			{
 				Rect oldBounds=nativeWindow->GetBounds();
@@ -86,6 +138,92 @@ GuiGraphicsHost
 					minSize=windowComposition->GetMinNecessaryBounds().GetSize();
 					Render();
 				}
+			}
+
+			void GuiGraphicsHost::LeftButtonDown(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::leftButtonDown);
+			}
+
+			void GuiGraphicsHost::LeftButtonUp(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::leftButtonUp);
+			}
+
+			void GuiGraphicsHost::LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::leftButtonDoubleClick);
+			}
+
+			void GuiGraphicsHost::RightButtonDown(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::rightButtonDown);
+			}
+
+			void GuiGraphicsHost::RightButtonUp(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::rightButtonUp);
+			}
+
+			void GuiGraphicsHost::RightButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::rightButtonDoubleClick);
+			}
+
+			void GuiGraphicsHost::MiddleButtonDown(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::middleButtonDown);
+			}
+
+			void GuiGraphicsHost::MiddleButtonUp(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::middleButtonUp);
+			}
+
+			void GuiGraphicsHost::MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::middleButtonDoubleClick);
+			}
+
+			void GuiGraphicsHost::HorizontalWheel(const NativeWindowMouseInfo& info)
+			{
+			}
+
+			void GuiGraphicsHost::VerticalWheel(const NativeWindowMouseInfo& info)
+			{
+			}
+
+			void GuiGraphicsHost::MouseMoving(const NativeWindowMouseInfo& info)
+			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::mouseMove);
+			}
+
+			void GuiGraphicsHost::MouseEntered()
+			{
+			}
+
+			void GuiGraphicsHost::MouseLeaved()
+			{
+			}
+
+			void GuiGraphicsHost::KeyDown(int code, bool alt)
+			{
+			}
+
+			void GuiGraphicsHost::KeyUp(int code, bool alt)
+			{
+			}
+
+			void GuiGraphicsHost::SysKeyDown(int code, bool alt)
+			{
+			}
+
+			void GuiGraphicsHost::SysKeyUp(int code, bool alt)
+			{
+			}
+
+			void GuiGraphicsHost::Char(wchar_t keyChar)
+			{
 			}
 
 			void GuiGraphicsHost::GlobalTimer()

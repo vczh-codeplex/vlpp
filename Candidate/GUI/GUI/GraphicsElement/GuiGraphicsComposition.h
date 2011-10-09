@@ -70,6 +70,8 @@ Basic Construction
 
 				void								Render(Size offset);
 				GuiGraphicsEventReceiver*			GetEventReceiver();
+				bool								HasEventReceiver();
+				GuiGraphicsComposition*				FindComposition(Point location, Rect& compositionBounds);
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

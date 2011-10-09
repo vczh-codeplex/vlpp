@@ -11,6 +11,7 @@ Interfaces:
 
 #include "..\NativeWindow\GuiNativeWindow.h"
 #include "..\..\..\..\Library\Pointer.h"
+#include "..\..\..\..\Library\Function.h"
 #include "..\..\..\..\Library\Collections\List.h"
 
 namespace vl
@@ -32,7 +33,25 @@ Event
 				class IHandler : public Interface
 				{
 				public:
-					virtual void			Execute(GuiGraphicsComposition* sender, GuiGraphicsComposition* source, T& argument)=0;
+					virtual void			Execute(GuiGraphicsComposition* sender, T& argument)=0;
+				};
+				
+				class FunctionHandler : public Object, public IHandler
+				{
+				public:
+					typedef Func<void(GuiGraphicsComposition*, T&)>		FunctionType;
+				protected:
+					FunctionType		handler;
+				public:
+					FunctionHandler(const FunctionType& _handler)
+						:handler(_handler)
+					{
+					}
+
+					void Execute(GuiGraphicsComposition* sender, T& argument)
+					{
+						handler(sender, argument);
+					}
 				};
 			protected:
 				struct HandlerNode
@@ -95,12 +114,12 @@ Event
 					return false;
 				}
 
-				void Execute(GuiGraphicsComposition* source, T& argument)
+				void Execute(T& argument)
 				{
 					Ptr<HandlerNode>* currentHandler=&handlers;
 					while(*currentHandler)
 					{
-						(*currentHandler)->handler->Execute(sender, source, argument);
+						(*currentHandler)->handler->Execute(sender, argument);
 						currentHandler=&(*currentHandler)->next;
 					}
 				}
@@ -112,25 +131,33 @@ Predefined Events
 
 			struct GuiEventArgs
 			{
+				GuiGraphicsComposition*		compositionSource;	// the deepest composition
+				GuiGraphicsComposition*		eventSource;		// the deepest composition that contains an event receiver
+
+				GuiEventArgs()
+					:compositionSource(0)
+					,eventSource(0)
+				{
+				}
 			};
 
-			struct GuiRequestEventArgs
+			struct GuiRequestEventArgs : public GuiEventArgs
 			{
 				bool		cancel;
 			};
 
-			struct GuiKeyEventArgs
+			struct GuiKeyEventArgs : public GuiEventArgs
 			{
 				int			code;
 				bool		alt;
 			};
 
-			struct GuiCharEventArgs
+			struct GuiCharEventArgs : public GuiEventArgs
 			{
 				wchar_t		value;
 			};
 
-			struct GuiMouseEventArgs : NativeWindowMouseInfo
+			struct GuiMouseEventArgs : public GuiEventArgs, public NativeWindowMouseInfo
 			{
 			};
 

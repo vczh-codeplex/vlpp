@@ -231,6 +231,45 @@ GuiGraphicsComposition
 				return eventReceiver.Obj();
 			}
 
+			bool GuiGraphicsComposition::HasEventReceiver()
+			{
+				return eventReceiver;
+			}
+
+			GuiGraphicsComposition* GuiGraphicsComposition::FindComposition(Point location, Rect& compositionBounds)
+			{
+				if(!visible) return 0;
+				Rect bounds=GetBounds();
+				Rect relativeBounds=Rect(Point(0, 0), bounds.GetSize());
+				if(relativeBounds.Contains(location))
+				{
+					Rect clientArea=GetClientArea();
+					for(int i=children.Count()-1;i>=0;i--)
+					{
+						GuiGraphicsComposition* child=children[i];
+						Rect childBounds=child->GetBounds();
+						int offsetX=childBounds.x1+(clientArea.x1-bounds.x1);
+						int offsetY=childBounds.y1+(clientArea.y1-bounds.y1);
+						Point newLocation=location-Size(offsetX, offsetY);
+						GuiGraphicsComposition* childResult=child->FindComposition(newLocation, compositionBounds);
+						if(childResult)
+						{
+							compositionBounds.x1+=offsetX;
+							compositionBounds.x2+=offsetX;
+							compositionBounds.y1+=offsetY;
+							compositionBounds.y2+=offsetY;
+							return childResult;
+						}
+					}
+					compositionBounds=relativeBounds;
+					return this;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
 			Margin GuiGraphicsComposition::GetMargin()
 			{
 				return margin;
