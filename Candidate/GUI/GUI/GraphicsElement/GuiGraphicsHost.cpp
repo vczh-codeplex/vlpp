@@ -11,6 +11,41 @@ namespace vl
 GuiGraphicsHost
 ***********************************************************************/
 
+			GuiGraphicsAnimationManager::GuiGraphicsAnimationManager()
+			{
+			}
+
+			GuiGraphicsAnimationManager::~GuiGraphicsAnimationManager()
+			{
+			}
+
+			void GuiGraphicsAnimationManager::AddAnimation(Ptr<IGuiGraphicsAnimation> animation)
+			{
+				playingAnimations.Add(animation);
+			}
+
+			bool GuiGraphicsAnimationManager::HasAnimation()
+			{
+				return playingAnimations.Count()>0;
+			}
+
+			void GuiGraphicsAnimationManager::Play()
+			{
+				for(int i=playingAnimations.Count();i>=0;i--)
+				{
+					Ptr<IGuiGraphicsAnimation> animation=playingAnimations[i];
+					animation->Play();
+					if(animation->GetCurrentLength()>=animation->GetTotalLength())
+					{
+						playingAnimations.RemoveAt(i);
+					}
+				}
+			}
+
+/***********************************************************************
+GuiGraphicsHost
+***********************************************************************/
+
 			void GuiGraphicsHost::Moving(Rect& bounds)
 			{
 				Rect oldBounds=nativeWindow->GetBounds();
@@ -98,6 +133,11 @@ GuiGraphicsHost
 				windowComposition->GetRenderTarget()->StartRendering();
 				windowComposition->Render(Size());
 				windowComposition->GetRenderTarget()->StopRendering();
+			}
+
+			GuiGraphicsAnimationManager* GuiGraphicsHost::GetAnimationManager()
+			{
+				return &animationManager;
 			}
 		}
 	}
