@@ -28,6 +28,9 @@ Win7ItemColors
 
 			Win7ItemColors Win7ItemColors::Blend(const Win7ItemColors c1, const Win7ItemColors c2, int ratio, int total)
 			{
+				if(ratio<0) ratio=0;
+				else if(ratio>total) ratio=total;
+
 				Win7ItemColors result;
 				result.borderColor=BlendColor(c1.borderColor, c2.borderColor, ratio, total);
 				result.backgroundColor=BlendColor(c1.backgroundColor, c2.backgroundColor, ratio, total);
@@ -223,10 +226,50 @@ Win7ButtonElements
 Win7ButtonStyle
 ***********************************************************************/
 
+			Win7ButtonStyle::TransferringAnimation::TransferringAnimation(Win7ButtonStyle* _style, const Win7ItemColors& begin)
+				:GuiTimeBasedAnimation(0)
+				,colorBegin(begin)
+				,colorEnd(begin)
+				,colorCurrent(begin)
+				,style(_style)
+				,stopped(true)
+			{
+			}
+
+			void Win7ButtonStyle::TransferringAnimation::Play(int currentPosition, int totalLength)
+			{
+				colorCurrent=Win7ItemColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
+				style->elements.Apply(colorCurrent);
+			}
+
+			void Win7ButtonStyle::TransferringAnimation::Stop()
+			{
+				stopped=true;
+			}
+
+			void Win7ButtonStyle::TransferringAnimation::Transfer(const Win7ItemColors& end)
+			{
+				Restart(250);
+				if(stopped)
+				{
+					colorBegin=colorEnd;
+					colorEnd=end;
+					style->GetBoundsComposition()->GetRelatedHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
+					stopped=false;
+				}
+				else
+				{
+					colorBegin=colorCurrent;
+					colorEnd=end;
+				}
+			}
+
 			Win7ButtonStyle::Win7ButtonStyle()
 			{
+				Win7ItemColors initialColor=Win7ItemColors::Normal();
 				elements=Win7ButtonElements::Create();
-				elements.Apply(Win7ItemColors::Normal());
+				elements.Apply(initialColor);
+				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
 
 			Win7ButtonStyle::~Win7ButtonStyle()
@@ -248,16 +291,16 @@ Win7ButtonStyle
 				switch(value)
 				{
 				case GuiButton::Normal:
-					elements.Apply(Win7ItemColors::Normal());
+					transferringAnimation->Transfer(Win7ItemColors::Normal());
 					break;
 				case GuiButton::Active:
-					elements.Apply(Win7ItemColors::ButtonActive());
+					transferringAnimation->Transfer(Win7ItemColors::ButtonActive());
 					break;
 				case GuiButton::Pressed:
-					elements.Apply(Win7ItemColors::ButtonPressed());
+					transferringAnimation->Transfer(Win7ItemColors::ButtonPressed());
 					break;
 				case GuiButton::Disabled:
-					elements.Apply(Win7ItemColors::Disabled());
+					transferringAnimation->Transfer(Win7ItemColors::Disabled());
 					break;
 				}
 			}

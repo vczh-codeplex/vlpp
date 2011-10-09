@@ -64,7 +64,24 @@ Button
 			class Win7ButtonStyle : public Object, public GuiButton::IStyleController
 			{
 			protected:
+				class TransferringAnimation : public GuiTimeBasedAnimation
+				{
+				protected:
+					Win7ItemColors							colorBegin;
+					Win7ItemColors							colorEnd;
+					Win7ItemColors							colorCurrent;
+					Win7ButtonStyle*						style;
+					bool									stopped;
+				public:
+					TransferringAnimation(Win7ButtonStyle* _style, const Win7ItemColors& begin);
+
+					void									Play(int currentPosition, int totalLength);
+					void									Stop();
+					void									Transfer(const Win7ItemColors& end);
+				};
+
 				Win7ButtonElements							elements;
+				Ptr<TransferringAnimation>					transferringAnimation;
 			public:
 				Win7ButtonStyle();
 				~Win7ButtonStyle();

@@ -61,6 +61,7 @@ GuiGraphicsComposition
 				,minSizeLimitation(NoLimit)
 				,renderTarget(0)
 				,associatedControl(0)
+				,associatedHost(0)
 			{
 			}
 
@@ -276,11 +277,53 @@ GuiGraphicsComposition
 				return associatedControl;
 			}
 
-			bool GuiGraphicsComposition::SetAssociatedControl(controls::GuiControl* control)
+			void GuiGraphicsComposition::SetAssociatedControl(controls::GuiControl* control)
 			{
-				if(associatedControl) return false;
 				associatedControl=control;
-				return true;
+			}
+
+			GuiGraphicsHost* GuiGraphicsComposition::GetAssociatedHost()
+			{
+				return associatedHost;
+			}
+
+			void GuiGraphicsComposition::SetAssociatedHost(GuiGraphicsHost* host)
+			{
+				associatedHost=host;
+			}
+
+			controls::GuiControl* GuiGraphicsComposition::GetRelatedControl()
+			{
+				GuiGraphicsComposition* composition=this;
+				while(composition)
+				{
+					if(composition->GetAssociatedControl())
+					{
+						return composition->GetAssociatedControl();
+					}
+					else
+					{
+						composition=composition->GetParent();
+					}
+				}
+				return 0;
+			}
+
+			GuiGraphicsHost* GuiGraphicsComposition::GetRelatedHost()
+			{
+				GuiGraphicsComposition* composition=this;
+				while(composition)
+				{
+					if(composition->GetAssociatedHost())
+					{
+						return composition->GetAssociatedHost();
+					}
+					else
+					{
+						composition=composition->GetParent();
+					}
+				}
+				return 0;
 			}
 
 			Margin GuiGraphicsComposition::GetMargin()
