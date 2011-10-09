@@ -6,8 +6,8 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSHOST
-#define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSHOST
+#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSHOST
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSHOST
 
 #include "GuiGraphicsComposition.h"
 

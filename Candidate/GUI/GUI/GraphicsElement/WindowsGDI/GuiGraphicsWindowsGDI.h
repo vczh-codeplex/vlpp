@@ -6,8 +6,8 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSWINDOWSGDI
-#define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSWINDOWSGDI
+#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSGDI
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSGDI
 
 #include "..\..\NativeWindow\Windows\GDI\WinGDIApplication.h"
 #include "..\GuiGraphicsElement.h"

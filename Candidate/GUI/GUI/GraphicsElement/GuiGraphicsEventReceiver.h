@@ -6,8 +6,8 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSEVENTRECEIVER
-#define VCZH_PRESENTATION_WINDOWS_GUIGRAPHICSEVENTRECEIVER
+#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSEVENTRECEIVER
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSEVENTRECEIVER
 
 #include "..\NativeWindow\GuiNativeWindow.h"
 #include "..\..\..\..\Library\Pointer.h"
