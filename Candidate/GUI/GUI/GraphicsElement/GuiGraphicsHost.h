@@ -51,6 +51,7 @@ Host
 
 			class GuiGraphicsHost : public Object, private INativeWindowListener, private INativeControllerListener
 			{
+				typedef collections::List<GuiGraphicsComposition*>		CompositionList;
 			protected:
 				INativeWindow*					nativeWindow;
 				GuiWindowComposition*			windowComposition;
@@ -58,10 +59,16 @@ Host
 				Size							minSize;
 
 				GuiGraphicsAnimationManager		animationManager;
+				int								mouseCaptureCounter;
+				Point							mouseCaptureLocation;
+				CompositionList					mouseEnterCompositions;
 
+				void							MouseCapture(const NativeWindowMouseInfo& info);
+				void							MouseUncapture(const NativeWindowMouseInfo& info);
+				Point							GetMouseInputLocation(const NativeWindowMouseInfo& info);
 			private:
 				void							RaiseMouseEvent(GuiMouseEventArgs& arguments, GuiGraphicsComposition* composition, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
-				void							OnMouseInput(const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
+				void							OnMouseInput(Point location, const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
 
 				void							Moving(Rect& bounds);
 				void							Moved();
