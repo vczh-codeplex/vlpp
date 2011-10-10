@@ -8,6 +8,10 @@ Interfaces:
   INativeWindowListener					：窗口事件监听器
   INativeController						：全局控制器
   INativeControllerListener				：全局事件监听器
+
+Renderers:
+  GUI_GRAPHICS_RENDERER_GDI
+  GUI_GRAPHICS_RENDERER_DIRECT2D
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_GUINATIVEWINDOW

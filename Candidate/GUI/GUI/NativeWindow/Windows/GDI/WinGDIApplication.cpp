@@ -1,3 +1,5 @@
+#ifdef GUI_GRAPHICS_RENDERER_GDI
+
 #if _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -5,6 +7,7 @@
 #endif
 
 #include"WinGDIApplication.h"
+#include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {
@@ -64,7 +67,6 @@ namespace vl
 				GdiWindowsNativeWindowListener(INativeWindow* _window)
 					:window(_window)
 				{
-					IWindowsForm* form=GetWindowsForm(window);
 				}
 
 				void Moved()
@@ -144,3 +146,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	return 0;
 }
+
+#endif

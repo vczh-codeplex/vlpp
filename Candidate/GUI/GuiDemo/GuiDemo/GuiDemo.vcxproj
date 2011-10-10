@@ -43,9 +43,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -53,7 +57,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GUI_GRAPHICS_RENDERER_DIRECT2D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -69,7 +73,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;GUI_GRAPHICS_RENDERER_DIRECT2D;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -96,9 +100,12 @@
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp" />
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp" />
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
@@ -142,10 +149,13 @@
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h" />
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h" />
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />

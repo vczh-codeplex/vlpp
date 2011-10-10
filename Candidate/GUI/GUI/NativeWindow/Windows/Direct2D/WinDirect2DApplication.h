@@ -5,11 +5,11 @@ GUI::Windows GDI Provider
 
 Interfaces:
 ***********************************************************************/
-#ifndef VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
-#define VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
-#ifdef GUI_GRAPHICS_RENDERER_GDI
+#ifndef VCZH_PRESENTATION_WINDOWS_GDI_WINDIRECT2DAPPLICATION
+#define VCZH_PRESENTATION_WINDOWS_GDI_WINDIRECT2DAPPLICATION
+#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 
-#include "WinGDI.h"
+#include <D2D1.h>
 #include "..\WinNativeWindow.h"
 
 namespace vl
@@ -18,7 +18,7 @@ namespace vl
 	{
 		namespace windows
 		{
-			extern WinDC*									GetNativeWindowDC(INativeWindow* window);
+			extern ID2D1RenderTarget*					GetNativeWindowDirect2DRenderTarget(INativeWindow* window);
 		}
 	}
 }

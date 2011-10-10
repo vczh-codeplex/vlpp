@@ -1,3 +1,5 @@
+#ifdef GUI_GRAPHICS_RENDERER_GDI
+
 #include "GuiGraphicsWindowsGDI.h"
 #include "GuiGraphicsRenderersWindowsGDI.h"
 
@@ -345,3 +347,5 @@ void NativeMain()
 	SetWindowsGDIResourceManager(0);
 	SetGuiGraphicsResourceManager(0);
 }
+
+#endif
