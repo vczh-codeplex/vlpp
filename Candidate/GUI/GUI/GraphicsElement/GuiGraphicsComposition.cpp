@@ -579,39 +579,67 @@ GuiTableComposition
 				int GuiTableComposition::* dim1,
 				int GuiTableComposition::* dim2,
 				int (*getSize)(Size),
+				int (*getLocation)(GuiCellComposition*),
 				int (*getSpan)(GuiCellComposition*),
 				int (*getRow)(int, int),
-				int (*getCol)(int, int)
+				int (*getCol)(int, int),
+				int maxPass
 				)
 			{
-				for(int i=0;i<this->*dim1;i++)
+				for(int pass=0;pass<maxPass;pass++)
 				{
-					GuiCellOption option=dimOptions[i];
-					dimSizes[i]=0;
-					switch(option.composeType)
+					for(int i=0;i<this->*dim1;i++)
 					{
-					case GuiCellOption::Absolute:
+						GuiCellOption option=dimOptions[i];
+						if(pass==0)
 						{
-							dimSizes[i]=option.absolute;
+							dimSizes[i]=0;
 						}
-						break;
-					case GuiCellOption::MinSize:
+						switch(option.composeType)
 						{
-							for(int j=0;j<this->*dim2;j++)
+						case GuiCellOption::Absolute:
 							{
-								GuiCellComposition* cell=GetSitedCell(getRow(i, j), getCol(i, j));
-								if(cell && getSpan(cell)==1)
+								dimSizes[i]=option.absolute;
+							}
+							break;
+						case GuiCellOption::MinSize:
+							{
+								for(int j=0;j<this->*dim2;j++)
 								{
-									int size=getSize(cell->GetMinSize());
-									if(dimSizes[i]<size)
+									GuiCellComposition* cell=GetSitedCell(getRow(i, j), getCol(i, j));
+									if(cell)
 									{
-										dimSizes[i]=size;
+										bool accept=false;
+										if(pass==0)
+										{
+											accept=getSpan(cell)==1;
+										}
+										else
+										{
+											accept=getLocation(cell)+getSpan(cell)==i+1;
+										}
+										if(accept)
+										{
+											int size=getSize(cell->GetMinSize());
+											int span=getSpan(cell);
+											for(int k=1;k<span;k++)
+											{
+												size-=dimSizes[i-k]+cellPadding;
+											}
+											if(dimSizes[i]<size)
+											{
+												dimSizes[i]=size;
+											}
+										}
 									}
 								}
 							}
+							break;
 						}
-						break;
 					}
+				}
+				for(int i=0;i<this->*dim1;i++)
+				{
 					dimSize+=dimSizes[i];
 				}
 			}
@@ -798,6 +826,16 @@ GuiTableComposition
 					return s.y;
 				}
 
+				int RL(GuiCellComposition* cell)
+				{
+					return cell->GetRow();
+				}
+
+				int CL(GuiCellComposition* cell)
+				{
+					return cell->GetColumn();
+				}
+
 				int RS(GuiCellComposition* cell)
 				{
 					return cell->GetRowSpan();
@@ -828,9 +866,11 @@ GuiTableComposition
 						&GuiTableComposition::rows,
 						&GuiTableComposition::columns,
 						&Y,
+						&RL,
 						&RS,
 						&First,
-						&Second
+						&Second,
+						1
 						);
 					UpdateCellBoundsInternal(
 						columnSizes,
@@ -839,9 +879,11 @@ GuiTableComposition
 						&GuiTableComposition::columns,
 						&GuiTableComposition::rows,
 						&X,
+						&CL,
 						&CS,
 						&Second,
-						&First
+						&First,
+						1
 						);
 
 					Rect area=GetCellArea();
@@ -888,9 +930,11 @@ GuiTableComposition
 						&GuiTableComposition::rows,
 						&GuiTableComposition::columns,
 						&Y,
+						&RL,
 						&RS,
 						&First,
-						&Second
+						&Second,
+						2
 						);
 					UpdateCellBoundsInternal(
 						columnSizes,
@@ -899,9 +943,11 @@ GuiTableComposition
 						&GuiTableComposition::columns,
 						&GuiTableComposition::rows,
 						&X,
+						&CL,
 						&CS,
 						&Second,
-						&First
+						&First,
+						2
 						);
 					tableContentMinSize=Size(columnTotal, rowTotal);
 				}

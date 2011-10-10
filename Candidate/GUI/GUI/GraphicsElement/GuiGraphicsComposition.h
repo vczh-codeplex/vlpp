@@ -229,9 +229,11 @@ Table Compositions
 														int GuiTableComposition::* dim1,
 														int GuiTableComposition::* dim2,
 														int (*getSize)(Size),
+														int (*getLocation)(GuiCellComposition*),
 														int (*getSpan)(GuiCellComposition*),
 														int (*getRow)(int, int),
-														int (*getCol)(int, int)
+														int (*getCol)(int, int),
+														int maxPass
 														);
 				void								UpdateCellBoundsPercentages(
 														collections::Array<int>& dimSizes,
