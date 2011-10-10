@@ -145,6 +145,15 @@ Win7ButtonElements
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				}
 				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					button.backgroundElement=element;
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					button.mainComposition->AddChild(composition);
+					composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					composition->SetOwnedElement(element);
+				}
+				{
 					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
 					button.borderElement=element;
 					element->SetRadius(2);
@@ -152,15 +161,6 @@ Win7ButtonElements
 					GuiBoundsComposition* composition=new GuiBoundsComposition;
 					button.mainComposition->AddChild(composition);
 					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					composition->SetOwnedElement(element);
-				}
-				{
-					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					button.backgroundElement=element;
-
-					GuiBoundsComposition* composition=new GuiBoundsComposition;
-					button.mainComposition->AddChild(composition);
-					composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
 					composition->SetOwnedElement(element);
 				}
 				{

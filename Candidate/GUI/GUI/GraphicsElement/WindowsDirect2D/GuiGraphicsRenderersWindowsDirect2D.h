@@ -31,6 +31,7 @@ namespace vl
 				void					FinalizeInternal();\
 				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);\
 			public:\
+				TRENDERER();\
 				void					Render(Rect bounds);\
 				void					OnElementStateChanged();\
 
@@ -70,13 +71,24 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
+				Color					oldColor;
+				FontProperties			oldFont;
+				WString					oldText;
+				ID2D1SolidColorBrush*	brush;
+				IDWriteTextFormat*		textFormat;
 
+				void					CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					CreateTextFormat(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					DestroyTextFormat(IWindowsDirect2DRenderTarget* _renderTarget);
 				void					UpdateMinSize();
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 			public:
+				GuiSolidLabelElementRenderer();
+
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
 			};
