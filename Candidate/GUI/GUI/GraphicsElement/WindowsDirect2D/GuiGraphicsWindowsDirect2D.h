@@ -27,6 +27,8 @@ namespace vl
 
 				virtual ID2D1SolidColorBrush*				CreateDirect2DBrush(Color color)=0;
 				virtual void								DestroyDirect2DBrush(Color color)=0;
+				virtual ID2D1LinearGradientBrush*			CreateDirect2DLinearBrush(Color c1, Color c2)=0;
+				virtual void								DestroyDirect2DLinearBrush(Color c1, Color c2)=0;
 			};
 
 			class IWindowsDirect2DResourceManager : public Interface
@@ -37,6 +39,8 @@ namespace vl
 			};
 
 			extern IWindowsDirect2DResourceManager*			GetWindowsDirect2DResourceManager();
+
+			extern D2D1::ColorF								GetD2DColor(Color color);
 		}
 	}
 }

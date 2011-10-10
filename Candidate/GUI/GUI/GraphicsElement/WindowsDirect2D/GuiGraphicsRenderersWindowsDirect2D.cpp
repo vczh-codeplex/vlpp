@@ -17,22 +17,6 @@ IMPLEMENT_BRUSH_ELEMENT_RENDERER
 ***********************************************************************/
 
 #define IMPLEMENT_BRUSH_ELEMENT_RENDERER(TRENDERER)\
-			void TRENDERER::CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
-			{\
-				if(_renderTarget)\
-				{\
-					oldColor=element->GetColor();\
-					brush=_renderTarget->CreateDirect2DBrush(oldColor);\
-				}\
-			}\
-			void TRENDERER::DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
-			{\
-				if(_renderTarget && brush)\
-				{\
-					_renderTarget->DestroyDirect2DBrush(oldColor);\
-					brush=0;\
-				}\
-			}\
 			void TRENDERER::InitializeInternal()\
 			{\
 			}\
@@ -49,6 +33,25 @@ IMPLEMENT_BRUSH_ELEMENT_RENDERER
 				:brush(0)\
 			{\
 			}\
+			void TRENDERER::Render(Rect bounds)\
+
+#define IMPLEMENT_BRUSH_ELEMENT_RENDERER_SOLID_COLOR_BRUSH(TRENDERER)\
+			void TRENDERER::CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
+			{\
+				if(_renderTarget)\
+				{\
+					oldColor=element->GetColor();\
+					brush=_renderTarget->CreateDirect2DBrush(oldColor);\
+				}\
+			}\
+			void TRENDERER::DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
+			{\
+				if(_renderTarget && brush)\
+				{\
+					_renderTarget->DestroyDirect2DBrush(oldColor);\
+					brush=0;\
+				}\
+			}\
 			void TRENDERER::OnElementStateChanged()\
 			{\
 				if(renderTarget)\
@@ -62,12 +65,43 @@ IMPLEMENT_BRUSH_ELEMENT_RENDERER
 					}\
 				}\
 			}\
-			void TRENDERER::Render(Rect bounds)\
+
+#define IMPLEMENT_BRUSH_ELEMENT_RENDERER_LINEAR_GRADIENT_BRUSH(TRENDERER)\
+			void TRENDERER::CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
+			{\
+				if(_renderTarget)\
+				{\
+					oldColor=Pair<Color, Color>(element->GetColor1(), element->GetColor2());\
+					brush=_renderTarget->CreateDirect2DLinearBrush(oldColor.key, oldColor.value);\
+				}\
+			}\
+			void TRENDERER::DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget)\
+			{\
+				if(_renderTarget && brush)\
+				{\
+					_renderTarget->DestroyDirect2DLinearBrush(oldColor.key, oldColor.value);\
+					brush=0;\
+				}\
+			}\
+			void TRENDERER::OnElementStateChanged()\
+			{\
+				if(renderTarget)\
+				{\
+					Pair<Color, Color> color=Pair<Color, Color>(element->GetColor1(), element->GetColor2());\
+					if(oldColor!=color)\
+					{\
+						DestroyBrush(renderTarget);\
+						oldColor=color;\
+						CreateBrush(renderTarget);\
+					}\
+				}\
+			}\
 
 /***********************************************************************
 GuiSolidBorderElementRenderer
 ***********************************************************************/
 
+			IMPLEMENT_BRUSH_ELEMENT_RENDERER_SOLID_COLOR_BRUSH(GuiSolidBorderElementRenderer)
 			IMPLEMENT_BRUSH_ELEMENT_RENDERER(GuiSolidBorderElementRenderer)
 			{
 				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
@@ -80,7 +114,8 @@ GuiSolidBorderElementRenderer
 /***********************************************************************
 GuiRoundBorderElementRenderer
 ***********************************************************************/
-
+				
+			IMPLEMENT_BRUSH_ELEMENT_RENDERER_SOLID_COLOR_BRUSH(GuiRoundBorderElementRenderer)
 			IMPLEMENT_BRUSH_ELEMENT_RENDERER(GuiRoundBorderElementRenderer)
 			{
 				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
@@ -97,7 +132,8 @@ GuiRoundBorderElementRenderer
 /***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
-
+			
+			IMPLEMENT_BRUSH_ELEMENT_RENDERER_SOLID_COLOR_BRUSH(GuiSolidBackgroundElementRenderer)
 			IMPLEMENT_BRUSH_ELEMENT_RENDERER(GuiSolidBackgroundElementRenderer)
 			{
 				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
@@ -111,24 +147,38 @@ GuiSolidBackgroundElementRenderer
 GuiGradientBackgroundElementRenderer
 ***********************************************************************/
 
-			void GuiGradientBackgroundElementRenderer::InitializeInternal()
+			IMPLEMENT_BRUSH_ELEMENT_RENDERER_LINEAR_GRADIENT_BRUSH(GuiGradientBackgroundElementRenderer)
+			IMPLEMENT_BRUSH_ELEMENT_RENDERER(GuiGradientBackgroundElementRenderer)
 			{
-			}
+				D2D1_POINT_2F points[2];
+				switch(element->GetDirection())
+				{
+				case GuiGradientBackgroundElement::Horizontal:
+					{
+						points[0].x=(FLOAT)bounds.x1;
+						points[0].y=(FLOAT)bounds.y1;
+						points[1].x=(FLOAT)bounds.x2;
+						points[1].y=(FLOAT)bounds.y1;
+					}
+					break;
+				case GuiGradientBackgroundElement::Vertical:
+					{
+						points[0].x=(FLOAT)bounds.x1;
+						points[0].y=(FLOAT)bounds.y1;
+						points[1].x=(FLOAT)bounds.x1;
+						points[1].y=(FLOAT)bounds.y2;
+					}
+					break;
+				}
 
-			void GuiGradientBackgroundElementRenderer::FinalizeInternal()
-			{
-			}
-
-			void GuiGradientBackgroundElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
-			{
-			}
-
-			void GuiGradientBackgroundElementRenderer::Render(Rect bounds)
-			{
-			}
-
-			void GuiGradientBackgroundElementRenderer::OnElementStateChanged()
-			{
+				brush->SetStartPoint(points[0]);
+				brush->SetEndPoint(points[1]);
+				
+				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+				d2dRenderTarget->FillRectangle(
+					D2D1::RectF((FLOAT)bounds.x1, (FLOAT)bounds.y1, (FLOAT)bounds.x2, (FLOAT)bounds.y2),
+					brush
+					);
 			}
 
 /***********************************************************************

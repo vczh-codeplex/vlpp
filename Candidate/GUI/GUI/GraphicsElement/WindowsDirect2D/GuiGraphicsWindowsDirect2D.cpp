@@ -7,7 +7,7 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace elements_windows_gdi
+		namespace elements
 		{
 			using namespace windows;
 			using namespace elements;
@@ -50,6 +50,56 @@ CachedResourceAllocator
 					{
 						return 0;
 					}
+				}
+			};
+
+			class CachedLinearBrushAllocator
+			{
+				typedef Pair<Color, Color> ColorPair;
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(ColorPair, ComPtr<ID2D1LinearGradientBrush>)
+
+				IWindowsDirect2DRenderTarget*	guiRenderTarget;
+			public:
+				CachedLinearBrushAllocator()
+				{
+				}
+
+				void SetRenderTarget(IWindowsDirect2DRenderTarget* _guiRenderTarget)
+				{
+					guiRenderTarget=_guiRenderTarget;
+				}
+
+				ComPtr<ID2D1LinearGradientBrush> CreateInternal(ColorPair colors)
+				{
+					ID2D1RenderTarget* renderTarget=guiRenderTarget->GetDirect2DRenderTarget();
+					ID2D1GradientStopCollection* stopCollection=0;
+					{
+						D2D1_GRADIENT_STOP stops[2];
+						stops[0].color=GetD2DColor(colors.key);
+						stops[0].position=0.0f;
+						stops[1].color=GetD2DColor(colors.value);
+						stops[1].position=1.0f;
+
+						HRESULT hr=renderTarget->CreateGradientStopCollection(
+							stops,
+							2,
+							D2D1_GAMMA_2_2,
+							D2D1_EXTEND_MODE_CLAMP,
+							&stopCollection);
+						if(FAILED(hr)) return 0;
+					}
+
+					ID2D1LinearGradientBrush* brush=0;
+					{
+						D2D1_POINT_2F points[2]={{0, 0}, {0, 0}};
+						HRESULT hr=renderTarget->CreateLinearGradientBrush(
+							D2D1::LinearGradientBrushProperties(points[0], points[1]),
+							stopCollection,
+							&brush);
+						stopCollection->Release();
+						if(FAILED(hr)) return 0;
+					}
+					return brush;
 				}
 			};
 
@@ -99,6 +149,7 @@ WindiwsGDIRenderTarget
 				int							clipperCoverWholeTargetCounter;
 
 				CachedSolidBrushAllocator	solidBrushes;
+				CachedLinearBrushAllocator	linearBrushes;
 
 				void ApplyClipper()
 				{
@@ -122,6 +173,7 @@ WindiwsGDIRenderTarget
 					,clipperCoverWholeTargetCounter(0)
 				{
 					solidBrushes.SetRenderTarget(this);
+					linearBrushes.SetRenderTarget(this);
 				}
 
 				ID2D1RenderTarget* GetDirect2DRenderTarget()
@@ -216,6 +268,16 @@ WindiwsGDIRenderTarget
 				{
 					solidBrushes.Destroy(color);
 				}
+
+				ID2D1LinearGradientBrush* CreateDirect2DLinearBrush(Color c1, Color c2)
+				{
+					return linearBrushes.Create(Pair<Color, Color>(c1, c2)).Obj();
+				}
+
+				void DestroyDirect2DLinearBrush(Color c1, Color c2)
+				{
+					linearBrushes.Destroy(Pair<Color, Color>(c1, c2));
+				}
 			};
 
 /***********************************************************************
@@ -263,7 +325,7 @@ WindowsGDIResourceManager
 
 		namespace elements
 		{
-			using namespace elements_windows_gdi;
+			using namespace elements_windows_d2d;
 
 			IWindowsDirect2DResourceManager* windowsDirect2DResourceManager=0;
 

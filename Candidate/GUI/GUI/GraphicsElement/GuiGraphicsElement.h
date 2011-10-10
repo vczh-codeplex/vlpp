@@ -191,6 +191,7 @@ Helpers
 
 #define DEFINE_CACHED_RESOURCE_ALLOCATOR(TKEY, TVALUE)\
 			public:\
+				static const int DeadPackageMax=32;\
 				struct Package\
 				{\
 					TVALUE							resource;\
@@ -249,9 +250,9 @@ Helpers
 						if(package.counter==0)\
 						{\
 							aliveResources.Remove(key);\
-							if(deadResources.Count()==16)\
+							if(deadResources.Count()==DeadPackageMax)\
 							{\
-								deadResources.RemoveAt(15);\
+								deadResources.RemoveAt(DeadPackageMax-1);\
 							}\
 							DeadPackage deadPackage;\
 							deadPackage.key=key;\
